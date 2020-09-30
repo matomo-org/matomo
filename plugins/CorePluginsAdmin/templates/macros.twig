@@ -79,7 +79,7 @@
     <script>
         $(function () {
             $('span.checkbox-container').on('change', function() {
-                var isAtLeastOneChecked = $('span.checkbox-container > input:checked').length >= 1;
+                var isAtLeastOneChecked = $('span.checkbox-container input:checked').length >= 1;
                 isAtLeastOneChecked ? $('#update-selected-plugins').removeClass('disabled') : $('#update-selected-plugins').addClass('disabled');
             });
 

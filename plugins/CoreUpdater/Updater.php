@@ -10,9 +10,14 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache as PiwikCache;
+use Piwik\CliMulti;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Context;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
+use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -24,7 +29,6 @@ use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
-use Piwik\Url;
 use Piwik\Version;
 
 class Updater
@@ -125,17 +129,36 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
-        $tempTokenAuth = Piwik::requestTemporarySystemAuthToken('OneClickUpdate', 1);
-        $partTwoUrl = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
-            'action' => 'oneClickUpdatePartTwo',
-            'token_auth' => $tempTokenAuth,
-        ]);
+        $validFor10Minutes = time() + (60 * 10);
+        $nonce = Common::generateUniqId();
+        Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
 
-        $response = Http::sendHttpRequest($partTwoUrl, 300);
-        $response = @json_decode($response, $assoc = true);
+        $cliMulti = new CliMulti();
+        $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
 
-        if (!empty($response)) {
-            $messages = array_merge($messages, $response);
+        if (!empty($responses)) {
+            $responseCliMulti = array_shift($responses);
+            $responseCliMulti = @json_decode($responseCliMulti, $assoc = true);
+            if (is_array($responseCliMulti)) {
+                // we expect a json encoded array response from oneClickUpdatePartTwo. Otherwise something went wrong.
+                $messages = array_merge($messages, $responseCliMulti);
+            } else {
+                // there was likely an error eg such as an invalid ssl certificate... let's try executing it directly
+                // in case this works. For explample $response is in this case not an array but a string because the "communcation"
+                // with the controller went wrong: "Got invalid response from API request: https://ABC/?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=ABC. Response was \'curl_exec: SSL certificate problem: unable to get local issuer certificate. Hostname requested was: ABC"
+                try {
+                    $response = $this->oneClickUpdatePartTwo($newVersion);
+                    if (!empty($response) && is_array($response)) {
+                        $messages = array_merge($messages, $response);
+                    }
+                } catch (Exception $e) {
+                    // ignore any error should this fail too. this might be the case eg if
+                    // the user upgrades from one major version to another major version
+                    if (is_string($responseCliMulti)) {
+                        $messages[] = $responseCliMulti; // show why the original request failed eg invalid ssl certificate
+                    }
+                }
+            }
         }
 
         try {
@@ -150,12 +173,20 @@ class Updater
         return $messages;
     }
 
-    public function oneClickUpdatePartTwo()
+    public function oneClickUpdatePartTwo($newVersion = null)
     {
         $messages = [];
 
-        $newVersion = Version::VERSION;
+        if (!Marketplace::isMarketplaceEnabled()) {
+            $messages[] = 'Marketplace is disabled. Not updating any plugins.';
+            // prevent error Entry "Piwik\Plugins\Marketplace\Api\Client" cannot be resolved: Entry "Piwik\Plugins\Marketplace\Api\Service" cannot be resolved
+            return $messages;
+        }
 
+        if (!isset($newVersion)) {
+            $newVersion = Version::VERSION;
+        }
+        
         // we also need to make sure to create a new instance here as otherwise we would change the "global"
         // environment, but we only want to change piwik version temporarily for this task here
         $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
@@ -166,23 +197,20 @@ class Updater
         ));
 
         try {
+            $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
+            $pluginManager = PluginManager::getInstance();
+            $pluginManager->loadAllPluginsAndGetTheirInfo();
+            $loadedPlugins = $pluginManager->getLoadedPlugins();
 
-            if (Marketplace::isMarketplaceEnabled()) {
-                $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
-                $pluginManager = PluginManager::getInstance();
-                $pluginManager->loadAllPluginsAndGetTheirInfo();
-                $loadedPlugins = $pluginManager->getLoadedPlugins();
+            $marketplaceClient->clearAllCacheEntries();
+            $pluginsWithUpdate = $marketplaceClient->checkUpdates($loadedPlugins);
 
-                $marketplaceClient->clearAllCacheEntries();
-                $pluginsWithUpdate = $marketplaceClient->checkUpdates($loadedPlugins);
-
-                foreach ($pluginsWithUpdate as $pluginWithUpdate) {
-                    $pluginName = $pluginWithUpdate['name'];
-                    $messages[] = $this->translator->translate('CoreUpdater_UpdatingPluginXToVersionY',
-                        array($pluginName, $pluginWithUpdate['version']));
-                    $pluginInstaller = new PluginInstaller($marketplaceClient);
-                    $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-                }
+            foreach ($pluginsWithUpdate as $pluginWithUpdate) {
+                $pluginName = $pluginWithUpdate['name'];
+                $messages[] = $this->translator->translate('CoreUpdater_UpdatingPluginXToVersionY',
+                    array($pluginName, $pluginWithUpdate['version']));
+                $pluginInstaller = new PluginInstaller($marketplaceClient);
+                $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
             }
         } catch (MarketplaceApi\Exception $e) {
             // there is a problem with the connection to the server, ignore for now
@@ -267,6 +295,12 @@ class Updater
 
     private function disableIncompatiblePlugins($version)
     {
+        $pluginManager = PluginManager::getInstance();
+        $plugins = $pluginManager->getLoadedPlugins();
+        foreach ($plugins as $plugin) {
+            $plugin->reloadPluginInformation();
+        }
+        
         $incompatiblePlugins = $this->getIncompatiblePlugins($version);
         $disabledPluginNames = array();
 

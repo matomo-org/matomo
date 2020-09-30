@@ -41,7 +41,6 @@
         "RemoveOtherLabel": "我想要看「其他」類資料",
         "PurgeOldData": "我想要移除一些舊資料",
         "SearchHelpResources": "搜尋 matomo.org 上的說明資源",
-        "PopularHelpTopics": "熱門的說明主題",
-        "SearchOnMatomo": "於 Matomo.org 搜尋「%1$s」"
+        "PopularHelpTopics": "熱門的說明主題"
     }
 }

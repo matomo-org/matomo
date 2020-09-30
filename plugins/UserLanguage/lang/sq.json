@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Gjuhë shfletuesi",
         "LanguageCode": "Kod gjuhe",
-        "PluginDescription": "Raporton gjuhën e përdorur nga shfletuesit e vizitorëve tuaj."
+        "PluginDescription": "Raporton gjuhën e përdorur nga shfletuesit e vizitorëve tuaj.",
+        "getLanguageDocumentation": "Ky raport shfaq ç’gjuhëpo përdorin shfletuesit e vizitorëve (p.sh., \"Anglisht\")",
+        "getLanguageCodeDocumentation": "Ky raport shfaq kodin e saktë të gjuhës të ujdisur për shfletuesit e vizitorëve. (p.sh., \"Gjermanishte - Austri (de-at)\")"
     }
 }

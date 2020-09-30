@@ -22,6 +22,7 @@ use Piwik\Period;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Timer;
@@ -122,6 +123,12 @@ class QueueConsumer
 
     public function getNextArchivesToProcess()
     {
+        // in case a site is deleted while archiving is running
+        if (!empty($this->idSite) && !$this->isSiteExists($this->idSite)) {
+            $this->logger->debug("Site ID = {$this->idSite} was deleted during archiving process, moving on.");
+            $this->idSite = null;
+        }
+
         if (empty($this->idSite)) {
             $this->idSite = $this->getNextIdSiteToArchive();
             if (empty($this->idSite)) { // no sites left to archive, stop
@@ -145,6 +152,11 @@ class QueueConsumer
             $this->siteTimer = new Timer();
             $this->siteRequests = 0;
         }
+
+        // check if we need to process invalidations
+        // NOTE: we do this on every iteration so we don't end up processing say a single user entered invalidation,
+        // and then stop until the next hour.
+        $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
 
         // we don't want to invalidate different periods together or segment archives w/ no-segment archives
         // together, but it's possible to end up querying these archives. if we find one, we keep track of it
@@ -179,15 +191,6 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->hasDifferentDoneFlagType($archivesToProcess, $invalidatedArchive['name'])) {
-                $this->logger->debug("Found archive with different done flag type (segment vs. no segment) in concurrent batch, skipping until next batch: $invalidationDesc");
-
-                $idinvalidation = $invalidatedArchive['idinvalidation'];
-                $invalidationsToExcludeInBatch[$idinvalidation] = true;
-
-                continue;
-            }
-
             if ($invalidatedArchive['segment'] === null) {
                 $this->logger->debug("Found archive for segment that is not auto archived, ignoring: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
@@ -196,6 +199,13 @@ class QueueConsumer
 
             if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
                 $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring: $invalidationDesc");
+                $this->addInvalidationToExclude($invalidatedArchive);
+                $this->model->deleteInvalidations([$invalidatedArchive]);
+                continue;
+            }
+
+            if ($this->model->isSimilarArchiveInProgress($invalidatedArchive)) {
+                $this->logger->debug("Found duplicate invalidated archive (same archive currently in progress), ignoring: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
@@ -219,6 +229,18 @@ class QueueConsumer
             if ($this->usableArchiveExists($invalidatedArchive)) {
                 $this->logger->debug("Found invalidation with usable archive (not yet outdated) skipping until archive is out of date: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
+                continue;
+            }
+
+            $alreadyInProgressId = $this->model->isArchiveAlreadyInProgress($invalidatedArchive);
+            if ($alreadyInProgressId) {
+                $this->addInvalidationToExclude($invalidatedArchive);
+                if ($alreadyInProgressId < $invalidatedArchive['idinvalidation']) {
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, invalidation already in progress. Since in progress is older, not removing invalidation.");
+               } else if ($alreadyInProgressId > $invalidatedArchive['idinvalidation']) {
+                    $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, invalidation already in progress. Since in progress is newer, will remove invalidation.");
+                    $this->model->deleteInvalidations([$invalidatedArchive['idinvalidation']]);
+                }
                 continue;
             }
 
@@ -301,13 +323,6 @@ class QueueConsumer
 
     private function getNextInvalidatedArchive($idSite, $extraInvalidationsToIgnore)
     {
-        $lastInvalidationTime = CronArchive::getLastInvalidationTime();
-        if (empty($lastInvalidationTime)
-            || (time() - $lastInvalidationTime) >= 3600
-        ) {
-            $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
-        }
-
         $iterations = 0;
         while ($iterations < 100) {
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
@@ -457,18 +472,6 @@ class QueueConsumer
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
 
-    private function hasDifferentDoneFlagType(array $archivesToProcess, $name)
-    {
-        if (empty($archivesToProcess)) {
-            return false;
-        }
-
-        $existingDoneFlagType = $this->getDoneFlagType($archivesToProcess[0]['name']);
-        $newArchiveDoneFlagType = $this->getDoneFlagType($name);
-
-        return $existingDoneFlagType != $newArchiveDoneFlagType;
-    }
-
     private function getPluginNameForArchiveIfAny($archive)
     {
         $name = $archive['name'];
@@ -540,5 +543,11 @@ class QueueConsumer
 
         $idArchive = $archiveIdAndVisits[0];
         return !empty($idArchive);
+    }
+
+    private function isSiteExists($idSite)
+    {
+        $site = API::getInstance()->getSiteFromId($idSite);
+        return !empty($site);
     }
 }

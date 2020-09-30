@@ -8,11 +8,18 @@
 
 $cacheBuster = md5(uniqid(mt_rand(), true));
 
+
 // Note: when you want to debug the piwik.js during the tests, you need to set a cache buster that is always the same
 // between requests so the browser knows it is the same file and know where to breakpoint.
 //$cacheBuster= 'nocb'; // uncomment to debug
 
 $root = dirname(__FILE__) . '/../..';
+$testPluginPath = '*';
+if (!empty($_GET['plugin'])
+    && ctype_alnum($_GET['plugin'])
+    && is_dir($root . '/plugins/' . $_GET['plugin'])) {
+    $testPluginPath = $_GET['plugin'];
+}
 
 try {
     $mysql = include_once $root . "/tests/PHPUnit/bootstrap.php";
@@ -92,9 +99,16 @@ testTrackPageViewAsync();
 
     <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'head.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginPath.'/tests/javascript', 'head.php');
     foreach ($files as $file) {
         include_once $file;
+    }
+    if ($testPluginPath !== '*') {
+        // Travis would always include tag manager
+        $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'head.php');
+        foreach ($files as $file) {
+            include_once $file;
+        }
     }
     ?>
 <style>
@@ -2075,7 +2089,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(118);
+        expect(117);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2156,7 +2170,6 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
-        equal( typeof tracker.setVisitStandardLength, 'function', 'setVisitStandardLength' );
         equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.disableHeartBeatTimer, 'function', 'disableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
@@ -2269,6 +2282,7 @@ function PiwikTest() {
         equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
 
         wait(2000);
+
         var delayedTracker = Piwik.getTracker();
         var delayedVisitorId = delayedTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
@@ -4227,7 +4241,6 @@ if ($mysql) {
             // test ping not sent on focus
             tracker.enableHeartBeatTimer();
             tracker.setCustomData('token', 7 + tokenBase);
-            tracker.setVisitStandardLength(5);
 
             return Q.delay(6000); // should not send a tracking request because of visit standard length reached
         }).then(function () {
@@ -4870,7 +4883,7 @@ if ($mysql) {
         strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
         var rememberedConsent = tracker.getRememberedConsent();
         strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
-        strictEqual(String(rememberedConsent).substr(0, 2), '15', "getRememberedConsent, starts with correct data" );
+        strictEqual(String(rememberedConsent).substr(0, 2), '16', "getRememberedConsent, starts with correct data" );
 
         tracker.requireConsent();
         strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
@@ -5131,9 +5144,16 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
  
 <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'index.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginPath.'/tests/javascript', 'index.php');
     foreach ($files as $file) {
         include_once $file;
+    }
+    if ($testPluginPath !== '*') {
+        // Travis would always include tag manager
+        $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'index.php');
+        foreach ($files as $file) {
+            include_once $file;
+        }
     }
 ?>
 

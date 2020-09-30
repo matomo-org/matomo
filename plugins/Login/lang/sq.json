@@ -16,6 +16,7 @@
         "SettingBruteForceEnableHelp": "Pikasja e Hyrjeve Me Zor është veçori e rëndësishme sigurie, e përdorur për të mbrojtur të dhënat tuaja nga hyrje të pa-autorizuara . Në vend që të lejohen cilido përdorues të provojë mijëra, ose miliona ndërthurje fjalëkalimesh brenda një kohe të shkurtër, do të lejohet vetëm një numër i caktuar përpjekjesh të dështuara brenda një periudhe të shkurtër kohore. Nëse brenda atij intervali kohor ndodhin shumë përpjekje të dështuara hyrjeje, përdoruesi s’do të jetë në gjendje të bëjë hyrjen deri sa të ketë kaluar një kohë e caktuar. Ju lutemi, kini parasysh që nëse një IP është e bllokuar, çdo përdoruesi që përdor atë IP do t’i bllokohet po ashtu.",
         "SettingBruteForceWhitelistIp": "Mos u blloko kurrë hyrjen këtyre IP-ve",
         "SettingBruteForceBlacklistIp": "Bllokojua përherë hyrjen këtyre IP-ve",
+        "NotAllowListTakesPrecendence": "Nëse një IP ka përputhje si me listën e bllokimeve, ashtu edhe me atë të mosbllokimit ndonjëherë, atëherë përparësi ka lista e blIokimit dhe IP-ja s’do të lejohej.",
         "SettingBruteForceMaxFailedLogins": "Numër i lejuar provash hyrjeje brenda intervalit kohor",
         "SettingBruteForceMaxFailedLoginsHelp": "Nëse regjistrohet një numër më i madh provash të dështuara për hyrje se sa ky numër, brenda intervalit kohor të formësuar më poshtë, bllokoje IP-në.",
         "SettingBruteForceTimeRange": "Numëro prova hyrjesh brenda këtij intervali kohor në minuta",

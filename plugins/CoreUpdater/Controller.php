@@ -20,7 +20,6 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -98,7 +97,6 @@ class Controller extends \Piwik\Plugin\Controller
             'node_modules/materialize-css/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
-            'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'node_modules/angular/angular.min.js',
             'node_modules/angular-sanitize/angular-sanitize.min.js',
@@ -176,25 +174,49 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickUpdatePartTwo()
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         Json::sendHeaderJSON();
 
-        $messages = [];
+        $task = "Couldn't update Marketplace plugins.";
+
+        $nonce = Common::getRequestVar('nonce', '', 'string');
+        if (empty($nonce)) {
+            return json_encode(['No token. ' . $task]);
+        }
+        $value = Option::get('NonceOneClickUpdatePartTwo');
+        if (empty($value)) {
+            return json_encode(['Invalid token. ' . $task]);
+        }
+        $value = json_decode($value, true);
+
+        if (empty($value['nonce'])
+            || empty($value['ttl'])
+            || time() > (int) $value['ttl']
+            || $nonce !== $value['nonce']) {
+            return json_encode(['Invalid nonce or nonce expired. ' . $task]);
+        }
 
         try {
-            Piwik::checkUserHasSuperUserAccess();
             $messages = $this->updater->oneClickUpdatePartTwo();
         } catch (UpdaterException $e) {
             $messages = $e->getUpdateLogMessages();
             $messages[] = $e->getMessage();
         } catch (Exception $e) {
-            $messages[] = $e->getMessage();
+            $messages = [$e->getMessage()];
         }
 
-        echo json_encode($messages);
+        return json_encode($messages);
     }
 
     public function oneClickResults()
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         Filesystem::deleteAllCacheOnUpdate();
 
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
@@ -206,10 +228,14 @@ class Controller extends \Piwik\Plugin\Controller
         } elseif ($error) {
             $view = new View('@CoreUpdater/updateHttpError');
             $view->error = $error;
-            $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
         } else {
             $view = new View('@CoreUpdater/updateSuccess');
         }
+        $messages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        if (!is_array($messages)) {
+            $messages = array();
+        }
+        $view->feedbackMessages = $messages;
 
         $this->addCustomLogoInfo($view);
         $this->setBasicVariablesView($view);
@@ -251,6 +277,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function runUpdaterAndExit($doDryRun = null)
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         $updater = new DbUpdater();
         $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {

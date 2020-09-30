@@ -64,12 +64,14 @@
         "TagManagerTeaserHideSuperUser": "Nie pokazuj tej strony żadnemu użytkownikowi",
         "TagManagerTeaserHideNonSuperUser": "Nie zainteresowany, nie pokazuj tej strony ponownie",
         "TagManagerTeaserEmailSuperUserBody": "Cześć, %1$s Matomo Tag Manager jest już dostępny w Matomo i bardzo chciałbym skorzystać z tej nowej funkcji. Masz dostęp do Super Użytkownika, czy możesz aktywować tę funkcję na stronie Tag Manager w górnym menu? %2$s adres Matomo to %3$s. %4$s Pozdrawiam",
-        "WhatIsTagManager": "Co to jest Tag Manager?",
+        "WhatIsTagManager": "Czym jest Tag Manager?",
         "WhatIsTagManagerDetails1": "Podobnie jak system zarządzania treścią (CMS) zapewnia pełną elastyczność w zakresie publikowania treści na stronie bez wiedzy technicznej na temat HTML \/ CSS, system zarządzania tagami (TMS) ułatwia pracę nad procesem osadzania i znacznikami śledzenia aplikacji innych firm (znane również jako snippets lub pixels) w Twojej witrynie.",
+        "WhatIsTagManagerDetails2": "Powiedzmy, że chcesz zobaczyć wyniki swoich kampanii, osiągane cele, zapisy do newsletter'a, widżety social mediów, popup'y wyjściowe i kampanie remarketingowe; coś co było kiedyś wymagało wysoce technicznej wiedzy i czasu, może teraz zostać szybko i prosto wdrożone dzięki TMS, który umożliwia ich uruchomienie w zaledwie paru kliknięciach.",
         "TagManagerLearnMoreInUserGuide": "Dowiedź się więcej o Tag Manage w przewodniku użytkownika",
         "WhyUsingATagManager": "Dlaczego Tag Manager?",
         "WhyUsingATagManagerDetails1": "Tag Manager uczyni Twoje życie łatwiejsze! Nie potrzebujesz już czekać na programistę, aby zmodyfikował część strony, ponieważ Tag Manager daje ci swobodę modyfikowania tych zmian i wdrażania ich na Twoją stronę.",
         "WhyUsingATagManagerDetails2": "To nie może być wygodniejsze i nie tylko pozwala szybciej wprowadzać zmiany, ale także obniża koszty.",
+        "WhyUsingATagManagerDetails3": "Dzięki temu zespoły marketingowe, cyfrowy i chłopaki z IT będą zadowoleni... To wygrana dla wszystkich!",
         "AreThereAnyRisks": "Czy istnieje jakieś ryzyko?",
         "AreThereAnyRisksDetails1": "Kiedy aktywujesz Tag Manager, użytkownicy z uprawnieniami administratora będą mogli tworzyć niestandardowe znaczniki HTML, wyzwalacze i zmienne, które mogą uruchamiać JavaScript w Twojej witrynie. Te niestandardowe szablony mogą zostać wykorzystane do kradzieży na przykład wrażliwych informacji od odwiedzających witrynę (znany jako %1$s XSS %2$s).",
         "AreThereAnyRisksDetails2": "Możesz wyłączyć niestandardowe szablony pod \"Administration => General Settings\"  po aktywowaniu Tag Manager. Możesz również ograniczyć korzystanie z tych szablonów tylko dla określonych użytkowników lub super użytkowników.",
@@ -81,6 +83,7 @@
         "Version": "Wersja",
         "ViewAllMarketplacePlugins": "Przeglądaj dostępne wtyczki Marketplace",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Wtyczka %1$s nie mogła zostać załadowana z powodu brakujących zależności: %2$s",
-        "Websites": "Serwisy internetowe"
+        "Websites": "Serwisy internetowe",
+        "UpdateSelected": "Wybrane aktualizacje"
     }
 }

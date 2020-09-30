@@ -13,7 +13,6 @@
 				<pageTitle />
 				<pageIdAction>6</pageIdAction>
 				
-				
 				<pageId>5</pageId>
 				<bandwidth />
 				<pageviewPosition />
@@ -138,7 +137,6 @@
 				
 				<revenue>1000</revenue>
 				<goalPageId />
-				
 				<url>http://example.org/homepage</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -151,7 +149,6 @@
 				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				
 				
 				<pageId>4</pageId>
 				<bandwidth />
@@ -277,7 +274,6 @@
 				
 				<revenue>0</revenue>
 				<goalPageId />
-				
 				<url>http://example.org/homepage</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -290,7 +286,6 @@
 				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				
 				
 				<pageId>1</pageId>
 				<bandwidth />
@@ -311,7 +306,6 @@
 				
 				<revenue>0</revenue>
 				<goalPageId />
-				
 				<url>http://example.org/user/profile</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -324,7 +318,6 @@
 				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				
 				
 				<pageId>2</pageId>
 				<bandwidth />
@@ -353,7 +346,6 @@
 				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page for user *_)%</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				
 				
 				<pageId>3</pageId>
 				<bandwidth />

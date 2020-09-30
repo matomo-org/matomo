@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Disabling incompatible plugins: %s",
         "DownloadingUpdateFromX": "Downloading update from %s",
         "DownloadX": "Download %s",
+        "UpdateLog": "Update log",
         "EmptyDatabaseError": "Database %s is empty. You must edit or remove your Matomo configuration file.",
         "ErrorDIYHelp": "If you are an advanced user and encounter an error in the database upgrade:",
         "ErrorDIYHelp_1": "identify and correct the source of the problem (e.g., memory_limit or max_execution_time)",

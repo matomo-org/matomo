@@ -23,12 +23,12 @@ ob_start();
 
 try {
     $globalObservers = array(
-        array('Environment.bootstrapped', function () {
+        array('Environment.bootstrapped', \DI\value(function () {
             Tracker::setTestEnvironment();
             Manager::getInstance()->deleteAll();
             Option::clearCache();
             Site::clearCache();
-        })
+        }))
     );
 
     Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));

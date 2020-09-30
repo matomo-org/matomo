@@ -14,6 +14,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Factory;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\DataAccess\Model;
 
@@ -482,6 +483,26 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function test_deleteInvalidationsForDeletedSites()
+    {
+        Fixture::createWebsite('2014-01-01 00:00:00');
+
+        $this->insertInvalidations([
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => 1, 'name' => 'done'],
+            ['idsite' => 2, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => 2, 'name' => 'done'],
+            ['idsite' => 2, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'done'],
+            ['idsite' => 3, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $this->model->deleteInvalidationsForDeletedSites();
+
+        $invalidations = Db::fetchAll("SELECT idsite, idinvalidation FROM " . Common::prefixTable('archive_invalidations') .
+            " ORDER BY idinvalidation ASC");
+        $this->assertEquals([
+            ['idsite' => 1, 'idinvalidation' => 1],
+        ], $invalidations);
+    }
+
     private function insertArchiveData($archivesToInsert)
     {
         $idarchive = 1;
@@ -499,7 +520,7 @@ class ModelTest extends IntegrationTestCase
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $invalidation) {
             $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`) VALUES (?, ?, ?, ?, ?)";
-            Db::query($sql, [1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name']]);
+            Db::query($sql, [$invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name']]);
         }
     }
 }

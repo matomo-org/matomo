@@ -2,7 +2,7 @@
 <li data-number="{{ startCounter }}">
     <div>
         <div class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">
-            {{ 'General_Visit'|translate }} #{{ startCounter }}
+            {{ 'General_Visit'|translate }} #<span class="counter">{{ startCounter }}</span>
 
             <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}">
                 {{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}

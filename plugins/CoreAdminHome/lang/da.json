@@ -102,8 +102,8 @@
         "UseCustomLogo": "Anvend brugerdefineret logo",
         "ValidPiwikHostname": "Gyldigt Matomo værtsnavn",
         "WithOptionalRevenue": "med valgfri indtægter",
-        "YouAreOptedOut": "Du har fravalgt cookies til webanalyse.",
-        "YouAreNotOptedOut": "Du har nu fravalgt cookies.",
+        "YouAreOptedOut": "Du har fravalgt tracking.",
+        "YouAreNotOptedOut": "Du tillader tracking.",
         "YouMayOptOut": "Når du besøger websitet bliver du tildelt et unikt identifikationsnummer, som er placeret i en cookie på din computer, og som bruges til at analysere, hvor mange, der besøger websitet, hvilke sider, der bliver set og lignende.",
         "YouMayOptOutBis": "Du har mulighed for at fravælge, at denne cookie placeres på din enhed.",
         "OptingYouOut": "Vælger dig fra, vent venligst...",
@@ -111,8 +111,8 @@
         "ProtocolNotDetectedCorrectlySolution": "For at sikre at Matomo behandler anmodninger og dit indhold over HTTPS, skal du måske redigere din %1$s fil og enten konfigurere dine proxy indstillinger, eller du kan tilføje linjen %2$s under sektionen %3$s. %4$sLæs mere%5$s",
         "YouMayOptOut2": "Du har mulighed for at vælge at dette website ikke indsamler eller analyserer de handlinger du foretager her.",
         "YouMayOptOut3": "Hvis du gør det, beskytter du dit privatliv, men du forhindrer også ejeren af websitet fra at lære af dine handlinger, og dermed blive i stand til at forbedre brugeroplevelsen for dig og andre brugere.",
-        "UncheckToOptOut": "Fjern markering for at vælge.",
-        "CheckToOptIn": "Sæt markering for at vælge.",
+        "UncheckToOptOut": "Fjern markeringen for at fravælge tracking.",
+        "CheckToOptIn": "Afkryds feltet for at tillade tracking.",
         "OptOutErrorNoCookies": "Tracking tilvalgs-feature kræver, at cookies er aktiveret",
         "MissingTrackingCodeEmailSubject": "Ingen trafik for %s er registreret i Matomo Analytics. Kom i gang nu",
         "JsTrackingCodeMissingEmail1": "For få dage siden tilføjede du websitet '%s' til din Matomo Analytics. Vi tjekkede lige og det ser ikke ud til at din Matomo registrerer nogen trafik fra dette website.",
@@ -135,6 +135,8 @@
         "ConfirmDeleteThisTrackingFailure": "Er du sikker på, at du vil slette denne sporingsfejl?",
         "TrackingFailuresEmailSubject": "Trackingfejl i din Matomo Analytics",
         "TrackingFailuresEmail1": "Dette er blot for at fortælle dig, at der i de seneste dage har optrådt %s forskellige sporingsfejl.",
-        "TrackingFailuresEmail2": "For at se alle fejlede tracking-forespørgsler, %1$s klik her %2$s."
+        "TrackingFailuresEmail2": "For at se alle fejlede tracking-forespørgsler, %1$s klik her %2$s.",
+        "ImportFromGoogleAnalytics": "Importer fra Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Hvis du har en Google Analytics bruger og er ved at skifte til Matomo, kan du importere din eksisterende data ved hjælp af %1$sGoogleAnalyticsImporter%2$s plugin'et."
     }
 }

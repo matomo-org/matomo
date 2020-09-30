@@ -26,7 +26,6 @@
         "RemindMeLater": "Påminn mig senare",
         "NeverAskMeAgain": "Fråga mig inte igen",
         "HowCanWeHelp": "Hur kan vi hjälpa?",
-        "NotTrackingVisits": "Matomo spårar inte några besök",
-        "SearchOnMatomo": "Sök efter '%1$s' på Matomo.org"
+        "NotTrackingVisits": "Matomo spårar inte några besök"
     }
 }

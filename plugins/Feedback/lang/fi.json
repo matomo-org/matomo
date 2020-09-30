@@ -29,7 +29,6 @@
         "TrackMultipleSites": "Minun pitää seurata useita sivustoja tai aliverkkotunnuksia",
         "PurgeOldData": "Haluan poistaa vanhoja tietoja",
         "SearchHelpResources": "Hae ohjeita matomo.orgista",
-        "PopularHelpTopics": "Suositut ohjeaiheet",
-        "SearchOnMatomo": "Hae '%1$s' Matomo.orgista"
+        "PopularHelpTopics": "Suositut ohjeaiheet"
     }
 }

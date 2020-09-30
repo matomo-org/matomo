@@ -467,7 +467,7 @@ class UITestFixture extends SqlDump
         return [
             'Tests.now' => \DI\decorate(function(){ return Option::get("Tests.forcedNowTimestamp"); }),
             'observers.global' => \DI\add([
-                ['Report.addReports', function (&$reports) {
+                ['Report.addReports', \DI\value(function (&$reports) {
                     $report = new XssReport();
                     $report->initForXss('forTwig');
                     $reports[] = $report;
@@ -475,11 +475,11 @@ class UITestFixture extends SqlDump
                     $report = new XssReport();
                     $report->initForXss('forAngular');
                     $reports[] = $report;
-                }],
-                ['Dimension.addDimensions', function (&$instances) {
+                })],
+                ['Dimension.addDimensions', \DI\value(function (&$instances) {
                     $instances[] = new XssDimension();
-                }],
-                ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
+                })],
+                ['API.Request.intercept', \DI\value(function (&$result, $finalParameters, $pluginName, $methodName) {
                     if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
@@ -498,7 +498,7 @@ class UITestFixture extends SqlDump
                         'nb_visits' => 15,
                     ]);
                     $result = $dataTable;
-                }],
+                })],
             ]),
             Proxy::class => \DI\get(CustomApiProxy::class),
             'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {

@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Maximální počet period, které lze porovnat současně, je %s.",
         "Custom": "Vlastní",
         "PreviousPeriod": "Předchozí období",
-        "PreviousYear": "Předchozí rok"
+        "PreviousYear": "Předchozí rok",
+        "ViewAccessRequired": "Použitý token_auth má příliš mnoho přístupu, aby mohl být použit v URL požadavku bez API. Použijte heslo pro konkrétní aplikaci pro uživatele, který má pouze přístup pro zobrazení."
     },
     "Mobile": {
         "AboutPiwikMobile": "O Matomo Mobile",

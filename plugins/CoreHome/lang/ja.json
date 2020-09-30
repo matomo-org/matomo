@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo は無料でご利用いただけますが、 Matomo の制作に費用がかかっていないと言う意味ではありません。",
         "DonateCall2": "Matomo の成長と発展には、みなさんの継続的なご支援が必要です。",
         "DonateCall3": "Matomo がビジネスや努力に重大な付加価値を感じる場合は、%3$sプレミアム機能を購入%4$sまたは%1$s寄付する%2$sことをご検討ください。 すべての寄付金が助けになるでしょう。",
-        "DonateFormInstructions": "スライダで寄付する金額を選択して寄付するをクリックしてください。",
         "EndShortcut": "終了",
         "EnterZenMode": "禅モードを使用（メニューを隠す）",
         "ExitZenMode": "禅モードを終了（メニューを表示）",
@@ -32,7 +31,6 @@
         "ShowExportUrl": "エクスポート URL を表示",
         "HideExportUrl": "エクスポート URL を非表示",
         "HomeShortcut": "ホーム",
-        "HowMuchIsPiwikWorth": "あなたにとって Matomo の価値はどのくらいですか？",
         "IncludeRowsWithLowPopulation": "数が少ない行は非表示 %s 全ての行を表示",
         "InjectedHostEmailBody": "お知らせ：本日 Matomo にアクセスしようとしましたが、未知のホスト名の警告が発生しました。",
         "InjectedHostEmailSubject": "Matomo が未知のホスト名にアクセスされました :%s",
@@ -45,7 +43,6 @@
         "VisitTypeReturning": "リピート",
         "VisitTypeReturningCustomer": "リピートカスタマー",
         "MainNavigation": "メインナビゲーション",
-        "MakeOneTimeDonation": "代わりに 1 回の寄付をしてください。",
         "Menu": "メニュー",
         "NoPrivilegesAskPiwikAdmin": "'%1$s'としてログインしていますが、権限が設定されていないようです。 %2$s Matomo の管理者 ( クリックして E メール ) %3$s に'表示'の権限を与えてもらってください。",
         "OnlyForSuperUserAccess": "このウィジェットは、スーパーユーザー権限を持つユーザーにのみデフォルトのダッシュボードに表示されます。",
@@ -108,6 +105,7 @@
         "ReportWithMetadata": "メタデータを使用したレポート",
         "ReadMoreOnlineGuide": "このトピックの詳細については、オンラインガイドをご覧ください。",
         "SeeAvailableVersions": "使用可能なバージョンを表示する",
-        "QuickLinks": "クイックリンク"
+        "QuickLinks": "クイックリンク",
+        "SearchOnMatomo": "Matomo.org で '%1$s' を検索"
     }
 }

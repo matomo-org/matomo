@@ -20,7 +20,6 @@
         "DonateCall1": "Matomo vil altid være gratis at bruge, men det betyder ikke, at den er gratis at lave.",
         "DonateCall2": "Matomo har brug for din fortsatte støtte til at vokse og trives.",
         "DonateCall3": "Hvis Matomo har skabt værdi for din forretning eller dit projekt, kan du overveje at %1$sgive et økonomisk bidrag%2$s eller %3$skøbe en betalt funktion%4$s. Hver krone tæller.",
-        "DonateFormInstructions": "Klik på skyderen for at vælge et beløb, og klik derefter på vælg at donere.",
         "EndShortcut": "Slut",
         "EnterZenMode": "Gå i Zen tilstand (skjul menuen)",
         "ExitZenMode": "Forlad Zen tilstand (vis menuen)",
@@ -32,7 +31,6 @@
         "ShowExportUrl": "Vis eksport URL",
         "HideExportUrl": "Skjul eksport URL",
         "HomeShortcut": "Hjem",
-        "HowMuchIsPiwikWorth": "Hvor meget er Matomo værd for dig?",
         "IncludeRowsWithLowPopulation": "Rækker med lav population er skjult %s Vis alle rækker",
         "InjectedHostEmailBody": "Hej, jeg forsøgte at få adgang Matomo i dag og stødte på den ukendte værtsnavn advarsel.",
         "InjectedHostEmailSubject": "Matomo blev åbnet fra et ukendt værtsnavn: %s",
@@ -45,7 +43,6 @@
         "VisitTypeReturning": "Tilbagevendende",
         "VisitTypeReturningCustomer": "Tilbagevendende kunder",
         "MainNavigation": "Hovednavigation",
-        "MakeOneTimeDonation": "Giv et éngangsbidrag i stedet.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Du er logget på som '%1$s' men det ser ikke ud som du har adgang til Matomo. %2$s Spørg Matomo administratoren (klik for at sende e-mail)%3$s for at give dig 'se' adgang til et websted.",
         "OnlyForSuperUserAccess": "Dette modul vises i standarddashboardet kun til brugere med superbrugeradgang.",
@@ -106,7 +103,9 @@
         "StandardReport": "Standard rapport",
         "FlattenReport": "Flad rapport",
         "ReportWithMetadata": "Rapport med metadata",
+        "ReadMoreOnlineGuide": "Læs mere om dette emne i guiden online.",
         "SeeAvailableVersions": "Se tilgængelige versioner",
-        "QuickLinks": "Hurtiglinks"
+        "QuickLinks": "Hurtiglinks",
+        "Profilable": "Profilérbar"
     }
 }

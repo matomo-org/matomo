@@ -20,7 +20,6 @@
         "DonateCall1": "使用 Matomo 永遠不花你任何一毛錢，但那不表示我們開發不需要花到半毛錢。",
         "DonateCall2": "Matomo 需要你的持續支持以成長茁壯。",
         "DonateCall3": "如果你覺得 Matomo 為你的事業或是奮鬥過程中增添了非凡的價值，%1$s請考慮捐助%2$s或是%3$s購買高級功能%4$s。每一分錢都是幫助。",
-        "DonateFormInstructions": "使用滑桿來選擇數量，接著點擊 Subscribe 來捐助。",
         "EndShortcut": "End 鍵",
         "EnterZenMode": "進入勿擾模式（隱藏選單）",
         "ExitZenMode": "離開勿擾模式（顯示選單）",
@@ -32,7 +31,7 @@
         "ShowExportUrl": "顯示匯出網址",
         "HideExportUrl": "隱藏匯出網址",
         "HomeShortcut": "Home 鍵",
-        "HowMuchIsPiwikWorth": "Matomo 在你心目中的價值有多少？",
+        "SupportUsOn": "贊助我們：",
         "IncludeRowsWithLowPopulation": "已隱藏較低人數列 %s 顯示全部",
         "InjectedHostEmailBody": "嗨，今天我試著存取 Matomo 但是遇到了未知域名警告。",
         "InjectedHostEmailSubject": "Matomo 被來自未知的域名訪問：%s",
@@ -45,7 +44,8 @@
         "VisitTypeReturning": "回訪",
         "VisitTypeReturningCustomer": "回訪顧客",
         "MainNavigation": "主選單",
-        "MakeOneTimeDonation": "以單次捐助替代",
+        "YourDonationWillHelp": "你的捐款會直接用於建立新功能、和改善此自由開源的分析平台。由此，社群都能助益於這個能保障隱私、且使你真正擁有個人資料的工具。",
+        "ThanksFromAllOfUs": "Matomo 所有成員感謝你！",
         "Menu": "選單",
         "NoPrivilegesAskPiwikAdmin": "你目前以「%1$s」登入，但你似乎在 Matomo 中沒有被授予任何權限。%2$s要求你的管理員（點擊以寄信）%3$s給你網站的「檢視」權限。",
         "OnlyForSuperUserAccess": "這個小工具只顯示於擁有超級使用者權限使用者的預設展示板。",
@@ -102,12 +102,15 @@
         "RowLimit": "行數限制",
         "CustomLimit": "自訂限制",
         "ExportFormat": "匯出格式",
+        "ExportTooltip": "注意：此匯出的 URL 僅能在本次瀏覽器的工作階段生效。如果你想要在其他地方使用，你需要建立應用程式專用的 token。你可以在 個人設定→API 驗證 Token 頁面管理這些 token。",
         "ExpandSubtables": "展開子表格",
         "StandardReport": "標準報表",
         "FlattenReport": "平滑化報表",
         "ReportWithMetadata": "含中繼資料報表",
         "ReadMoreOnlineGuide": "在線上說明了解更多此主題",
         "SeeAvailableVersions": "查看可用版本",
-        "QuickLinks": "快速連結"
+        "QuickLinks": "快速連結",
+        "Profilable": "可以紀錄的",
+        "SearchOnMatomo": "於 Matomo.org 搜尋「%1$s」"
     }
 }

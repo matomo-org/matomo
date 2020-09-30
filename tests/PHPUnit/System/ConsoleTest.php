@@ -105,6 +105,9 @@ class TestCommandWithException extends ConsoleCommand
     }
 }
 
+/**
+ * @group ConsoleTest3
+ */
 class ConsoleTest extends ConsoleCommandTestCase
 {
     public function setUp(): void
@@ -215,20 +218,20 @@ END;
     {
         return [
             'log.handlers' => [\DI\get(FailureLogMessageDetector::class)],
-            LoggerInterface::class => \DI\object(Logger::class)
+            LoggerInterface::class => \DI\create(Logger::class)
                 ->constructor('piwik', \DI\get('log.handlers'), \DI\get('log.processors')),
 
             'observers.global' => \DI\add([
-                ['Console.filterCommands', function (&$commands) {
+                ['Console.filterCommands', \DI\value(function (&$commands) {
                     $commands[] = TestCommandWithFatalError::class;
                     $commands[] = TestCommandWithException::class;
-                }],
+                })],
 
-                ['Request.dispatch', function ($module, $action) {
+                ['Request.dispatch', \DI\value(function ($module, $action) {
                     if ($module === 'CorePluginsAdmin' && $action === 'safemode') {
                         print "*** IN SAFEMODE ***\n"; // will appear in output
                     }
-                }],
+                })],
             ]),
         ];
     }

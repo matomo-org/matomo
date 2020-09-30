@@ -492,7 +492,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
-
         return $view->render();
     }
 
@@ -561,6 +560,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
         );
+
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
+            $files[] = 'tests/resources/screenshot-override/override.js';
+        }
 
         return AssetManager::compileCustomJs($files);
     }
