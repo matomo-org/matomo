@@ -82,10 +82,10 @@ class CoreHome extends \Piwik\Plugin
             return;
         }
 
-        $whitelist = new LoginAllowlist();
-        if ($whitelist->shouldCheckAllowlist()) {
+        $list = new LoginAllowlist();
+        if ($list->shouldCheckAllowlist()) {
             $ip = IP::getIpFromHeader();
-            $whitelist->checkIsAllowed($ip);
+            $list->checkIsAllowed($ip);
         }
     }
 

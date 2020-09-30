@@ -53,13 +53,13 @@ class LoginAllowlist
     public function isIpAllowed($userIpString)
     {
         $userIp = NetworkIp::fromStringIP($userIpString);
-        $ipsWhitelisted = $this->getAllowlistedLoginIps();
+        $ipsAllowed = $this->getAllowlistedLoginIps();
 
-        if (empty($ipsWhitelisted)) {
+        if (empty($ipsAllowed)) {
             return false;
         }
 
-        return $userIp->isInRanges($ipsWhitelisted);
+        return $userIp->isInRanges($ipsAllowed);
     }
 
     /**

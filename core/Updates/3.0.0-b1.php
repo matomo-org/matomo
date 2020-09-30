@@ -62,7 +62,7 @@ class Updates_3_0_0_b1 extends Updates
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
         $this->migratePluginEmailUpdateSetting();
 
-        // added .woff and woff2 whitelisted file for apache webserver
+        // added .woff and woff2 allowlisted file for apache webserver
         ServerFilesGenerator::deleteHtAccessFiles();
         ServerFilesGenerator::createHtAccessFiles();
 

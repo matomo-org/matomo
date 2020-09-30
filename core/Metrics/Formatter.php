@@ -167,7 +167,7 @@ class Formatter
      *
      * @param DataTable $dataTable The table to format metrics for.
      * @param Report|null $report The report the table belongs to.
-     * @param string[]|null $metricsToFormat Whitelist of names of metrics to format.
+     * @param string[]|null $metricsToFormat Allow a list of names of metrics to format.
      * @param boolean $formatAll If true, will also apply formatting to non-processed metrics like revenue.
      *                           This parameter is not currently supported and subject to change.
      * @api

@@ -49,7 +49,7 @@ class MeasurablePropertyTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_constructor_shouldThrowAnExceptionWhenNotWhitelistedNameIsUsed()
+    public function test_constructor_shouldThrowAnExceptionWhenNotAllowedNameIsUsed()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Name "name" is not allowed to be used');
