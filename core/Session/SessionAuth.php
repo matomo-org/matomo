@@ -119,7 +119,9 @@ class SessionAuth implements Auth
 
         $this->updateSessionExpireTime($sessionFingerprint);
 
-        if (!empty($this->tokenAuth) && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()) {
+        if ($this->tokenAuth !== null
+            && $this->tokenAuth !== false
+            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()) {
             return $this->makeAuthFailure();
         }
 
