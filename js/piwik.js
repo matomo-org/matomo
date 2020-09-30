@@ -701,7 +701,7 @@ if (typeof window.Matomo !== 'object') {
             var regexSearch = "[\\?&#]" + name + "=([^&#]*)";
             var regex = new RegExp(regexSearch);
             var results = regex.exec(url);
-            return results ? decodeWrapper(results[1]) : '';
+            return results ? safeDecodeWrapper(results[1]) : '';
         }
 
         function trim(text)
