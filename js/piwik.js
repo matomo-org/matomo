@@ -7241,9 +7241,9 @@ if (typeof window.Matomo !== 'object') {
 
 /*jslint sloppy: true */
 (function () {
-    var jsTrackerType = (typeof AnalyticsTracker);
+    var jsTrackerType = (typeof window.AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = window.Matomo;
+        window.AnalyticsTracker = window.Matomo;
     }
 }());
 /*jslint sloppy: false */
@@ -7269,8 +7269,8 @@ if (typeof window.Matomo !== 'object') {
  * @param string matomoUrl
  * @param mixed customData
  */
-if (typeof piwik_log !== 'function') {
-    piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
+if (typeof window.piwik_log !== 'function') {
+    window.piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
         'use strict';
 
         function getOption(optionName) {
