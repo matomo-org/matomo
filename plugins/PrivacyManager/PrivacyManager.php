@@ -185,8 +185,27 @@ class PrivacyManager extends Plugin
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
             'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
             'Template.pageFooter'                     => 'renderPrivacyPolicyLinks',
-            'Db.getTablesInstalled'                   => 'getTablesInstalled'
+            'Db.getTablesInstalled'                   => 'getTablesInstalled',
+            'Visualization.beforeRender' => 'onConfigureVisualisation'
         );
+    }
+
+    public function onConfigureVisualisation(Plugin\Visualization $view)
+    {
+        if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
+            $config = new Config();
+            if ($config->anonymizeReferrer == ReferrerAnonymizer::EXCLUDE_NONE) {
+                return;
+            }
+            if (!$view->config->show_footer_message) {
+                $view->config->show_footer_message = '';
+            }
+            $anonymizer = StaticContainer::get(ReferrerAnonymizer::class);
+            $methods = $anonymizer->getAvailableAnonymizationOptions();
+            if (!empty($methods[$config->anonymizeReferrer])) {
+                $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoSomeReferrerInfoMayBeAnonymized', $methods[$config->anonymizeReferrer]);
+            }
+        }
     }
 
     /**

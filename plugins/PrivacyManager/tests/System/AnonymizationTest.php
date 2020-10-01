@@ -56,7 +56,7 @@ class AnonymizationTest extends SystemTestCase
     public function getApiForTesting()
     {
         $apiToTest = array();
-        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+        $apiToTest[] = array(array('Live.getLastVisitsDetails', 'Referrers.getAll'),
             array(
                 'idSite'     => self::$fixture->idSite,
                 'date'       => self::$fixture->dateTime,
