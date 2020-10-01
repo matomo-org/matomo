@@ -246,6 +246,7 @@ class Mysql implements SchemaInterface
                                         idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
                                         idaction_name_ref INTEGER(10) UNSIGNED NULL,
                                         custom_float DOUBLE NULL DEFAULT NULL,
+                                        pageview_position MEDIUMINT UNSIGNED DEFAULT NULL,
                                           PRIMARY KEY(idlink_va),
                                           INDEX index_idvisit(idvisit)
                                         ) ENGINE=$engine DEFAULT CHARSET=$charset
