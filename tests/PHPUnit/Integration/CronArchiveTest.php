@@ -419,10 +419,11 @@ Total API requests: 5
 done: 5 req, %d ms, no error
 Time elapsed: %fs
 LOG;
+        $version = Version::VERSION;
         $expected = <<<LOG
 ---------------------------
 INIT
-Running Matomo 4.0.0-b2 as Super User
+Running Matomo $version as Super User
 ---------------------------
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.

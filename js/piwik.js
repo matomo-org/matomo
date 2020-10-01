@@ -35,7 +35,7 @@
 /*global Blob */
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, matomoAsyncInit, matomoPluginAsyncInit , frameElement, self, hasFocus,
-    createElement, appendChild, characterSet, charset, all,
+    createElement, appendChild, characterSet, charset, all, piwik_log, AnalyticsTracker,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, setCookieConsentGiven,
     areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
