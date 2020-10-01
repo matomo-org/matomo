@@ -2389,7 +2389,7 @@ if (typeof window.Matomo !== 'object') {
              * Set cookie value
              */
             function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return;
                 }
 
