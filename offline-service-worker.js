@@ -13,14 +13,14 @@ var matomoAnalytics = {initialize: function (options) {
             // do a thing, possibly async, then...
 
             if (!indexedDB) {
-                reject(Error('No support for IndexedDB'));
+                reject(new Error('No support for IndexedDB'));
                 return;
             }
             var request = indexedDB.open("matomo", 1);
 
             request.onerror = function() {
                 console.error("Error", request.error);
-                reject(Error(request.error));
+                reject(new Error(request.error));
             };
             request.onupgradeneeded = function(event) {
                 console.log('onupgradeneeded')
@@ -150,7 +150,7 @@ var matomoAnalytics = {initialize: function (options) {
                 headers[header] = value;
             }
 
-            let example = {
+            let requestInfo = {
                 url: event.request.url,
                 referrer : event.request.referrer,
                 method : event.request.method,
@@ -159,10 +159,10 @@ var matomoAnalytics = {initialize: function (options) {
                 created: Date.now()
             };
             event.request.text().then(function (postData) {
-                example.body = postData;
+                requestInfo.body = postData;
 
                 getQueue().then(function (queue) {
-                    queue.add(example);
+                    queue.add(requestInfo);
                     limitQueueIfNeeded(queue);
 
                     return queue;
