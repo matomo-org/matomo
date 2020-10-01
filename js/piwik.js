@@ -3152,6 +3152,9 @@ if (typeof window.Piwik !== 'object') {
                 // Whether to use "Secure" cookies that only work over SSL
                 configCookieIsSecure = false,
 
+                // Set SameSite attribute for cookies
+                configCookieSameSite = 'Lax',
+
                 // First-party cookies are disabled
                 configCookiesDisabled = false,
 
@@ -3278,7 +3281,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
+            function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3296,7 +3299,7 @@ if (typeof window.Piwik !== 'object') {
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
-                    ';SameSite=Lax';
+                    ';SameSite=' + (sameSite ? sameSite : 'Lax');
             }
 
             /*
@@ -3965,7 +3968,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // for IE we want to actually set the cookie to avoid trigger a warning eg in IE see #11507
                 var testCookieName = configCookieNamePrefix + 'testcookie';
-                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
 
                 var hasCookie = getCookie(testCookieName) === '1' ? '1' : '0';
                 deleteCookie(testCookieName);
@@ -4303,7 +4306,7 @@ if (typeof window.Piwik !== 'object') {
                     visitorIdCookieValues.lastVisitTs + '.' +
                     visitorIdCookieValues.lastEcommerceOrderTs;
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
 
             /*
@@ -4407,7 +4410,7 @@ if (typeof window.Piwik !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
 
             function generateUniqueId() {
@@ -4539,7 +4542,7 @@ if (typeof window.Piwik !== 'object') {
                             purify(referralUrl.slice(0, referralUrlMaxLength))
                         ];
 
-                        setCookie(cookieReferrerName, JSON_PIWIK.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
+                        setCookie(cookieReferrerName, JSON_PIWIK.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                     }
                 }
 
@@ -4634,7 +4637,7 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     if (configStoreCustomVariablesInCookie) {
-                        setCookie(cookieCustomVariablesName, JSON_PIWIK.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                        setCookie(cookieCustomVariablesName, JSON_PIWIK.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                     }
                 }
 
@@ -6694,7 +6697,7 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete.push(cookieName);
 
-                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain);
+                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -6789,6 +6792,17 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setSecureCookie = function (enable) {
                 configCookieIsSecure = enable;
+            };
+
+            /**
+             * Set the SameSite attribute for cookies to a custom value.
+             * You might want to use this if your site is running in an iframe since
+             * then it will only be able to access the cookies if SameSite is set to 'None'.
+             *
+             * @param bool
+             */
+            this.setCookieSameSite = function (sameSite) {
+                configCookieSameSite = sameSite;
             };
 
             /**
@@ -6910,7 +6924,7 @@ if (typeof window.Piwik !== 'object') {
                 }
                 this.setCookieConsentGiven();
                 var now = new Date().getTime();
-                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -7800,7 +7814,7 @@ if (typeof window.Piwik !== 'object') {
                 // cookies should be automatically enabled or not.
                 this.setConsentGiven(setCookieConsent);
                 var now = new Date().getTime();
-                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -7813,7 +7827,7 @@ if (typeof window.Piwik !== 'object') {
                 var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
@@ -7894,7 +7908,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookieSameSite', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
