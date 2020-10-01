@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Matomo\Network\IPv6;
 use Piwik\Common;
 use Matomo\Network\IP;
 
@@ -25,6 +26,11 @@ class IPAnonymizer
      */
     public static function applyIPMask(IP $ip, $maskLength)
     {
+        // IPv6 can't handle anonymizing 4 bytes
+        if ($maskLength == 4 && $ip instanceof IPv6 && !$ip->isMappedIPv4()) {
+            return IPv6::fromStringIP('0::');
+        }
+
         $newIpObject = $ip->anonymize($maskLength);
 
         return $newIpObject;

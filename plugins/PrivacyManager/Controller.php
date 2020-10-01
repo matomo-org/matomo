@@ -199,6 +199,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                       'description' => Piwik::translate('General_Recommended')),
                 array('key' => '3',
                       'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', array("3","192.xxx.xxx.xxx")),
+                      'description' => ''),
+                array('key' => '4',
+                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
                       'description' => '')
             );
             $view->useAnonymizedIpForVisitEnrichmentOptions = array(

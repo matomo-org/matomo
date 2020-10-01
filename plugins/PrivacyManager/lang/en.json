@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "When users visit your website, Matomo will not use the full IP address (such as %1$s) but instead Matomo will anonymize it first (to %2$s). IP address anonymisation is one of the requirements set by the privacy laws in some countries such as Germany.",
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
+        "AnonymizeIpMaskFully": "Fully mask IP address",
         "AnonymizeReferrer": "Anonymize Referrer",
         "AnonymizeReferrerNote": "Matomo stores from which URL (referrer) a user comes to your site. In some cases such a URL may contain information that can be considered personal information. If you want to prevent such information to be tracked you can restrict the amount of referrer data that Matomo will store when a visitor enters your website. The more information is removed from the referrer information, the less likely personal information will be recorded. The more information you remove from the referrer, the less clear it will be how a visitor came to your website.",
         "AskingForConsent": "Asking for consent",

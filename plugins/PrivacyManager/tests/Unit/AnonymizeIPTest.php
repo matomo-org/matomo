@@ -43,13 +43,15 @@ class AnonymizeIPTest extends \PHPUnit\Framework\TestCase
                 "\x20\x01\x0d\xb8\x00\x00\x08\xd3\x00\x00\x8a\x2e\x00\x70\x73\x44",
                 "\x20\x01\x0d\xb8\x00\x00\x08\xd3\x00\x00\x00\x00\x00\x00\x00\x00", // mask 64 bits
                 "\x20\x01\x0d\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", // mask 80 bits
-                "\x20\x01\x0d\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" // mask 104 bits
+                "\x20\x01\x0d\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", // mask 104 bits
+                "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" // mask all bits
             )),
             array('2001:6f8:900:724::2', array(
                 "\x20\x01\x06\xf8\x09\x00\x07\x24\x00\x00\x00\x00\x00\x00\x00\x02",
                 "\x20\x01\x06\xf8\x09\x00\x07\x24\x00\x00\x00\x00\x00\x00\x00\x00",
                 "\x20\x01\x06\xf8\x09\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
                 "\x20\x01\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+                "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
             ))
         );
     }
@@ -87,7 +89,7 @@ class AnonymizeIPTest extends \PHPUnit\Framework\TestCase
     public function testApplyIPMask6($ip, $expected)
     {
         // each IP is tested with 0 to 4 octets masked
-        for ($maskLength = 0; $maskLength < 4; $maskLength++) {
+        for ($maskLength = 0; $maskLength <= 4; $maskLength++) {
             $res = IPAnonymizer::applyIPMask(IP::fromStringIP($ip), $maskLength);
             $this->assertEquals($expected[$maskLength], $res->toBinary(), "Got " . $res . ", Expected " . bin2hex($expected[$maskLength]) . ", Mask Level " . $maskLength);
         }
