@@ -747,8 +747,8 @@ class GeoIP2AutoUpdater extends Task
         if (self::isDbIpUrl($url)) {
             if (preg_match('/(dbip-[a-zA-Z0-9_]+)(?:-lite)?-\d{4}-\d{2}/', $url, $matches)) {
                 $parts = explode('-', $matches[1]);
-                $filename = strtoupper($parts[0]) . '-' . ucfirst($parts[1]) . '.mmdb.' . $ext;
-                return $filename;
+                $dbName = $parts[1] === 'asn' ? 'ASN' : ucfirst($parts[1]);
+                return strtoupper($parts[0]) . '-' . $dbName . '.mmdb.' . $ext;
             } else {
                 return basename($url);
             }

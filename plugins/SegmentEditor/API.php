@@ -87,36 +87,36 @@ class API extends \Piwik\Plugin\API
     protected function checkAutoArchive($autoArchive, $idSite)
     {
         $autoArchive = (int)$autoArchive;
-        if (!$autoArchive) {
-            return $autoArchive;
-        }
-
-        $exception = new Exception(
-            "Please contact Support to make these changes on your behalf. ".
-            " To modify a pre-processed segment, a user must have admin access or super user access. "
-        );
 
         // Segment 'All websites' and pre-processed requires Super User
-        if (empty($idSite)) {
+        if (empty($idSite) && $autoArchive) {
             if (!Piwik::hasUserSuperUserAccess()) {
-                throw $exception;
+                throw new Exception(
+                    "Please contact Support to make these changes on your behalf. ".
+                    " To modify a pre-processed segment for all websites, a user must have super user access. "
+                );
             }
-            return $autoArchive;
         }
 
         // if real-time segments are disabled, then allow user to create pre-processed report
-        $realTimeSegmentsDisabled = !Config::getInstance()->General['enable_create_realtime_segments'];
-        if($realTimeSegmentsDisabled) {
-            // User is at least view
-            if(!Piwik::isUserHasViewAccess($idSite)) {
-                throw $exception;
-            }
-            return $autoArchive;
+        $realTimeSegmentsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
+        if (!$realTimeSegmentsEnabled && !$autoArchive) {
+            throw new Exception(
+                "Real time segments are disabled. You need to enable auto archiving."
+            );
         }
 
-        // pre-processed segment for a given website requires admin access
-        if(!Piwik::isUserHasAdminAccess($idSite)) {
-            throw $exception;
+        if ($autoArchive) {
+            if ($realTimeSegmentsEnabled && !Piwik::isUserHasAdminAccess($idSite)) {
+                // pre-processed segment for a given website requires admin access
+                throw new Exception(
+                    "Please contact Support to make these changes on your behalf. ".
+                    " To modify a pre-processed segment, a user must have admin access or super user access. "
+                );
+            } elseif (!$realTimeSegmentsEnabled) {
+                // we require view access only when only pre processed can be created
+                Piwik::checkUserHasViewAccess($idSite);
+            }
         }
 
         return $autoArchive;

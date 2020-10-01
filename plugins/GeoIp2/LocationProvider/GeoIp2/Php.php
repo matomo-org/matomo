@@ -153,6 +153,7 @@ class Php extends GeoIp2
                         $result[self::ORG_KEY] = $lookupResult->organization;
                         break;
                     case 'GeoLite2-ASN':
+                    case 'DBIP-ASN-Lite (compat=GeoLite2-ASN)':
                         $lookupResult = $ispGeoIp->asn($ip);
                         $result[self::ISP_KEY] = $lookupResult->autonomousSystemOrganization;
                         $result[self::ORG_KEY] = $lookupResult->autonomousSystemOrganization;
@@ -205,6 +206,8 @@ class Php extends GeoIp2
                 return 'GeoIP2-Country';
             case 'DBIP-ISP (compat=Enterprise)':
                 return 'DBIP-ISP';
+            case 'DBIP-ASN-Lite (compat=GeoLite2-ASN)':
+                return 'DBIP-ASN';
             case 'DBIP-Location-ISP (compat=Enterprise)':
                 return 'DBIP-Enterprise';
             case 'GeoLite2-City':

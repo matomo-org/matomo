@@ -215,6 +215,29 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
+    public function test_add_realTimeEnabledInApi_whenRealTimeDisabledInConfig()
+    {
+        $this->expectExceptionMessage('Real time segments are disabled. You need to enable auto archiving.');
+        $this->expectException(\Exception::class);
+        $config = Config::getInstance();
+        $general = $config->General;
+        $general['enable_create_realtime_segments'] = 0;
+        $config->General = $general;
+
+        API::getInstance()->add('testsegment', self::TEST_SEGMENT, $idSite = false, $autoArchive = false);
+    }
+
+    public function test_add_realTimeEnabledInApi_whenRealTimeEnabledInConfigShouldWork()
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+        $general['enable_create_realtime_segments'] = 1;
+        $config->General = $general;
+
+        $id = API::getInstance()->add('testsegment', self::TEST_SEGMENT, $idSite = false, $autoArchive = false);
+        $this->assertNotEmpty($id);
+    }
+
     public static function getOutputPrefix()
     {
         return '';

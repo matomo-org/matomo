@@ -43,7 +43,11 @@
                 {{ report.description|rawSafeDecoded }}
                 {% if segmentEditorActivated and report.idsegment %}
                     <div class="entityInlineHelp" style="font-size: 9pt;">
-                        {{ savedSegmentsById[report.idsegment] }}
+                        {% if savedSegmentsById[report.idsegment] is defined %}
+                            {{ savedSegmentsById[report.idsegment] }}
+                        {% else %}
+                            {{ 'ScheduledReports_SegmentDeleted'|translate }}
+                        {% endif %}
                     </div>
                 {% endif %}
             </td>
