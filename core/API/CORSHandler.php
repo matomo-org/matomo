@@ -45,7 +45,7 @@ class CORSHandler
             return;
         }
 
-        // specifically allow if it is one of the whitelisted CORS domains
+        // specifically allow if it is one of the allowlisted CORS domains
         if (!empty($_SERVER['HTTP_ORIGIN'])) {
             $origin = $_SERVER['HTTP_ORIGIN'];
             if (in_array($origin, $this->domains, true)) {
