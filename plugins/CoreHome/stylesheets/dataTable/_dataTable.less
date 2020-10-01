@@ -50,15 +50,10 @@ table.dataTable img {
 }
 
 table.dataTable tr img.link {
-  margin-left: 4px!important;
-
-  .widget & {
-    margin-left: 1px!important;
-  }
-}
-
-table.subDataTable img.link {
-  transform: translateY(-50%);
+  margin-right: 0.5em;
+  margin-bottom: 4px;
+  vertical-align: text-bottom;
+  margin-left: 1px;
 }
 
 table.dataTable tr.subDataTable {
@@ -515,10 +510,11 @@ tr.level12 td.label {
 
 /* less right margins for the link image in the Pa*/
 .dataTableActions table.dataTable img.link {
-  margin-right: 0.5em;
-  margin-left: 1px;
-  margin-bottom: 4px;
-  vertical-align: text-bottom;
+  margin-left: 4px !important;
+
+  .widget & {
+    margin-left: 1px !important;
+  }
 }
 
 table.dataTable td.label img {
