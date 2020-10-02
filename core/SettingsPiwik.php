@@ -25,9 +25,9 @@ class SettingsPiwik
      *
      * NOTE: Keep this salt secret! Never output anywhere or share it etc.
      *
-     * @return string
+     * @return string|null
      */
-    public static function getSalt(): string
+    public static function getSalt(): ?string
     {
         static $salt = null;
         if (is_null($salt)) {
