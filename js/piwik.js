@@ -6855,6 +6855,13 @@ if (typeof window.Matomo !== 'object') {
 
         // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
+        addEventListener(windowAlias, 'online', function () {
+            if (isDefined(navigatorAlias.serviceWorker) && isDefined(navigatorAlias.serviceWorker.ready)) {
+                navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
+                    return swRegistration.sync.register('matomoSync');
+                });
+            }
+        }, false);
 
         addEventListener(windowAlias,'message', function(e) {
             if (!e || !e.origin) {

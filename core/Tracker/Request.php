@@ -398,6 +398,7 @@ class Request
             // some visitor attributes can be overwritten
             'cip'          => array('', 'string'),
             'cdt'          => array('', 'string'),
+            'cdo'          => array('', 'int'),
             'cid'          => array('', 'string'),
             'uid'          => array('', 'string'),
 
@@ -484,11 +485,16 @@ class Request
 
     protected function getCustomTimestamp()
     {
-        if (!$this->hasParam('cdt')) {
+        if (!$this->hasParam('cdt') && !$this->hasParam('cdo')) {
             return false;
         }
 
         $cdt = $this->getParam('cdt');
+        $cdo = $this->getParam('cdo');
+
+        if (empty($cdt) && $cdo) {
+            $cdt = $this->timestamp;
+        }
 
         if (empty($cdt)) {
             return false;
@@ -496,6 +502,10 @@ class Request
 
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt);
+        }
+
+        if (!empty($cdo)) {
+            $cdt = $cdt - abs($cdo);
         }
 
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
