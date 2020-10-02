@@ -18,7 +18,7 @@ use Piwik\Container\StaticContainer;
  */
 class SettingsPiwik
 {
-    protected const OPTION_PIWIK_URL = 'piwikUrl';
+    public const OPTION_PIWIK_URL = 'piwikUrl';
 
     /**
      * Get salt from [General] section. Should ONLY be used as a seed to create hashes
