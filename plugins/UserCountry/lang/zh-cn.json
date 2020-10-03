@@ -14,6 +14,7 @@
         "VisitLocation": "参观地点",
         "CurrentLocationIntro": "根据提供商信息，您现在的位置是",
         "DefaultLocationProviderDesc1": "默认的地理位置查询以访客的浏览器猜测国家。",
+        "DefaultLocationProviderDesc2": "这不是很准确，因此我们建议%1$s安装并使用%2$s地理位置数据库%3$s。%4$s",
         "DefaultLocationProviderExplanation": "您正在使用默认的地理位置服务商，Matomo 会根据访客使用的语言来判断地理位置。%1$s请查看%2$s 了解如何设置更精确的地理位置。",
         "DistinctCountries": "%s 个不同的国家\/地区",
         "FromDifferentCities": "不同城市",
@@ -24,6 +25,7 @@
         "getContinentDocumentation": "本报表显示访客所在的洲。",
         "getCountryDocumentation": "本报表显示访客所在的国家。",
         "getRegionDocumentation": "本报表显示访客所在的地区。",
+        "HowToInstallGeoIPDatabases": "如何获得地理位置数据库？",
         "Latitude": "纬度",
         "Latitudes": "纬度",
         "Location": "位置",
@@ -32,10 +34,14 @@
         "Longitudes": "经度",
         "NoDataForGeoIPReport1": "本报表没有数据，因为没有地理位置的数据或者无法定位访客的IP地址。",
         "NoDataForGeoIPReport2": "要启用精确的地理位置统计，在%1$s这里%2$s修改设置并使用 %3$s城市级数据库%4$s。",
+        "NoProviders": "当前没有其他可用的地理位置提供商。 Matomo建议使用%1$s个dbip%2$s 数据库，但这需要激活GeoIp2插件。 （或者，您可以安装第三方插件，该插件可从市场提供其自身的地理位置功能。）",
         "PluginDescription": "报告访问者的位置：国家，地区，城市和地理坐标(纬度\/经度)。",
         "Region": "地区",
         "SubmenuLocations": "所在地",
+        "TestIPLocatorFailed": "Matomo尝试检查已知IP地址的位置（%1$s），但是您的服务器未返回任何信息。 该提供程序的配置可能不正确（例如，地理位置数据库的名称可能不正确或位于错误的目录中）。",
         "ToGeolocateOldVisits": "要获得以前访问的地理数据，请使用 %1$s这里%2$s的脚步。",
-        "WidgetLocation": "访客位置"
+        "WidgetLocation": "访客位置",
+        "GeoIpDbIpAccuracyNote": "注意：DBIP数据库是免费的，可以自动下载，但是地理位置结果（特别是城市结果）不如MaxMind的准确。 但是，MaxMind甚至要求您为免费数据库创建一个帐户。 如果要使用MaxMind的地理位置数据库，则可以在%2$s处启动%1$s进程",
+        "MaxMindLinkExplanation": "如果您使用的是MaxMind的地理位置数据库，并且您尚不知道如何生成下载URL，%1$s请单击此处以了解如何%2$s。"
     }
 }

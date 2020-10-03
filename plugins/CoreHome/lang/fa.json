@@ -21,7 +21,6 @@
         "EndShortcut": "پایان",
         "EnterZenMode": "ورود به حالت ذن (مخفی کردن منوها)",
         "ExitZenMode": "خروج از حالت ذن (نمایش منوها)",
-        "ExceptionNotWhitelistedIP": "شما نمی‌توانید از این Matomo استفاده کنید زیرا IP شما %s در لیست سفید نیست",
         "ExcludeRowsWithLowPopulation": "تمام ردیف ها نمایش داده شده اند %s انها را ببندید",
         "ExternalHelp": "راهنما (در tab جدید)",
         "FlattenDataTable": "این گزارش سلسله مراتبی است %sآن را مسطح کن",

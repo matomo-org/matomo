@@ -21,7 +21,6 @@
         "EndShortcut": "Koniec",
         "EnterZenMode": "Uruchom tryb Zen (ukryj menu)",
         "ExitZenMode": "Zakończ tryb Zen (pokaż menu)",
-        "ExceptionNotWhitelistedIP": "Nie możesz używać tego Matomo ponieważ Twój adres IP %s nie znajduje się na białej liście",
         "ExcludeRowsWithLowPopulation": "Wyświetlane są wszystkie rzędy %s Ukryj rzędy małej populacji",
         "ExternalHelp": "Pomoc (otworzy się w nowym oknie)",
         "FlattenDataTable": "Raport jest hierarchiczny %s Przełącz na płaski",

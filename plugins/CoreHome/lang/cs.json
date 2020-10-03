@@ -23,7 +23,6 @@
         "EndShortcut": "Konec",
         "EnterZenMode": "Vstup do režimu Zen (skrýt nabídky)",
         "ExitZenMode": "Ukončit režim Zen (zobrazit nabídky)",
-        "ExceptionNotWhitelistedIP": "Nemůžete použít Matomo, protože vaše IP adresa %s není na seznamu povolených",
         "ExcludeRowsWithLowPopulation": "Všechny řádky jsou zobrazeny %s Vyloučit nízkou populaci",
         "ExternalHelp": "Nápověda (otevře se v nové záložce)",
         "FlattenDataTable": "Hlášení je hierarchické %s Zploštit",

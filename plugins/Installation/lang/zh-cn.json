@@ -22,6 +22,10 @@
         "GoBackAndDefinePrefix": "返回并为 Matomo 数据表定义数据表前缀",
         "HappyAnalysing": "分析快乐！",
         "Installation": "安装",
+        "InformationalResults": "信息性结果",
+        "CopyBelowInfoForSupport": "如果我们的支持团队要求您提供此信息，请复制或下载以下信息。",
+        "CopySystemCheck": "复制系统检查",
+        "DownloadSystemCheck": "下载系统检查",
         "InstallationStatus": "安装状态",
         "InsufficientPrivilegesHelp": "您可以用类似 phpMyAdmin 的工具或自己运行合适的 SQL 语句，来添加权限。如果您不知道如何操作，请联系您的系统管理员帮忙设置权限。",
         "InsufficientPrivilegesMain": "要么数据库不存在（且无法创建），要么该账号权限不够。数据库账号必须具有以下权限: %s",
@@ -148,6 +152,7 @@
         "WelcomeHelp": "<p>Matomo是一款免费\/自由的网络分析软件，可以让您轻松地从访问者那里获得您想要的信息。<\/p><p>此过程分为%s简单步骤，大约需要5分钟。<\/p>",
         "WelcomeToCommunity": "欢迎来到 Matomo 社区！",
         "CannotConnectToDb": "无法连接数据库",
-        "CannotConnectToDbResolvingExplanation": "这可能是暂时的问题，试试%1$s刷新页面%2$s。如果问题仍然存在，请联系您的 Matomo 管理员。"
+        "CannotConnectToDbResolvingExplanation": "这可能是暂时的问题，试试%1$s刷新页面%2$s。如果问题仍然存在，请联系您的 Matomo 管理员。",
+        "EmailPrivacyNotice": "您的电子邮件地址将仅用于向您发送新闻通讯。 为此，我们必须与第三方提供商共享您的电子邮件。 该提供者当前是Mad Mimi，但是将来可能会有所变化。 除了向您发送新闻稿之外，我们不会与其他任何人共享您的电子邮件或将您的电子邮件用于其他任何目的。 您可以随时取消订阅。 有关更多信息，请查阅我们的%1$s隐私政策%2$s。"
     }
 }

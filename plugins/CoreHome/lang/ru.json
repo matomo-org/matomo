@@ -23,7 +23,6 @@
         "EndShortcut": "Конец",
         "EnterZenMode": "Вход в режим дзен (скрыть меню)",
         "ExitZenMode": "Выход из режима дзен (показать меню)",
-        "ExceptionNotWhitelistedIP": "Вы не можете использовать Matomo, так как ваш IP %s не находится в белом списке",
         "ExcludeRowsWithLowPopulation": "Все строки отображены %s Кроме низких показателей",
         "ExternalHelp": "Помощь (откроется в новой вкладке)",
         "FlattenDataTable": "Отчет построен по иерархии %s Сделать его линейным",

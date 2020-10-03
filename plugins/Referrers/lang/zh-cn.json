@@ -71,6 +71,7 @@
         "XPercentOfVisits": "%s 个访问",
         "Acquisition": "获客分析",
         "VisitorsFromSearchEngines": "来自搜索引擎的访客",
+        "PercentOfX": "占%s％",
         "VisitorsFromSocialNetworks": "来自社交网络的访客",
         "VisitorsFromDirectEntry": "来自直接链接的访客",
         "VisitorsFromWebsites": "来自网站的访客",
