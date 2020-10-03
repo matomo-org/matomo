@@ -37,7 +37,7 @@ class TimeTransfer extends ActionDimension
 
         $transferTime = $request->getParam($this->getRequestParam());
 
-        if ($transferTime === -1) {
+        if ($transferTime < 0) {
             return false;
         }
 

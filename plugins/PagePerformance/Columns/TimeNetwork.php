@@ -37,7 +37,7 @@ class TimeNetwork extends ActionDimension
 
         $networkTime = $request->getParam($this->getRequestParam());
 
-        if ($networkTime === -1) {
+        if ($networkTime < 0) {
             return false;
         }
 

@@ -37,7 +37,7 @@ class TimeDomCompletion extends ActionDimension
 
         $domCompleteTime = $request->getParam($this->getRequestParam());
 
-        if ($domCompleteTime === -1) {
+        if ($domCompleteTime < 0) {
             return false;
         }
 

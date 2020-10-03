@@ -37,7 +37,7 @@ class TimeOnLoad extends ActionDimension
 
         $timeOnLoad = $request->getParam($this->getRequestParam());
 
-        if ($timeOnLoad === -1) {
+        if ($timeOnLoad < 0) {
             return null;
         }
 

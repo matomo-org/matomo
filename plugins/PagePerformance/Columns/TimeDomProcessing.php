@@ -37,7 +37,7 @@ class TimeDomProcessing extends ActionDimension
 
         $domProcessTime = $request->getParam($this->getRequestParam());
 
-        if ($domProcessTime === -1) {
+        if ($domProcessTime < 0) {
             return false;
         }
 

@@ -37,7 +37,7 @@ class TimeServer extends ActionDimension
 
         $serverTime = $request->getParam($this->getRequestParam());
 
-        if ($serverTime === -1) {
+        if ($serverTime < 0) {
             return false;
         }
 
