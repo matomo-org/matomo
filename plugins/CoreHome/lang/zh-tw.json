@@ -23,7 +23,6 @@
         "EndShortcut": "End 鍵",
         "EnterZenMode": "進入勿擾模式（隱藏選單）",
         "ExitZenMode": "離開勿擾模式（顯示選單）",
-        "ExceptionNotWhitelistedIP": "你無法使用這個 Matomo，因為你的 IP %s 不在白名單中",
         "ExcludeRowsWithLowPopulation": "已顯示所有列 %s 排除較低人數",
         "ExternalHelp": "幫助（在新分頁中開啟）",
         "FlattenDataTable": "報表目前已分層 %s 平面化顯示",
