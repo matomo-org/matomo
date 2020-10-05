@@ -12,6 +12,7 @@ use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Matomo\Network\IPUtils;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
 
@@ -34,6 +35,9 @@ class RequestTest extends UnitTestCase
 
         $this->time = 1416795617;
         $this->request = $this->buildRequest(array('idsite' => '1'));
+
+        // set an empty cache to avoid the cache will be built (which requires database)
+        Cache::setCacheGeneral([]);
     }
 
     public function test_getCurrentTimestamp_ShouldReturnTheSetTimestamp_IfNoCustomValueGiven()
