@@ -45,6 +45,7 @@
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
+    serviceWorker, ready, then, sync, register,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -2389,7 +2390,7 @@ if (typeof window.Matomo !== 'object') {
              * Set cookie value
              */
             function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return;
                 }
 
