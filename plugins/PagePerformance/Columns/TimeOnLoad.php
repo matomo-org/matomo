@@ -37,8 +37,12 @@ class TimeOnLoad extends ActionDimension
 
         $timeOnLoad = $request->getParam($this->getRequestParam());
 
+        if ($timeOnLoad === -1) {
+            return false;
+        }
+
         if ($timeOnLoad < 0) {
-            return null;
+            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $timeOnLoad;

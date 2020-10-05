@@ -37,8 +37,12 @@ class TimeDomProcessing extends ActionDimension
 
         $domProcessTime = $request->getParam($this->getRequestParam());
 
-        if ($domProcessTime < 0) {
+        if ($domProcessTime === -1) {
             return false;
+        }
+
+        if ($domProcessTime < 0) {
+            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $domProcessTime;

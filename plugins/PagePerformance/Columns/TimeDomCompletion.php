@@ -37,8 +37,12 @@ class TimeDomCompletion extends ActionDimension
 
         $domCompleteTime = $request->getParam($this->getRequestParam());
 
-        if ($domCompleteTime < 0) {
+        if ($domCompleteTime === -1) {
             return false;
+        }
+
+        if ($domCompleteTime < 0) {
+            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $domCompleteTime;

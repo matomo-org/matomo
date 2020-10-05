@@ -37,8 +37,12 @@ class TimeTransfer extends ActionDimension
 
         $transferTime = $request->getParam($this->getRequestParam());
 
-        if ($transferTime < 0) {
+        if ($transferTime === -1) {
             return false;
+        }
+
+        if ($transferTime < 0) {
+            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $transferTime;

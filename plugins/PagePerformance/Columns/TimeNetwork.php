@@ -37,8 +37,12 @@ class TimeNetwork extends ActionDimension
 
         $networkTime = $request->getParam($this->getRequestParam());
 
-        if ($networkTime < 0) {
+        if ($networkTime === -1) {
             return false;
+        }
+
+        if ($networkTime < 0) {
+            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $networkTime;

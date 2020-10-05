@@ -37,8 +37,12 @@ class TimeServer extends ActionDimension
 
         $serverTime = $request->getParam($this->getRequestParam());
 
-        if ($serverTime < 0) {
+        if ($serverTime === -1) {
             return false;
+        }
+
+        if ($serverTime < 0) {
+            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $serverTime;
