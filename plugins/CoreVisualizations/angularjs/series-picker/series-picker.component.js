@@ -88,9 +88,7 @@
 
             optionStates[optionValue] = !optionStates[optionValue];
 
-            if (optionStates[optionValue]) {
-                triggerOnSelectAndClose();
-            }
+            triggerOnSelectAndClose();
         }
 
         function onLeavePopup() {
