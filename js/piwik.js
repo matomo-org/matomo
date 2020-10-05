@@ -3447,37 +3447,69 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
+                var timings = '';
+
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
-                    request += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+
+                    if (performanceAlias.timing.connectEnd < performanceAlias.timing.fetchStart) {
+                        return;
+                    }
+
+                    timings += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
-                    request += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
+
+                    if (performanceAlias.timing.responseStart < performanceAlias.timing.requestStart) {
+                        return;
+                    }
+
+                    timings += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
-                    request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+
+                    if (performanceAlias.timing.responseEnd < performanceAlias.timing.responseStart) {
+                        return;
+                    }
+
+                    timings += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
-                    request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+
+                    if (performanceAlias.timing.domInteractive < performanceAlias.timing.domLoading) {
+                        return;
+                    }
+
+                    timings += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
-                    request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+
+                    if (performanceAlias.timing.domComplete < performanceAlias.timing.domInteractive) {
+                        return;
+                    }
+
+                    timings += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
-                    request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+
+                    if (performanceAlias.timing.loadEventEnd < performanceAlias.timing.loadEventStart) {
+                        return;
+                    }
+
+                    timings += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
                 }
 
-                return request;
+                return request + timings;
             }
 
             /**
