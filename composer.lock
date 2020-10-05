@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c12681ad667b4670e55f110ac8b778a4",
+    "content-hash": "0acbef2e79e975ecc2de5c2b9492c9cf",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -574,16 +574,16 @@
         },
         {
             "name": "matomo/network",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-network.git",
-                "reference": "010e49629115e7227bec08c39639e0efeb048905"
+                "reference": "ff654b8fc7778b80279815d06a368f7b41249501"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/010e49629115e7227bec08c39639e0efeb048905",
-                "reference": "010e49629115e7227bec08c39639e0efeb048905",
+                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/ff654b8fc7778b80279815d06a368f7b41249501",
+                "reference": "ff654b8fc7778b80279815d06a368f7b41249501",
                 "shasum": ""
             },
             "require": {
@@ -602,7 +602,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2020-01-01T12:57:48+00:00"
+            "time": "2020-10-05T06:09:39+00:00"
         },
         {
             "name": "matomo/referrer-spam-list",
