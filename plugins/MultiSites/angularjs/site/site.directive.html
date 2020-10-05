@@ -2,7 +2,7 @@
     <td ng-if="!website.isGroup" class="multisites-label label">
         <a title="View reports" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}" class="truncated-text-line">{{ website.label }}</a>
 
-        <span style="width: 10px; margin-left:3px;">
+        <span>
             <a rel="noreferrer noopener" target="_blank" title="{{ 'General_GoTo'|translate:website.main_url }}" ng-href="{{ website.main_url }}">
             <span class="icon icon-outlink"></span></a>
         </span>
