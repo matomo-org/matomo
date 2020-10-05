@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "在维度上的平均时间",
         "CustomDimensionId": "自定义维度（Id%d）",
         "NoValue": "没有价值",
+        "PluginDescription": "通过在作用域或访问范围内定义和跟踪自定义维度，将Matomo扩展到您的需求",
         "EmptyValue": "空值"
     }
 }

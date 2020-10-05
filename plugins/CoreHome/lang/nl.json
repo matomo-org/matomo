@@ -23,7 +23,6 @@
         "EndShortcut": "Einde",
         "EnterZenMode": "Activeer Zen-modus (verberg menu's)",
         "ExitZenMode": "Deactiveer Zen-modus (toon menu's)",
-        "ExceptionNotWhitelistedIP": "Je kunt Matomo niet gebruiken als je IP %s niet op de whitelist staat",
         "ExcludeRowsWithLowPopulation": "Alle rijen worden getoond %s Verberg de rijen met een lage populatie",
         "ExternalHelp": "Help (opent in een nieuw tabblad)",
         "FlattenDataTable": "De rapportweergave is hierarchisch %s Maak het vlak",

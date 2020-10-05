@@ -38,6 +38,7 @@
         "Segment_Deletion_Error": "Ky segment s’mund të fshihet ose të bëhet i padukshëm për përdoruesit e tjerë, ngaqë përdoret për të prodhuar raport(e) email për %s. Ju lutemi, riprovoni pas heqjes së këtij segmenti nga ky raport(e).",
         "Segment_Help": "Mund të zgjidhni një segment ekzistues vetjak për ta zbatuar mbi të dhënat për këtë raport email. Segmente vetjakë mund të krijoni dhe përpunoni te pulti juaj %1$s(klikoni këtu që ta hapni)%2$s, mandej të klikoni mbi kutinë \"%3$s\", mandej \"%4$s\".",
         "SegmentAppliedToReports": "Për raportet është zbatuar segmenti '%s'.",
+        "SegmentDeleted": "Segmenti u fshi",
         "SendReportNow": "Dërgoje Raportin tani",
         "SendReportTo": "Raportin dërgoje te",
         "SentToMe": "Dërgoma mua",
