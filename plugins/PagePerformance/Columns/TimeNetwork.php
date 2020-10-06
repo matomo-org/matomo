@@ -13,40 +13,15 @@ use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionPageview;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
-class TimeNetwork extends ActionDimension
+class TimeNetwork extends Base
 {
     const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
     const COLUMN_NAME = 'time_network';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;
-    protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeNetwork';
-
-    public function onNewAction(Request $request, Visitor $visitor, Action $action)
-    {
-        if (!($action instanceof ActionPageview)) {
-            return false;
-        }
-
-        $networkTime = $request->getParam($this->getRequestParam());
-
-        if ($networkTime === -1) {
-            return false;
-        }
-
-        if ($networkTime < 0) {
-            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
-        }
-
-        return $networkTime;
-    }
 
     public function getRequestParam()
     {
