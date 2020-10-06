@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\PagePerformance\Columns;
 
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\ActionPageview;
@@ -33,7 +34,7 @@ abstract class Base extends ActionDimension
         }
 
         if ($time < 0) {
-            throw new \Exception(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
+            throw new InvalidRequestParameterException(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
         return $time;
