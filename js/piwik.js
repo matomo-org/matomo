@@ -3447,6 +3447,7 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
+                // note: there might be negative values because of browser bugs see https://github.com/matomo-org/matomo/pull/16516 in this case we ignore the values
                 var timings = '';
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
