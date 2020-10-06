@@ -22,14 +22,21 @@ $piwik_errorMessage = '';
 // 3) composer.json (in two places)
 // 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
 $piwik_minimumPHPVersion = '7.2.5';
+$piwik_maximumPHPVersion = '8.0.0';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
+$maximumPHPInvalid = version_compare($piwik_maximumPHPVersion, $piwik_currentPHPVersion) >= 0;
 if ($minimumPhpInvalid) {
     $piwik_errorMessage .= "<p><strong>To run Matomo you need at least PHP version $piwik_minimumPHPVersion</strong></p>
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
 				<p>Please try to update your PHP version, Matomo is really worth it! Nowadays most web hosts
 				support PHP $piwik_minimumPHPVersion.</p>";
 } else {
+    if ($maximumPHPInvalid) {
+        $piwik_errorMessage .= "<p><b>Matomo 3 is not compatible with PHP 8.</b></p>
+        <p>Please use a PHP version below 8.0.0 or upgrade to Matomo 4</p>";
+    }
+    
     if (!extension_loaded('session')) {
         $piwik_errorMessage .= "<p><strong>Matomo and Zend_Session require the session extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.
