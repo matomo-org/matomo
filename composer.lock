@@ -530,17 +530,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "e4c6829b2f330f088055aa8341e5f205d1ec1cc7"
+                "reference": "a7fd79ddc54be6bb5abcc69d43836302697c71ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/e4c6829b2f330f088055aa8341e5f205d1ec1cc7",
-                "reference": "e4c6829b2f330f088055aa8341e5f205d1ec1cc7",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/a7fd79ddc54be6bb5abcc69d43836302697c71ea",
+                "reference": "a7fd79ddc54be6bb5abcc69d43836302697c71ea",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
             },
             "suggest": {
                 "ext-curl": "Using this extension to issue the HTTPS request to Matomo"
@@ -570,7 +573,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2020-07-27T20:23:33+00:00"
+            "time": "2020-09-07T04:45:54+00:00"
         },
         {
             "name": "matomo/network",
