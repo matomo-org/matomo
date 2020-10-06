@@ -13,36 +13,15 @@ use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionPageview;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
-class TimeOnLoad extends ActionDimension
+class TimeOnLoad extends Base
 {
     const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
     const COLUMN_NAME = 'time_on_load';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;
-    protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeOnLoad';
-
-    public function onNewAction(Request $request, Visitor $visitor, Action $action)
-    {
-        if (!($action instanceof ActionPageview)) {
-            return false;
-        }
-
-        $timeOnLoad = $request->getParam($this->getRequestParam());
-
-        if ($timeOnLoad === -1) {
-            return null;
-        }
-
-        return $timeOnLoad;
-    }
 
     public function getRequestParam()
     {
