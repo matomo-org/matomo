@@ -52,6 +52,10 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->requestConfig->overridableProperties = array_values($view->requestConfig->overridableProperties);
         }
 
+        if (property_exists($view->config, 'selectable_columns')) {
+            $view->config->selectable_columns = ['nb_events', 'nb_visits', 'sum_event_value', 'nb_events_with_value'];
+        }
+
         $this->configureFooterMessage($view);
     }
 
