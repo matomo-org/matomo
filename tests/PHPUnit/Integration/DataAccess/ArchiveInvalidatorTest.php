@@ -1112,6 +1112,23 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $expectedInvalidatedArchives, $report);
     }
 
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_forAllSitesIfAllSpecified()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+
+        $this->invalidator->reArchiveReport('all', 'VisitsSummary');
+
+        $countInvalidations = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
+
+        $invalidationSites = Db::fetchAll("SELECT DISTINCT idsite FROM " . Common::prefixTable('archive_invalidations'));
+        $invalidationSites = array_column($invalidationSites, 'idsite');
+
+        $this->assertEquals(550, $countInvalidations);
+        $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
+    }
+
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');

@@ -448,15 +448,13 @@ class ArchiveInvalidator
      * Schedule rearchiving of reports for a single plugin or single report for N months in the past. The next time
      * core:archive is run, they will be processed.
      *
-     * @param int[] $idSite
-     * @param Date $date1
-     * @param Date $date2
+     * @param int[]|string $idSites A list of idSites or 'all'
      * @param string $plugin
      * @param string|null $report
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport(array $idSites, string $plugin, string $report = null, int $lastNMonthsToInvalidate = null)
+    public function reArchiveReport($idSites, string $plugin, string $report = null, int $lastNMonthsToInvalidate = null)
     {
         $lastNMonthsToInvalidate = $lastNMonthsToInvalidate ?: Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
         if (empty($lastNMonthsToInvalidate)) {
@@ -466,6 +464,10 @@ class ArchiveInvalidator
         $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
         if (empty($lastNMonthsToInvalidate)) {
             return;
+        }
+
+        if ($idSites === 'all') {
+            $idSites = $this->getAllSitesId();
         }
 
         $date2 = Date::yesterday();
@@ -630,5 +632,11 @@ class ArchiveInvalidator
             $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
         }
         return $this->segmentArchiving;
+    }
+
+    private function getAllSitesId()
+    {
+        $model = new \Piwik\Plugins\SitesManager\Model();
+        return $model->getSitesId();
     }
 }
