@@ -218,7 +218,7 @@ class HtmlTable extends Visualization
         $columnNamesToIndices = Metrics::getMappingFromNameToId();
         $formatter = NumberFormatter::getInstance();
 
-        $totals = $this->dataTable->getMetadata('totals');
+        $totals = $this->dataTable->getMetadata('totalsUnformatted');
 
         $siteSummary = $this->getSiteSummary();
         $siteTotalRow = $siteSummary ? $siteSummary->getFirstRow() : null;

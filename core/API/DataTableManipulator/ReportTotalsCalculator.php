@@ -125,6 +125,15 @@ class ReportTotalsCalculator extends DataTableManipulator
         $processor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
         $processor->applyComputeProcessedMetrics($clone);
         $clone = $processor->applyQueuedFilters($clone);
+
+        $totalRowUnformatted = null;
+        foreach ($clone->getRows() as $row) {
+            /** * @var DataTable\Row $row */
+            if ($row->getColumn('label') === DataTable::LABEL_TOTALS_ROW) {
+                $totalRowUnformatted = $row->getColumns();
+                break;
+            }
+        }
         $clone = $processor->applyMetricsFormatting($clone);
 
         $totalRow = null;
@@ -145,6 +154,7 @@ class ReportTotalsCalculator extends DataTableManipulator
             $totals = $row->getColumns();
             unset($totals['label']);
             $dataTable->setMetadata('totals', $totals);
+            $dataTable->setMetadata('totalsUnformatted', $totalRowUnformatted);
 
             if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
                 $totalLabel = Common::getRequestVar('keep_totals_row_label', Piwik::translate('General_Totals'), 'string', $this->request);
