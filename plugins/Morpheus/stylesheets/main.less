@@ -389,16 +389,13 @@ table.dataTable {
       color: @theme-color-text;
       background: @theme-color-background-contrast;
 
-      &:not(.value) {
-        .font-default(13px, 16px);
-      }
-
       .label {
         line-height: normal;
+        .font-default(13px, 18px);
       }
 
       .value {
-        .font-default(13px, 16px);
+        .font-default(13px, 18px);
       }
 
       &:first-child {
@@ -445,7 +442,7 @@ table.dataTable {
         text-overflow: ellipsis;
         width: inherit;
         display: inline-block;
-        vertical-align: sub;
+        vertical-align: text-bottom;
       }
     }
 
@@ -493,8 +490,10 @@ div.dataTableVizHtmlTable,
     .font-default(13px, 16px);
     color: #aaa;
     margin-right: 8px;
+    padding-left: 1px; // icon might be cut of otherwise on some browsers
     content: '';
     vertical-align: bottom;
+    display: inline-block;
   }
 
   tr.subDataTable:not(.expanded) > td > span.label::before {
