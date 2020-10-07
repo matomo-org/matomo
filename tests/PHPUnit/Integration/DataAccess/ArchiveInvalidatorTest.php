@@ -82,6 +82,49 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class));
     }
 
+    public function test_removeInvalidations_removesAll_ifAllSitesSpecified()
+    {
+        $this->insertInvalidations([
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
+            ['name' => 'done.MyPlugin', 'idsite' => 2, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'done.MyOtherPlugin', 'idsite' => 3, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done', 'idsite' => 4, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done.MyPlugin', 'idsite' => 5, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
+        ]);
+
+        $this->invalidator->removeInvalidations($idSite = 'all', 'MyPlugin');
+
+        $invalidations = $this->getInvalidatedArchiveTableEntries();
+        $expectedInvalidations = [
+            ['idarchive' => null, 'idsite' => 3, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done.MyOtherPlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => 4, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done', 'report' => null],
+        ];
+
+        $this->assertEquals($expectedInvalidations, $invalidations);
+    }
+
+    public function test_removeInvalidations_removesAllForMultipleSites()
+    {
+        $this->insertInvalidations([
+            ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
+            ['name' => 'done.MyPlugin', 'idsite' => 2, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'done.MyOtherPlugin', 'idsite' => 3, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done', 'idsite' => 4, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'done.MyPlugin', 'idsite' => 5, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
+        ]);
+
+        $this->invalidator->removeInvalidations([1,2,3], 'MyPlugin');
+
+        $invalidations = $this->getInvalidatedArchiveTableEntries();
+        $expectedInvalidations = [
+            ['idarchive' => null, 'idsite' => 3, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done.MyOtherPlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => 4, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done', 'report' => null],
+            ['idarchive' => null, 'idsite' => 5, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'report' => 'myOtherReport'],
+        ];
+
+        $this->assertEquals($expectedInvalidations, $invalidations);
+    }
+
     public function test_removeInvalidations_removesAllForPlugin()
     {
         $this->insertInvalidations([

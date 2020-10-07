@@ -484,7 +484,6 @@ class ArchiveInvalidator
         }
 
         $this->markArchivesAsInvalidated($idSites, $dates, 'day', null, $cascadeDown = false, $forceInvalidateRanges = false, $name);
-
         foreach ($idSites as $idSite) {
             $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
             foreach ($segmentDatesToInvalidate as $info) {
@@ -510,7 +509,7 @@ class ArchiveInvalidator
      * archiving data in the past, you may want to call this method to remove any pending invalidations if, for example,
      * your plugin is deactivated or a report deleted.
      *
-     * @param int $idSite
+     * @param int|int[] $idSite one or more site IDs or 'all' for all site IDs
      * @param string $string
      * @param string|null $report
      */
