@@ -750,18 +750,22 @@ class Model
 
     public function removeInvalidationsLike($idSite, $start)
     {
-        $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE idsite = ? AND `name` LIKE ?";
+        $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
-        Db::query($sql, [$idSite, 'done.' . str_replace('_', "\\_", $start) . '%']);
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?";
+
+        Db::query($sql, ['done.' . str_replace('_', "\\_", $start) . '%']);
     }
 
     public function removeInvalidations($idSite, $plugin, $report)
     {
-        $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE idsite = ? AND `name` = ? AND report = ?";
+        $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
-        Db::query($sql, [$idSite, 'done.' . $plugin, $report]);
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` = ? AND report = ?";
+
+        Db::query($sql, ['done.' . $plugin, $report]);
     }
 
     public function isArchiveAlreadyInProgress($invalidatedArchive)
@@ -842,5 +846,18 @@ class Model
         $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
         $value = Db::fetchOne($sql, [(int) $idSite]);
         return !empty($value);
+    }
+
+    private function getRemoveInvalidationsIdSitesClause($idSite)
+    {
+        if ($idSite === 'all') {
+            return '';
+        }
+
+        $idSites = is_array($idSite) ? $idSite : [$idSite];
+        $idSites = array_map('intval', $idSites);
+        $idSitesStr = implode(',', $idSites);
+
+        return "idsite IN ($idSitesStr) AND";
     }
 }
