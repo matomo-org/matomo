@@ -13,6 +13,7 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 
@@ -96,7 +97,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateDayReport()
     {
         $this->aggregateGeneralGoalMetrics();
-        $this->aggregateEcommerceItems();
+
+        if (Manager::getInstance()->isPluginActivated('Ecommerce')) {
+            $this->aggregateEcommerceItems();
+        }
 
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
