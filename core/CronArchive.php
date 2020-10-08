@@ -456,6 +456,8 @@ class CronArchive
             if (!is_array($stats)) {
                 $this->logger->info(var_export($content, true));
 
+                $this->model->releaseInProgressInvalidation($archivesBeingQueried[$index]['idinvalidation']);
+
                 $this->logError("Error unserializing the following response from $url: '" . $content . "'");
                 continue;
             }
