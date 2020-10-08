@@ -390,12 +390,20 @@ table.dataTable {
       background: @theme-color-background-contrast;
 
       .label {
-        line-height: normal;
         .font-default(13px, 18px);
+        height: 18px;
+
+        .value {
+          display: inline;
+          line-height: inherit;
+          vertical-align: bottom;
+        }
       }
 
       .value {
         .font-default(13px, 18px);
+        display: inline-block;
+        vertical-align: text-bottom;
       }
 
       &:first-child {
@@ -487,7 +495,7 @@ div.dataTableVizHtmlTable,
  div.dataTableVizGoals {
   tr.subDataTable > td > span.label::before {
     font-family: 'matomo' !important;
-    .font-default(13px, 16px);
+    .font-default(13px, 18px);
     color: #aaa;
     margin-right: 8px;
     padding-left: 1px; // icon might be cut of otherwise on some browsers
