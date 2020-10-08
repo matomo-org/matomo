@@ -80,7 +80,7 @@ class ArchiveSelector
             return [false, false, false, false, false];
         }
 
-        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $params);
+        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
 
         $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
@@ -375,7 +375,7 @@ class ArchiveSelector
      * @param $requestedPluginDoneFlags
      * @return array
      */
-    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, ArchiveProcessor\Parameters $params)
+    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
     {
         // find latest idarchive for each done flag
         $idArchives = [];
