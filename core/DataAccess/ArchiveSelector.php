@@ -377,13 +377,6 @@ class ArchiveSelector
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, ArchiveProcessor\Parameters $params)
     {
-        // if plugin only archiving, make sure we don't use idarchives from all plugin archives
-        if (Rules::isForceArchivingSinglePlugin()) {
-            $requestedPluginDoneFlags = array_filter($requestedPluginDoneFlags, function ($f) use ($params) {
-                return strpos($f, $params->getRequestedPlugin()) !== false;
-            });
-        }
-
         // find latest idarchive for each done flag
         $idArchives = [];
         $tsArchiveds = [];
