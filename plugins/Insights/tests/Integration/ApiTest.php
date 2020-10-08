@@ -85,14 +85,41 @@ class ApiTest extends SystemTestCase
             'minDisappearedPercent' => 2,
             'lastTotalValue' => 59,
             'evolutionTotal' => -15.3,
-            'evolutionDifference' => -9
+            'evolutionDifference' => -9,
+            'totals' => [
+                'nb_visits' => 42,
+                'growth_percent' => 0,
+                'growth_percent_numeric' => 354.2,
+                'grown' => 0,
+                'value_old' => 38,
+                'value_new' => 30,
+                'difference' => -8,
+                'importance' => 38,
+                'isDisappeared' => 0,
+                'isNew' => 0,
+                'isMover' => 0,
+                'isMoverAndShaker' => 0,
+            ],
+            'totalsUnformatted' => [
+                'nb_visits' => 42,
+                'growth_percent' => 0,
+                'growth_percent_numeric' => 354.2,
+                'grown' => 0,
+                'value_old' => 38,
+                'value_new' => 30,
+                'difference' => -8,
+                'importance' => 38,
+                'isDisappeared' => 0,
+                'isNew' => 0,
+                'isMover' => 0,
+                'isMoverAndShaker' => 0,
+            ]
         );
 
         self::assertIsArray($metadata['report']);
         $this->assertEquals('Actions', $metadata['report']['module']);
         $this->assertEquals('getPageUrls', $metadata['report']['action']);
         unset($metadata['report']);
-        unset($metadata['totals']);
 
         $this->assertEquals($expectedMetadata, $metadata);
     }
