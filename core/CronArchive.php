@@ -369,7 +369,7 @@ class CronArchive
                 continue;
             }
 
-            $successCount = $this->launchArchivingFor($archivesToProcess);
+            $successCount = $this->launchArchivingFor($archivesToProcess, $queueConsumer);
             $numArchivesFinished += $successCount;
         }
 
@@ -391,7 +391,7 @@ class CronArchive
         $this->logger->info($timer->__toString());
     }
 
-    private function launchArchivingFor($archives)
+    private function launchArchivingFor($archives, QueueConsumer $queueConsumer)
     {
         $urls = [];
         $archivesBeingQueried = [];
@@ -455,6 +455,11 @@ class CronArchive
             $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
                 $this->logger->info(var_export($content, true));
+
+                $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
+                $this->model->releaseInProgressInvalidation($idinvalidation);
+
+                $queueConsumer->ignoreIdInvalidation($idinvalidation);
 
                 $this->logError("Error unserializing the following response from $url: '" . $content . "'");
                 continue;

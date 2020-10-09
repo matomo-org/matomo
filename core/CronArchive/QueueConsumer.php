@@ -483,6 +483,11 @@ class QueueConsumer
         return $parts[1];
     }
 
+    public function ignoreIdInvalidation($idinvalidation)
+    {
+        $this->invalidationsToExclude[$idinvalidation] = $idinvalidation;
+    }
+
     private function getDoneFlagType($name)
     {
         if ($name == 'done') {

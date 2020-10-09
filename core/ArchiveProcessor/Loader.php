@@ -113,6 +113,7 @@ class Loader
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives)
             && !$this->params->getArchiveOnlyReport()
+            && !Rules::isForceArchivingSinglePlugin()
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report

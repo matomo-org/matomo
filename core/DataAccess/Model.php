@@ -860,4 +860,11 @@ class Model
 
         return "idsite IN ($idSitesStr) AND";
     }
+
+    public function releaseInProgressInvalidation($idinvalidation)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "UPDATE $table SET status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . " WHERE idinvalidation = ?";
+        Db::query($sql, [$idinvalidation]);
+    }
 }
