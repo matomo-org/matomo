@@ -29,7 +29,7 @@ class ArchiveTest extends IntegrationTestCase
         Fixture::createWebsite('2014-05-06');
     }
 
-    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive($expected = null)
+    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive()
     {
         $idSite = 1;
 
@@ -71,7 +71,7 @@ class ArchiveTest extends IntegrationTestCase
         $archive = Archive::build($idSite, 'day', '2014-05-07');
         $metrics = $archive->getNumeric(['ExamplePlugin_archive1metric', 'ExamplePlugin_archive2metric', 'ExamplePlugin_archive3metric']);
 
-        $expected = $expected ?: [
+        $expected = [
             'ExamplePlugin_archive1metric' => 0,
             'ExamplePlugin_archive2metric' => 0,
             'ExamplePlugin_archive3metric' => 7,
@@ -91,10 +91,6 @@ class ArchiveTest extends IntegrationTestCase
 
         $this->assertTrue(Rules::isArchivingDisabledFor([1], new Segment('', [1]), 'day'));
 
-        $this->test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive([
-            'ExamplePlugin_archive1metric' => 1,
-            'ExamplePlugin_archive2metric' => 5,
-            'ExamplePlugin_archive3metric' => 7,
-        ]);
+        $this->test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive();
     }
 }
