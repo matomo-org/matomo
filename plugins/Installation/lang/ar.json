@@ -90,7 +90,6 @@
         "SystemCheckGzuncompressHelp": "تحتاج إلى تفعيل إضافة zlib ودالة gzcompress.",
         "SystemCheckHashHelp": "تحتاج إلى إعداد وإعادة بناء PHP مع تمكين دعم دالة hash() بأن تستثني الخيار --disable-hash .",
         "SystemCheckIconvHelp": "تحتاج إلى إعداد وإعادة بناء PHP مع تفعيل دعم iconv: --with-iconv.",
-        "SystemCheckJsonHelp": "يتطلب Matomo إضافة php5-json لقراءة وكتابة البيانات بصيغة JSON.",
         "SystemCheckMailHelp": "لن يتم إرسال رسائل التغذية الراجعة وكلمات المرور المفقودة بدون mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "حد الذاكرة",

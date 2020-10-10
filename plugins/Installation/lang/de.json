@@ -95,7 +95,6 @@
         "SystemCheckGzuncompressHelp": "Sie müssen die zlib Erweiterung und die gzuncompress Funktion aktivieren.",
         "SystemCheckHashHelp": "Sie müssen PHP mit der hash() Funktionalität kompilieren, indem Sie die Option --disable-hash entfernen.",
         "SystemCheckIconvHelp": "Sie müssen PHP mit \"iconv\" Unterstützung konfigurieren und neu bauen ( --with-iconv).",
-        "SystemCheckJsonHelp": "Die php5-json Erweiterung wird benötigt, damit Matomo JSON-Daten lesen und schreiben kann.",
         "SystemCheckMailHelp": "Feedback und Nachrichten zu verlorenen Passwörtern können nicht ohne mail() versendet werden.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Die mbstring-Erweiterung wird benötigt, um multibyte-Zeichen in der Benutzeroberfläche und in den API-Antworten zu verarbeiten. Bitte überprüfen Sie ebenfalls, ob mbstring.func_overload in der php.ini auf \"0\" gesetzt ist.",

@@ -91,7 +91,6 @@
         "SystemCheckGzuncompressHelp": "Es necesario habilitar la extensión zlib y la función gzcompress.",
         "SystemCheckHashHelp": "Necesitas configurar y recompilar PHP con soporte habilitado para \"hash()\": quitar la opción --disable-hash.",
         "SystemCheckIconvHelp": "Necesita configurar y reconstruir PHP con soporte \"iconv\" habilitado, --with-iconv.",
-        "SystemCheckJsonHelp": "Para leer y escribir datos JSON es necesario tener la extensión php5-json.",
         "SystemCheckMailHelp": "Los mensajes de Feedback y Recuperar Contraseña no se enviarán sin un correo electrónico().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Se requiere la extensión mbstring para manejar caracteres multibyte en la interface del usuario y también las respuestas de la API. Por favor controle que mbstring.func_overload esté en \"0\" en el archivo php.ini.",

@@ -80,7 +80,6 @@
         "SystemCheckGzcompressHelp": "zlib 확장과 gzcompress() 함수를 활성화해야합니다.",
         "SystemCheckGzuncompressHelp": "zlib 확장과 gzuncompress() 함수를 활성화해야합니다.",
         "SystemCheckIconvHelp": "\"iconv\"의 지원을 활성화하고, PHP 재구축 설정을 해야합니다 --with-iconv.",
-        "SystemCheckJsonHelp": "Matomo가 JSON 데이터를 읽고 쓰기 위해서 php5-json 확장이 필요합니다.",
         "SystemCheckMailHelp": "mail() 없이 피드백과 잊어버린 비밀번호 메세지는 보내지지 않습니다.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "메모리 제한",
