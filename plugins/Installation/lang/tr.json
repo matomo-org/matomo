@@ -95,7 +95,6 @@
         "SystemCheckGzuncompressHelp": "zlib eklentisini ve gzuncompress işlevini etkinleştirmelisiniz.",
         "SystemCheckHashHelp": "-disable hash seçeneğini kaldırarak PHP yazılımını hash() desteği ile yeniden yapılandırmalısınız.",
         "SystemCheckIconvHelp": "--with-iconv seçeneğini kullanarak PHP yazılımını \"Iconv\" desteği ile yeniden yapılandırmalısınız.",
-        "SystemCheckJsonHelp": "JSON verilerinin Matomo tarafından okunup yazılabilmesi için php5-json eklentisi gereklidir.",
         "SystemCheckMailHelp": "Bildirim ve Parola Unutma iletileri mail() işlevi ile gönderilmeyecek.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Kullanıcı arayüzü ve API yanıtlarındaki multibayt karakterlerinin işlenebilmesi için mbstring eklentisi gereklidir. Ayrıca php.ini yapılandırma dosyası içindeki mbstring.func_overload seçeneğini \"0\" olarak ayarlayın.",

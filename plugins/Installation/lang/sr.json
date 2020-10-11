@@ -81,7 +81,6 @@
         "SystemCheckGzuncompressHelp": "Potrebno je da uključite zlib proširenje i funkciju gzcompress",
         "SystemCheckHashHelp": "Potrebno je da kompajlirate PHP sa podrškom za hash() tako što ćete isključiti opciju --disable-hash.",
         "SystemCheckIconvHelp": "Potrebno je da kompajlirate PHP sa \"iconv\" podrškom, --with-iconv.",
-        "SystemCheckJsonHelp": "php5-json proširenje je neophodno kako bi Matomo mogao da čita i piše JSON podatke.",
         "SystemCheckMailHelp": "Vaši komentari i poruke za izgubljene lozinke neće biti poslate bez mail() funkcije.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Memorijsko ograničenje",

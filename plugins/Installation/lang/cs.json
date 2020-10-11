@@ -95,7 +95,6 @@
         "SystemCheckGzuncompressHelp": "Musíte povolit rozšíření zlib a funkci gzuncompress.",
         "SystemCheckHashHelp": "Je nutné, aby jste znovu nakonfigurovali a sestavili PHP s povolenou podporou hash(), vynecháním volby --disable-hash.",
         "SystemCheckIconvHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"icont\", --with-iconv",
-        "SystemCheckJsonHelp": "Matomo pro čtení a zápis JSON dat potřebuje rozšíření php5-json.",
         "SystemCheckMailHelp": "Bez funkce mail(), nebudou odeslány zprávy s odezvou, nebo při zapomenutém heslu",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Rozšíření mbstring je vyžadováno pro zpracování vícebajtových znaků v uživatelském rozhraní a odpovědích API. Zkontrolujte také, zda je parametr mbstring.func_overload je v php.ini nastaven na hodnotu „0“.",

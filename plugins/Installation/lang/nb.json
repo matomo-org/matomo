@@ -80,7 +80,6 @@
         "SystemCheckGzcompressHelp": "Du må aktivere zlib utvidelsen og gzcompress-funksjonen.",
         "SystemCheckGzuncompressHelp": "Du må aktivere zlib utvidelsen og gzuncompress-funksjonen.",
         "SystemCheckIconvHelp": "Du må konfigurere og bygge PHP på nytt med iconv-støtte aktivert, --with-iconv.",
-        "SystemCheckJsonHelp": "php5-json-utvidelsen kreves for at Matomo skal kunne lese og skrive JSON-data.",
         "SystemCheckMailHelp": "Tilbakemeldinger og \"Glemt passord\"-meldinger kan ikke sendes uten mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Minnegrense",

@@ -91,7 +91,6 @@
         "SystemCheckGzuncompressHelp": "Vous devez activer l'extension zlib et la fonction gzuncompress",
         "SystemCheckHashHelp": "Vous devez reconfigurer et re-compiler PHP en avec le support de hash() activé en enlevant l'option --disable-hash.",
         "SystemCheckIconvHelp": "Vous devez configurer PHP et le recompiler avec le support \"iconv\" activé, --with-iconv.",
-        "SystemCheckJsonHelp": "L'extension php5-json est nécéssaire pour lire et écrire des données au format JSON.",
         "SystemCheckMailHelp": "Les Feedback (commentaires) et mots de passe perdus ne pourront être envoyés sans la fonciton mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "L'extension mbstring est nécessaire pour gérer les caractères multi-octet dans l'interface utilisateur et les réponses API. Merci également de vérifier que mbstring.func_overload est paramétré à \"0\" dans php.ini.",

@@ -91,7 +91,6 @@
         "SystemCheckGzuncompressHelp": "zlib エクステンションと gzuncompress機能を有効にする必要があります。",
         "SystemCheckHashHelp": "--disable-hash オプションを除外し、hash() サポートを有効にして PHP を設定して再構築する必要があります。",
         "SystemCheckIconvHelp": "\"iconv\" のサポートを有効にして、PHP の再構築と設定を行う必要があります（--with-iconv）。",
-        "SystemCheckJsonHelp": "JSON データの読取と書込には、Matomo に php5-json エクステンションが必要です。",
         "SystemCheckMailHelp": "mail() 関数がない場合、フィードバックとパスワード紛失のメッセージを送信することができません。",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "mbstring 拡張子は、ユーザーインターフェイスと API レスポンスでマルチバイト文字を処理するために必要です。 また、php.ini で mbstring.func_overload が \" 0 \" に設定されていることを確認してください。",

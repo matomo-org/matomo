@@ -57,7 +57,6 @@
         "SystemCheckGzcompressHelp": "Jums reikia įjungti zlib plėtinį ir gzcompress funkciją.",
         "SystemCheckGzuncompressHelp": "Jums reikia įjungti zlib plėtinį ir gzuncompress funkciją.",
         "SystemCheckIconvHelp": "Jums reikia sukonfigūruoti ir perdaryti PHP su įjungtu \"iconv\" palaikymu, --with-iconv.",
-        "SystemCheckJsonHelp": "Php5-json plėtinys yra reikalingas Matomo, JSON duomenų skaitymui ir rašymui.",
         "SystemCheckMailHelp": "Atsiliepimų ir prarastų slpatažodžių pranešimai nebus siunčiami be mail() funkcijos.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Atminties limitas",

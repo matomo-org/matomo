@@ -23,6 +23,7 @@
         "EndShortcut": "结束",
         "EnterZenMode": "进入Zen模式（隐藏菜单）",
         "ExitZenMode": "退出Zen模式（显示菜单）",
+        "ExceptionNotAllowlistedIP": "您不能使用此Matomo，因为不允许使用IP%s。",
         "ExcludeRowsWithLowPopulation": "显示了所有的数据 %s 不显示低密度数据",
         "ExternalHelp": "帮助（在新标签页打开）",
         "FlattenDataTable": "本报表已分级显示 %s 改为不分级显示",
