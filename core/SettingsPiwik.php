@@ -173,10 +173,10 @@ class SettingsPiwik
     /**
      * Returns the URL to this Piwik instance, eg. **http://demo.piwik.org/** or **http://example.org/piwik/**.
      *
-     * @return string
+     * @return string|false return false if no value is configured and we are in PHP CLI mode
      * @api
      */
-    public static function getPiwikUrl(): string
+    public static function getPiwikUrl()
     {
         $url = Option::get(self::OPTION_PIWIK_URL);
 
