@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Ecommerce\Widgets;
 
 use Piwik\Common;
+use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Site;
 
@@ -28,6 +29,12 @@ class GetEcommerceLog extends \Piwik\Widget\Widget
 
         $site  = new Site($idSite);
         $config->setIsEnabled($site->isEcommerceEnabled());
+
+        $settings = new MeasurableSettings($idSite);
+
+        if (!$settings->activateVisitorLog->getValue()) {
+            $config->disable();
+        }
     }
 
 }

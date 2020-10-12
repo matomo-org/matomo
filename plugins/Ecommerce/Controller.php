@@ -13,7 +13,9 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\API as GoalsApi;
+use Piwik\Plugins\Live\Live;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\Plugins\Goals\TranslationHelper;
@@ -91,6 +93,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $dataRow = $goalMetrics->getFirstRow();
 
+        $view->visitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled();
         $view->idSite = $this->idSite;
         $view->idGoal = $idGoal;
 

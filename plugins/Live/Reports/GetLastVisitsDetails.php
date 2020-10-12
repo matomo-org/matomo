@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\Live\Reports;
 
+use Piwik\Common;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -45,4 +47,16 @@ class GetLastVisitsDetails extends Base
         $widgetsList->addWidgetConfig($widget);
     }
 
+    public function isEnabled()
+    {
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if (empty($idSite)) {
+            return true;
+        }
+
+        $settings = new MeasurableSettings($idSite);
+
+        return $settings->activateVisitorLog->getValue();
+    }
 }

@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\TagManager\Model\Container\StaticContainerIdGenerator;
 use Piwik\Tracker\Action;
@@ -120,6 +121,16 @@ class VisitorLog extends Visualization
         $this->config->custom_parameters['smallWidth'] = (int)(1 == Common::getRequestVar('small', 0, 'int'));
         $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
+
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if (!empty($idSite)) {
+            $settings = new MeasurableSettings($idSite);
+
+            if (!$settings->activateVisitorProfile->getValue()) {
+                $this->config->custom_parameters['hideProfileLink'] = 1;
+            }
+        }
 
         if (!$this->isInPopover()) {
             $this->config->footer_icons = array(

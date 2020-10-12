@@ -136,7 +136,7 @@
         ],
 
         isAvailableOnReport: function (dataTableParams, undefined) {
-            return true;
+            return !!piwik.visitorLogEnabled;
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {

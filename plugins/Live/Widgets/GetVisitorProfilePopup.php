@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\Live\Widgets;
 
+use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Widget\WidgetConfig;
 
 class GetVisitorProfilePopup extends \Piwik\Widget\Widget
@@ -23,6 +25,19 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
         if (Piwik::isUserIsAnonymous()) {
             $config->disable();
         }
+
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if (empty($idSite)) {
+            return;
+        }
+
+        $settings = new MeasurableSettings($idSite);
+
+        if (!$settings->activateVisitorProfile->getValue()) {
+            $config->disable();
+        }
+
     }
 
     public function render()

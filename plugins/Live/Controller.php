@@ -140,6 +140,13 @@ class Controller extends \Piwik\Plugin\Controller
     public function getVisitorProfilePopup()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
+
+        $settings = new MeasurableSettings($this->idSite);
+
+        if ($settings->activateVisitorProfile->getValue() === false) {
+            throw new \Exception('Visitor profile has been disabled in website settings');
+        }
+
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
         if (empty($visitorData)) {

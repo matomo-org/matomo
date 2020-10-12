@@ -19,6 +19,8 @@ use Piwik\Container\StaticContainer;
  */
 class Live extends \Piwik\Plugin
 {
+    protected static $visitorProfileEnabled = null;
+    protected static $visitorLogEnabled = null;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -46,10 +48,51 @@ class Live extends \Piwik\Plugin
 
     public function addJsGlobalVariables(&$out)
     {
+        try {
+            self::loadSettings();
+        } catch (\Exception $e) {
+            // ignore exceptions. an exception might be thrown if the session timed out
+        }
+
         $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
         $out .= "
+        piwik.visitorLogEnabled = ".json_encode(self::$visitorLogEnabled).";
+        piwik.visitorProfileEnabled = ".json_encode(self::$visitorProfileEnabled).";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
+    }
+
+    public static function isVisitorLogEnabled()
+    {
+        self::loadSettings();
+
+        return self::$visitorLogEnabled;
+    }
+
+    public static function isVisitorProfileEnabled()
+    {
+        self::loadSettings();
+
+        return self::$visitorProfileEnabled;
+    }
+
+    private static function loadSettings()
+    {
+        if (!is_null(self::$visitorProfileEnabled) && !is_null(self::$visitorLogEnabled)) {
+            return; // settings already loaded
+        }
+
+        self::$visitorProfileEnabled = true;
+        self::$visitorLogEnabled = true;
+
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if (!empty($idSite)) {
+            $settings = new MeasurableSettings($idSite);
+
+            self::$visitorProfileEnabled = $settings->activateVisitorProfile->getValue();
+            self::$visitorLogEnabled = $settings->activateVisitorLog->getValue();
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)
