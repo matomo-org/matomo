@@ -61,7 +61,6 @@
         "SystemCheckGzcompressHelp": "Kailangan mong i-enable ang zlib extension at gzcompress function.",
         "SystemCheckGzuncompressHelp": "Kailangan mong i-enable ang zlib extension at gzuncompress function.",
         "SystemCheckIconvHelp": "kailangan mong i-configure at e-build ang PHP na may \"iconv\" ng may gumaganang support --with-iconv.",
-        "SystemCheckJsonHelp": "Ang php5-json extension ay kinakailangan para sa Matomo upang basahin at isulat ang JSON data.",
         "SystemCheckMailHelp": "Ang Feedback at mga mensahe ng Nawalang Password ay hindi ipapadala nang walang mail ().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Limitasyon ng memorya",

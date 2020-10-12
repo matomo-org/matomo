@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "Kur përdoruesit vizitojnë sajtin tuaj, Piwik-u s’do të përdorë adresën e plotë IP (të tillë si %1$s), por, në vend të kësaj, Matomo-u së pari do ta anonimizojë (si %2$s). Anonimizimi i adresave IP është një nga domosdoshmëritë e vendosura nga ligjet mbi privatësinë në disa vende, si Gjermania, fjala vjen.",
         "AnonymizeIpMaskLengtDescription": "Përzgjidhni sa bajte të maskohen te IP-ja e vizitorit.",
         "AnonymizeIpMaskLength": "%1$s bajt(e) - p.sh. %2$s",
+        "AnonymizeIpMaskFully": "Masko plotësisht adresën IP",
         "AnonymizeReferrer": "Anonimizo Referues",
         "AnonymizeReferrerNote": "Matomo-ja depoziton prej cilave URL (referues) vjen në sajtin tuaj një përdorues. Në disa raste, një URL e tillë mund të përmbajë informacion që mund të konsiderohet informacion personal. Nëse doni të pengoni ndjekjen e informacioneve të tilla, mund të kufizoni sasinë e të dhënave mbi referuesin që do të depozitojë Matomo-ja, kur një vizitor hyn në sajtin tuaj. Sa më tepër informacion që të hiqet prej të dhënave mbi referuesin, aq më pak të dhëna personale do të regjistrohen. Sa më tepër informacion që hiqni prej referuesit, aq më pak e qartë do të bëhet njohja se si erdhi një vizitor në sajtin tuaj.",
         "AskingForConsent": "Kërkim pranimi",

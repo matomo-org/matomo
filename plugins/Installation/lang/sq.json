@@ -95,7 +95,7 @@
         "SystemCheckGzuncompressHelp": "Lypset të aktivizoni zgjerimin zlib dhe funksionin gzuncompress.",
         "SystemCheckHashHelp": "Lypset të formësoni dhe rikrijoni PHP-në me mbulim të hash() të aktivizuar duke përjashtuar mundësinë --disable-hash.",
         "SystemCheckIconvHelp": "Lypset të formësoni dhe rindërtoni PHP-në me aktivizim të mbulimit të \"iconv\", --with-iconv.",
-        "SystemCheckJsonHelp": "Zgjerimi php5-json është i domosdoshëm që Matomo të lexojë dhe shkruajë të dhëna JSON.",
+        "SystemCheckJsonHelp": "Zgjerimi php-json është i domosdoshëm që Matomo të lexojë dhe shkruajë të dhëna JSON.",
         "SystemCheckMailHelp": "Mesazhet mbi Përshtypjet dhe Fjalëkalim të Humbur nuk kanë për t’u dërguar pa mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Për trajtimin e shenjave shumëbajtshe te ndërfaqja e përdoruesit dhe përgjigjet API lypset zgjerimi mbstring. Shihni gjithashtu që mbstring.func_overload te php.ini i është dhënë vlera \"0\".",

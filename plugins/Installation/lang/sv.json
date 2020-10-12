@@ -91,7 +91,6 @@
         "SystemCheckGzuncompressHelp": "Du behöver aktivera tillägget zlib och funktionen gzuncompress.",
         "SystemCheckHashHelp": "Du behöver konfigurera och bygga om PHP med stöd för hash() genom att ta bort alternativet --disable-hash.",
         "SystemCheckIconvHelp": "Du måste konfigurera och installera PHP på nytt med \"iconv\" stöd aktiverat, --with-iconv.",
-        "SystemCheckJsonHelp": "php5-json tillägget krävs för att Matomo ska kunna läsa och skriva JSON data.",
         "SystemCheckMailHelp": "Feedback och bortglömda lösenord kommer inte att skickas utan mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Tillägget mbstring krävs för att hantera tecken på mer än en byte i användargränssnittet och API-svaren. Kontrollera även att mbstring.func_overload är satt till noll i php.ini.",

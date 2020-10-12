@@ -31,6 +31,7 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
+use Psr\Log\LoggerInterface;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -521,6 +522,38 @@ class ArchiveInvalidator
             $this->model->removeInvalidationsLike($idSite, $plugin);
         } else {
             $this->model->removeInvalidations($idSite, $plugin, $report);
+        }
+    }
+
+    /**
+     * Re-archives reports without propagating exceptions.
+     *
+     * @param int|int[]|'all' $idSites
+     * @param string $pluginName
+     */
+    public function reArchiveReportSafely($idSites, $pluginName)
+    {
+        try {
+            $this->reArchiveReport($idSites, $pluginName);
+        } catch (\Throwable $ex) {
+            $logger = StaticContainer::get(LoggerInterface::class);
+            $logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
+        }
+    }
+
+    /**
+     * Calls removeInvalidations() without propagating exceptions.
+     *
+     * @param int|int[]|'all' $idSites
+     * @param string $pluginName
+     */
+    public function removeInvalidationsSafely($idSites, $pluginName)
+    {
+        try {
+            $this->removeInvalidations($idSites, $pluginName);
+        } catch (\Throwable $ex) {
+            $logger = StaticContainer::get(LoggerInterface::class);
+            $logger->debug("Failed to remove invalidations the for $pluginName plugin.");
         }
     }
 
