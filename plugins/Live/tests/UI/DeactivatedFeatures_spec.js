@@ -148,4 +148,22 @@ describe("DeactivatedFeatures", function () {
         expect(log).to.be.not.ok;
     });
 
+    it('Goal overview contains segmented visitor log link when activated', async function () {
+        await setFeatures(1, 1, 0);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-08#?idSite=1&period=year&date=2012-08-08&category=Goals_Goals&subcategory=1");
+        await page.waitFor('#widgetGoalsgoalConversionsOverviewidGoal1', {visible: true});
+
+        const profile = await page.$('#widgetGoalsgoalConversionsOverviewidGoal1 a.segmentedlog');
+        expect(profile).to.be.ok;
+    });
+
+    it('Goal overview does not contain segmented visitor log link when disabled', async function () {
+        await setFeatures(1, 0, 0);
+        await page.reload();
+        await page.waitFor('#widgetGoalsgoalConversionsOverviewidGoal1', {visible: true});
+
+        const profile = await page.$('#widgetGoalsgoalConversionsOverviewidGoal1 a.segmentedlog');
+        expect(profile).to.be.not.ok;
+    });
+
 });
