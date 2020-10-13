@@ -21,6 +21,7 @@ class Live extends \Piwik\Plugin
 {
     protected static $visitorProfileEnabled = null;
     protected static $visitorLogEnabled = null;
+    protected static $siteIdLoaded = null;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -62,30 +63,33 @@ class Live extends \Piwik\Plugin
         ";
     }
 
-    public static function isVisitorLogEnabled()
+    public static function isVisitorLogEnabled($idSite = null)
     {
-        self::loadSettings();
+        self::loadSettings($idSite);
 
         return self::$visitorLogEnabled;
     }
 
-    public static function isVisitorProfileEnabled()
+    public static function isVisitorProfileEnabled($idSite = null)
     {
-        self::loadSettings();
+        self::loadSettings($idSite);
 
         return self::$visitorProfileEnabled;
     }
 
-    private static function loadSettings()
+    private static function loadSettings($idSite = null)
     {
-        if (!is_null(self::$visitorProfileEnabled) && !is_null(self::$visitorLogEnabled)) {
+        if (empty($idSite)) {
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+        }
+
+        if (!is_null(self::$visitorProfileEnabled) && !is_null(self::$visitorLogEnabled) && $idSite == self::$siteIdLoaded) {
             return; // settings already loaded
         }
 
+        self::$siteIdLoaded = $idSite;
         self::$visitorProfileEnabled = true;
         self::$visitorLogEnabled = true;
-
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
 
         if (!empty($idSite)) {
             $settings = new MeasurableSettings($idSite);

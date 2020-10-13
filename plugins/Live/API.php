@@ -189,9 +189,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $settings = new MeasurableSettings($idSite);
-
-        if ($settings->activateVisitorProfile->getValue() === false) {
+        if (!Live::isVisitorProfileEnabled($idSite)) {
             throw new Exception('Visitor profile has been disabled in website settings');
         }
 
