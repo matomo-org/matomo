@@ -13,6 +13,7 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Plugin\Manager as PluginManager;
@@ -50,6 +51,27 @@ class ActionTest extends IntegrationTestCase
     protected function setUpRootAccess()
     {
         FakeAccess::$superUser = true;
+    }
+
+    public function test_factory_notDefaultsToPageViewWhenCustomPluginRequest()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Request was meant for a custom plugin which is no longer activated. Request needs to be ignored.');
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
+        $request = new Request(array('cp' => '1', 'idsite' => $idSite));
+
+        Action::factory($request);
+    }
+
+    public function test_factory_defaultsToPageviewWhenNotCustomPluginRequest()
+    {
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
+        $request = new Request(array('idsite' => $idSite));
+
+        $action =  Action::factory($request);
+        $this->assertTrue($action instanceof ActionPageview);
     }
 
     public function getTestUrls()

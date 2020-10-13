@@ -1311,11 +1311,11 @@ function PiwikTest() {
         }
 
         function assertImpressionRequestParams(name, piece, target, expected, message) {
-            strictEqual(content.buildImpressionRequestParams(name, piece, target), expected, message);
+            strictEqual(content.buildImpressionRequestParams(name, piece, target), expected + '&ca=1', message);
         }
 
         function assertInteractionRequestParams(interaction, name, piece, target, expected, message) {
-            strictEqual(content.buildInteractionRequestParams(interaction, name, piece, target), expected, message);
+            strictEqual(content.buildInteractionRequestParams(interaction, name, piece, target), expected + '&ca=1', message);
         }
 
         function assertShouldIgnoreInteraction(id, message) {
@@ -1822,7 +1822,7 @@ function PiwikTest() {
 
             strictEqual(actual.indexOf(expectedStartsWith), 0, message + " " +  actual + ' should start with ' + expectedStartsWith);
 
-            var expectedString = '&idsite=1&rec=1';
+            var expectedString = '&ca=1&idsite=1&rec=1';
             strictEqual(actual.indexOf(expectedString), expectedStartsWith.length, 'did not find ' + expectedString + ' in ' + actual);
             // make sure it contains all those other tracking stuff directly afterwards so we can assume it did append
             // the other request stuff and we also make sure to compare the whole custom string as we check from
@@ -1905,25 +1905,25 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'appendContentInteractionToRequestIfPossible, the content block node was clicked but it is not the target');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'));
-        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&ca=1', 'appendContentInteractionToRequestIfPossible, the actual target node was clicked');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104'), 'clicki');
-        strictEqual(actual, 'c_i=clicki&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, with interaction');
+        strictEqual(actual, 'c_i=clicki&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&ca=1', 'appendContentInteractionToRequestIfPossible, with interaction');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
-        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&ca=1', 'appendContentInteractionToRequestIfPossible, block node is target node and any node within it was clicked which is good, we build a request');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'));
-        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg'), 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&ca=1', 'appendContentInteractionToRequestIfPossible, a node within a target node was clicked which is googd');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_target'));
-        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com&ca=1', 'appendContentInteractionToRequestIfPossible, target node was clicked which is good');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex105_withinTarget'));
-        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
+        strictEqual(actual, 'c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=http%3A%2F%2Fwww.example.com&ca=1', 'appendContentInteractionToRequestIfPossible, a node within target node was clicked which is googd');
 
         actual = tracker.appendContentInteractionToRequestIfPossible(_s('#ex104_inner'), 'click', 'fallbacktarget');
-        strictEqual(actual, 'c_i=click&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=fallbacktarget', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
+        strictEqual(actual, 'c_i=click&c_n=' + toEncodedAbsolutePath('img.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img.jpg') + '&c_t=fallbacktarget&ca=1', 'appendContentInteractionToRequestIfPossible, if no target found we can specify a default target');
 
 
 
@@ -4142,9 +4142,9 @@ if ($mysql) {
             ok( /search=search%20Keyword&idsite=1/.test(results), "site search, no cat, no results count ");
 
             // Test events
-            ok( /(e_c=Event%20Category&e_a=Event%20Action&idsite=1).*(&e_cvar=%7B%221%22%3A%5B%22cvarEventName%22%2C%22cvarEventValue%22%5D%2C%222%22%3A%5B%22cookiename2EVENT%22%2C%22cookievalue2EVENT%22%5D%7D)/.test(results), "event Category + Action + Custom Variable");
-            ok( /e_c=Event%20Category2&e_a=Event%20Action2&e_n=Event%20Name2&idsite=1/.test(results), "event Category + Action + Name");
-            ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&idsite=1/.test(results), "event Category + Action + Name + Value");
+            ok( /(e_c=Event%20Category&e_a=Event%20Action&ca=1&idsite=1).*(&e_cvar=%7B%221%22%3A%5B%22cvarEventName%22%2C%22cvarEventValue%22%5D%2C%222%22%3A%5B%22cookiename2EVENT%22%2C%22cookievalue2EVENT%22%5D%7D)/.test(results), "event Category + Action + Custom Variable");
+            ok( /e_c=Event%20Category2&e_a=Event%20Action2&e_n=Event%20Name2&ca=1&idsite=1/.test(results), "event Category + Action + Name");
+            ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&ca=1&idsite=1/.test(results), "event Category + Action + Name + Value");
 
             // ecommerce view
             ok( /(EcommerceView).*(&_pkc=CATEGORY%20HERE&_pks=SKU&_pkn=NAME)/.test(results), "ecommerce view");
@@ -4477,13 +4477,13 @@ if ($mysql) {
 
         var trackingRequests = [
             null,
-            'c_n=' + toEncodedAbsolutePath('img1-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img1-en.jpg'),
-            'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com',
-            'c_n=' + toEncodedAbsolutePath('img3-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img3-en.jpg') + '&c_t=http%3A%2F%2Fimg3.example.com',
-            'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com',
-            'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5',
-            'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com',
-            'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com'
+            'c_n=' + toEncodedAbsolutePath('img1-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img1-en.jpg') + '&ca=1',
+            'c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com&ca=1',
+            'c_n=' + toEncodedAbsolutePath('img3-en.jpg') + '&c_p=' + toEncodedAbsoluteUrl('img3-en.jpg') + '&c_t=http%3A%2F%2Fimg3.example.com&ca=1',
+            'c_n=My%20content%204&c_p=My%20content%204&c_t=http%3A%2F%2Fimg4.example.com&ca=1',
+            'c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&ca=1',
+            'c_n=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=http%3A%2F%2Fimg6.example.com&ca=1',
+            'c_n=My%20Ad%207&c_p=Unknown&c_t=http%3A%2F%2Fimg7.example.com&ca=1'
         ];
 
         stop();
@@ -4532,8 +4532,8 @@ if ($mysql) {
                 secondRequest = 0;
             }
 
-            assertTrackingRequest(requests[firstRequest], 'c_n=MyName&c_p=Unknown');
-            assertTrackingRequest(requests[secondRequest], 'c_n=Any%3A%2F%2FName&c_p=AnyPiece%3F&c_t=http%3A%2F%2Fwww.example.com');
+            assertTrackingRequest(requests[firstRequest], 'c_n=MyName&c_p=Unknown&ca=1');
+            assertTrackingRequest(requests[secondRequest], 'c_n=Any%3A%2F%2FName&c_p=AnyPiece%3F&c_t=http%3A%2F%2Fwww.example.com&ca=1');
 
 
             // trackContentInteraction()
@@ -4550,8 +4550,8 @@ if ($mysql) {
                 secondRequest = 0;
             }
 
-            assertTrackingRequest(requests[firstRequest], 'c_i=Clicke&c_n=IntName&c_p=Unknown');
-            assertTrackingRequest(requests[secondRequest], 'c_i=Clicki&c_n=IntN%3A%2Fame&c_p=IntPiece%3F&c_t=http%3A%2F%2Fint.example.com');
+            assertTrackingRequest(requests[firstRequest], 'c_i=Clicke&c_n=IntName&c_p=Unknown&ca=1');
+            assertTrackingRequest(requests[secondRequest], 'c_i=Clicki&c_n=IntN%3A%2Fame&c_p=IntPiece%3F&c_t=http%3A%2F%2Fint.example.com&ca=1');
 
 
             // trackContentInteractionNode()
@@ -4561,7 +4561,7 @@ if ($mysql) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5&ca=1');
 
 
             // enableTrackOnlyVisibleContent() && trackAllContentImpressions()
@@ -4808,7 +4808,7 @@ if ($mysql) {
 
             var requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
-            assertTrackingRequest(requests[0], 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com&ca=1');
 
 
             results = fetchTrackedRequests(token2);
@@ -4817,7 +4817,7 @@ if ($mysql) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com&ca=1');
 
 
             results = fetchTrackedRequests(token3);
@@ -4826,7 +4826,7 @@ if ($mysql) {
             requests = results.match(/<span\>(.*?)\<\/span\>/g);
             requests.shift();
 
-            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com&ca=1');
 
 
             results = fetchTrackedRequests(token4);

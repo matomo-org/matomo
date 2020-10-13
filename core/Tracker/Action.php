@@ -110,6 +110,10 @@ abstract class Action
             return $action;
         }
 
+        if ($request->hasParam('ca') && $request->getParam('ca')) {
+            throw new Exception('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
+        }
+
         return new ActionPageview($request);
     }
 

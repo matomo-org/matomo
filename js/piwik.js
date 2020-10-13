@@ -1834,6 +1834,10 @@ if (typeof window.Matomo !== 'object') {
                     params += 'c_t='+ encodeWrapper(target);
                 }
 
+                if (params) {
+                    params += '&ca=1';
+                }
+
                 return params;
             },
             buildImpressionRequestParams: function (name, piece, target)
@@ -1843,6 +1847,10 @@ if (typeof window.Matomo !== 'object') {
 
                 if (target) {
                     params += '&c_t=' + encodeWrapper(target);
+                }
+
+                if (params) {
+                    params += '&ca=1';
                 }
 
                 return params;
@@ -4236,7 +4244,8 @@ if (typeof window.Matomo !== 'object') {
                 return 'e_c=' + encodeWrapper(category)
                     + '&e_a=' + encodeWrapper(action)
                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
+                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '')
+                    + '&ca=1';
             }
 
             /*
