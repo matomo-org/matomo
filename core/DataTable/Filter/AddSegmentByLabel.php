@@ -66,7 +66,7 @@ class AddSegmentByLabel extends BaseFilter
             foreach ($table->getRowsWithoutSummaryRow() as $key => $row) {
                 $label = $row->getColumn('label');
 
-                if (!empty($label)) {
+                if (!empty($label) || $label === 0 || $label === '0') {
                     $row->setMetadata('segment', $segment . '==' . urlencode($label));
                 }
             }
@@ -76,7 +76,7 @@ class AddSegmentByLabel extends BaseFilter
 
             foreach ($table->getRowsWithoutSummaryRow() as $key => $row) {
                 $label = $row->getColumn('label');
-                if (!empty($label)) {
+                if (!empty($label) || $label === 0 || $label === '0') {
                     $parts = explode($this->delimiter, $label);
 
                     if (count($parts) === $numSegments) {
