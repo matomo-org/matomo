@@ -8,13 +8,15 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Period;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Metrics\Formatter;
-use Piwik\Tracker\VisitorRecognizer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
@@ -35,9 +37,40 @@ class VisitLastActionTime extends VisitDimension
     protected $segmentName = 'visitServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
 
+    /**
+     * Converts the hour to the hour depending on the configured site's timezone.
+     * Only works correct if a date/period is present in the request. Otherwise the result may vary depending on the
+     * day of the year as it can't know about daylight savings for example. Also if the currently selected date range
+     * includes multiple days with daylight savings and some without, then it might not be 100% correct as we are
+     * only looking at the start of the time.
+     * @param int $hour
+     * @param int $idSite
+     * @return int
+     * @throws \Exception
+     */
+    public static function convertHourToHourInSiteTimezone($hour, $idSite)
+    {
+        $date = Date::now();
+        $dateString = Common::getRequestVar('date', '', 'string');
+        $periodString = Common::getRequestVar('period', '', 'string');
+        if (!empty($dateString) && !empty($periodString)) {
+            try {
+                $date = Period\Factory::build($periodString, $dateString)->getDateStart();
+            } catch (\Exception $e) {
+                // ignore any error eg if values are wrong...
+            }
+        }
+        $timezone = Site::getTimezoneFor($idSite);
+        $datetime = $date->toString() . ' ' . $hour . ':00:00';
+        $hourInTz = (int)Date::factory($datetime, $timezone)->toString('H');
+        return $hourInTz;
+    }
+
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
+        $hourInTz = self::convertHourToHourInSiteTimezone($value, $idSite);
+
+        return \Piwik\Plugins\VisitTime\getTimeLabel($hourInTz);
     }
 
     // we do not install or define column definition here as we need to create this column when installing as there is
