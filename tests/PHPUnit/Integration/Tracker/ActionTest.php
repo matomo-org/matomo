@@ -53,6 +53,18 @@ class ActionTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
     }
 
+    public function test_isCustomActionRequest()
+    {
+        $request = new Request(array('ca' => '1'));
+        $this->assertTrue(Action::isCustomActionRequest($request));
+
+        $request = new Request(array('ca' => '0'));
+        $this->assertFalse(Action::isCustomActionRequest($request));
+
+        $request = new Request(array());
+        $this->assertFalse(Action::isCustomActionRequest($request));
+    }
+
     public function test_factory_notDefaultsToPageViewWhenCustomPluginRequest()
     {
         $this->expectException(\Exception::class);
