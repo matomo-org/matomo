@@ -59,7 +59,7 @@ class ActionTest extends IntegrationTestCase
         $this->expectExceptionMessage('Request was meant for a custom plugin which is no longer activated. Request needs to be ignored.');
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
-        $request = new Request(array('cp' => '1', 'idsite' => $idSite));
+        $request = new Request(array('ca' => '1', 'idsite' => $idSite));
 
         Action::factory($request);
     }
