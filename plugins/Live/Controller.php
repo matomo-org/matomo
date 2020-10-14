@@ -141,9 +141,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasViewAccess($this->idSite);
 
-        $settings = new MeasurableSettings($this->idSite);
-
-        if ($settings->activateVisitorProfile->getValue() === false) {
+        if (!Live::isVisitorProfileEnabled($this->idSite)) {
             throw new \Exception('Visitor profile has been disabled in website settings');
         }
 

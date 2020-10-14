@@ -15,6 +15,13 @@ describe("DeactivatedFeatures", function () {
         await testEnvironment.save();
     });
 
+    after(async function () {
+        await setFeatures(1, 1, 1);
+        delete testEnvironment.configOverride.Live;
+        await testEnvironment.save();
+    });
+
+
     async function setFeatures(idSite, vLog, vProfile) {
         await testEnvironment.callApi("SitesManager.updateSite", {
             idSite: idSite, settingValues: {
