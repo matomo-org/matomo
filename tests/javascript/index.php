@@ -1315,7 +1315,11 @@ function PiwikTest() {
         }
 
         function assertInteractionRequestParams(interaction, name, piece, target, expected, message) {
-            strictEqual(content.buildInteractionRequestParams(interaction, name, piece, target), expected + '&ca=1', message);
+            var actual = content.buildInteractionRequestParams(interaction, name, piece, target);
+            if (actual) {
+                expected = expected + '&ca=1';
+            }
+            strictEqual(actual, expected, message);
         }
 
         function assertShouldIgnoreInteraction(id, message) {
