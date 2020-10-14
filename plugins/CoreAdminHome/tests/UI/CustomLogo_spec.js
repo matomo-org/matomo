@@ -71,4 +71,13 @@ describe("CustomLogo", function () {
             expect(await navWrap.screenshot()).to.matchImage('unsubscribe'+appendName);
         });
     });
+
+    // dummy test to ensure custom logo usage is reset
+    it('should remove the custom logo usage', async function () {
+        testEnvironment.optionsOverride = {
+            branding_use_custom_logo: '0'
+        };
+        testEnvironment.save();
+        await page.goto("");
+    });
 });
