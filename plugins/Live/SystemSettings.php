@@ -10,28 +10,23 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
-use Piwik\Settings\Measurable\MeasurableSetting;
+use Piwik\Settings\Plugin\SystemSetting;
 
-class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
+class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
-    /** @var MeasurableSetting|null */
+    /** @var SystemSetting|null */
     public $activateVisitorLog;
 
-    /** @var MeasurableSetting|null */
+    /** @var SystemSetting|null */
     public $activateVisitorProfile;
 
     protected function init()
     {
         $this->activateVisitorLog     = $this->makeVisitorLogSetting();
         $this->activateVisitorProfile = $this->makeVisitorProfileSetting();
-
-        $systemSettings = new SystemSettings();
-
-        $this->activateVisitorLog->setIsWritableByCurrentUser($systemSettings->activateVisitorLog->getValue());
-        $this->activateVisitorProfile->setIsWritableByCurrentUser($systemSettings->activateVisitorProfile->getValue());
     }
 
-    private function makeVisitorLogSetting(): MeasurableSetting
+    private function makeVisitorLogSetting(): SystemSetting
     {
         $defaultValue = true;
         $type = FieldConfig::TYPE_BOOL;
@@ -43,7 +38,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         });
     }
 
-    private function makeVisitorProfileSetting(): MeasurableSetting
+    private function makeVisitorProfileSetting(): SystemSetting
     {
         $defaultValue = true;
         $type = FieldConfig::TYPE_BOOL;

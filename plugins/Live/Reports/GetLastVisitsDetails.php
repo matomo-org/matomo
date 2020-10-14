@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Live\Reports;
 
 use Piwik\Common;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Report\ReportWidgetFactory;
@@ -49,14 +50,6 @@ class GetLastVisitsDetails extends Base
 
     public function isEnabled()
     {
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
-
-        if (empty($idSite)) {
-            return true;
-        }
-
-        $settings = new MeasurableSettings($idSite);
-
-        return $settings->activateVisitorLog->getValue();
+        return Live::isVisitorLogEnabled();
     }
 }

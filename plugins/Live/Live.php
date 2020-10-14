@@ -97,6 +97,16 @@ class Live extends \Piwik\Plugin
             self::$visitorProfileEnabled = $settings->activateVisitorProfile->getValue();
             self::$visitorLogEnabled = $settings->activateVisitorLog->getValue();
         }
+
+        $systemSettings = new SystemSettings();
+
+        if ($systemSettings->activateVisitorProfile->getValue() === false) {
+            self::$visitorProfileEnabled = false;
+        }
+
+        if ($systemSettings->activateVisitorLog->getValue() === false) {
+            self::$visitorLogEnabled = false;
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Live\Widgets;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Live\MeasurableSettings;
+use Piwik\Plugins\Live\Live;
 use Piwik\Widget\WidgetConfig;
 
 class GetVisitorProfilePopup extends \Piwik\Widget\Widget
@@ -32,12 +32,9 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
             return;
         }
 
-        $settings = new MeasurableSettings($idSite);
-
-        if (!$settings->activateVisitorProfile->getValue()) {
+        if (!Live::isVisitorProfileEnabled($idSite)) {
             $config->disable();
         }
-
     }
 
     public function render()
