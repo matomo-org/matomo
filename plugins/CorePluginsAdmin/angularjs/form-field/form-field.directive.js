@@ -116,11 +116,11 @@
                     });
 
                 } else if (hasUiControl(field, 'textarea')) {
-                    element.find('textarea').trigger('autoresize');
+                    Materialize.textareaAutoResize(element.find('textarea'));
                     scope.$watch('formField.value', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                element.find('textarea').trigger('autoresize');
+                                Materialize.textareaAutoResize(element.find('textarea'));
                             });
                         }
                     });
