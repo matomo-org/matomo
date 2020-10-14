@@ -452,10 +452,11 @@ class ArchiveInvalidator
      * @param int[]|string $idSites A list of idSites or 'all'
      * @param string $plugin
      * @param string|null $report
+     * @param string|null $lastNMonthsToInvalidate eg, last12
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport($idSites, string $plugin, string $report = null, int $lastNMonthsToInvalidate = null)
+    public function reArchiveReport($idSites, string $plugin, string $report = null, string $lastNMonthsToInvalidate = null)
     {
         $lastNMonthsToInvalidate = $lastNMonthsToInvalidate ?: Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
         if (empty($lastNMonthsToInvalidate)) {
