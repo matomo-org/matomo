@@ -11,6 +11,8 @@ describe("DeactivatedFeatures", function () {
 
     afterEach(async function () {
         await setFeatures(1, 1, 1);
+        delete testEnvironment.configOverride.Live;
+        await testEnvironment.save();
     });
 
     async function setFeatures(idSite, vLog, vProfile) {
@@ -23,6 +25,15 @@ describe("DeactivatedFeatures", function () {
             }
         });
     }
+
+    async function setConfig(vLog, vProfile) {
+        testEnvironment.configOverride.Live = {};
+        testEnvironment.configOverride.Live.activate_visitor_log = vLog;
+        testEnvironment.configOverride.Live.activate_visitor_profile = vProfile;
+        await testEnvironment.save();
+    }
+
+    // test measurable setting
 
     it('menu should contain visits log when enabled', async function () {
         await setFeatures(1, 1, 0);
@@ -164,6 +175,68 @@ describe("DeactivatedFeatures", function () {
 
         const profile = await page.$('#widgetGoalsgoalConversionsOverviewidGoal1 a.segmentedlog');
         expect(profile).to.be.not.ok;
+    });
+
+
+    // test system setting
+
+    it('system settings for live plugin should be available by default', async function () {
+        await page.goto("?module=CoreAdminHome&action=generalSettings");
+        await page.waitForNetworkIdle();
+
+        const log = await page.$('#LivePluginSettings #activate_visitor_log');
+        expect(log).to.be.ok;
+
+        const profile = await page.$('#LivePluginSettings #activate_visitor_profile');
+        expect(profile).to.be.ok;
+    });
+
+    it('system settings for live plugin should be hidden if disabled in config', async function () {
+        await setConfig(0, 0);
+        await page.reload();
+        await page.waitForNetworkIdle();
+
+        const log = await page.$('#LivePluginSettings #activate_visitor_log');
+        expect(log).to.be.not.ok;
+
+        const profile = await page.$('#LivePluginSettings #activate_visitor_profile');
+        expect(profile).to.be.not.ok;
+    });
+
+    it('measurable settings for live plugin should be available by default', async function () {
+        await page.goto("?module=SitesManager&action=index&idSite=1");
+        await page.waitForNetworkIdle();
+        await page.click('[idsite="1"] .icon-edit');
+        await page.waitForNetworkIdle();
+
+        const log = await page.$('[idsite="1"] #activate_visitor_log');
+        expect(log).to.be.ok;
+
+        const profile = await page.$('[idsite="1"] #activate_visitor_profile');
+        expect(profile).to.be.ok;
+    });
+
+    it('measurable settings for live plugin should be available by default', async function () {
+        await setConfig(0, 0);
+        await page.reload();
+        await page.waitForNetworkIdle();
+        await page.click('[idsite="1"] .icon-edit');
+        await page.waitForNetworkIdle();
+
+        const log = await page.$('[idsite="1"] #activate_visitor_log');
+        expect(log).to.be.not.ok;
+
+        const profile = await page.$('[idsite="1"] #activate_visitor_profile');
+        expect(profile).to.be.not.ok;
+    });
+
+    it('menu should not contain visits log when deactivated globally', async function () {
+        await setConfig(0, 0);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview");
+        await page.waitFor('#secondNavBar', {visible: true});
+
+        const element = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
+        expect(element).to.be.not.ok;
     });
 
 });
