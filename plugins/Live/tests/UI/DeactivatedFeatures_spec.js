@@ -11,14 +11,18 @@ describe("DeactivatedFeatures", function () {
 
     afterEach(async function () {
         await setFeatures(1, 1, 1);
-        delete testEnvironment.configOverride.Live;
-        await testEnvironment.save();
+        if (testEnvironment.configOverride.Live) {
+            delete testEnvironment.configOverride.Live;
+            await testEnvironment.save();
+        }
     });
 
     after(async function () {
         await setFeatures(1, 1, 1);
-        delete testEnvironment.configOverride.Live;
-        await testEnvironment.save();
+        if (testEnvironment.configOverride.Live) {
+            delete testEnvironment.configOverride.Live;
+            await testEnvironment.save();
+        }
     });
 
 
@@ -34,9 +38,8 @@ describe("DeactivatedFeatures", function () {
     }
 
     async function setConfig(vLog, vProfile) {
-        testEnvironment.configOverride.Live = {};
-        testEnvironment.configOverride.Live.activate_visitor_log = vLog;
-        testEnvironment.configOverride.Live.activate_visitor_profile = vProfile;
+        testEnvironment.overrideConfig('Live', 'activate_visitor_log', vLog);
+        testEnvironment.overrideConfig('Live', 'activate_visitor_profile', vProfile);
         await testEnvironment.save();
     }
 
