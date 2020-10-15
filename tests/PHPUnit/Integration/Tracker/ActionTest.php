@@ -36,7 +36,7 @@ class ActionTest extends IntegrationTestCase
         $section['campaign_keyword_var_name']     = 'piwik_kwd,matomo_kwd,utm_term,test_piwik_kwd';
         Config::getInstance()->Tracker = $section;
 
-        PluginManager::getInstance()->loadPlugins(array('SitesManager'));
+        PluginManager::getInstance()->loadPlugins(array('Actions', 'SitesManager'));
 
         Fixture::loadAllTranslations();
     }
@@ -68,7 +68,7 @@ class ActionTest extends IntegrationTestCase
     public function test_factory_notDefaultsToPageViewWhenCustomPluginRequest()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Request was meant for a custom plugin which is no longer activated. Request needs to be ignored.');
+        $this->expectExceptionMessage('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request = new Request(array('ca' => '1', 'idsite' => $idSite));
@@ -417,7 +417,6 @@ class ActionTest extends IntegrationTestCase
      */
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
-        PluginManager::getInstance()->loadPlugins(array('Actions', 'SitesManager'));
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request['idsite'] = $idSite;
@@ -431,7 +430,7 @@ class ActionTest extends IntegrationTestCase
           'type' => $action->getActionType(),
         );
 
-        $this->assertEquals($processed, $expected);
+        $this->assertEquals($expected, $processed);
     }
 
     public function provideContainerConfig()
