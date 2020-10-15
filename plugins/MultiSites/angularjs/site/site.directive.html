@@ -1,27 +1,27 @@
 <tr ng-class="{'groupedWebsite': website.group, 'website': !website.group, 'group': website.isGroup}">
     <td ng-if="!website.isGroup" class="multisites-label label">
-        <a title="View reports" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}" class="truncated-text-line">{{ website.label }}</a>
+        <a title="View reports" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}" class="value truncated-text-line">{{ website.label }}</a>
 
-        <span style="width: 10px; margin-left:3px;">
+        <span>
             <a rel="noreferrer noopener" target="_blank" title="{{ 'General_GoTo'|translate:website.main_url }}" ng-href="{{ website.main_url }}">
-            <img src="plugins/Morpheus/images/link.png"/></a>
+            <span class="icon icon-outlink"></span></a>
         </span>
     </td>
     <td ng-if="website.isGroup" class="multisites-label label">
-        {{ website.label }}
+        <span class="value">{{ website.label }}</span>
     </td>
     <td class="multisites-column">
-        {{ website.nb_visits }}
+        <span class="value">{{ website.nb_visits }}</span>
     </td>
     <td class="multisites-column">
-        {{ website.nb_pageviews }}
+        <span class="value">{{ website.nb_pageviews }}</span>
     </td>
     <td ng-if="displayRevenueColumn" class="multisites-column">
-        {{ website.revenue }}
+        <span class="value">{{ website.revenue }}</span>
     </td>
 
     <td ng-if="period != 'range'" class="multisites-evolution">
-        <div class="visits" ng-if="!website.isGroup">
+        <div class="visits value" ng-if="!website.isGroup">
             <span ng-show="website[evolutionMetric] > 0"><img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <span style="color: green;">{{ website[evolutionMetric] }}%</span></span>
             <span ng-show="website[evolutionMetric] == 0"><img src="plugins/MultiSites/images/stop.png" alt="" /> <span>{{ website[evolutionMetric] }}%</span></span>
             <span ng-show="website[evolutionMetric] < 0"><img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <span style="color: red;">{{ website[evolutionMetric] }}%</span></span>
