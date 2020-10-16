@@ -37,7 +37,7 @@ class DbHelper
      */
     public static function tableExists($tableName)
     {
-        return Db::get()->query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
+        return Db::get()->query(sprintf("SHOW TABLES LIKE '%s'", $tableName))->rowCount() > 0;
     }
 
     /**
