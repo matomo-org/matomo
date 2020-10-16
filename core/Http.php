@@ -534,6 +534,10 @@ class Http
                     $status = (int)$m[2];
                 }
 
+                foreach ($http_response_header as $line) {
+                    self::parseHeaderLine($headers, $line);
+                }
+		    
                 if (!$status && $response === false) {
                     $error = error_get_last();
                     throw new \Exception($error['message']);
