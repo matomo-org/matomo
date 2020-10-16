@@ -28,7 +28,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $this->forceCookielessTracking->setIsWritableByCurrentUser(!$systemSettings->forceCookielessTracking->getValue());
     }
 
-    private function createForceCookielessTrackingSetting()
+    private function createForceCookielessTrackingSetting(): MeasurableSetting
     {
         return $this->makeSetting('forceCookielessTracking', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_ForceCookielessTracking');

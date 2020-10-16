@@ -186,7 +186,8 @@ class PrivacyManager extends Plugin
             'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
             'Template.pageFooter'                     => 'renderPrivacyPolicyLinks',
             'Db.getTablesInstalled'                   => 'getTablesInstalled',
-            'Visualization.beforeRender' => 'onConfigureVisualisation'
+            'Visualization.beforeRender'              => 'onConfigureVisualisation',
+            'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile'
         );
     }
 
@@ -742,7 +743,21 @@ class PrivacyManager extends Plugin
         return false;
     }
 
-    public static function isCookieLessTrackingForced($idSite)
+    public function shouldAddTrackerFile(&$shouldAdd, $pluginName)
+    {
+        if ($pluginName === 'PrivacyManager') {
+            $shouldAdd = self::isCookieLessTrackingForced();
+        }
+    }
+
+    /**
+     * Returns if cookie less tracking is forced globally or for the given site
+     *
+     * @param null $idSite
+     * @return bool
+     * @throws \Exception
+     */
+    public static function isCookieLessTrackingForced($idSite=null)
     {
         $systemSettings = new SystemSettings();
 
