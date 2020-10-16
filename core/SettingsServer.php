@@ -228,7 +228,9 @@ class SettingsServer
     {
         // in the event one or the other is disabled...
         @ini_set('max_execution_time', $executionTime);
-        @set_time_limit($executionTime);
+        if (function_exists('set_time_limit')) {
+            @set_time_limit($executionTime);
+        }
     }
 
     public static function isMac()
