@@ -83,6 +83,8 @@
         "DoNotTrack_SupportDNTPreference": "Support Do Not Track preference",
         "EstimatedDBSizeAfterPurge": "Estimated database size after purge",
         "EstimatedSpaceSaved": "Estimated space saved",
+        "ForceCookielessTracking": "Force tracking without cookies",
+        "ForceCookielessTrackingDescription": "When this option is enabled, Matomo will force the tracking to not use any cookies.",
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
         "GDPR": "GDPR",
         "GdprManager": "GDPR Manager",

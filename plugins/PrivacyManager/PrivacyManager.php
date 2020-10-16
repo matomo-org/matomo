@@ -741,4 +741,21 @@ class PrivacyManager extends Plugin
 
         return false;
     }
+
+    public static function isCookieLessTrackingForced($idSite)
+    {
+        $systemSettings = new SystemSettings();
+
+        if ($systemSettings->forceCookielessTracking->getValue()) {
+            return true;
+        }
+
+        if (empty($idSite)) {
+            return false;
+        }
+
+        $settings = new MeasurableSettings($idSite);
+
+        return $settings->forceCookielessTracking->getValue();
+    }
 }
