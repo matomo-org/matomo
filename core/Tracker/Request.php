@@ -18,6 +18,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
@@ -713,6 +714,10 @@ class Request
      */
     public function getVisitorId()
     {
+        if (PrivacyManager::isCookieLessTrackingForced($this->getIdSite())) {
+            return false;
+        }
+
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
