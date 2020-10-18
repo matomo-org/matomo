@@ -69,9 +69,9 @@ class VisitLastActionTimeTest extends IntegrationTestCase
     {
         $idSite = Fixture::createWebsite('2020-01-02 03:04:05', $ecommerce = 1, 'Site', $siteUrl = false,
             $siteSearch = 1, $searchKeywordParameters = null,
-            $searchCategoryParameters = null, $timezone = 'Pacific/Auckland');
+            $searchCategoryParameters = null, $timezone = 'Asia/Jakarta');
         $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
-        $this->assertEquals(18, $hourConverted);
+        $this->assertEquals(12, $hourConverted);
     }
 
     public function test_convertHourToHourInSiteTimezone_WithTimezoneAndCustomDate()
@@ -80,10 +80,10 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $_GET['date'] = '2020-01-02 03:04:05';
         $idSite = Fixture::createWebsite('2020-01-02 03:04:05', $ecommerce = 1, 'Site', $siteUrl = false,
             $siteSearch = 1, $searchKeywordParameters = null,
-            $searchCategoryParameters = null, $timezone = 'Pacific/Auckland');
+            $searchCategoryParameters = null, $timezone = 'Asia/Jakarta');
         $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
         unset($_GET['period'], $_GET['date']);
-        $this->assertEquals(18, $hourConverted);
+        $this->assertEquals(12, $hourConverted);
     }
 
     private function getVisitor(VisitProperties $previousProperties = null)
