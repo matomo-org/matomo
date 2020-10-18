@@ -39,7 +39,7 @@ class ActionPageview extends Action
 
     public static function shouldHandle(Request $request)
     {
-        return true;
+        return !Action::isCustomActionRequest($request);
     }
 
     public function getIdActionUrlForEntryAndExitIds()

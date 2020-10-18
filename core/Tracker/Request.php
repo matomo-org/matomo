@@ -423,6 +423,10 @@ class Request
             'c_n'          => array('', 'string'),
             'c_t'          => array('', 'string'),
             'c_i'          => array('', 'string'),
+
+            // custom action request. Recommended when a plugin declares its own action handler/requestprocessor
+            // refs https://github.com/matomo-org/matomo/issues/16569
+            'ca'          => array(0, 'int'),
         );
 
         if (isset($this->paramsCache[$name])) {

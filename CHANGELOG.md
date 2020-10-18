@@ -61,6 +61,10 @@ These are only recommendations (because we will keep backward compatibility for 
 * These API methods have been removed: `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle`. Use `Referrers.getKeywords` instead in combination with a `entryPageUrl` or `entryPageTitle` segment.
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
 
+#### HTTP Tracking API
+
+* An optional new tracking parameter called `ca` has been added which can be used for tracking requests that aren't page views see [#16569](https://github.com/matomo-org/matomo/issues/16569)
+
 ### PHP Plugin API
 
 #### New PHP events

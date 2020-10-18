@@ -1834,6 +1834,10 @@ if (typeof window.Matomo !== 'object') {
                     params += 'c_t='+ encodeWrapper(target);
                 }
 
+                if (params) {
+                    params += '&ca=1';
+                }
+
                 return params;
             },
             buildImpressionRequestParams: function (name, piece, target)
@@ -1843,6 +1847,10 @@ if (typeof window.Matomo !== 'object') {
 
                 if (target) {
                     params += '&c_t=' + encodeWrapper(target);
+                }
+
+                if (params) {
+                    params += '&ca=1';
                 }
 
                 return params;
@@ -3829,6 +3837,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                     request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
+                request += '&ca=1';
                 request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
@@ -4236,7 +4245,8 @@ if (typeof window.Matomo !== 'object') {
                 return 'e_c=' + encodeWrapper(category)
                     + '&e_a=' + encodeWrapper(action)
                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
+                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '')
+                    + '&ca=1';
             }
 
             /*
@@ -4273,7 +4283,7 @@ if (typeof window.Matomo !== 'object') {
              * Log the goal with the server
              */
             function logGoal(idGoal, customRevenue, customData, callback) {
-                var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
+                var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : '') + '&ca=1', customData, 'goal');
 
                 sendRequest(request, configTrackerPause, callback);
             }
