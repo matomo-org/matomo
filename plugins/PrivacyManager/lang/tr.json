@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "Bu seçenek etkinleştirildiğinde, Matomo web sitenize gelen ziyaretçilerin IP adresini (%1$s gibi) kullanmaz ve IP adresini anonim kılar (%2$s gibi). IP adresinin anonim kılınması Almanya gibi bazı ülkelerde kişisel verilerin korunması yasalarına göre zorunludur.",
         "AnonymizeIpMaskLengtDescription": "Ziyaretçi IP adreslerinin kaç baytının maskeleneceğini seçin.",
         "AnonymizeIpMaskLength": "%1$s bayt - Örnek: %2$s",
+        "AnonymizeIpMaskFully": "IP adresi tamamıyla gizlensin",
         "AnonymizeReferrer": "Yönlendiren Anonim Kılınsın",
         "AnonymizeReferrerNote": "Matomo kullancının hangi adresten geldiğini (yönlendiren) kaydeder. Bazı durumlarda bu adreslerde kişisel sayılabilecek bilgiler bulunur. Bu bilgilerin izlenmesini engellemek isterseniz, sitenize gelen ziyaretçilerin Matomo tarafından kaydedilecek yönlendirme bilgilerini sınırlayabilirsiniz. Yönlendirme bilgilerinden ne kadar çok veri çıkarılırsa kişisel sayılabilecek bilgilerin kaydedilme olasılığı azalır. Ancak yönlendiren bilgileri çıkarıldıkça bir ziyaretçinin web sitenize nasıl geldiği de daha az net olur.",
         "AskingForConsent": "Onay sorma",
