@@ -31,7 +31,7 @@ class Get extends \Piwik\Plugin\Report
 
         $this->name = Piwik::translate('PagePerformance_Overview');
         $this->documentation = '';
-        $this->onlineGuideUrl = 'https://matomo.org/docs/page-performance/';
+        $this->onlineGuideUrl = 'https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/';
         $this->processedMetrics = Metrics::getAllPagePerformanceMetrics();
         $this->metrics = Metrics::getAllPagePerformanceMetrics();
     }
