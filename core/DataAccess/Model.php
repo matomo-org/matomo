@@ -377,7 +377,7 @@ class Model
 
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived < ? AND idarchive < ?";
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart, $dateEnd, $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart . '', $dateEnd . '', $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
