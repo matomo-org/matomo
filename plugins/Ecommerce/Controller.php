@@ -85,7 +85,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             'idSite'       => $this->idSite,
             'date'         => $date,
             'period'       => $period,
-            'segment'      => $segment,
+            'segment'      => Common::unsanitizeInputValue($segment),
             'filter_limit' => '-1'
         ], $default = []);
 
