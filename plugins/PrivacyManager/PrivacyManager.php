@@ -757,7 +757,6 @@ class PrivacyManager extends Plugin
      *
      * @param null $idSite
      * @return bool
-     * @throws \Exception
      */
     public static function isCookieLessTrackingForced($idSite=null)
     {
