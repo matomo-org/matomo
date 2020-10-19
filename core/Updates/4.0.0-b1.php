@@ -194,15 +194,15 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $logVisitColumns = $tableMetadata->getColumns(Common::prefixTable('log_visit'));
         $hasDaysColumnInVisit = in_array('visitor_days_since_first', $logVisitColumns);
 
-        $logConvColumns = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
-        $hasDaysColumnInConv = in_array('visitor_days_since_first', $logConvColumns);
-
         if ($hasDaysColumnInVisit) {
             $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_visit')
                 . " SET visitor_seconds_since_first = visitor_days_since_first * 86400, 
                     visitor_seconds_since_order = visitor_days_since_order * 86400,
                     visitor_seconds_since_last = visitor_days_since_last * 86400");
         }
+
+        $logConvColumns = $tableMetadata->getColumns(Common::prefixTable('log_conversion'));
+        $hasDaysColumnInConv = in_array('visitor_days_since_first', $logConvColumns);
 
         if ($hasDaysColumnInConv) {
             $migrations[] = $this->migration->db->sql("UPDATE " . Common::prefixTable('log_conversion')
