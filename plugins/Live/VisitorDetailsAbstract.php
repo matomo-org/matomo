@@ -14,7 +14,7 @@ use Piwik\Db;
 /**
  * Class VisitorDetailsAbstract
  *
- * This class can be implemented in a plugin to extend the Live reports, visit log and profile
+ * This class can be implemented in a plugin to extend the Live reports, visits log and profile
  *
  * @api
  */
@@ -204,7 +204,7 @@ abstract class VisitorDetailsAbstract
     }
 
     /**
-     * Called when rendering the Icons in visit log
+     * Called when rendering the Icons in visits log
      *
      * **Example:**
      *
@@ -224,7 +224,7 @@ abstract class VisitorDetailsAbstract
     }
 
     /**
-     * Called when rendering the visitor details in visit log
+     * Called when rendering the visitor details in visits log
      * returned array needs to look like this:
      * array (
      *          20,   // order id
