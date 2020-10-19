@@ -755,22 +755,22 @@ class PrivacyManager extends Plugin
     /**
      * Returns if cookie less tracking is forced globally or for the given site
      *
-     * @param null $idSite
+     * @param null|int $idSite
      * @return bool
      */
     public static function isCookieLessTrackingForced($idSite=null)
     {
-        $systemSettings = new SystemSettings();
-
-        if ($systemSettings->forceCookielessTracking->getValue()) {
-            return true;
-        }
-
-        if (empty($idSite)) {
-            return false;
-        }
-
         try {
+            $systemSettings = new SystemSettings();
+
+            if ($systemSettings->forceCookielessTracking->getValue()) {
+                return true;
+            }
+
+            if (empty($idSite)) {
+                return false;
+            }
+
             $settings = new MeasurableSettings($idSite);
 
             return $settings->forceCookielessTracking->getValue();
