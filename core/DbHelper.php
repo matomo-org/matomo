@@ -32,12 +32,13 @@ class DbHelper
      * Returns `true` if a table in the database, `false` if otherwise.
      *
      * @param string $tableName The name of the table to check for. Must be prefixed.
+     *                          Avoid using user input, as the variable will be used in a query unescaped.
      * @return bool
      * @throws \Exception
      */
     public static function tableExists($tableName)
     {
-        return Db::get()->query(sprintf("SHOW TABLES LIKE '%s'", $tableName))->rowCount() > 0;
+        return Db::get()->query(sprintf("SHOW TABLES LIKE %s", $tableName))->rowCount() > 0;
     }
 
     /**
