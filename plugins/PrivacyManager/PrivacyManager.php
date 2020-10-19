@@ -769,8 +769,12 @@ class PrivacyManager extends Plugin
             return false;
         }
 
-        $settings = new MeasurableSettings($idSite);
+        try {
+            $settings = new MeasurableSettings($idSite);
 
-        return $settings->forceCookielessTracking->getValue();
+            return $settings->forceCookielessTracking->getValue();
+        } catch (\Exception $e) {
+            return false; // ignore any exception e.g. site might not exist
+        }
     }
 }
