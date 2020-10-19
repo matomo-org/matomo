@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -22,6 +23,13 @@ class DbHelperTest extends IntegrationTestCase
 
         DbHelper::dropDatabase('newdb; create database anotherdb;');
         DbHelper::dropDatabase('testdb');
+    }
+
+    public function test_tableExists()
+    {
+        $this->assertFalse(DbHelper::tableExists('foobar'));
+        $this->assertTrue(DbHelper::tableExists(Common::prefixTable('user_token_auth')));
+        $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_t%oke%n_auth')));
     }
 
     public function test_getInstallVersion_isCurrentVersion()
