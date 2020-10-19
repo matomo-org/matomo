@@ -45,6 +45,7 @@ class PrivacyManager extends Plugin
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
     const OPTION_USERID_SALT = 'useridsalt';
+    const TRACKER_CACHE_COOKIELESS_FORCED = 'force_cookieless_tracking';
 
 
     // options for data purging feature array[configName => configSection]
@@ -179,6 +180,7 @@ class PrivacyManager extends Plugin
             'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
             'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
+            'Tracker.Cache.getSiteAttributes'         => 'getSiteAttributesCache',
             'Tracker.isExcludedVisit'                 => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
@@ -776,5 +778,10 @@ class PrivacyManager extends Plugin
         } catch (\Exception $e) {
             return false; // ignore any exception e.g. site might not exist
         }
+    }
+
+    public function getSiteAttributesCache(&$content, $idSite)
+    {
+        $content[self::TRACKER_CACHE_COOKIELESS_FORCED] = self::isCookieLessTrackingForced($idSite);
     }
 }

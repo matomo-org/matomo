@@ -714,7 +714,9 @@ class Request
      */
     public function getVisitorId()
     {
-        if (PrivacyManager::isCookieLessTrackingForced($this->getIdSite())) {
+        $siteAttributes = Cache::getCacheWebsiteAttributes($this->getIdSite());
+
+        if (isset($siteAttributes[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) && $siteAttributes[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) {
             return false;
         }
 
