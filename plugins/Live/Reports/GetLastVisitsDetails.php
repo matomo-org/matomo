@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Live\Reports;
 
-use Piwik\Plugin\Report;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -45,4 +45,8 @@ class GetLastVisitsDetails extends Base
         $widgetsList->addWidgetConfig($widget);
     }
 
+    public function isEnabled()
+    {
+        return Live::isVisitorLogEnabled();
+    }
 }

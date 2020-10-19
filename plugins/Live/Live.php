@@ -19,6 +19,9 @@ use Piwik\Container\StaticContainer;
  */
 class Live extends \Piwik\Plugin
 {
+    const ProfileEnabledCacheKey = 'Live.ProfileEnabled';
+    const LogEnabledCacheKey = 'Live.LogEnabled';
+    const CurrentSiteCacheKey = 'Live.CurrentSite';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -48,8 +51,75 @@ class Live extends \Piwik\Plugin
     {
         $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
         $out .= "
+        piwik.visitorLogEnabled = ".json_encode(self::isVisitorLogEnabled()).";
+        piwik.visitorProfileEnabled = ".json_encode(self::isVisitorProfileEnabled()).";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
+    }
+
+    public static function isVisitorLogEnabled($idSite = null)
+    {
+        [$profileEnabled, $logEnabled] = self::getSettings($idSite);
+
+        return $logEnabled;
+    }
+
+    public static function isVisitorProfileEnabled($idSite = null)
+    {
+        [$profileEnabled, $logEnabled] = self::getSettings($idSite);
+
+        return $profileEnabled;
+    }
+
+    private static function getSettings($idSite = null)
+    {
+        if (empty($idSite)) {
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+        }
+
+        $cache = Cache::getTransientCache();
+        $siteIdLoaded = $cache->fetch(self::CurrentSiteCacheKey);
+        $visitorProfileCached = $cache->contains(self::ProfileEnabledCacheKey);
+        $visitorLogCached = $cache->contains(self::LogEnabledCacheKey);
+
+        if ($visitorProfileCached && $visitorLogCached && $idSite == $siteIdLoaded) {
+            return [
+                $cache->fetch(self::ProfileEnabledCacheKey),
+                $cache->fetch(self::LogEnabledCacheKey),
+            ];
+        }
+
+        $siteIdLoaded = $idSite;
+        $visitorProfileEnabled = true;
+        $visitorLogEnabled = true;
+
+        try {
+            if (!empty($idSite)) {
+                $settings = new MeasurableSettings($idSite);
+
+                $visitorProfileEnabled = $settings->activateVisitorProfile->getValue();
+                $visitorLogEnabled     = $settings->activateVisitorLog->getValue();
+            }
+
+            $systemSettings = new SystemSettings();
+
+            if ($systemSettings->activateVisitorProfile->getValue() === false) {
+                $visitorProfileEnabled = false;
+            }
+
+            if ($systemSettings->activateVisitorLog->getValue() === false) {
+                $visitorLogEnabled = false;
+            }
+
+            $cache->save(self::CurrentSiteCacheKey, $siteIdLoaded);
+            $cache->save(self::ProfileEnabledCacheKey, $visitorProfileEnabled);
+            $cache->save(self::LogEnabledCacheKey, $visitorLogEnabled);
+        } catch (\Exception $e) {
+            // method might be called in a state where site can't be loaded (e.g. missing or outdated authentication)
+            // so simply ignore errors
+        }
+
+        return [$visitorProfileEnabled, $visitorLogEnabled];
     }
 
     public function getStylesheetFiles(&$stylesheets)

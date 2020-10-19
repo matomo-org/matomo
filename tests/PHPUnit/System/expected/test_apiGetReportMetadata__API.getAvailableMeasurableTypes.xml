@@ -222,6 +222,44 @@ https://www.example.org/</placeholder>
 				</settings>
 			</row>
 			<row>
+				<pluginName>Live</pluginName>
+				<title>Live</title>
+				<settings>
+					<row>
+						<name>activate_visitor_log</name>
+						<title>Enable visits log</title>
+						<value>1</value>
+						<defaultValue>1</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp />
+						<templateFile />
+						<introduction />
+						<condition />
+					</row>
+					<row>
+						<name>activate_visitor_profile</name>
+						<title>Enable visitor profile</title>
+						<value>1</value>
+						<defaultValue>1</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp />
+						<templateFile />
+						<introduction />
+						<condition />
+					</row>
+				</settings>
+			</row>
+			<row>
 				<pluginName>ExampleSettingsPlugin</pluginName>
 				<title>ExampleSettingsPlugin</title>
 				<settings>
@@ -462,6 +500,44 @@ https://www.example.org/</placeholder>
 						</availableValues>
 						<description />
 						<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+						<templateFile />
+						<introduction />
+						<condition />
+					</row>
+				</settings>
+			</row>
+			<row>
+				<pluginName>Live</pluginName>
+				<title>Live</title>
+				<settings>
+					<row>
+						<name>activate_visitor_log</name>
+						<title>Enable visits log</title>
+						<value>1</value>
+						<defaultValue>1</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp />
+						<templateFile />
+						<introduction />
+						<condition />
+					</row>
+					<row>
+						<name>activate_visitor_profile</name>
+						<title>Enable visitor profile</title>
+						<value>1</value>
+						<defaultValue>1</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp />
 						<templateFile />
 						<introduction />
 						<condition />

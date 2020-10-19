@@ -41,8 +41,15 @@
      * in a new tab/window.
      *
      * @param {String} visitorId The string visitor ID.
+     * @param {String} idSite The ID of the site.
      */
     VisitorProfileControl.showPopover = function (visitorId, idSite) {
+
+        if (!piwik.visitorProfileEnabled) {
+            console.error('Visitor Profile was disabled in website settings');
+            return;
+        }
+
         var url = 'module=Live&action=getVisitorProfilePopup&visitorId=' + encodeURIComponent(visitorId);
         if (idSite) {
             url += '&idSite=' + idSite;
