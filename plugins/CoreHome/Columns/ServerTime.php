@@ -35,7 +35,8 @@ class ServerTime extends ActionDimension
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
+        $hourInTz = VisitLastActionTime::convertHourToHourInSiteTimezone($value, $idSite);
+        return \Piwik\Plugins\VisitTime\getTimeLabel($hourInTz);
     }
 
     public function install()
