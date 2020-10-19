@@ -714,7 +714,13 @@ class Request
      */
     public function getVisitorId()
     {
-        $siteAttributes = Cache::getCacheWebsiteAttributes($this->getIdSite());
+        try {
+            if ($this->getIdSiteUnverified()) {
+                $siteAttributes = Cache::getCacheWebsiteAttributes($this->getIdSite());
+            }
+        } catch (\Exception $e) {
+            // ignore any exception so method also works if site wasn't given or doesn't exist
+        }
 
         if (isset($siteAttributes[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) && $siteAttributes[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) {
             return false;
