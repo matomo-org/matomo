@@ -181,7 +181,7 @@ class Twig
         $this->addFilter_md5();
         $this->addFilter_onlyDomain();
         $this->addFilter_safelink();
-        $this->twig->addFilter(new TwigFilter('implode', 'implode'));
+        $this->addFilter_implode();
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
         $this->twig->addFilter(new TwigFilter('ucfirst', 'ucfirst'));
@@ -608,6 +608,14 @@ class Twig
             return $url;
         });
         $this->twig->addFilter($safelink);
+    }
+
+    private function addFilter_implode()
+    {
+        $implode = new TwigFilter('implode', function ($value, $separator) {
+            return implode($separator, $value);
+        });
+        $this->twig->addFilter($implode);
     }
 
     private function addTest_isNumeric()
