@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
@@ -146,6 +147,10 @@ class API extends \Piwik\Plugin\API
             $idSite = array_shift($idSite);
         }
         Piwik::checkUserHasViewAccess($idSite);
+
+        if (!Live::isVisitorLogEnabled($idSite) && Request::getRootApiRequestMethod() === 'Live.getLastVisitsDetails') {
+            throw new Exception('Visits log has been disabled in website settings');
+        }
 
         if ($countVisitorsToFetch !== false) {
             $filterLimit     = (int) $countVisitorsToFetch;
