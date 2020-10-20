@@ -26,7 +26,7 @@
                     element.attr('data-target', element.attr('data-activates'));
                 }
 
-                if (element.attr('data-target')) {
+                if (element.attr('data-target') && $('#' + element.attr('data-target')).length) {
                     $(element).dropdown({
                         inDuration: 300,
                         outDuration: 225,
