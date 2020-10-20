@@ -424,14 +424,7 @@ class FrontController extends Singleton
             && Request::shouldReloadAuthUsingTokenAuth(null)
         ) {
             Request::reloadAuthUsingTokenAuth();
-
-            if (Access::getInstance()->hasSuperUserAccess()) {
-                throw new \Exception(Piwik::translate('Widgetize_TooHighAccessLevel'));
-            }
-
-            if (Request::isTokenAuthLimitedToViewAccess($module, $action)) {
-                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired', ['https://matomo.org/faq/troubleshooting/faq_147/']));
-            }
+            Request::checkTokenAuthIsNotLimited($module, $action);
         }
 
         SettingsServer::raiseMemoryLimitIfNecessary();

@@ -10,6 +10,8 @@ namespace Piwik\Tests\Integration\API;
 
 use Piwik\API\Request;
 use Piwik\AuthResult;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -24,6 +26,19 @@ class RequestTest extends IntegrationTestCase
     private $access;
 
     private $userAuthToken = 'token';
+
+    private $idSitesAccess = [];
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->idSitesAccess = [
+            'view'      => array(1),
+            'write'     => array(),
+            'admin'     => array(),
+            'superuser' => array(),
+        ];
+    }
 
     public function test_process_shouldNotReloadAccessIfNoTokenAuthIsGiven()
     {
@@ -93,6 +108,148 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue(Request::isApiRequest(array('module' => 'API', 'method' => 'test.method')));
     }
 
+    public function test_checkTokenAuthIsNotLimited_allowsSuperUserTokenAuth_ifCurrentRequestIsForAPI()
+    {
+        $this->expectNotToPerformAssertions();
+
+        Common::$isCliMode = false;
+        $this->access->setSuperUserAccess(true);
+
+        Request::checkTokenAuthIsNotLimited('API', 'index');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_allowsSuperUserTokenAuth_ifCurrentlyInCliMode()
+    {
+        $this->expectNotToPerformAssertions();
+
+        Common::$isCliMode = true;
+        $this->access->setSuperUserAccess(true);
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_doesNotAllowSuperUserTokenAuth_ifCurrentlyInUiRequest()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+
+        Common::$isCliMode = false;
+        $this->access->setSuperUserAccess(true);
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_doesNotAllowSuperUserTokenAuth_ifCurrentlyInUiRequestAndEnableConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+
+        Common::$isCliMode = false;
+        $this->access->setSuperUserAccess(true);
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_doesNotAllowWriteTokenAuth_ifConfigNotSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+
+        $this->idSitesAccess['write'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_doesNotAllowAdminTokenAuth_ifConfigNotSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+
+        $this->idSitesAccess['admin'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeAdminAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_allowsWriteTokenAuth_ifConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
+
+        $this->idSitesAccess['write'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_allowsAdminTokenAuth_ifConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
+
+        $this->idSitesAccess['admin'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeAdminAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_allowsViewTokenAuth_ifConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
+
+        $this->idSitesAccess['view'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertFalse($this->access->isUserHasSomeAdminAccess());
+        $this->assertFalse($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function test_checkTokenAuthIsNotLimited_allowsViewTokenAuth_ifConfigNotSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+
+        $this->idSitesAccess['view'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertFalse($this->access->isUserHasSomeAdminAccess());
+        $this->assertFalse($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
     private function assertSameUserAsBeforeIsAuthenticated()
     {
         $this->assertEquals($this->userAuthToken, $this->access->getTokenAuth());
@@ -134,9 +291,12 @@ class RequestTest extends IntegrationTestCase
     private function createAccessMock($auth)
     {
         $mock = $this->getMockBuilder('Piwik\Access')
-                     ->setMethods(array('getTokenAuth', 'reloadAccess'))
-                     ->enableProxyingToOriginalMethods()
+                     ->onlyMethods(array('loadSitesIfNeeded'))
+                     //->enableProxyingToOriginalMethods()
                      ->getMock();
+        $mock->method('loadSitesIfNeeded')->willReturnCallback(function () {
+            return $this->idSitesAccess;
+        });
         $mock->reloadAccess($auth);
 
         return $mock;

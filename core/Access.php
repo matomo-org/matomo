@@ -119,7 +119,7 @@ class Access
             'view'      => array(),
             'write'     => array(),
             'admin'     => array(),
-            'superuser' => array()
+            'superuser' => array(),
         );
     }
 

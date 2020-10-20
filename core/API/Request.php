@@ -456,15 +456,23 @@ class Request
      * @ignore
      * @param string $module
      * @param string $action
-     * @return bool
      * @throws Exception
      */
-    public static function isTokenAuthLimitedToViewAccess($module, $action)
+    public static function checkTokenAuthIsNotLimited($module, $action)
     {
+        $isApi = ($module === 'API' && (empty($action) || $action === 'index'));
+        if ($isApi
+            || Common::isPhpCliMode()
+        ) {
+            return;
+        }
+
+        if (Access::getInstance()->hasSuperUserAccess()) {
+            throw new \Exception(Piwik::translate('Widgetize_TooHighAccessLevel'));
+        }
+
         $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
-        if (($module !== 'API' || ($action && $action !== 'index'))
-            && Piwik::isUserHasSomeWriteAccess()
-            && !Common::isPhpCliMode()
+        if (Piwik::isUserHasSomeWriteAccess()
             && !$allowWriteAmin
         ) {
             // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
@@ -474,10 +482,8 @@ class Request
             //
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
             // option is set.
-            return true;
+            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired', ['https://matomo.org/faq/troubleshooting/faq_147/']));
         }
-
-        return false;
     }
 
     /**
