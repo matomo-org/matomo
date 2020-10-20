@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataTable;
@@ -460,13 +461,19 @@ class Request
      */
     public static function isTokenAuthLimitedToViewAccess($module, $action)
     {
+        $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
         if (($module !== 'API' || ($action && $action !== 'index'))
             && Piwik::isUserHasSomeWriteAccess()
-            && !Common::isPhpCliMode()) {
+            && !Common::isPhpCliMode()
+            && !$allowWriteAmin
+        ) {
             // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
             // access. it's mostly there to get users to use auth tokens of view users when embedding reports
             // token_auth is fine for API calls since they would be always authenticated later anyway
             // token_auth is also fine in CLI mode as eg doAsSuperUser might be used etc
+            //
+            // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
+            // option is set.
             return true;
         }
 
