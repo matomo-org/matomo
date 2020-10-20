@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\Cache;
-use Piwik\CacheId;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -19,10 +18,6 @@ use Piwik\Container\StaticContainer;
  */
 class Live extends \Piwik\Plugin
 {
-    const ProfileEnabledCacheKey = 'Live.ProfileEnabled';
-    const LogEnabledCacheKey = 'Live.LogEnabled';
-    const CurrentSiteCacheKey = 'Live.CurrentSite';
-
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -77,19 +72,6 @@ class Live extends \Piwik\Plugin
             $idSite = Common::getRequestVar('idSite', 0, 'int');
         }
 
-        $cache = Cache::getTransientCache();
-        $siteIdLoaded = $cache->fetch(self::CurrentSiteCacheKey);
-        $visitorProfileCached = $cache->contains(self::ProfileEnabledCacheKey);
-        $visitorLogCached = $cache->contains(self::LogEnabledCacheKey);
-
-        if ($visitorProfileCached && $visitorLogCached && $idSite == $siteIdLoaded) {
-            return [
-                $cache->fetch(self::ProfileEnabledCacheKey),
-                $cache->fetch(self::LogEnabledCacheKey),
-            ];
-        }
-
-        $siteIdLoaded = $idSite;
         $visitorProfileEnabled = true;
         $visitorLogEnabled = true;
 
@@ -111,9 +93,6 @@ class Live extends \Piwik\Plugin
                 $visitorLogEnabled = false;
             }
 
-            $cache->save(self::CurrentSiteCacheKey, $siteIdLoaded);
-            $cache->save(self::ProfileEnabledCacheKey, $visitorProfileEnabled);
-            $cache->save(self::LogEnabledCacheKey, $visitorLogEnabled);
         } catch (\Exception $e) {
             // method might be called in a state where site can't be loaded (e.g. missing or outdated authentication)
             // so simply ignore errors
