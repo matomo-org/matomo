@@ -45,22 +45,28 @@ describe("DeactivatedFeatures", function () {
 
     // test measurable setting
 
-    it('menu should contain visits log when enabled', async function () {
+    it('menu should contain visits log & realtime when enabled', async function () {
         await setFeatures(1, 1, 0);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview");
         await page.waitFor('#secondNavBar', {visible: true});
 
-        const element = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
-        expect(element).to.be.ok;
+        const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
+        expect(vlog).to.be.ok;
+
+        const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
+        expect(realtime).to.be.ok;
     });
 
-    it('menu should not contain visits log when deactivated', async function () {
+    it('menu should not contain visits log & realtime when deactivated', async function () {
         await setFeatures(1, 0, 0);
         await page.reload();
         await page.waitFor('#secondNavBar', {visible: true});
 
-        const element = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
-        expect(element).to.be.not.ok;
+        const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
+        expect(vlog).to.be.not.ok;
+
+        const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
+        expect(realtime).to.be.not.ok;
     });
 
     it('it should not show visits log, when opened directly but disabled', async function () {
@@ -69,6 +75,14 @@ describe("DeactivatedFeatures", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.getWholeCurrentUrl()).to.not.match(/Live_VisitorLog/); // page should be redirected to next subcategory
+    });
+
+    it('it should not show realtime, when opened directly but disabled', async function () {
+        await setFeatures(1, 0, 0);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-08-09#?idSite=1&period=year&date=2009-08-09&category=General_Visitors&subcategory=General_RealTime");
+        await page.waitForNetworkIdle();
+
+        expect(await page.getWholeCurrentUrl()).to.not.match(/General_RealTime/); // page should be redirected to next subcategory
     });
 
     it('menu should contain ecommerce log when visits log enabled', async function () {
@@ -152,6 +166,9 @@ describe("DeactivatedFeatures", function () {
 
         const log = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1]');
         expect(log).to.be.ok;
+
+        const realtime = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivewidget]');
+        expect(realtime).to.be.ok;
     });
 
     it('widget list should not contain log and profile when disabled', async function () {
@@ -167,6 +184,9 @@ describe("DeactivatedFeatures", function () {
 
         const log = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1]');
         expect(log).to.be.not.ok;
+
+        const realtime = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivewidget]');
+        expect(realtime).to.be.not.ok;
     });
 
     it('Goal overview contains segmented visitor log link when activated', async function () {
