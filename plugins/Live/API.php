@@ -277,6 +277,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
+        if (!Live::isVisitorProfileEnabled($idSite)) {
+            throw new Exception('Visitor profile has been disabled in website settings');
+        }
+
         if (empty($visitorId)) {
             return new DataTable();
         }
