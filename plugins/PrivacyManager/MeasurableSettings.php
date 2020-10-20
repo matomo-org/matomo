@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Config as PiwikConfig;
 use Piwik\Piwik;
 use Piwik\Settings\Measurable\MeasurableSetting;
 use Piwik\Settings\FieldConfig;
@@ -22,10 +23,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     protected function init()
     {
-        $systemSettings = new SystemSettings();
-
         $this->forceCookielessTracking = $this->createForceCookielessTrackingSetting();
-        $this->forceCookielessTracking->setIsWritableByCurrentUser(!$systemSettings->forceCookielessTracking->getValue());
+        $this->forceCookielessTracking->setIsWritableByCurrentUser(!PiwikConfig::getInstance()->Tracker['force_cookieless_tracking']);
     }
 
     private function createForceCookielessTrackingSetting(): MeasurableSetting
