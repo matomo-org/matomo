@@ -148,7 +148,7 @@ class API extends \Piwik\Plugin\API
         }
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (!Live::isVisitorLogEnabled($idSite) && Request::getRootApiRequestMethod() === 'Live.getLastVisitsDetails') {
+        if (!Live::isVisitorLogEnabled($idSite) && (Request::isCurrentApiRequestTheRootApiRequest() || Request::getRootApiRequestMethod() === 'Live.getLastVisitsDetails')) {
             throw new Exception('Visits log has been disabled in website settings');
         }
 
@@ -357,7 +357,7 @@ class API extends \Piwik\Plugin\API
     private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false)
     {
         $model = new Model();
-        list($data, $hasMoreVisits) = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true);
+        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true);
         return $this->makeVisitorTableFromArray($data, $hasMoreVisits);
     }
 
