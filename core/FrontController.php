@@ -430,7 +430,7 @@ class FrontController extends Singleton
             }
 
             if (Request::isTokenAuthLimitedToViewAccess($module, $action)) {
-                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+                throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired', ['https://matomo.org/faq/troubleshooting/faq_147/']));
             }
         }
 
