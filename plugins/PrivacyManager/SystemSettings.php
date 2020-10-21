@@ -83,13 +83,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         parent::save();
 
-        try {
-            if (Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
-                $trackerUpdater = StaticContainer::get('Piwik\Plugins\CustomJsTracker\TrackerUpdater');
-                $trackerUpdater->update();
-            }
-        } catch (\Exception $e) {
-            Log::error('There was an error while updating the javascript tracker: ' . $e->getMessage());
-        }
+        Piwik::postEvent('CustomJsTracker.updateTracker');
     }
 }
