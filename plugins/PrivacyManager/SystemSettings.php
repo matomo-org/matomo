@@ -75,7 +75,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->makeSettingManagedInConfigOnly('Tracker', 'force_cookieless_tracking', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_ForceCookielessTracking');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->description = Piwik::translate('PrivacyManager_ForceCookielessTrackingDescription');
+            $field->description = Piwik::translate('PrivacyManager_ForceCookielessTrackingDescriptionGlobally');
         });
     }
 

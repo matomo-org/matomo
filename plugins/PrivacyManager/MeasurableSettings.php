@@ -32,7 +32,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         return $this->makeSetting('forceCookielessTracking', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_ForceCookielessTracking');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->description = Piwik::translate('PrivacyManager_ForceCookielessTrackingDescription');
+            $field->description = Piwik::translate('PrivacyManager_ForceCookielessTrackingDescriptionPerSite');
         });
     }
 }
