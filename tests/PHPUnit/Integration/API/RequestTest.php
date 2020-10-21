@@ -8,12 +8,14 @@
 
 namespace Piwik\Tests\Integration\API;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\AuthResult;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use ReflectionClass;
 
 /**
  * @group Core
@@ -38,6 +40,13 @@ class RequestTest extends IntegrationTestCase
             'admin'     => array(),
             'superuser' => array(),
         ];
+    }
+
+    protected static function beforeTableDataCached()
+    {
+        parent::beforeTableDataCached();
+
+        Fixture::createWebsite('2018-02-03 00:00:00');
     }
 
     public function test_process_shouldNotReloadAccessIfNoTokenAuthIsGiven()
@@ -157,8 +166,9 @@ class RequestTest extends IntegrationTestCase
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+        $this->expectExceptionMessage('Widgetize_ViewAccessRequired');
 
+        $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['write'] = [1];
         $this->access->reloadAccess($this->auth);
         $this->access->setSuperUserAccess(false);
@@ -175,8 +185,9 @@ class RequestTest extends IntegrationTestCase
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+        $this->expectExceptionMessage('Widgetize_ViewAccessRequired');
 
+        $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['admin'] = [1];
         $this->access->reloadAccess($this->auth);
         $this->access->setSuperUserAccess(false);
@@ -192,6 +203,7 @@ class RequestTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
+        $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['write'] = [1];
         $this->access->reloadAccess($this->auth);
         $this->access->setSuperUserAccess(false);
@@ -207,6 +219,7 @@ class RequestTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
+        $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['admin'] = [1];
         $this->access->reloadAccess($this->auth);
         $this->access->setSuperUserAccess(false);
@@ -291,11 +304,18 @@ class RequestTest extends IntegrationTestCase
     private function createAccessMock($auth)
     {
         $mock = $this->getMockBuilder('Piwik\Access')
-                     ->onlyMethods(array('loadSitesIfNeeded'))
-                     //->enableProxyingToOriginalMethods()
+                     ->onlyMethods(array('loadSitesIfNeeded', 'reloadAccess', 'getTokenAuth'))
+                     ->enableProxyingToOriginalMethods()
                      ->getMock();
-        $mock->method('loadSitesIfNeeded')->willReturnCallback(function () {
-            return $this->idSitesAccess;
+        $mock->method('loadSitesIfNeeded')->willReturnCallback(function () use ($mock) {
+            // setting the property directly since enableProxyingToOriginalMethods() will just proxy to the original
+            // method after this mock method is called. (we can't not call enableProxyingToOriginalMethods() because
+            // some tests require it)
+            $reflection = new ReflectionClass(Access::class);
+            $reflectionProperty = $reflection->getProperty('idsitesByAccess');
+            $reflectionProperty->setAccessible(true);
+
+            $reflectionProperty->setValue($mock, $this->idSitesAccess);
         });
         $mock->reloadAccess($auth);
 
