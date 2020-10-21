@@ -177,6 +177,19 @@ class ApiTest extends SystemTestCase
                 'periods'                => ['day'],
             ]
         ];
+        $apiToTest[] = [
+            ['API.getBulkRequest'],
+            [
+                'format' => 'xml',
+                'otherRequestParameters' => [
+                    'urls' => [
+                        urlencode("idSite=1&date=".self::$fixture->dateTime."&period=day&method=Live.getLastVisitsDetails"),
+                        urlencode("idSite=1&date=".self::$fixture->dateTime."&period=day&method=API.getSuggestedValuesForSegment&segmentName=pageTitle"),
+                        urlencode("idSite=1&date=".self::$fixture->dateTime."&period=day&method=Live.getVisitorProfile"),
+                    ]
+                ],
+            ]
+        ];
 
         return $apiToTest;
     }

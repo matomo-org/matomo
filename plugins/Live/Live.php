@@ -55,14 +55,14 @@ class Live extends \Piwik\Plugin
     /**
      * Throws an exception if visits log is disabled
      *
-     * @param null|int $idSite
+     * @param null|int|array $idSite
      * @throws \Exception
      */
     public static function checkIsVisitorLogEnabled($idSite = null): void
     {
         $systemSettings = new SystemSettings();
 
-        if ($systemSettings->activateVisitorLog->getValue() === false) {
+        if ($systemSettings->activateVisitorLog->getValue() == false) {
             throw new \Exception('Visits log is deactivated globally');
         }
 
@@ -71,10 +71,14 @@ class Live extends \Piwik\Plugin
         }
 
         if (!empty($idSite)) {
-            $settings = new MeasurableSettings($idSite);
+            $idSites = is_array($idSite) ? $idSite : [$idSite];
 
-            if ($settings->activateVisitorLog->getValue() === false) {
-                throw new \Exception('Visits log is deactivated in website settings');
+            foreach ($idSites as $idSite) {
+                $settings = new MeasurableSettings($idSite);
+
+                if ($settings->activateVisitorLog->getValue() == false) {
+                    throw new \Exception('Visits log is deactivated in website settings');
+                }
             }
         }
     }
@@ -82,7 +86,7 @@ class Live extends \Piwik\Plugin
     /**
      * Returns whether visits log is enabled (for the given site)
      *
-     * @param null|int $idSite
+     * @param null|int|array $idSite
      * @return bool
      */
     public static function isVisitorLogEnabled($idSite = null): bool
@@ -98,14 +102,14 @@ class Live extends \Piwik\Plugin
     /**
      * Throws an exception if visitor profile is disabled
      *
-     * @param null|int $idSite
+     * @param null|int|array $idSite
      * @throws \Exception
      */
     public static function checkIsVisitorProfileEnabled($idSite = null): void
     {
         $systemSettings = new SystemSettings();
 
-        if ($systemSettings->activateVisitorProfile->getValue() === false) {
+        if ($systemSettings->activateVisitorProfile->getValue() == false) {
             throw new \Exception('Visitor profile is deactivated globally');
         }
 
@@ -114,10 +118,14 @@ class Live extends \Piwik\Plugin
         }
 
         if (!empty($idSite)) {
-            $settings = new MeasurableSettings($idSite);
+            $idSites = is_array($idSite) ? $idSite : [$idSite];
 
-            if ($settings->activateVisitorProfile->getValue() === false) {
-                throw new \Exception('Visitor profile is deactivated in website settings');
+            foreach ($idSites as $idSite) {
+                $settings = new MeasurableSettings($idSite);
+
+                if ($settings->activateVisitorProfile->getValue() == false) {
+                    throw new \Exception('Visitor profile is deactivated in website settings');
+                }
             }
         }
     }
@@ -125,7 +133,7 @@ class Live extends \Piwik\Plugin
     /**
      * Returns whether visitor profile is enabled (for the given site)
      *
-     * @param null|int $idSite
+     * @param null|int|array $idSite
      * @return bool
      */
     public static function isVisitorProfileEnabled($idSite = null): bool

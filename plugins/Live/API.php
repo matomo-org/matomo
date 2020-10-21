@@ -148,8 +148,8 @@ class API extends \Piwik\Plugin\API
         }
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (!Live::isVisitorLogEnabled($idSite) && (Request::isCurrentApiRequestTheRootApiRequest() || Request::getRootApiRequestMethod() === 'Live.getLastVisitsDetails')) {
-            throw new Exception('Visits log has been disabled in website settings');
+        if (Request::isCurrentApiRequestTheRootApiRequest() || Request::getRootApiRequestMethod() !== 'API.getSuggestedValuesForSegment') {
+            Live::checkIsVisitorLogEnabled($idSite);
         }
 
         if ($countVisitorsToFetch !== false) {
