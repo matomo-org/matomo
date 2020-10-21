@@ -193,10 +193,7 @@ class API extends \Piwik\Plugin\API
     public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $limitVisits = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-
-        if (!Live::isVisitorProfileEnabled($idSite)) {
-            throw new Exception('Visitor profile has been disabled in website settings');
-        }
+        Live::checkIsVisitorProfileEnabled($idSite);
 
         if ($limitVisits <= 0) {
             $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
@@ -281,10 +278,7 @@ class API extends \Piwik\Plugin\API
     public function getFirstVisitForVisitorId($idSite, $visitorId)
     {
         Piwik::checkUserHasSomeViewAccess();
-
-        if (!Live::isVisitorProfileEnabled($idSite)) {
-            throw new Exception('Visitor profile has been disabled in website settings');
-        }
+        Live::checkIsVisitorProfileEnabled($idSite);
 
         if (empty($visitorId)) {
             return new DataTable();

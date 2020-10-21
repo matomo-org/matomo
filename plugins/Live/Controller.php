@@ -40,10 +40,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function widget()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-
-        if (!Live::isVisitorLogEnabled($this->idSite)) {
-            throw new \Exception('Visits log has been disabled in website settings');
-        }
+        Live::checkIsVisitorLogEnabled($this->idSite);
 
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
@@ -75,10 +72,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function indexVisitorLog()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-
-        if (!Live::isVisitorLogEnabled($this->idSite)) {
-            throw new \Exception('Visits log has been disabled in website settings');
-        }
+        Live::checkIsVisitorLogEnabled($this->idSite);
 
         $view = new View('@Live/indexVisitorLog.twig');
         $view->visitorLog = $this->renderReport('getLastVisitsDetails');
@@ -96,10 +90,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastVisitsStart()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-
-        if (!Live::isVisitorLogEnabled($this->idSite)) {
-            throw new \Exception('Visits log has been disabled in website settings');
-        }
+        Live::checkIsVisitorLogEnabled($this->idSite);
 
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
@@ -152,10 +143,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getVisitorProfilePopup()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-
-        if (!Live::isVisitorProfileEnabled($this->idSite)) {
-            throw new \Exception('Visitor profile has been disabled in website settings');
-        }
+        Live::checkIsVisitorProfileEnabled($this->idSite);
 
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 

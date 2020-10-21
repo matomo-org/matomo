@@ -52,53 +52,91 @@ class Live extends \Piwik\Plugin
         ";
     }
 
-    public static function isVisitorLogEnabled($idSite = null)
+    /**
+     * Throws an exception if visits log is disabled
+     *
+     * @param null|int $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorLogEnabled($idSite = null): void
     {
-        [$profileEnabled, $logEnabled] = self::getSettings($idSite);
+        $systemSettings = new SystemSettings();
 
-        return $logEnabled;
-    }
+        if ($systemSettings->activateVisitorLog->getValue() === false) {
+            throw new \Exception('Visits log is deactivated globally');
+        }
 
-    public static function isVisitorProfileEnabled($idSite = null)
-    {
-        [$profileEnabled, $logEnabled] = self::getSettings($idSite);
-
-        return $profileEnabled;
-    }
-
-    private static function getSettings($idSite = null)
-    {
         if (empty($idSite)) {
             $idSite = Common::getRequestVar('idSite', 0, 'int');
         }
 
-        $visitorProfileEnabled = true;
-        $visitorLogEnabled = true;
+        if (!empty($idSite)) {
+            $settings = new MeasurableSettings($idSite);
 
+            if ($settings->activateVisitorLog->getValue() === false) {
+                throw new \Exception('Visits log is deactivated in website settings');
+            }
+        }
+    }
+
+    /**
+     * Returns whether visits log is enabled (for the given site)
+     *
+     * @param null|int $idSite
+     * @return bool
+     */
+    public static function isVisitorLogEnabled($idSite = null): bool
+    {
         try {
-            if (!empty($idSite)) {
-                $settings = new MeasurableSettings($idSite);
-
-                $visitorProfileEnabled = $settings->activateVisitorProfile->getValue();
-                $visitorLogEnabled     = $settings->activateVisitorLog->getValue();
-            }
-
-            $systemSettings = new SystemSettings();
-
-            if ($systemSettings->activateVisitorProfile->getValue() === false) {
-                $visitorProfileEnabled = false;
-            }
-
-            if ($systemSettings->activateVisitorLog->getValue() === false) {
-                $visitorLogEnabled = false;
-            }
-
+            self::checkIsVisitorLogEnabled($idSite);
         } catch (\Exception $e) {
-            // method might be called in a state where site can't be loaded (e.g. missing or outdated authentication)
-            // so simply ignore errors
+            return false;
         }
 
-        return [$visitorProfileEnabled, $visitorLogEnabled];
+        return true;
+    }
+    /**
+     * Throws an exception if visitor profile is disabled
+     *
+     * @param null|int $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorProfileEnabled($idSite = null): void
+    {
+        $systemSettings = new SystemSettings();
+
+        if ($systemSettings->activateVisitorProfile->getValue() === false) {
+            throw new \Exception('Visitor profile is deactivated globally');
+        }
+
+        if (empty($idSite)) {
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+        }
+
+        if (!empty($idSite)) {
+            $settings = new MeasurableSettings($idSite);
+
+            if ($settings->activateVisitorProfile->getValue() === false) {
+                throw new \Exception('Visitor profile is deactivated in website settings');
+            }
+        }
+    }
+
+    /**
+     * Returns whether visitor profile is enabled (for the given site)
+     *
+     * @param null|int $idSite
+     * @return bool
+     */
+    public static function isVisitorProfileEnabled($idSite = null): bool
+    {
+        try {
+            self::checkIsVisitorProfileEnabled($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     public function getStylesheetFiles(&$stylesheets)
