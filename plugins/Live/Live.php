@@ -63,7 +63,7 @@ class Live extends \Piwik\Plugin
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->activateVisitorLog->getValue() == false) {
-            throw new \Exception('Visits log is deactivated globally');
+            throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
         }
 
         if (empty($idSite)) {
@@ -77,7 +77,7 @@ class Live extends \Piwik\Plugin
                 $settings = new MeasurableSettings($idSite);
 
                 if ($settings->activateVisitorLog->getValue() == false) {
-                    throw new \Exception('Visits log is deactivated in website settings');
+                    throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website.');
                 }
             }
         }
@@ -110,7 +110,7 @@ class Live extends \Piwik\Plugin
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->activateVisitorProfile->getValue() == false) {
-            throw new \Exception('Visitor profile is deactivated globally');
+            throw new \Exception('Visitor profile is deactivated globally. A user with super user access can enable this feature in the general settings.');
         }
 
         if (empty($idSite)) {
@@ -124,7 +124,7 @@ class Live extends \Piwik\Plugin
                 $settings = new MeasurableSettings($idSite);
 
                 if ($settings->activateVisitorProfile->getValue() == false) {
-                    throw new \Exception('Visitor profile is deactivated in website settings');
+                    throw new \Exception('Visitor profile is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website.');
                 }
             }
         }
