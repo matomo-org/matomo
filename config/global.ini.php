@@ -750,9 +750,6 @@ rearchive_reports_in_past_last_n_months = last6
 
 [Tracker]
 
-; When enabled Matomo won't use any cookies for tracking on any site
-force_cookieless_tracking = 0
-
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
 ; identify the same user as the same visitor across devices.
 ; Disabling this feature can be useful for example when using the third party cookie, where all Matomo tracked sites

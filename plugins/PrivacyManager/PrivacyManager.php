@@ -748,8 +748,7 @@ class PrivacyManager extends Plugin
     public function shouldAddTrackerFile(&$shouldAdd, $pluginName)
     {
         if ($pluginName === 'PrivacyManager') {
-            // only check the config value, so no database connection needs to be established
-            $shouldAdd = !!PiwikConfig::getInstance()->Tracker['force_cookieless_tracking'];
+            $shouldAdd = self::isCookieLessTrackingForced();
         }
     }
 
@@ -762,7 +761,9 @@ class PrivacyManager extends Plugin
     public static function isCookieLessTrackingForced($idSite=null)
     {
         try {
-            if (PiwikConfig::getInstance()->Tracker['force_cookieless_tracking']) {
+            $systemSettings = new SystemSettings();
+
+            if ($systemSettings->forceCookielessTracking->getValue()) {
                 return true;
             }
 
