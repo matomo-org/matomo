@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Settings\Plugin\SystemConfigSetting;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\FieldConfig;
 
@@ -30,7 +29,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var SystemSetting */
     public $showInEmbeddedWidgets;
 
-    /** @var SystemConfigSetting */
+    /** @var SystemSetting */
     public $forceCookielessTracking;
 
     protected function init()
@@ -70,9 +69,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createForceCookielessTrackingSetting(): SystemConfigSetting
+    private function createForceCookielessTrackingSetting(): SystemSetting
     {
-        return $this->makeSettingManagedInConfigOnly('General', 'force_cookieless_tracking', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+        return $this->makeSetting('forceCookielessTracking', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_ForceCookielessTracking');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
             $field->description = Piwik::translate('PrivacyManager_ForceCookielessTrackingDescriptionGlobally');

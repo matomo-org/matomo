@@ -69,7 +69,7 @@ abstract class SystemSettings extends Settings
      * @param $defaultValue
      * @param $type
      * @param $fieldConfigCallback
-     * @return SystemConfigSetting
+     * @return SystemSetting
      * @throws \Exception
      */
     protected function makeSettingManagedInConfigOnly($configSectionName, $name, $defaultValue, $type, $fieldConfigCallback)
