@@ -273,7 +273,7 @@ https://www.example.org/</placeholder>
 						<uiControlAttributes>
 						</uiControlAttributes>
 						<availableValues />
-						<description>When this option is enabled, Matomo will force the tracking to not use any cookies.</description>
+						<description>When this option is enabled, Matomo will ignore any tracking cookies on server side. To ensure no cookies will be used at all ensure disableCookies method is called for all javascript trackers.</description>
 						<inlineHelp />
 						<templateFile />
 						<introduction />
@@ -580,7 +580,7 @@ https://www.example.org/</placeholder>
 						<uiControlAttributes>
 						</uiControlAttributes>
 						<availableValues />
-						<description>When this option is enabled, Matomo will force the tracking to not use any cookies.</description>
+						<description>When this option is enabled, Matomo will ignore any tracking cookies on server side. To ensure no cookies will be used at all ensure disableCookies method is called for all javascript trackers.</description>
 						<inlineHelp />
 						<templateFile />
 						<introduction />
