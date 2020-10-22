@@ -55,6 +55,9 @@ describe("DeactivatedFeatures", function () {
 
         const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
         expect(realtime).to.be.ok;
+
+        const realtimemap = await page.$('#secondNavBar .navbar a[href*="UserCountryMap_RealTimeMap"]');
+        expect(realtimemap).to.be.ok;
     });
 
     it('menu should not contain visits log & realtime when deactivated', async function () {
@@ -67,6 +70,9 @@ describe("DeactivatedFeatures", function () {
 
         const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
         expect(realtime).to.be.not.ok;
+
+        const realtimemap = await page.$('#secondNavBar .navbar a[href*="UserCountryMap_RealTimeMap"]');
+        expect(realtimemap).to.be.not.ok;
     });
 
     it('it should not show visits log, when opened directly but disabled', async function () {
@@ -83,6 +89,14 @@ describe("DeactivatedFeatures", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.getWholeCurrentUrl()).to.not.match(/General_RealTime/); // page should be redirected to next subcategory
+    });
+
+    it('it should not show realtime map, when opened directly but disabled', async function () {
+        await setFeatures(1, 0, 0);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-08-09#?idSite=1&period=year&date=2009-08-09&category=General_Visitors&subcategory=UserCountryMap_RealTimeMap");
+        await page.waitForNetworkIdle();
+
+        expect(await page.getWholeCurrentUrl()).to.not.match(/UserCountryMap_RealTimeMap/); // page should be redirected to next subcategory
     });
 
     it('menu should contain ecommerce log when visits log enabled', async function () {
@@ -191,6 +205,9 @@ describe("DeactivatedFeatures", function () {
 
         const realtime = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivewidget]');
         expect(realtime).to.be.ok;
+
+        const realtimemap = await page.$('.widgetpreview-widgetlist [uniqueid=widgetUserCountryMaprealtimeMap]');
+        expect(realtimemap).to.be.ok;
     });
 
     it('widget list should not contain log and profile when disabled', async function () {
@@ -209,6 +226,9 @@ describe("DeactivatedFeatures", function () {
 
         const realtime = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivewidget]');
         expect(realtime).to.be.not.ok;
+
+        const realtimemap = await page.$('.widgetpreview-widgetlist [uniqueid=widgetUserCountryMaprealtimeMap]');
+        expect(realtimemap).to.be.not.ok;
     });
 
     it('Goal overview contains segmented visitor log link when activated', async function () {

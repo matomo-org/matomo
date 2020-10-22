@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountryMap\Widgets;
 
+use Piwik\Plugins\Live\Live;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -23,7 +24,10 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
         $config->setIsWide();
         $config->setOrder(15);
 
-        if (!PluginManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (!PluginManager::getInstance()->isPluginActivated('UserCountry') ||
+            !PluginManager::getInstance()->isPluginActivated('Live') ||
+            !Live::isVisitorLogEnabled()
+        ) {
             $config->disable();
         }
     }
