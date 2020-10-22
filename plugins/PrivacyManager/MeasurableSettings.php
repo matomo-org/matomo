@@ -22,9 +22,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     protected function init()
     {
-        $systemSettings = new SystemSettings();
-
         $this->forceCookielessTracking = $this->createForceCookielessTrackingSetting();
+
+        $systemSettings = new SystemSettings();
         $this->forceCookielessTracking->setIsWritableByCurrentUser(!$systemSettings->forceCookielessTracking->getValue());
     }
 

@@ -760,21 +760,21 @@ class PrivacyManager extends Plugin
      */
     public static function isCookieLessTrackingForced($idSite=null)
     {
-        $systemSettings = new SystemSettings();
-
-        if ($systemSettings->forceCookielessTracking->getValue()) {
-            return true;
-        }
-
-        if (empty($idSite)) {
-            return false;
-        }
-
         try {
+            $systemSettings = new SystemSettings();
+
+            if ($systemSettings->forceCookielessTracking->getValue()) {
+                return true;
+            }
+
+            if (empty($idSite)) {
+                return false;
+            }
+
             $settings = new MeasurableSettings($idSite);
 
             return $settings->forceCookielessTracking->getValue();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false; // ignore any exception e.g. site might not exist
         }
     }
