@@ -129,6 +129,28 @@ describe("DeactivatedFeatures", function () {
         expect(element).to.be.not.ok;
     });
 
+    it('it should show button to test new segments with enabled visits log', async function () {
+        await setFeatures(1, 1, 0);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-07-09#?idSite=1&period=year&date=2012-07-09&category=General_Visitors&subcategory=General_Overview");
+        await page.waitFor('.segmentationContainer');
+        await page.click('.segmentationContainer');
+        await page.click('.add_new_segment');
+
+        const element = await page.$('.segmentEditorPanel .testSegment');
+        expect(element).to.be.ok;
+    });
+
+    it('it should not show button to test new segments with disabled visits log', async function () {
+        await setFeatures(1, 0, 0);
+        await page.reload();
+        await page.waitFor('.segmentationContainer');
+        await page.click('.segmentationContainer');
+        await page.click('.add_new_segment');
+
+        const element = await page.$('.segmentEditorPanel .testSegment');
+        expect(element).to.be.not.ok;
+    });
+
     it('it should show segmented visits log row action when enabled', async function () {
         await setFeatures(1, 1, 0);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-08#?idSite=1&period=year&date=2012-08-08&category=General_Visitors&subcategory=DevicesDetection_Software");
