@@ -189,7 +189,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
 
             $view->trackerFileName = $jsCodeGenerator->getJsTrackerEndpoint();
-            $view->trackerWritable = !$file->hasWriteAccess();
+            $view->trackerWritable = $file->hasWriteAccess();
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
