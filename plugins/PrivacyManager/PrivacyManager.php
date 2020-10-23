@@ -180,7 +180,6 @@ class PrivacyManager extends Plugin
             'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
             'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
-            'Tracker.Cache.getSiteAttributes'         => 'getSiteAttributesCache',
             'Tracker.isExcludedVisit'                 => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
@@ -297,6 +296,7 @@ class PrivacyManager extends Plugin
         $cacheContent['delete_logs_enable'] = $purgeSettings['delete_logs_enable'];
         $cacheContent['delete_logs_schedule_lowest_interval'] = $purgeSettings['delete_logs_schedule_lowest_interval'];
         $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
+        $cacheContent[self::TRACKER_CACHE_COOKIELESS_FORCED] = self::isCookieLessTrackingForced();
     }
 
     public function getJsFiles(&$jsFiles)
@@ -755,32 +755,16 @@ class PrivacyManager extends Plugin
     /**
      * Returns if cookie less tracking is forced globally or for the given site
      *
-     * @param null $idSite
      * @return bool
      */
-    public static function isCookieLessTrackingForced($idSite=null)
+    public static function isCookieLessTrackingForced()
     {
         try {
             $systemSettings = new SystemSettings();
 
-            if ($systemSettings->forceCookielessTracking->getValue()) {
-                return true;
-            }
-
-            if (empty($idSite)) {
-                return false;
-            }
-
-            $settings = new MeasurableSettings($idSite);
-
-            return $settings->forceCookielessTracking->getValue();
+            return $systemSettings->forceCookielessTracking->getValue();
         } catch (\Throwable $e) {
             return false; // ignore any exception e.g. site might not exist
         }
-    }
-
-    public function getSiteAttributesCache(&$content, $idSite)
-    {
-        $content[self::TRACKER_CACHE_COOKIELESS_FORCED] = self::isCookieLessTrackingForced($idSite);
     }
 }

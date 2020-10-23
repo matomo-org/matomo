@@ -85,7 +85,6 @@
         "EstimatedSpaceSaved": "Estimated space saved",
         "ForceCookielessTracking": "Force tracking without cookies",
         "ForceCookielessTrackingDescriptionGlobally": "When this option is enabled, Matomo will try to force the tracking to not use any cookies. If matomo.js is writable, it will be updated to ensure disableCookies will be called for all trackers. Additionally Matomo will ignore all tracking cookies on server side.",
-        "ForceCookielessTrackingDescriptionPerSite": "When this option is enabled, Matomo will ignore any tracking cookies on server side. To ensure no cookies will be used at all ensure disableCookies method is called for all javascript trackers.",
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
         "GDPR": "GDPR",
         "GdprManager": "GDPR Manager",

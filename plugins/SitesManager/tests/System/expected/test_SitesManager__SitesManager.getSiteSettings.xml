@@ -257,28 +257,6 @@ https://www.example.org/</placeholder>
 		</settings>
 	</row>
 	<row>
-		<pluginName>PrivacyManager</pluginName>
-		<title>PrivacyManager</title>
-		<settings>
-			<row>
-				<name>forceCookielessTracking</name>
-				<title>Force tracking without cookies</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
-				<type>boolean</type>
-				<uiControl>checkbox</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>When this option is enabled, Matomo will ignore any tracking cookies on server side. To ensure no cookies will be used at all ensure disableCookies method is called for all javascript trackers.</description>
-				<inlineHelp />
-				<templateFile />
-				<introduction />
-				<condition />
-			</row>
-		</settings>
-	</row>
-	<row>
 		<pluginName>ExampleSettingsPlugin</pluginName>
 		<title>ExampleSettingsPlugin</title>
 		<settings>

@@ -739,16 +739,10 @@ class Request
             }
         }
 
-        try {
-            if ($this->getIdSiteUnverified()) {
-                $siteAttributes = Cache::getCacheWebsiteAttributes($this->getIdSite());
-            }
-        } catch (\Exception $e) {
-            // ignore any exception so method also works if site wasn't given or doesn't exist
-        }
+        $cache = Tracker\Cache::getCacheGeneral();
 
         // Only check for cookie values if cookieless tracking is NOT forced
-        if (!isset($siteAttributes[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) || !$siteAttributes[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) {
+        if (!isset($cache[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) || !$cache[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) {
             // - If set to use 3rd party cookies for Visit ID, read the cookie
             if (!$found) {
                 $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
