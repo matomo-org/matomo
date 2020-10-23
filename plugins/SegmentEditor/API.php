@@ -107,16 +107,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($autoArchive) {
-            if ($realTimeSegmentsEnabled && !Piwik::isUserHasAdminAccess($idSite)) {
-                // pre-processed segment for a given website requires admin access
-                throw new Exception(
-                    "Please contact Support to make these changes on your behalf. ".
-                    " To modify a pre-processed segment, a user must have admin access or super user access. "
-                );
-            } elseif (!$realTimeSegmentsEnabled) {
-                // we require view access only when only pre processed can be created
-                Piwik::checkUserHasViewAccess($idSite);
-            }
+            Piwik::checkUserHasViewAccess($idSite);
         }
 
         return $autoArchive;

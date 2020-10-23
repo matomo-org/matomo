@@ -80,7 +80,19 @@ class SegmentEditor extends \Piwik\Plugin
         $storedSegments = StaticContainer::get('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService');
         $segments = $storedSegments->getAllSegmentsAndIgnoreVisibility();
         $numSegments = count($segments);
-        $systemSummary[] = new SystemSummary\Item($key = 'segments', Piwik::translate('CoreHome_SystemSummaryNSegments', $numSegments), $value = null, $url = null, $icon = 'icon-segment', $order = 6);
+
+        $numAutoArchiveSegments = 0;
+        $numRealTimeSegments = 0;
+        foreach ($segments as $segment) {
+            $autoArchive = (int)$segment['auto_archive'];
+            if (!empty($autoArchive)) {
+                ++$numAutoArchiveSegments;
+            } else {
+                ++$numRealTimeSegments;
+            }
+        }
+
+        $systemSummary[] = new SystemSummary\Item($key = 'segments', Piwik::translate('CoreHome_SystemSummaryNSegments', [$numSegments, $numAutoArchiveSegments, $numRealTimeSegments]), $value = null, $url = null, $icon = 'icon-segment', $order = 6);
     }
 
     function getSegmentEditorHtml(&$out)
