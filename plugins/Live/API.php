@@ -142,14 +142,23 @@ class API extends \Piwik\Plugin\API
     public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $idSite = Site::getIdSitesFromIdSitesString($idSite);
-        if (is_array($idSite) && count($idSite) === 1) {
-            $idSite = array_shift($idSite);
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+        if (is_array($idSites) && count($idSites) === 1) {
+            $idSites = array_shift($idSites);
         }
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($idSites);
 
         if (Request::isCurrentApiRequestTheRootApiRequest() || Request::getRootApiRequestMethod() !== 'API.getSuggestedValuesForSegment') {
-            Live::checkIsVisitorLogEnabled($idSite);
+            if (is_array($idSites)) {
+                $filteredSites = array_filter($idSites, function($idSite) {
+                    return Live::isVisitorLogEnabled($idSite);
+                });
+                if (empty($filteredSites)) {
+                    throw new Exception('Visits log is deactivated for all given websites (idSite='.$idSite.').');
+                }
+            } else {
+                Live::checkIsVisitorLogEnabled($idSites);
+            }
         }
 
         if ($countVisitorsToFetch !== false) {
@@ -162,8 +171,8 @@ class API extends \Piwik\Plugin\API
 
         $filterSortOrder = Common::getRequestVar('filter_sort_order', false, 'string');
 
-        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false);
-        $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions);
+        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false);
+        $this->addFilterToCleanVisitors($dataTable, $idSites, $flat, $doNotFetchActions);
 
         $filterSortColumn = Common::getRequestVar('filter_sort_column', false, 'string');
 
