@@ -60,7 +60,10 @@
              ng-model="anonymizeIp.forceCookielessTracking"
              data-title="{{ 'PrivacyManager_ForceCookielessTracking'|translate|e('html_attr') }}"
              value="{{ anonymizeIP.forceCookielessTracking }}"
-             inline-help="{{ 'PrivacyManager_ForceCookielessTrackingDescription'|translate|e('html_attr') }}">
+             inline-help="{{ 'PrivacyManager_ForceCookielessTrackingDescription'|translate(trackerFileName)|e('html_attr') }}
+                          {%- if not trackerWritable %}
+                                <br /><br /><p class='alert-warning alert'>{{ 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable'|translate(trackerFileName)|e('html_attr') }}</p>
+                          {% endif -%}">
         </div>
 
         <div piwik-field uicontrol="select" name="anonymizeReferrer"
