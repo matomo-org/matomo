@@ -742,7 +742,7 @@ class Request
         $cache = Tracker\Cache::getCacheGeneral();
 
         // Only check for cookie values if cookieless tracking is NOT forced
-        if (!isset($cache[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) || !$cache[PrivacyManager::TRACKER_CACHE_COOKIELESS_FORCED]) {
+        if (!isset($cache['forceCookielessTracking']) || !$cache['forceCookielessTracking']) {
             // - If set to use 3rd party cookies for Visit ID, read the cookie
             if (!$found) {
                 $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();

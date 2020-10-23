@@ -84,7 +84,7 @@
         "EstimatedDBSizeAfterPurge": "Estimated database size after purge",
         "EstimatedSpaceSaved": "Estimated space saved",
         "ForceCookielessTracking": "Force tracking without cookies",
-        "ForceCookielessTrackingDescriptionGlobally": "When this option is enabled, Matomo will try to force the tracking to not use any cookies. If matomo.js is writable, it will be updated to ensure disableCookies will be called for all trackers. Additionally Matomo will ignore all tracking cookies on server side.",
+        "ForceCookielessTrackingDescription": "When this option is enabled, Matomo will try to force the tracking to not use any cookies. If matomo.js is writable, it will be updated to ensure disableCookies will be called for all trackers. Additionally Matomo will ignore all tracking cookies on server side.",
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
         "GDPR": "GDPR",
         "GdprManager": "GDPR Manager",

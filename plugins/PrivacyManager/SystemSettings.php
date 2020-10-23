@@ -29,15 +29,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var SystemSetting */
     public $showInEmbeddedWidgets;
 
-    /** @var SystemSetting */
-    public $forceCookielessTracking;
-
     protected function init()
     {
         $this->privacyPolicyUrl = $this->createPrivacyPolicyUrlSetting();
         $this->termsAndConditionUrl = $this->createTermsAndConditionUrlSetting();
         $this->showInEmbeddedWidgets = $this->createShowInEmbeddedWidgetsSetting();
-        $this->forceCookielessTracking = $this->createForceCookielessTrackingSetting();
     }
 
     private function createPrivacyPolicyUrlSetting(): SystemSetting
@@ -67,21 +63,5 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
             $field->description = Piwik::translate('PrivacyManager_ShowInEmbeddedWidgetsDescription');
         });
-    }
-
-    private function createForceCookielessTrackingSetting(): SystemSetting
-    {
-        return $this->makeSetting('forceCookielessTracking', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $field->title = Piwik::translate('PrivacyManager_ForceCookielessTracking');
-            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->description = Piwik::translate('PrivacyManager_ForceCookielessTrackingDescriptionGlobally');
-        });
-    }
-
-    public function save()
-    {
-        parent::save();
-
-        Piwik::postEvent('CustomJsTracker.updateTracker');
     }
 }

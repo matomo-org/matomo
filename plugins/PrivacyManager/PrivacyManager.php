@@ -45,7 +45,6 @@ class PrivacyManager extends Plugin
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
     const OPTION_USERID_SALT = 'useridsalt';
-    const TRACKER_CACHE_COOKIELESS_FORCED = 'force_cookieless_tracking';
 
 
     // options for data purging feature array[configName => configSection]
@@ -296,7 +295,6 @@ class PrivacyManager extends Plugin
         $cacheContent['delete_logs_enable'] = $purgeSettings['delete_logs_enable'];
         $cacheContent['delete_logs_schedule_lowest_interval'] = $purgeSettings['delete_logs_schedule_lowest_interval'];
         $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
-        $cacheContent[self::TRACKER_CACHE_COOKIELESS_FORCED] = self::isCookieLessTrackingForced();
     }
 
     public function getJsFiles(&$jsFiles)
@@ -753,18 +751,13 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Returns if cookie less tracking is forced globally or for the given site
+     * Returns if cookie less tracking is forced
      *
      * @return bool
      */
     public static function isCookieLessTrackingForced()
     {
-        try {
-            $systemSettings = new SystemSettings();
-
-            return $systemSettings->forceCookielessTracking->getValue();
-        } catch (\Throwable $e) {
-            return false; // ignore any exception e.g. site might not exist
-        }
+        $config = new Config();
+        return !!$config->forceCookielessTracking;
     }
 }
