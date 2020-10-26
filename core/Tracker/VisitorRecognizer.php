@@ -100,8 +100,8 @@ class VisitorRecognizer
         }
 
         $persistedVisitAttributes = $this->getVisitorFieldsPersist();
-
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
+
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
 
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
@@ -253,8 +253,7 @@ class VisitorRecognizer
                 'referer_type',
             );
 
-            $dimensions = VisitDimension::getAllDimensions();
-
+            $dimensions = VisitDimension::getAllEnabledDimensions();
             foreach ($dimensions as $dimension) {
                 if ($dimension->hasImplementedEvent('onExistingVisit') || $dimension->hasImplementedEvent('onAnyGoalConversion')) {
                     $fields[] = $dimension->getColumnName();

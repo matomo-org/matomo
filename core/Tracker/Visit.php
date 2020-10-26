@@ -535,7 +535,7 @@ class Visit implements VisitInterface
     protected function getAllVisitDimensions()
     {
         if (is_null(self::$dimensions)) {
-            self::$dimensions = VisitDimension::getAllDimensions();
+            self::$dimensions = VisitDimension::getAllEnabledDimensions();
 
             $dimensionNames = array();
             foreach (self::$dimensions as $dimension) {

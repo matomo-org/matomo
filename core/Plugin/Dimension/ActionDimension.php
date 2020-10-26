@@ -111,6 +111,13 @@ abstract class ActionDimension extends Dimension
         return $cache->fetch($cacheId);
     }
 
+    public static function getAllEnabledDimensions()
+    {
+        $dimensions = self::getAllDimensions();
+        self::filterDisabledDimensions($dimensions);
+        return $dimensions;
+    }
+
     /**
      * Get all action dimensions that are defined by the given plugin.
      * @param Plugin $plugin

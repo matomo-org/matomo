@@ -270,6 +270,13 @@ abstract class VisitDimension extends Dimension
         return $cache->fetch($cacheId);
     }
 
+    public static function getAllEnabledDimensions()
+    {
+        $dimensions = self::getAllDimensions();
+        self::filterDisabledDimensions($dimensions);
+        return $dimensions;
+    }
+
     /**
      * @ignore
      * @param VisitDimension[] $dimensions

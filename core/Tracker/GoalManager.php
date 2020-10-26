@@ -358,7 +358,7 @@ class GoalManager
             $conversion['idgoal']  = self::IDGOAL_ORDER;
             $conversion['buster']  = Common::hashStringToInt($orderId);
 
-            $conversionDimensions = ConversionDimension::getAllDimensions();
+            $conversionDimensions = ConversionDimension::getAllEnabledDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onEcommerceOrderConversion', $visitor, $action, $conversion);
         } // If Cart update, select current items in the previous Cart
         else {
@@ -367,7 +367,7 @@ class GoalManager
             $conversion['buster'] = 0;
             $conversion['idgoal'] = self::IDGOAL_CART;
 
-            $conversionDimensions = ConversionDimension::getAllDimensions();
+            $conversionDimensions = ConversionDimension::getAllEnabledDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onEcommerceCartUpdateConversion', $visitor, $action, $conversion);
         }
 
@@ -735,7 +735,7 @@ class GoalManager
                 }
             }
 
-            $conversionDimensions = ConversionDimension::getAllDimensions();
+            $conversionDimensions = ConversionDimension::getAllEnabledDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
             $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action, $convertedGoal);
@@ -899,7 +899,7 @@ class GoalManager
             'server_time' => $lastVisitTime,
         );
 
-        $visitDimensions = VisitDimension::getAllDimensions();
+        $visitDimensions = VisitDimension::getAllEnabledDimensions();
 
         $visit = Visitor::makeFromVisitProperties($visitProperties, $request);
         foreach ($visitDimensions as $dimension) {

@@ -336,7 +336,7 @@ abstract class Action
         }
 
         /** @var ActionDimension[] $dimensions */
-        $dimensions = ActionDimension::getAllDimensions();
+        $dimensions = ActionDimension::getAllEnabledDimensions();
         $actions    = $this->getActionsToLookup();
 
         foreach ($dimensions as $dimension) {
@@ -393,7 +393,7 @@ abstract class Action
         );
 
         /** @var ActionDimension[] $dimensions */
-        $dimensions = ActionDimension::getAllDimensions();
+        $dimensions = ActionDimension::getAllEnabledDimensions();
 
         foreach ($dimensions as $dimension) {
             $value = $dimension->onNewAction($this->request, $visitor, $this);

@@ -19,6 +19,7 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugins\CoreAdminHome\SystemSettings;
 use Piwik\Segment\SegmentsList;
 
 /**
@@ -839,4 +840,23 @@ abstract class Dimension
         return $this->columnType;
     }
 
+    /**
+     * @param Dimension[] &$dimensions
+     */
+    protected static function filterDisabledDimensions(array &$dimensions)
+    {
+        $disabledDimensionIds = self::getAllDisabledDimensionIds();
+
+        foreach ($dimensions as $key => $dimension) {
+            if (in_array($dimension->getId(), $disabledDimensionIds)) {
+                unset($dimensions[$key]);
+            }
+        }
+    }
+
+    public static function getAllDisabledDimensionIds()
+    {
+        $settings = new SystemSettings();
+        return $settings->disabledDimensions->getValue();
+    }
 }

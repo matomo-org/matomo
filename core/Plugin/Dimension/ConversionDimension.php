@@ -64,6 +64,13 @@ abstract class ConversionDimension extends Dimension
         return $cache->fetch($cacheId);
     }
 
+    public static function getAllEnabledDimensions()
+    {
+        $dimensions = self::getAllDimensions();
+        self::filterDisabledDimensions($dimensions);
+        return $dimensions;
+    }
+
     /**
      * Get all conversion dimensions that are defined by the given plugin.
      * @param Plugin $plugin
