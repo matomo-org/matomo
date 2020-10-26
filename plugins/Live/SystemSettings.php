@@ -47,6 +47,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = Piwik::translate('Live_EnableVisitorProfile');
             $field->inlineHelp = '';
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+            $field->condition = 'activate_visitor_log==1';
         });
     }
 }

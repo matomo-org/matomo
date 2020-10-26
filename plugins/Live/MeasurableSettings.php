@@ -52,6 +52,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->title = Piwik::translate('Live_EnableVisitorProfile');
             $field->inlineHelp = '';
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+            $field->condition = 'activate_visitor_log==1';
         });
     }
 }

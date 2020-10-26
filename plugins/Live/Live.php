@@ -107,6 +107,8 @@ class Live extends \Piwik\Plugin
      */
     public static function checkIsVisitorProfileEnabled($idSite = null): void
     {
+        self::checkIsVisitorLogEnabled($idSite); // visitor log is required for visitor profile
+
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->activateVisitorProfile->getValue() == false) {
