@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use \RuntimeException;
 
 class DeleteConfig extends ConsoleCommand
 {
@@ -62,10 +64,26 @@ $ ./console config:delete 'section.config_setting_key'
         $config = Config::getInstance();
 
         foreach ($manipulations as $manipulation) {
-            $manipulation->manipulate($config);
+            /** @var ConfigDeletingManipulation $manipulation */
+            if ($manipulation->isSectionDeletion()) {
+                $helper = $this->getHelper('question');
+                $question = new ConfirmationQuestion('<question>Do you want to remove the section "' . $manipulation->getSectionName() . '"? (y/n)</question> ' , false);
 
-            $output->write("<info>Removing [{$manipulation->getSectionName()}] {$manipulation->getName()}...</info>");
-            $output->writeln("<info> done.</info>");
+                if (!$helper->ask($input, $output, $question)) {
+                    $output->writeln( "<comment>\"".$manipulation->getSectionName()."\" will not be deleted</comment>");
+                    continue;
+                }
+            }
+
+            try {
+                $manipulation->manipulate($config);
+
+                $output->write("<info>Removing [{$manipulation->getSectionName()}] {$manipulation->getName()}...</info>");
+                $output->writeln("<info> done.</info>");
+
+            } catch (RuntimeException $exception) {
+                $output->writeln("<error> ".$exception->getMessage()."</error>");
+            }
         }
 
         $config->forceSave();
