@@ -23,7 +23,7 @@ class DeleteConfig extends ConsoleCommand
     {
         $this->setName('config:delete');
         $this->setDescription('Delete one or more config settings in the file config/config.ini.php');
-        $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, "List of config setting assignments, eg, section, section.config_setting_key or section.config_setting_key[position]");
+        $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, "List of config setting assignments, eg, section or section.config_setting_key");
         $this->addOption('section', null, InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
         $this->addOption('key', null, InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
         $this->setHelp("This command can be used to remove INI config settings on a Piwik instance.
@@ -42,10 +42,6 @@ Remove setting inside section
 $ ./console config:delete 'section.config_setting_key'
 'section' is the name of the section,
 'config_setting_key' the name of the setting
-
-To remove an array setting position, supply an argument like this:
-$ ./console config:set 'section.config_setting_key[position]'
-'position' is the array position if the section.config_setting_key is an array. Goes from 0 to section.config_setting_key.length-1
 ");
     }
 

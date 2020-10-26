@@ -87,29 +87,24 @@ class ConfigDeletingManipulationTest extends TestCase
      * @param $expectedSectionName
      * @param $expectedSettingName
      * @param $expectedIsSectionDeletion
-     * @param $expectedSettingPositionToDelete
      */
-    public function test_make_CreatesCorrectManipulation($assignmentString, $expectedSectionName, $expectedSettingName, $expectedIsSectionDeletion, $expectedSettingPositionToDelete): void
+    public function test_make_CreatesCorrectManipulation($assignmentString, $expectedSectionName, $expectedSettingName, $expectedIsSectionDeletion): void
     {
         $manipulation = ConfigDeletingManipulation::make($assignmentString);
 
         $this->assertEquals($expectedSectionName, $manipulation->getSectionName());
         $this->assertEquals($expectedSettingName, $manipulation->getName());
         $this->assertEquals($expectedIsSectionDeletion, $manipulation->isSectionDeletion());
-        $this->assertEquals($expectedSettingPositionToDelete, $manipulation->getSettingPositionToDelete());
     }
 
     public function getTestDataForMake(): array
     {
         return array(
             // Setting Delete
-            array("General.myconfig", "General", "myconfig", false, null),
-
-            // Setting position delete
-            array("General.myconfig[2]", "General", 'myconfig', false, 2),
+            array("General.myconfig", "General", "myconfig", false),
 
             // Section delete
-            array("General", "General", null, true, null),
+            array("General", "General", null, true),
 
         );
     }
@@ -120,24 +115,6 @@ class ConfigDeletingManipulationTest extends TestCase
         $this->expectExceptionMessage('Trying to delete not existing config section [General]');
 
         $manipulation = new ConfigDeletingManipulation("General", null, true);
-        $manipulation->manipulate($this->mockConfig);
-    }
-
-    public function test_manipulate_ThrowIfConfigArrayPositionDoesntExists(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Trying to delete not existing position in array setting [Section] config_setting_three[3].');
-
-        $manipulation = new ConfigDeletingManipulation("Section", 'config_setting_three', false, 3);
-        $manipulation->manipulate($this->mockConfig);
-    }
-
-    public function test_manipulate_ThrowIfConfigArrayDoesntExistForSettingPosition(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Trying to delete not existing config in array setting [Section] config_setting_two[3].');
-
-        $manipulation = new ConfigDeletingManipulation("Section", 'config_setting_two', false, 3);
         $manipulation->manipulate($this->mockConfig);
     }
 
@@ -179,8 +156,6 @@ class ConfigDeletingManipulationTest extends TestCase
             array("Section", 'config_setting_two', false, null, array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_three' => array('a', 'b'), 'config_setting_for' => false))),
             // Array setting delete
             array("Section", 'config_setting_three', false, null, array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_two' => 25, 'config_setting_for' => false))),
-            // Array setting position delete
-            array("Section", 'config_setting_three', false, 1, array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_two' => 25, 'config_setting_three' => array('a'), 'config_setting_for' => false))),
         );
     }
 }
