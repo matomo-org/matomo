@@ -307,7 +307,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $idTokenAuth = Common::getRequestVar('idtokenauth', '', 'string', $_POST);
+        $idTokenAuth = Common::getRequestVar('idtokenauth', '', 'string');
 
         if (!empty($idTokenAuth)) {
             $params = array(
