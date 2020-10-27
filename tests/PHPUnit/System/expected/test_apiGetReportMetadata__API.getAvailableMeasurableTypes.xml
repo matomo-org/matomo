@@ -255,7 +255,7 @@ https://www.example.org/</placeholder>
 						<inlineHelp />
 						<templateFile />
 						<introduction />
-						<condition />
+						<condition>activate_visitor_log==1</condition>
 					</row>
 				</settings>
 			</row>
@@ -540,7 +540,7 @@ https://www.example.org/</placeholder>
 						<inlineHelp />
 						<templateFile />
 						<introduction />
-						<condition />
+						<condition>activate_visitor_log==1</condition>
 					</row>
 				</settings>
 			</row>
