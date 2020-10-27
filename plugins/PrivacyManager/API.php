@@ -86,6 +86,20 @@ class API extends \Piwik\Plugin\API
         return $this->gdpr->exportDataSubjects($visits);
     }
 
+    public function findDataSubjects($idSite, $segment)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return Request::processRequest('Live.getLastVisitsDetails', [
+            'segment' => $segment,
+            'idSite' => $idSite,
+            'period' => 'range',
+            'date' => '1998-01-01,today',
+            'filter_limit' => 401,
+            'doNotFetchActions' => 1
+        ]);
+    }
+
     public function anonymizeSomeRawData(
         $idSites,
         $date,

@@ -136,13 +136,9 @@
 
                 piwikApi.fetch({
                     idSite: siteIds,
-                    period: 'range',
-                    date: '1998-01-01,today',
                     module: 'API',
-                    method: 'Live.getLastVisitsDetails',
+                    method: 'PrivacyManager.findDataSubjects',
                     segment: self.segment_filter,
-                    filter_limit: 401,
-                    doNotFetchActions: 1
                 }).then(function (visits) {
                     self.hasSearched = true;
                     angular.forEach(visits, function (visit) {
