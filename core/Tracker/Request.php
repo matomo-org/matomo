@@ -18,6 +18,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
@@ -738,21 +739,26 @@ class Request
             }
         }
 
-        // - If set to use 3rd party cookies for Visit ID, read the cookie
-        if (!$found) {
-            $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
-            if ($useThirdPartyCookie) {
-                $idVisitor = $this->getThirdPartyCookieVisitorId();
-                if(!empty($idVisitor)) {
-                    $found = true;
+        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config();
+
+        // Only check for cookie values if cookieless tracking is NOT forced
+        if (!$privacyConfig->forceCookielessTracking) {
+            // - If set to use 3rd party cookies for Visit ID, read the cookie
+            if (!$found) {
+                $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
+                if ($useThirdPartyCookie) {
+                    $idVisitor = $this->getThirdPartyCookieVisitorId();
+                    if (!empty($idVisitor)) {
+                        $found = true;
+                    }
                 }
             }
-        }
 
-        // If a third party cookie was not found, we default to the first party cookie
-        if (!$found) {
-            $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
-            $found = strlen($idVisitor) >= Tracker::LENGTH_HEX_ID_STRING;
+            // If a third party cookie was not found, we default to the first party cookie
+            if (!$found) {
+                $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
+                $found     = strlen($idVisitor) >= Tracker::LENGTH_HEX_ID_STRING;
+            }
         }
 
         if ($found) {
