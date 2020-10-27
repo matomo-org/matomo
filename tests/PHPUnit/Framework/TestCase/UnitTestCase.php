@@ -29,11 +29,11 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
     public function setGroups(array $groups): void
     {
         $pluginName = explode('\\', get_class($this));
-        if (!empty($pluginName[2])) {
-            $pluginName = $pluginName[2];
-        }
-        if (!in_array($pluginName, $groups, true)) {
-            $groups[] = $pluginName;
+        if (!empty($pluginName[2]) && !empty($pluginName[1]) && $pluginName[1] === 'Plugins') {
+            // we assume \Piwik\Plugins\PluginName nanmespace...
+            if (!in_array($pluginName[2], $groups, true)) {
+                $groups[] = $pluginName[2];
+            }
         }
 
         parent::setGroups($groups);

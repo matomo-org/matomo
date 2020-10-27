@@ -63,10 +63,9 @@ abstract class SystemTestCase extends TestCase
         $pluginName = explode('\\', get_class($this));
         if (!empty($pluginName[2]) && !empty($pluginName[1]) && $pluginName[1] === 'Plugins') {
             // we assume \Piwik\Plugins\PluginName nanmespace...
-            $pluginName = $pluginName[2];
-        }
-        if (!in_array($pluginName, $groups, true)) {
-            $groups[] = $pluginName;
+            if (!in_array($pluginName[2], $groups, true)) {
+                $groups[] = $pluginName[2];
+            }
         }
 
         parent::setGroups($groups);
