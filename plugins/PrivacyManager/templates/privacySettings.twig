@@ -56,6 +56,16 @@
              inline-help="{{ 'PrivacyManager_AnonymizeOrderIdNote'|translate|e('html_attr') }}">
         </div>
 
+        <div piwik-field uicontrol="checkbox" name="forceCookielessTracking"
+             ng-model="anonymizeIp.forceCookielessTracking"
+             data-title="{{ 'PrivacyManager_ForceCookielessTracking'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.forceCookielessTracking }}"
+             inline-help="{{ 'PrivacyManager_ForceCookielessTrackingDescription'|translate(trackerFileName)|e('html_attr') }}<br/><br/><em>{{ 'PrivacyManager_ForceCookielessTrackingDescription2'|translate|e('html_attr') }}</em>
+                          {%- if not trackerWritable %}
+                                <br /><br /><p class='alert-warning alert'>{{ 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable'|translate(trackerFileName)|e('html_attr') }}</p>
+                          {% endif -%}">
+        </div>
+
         <div piwik-field uicontrol="select" name="anonymizeReferrer"
              ng-model="anonymizeIp.anonymizeReferrer"
              options='{{ referrerAnonymizationOptions|json_encode|e('html_attr') }}'

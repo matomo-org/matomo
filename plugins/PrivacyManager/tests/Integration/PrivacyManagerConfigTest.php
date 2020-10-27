@@ -114,6 +114,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'PrivacyManager.anonymizeOrderId'    => false,
             'PrivacyManager.anonymizeReferrer'   => '',
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => false,
+            'PrivacyManager.forceCookielessTracking' => false,
         );
 
         $this->assertEquals($expected, $content);
