@@ -26,6 +26,19 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
      */
     protected $environment;
 
+    public function setGroups(array $groups): void
+    {
+        $pluginName = explode('\\', get_class($this));
+        if (!empty($pluginName[2])) {
+            $pluginName = $pluginName[2];
+        }
+        if (!in_array($pluginName, $groups, true)) {
+            $groups[] = $pluginName;
+        }
+
+        parent::setGroups($groups);
+    }
+
     public function setUp(): void
     {
         parent::setUp();
@@ -41,7 +54,7 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 
         // make sure the global container exists for the next test case that is executed (since logging can be done
         // before a test sets up an environment)
-        $nextTestEnviornment = new Environment($environment = null, array(), $postBootstrappedEvent = false);
+        $nextTestEnviornment = new Environment($environment = null, array());
         $nextTestEnviornment->init();
 
         parent::tearDown();
