@@ -18,7 +18,6 @@
         window.Matomo.on('TrackerSetup', function(tracker) {
             tracker.setCookieConsentGiven=function(){};
             tracker.rememberCookieConsentGiven=function(){};
-            tracker.requireConsent=function(){};
             tracker.disableCookies();
         });
     }

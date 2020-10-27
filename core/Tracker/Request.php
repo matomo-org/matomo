@@ -739,10 +739,10 @@ class Request
             }
         }
 
-        $cache = Tracker\Cache::getCacheGeneral();
+        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config();
 
         // Only check for cookie values if cookieless tracking is NOT forced
-        if (!isset($cache['forceCookielessTracking']) || !$cache['forceCookielessTracking']) {
+        if (!$privacyConfig->forceCookielessTracking) {
             // - If set to use 3rd party cookies for Visit ID, read the cookie
             if (!$found) {
                 $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
