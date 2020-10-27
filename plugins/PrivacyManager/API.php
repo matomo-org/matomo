@@ -90,7 +90,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return Request::processRequest('Live.getLastVisitsDetails', [
+        $result = Request::processRequest('Live.getLastVisitsDetails', [
             'segment' => $segment,
             'idSite' => $idSite,
             'period' => 'range',
@@ -98,6 +98,35 @@ class API extends \Piwik\Plugin\API
             'filter_limit' => 401,
             'doNotFetchActions' => 1
         ]);
+
+        $columnsToKeep = [
+            'lastActionDateTime',
+            'idVisit',
+            'idSite',
+            'siteName',
+            'visitorId',
+            'visitIp',
+            'userId',
+            'deviceType',
+            'deviceModel',
+            'deviceTypeIcon',
+            'operatingSystem',
+            'operatingSystemIcon',
+            'browser',
+            'browserFamilyDescription',
+            'browserIcon',
+            'country',
+            'region',
+            'countryFlag',
+        ];
+
+        foreach ($result->getColumns() as $column) {
+            if (!in_array($column, $columnsToKeep)) {
+                $result->deleteColumn($column);
+            }
+        }
+
+        return $result;
     }
 
     public function anonymizeSomeRawData(
