@@ -30,20 +30,13 @@ class ConfigDeletingManipulation
     private $name;
 
     /**
-     * @var bool
-     */
-    private $isSectionDeletion;
-
-    /**
      * @param string      $sectionName
      * @param string|null $name
-     * @param bool        $isSectionDeletion
      */
-    public function __construct(string $sectionName, ?string $name, bool $isSectionDeletion = false)
+    public function __construct(string $sectionName, string $name)
     {
         $this->sectionName = $sectionName;
         $this->name = $name;
-        $this->isSectionDeletion = $isSectionDeletion;
     }
 
     /**
@@ -54,28 +47,7 @@ class ConfigDeletingManipulation
      */
     public function manipulate(Config $config): void
     {
-        if ($this->isSectionDeletion) {
-            $this->deleteConfigSection($config);
-        } else {
-            $this->deleteConfigSetting($config);
-        }
-    }
-
-    /**
-     * @param Config $config
-     *
-     * @throws RuntimeException When trying to delete not existing section in config
-     */
-    private function deleteConfigSection(Config $config): void
-    {
-        $sectionName = $this->sectionName;
-        $section = $config->$sectionName;
-
-        if (empty($section)) {
-            throw new RuntimeException("Trying to delete not existing config section ".$this->getSettingString().".");
-        }
-
-        $config->$sectionName = null;
+        $this->deleteConfigSetting($config);
     }
 
     /**
@@ -112,11 +84,7 @@ class ConfigDeletingManipulation
             throw new InvalidArgumentException("Invalid assignment string '$assignment': expected section or section.config_setting_key");
         }
 
-        $section = $matches['section'];
-        $setting_key = $matches['setting_key'] ?? null;
-        $isSectionDeletion = empty($matches['setting_key']);
-
-        return new self($section, $setting_key, $isSectionDeletion);
+        return new self($matches['section'], $matches['setting_key']);
     }
 
     /**
@@ -141,13 +109,5 @@ class ConfigDeletingManipulation
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isSectionDeletion(): bool
-    {
-        return $this->isSectionDeletion;
     }
 }

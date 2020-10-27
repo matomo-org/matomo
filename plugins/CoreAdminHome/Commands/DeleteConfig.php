@@ -25,20 +25,16 @@ class DeleteConfig extends ConsoleCommand
     {
         $this->setName('config:delete');
         $this->setDescription('Delete one or more config settings in the file config/config.ini.php');
-        $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, "List of config setting assignments, eg, section or section.config_setting_key");
+        $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, "List of config setting assignments, eg, section.config_setting_key");
         $this->addOption('section', null, InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
         $this->addOption('key', null, InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
         $this->setHelp("This command can be used to remove INI config settings on a Piwik instance.
 
 You can remove config values two ways, via --section, --key or by command arguments.
 
-To use --section, --key, simply supply those options. You can remove one whole section or one key inside the section.
+To use --section, --key, simply supply those options.
 
 To use arguments, supply one or more arguments in the following format:
-
-Remove section:
-$ ./console config:delete 'section'
-'section' is the name of the section,
 
 Remove setting inside section
 $ ./console config:delete 'section.config_setting_key'
@@ -64,17 +60,6 @@ $ ./console config:delete 'section.config_setting_key'
         $config = Config::getInstance();
 
         foreach ($manipulations as $manipulation) {
-            /** @var ConfigDeletingManipulation $manipulation */
-            if ($manipulation->isSectionDeletion()) {
-                $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion('<question>Do you want to remove the section "' . $manipulation->getSectionName() . '"? (y/n)</question> ' , false);
-
-                if (!$helper->ask($input, $output, $question)) {
-                    $output->writeln( "<comment>\"".$manipulation->getSectionName()."\" will not be deleted</comment>");
-                    continue;
-                }
-            }
-
             try {
                 $manipulation->manipulate($config);
 
@@ -101,8 +86,8 @@ $ ./console config:delete 'section.config_setting_key'
         $section = $input->getOption('section');
         $setting_key = $input->getOption('key');
 
-        if (!empty($section)) {
-            $manipulations[] = new ConfigDeletingManipulation($section, $setting_key, empty($setting_key));
+        if (!empty($section) && !empty($setting_key)) {
+            $manipulations[] = new ConfigDeletingManipulation($section, $setting_key);
         }
 
         return $manipulations;

@@ -86,36 +86,21 @@ class ConfigDeletingManipulationTest extends TestCase
      * @param $assignmentString
      * @param $expectedSectionName
      * @param $expectedSettingName
-     * @param $expectedIsSectionDeletion
      */
-    public function test_make_CreatesCorrectManipulation($assignmentString, $expectedSectionName, $expectedSettingName, $expectedIsSectionDeletion): void
+    public function test_make_CreatesCorrectManipulation($assignmentString, $expectedSectionName, $expectedSettingName): void
     {
         $manipulation = ConfigDeletingManipulation::make($assignmentString);
 
         $this->assertEquals($expectedSectionName, $manipulation->getSectionName());
         $this->assertEquals($expectedSettingName, $manipulation->getName());
-        $this->assertEquals($expectedIsSectionDeletion, $manipulation->isSectionDeletion());
     }
 
     public function getTestDataForMake(): array
     {
         return array(
             // Setting Delete
-            array("General.myconfig", "General", "myconfig", false),
-
-            // Section delete
-            array("General", "General", null, true),
-
+            array("General.myconfig", "General", "myconfig"),
         );
-    }
-
-    public function test_manipulate_ThrowIfSectionDoesntExists(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Trying to delete not existing config section [General]');
-
-        $manipulation = new ConfigDeletingManipulation("General", null, true);
-        $manipulation->manipulate($this->mockConfig);
     }
 
     public function test_manipulate_ThrowIfConfigSettingDoesntExists(): void
@@ -132,13 +117,11 @@ class ConfigDeletingManipulationTest extends TestCase
      *
      * @param $sectionName
      * @param $name
-     * @param $isSectionDeletion
-     * @param $settingPositionToDelete
      * @param $expectedConfig
      */
-    public function test_manipulate_CorrectlyManipulatesConfig($sectionName, $name, $isSectionDeletion, $settingPositionToDelete, $expectedConfig): void
+    public function test_manipulate_CorrectlyManipulatesConfig($sectionName, $name, $expectedConfig): void
     {
-        $manipulation = new ConfigDeletingManipulation($sectionName, $name, $isSectionDeletion, $settingPositionToDelete);
+        $manipulation = new ConfigDeletingManipulation($sectionName, $name);
         $manipulation->manipulate($this->mockConfig);
 
         $this->assertEquals($expectedConfig, $this->mockConfig->mockConfigData);
@@ -150,12 +133,10 @@ class ConfigDeletingManipulationTest extends TestCase
     public function getTestDataForManipulate():array
     {
         return array(
-            // Section delete (string, string, bool, int)
-            array("Section", null, true, null, array("Section" => null)),
             // Setting delete
-            array("Section", 'config_setting_two', false, null, array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_three' => array('a', 'b'), 'config_setting_for' => false))),
+            array("Section", 'config_setting_two', array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_three' => array('a', 'b'), 'config_setting_for' => false))),
             // Array setting delete
-            array("Section", 'config_setting_three', false, null, array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_two' => 25, 'config_setting_for' => false))),
+            array("Section", 'config_setting_three', array("Section" =>  array('config_setting' => "stringvalue", 'config_setting_two' => 25, 'config_setting_for' => false))),
         );
     }
 }
