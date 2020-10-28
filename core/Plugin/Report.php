@@ -236,6 +236,12 @@ class Report
      */
     public function isEnabled()
     {
+        if (!empty($this->dimension)
+            && !$this->dimension->isEnabled()
+        ) {
+            return false;
+        }
+
         return true;
     }
 
@@ -632,7 +638,7 @@ class Report
             $report['constantRowsCount'] = $this->constantRowsCount;
         }
 
-        $relatedReports = $this->getRelatedReports();
+        $relatedReports = $this->getEnabledRelatedReports();
         if (!empty($relatedReports)) {
             $report['relatedReports'] = array();
             foreach ($relatedReports as $relatedReport) {
@@ -705,6 +711,22 @@ class Report
     public function getRelatedReports()
     {
         return array();
+    }
+
+    /**
+     * Return the list of related reports that are currently enabled. Disabled reports should not be shown in the
+     * UI.
+     *
+     * @return Report[]
+     * @api
+     */
+    public function getEnabledRelatedReports()
+    {
+        $reports = $this->getRelatedReports();
+        $reports = array_filter($reports, function (Report $report) {
+            return $report->isEnabled();
+        });
+        return $reports;
     }
 
     /**

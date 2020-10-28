@@ -210,7 +210,7 @@ abstract class ViewDataTable implements ViewInterface
 
             $this->config->show_goals = $report->hasGoalMetrics();
 
-            $relatedReports = $report->getRelatedReports();
+            $relatedReports = $report->getEnabledRelatedReports();
             if (!empty($relatedReports)) {
                 foreach ($relatedReports as $relatedReport) {
                     if (!$relatedReport) {

@@ -841,6 +841,24 @@ abstract class Dimension
     }
 
     /**
+     * Returns `true` if this dimension is enabled or `false` if it has been disabled via the
+     * Disabled Dimensions global setting.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        $settings = new SystemSettings();
+
+        $disabledDimensions = $settings->disabledDimensions->getValue();
+        if (empty($disabledDimensions) || !is_array($disabledDimensions)) {
+            return true;
+        }
+
+        return !in_array($this->getId(), $disabledDimensions);
+    }
+
+    /**
      * @param Dimension[] &$dimensions
      */
     protected static function filterDisabledDimensions(array &$dimensions)
