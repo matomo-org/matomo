@@ -18,7 +18,8 @@
         this.segment_filter = 'userId==';
         this.dataSubjects = [];
         this.toggleAll = true;
-        this.hasSearched = false
+        this.hasSearched = false;
+        this.profileEnabled = piwik.visitorProfileEnabled;
 
         var sitesPromise = piwikApi.fetch({method: 'SitesManager.getSitesIdWithAdminAccess', filter_limit: '-1'});
 
