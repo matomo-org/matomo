@@ -107,7 +107,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     private function addDimensions(array &$dimensions, array $allDimensions, $dimensionType)
     {
         foreach ($allDimensions as $dimension) {
-            $dimensions[$dimension->getId()] = ($dimension->getName() ?: get_class($dimension)) . ' (' . $dimensionType . ')';
+            $dimensions[$dimension->getId()] = ($dimension->getName() ?: get_class($dimension)) . ' ' . get_class($dimension) . ' (' . $dimensionType . ')';
         }
     }
 }

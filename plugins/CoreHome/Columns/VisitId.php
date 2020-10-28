@@ -25,7 +25,7 @@ class VisitId extends VisitDimension
 {
     protected $columnName = 'idvisit';
     protected $acceptValues = 'Any integer.';
-    protected $nameSingular = 'General_Visit';
+    protected $nameSingular = 'General_VisitId';
     protected $namePlural = 'General_ColumnNbVisits';
     protected $segmentName = 'visitId';
     protected $allowAnonymous = false;
