@@ -468,7 +468,9 @@ class Request
         }
 
         if (Access::getInstance()->hasSuperUserAccess()) {
-            throw new \Exception(Piwik::translate('Widgetize_TooHighAccessLevel'));
+            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_TooHighAccessLevel', ['<a href="https://matomo.org/faq/troubleshooting/faq_147/" rel="noreferrer noopener">', '</a>']));
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
 
         $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
