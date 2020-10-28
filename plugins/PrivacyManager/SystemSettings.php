@@ -8,8 +8,11 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Log;
 use Piwik\Piwik;
-use Piwik\Settings\Setting;
+use Piwik\Plugin\Manager;
+use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\FieldConfig;
 
 /**
@@ -17,13 +20,13 @@ use Piwik\Settings\FieldConfig;
  */
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
-    /** @var Setting */
+    /** @var SystemSetting */
     public $privacyPolicyUrl;
 
-    /** @var Setting */
+    /** @var SystemSetting */
     public $termsAndConditionUrl;
 
-    /** @var Setting */
+    /** @var SystemSetting */
     public $showInEmbeddedWidgets;
 
     protected function init()
@@ -33,7 +36,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $this->showInEmbeddedWidgets = $this->createShowInEmbeddedWidgetsSetting();
     }
 
-    private function createPrivacyPolicyUrlSetting()
+    private function createPrivacyPolicyUrlSetting(): SystemSetting
     {
         return $this->makeSetting('privacyPolicyUrl', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_PrivacyPolicyUrl');
@@ -43,7 +46,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createTermsAndConditionUrlSetting()
+    private function createTermsAndConditionUrlSetting(): SystemSetting
     {
         return $this->makeSetting('termsAndConditionUrl', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_TermsAndConditionUrl');
@@ -53,7 +56,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createShowInEmbeddedWidgetsSetting()
+    private function createShowInEmbeddedWidgetsSetting(): SystemSetting
     {
         return $this->makeSetting('showInEmbeddedWidgets', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('PrivacyManager_ShowInEmbeddedWidgets');

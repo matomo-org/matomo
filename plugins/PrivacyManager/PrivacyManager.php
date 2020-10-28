@@ -186,7 +186,8 @@ class PrivacyManager extends Plugin
             'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
             'Template.pageFooter'                     => 'renderPrivacyPolicyLinks',
             'Db.getTablesInstalled'                   => 'getTablesInstalled',
-            'Visualization.beforeRender' => 'onConfigureVisualisation'
+            'Visualization.beforeRender'              => 'onConfigureVisualisation',
+            'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile'
         );
     }
 
@@ -740,5 +741,23 @@ class PrivacyManager extends Plugin
         }
 
         return false;
+    }
+
+    public function shouldAddTrackerFile(&$shouldAdd, $pluginName)
+    {
+        if ($pluginName === 'PrivacyManager') {
+            $shouldAdd = self::isCookieLessTrackingForced();
+        }
+    }
+
+    /**
+     * Returns if cookie less tracking is forced
+     *
+     * @return bool
+     */
+    public static function isCookieLessTrackingForced()
+    {
+        $config = new Config();
+        return !!$config->forceCookielessTracking;
     }
 }

@@ -150,7 +150,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '')
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '', $forceCookielessTracking = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -178,6 +178,13 @@ class API extends \Piwik\Plugin\API
 
         if (false !== $anonymizeOrderId) {
             $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
+        }
+
+        if (false !== $forceCookielessTracking) {
+            $privacyConfig->forceCookielessTracking = (bool) $forceCookielessTracking;
+
+            // update tracker files
+            Piwik::postEvent('CustomJsTracker.updateTracker');
         }
 
         return true;

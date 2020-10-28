@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -36,6 +37,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
+    }
+
+    public function test_TestCaseHasSetGroupsMethod()
+    {
+        // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
+        // checking this way as it is not an official API
+        $this->assertTrue(method_exists(TestCase::class,'setGroups'));
     }
 
     public function test_woff2_fileIsUpToDate()
