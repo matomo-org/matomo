@@ -142,8 +142,8 @@ class ApiTest extends SystemTestCase
     public function testSuggestSegmentAPIWithDisabledFeatures($api, $params)
     {
         $settings = new SystemSettings();
-        $settings->disableVisitorLog->setValue(false);
-        $settings->disableVisitorProfile->setValue(false);
+        $settings->disableVisitorLog->setValue(true);
+        $settings->disableVisitorProfile->setValue(true);
         $settings->save();
 
         $date                      = mktime(0, 0, 0, 1, 1, 2010);
