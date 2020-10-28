@@ -107,7 +107,13 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     private function addDimensions(array &$dimensions, array $allDimensions, $dimensionType)
     {
         foreach ($allDimensions as $dimension) {
-            $dimensions[$dimension->getId()] = ($dimension->getName() ?: get_class($dimension)) . ' ' . get_class($dimension) . ' (' . $dimensionType . ')';
+            if (!method_exists($dimension, 'onNewVisit')
+                && !method_exists($dimension, 'onExistingVisit')
+            ) {
+                continue;
+            }
+
+            $dimensions[$dimension->getId()] = ($dimension->getName() ?: get_class($dimension)) . ' (' . $dimensionType . ')';
         }
     }
 }
