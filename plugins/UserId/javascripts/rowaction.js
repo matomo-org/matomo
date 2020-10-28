@@ -48,7 +48,7 @@
         ],
 
         isAvailableOnReport: function (dataTableParams, undefined) {
-            return dataTableParams.module == 'UserId';
+            return dataTableParams.module == 'UserId' && piwik.visitorProfileEnabled;
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {

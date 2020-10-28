@@ -226,36 +226,36 @@ https://www.example.org/</placeholder>
 				<title>Live</title>
 				<settings>
 					<row>
-						<name>activate_visitor_log</name>
-						<title>Enable visits log</title>
-						<value>1</value>
-						<defaultValue>1</defaultValue>
+						<name>disable_visitor_log</name>
+						<title>Disable visits log &amp; visitor profile</title>
+						<value>0</value>
+						<defaultValue>0</defaultValue>
 						<type>boolean</type>
 						<uiControl>checkbox</uiControl>
 						<uiControlAttributes>
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp />
+						<inlineHelp>Here you can disable the visits log and visitor profile feature. This will also disable features that depend on such like the ecommerce log, the segmented visits log, the realtime map or the realtime widget. This might be required to comply with your local privacy laws/guidelines.</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
 					</row>
 					<row>
-						<name>activate_visitor_profile</name>
-						<title>Enable visitor profile</title>
-						<value>1</value>
-						<defaultValue>1</defaultValue>
+						<name>disable_visitor_profile</name>
+						<title>Disable visitor profile only</title>
+						<value>0</value>
+						<defaultValue>0</defaultValue>
 						<type>boolean</type>
 						<uiControl>checkbox</uiControl>
 						<uiControlAttributes>
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp />
+						<inlineHelp>Here you can disable the visitor profile feature. All visits log related features will remain working.</inlineHelp>
 						<templateFile />
 						<introduction />
-						<condition />
+						<condition>disable_visitor_log==0</condition>
 					</row>
 				</settings>
 			</row>
@@ -540,7 +540,7 @@ https://www.example.org/</placeholder>
 						<inlineHelp />
 						<templateFile />
 						<introduction />
-						<condition />
+						<condition>activate_visitor_log==1</condition>
 					</row>
 				</settings>
 			</row>
