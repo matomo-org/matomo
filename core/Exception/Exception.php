@@ -14,7 +14,7 @@ use Exception as PhpException;
  * An exception whose message has HTML content. When these exceptions are caught
  * the message will not be sanitized before being displayed to the user.
  */
-abstract class Exception extends PhpException
+class Exception extends PhpException
 {
     private $isHtmlMessage = false;
 

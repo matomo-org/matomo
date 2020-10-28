@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataTable;
@@ -455,22 +456,36 @@ class Request
      * @ignore
      * @param string $module
      * @param string $action
-     * @return bool
      * @throws Exception
      */
-    public static function isTokenAuthLimitedToViewAccess($module, $action)
+    public static function checkTokenAuthIsNotLimited($module, $action)
     {
-        if (($module !== 'API' || ($action && $action !== 'index'))
-            && Piwik::isUserHasSomeWriteAccess()
-            && !Common::isPhpCliMode()) {
+        $isApi = ($module === 'API' && (empty($action) || $action === 'index'));
+        if ($isApi
+            || Common::isPhpCliMode()
+        ) {
+            return;
+        }
+
+        if (Access::getInstance()->hasSuperUserAccess()) {
+            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_TooHighAccessLevel', ['<a href="https://matomo.org/faq/troubleshooting/faq_147/" rel="noreferrer noopener">', '</a>']));
+            $ex->setIsHtmlMessage();
+            throw $ex;
+        }
+
+        $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
+        if (Piwik::isUserHasSomeWriteAccess()
+            && !$allowWriteAmin
+        ) {
             // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
             // access. it's mostly there to get users to use auth tokens of view users when embedding reports
             // token_auth is fine for API calls since they would be always authenticated later anyway
             // token_auth is also fine in CLI mode as eg doAsSuperUser might be used etc
-            return true;
+            //
+            // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
+            // option is set.
+            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired', ['https://matomo.org/faq/troubleshooting/faq_147/']));
         }
-
-        return false;
     }
 
     /**
