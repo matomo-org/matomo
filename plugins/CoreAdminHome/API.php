@@ -326,7 +326,7 @@ class API extends \Piwik\Plugin\API
                     continue;
                 }
 
-                if ($date->toString() == $theDate) {
+                if ($date->toString() == $theDate || $theDate == 'today' || $theDate == 'yesterday') {
                     $toInvalidate[] = $date;
                 } else {
                     $invalidDates[] = $theDate;
