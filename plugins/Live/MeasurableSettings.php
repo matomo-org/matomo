@@ -15,44 +15,44 @@ use Piwik\Settings\Measurable\MeasurableSetting;
 class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 {
     /** @var MeasurableSetting|null */
-    public $activateVisitorLog;
+    public $disableVisitorLog;
 
     /** @var MeasurableSetting|null */
-    public $activateVisitorProfile;
+    public $disableVisitorProfile;
 
     protected function init()
     {
-        $this->activateVisitorLog     = $this->makeVisitorLogSetting();
-        $this->activateVisitorProfile = $this->makeVisitorProfileSetting();
+        $this->disableVisitorLog     = $this->makeVisitorLogSetting();
+        $this->disableVisitorProfile = $this->makeVisitorProfileSetting();
 
         $systemSettings = new SystemSettings();
 
-        $this->activateVisitorLog->setIsWritableByCurrentUser($systemSettings->activateVisitorLog->getValue());
-        $this->activateVisitorProfile->setIsWritableByCurrentUser($systemSettings->activateVisitorProfile->getValue());
+        $this->disableVisitorLog->setIsWritableByCurrentUser(!$systemSettings->disableVisitorLog->getValue());
+        $this->disableVisitorProfile->setIsWritableByCurrentUser(!$systemSettings->disableVisitorProfile->getValue());
     }
 
     private function makeVisitorLogSetting(): MeasurableSetting
     {
-        $defaultValue = true;
+        $defaultValue = false;
         $type = FieldConfig::TYPE_BOOL;
 
-        return $this->makeSetting('activate_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
-            $field->title = Piwik::translate('Live_EnableVisitsLog');
-            $field->inlineHelp = '';
+        return $this->makeSetting('disable_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
+            $field->inlineHelp = Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
 
     private function makeVisitorProfileSetting(): MeasurableSetting
     {
-        $defaultValue = true;
+        $defaultValue = false;
         $type = FieldConfig::TYPE_BOOL;
 
-        return $this->makeSetting('activate_visitor_profile', $defaultValue, $type, function (FieldConfig $field) {
-            $field->title = Piwik::translate('Live_EnableVisitorProfile');
-            $field->inlineHelp = '';
+        return $this->makeSetting('disable_visitor_profile', $defaultValue, $type, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Live_DisableVisitorProfile');
+            $field->inlineHelp = Piwik::translate('Live_DisableVisitorProfileDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->condition = 'activate_visitor_log==1';
+            $field->condition = 'disable_visitor_log==0';
         });
     }
 }

@@ -15,39 +15,39 @@ use Piwik\Settings\Plugin\SystemSetting;
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
     /** @var SystemSetting|null */
-    public $activateVisitorLog;
+    public $disableVisitorLog;
 
     /** @var SystemSetting|null */
-    public $activateVisitorProfile;
+    public $disableVisitorProfile;
 
     protected function init()
     {
-        $this->activateVisitorLog     = $this->makeVisitorLogSetting();
-        $this->activateVisitorProfile = $this->makeVisitorProfileSetting();
+        $this->disableVisitorLog     = $this->makeVisitorLogSetting();
+        $this->disableVisitorProfile = $this->makeVisitorProfileSetting();
     }
 
     private function makeVisitorLogSetting(): SystemSetting
     {
-        $defaultValue = true;
+        $defaultValue = false;
         $type = FieldConfig::TYPE_BOOL;
 
-        return $this->makeSetting('activate_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
-            $field->title = Piwik::translate('Live_EnableVisitsLog');
-            $field->inlineHelp = '';
+        return $this->makeSetting('disable_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
+            $field->inlineHelp = Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
 
     private function makeVisitorProfileSetting(): SystemSetting
     {
-        $defaultValue = true;
+        $defaultValue = false;
         $type = FieldConfig::TYPE_BOOL;
 
-        return $this->makeSetting('activate_visitor_profile', $defaultValue, $type, function (FieldConfig $field) {
-            $field->title = Piwik::translate('Live_EnableVisitorProfile');
-            $field->inlineHelp = '';
+        return $this->makeSetting('disable_visitor_profile', $defaultValue, $type, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Live_DisableVisitorProfile');
+            $field->inlineHelp = Piwik::translate('Live_DisableVisitorProfileDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->condition = 'activate_visitor_log==1';
+            $field->condition = 'disable_visitor_log==0';
         });
     }
 }
