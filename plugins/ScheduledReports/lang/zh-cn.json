@@ -38,6 +38,7 @@
         "Segment_Deletion_Error": "这个分段不能删除，也不能对其他用户隐藏，因为它用在通用邮件报表 %s。请从这个报表中删除这个分段后重试。",
         "Segment_Help": "您可以选择已有的自定义分段用在这个邮件报表的数据中。创建和修改自定义分段在报表面板%1$s(点这里打开)%2$s，然后点 \"%3$s\" 方框，接着 \"%4$s\"。",
         "SegmentAppliedToReports": "分段 '%s' 已应用到报表。",
+        "SegmentDeleted": "细分已删除",
         "SendReportNow": "现在发送报表",
         "SendReportTo": "报表收件人",
         "SentToMe": "寄给我",

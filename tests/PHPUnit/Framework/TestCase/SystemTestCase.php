@@ -58,6 +58,19 @@ abstract class SystemTestCase extends TestCase
      */
     public static $fixture;
 
+    public function setGroups(array $groups): void
+    {
+        $pluginName = explode('\\', get_class($this));
+        if (!empty($pluginName[2]) && !empty($pluginName[1]) && $pluginName[1] === 'Plugins') {
+            // we assume \Piwik\Plugins\PluginName nanmespace...
+            if (!in_array($pluginName[2], $groups, true)) {
+                $groups[] = $pluginName[2];
+            }
+        }
+
+        parent::setGroups($groups);
+    }
+
     public static function setUpBeforeClass(): void
     {
         Log::debug("Setting up " . get_called_class());

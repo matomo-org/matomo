@@ -133,6 +133,7 @@ class CustomDimensionsTest extends IntegrationTestCase
 
         $logTable = new LogTable(CustomDimensions::SCOPE_CONVERSION);
         $logTable->removeCustomDimension(1);
+        Cache::deleteTrackerCache();
 
         $conversion = array();
 

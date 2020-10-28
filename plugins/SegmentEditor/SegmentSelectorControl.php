@@ -14,7 +14,9 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\API as APIMetadata;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\UsersManager\API AS UsersManagerAPI;
 use Piwik\View\UIControl;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
@@ -84,6 +86,8 @@ class SegmentSelectorControl extends UIControl
             'hideSegmentDefinitionChangeMessage',
             Piwik::getCurrentUserLogin()
         );
+
+        $this->isVisitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
     }
 
     public function getClientSideProperties()

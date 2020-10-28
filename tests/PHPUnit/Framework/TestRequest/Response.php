@@ -60,6 +60,9 @@ class Response
     {
         $testRequest = new Request($requestUrl);
 
+        // set the request as root request
+        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest(Request::getRequestArrayFromString($requestUrl, null)));
+
         // Cast as string is important. For example when calling
         // with format=original, objects or php arrays can be returned.
         $response = (string) $testRequest->process();

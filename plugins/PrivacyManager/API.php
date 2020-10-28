@@ -86,6 +86,49 @@ class API extends \Piwik\Plugin\API
         return $this->gdpr->exportDataSubjects($visits);
     }
 
+    public function findDataSubjects($idSite, $segment)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $result = Request::processRequest('Live.getLastVisitsDetails', [
+            'segment' => $segment,
+            'idSite' => $idSite,
+            'period' => 'range',
+            'date' => '1998-01-01,today',
+            'filter_limit' => 401,
+            'doNotFetchActions' => 1
+        ]);
+
+        $columnsToKeep = [
+            'lastActionDateTime',
+            'idVisit',
+            'idSite',
+            'siteName',
+            'visitorId',
+            'visitIp',
+            'userId',
+            'deviceType',
+            'deviceModel',
+            'deviceTypeIcon',
+            'operatingSystem',
+            'operatingSystemIcon',
+            'browser',
+            'browserFamilyDescription',
+            'browserIcon',
+            'country',
+            'region',
+            'countryFlag',
+        ];
+
+        foreach ($result->getColumns() as $column) {
+            if (!in_array($column, $columnsToKeep)) {
+                $result->deleteColumn($column);
+            }
+        }
+
+        return $result;
+    }
+
     public function anonymizeSomeRawData(
         $idSites,
         $date,
@@ -150,7 +193,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '')
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '', $forceCookielessTracking = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -178,6 +221,13 @@ class API extends \Piwik\Plugin\API
 
         if (false !== $anonymizeOrderId) {
             $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
+        }
+
+        if (false !== $forceCookielessTracking) {
+            $privacyConfig->forceCookielessTracking = (bool) $forceCookielessTracking;
+
+            // update tracker files
+            Piwik::postEvent('CustomJsTracker.updateTracker');
         }
 
         return true;
