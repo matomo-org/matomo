@@ -750,7 +750,7 @@ class CronArchive
             return;
         }
 
-        $this->logger->info("Checking for queued invalidations...");
+        $this->logger->debug("Checking for queued invalidations...");
 
         // invalidate remembered site/day pairs
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
@@ -770,7 +770,7 @@ class CronArchive
 
                 $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
                 if ($this->isThereExistingValidPeriod($params)) {
-                    $this->logger->info('  Found usable archive for date range {date} for site {idSite}, skipping invalidation for now.', ['date' => $date, 'idSite' => $idSite]);
+                    $this->logger->debug('  Found usable archive for date range {date} for site {idSite}, skipping invalidation for now.', ['date' => $date, 'idSite' => $idSite]);
                     continue;
                 }
 
@@ -784,7 +784,7 @@ class CronArchive
             $listSiteIds = implode(',', $siteIdsToInvalidate);
 
             try {
-                $this->logger->info('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
+                $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
             } catch (Exception $e) {
                 $message = $e->getMessage();
@@ -815,11 +815,11 @@ class CronArchive
 
             $params = new Parameters(new Site($idSiteToInvalidate), $period, new Segment('', [$idSiteToInvalidate], $period->getDateStart(), $period->getDateEnd()));
             if ($this->isThereExistingValidPeriod($params)) {
-                $this->logger->info('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSiteToInvalidate]);
+                $this->logger->debug('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSiteToInvalidate]);
                 continue;
             }
 
-            $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
+            $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
             $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
         }
@@ -828,7 +828,7 @@ class CronArchive
         $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidateForNewSegments($idSiteToInvalidate);
 
         foreach ($segmentDatesToInvalidate as $info) {
-            $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
+            $this->logger->debug('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
                 'segment' => $info['segment'],
                 'idSite' => $idSiteToInvalidate,
             ]);
@@ -846,7 +846,7 @@ class CronArchive
 
         $this->setInvalidationTime();
 
-        $this->logger->info("Done invalidating");
+        $this->logger->debug("Done invalidating");
     }
 
     private function invalidateRecentDate($dateStr, $idSite)
@@ -868,7 +868,7 @@ class CronArchive
             return;
         }
 
-        $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
+        $this->logger->debug("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
             'idSite' => $idSite,
             'date' => $date->getDatetime(),
         ]);
