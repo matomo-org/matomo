@@ -51,7 +51,8 @@ class API extends \Piwik\Plugin\API
             'nb_visits_converted',
             'bounce_count',
             'sum_visit_length',
-            'max_actions'
+            'max_actions',
+            'nb_profilable',
         );
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $columns = array_merge(array('nb_uniq_visitors', 'nb_users'), $columns);
