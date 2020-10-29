@@ -81,18 +81,24 @@ class SegmentEditor extends \Piwik\Plugin
         $segments = $storedSegments->getAllSegmentsAndIgnoreVisibility();
         $numSegments = count($segments);
 
-        $numAutoArchiveSegments = 0;
-        $numRealTimeSegments = 0;
-        foreach ($segments as $segment) {
-            $autoArchive = (int)$segment['auto_archive'];
-            if (!empty($autoArchive)) {
-                ++$numAutoArchiveSegments;
-            } else {
-                ++$numRealTimeSegments;
+        if (Rules::isBrowserArchivingAvailableForSegments()) {
+            $numAutoArchiveSegments = 0;
+            $numRealTimeSegments = 0;
+            foreach ($segments as $segment) {
+                $autoArchive = (int)$segment['auto_archive'];
+                if (!empty($autoArchive)) {
+                    ++$numAutoArchiveSegments;
+                } else {
+                    ++$numRealTimeSegments;
+                }
             }
+
+            $message = Piwik::translate('CoreHome_SystemSummaryNSegmentsWithBreakdown', [$numSegments, $numAutoArchiveSegments, $numRealTimeSegments]);
+        } else {
+            $message = Piwik::translate('CoreHome_SystemSummaryNSegments', [$numSegments]);
         }
 
-        $systemSummary[] = new SystemSummary\Item($key = 'segments', Piwik::translate('CoreHome_SystemSummaryNSegments', [$numSegments, $numAutoArchiveSegments, $numRealTimeSegments]), $value = null, $url = null, $icon = 'icon-segment', $order = 6);
+        $systemSummary[] = new SystemSummary\Item($key = 'segments', $message, $value = null, $url = null, $icon = 'icon-segment', $order = 6);
     }
 
     function getSegmentEditorHtml(&$out)

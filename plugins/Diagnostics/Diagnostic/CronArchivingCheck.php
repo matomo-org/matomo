@@ -33,7 +33,8 @@ class CronArchivingCheck implements Diagnostic
 
     public function execute()
     {
-        $label = $this->translator->translate('Installation_SystemCheckCronArchiveProcess');
+        $label = $this->translator->translate('Installation_SystemCheckCronArchiveProcess') . ' (' .
+            $this->translator->translate('Installation_FasterReportLoading') . ')';
 
         if (SettingsPiwik::isMatomoInstalled()) {
             $isBrowserTriggerDisabled = !Rules::isBrowserTriggerEnabled();
