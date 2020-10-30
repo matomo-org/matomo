@@ -66,7 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         switch ($type) {
             case 'brands':
-                $availableBrands = \DeviceDetector\Parser\Device\DeviceParserAbstract::$deviceBrands;
+                $availableBrands = \DeviceDetector\Parser\Device\AbstractDeviceParser::$deviceBrands;
 
                 foreach ($availableBrands as $short => $name) {
                     if ($name != 'Unknown') {
@@ -108,7 +108,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'devicetypes':
-                $deviceTypes = \DeviceDetector\Parser\Device\DeviceParserAbstract::getAvailableDeviceTypes();
+                $deviceTypes = \DeviceDetector\Parser\Device\AbstractDeviceParser::getAvailableDeviceTypes();
 
                 foreach ($deviceTypes as $name => $id) {
                     $list[$name] = getDeviceTypeLogo($name);

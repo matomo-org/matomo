@@ -11,7 +11,7 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Piwik;
 use DeviceDetector\Parser\OperatingSystem AS OperatingSystemParser;
-use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
+use DeviceDetector\Parser\Device\AbstractDeviceParser AS DeviceParser;
 use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)

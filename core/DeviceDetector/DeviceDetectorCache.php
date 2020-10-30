@@ -17,7 +17,7 @@ use Piwik\Cache as PiwikCache;
  *
  * Static caching speeds up multiple detections in one request, which is the case when sending bulk requests
  */
-class DeviceDetectorCache implements \DeviceDetector\Cache\Cache
+class DeviceDetectorCache implements \DeviceDetector\Cache\CacheInterface
 {
     protected static $staticCache = array();
 
