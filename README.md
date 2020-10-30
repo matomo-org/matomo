@@ -58,7 +58,7 @@ If you do not have a server or don't want to host yourself you can use our Matom
 
 ## Online Demo
 
-Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.org/).
+Check out the online demo for Matomo at [demo.matomo.cloud](https://demo.matomo.cloud/).
 
 ## Changelog
 
