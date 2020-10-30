@@ -61,7 +61,7 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\CacheInterface
      * @throws \Exception
      * @return bool  True if the entry was successfully stored
      */
-    public function save($id, $content, $ttl=0)
+    public function save($id, $content, $ttl=0): bool
     {
         if (empty($id)) {
             return false;
@@ -69,15 +69,15 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\CacheInterface
 
         self::$staticCache[$id] = $content;
 
-        return $this->cache->save($id, $content, $this->ttl);
+        return (bool) $this->cache->save($id, $content, $this->ttl);
     }
 
-    public function contains($id)
+    public function contains($id): bool
     {
         return !empty(self::$staticCache[$id]) && $this->cache->contains($id);
     }
 
-    public function delete($id)
+    public function delete($id): bool
     {
         if (empty($id)) {
             return false;
@@ -85,11 +85,11 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\CacheInterface
 
         unset(self::$staticCache[$id]);
 
-        return $this->cache->delete($id);
+        return (bool) $this->cache->delete($id);
     }
 
-    public function flushAll()
+    public function flushAll(): bool
     {
-        return $this->cache->flushAll();
+        return (bool) $this->cache->flushAll();
     }
 }
