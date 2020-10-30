@@ -499,11 +499,11 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
+            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
         $result = $queueConsumer->usableArchiveExists($invalidation);
-        $this->assertTrue($result);
+        $this->assertEquals('2020-04-04 23:58:20', $result);
     }
 
     public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()
