@@ -309,7 +309,7 @@ function _mapLegacyOsShortCodes($shortCode): string
         'WXP' => 'WIN',
         //'VMS' => '', // OpenVMS => ??
     );
-    return (string) ($shortCode && array_key_exists($shortCode, $legacyShortCodes)) ? $legacyShortCodes[$shortCode] : $shortCode;
+    return ($shortCode && array_key_exists($shortCode, $legacyShortCodes)) ? $legacyShortCodes[$shortCode] : (string) $shortCode;
 }
 
 /**
