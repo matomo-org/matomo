@@ -877,4 +877,13 @@ abstract class Dimension
         $settings = new SystemSettings();
         return $settings->disabledDimensions->getValue();
     }
+
+    /**
+     * @internal
+     * @return bool
+     */
+    public function isAlwaysEnabled()
+    {
+        return false;
+    }
 }

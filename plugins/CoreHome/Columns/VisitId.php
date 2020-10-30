@@ -47,4 +47,9 @@ class VisitId extends VisitDimension
         $metric->setName('nb_visits');
         $metricsList->addMetric($metric);
     }
+
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }

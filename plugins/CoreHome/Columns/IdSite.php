@@ -60,4 +60,9 @@ class IdSite extends VisitDimension
             return Piwik::translate('General_MeasurableId') . ': ' . $formatted;
         }
     }
+
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }

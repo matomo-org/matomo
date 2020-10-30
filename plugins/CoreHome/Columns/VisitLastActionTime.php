@@ -112,4 +112,9 @@ class VisitLastActionTime extends VisitDimension
 
         return $this->onNewVisit($request, $visitor, $action);
     }
+
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }

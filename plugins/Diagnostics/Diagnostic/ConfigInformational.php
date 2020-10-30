@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreAdminHome\SystemSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -71,6 +72,10 @@ class ConfigInformational implements Diagnostic
             if (!empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
                 $results[] = DiagnosticResult::informationalResult('Custom Plugins Directories', json_encode($GLOBALS['MATOMO_PLUGIN_DIRS']));
             }
+
+            $coreSettings = new SystemSettings();
+            $disabledDimensions = $coreSettings->disabledDimensions->getValue();
+            $results[] = DiagnosticResult::informationalResult('Disabled Dimensions', implode(', ', $disabledDimensions));
         }
 
         return $results;

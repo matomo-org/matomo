@@ -10,8 +10,8 @@ namespace Piwik\Plugins\UserId\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\UserId\Columns\UserId;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 

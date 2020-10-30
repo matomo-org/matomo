@@ -91,11 +91,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function getAvailableDimensionsToDisable()
     {
-        // TODO: translate types
         $dimensions = [];
-        $this->addDimensions($dimensions, VisitDimension::getAllDimensions(), $type = 'Visit');
-        $this->addDimensions($dimensions, ActionDimension::getAllDimensions(), $type = 'Action');
-        $this->addDimensions($dimensions, ConversionDimension::getAllDimensions(), $type = 'Conversion');
+        $this->addDimensions($dimensions, VisitDimension::getAllDimensions(), $type = Piwik::translate('General_Visit'));
         return $dimensions;
     }
 
@@ -107,13 +104,30 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     private function addDimensions(array &$dimensions, array $allDimensions, $dimensionType)
     {
         foreach ($allDimensions as $dimension) {
-            if (!method_exists($dimension, 'onNewVisit')
-                && !method_exists($dimension, 'onExistingVisit')
+            if ($dimension->isAlwaysEnabled()
+                || !$this->isTrackingDimension($dimension)
             ) {
                 continue;
             }
 
             $dimensions[$dimension->getId()] = ($dimension->getName() ?: get_class($dimension)) . ' (' . $dimensionType . ')';
         }
+    }
+
+    private function isTrackingDimension(Dimension $dimension)
+    {
+        foreach (['onNewVisit', 'onExistingVisit'] as $methodName) {
+            if (!method_exists($dimension, $methodName)) {
+                continue;
+            }
+
+            $method = new \ReflectionMethod($dimension, $methodName);
+            $declaringClass = $method->getDeclaringClass();
+
+            if (strpos($declaringClass->name, 'Piwik\Plugins') !== 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

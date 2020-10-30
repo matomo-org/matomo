@@ -35,4 +35,9 @@ class VisitorFingerprint extends VisitDimension
         $metric->setTranslatedName(Piwik::translate('Visitor_Fingerprint'));
         $metricsList->addMetric($metric);
     }
+
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }

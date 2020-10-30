@@ -97,4 +97,9 @@ class VisitorReturning extends VisitDimension
     {
         return $visitor->getVisitorColumn($this->columnName);
     }
+
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }
