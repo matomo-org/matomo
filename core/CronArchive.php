@@ -828,7 +828,7 @@ class CronArchive
         $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidateForNewSegments($idSiteToInvalidate);
 
         foreach ($segmentDatesToInvalidate as $info) {
-            $this->logger->debug('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
+            $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
                 'segment' => $info['segment'],
                 'idSite' => $idSiteToInvalidate,
             ]);
@@ -868,7 +868,7 @@ class CronArchive
             return;
         }
 
-        $this->logger->debug("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
+        $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
             'idSite' => $idSite,
             'date' => $date->getDatetime(),
         ]);
