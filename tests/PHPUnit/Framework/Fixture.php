@@ -324,6 +324,9 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         PiwikCache::getTransientCache()->flushAll();
 
+        // In some cases the Factory might be filled with settings that contain an invalid database connection
+        StaticContainer::getContainer()->set('Piwik\Settings\Storage\Factory', new \Piwik\Settings\Storage\Factory());
+
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
         ) {
