@@ -8,11 +8,13 @@
  */
 namespace Piwik\Plugins\VisitsSummary;
 
+use Matomo\Cache\Transient;
 use Piwik\Archive;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Segment;
 use Piwik\SettingsPiwik;
 
 /**
@@ -23,6 +25,16 @@ use Piwik\SettingsPiwik;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var Transient
+     */
+    private $transientCache;
+
+    public function __construct(Transient $transientCache)
+    {
+        $this->transientCache = $transientCache;
+    }
+
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -41,6 +53,33 @@ class API extends \Piwik\Plugin\API
         }
 
         return $dataTable;
+    }
+
+    public function isProfilable($idSite, $period, $date, $segment = false)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        // TODO: disable multi site and multiperiod
+
+        $segment = new Segment($segment, [$idSite]);
+
+        $cacheKey = "VisitsSummary.isProfilable.$idSite.$period.$date." . $segment->getHash();
+        if (!$this->transientCache->contains($cacheKey)) {
+            $data = $this->get($idSite, $period, $date, $segment, ['nb_visits', 'nb_profilable']);
+            $row = $data->getFirstRow()->getColumns();
+
+            if (empty($row['nb_visits'])) {
+                $value = 0;
+            } else {
+                $quotientProfilable = (float) $row['nb_profilable'] / (float) $row['nb_visits']; // TODO: php quotient math check (check safe method)
+                $value = (int) ($quotientProfilable > 0.01);
+            }
+
+            $this->transientCache->save($cacheKey, $value);
+        }
+
+        $value = (bool) $this->transientCache->fetch($cacheKey);
+        return $value;
     }
 
     protected function getCoreColumns($period)

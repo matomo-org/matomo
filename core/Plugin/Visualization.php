@@ -22,6 +22,7 @@ use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
+use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -152,6 +153,7 @@ class Visualization extends ViewDataTable
      * @api
      */
     const TEMPLATE_FILE = '';
+    const NO_PROFILABLE_DATA_NOTIFICATION_ID = 'no_profilable_data_reports_disabled';
 
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;
@@ -215,6 +217,8 @@ class Visualization extends ViewDataTable
 
         $view = new View("@CoreHome/_dataTable");
         $view->assign($this->templateVars);
+
+        $this->showNotificationIfDataIsNotProfilable($view);
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
@@ -865,5 +869,31 @@ class Visualization extends ViewDataTable
         }
 
         return $request;
+    }
+
+    private function showNotificationIfDataIsNotProfilable(View $dataTableView)
+    {
+        // TODO: actually do we even need to specify a segment? maybe we want to check all visits regardless of segment.
+        //       better performance, certainly.
+        if (!$this->report->requiresProfilableVisitors()) {
+            return;
+        }
+
+        $isProfilable = Report::getIsCurrentPeriodProfilable();
+        if ($isProfilable) {
+            return;
+        }
+
+        $view = new View("@CoreHome/_nonProfilableDataWarning.twig");
+
+        // TODO: allow closing permanently (option value? session would be faster, but then reset after logout.)
+        $notification = new Notification($view->render());
+        $notification->priority = Notification::PRIORITY_HIGH;
+        $notification->context = Notification::CONTEXT_INFO;
+        $notification->flags = Notification::FLAG_CLEAR;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->raw = true;
+
+        $dataTableView->notifications[self::NO_PROFILABLE_DATA_NOTIFICATION_ID] = $notification;
     }
 }

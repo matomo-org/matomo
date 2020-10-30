@@ -65,4 +65,9 @@ class GetDaysToConversion extends Base
             return $goal['name'] . ' - ' . $name;
         });
     }
+
+    public function requiresProfilableVisitors()
+    {
+        return true;
+    }
 }

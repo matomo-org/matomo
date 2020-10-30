@@ -65,4 +65,9 @@ class GetVisitsUntilConversion extends Base
         });
     }
 
+    public function requiresProfilableVisitors()
+    {
+        return true;
+    }
+
 }

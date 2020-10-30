@@ -231,11 +231,21 @@ class Report
      * might depend on a setting (such as Ecommerce) of a site. In such a case you can perform any checks and then
      * return `true` or `false`. If your report is only available to users having super user access you can do the
      * following: `return Piwik::hasUserSuperUserAccess();`
+     *
+     * Classes that override this method must make sure to call the parent version as well.
+     *
      * @return bool
      * @api
      */
     public function isEnabled()
     {
+        if ($this->requiresProfilableVisitors()) {
+            $isProfilable = self::getIsCurrentPeriodProfilable();
+            if (!$isProfilable) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -997,6 +1007,19 @@ class Report
     }
 
     /**
+     * Returns `true` if this report requires visit data that is profilable (that is to say, visit data that accurately
+     * identifies visitors across visits, which generally requires using cookies or tracking user IDs). If a report requires
+     * this, and Matomo finds that existing data is not good enough, the reports will not be shown, since they will not be
+     * accurate.
+     *
+     * @api
+     */
+    public function requiresProfilableVisitors()
+    {
+        return false;
+    }
+
+    /**
      * Returns the Metrics that are displayed by a DataTable of a certain Report type.
      *
      * Includes ProcessedMetrics and Metrics.
@@ -1078,5 +1101,23 @@ class Report
 
             $callback($name);
         }
+    }
+
+    // TODO: move somewhere more appropriate
+    public static function getIsCurrentPeriodProfilable()
+    {
+        // TODO (need to make sure idSite/period/date are all there)
+        $idSite = Common::getRequestVar('idSite', $default = false);
+        $period = Common::getRequestVar('period', $default = false);
+        $date = Common::getRequestVar('date', $default = false);
+
+        if ($idSite === false || $period === false || $date === false
+            // TODO: also check multi site/period
+        ) {
+            return true;
+        }
+
+        $isProfilable = Request::processRequest('VisitsSummary.isProfilable');
+        return $isProfilable;
     }
 }
