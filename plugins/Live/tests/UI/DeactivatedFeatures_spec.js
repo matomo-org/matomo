@@ -256,10 +256,10 @@ describe("DeactivatedFeatures", function () {
         await page.goto("?module=CoreAdminHome&action=generalSettings");
         await page.waitForNetworkIdle();
 
-        const log = await page.$('#LivePluginSettings #activate_visitor_log');
+        const log = await page.$('#LivePluginSettings #disable_visitor_log');
         expect(log).to.be.ok;
 
-        const profile = await page.$('#LivePluginSettings #activate_visitor_profile');
+        const profile = await page.$('#LivePluginSettings #disable_visitor_profile');
         expect(profile).to.be.ok;
     });
 
@@ -268,10 +268,10 @@ describe("DeactivatedFeatures", function () {
         await page.reload();
         await page.waitForNetworkIdle();
 
-        const log = await page.$('#LivePluginSettings #activate_visitor_log');
+        const log = await page.$('#LivePluginSettings #disable_visitor_log');
         expect(log).to.be.not.ok;
 
-        const profile = await page.$('#LivePluginSettings #activate_visitor_profile');
+        const profile = await page.$('#LivePluginSettings #disable_visitor_profile');
         expect(profile).to.be.not.ok;
     });
 
@@ -281,10 +281,10 @@ describe("DeactivatedFeatures", function () {
         await page.click('[idsite="1"] .icon-edit');
         await page.waitForNetworkIdle();
 
-        const log = await page.$('[idsite="1"] #activate_visitor_log');
+        const log = await page.$('[idsite="1"] #disable_visitor_log');
         expect(log).to.be.ok;
 
-        const profile = await page.$('[idsite="1"] #activate_visitor_profile');
+        const profile = await page.$('[idsite="1"] #disable_visitor_profile');
         expect(profile).to.be.ok;
     });
 
@@ -295,10 +295,10 @@ describe("DeactivatedFeatures", function () {
         await page.click('[idsite="1"] .icon-edit');
         await page.waitForNetworkIdle();
 
-        const log = await page.$('[idsite="1"] #activate_visitor_log');
+        const log = await page.$('[idsite="1"] #disable_visitor_log');
         expect(log).to.be.not.ok;
 
-        const profile = await page.$('[idsite="1"] #activate_visitor_profile');
+        const profile = await page.$('[idsite="1"] #disable_visitor_profile');
         expect(profile).to.be.not.ok;
     });
 
