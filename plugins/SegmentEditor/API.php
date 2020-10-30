@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -107,6 +108,10 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($autoArchive) {
+            if (Rules::isBrowserTriggerEnabled()) {
+                throw new Exception("Pre-processed segments can only be created if browser triggered archiving is disabled.");
+            }
+
             Piwik::checkUserHasViewAccess($idSite);
         }
 
