@@ -12,7 +12,6 @@
         "LastHours": "Ostatnie %s godziny",
         "LastMinutes": "Ostatnie %s minut",
         "LastVisit": "Ostatnia wizyta",
-        "LinkVisitorLog": "Zobacz szczegółowy dziennik wyzyty",
         "LoadMoreVisits": "Załaduj więcej odwiedzin",
         "LimitedSummary": "Informacja w tym profilu podsumowuje ostatnie %1$s wizyt. Użytkownik złożył więcej wizyt łącznie.",
         "LimitedVisitsShown": "Wyświetlane jest tylko ostatnich %1$s wizyt. Użytkownik złożył więcej wizyt.",
@@ -45,10 +44,6 @@
         "VisitsFrom": "%1$s%2$s wizyt%3$s z",
         "VisitSummary": "Spędził łącznie %1$s%2$s w serwisie%3$s i obejrzał %4$s podstron%5$s w trakcie %6$s wizyt%7$s.",
         "VisitSummaryWithActionDetails": "Spędził łącznie %1$s%2$s w serwisie%3$s i przeprowadził %4$s działań%5$s (%6$s) w trakcie %7$s wizyt%8$s.",
-        "RowActionTooltipDefault": "Wyświetl Dziennik wizyt pogrupowany według tego rzędu",
-        "RowActionTooltipWithDimension": "Wyświetl Dziennik wizyt pogrupowany według %s",
-        "RowActionTooltipTitle": "Otwórz pogrupowany Dziennik wizyt",
-        "SegmentedVisitorLogTitle": "Wyświetlam Dziennik wizyt dla %1$s równego \"%2$s\"",
         "OnClickPause": "%s został uruchomiony. Kliknij aby zatrzymać.",
         "OnClickStart": "%s jest zatrzymany. Kliknij aby uruchomić."
     }
