@@ -76,6 +76,10 @@ class ExceptionToTextProcessor
 
     private function getStackTrace($exception)
     {
+        if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
+            return '(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)';
+        }
+
         if (is_array($exception) && isset($exception['backtrace'])) {
             return $exception['backtrace'];
         }
