@@ -68,8 +68,11 @@ class API extends \Piwik\Plugin\API
             $data = $this->get($idSite, $period, $date, $segment, ['nb_visits', 'nb_profilable']);
             $row = $data->getFirstRow()->getColumns();
 
-            if (empty($row['nb_visits'])) {
-                $value = 0;
+            if (empty($row['nb_visits']) // no visits
+                || !isset($row['nb_profilable']) // no profilable metric
+                || $row['nb_profilable'] === false
+            ) {
+                $value = 1;
             } else {
                 $quotientProfilable = (float) $row['nb_profilable'] / (float) $row['nb_visits']; // TODO: php quotient math check (check safe method)
                 $value = (int) ($quotientProfilable > 0.01);
