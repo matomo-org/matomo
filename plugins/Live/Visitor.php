@@ -31,7 +31,10 @@ class Visitor implements VisitorInterface
 
         $instances = self::getAllVisitorDetailsInstances();
 
+        $isProfilable = Plugin\Report::getIsCurrentPeriodProfilable();
+
         foreach ($instances as $instance) {
+            $instance->setDataProfilable($isProfilable);
             $instance->setDetails($this->details);
             $instance->extendVisitorDetails($visitor);
         }
