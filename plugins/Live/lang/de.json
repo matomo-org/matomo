@@ -12,7 +12,6 @@
         "LastHours": "Letzte %s Stunden",
         "LastMinutes": "Letzte %s Minuten",
         "LastVisit": "Letzter Besuch",
-        "LinkVisitorLog": "Detailliertes Besucher-Log anzeigen",
         "LoadMoreVisits": "Mehr Besuche laden",
         "LimitedSummary": "Die Informationen in diesem Profil fasst die letzten %1$s Besuche zusammen. Dieser Benutzer hat im Gesamten mehr Besuche.",
         "LimitedVisitsShown": "Nur die letzten %1$s Besuche werden angezeigt. Dieser Benutzer hat im Gesamten mehr Besuche.",
@@ -49,10 +48,6 @@
         "VisitsFrom": "%1$s%2$s Besuche%3$s aus",
         "VisitSummary": "Verbrachte insgesamt %1$s%2$s auf der Website%3$s, und besuchte %4$s Seiten%5$s in %6$s Besuchen%7$s.",
         "VisitSummaryWithActionDetails": "Verbrachte insgesamt %1$s%2$s auf der Website%3$s und führte %4$s Aktionen%5$s (%6$s) in %7$s Besuchen%8$s aus.",
-        "RowActionTooltipDefault": "Zeige Besucher-Log segmentiert mit dieser Zeile",
-        "RowActionTooltipWithDimension": "Zeige Besucher-Log segmentiert mit %s",
-        "RowActionTooltipTitle": "Öffne segmentiertes Besucher-Log",
-        "SegmentedVisitorLogTitle": "Zeige Log bei denen %1$s \"%2$s\" ist",
         "OnClickPause": "%s ist gestartet. Klicken Sie um zu pausieren.",
         "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten.",
         "ClickToSeeAllContents": "Klicken um sämtliche Inhaltsinteraktionen\/Impressionen zu sehen"

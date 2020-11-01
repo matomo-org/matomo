@@ -2,7 +2,6 @@
     "Widgetize": {
         "OpenInNewWindow": "In neuem Fenster öffnen",
         "PluginDescription": "Zeigt sämtliche Matomo Berichte in Ihrer Website oder App mit einem einfachen Embed HTML tag an.",
-        "ViewAccessRequired": "Dieser Benutzer hat mindestens teilweise Schreibrechte. Nur Token von Benutzern mit ausschliesslich Lesezugriff können verwendet werden.",
         "TopLinkTooltip": "Exportieren Sie Berichte als Widgets und binden Sie das Dashboard in Ihrer Applikation als iframe ein."
     }
 }
