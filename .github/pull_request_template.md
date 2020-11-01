@@ -5,6 +5,7 @@ Please include a description of this change and which issue it fixes. If no issu
 ### Review
 
 * [ ] Functional review done
+* [ ] Usability review done (is anything maybe unclear or think about anything that would cause people to reach out to support)
 * [ ] Security review done
 * [ ] Code review done
 * [ ] Reviewed for breaking changes
