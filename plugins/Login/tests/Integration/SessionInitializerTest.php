@@ -44,7 +44,7 @@ class SessionInitializerTest extends IntegrationTestCase
 
     public function test_initSession_DeletesCookie_WhenAuthenticationFailed()
     {
-        $this->createAuthCookie();
+        $_COOKIE['matomo_auth'] = 'login=testlogin:token_auth=9e9061f96024a675af8ad5ff6cbdf6dc';
 
         try {
             $sessionInitializer = new TestSessionInitializer();
@@ -71,11 +71,6 @@ class SessionInitializerTest extends IntegrationTestCase
     private function assertAuthCookieIsCreated(Cookie $cookie)
     {
         $this->assertSame('', $cookie->generateContentString());
-    }
-
-    private function createAuthCookie()
-    {
-        $_COOKIE['matomo_auth'] = 'login=czo5OiJ0ZXN0bG9naW4iOw==:token_auth=czozMjoiOWU5MDYxZjk2MDI0YTY3NWFmOGFkNWZmNmNiZGY2ZGMiOw==';
     }
 
     private function assertAuthCookieIsDeleted(Cookie $cookie)
