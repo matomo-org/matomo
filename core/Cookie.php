@@ -206,7 +206,6 @@ class Cookie
      * Only needed for BC.
      *
      * @param string $content
-     * @param bool $validate
      * @return string|bool  Content or false if unsigned
      */
     private function extractSignedContent($content)
