@@ -438,20 +438,6 @@ function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $co
 	return false;
 }
 
-/**
- * utf8_decode replacement
- *
- * @param string $data
- * @return string
- */
-if (!function_exists('utf8_decode')) {
-	function utf8_decode($data) {
-		if (function_exists('iconv')) {
-			return @iconv('UTF-8', 'ISO-8859-1', $data);
-		}
-		return $data;
-	}
-}
 
 /**
  * On ubuntu in some cases, there is a bug that gzopen does not exist and one must use gzopen64 instead
