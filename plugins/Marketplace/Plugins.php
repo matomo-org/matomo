@@ -66,12 +66,9 @@ class Plugins
 
     public function getLicenseValidInfo($pluginName)
     {
-        $plugin = $this->marketplaceClient->getPluginInfo($pluginName);
-        $plugin = $this->enrichLicenseInformation($plugin);
-
         return array(
-            'hasExceededLicense' => !empty($plugin['hasExceededLicense']),
-            'isMissingLicense' => !empty($plugin['isMissingLicense'])
+            'hasExceededLicense' => false,
+            'isMissingLicense' => false
         );
     }
 
