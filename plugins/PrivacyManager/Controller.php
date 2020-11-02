@@ -19,8 +19,10 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
 
 /**
@@ -31,6 +33,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     const ACTIVATE_DNT_NONCE = 'PrivacyManager.activateDnt';
     const DEACTIVATE_DNT_NONCE = 'PrivacyManager.deactivateDnt';
+
+    /**
+     * @var ReferrerAnonymizer
+     */
+    private $referrerAnonymizer;
+
+    public function __construct(ReferrerAnonymizer $referrerAnonymizer)
+    {
+        parent::__construct();
+        $this->referrerAnonymizer = $referrerAnonymizer;
+    }
 
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
@@ -172,6 +185,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@PrivacyManager/privacySettings');
 
         if (Piwik::hasUserSuperUserAccess()) {
+            $jsCodeGenerator = new TrackerCodeGenerator();
+            $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
+
+            $view->trackerFileName = $jsCodeGenerator->getJsTrackerEndpoint();
+            $view->trackerWritable = $file->hasWriteAccess();
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
@@ -188,6 +206,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                       'description' => Piwik::translate('General_Recommended')),
                 array('key' => '3',
                       'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', array("3","192.xxx.xxx.xxx")),
+                      'description' => ''),
+                array('key' => '4',
+                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
                       'description' => '')
             );
             $view->useAnonymizedIpForVisitEnrichmentOptions = array(
@@ -208,6 +229,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 array('key' => '30',
                       'value' => Piwik::translate('Intl_PeriodMonth'))
             );
+            $view->referrerAnonymizationOptions = $this->referrerAnonymizer->getAvailableAnonymizationOptions();
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
@@ -314,9 +336,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $privacyConfig = new Config();
         $anonymizeIP["enabled"] = IPAnonymizer::isActive();
         $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
+        $anonymizeIP["forceCookielessTracking"] = $privacyConfig->forceCookielessTracking;
         $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
         $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
         $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
+        $anonymizeIP["anonymizeReferrer"] = $privacyConfig->anonymizeReferrer;
         if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
             $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
         }

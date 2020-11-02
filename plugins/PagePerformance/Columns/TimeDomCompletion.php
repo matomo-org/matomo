@@ -13,36 +13,15 @@ use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionPageview;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
-class TimeDomCompletion extends ActionDimension
+class TimeDomCompletion extends Base
 {
     const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
     const COLUMN_NAME = 'time_dom_completion';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;
-    protected $type = self::TYPE_DURATION_MS;
     protected $nameSingular = 'PagePerformance_ColumnTimeDomCompletion';
-
-    public function onNewAction(Request $request, Visitor $visitor, Action $action)
-    {
-        if (!($action instanceof ActionPageview)) {
-            return false;
-        }
-
-        $domCompleteTime = $request->getParam($this->getRequestParam());
-
-        if ($domCompleteTime === -1) {
-            return false;
-        }
-
-        return $domCompleteTime;
-    }
 
     public function getRequestParam()
     {

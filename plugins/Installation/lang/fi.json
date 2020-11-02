@@ -86,7 +86,6 @@
         "SystemCheckGzcompressHelp": "zlib-laajennus ja gzcompress-funktio täytyy olla käytössä.",
         "SystemCheckGzuncompressHelp": "zlib-laajennus ja gzuncompress-funktio täytyy olla käytössä.",
         "SystemCheckIconvHelp": "PHP pitää olla asennettuna iconv-lisäosan kanssa, --with-iconv",
-        "SystemCheckJsonHelp": "Matomo tarvitsee php5-json-lisäosan JSON-tietojen lukemiseen ja kirjoittamiseen.",
         "SystemCheckMailHelp": "Palautetta ja unohtuneiden salasanojen muistutuksia ei voida lähettää ilman funktiota mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Muistirajoitus",

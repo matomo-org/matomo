@@ -23,7 +23,7 @@
         "EndShortcut": "Son",
         "EnterZenMode": "Zen kipine gir (menüleri gizle)",
         "ExitZenMode": "Zen kipinden çık (menüleri görüntüle)",
-        "ExceptionNotWhitelistedIP": "%s IP adresiniz beyaz listede bulunmadığından Matomo uygulamasını kullanamazsınız",
+        "ExceptionNotAllowlistedIP": "%s IP adresinize izin verilmediğinden bu Matomo uygulamasını kullanamazsınız.",
         "ExcludeRowsWithLowPopulation": "Tüm satırlar görüntüleniyor %s Düşük dağılımlar katılmasın",
         "ExternalHelp": "Yardım (yeni sekmede açılır)",
         "FlattenDataTable": "Rapor hiyerarşik yapıda %s Düz yap",

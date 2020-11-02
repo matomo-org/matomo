@@ -22,6 +22,8 @@
                 anonymizeIPEnable: this.enabled ? '1' : '0',
                 anonymizeUserId: this.anonymizeUserId ? '1' : '0',
                 anonymizeOrderId: this.anonymizeOrderId ? '1' : '0',
+                forceCookielessTracking: this.forceCookielessTracking ? '1' : '0',
+                anonymizeReferrer: this.anonymizeReferrer ? this.anonymizeReferrer : '',
                 maskLength: this.maskLength,
                 useAnonymizedIpForVisitEnrichment: parseInt(this.useAnonymizedIpForVisitEnrichment, 10) ? '1' : '0'
             }).then(function (success) {

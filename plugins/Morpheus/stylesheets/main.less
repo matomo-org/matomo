@@ -390,15 +390,24 @@ table.dataTable {
       background: @theme-color-background-contrast;
 
       &:not(.value) {
-        .font-default(13px, 16px);
+        font-size: 13px;
       }
 
       .label {
-        line-height: normal;
+        .font-default(13px, 18px);
+        height: 18px;
+
+        .value {
+          display: inline;
+          line-height: inherit;
+          vertical-align: bottom;
+        }
       }
 
       .value {
-        .font-default(13px, 16px);
+        .font-default(13px, 18px);
+        display: inline-block;
+        vertical-align: text-bottom;
       }
 
       &:first-child {
@@ -445,7 +454,7 @@ table.dataTable {
         text-overflow: ellipsis;
         width: inherit;
         display: inline-block;
-        vertical-align: sub;
+        vertical-align: text-bottom;
       }
     }
 
@@ -484,27 +493,34 @@ table.dataTable {
   }
 }
 
-div.dataTableVizHtmlTable:not(.dataTableActions),
+div.dataTableVizHtmlTable,
+ div.dataTableVizPerformanceColumns,
  div.dataTableVizAllColumns,
  div.dataTableVizGoals {
   tr.subDataTable > td > span.label::before {
-    display: inline-block;
-    float: left;
-    top: 0;
-    width: 12px;
-    height: 12px;
-    margin-left: -2px;
-    margin-top: 3px;
+    font-family: 'matomo' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    .font-default(16px, 18px);
+    color: #aaa;
     margin-right: 8px;
+    padding-left: 1px; // icon might be cut of otherwise on some browsers
     content: '';
+    vertical-align: bottom;
+    display: inline-block;
   }
 
   tr.subDataTable:not(.expanded) > td > span.label::before {
-    background-image: url(plugins/Morpheus/images/plus.png);
+    content: "\f196"; // see .icon-plus-square
   }
 
   tr.subDataTable.expanded > td > span.label::before {
-    background-image: url(plugins/Morpheus/images/minus.png);
+    content: "\f147"; // see .icon-minus-square
   }
 }
 
@@ -699,4 +715,8 @@ tr:hover #token_auth {
 
 .ui-tooltip {
   z-index: 9999;
+}
+
+.icon-delete:hover {
+  color: #d4291f !important;
 }

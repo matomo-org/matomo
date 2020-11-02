@@ -369,7 +369,7 @@ class CronArchive
                 continue;
             }
 
-            $successCount = $this->launchArchivingFor($archivesToProcess);
+            $successCount = $this->launchArchivingFor($archivesToProcess, $queueConsumer);
             $numArchivesFinished += $successCount;
         }
 
@@ -391,7 +391,7 @@ class CronArchive
         $this->logger->info($timer->__toString());
     }
 
-    private function launchArchivingFor($archives)
+    private function launchArchivingFor($archives, QueueConsumer $queueConsumer)
     {
         $urls = [];
         $archivesBeingQueried = [];
@@ -455,6 +455,11 @@ class CronArchive
             $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
                 $this->logger->info(var_export($content, true));
+
+                $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
+                $this->model->releaseInProgressInvalidation($idinvalidation);
+
+                $queueConsumer->ignoreIdInvalidation($idinvalidation);
 
                 $this->logError("Error unserializing the following response from $url: '" . $content . "'");
                 continue;
@@ -745,7 +750,7 @@ class CronArchive
             return;
         }
 
-        $this->logger->info("Checking for queued invalidations...");
+        $this->logger->debug("Checking for queued invalidations...");
 
         // invalidate remembered site/day pairs
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
@@ -765,7 +770,7 @@ class CronArchive
 
                 $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
                 if ($this->isThereExistingValidPeriod($params)) {
-                    $this->logger->info('  Found usable archive for date range {date} for site {idSite}, skipping invalidation for now.', ['date' => $date, 'idSite' => $idSite]);
+                    $this->logger->debug('  Found usable archive for date range {date} for site {idSite}, skipping invalidation for now.', ['date' => $date, 'idSite' => $idSite]);
                     continue;
                 }
 
@@ -779,7 +784,7 @@ class CronArchive
             $listSiteIds = implode(',', $siteIdsToInvalidate);
 
             try {
-                $this->logger->info('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
+                $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
             } catch (Exception $e) {
                 $message = $e->getMessage();
@@ -810,11 +815,11 @@ class CronArchive
 
             $params = new Parameters(new Site($idSiteToInvalidate), $period, new Segment('', [$idSiteToInvalidate], $period->getDateStart(), $period->getDateEnd()));
             if ($this->isThereExistingValidPeriod($params)) {
-                $this->logger->info('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSiteToInvalidate]);
+                $this->logger->debug('  Found usable archive for custom date range {date} for site {idSite}, skipping archiving.', ['date' => $date, 'idSite' => $idSiteToInvalidate]);
                 continue;
             }
 
-            $this->logger->info('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
+            $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
             $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
         }
@@ -841,7 +846,7 @@ class CronArchive
 
         $this->setInvalidationTime();
 
-        $this->logger->info("Done invalidating");
+        $this->logger->debug("Done invalidating");
     }
 
     private function invalidateRecentDate($dateStr, $idSite)

@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -36,6 +37,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
+    }
+
+    public function test_TestCaseHasSetGroupsMethod()
+    {
+        // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
+        // checking this way as it is not an official API
+        $this->assertTrue(method_exists(TestCase::class,'setGroups'));
     }
 
     public function test_woff2_fileIsUpToDate()
@@ -216,14 +224,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $patternFailIfFound = 'jquery';
 
         // known files that will for sure not contain a "buggy" $patternFailIfFound
-        $whiteListedFiles = array(
+        $allowedFiles = array(
             PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
-            // Note: entries below are paths and any file within these paths will be automatically whitelisted
+            // Note: entries below are paths and any file within these paths will be automatically allowed
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
             PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
@@ -233,19 +241,19 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
-        $this->assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles);
+        $this->assertFilesDoNotContain($files, $patternFailIfFound, $allowedFiles);
     }
 
     /**
      * @param $files
      * @param $patternFailIfFound
-     * @param $whiteListedFiles
+     * @param $allowedFiles
      */
-    private function assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles)
+    private function assertFilesDoNotContain($files, $patternFailIfFound, $allowedFiles)
     {
         $foundPatterns = array();
         foreach ($files as $file) {
-            if($this->isFileOrPathWhitelisted($whiteListedFiles, $file)) {
+            if($this->isFileOrPathAllowed($allowedFiles, $file)) {
                 continue;
             }
             $content = file_get_contents($file);
@@ -265,14 +273,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $whiteListedFiles
+     * @param $allowedFiles
      * @param $file
      * @return bool
      */
-    private function isFileOrPathWhitelisted($whiteListedFiles, $file)
+    private function isFileOrPathAllowed($allowedFiles, $file)
     {
-        foreach ($whiteListedFiles as $whitelistFile) {
-            if (strpos($file, $whitelistFile) === 0) {
+        foreach ($allowedFiles as $allowedFile) {
+            if (strpos($file, $allowedFile) === 0) {
                 return true;
             }
         }

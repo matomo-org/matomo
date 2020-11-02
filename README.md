@@ -6,7 +6,7 @@
 
 ## Code Status
 
-[![Build Status](https://travis-ci.org/matomo-org/matomo.svg?branch=master)](https://travis-ci.org/matomo-org/matomo/branches)
+[![Build Status](https://travis-ci.com/matomo-org/matomo.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/matomo/branches)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/matomo-org/matomo.svg)](http://isitmaintained.com/project/matomo-org/matomo "Percentage of issues still open")
 
 ## Description
@@ -58,7 +58,7 @@ If you do not have a server or don't want to host yourself you can use our Matom
 
 ## Online Demo
 
-Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.org/).
+Check out the online demo for Matomo at [demo.matomo.cloud](https://demo.matomo.cloud/).
 
 ## Changelog
 

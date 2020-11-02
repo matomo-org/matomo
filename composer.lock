@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c12681ad667b4670e55f110ac8b778a4",
+    "content-hash": "0acbef2e79e975ecc2de5c2b9492c9cf",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -59,16 +59,6 @@
                 "certificate",
                 "ssl",
                 "tls"
-            ],
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-04-08T08:27:21+00:00"
         },
@@ -271,20 +261,6 @@
                 "php",
                 "redis",
                 "xcache"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-07-07T18:54:01+00:00"
         },
@@ -530,17 +506,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "e4c6829b2f330f088055aa8341e5f205d1ec1cc7"
+                "reference": "a7fd79ddc54be6bb5abcc69d43836302697c71ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/e4c6829b2f330f088055aa8341e5f205d1ec1cc7",
-                "reference": "e4c6829b2f330f088055aa8341e5f205d1ec1cc7",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/a7fd79ddc54be6bb5abcc69d43836302697c71ea",
+                "reference": "a7fd79ddc54be6bb5abcc69d43836302697c71ea",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
             },
             "suggest": {
                 "ext-curl": "Using this extension to issue the HTTPS request to Matomo"
@@ -570,20 +549,20 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2020-07-27T20:23:33+00:00"
+            "time": "2020-09-07T04:45:54+00:00"
         },
         {
             "name": "matomo/network",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-network.git",
-                "reference": "010e49629115e7227bec08c39639e0efeb048905"
+                "reference": "ff654b8fc7778b80279815d06a368f7b41249501"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/010e49629115e7227bec08c39639e0efeb048905",
-                "reference": "010e49629115e7227bec08c39639e0efeb048905",
+                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/ff654b8fc7778b80279815d06a368f7b41249501",
+                "reference": "ff654b8fc7778b80279815d06a368f7b41249501",
                 "shasum": ""
             },
             "require": {
@@ -602,7 +581,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2020-01-01T12:57:48+00:00"
+            "time": "2020-10-05T06:09:39+00:00"
         },
         {
             "name": "matomo/referrer-spam-list",
@@ -835,16 +814,6 @@
                 "log",
                 "logging",
                 "psr-3"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/Seldaek",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-07-23T08:35:51+00:00"
         },
@@ -1216,16 +1185,16 @@
         },
         {
             "name": "php-di/php-di",
-            "version": "6.2.1",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "6875fe557c244b3830862c072c7719ca4ac2efe4"
+                "reference": "955cacea6b0beaba07e8c11b8367f5b3d5abe89f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/6875fe557c244b3830862c072c7719ca4ac2efe4",
-                "reference": "6875fe557c244b3830862c072c7719ca4ac2efe4",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/955cacea6b0beaba07e8c11b8367f5b3d5abe89f",
+                "reference": "955cacea6b0beaba07e8c11b8367f5b3d5abe89f",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1213,7 @@
                 "mnapoli/phpunit-easymock": "^1.2",
                 "ocramius/proxy-manager": "~2.0.2",
                 "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "^8.5"
+                "phpunit/phpunit": "^8.5|^9.0"
             },
             "suggest": {
                 "doctrine/annotations": "Install it if you want to use annotations (version ~1.2)",
@@ -1274,17 +1243,7 @@
                 "ioc",
                 "psr11"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/mnapoli",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/php-di/php-di",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-06-18T09:54:32+00:00"
+            "time": "2020-10-12T14:39:15+00:00"
         },
         {
             "name": "php-di/phpdoc-reader",
@@ -1383,12 +1342,6 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "funding": [
-                {
-                    "url": "https://github.com/synchro",
-                    "type": "github"
-                }
-            ],
             "time": "2020-07-14T18:50:27+00:00"
         },
         {
@@ -1778,20 +1731,6 @@
                 "polyfill",
                 "portable"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-07-14T12:35:20+00:00"
         },
         {
@@ -1854,20 +1793,6 @@
                 "polyfill",
                 "portable",
                 "shim"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-07-14T12:35:20+00:00"
         },
@@ -2057,16 +1982,6 @@
             "keywords": [
                 "templating"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-08-05T15:13:19+00:00"
         }
     ],
@@ -2124,20 +2039,6 @@
             "keywords": [
                 "constructor",
                 "instantiate"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finstantiator",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-29T17:27:14+00:00"
         },
@@ -2284,12 +2185,6 @@
                 "duplicate",
                 "object",
                 "object graph"
-            ],
-            "funding": [
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-06-29T13:22:24+00:00"
         },
@@ -2990,16 +2885,6 @@
                 "testing",
                 "xunit"
             ],
-            "funding": [
-                {
-                    "url": "https://phpunit.de/donate.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
-            ],
             "time": "2020-06-22T07:06:58+00:00"
         },
         {
@@ -3671,20 +3556,6 @@
                 "portable",
                 "shim"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -3736,20 +3607,6 @@
                 "compatibility",
                 "polyfill",
                 "shim"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-12T16:14:59+00:00"
         },
@@ -3901,12 +3758,6 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "funding": [
-                {
-                    "url": "https://github.com/theseer",
-                    "type": "github"
-                }
-            ],
             "time": "2020-07-12T23:59:07+00:00"
         },
         {
@@ -3974,6 +3825,5 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    },
-    "plugin-api-version": "1.1.0"
+    }
 }

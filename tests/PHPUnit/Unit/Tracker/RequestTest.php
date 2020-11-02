@@ -12,6 +12,7 @@ use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Matomo\Network\IPUtils;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
 
@@ -34,6 +35,9 @@ class RequestTest extends UnitTestCase
 
         $this->time = 1416795617;
         $this->request = $this->buildRequest(array('idsite' => '1'));
+
+        // set an empty cache to avoid the cache will be built (which requires database)
+        Cache::setCacheGeneral([]);
     }
 
     public function test_getCurrentTimestamp_ShouldReturnTheSetTimestamp_IfNoCustomValueGiven()
@@ -46,6 +50,44 @@ class RequestTest extends UnitTestCase
         $request = $this->buildRequest(array('cdt' => '' . 5));
         $request->setIsAuthenticated();
         $this->assertSame($this->time, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfRelativeOffsetIsUsed()
+    {
+        $request = $this->buildRequest(array('cdo' => '10'));
+        $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfRelativeOffsetIsUsedIsTooMuchInPastShouldReturnFalseWhenNotAuthenticated()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Custom timestamp is 99990 seconds old, requires &token_auth');
+        $request = $this->buildRequest(array('cdo' => '99990'));
+        $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_CanUseRelativeOffsetAndCustomTimestamp()
+    {
+        $time = time() - 20;
+        $request = $this->buildRequest(array('cdo' => '10', 'cdt' => $time));
+        $request->setCurrentTimestamp(time());
+        $this->assertSame($time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_CanUseNegativeRelativeOffsetAndCustomTimestamp()
+    {
+        $time = time() - 20;
+        $request = $this->buildRequest(array('cdo' => '-10', 'cdt' => $time));
+        $request->setCurrentTimestamp(time());
+        $this->assertSame($time - 10, $request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_WithCustomTimestamp()
+    {
+        $time = time() - 20;
+        $request = $this->buildRequest(array('cdt' => $time));
+        $request->setCurrentTimestamp(time());
+        $this->assertEquals($time, $request->getCurrentTimestamp());
     }
 
     public function test_isEmptyRequest_ShouldReturnTrue_InCaseNoParamsSet()

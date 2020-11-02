@@ -23,7 +23,6 @@
         "EndShortcut": "Slut",
         "EnterZenMode": "Gå i Zen tilstand (skjul menuen)",
         "ExitZenMode": "Forlad Zen tilstand (vis menuen)",
-        "ExceptionNotWhitelistedIP": "Du kan ikke bruge denne Matomo, da din IP %s ikke er hvidlistet",
         "ExcludeRowsWithLowPopulation": "Alle rækker vises %s Udeluk lav population",
         "ExternalHelp": "Hjælp (åbnes i en ny fane)",
         "FlattenDataTable": "Rapporten er hierarkisk %s lav den ikke hierakisk",

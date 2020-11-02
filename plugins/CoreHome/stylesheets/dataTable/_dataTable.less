@@ -18,6 +18,8 @@
     text-align: right;
     margin-right: 4px;
     font-weight: normal;
+    .font-default(13px, 18px);
+    vertical-align: text-bottom;
   }
 
   td.highlight > .ratio {
@@ -40,7 +42,7 @@ table.subDataTable td.label {
 
 table.dataTable img,
 table.subDataTable img {
-  vertical-align: middle;
+  vertical-align: text-bottom;
 }
 
 table.dataTable img {
@@ -49,13 +51,13 @@ table.dataTable img {
   margin-left: 0.5em;
 }
 
-table.dataTable tr:not(.parentComparisonRow) img.link {
-  position: relative;
-  top: 5px;
-}
-
-table.subDataTable img.link {
-  transform: translateY(-50%);
+table.dataTable tr td .icon-outlink {
+  color: #aaa;
+  margin-right: 0.5em;
+  vertical-align: bottom;
+  .font-default(13px, 18px);
+  padding-left: 1px;
+  display: inline-block;
 }
 
 table.dataTable tr.subDataTable {
@@ -123,7 +125,7 @@ table.dataTable th.columnSorted {
 }
 
 table.dataTable td {
-  padding: 5px 0px 5px 12px;
+  padding: 5px 0 5px 12px;
   background: @theme-color-background-base;
   z-index: 99;
 }
@@ -510,22 +512,8 @@ tr.level12 td.label {
   padding-left: 9em !important;
 }
 
-/* less right margins for the link image in the Pa*/
-.dataTableActions table.dataTable img.link {
-  margin-right: 0.5em;
-  margin-left: 1px;
-  margin-bottom: 4px;
-  vertical-align: text-bottom;
-}
-
 table.dataTable td.label img {
   max-height: 16px; 
-}
-
-tr td.label img.plusMinus {
-  margin-left: -3px;
-  margin-right: 6px;
-  margin-top: 0;
 }
 
 .pk-emptyDataTable {

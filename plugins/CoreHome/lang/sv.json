@@ -23,7 +23,6 @@
         "EndShortcut": "Slut",
         "EnterZenMode": "Starta Zen-läge (göm menyerna)",
         "ExitZenMode": "Avsluta Zen-läge (visa menyerna)",
-        "ExceptionNotWhitelistedIP": "Du kan inte använda Matomo eftersom din IP-adress %s inte är vitlistad",
         "ExcludeRowsWithLowPopulation": "Alla rader visas %s Dölj rader med låga värden",
         "ExternalHelp": "Hjälp (öppnas i en ny flik)",
         "FlattenDataTable": "Rapporten är hierarkisk %s Gör den plan",

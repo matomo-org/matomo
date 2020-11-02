@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Login;
 
 use Piwik\AuthResult;
 use Piwik\Auth\Password;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Piwik;
@@ -65,7 +66,7 @@ class Auth implements \Piwik\Auth
             }
         } catch (\Zend_Db_Statement_Exception $e) {
             // user_token_auth table might not yet exist when updating to Matomo 4
-            if (strpos($e->getMessage(), 'user_token_auth') && !DbHelper::tableExists('user_token_auth')) {
+            if (strpos($e->getMessage(), 'user_token_auth') && !DbHelper::tableExists(Common::prefixTable('user_token_auth'))) {
                 return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous');
             }
 

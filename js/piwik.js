@@ -35,7 +35,7 @@
 /*global Blob */
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, matomoAsyncInit, matomoPluginAsyncInit , frameElement, self, hasFocus,
-    createElement, appendChild, characterSet, charset, all,
+    createElement, appendChild, characterSet, charset, all, piwik_log, AnalyticsTracker,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, setCookieConsentGiven,
     areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
@@ -45,6 +45,7 @@
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
+    serviceWorker, ready, then, sync, register,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -701,7 +702,7 @@ if (typeof window.Matomo !== 'object') {
             var regexSearch = "[\\?&#]" + name + "=([^&#]*)";
             var regex = new RegExp(regexSearch);
             var results = regex.exec(url);
-            return results ? decodeWrapper(results[1]) : '';
+            return results ? safeDecodeWrapper(results[1]) : '';
         }
 
         function trim(text)
@@ -1833,6 +1834,10 @@ if (typeof window.Matomo !== 'object') {
                     params += 'c_t='+ encodeWrapper(target);
                 }
 
+                if (params) {
+                    params += '&ca=1';
+                }
+
                 return params;
             },
             buildImpressionRequestParams: function (name, piece, target)
@@ -1842,6 +1847,10 @@ if (typeof window.Matomo !== 'object') {
 
                 if (target) {
                     params += '&c_t=' + encodeWrapper(target);
+                }
+
+                if (params) {
+                    params += '&ca=1';
                 }
 
                 return params;
@@ -2389,7 +2398,7 @@ if (typeof window.Matomo !== 'object') {
              * Set cookie value
              */
             function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return;
                 }
 
@@ -3446,37 +3455,70 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
+                // note: there might be negative values because of browser bugs see https://github.com/matomo-org/matomo/pull/16516 in this case we ignore the values
+                var timings = '';
+
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
-                    request += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+
+                    if (performanceAlias.timing.connectEnd < performanceAlias.timing.fetchStart) {
+                        return;
+                    }
+
+                    timings += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
-                    request += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
+
+                    if (performanceAlias.timing.responseStart < performanceAlias.timing.requestStart) {
+                        return;
+                    }
+
+                    timings += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
-                    request += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+
+                    if (performanceAlias.timing.responseEnd < performanceAlias.timing.responseStart) {
+                        return;
+                    }
+
+                    timings += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
-                    request += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+
+                    if (performanceAlias.timing.domInteractive < performanceAlias.timing.domLoading) {
+                        return;
+                    }
+
+                    timings += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
-                    request += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+
+                    if (performanceAlias.timing.domComplete < performanceAlias.timing.domInteractive) {
+                        return;
+                    }
+
+                    timings += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
                 }
 
                 if (performanceAlias && performanceAlias.timing && performanceAlias
                     && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
-                    request += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+
+                    if (performanceAlias.timing.loadEventEnd < performanceAlias.timing.loadEventStart) {
+                        return;
+                    }
+
+                    timings += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
                 }
 
-                return request;
+                return request + timings;
             }
 
             /**
@@ -3795,6 +3837,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                     request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
+                request += '&ca=1';
                 request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
@@ -4202,7 +4245,8 @@ if (typeof window.Matomo !== 'object') {
                 return 'e_c=' + encodeWrapper(category)
                     + '&e_a=' + encodeWrapper(action)
                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
+                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '')
+                    + '&ca=1';
             }
 
             /*
@@ -4239,7 +4283,7 @@ if (typeof window.Matomo !== 'object') {
              * Log the goal with the server
              */
             function logGoal(idGoal, customRevenue, customData, callback) {
-                var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
+                var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : '') + '&ca=1', customData, 'goal');
 
                 sendRequest(request, configTrackerPause, callback);
             }
@@ -6855,6 +6899,13 @@ if (typeof window.Matomo !== 'object') {
 
         // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
+        addEventListener(windowAlias, 'online', function () {
+            if (isDefined(navigatorAlias.serviceWorker) && isDefined(navigatorAlias.serviceWorker.ready)) {
+                navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
+                    return swRegistration.sync.register('matomoSync');
+                });
+            }
+        }, false);
 
         addEventListener(windowAlias,'message', function(e) {
             if (!e || !e.origin) {
@@ -7241,9 +7292,9 @@ if (typeof window.Matomo !== 'object') {
 
 /*jslint sloppy: true */
 (function () {
-    var jsTrackerType = (typeof AnalyticsTracker);
+    var jsTrackerType = (typeof window.AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = window.Matomo;
+        window.AnalyticsTracker = window.Matomo;
     }
 }());
 /*jslint sloppy: false */
@@ -7269,8 +7320,8 @@ if (typeof window.Matomo !== 'object') {
  * @param string matomoUrl
  * @param mixed customData
  */
-if (typeof piwik_log !== 'function') {
-    piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
+if (typeof window.piwik_log !== 'function') {
+    window.piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
         'use strict';
 
         function getOption(optionName) {

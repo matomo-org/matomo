@@ -9,10 +9,8 @@
 namespace Piwik\Plugins\Contents\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Contents\Columns\ContentName;
 use Piwik\Plugins\Contents\Columns\Metrics\InteractionRate;
-use Piwik\View;
 
 /**
  * This class defines a new report.

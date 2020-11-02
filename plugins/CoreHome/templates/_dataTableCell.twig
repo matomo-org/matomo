@@ -6,8 +6,7 @@
        target="_blank"
        href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
     {% if not row.getMetadata('logo') %}
-        <img class="link" width="10" height="9"
-             src="plugins/Morpheus/images/link.png"/>
+        <span class="icon-outlink"></span>
     {% endif %}
 {% endif %}
 

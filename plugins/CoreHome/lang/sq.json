@@ -23,7 +23,7 @@
         "EndShortcut": "Fund",
         "EnterZenMode": "Kalo nën mënyrën Zen (fshihi menutë)",
         "ExitZenMode": "Dil nga mënyra Zen (shfaqi menutë)",
-        "ExceptionNotWhitelistedIP": "S’mund të përdorni këtë Matomo, ngaqë IP-ja juaj %s s’është nga të pranuarat",
+        "ExceptionNotAllowlistedIP": "S’mund të përdorni këtë instancë të Matomo-s, ngaqë nuk lejohet IP-ja juaj %s.",
         "ExcludeRowsWithLowPopulation": "Po shfaqen krejt rreshtat %s Përjashtoni popullatat e ulëta",
         "ExternalHelp": "Ndihmë (hapet në skedë të re)",
         "FlattenDataTable": "Raporti është hierarkik %s Bëjeni të sheshtë",

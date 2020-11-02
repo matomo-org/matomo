@@ -95,8 +95,13 @@ var SegmentedVisitorLog = function() {
 
     function show(apiMethod, segment, extraParams) {
 
+        if (!piwik.visitorLogEnabled) {
+            console.error('Visitor Log was disabled in website settings');
+            return;
+        }
+
         // open the popover
-        var box = Piwik_Popover.showLoading('Segmented Visit Log');
+        var box = Piwik_Popover.showLoading('Segmented Visits Log');
         box.addClass('segmentedVisitorLogPopover');
 
 

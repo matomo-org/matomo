@@ -153,6 +153,7 @@
                     </div>
                 {% endfor %}
 
+                {% import 'ajaxMacros.twig' as ajax %}
                 {{ ajax.errorDiv('invalidVerificationCodeAjaxError') }}
 
                 <div piwik-activity-indicator loading="managePhoneNumber.isChangingPhoneNumber"></div>

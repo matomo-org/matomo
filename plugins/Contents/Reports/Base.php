@@ -42,6 +42,7 @@ abstract class Base extends Report
     {
         $view->config->datatable_js_type   = 'ContentsDataTable';
         $view->config->datatable_css_class = 'ContentsDataTable';
+        $view->config->show_table_all_columns = false;
 
         if (!empty($this->dimension)) {
             $view->config->addTranslations(array('label' => $this->dimension->getName()));
@@ -52,6 +53,10 @@ abstract class Base extends Report
             array_keys($this->getMetrics()),
             array_keys($this->getProcessedMetrics())
         );
+
+        if (property_exists($view->config, 'selectable_columns')) {
+            $view->config->selectable_columns = $this->metrics;
+        }
 
         $view->requestConfig->filter_sort_column = 'nb_impressions';
 

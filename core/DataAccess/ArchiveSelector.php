@@ -140,13 +140,14 @@ class ArchiveSelector
             $siteIds[$index] = (int) $siteId;
         }
 
-        $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
+        $getArchiveIdsSql = "SELECT idsite, date1, date2,
+                                    GROUP_CONCAT(CONCAT(idarchive,'|',`name`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
                                 AND ts_archived IS NOT NULL
                                 AND %s
-                           GROUP BY idsite, date1, date2, name";
+                           GROUP BY idsite, date1, date2";
 
         $monthToPeriods = array();
         foreach ($periods as $period) {
@@ -192,12 +193,33 @@ class ArchiveSelector
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
             $archiveIds = $db->fetchAll($sql, $bind);
 
-            // get the archive IDs
+            // get the archive IDs. we keep all archives until the first all plugins archive.
+            // everything older than that one is discarded.
+            $pluginsFound = [];
             foreach ($archiveIds as $row) {
-                //FIXMEA duplicate with Archive.php
                 $dateStr = $row['date1'] . ',' . $row['date2'];
 
-                $result[$row['name']][$dateStr][] = $row['idarchive'];
+                $archives = $row['archives'];
+                $pairs = explode(',', $archives);
+                foreach ($pairs as $pair) {
+                    list($idarchive, $doneFlag) = explode('|', $pair);
+
+                    $result[$doneFlag][$dateStr][] = $idarchive;
+                    if (strpos($doneFlag, '.') === false) { // all plugins archive
+                        break; // found the all plugins archive, don't need to look in older archives
+                    } else {
+                        list($ignore, $plugin) =  explode('.', $doneFlag);
+                        if (empty($pluginsFound[$plugin])) {
+                            $pluginsFound[$plugin] = true;
+
+                            $result[$doneFlag][$dateStr][] = $idarchive;
+
+                            if (count($plugins) == count($pluginsFound)) {
+                                break; // found archive for every plugin, don't need to keep looking
+                            }
+                        }
+                    }
+                }
             }
         }
 

@@ -88,7 +88,6 @@
         "SystemCheckGzuncompressHelp": "U moet de zlib-extensie en gzuncompress-functie inschakelen.",
         "SystemCheckHashHelp": "Je dient PHP opnieuw te configureren en compileren met hash() support, door de optie --disable-hash weg te laten.",
         "SystemCheckIconvHelp": "U moet PHP configureren met iconv support ingeschakeld --with-iconv.",
-        "SystemCheckJsonHelp": "De php5-json-extensie is vereist voor Matomo om JSON-gegevens te lezen en te schrijven.",
         "SystemCheckMailHelp": "Feedback en vergeten wachtwoord berichten zullen niet worden verzonden zonder mail()",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Geheugenlimiet",

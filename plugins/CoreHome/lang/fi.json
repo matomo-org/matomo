@@ -21,7 +21,6 @@
         "EndShortcut": "Loppuun",
         "EnterZenMode": "Siirry Zen-tilaan (piilota valikot)",
         "ExitZenMode": "Poistu Zen-tilasta (näytä valikot)",
-        "ExceptionNotWhitelistedIP": "Et voi käyttää Matomoa, sillä IP:si %s ei ole sallittujen osoitteiden listalla",
         "ExcludeRowsWithLowPopulation": "Kaikki rivit näytetään %s Piilota vajaat rivit",
         "ExternalHelp": "Apua (aukeaa uudessa ikkunassa)",
         "FlattenDataTable": "Tämä raportti on hierarkinen %s Muuta tasaiseksi",

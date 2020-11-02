@@ -103,7 +103,7 @@
 		<name>Performance overview</name>
 		<module>PagePerformance</module>
 		<action>get</action>
-		<onlineGuideUrl>https://matomo.org/docs/page-performance/</onlineGuideUrl>
+		<onlineGuideUrl>https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/</onlineGuideUrl>
 		<metrics>
 			<avg_time_network>Avg. network time</avg_time_network>
 			<avg_time_server>Avg. server time</avg_time_server>

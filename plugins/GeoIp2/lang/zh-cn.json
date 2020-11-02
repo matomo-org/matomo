@@ -1,6 +1,8 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "没有找到apache_get_modules函数，可能没有apache网络服务器。",
+        "AutomaticSetup": "使用dbip数据库自动配置地理位置",
+        "AutomaticSetupDescription": "为了获得适当的地理位置，Matomo需要一个外部数据库。 使用此选项，Matomo将自动配置为下载和使用最新的dbip城市级别数据库。 [%1$s查看许可条款%2$s]",
         "CannotFindGeoIPDatabaseInArchive": "在tar归档文件%1$s中找不到有效的DBIP\/GeoIP数据库！",
         "CannotFindGeoIPServerVar": "变量 %s 没有设置，您的服务器配置不正确。",
         "CannotListContent": "无法列出 %1$s: %2$s 的内容",

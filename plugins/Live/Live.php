@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\Cache;
-use Piwik\CacheId;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -19,7 +18,6 @@ use Piwik\Container\StaticContainer;
  */
 class Live extends \Piwik\Plugin
 {
-
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -48,8 +46,107 @@ class Live extends \Piwik\Plugin
     {
         $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
         $out .= "
+        piwik.visitorLogEnabled = ".json_encode(self::isVisitorLogEnabled()).";
+        piwik.visitorProfileEnabled = ".json_encode(self::isVisitorProfileEnabled()).";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
+    }
+
+    /**
+     * Throws an exception if visits log is disabled
+     *
+     * @param null|int|array $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorLogEnabled($idSite = null): void
+    {
+        $systemSettings = new SystemSettings();
+
+        if ($systemSettings->disableVisitorLog->getValue() === true) {
+            throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
+        }
+
+        if (empty($idSite)) {
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+        }
+
+        if (!empty($idSite)) {
+            $idSites = is_array($idSite) ? $idSite : [$idSite];
+
+            foreach ($idSites as $idSite) {
+                $settings = new MeasurableSettings($idSite);
+
+                if ($settings->disableVisitorLog->getValue() === true) {
+                    throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite='.$idSite.').');
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns whether visits log is enabled (for the given site)
+     *
+     * @param null|int|array $idSite
+     * @return bool
+     */
+    public static function isVisitorLogEnabled($idSite = null): bool
+    {
+        try {
+            self::checkIsVisitorLogEnabled($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+    /**
+     * Throws an exception if visitor profile is disabled
+     *
+     * @param null|int|array $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorProfileEnabled($idSite = null): void
+    {
+        self::checkIsVisitorLogEnabled($idSite); // visitor log is required for visitor profile
+
+        $systemSettings = new SystemSettings();
+
+        if ($systemSettings->disableVisitorProfile->getValue() === true) {
+            throw new \Exception('Visitor profile is deactivated globally. A user with super user access can enable this feature in the general settings.');
+        }
+
+        if (empty($idSite)) {
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+        }
+
+        if (!empty($idSite)) {
+            $idSites = is_array($idSite) ? $idSite : [$idSite];
+
+            foreach ($idSites as $idSite) {
+                $settings = new MeasurableSettings($idSite);
+
+                if ($settings->disableVisitorProfile->getValue() === true) {
+                    throw new \Exception('Visitor profile is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite='.$idSite.').');
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns whether visitor profile is enabled (for the given site)
+     *
+     * @param null|int|array $idSite
+     * @return bool
+     */
+    public static function isVisitorProfileEnabled($idSite = null): bool
+    {
+        try {
+            self::checkIsVisitorProfileEnabled($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     public function getStylesheetFiles(&$stylesheets)

@@ -12,7 +12,6 @@
         "LastHours": "最后%s小时",
         "LastMinutes": "最后%s分钟",
         "LastVisit": "最后访问",
-        "LinkVisitorLog": "查看详细的访问日志",
         "LoadMoreVisits": "查看更多访问",
         "LimitedSummary": "此配置文件中的信息总结了最近的%1$s次访问。 该用户总共有更多访问。",
         "LimitedVisitsShown": "仅显示最后%1$s次访问。 该用户总共有更多访问。",
@@ -49,10 +48,6 @@
         "VisitsFrom": "%1$s%2$s 次访问%3$s 来自",
         "VisitSummary": "在网站%3$s上总共花费%1$s%2$s，在%6$s次访问%7$s查看了%4$s页%5$s。",
         "VisitSummaryWithActionDetails": "在网站%3$s上总共花费%1$s%2$s，在%7$s次访问中进行了%4$s次操作%5$s（%6$s）%8$s。",
-        "RowActionTooltipDefault": "显示按此行部分的访问日志",
-        "RowActionTooltipWithDimension": "显示按此%s部分的访问日志",
-        "RowActionTooltipTitle": "打开分段访问日志",
-        "SegmentedVisitorLogTitle": "访问记录，显示访问次数为%1$s的“%2$s”",
         "OnClickPause": "%s已经开始。点击停止。",
         "OnClickStart": "%s已经停止。点击开始。",
         "ClickToSeeAllContents": "单击以查看每个内容的交互\/印象"

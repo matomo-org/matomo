@@ -61,6 +61,10 @@ These are only recommendations (because we will keep backward compatibility for 
 * These API methods have been removed: `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle`. Use `Referrers.getKeywords` instead in combination with a `entryPageUrl` or `entryPageTitle` segment.
 * The parameter `alias` from the API methods `UsersManager.addUser` and `UsersManager.updateUser` has been removed.
 
+#### HTTP Tracking API
+
+* An optional new tracking parameter called `ca` has been added which can be used for tracking requests that aren't page views see [#16569](https://github.com/matomo-org/matomo/issues/16569)
+
 ### PHP Plugin API
 
 #### New PHP events
@@ -130,7 +134,7 @@ These are only recommendations (because we will keep backward compatibility for 
 
 ### Other Breaking changes
 
-* When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access 
+* When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access, unless the `[General] enable_framed_allow_write_admin_token_auth` is set. This means if you currently rely on this functionality, you will need to update your matomo config when updating to Matomo 4.
 * The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
 * Matomo now uses the SERVER_NAME for host validation and no longer the HOST header. If you're running Matomo behind a load balancer or a proxy you need to ensure that SERVER_NAME is set correctly.
 * Deprecated `piwik` font was removed. Use `matomo` font instead

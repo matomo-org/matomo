@@ -50,10 +50,6 @@ class CliPhp
         }
 
         if (!$this->isValidPhpType($bin)) {
-            $bin = shell_exec('which php5');
-        }
-
-        if (!$this->isValidPhpType($bin)) {
             return false;
         }
 

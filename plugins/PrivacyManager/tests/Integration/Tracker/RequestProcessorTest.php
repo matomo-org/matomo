@@ -8,14 +8,17 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Tracker;
 
+use Piwik\Common;
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit\VisitProperties;
 
 
 /**
@@ -43,12 +46,118 @@ class RequestProcessorTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
         Cache::clearCacheGeneral();
 
-        $this->requestProcessor = new RequestProcessor();
+        $anonimiser = new ReferrerAnonymizer();
+
         $this->config = new Config();
+        $this->requestProcessor = new RequestProcessor($this->config, $anonimiser);
 
         for ($i = 0; $i < 3; $i++) {
             Fixture::createWebsite('2014-01-01 02:03:04');
         }
+    }
+
+    public function test_onNewVisit_anonymiseReferrer_byDefaultNothingAnonymised()
+    {
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $request = $this->makeRequest([]);
+        $this->requestProcessor->onNewVisit($visit, $request);
+
+        $this->assertVisitProperties($visit, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+    }
+
+    public function test_onNewVisit_anonymiseReferrer_byPath()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
+        $request = $this->makeRequest([]);
+        $this->requestProcessor->onNewVisit($visit, $request);
+
+        $this->assertVisitProperties($visit, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/', '', 'foo.com');
+    }
+
+    public function test_onNewVisit_anonymiseReferrer_website_excludeAll()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $request = $this->makeRequest([]);
+        $this->requestProcessor->onNewVisit($visit, $request);
+
+        $this->assertVisitProperties($visit, Common::REFERRER_TYPE_WEBSITE, '', '', '');
+    }
+
+    public function test_onNewVisit_anonymiseReferrer_search_ExcludeAll()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $request = $this->makeRequest([]);
+        $this->requestProcessor->onNewVisit($visit, $request);
+
+        $this->assertVisitProperties($visit, Common::REFERRER_TYPE_SEARCH_ENGINE, '', '', 'barbaz');
+    }
+
+    public function test_onExistingVisit_anonymiseReferrer_byDefaultNothingAnonymised()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_NONE;
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $request = $this->makeRequest([]);
+        $update = $visit->getProperties();
+        $this->requestProcessor->onExistingVisit($update, $visit, $request);
+
+        $this->assertVisitProperties($update, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+    }
+
+    public function test_onExistingVisit_anonymiseReferrer_byPath()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
+        $request = $this->makeRequest([]);
+        $update = $visit->getProperties();
+        $this->requestProcessor->onExistingVisit($update, $visit, $request);
+
+        $this->assertVisitProperties($update, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/', '', 'foo.com');
+    }
+
+    public function test_onExistingVisit_anonymiseReferrer_website_excludeAll()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $request = $this->makeRequest([]);
+        $update = $visit->getProperties();
+        $this->requestProcessor->onExistingVisit($update, $visit, $request);
+
+        $this->assertVisitProperties($update, Common::REFERRER_TYPE_WEBSITE, '', '', '');
+    }
+
+    public function test_onExistingVisit_anonymiseReferrer_search_ExcludeAll()
+    {
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
+        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $request = $this->makeRequest([]);
+        $update = $visit->getProperties();
+        $this->requestProcessor->onExistingVisit($update, $visit, $request);
+
+        $this->assertVisitProperties($update, Common::REFERRER_TYPE_SEARCH_ENGINE, '', '', 'barbaz');
+    }
+
+    private function assertVisitProperties($visit, $expectedType, $expectedUrl, $expectedKeyword, $exectedName)
+    {
+        if (is_array($visit)) {
+            $visit = new VisitProperties($visit);
+        }
+        $this->assertEquals($expectedType, $visit->getProperty('referer_type'));
+        $this->assertEquals($expectedUrl, $visit->getProperty('referer_url'));
+        $this->assertEquals($expectedKeyword, $visit->getProperty('referer_keyword'));
+        $this->assertEquals($exectedName, $visit->getProperty('referer_name'));
+    }
+
+    private function makeReferrerVisitProperties($type, $url, $keyword, $name)
+    {
+        $visit = new VisitProperties();
+        $visit->setProperty('referer_type', $type);
+        $visit->setProperty('referer_url', $url);
+        $visit->setProperty('referer_keyword', $keyword);
+        $visit->setProperty('referer_name', $name);
+        return $visit;
     }
 
     public function test_manipulateRequest_enabledButNoUserIdNorOrderIdSet()

@@ -128,6 +128,7 @@ class   Config
         'show_offset_information',
         'hide_annotations_view',
         'columns_to_display',
+        'rows_to_display',
         'segmented_visitor_log_segment_suffix',
     );
 

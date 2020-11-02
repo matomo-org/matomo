@@ -13,7 +13,9 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\API as GoalsApi;
+use Piwik\Plugins\Live\Live;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\Plugins\Goals\TranslationHelper;
@@ -85,12 +87,13 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             'idSite'       => $this->idSite,
             'date'         => $date,
             'period'       => $period,
-            'segment'      => $segment,
+            'segment'      => Common::unsanitizeInputValue($segment),
             'filter_limit' => '-1'
         ], $default = []);
 
         $dataRow = $goalMetrics->getFirstRow();
 
+        $view->visitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
         $view->idSite = $this->idSite;
         $view->idGoal = $idGoal;
 

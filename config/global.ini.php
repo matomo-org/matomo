@@ -394,6 +394,9 @@ hash_algorithm = whirlpool
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
+session_gc_probability = 1
+
 ; (DEPRECATED) has no effect
 login_cookie_name = matomo_auth
 
@@ -421,24 +424,24 @@ login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 login_password_recovery_replyto_email_name = "No-reply"
 
 ; When configured, only users from a configured IP can log into your Matomo. You can define one or multiple
-; IPv4, IPv6, and IP ranges. You may also define hostnames. However, resolving hostnames in each request 
+; IPv4, IPv6, and IP ranges. You may also define hostnames. However, resolving hostnames in each request
 ; may slightly slow down your Matomo.
-; This whitelist also affects API requests unless you disabled it via the setting
-; "login_whitelist_apply_to_reporting_api_requests" below. Note that neither this setting, nor the
-; "login_whitelist_apply_to_reporting_api_requests" restricts authenticated tracking requests (tracking requests
+; This allowlist also affects API requests unless you disabled it via the setting
+; "login_allowlist_apply_to_reporting_api_requests" below. Note that neither this setting, nor the
+; "login_allowlist_apply_to_reporting_api_requests" restricts authenticated tracking requests (tracking requests
 ; with a "token_auth" URL parameter).
 ;
 ; Examples:
-; login_whitelist_ip[] = 204.93.240.*
-; login_whitelist_ip[] = 204.93.177.0/24
-; login_whitelist_ip[] = 199.27.128.0/21
-; login_whitelist_ip[] = 2001:db8::/48
-; login_whitelist_ip[] = matomo.org
+; login_allowlist_ip[] = 204.93.240.*
+; login_allowlist_ip[] = 204.93.177.0/24
+; login_allowlist_ip[] = 199.27.128.0/21
+; login_allowlist_ip[] = 2001:db8::/48
+; login_allowlist_ip[] = matomo.org
 
-; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
-; well as HTTP Reporting API requests will only work for these whitelisted IPs.
+; By default, if an allowlisted IP address is specified via "login_allowlist_ip[]", the reporting user interface as
+; well as HTTP Reporting API requests will only work for these allowlisted IPs.
 ; Set this setting to "0" to allow HTTP Reporting API requests from any IP address.
-login_whitelist_apply_to_reporting_api_requests = 1
+login_allowlist_apply_to_reporting_api_requests = 1
 
 ; By default when user logs out they are redirected to Matomo "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after they log out of Matomo.
@@ -451,6 +454,13 @@ enable_framed_pages = 0
 ; Set to 1 to disable the framebuster on Admin pages (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on the Settings forms).
 enable_framed_settings = 0
+
+; Set to 1 to allow using token_auths with write or admin access in iframes that embed Matomo.
+; Note that the token used will be in the URL in the iframe, and thus will be stored in webserver
+; logs and possibly other places. Using write or admin token_auths can be seen as a security risk,
+; though it can be necessary in some use cases. We do not recommend enabling this setting, for more
+; information view the FAQ: https://matomo.org/faq/troubleshooting/faq_147/
+enable_framed_allow_write_admin_token_auth = 0
 
 ; language cookie name for session
 language_cookie_name = matomo_lang
@@ -734,7 +744,7 @@ data_comparison_period_limit = 5
 ; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
 ; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
 ; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
-; breaks and reencrypts SSL connections you can set your custom file here. 
+; breaks and reencrypts SSL connections you can set your custom file here.
 custom_cacert_pem=
 
 ; Whether or not to send weekly emails to superusers about tracking failures.

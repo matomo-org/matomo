@@ -13,7 +13,7 @@ use Piwik\DataTable\BaseFilter;
 
 /**
  * Filter that will remove columns from a {@link DataTable} using either a blacklist,
- * whitelist or both.
+ * allowlist or both.
  *
  * This filter is used to handle the **hideColumn** and **showColumn** query parameters.
  *
@@ -129,7 +129,7 @@ class ColumnDelete extends BaseFilter
                     }
 
                     if (!$keep
-                        && $name !== 'label' // label cannot be removed via whitelisting
+                        && $name !== 'label' // label cannot be removed via allowlisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
                         // we cannot remove row directly to prevent notice "ArrayIterator::next(): Array was modified

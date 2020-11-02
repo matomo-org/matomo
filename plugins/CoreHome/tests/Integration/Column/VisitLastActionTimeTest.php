@@ -58,6 +58,34 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         return new Request($request);
     }
 
+    public function test_convertHourToHourInSiteTimezone_UTC()
+    {
+        $idSite = Fixture::createWebsite('2020-01-02 03:04:05');
+        $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
+        $this->assertEquals(5, $hourConverted);
+    }
+
+    public function test_convertHourToHourInSiteTimezone_WithTimezone()
+    {
+        $idSite = Fixture::createWebsite('2020-01-02 03:04:05', $ecommerce = 1, 'Site', $siteUrl = false,
+            $siteSearch = 1, $searchKeywordParameters = null,
+            $searchCategoryParameters = null, $timezone = 'Asia/Jakarta');
+        $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
+        $this->assertEquals(12, $hourConverted);
+    }
+
+    public function test_convertHourToHourInSiteTimezone_WithTimezoneAndCustomDate()
+    {
+        $_GET['period'] = 'day';
+        $_GET['date'] = '2020-01-02 03:04:05';
+        $idSite = Fixture::createWebsite('2020-01-02 03:04:05', $ecommerce = 1, 'Site', $siteUrl = false,
+            $siteSearch = 1, $searchKeywordParameters = null,
+            $searchCategoryParameters = null, $timezone = 'Asia/Jakarta');
+        $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
+        unset($_GET['period'], $_GET['date']);
+        $this->assertEquals(12, $hourConverted);
+    }
+
     private function getVisitor(VisitProperties $previousProperties = null)
     {
         $visit = new VisitProperties();

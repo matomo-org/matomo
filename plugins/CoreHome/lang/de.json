@@ -23,7 +23,6 @@
         "EndShortcut": "Ende",
         "EnterZenMode": "\"Zen mode\" aktivieren (Menü verstecken)",
         "ExitZenMode": "\"Zen mode\" verlassen (Menü zeigen)",
-        "ExceptionNotWhitelistedIP": "Sie können dieses Matomo nicht verwenden, weil Ihre IP %s auf der Whitelist nicht vorhanden ist",
         "ExcludeRowsWithLowPopulation": "Alle Zeilen werden angezeigt %s Niedrige Werte ausschließen",
         "ExternalHelp": "Hilfe (öffnet in neuem Tab)",
         "FlattenDataTable": "Der Bericht ist hierarchisch strukturiert %s Flach anzeigen",

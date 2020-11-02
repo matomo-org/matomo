@@ -133,10 +133,10 @@ class Installation extends \Piwik\Plugin
     private function isAllowedAction($action)
     {
         $controller = $this->getInstallationController();
-        $isActionWhiteListed = in_array($action, array('saveLanguage', 'getInstallationCss', 'getInstallationJs', 'reuseTables'));
+        $isActionAllowed = in_array($action, array('saveLanguage', 'getInstallationCss', 'getInstallationJs', 'reuseTables'));
 
         return in_array($action, array_keys($controller->getInstallationSteps()))
-                || $isActionWhiteListed;
+                || $isActionAllowed;
     }
 
     /**

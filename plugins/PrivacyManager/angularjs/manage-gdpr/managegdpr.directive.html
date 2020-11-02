@@ -80,7 +80,7 @@
                 <th>{{ 'General_VisitorIP'|translate }}</th>
                 <th>{{ 'General_UserId'|translate }}</th>
                 <th>{{ 'General_Details'|translate }}</th>
-                <th>{{ 'General_Action'|translate }}</th>
+                <th ng-show="manageGdpr.profileEnabled">{{ 'General_Action'|translate }}</th>
             </tr>
             </thead>
             <tbody>
@@ -105,7 +105,7 @@
                         <span title="{{ dataSubject.browser }} {{ dataSubject.browserFamilyDescription }}"><img height="16" ng-src="{{ dataSubject.browserIcon }}"></span>
                         <span title="{{ dataSubject.country }} {{ dataSubject.region }}"><img height="16" ng-src="{{ dataSubject.countryFlag }}"></span>
                     </td>
-                    <td><a class="visitorLogTooltip" title="View visitor profile" ng-click="manageGdpr.showProfile(dataSubject.visitorId, dataSubject.idSite)">
+                    <td ng-show="manageGdpr.profileEnabled"><a class="visitorLogTooltip" title="View visitor profile" ng-click="manageGdpr.showProfile(dataSubject.visitorId, dataSubject.idSite)">
                     <img src="plugins/Live/images/visitorProfileLaunch.png"> <span>{{ 'Live_ViewVisitorProfile'|translate }}</span>
                 </a></td>
                 </tr>

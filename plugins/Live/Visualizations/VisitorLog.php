@@ -16,10 +16,9 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Plugins\TagManager\Model\Container\StaticContainerIdGenerator;
 use Piwik\Tracker\Action;
-use Piwik\View;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
@@ -120,6 +119,10 @@ class VisitorLog extends Visualization
         $this->config->custom_parameters['smallWidth'] = (int)(1 == Common::getRequestVar('small', 0, 'int'));
         $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
+
+        if (!Live::isVisitorProfileEnabled()) {
+            $this->config->custom_parameters['hideProfileLink'] = 1;
+        }
 
         if (!$this->isInPopover()) {
             $this->config->footer_icons = array(

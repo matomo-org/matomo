@@ -1,6 +1,7 @@
 <div piwik-content-block
      content-title="{{ 'Goals_ConversionsOverview'|translate|e('html_attr') }}">
     <ul class="ulGoalTopElements">
+        <li>
         {{ 'General_ColumnRevenue'|translate }}: {{ revenue|money(idSite)|raw -}}
         {% if revenue_subtotal is not empty %},
             {{ 'General_Subtotal'|translate }}: {{ revenue_subtotal|money(idSite)|raw -}}
@@ -14,9 +15,12 @@
         {%- if revenue_discount is not empty -%},
             {{ 'General_Discount'|translate }}: {{ revenue_discount|money(idSite)|raw -}}
         {% endif %}
+        </li>
     </ul>
+    {% if visitorLogEnabled %}
     <a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
         <span class="icon-visitor-profile rowActionIcon"></span> {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
     </a>
+    {% endif %}
     <br style="clear:left"/>
 </div>

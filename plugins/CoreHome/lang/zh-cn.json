@@ -23,7 +23,7 @@
         "EndShortcut": "结束",
         "EnterZenMode": "进入Zen模式（隐藏菜单）",
         "ExitZenMode": "退出Zen模式（显示菜单）",
-        "ExceptionNotWhitelistedIP": "您不能使用此Matomo，因为您的IP%s未列入白名单",
+        "ExceptionNotAllowlistedIP": "您不能使用此Matomo，因为不允许使用IP%s。",
         "ExcludeRowsWithLowPopulation": "显示了所有的数据 %s 不显示低密度数据",
         "ExternalHelp": "帮助（在新标签页打开）",
         "FlattenDataTable": "本报表已分级显示 %s 改为不分级显示",
@@ -31,6 +31,7 @@
         "ShowExportUrl": "显示导出URL",
         "HideExportUrl": "隐藏导出URL",
         "HomeShortcut": "Home",
+        "SupportUsOn": "支持我们",
         "IncludeRowsWithLowPopulation": "没有显示低密度数据 %s 显示所有数据",
         "InjectedHostEmailBody": "您好，我今天访问 Matomo 时遇到未知主机名的警告。",
         "InjectedHostEmailSubject": "访问 Matomo 的主机名未知: %s",
@@ -109,6 +110,7 @@
         "ReadMoreOnlineGuide": "在线指南中阅读有关此主题的更多信息。",
         "SeeAvailableVersions": "请参阅可用版本",
         "QuickLinks": "快速链接",
+        "Profilable": "可剖析",
         "SearchOnMatomo": "在Matomo.org上搜索“ %1$s”"
     }
 }

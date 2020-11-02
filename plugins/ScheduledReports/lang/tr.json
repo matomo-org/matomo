@@ -38,6 +38,7 @@
         "Segment_Deletion_Error": "Bu dilim %s raporun oluşturulmasında kullanıldığından silinemez ya da gizlenemez. Lütfen bu dilimi bu raporlardan kaldırıp yeniden deneyin.",
         "Segment_Help": "Bu e-posta raporundaki verilere uygulanacak var olan bir özel dilim seçebilirsiniz. Özel dilimleri panonuzdan ekleyip düzenleyebilirsiniz %1$s(açmak için tıklayın)%2$s sonra \"%3$s\" üzerine ve \"%4$s\" üzerine tıklayın.",
         "SegmentAppliedToReports": "Rapora '%s' dilimi uygulandı.",
+        "SegmentDeleted": "Dilim silindi",
         "SendReportNow": "Raporu gönder",
         "SendReportTo": "Raporu şuraya gönder",
         "SentToMe": "Bana gönder",

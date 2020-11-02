@@ -287,6 +287,10 @@ THIRD-PARTY CONTENT
 	Link: https://icomoon.io/#icons-icomoon
 	License: GPL
 
+	Name: FontAwesome icons ("icon-minus-square", "icon-plus-square", "icon-arrowup", "icon-arrowdown", "icon-outlink") in plugins/Morpheus/fonts
+	Link: https://fontawesome.com/
+	License: CC BY 4.0
+
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.

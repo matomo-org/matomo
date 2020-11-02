@@ -84,7 +84,7 @@ var Piwik_Overlay = (function () {
                 if (!$sidebar.find('.overlayNoData').length) {
                     $rowEvolutionLink.show();
                     $transitionsLink.show();
-                    if ($('#segment').val()) {
+                    if ($('#segment').val() && piwik.visitorLogEnabled) {
                         $visitorLogLink.show();
                     }
                 }

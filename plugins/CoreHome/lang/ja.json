@@ -23,7 +23,6 @@
         "EndShortcut": "終了",
         "EnterZenMode": "禅モードを使用（メニューを隠す）",
         "ExitZenMode": "禅モードを終了（メニューを表示）",
-        "ExceptionNotWhitelistedIP": "あなたの IP アドレス %s はホワイトリストに存在しないため、Matomo を使用できません。",
         "ExcludeRowsWithLowPopulation": "全ての行を表示 %s 少ない数の行を除く",
         "ExternalHelp": "ヘルプ（新しいタブで開きます）",
         "FlattenDataTable": "レポートは階層表示です %s フラットにする",

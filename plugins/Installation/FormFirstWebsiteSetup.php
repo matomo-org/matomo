@@ -34,8 +34,8 @@ class FormFirstWebsiteSetup extends QuickForm2
     {
         HTML_QuickForm2_Factory::registerRule('checkTimezone', 'Piwik\Plugins\Installation\Rule_isValidTimezone');
 
-        $urlExample = 'http://example.org';
-        $javascriptOnClickUrlExample = "javascript:if (this.value=='$urlExample'){this.value='http://';} this.style.color='black';";
+        $urlExample = 'https://example.org';
+        $javascriptOnClickUrlExample = "javascript:if (this.value=='$urlExample'){this.value='https://';} this.style.color='black';";
 
         $timezones = API::getInstance()->getTimezonesList();
         $timezones = array_merge(array('No timezone' => Piwik::translate('SitesManager_SelectACity')), $timezones);

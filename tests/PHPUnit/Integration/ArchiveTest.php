@@ -54,6 +54,8 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter->insertRecord('ExamplePlugin_archive3metric', 3);
         $archiveWriter->finalizeArchive();
 
+        sleep(1);
+
         // insert single plugin archive
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
         $params->setRequestedPlugin('ExamplePlugin');
@@ -62,6 +64,9 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter->initNewArchive();
         $archiveWriter->insertRecord('ExamplePlugin_archive3metric', 7);
         $archiveWriter->finalizeArchive();
+
+        unset($_GET['trigger']);
+        unset($_GET['pluginOnly']);
 
         $archive = Archive::build($idSite, 'day', '2014-05-07');
         $metrics = $archive->getNumeric(['ExamplePlugin_archive1metric', 'ExamplePlugin_archive2metric', 'ExamplePlugin_archive3metric']);

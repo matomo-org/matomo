@@ -77,6 +77,9 @@ class Tracker
         if (empty($GLOBALS['PIWIK_TRACKER_DEBUG'])) {
             $GLOBALS['PIWIK_TRACKER_DEBUG'] = self::isDebugEnabled();
         }
+        if (!empty($GLOBALS['PIWIK_TRACKER_DEBUG']) && !Common::isPhpCliMode()) {
+            Common::sendHeader('Content-Type: text/plain');
+        }
         PluginManager::getInstance()->loadTrackerPlugins();
     }
 

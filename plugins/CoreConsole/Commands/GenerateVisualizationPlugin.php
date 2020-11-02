@@ -49,7 +49,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
             'ExampleVisualizationDescription' => $description
         );
 
-        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles = array());
+        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowListFiles = array());
 
         $this->writeSuccessMessage($output, array(
              sprintf('Visualization plugin %s %s generated.', $pluginName, $version),

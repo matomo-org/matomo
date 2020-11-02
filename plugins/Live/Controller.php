@@ -40,7 +40,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function widget()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        
+        Live::checkIsVisitorLogEnabled($this->idSite);
+
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
         $view->isWidgetized = Common::getRequestVar('widget', 0, 'int');
@@ -71,7 +72,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function indexVisitorLog()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        
+        Live::checkIsVisitorLogEnabled($this->idSite);
+
         $view = new View('@Live/indexVisitorLog.twig');
         $view->visitorLog = $this->renderReport('getLastVisitsDetails');
         return $view->render();
@@ -88,6 +90,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastVisitsStart()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
+        Live::checkIsVisitorLogEnabled($this->idSite);
 
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
@@ -140,6 +143,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function getVisitorProfilePopup()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
+        Live::checkIsVisitorProfileEnabled($this->idSite);
+
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
         if (empty($visitorData)) {

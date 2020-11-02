@@ -23,7 +23,8 @@ class CustomJsTracker extends Plugin
             'PluginManager.pluginInstalled' => 'updateTracker',
             'PluginManager.pluginUninstalled' => 'updateTracker',
             'Updater.componentUpdated' => 'updateTracker',
-            'Controller.CoreHome.checkForUpdates.end' => 'updateTracker'
+            'Controller.CoreHome.checkForUpdates.end' => 'updateTracker',
+            'CustomJsTracker.updateTracker' => 'updateTracker'
         );
     }
 

@@ -25,6 +25,11 @@ class JsTestPluginTrackerFiles extends PluginTrackerFiles
         $trackerFiles = \_glob(PIWIK_DOCUMENT_ROOT . '/plugins/*/' . self::TRACKER_FILE);
         foreach ($trackerFiles as $trackerFile) {
             $pluginName = $this->getPluginNameFromFile($trackerFile);
+
+            if ($pluginName === 'PrivacyManager') {
+                continue; // ignore tracker.js of PrivacyManager, as it would disable Cookies
+            }
+
             $dirs[$pluginName] = dirname($trackerFile) . '/';
         }
         return $dirs;

@@ -2,7 +2,7 @@
 # =======================================================================
 # WARNING: this script archive.sh is DEPRECATED!
 #
-# => Replace your cron with `/usr/bin/php5 /path/to/piwik/console core:archive --url=http://example.org/piwik/`
+# => Replace your cron with `/usr/bin/php /path/to/piwik/console core:archive --url=http://example.org/piwik/`
 #
 # See documentation at https://piwik.org/setup-auto-archiving/
 # =======================================================================

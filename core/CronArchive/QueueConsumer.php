@@ -226,8 +226,10 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->usableArchiveExists($invalidatedArchive)) {
-                $this->logger->debug("Found invalidation with usable archive (not yet outdated) skipping until archive is out of date: $invalidationDesc");
+            $archivedTime = $this->usableArchiveExists($invalidatedArchive);
+            if ($archivedTime) {
+                $now = Date::now()->getDatetime();
+                $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) skipping until archive is out of date: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
@@ -483,6 +485,11 @@ class QueueConsumer
         return $parts[1];
     }
 
+    public function ignoreIdInvalidation($idinvalidation)
+    {
+        $this->invalidationsToExclude[$idinvalidation] = $idinvalidation;
+    }
+
     private function getDoneFlagType($name)
     {
         if ($name == 'done') {
@@ -539,10 +546,14 @@ class QueueConsumer
 
         // if valid archive already exists, do not re-archive
         $minDateTimeProcessedUTC = Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($periodLabel));
-        $archiveIdAndVisits = ArchiveSelector::getArchiveIdAndVisits($params, $minDateTimeProcessedUTC, $includeInvalidated = true);
+        $archiveIdAndVisits = ArchiveSelector::getArchiveIdAndVisits($params, $minDateTimeProcessedUTC, $includeInvalidated = false);
 
         $idArchive = $archiveIdAndVisits[0];
-        return !empty($idArchive);
+        if (empty($idArchive)) {
+            return false;
+        }
+
+        return Date::factory($archiveIdAndVisits[4])->getDatetime();
     }
 
     private function isSiteExists($idSite)

@@ -110,7 +110,26 @@ abstract class Action
             return $action;
         }
 
+        if (self::isCustomActionRequest($request)) {
+            throw new Exception('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
+        }
+
         return new ActionPageview($request);
+    }
+
+    /**
+     * Returns true if the tracking request was meant for some action that isn't the page view. See
+     * https://github.com/matomo-org/matomo/pull/16570 for more details. Basically, plugins that implement a tracker
+     * action should send a `ca=1` tracking parameter along the request so it doesn't get executed should the plugin
+     * be disabled but the JS tracker is still cached and keeps on sending these requests.
+     *
+     * @param Request $request
+     * @return bool
+     * @throws Exception
+     */
+    public static function isCustomActionRequest(Request  $request)
+    {
+        return $request->hasParam('ca') && $request->getParam('ca');
     }
 
     private static function getPriority(Action $actionType)
