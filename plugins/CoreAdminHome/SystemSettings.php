@@ -8,11 +8,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome;
 
-use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugin\Dimension\ConversionDimension;
-use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
@@ -26,9 +22,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $trustedHostnames;
 
-    /** @var Setting */
-    public $disabledDimensions;
-
     protected function init()
     {
         $this->title = ' '; // intentionally left blank as it's hidden with css
@@ -40,9 +33,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $isWritable = Piwik::hasUserSuperUserAccess();
         $this->corsDomains = $this->createCorsDomains();
         $this->corsDomains->setIsWritableByCurrentUser($isWritable);
-
-        $this->disabledDimensions = $this->createDisabledDimensions();
-        $this->disabledDimensions->setIsWritableByCurrentUser($isWritable);
     }
 
 
@@ -73,61 +63,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createDisabledDimensions()
-    {
-        return $this->makeSetting('disabled_settings', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
-            $field->introduction = 'Disabled Dimensions'; // TODO translate
-            $field->inlineHelp = "Disable dimensions to avoid tracking this data no matter what is sent to the tracker. This can be useful in being compliant with various privacy regulations."; // TODO: translate
-            $field->uiControl = FieldConfig::UI_CONTROL_MULTI_SELECT;
-            $field->availableValues = $this->getAvailableDimensionsToDisable();
-        });
-    }
-
     public function save()
     {
         parent::save();
         Cache::deleteTrackerCache();
-    }
-
-    private function getAvailableDimensionsToDisable()
-    {
-        $dimensions = [];
-        $this->addDimensions($dimensions, VisitDimension::getAllDimensions(), $type = Piwik::translate('General_Visit'));
-        return $dimensions;
-    }
-
-    /**
-     * @param string[] $dimensions
-     * @param Dimension[] $allDimensions
-     * @param $dimensionType
-     */
-    private function addDimensions(array &$dimensions, array $allDimensions, $dimensionType)
-    {
-        foreach ($allDimensions as $dimension) {
-            if ($dimension->isAlwaysEnabled()
-                || !$this->isTrackingDimension($dimension)
-            ) {
-                continue;
-            }
-
-            $dimensions[$dimension->getId()] = ($dimension->getName() ?: get_class($dimension)) . ' (' . $dimensionType . ')';
-        }
-    }
-
-    private function isTrackingDimension(Dimension $dimension)
-    {
-        foreach (['onNewVisit', 'onExistingVisit'] as $methodName) {
-            if (!method_exists($dimension, $methodName)) {
-                continue;
-            }
-
-            $method = new \ReflectionMethod($dimension, $methodName);
-            $declaringClass = $method->getDeclaringClass();
-
-            if (strpos($declaringClass->name, 'Piwik\Plugins') !== 0) {
-                return true;
-            }
-        }
-        return false;
     }
 }
