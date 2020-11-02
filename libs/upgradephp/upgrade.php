@@ -77,12 +77,6 @@ use Piwik\SettingsServer;
  *
  */
 
-/**
- * Constants for future 64-bit integer support.
- *
- */
-if (!defined("PHP_INT_SIZE")) { define("PHP_INT_SIZE", 4); }
-if (!defined("PHP_INT_MAX")) { define("PHP_INT_MAX", 2147483647); }
 
 /*
    These functions emulate the "character type" extension, which is
