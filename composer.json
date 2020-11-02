@@ -31,7 +31,6 @@
         "davaxi/sparkline": "~1.2",
         "geoip2/geoip2": "^2.8",
         "leafo/lessphp": "dev-php74-compat",
-        "matomo-org/jshrink": "1.3.1",
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
         "matomo/device-detector": "^4.0",
@@ -51,6 +50,7 @@
         "symfony/monolog-bridge": "~2.6.0",
         "szymach/c-pchart": "^2.0",
         "tecnickcom/tcpdf": "~6.0",
+        "tedivm/jshrink": "^1.3.1",
         "twig/twig": "^3.0"
     },
     "require-dev": {
@@ -68,35 +68,6 @@
         "symfony/polyfill-php72": "*"
     },
     "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "matomo-org/jshrink",
-                "description": "Javascript Minifier built in PHP",
-                "keywords": ["minifier","javascript"],
-                "homepage": "http://github.com/tedious/JShrink",
-                "type": "library",
-                "license": "BSD-3-Clause",
-                "version": "1.3.1",
-                "authors": [
-                    {
-                        "name": "Robert Hafner",
-                        "email": "tedivm@tedivm.com"
-                    }
-                ],
-                "require": {
-                    "php": "*"
-                },
-                "autoload": {
-                    "psr-0": {"JShrink": "src/"}
-                },
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/tedious/JShrink",
-                    "reference": "v1.3.1"
-                }
-            }
-        },
         {
             "type": "git",
             "url": "https://github.com/matomo-org/lessphp.git"
