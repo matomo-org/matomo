@@ -77,16 +77,6 @@ use Piwik\SettingsServer;
  *
  */
 
-
-/*
-   These functions emulate the "character type" extension, which is
-   present in PHP first since version 4.3 per default. In this variant
-   only ASCII and Latin-1 characters are being handled. The first part
-   is eventually faster.
-*/
-
-
-
 /**
  * parse_ini_file() replacement.
  * Behaves like parse_ini_file($filename, $process_sections);
