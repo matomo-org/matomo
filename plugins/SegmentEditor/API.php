@@ -109,7 +109,11 @@ class API extends \Piwik\Plugin\API
 
         if ($autoArchive) {
             if (Rules::isBrowserTriggerEnabled()) {
-                throw new Exception("Pre-processed segments can only be created if browser triggered archiving is disabled.");
+                $message = "Pre-processed segments can only be created if browser triggered archiving is disabled.";
+                if (Piwik::hasUserSuperUserAccess()) {
+                    $message .= " To disable browser archiving follow the instructions here: https://matomo.org/docs/setup-auto-archiving/.";
+                }
+                throw new Exception($message);
             }
 
             Piwik::checkUserHasViewAccess($idSite);
