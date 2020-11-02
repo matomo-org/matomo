@@ -265,7 +265,7 @@ class Cookie
                 $tmpValue = base64_decode($varValue);
                 if ($isSigned) {
                     // only unserialise content if it was signed meaning the cookie was generated pre Matomo 4
-                    $varValue = safe_unserialize($tmpValue);
+                    $varValue = Common::safe_unserialize($tmpValue);
                 } else {
                     $varValue = $tmpValue;
                 }
