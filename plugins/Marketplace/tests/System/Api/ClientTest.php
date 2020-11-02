@@ -51,8 +51,6 @@ class ClientTest extends SystemTestCase
 
     public function test_getPluginInfo_existingPluginOnTheMarketplace()
     {
-        $this->skipTestUntilFirstRelease();
-
         $plugin = $this->client->getPluginInfo('SecurityInfo');
 
         $expectedPluginKeys = array(
@@ -128,8 +126,6 @@ class ClientTest extends SystemTestCase
 
     public function test_searchForPlugins_requestAll()
     {
-        $this->skipTestUntilFirstRelease();
-
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
         $this->assertGreaterThan(15, count($plugins));
@@ -142,8 +138,6 @@ class ClientTest extends SystemTestCase
 
     public function test_searchForPlugins_onlyFree()
     {
-        $this->skipTestUntilFirstRelease();
-
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_FREE);
 
         $this->assertGreaterThan(15, count($plugins));
@@ -194,8 +188,6 @@ class ClientTest extends SystemTestCase
 
     public function test_getDownloadUrl()
     {
-        $this->skipTestUntilFirstRelease();
-
         $url = $this->client->getDownloadUrl('SecurityInfo');
 
         $start = $this->domain . '/api/2.0/plugins/SecurityInfo/download/';
@@ -220,7 +212,7 @@ class ClientTest extends SystemTestCase
             'release_channel' => 'latest_stable',
             'prefer_stable' => 1,
             'piwik' => Version::VERSION,
-            'php' => phpversion(),
+            'php' => $this->environment->getPhpVersion(),
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
             'num_websites' => $this->environment->getNumWebsites()
@@ -250,7 +242,7 @@ class ClientTest extends SystemTestCase
             'release_channel' => 'latest_stable',
             'prefer_stable' => 1,
             'piwik' => Version::VERSION,
-            'php' => phpversion(),
+            'php' => $this->environment->getPhpVersion(),
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
             'num_websites' => $this->environment->getNumWebsites());
@@ -310,12 +302,4 @@ class ClientTest extends SystemTestCase
     {
         return Cache::getLazyCache();
     }
-
-    public function skipTestUntilFirstRelease()
-    {
-        if (version_compare(Version::VERSION, '4.0.0-rc1', '<')) {
-            $this->markTestSkipped('Skipping tests until we have first release candidate');
-        }
-    }
-
 }
