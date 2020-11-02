@@ -644,21 +644,6 @@ function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $co
 }
 
 /**
- * utf8_encode replacement
- *
- * @param string $data
- * @return string
- */
-if (!function_exists('utf8_encode')) {
-	function utf8_encode($data) {
-		if (function_exists('iconv')) {
-			return @iconv('ISO-8859-1', 'UTF-8', $data);
-		}
-		return $data;
-	}
-}
-
-/**
  * utf8_decode replacement
  *
  * @param string $data
