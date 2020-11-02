@@ -336,7 +336,7 @@ class Cookie
      * A cookie has to stay small and its size shouldn't increase over time!
      *
      * @param string $name Name of the value to save; the name will be used to retrieve this value
-     * @param string|array|number $value Value to save. If null, entry will be deleted from cookie.
+     * @param string|number $value Value to save. If null, entry will be deleted from cookie.
      */
     public function set($name, $value)
     {
