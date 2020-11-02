@@ -8,7 +8,8 @@ Please include a description of this change and which issue it fixes. If no issu
 * [ ] Usability review done (is anything maybe unclear or think about anything that would cause people to reach out to support)
 * [ ] Security review done
 * [ ] Code review done
-* [ ] Reviewed for breaking changes
 * [ ] Tests were added if useful/possible
+* [ ] Reviewed for breaking changes
+* [ ] Developer changelog updated if needed
 * [ ] Documentation added if needed
-* [ ] Existing documentation adjusted if needed
+* [ ] Existing documentation updated if needed
