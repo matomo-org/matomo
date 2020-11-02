@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Plugins\CoreAdminHome\SystemSettings;
+use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\Events\Columns\EventCategory;
 use Piwik\Plugins\Events\Columns\EventName;
 use Piwik\Plugins\UserCountry\Columns\Country;
@@ -82,6 +82,14 @@ class DisabledDimensionsTest extends IntegrationTestCase
             'action' => 'test action',
             'name' => null,
         ], $visitInfo);
+    }
+
+    public function test_disabledDimensionsSetting_preventsDimensionsFromBeingTracked_WhenAllDimensionsSelected()
+    {
+        // TODO
+
+        // disable some dimensions
+        // 
     }
 
     private function getLatestVisitInfo()

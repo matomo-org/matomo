@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Columns\Dimension;
-use Piwik\Container\StaticContainer;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Manager;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Setting;

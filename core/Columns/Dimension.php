@@ -19,7 +19,7 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
-use Piwik\Plugins\CoreAdminHome\SystemSettings;
+use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Segment\SegmentsList;
 
 /**
