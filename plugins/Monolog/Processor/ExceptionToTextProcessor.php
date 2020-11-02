@@ -17,6 +17,8 @@ use Piwik\Log;
  */
 class ExceptionToTextProcessor
 {
+    const BACKTRACE_OMITTED_MESSAGE = '(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)';
+
     public function __invoke(array $record)
     {
         if (! $this->contextContainsException($record)) {
@@ -76,21 +78,27 @@ class ExceptionToTextProcessor
 
     private function getStackTrace($exception)
     {
-        if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
-            return '(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)';
-        }
-
-        if (is_array($exception) && isset($exception['backtrace'])) {
-            return $exception['backtrace'];
-        }
-
         return Log::$debugBacktraceForTests ?: self::getWholeBacktrace($exception);
     }
 
-    public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = true)
+    public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = null)
     {
+        if ($shouldPrintBacktrace === null) {
+            $shouldPrintBacktrace = \Piwik_ShouldPrintBackTraceWithMessage();
+        }
+
+        if (is_array($exception)
+            && isset($exception['backtrace'])
+        ) {
+            if ($shouldPrintBacktrace) {
+                return $exception['backtrace'];
+            } else {
+                return self::BACKTRACE_OMITTED_MESSAGE;
+            }
+        }
+
         if (!$shouldPrintBacktrace) {
-            return $exception->getMessage();
+            return $exception->getMessage() . "\n" . self::BACKTRACE_OMITTED_MESSAGE;
         }
 
         $message = "";

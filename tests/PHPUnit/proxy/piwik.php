@@ -35,7 +35,11 @@ try {
 
     include PIWIK_INCLUDE_PATH . '/matomo.php';
 } catch (Exception $ex) {
-    echo "Unexpected error during tracking: " . $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n";
+    $stacktrace = '';
+    if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+        $stacktrace = "\n" . $ex->getTraceAsString();
+    }
+    echo "Unexpected error during tracking: " . $ex->getMessage() . $stacktrace . "\n";
 }
 
 if (ob_get_level() > 1) {
