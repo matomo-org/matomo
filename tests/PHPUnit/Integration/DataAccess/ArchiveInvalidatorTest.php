@@ -1255,8 +1255,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $t->setUrl('http://test.com/test');
         Fixture::checkResponse($t->doTrackPageView('test page'));
 
+        Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->add('autoArchiveSegment', 'browserCode==IE', false, true);
         API::getInstance()->add('browserArchiveSegment', 'browserCode==IE', false, false);
+        Rules::setBrowserTriggerArchiving(true);
 
         $this->invalidator->reArchiveReport([$idSite], 'VisitsSummary', 'some.Report');
 
