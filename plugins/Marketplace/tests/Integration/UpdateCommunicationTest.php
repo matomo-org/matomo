@@ -130,7 +130,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
 <p>
 CoreUpdater_NotificationClickToUpdatePlugins<br/>
-{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins
+<a href=\"{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
 </p>
 
 <p>
