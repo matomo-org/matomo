@@ -41,7 +41,7 @@ class Original extends ApiRenderer
             ];
 
             if ($this->shouldSendBacktrace()) {
-                $data['backtrace'] = ExceptionToTextProcessor::getWholeBacktrace($exception, true);
+                $data['backtrace'] = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception, true);
             }
 
             return serialize($data);

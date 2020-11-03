@@ -38,7 +38,7 @@ class Json extends ApiRenderer
         $data = array('result' => 'error', 'message' => $exceptionMessage);
 
         if ($this->shouldSendBacktrace()) {
-            $data['backtrace'] = ExceptionToTextProcessor::getWholeBacktrace($exception, true);
+            $data['backtrace'] = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception, true);
         }
 
         $result = json_encode($data);

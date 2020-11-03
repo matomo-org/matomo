@@ -58,7 +58,7 @@ class ExceptionHandler
             "Uncaught exception in %s line %d:\n%s\n",
             $exception->getFile(),
             $exception->getLine(),
-            ExceptionToTextProcessor::getWholeBacktrace($exception)
+            ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception)
         );
 
         echo $message;

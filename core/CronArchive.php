@@ -788,7 +788,7 @@ class CronArchive
                 $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
             } catch (Exception $e) {
-                $message = ExceptionToTextProcessor::getWholeBacktrace($e);
+                $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
                 $this->logger->info('  Failed to invalidate archived reports: ' . $message);
             }
         }

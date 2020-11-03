@@ -81,7 +81,7 @@ class ExceptionToTextProcessor
 
     private function getStackTrace($exception)
     {
-        return Log::$debugBacktraceForTests ?: self::getWholeBacktrace($exception);
+        return Log::$debugBacktraceForTests ?: self::getMessageAndWholeBacktrace($exception);
     }
 
     /**
@@ -89,7 +89,7 @@ class ExceptionToTextProcessor
      * @param bool|null $shouldPrintBacktrace
      * @return mixed|string
      */
-    public static function getWholeBacktrace($exception, $shouldPrintBacktrace = null)
+    public static function getMessageAndWholeBacktrace($exception, $shouldPrintBacktrace = null)
     {
         if ($shouldPrintBacktrace === null) {
             $shouldPrintBacktrace = \Piwik_ShouldPrintBackTraceWithMessage();
@@ -106,9 +106,7 @@ class ExceptionToTextProcessor
         }
 
         if (!$shouldPrintBacktrace) {
-            $message = $exception->getMessage() . "\n" . self::BACKTRACE_OMITTED_MESSAGE;
-            $message = self::replaceSensitiveValues($message);
-            return $message;
+            return $exception->getMessage() . "\n" . self::BACKTRACE_OMITTED_MESSAGE;
         }
 
         $message = "";
