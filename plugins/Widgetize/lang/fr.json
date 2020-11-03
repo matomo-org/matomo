@@ -2,7 +2,6 @@
     "Widgetize": {
         "OpenInNewWindow": "Ouvrir dans une nouvelle fenêtre",
         "PluginDescription": "Affichez n'importe quel rapport Matomo sur votre site web avec une simple balise HTML.",
-        "ViewAccessRequired": "Cet utilisateur possède au moins un accès en écriture. Seuls les jetons des utilisateurs qui n'ont qu'un accès de visualisation peuvent être utilisés.",
         "TopLinkTooltip": "Exporter les rapports Matomo en tant que gadget et incorporer le tableau de bord dans votre application en tant qu'iframe."
     }
 }

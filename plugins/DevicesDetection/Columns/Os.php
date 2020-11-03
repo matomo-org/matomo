@@ -84,7 +84,7 @@ class Os extends Base
             $os = Settings::OS_BOT;
         } else {
             $os = $parser->getOS();
-            $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+            $os = $os['short_name'] ?? 'UNK';
         }
 
         return $os;
