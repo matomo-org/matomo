@@ -11,7 +11,6 @@
         "LastHours": "Sidste %s timer",
         "LastMinutes": "Sidste %s minutter",
         "LastVisit": "Seneste besøg",
-        "LinkVisitorLog": "Vis detaljeret besøgslog",
         "LoadMoreVisits": "Indlæs flere besøg",
         "MorePagesNotDisplayed": "yderligere sider vises ikke for denne besøgende",
         "NbVisitor": "1 besøgende",
@@ -37,7 +36,6 @@
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
         "VisitsFrom": "%1$s%2$s besøg %3$s fra",
         "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og besøgte %4$s sider%5$s på %6$s besøg%7$s.",
-        "VisitSummaryWithActionDetails": "Brugte i alt %1$s%2$s på hjemmesiden%3$s og udførte %4$s handlinger%5$s (%6$s) på %7$s besøg%8$s.",
-        "SegmentedVisitorLogTitle": "Besøgsloggen viser besøg, hvor %1$s er \"%2$s\""
+        "VisitSummaryWithActionDetails": "Brugte i alt %1$s%2$s på hjemmesiden%3$s og udførte %4$s handlinger%5$s (%6$s) på %7$s besøg%8$s."
     }
 }

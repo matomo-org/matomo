@@ -24,10 +24,7 @@ class Timetable
 
     public function __construct()
     {
-        $optionData = Option::get(self::TIMETABLE_OPTION_STRING);
-        $unserializedTimetable = Common::safe_unserialize($optionData);
-
-        $this->timetable = $unserializedTimetable === false ? array() : $unserializedTimetable;
+        $this->readFromOption();
     }
 
     public function getTimetable()
@@ -142,5 +139,13 @@ class Timetable
     public function taskHasBeenScheduledOnce($taskName)
     {
         return isset($this->timetable[$taskName]);
+    }
+
+    public function readFromOption()
+    {
+        $optionData = Option::get(self::TIMETABLE_OPTION_STRING);
+        $unserializedTimetable = Common::safe_unserialize($optionData);
+
+        $this->timetable = $unserializedTimetable === false ? array() : $unserializedTimetable;
     }
 }
