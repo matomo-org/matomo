@@ -117,7 +117,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $method = new \ReflectionMethod($dimension, $methodName);
             $declaringClass = $method->getDeclaringClass();
 
-            if (strpos($declaringClass->name, 'Piwik\Plugins') !== 0) {
+            if (strpos($declaringClass->name, 'Piwik\Plugins') === 0) {
                 return true;
             }
         }
