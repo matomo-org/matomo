@@ -8,9 +8,12 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Piwik\Db;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Log;
+use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 
 /**
  * Process a log record containing an exception to generate a textual message.
@@ -81,24 +84,31 @@ class ExceptionToTextProcessor
         return Log::$debugBacktraceForTests ?: self::getWholeBacktrace($exception);
     }
 
-    public static function getWholeBacktrace(\Exception $exception, $shouldPrintBacktrace = null)
+    /**
+     * @param \Exception|array $exception
+     * @param bool|null $shouldPrintBacktrace
+     * @return mixed|string
+     */
+    public static function getWholeBacktrace($exception, $shouldPrintBacktrace = null)
     {
         if ($shouldPrintBacktrace === null) {
             $shouldPrintBacktrace = \Piwik_ShouldPrintBackTraceWithMessage();
         }
 
-        if (is_array($exception)
-            && isset($exception['backtrace'])
-        ) {
-            if ($shouldPrintBacktrace) {
-                return $exception['backtrace'];
+        if (is_array($exception)) {
+            if ($shouldPrintBacktrace && isset($exception['backtrace'])) {
+                $trace = $exception['backtrace'];
+                $trace = self::replaceSensitiveValues($trace);
+                return $trace;
             } else {
                 return self::BACKTRACE_OMITTED_MESSAGE;
             }
         }
 
         if (!$shouldPrintBacktrace) {
-            return $exception->getMessage() . "\n" . self::BACKTRACE_OMITTED_MESSAGE;
+            $message = $exception->getMessage() . "\n" . self::BACKTRACE_OMITTED_MESSAGE;
+            $message = self::replaceSensitiveValues($message);
+            return $message;
         }
 
         $message = "";
@@ -115,6 +125,22 @@ class ExceptionToTextProcessor
             }
         } while ($e = $e->getPrevious());
 
+        $message = self::replaceSensitiveValues($message);
+
         return $message;
+    }
+
+    private static function replaceSensitiveValues($trace)
+    {
+        $dbConfig = Db::getDatabaseConfig();
+
+        $valuesToReplace = [
+            Piwik::getCurrentUserTokenAuth() => 'tokenauth',
+            SettingsPiwik::getSalt() => 'generalSalt',
+            $dbConfig['username'] => 'dbuser',
+            $dbConfig['password'] => 'dbpass',
+        ];
+
+        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
     }
 }

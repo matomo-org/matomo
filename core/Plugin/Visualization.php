@@ -206,7 +206,7 @@ class Visualization extends ViewDataTable
                 'ignoreInScreenWriter' => true,
             ]);
 
-            $message = ExceptionToTextProcessor::getWholeBacktrace($exception);
+            $message = ExceptionToTextProcessor::getWholeBacktrace($e);
 
             $loadingError = array('message' => $message);
         }
