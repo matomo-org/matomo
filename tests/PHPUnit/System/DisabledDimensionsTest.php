@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\CustomDimensions\API;
 use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\Events\Columns\EventCategory;
 use Piwik\Plugins\Events\Columns\EventName;
@@ -19,6 +20,10 @@ use Piwik\Settings\Storage\Backend;
 
 class DisabledDimensionsTest extends IntegrationTestCase
 {
+    private static $idSite;
+    private static $idDimension1;
+    private static $idDimension2;
+
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);
@@ -29,7 +34,11 @@ class DisabledDimensionsTest extends IntegrationTestCase
     {
         parent::beforeTableDataCached();
 
-        Fixture::createWebsite('2015-03-04 00:00:00');
+        self::$idSite = Fixture::createWebsite('2015-03-04 00:00:00');
+
+        self::$idDimension1 = API::getInstance()->configureNewCustomDimension($idSite, 'testdim', 'testdimname', 'visit');
+        self::$idDimension2 = API::getInstance()->configureNewCustomDimension($idSite, 'testdim', 'testdimname', 'action');
+
     }
 
     public function test_disabledDimensionsSetting_preventsDimensionsFromBeingTracked()
@@ -84,12 +93,93 @@ class DisabledDimensionsTest extends IntegrationTestCase
         ], $visitInfo);
     }
 
+    /**
+     * @depends test_disabledDimensionsSetting_preventsDimensionsFromBeingTracked
+     */
     public function test_disabledDimensionsSetting_preventsDimensionsFromBeingTracked_WhenAllDimensionsSelected()
     {
-        // TODO
+        // disable all dimensions
+        $settings = new SystemSettings();
+        $settings->disabledDimensions->setValue($settings->getAvailableDimensionsToDisable());
+        $settings->save();
 
-        // disable some dimensions
-        // 
+        $dateTime = '2020-03-04 02:00:00';
+
+        $tracker = Fixture::getTracker(1, $dateTime);
+        $tracker->setUrl('http://example.com/page');
+        $tracker->setCity('Munich');
+        $tracker->setRegion('DE-BY');
+        $tracker->setCountry('DE');
+        $tracker->setLatitude(34);
+        $tracker->setLongitude(35);
+        $tracker->setBrowserHasCookies(true);
+        $tracker->setBrowserLanguage('fr');
+        $tracker->setUrlReferrer('http://myreferrer.com');
+        $tracker->setPerformanceTimings(100, 200, 300, 400, 500, 600);
+        $tracker->setCustomVariable(1, 'cvarname', 'cvarvalue', 'visit');
+        $tracker->setCustomVariable(2, 'cvarname2', 'cvarvalue2', 'action');
+        $tracker->setCustomDimension(self::$idDimension1, 'somevalue');
+        $tracker->setCustomDimension(self::$idDimension2, 'someotherval');
+        $tracker->setUserAgent('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+');
+        Fixture::checkResponse($tracker->doTrackPageView('page title'));
+
+        $tracker->setNewVisitorId();
+        Fixture::checkResponse($tracker->doTrackEvent('test category', 'test action', 'test name'));
+
+        $tracker->setNewVisitorId();
+        Fixture::checkResponse($tracker->doTrackAction('http://whatever.com/mydownload/thing.pdf', 'download'));
+
+        $tracker->setNewVisitorId();
+        Fixture::checkResponse($tracker->doTrackAction('http://tosomewhereelse.com/you/are/here', 'link'));
+
+        $apiTestsToRun = [
+            [
+                [
+                    'Actions.getPageUrls',
+                    'Actions.getPageTitles',
+                    'UserCountry.getCountry',
+                    'UserCountry.getRegion',
+                    'UserCountry.getCity',
+                    'UserLanguage.getLanguage',
+                    'Referrers.getAll',
+                    'PagePerformance.get',
+                    'CustomVariables.getCustomVariables',
+                    'DevicesDetection.getType',
+                    'DevicesDetection.getBrand',
+                    'DevicesDetection.getModel',
+                    'DevicesDetection.getOsVersions',
+                    'DevicesDetection.getBrowserVersions',
+                ],
+                [
+                    'idSite' => self::$idSite,
+                    'date' => $dateTime,
+                ],
+            ],
+            [
+                'CustomDimensions.getCustomDimension',
+                [
+                    'idSite' => self::$idSite,
+                    'date' => $dateTime,
+                    'otherRequestParameters' => [
+                        'iddimension' => self::$idDimension1,
+                    ],
+                ],
+            ],
+            [
+                'CustomDimensions.getCustomDimension',
+                [
+                    'idSite' => self::$idSite,
+                    'date' => $dateTime,
+                    'otherRequestParameters' => [
+                        'iddimension' => self::$idDimension2,
+                    ],
+                ],
+            ],
+        ];
+
+        foreach ($apiTestsToRun as $api => $options) {
+            $this->runApiTests($api, $options);
+        }
     }
 
     private function getLatestVisitInfo()

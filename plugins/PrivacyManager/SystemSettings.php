@@ -82,7 +82,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function getAvailableDimensionsToDisable()
+    public function getAvailableDimensionsToDisable()
     {
         $dimensions = [];
         $this->addDimensions($dimensions, VisitDimension::getAllDimensions(), $type = Piwik::translate('General_Visit'));
