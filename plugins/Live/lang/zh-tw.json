@@ -12,7 +12,6 @@
         "LastHours": "最近 %s 小時",
         "LastMinutes": "最近 %s 分鐘",
         "LastVisit": "最後訪問",
-        "LinkVisitorLog": "查看詳細訪客記錄",
         "LoadMoreVisits": "載入更多訪客",
         "LimitedSummary": "這份資料內的資訊概括過去 %1$s 次訪問。這個使用者擁有更多訪問次數。",
         "LimitedVisitsShown": "只顯示過去 %1$s 次訪問。這個使用者擁有更多訪問次數。",
@@ -49,10 +48,6 @@
         "VisitsFrom": "%1$s%2$s 次訪問%3$s 來自",
         "VisitSummary": "共停留了 %1$s%2$s 在網站上%3$s，並訪問了 %4$s 個網頁%5$s在過去 %6$s 次%7$s次訪問。",
         "VisitSummaryWithActionDetails": "共停留了 %1$s%2$s 在網站上%3$s，並執行了 %4$s 個活動%5$s（%6$s）在過去 %7$s 次%8$s次訪問。",
-        "RowActionTooltipDefault": "以此列建立區隔顯示訪客紀錄",
-        "RowActionTooltipWithDimension": "以此%s建立區隔顯示訪客紀錄",
-        "RowActionTooltipTitle": "開啟已區隔的訪客紀錄",
-        "SegmentedVisitorLogTitle": "顯示 %1$s 為「%2$s」的訪客紀錄",
         "OnClickPause": "%s 已開始。點擊暫停。",
         "OnClickStart": "%s 已停止。點擊開始。",
         "ClickToSeeAllContents": "點擊以檢視個別項目的互動與曝光度。"

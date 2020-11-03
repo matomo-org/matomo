@@ -58,7 +58,7 @@ class IgnoreCookie
         
         $thiryYears = time() + (86400 * 365 * 30);
 
-        $cookie = new Cookie($cookie_name, $thiryYears, $cookie_path, false, false);
+        $cookie = new Cookie($cookie_name, $thiryYears, $cookie_path, false);
         
         $domain = @Config::getInstance()->Tracker['cookie_domain'];
         if (!empty($domain)) {

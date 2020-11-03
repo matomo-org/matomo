@@ -13,7 +13,7 @@ use Piwik\Tracker\Request;
 use Exception;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use DeviceDetector\Parser\Device\DeviceParserAbstract as DeviceParser;
+use DeviceDetector\Parser\Device\AbstractDeviceParser as DeviceParser;
 
 class DeviceType extends Base
 {
