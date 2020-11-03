@@ -64,7 +64,7 @@
         "LogoUploadFailed": "Le fichier téléversé n'a pas pu être pris en compte. Veuillez vérifier que le fichier a un format valide.",
         "LogoUpload": "Sélectionnez le logo à télécharger",
         "FaviconUpload": "Sélectionnez un favicon à télécharger",
-        "LogoUploadHelp": "Veuillez télécharge un file dans un des formats suivants %1$s avec une hauteur minimale de %2$s pixels.",
+        "LogoUploadHelp": "Veuillez télécharger un fichier dans un des formats suivants %1$s avec une hauteur minimale de %2$s pixels.",
         "MenuDiagnostic": "Diagnostic",
         "MenuGeneralSettings": "Paramètres généraux",
         "MenuSystem": "Système",
