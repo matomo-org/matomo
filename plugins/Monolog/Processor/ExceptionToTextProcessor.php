@@ -119,11 +119,9 @@ class ExceptionToTextProcessor
 
             $message .= $e->getMessage();
             if ($shouldPrintBacktrace) {
-                $message .= "\n" . $e->getTraceAsString();
+                $message .= "\n" . self::replaceSensitiveValues($e->getTraceAsString());
             }
         } while ($e = $e->getPrevious());
-
-        $message = self::replaceSensitiveValues($message);
 
         return $message;
     }
