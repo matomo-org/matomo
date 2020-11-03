@@ -20,8 +20,6 @@ use Piwik\SettingsPiwik;
  */
 class ExceptionToTextProcessor
 {
-    const BACKTRACE_OMITTED_MESSAGE = '(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)';
-
     public function __invoke(array $record)
     {
         if (! $this->contextContainsException($record)) {
@@ -101,12 +99,12 @@ class ExceptionToTextProcessor
                 $trace = self::replaceSensitiveValues($trace);
                 return $trace;
             } else {
-                return self::BACKTRACE_OMITTED_MESSAGE;
+                return '';
             }
         }
 
         if (!$shouldPrintBacktrace) {
-            return $exception->getMessage() . "\n" . self::BACKTRACE_OMITTED_MESSAGE;
+            return $exception->getMessage();
         }
 
         $message = "";
