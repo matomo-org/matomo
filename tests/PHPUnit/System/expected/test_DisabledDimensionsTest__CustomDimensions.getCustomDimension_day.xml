@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>somevalue</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>0</nb_actions>
+		<max_actions>0</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_site>1</avg_time_on_site>
+		<bounce_rate>Intl_NumberFormatPercent</bounce_rate>
+		<nb_actions_per_visit>0</nb_actions_per_visit>
+		<segment>dimension1==somevalue</segment>
+	</row>
+</result>

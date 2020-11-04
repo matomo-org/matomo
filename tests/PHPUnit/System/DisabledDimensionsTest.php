@@ -171,7 +171,7 @@ class DisabledDimensionsTest extends IntegrationTestCase
                     'idSite' => self::$idSite,
                     'date' => $dateTime,
                     'otherRequestParameters' => [
-                        'iddimension' => self::$idDimension1,
+                        'idDimension' => self::$idDimension1,
                     ],
                 ],
             ],
@@ -181,8 +181,9 @@ class DisabledDimensionsTest extends IntegrationTestCase
                     'idSite' => self::$idSite,
                     'date' => $dateTime,
                     'otherRequestParameters' => [
-                        'iddimension' => self::$idDimension2,
+                        'idDimension' => self::$idDimension2,
                     ],
+                    'testSuffix' => '_action',
                 ],
             ],
         ];
