@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -152,6 +153,7 @@ class ApiTest extends IntegrationTestCase
      */
     protected function createSegments()
     {
+        Rules::setBrowserTriggerArchiving(false);
         $this->setAdminUser();
         $this->api->add('segment 1', 'visitCount<2', $idSite = 1, $autoArchive = true, $enableAllUsers = false);
         $this->api->add('segment 2', 'countryCode==fr', $idSite = 2, $autoArchive = false, $enableAllUsers = false);
@@ -170,6 +172,7 @@ class ApiTest extends IntegrationTestCase
         
         $this->setAnotherSuperUser();
         $this->api->add('segment 9', 'countryCode!=fr', $idSite = false, $autoArchive = false, $enableAllUsers = true);
+        Rules::setBrowserTriggerArchiving(true);
 
     }
 

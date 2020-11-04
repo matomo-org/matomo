@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -185,8 +186,11 @@ class CronArchiveTest extends IntegrationTestCase
     public function test_wasSegmentCreatedRecently()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');
+
+        Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
         $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
@@ -210,8 +214,10 @@ class CronArchiveTest extends IntegrationTestCase
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
+        Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
         $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
@@ -238,8 +244,10 @@ class CronArchiveTest extends IntegrationTestCase
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
+        Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
         $tracker->setUrl('http://someurl.com');

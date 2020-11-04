@@ -9,6 +9,7 @@
 
 namespace PHPUnit\Unit\CronArchive;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 use Piwik\Tests\Framework\Fixture;
@@ -18,11 +19,13 @@ class ArchiveFilterTest extends IntegrationTestCase
 {
     public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
     {
+        Rules::setBrowserTriggerArchiving(false);
         Fixture::createWebsite('2014-12-12 00:01:02');
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burb', 'actions>=3', 1, true, true);
         SegmentAPI::getInstance()->add('sub', 'actions>=4', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $cronarchive = new ArchiveFilter();
         $cronarchive->setSegmentsToForceFromSegmentIds(array(2, 4));
@@ -45,11 +48,13 @@ class ArchiveFilterTest extends IntegrationTestCase
 
     public function test_filterArchive_filtersSegmentArchives_IfSegmentIsNotInSegmentsToForce()
     {
+        Rules::setBrowserTriggerArchiving(false);
         Fixture::createWebsite('2014-12-12 00:01:02');
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burb', 'actions>=3', 1, true, true);
         SegmentAPI::getInstance()->add('sub', 'actions>=4', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $filter = new ArchiveFilter();
         $filter->setSegmentsToForceFromSegmentIds([1, 3]);
@@ -117,9 +122,11 @@ class ArchiveFilterTest extends IntegrationTestCase
 
     public function test_filterArchive_doesNotFilterArchivesThatPass()
     {
+        Rules::setBrowserTriggerArchiving(false);
         Fixture::createWebsite('2014-12-12 00:01:02');
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $filter = new ArchiveFilter();
 

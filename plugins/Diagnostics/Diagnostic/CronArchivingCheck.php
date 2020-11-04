@@ -8,9 +8,11 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
 use Piwik\Config;
 use Piwik\Http;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
@@ -31,18 +33,34 @@ class CronArchivingCheck implements Diagnostic
 
     public function execute()
     {
-        $label = $this->translator->translate('Installation_SystemCheckCronArchiveProcess');
-        $comment = $this->translator->translate('Installation_SystemCheckCronArchiveProcessCLI') . ': ';
+        $label = $this->translator->translate('Installation_SystemCheckCronArchiveProcess') . ' (' .
+            $this->translator->translate('Installation_FasterReportLoading') . ')';
+
+        if (SettingsPiwik::isMatomoInstalled()) {
+            $isBrowserTriggerDisabled = !Rules::isBrowserTriggerEnabled();
+            if (!$isBrowserTriggerDisabled) {
+                $comment = $this->translator->translate('Diagnostics_BrowserTriggeredArchivingEnabled', [
+                    '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">', '</a>']);
+                $result[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment);
+            }
+        }
+
+        $comment = '';
 
         $process = new CliMulti();
-
         if ($process->supportsAsync()) {
             $comment .= $this->translator->translate('General_Ok');
+            $status = DiagnosticResult::STATUS_OK;
         } else {
             $comment .= $this->translator->translate('Installation_NotSupported')
                 . ' ' . $this->translator->translate('Goals_Optional');
+            $status = DiagnosticResult::STATUS_INFORMATIONAL;
         }
 
-        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $comment));
+        $label = $this->translator->translate('Installation_SystemCheckCronArchiveProcess') . ' - '
+            . $this->translator->translate('Installation_SystemCheckCronArchiveProcessCLI');
+        $result[] = DiagnosticResult::singleResult($label, $status, $comment);
+
+        return $result;
     }
 }
