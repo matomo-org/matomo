@@ -458,6 +458,8 @@ class ArchiveInvalidator
      */
     public function reArchiveReport($idSites, string $plugin, string $report = null, Date $startDate = null)
     {
+        $date2 = Date::yesterday();
+
         if (empty($startDate)) {
             $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
             if (empty($lastNMonthsToInvalidate)) {
@@ -469,7 +471,6 @@ class ArchiveInvalidator
                 return;
             }
 
-            $date2 = Date::yesterday();
             $startDate = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
         }
 

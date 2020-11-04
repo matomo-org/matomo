@@ -27,6 +27,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -205,10 +206,7 @@ class Visualization extends ViewDataTable
                 'ignoreInScreenWriter' => true,
             ]);
 
-            $message = $e->getMessage();
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $message .= "\n" . $e->getTraceAsString();
-            }
+            $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
 
             $loadingError = array('message' => $message);
         }

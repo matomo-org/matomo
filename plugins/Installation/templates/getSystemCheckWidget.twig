@@ -4,27 +4,17 @@
     {% endif %}
 
     {% if numErrors %}
-        <p class="system-errors"><span class="icon-error"></span> {{ 'General_Errors'|translate }}</p>
         <ul>
             {% for error in errors %}
-                <li title="{{ error.getLongErrorMessage|e('html_attr') }}">{{ error.getLabel }}</li>
+                <li title="{{ error.getLongErrorMessage|default(error.getItems()[0].getComment())|e('html_attr') }}" class="system-check-widget-error"><span class="icon-error"></span> {{ error.getLabel }}</li>
             {% endfor %}
         </ul>
     {% endif %}
 
     {% if numWarnings %}
-
-        <p class="system-warnings">
-
-            {% if numErrors %}
-                <br />
-            {% endif %}
-
-            <span class="icon-warning"></span> {{ 'General_Warnings'|translate }}
-        </p>
         <ul>
             {% for warning in warnings %}
-                <li title="{{ warning.getLongErrorMessage|e('html_attr') }}">{{ warning.getLabel }}</li>
+                <li title="{{ warning.getLongErrorMessage|default(warning.getItems()[0].getComment())|e('html_attr') }}" class="system-check-widget-warning"><span class="icon-warning"></span> {{ warning.getLabel }}</li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -36,4 +26,24 @@
             >{{ 'Installation_SystemCheckViewFullSystemCheck'|translate }}</a>
         </p>
     {% endif %}
+
+    <script>
+        jQuery(function () {
+            $('.widgetBody.system-check').tooltip({
+                track: true,
+                content: function() {
+                    var $this = $(this);
+                    if ($this.attr('piwik-field') === '') {
+                        // do not show it for form fields
+                        return '';
+                    }
+
+                    var title = $(this).attr('title');
+                    return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+                },
+                show: {delay: 200, duration: 100},
+                hide: false
+            });
+        });
+    </script>
 </div>

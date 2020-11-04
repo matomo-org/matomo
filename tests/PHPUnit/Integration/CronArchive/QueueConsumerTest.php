@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\CronArchive;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\RequestParser;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -36,7 +37,9 @@ class QueueConsumerTest extends IntegrationTestCase
         Fixture::createWebsite('2020-04-06');
         Fixture::createWebsite('2010-04-06');
 
+        Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->add('testegment', 'browserCode==IE', false, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         // force archiving so we don't skip those without visits
         Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {

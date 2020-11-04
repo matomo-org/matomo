@@ -12,6 +12,7 @@ use Piwik\API\ApiRenderer;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\ProxyHttp;
 
 /**
@@ -37,7 +38,7 @@ class Json extends ApiRenderer
         $data = array('result' => 'error', 'message' => $exceptionMessage);
 
         if ($this->shouldSendBacktrace()) {
-            $data['backtrace'] = $exception->getTraceAsString();
+            $data['backtrace'] = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception, true);
         }
 
         $result = json_encode($data);
