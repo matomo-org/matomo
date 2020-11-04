@@ -104,7 +104,7 @@ class ComputedMetricTest extends IntegrationTestCase
     public function test_getTranslatedName()
     {
         $metric = $this->makeMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
-        $this->assertSame('Avg. Actions In Visit per Visit', $metric->getTranslatedName());
+        $this->assertSame('Avg. Actions In Visit per Visit ID', $metric->getTranslatedName());
 
         $metric = $this->makeMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_RATE);
         $this->assertSame('Bounces Rate', $metric->getTranslatedName());

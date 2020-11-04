@@ -917,7 +917,7 @@
 		<name>User IDs</name>
 		<module>UserId</module>
 		<action>getUsers</action>
-		<dimension>UserId</dimension>
+		<dimension>User ID</dimension>
 		<metrics>
 			<label>Label</label>
 			<nb_visits>Visits</nb_visits>

@@ -135,7 +135,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $metric = $factory->createComputedMetric($metricName1 = 'bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
 
         $this->assertSame('avg_bounce_count_per_visits', $metric->getName());
-        $this->assertSame('Avg. Actions In Visit per Visit', $metric->getTranslatedName());
+        $this->assertSame('Avg. Actions In Visit per Visit ID', $metric->getTranslatedName());
         $this->assertSame('Average value of "Actions In Visit" per "Visits".', $metric->getDocumentation());
         $this->assertSame('UserCountry_VisitLocation', $metric->getCategoryId());
         $this->assertCount(2, $metric->getDependentMetrics());
