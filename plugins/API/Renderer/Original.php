@@ -12,6 +12,7 @@ use Piwik\API\ApiRenderer;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 class Original extends ApiRenderer
 {
@@ -40,7 +41,7 @@ class Original extends ApiRenderer
             ];
 
             if ($this->shouldSendBacktrace()) {
-                $data['backtrace'] = $exception->getTraceAsString();
+                $data['backtrace'] = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception, true);
             }
 
             return serialize($data);
