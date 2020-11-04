@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Config;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -41,7 +42,10 @@ class ManySitesImportedLogs extends Fixture
         self::createSuperUser();
 
         $this->trackVisits();
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         $this->setupSegments();
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
     }
 
     public function tearDown(): void

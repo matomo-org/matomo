@@ -300,9 +300,8 @@ class Common
             }
 
             $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-            $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
-                'message' => $e->getMessage(),
-                'backtrace' => $e->getTraceAsString(),
+            $logger->debug('Unable to unserialize a string: {exception} (string = {string})', [
+                'exception' => $e,
                 'string' => $string,
             ]);
             return false;

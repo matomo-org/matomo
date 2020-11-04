@@ -49,6 +49,7 @@ class PhpInformational implements Diagnostic
                     'value' => $binary,
                 );
             }
+            $results[] = DiagnosticResult::informationalResult('Timezone Version', timezone_version_get());
         }
         $results[] = DiagnosticResult::informationalResult('PHP Timezone', date_default_timezone_get());
         $results[] = DiagnosticResult::informationalResult('PHP Time', time());
