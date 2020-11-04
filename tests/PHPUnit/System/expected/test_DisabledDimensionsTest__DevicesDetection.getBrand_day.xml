@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>General_Unknown</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>0</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>0</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/Morpheus/icons/dist/brand/unk.png</logo>
+		<segment>deviceBrand==General_Unknown</segment>
+	</row>
+</result>

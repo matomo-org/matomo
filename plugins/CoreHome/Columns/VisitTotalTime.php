@@ -93,4 +93,8 @@ class VisitTotalTime extends VisitDimension
         return $t;
     }
 
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }

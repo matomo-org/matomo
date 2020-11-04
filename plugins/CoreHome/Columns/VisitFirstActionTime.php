@@ -51,4 +51,9 @@ class VisitFirstActionTime extends VisitDimension
     {
         return Date::getDatetimeFromTimestamp($request->getCurrentTimestamp());
     }
+
+    public function isAlwaysEnabled()
+    {
+        return true;
+    }
 }

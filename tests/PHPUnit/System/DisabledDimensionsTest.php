@@ -127,7 +127,7 @@ class DisabledDimensionsTest extends IntegrationTestCase
         $tracker->setUrlReferrer('http://myreferrer.com');
         $tracker->setPerformanceTimings(100, 200, 300, 400, 500, 600);
         $tracker->setCustomVariable(1, 'cvarname', 'cvarvalue', 'visit');
-        $tracker->setCustomVariable(2, 'cvarname2', 'cvarvalue2', 'action');
+        $tracker->setCustomVariable(2, 'cvarname2', 'cvarvalue2', 'page');
         $tracker->setCustomDimension(self::$idDimension1, 'somevalue');
         $tracker->setCustomDimension(self::$idDimension2, 'someotherval');
         $tracker->setUserAgent('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+');
@@ -187,7 +187,7 @@ class DisabledDimensionsTest extends IntegrationTestCase
             ],
         ];
 
-        foreach ($apiTestsToRun as $api => $options) {
+        foreach ($apiTestsToRun as list($api, $options)) {
             $this->runApiTests($api, $options);
         }
     }
