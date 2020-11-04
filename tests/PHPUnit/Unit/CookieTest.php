@@ -70,6 +70,17 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->cookie->set('ignore', '*f1');
         $this->assertEquals('*f1', $this->cookie->get('ignore'));
     }
+    
+    public function test_delete_unsetsValues()
+    {
+        $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=1.2';
+        $this->cookie = $this->makeCookie();
+        $this->assertEquals('1.2', $this->cookie->get('hello'));
+
+        $this->cookie->delete();
+
+        $this->assertEquals(false, $this->cookie->get('hello'));
+    }
 
     public function test_generateContentString_usesBase64encode_string()
     {
