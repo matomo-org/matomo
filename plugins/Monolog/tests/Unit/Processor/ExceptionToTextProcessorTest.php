@@ -158,11 +158,13 @@ test message
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
 #4 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestCase->run(Object(PHPUnit\\Framework\\TestResult))
-#5 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
-#6 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
-#7 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
-#8 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
-#9 {main}
+#5 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#6 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#7 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#8 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
+#9 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
+#10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
+#11 {main}
 EOI;
 
         $this->assertEquals($expected, $wholeTrace);
@@ -185,11 +187,13 @@ test message
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
 #4 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestCase->run(Object(PHPUnit\\Framework\\TestResult))
-#5 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
-#6 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
-#7 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
-#8 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
-#9 {main}
+#5 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#6 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#7 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#8 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
+#9 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
+#10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
+#11 {main}
 EOI;
 
         $this->assertEquals($expected, $wholeTrace);
@@ -197,7 +201,7 @@ EOI;
 
     public function test_getMessageAndWholeBacktrace_printsBacktraceIf_PIWIK_TRACKER_DEBUG_globalIsSet()
     {
-        $ex = new \Exception('test message');
+        $ex = new \\Exception('test message');
 
         $GLOBALS['PIWIK_TRACKER_DEBUG'] = 1;
 
@@ -212,11 +216,13 @@ test message
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
 #4 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestCase->run(Object(PHPUnit\\Framework\\TestResult))
-#5 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
-#6 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
-#7 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
-#8 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
-#9 {main}
+#5 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#6 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#7 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#8 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
+#9 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
+#10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
+#11 {main}
 EOI;
 
         $this->assertEquals($expected, $wholeTrace);
@@ -273,33 +279,39 @@ test message
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
 #4 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestCase->run(Object(PHPUnit\\Framework\\TestResult))
-#5 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
-#6 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
-#7 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
-#8 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
-#9 {main},
+#5 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#6 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#7 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#8 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
+#9 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
+#10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
+#11 {main},
 caused by: caused by 1
 #0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_shouldCombineCausedByExceptionBacktraces()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
 #4 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestCase->run(Object(PHPUnit\\Framework\\TestResult))
-#5 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
-#6 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
-#7 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
-#8 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
-#9 {main},
+#5 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#6 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#7 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#8 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
+#9 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
+#10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
+#11 {main},
 caused by: caused by 2
 #0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_shouldCombineCausedByExceptionBacktraces()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
 #4 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestCase->run(Object(PHPUnit\\Framework\\TestResult))
-#5 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
-#6 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
-#7 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
-#8 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
-#9 {main}
+#5 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#6 /vendor/phpunit/phpunit/src/Framework/TestSuite.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#7 /vendor/phpunit/phpunit/src/TextUI/TestRunner.php: PHPUnit\\Framework\\TestSuite->run(Object(PHPUnit\\Framework\\TestResult))
+#8 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\TestRunner->doRun(Object(PHPUnit\\Framework\\TestSuite), Array, Array, true)
+#9 /vendor/phpunit/phpunit/src/TextUI/Command.php: PHPUnit\\TextUI\\Command->run(Array, true)
+#10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
+#11 {main}
 EOI;
 
         $this->assertEquals($expected, $wholeTrace);
