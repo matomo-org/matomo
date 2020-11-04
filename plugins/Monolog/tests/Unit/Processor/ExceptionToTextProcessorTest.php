@@ -201,7 +201,7 @@ EOI;
 
     public function test_getMessageAndWholeBacktrace_printsBacktraceIf_PIWIK_TRACKER_DEBUG_globalIsSet()
     {
-        $ex = new \\Exception('test message');
+        $ex = new \Exception('test message');
 
         $GLOBALS['PIWIK_TRACKER_DEBUG'] = 1;
 
