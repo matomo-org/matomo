@@ -88,7 +88,7 @@
             </a>
         {% endif %}
 
-        {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
+        {% if isPluginLoaded('Annotations') and notConfigInformational properties.hide_annotations_view %}
             <a class='dataTableAction annotationView'
                href='javascript:;' title="{{ 'Annotations_Annotations'|translate|e('html_attr') }}"
             ><span class="icon-annotation"></span></a>
