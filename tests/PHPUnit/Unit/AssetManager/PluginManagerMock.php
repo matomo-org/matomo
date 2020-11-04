@@ -33,6 +33,12 @@ class PluginManagerMock extends Manager
         $this->plugins = $plugins;
     }
 
+    public function isPluginLoaded($name)
+    {
+        $plugin = $this->getLoadedPlugin($name);
+        return !empty($plugin);
+    }
+
     public function getLoadedPlugin($name)
     {
         foreach($this->plugins as $plugin)
