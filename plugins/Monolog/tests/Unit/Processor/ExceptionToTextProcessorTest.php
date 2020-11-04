@@ -119,7 +119,6 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
 
         $expected = <<<EOI
 test message
-(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)
 EOI;
 
         $this->assertEquals($expected, $wholeTrace);
@@ -136,7 +135,6 @@ EOI;
 
         $expected = <<<EOI
 test message
-(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)
 EOI;
 
         $this->assertEquals($expected, $wholeTrace);
@@ -251,9 +249,7 @@ EOI;
 
         $wholeTrace = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exArray);
 
-        $expected = <<<EOI
-(backtrace omitted, define PIWIK_PRINT_ERROR_BACKTRACE in your /path/to/matomo/bootstrap.php file)
-EOI;
+        $expected = '';
 
         $this->assertEquals($expected, $wholeTrace);
     }
