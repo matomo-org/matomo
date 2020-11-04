@@ -43,8 +43,13 @@ class ActivatePlugin extends ConsoleCommand
                 continue;
             }
 
-            $pluginManager->activatePlugin($plugin);
-
+            try {
+                $pluginManager->activatePlugin($plugin);
+            } catch (\Exception $e) {
+                $output->writeln(sprintf('Could not activate plugin %s. Message: %s Trace %s', $plugin, $e->getMessage(), ExceptionToTextProcessor::getWholeBacktrace($e)));
+                throw $e;
+            }
+            
             $output->writeln("Activated plugin <info>$plugin</info>");
         }
     }
