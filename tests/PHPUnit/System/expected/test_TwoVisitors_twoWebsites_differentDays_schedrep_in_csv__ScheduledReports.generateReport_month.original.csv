@@ -7,10 +7,6 @@ Visits Summary
 nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
 2,11,43,5,3.9,00:10:55,27%
 
-Performance overview
-avg_time_network,avg_time_server,avg_time_transfer,avg_time_dom_processing,avg_time_dom_completion,avg_time_on_load,avg_page_load_time
-00:00:00.02,00:00:00.27,00:00:00.37,00:00:01.17,00:00:00.28,00:00:00.31,00:00:02.42
-
 Country
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
 Unknown,8,40,5,00:15:01,0%,$0
@@ -176,6 +172,10 @@ No data available
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords
 43,27,0,0,0,0,0,0
+
+Performance overview
+avg_time_network,avg_time_server,avg_time_transfer,avg_time_dom_processing,avg_time_dom_completion,avg_time_on_load,avg_page_load_time
+00:00:00.02,00:00:00.27,00:00:00.37,00:00:01.17,00:00:00.28,00:00:00.31,00:00:02.42
 
 Bandwidth - Main metrics
 nb_total_overall_bandwidth,nb_total_pageview_bandwidth,nb_total_download_bandwidth
