@@ -34,6 +34,15 @@ abstract class Base extends \Piwik\Plugin\Report
         $view->requestConfig->filter_limit    = Actions::ACTIONS_REPORT_ROWS_DISPLAY;
         $view->config->show_all_views_icons = false;
 
+        if ($view->requestConfig->getRequestParam('performance') === '1') {
+            $view->requestConfig->filter_limit = 25;
+            // hide visualization selector
+            $view->config->footer_icons = [[
+                'class'   => 'tableAllColumnsSwitch',
+                'buttons' => [],
+            ]];
+        }
+
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->show_embedded_subtable = true;
         }

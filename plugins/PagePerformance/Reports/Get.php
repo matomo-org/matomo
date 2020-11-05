@@ -8,13 +8,12 @@
  */
 namespace Piwik\Plugins\PagePerformance\Reports;
 
-use Piwik\DataTable;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\PagePerformance\Metrics;
 use Piwik\Plugins\PagePerformance\Visualizations\JqplotGraph\StackedBarEvolution;
+use Piwik\Plugins\PagePerformance\Visualizations\PerformanceColumns;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -25,8 +24,8 @@ class Get extends \Piwik\Plugin\Report
         parent::init();
 
         $this->dimension = null;
-        $this->categoryId = 'General_Visitors';
-        $this->subcategoryId = 'General_Overview';
+        $this->categoryId = 'General_Actions';
+        $this->subcategoryId = 'PagePerformance_Performance';
         $this->order = 5;
 
         $this->name = Piwik::translate('PagePerformance_Overview');
@@ -41,7 +40,7 @@ class Get extends \Piwik\Plugin\Report
         $config = $factory->createWidget();
         $config->forceViewDataTable(StackedBarEvolution::ID);
         $config->setAction('getEvolutionGraph');
-        $config->setOrder(20);
+        $config->setOrder(1);
         $config->setName('PagePerformance_EvolutionOverPeriod');
         $widgetsList->addWidgetConfig($config);
 
@@ -49,7 +48,29 @@ class Get extends \Piwik\Plugin\Report
         $config->forceViewDataTable(Sparklines::ID);
         $config->setName('');
         $config->setIsNotWidgetizable();
-        $config->setOrder(21);
+        $config->setOrder(2);
+        $widgetsList->addWidgetConfig($config);
+
+        $config = $factory->createWidget();
+        $config->forceViewDataTable(PerformanceColumns::ID);
+        $config->setModule('Actions');
+        $config->setAction('getPageUrls');
+        $config->setName('General_Pages');
+        $config->setOrder(3);
+        // set an additional parameter so we can use that in the report to check if we are in a report on the performance page
+        $config->addParameters(['performance' => 1]);
+        $config->setIsNotWidgetizable();
+        $widgetsList->addWidgetConfig($config);
+
+        $config = $factory->createWidget();
+        $config->forceViewDataTable(PerformanceColumns::ID);
+        $config->setModule('Actions');
+        $config->setAction('getPageTitles');
+        $config->setName('Actions_SubmenuPageTitles');
+        $config->setOrder(4);
+        // set an additional parameter so we can use that in the report to check if we are in a report on the performance page
+        $config->addParameters(['performance' => 1]);
+        $config->setIsNotWidgetizable();
         $widgetsList->addWidgetConfig($config);
     }
 
