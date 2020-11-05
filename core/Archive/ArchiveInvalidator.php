@@ -499,7 +499,7 @@ class ArchiveInvalidator
             $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
             foreach ($segmentDatesToInvalidate as $info) {
                 $latestDate = Date::factory($info['date']);
-                $latestDate = $latestDate->isEarlier($startDate) ? $latestDate : $startDate;
+                $latestDate = $latestDate->isEarlier($startDate) ? $startDate : $latestDate;
 
                 $datesToInvalidateForSegment = [];
 
