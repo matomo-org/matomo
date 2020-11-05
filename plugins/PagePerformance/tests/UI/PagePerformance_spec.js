@@ -23,7 +23,7 @@ describe("PagePerformance", function () {
     }
 
     it("should load page performance overview", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('load');
     });
