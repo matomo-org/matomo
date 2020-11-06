@@ -60,6 +60,7 @@ class Get extends \Piwik\Plugin\Report
         // set an additional parameter so we can use that in the report to check if we are in a report on the performance page
         $config->addParameters(['performance' => 1]);
         $config->setIsNotWidgetizable();
+        $config->setIsWide();
         $widgetsList->addWidgetConfig($config);
 
         $config = $factory->createWidget();
@@ -70,6 +71,7 @@ class Get extends \Piwik\Plugin\Report
         $config->setOrder(4);
         // set an additional parameter so we can use that in the report to check if we are in a report on the performance page
         $config->addParameters(['performance' => 1]);
+        $config->setIsWide();
         $config->setIsNotWidgetizable();
         $widgetsList->addWidgetConfig($config);
     }
