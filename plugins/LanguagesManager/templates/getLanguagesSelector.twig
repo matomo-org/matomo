@@ -12,6 +12,7 @@
 
     <form action="index.php?module=LanguagesManager&amp;action=saveLanguage" method="post">
         <input type="hidden" name="language" id="language">
+        <input type="hidden" name="nonce" id="nonce" value="{{ nonce }}">
         {# During installation token_auth is not set #}
         {% if token_auth is defined %}<input type="hidden" name="token_auth" value="{{ token_auth }}"/>{% endif %}
     </form>
