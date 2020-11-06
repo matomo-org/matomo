@@ -1608,7 +1608,7 @@
 		<subcategory>
 			<id>PagePerformance_Performance</id>
 			<name>Performance</name>
-			<order>99</order>
+			<order>47</order>
 		</subcategory>
 		<module>PagePerformance</module>
 		<action>getEvolutionGraph</action>

@@ -631,7 +631,7 @@
 		<subcategory>
 			<id>PagePerformance_Performance</id>
 			<name>Performance</name>
-			<order>99</order>
+			<order>47</order>
 		</subcategory>
 		<widgets>
 			<row>
@@ -679,7 +679,7 @@
 					<performance>1</performance>
 				</parameters>
 				<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1</uniqueId>
-				<isWide>0</isWide>
+				<isWide>1</isWide>
 				<viewDataTable>tablePerformanceColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -696,7 +696,7 @@
 					<performance>1</performance>
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletablePerformanceColumnsperformance1</uniqueId>
-				<isWide>0</isWide>
+				<isWide>1</isWide>
 				<viewDataTable>tablePerformanceColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
