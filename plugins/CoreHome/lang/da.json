@@ -78,7 +78,6 @@
         "PivotBySubtable": "Rapporten er ikke pivoteret %1$s Pivoter med %2$s.",
         "SystemSummaryWidget": "Systemoversigt",
         "SystemSummaryNWebsites": "%d websteder",
-        "SystemSummaryNSegments": "%d segmenter",
         "SystemSummaryNActivatedPlugins": "%d aktiverede programudvidelser",
         "SystemSummaryPiwikVersion": "Matomo-version",
         "SystemSummaryMysqlVersion": "MySQL-version",

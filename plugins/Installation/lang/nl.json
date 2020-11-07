@@ -120,7 +120,6 @@
         "SystemCheckWriteDirs": "Mappen met schrijfrechten",
         "SystemCheckWriteDirsHelp": "Om dit probleem te verhelpen op uw linux server, type de volgende commando(s)",
         "SystemCheckZlibHelp": "U moet PHP configureren en herbouwen met \"zlib\"-ondersteuning ingeschakeld, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Archivatie Cron",
         "SystemCheckCronArchiveProcessCLI": "Processen beheren via CLI",
         "SystemCheckPhpSetting": "Om een kritiek probleem te vermijden moet je de volgende instelling plaatsen in je php.ini bestand: %s",
         "SystemCheckUpdateHttps": "Bijwerken via HTTPS",

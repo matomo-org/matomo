@@ -126,7 +126,6 @@
         "SystemCheckWriteDirs": "Répertoires avec les droits d'accès en écriture",
         "SystemCheckWriteDirsHelp": "Pour corriger les erreurs sur votre système Linux essayez de taper les commandes suivantes",
         "SystemCheckZlibHelp": "Vous devez reconfigurer et recompiler PHP avec le support zlib, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Tâche Cron d'archivage",
         "SystemCheckCronArchiveProcessCLI": "Gestion des processus via la ligne de commande",
         "SystemCheckPhpSetting": "Pour éviter certaines erreurs critique, vous devez définir les entrées suivantes dans votre fichier php.ini : %s",
         "SystemCheckUpdateHttps": "Mettre à jour via HTTPS",

@@ -78,7 +78,6 @@
         "PivotBySubtable": "Toto hlášení není zaměřené %1$s Zaměřit na %2$s",
         "SystemSummaryWidget": "Souhrn systému",
         "SystemSummaryNWebsites": "%d webových stránek",
-        "SystemSummaryNSegments": "%d segmentů",
         "SystemSummaryNActivatedPlugins": "%d aktivovaných zásuvných modulů",
         "SystemSummaryPiwikVersion": "Verze Matomou",
         "SystemSummaryMysqlVersion": "Verze MySQL",
