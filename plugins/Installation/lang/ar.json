@@ -122,7 +122,6 @@
         "SystemCheckWriteDirs": "المجلدات بصلاحية الكتابة",
         "SystemCheckWriteDirsHelp": "لإصلاح هذا الخطأ على نظام لينوكس، حوال كتابة الأمر\/الأوامر التالية",
         "SystemCheckZlibHelp": "تحتاج إلى إعداد وإعادة بناء PHP وتفعيل دعم مكتبة zlib: --with-zlib.",
-        "SystemCheckCronArchiveProcess": "أمر Cron للأرشفة",
         "SystemCheckCronArchiveProcessCLI": "إدارة العمليات عبر CLI",
         "SystemCheckPhpSetting": "لمنع حدوث مايعيق ، يجب أن تضبط الإعدادات التالية في ملف php.ini لديك : %s .",
         "SystemCheckUpdateHttps": "التحديث عبر HTTPS",

@@ -126,7 +126,6 @@
         "SystemCheckWriteDirs": "Mapper med skriveadgang",
         "SystemCheckWriteDirsHelp": "Prøv at skrive følgende kommandoer for at rette fejlen på et linux-system",
         "SystemCheckZlibHelp": "Konfigurer og genstart PHP med zlib support aktiveret, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Arkiv Cron",
         "SystemCheckCronArchiveProcessCLI": "Håndtering af processer via kommandolinje",
         "SystemCheckPhpSetting": "For at undgå nogle kritiske punkter, skal følgende indstilles i din php.ini-fil: %s",
         "SystemCheckUpdateHttps": "Opdater over HTTPS",

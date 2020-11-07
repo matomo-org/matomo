@@ -81,7 +81,6 @@
         "PivotBySubtable": "此報表尚未圖形化 %1$s 以 %2$s 圖形化",
         "SystemSummaryWidget": "系統摘要",
         "SystemSummaryNWebsites": "%d 個網站",
-        "SystemSummaryNSegments": "%d 個區隔",
         "SystemSummaryNActivatedPlugins": "%d 個外掛已啟用",
         "SystemSummaryPiwikVersion": "Matomo 版本",
         "SystemSummaryMysqlVersion": "MySQL 版本",

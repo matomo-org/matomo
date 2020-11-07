@@ -78,7 +78,6 @@
         "PivotBySubtable": "Этот отчёт не развёрнут %1$s развернуть по параметру %2$s",
         "SystemSummaryWidget": "Системный отчёт",
         "SystemSummaryNWebsites": "%d веб-сайтов",
-        "SystemSummaryNSegments": "%d сегментов",
         "SystemSummaryNActivatedPlugins": "%d активированных плагинов",
         "SystemSummaryPiwikVersion": "Версия Matomo",
         "SystemSummaryMysqlVersion": "Версия MySQL",
