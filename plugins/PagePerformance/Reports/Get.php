@@ -55,7 +55,7 @@ class Get extends \Piwik\Plugin\Report
         $config->forceViewDataTable(PerformanceColumns::ID);
         $config->setModule('Actions');
         $config->setAction('getPageUrls');
-        $config->setName('General_Pages');
+        $config->setName('Actions_PageUrls');
         $config->setOrder(3);
         // set an additional parameter so we can use that in the report to check if we are in a report on the performance page
         $config->addParameters(['performance' => 1]);
