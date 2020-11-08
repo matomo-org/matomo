@@ -78,7 +78,6 @@
         "PivotBySubtable": "このレポートは、%1$s が %2$s ピボット を旋回していません。",
         "SystemSummaryWidget": "システム概要",
         "SystemSummaryNWebsites": "%d ウェブサイト",
-        "SystemSummaryNSegments": "%d セグメント",
         "SystemSummaryNActivatedPlugins": "%d アクティブなプラグイン",
         "SystemSummaryPiwikVersion": "Matomo バージョン",
         "SystemSummaryMysqlVersion": "MySQL バージョン",

@@ -78,7 +78,6 @@
         "PivotBySubtable": "O relatório não está articulado %1$s Articulado por %2$s",
         "SystemSummaryWidget": "Resumo do sistema",
         "SystemSummaryNWebsites": "%d sites",
-        "SystemSummaryNSegments": "%d segmentos",
         "SystemSummaryNActivatedPlugins": "%d extensões ativas",
         "SystemSummaryPiwikVersion": "Versão do Matomo",
         "SystemSummaryMysqlVersion": "Versão do MySQL",

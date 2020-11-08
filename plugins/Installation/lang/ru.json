@@ -123,7 +123,6 @@
         "SystemCheckWriteDirs": "Папки с правами записи",
         "SystemCheckWriteDirsHelp": "Для исправления этой ошибки в ОС Linux, попробуйте ввести следующие команды",
         "SystemCheckZlibHelp": "Вам необходимо сконфигурировать PHP на поддержку zlib, или перекомпилировать с параметром --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Cron для архивации",
         "SystemCheckCronArchiveProcessCLI": "Управление процессами через консоль",
         "SystemCheckPhpSetting": "Для предотвращения критической проблемы необходимо установить следующее значение в вашем файле php.ini: %s",
         "SystemCheckUpdateHttps": "Обновление через HTTPS",
