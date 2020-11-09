@@ -98,7 +98,7 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->addExcludeLowPopDisplayProperties($view);
 
         // hide the performance columns viz in page reports when not displayed as widget
-        if ($view->requestConfig->getRequestParam('widget') !== 1) {
+        if ($view->requestConfig->getRequestParam('widget') != '1') {
             $view->config->show_table_performance = false;
         }
     }

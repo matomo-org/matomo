@@ -37,8 +37,15 @@ class PerformanceColumns extends HtmlTable
             return false;
         }
 
-        if (is_array($request) && array_key_exists('module', $request) && array_key_exists('action', $request) &&
-            'Actions' === $request['module'] && in_array($request['action'], PagePerformance::$availableForMethods)) {
+        $module = $request['module'] ?? '';
+        $action = $request['action'] ?? '';
+
+        if ($module === 'Widgetize') {
+            $module = $request['moduleToWidgetize'] ?: $module;
+            $action = $request['actionToWidgetize'] ?: $action;
+        }
+
+        if ('Actions' === $module && in_array($action, PagePerformance::$availableForMethods)) {
             return true;
         }
 

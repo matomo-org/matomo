@@ -667,7 +667,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Pages</name>
+				<name>Page URLs</name>
 				<module>Actions</module>
 				<action>getPageUrls</action>
 				<order>3</order>
