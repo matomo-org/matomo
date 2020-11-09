@@ -3032,6 +3032,40 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
+            function injectClientHints (request, callback) {
+                if (!navigatorAlias.userAgentData) {
+                    callback(request);
+                }
+
+                var appendix = '';
+
+                if (navigatorAlias.brands.length) {
+                    appendix += '&ua_browser=' + navigatorAlias.brands[navigatorAlias.brands.length - 1].brand;
+                }
+
+                navigatorAlias.userAgentData.getHighEntropyValues(
+                    ["model", "platform", "platformVersion",
+                        "uaFullVersion"]
+                ).then(function(ua) {
+                    appendix += '&ua_model=' + ua.model;
+                    appendix += '&ua_os=' + ua.platform;
+                    appendix += '&ua_osv=' + ua.platformVersion;
+                    appendix += '&ua_browserv=' + ua.uaFullVersion;
+
+                    if (request instanceof Array) {
+                        for (i = 0; i < request.length; i++) {
+                            request[i] += appendix;
+                        }
+                    } else {
+                        request += appendix;
+                    }
+
+                    callback(request);
+                }).catch(function (message) {
+                    callback(request);
+                });
+            }
+
             /*
              * Send request
              */
@@ -3050,19 +3084,20 @@ if (typeof window.Matomo !== 'object') {
                     }
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                        injectClientHints(request, function(request) {
+                            if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
+                                setExpireDateTime(100);
+                                return;
+                            }
 
-                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
-                            setExpireDateTime(100);
-                            return;
-                        }
+                            if (shouldForcePost(request)) {
+                                sendXmlHttpRequest(request, callback);
+                            } else {
+                                getImage(request, callback);
+                            }
 
-                        if (shouldForcePost(request)) {
-                            sendXmlHttpRequest(request, callback);
-                        } else {
-                            getImage(request, callback);
-                        }
-
-                        setExpireDateTime(delay);
+                            setExpireDateTime(delay);
+                        });
                     });
                 }
                 if (!heartBeatSetUp) {
