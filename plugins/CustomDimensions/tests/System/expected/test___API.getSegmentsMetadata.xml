@@ -559,6 +559,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
+		<name>Category (Site Search)</name>
+		<segment>siteSearchCategory</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
 		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
@@ -651,12 +657,6 @@
 		<category>Behaviour</category>
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Behaviour</category>
-		<name>Search Category</name>
-		<segment>siteSearchCategory</segment>
 	</row>
 	<row>
 		<type>dimension</type>
