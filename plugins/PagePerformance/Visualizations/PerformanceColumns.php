@@ -33,6 +33,10 @@ class PerformanceColumns extends HtmlTable
     {
         $request = $viewDataTable->getRequestArray();
 
+        if ($viewDataTable->config->show_table_performance === false) {
+            return false;
+        }
+
         if (is_array($request) && array_key_exists('module', $request) && array_key_exists('action', $request) &&
             'Actions' === $request['module'] && in_array($request['action'], PagePerformance::$availableForMethods)) {
             return true;
