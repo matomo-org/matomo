@@ -130,7 +130,6 @@
         "SystemCheckWriteDirs": "Adresáře s přístupem k zápisu",
         "SystemCheckWriteDirsHelp": "Pro opravu této chyby v Linuxu zkuste napsat následující příkaz(y)",
         "SystemCheckZlibHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"zlib\", --with-zlib",
-        "SystemCheckCronArchiveProcess": "Archivační cron",
         "SystemCheckCronArchiveProcessCLI": "Správa procesů pomocí CLI",
         "SystemCheckPhpSetting": "Abyste zabránili vážným problémům, ve svém souboru php.ini musíte nastavit %s",
         "SystemCheckUpdateHttps": "Aktualizace přes HTTPS",

@@ -82,7 +82,6 @@
         "PivotBySubtable": "Bu rapor merkeze alınmamış %1$s Şununla merkeze alın %2$s",
         "SystemSummaryWidget": "Sistem Özeti",
         "SystemSummaryNWebsites": "%d web sitesi",
-        "SystemSummaryNSegments": "%d dilim",
         "SystemSummaryNActivatedPlugins": "%d etkin uygulama eki",
         "SystemSummaryPiwikVersion": "Matomo sürümü",
         "SystemSummaryMysqlVersion": "MySQL sürümü",

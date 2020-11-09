@@ -89,7 +89,6 @@
         "SystemCheckWriteDirs": "Mga directory na may write access",
         "SystemCheckWriteDirsHelp": "Upang maayos ang error na ito sa iyong system GNU \/ Linux subukang mag-type sa (mga) sumusunod na command.",
         "SystemCheckZlibHelp": "Kailangan mong i-configure at muling e-build ang PHP na may \"zlib\" na may gumaganang supporta ng --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Archive ng Cron",
         "SystemCheckCronArchiveProcessCLI": "Mga pamamahala ng proseso sa pamamagitan ng CLI",
         "NotSupported": "Hindi supportado",
         "Tables": "Pag-gawa ng Tables",

@@ -50,7 +50,6 @@
         "PivotBySubtable": "هذا التقرير ليس متمركزاً %1$s ، إجعله متمركزاً على %2$s",
         "SystemSummaryWidget": "ملخص النظام",
         "SystemSummaryNWebsites": "%d مواقع ويب",
-        "SystemSummaryNSegments": "%d قطاعات",
         "SystemSummaryNActivatedPlugins": "%d الإضافات المفعّلة",
         "SystemSummaryPiwikVersion": "نسخة Matomo",
         "SystemSummaryMysqlVersion": "نسخة MySQL",

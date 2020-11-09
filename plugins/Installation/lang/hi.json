@@ -89,7 +89,6 @@
         "SystemCheckWriteDirs": "राइट उपयोग के साथ निर्देशिका",
         "SystemCheckWriteDirsHelp": "अपने सिस्टम पर इस त्रुटि को ठीक करने के लिए निम्न आदेश (ओं) से टाइप करने की कोशिश",
         "SystemCheckZlibHelp": "आप सक्षम \"जेडलिब्\" समर्थन के साथ PHP कॉन्फ़िगर और पुनर्निर्माण की आवश्यकता, - साथ zlib.",
-        "SystemCheckCronArchiveProcess": "पुरालेख क्रॉन",
         "SystemCheckCronArchiveProcessCLI": "CLI के माध्यम से प्रक्रियाओं का प्रबंधन",
         "SystemCheckPhpSetting": "कुछ महत्वपूर्ण मुद्दे को रोकने के लिए, आप अपने php.ini फ़ाइल में निम्न सेट करना आवश्यक है: %s",
         "SystemCheckUpdateHttps": "अद्यतन HTTPS पर",

@@ -590,6 +590,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
+		<name>Category (Site Search)</name>
+		<segment>siteSearchCategory</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
 		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
@@ -675,12 +681,6 @@
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
 		<acceptedValues>All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Behaviour</category>
-		<name>Search Category</name>
-		<segment>siteSearchCategory</segment>
 	</row>
 	<row>
 		<type>dimension</type>

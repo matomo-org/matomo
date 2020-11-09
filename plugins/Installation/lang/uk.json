@@ -112,7 +112,6 @@
         "SystemCheckWriteDirs": "Директорії з доступом на запис",
         "SystemCheckWriteDirsHelp": "Щоб вирішити цю проблему на Linux системі, спробуйте ввести наступні команду(-и)",
         "SystemCheckZlibHelp": "Необхідно переконфігурувати та перезібрати PHP з підтримкою \"zlib\", --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Архів Cron",
         "SystemCheckCronArchiveProcessCLI": "Управління процесами за допомогою CLI",
         "SystemCheckPhpSetting": "Щоб запобігти деяким критичним проблемам, необхідно встановити наступні параметри в вашому php.ini файлі: %s",
         "SystemCheckUpdateHttps": "Оновлення через HTTPS",

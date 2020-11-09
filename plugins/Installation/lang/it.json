@@ -126,7 +126,6 @@
         "SystemCheckWriteDirs": "Directories con permessi di scrittura",
         "SystemCheckWriteDirsHelp": "Per correggere questo errore nel tuo sistema GNU\/Linux, prova ad eseguire il seguente comando",
         "SystemCheckZlibHelp": "Devi configurare e ricostruire il PHP con il supporto zlib abilitato, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Cron-task Archivio",
         "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckPhpSetting": "Per prevenire alcuni problemi critici, devi impostare ciò che segue nel php.ini: %s",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
