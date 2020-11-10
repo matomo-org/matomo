@@ -33,6 +33,9 @@ These are only recommendations (because we will keep backward compatibility for 
 * If using content tracking, we recommend replacing the following CSS classes should they be used `piwikTrackContent`, `piwikContentPiece`, `piwikContentTarget`, and `piwikContentIgnoreInteraction` with `matomoTrackContent`, `matomoContentPiece`, `matomoContentTarget`, and `matomoContentIgnoreInteraction`. 
 * We also encourage using the `matomo.js` JS tracker file instead of `piwik.js` and `matomo.php` tracker endpoint instead of `piwik.php` endpoint.
 
+#### New APIs
+* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
+
 ### HTTP APIs
 
 #### Breaking changes in HTTP API 
@@ -130,7 +133,7 @@ These are only recommendations (because we will keep backward compatibility for 
   
 #### New APIs
 * A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
-* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
+* A new method `Common::hashEquals` has been added for timing attack safe string comparisons.
 * Reporting API: It is now possible to apply `hideColumns` recursively to nested values by setting `hideColumnsRecursively=1`. For all `Live` api methods this is the default behaviour.
 
 ### Other Breaking changes
