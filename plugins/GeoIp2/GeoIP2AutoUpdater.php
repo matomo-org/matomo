@@ -190,7 +190,7 @@ class GeoIP2AutoUpdater extends Task
         Log::info("GeoIP2AutoUpdater: successfully updated GeoIP 2 database '%s'", $url);
     }
 
-    protected static function getTemporaryFolder($file)
+    public static function getTemporaryFolder($file)
     {
         return \Piwik\Container\StaticContainer::get('path.tmp') . '/latest/' . $file;
     }
