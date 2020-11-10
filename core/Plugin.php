@@ -514,13 +514,12 @@ class Plugin
     }
 
     /**
-     * @param string $pluginName
      * @return Date|null
      * @throws \Exception
      */
-    public function getPluginLastActivationTime($pluginName)
+    public function getPluginLastActivationTime()
     {
-        $optionName = Manager::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX . $pluginName;
+        $optionName = Manager::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX . $this->pluginName;
         $time = Option::get($optionName);
         if (empty($time)) {
             return null;
@@ -529,13 +528,12 @@ class Plugin
     }
 
     /**
-     * @param string $pluginName
      * @return Date|null
      * @throws \Exception
      */
-    public function getPluginLastDeactivationTime($pluginName)
+    public function getPluginLastDeactivationTime()
     {
-        $optionName = Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . $pluginName;
+        $optionName = Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . $this->pluginName;
         $time = Option::get($optionName);
         if (empty($time)) {
             return null;
