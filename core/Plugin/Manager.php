@@ -16,12 +16,14 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Notification;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -39,6 +41,9 @@ use Piwik\Updater;
  */
 class Manager
 {
+    const LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX = 'LastPluginActivation.';
+    const LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX = 'LastPluginDeactivation.';
+
     /**
      * @return self
      */
@@ -512,10 +517,17 @@ class Manager
      */
     public function deactivatePlugin($pluginName)
     {
+        $plugins = $this->pluginList->getActivatedPlugins();
+        if (!in_array($pluginName, $plugins)) {
+            // plugin is already deactivated
+            return;
+        }
+
         $this->clearCache($pluginName);
 
         // execute deactivate() to let the plugin do cleanups
         $this->executePluginDeactivate($pluginName);
+        $this->savePluginDeactivationTime($pluginName);
 
         $this->unloadPluginFromMemory($pluginName);
 
@@ -679,6 +691,8 @@ class Manager
         }
         $this->installPluginIfNecessary($plugin);
         $plugin->activate();
+
+        $this->savePluginActivationTime($pluginName);
 
         EventDispatcher::getInstance()->postPendingEventsTo($plugin);
 
@@ -1653,6 +1667,18 @@ class Manager
         foreach ($this->getAllPluginsNames() as $pluginName) {
             $translator->addDirectory(self::getPluginDirectory($pluginName) . '/lang');
         }
+    }
+
+    private function savePluginActivationTime($pluginName)
+    {
+        $optionName = self::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX . $pluginName;
+        Option::set($optionName, time());
+    }
+
+    private function savePluginDeactivationTime($pluginName)
+    {
+        $optionName = self::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . $pluginName;
+        Option::set($optionName, time());
     }
 }
 

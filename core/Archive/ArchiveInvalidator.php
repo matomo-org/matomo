@@ -460,18 +460,12 @@ class ArchiveInvalidator
     {
         $date2 = Date::yesterday();
 
+        $earliestDateToRearchive = $this->getEarliestDateToRearchive();
         if (empty($startDate)) {
-            $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
-            if (empty($lastNMonthsToInvalidate)) {
-                return;
-            }
-
-            $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
-            if (empty($lastNMonthsToInvalidate)) {
-                return;
-            }
-
-            $startDate = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
+            $startDate = $earliestDateToRearchive;
+        } else if (!empty($earliestDateToRearchive)) {
+            // don't allow archiving further back than the rearchive_reports_in_past_last_n_months date allows
+            $startDate = $startDate->isEarlier($earliestDateToRearchive) ? $earliestDateToRearchive : $startDate;
         }
 
         if ($idSites === 'all') {
@@ -538,11 +532,13 @@ class ArchiveInvalidator
      *
      * @param int|int[]|'all' $idSites
      * @param string $pluginName
+     * @param string|null $report
+     * @param Date|null $startDate
      */
-    public function reArchiveReportSafely($idSites, $pluginName)
+    public function reArchiveReportSafely($idSites, string $pluginName, string $report = null, Date $startDate = null)
     {
         try {
-            $this->reArchiveReport($idSites, $pluginName);
+            $this->reArchiveReport($idSites, $pluginName, $report, $startDate);
         } catch (\Throwable $ex) {
             $logger = StaticContainer::get(LoggerInterface::class);
             $logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
@@ -679,5 +675,20 @@ class ArchiveInvalidator
     {
         $model = new \Piwik\Plugins\SitesManager\Model();
         return $model->getSitesId();
+    }
+
+    private function getEarliestDateToRearchive()
+    {
+        $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
+        if (empty($lastNMonthsToInvalidate)) {
+            return null;
+        }
+
+        $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
+        if (empty($lastNMonthsToInvalidate)) {
+            return null;
+        }
+
+        return Date::yesterday()->subMonth($lastNMonthsToInvalidate)->setDay(1);
     }
 }
