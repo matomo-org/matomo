@@ -61,7 +61,7 @@ class ReportInformational implements Diagnostic
         $table = Common::prefixTable('archive_invalidations');
 
         try {
-            $numEntries = Db::fetchOne('SELECT count(*) from ' . $table . ' WHERE status = ?' , $status);
+            $numEntries = Db::fetchOne('SELECT count(*) from ' . $table . ' WHERE `status` = ?' , $status);
         } catch ( \Exception $e ) {
             $numEntries = '';
         }
