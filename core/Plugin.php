@@ -514,6 +514,36 @@ class Plugin
     }
 
     /**
+     * @param string $pluginName
+     * @return Date|null
+     * @throws \Exception
+     */
+    public function getPluginLastActivationTime($pluginName)
+    {
+        $optionName = Manager::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX . $pluginName;
+        $time = Option::get($optionName);
+        if (empty($time)) {
+            return null;
+        }
+        return Date::factory($time);
+    }
+
+    /**
+     * @param string $pluginName
+     * @return Date|null
+     * @throws \Exception
+     */
+    public function getPluginLastDeactivationTime($pluginName)
+    {
+        $optionName = Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . $pluginName;
+        $time = Option::get($optionName);
+        if (empty($time)) {
+            return null;
+        }
+        return Date::factory($time);
+    }
+
+    /**
      * @param $directoryWithinPlugin
      * @param $expectedSubclass
      * @return array
@@ -583,5 +613,6 @@ class Plugin
         return $dependency;
     }
 }
+
 }
     

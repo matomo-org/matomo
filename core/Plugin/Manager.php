@@ -517,6 +517,12 @@ class Manager
      */
     public function deactivatePlugin($pluginName)
     {
+        $plugins = $this->pluginList->getActivatedPlugins();
+        if (!in_array($pluginName, $plugins)) {
+            // plugin is already deactivated
+            return;
+        }
+
         $this->clearCache($pluginName);
 
         // execute deactivate() to let the plugin do cleanups
@@ -1661,36 +1667,6 @@ class Manager
         foreach ($this->getAllPluginsNames() as $pluginName) {
             $translator->addDirectory(self::getPluginDirectory($pluginName) . '/lang');
         }
-    }
-
-    /**
-     * @param string $pluginName
-     * @return Date|null
-     * @throws \Exception
-     */
-    public function getPluginLastActivationTime($pluginName)
-    {
-        $optionName = self::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX . $pluginName;
-        $time = Option::get($optionName);
-        if (empty($time)) {
-            return null;
-        }
-        return Date::factory($time);
-    }
-
-    /**
-     * @param string $pluginName
-     * @return Date|null
-     * @throws \Exception
-     */
-    public function getPluginLastDeactivationTime($pluginName)
-    {
-        $optionName = self::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . $pluginName;
-        $time = Option::get($optionName);
-        if (empty($time)) {
-            return null;
-        }
-        return Date::factory($time);
     }
 
     private function savePluginActivationTime($pluginName)
