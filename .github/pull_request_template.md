@@ -6,7 +6,7 @@ Please include a description of this change and which issue it fixes. If no issu
 
 * [ ] Functional review done
 * [ ] Usability review done (is anything maybe unclear or think about anything that would cause people to reach out to support)
-* [ ] Security review done
+* [ ] Security review done [see checklist](https://developer.matomo.org/guides/security-in-piwik#checklist)
 * [ ] Code review done
 * [ ] Tests were added if useful/possible
 * [ ] Reviewed for breaking changes
