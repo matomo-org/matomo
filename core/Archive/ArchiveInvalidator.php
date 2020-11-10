@@ -452,34 +452,41 @@ class ArchiveInvalidator
      * @param int[]|string $idSites A list of idSites or 'all'
      * @param string $plugin
      * @param string|null $report
-     * @param string|null $lastNMonthsToInvalidate eg, last12
+     * @param Date|null $startDate
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport($idSites, string $plugin, string $report = null, string $lastNMonthsToInvalidate = null)
+    public function reArchiveReport($idSites, string $plugin, string $report = null, Date $startDate = null)
     {
-        $lastNMonthsToInvalidate = $lastNMonthsToInvalidate ?: Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
-        if (empty($lastNMonthsToInvalidate)) {
-            return;
-        }
+        $date2 = Date::yesterday();
 
-        $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
-        if (empty($lastNMonthsToInvalidate)) {
-            return;
+        if (empty($startDate)) {
+            $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
+            if (empty($lastNMonthsToInvalidate)) {
+                return;
+            }
+
+            $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
+            if (empty($lastNMonthsToInvalidate)) {
+                return;
+            }
+
+            $startDate = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
         }
 
         if ($idSites === 'all') {
             $idSites = $this->getAllSitesId();
         }
 
-        $date2 = Date::yesterday();
-        $date1 = $date2->subMonth($lastNMonthsToInvalidate)->setDay(1);
-
         $dates = [];
-        $date = $date1;
+        $date = $startDate;
         while ($date->isEarlier($date2)) {
             $dates[] = $date;
             $date = $date->addDay(1);
+        }
+
+        if (empty($dates)) {
+            return;
         }
 
         $name = $plugin;
@@ -492,7 +499,7 @@ class ArchiveInvalidator
             $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
             foreach ($segmentDatesToInvalidate as $info) {
                 $latestDate = Date::factory($info['date']);
-                $latestDate = $latestDate->isEarlier($date1) ? $latestDate : $date1;
+                $latestDate = $latestDate->isEarlier($startDate) ? $startDate : $latestDate;
 
                 $datesToInvalidateForSegment = [];
 

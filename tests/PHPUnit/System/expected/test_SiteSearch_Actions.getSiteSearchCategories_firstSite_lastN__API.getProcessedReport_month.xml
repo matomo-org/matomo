@@ -60,7 +60,17 @@
 		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010" />
+		<result prettyDate="January 2010">
+			<row>
+				<segment>siteSearchCategory==Search+Category</segment>
+			</row>
+			<row>
+				<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
+			</row>
+			<row>
+				<segment>siteSearchCategory==Category</segment>
+			</row>
+		</result>
 		<result prettyDate="February 2010" />
 		<result prettyDate="March 2010" />
 		<result prettyDate="April 2010" />

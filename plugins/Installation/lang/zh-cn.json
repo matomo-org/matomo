@@ -131,7 +131,8 @@
         "SystemCheckWriteDirs": "具有写入权限的文件夹",
         "SystemCheckWriteDirsHelp": "要在您的 GNU\/Linux 系统中修正这个错误，可以试试输入以下命令",
         "SystemCheckZlibHelp": "您需要设置 --with-zlib 并重新编译 PHP，以启用“zlib”支持。",
-        "SystemCheckCronArchiveProcess": "归档计划",
+        "SystemCheckCronArchiveProcess": "设定Cron",
+        "FasterReportLoading": "更快的报告加载",
         "SystemCheckCronArchiveProcessCLI": "通过 CLI 管理进程",
         "SystemCheckPhpSetting": "为预防某些严重问题，您必须在 php.ini 文件中加入如下几行：%s",
         "SystemCheckUpdateHttps": "通过 HTTPS 更新",
@@ -153,6 +154,8 @@
         "WelcomeToCommunity": "欢迎来到 Matomo 社区！",
         "CannotConnectToDb": "无法连接数据库",
         "CannotConnectToDbResolvingExplanation": "这可能是暂时的问题，试试%1$s刷新页面%2$s。如果问题仍然存在，请联系您的 Matomo 管理员。",
-        "EmailPrivacyNotice": "您的电子邮件地址将仅用于向您发送新闻通讯。 为此，我们必须与第三方提供商共享您的电子邮件。 该提供者当前是Mad Mimi，但是将来可能会有所变化。 除了向您发送新闻稿之外，我们不会与其他任何人共享您的电子邮件或将您的电子邮件用于其他任何目的。 您可以随时取消订阅。 有关更多信息，请查阅我们的%1$s隐私政策%2$s。"
+        "EmailPrivacyNotice": "您的电子邮件地址将仅用于向您发送新闻通讯。 为此，我们必须与第三方提供商共享您的电子邮件。 该提供者当前是Mad Mimi，但是将来可能会有所变化。 除了向您发送新闻稿之外，我们不会与其他任何人共享您的电子邮件或将您的电子邮件用于其他任何目的。 您可以随时取消订阅。 有关更多信息，请查阅我们的%1$s隐私政策%2$s。",
+        "PerformanceSettingsDesc1": "关于性能的最后一点说明：您的Matomo已设置好，可以跟踪和报告网站的流量，但是如果您发现Matomo速度较慢，则需要采取额外的步骤来设置 %1$sCLI归档%2$s。这将在以下位置生成报告 定期而不是按需提供背景信息。",
+        "PerformanceSettingsDesc2": "这需要向cron中添加Matomo命令，该命令无法由安装程序自动完成，但是您可以%1$s阅读我们的常见问题解答以了解如何自行设置。%2$s"
     }
 }

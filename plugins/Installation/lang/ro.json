@@ -91,7 +91,6 @@
         "SystemCheckWriteDirs": "Directoare cu acces de scriere",
         "SystemCheckWriteDirsHelp": "Pentru a remedia această eroare pe sistemul dvs. Linux, încercați să tastați următoarea comandă",
         "SystemCheckZlibHelp": "Aveți nevoie de a configura și reconstrui PHP cu \"zlib\" sprijin activat, - cu-zlib.",
-        "SystemCheckCronArchiveProcess": "Arhiva Cron",
         "SystemCheckCronArchiveProcessCLI": "Administrarea proceselor via CLI",
         "NotSupported": "nu sunt acceptate",
         "Tables": "Creare Tabele",

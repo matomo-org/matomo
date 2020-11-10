@@ -37,12 +37,12 @@ class Controller extends \Piwik\Plugin\Controller
         $view->browser_short_name  = $uaParser->getClient('short_name');
         $view->browser_version     = $uaParser->getClient('version');
         $view->browser_logo        = getBrowserLogo($uaParser->getClient('short_name'));
-        $view->browser_family      = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($uaParser->getClient('short_name'));
+        $view->browser_family      = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($uaParser->getClient('name'));
         $view->browser_family_logo = getBrowserFamilyLogo($view->browser_family);
         $view->os_name             = $uaParser->getOs('name');
         $view->os_logo             = getOsLogo($uaParser->getOs('short_name'));
         $view->os_short_name       = $uaParser->getOs('short_name');
-        $view->os_family           = \DeviceDetector\Parser\OperatingSystem::getOsFamily($uaParser->getOs('short_name'));
+        $view->os_family           = \DeviceDetector\Parser\OperatingSystem::getOsFamily($uaParser->getOs('name'));
         $view->os_family_logo      = getOsFamilyLogo($view->os_family);
         $view->os_version          = $uaParser->getOs('version');
         $view->device_type         = getDeviceTypeLabel($uaParser->getDeviceName());
@@ -66,7 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         switch ($type) {
             case 'brands':
-                $availableBrands = \DeviceDetector\Parser\Device\DeviceParserAbstract::$deviceBrands;
+                $availableBrands = \DeviceDetector\Parser\Device\AbstractDeviceParser::$deviceBrands;
 
                 foreach ($availableBrands as $short => $name) {
                     if ($name != 'Unknown') {
@@ -108,7 +108,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'devicetypes':
-                $deviceTypes = \DeviceDetector\Parser\Device\DeviceParserAbstract::getAvailableDeviceTypes();
+                $deviceTypes = \DeviceDetector\Parser\Device\AbstractDeviceParser::getAvailableDeviceTypes();
 
                 foreach ($deviceTypes as $name => $id) {
                     $list[$name] = getDeviceTypeLogo($name);

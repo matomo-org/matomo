@@ -32,6 +32,7 @@ use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
@@ -787,10 +788,7 @@ class CronArchive
                 $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
             } catch (Exception $e) {
-                $message = $e->getMessage();
-                if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                    $message .= "\n" . $e->getTraceAsString();
-                }
+                $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
                 $this->logger->info('  Failed to invalidate archived reports: ' . $message);
             }
         }

@@ -131,7 +131,8 @@
         "SystemCheckWriteDirs": "Directories with write access",
         "SystemCheckWriteDirsHelp": "To fix this error on your GNU\/Linux system, try typing in the following command(s)",
         "SystemCheckZlibHelp": "You need to configure and rebuild PHP with \"zlib\" support enabled, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Archive Cron",
+        "SystemCheckCronArchiveProcess": "Setup Cron",
+        "FasterReportLoading": "faster report loading",
         "SystemCheckCronArchiveProcessCLI": "Managing processes via CLI",
         "SystemCheckPhpSetting": "To prevent some critical issue, you must set the following in your php.ini file: %s",
         "SystemCheckUpdateHttps": "Update over HTTPS",
@@ -153,6 +154,8 @@
         "WelcomeToCommunity": "Welcome to the Matomo community!",
         "CannotConnectToDb": "Cannot connect to the database",
         "CannotConnectToDbResolvingExplanation": "This may be a temporary issue, try %1$srefreshing the page%2$s. If the problem persists please contact your Matomo administrator.",
-        "EmailPrivacyNotice": "Your email address will be only used to send you the newsletter. For this we have to share your email with a third party provider. This provider is currently Mad Mimi, but this may change in the future. We will not share your email with anyone else or use your email for any other purpose than sending you the newsletter. You can unsubscribe at any time. Please consult our %1$sprivacy policy%2$s for more information."
+        "EmailPrivacyNotice": "Your email address will be only used to send you the newsletter. For this we have to share your email with a third party provider. This provider is currently Mad Mimi, but this may change in the future. We will not share your email with anyone else or use your email for any other purpose than sending you the newsletter. You can unsubscribe at any time. Please consult our %1$sprivacy policy%2$s for more information.",
+        "PerformanceSettingsDesc1": "One final note regarding performance: your Matomo is setup and ready to track and report on your website's traffic, but if you find Matomo slow, you will want to take the extra step of setting up %1$sCLI archiving%2$s. This will generate your reports in the background periodically, rather than on demand.",
+        "PerformanceSettingsDesc2": "This requires adding a Matomo command to cron which can't be done automatically by the installer, but you can %1$sread our FAQ to learn how you can set it up yourself.%2$s"
     }
 }

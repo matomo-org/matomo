@@ -2,7 +2,8 @@
     "Widgetize": {
         "OpenInNewWindow": "打开一个新窗口",
         "PluginDescription": "在你的网站显示Matomo报告或者嵌入HTML标签中在app中显示",
-        "ViewAccessRequired": "该用户至少具有某些写访问权限。 只能使用仅具有查看权限的用户的令牌。",
-        "TopLinkTooltip": "小工具形式导出 Matomo 报表，将面板以 iframe 形式嵌入你的app中。"
+        "ViewAccessRequired": "该用户至少具有某些写访问权限。 只能使用只有查看权限的用户的令牌。 有关更多信息，请参见%1$s。",
+        "TopLinkTooltip": "小工具形式导出 Matomo 报表，将面板以 iframe 形式嵌入你的app中。",
+        "TooHighAccessLevel": "该用户具有超级用户访问权限。 对于嵌入窗口小部件，不允许超级用户令牌认证。%1$s有关更多信息，请参见常见问题解答。%2$s"
     }
 }

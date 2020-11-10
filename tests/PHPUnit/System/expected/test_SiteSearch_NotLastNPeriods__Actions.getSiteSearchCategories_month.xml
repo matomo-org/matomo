@@ -6,6 +6,7 @@
 		<nb_actions>3</nb_actions>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<nb_pages_per_search>1.5</nb_pages_per_search>
+		<segment>siteSearchCategory==Search+Category</segment>
 	</row>
 	<row>
 		<label>Bad No Result Category :(</label>
@@ -13,6 +14,7 @@
 		<nb_actions>1</nb_actions>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<nb_pages_per_search>1</nb_pages_per_search>
+		<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
 	</row>
 	<row>
 		<label>Category</label>
@@ -20,5 +22,6 @@
 		<nb_actions>1</nb_actions>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<nb_pages_per_search>1</nb_pages_per_search>
+		<segment>siteSearchCategory==Category</segment>
 	</row>
 </result>

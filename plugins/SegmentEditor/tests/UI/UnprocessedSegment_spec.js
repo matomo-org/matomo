@@ -16,16 +16,6 @@ describe("UnprocessedSegmentTest", function () {
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=General_Overview';
 
     before(async function () {
-        await testEnvironment.callApi('SegmentEditor.add', {
-            name: '<script>alert("testsegment");</script>',
-            definition: segment,
-            idSite: 1,
-            autoArchive: 1,
-            enableAllUsers: 1,
-        });
-    });
-
-    before(async function () {
         testEnvironment.configOverride.General = {
             browser_archiving_disabled_enforce: '1',
             enable_browser_archiving_triggering: '0',
@@ -34,6 +24,14 @@ describe("UnprocessedSegmentTest", function () {
             enableBrowserTriggerArchiving: '0',
         };
         testEnvironment.save();
+
+        await testEnvironment.callApi('SegmentEditor.add', {
+            name: '<script>alert("testsegment");</script>',
+            definition: segment,
+            idSite: 1,
+            autoArchive: 1,
+            enableAllUsers: 1,
+        });
     });
 
     after(async function () {

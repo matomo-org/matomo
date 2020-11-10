@@ -121,6 +121,7 @@ These are only recommendations (because we will keep backward compatibility for 
 * The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
 * The core plugin `CustomPiwikJs` has been renamed to `CustomJsTracker`
 * The class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
+* The method `Piwik\Cookie::set` no longer accepts an array as value
 * `Zend_Validate` and all subclasses have been completely removed. 
 * Matomo's mail component (`Piwik\Mail`) has been rewritten:
   * Zend_Mail has been removed. `Piwik\Mail` is now an independet class.

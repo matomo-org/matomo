@@ -76,7 +76,6 @@
         "PivotBySubtable": "Ten raport nie jest obrócony %1$s Obróć o %2$s",
         "SystemSummaryWidget": "Statystyka systemu",
         "SystemSummaryNWebsites": "%d serwisów",
-        "SystemSummaryNSegments": "%d grup użytkowników",
         "SystemSummaryNActivatedPlugins": "%d aktywnych wtyczek",
         "SystemSummaryPiwikVersion": "Wersja Matomo",
         "SystemSummaryMysqlVersion": "Wersja MySQL",

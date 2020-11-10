@@ -126,7 +126,6 @@
         "SystemCheckWriteDirs": "Kataloger med skrivrättighet",
         "SystemCheckWriteDirsHelp": "För att åtgärda felet på ditt Linux-system, prova att skriv in följande kommando(n)",
         "SystemCheckZlibHelp": "Du måste konfigurera och installera PHP på nytt med \"zlib\" stöd aktiverat, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Schemalagd Arkivering",
         "SystemCheckCronArchiveProcessCLI": "Hantering av processer via CLI",
         "SystemCheckPhpSetting": "För att det inte ska uppstå problem måste du ställa in följande i din php.ini-fil: %s",
         "SystemCheckUpdateHttps": "Uppdatera över HTTPS",

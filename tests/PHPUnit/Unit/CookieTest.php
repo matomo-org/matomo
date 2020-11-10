@@ -8,10 +8,112 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Common;
 use Piwik\Cookie;
+use Piwik\SettingsPiwik;
 
 class CookieTest extends \PHPUnit\Framework\TestCase
 {
+    const TEST_COOKIE_NAME = 'fooBarTest';
+
+    /**
+     * @var Cookie
+     */
+    private $cookie;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->cookie = $this->makeCookie();
+    }
+
+    public function tearDown(): void
+    {
+        unset($_COOKIE[self::TEST_COOKIE_NAME]);
+        parent::tearDown();
+    }
+
+    private function makeCookie()
+    {
+        return new Cookie(self::TEST_COOKIE_NAME);
+    }
+
+    public function test_loadContentFromCookie()
+    {
+        $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=1.2:ignore=Kg==:foo=:bar=dGVzdDp2YWx1ZQ==';
+        $this->cookie = $this->makeCookie();
+        $this->assertEquals('1.2', $this->cookie->get('hello'));
+        $this->assertEquals('*', $this->cookie->get('ignore'));
+        $this->assertEquals('', $this->cookie->get('foo'));
+        $this->assertEquals('test:value', $this->cookie->get('bar'));
+    }
+
+    public function test_loadContentFromCookie_wontUnserialiseContentIfNotSigned()
+    {
+        $val = safe_serialize(['foobar']);
+        $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=' . base64_encode($val) . ':_=foobar';
+        $this->cookie = $this->makeCookie();
+        $this->assertEquals(Common::sanitizeInputValues($val), $this->cookie->get('hello'));
+    }
+
+    public function test_loadContentFromCookie_willUnserialiseContentIfSigned()
+    {
+        $val = safe_serialize(['foobar']);
+        $cookieStr = 'hello=' . base64_encode($val) . ':_=';
+        $_COOKIE[self::TEST_COOKIE_NAME] = $cookieStr . sha1($cookieStr . SettingsPiwik::getSalt());
+        $this->cookie = $this->makeCookie();
+        $this->assertEquals(['foobar'], $this->cookie->get('hello'));
+    }
+
+    public function test_get_set()
+    {
+        $this->cookie->set('ignore', '*f1');
+        $this->assertEquals('*f1', $this->cookie->get('ignore'));
+    }
+    
+    public function test_delete_unsetsValues()
+    {
+        $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=1.2';
+        $this->cookie = $this->makeCookie();
+        $this->assertEquals('1.2', $this->cookie->get('hello'));
+
+        $this->cookie->delete();
+
+        $this->assertEquals(false, $this->cookie->get('hello'));
+    }
+
+    public function test_generateContentString_usesBase64encode_string()
+    {
+        $this->cookie->set('ignore', '*');
+        $this->assertEquals('ignore=Kg==', $this->cookie->generateContentString());
+    }
+
+    public function test_generateContentString_usesPlainTextNumber()
+    {
+        $this->cookie->set('hello', '1.2');
+        $this->assertEquals('hello=1.2', $this->cookie->generateContentString());
+
+        $this->cookie->set('hello', 1.2);
+        $this->assertEquals('hello=1.2', $this->cookie->generateContentString());
+    }
+
+    public function test_generateContentString_multipleFields()
+    {
+        $this->cookie->set('hello', '1.2');
+        $this->cookie->set('ignore', '*');
+        $this->cookie->set('foo', '');
+        $this->cookie->set('bar', 'test:value');
+        $this->assertEquals('hello=1.2:ignore=Kg==:foo=:bar=dGVzdDp2YWx1ZQ==', $this->cookie->generateContentString());
+    }
+
+    public function test_generateContentString_throwsExceptionWhenNotStringOrNumber()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Only strings and numbers can be used in cookies. Value is of type array');
+        $this->cookie->set('ignore', array('foo'));
+        $this->cookie->generateContentString();
+    }
+
     /**
      * Dataprovider for testJsonSerialize
      */

@@ -112,7 +112,6 @@
         "SystemCheckWriteDirs": "Kataloger med skrivetilgang",
         "SystemCheckWriteDirsHelp": "For å fikse denne feilen på ditt Linux-system, prøv å skriv inn følgende kommando(er)",
         "SystemCheckZlibHelp": "Du må konfigurere og bygge PHP på nytt med zlib-støtte aktivert, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Cron-arkivering",
         "SystemCheckCronArchiveProcessCLI": "Administrer prosesser via CLI",
         "SystemCheckPhpSetting": "For å forhindre noen kritiske feil, må du sette følgende i din php.ini-fil: %s",
         "SystemCheckUpdateHttps": "Oppdater over HTTPS",

@@ -78,7 +78,6 @@
         "PivotBySubtable": "Denna rapport är inte pivoterad %1$s Pivotera med %2$s",
         "SystemSummaryWidget": "Systemsammanfattning",
         "SystemSummaryNWebsites": "%d webbplatser",
-        "SystemSummaryNSegments": "%d segment",
         "SystemSummaryNActivatedPlugins": "%d aktiverade plugins",
         "SystemSummaryPiwikVersion": "Matomo version",
         "SystemSummaryMysqlVersion": "MySQL version",

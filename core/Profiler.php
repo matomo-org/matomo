@@ -213,7 +213,7 @@ class Profiler
         $hasTidewaysXhprof = function_exists('tideways_xhprof_enable') || function_exists('tideways_enable');
 
         if (!$hasXhprof && !$hasTidewaysXhprof) {
-            $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
+            $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/extension/modules/xhprof.so';
             throw new Exception("Cannot find xhprof_enable, make sure to 1) install xhprof: run 'composer install --dev' and build the extension, and 2) add 'extension=$xhProfPath' to your php.ini.");
         }
 
@@ -301,7 +301,7 @@ class Profiler
                 if (strlen($baseUrlStored) > strlen($baseUrl)) {
                     $baseUrl = $baseUrlStored;
                 }
-                $baseUrl = $baseUrlStored . "vendor/facebook/xhprof/xhprof_html/?source=$profilerNamespace&run=$runId";
+                $baseUrl = $baseUrlStored . "vendor/lox/xhprof/xhprof_html/?source=$profilerNamespace&run=$runId";
 
                 $out .= "Profiler report is available at:\n";
                 $out .= "<a href='$baseUrl'>$baseUrl</a>";

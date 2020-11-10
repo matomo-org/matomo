@@ -261,7 +261,8 @@ currencies[BTC] = Bitcoin
 ; Notes:
 ;  * any existing Segment set to "processed in Real time", will still be set to Real-time.
 ;    this will only affect custom segments added or modified after this setting is changed.
-;  * when set to 0 then any user with at least 'view' access will be able to create pre-processed segments.
+;  * users with at least 'view' access will still be able to create pre-processed segments, regardless
+;    of what this is set to.
 enable_create_realtime_segments = 1
 
 ; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
