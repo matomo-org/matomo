@@ -359,7 +359,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 			'timeout' => 30,
 			'headers' => array(
 				'Range: bytes=10-20',
-                'Via: ' . Version::VERSION . '  (Piwik/' . Version::VERSION . ')',
+                'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
 				'X-Forwarded-For: 127.0.0.1',
 			),
 			'verifySsl' => true,
@@ -375,7 +375,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 			'timeout' => 30,
 			'headers' => array(
 				'Range: bytes=10-20',
-                'Via: ' . Version::VERSION . '  (Piwik/' . Version::VERSION . ')',
+                'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
 				'X-Forwarded-For: 127.0.0.1',
 			),
 			'verifySsl' => true,
