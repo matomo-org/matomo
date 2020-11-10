@@ -355,7 +355,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(array($url, array(
 			'httpMethod' => 'POST',
 			'body' => array('adf2' => '44','afc23' => 'ab12'),
-			'userAgent' => 'Piwik/' . Version::VERSION,
+			'userAgent' => 'Matomo/' . Version::VERSION,
 			'timeout' => 30,
 			'headers' => array(
 				'Range: bytes=10-20',
