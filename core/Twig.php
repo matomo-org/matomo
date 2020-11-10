@@ -458,10 +458,17 @@ class Twig
 
                 $config = Config::getInstance();
                 $db = $config->database;
-                $string = str_replace($db['username'], '$DB_USERNAME', $string);
-                $string = str_replace($db['password'], '$DB_PASSWORD', $string);
-                $string = str_replace($db['host'], '$DB_HOST', $string);
-                $string = str_replace($db['dbname'], '$DB_NAME', $string);
+                $checks = [
+                    '$DB_USERNAME'=> $db['username'],
+                    '$DB_PASSWORD'=> $db['password'],
+                    '$DB_HOST'=> $db['host'],
+                    '$DB_NAME'=> $db['dbname']
+                ];
+                foreach ($checks as $replacement => $value) {
+                    if ($string === $value) {
+                        $string = $replacement;
+                    }
+                }
             }
             return $string;
         });
