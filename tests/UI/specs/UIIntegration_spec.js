@@ -886,7 +886,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the widgets listing page correctly', async function () {
             await page.goto("?" + generalParams + "&module=Widgetize&action=index");
 
-            visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors - Overview):first');
+            visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
             await visitors.hover();
             await visitors.click();
             await page.waitFor(100);
