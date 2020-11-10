@@ -228,6 +228,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($httpsFail) {
             $view = new View('@CoreUpdater/updateHttpsError');
+            $view->nonce = Nonce::getNonce('oneClickUpdate');
             $view->error = $error;
         } elseif ($error) {
             $view = new View('@CoreUpdater/updateHttpError');
