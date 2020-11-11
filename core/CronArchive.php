@@ -751,6 +751,9 @@ class CronArchive
             return;
         }
 
+        $this->logger->debug("Applying queued rearchiving...");
+        $this->invalidator->applyScheduledReArchiving();
+
         $this->logger->debug("Checking for queued invalidations...");
 
         // invalidate remembered site/day pairs
