@@ -1118,7 +1118,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
 
-        $this->invalidator->reArchiveReport('all', 'VisitsSummary');
+        $this->invalidator->scheduleReArchiving('all', 'VisitsSummary');
+        $this->invalidator->applyScheduledReArchiving();
 
         $countInvalidations = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
 

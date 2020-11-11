@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ReArchiveList;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -80,11 +81,17 @@ class ArchiveInvalidator
      */
     private $segmentArchiving;
 
-    public function __construct(Model $model, ArchivingStatus $archivingStatus)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(Model $model, ArchivingStatus $archivingStatus, LoggerInterface $logger)
     {
         $this->model = $model;
         $this->archivingStatus = $archivingStatus;
         $this->segmentArchiving = null;
+        $this->logger = $logger;
     }
 
     public function getAllRememberToInvalidateArchivedReportsLater()
@@ -528,20 +535,48 @@ class ArchiveInvalidator
     }
 
     /**
-     * Re-archives reports without propagating exceptions.
+     * Schedules a re-archiving reports without propagating exceptions. This is scheduled
+     * since adding invalidations can take a long time and delay UI response times.
      *
      * @param int|int[]|'all' $idSites
      * @param string $pluginName
      * @param string|null $report
      * @param Date|null $startDate
      */
-    public function reArchiveReportSafely($idSites, string $pluginName, string $report = null, Date $startDate = null)
+    public function scheduleReArchiving($idSites, string $pluginName, string $report = null, Date $startDate = null)
     {
         try {
-            $this->reArchiveReport($idSites, $pluginName, $report, $startDate);
+            $reArchiveList = new ReArchiveList($this->logger);
+            $reArchiveList->add([$idSites, $pluginName, $report, $startDate ? $startDate->getTimestamp() : null]);
         } catch (\Throwable $ex) {
-            $logger = StaticContainer::get(LoggerInterface::class);
-            $logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
+            $this->logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
+        }
+    }
+
+    /**
+     * Applies the queued archiving rearchiving entries.
+     */
+    public function applyScheduledReArchiving()
+    {
+        $reArchiveList = new ReArchiveList($this->logger);
+        $items = $reArchiveList->getAll();
+
+        foreach ($items as $entry) {
+            try {
+                list($idSites, $pluginName, $report, $startDateTs) = $entry;
+
+                $this->reArchiveReport($idSites, $pluginName, $report, Date::factory($startDateTs));
+            } catch (\Throwable $ex) {
+                $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
+                    'idSites' => json_encode($idSites),
+                    'pluginName' => $pluginName,
+                    'report' => $report,
+                    'startDateTs' => $startDateTs,
+                    'ex' => $ex,
+                ]);
+            } finally {
+                $reArchiveList->remove([$entry]);
+            }
         }
     }
 
