@@ -318,6 +318,7 @@ class Mysql implements SchemaInterface
                                             date2 DATE NOT NULL,
                                             period TINYINT UNSIGNED NOT NULL,
                                             ts_invalidated DATETIME NULL,
+                                            ts_started DATETIME NULL,
                                             status TINYINT(1) UNSIGNED DEFAULT 0,
                                             `report` VARCHAR(255) NULL,
                                             PRIMARY KEY(idinvalidation),

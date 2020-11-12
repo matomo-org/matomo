@@ -632,7 +632,7 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
 
         // set archive value to in progress if not set already
-        $statement = Db::query("UPDATE `$table` SET `status` = ? AND ts_invalidated = NOW() WHERE idinvalidation = ? AND status = ?", [
+        $statement = Db::query("UPDATE `$table` SET `status` = ? AND ts_started = NOW() WHERE idinvalidation = ? AND status = ?", [
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
             $invalidation['idinvalidation'],
             ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
@@ -871,7 +871,7 @@ class Model
     public function resetFailedArchivingJobs()
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = ? WHERE status = ? AND ts_invalidated < ?";
+        $sql = "UPDATE $table SET status = ? WHERE status = ? AND ts_started IS NOT NULL AND ts_started < ?";
 
         $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
