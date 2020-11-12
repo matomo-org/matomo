@@ -345,6 +345,9 @@ class CronArchive
             return;
         }
 
+        $this->logger->debug("Applying queued rearchiving...");
+        $this->invalidator->applyScheduledReArchiving();
+
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
         $queueConsumer = new QueueConsumer($this->logger, $this->websiteIdArchiveList, $countOfProcesses, $pid,
@@ -750,9 +753,6 @@ class CronArchive
             $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
             return;
         }
-
-        $this->logger->debug("Applying queued rearchiving...");
-        $this->invalidator->applyScheduledReArchiving();
 
         $this->logger->debug("Checking for queued invalidations...");
 

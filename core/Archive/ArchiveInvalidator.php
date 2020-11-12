@@ -547,7 +547,12 @@ class ArchiveInvalidator
     {
         try {
             $reArchiveList = new ReArchiveList($this->logger);
-            $reArchiveList->add([$idSites, $pluginName, $report, $startDate ? $startDate->getTimestamp() : null]);
+            $reArchiveList->add(json_encode([
+                'idSites' => $idSites,
+                'pluginName' => $pluginName,
+                'report' => $report,
+                'startDate' => $startDate ? $startDate->getTimestamp() : null,
+            ]));
         } catch (\Throwable $ex) {
             $this->logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
         }
@@ -563,15 +568,23 @@ class ArchiveInvalidator
 
         foreach ($items as $entry) {
             try {
-                list($idSites, $pluginName, $report, $startDateTs) = $entry;
+                $entry = @json_decode($entry, true);
+                if (empty($entry)) {
+                    continue;
+                }
 
-                $this->reArchiveReport($idSites, $pluginName, $report, Date::factory($startDateTs));
+                $this->reArchiveReport(
+                    $entry['idSites'],
+                    $entry['pluginName'],
+                    $entry['report'],
+                    !empty($entry['startDate']) ? Date::factory($entry['startDate']) : null
+                );
             } catch (\Throwable $ex) {
                 $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
-                    'idSites' => json_encode($idSites),
-                    'pluginName' => $pluginName,
-                    'report' => $report,
-                    'startDateTs' => $startDateTs,
+                    'idSites' => json_encode($entry['idSites']),
+                    'pluginName' => $entry['pluginName'],
+                    'report' => $entry['report'],
+                    'startDateTs' => $entry['startDate'],
                     'ex' => $ex,
                 ]);
             } finally {
@@ -590,10 +603,45 @@ class ArchiveInvalidator
     {
         try {
             $this->removeInvalidations($idSites, $pluginName);
+            $this->removeInvalidationsFromDistributedList($idSites, $pluginName);
         } catch (\Throwable $ex) {
             $logger = StaticContainer::get(LoggerInterface::class);
             $logger->debug("Failed to remove invalidations the for $pluginName plugin.");
         }
+    }
+
+    public function removeInvalidationsFromDistributedList($idSites, $pluginName = null)
+    {
+        $list = new ReArchiveList();
+        $entries = $list->getAll();
+
+        foreach ($entries as $index => $entry) {
+            $entry = @json_decode($entry, true);
+            if (empty($entry)) {
+                continue;
+            }
+
+            $sitesInEntry = $entry['idSites'];
+            $entryPluginName = $entry['pluginName'];
+
+            if (!empty($pluginName)
+                && $pluginName != $entryPluginName
+            ) {
+                continue;
+            }
+
+            $diffSites = array_diff($sitesInEntry, $idSites);
+            if (empty($diffSites)) {
+                unset($entries[$index]);
+                continue;
+            }
+
+            $entry['idSites'] = $diffSites;
+
+            $entries[$index] = json_encode($entry);
+        }
+
+        $list->setAll(array_values($entries));
     }
 
     /**
