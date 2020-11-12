@@ -345,6 +345,13 @@ class CronArchive
             return;
         }
 
+        $failedJobs = $this->model->resetFailedArchivingJobs();
+        if ($failedJobs) {
+            $this->logger->info("Found {failed} failed jobs (ts_invalidated older than 1 day), resetings status to try them again.", [
+                'failed' => $failedJobs,
+            ]);
+        }
+
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
         $queueConsumer = new QueueConsumer($this->logger, $this->websiteIdArchiveList, $countOfProcesses, $pid,
