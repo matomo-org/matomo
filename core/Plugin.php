@@ -524,7 +524,7 @@ class Plugin
         if (empty($time)) {
             return null;
         }
-        return Date::factory($time);
+        return Date::factory((int) $time);
     }
 
     /**
@@ -538,7 +538,7 @@ class Plugin
         if (empty($time)) {
             return null;
         }
-        return Date::factory($time);
+        return Date::factory((int) $time);
     }
 
     /**
