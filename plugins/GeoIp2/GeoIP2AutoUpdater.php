@@ -102,6 +102,7 @@ class GeoIP2AutoUpdater extends Task
             $locUrl = Option::get(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
                 $this->downloadFile('loc', $locUrl);
+                $this->updateDbIpUrlOption($locUrl);
             }
 
             $ispUrl = Option::get(self::ISP_URL_OPTION_NAME);
@@ -797,5 +798,27 @@ class GeoIP2AutoUpdater extends Task
     protected function fetchUrl($url)
     {
         return Http::fetchRemoteFile($url);
+    }
+
+    /**
+     * Updates the DB-IP URL option value so that users see
+     * the updated link in the "Download URL" field on the plugin page
+     * instead of the one that was set when Matomo was installed months
+     * or even years ago.
+     *
+     * @param  string  $url The URL retrieved from the options
+     */
+    protected function updateDbIpUrlOption(string $url): void
+    {
+        $url = trim($url);
+
+        if (self::isDbIpUrl($url))
+        {
+            $latestUrl = $this->getDbIpUrlWithLatestDate($url);
+
+            if($url !== $latestUrl) {
+                Option::set(self::LOC_URL_OPTION_NAME, $latestUrl);
+            }
+        }
     }
 }
