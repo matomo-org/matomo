@@ -223,9 +223,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return $this->renderTemplate('confirmPassword', array(
+        return $this->renderTemplate('@Login/confirmPassword', array(
             'nonce' => Nonce::getNonce($nonceKey),
-            'AccessErrorString' => $messageNoAccess
+            'AccessErrorString' => $messageNoAccess,
+            'loginPlugin' => Piwik::getLoginPluginName(),
         ));
     }
 
