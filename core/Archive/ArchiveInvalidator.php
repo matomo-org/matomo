@@ -577,7 +577,7 @@ class ArchiveInvalidator
                     $entry['idSites'],
                     $entry['pluginName'],
                     $entry['report'],
-                    !empty($entry['startDate']) ? Date::factory($entry['startDate']) : null
+                    !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null
                 );
             } catch (\Throwable $ex) {
                 $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
@@ -618,6 +618,7 @@ class ArchiveInvalidator
         foreach ($entries as $index => $entry) {
             $entry = @json_decode($entry, true);
             if (empty($entry)) {
+                unset($entries[$index]);
                 continue;
             }
 

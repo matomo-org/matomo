@@ -89,9 +89,11 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
 
+        $list = new ReArchiveList();
+        $list->add('badjson');
+
         $this->invalidator->removeInvalidationsFromDistributedList([2,3]);
 
-        $list = new ReArchiveList();
         $items = $list->getAll();
 
         $expected = [
