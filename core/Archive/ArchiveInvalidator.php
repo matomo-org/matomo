@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ReArchiveList;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -80,11 +81,17 @@ class ArchiveInvalidator
      */
     private $segmentArchiving;
 
-    public function __construct(Model $model, ArchivingStatus $archivingStatus)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(Model $model, ArchivingStatus $archivingStatus, LoggerInterface $logger)
     {
         $this->model = $model;
         $this->archivingStatus = $archivingStatus;
         $this->segmentArchiving = null;
+        $this->logger = $logger;
     }
 
     public function getAllRememberToInvalidateArchivedReportsLater()
@@ -528,20 +535,61 @@ class ArchiveInvalidator
     }
 
     /**
-     * Re-archives reports without propagating exceptions.
+     * Schedules a re-archiving reports without propagating exceptions. This is scheduled
+     * since adding invalidations can take a long time and delay UI response times.
      *
      * @param int|int[]|'all' $idSites
      * @param string $pluginName
      * @param string|null $report
      * @param Date|null $startDate
      */
-    public function reArchiveReportSafely($idSites, string $pluginName, string $report = null, Date $startDate = null)
+    public function scheduleReArchiving($idSites, string $pluginName, string $report = null, Date $startDate = null)
     {
         try {
-            $this->reArchiveReport($idSites, $pluginName, $report, $startDate);
+            $reArchiveList = new ReArchiveList($this->logger);
+            $reArchiveList->add(json_encode([
+                'idSites' => $idSites,
+                'pluginName' => $pluginName,
+                'report' => $report,
+                'startDate' => $startDate ? $startDate->getTimestamp() : null,
+            ]));
         } catch (\Throwable $ex) {
-            $logger = StaticContainer::get(LoggerInterface::class);
-            $logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
+            $this->logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
+        }
+    }
+
+    /**
+     * Applies the queued archiving rearchiving entries.
+     */
+    public function applyScheduledReArchiving()
+    {
+        $reArchiveList = new ReArchiveList($this->logger);
+        $items = $reArchiveList->getAll();
+
+        foreach ($items as $entry) {
+            try {
+                $entry = @json_decode($entry, true);
+                if (empty($entry)) {
+                    continue;
+                }
+
+                $this->reArchiveReport(
+                    $entry['idSites'],
+                    $entry['pluginName'],
+                    $entry['report'],
+                    !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null
+                );
+            } catch (\Throwable $ex) {
+                $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
+                    'idSites' => json_encode($entry['idSites']),
+                    'pluginName' => $entry['pluginName'],
+                    'report' => $entry['report'],
+                    'startDateTs' => $entry['startDate'],
+                    'ex' => $ex,
+                ]);
+            } finally {
+                $reArchiveList->remove([$entry]);
+            }
         }
     }
 
@@ -555,10 +603,46 @@ class ArchiveInvalidator
     {
         try {
             $this->removeInvalidations($idSites, $pluginName);
+            $this->removeInvalidationsFromDistributedList($idSites, $pluginName);
         } catch (\Throwable $ex) {
             $logger = StaticContainer::get(LoggerInterface::class);
             $logger->debug("Failed to remove invalidations the for $pluginName plugin.");
         }
+    }
+
+    public function removeInvalidationsFromDistributedList($idSites, $pluginName = null)
+    {
+        $list = new ReArchiveList();
+        $entries = $list->getAll();
+
+        foreach ($entries as $index => $entry) {
+            $entry = @json_decode($entry, true);
+            if (empty($entry)) {
+                unset($entries[$index]);
+                continue;
+            }
+
+            $sitesInEntry = $entry['idSites'];
+            $entryPluginName = $entry['pluginName'];
+
+            if (!empty($pluginName)
+                && $pluginName != $entryPluginName
+            ) {
+                continue;
+            }
+
+            $diffSites = array_diff($sitesInEntry, $idSites);
+            if (empty($diffSites)) {
+                unset($entries[$index]);
+                continue;
+            }
+
+            $entry['idSites'] = $diffSites;
+
+            $entries[$index] = json_encode($entry);
+        }
+
+        $list->setAll(array_values($entries));
     }
 
     /**
