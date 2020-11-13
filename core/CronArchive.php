@@ -345,8 +345,16 @@ class CronArchive
             return;
         }
 
+
         $this->logger->debug("Applying queued rearchiving...");
         $this->invalidator->applyScheduledReArchiving();
+
+        $failedJobs = $this->model->resetFailedArchivingJobs();
+        if ($failedJobs) {
+            $this->logger->info("Found {failed} failed jobs (ts_invalidated older than 1 day), resetting status to try them again.", [
+                'failed' => $failedJobs,
+            ]);
+        }
 
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
