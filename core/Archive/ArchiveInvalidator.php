@@ -566,9 +566,9 @@ class ArchiveInvalidator
         $reArchiveList = new ReArchiveList($this->logger);
         $items = $reArchiveList->getAll();
 
-        foreach ($items as $entry) {
+        foreach ($items as $item) {
             try {
-                $entry = @json_decode($entry, true);
+                $entry = @json_decode($item, true);
                 if (empty($entry)) {
                     continue;
                 }
@@ -588,7 +588,7 @@ class ArchiveInvalidator
                     'ex' => $ex,
                 ]);
             } finally {
-                $reArchiveList->remove([$entry]);
+                $reArchiveList->remove([$item]);
             }
         }
     }
