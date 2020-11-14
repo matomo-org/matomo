@@ -102,12 +102,13 @@ class GeoIP2AutoUpdater extends Task
             $locUrl = Option::get(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
                 $this->downloadFile('loc', $locUrl);
-                $this->updateDbIpUrlOption($locUrl);
+                $this->updateDbIpUrlOption(self::LOC_URL_OPTION_NAME, $locUrl);
             }
 
             $ispUrl = Option::get(self::ISP_URL_OPTION_NAME);
             if (!empty($ispUrl)) {
                 $this->downloadFile('isp', $ispUrl);
+                $this->updateDbIpUrlOption(self::ISP_URL_OPTION_NAME, $ispUrl);
             }
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIP2AutoUpdater: '
@@ -806,18 +807,23 @@ class GeoIP2AutoUpdater extends Task
      * instead of the one that was set when Matomo was installed months
      * or even years ago.
      *
-     * @param  string  $url The URL retrieved from the options
+     * @param  string  $option The option to check and update: either
+     * self::LOC_URL_OPTION_NAME or self::ISP_URL_OPTION_NAME
+     *
+     * @param  string  $url  The URL retrieved from the options
      */
-    protected function updateDbIpUrlOption(string $url): void
+    protected function updateDbIpUrlOption(string $option, string $url): void
     {
         $url = trim($url);
 
-        if (self::isDbIpUrl($url))
-        {
+        if (
+            self::isDbIpUrl($url)
+            && ($option === self::LOC_URL_OPTION_NAME || $option === self::ISP_URL_OPTION_NAME)
+        ) {
             $latestUrl = $this->getDbIpUrlWithLatestDate($url);
 
             if($url !== $latestUrl) {
-                Option::set(self::LOC_URL_OPTION_NAME, $latestUrl);
+                Option::set($option, $latestUrl);
             }
         }
     }
