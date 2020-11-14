@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "Λέξεις-κλειδιά Χωρίς Αποτελέσματα",
         "ActionType": "Τύπος Ενέργειας",
         "ActionTypes": "Τύποι ενεργειών",
-        "Behaviour": "Συμπεριφορά"
+        "Behaviour": "Συμπεριφορά",
+        "TimeSpentInReferringAction": "Χρόνος που δαπανήθηκε σε Ενέργεια Αναφορών"
     }
 }

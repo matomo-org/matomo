@@ -131,6 +131,8 @@
         "SystemCheckWriteDirs": "Yazma izni olan klasörler",
         "SystemCheckWriteDirsHelp": "GNU\/Linux sistemi üzerinde bu sorunu çözmek için şu komutları yazmayı deneyin",
         "SystemCheckZlibHelp": "--with-zlib seçeneğini kullanarak PHP yazılımını \"zlib\" desteği ile yeniden yapılandırmalısınız.",
+        "SystemCheckCronArchiveProcess": "Zamanlanmış Görev Ayarla",
+        "FasterReportLoading": "daha hızlı rapor yükleme",
         "SystemCheckCronArchiveProcessCLI": "İşlemlerin komut satırından yönetilmesi",
         "SystemCheckPhpSetting": "Bazı önemli sorunları engellemek için php.ini yapılandırma dosyanızda şu ayarları yapmalısınız: %s",
         "SystemCheckUpdateHttps": "HTTPS üzerinden güncelleme",
