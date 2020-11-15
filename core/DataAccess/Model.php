@@ -373,7 +373,7 @@ class Model
         $dateEnd = $params->getPeriod()->getDateEnd();
 
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
-        $blobTable = ArchiveTableCreator::getBlobTable($dateEnd);
+        $blobTable = ArchiveTableCreator::getBlobTable($dateStart);
 
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived < ? AND idarchive < ?";
 
