@@ -35,6 +35,7 @@
     "InvalidGeoIPUpdatePeriod": "Invalid period for the GeoIP updater: %1$s. Valid values are %2$s.",
     "IPurchasedGeoIPDBs": "I purchased more accurate databases from %3$sdbip%4$s or %1$sMaxMind%2$s and want to setup automatic updates.",
     "ISPDatabase": "ISP Database",
+    "ISPRequiresProviderPlugin": "Tracking Internet service providers requires the Provider plugin to be installed and activated.",
     "IWantToDownloadFreeGeoIP": "I want to download the free DBIP database...",
     "PluginDescription": "Provides DBIP / GeoIP2 location providers.",
     "LocationDatabase": "Location Database",
