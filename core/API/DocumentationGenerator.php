@@ -129,9 +129,9 @@ class DocumentationGenerator
     protected function addExamples($class, $methodName, $prefixUrls)
     {
         $token = Piwik::getCurrentUserTokenAuth();
-        $token_auth_URL = "&token_auth=" . $token;
+        $token_auth_url = "&token_auth=" . $token;
         if ($token !== 'anonymous') {
-            $token_auth_URL .= "&force_api_session=1";
+            $token_auth_url .= "&force_api_session=1";
         }
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
@@ -145,13 +145,13 @@ class DocumentationGenerator
             $lastNUrls = '';
             if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
                 $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
-                $lastNUrls = ", RSS of the last <a target='_blank' href='$exampleUrlRss&format=rss$token_auth_URL&translateColumnNames=1'>10 days</a>";
+                $lastNUrls = ", RSS of the last <a target='_blank' href='$exampleUrlRss&format=rss$token_auth_url&translateColumnNames=1'>10 days</a>";
             }
             $exampleUrl = $prefixUrls . $exampleUrl;
             $str .= " [ Example in
-                                                                    <a target='_blank' href='$exampleUrl&format=xml$token_auth_URL'>XML</a>,
-                                                                    <a target='_blank' href='$exampleUrl&format=JSON$token_auth_URL'>Json</a>,
-                                                                    <a target='_blank' href='$exampleUrl&format=Tsv$token_auth_URL&translateColumnNames=1'>Tsv (Excel)</a>
+                                                                    <a target='_blank' href='$exampleUrl&format=xml$token_auth_url'>XML</a>,
+                                                                    <a target='_blank' href='$exampleUrl&format=JSON$token_auth_url'>Json</a>,
+                                                                    <a target='_blank' href='$exampleUrl&format=Tsv$token_auth_url&translateColumnNames=1'>Tsv (Excel)</a>
                                                                     $lastNUrls
                                                                     ]";
         } else {
