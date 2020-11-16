@@ -10,13 +10,17 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
-use Piwik\Development;
+use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
+use Piwik\DbHelper;
+use Piwik\Plugin\ReleaseChannels;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
- * Update for version 4.0.0-b4.
+ * Update for version 4.0.0-rc4.
  */
 class Updates_4_0_0_rc4 extends PiwikUpdates
 {
@@ -33,9 +37,26 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         $migrations = [];
-        if (!Development::isEnabled()) {
-            $migrations[] = $this->migration->plugin->deactivate('ExampleTheme');
+
+        $migrations[] = $this->migration->plugin->deactivate('ExampleTheme');
+      
+        $channel = StaticContainer::get(ReleaseChannels::class)->getActiveReleaseChannel()->getId();
+        $isBeta = stripos($channel, 'beta') !== false;
+
+        if ($isBeta) {
+            $dates = ['2020-01-01', '2020-11-01', '2020-10-01'];
+            foreach ($dates as $date) {
+                $date = Date::factory($date);
+                $numericTable = ArchiveTableCreator::getBlobTable($date);
+                $blobTable = ArchiveTableCreator::getNumericTable($date);
+
+                if (DbHelper::tableExists($blobTable) && DbHelper::tableExists($numericTable)) {
+                    $migrations[] = $this->migration->db->sql(
+                        "DELETE FROM `$blobTable` WHERE idarchive NOT IN (SELECT idarchive FROM `$numericTable`)", []);
+                }
+            }
         }
+
         return $migrations;
     }
 
