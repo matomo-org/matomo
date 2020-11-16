@@ -23,7 +23,7 @@ describe("PagePerformance", function () {
     }
 
     it("should load page performance overview", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('load');
     });
@@ -40,8 +40,26 @@ describe("PagePerformance", function () {
         expect(await pageWrap.screenshot()).to.matchImage('rowactions');
     });
 
+    it("should show rowaction for subtable rows", async function () {
+        const subtablerow = await page.jQuery('tr.subDataTable:eq(1) .label');
+        await subtablerow.click();
+
+        await page.waitForNetworkIdle();
+        await page.waitFor(200);
+
+        // hover first row
+        const row = await page.jQuery('tr.subDataTable:eq(1) + tr');
+        await row.hover();
+
+        pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('rowactions_subtable');
+    });
+
     it("should load page performance overlay", async function () {
         // click page performance icon
+        const row = await page.waitForSelector('.dataTable tbody tr:first-child');
+        await row.hover();
+
         const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionPagePerformance');
         await icon.click();
 
@@ -59,43 +77,25 @@ describe("PagePerformance", function () {
     });
 
     it("should show new table with performance metrics visualization in selection", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+        await page.goto("?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&" + generalParams);
 
         // hover visualization selection
         const icon = await page.jQuery('.activateVisualizationSelection');
         await icon.click();
         await page.waitFor(500); // animation
 
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('visualizations');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visualizations');
     });
 
     it("should load new table with performance metrics visualization", async function () {
-
         // hover visualization selection
         const icon = await page.jQuery('.dropdown-content .icon-page-performance');
         await icon.click();
 
         await page.waitForNetworkIdle();
 
-        pageWrap = await page.$('.pageWrap');
+        pageWrap = await page.$('.widget');
         expect(await pageWrap.screenshot()).to.matchImage('performance_visualization');
-    });
-
-    it("should show rowaction for subtable rows", async function () {
-
-        const subtablerow = await page.jQuery('tr.subDataTable:eq(1)');
-        await subtablerow.click();
-
-        await page.waitForNetworkIdle();
-        await page.waitFor(200);
-
-        // hover first row
-        const row = await page.jQuery('tr.subDataTable:eq(1) + tr');
-        await row.hover();
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('rowactions_subtable');
     });
 
     it("performance overlay should work on page titles report", async function () {

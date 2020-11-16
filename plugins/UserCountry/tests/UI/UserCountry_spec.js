@@ -36,4 +36,18 @@ describe("UserCountry", function () {
         expect(await page.screenshotSelector('#content')).to.matchImage('admin_geoip2');
     });
 
+    it('should show geolocation admin with GeoIP2 providers (without Provider plugin)', async function () {
+        testEnvironment.pluginsToLoad = ['GeoIp2'];
+        testEnvironment.pluginsToUnload = ['Provider'];
+        testEnvironment.save();
+
+        await page.reload();
+
+        await page.evaluate(function(){
+            $('#geoipdb-update-info').html($('#geoipdb-update-info').html().replace(/dbip-city-lite-[\d]{4}-[\d]{2}\.mmdb\.gz</, 'dbip-city-lite-2020-04.mmdb.gz<'));
+        });
+
+        expect(await page.screenshotSelector('#content')).to.matchImage('admin_geoip2_no_provider');
+    });
+
 });

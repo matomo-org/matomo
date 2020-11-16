@@ -678,7 +678,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
         return $value;
     }
 
-    protected static function applyFilter(&$value, $key = null, $filter)
+    protected static function applyFilter(&$value, $key, $filter)
     {
         $callback = $filter[0];
         $options  = $filter[1];

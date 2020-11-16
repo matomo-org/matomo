@@ -14,6 +14,8 @@
         "CampaignContentHelp": "Birden çok reklam denenirken sıklıkla bu parametre kullanılır ve tüm reklamların adını görüntüleyerek hangisinin en fazla trafiği sağladığının görülebilmesini sağlar.",
         "CampaignMedium": "Kampanya Ortamı",
         "CampaignMediumHelp": "Pazarlama etkinliğini belirtmek için kullanılır. Örnek: tıklama başına ödeme için 'TBÖ', arama motoru ödemeleri için 'AMÖ' ya da iş ortağının sitesindeki ürün yorumları için 'değerlendirme'.",
+        "CampaignGroup": "Kampanya Grubu",
+        "CampaignPlacement": "Kampanya Konumlandırması",
         "ColumnSearchEngine": "Arama Motoru",
         "ColumnSocial": "Sosyal ağ",
         "ColumnWebsite": "Web sitesi",

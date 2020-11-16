@@ -33,8 +33,19 @@ class PerformanceColumns extends HtmlTable
     {
         $request = $viewDataTable->getRequestArray();
 
-        if (is_array($request) && array_key_exists('module', $request) && array_key_exists('action', $request) &&
-            'Actions' === $request['module'] && in_array($request['action'], PagePerformance::$availableForMethods)) {
+        if ($viewDataTable->config->show_table_performance === false) {
+            return false;
+        }
+
+        $module = $request['module'] ?? '';
+        $action = $request['action'] ?? '';
+
+        if ($module === 'Widgetize') {
+            $module = $request['moduleToWidgetize'] ?: $module;
+            $action = $request['actionToWidgetize'] ?: $action;
+        }
+
+        if ('Actions' === $module && in_array($action, PagePerformance::$availableForMethods)) {
             return true;
         }
 

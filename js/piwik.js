@@ -3837,7 +3837,6 @@ if (typeof window.Matomo !== 'object') {
                     }
                     request += '&ec_items=' + encodeWrapper(windowAlias.JSON.stringify(items));
                 }
-                request += '&ca=1';
                 request = getRequest(request, configCustomData, 'ecommerce');
                 sendRequest(request, configTrackerPause);
 
@@ -4283,7 +4282,7 @@ if (typeof window.Matomo !== 'object') {
              * Log the goal with the server
              */
             function logGoal(idGoal, customRevenue, customData, callback) {
-                var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : '') + '&ca=1', customData, 'goal');
+                var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
                 sendRequest(request, configTrackerPause, callback);
             }
