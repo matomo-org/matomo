@@ -3337,7 +3337,7 @@ if (typeof window.Matomo !== 'object') {
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.';
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
 
             /*
