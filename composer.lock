@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a82c0231815fd1bbe5e7c653069a90cd",
+    "content-hash": "ab7eebfb6b16cc34040667b5759a61de",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1949,16 +1949,16 @@
         },
         {
             "name": "tedivm/jshrink",
-            "version": "v1.3.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tedious/JShrink.git",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a"
+                "reference": "aed09eace9d498e18d48a5b62a7e5a97dfc0e55d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tedious/JShrink/zipball/566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a",
+                "url": "https://api.github.com/repos/tedious/JShrink/zipball/aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
+                "reference": "aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
                 "shasum": ""
             },
             "require": {
@@ -1991,7 +1991,7 @@
                 "javascript",
                 "minifier"
             ],
-            "time": "2019-06-28T18:11:46+00:00"
+            "time": "2019-10-07T21:24:34+00:00"
         },
         {
             "name": "twig/twig",
@@ -3710,6 +3710,7 @@
     "stability-flags": {
         "leafo/lessphp": 20,
         "matomo/matomo-php-tracker": 20,
+        "tedivm/jshrink": 20,
         "lox/xhprof": 20
     },
     "prefer-stable": false,
