@@ -35,7 +35,7 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
     {
         $migrations = [];
 
-        $dates = ['2020-01-01', '2020-10-01', '2020-09-01'];
+        $dates = ['2020-01-01', '2020-11-01', '2020-10-01'];
         foreach ($dates as $date) {
             $date = Date::factory($date);
             $numericTable = ArchiveTableCreator::getBlobTable($date);
