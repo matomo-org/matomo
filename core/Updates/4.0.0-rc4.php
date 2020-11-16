@@ -10,8 +10,10 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
+use Piwik\Plugin\ReleaseChannels;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -35,14 +37,19 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
     {
         $migrations = [];
 
-        $dates = ['2020-01-01', '2020-11-01', '2020-10-01'];
-        foreach ($dates as $date) {
-            $date = Date::factory($date);
-            $numericTable = ArchiveTableCreator::getBlobTable($date);
-            $blobTable = ArchiveTableCreator::getNumericTable($date);
+        $channel = StaticContainer::get(ReleaseChannels::class)->getActiveReleaseChannel();
+        $isBeta = stripos($channel, 'beta') !== false;
 
-            $migrations[] = $this->migration->db->sql("DELETE FROM `$blobTable` WHERE idarchive NOT IN (
+        if ($isBeta) {
+            $dates = ['2020-01-01', '2020-11-01', '2020-10-01'];
+            foreach ($dates as $date) {
+                $date = Date::factory($date);
+                $numericTable = ArchiveTableCreator::getBlobTable($date);
+                $blobTable = ArchiveTableCreator::getNumericTable($date);
+
+                $migrations[] = $this->migration->db->sql("DELETE FROM `$blobTable` WHERE idarchive NOT IN (
                 SELECT idarchive FROM `$numericTable`)");
+            }
         }
 
         return $migrations;
