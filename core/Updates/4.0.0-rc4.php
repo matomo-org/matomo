@@ -37,7 +37,7 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
     {
         $migrations = [];
 
-        $channel = StaticContainer::get(ReleaseChannels::class)->getActiveReleaseChannel();
+        $channel = StaticContainer::get(ReleaseChannels::class)->getActiveReleaseChannel()->getName();
         $isBeta = stripos($channel, 'beta') !== false;
 
         if ($isBeta) {
