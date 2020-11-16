@@ -23,6 +23,7 @@ use Piwik\Date;
 use Piwik\IP;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
@@ -166,7 +167,8 @@ class API extends \Piwik\Plugin\API
         return $available;
     }
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false)
+    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false,
+                                        $_hideSegmentsIfDataNotProfilable = false)
     {
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
@@ -190,6 +192,14 @@ class API extends \Piwik\Plugin\API
         $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous, $_showAllSegments);
 
         $cache->save($cacheKey, $segments);
+
+        if ($_hideSegmentsIfDataNotProfilable
+            && !Report::getIsCurrentPeriodProfilable()
+        ) {
+            $segments = array_filter($segments, function ($data) {
+                return empty($data['requiresProfilableData']);
+            });
+        }
 
         return $segments;
     }

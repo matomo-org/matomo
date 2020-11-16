@@ -65,6 +65,8 @@ class Segment
      */
     private $requiresRegisteredUser = false;
 
+    private $requiresProfilableData = false;
+
     /**
      * @ignore
      */
@@ -387,6 +389,8 @@ class Segment
             $segment['suggestedValuesApi'] = $this->suggestedValuesApi;
         }
 
+        $segment['requiresProfilableData'] = $this->requiresProfilableData;
+
         return $segment;
     }
 
@@ -445,5 +449,23 @@ class Segment
         if ($this->segment && $this->unionOfSegments && in_array($this->segment, $this->unionOfSegments, true)) {
             throw new Exception(sprintf('The segment %s contains a union segment to itself', $this->name));
         }
+    }
+
+    /**
+     * TODO
+     * @return bool
+     */
+    public function isRequiresProfilableData(): bool
+    {
+        return $this->requiresProfilableData;
+    }
+
+    /**
+     * TODO
+     * @param bool $requiresProfilableData
+     */
+    public function setRequiresProfilableData(bool $requiresProfilableData): void
+    {
+        $this->requiresProfilableData = $requiresProfilableData;
     }
 }

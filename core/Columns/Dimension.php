@@ -192,6 +192,11 @@ abstract class Dimension
     protected $metricId = '';
 
     /**
+     * @var bool
+     */
+    private $isRequiresProfilableData;
+
+    /**
      * To be implemented when a column references another column
      * @return Join|null
      * @api since Piwik 3.2.0
@@ -853,4 +858,12 @@ abstract class Dimension
         return $this->columnType;
     }
 
+    /**
+     * TODO
+     * @return mixed
+     */
+    public function isRequiresProfilableData()
+    {
+        return $this->isRequiresProfilableData;
+    }
 }
