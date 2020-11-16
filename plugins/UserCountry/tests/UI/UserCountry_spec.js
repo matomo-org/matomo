@@ -24,7 +24,7 @@ describe("UserCountry", function () {
     });
 
     it('should show geolocation admin with GeoIP2 providers', async function () {
-        testEnvironment.pluginsToLoad = ['GeoIp2'];
+        testEnvironment.pluginsToLoad = ['GeoIp2', 'Provider'];
         testEnvironment.save();
 
         await page.goto("?module=UserCountry&action=adminIndex");
