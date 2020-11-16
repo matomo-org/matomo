@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -47,8 +48,10 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
                 $numericTable = ArchiveTableCreator::getBlobTable($date);
                 $blobTable = ArchiveTableCreator::getNumericTable($date);
 
-                $migrations[] = $this->migration->db->sql("DELETE FROM `$blobTable` WHERE idarchive NOT IN (
-                SELECT idarchive FROM `$numericTable`)");
+                if (DbHelper::tableExists($blobTable) && DbHelper::tableExists($numericTable)) {
+                    $migrations[] = $this->migration->db->sql(
+                        "DELETE FROM `$blobTable` WHERE idarchive NOT IN (SELECT idarchive FROM `$numericTable`)", []);
+                }
             }
         }
 
