@@ -5762,7 +5762,7 @@ if (typeof window.Matomo !== 'object') {
              * @param bool
              */
             this.setSecureCookie = function (enable) {
-                if(location.protocol !== 'https:') {
+                if(enable && location.protocol !== 'https:') {
                     logConsoleError("Error in setSecureCookie: You cannot use `Secure` on http.");
                 }
                 configCookieIsSecure = enable;
@@ -5772,15 +5772,18 @@ if (typeof window.Matomo !== 'object') {
              * Set the SameSite attribute for cookies to a custom value.
              * You might want to use this if your site is running in an iframe since
              * then it will only be able to access the cookies if SameSite is set to 'None'.
-             * Sets to Lax if invalid parameter is passed, sets CookieIsSecure to true on None.
+             * Sets CookieIsSecure to true on None, because None will only work with Secure; cookies
              *
              * @param string either Lax, None or Strict
              */
             this.setCookieSameSite = function (sameSite) {
-                if (sameSite != 'None' && sameSite != 'Lax' && sameSite != 'Strict') {
-                    sameSite = 'Lax';
+                if (sameSite === 'none' || sameSite === 'lax' || sameSite === 'strict') {
+                    sameSite = sameSite.charAt(0).toUpperCase() + sameSite.slice(1);
+                } else if (sameSite !== 'None' && sameSite !== 'Lax' && sameSite !== 'Strict') {
+                    logConsoleError('Ignored value for sameSite. Please use either Lax, None, or Strict.');
+                    return;
                 }
-                if (sameSite == 'None') {
+                if (sameSite === 'None') {
                     this.setSecureCookie(true);
                 }
                 configCookieSameSite = sameSite;
