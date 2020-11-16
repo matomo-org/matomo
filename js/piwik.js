@@ -5759,11 +5759,15 @@ if (typeof window.Matomo !== 'object') {
              * This should be used when your website is only available under HTTPS
              * so that all tracking cookies are always sent over secure connection.
              *
+             * Warning: If your site is available under http and https,
+             * setting this might lead to duplicate or incomplete visits.
+             *
              * @param bool
              */
             this.setSecureCookie = function (enable) {
                 if(enable && location.protocol !== 'https:') {
                     logConsoleError("Error in setSecureCookie: You cannot use `Secure` on http.");
+                    return;
                 }
                 configCookieIsSecure = enable;
             };
@@ -5772,7 +5776,12 @@ if (typeof window.Matomo !== 'object') {
              * Set the SameSite attribute for cookies to a custom value.
              * You might want to use this if your site is running in an iframe since
              * then it will only be able to access the cookies if SameSite is set to 'None'.
+             *
+             *
+             * Warning: 
              * Sets CookieIsSecure to true on None, because None will only work with Secure; cookies
+             * If your site is available under http and https,
+             * using "None" might lead to duplicate or incomplete visits.
              *
              * @param string either Lax, None or Strict
              */
