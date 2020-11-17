@@ -129,26 +129,10 @@ class Get extends Base
             $view->config->filters[] = function (DataTable $table) use ($numberFormatter, $idSite) {
                 $firstRow = $table->getFirstRow();
                 if ($firstRow) {
-
                     $revenue = $firstRow->getColumn('revenue');
                     $currencySymbol = Site::getCurrencySymbolFor($idSite);
                     $revenue = $numberFormatter->formatCurrency($revenue, $currencySymbol, GoalManager::REVENUE_PRECISION);
                     $firstRow->setColumn('revenue', $revenue);
-
-                    $conversionRate = $firstRow->getColumn('conversion_rate');
-                    if (false !== $conversionRate) {
-                        $firstRow->setColumn('conversion_rate', $numberFormatter->formatPercent($conversionRate, $precision = 1));
-                    }
-
-                    $conversions = $firstRow->getColumn('nb_conversions');
-                    if (false !== $conversions) {
-                        $firstRow->setColumn('nb_conversions', $numberFormatter->formatNumber($conversions));
-                    }
-
-                    $visitsConverted = $firstRow->getColumn('nb_visits_converted');
-                    if (false !== $visitsConverted) {
-                        $firstRow->setColumn('nb_visits_converted', $numberFormatter->formatNumber($visitsConverted));
-                    }
                 }
             };
 
