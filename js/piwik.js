@@ -107,6 +107,7 @@
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
+    getConfigCookieSameSite, setCookieSameSite,
     getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -2413,12 +2414,16 @@ if (typeof window.Matomo !== 'object') {
                     expiryDate.setTime(expiryDate.getTime() + msToExpire);
                 }
 
+                if (!sameSite) {
+                    sameSite = 'Lax';
+                }
+
                 documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
-                    ';SameSite=' + (sameSite ? sameSite : 'Lax');
+                    ';SameSite=' + sameSite;
             }
 
             /*
@@ -4864,6 +4869,9 @@ if (typeof window.Matomo !== 'object') {
             };
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
+            };
+            this.getConfigCookieSameSite = function () {
+                return configCookieSameSite;
             };
             this.removeAllAsyncTrackersButFirst = function () {
                 var firstTracker = asyncTrackers[0];
