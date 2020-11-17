@@ -102,13 +102,13 @@ class GeoIP2AutoUpdater extends Task
             $locUrl = Option::get(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
                 $this->downloadFile('loc', $locUrl);
-                $this->updateDbIpUrlOption(self::LOC_URL_OPTION_NAME, $locUrl);
+                $this->updateDbIpUrlOption(self::LOC_URL_OPTION_NAME);
             }
 
             $ispUrl = Option::get(self::ISP_URL_OPTION_NAME);
             if (!empty($ispUrl)) {
                 $this->downloadFile('isp', $ispUrl);
-                $this->updateDbIpUrlOption(self::ISP_URL_OPTION_NAME, $ispUrl);
+                $this->updateDbIpUrlOption(self::ISP_URL_OPTION_NAME);
             }
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIP2AutoUpdater: '
@@ -809,17 +809,17 @@ class GeoIP2AutoUpdater extends Task
      *
      * @param  string  $option The option to check and update: either
      * self::LOC_URL_OPTION_NAME or self::ISP_URL_OPTION_NAME
-     *
-     * @param  string  $url  The URL retrieved from the options
      */
-    protected function updateDbIpUrlOption(string $option, string $url): void
+    protected function updateDbIpUrlOption(string $option): void
     {
-        $url = trim($url);
+        if ($option !== self::LOC_URL_OPTION_NAME && $option !== self::ISP_URL_OPTION_NAME)
+        {
+            return;
+        }
 
-        if (
-            self::isDbIpUrl($url)
-            && ($option === self::LOC_URL_OPTION_NAME || $option === self::ISP_URL_OPTION_NAME)
-        ) {
+        $url = trim(Option::get($option));
+
+        if (self::isDbIpUrl($url)) {
             $latestUrl = $this->getDbIpUrlWithLatestDate($url);
 
             if($url !== $latestUrl) {
