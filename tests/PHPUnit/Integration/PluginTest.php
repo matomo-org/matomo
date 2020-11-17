@@ -55,6 +55,18 @@ class PluginTest extends IntegrationTestCase
         $this->assertEquals($cronTime->getDatetime(), $date);
     }
 
+    public function test_schedulePluginReArchiving_shouldReArchiveFromLastCoreArchiveTimeIfNoDeactivation()
+    {
+        $cronTime = Date::today()->subDay(5);
+        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, $cronTime->getTimestamp());
+
+        $plugin = new Plugin('ExamplePlugin');
+        $plugin->schedulePluginReArchiving();
+
+        $date = $this->getDateFromReArchiveList();
+        $this->assertEquals($cronTime->getDatetime(), $date);
+    }
+
     public function test_schedulePluginReArchiving_shouldReArchiveFromNMonthsAgo_IfNoDecativationTimeOrCronTimeExists()
     {
         $plugin = new Plugin('ExamplePlugin');

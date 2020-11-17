@@ -486,7 +486,7 @@ class Plugin
         if (empty($lastCronArchiveTime)) {
             $dateTime = $lastDeactivationTime;
         } else if (empty($lastDeactivationTime)) {
-            $dateTime = $lastCronArchiveTime;
+            $dateTime = Date::factory($lastCronArchiveTime);
         } else {
             $lastCronArchiveTime = Date::factory($lastCronArchiveTime);
             $dateTime = $lastDeactivationTime->isEarlier($lastCronArchiveTime) ? $lastDeactivationTime : $lastCronArchiveTime;
