@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\DevicePlugins\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
 
 /**
@@ -22,4 +24,8 @@ abstract class DevicePluginColumn extends VisitDimension
      * set a custom icon not included in Piwik Core
      */
     public $columnIcon = null;
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+    }
 }
