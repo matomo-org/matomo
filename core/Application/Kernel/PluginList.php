@@ -44,9 +44,7 @@ class PluginList
         'ExampleReport',
         'ExampleAPI',
         'MobileAppMeasurable',
-        'TagManager',
-        'CustomVariables',
-        'Provider'
+        'TagManager'
     );
 
     // Themes bundled with core package, disabled by default
