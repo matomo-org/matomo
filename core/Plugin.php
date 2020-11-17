@@ -492,6 +492,10 @@ class Plugin
             $dateTime = $lastDeactivationTime->isEarlier($lastCronArchiveTime) ? $lastDeactivationTime : $lastCronArchiveTime;
         }
 
+        if (empty($dateTime)) { // sanity check
+            $dateTime = null;
+        }
+
         $archiveInvalidator = StaticContainer::get(ArchiveInvalidator::class);
         $archiveInvalidator->scheduleReArchiving('all', $this->getPluginName(), $report = null, $dateTime);
     }
