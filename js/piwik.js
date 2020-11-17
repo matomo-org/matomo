@@ -5786,14 +5786,19 @@ if (typeof window.Matomo !== 'object') {
              * @param string either Lax, None or Strict
              */
             this.setCookieSameSite = function (sameSite) {
-                if (sameSite === 'none' || sameSite === 'lax' || sameSite === 'strict') {
-                    sameSite = sameSite.charAt(0).toUpperCase() + sameSite.slice(1);
-                } else if (sameSite !== 'None' && sameSite !== 'Lax' && sameSite !== 'Strict') {
+                sameSite = String(sameSite);
+                sameSite = sameSite.charAt(0).toUpperCase() + sameSite.toLowerCase().slice(1);
+                if (sameSite !== 'None' && sameSite !== 'Lax' && sameSite !== 'Strict') {
                     logConsoleError('Ignored value for sameSite. Please use either Lax, None, or Strict.');
                     return;
                 }
                 if (sameSite === 'None') {
-                    this.setSecureCookie(true);
+                    if (location.protocol === 'https:') {
+                        this.setSecureCookie(true);
+                    } else { 
+                        logConsoleError('sameSite=None cannot be used on http, reverted to sameSite=Lax.');
+                        sameSite = 'Lax';
+                    }
                 }
                 configCookieSameSite = sameSite;
             };
