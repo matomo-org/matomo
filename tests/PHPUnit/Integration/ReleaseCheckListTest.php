@@ -10,11 +10,13 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Piwik\Application\Kernel\PluginList;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Matomo\Ini\IniReader;
+use Piwik\Http;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -37,6 +39,27 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
+    }
+
+    public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
+    {
+        $pluginsToTest = ['CustomVariables', 'Provider'];
+
+        $list = StaticContainer::get(PluginList::class);
+        $pluginsDisabled = $list->getCorePluginsDisabledByDefault();
+
+        $package = Http::sendHttpRequest('https://raw.githubusercontent.com/matomo-org/matomo-package/master/scripts/build-package.sh', 20);
+
+        foreach ($pluginsToTest as $pluginToTest) {
+            $isPluginDisabledByDefault = in_array($pluginToTest, $pluginsDisabled);
+            $isPluginIncludedInBuildZip = strpos($package, 'plugins/' . $pluginToTest) !== false;
+
+            if ($isPluginDisabledByDefault xor $isPluginIncludedInBuildZip) {
+                throw new Exception('Expected that when plugin is disabled by default, then the plugin is also included in the build-package.sh so it is included in the release zip. Once we no longer include this plugin in build.zip then we need to allow uninstalling these plugins. Plugin is ' . $pluginToTest);
+            }
+        }
+
+        $this->assertNotEmpty($isPluginDisabledByDefault, 'We expect at least one plugin to be checked in this test, otherwise we can remove this test once they are no longer included in core');
     }
 
     public function test_TestCaseHasSetGroupsMethod()
