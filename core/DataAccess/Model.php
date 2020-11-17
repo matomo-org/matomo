@@ -871,7 +871,7 @@ class Model
     public function resetFailedArchivingJobs()
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = ? WHERE status = ? AND ts_started IS NOT NULL AND ts_started < ?";
+        $sql = "UPDATE $table SET status = ? WHERE status = ? AND (ts_started IS NULL OR ts_started < ?)";
 
         $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
