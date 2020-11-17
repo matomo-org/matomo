@@ -2093,7 +2093,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(117);
+        expect(118);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2164,6 +2164,7 @@ function PiwikTest() {
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
         equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
         equal( typeof tracker.setSecureCookie, 'function', 'setSecureCookie' );
+        equal( typeof tracker.setCookieSameSite, 'function', 'setCookieSameSite' );
         equal( typeof tracker.getCookie, 'function', 'getCookie' );
         equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
         equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
@@ -2560,7 +2561,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
-        expect(168);
+        expect(173);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2816,6 +2817,16 @@ function PiwikTest() {
         tracker.setSessionCookie('mytest', 'myvalue');
         equal('myvalue', tracker.getCookie('mytest'));
         strictEqual(null, tracker.getCookie('34343434343'), 'not existing cookie returns null');
+
+        equal('Lax', tracker.getConfigCookieSameSite(), 'same site cookie value is Lax by default');
+        tracker.setCookieSameSite(null);
+        equal('Lax', tracker.getConfigCookieSameSite(), 'setCookieSameSite, wont unset the value when empty');
+        tracker.setCookieSameSite('invalid');
+        equal('Lax', tracker.getConfigCookieSameSite(), 'setCookieSameSite, wont unset the value when invlaid');
+        tracker.setCookieSameSite('strict');
+        equal('Strict', tracker.getConfigCookieSameSite(), 'setCookieSameSite can be used lower case');
+        tracker.setCookieSameSite('LaX');
+        equal('Lax', tracker.getConfigCookieSameSite(), 'setCookieSameSite can be used upper case');
     });
 
     test("Tracker CrossDomainLinking()", function() {
