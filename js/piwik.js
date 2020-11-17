@@ -2268,6 +2268,9 @@ if (typeof window.Matomo !== 'object') {
                 // Whether to use "Secure" cookies that only work over SSL
                 configCookieIsSecure = false,
 
+                // Set SameSite attribute for cookies
+                configCookieSameSite = 'Lax',
+
                 // First-party cookies are disabled
                 configCookiesDisabled = false,
 
@@ -2397,7 +2400,7 @@ if (typeof window.Matomo !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
+            function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite) {
                 if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return;
                 }
@@ -2415,7 +2418,7 @@ if (typeof window.Matomo !== 'object') {
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
-                    ';SameSite=Lax';
+                    ';SameSite=' + (sameSite ? sameSite : 'Lax');
             }
 
             /*
@@ -3033,7 +3036,7 @@ if (typeof window.Matomo !== 'object') {
 
                 // for IE we want to actually set the cookie to avoid trigger a warning eg in IE see #11507
                 var testCookieName = configCookieNamePrefix + 'testcookie';
-                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
 
                 var hasCookie = getCookie(testCookieName) === '1' ? '1' : '0';
                 deleteCookie(testCookieName);
@@ -3334,7 +3337,7 @@ if (typeof window.Matomo !== 'object') {
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.';
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
 
             /*
@@ -3374,7 +3377,7 @@ if (typeof window.Matomo !== 'object') {
             function isPossibleToSetCookieOnDomain(domainToTest)
             {
                 var valueToSet = 'testvalue';
-                setCookie('test', valueToSet, 10000, null, domainToTest);
+                setCookie('test', valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite);
 
                 if (getCookie('test') === valueToSet) {
                     deleteCookie('test', null, domainToTest);
@@ -3438,7 +3441,7 @@ if (typeof window.Matomo !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
 
             function generateUniqueId() {
@@ -3624,7 +3627,7 @@ if (typeof window.Matomo !== 'object') {
                             purify(referralUrl.slice(0, referralUrlMaxLength))
                         ];
 
-                        setCookie(cookieReferrerName, windowAlias.JSON.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
+                        setCookie(cookieReferrerName, windowAlias.JSON.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                     }
                 }
 
@@ -3725,7 +3728,7 @@ if (typeof window.Matomo !== 'object') {
                     }
 
                     if (configStoreCustomVariablesInCookie) {
-                        setCookie(cookieCustomVariablesName, windowAlias.JSON.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
+                        setCookie(cookieCustomVariablesName, windowAlias.JSON.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                     }
                 }
 
@@ -5665,7 +5668,7 @@ if (typeof window.Matomo !== 'object') {
 
                 configCookiesToDelete.push(cookieName);
 
-                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain);
+                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -5756,10 +5759,48 @@ if (typeof window.Matomo !== 'object') {
              * This should be used when your website is only available under HTTPS
              * so that all tracking cookies are always sent over secure connection.
              *
+             * Warning: If your site is available under http and https,
+             * setting this might lead to duplicate or incomplete visits.
+             *
              * @param bool
              */
             this.setSecureCookie = function (enable) {
+                if(enable && location.protocol !== 'https:') {
+                    logConsoleError("Error in setSecureCookie: You cannot use `Secure` on http.");
+                    return;
+                }
                 configCookieIsSecure = enable;
+            };
+
+            /**
+             * Set the SameSite attribute for cookies to a custom value.
+             * You might want to use this if your site is running in an iframe since
+             * then it will only be able to access the cookies if SameSite is set to 'None'.
+             *
+             *
+             * Warning: 
+             * Sets CookieIsSecure to true on None, because None will only work with Secure; cookies
+             * If your site is available under http and https,
+             * using "None" might lead to duplicate or incomplete visits.
+             *
+             * @param string either Lax, None or Strict
+             */
+            this.setCookieSameSite = function (sameSite) {
+                sameSite = String(sameSite);
+                sameSite = sameSite.charAt(0).toUpperCase() + sameSite.toLowerCase().slice(1);
+                if (sameSite !== 'None' && sameSite !== 'Lax' && sameSite !== 'Strict') {
+                    logConsoleError('Ignored value for sameSite. Please use either Lax, None, or Strict.');
+                    return;
+                }
+                if (sameSite === 'None') {
+                    if (location.protocol === 'https:') {
+                        this.setSecureCookie(true);
+                    } else { 
+                        logConsoleError('sameSite=None cannot be used on http, reverted to sameSite=Lax.');
+                        sameSite = 'Lax';
+                    }
+                }
+                configCookieSameSite = sameSite;
             };
 
             /**
@@ -5881,7 +5922,7 @@ if (typeof window.Matomo !== 'object') {
                 }
                 this.setCookieConsentGiven();
                 var now = new Date().getTime();
-                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -6764,7 +6805,7 @@ if (typeof window.Matomo !== 'object') {
                 // cookies should be automatically enabled or not.
                 this.setConsentGiven(setCookieConsent);
                 var now = new Date().getTime();
-                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -6777,7 +6818,7 @@ if (typeof window.Matomo !== 'object') {
                 var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
@@ -6866,7 +6907,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
