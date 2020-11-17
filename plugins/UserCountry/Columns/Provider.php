@@ -19,8 +19,7 @@ class Provider extends Base
     protected $columnName = 'location_provider';
     protected $type = self::TYPE_TEXT;
     protected $category = 'UserCountry_VisitLocation';
-    protected $nameSingular = 'UserCountry_InternetServiceProvider';
-    protected $namePlural = 'UserCountry_InternetServiceProviderPlural';
+
     /**
      * @param Request $request
      * @param Visitor $visitor
