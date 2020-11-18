@@ -2163,39 +2163,6 @@
             "time": "2015-08-31T22:07:48+00:00"
         },
         {
-            "name": "matomo-org/jshrink",
-            "version": "1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tedious/JShrink",
-                "reference": "v1.3.1"
-            },
-            "require": {
-                "php": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JShrink": "src/"
-                }
-            },
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Hafner",
-                    "email": "tedivm@tedivm.com"
-                }
-            ],
-            "description": "Javascript Minifier built in PHP",
-            "homepage": "http://github.com/tedious/JShrink",
-            "keywords": [
-                "javascript",
-                "minifier"
-            ]
-        },
-        {
             "name": "myclabs/deep-copy",
             "version": "1.10.1",
             "source": {
@@ -3722,5 +3689,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
