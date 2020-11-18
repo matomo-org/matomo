@@ -113,9 +113,9 @@ class Tasks extends \Piwik\Plugin\Tasks
         }
 
         $idSites = Request::processRequest('SitesManager.getAllSitesId');
+        $cronArchive = new CronArchive();
+        $cronArchive->init();
         foreach ($idSites as $idSite) {
-            $cronArchive = new CronArchive();
-            $cronArchive->init();
             $cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSite);
         }
     }
