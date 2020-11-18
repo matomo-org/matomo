@@ -866,7 +866,7 @@ class Manager
     {
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
-        || $name == self::DEFAULT_THEME;
+        || $name == self::DEFAULT_THEME || $name === 'CustomVariables' || $name === 'Provider';
     }
 
     /**

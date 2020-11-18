@@ -10,11 +10,14 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Piwik\Application\Kernel\PluginList;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Matomo\Ini\IniReader;
+use Piwik\Http;
+use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -37,6 +40,26 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
+    }
+
+    public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
+    {
+        $pluginsToTest = ['CustomVariables', 'Provider'];
+
+        $pluginManager = Plugin\Manager::getInstance();
+
+        $package = Http::sendHttpRequest('https://raw.githubusercontent.com/matomo-org/matomo-package/master/scripts/build-package.sh', 20);
+
+        foreach ($pluginsToTest as $pluginToTest) {
+            $isPluginBundledWithCore = $pluginManager->isPluginBundledWithCore($pluginToTest);
+            $isPluginIncludedInBuildZip = strpos($package, 'plugins/' . $pluginToTest) !== false;
+
+            if ($isPluginBundledWithCore xor $isPluginIncludedInBuildZip) {
+                throw new Exception('Expected that when plugin can be uninstalled (is not included in core), then the plugin is also included in the build-package.sh so it is included in the release zip. Once we no longer include this plugin in build.zip then we need to allow uninstalling these plugins by changing isPluginBundledWithCore method. Plugin is ' . $pluginToTest);
+            }
+        }
+
+        $this->assertNotEmpty($isPluginBundledWithCore, 'We expect at least one plugin to be checked in this test, otherwise we can remove this test once they are no longer included in core');
     }
 
     public function test_TestCaseHasSetGroupsMethod()
@@ -643,7 +666,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $numTestedCorePlugins = 0;
 
         // eg these plugins are managed in a submodule and they are installing all tables/columns as part of their plugin install method etc.
-        $corePluginsThatAreIndependent = array('TagManager');
+        $corePluginsThatAreIndependent = array('TagManager', 'Provider', 'CustomVariables');
 
         foreach ($plugins as $pluginName => $info) {
             if ($manager->isPluginBundledWithCore($pluginName) && !in_array($pluginName, $corePluginsThatAreIndependent)) {
