@@ -194,7 +194,7 @@ abstract class Dimension
     /**
      * @var bool
      */
-    private $isRequiresProfilableData;
+    private $isRequiresProfilableData = false;
 
     /**
      * To be implemented when a column references another column
