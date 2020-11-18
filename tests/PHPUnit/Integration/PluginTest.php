@@ -64,7 +64,7 @@ class PluginTest extends IntegrationTestCase
         $plugin->schedulePluginReArchiving();
 
         $date = $this->getDateFromReArchiveList();
-        $this->assertEquals($cronTime->getDatetime(), $date);
+        $this->assertNull($date);
     }
 
     public function test_schedulePluginReArchiving_shouldReArchiveFromNMonthsAgo_IfNoDecativationTimeOrCronTimeExists()
