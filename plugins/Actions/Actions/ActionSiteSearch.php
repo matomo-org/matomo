@@ -137,14 +137,14 @@ class ActionSiteSearch extends Action
         // strtolower the parameter names for smooth site search detection
         $parameters = array();
         foreach ($parametersRaw as $k => $v) {
-            $parameters[Common::mb_strtolower($k)] = $v;
+            $parameters[mb_strtolower($k)] = $v;
         }
         // decode values if they were sent from a client using another charset
         PageUrl::reencodeParameters($parameters, $pageEncoding);
 
         // Detect Site Search keyword
         foreach ($keywordParameters as $keywordParameterRaw) {
-            $keywordParameter = Common::mb_strtolower($keywordParameterRaw);
+            $keywordParameter = mb_strtolower($keywordParameterRaw);
             if (!empty($parameters[$keywordParameter])) {
                 $actionName = $parameters[$keywordParameter];
                 break;
@@ -160,7 +160,7 @@ class ActionSiteSearch extends Action
             : array();
 
         foreach ($categoryParameters as $categoryParameterRaw) {
-            $categoryParameter = Common::mb_strtolower($categoryParameterRaw);
+            $categoryParameter = mb_strtolower($categoryParameterRaw);
             if (!empty($parameters[$categoryParameter])) {
                 $categoryName = $parameters[$categoryParameter];
                 break;

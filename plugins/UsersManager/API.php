@@ -927,7 +927,7 @@ class API extends \Piwik\Plugin\API
             $email = $userInfo['email'];
         }
 
-        $hasEmailChanged = Common::mb_strtolower($email) !== Common::mb_strtolower($userInfo['email']);
+        $hasEmailChanged = mb_strtolower($email) !== mb_strtolower($userInfo['email']);
 
         if ($hasEmailChanged) {
             $this->checkEmail($email, $userLogin);

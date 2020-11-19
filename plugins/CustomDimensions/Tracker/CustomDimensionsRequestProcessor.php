@@ -173,7 +173,7 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
 
     private static function prepareValue($value)
     {
-        return Common::mb_substr(trim($value), 0, 250);
+        return mb_substr(trim($value), 0, 250);
     }
 
     public static function buildCustomDimensionTrackingApiName($idDimensionOrDimension)

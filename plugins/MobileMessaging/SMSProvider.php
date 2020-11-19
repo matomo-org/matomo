@@ -217,7 +217,7 @@ abstract class SMSProvider
     private static function sizeOfSMSContent($smsContent, $containsUCS2Chars)
     {
         if ($containsUCS2Chars) {
-            return Common::mb_strlen($smsContent);
+            return mb_strlen($smsContent);
         }
 
         $sizeOfSMSContent = 0;
