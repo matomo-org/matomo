@@ -17,7 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
 * The visitor ID cookie now contains less data (due to the _idvc, _idts, _viewts and _ects tracking parameters no longer being used). This is a breaking change if you use the Matomo PHP Tracker and forward the visitor cookie to it, and you will need to upgrade the PHP tracker to use with Matomo 4.
 * The tracker method `setVisitStandardLength` has been removed as there is no need for it anymore.
-* Per page load the tracker now restricts to sending max 10000 tracking requests per tracker. You can customise this limit by calling the new method `_paq.push(['setMaxRequestsPerPageLoad', numberOfRequests])`;
+* Per page load the JS tracker now restricts to sending max 10000 tracking requests per tracker instance. You can customise this limit by calling the new method `_paq.push(['setMaxRequestsPerPageLoad', numberOfRequests])`;
 
 #### Deprecations in Matomo JS tracker
 
@@ -36,7 +36,7 @@ These are only recommendations (because we will keep backward compatibility for 
 
 #### New APIs
 * A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
-* A new JS tracker method `setMaxRequestsPerPageLoad` has been added to customise the limit of max reuqests per page load.
+* A new JS tracker method `setMaxRequestsPerPageLoad` has been added to customise the limit of max requests per page load.
 
 ### HTTP APIs
 

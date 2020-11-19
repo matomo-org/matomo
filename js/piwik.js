@@ -108,7 +108,7 @@
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     getConfigCookieSameSite, setCookieSameSite,
-    getMaxNumRequestsPerPageLoad,getNumRequestsSentDuringPageLoad,setMaxRequestsPerPageLoad,
+    getMaxNumRequestsPerPageLoad, getNumRequestsSentDuringPageLoad, setMaxRequestsPerPageLoad,
     getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
