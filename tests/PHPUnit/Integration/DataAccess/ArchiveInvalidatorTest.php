@@ -121,6 +121,21 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
+    public function test_removeInvalidationsFromDistributedList_removesAllSiteEntries()
+    {
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList('all', 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [];
+        $this->assertEquals($expected, $items);
+    }
+
     public function test_removeInvalidations_removesAll_ifAllSitesSpecified()
     {
         $this->insertInvalidations([

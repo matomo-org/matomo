@@ -86,6 +86,11 @@ class ArchiveInvalidator
      */
     private $logger;
 
+    /**
+     * @var int[]
+     */
+    private $allIdSitesCache;
+
     public function __construct(Model $model, ArchivingStatus $archivingStatus, LoggerInterface $logger)
     {
         $this->model = $model;
@@ -615,6 +620,10 @@ class ArchiveInvalidator
         $list = new ReArchiveList();
         $entries = $list->getAll();
 
+        if ($idSites === 'all') {
+            $idSites = $this->getAllSitesId();
+        }
+
         foreach ($entries as $index => $entry) {
             $entry = @json_decode($entry, true);
             if (empty($entry)) {
@@ -629,6 +638,10 @@ class ArchiveInvalidator
                 && $pluginName != $entryPluginName
             ) {
                 continue;
+            }
+
+            if ($sitesInEntry === 'all') {
+                $sitesInEntry = $this->getAllSitesId();
             }
 
             $diffSites = array_diff($sitesInEntry, $idSites);
@@ -757,8 +770,13 @@ class ArchiveInvalidator
 
     private function getAllSitesId()
     {
+        if (isset($this->allIdSitesCache)) {
+            return $this->allIdSitesCache;
+        }
+
         $model = new \Piwik\Plugins\SitesManager\Model();
-        return $model->getSitesId();
+        $this->allIdSitesCache = $model->getSitesId();
+        return $this->allIdSitesCache;
     }
 
     private function getEarliestDateToRearchive()
