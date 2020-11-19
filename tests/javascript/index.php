@@ -66,6 +66,9 @@ function getOptInToken() {
 function getAlwaysUseSendBeaconToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getNumMaxRequestsToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 
 if ($mysql) {
@@ -2093,7 +2096,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(118);
+        expect(119);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2139,6 +2142,7 @@ function PiwikTest() {
         equal( typeof tracker.getLinkTrackingTimer, 'function', 'getLinkTrackingTimer' );
         equal( typeof tracker.alwaysUseSendBeacon, 'function', 'alwaysUseSendBeacon' );
         equal( typeof tracker.disableAlwaysUseSendBeacon, 'function', 'disableAlwaysUseSendBeacon' );
+        equal( typeof tracker.setMaxRequestsPerPageLoad, 'function', 'setMaxRequestsPerPageLoad' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
         equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
@@ -3567,6 +3571,64 @@ if ($mysql) {
             mockNowValue = null;
             ok(true, "request.teardown");
         }
+    });
+
+    test("Tracker setMaxRequestsPerPageLoad()", function() {
+        expect(17);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token" : getNumMaxRequestsToken() });
+
+        equal(10000, tracker.getMaxNumRequestsPerPageLoad(), 'By default 10000 req can be sent');
+        strictEqual(0, tracker.getNumRequestsSentDuringPageLoad(), 'By default 0 req have beeen sent');
+
+        tracker.setMaxRequestsPerPageLoad();
+        tracker.setMaxRequestsPerPageLoad(false);
+        tracker.setMaxRequestsPerPageLoad('foo');
+        tracker.setMaxRequestsPerPageLoad(-1);
+        equal(10000, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, value will not be changed if invalid');
+
+        tracker.setMaxRequestsPerPageLoad(20000);
+        equal(20000, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, high value can be set');
+
+        tracker.setMaxRequestsPerPageLoad(0);
+        equal(0, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, tracking can be disabled');
+
+        tracker.trackPageView('notappear1'); // should not appear because max number of requests reached
+        strictEqual(0, tracker.getNumRequestsSentDuringPageLoad(), 'has not executed the tracking request');
+
+        tracker.setMaxRequestsPerPageLoad(2);
+        equal(2, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, tracking can be disabled');
+
+        tracker.trackPageView('doappear1');
+        strictEqual(1, tracker.getNumRequestsSentDuringPageLoad(), 'doappear1, has executed the tracking request');
+        tracker.trackPageView('doappear2');
+        strictEqual(2, tracker.getNumRequestsSentDuringPageLoad(), 'doappear2, has executed the tracking request');
+        tracker.trackPageView('notappear2'); // should not appear because max number of requests reached
+        strictEqual(2, tracker.getNumRequestsSentDuringPageLoad(), 'notappear2, has not executed the tracking request');
+
+        tracker.setMaxRequestsPerPageLoad(10000); // reset value
+
+        stop();
+        setTimeout(function() {
+            var xhr = makeXhr();
+            xhr.open("GET", "matomo.php?requests=" + getNumMaxRequestsToken(), false);
+            xhr.send(null);
+            var results = xhr.responseText;
+            var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
+            ok (countTrackingEvents, "countTrackingEvents is set");
+            if(countTrackingEvents) {
+                equal( countTrackingEvents[1], "2", "count tracking events" );
+            }
+
+            // tracking requests
+            ok( /doappear1/.test( results ), "doappear1 is present" );
+            ok( /doappear2/.test( results ), "doappear2 is present" );
+
+            start();
+        }, 5000);
     });
 
     test("tracking with sendBeacon", function() {

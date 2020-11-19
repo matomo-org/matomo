@@ -108,6 +108,7 @@
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     getConfigCookieSameSite, setCookieSameSite,
+    getMaxNumRequestsPerPageLoad,getNumRequestsSentDuringPageLoad,setMaxRequestsPerPageLoad,
     getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -2322,6 +2323,11 @@ if (typeof window.Matomo !== 'object') {
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
 
+                // Limits number of tracking requests sent per tracker per page load (is not reset on page view)
+                configMaxNumRequestsPerPageLoad = 10000,
+                // how many requests currently have been sent
+                numRequestsSentDuringPageLoad = 0,
+
                 // Ecommerce product view
                 ecommerceProductView = {},
 
@@ -2737,6 +2743,15 @@ if (typeof window.Matomo !== 'object') {
                 return success;
             }
 
+            function canSendTrackerMoreRequests()
+            {
+                if (numRequestsSentDuringPageLoad >= configMaxNumRequestsPerPageLoad) {
+                    logConsoleError('Max number of ' + configMaxNumRequestsPerPageLoad + ' requests reached. Call setMaxRequestsPerPageLoad to increase limit if needed');
+                    return false;
+                }
+                return true;
+            }
+
             /*
              * POST request to Matomo server using XMLHttpRequest.
              */
@@ -2924,6 +2939,11 @@ if (typeof window.Matomo !== 'object') {
                     consentRequestsQueue.push(request);
                     return;
                 }
+                if (!canSendTrackerMoreRequests()) {
+                    return;
+                }
+
+                numRequestsSentDuringPageLoad++;
 
                 hasSentTrackingRequestYet = true;
 
@@ -3000,6 +3020,15 @@ if (typeof window.Matomo !== 'object') {
 
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
+
+                        if (!canSendTrackerMoreRequests()) {
+                            return;
+                        }
+
+                        // if only say 2 more requests were allowed, but the chunk contains 50, then we may send more requests than allowed
+                        // but this should be fine
+                        numRequestsSentDuringPageLoad += chunks.length;
+
                         bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
@@ -4848,6 +4877,12 @@ if (typeof window.Matomo !== 'object') {
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
+            this.getMaxNumRequestsPerPageLoad = function () {
+                return configMaxNumRequestsPerPageLoad;
+            };
+            this.getNumRequestsSentDuringPageLoad = function () {
+                return numRequestsSentDuringPageLoad;
+            };
             this.getConfigDownloadExtensions = function () {
                 return configDownloadExtensions;
             };
@@ -5054,6 +5089,21 @@ if (typeof window.Matomo !== 'object') {
                 if (isNumberOrHasLength(userId)) {
                     configUserId = userId;
                 }
+            };
+
+            /**
+             * Sets how many requests can be sent max per page load.
+             * The counter will not be reset after a page view has been called.
+             *
+             * @param int numRequests The number of allowed requests. Has to be a number and has to be at least 0.
+             */
+            this.setMaxRequestsPerPageLoad = function(numRequests) {
+                if (!isNumber(numRequests) || numRequests < 0) {
+                    logConsoleError('Cannot setMaxRequestsPerPageLoad. Parameter needs to be a number that is at least 0');
+                    return;
+                }
+
+                configMaxNumRequestsPerPageLoad = numRequests;
             };
 
             /**
