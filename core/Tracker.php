@@ -308,11 +308,6 @@ class Tracker
             \Piwik\Tracker\Cache::deleteTrackerCache();
             Filesystem::clearPhpCaches();
         }
-
-        $pluginsDisabled = array('Provider');
-
-        // Disable provider plugin, because it is so slow to do many reverse ip lookups
-        PluginManager::getInstance()->setTrackerPluginsNotToLoad($pluginsDisabled);
     }
 
     protected function loadTrackerPlugins()
