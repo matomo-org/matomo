@@ -2745,7 +2745,7 @@ if (typeof window.Matomo !== 'object') {
 
             function canSendTrackerMoreRequests()
             {
-                if (numRequestsSentDuringPageLoad >= configMaxNumRequestsPerPageLoad) {
+                if (configMaxNumRequestsPerPageLoad >= 0 && numRequestsSentDuringPageLoad >= configMaxNumRequestsPerPageLoad) {
                     logConsoleError('Max number of ' + configMaxNumRequestsPerPageLoad + ' requests reached. Call setMaxRequestsPerPageLoad to increase limit if needed');
                     return false;
                 }
@@ -5095,15 +5095,19 @@ if (typeof window.Matomo !== 'object') {
              * Sets how many requests can be sent max per page load.
              * The counter will not be reset after a page view has been called.
              *
-             * @param int numRequests The number of allowed requests. Has to be a number and has to be at least 0.
+             * @param int numRequests The number of allowed requests. Has to be a number and has to be at least -1.
+             *                        -1 disables the requests and basically allows unlimited number of requests
+             *                        0 disables tracking
+             *                        any higher value defines the max amount of requests within one page load
              */
             this.setMaxRequestsPerPageLoad = function(numRequests) {
-                if (!isNumber(numRequests) || numRequests < 0) {
+                if (isDefined(numRequests) && (numRequests === '-1' || numRequests === -1)) {
+                    configMaxNumRequestsPerPageLoad = -1;
+                } else if (isNumber(numRequests) && numRequests >= 0) {
+                    configMaxNumRequestsPerPageLoad = numRequests;
+                } else {
                     logConsoleError('Cannot setMaxRequestsPerPageLoad. Parameter needs to be a number that is at least 0');
-                    return;
                 }
-
-                configMaxNumRequestsPerPageLoad = numRequests;
             };
 
             /**

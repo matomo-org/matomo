@@ -3574,7 +3574,7 @@ if ($mysql) {
     });
 
     test("Tracker setMaxRequestsPerPageLoad()", function() {
-        expect(17);
+        expect(20);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
@@ -3587,8 +3587,11 @@ if ($mysql) {
         tracker.setMaxRequestsPerPageLoad();
         tracker.setMaxRequestsPerPageLoad(false);
         tracker.setMaxRequestsPerPageLoad('foo');
-        tracker.setMaxRequestsPerPageLoad(-1);
+        tracker.setMaxRequestsPerPageLoad(-2);
         equal(10000, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, value will not be changed if invalid');
+
+        tracker.setMaxRequestsPerPageLoad('-1');
+        equal(-1, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, can be set to unlimited');
 
         tracker.setMaxRequestsPerPageLoad(20000);
         equal(20000, tracker.getMaxNumRequestsPerPageLoad(), 'setMaxRequestsPerPageLoad, high value can be set');
@@ -3609,6 +3612,10 @@ if ($mysql) {
         tracker.trackPageView('notappear2'); // should not appear because max number of requests reached
         strictEqual(2, tracker.getNumRequestsSentDuringPageLoad(), 'notappear2, has not executed the tracking request');
 
+        tracker.setMaxRequestsPerPageLoad(-1);
+        tracker.trackPageView('doappear3');
+        strictEqual(3, tracker.getNumRequestsSentDuringPageLoad(), 'doappear3, -1 allows unlimited');
+
         tracker.setMaxRequestsPerPageLoad(10000); // reset value
 
         stop();
@@ -3620,12 +3627,13 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "2", "count tracking events" );
+                equal( countTrackingEvents[1], "3", "count tracking events" );
             }
 
             // tracking requests
             ok( /doappear1/.test( results ), "doappear1 is present" );
             ok( /doappear2/.test( results ), "doappear2 is present" );
+            ok( /doappear3/.test( results ), "doappear3 is present" );
 
             start();
         }, 5000);
