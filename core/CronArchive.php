@@ -765,6 +765,11 @@ class CronArchive
             return;
         }
 
+        if (empty($this->segmentArchiving)) {
+            // might not be initialised if init is not called
+            $this->segmentArchiving = new SegmentArchiving($this->processNewSegmentsFrom, $this->dateLastForced);
+        }
+
         $this->logger->debug("Checking for queued invalidations...");
 
         // invalidate remembered site/day pairs
