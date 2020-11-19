@@ -59,11 +59,7 @@ class PhpExtensionsCheck implements Diagnostic
     {
         $requiredExtensions = array(
             'zlib',
-            'SPL',
-            'iconv',
             'json',
-            'mbstring',
-            'Reflection',
             'filter',
             'hash',
             'session',
@@ -75,14 +71,10 @@ class PhpExtensionsCheck implements Diagnostic
     private function getHelpMessage($missingExtension)
     {
         $messages = array(
-            'zlib'       => 'Installation_SystemCheckZlibHelp',
-            'SPL'        => 'Installation_SystemCheckSplHelp',
-            'iconv'      => 'Installation_SystemCheckIconvHelp',
-            'json'       => 'Installation_SystemCheckWarnJsonHelp',
-            'mbstring'   => 'Installation_SystemCheckMbstringHelp',
-            'Reflection' => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
-            'filter' => 'Installation_SystemCheckFilterHelp',
-            'hash' => 'Installation_SystemCheckHashHelp',
+            'zlib'    => 'Installation_SystemCheckZlibHelp',
+            'json'    => 'Installation_SystemCheckWarnJsonHelp',
+            'filter'  => 'Installation_SystemCheckFilterHelp',
+            'hash'    => 'Installation_SystemCheckHashHelp',
             'session' => 'Installation_SystemCheckSessionHelp'
         );
 
