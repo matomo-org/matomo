@@ -755,7 +755,7 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
         $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?";
 
-        Db::query($sql, ['done.' . str_replace('_', "\\_", $start) . '%']);
+        Db::query($sql, ['done%.' . str_replace('_', "\\_", $start)]);
     }
 
     public function removeInvalidations($idSite, $plugin, $report)
@@ -763,9 +763,9 @@ class Model
         $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` = ? AND report = ?";
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ? AND report = ?";
 
-        Db::query($sql, ['done.' . $plugin, $report]);
+        Db::query($sql, ['done%.' . str_replace('_', "\\_", $plugin), $report]);
     }
 
     public function isArchiveAlreadyInProgress($invalidatedArchive)
