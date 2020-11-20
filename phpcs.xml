@@ -21,4 +21,17 @@
 
     <!-- Forbid short open tags -->
     <rule ref="Generic.PHP.DisallowShortOpenTag.Found" />
+
+    <!-- Forbid some functions that should not be used (directly) -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="eval" value="null"/>
+                <element key="create_function" value="null"/>
+                <element key="unserialize" value="\Piwik\Common::safe_unserialize"/>
+            </property>
+        </properties>
+        <!-- still allow those functions in tests -->
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
 </ruleset>
