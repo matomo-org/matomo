@@ -10,7 +10,7 @@
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
 
-{% if isGeneralSettingsAdminEnabled %}
+{% if isGeneralSettingsAdminEnabled and not isMultiServerEnvironment %}
     <div piwik-content-block content-title="{{ 'CoreAdminHome_ArchivingSettings'|translate|e('html_attr') }}">
         <div ng-controller="ArchivingController as archivingSettings">
             <div class="form-group row">
@@ -50,13 +50,13 @@
                     {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
                 </h3>
                 <div class="input-field col s12 m6">
-                    <input  type="text" value='{{ todayArchiveTimeToLive|e('html_attr') }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
+                    <input  type="text" value='{{ todayArchiveTimeToLive|e('html_attr') }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled or isMultiServerEnvironment %}disabled="disabled"{% endif %} />
                     <span class="form-description">
                         {{ 'General_RearchiveTimeIntervalOnlyForTodayReports'|translate }}
                     </span>
                 </div>
                 <div class="col s12 m6">
-                    {% if isGeneralSettingsAdminEnabled %}
+                    {% if isGeneralSettingsAdminEnabled and not isMultiServerEnvironment %}
                         <div class="form-help">
                             {% if showWarningCron %}
                                 <strong>

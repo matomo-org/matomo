@@ -16,6 +16,7 @@ use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
 use Piwik\Plugins\Marketplace\UpdateCommunication as PluginUpdateCommunication;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\SettingsPiwik;
 
 /**
  * Defines Settings for CoreUpdater.
@@ -52,19 +53,20 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $this->title = Piwik::translate('CoreAdminHome_UpdateSettings');
 
-        $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
+        $isWritable = Piwik::hasUserSuperUserAccess()
+                        && CoreAdminController::isGeneralSettingsAdminEnabled()
+                        && SettingsPiwik::isMultiServerEnvironment() === false;
         $this->releaseChannel = $this->createReleaseChannel();
         $this->releaseChannel->setIsWritableByCurrentUser($isWritable);
 
-        $isWritable = $isWritable && PluginUpdateCommunication::canBeEnabled();
-        $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
-        $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable);
-
-        $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $dbSettings = new Settings();
         if ($isWritable && $dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4') {
             $this->updateToUtf8mb4 = $this->createUpdateToUtf8mb4();
         }
+
+        $isWritable = $isWritable && PluginUpdateCommunication::canBeEnabled();
+        $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
+        $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable);
     }
 
     private function createReleaseChannel()
