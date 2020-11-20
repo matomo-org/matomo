@@ -603,19 +603,20 @@ class ArchiveInvalidator
      *
      * @param int|int[]|'all' $idSites
      * @param string $pluginName
+     * @param string|null $report
      */
-    public function removeInvalidationsSafely($idSites, $pluginName)
+    public function removeInvalidationsSafely($idSites, $pluginName, $report = null)
     {
         try {
-            $this->removeInvalidations($idSites, $pluginName);
-            $this->removeInvalidationsFromDistributedList($idSites, $pluginName);
+            $this->removeInvalidations($idSites, $pluginName, $report);
+            $this->removeInvalidationsFromDistributedList($idSites, $pluginName, $report);
         } catch (\Throwable $ex) {
             $logger = StaticContainer::get(LoggerInterface::class);
             $logger->debug("Failed to remove invalidations the for $pluginName plugin.");
         }
     }
 
-    public function removeInvalidationsFromDistributedList($idSites, $pluginName = null)
+    public function removeInvalidationsFromDistributedList($idSites, $pluginName = null, $report = null)
     {
         $list = new ReArchiveList();
         $entries = $list->getAll();
@@ -631,15 +632,22 @@ class ArchiveInvalidator
                 continue;
             }
 
-            $sitesInEntry = $entry['idSites'];
             $entryPluginName = $entry['pluginName'];
-
             if (!empty($pluginName)
                 && $pluginName != $entryPluginName
             ) {
                 continue;
             }
 
+            $entryReport = $entry['report'];
+            if (!empty($pluginName)
+                && !empty($report)
+                && $report != $entryReport
+            ) {
+                continue;
+            }
+
+            $sitesInEntry = $entry['idSites'];
             if ($sitesInEntry === 'all') {
                 $sitesInEntry = $this->getAllSitesId();
             }
