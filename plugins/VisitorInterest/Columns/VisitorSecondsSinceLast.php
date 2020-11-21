@@ -64,4 +64,9 @@ class VisitorSecondsSinceLast extends VisitDimension
 
         return $secondsSinceLast;
     }
+
+    public function isRequiresProfilableData()
+    {
+        return true;
+    }
 }

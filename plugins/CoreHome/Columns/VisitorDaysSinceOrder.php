@@ -19,4 +19,10 @@ class VisitorDaysSinceOrder extends VisitDimension
     protected $columnName = 'visitor_seconds_since_order';
     protected $sqlSegment = 'FLOOR(log_visit.visitor_seconds_since_order / 86400)';
     protected $segmentName = 'daysSinceLastEcommerceOrder';
+
+    // TODO: double check how this is tracked, does it require knowing previous visit? I think so, but...
+    public function isRequiresProfilableData()
+    {
+        return true;
+    }
 }

@@ -76,4 +76,9 @@ class VisitorSecondsSinceOrder extends VisitDimension
     {
         return $visitor->getVisitorColumn($this->columnName);
     }
+
+    public function isRequiresProfilableData()
+    {
+        return true;
+    }
 }
