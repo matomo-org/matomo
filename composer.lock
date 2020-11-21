@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab7eebfb6b16cc34040667b5759a61de",
+    "content-hash": "436a8ac860535902739aa0c17595a5e9",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -600,16 +600,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "dev-4.x-dev",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "a7fd79ddc54be6bb5abcc69d43836302697c71ea"
+                "reference": "31e2b0bdf479c6fc00758228d2c6d7c85c1863a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/a7fd79ddc54be6bb5abcc69d43836302697c71ea",
-                "reference": "a7fd79ddc54be6bb5abcc69d43836302697c71ea",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/31e2b0bdf479c6fc00758228d2c6d7c85c1863a0",
+                "reference": "31e2b0bdf479c6fc00758228d2c6d7c85c1863a0",
                 "shasum": ""
             },
             "require": {
@@ -652,7 +652,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2020-09-07T04:45:54+00:00"
+            "time": "2020-11-21T05:20:05+00:00"
         },
         {
             "name": "matomo/network",
@@ -4013,7 +4013,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "leafo/lessphp": 20,
-        "matomo/matomo-php-tracker": 20,
         "tedivm/jshrink": 20,
         "lox/xhprof": 20
     },
