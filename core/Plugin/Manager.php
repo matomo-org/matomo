@@ -527,7 +527,8 @@ class Manager
 
         // execute deactivate() to let the plugin do cleanups
         $this->executePluginDeactivate($pluginName);
-        $this->savePluginDeactivationTime($pluginName);
+
+        $this->savePluginTime(self::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX, $pluginName);
 
         $this->unloadPluginFromMemory($pluginName);
 
@@ -692,7 +693,7 @@ class Manager
         $this->installPluginIfNecessary($plugin);
         $plugin->activate();
 
-        $this->savePluginActivationTime($pluginName);
+        $this->savePluginTime(self::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX, $pluginName);
 
         EventDispatcher::getInstance()->postPendingEventsTo($plugin);
 
@@ -866,7 +867,7 @@ class Manager
     {
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
-        || $name == self::DEFAULT_THEME;
+        || $name == self::DEFAULT_THEME || $name === 'CustomVariables' || $name === 'Provider';
     }
 
     /**
@@ -1669,16 +1670,19 @@ class Manager
         }
     }
 
-    private function savePluginActivationTime($pluginName)
+    private function savePluginTime($timingName, $pluginName)
     {
-        $optionName = self::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX . $pluginName;
-        Option::set($optionName, time());
+        $optionName = $timingName . $pluginName;
+
+        try {
+            Option::set($optionName, time());
+        } catch (\Exception $e) {
+            if (SettingsPiwik::isMatomoInstalled()) {
+                throw $e;
+            }
+            // we ignore any error while Matomo is not installed yet. refs #16741
+        }
     }
 
-    private function savePluginDeactivationTime($pluginName)
-    {
-        $optionName = self::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . $pluginName;
-        Option::set($optionName, time());
-    }
 }
 

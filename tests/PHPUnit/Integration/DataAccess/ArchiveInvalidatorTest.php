@@ -121,6 +121,41 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
+    public function test_removeInvalidationsFromDistributedList_removesAllSiteEntries()
+    {
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList('all', 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameAndReportIsSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin', 'myReport');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin', 'myOtherReport');
+
+        $this->invalidator->removeInvalidationsFromDistributedList([1,4,5], 'ExamplePlugin', 'myReport');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null}',
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":"myOtherReport","startDate":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
+    }
+
     public function test_removeInvalidations_removesAll_ifAllSitesSpecified()
     {
         $this->insertInvalidations([
@@ -169,7 +204,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'doneSEGMENTHASH.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
             ['name' => 'done.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'doneSEGMENTHASH.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
         ]);
@@ -179,6 +216,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $invalidations = $this->getInvalidatedArchiveTableEntries();
         $expectedInvalidations = [
             ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done.MyOtherPlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'doneSEGMENTHASH.MyOtherPlugin', 'report' => null],
             ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done', 'report' => null],
         ];
 
@@ -190,6 +228,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'doneSEGMENTHASH.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'doneSEGMENTHASH.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
             ['name' => 'done.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
@@ -206,6 +246,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date2' => '2015-03-04',
                 'period' => '1',
                 'name' => 'done.MyPlugin',
+                'report' => NULL,
+            ],
+            [
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2012-03-04',
+                'date2' => '2015-03-04',
+                'period' => '1',
+                'name' => 'doneSEGMENTHASH.MyPlugin',
                 'report' => NULL,
             ],
             [
