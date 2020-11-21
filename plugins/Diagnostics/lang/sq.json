@@ -8,6 +8,8 @@
         "ConfigFileIntroduction": "Këtu mund të shihni formësimin e Matomo-s. Nëse Matomo-n e xhironi në një mjedis me ngarkesë të balancuar, faqja mund të jetë ndryshe, varet se nga cili shërbyes ngarkohet faqja. Rreshtat me një ngjyrë tjetër për sfondin përfaqësojnë vlera formësimi që janë dhënë si shembull te kartela %1$s.",
         "HideUnchanged": "Nëse dëshironi të shihni vetëm vlerat e ndryshuara, mund të %1$sfshihni krejt vlerat e pandryshuara%2$s.",
         "Sections": "Ndarje",
+        "BrowserAndAutoArchivingEnabledLabel": "Shfletim dhe Vetëarkivim të aktivizuar",
+        "BrowserAndAutoArchivingEnabledComment": "Duket se shfletuesi dhe vetëarkivimi janë aktivizuar. Vetëarkivimi së fundi filloi %3$s më parë. Nëse %1$svetëarkivimi%2$s është i aktivizuar, duhe të çaktivizoni arkivimin nga shfletuesi, te “Rregullime të Përgjithshme”.",
         "DatabaseReaderConnection": "Lidhje Leximi Baze të Dhënash",
         "DatabaseUtf8Requirement": "Kjo është e domosdoshme për të qenë në gjendje të depozitohen shenja UTF8 4-bajtshe. Po qe se utf8mb4 s’është e përdorshme, shenja speciale, bie fjala, emotikone, shenja më pak të rëndomta gjuhësh aziatike, skripte të ndryshëm historikë apo simbole matematike do të zëvendësohen me %1$s. Te %2$skëto PBR%3$s mund të lexoni më tepër hollësi rreth këtij subjekti.",
         "DatabaseUtf8mb4CharsetRecommended": "Baza juaj e të dhënave s’e mbulon ende kodimin utf8mb4",

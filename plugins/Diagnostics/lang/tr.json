@@ -8,6 +8,8 @@
         "ConfigFileIntroduction": "Matomo ayarları bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",
         "HideUnchanged": "Yalnız değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "Sections": "Bölümler",
+        "BrowserAndAutoArchivingEnabledLabel": "Tarayıcı ve otomatik arşivleme etkin",
+        "BrowserAndAutoArchivingEnabledComment": "Hem tarayıcı hem de otomatik arşivleme etkinleştirilmiş gibi görünüyor. Otomatik arşivleme en son %3$s önce başlatılmış. %1$sOtomatik arşivleme%2$s etkin ise, \"Genel Ayarlar\" bölümünden tarayıcı arşivlemeyi devre dışı bırakmalısınız.",
         "DatabaseReaderConnection": "Veritabanı Okuyucu Bağlantısı",
         "DatabaseUtf8Requirement": "Bu özellik 4 baytlık UTF8 karakterlerini kaydedebilmek için gereklidir. utf8mb4 kullanılabilir olmadan, özel karakterler, duygu ifadeleri (emojiler), asya dillerinde az kullanılan karakterler, çeşitli tarihsel ya da matematiksel simgeler yerine %1$s kullanılır. Ayrıntılı bilgi almak için %2$ssık sorulan sorular bölümüne%3$s bakabilirsiniz.",
         "DatabaseUtf8mb4CharsetRecommended": "Veritabanınız henüz utf8mb4 karakter kümesini desteklemiyor.",
