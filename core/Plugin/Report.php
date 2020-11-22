@@ -239,7 +239,10 @@ class Report
      */
     public function isEnabled()
     {
-        if ($this->requiresProfilableVisitors()) {
+        // TODO: method naming consistency requiresProfilableVisitors/isRequiresProfilableData
+        if ($this->isRequiresProfilableData()
+            || (isset($this->dimension) && $this->dimension->isRequiresProfilableData())
+        ) {
             $isProfilable = self::getIsCurrentPeriodProfilable();
             if (!$isProfilable) {
                 return false;
@@ -1014,7 +1017,7 @@ class Report
      *
      * @api
      */
-    public function requiresProfilableVisitors()
+    public function isRequiresProfilableData()
     {
         return false;
     }
