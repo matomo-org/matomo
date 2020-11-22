@@ -345,7 +345,6 @@ class CronArchive
             return;
         }
 
-
         $this->logger->debug("Applying queued rearchiving...");
         $this->invalidator->applyScheduledReArchiving();
 
@@ -1000,6 +999,11 @@ class CronArchive
             $dateLast = time() - $this->lastSuccessRunTimestamp;
             $this->logger->info("- Archiving was last executed without error "
                 . $this->formatter->getPrettyTimeFromSeconds($dateLast, true) . " ago");
+        }
+
+
+        if ($this->websiteIdArchiveList->isContinuingPreviousRun()) {
+            $this->logger->info("- Continuing ongoing archiving run by pulling from shared idSite queue.");
         }
     }
 

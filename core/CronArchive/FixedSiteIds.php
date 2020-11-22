@@ -62,4 +62,12 @@ class FixedSiteIds
 
         return null;
     }
+
+    /**
+     * @return bool
+     */
+    public function isContinuingPreviousRun(): bool
+    {
+        return false;
+    }
 }
