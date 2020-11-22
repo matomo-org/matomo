@@ -873,7 +873,7 @@ class Visualization extends ViewDataTable
     {
         // TODO: actually do we even need to specify a segment? maybe we want to check all visits regardless of segment.
         //       better performance, certainly.
-        if (!$this->report->requiresProfilableVisitors()) {
+        if (!$this->report->isRequiresProfilableData()) {
             return;
         }
 

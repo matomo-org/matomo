@@ -56,7 +56,7 @@ class GetNumberOfVisitsByVisitCount extends Base
         $view->config->show_all_views_icons    = false;
     }
 
-    public function requiresProfilableVisitors()
+    public function isRequiresProfilableData()
     {
         return true;
     }
