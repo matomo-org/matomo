@@ -27,6 +27,7 @@ class SharedSiteIds
     private $optionName;
 
     private $siteIds = array();
+    private $sitesLookedAt = array();
     private $currentSiteId;
     private $done = false;
     private $numWebsitesLeftToProcess;
@@ -180,7 +181,18 @@ class SharedSiteIds
             }
 
             $nextSiteId = array_shift($siteIds);
+
+            if (in_array($nextSiteId, $this->sitesLookedAt)) {
+                // we have already archived this site before, it must have been reset in between
+                return null;
+            }
+            $this->sitesLookedAt[] = $nextSiteId;
+
+            // needs to be set after remove an idSite from $siteIds so we would better notice when sharedSiteIds queue
+            // was reset. Eg when sharedSiteIds=[1], then we remove idSite=1 so we are [] then if another queue resets it
+            // to [1] then we'd notice it
             $self->numWebsitesLeftToProcess = count($siteIds);
+
             $self->setSiteIdsToArchive($siteIds);
 
             return $nextSiteId;
