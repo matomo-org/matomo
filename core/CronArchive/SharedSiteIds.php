@@ -27,6 +27,7 @@ class SharedSiteIds
     private $optionName;
 
     private $siteIds = array();
+    private $sitesLookedAt = array();
     private $currentSiteId;
     private $done = false;
     private $numWebsitesLeftToProcess;
@@ -182,6 +183,12 @@ class SharedSiteIds
             $self->numWebsitesLeftToProcess = count($siteIds);
 
             $nextSiteId = array_shift($siteIds);
+            if (in_array($nextSiteId, $this->sitesLookedAt)) {
+                // we have already archived this site before, it must have been reset in between
+                return null;
+            }
+            $this->sitesLookedAt[] = $nextSiteId;
+
             $self->setSiteIdsToArchive($siteIds);
 
             return $nextSiteId;
