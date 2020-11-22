@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -132,8 +133,34 @@ class DataTablePostProcessor
         $dataTable = $this->convertSegmentValueToSegment($dataTable);
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
+        $dataTable = $this->removeMetricsIfNotProfilable($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
         $dataTable = $this->applyMetricsFormatting($dataTable);
+        return $dataTable;
+    }
+
+    private function removeMetricsIfNotProfilable(DataTableInterface $dataTable)
+    {
+        if (Report::getIsCurrentPeriodProfilable()) {
+            return $dataTable;
+        }
+
+        $metricsToRemove = [
+            Metrics::INDEX_NB_UNIQ_VISITORS,
+            Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
+        ];
+
+        $metricIdToNameMap = Metrics::getMappingFromIdToName();
+        foreach (array_values($metricsToRemove) as $indexMetric) {
+            $metricsToRemove[] = $metricIdToNameMap[$indexMetric];
+        }
+
+        $dataTable->filter(DataTable\Filter\ColumnDelete::class, [$metricsToRemove]);
+
         return $dataTable;
     }
 
