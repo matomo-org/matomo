@@ -2093,7 +2093,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(118);
+        expect(119);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2157,6 +2157,7 @@ function PiwikTest() {
         equal( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
         equal( typeof tracker.setLinkClasses, 'function', 'setLinkClasses' );
         equal( typeof tracker.setCampaignNameKey, 'function', 'setCampaignNameKey' );
+        equal( typeof tracker.disablePerformanceTracking, 'function', 'disablePerformanceTracking' );
         equal( typeof tracker.setCampaignKeywordKey, 'function', 'setCampaignKeywordKey' );
         equal( typeof tracker.discardHashTag, 'function', 'discardHashTag' );
         equal( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
