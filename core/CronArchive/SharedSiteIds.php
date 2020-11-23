@@ -41,7 +41,7 @@ class SharedSiteIds
         }
 
         $self = $this;
-        $this->siteIds = $this->runExclusive(function () use ($self, $websiteIds, $optionName) {
+        $this->siteIds = $this->runExclusive(function () use ($self, $websiteIds) {
             // if there are already sites to be archived registered, prefer the list of existing archive, meaning help
             // to finish this queue of sites instead of starting a new queue
             $existingWebsiteIds = $self->getAllSiteIdsToArchive();
@@ -61,13 +61,13 @@ class SharedSiteIds
 
     public function setQueueWasReset()
     {
-        Option::set($this->optionName. self::KEY_TIMESTAMP, floor(microtime(true) * 1000));
+        Option::set($this->optionName . self::KEY_TIMESTAMP, floor(microtime(true) * 1000));
     }
 
     private function getResetQueueTime()
     {
-        Option::clearCachedOption($this->optionName. self::KEY_TIMESTAMP);
-        return Option::get($this->optionName. self::KEY_TIMESTAMP);
+        Option::clearCachedOption($this->optionName . self::KEY_TIMESTAMP);
+        return Option::get($this->optionName . self::KEY_TIMESTAMP);
     }
 
     public function getInitialSiteIds()
