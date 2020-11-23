@@ -9,6 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use PHPUnit\Framework\Assert;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 
@@ -30,13 +31,18 @@ class NonProfilableData extends Fixture
 
     private function trackNonProfilableVisits()
     {
-        // two non profilable visits?
+        // two non profilable visits
         $t = self::getTracker($this->idSite, $this->dateTime);
+        $t->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; GTB6.3; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; OfficeLiveConnector.1.4; OfficeLivePatch.1.3)');
         $t->setUrl('http://example.com/isapage');
         $this->unsetVisitorId($t);
         Fixture::checkResponse($t->doTrackPageView('page view'));
 
-        // TODO Rest of visits
+        $t = self::getTracker($this->idSite, Date::factory($this->dateTime)->addHour(1)->getDatetime());
+        $t->setUserAgent('Mozilla/5.0 (Linux; U; Android 4.3; zh-cn; SM-N9006 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 MQQBrowser/5.0 Mobile Safari/537.36');
+        $t->setUrl('http://example.com/yet/another/page');
+        $this->unsetVisitorId($t);
+        Fixture::checkResponse($t->doTrackPageView('a second > page view'));
 
         $this->assertNoProfilableData();
     }
