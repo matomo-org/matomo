@@ -308,7 +308,9 @@ class CronArchive
         $this->allWebsites = $websitesIds;
         $this->websiteIdArchiveList = $this->makeWebsiteIdArchiveList($websitesIds);
 
-        if ($this->websiteIdArchiveList->isContinuingPreviousRun()) {
+        if (method_exists($this->websiteIdArchiveList, 'isContinuingPreviousRun') &&
+            $this->websiteIdArchiveList->isContinuingPreviousRun()
+        ) {
             $this->logger->info("- Continuing ongoing archiving run by pulling from shared idSite queue.");
         }
 
