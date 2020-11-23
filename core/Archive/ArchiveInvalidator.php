@@ -550,6 +550,9 @@ class ArchiveInvalidator
      */
     public function scheduleReArchiving($idSites, string $pluginName, string $report = null, Date $startDate = null)
     {
+        if (!empty($report)) {
+            $this->removeInvalidationsSafely($idSites, $pluginName, $report);
+        }
         try {
             $reArchiveList = new ReArchiveList($this->logger);
             $reArchiveList->add(json_encode([
