@@ -1209,7 +1209,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->scheduleReArchiving('all', 'VisitsSummary');
         $this->invalidator->applyScheduledReArchiving();
 
-        $countInvalidations = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
+        $countInvalidations = $this->getNumInvalidations();
 
         $invalidationSites = Db::fetchAll("SELECT DISTINCT idsite FROM " . Common::prefixTable('archive_invalidations'));
         $invalidationSites = array_column($invalidationSites, 'idsite');
@@ -1218,6 +1218,23 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
     }
 
+    private function getNumInvalidations()
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
+    }
+
+    public function test_scheduleReArchiving_cleanupWhenReportGiven()
+    {
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
+        $this->invalidator->applyScheduledReArchiving();
+        $this->assertEquals(729, $this->getNumInvalidations());
+
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
+        $this->invalidator->applyScheduledReArchiving();
+        // should not end up having twice the amount of invalidations but delete existing
+        $this->assertEquals(729, $this->getNumInvalidations());
+
+    }
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
