@@ -20,6 +20,7 @@ class SharedSiteIds
 {
     const OPTION_DEFAULT = 'SharedSiteIdsToArchive';
     const OPTION_ALL_WEBSITES = 'SharedSiteIdsToArchive_AllWebsites';
+    const KEY_TIMESTAMP = '_ResetQueueTime';
 
     /**
      * @var string
@@ -27,10 +28,9 @@ class SharedSiteIds
     private $optionName;
 
     private $siteIds = array();
-    private $sitesLookedAt = array();
     private $currentSiteId;
     private $done = false;
-    private $numWebsitesLeftToProcess;
+    private $initialResetQueueTime = null;
 
     public function __construct($websiteIds, $optionName = self::OPTION_DEFAULT)
     {
@@ -41,7 +41,7 @@ class SharedSiteIds
         }
 
         $self = $this;
-        $this->siteIds = $this->runExclusive(function () use ($self, $websiteIds) {
+        $this->siteIds = $this->runExclusive(function () use ($self, $websiteIds, $optionName) {
             // if there are already sites to be archived registered, prefer the list of existing archive, meaning help
             // to finish this queue of sites instead of starting a new queue
             $existingWebsiteIds = $self->getAllSiteIdsToArchive();
@@ -50,11 +50,24 @@ class SharedSiteIds
                 return $existingWebsiteIds;
             }
 
+            $self->setQueueWasReset();
             $self->setSiteIdsToArchive($websiteIds);
 
             return $websiteIds;
         });
-        $this->numWebsitesLeftToProcess = $this->getNumSites();
+
+        $this->initialResetQueueTime = $this->getResetQueueTime();
+    }
+
+    public function setQueueWasReset()
+    {
+        Option::set($this->optionName. self::KEY_TIMESTAMP, floor(microtime(true) * 1000));
+    }
+
+    private function getResetQueueTime()
+    {
+        Option::clearCachedOption($this->optionName. self::KEY_TIMESTAMP);
+        return Option::get($this->optionName. self::KEY_TIMESTAMP);
     }
 
     public function getInitialSiteIds()
@@ -163,6 +176,13 @@ class SharedSiteIds
             return null;
         }
 
+        if ($this->initialResetQueueTime !== $this->getResetQueueTime()) {
+            // queue was reset/finished by some other process
+            $this->currentSiteId = null;
+            $this->done = true;
+            return null;
+        }
+
         $self = $this;
 
         $this->currentSiteId = $this->runExclusive(function () use ($self) {
@@ -174,24 +194,7 @@ class SharedSiteIds
                 return null;
             }
 
-            if (count($siteIds) > $self->numWebsitesLeftToProcess) {
-                // done... the number of siteIds in SharedSiteIds is larger than it was initially... therefore it must have
-                // been reset at some point.
-                return null;
-            }
-
             $nextSiteId = array_shift($siteIds);
-
-            if (in_array($nextSiteId, $this->sitesLookedAt)) {
-                // we have already archived this site before, it must have been reset in between
-                return null;
-            }
-            $this->sitesLookedAt[] = $nextSiteId;
-
-            // needs to be set after remove an idSite from $siteIds so we would better notice when sharedSiteIds queue
-            // was reset. Eg when sharedSiteIds=[1], then we remove idSite=1 so we are [] then if another queue resets it
-            // to [1] then we'd notice it
-            $self->numWebsitesLeftToProcess = count($siteIds);
 
             $self->setSiteIdsToArchive($siteIds);
 
@@ -200,7 +203,6 @@ class SharedSiteIds
 
         if (is_null($this->currentSiteId)) {
             $this->done = true;
-            $this->numWebsitesLeftToProcess = 0;
         }
 
         return $this->currentSiteId;

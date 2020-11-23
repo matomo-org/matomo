@@ -104,7 +104,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertEquals(2, $this->sharedSiteIds->getNextSiteId());
 
         // we fake to reset the sharedSiteIds by another process
-        $this->sharedSiteIds->setSiteIdsToArchive(array(1,2,5,9));
+        $this->sharedSiteIds->setQueueWasReset();
 
         // it detects that sites must have been processed by now
         $this->assertNull($this->sharedSiteIds->getNextSiteId());
