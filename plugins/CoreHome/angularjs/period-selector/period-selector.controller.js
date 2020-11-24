@@ -327,7 +327,10 @@
             // not in an angular context (eg, embedded dashboard), so must actually
             // change the URL
             var url = $.param($.extend({ date: date, period: period }, compareParams));
-            broadcast.propagateNewPage(url);
+
+            // $.param does an encodeUriComponent on every value. For date ranges we need to have a decoded ","
+            // as otherwise some other parts might break
+            broadcast.propagateNewPage(url.replace('%2C', ','));
         }
 
         function isValidDate(d) {
