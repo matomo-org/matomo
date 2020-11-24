@@ -10,6 +10,7 @@ namespace Piwik\CronArchive;
 
 use Exception;
 use Piwik\CliMulti\Process;
+use Piwik\Log;
 use Piwik\Option;
 
 /**
@@ -180,6 +181,7 @@ class SharedSiteIds
             // queue was reset/finished by some other process
             $this->currentSiteId = null;
             $this->done = true;
+            Log::debug('The shared site ID queue was reset, stopping.');
             return null;
         }
 
