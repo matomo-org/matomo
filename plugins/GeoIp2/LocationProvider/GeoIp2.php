@@ -66,7 +66,7 @@ abstract class GeoIp2 extends LocationProvider
 
             // get location using test IP and check that some information was returned
             $location = $this->getLocation(array('ip' => $testIp));
-            $location = array_filter($location);
+            $location = $location ? array_filter($location) : $location;
             $isResultCorrect = !empty($location);
 
             if (!$isResultCorrect) {

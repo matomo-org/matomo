@@ -179,6 +179,16 @@ abstract class LocationProvider
     }
 
     /**
+     * Returns a message that should be shown as diagnostics warning if provider is used
+     *
+     * @return null|string
+     */
+    public function getUsageWarning(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Returns every available provider instance.
      *
      * @return LocationProvider[]
@@ -299,6 +309,7 @@ abstract class LocationProvider
             $info['statusMessage'] = $statusMessage;
             $info['location'] = $location;
             $info['isVisible'] = $provider->isVisible();
+            $info['usageWarning'] = $provider->getUsageWarning();
 
             $allInfo[$info['order']] = $info;
         }
