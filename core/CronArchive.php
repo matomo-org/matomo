@@ -526,7 +526,7 @@ class CronArchive
         $url = $this->makeRequestUrl($url);
 
         if (!empty($segment)) {
-            $shouldSkipToday = !$this->wasSegmentChangedRecently($segment,
+            $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentChangedRecently($segment,
                 $this->segmentArchiving->getAllSegments());
 
             if ($shouldSkipToday) {
