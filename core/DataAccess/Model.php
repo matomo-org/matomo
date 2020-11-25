@@ -840,14 +840,6 @@ class Model
         Db::query($sql);
     }
 
-    public function isInvalidationsScheduledForSite($idSite)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
-        $value = Db::fetchOne($sql, [(int) $idSite]);
-        return !empty($value);
-    }
-
     private function getRemoveInvalidationsIdSitesClause($idSite)
     {
         if ($idSite === 'all') {
