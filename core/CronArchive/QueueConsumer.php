@@ -151,12 +151,12 @@ class QueueConsumer
 
             $this->siteTimer = new Timer();
             $this->siteRequests = 0;
-        }
 
-        // check if we need to process invalidations
-        // NOTE: we do this on every iteration so we don't end up processing say a single user entered invalidation,
-        // and then stop until the next hour.
-        $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
+            // check if we need to process invalidations
+            // NOTE: we do this on every site iteration so we don't end up processing say a single user entered invalidation,
+            // and then stop until the next hour.
+            $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
+        }
 
         // we don't want to invalidate different periods together or segment archives w/ no-segment archives
         // together, but it's possible to end up querying these archives. if we find one, we keep track of it
