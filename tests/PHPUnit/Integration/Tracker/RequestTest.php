@@ -277,7 +277,7 @@ class RequestTest extends IntegrationTestCase
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
     {
-        $request = $this->buildRequest(array('cdt' => '6 years ago'));
+        $request = $this->buildRequest(array('cdt' => '10 years ago'));
         $request->setCurrentTimestamp($this->time);
         $request->setIsAuthenticated();
         $this->assertNotSame($this->time, $request->getCurrentTimestamp());
