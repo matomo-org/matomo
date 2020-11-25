@@ -32,6 +32,7 @@ class Alexa implements MetricsProvider
 
     public function getMetrics($domain)
     {
+        $value = null;
         try {
             $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
             $dom = new \DomDocument();
