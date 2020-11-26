@@ -343,6 +343,9 @@ class Controller extends \Piwik\Plugin\Controller
         $group = null;
         foreach ($migrations as $migration) {
             $type = $migration instanceof DbMigration ? 'sql' : 'command';
+            if (strpos($migration, './console') === 0) {
+                $type = 'command';
+            }
             if ($group === null
                 || $type != $group['type']
             ) {

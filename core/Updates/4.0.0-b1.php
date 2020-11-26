@@ -76,12 +76,20 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $userModel = new Model();
         foreach ($userModel->getUsers(array()) as $user) {
             if (!empty($user['token_auth'])) {
-                $migrations[] = $this->migration->db->insert('user_token_auth', array(
+                $mig = $this->migration->db->insert('user_token_auth', array(
                     'login' => $user['login'],
                     'description' => 'Created by Matomo 4 migration',
                     'password' => $userModel->hashTokenAuth($user['token_auth']),
-                    'date_created' => Date::now()->getDatetime()
+                    'date_created' => Date::now()->getDatetime(),
+                    'hash_algo' => 'sha512'
                 ));
+
+                $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
+                $domainArg = !empty($domain) ? "--matomo-domain=". escapeshellarg($domain) . " " : '';
+
+                $toString = sprintf('./console %score:matomo4-migrate-token-auth %s', $domainArg, escapeshellarg($user['login']));
+                $mig->forceToString($toString);
+                $migrations[] = $mig;
             }
         }
 
