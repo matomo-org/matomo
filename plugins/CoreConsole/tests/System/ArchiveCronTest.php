@@ -221,6 +221,10 @@ class ArchiveCronTest extends SystemTestCase
 
     private function runArchivePhpCron($options = array(), $archivePhpScript = false)
     {
+        // force existing invalidations to look like they were added yesterday
+        $sql = "UPDATE " . Common::prefixTable('archive_invalidations') . ' SET ts_invalidated = ?';
+        Db::query($sql, [Date::yesterday()->getDatetime()]);
+
         $archivePhpScript = $archivePhpScript ?: PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 

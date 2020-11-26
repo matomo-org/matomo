@@ -760,6 +760,11 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
+        if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate, Date::today())) {
+            $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
+            return;
+        }
+
         if (empty($this->segmentArchiving)) {
             // might not be initialised if init is not called
             $this->segmentArchiving = new SegmentArchiving($this->processNewSegmentsFrom, $this->dateLastForced);
