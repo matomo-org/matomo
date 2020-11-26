@@ -56,4 +56,11 @@ class JSTrackingUIFixture extends Fixture
         $this->testEnvironment->pluginsToLoad = $this->extraPluginsToLoad;
         $this->testEnvironment->save();
     }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'CustomJsTracker.enableUpdates' => true
+        ];
+    }
 }
