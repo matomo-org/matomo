@@ -521,7 +521,6 @@ Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-09, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
 Skipping invalidated archive 14, segment '' is not in --force-idsegments: [idinvalidation = 14, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done]
 Skipping invalidated archive 48, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 48, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done49a9440bd6dba4b8850035e09d043c67]
 Processing invalidation: [idinvalidation = 18, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
@@ -540,7 +539,6 @@ Found archive with intersecting period with others in concurrent batch, skipping
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
 Skipping invalidated archive 15, segment '' is not in --force-idsegments: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
 Skipping invalidated archive 11, segment '' is not in --force-idsegments: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
 Skipping invalidated archive 7, segment '' is not in --force-idsegments: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
@@ -556,7 +554,6 @@ Found archive with intersecting period with others in concurrent batch, skipping
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
 Skipping invalidated archive 16, segment '' is not in --force-idsegments: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
 Skipping invalidated archive 12, segment '' is not in --force-idsegments: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
 Skipping invalidated archive 8, segment '' is not in --force-idsegments: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
@@ -566,7 +563,6 @@ Processing invalidation: [idinvalidation = 32, idsite = 1, period = year(2019-01
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
 No next invalidated archive.
 Finished archiving for site 1, 5 API requests, Time elapsed: %fs [1 / 1 done]
 No more sites left to archive, stopping.
