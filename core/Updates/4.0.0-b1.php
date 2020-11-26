@@ -14,6 +14,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreAdminHome\Commands\MigrateTokenAuths;
 use Piwik\Plugins\CoreHome\Columns\Profilable;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
@@ -57,43 +58,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $migrations = [];
 
-        /** APP SPECIFIC TOKEN START */
-        $migrations[] = $this->migration->db->createTable('user_token_auth', array(
-            'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
-            'login' => 'VARCHAR(100) NOT NULL',
-            'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
-            'password' => 'VARCHAR(191) NOT NULL',
-            'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
-            'hash_algo' => 'VARCHAR(30) NOT NULL',
-            'last_used' => 'DATETIME NULL',
-            'date_created' => ' DATETIME NOT NULL',
-            'date_expired' => ' DATETIME NULL',
-        ), 'idusertokenauth');
-        $migrations[] = $this->migration->db->addUniqueKey('user_token_auth', 'password', 'uniq_password');
+        $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
+        $domainArg = !empty($domain) ? "--matomo-domain=". escapeshellarg($domain) . " " : '';
 
-        $migrations[] = $this->migration->db->dropIndex('user', 'uniq_keytoken');
+        $toString = sprintf('./console %score:matomo4-migrate-token-auths', $domainArg);
+        $custom = new Updater\Migration\Custom(array(MigrateTokenAuths::class, 'migrate'), $toString);
 
-        $userModel = new Model();
-        foreach ($userModel->getUsers(array()) as $user) {
-            if (!empty($user['token_auth'])) {
-                $mig = $this->migration->db->insert('user_token_auth', array(
-                    'login' => $user['login'],
-                    'description' => 'Created by Matomo 4 migration',
-                    'password' => $userModel->hashTokenAuth($user['token_auth']),
-                    'date_created' => Date::now()->getDatetime(),
-                    'hash_algo' => 'sha512'
-                ));
-
-                $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
-                $domainArg = !empty($domain) ? "--matomo-domain=". escapeshellarg($domain) . " " : '';
-
-                $toString = sprintf('./console %score:matomo4-migrate-token-auth %s', $domainArg, escapeshellarg($user['login']));
-                $mig->forceToString($toString);
-                $migrations[] = $mig;
-            }
-        }
-
-        /** APP SPECIFIC TOKEN END */
+        $migrations[] = $custom;
 
         // invalidations table
         $migrations[] = $this->migration->db->createTable('archive_invalidations', [
@@ -112,7 +83,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
 
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
-        $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
 
         // prevent possible duplicates when shorting session id
         $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('session') . '` WHERE length(id) > 190');

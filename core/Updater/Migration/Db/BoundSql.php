@@ -19,8 +19,6 @@ class BoundSql extends Sql
      */
     private $bind;
 
-    private $forceToString = '';
-
     /**
      * BoundSql constructor.
      * @param string $sql
@@ -33,16 +31,8 @@ class BoundSql extends Sql
         $this->bind = (array) $bind;
     }
 
-    public function forceToString($forceToString)
-    {
-        $this->forceToString = $forceToString;
-    }
-
     public function __toString()
     {
-        if (!empty($this->forceToString)) {
-            return $this->forceToString;
-        }
         $sql = parent::__toString();
 
         foreach ($this->bind as $value) {
