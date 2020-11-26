@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\Columns\Profilable;
@@ -28,6 +29,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;
+use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -103,6 +105,19 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
         $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
+
+        // remove outdated sessions to avoid useless updates
+        Db::exec('DELETE FROM ' . Common::prefixTable('session') . ' WHERE modified + lifetime < ' . time());
+
+        $salt = SettingsPiwik::getSalt();
+        $sessions = Db::fetchAll('SELECT id from ' . Common::prefixTable('session'));
+
+        foreach ($sessions as $session) {
+            $migrations[] = $this->migration->db->boundSql(
+                sprintf('UPDATE %s SET id = ? WHERE id = ?', Common::prefixTable('session')),
+                [ hash('sha512', $session['id'] . $salt), $session['id'] ]
+            );
+        }
 
         $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
         $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
