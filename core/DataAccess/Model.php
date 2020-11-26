@@ -696,7 +696,7 @@ class Model
             $bind[] = $invalidation['report'];
         }
 
-        $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND `period` = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `status` = ? AND $reportClause LIMIT 1";
+        $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND `period` = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `status` = ? AND ts_started IS NOT NULL AND $reportClause LIMIT 1";
         $result = Db::fetchOne($sql, $bind);
 
         return !empty($result);
@@ -840,14 +840,6 @@ class Model
         Db::query($sql);
     }
 
-    public function isInvalidationsScheduledForSite($idSite)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
-        $value = Db::fetchOne($sql, [(int) $idSite]);
-        return !empty($value);
-    }
-
     private function getRemoveInvalidationsIdSitesClause($idSite)
     {
         if ($idSite === 'all') {
@@ -881,5 +873,16 @@ class Model
 
         $query = Db::query($sql, $bind);
         return $query->rowCount();
+    }
+
+    public function isInvalidationsScheduledForSite($idSite)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $bind = [(int) $idSite];
+
+        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
+        $value = Db::fetchOne($sql, $bind);
+        return !empty($value);
     }
 }
