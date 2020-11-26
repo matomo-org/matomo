@@ -117,7 +117,8 @@ class ArchiveCronTest extends SystemTestCase
     {
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
+        $invalidator->markArchivesAsInvalidated(
+            [1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
 
         // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
         $tracker = Fixture::getTracker(1, '2007-04-05');
@@ -128,6 +129,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
 
         $output = $this->runArchivePhpCron();
+        $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
 
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
@@ -164,6 +166,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
 
         $output = $this->runArchivePhpCron(['-vvv' => null]);
+        $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
 
         $this->runApiTests('ExamplePlugin.getExampleArchivedMetric', [
             'idSite' => 'all',
@@ -221,10 +224,6 @@ class ArchiveCronTest extends SystemTestCase
 
     private function runArchivePhpCron($options = array(), $archivePhpScript = false)
     {
-        // force existing invalidations to look like they were added yesterday
-        $sql = "UPDATE " . Common::prefixTable('archive_invalidations') . ' SET ts_invalidated = ?';
-        Db::query($sql, [Date::yesterday()->getDatetime()]);
-
         $archivePhpScript = $archivePhpScript ?: PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 

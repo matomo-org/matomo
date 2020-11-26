@@ -760,7 +760,7 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
-        if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate, Date::today())) {
+        if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate)) {
             $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
             return;
         }
