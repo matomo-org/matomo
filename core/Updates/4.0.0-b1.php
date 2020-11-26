@@ -106,18 +106,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
         $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
 
-        // remove outdated sessions to avoid useless updates
-        Db::exec('DELETE FROM ' . Common::prefixTable('session') . ' WHERE modified + lifetime < ' . time());
-
-        $salt = SettingsPiwik::getSalt();
-        $sessions = Db::fetchAll('SELECT id from ' . Common::prefixTable('session'));
-
-        foreach ($sessions as $session) {
-            $migrations[] = $this->migration->db->boundSql(
-                sprintf('UPDATE %s SET id = ? WHERE id = ?', Common::prefixTable('session')),
-                [ hash('sha512', $session['id'] . $salt), $session['id'] ]
-            );
-        }
+        // prevent possible duplicates when shorting session id
+        $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('session') . '` WHERE length(id) > 190');
 
         $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
         $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
@@ -267,6 +257,16 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function doUpdate(Updater $updater)
     {
+        $salt = SettingsPiwik::getSalt();
+        $sessions = Db::fetchAll('SELECT id from ' . Common::prefixTable('session'));
+
+        foreach ($sessions as $session) {
+            if (!empty($session['id']) && Common::mb_strlen($session['id']) != 128) {
+                $bind = [ hash('sha512', $session['id'] . $salt), $session['id'] ];
+                Db::query(sprintf('UPDATE %s SET id = ? WHERE id = ?', Common::prefixTable('session')), $bind);
+            }
+        }
+
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
