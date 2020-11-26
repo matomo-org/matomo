@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
+use Piwik\CronArchive;
 use Psr\Container\ContainerInterface;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
@@ -129,6 +130,9 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
 
         $output = $this->runArchivePhpCron();
+
+        Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS); // clear so segment re-archive logic runs on this run
+        Option::delete(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME);
         $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
 
         $expectedInvalidations = [];
@@ -166,6 +170,9 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
 
         $output = $this->runArchivePhpCron(['-vvv' => null]);
+
+        Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS); // clear so segment re-archive logic runs on this run
+        Option::delete(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME);
         $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
 
         $this->runApiTests('ExamplePlugin.getExampleArchivedMetric', [
