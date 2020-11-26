@@ -80,7 +80,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
                     'login' => $user['login'],
                     'description' => 'Created by Matomo 4 migration',
                     'password' => $userModel->hashTokenAuth($user['token_auth']),
-                    'date_created' => Date::now()->getDatetime()
+                    'date_created' => Date::now()->getDatetime(),
+                    'hash_algo' => 'sha512
                 ));
             }
         }
