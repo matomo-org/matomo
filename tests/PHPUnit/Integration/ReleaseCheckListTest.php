@@ -261,6 +261,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/vendor/phpunit/php-code-coverage/tests',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
             PIWIK_INCLUDE_PATH . '/node_modules/',
+            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/',
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);

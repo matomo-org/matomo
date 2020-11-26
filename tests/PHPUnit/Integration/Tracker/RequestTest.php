@@ -33,20 +33,34 @@ class RequestTest extends IntegrationTestCase
 
     private $time;
 
-    public function setUp(): void
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
+        parent::beforeTableDataCached();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         foreach (range(3,14) as $idSite) {
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
 
         Cache::deleteTrackerCache();
 
         $this->request = $this->buildRequest(array('idsite' => '1'));
-        $this->time = 1416795617;
+        $this->time = strtotime('2015-11-24 02:20:17');
+    }
+
+    public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
+    {
+        $request = $this->buildRequest(array('cdt' => '6 years ago'));
+        $request->setCurrentTimestamp($this->time);
+        $request->setIsAuthenticated();
+        $this->assertNotSame($this->time, $request->getCurrentTimestamp());
+        $this->assertNotEmpty($request->getCurrentTimestamp());
     }
 
     public function test_getVisitorId_noData()
@@ -273,15 +287,6 @@ class RequestTest extends IntegrationTestCase
         $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
-    {
-        $request = $this->buildRequest(array('cdt' => '6 years ago'));
-        $request->setCurrentTimestamp($this->time);
-        $request->setIsAuthenticated();
-        $this->assertNotSame($this->time, $request->getCurrentTimestamp());
-        $this->assertNotEmpty($request->getCurrentTimestamp());
     }
 
     public function test_getIdSite()

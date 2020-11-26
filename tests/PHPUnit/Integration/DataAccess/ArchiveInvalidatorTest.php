@@ -1227,14 +1227,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
         $this->invalidator->applyScheduledReArchiving();
-        $this->assertEquals(729, $this->getNumInvalidations());
+        $invalidationCountBefore = $this->getNumInvalidations();
+        $this->assertGreaterThan(0, $invalidationCountBefore);
 
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
         $this->invalidator->applyScheduledReArchiving();
         // should not end up having twice the amount of invalidations but delete existing
-        $this->assertEquals(729, $this->getNumInvalidations());
-
+        $invalidationCountAfter = $this->getNumInvalidations();
+        $this->assertEquals($invalidationCountBefore, $invalidationCountAfter);
     }
+
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
