@@ -240,6 +240,7 @@ var myArray = [];
                     $this->trackerJsChangedEventPath = $path;
                 })],
             ]),
+            'CustomJsTracker.enableUpdates' => true
         ];
     }
 }

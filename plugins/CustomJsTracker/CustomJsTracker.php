@@ -16,6 +16,10 @@ class CustomJsTracker extends Plugin
 {
     public function registerEvents()
     {
+        if (!StaticContainer::get('CustomJsTracker.enableUpdates')) {
+            return []; // don't listen to event if updates are disabled (mostly while testing)
+        }
+
         return array(
             'CoreUpdater.update.end' => 'updateTracker',
             'PluginManager.pluginActivated' => 'updateTracker',

@@ -124,7 +124,7 @@ class TrackerUpdater
      */
     public function update()
     {
-        if (!$this->toFile->hasWriteAccess() || !$this->fromFile->hasReadAccess()) {
+        if (!StaticContainer::get('CustomJsTracker.enableUpdates') || !$this->toFile->hasWriteAccess() || !$this->fromFile->hasReadAccess()) {
             return;
         }
 
