@@ -7,7 +7,6 @@
  */
 namespace Piwik\Updater\Migration;
 
-use Piwik\Updater\Migration\Custom\Custom;
 use Piwik\Updater\Migration\Db\Factory as DbFactory;
 use Piwik\Updater\Migration\Plugin\Factory as PluginFactory;
 use Piwik\Updater\Migration\Config\Factory as ConfigFactory;
