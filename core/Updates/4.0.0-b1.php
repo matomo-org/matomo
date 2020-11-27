@@ -246,9 +246,6 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
-        // just in case it was not executed manually by a user...
-        MigrateTokenAuths::migrate();
-
         if ($this->usesGeoIpLegacyLocationProvider()) {
             // switch to default provider if GeoIp Legacy was still in use
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
