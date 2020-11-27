@@ -420,7 +420,46 @@ class QueueConsumerTest extends IntegrationTestCase
         }
 
         $expectedInvalidationsFound = [
-            // TODO
+            array (
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'date1' => '2018-03-04',
+                        'date2' => '2018-03-04',
+                        'period' => '1',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'plugin' => NULL,
+                        'segment' => '',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'date1' => '2018-03-03',
+                        'date2' => '2018-03-03',
+                        'period' => '1',
+                        'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                        'report' => NULL,
+                        'plugin' => NULL,
+                        'segment' => 'browserCode==IE',
+                    ),
+            ),
+            array (
+                0 =>
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'date1' => '2018-03-01',
+                        'date2' => '2018-03-31',
+                        'period' => '3',
+                        'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                        'report' => NULL,
+                        'plugin' => NULL,
+                        'segment' => 'browserCode==IE',
+                    ),
+            ),
+            array (// end of idsite=1
+            ),
         ];
 
         try {
