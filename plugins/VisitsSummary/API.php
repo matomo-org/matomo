@@ -74,7 +74,12 @@ class API extends \Piwik\Plugin\API
             ) {
                 $value = 1;
             } else {
-                $quotientProfilable = (float) $row['nb_profilable'] / (float) $row['nb_visits']; // TODO: php quotient math check (check safe method)
+                $nbProfilable = $row['nb_profilable'];
+                if ($nbProfilable < 0) {
+                    $nbProfilable = 0;
+                }
+
+                $quotientProfilable = (float) $nbProfilable / (float) $row['nb_visits']; // TODO: php quotient math check (check safe method)
                 $value = (int) ($quotientProfilable > 0.01);
             }
 
