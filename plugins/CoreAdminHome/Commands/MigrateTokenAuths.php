@@ -35,6 +35,7 @@ class MigrateTokenAuths extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         self::migrate();
+        $output->writeln('Done');
     }
 
     public static function migrate()
