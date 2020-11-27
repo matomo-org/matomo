@@ -12,7 +12,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Updater\Migration;
 
 /**
- * Provides plugin migrations.
+ * Create a custom migration that can execute any callback.
  *
  * @api
  */
