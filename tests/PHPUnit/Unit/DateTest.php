@@ -73,6 +73,39 @@ class DateTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * create last week object check that timestamp is correct (midnight)
+     *
+     * @group Core
+     */
+    public function testLastWeek()
+    {
+        $date = Date::lastWeek();
+        $this->assertEquals(strtotime(date("Y-m-d", strtotime('-1 week')) . " 00:00:00"), $date->getTimestamp());
+    }
+
+    /**
+     * create last month object check that timestamp is correct (midnight)
+     *
+     * @group Core
+     */
+    public function testLastMonth()
+    {
+        $date = Date::lastMonth();
+        $this->assertEquals(strtotime(date("Y-m-d", strtotime('-1 month')) . " 00:00:00"), $date->getTimestamp());
+    }
+
+    /**
+     * create last year object check that timestamp is correct (midnight)
+     *
+     * @group Core
+     */
+    public function testLastYear()
+    {
+        $date = Date::lastYear();
+        $this->assertEquals(strtotime(date("Y-m-d", strtotime('-1 year')) . " 00:00:00"), $date->getTimestamp());
+    }
+
+    /**
      * @group Core
      */
     public function testInvalidDateThrowsException()
@@ -441,6 +474,18 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['yesterdaySameTime', 'UTC-5', '2012-12-30 20:00:00', '2013-01-01 01:00:00'],
             ['yesterdaySameTime', 'UTC-5', '2012-12-31 01:00:00', '2013-01-01 06:00:00'],
             ['yesterdaySameTime', 'America/Toronto', '2012-12-31 01:00:00', '2013-01-01 06:00:00'],
+            ['lastWeek', 'America/Toronto', '2012-12-24 00:00:00', '2013-01-01 01:00:00'],
+            ['lastweek', 'UTC-5', '2012-12-24 00:00:00', '2013-01-01 01:00:00'],
+            ['last week', 'UTC-5', '2012-12-25 00:00:00', '2013-01-01 06:00:00'],
+            ['last-week', 'America/Toronto', '2012-12-25 00:00:00', '2013-01-01 06:00:00'],
+            ['lastMonth', 'America/Toronto', '2012-12-01 00:00:00', '2013-01-01 01:00:00'],
+            ['lastmonth', 'UTC-5', '2012-12-01 00:00:00', '2013-01-01 01:00:00'],
+            ['last month', 'UTC-5', '2012-12-01 00:00:00', '2013-01-01 06:00:00'],
+            ['last-month', 'America/Toronto', '2012-12-01 00:00:00', '2013-01-01 06:00:00'],
+            ['lastYear', 'America/Toronto', '2011-12-31 00:00:00', '2013-01-01 01:00:00'],
+            ['lastyear', 'UTC-5', '2011-12-31 00:00:00', '2013-01-01 01:00:00'],
+            ['last year', 'UTC-5', '2012-01-01 00:00:00', '2013-01-01 06:00:00'],
+            ['last-year', 'America/Toronto', '2012-01-01 00:00:00', '2013-01-01 06:00:00'],
 
             // UTC+5
             ['now', 'Antarctica/Mawson', '2012-12-31 19:00:00', '2012-12-31 14:00:00'],
@@ -459,6 +504,18 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['yesterdaySameTime', 'UTC+5', '2012-12-30 19:00:00', '2012-12-31 14:00:00'],
             ['yesterdaySameTime', 'UTC+5', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
             ['yesterdaySameTime', 'Antarctica/Mawson', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
+            ['lastWeek', 'Antarctica/Mawson', '2012-12-24 00:00:00', '2012-12-31 14:00:00'],
+            ['lastweek', 'UTC+5', '2012-12-24 00:00:00', '2012-12-31 14:00:00'],
+            ['last week', 'UTC+5', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['last-week', 'Antarctica/Mawson', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['lastMonth', 'Antarctica/Mawson', '2012-12-01 00:00:00', '2012-12-31 14:00:00'],
+            ['lastmonth', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 14:00:00'],
+            ['last month', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['last-month', 'Antarctica/Mawson', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['lastYear', 'Antarctica/Mawson', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
+            ['lastyear', 'UTC+5', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
+            ['last year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
+            ['last-year', 'Antarctica/Mawson', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
         ];
     }
 
