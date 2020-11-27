@@ -10,7 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\DataAccess\TableMetadata;
-use Piwik\Date;
+use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
@@ -60,9 +60,8 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
         $domainArg = !empty($domain) ? "--matomo-domain=". escapeshellarg($domain) . " " : '';
-
         $toString = sprintf('./console %score:matomo4-migrate-token-auths', $domainArg);
-        $custom = new Updater\Migration\Custom(array(MigrateTokenAuths::class, 'migrate'), $toString);
+        $custom = new CustomMigration(array(MigrateTokenAuths::class, 'migrate'), $toString);
 
         $migrations[] = $custom;
 
