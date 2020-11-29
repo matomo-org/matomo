@@ -34,7 +34,15 @@ class ReferrerUrl extends Base
     {
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
-        return $information['referer_url'];
+        return $this->trimUrl($information['referer_url']);
+    }
+
+    private function trimUrl($url)
+    {
+        if (!empty($url) && is_string($url) && Common::mb_strlen($url) > 1500) {
+            return Common::mb_substr($url, 1500);
+        }
+        return $url;
     }
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
@@ -43,7 +51,7 @@ class ReferrerUrl extends Base
         if ($this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY
         ) {
-            return $information['referer_url'];
+            return $this->trimUrl($information['referer_url']);
         }
 
         return false;
