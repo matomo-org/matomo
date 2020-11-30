@@ -18,6 +18,7 @@ use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Period;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
@@ -509,7 +510,22 @@ class QueueConsumer
 
     private function getNextIdSiteToArchive()
     {
-        return $this->websiteIdArchiveList->getNextSiteId();
+        $loopCount = 0;
+
+        $idSite = null;
+        while ($idSite === null && $loopCount < 500) {
+            $idSite = $this->websiteIdArchiveList->getNextSiteId();
+            if ($idSite === null) {
+                return null;
+            }
+
+            if (!$this->isSiteExists($idSite)) {
+                $idSite = null;
+            }
+
+            ++$loopCount;
+        }
+        return $idSite;
     }
 
     private function getInvalidationDescription(array $invalidatedArchive)
@@ -558,7 +574,11 @@ class QueueConsumer
 
     private function isSiteExists($idSite)
     {
-        $site = API::getInstance()->getSiteFromId($idSite);
-        return !empty($site);
+        try {
+            $site = API::getInstance()->getSiteFromId($idSite);
+            return !empty($site);
+        } catch (UnexpectedWebsiteFoundException $ex) {
+            return false;
+        }
     }
 }

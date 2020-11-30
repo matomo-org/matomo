@@ -26,6 +26,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
@@ -417,6 +418,12 @@ class CronArchive
             }
 
             $idSite = $archive['idsite'];
+            if (!$this->siteExists($idSite)) {
+                $this->logger->debug("Site $idSite no longer exists, no longer launching archiving.");
+                $this->deleteInvalidatedArchives($archive);
+                continue;
+            }
+
             $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd()));
@@ -760,6 +767,12 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
+        if (!$this->siteExists($idSiteToInvalidate)) {
+            $this->invalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSiteToInvalidate);
+            $this->logger->info("Site $idSiteToInvalidate no longer exists, skipping invalidation.");
+            return;
+        }
+
         if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate)) {
             $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
             return;
@@ -1261,6 +1274,16 @@ class CronArchive
             $this->logger->error("Found dangling invalidations that were not correctly reset or removed, this should be reported on the forums: {invalidations}", [
                 'idinvalidations' => json_encode($inProgress),
             ]);
+        }
+    }
+
+    private function siteExists($idSite)
+    {
+        try {
+            $site = APISitesManager::getInstance()->getSiteFromId($idSite);
+            return !empty($site);
+        } catch (UnexpectedWebsiteFoundException $ex) {
+            return false;
         }
     }
 }
