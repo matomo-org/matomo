@@ -15,14 +15,19 @@ use Piwik\Tracker\Action;
 
 class ReferrerUrl extends Base
 {
+    const MAX_LEN = 1500;
     protected $columnName = 'referer_url';
-    protected $columnType = 'VARCHAR(1500) NULL';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'referrerUrl';
     protected $nameSingular = 'Live_Referrer_URL';
     protected $namePlural = 'Referrers_ReferrerURLs';
     protected $category = 'Referrers_Referrers';
     protected $acceptValues = 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm';
+
+    public function __construct()
+    {
+        $this->columnType = 'VARCHAR('.self::MAX_LEN.') NULL';
+    }
 
     /**
      * @param Request $request
@@ -39,8 +44,8 @@ class ReferrerUrl extends Base
 
     private function trimUrl($url)
     {
-        if (!empty($url) && is_string($url) && Common::mb_strlen($url) > 1500) {
-            return Common::mb_substr($url, 0, 1500);
+        if (!empty($url) && is_string($url) && Common::mb_strlen($url) > self::MAX_LEN) {
+            return Common::mb_substr($url, 0, self::MAX_LEN);
         }
         return $url;
     }
