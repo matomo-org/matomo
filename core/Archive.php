@@ -234,7 +234,6 @@ class Archive implements ArchiveQuery
             $isMultipleDate);
     }
 
-    // TODO: check period has today, not equals
     public static function shouldSkipArchiveIfSkippingSegmentArchiveForToday(Site $site, Period $period, Segment $segment)
     {
         $now = Date::factory('now', $site->getTimezone());
