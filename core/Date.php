@@ -613,7 +613,7 @@ class Date
      */
     public static function yesterdaySameTime()
     {
-        return new Date(strtotime("yesterday " . date('H:i:s'), self::getNowTimestamp()));
+        return new Date(strtotime("yesterday " . date('H:i:s', self::getNowTimestamp()), self::getNowTimestamp()));
     }
 
     /**
