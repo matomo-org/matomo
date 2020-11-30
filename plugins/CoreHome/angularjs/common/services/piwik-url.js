@@ -7,12 +7,12 @@
 (function () {
     angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
 
-    piwikUrl.$inject = ['$location', 'piwik', '$window'];
+    piwikUrl.$inject = ['$location', '$window'];
 
     /**
      * Similar to angulars $location but works around some limitation. Use it if you need to access search params
      */
-    function piwikUrl($location, piwik, $window) {
+    function piwikUrl($location, $window) {
 
         var model = {
             getSearchParam: getSearchParam
@@ -24,7 +24,13 @@
         {
             var hash = $window.location.href.split('#');
             if (hash && hash[1] && (new RegExp(paramName + '(\\[]|=)')).test(decodeURIComponent(hash[1]))) {
-                return broadcast.getValueFromHash(paramName, $window.location.href);
+                var valueFromHash = broadcast.getValueFromHash(paramName, $window.location.href);
+
+                // for date, period and idsite fall back to parameter from url, if non in hash was provided
+                if (valueFromHash || (paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite')) {
+                    return valueFromHash;
+                }
+
             }
             return broadcast.getValueFromUrl(paramName, $window.location.search);
         }

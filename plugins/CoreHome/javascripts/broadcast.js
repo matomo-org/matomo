@@ -775,7 +775,7 @@ var broadcast = {
      */
     getParamValue: function (param, url) {
         var lookFor = param + '=';
-        var startStr = url.indexOf(lookFor);
+        var startStr = url.lastIndexOf(lookFor);
 
         if (startStr >= 0) {
             return getSingleValue(startStr, url);
@@ -784,10 +784,10 @@ var broadcast = {
 
             // try looking for multi value param
             lookFor = param + '[]=';
-            startStr = url.indexOf(lookFor);
+            startStr = url.lastIndexOf(lookFor);
             if (startStr >= 0) {
                 var result = [getSingleValue(startStr)];
-                while ((startStr = url.indexOf(lookFor, startStr + 1)) !== -1) {
+                while ((startStr = url.lastIndexOf(lookFor, startStr + 1)) !== -1) {
                     result.push(getSingleValue(startStr));
                 }
                 return result;

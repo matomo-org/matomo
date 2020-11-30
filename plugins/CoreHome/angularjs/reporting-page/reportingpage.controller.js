@@ -26,8 +26,8 @@
         function renderInitialPage()
         {
             var $search = $location.search();
-            currentPeriod = $search.period;
-            currentDate = $search.date;
+            currentPeriod = piwikUrl.getSearchParam('period');
+            currentDate = piwikUrl.getSearchParam('date');
             currentSegment = $search.segment;
             currentCompareSegments = piwikUrl.getSearchParam('compareSegments');
             currentCompareDates = piwikUrl.getSearchParam('compareDates');
@@ -110,8 +110,8 @@
             // should be handled by $route
             var category = $search.category;
             var subcategory = $search.subcategory;
-            var period = $search.period;
-            var date = $search.date;
+            var period = piwikUrl.getSearchParam('period');
+            var date = piwikUrl.getSearchParam('date');
             var segment = $search.segment;
 
             // $location does not handle array parameters properly
