@@ -24,6 +24,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -354,6 +355,70 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
     }
 
+    public function test_skipsDeletedSitesProperly()
+    {
+        Fixture::createWebsite('2010-04-06');
+
+        // force archiving so we don't skip those without visits
+        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+        });
+
+        $cronArchive = new CronArchive();
+        $cronArchive->init();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([2,3,1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $invalidations = [
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 3, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
+        ];
+
+        $this->insertInvalidations($invalidations);
+
+        $iteratedInvalidations = [];
+        while (true) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                break;
+            }
+
+            foreach ($next as &$item) {
+                Db::query("UPDATE " . Common::prefixTable('archive_invalidations') . " SET status = 1 WHERE idinvalidation = ?", [$item['idinvalidation']]);
+
+                unset($item['periodObj']);
+                unset($item['idinvalidation']);
+            }
+
+            $iteratedInvalidations[] = $next;
+        }
+
+        $expectedInvalidationsFound = [
+            [
+                // empty
+            ],
+        ];
+
+        try {
+            $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
+        } catch (\Exception $ex) {
+            print "\nInvalidations inserted:\n" . var_export($invalidations, true) . "\n";
+            throw $ex;
+        }
+    }
+
     private function makeTestArchiveFilter($restrictToDateRange = null, $restrictToPeriods = null, $segmentsToForce = null, $disableSegmentsArchiving = false)
     {
         $archiveFilter = new CronArchive\ArchiveFilter();
@@ -559,5 +624,10 @@ class QueueConsumerTest extends IntegrationTestCase
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function getInvalidationCount()
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
     }
 }
