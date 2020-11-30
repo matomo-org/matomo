@@ -83,7 +83,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
      *                                  If self::GOALS_OVERVIEW, only the main goal metrics will be added.
      *                                  If an int > 0, then will process only metrics for this specific Goal.
      */
-    public function __construct($table, $enable = true, $processOnlyIdGoal, $goalsToProcess = null)
+    public function __construct($table, $enable, $processOnlyIdGoal, $goalsToProcess = null)
     {
         $this->processOnlyIdGoal = $processOnlyIdGoal;
         $this->isEcommerce = $this->processOnlyIdGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $this->processOnlyIdGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
