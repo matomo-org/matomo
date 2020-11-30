@@ -16,6 +16,7 @@
         "DataTableHowToSearch": "Press enter or click the search icon to search",
         "DataTableShowDimensions": "Dimensions are combined %s Show dimensions separately",
         "DataTableCombineDimensions": "Dimensions are shown separately %s Show dimensions combined",
+        "DateInvalid": "The given date and period combination is invalid. Please choose a valid date in the date selector.",
         "Default": "default",
         "DonateCall1": "Matomo will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
         "DonateCall2": "Matomo needs your continued support to grow and thrive.",

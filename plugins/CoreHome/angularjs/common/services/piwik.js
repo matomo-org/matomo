@@ -54,7 +54,7 @@
 
         function isValidPeriod(periodStr, dateStr) {
             try {
-                piwikPeriods.get(periodStr).parse(dateStr);
+                piwikPeriods.parse(periodStr, dateStr);
                 return true;
             } catch (e) {
                 return false;
