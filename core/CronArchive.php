@@ -794,7 +794,7 @@ class CronArchive
 
             try {
                 $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
-                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIdsToInvalidate, $date);
+                $this->invalidateWithSegments($siteIdsToInvalidate, $date, $period = false);
             } catch (Exception $e) {
                 $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
                 $this->logger->info('  Failed to invalidate archived reports: ' . $message);
@@ -827,7 +827,7 @@ class CronArchive
 
             $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
-            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, [$date], 'range', $segment = null, $cascadeDown = false, $_forceInvalidateNonexistant = true);
+            $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range', $_forceInvalidateNonexistant = true);
         }
 
         // for new segments, invalidate past dates
@@ -879,7 +879,32 @@ class CronArchive
             'date' => $date->getDatetime(),
         ]);
 
-        $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date->toString(), 'day');
+        $this->invalidateWithSegments([$idSite], $date->toString(), 'day');
+    }
+
+    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistant = false)
+    {
+        if ($date instanceof Date) {
+            $date = $date->toString();
+        }
+
+        if ($period == 'range') {
+            $date = [$date]; // so we don't split on the ',' in invalidateArchivedReports
+        }
+
+        if (!is_array($idSites)) {
+            $idSites = [$idSites];
+        }
+
+        foreach ($idSites as $idSite) {
+            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segment = false, $cascadeDown = false,
+                $_forceInvalidateNonexistant);
+
+            foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segment) {
+                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segment['definition'],
+                    $cascadeDown = false, $_forceInvalidateNonexistant);
+            }
+        }
     }
 
     public function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)

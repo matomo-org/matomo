@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<ExamplePlugin_example_metric>3382</ExamplePlugin_example_metric>
+		<ExamplePlugin_example_metric>0</ExamplePlugin_example_metric>
 		<ExamplePlugin_example_metric2>1</ExamplePlugin_example_metric2>
 	</result>
 	<result idSite="2" />
