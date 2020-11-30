@@ -254,7 +254,7 @@ class RowEvolution
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $apiParameters)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $apiParameters)
     {
         if (!is_array($label)) {
             $label = array($label);

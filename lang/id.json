@@ -340,6 +340,7 @@
         "ParameterMustIntegerBetween": "Parameter %1$s harus bilangan bulat antara %2$s dan %3$s.",
         "Password": "Sandi",
         "Period": "Periode",
+        "Piechart": "Bagan Lingkaran",
         "Print": "Cetak",
         "Profiles": "Profil",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s (dahulu: Piwik) adalah proyek kolaboratif oleh %7$s tim Matomo %8$s serta kontributor lainnya di seluruh dunia. <br\/> Jika Anda menyukai Matomo, Anda dapat membantu: cari tahu %3$s bagaimana berpartisipasi dalam Matomo %4$s, atau %5$s menyumbang dana %6$s untuk rilis Matomo berikutnya yang semakin hebat.",
