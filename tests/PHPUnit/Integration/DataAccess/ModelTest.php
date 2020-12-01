@@ -505,7 +505,7 @@ class ModelTest extends IntegrationTestCase
             ),
         );
 
-        $actual = $this->model->getNextInvalidatedArchive(1, null, $useLimit = false);
+        $actual = $this->model->getNextInvalidatedArchive(1, '2000-01-01 00:00:00', null, $useLimit = false);
 
         $this->assertEquals($expected, $actual);
     }

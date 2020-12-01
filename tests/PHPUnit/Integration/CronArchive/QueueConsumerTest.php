@@ -104,6 +104,9 @@ class QueueConsumerTest extends IntegrationTestCase
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+
+            // high ts_invalidated, should not be selected
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-01-01', 'date2' => '2018-01-31', 'period' => 3, 'report' => null, 'ts_invalidated' => Date::factory(time() + 300)->getDatetime()],
         ];
 
         shuffle($invalidations);
@@ -504,6 +507,8 @@ class QueueConsumerTest extends IntegrationTestCase
 
     private function insertInvalidations(array $invalidations)
     {
+        $now = Date::now()->getDatetime();
+
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $inv) {
             $bind = [
@@ -513,10 +518,11 @@ class QueueConsumerTest extends IntegrationTestCase
                 $inv['date1'],
                 $inv['date2'],
                 $inv['period'],
+                isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
                 $inv['report'],
             ];
             Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
-                VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, 0)", $bind);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)", $bind);
         }
     }
 
