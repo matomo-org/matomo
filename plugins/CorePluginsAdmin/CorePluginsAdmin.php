@@ -72,6 +72,7 @@ class CorePluginsAdmin extends Plugin
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'CorePluginsAdmin_NoZipFileSelected';
+        $translations[] = 'CorePluginsAdmin_FileExceedsUploadLimit';
         $translations[] = 'CorePluginsAdmin_NoPluginSettings';
         $translations[] = 'CoreAdminHome_PluginSettingsIntro';
         $translations[] = 'CoreAdminHome_PluginSettingsSaveSuccess';

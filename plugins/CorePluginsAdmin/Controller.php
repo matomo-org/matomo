@@ -28,6 +28,7 @@ use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Version;
@@ -236,6 +237,7 @@ class Controller extends Plugin\ControllerAdmin
         }
 
         $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->uploadLimit = SettingsServer::getPostMaxUploadSize();
         $view->installNonce = Nonce::getNonce(MarketplaceController::INSTALL_NONCE);
 
         return $view;

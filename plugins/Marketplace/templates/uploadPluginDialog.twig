@@ -6,7 +6,7 @@
 
         <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
               action="{{ linkTo({'module':'CorePluginsAdmin', 'action':'uploadPlugin', 'nonce': installNonce}) }}">
-            <input type="file" name="pluginZip">
+            <input type="file" name="pluginZip" data-max-size="{{ uploadLimit }}">
             <br />
             <div piwik-field uicontrol="password" name="confirmPassword" autocomplete="off"
                  data-title="{{ 'Login_ConfirmPasswordToContinue'|translate|e('html_attr') }}"

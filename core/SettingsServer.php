@@ -220,6 +220,35 @@ class SettingsServer
     }
 
     /**
+     * Get php post_max_size (in Megabytes)
+     *
+     * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
+     * @return int|bool  max upload size in megabytes, or false if there is no limit
+     */
+    public static function getPostMaxUploadSize()
+    {
+        if (($memory = ini_get('post_max_size')) > 0) {
+            // handle shorthand byte options (case-insensitive)
+            $shorthandByteOption = substr($memory, -1);
+            switch ($shorthandByteOption) {
+                case 'G':
+                case 'g':
+                    return substr($memory, 0, -1) * 1024;
+                case 'M':
+                case 'm':
+                    return substr($memory, 0, -1);
+                case 'K':
+                case 'k':
+                    return substr($memory, 0, -1) / 1024;
+            }
+            return $memory / 1048576;
+        }
+
+        // no max upload size
+        return false;
+    }
+
+    /**
      * Set maximum script execution time.
      *
      * @param int $executionTime max execution time in seconds (0 = no limit)
