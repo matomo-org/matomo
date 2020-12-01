@@ -551,7 +551,7 @@ class QueueConsumer
         $minDateTimeProcessedUTC = Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($periodLabel));
         $archiveIdAndVisits = ArchiveSelector::getArchiveIdAndVisits($params, $minDateTimeProcessedUTC, $includeInvalidated = false);
 
-        $tsArchived = Date::factory($archiveIdAndVisits[4])->getDatetime();
+        $tsArchived = !empty($archiveIdAndVisits[4]) ? Date::factory($archiveIdAndVisits[4])->getDatetime() : null;
 
         $idArchive = $archiveIdAndVisits[0];
         if (empty($idArchive)) {
