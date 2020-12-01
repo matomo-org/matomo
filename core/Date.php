@@ -136,11 +136,11 @@ class Date
         } elseif ($dateString === 'yesterdaySameTime') {
             $date = self::yesterdaySameTime();
         } else if (preg_match('/last[ -]?week/i', urldecode($dateString))) {
-            return self::lastWeek();
+            $date = self::lastWeek();
         } else if (preg_match('/last[ -]?month/i', urldecode($dateString))) {
-            return self::lastMonth();
+            $date = self::lastMonth();
         } else if (preg_match('/last[ -]?year/i', urldecode($dateString))) {
-            return self::lastYear();
+            $date = self::lastYear();
         } elseif (!is_int($dateString)
             && (
                 // strtotime returns the timestamp for April 1st for a date like 2011-04-01,today
