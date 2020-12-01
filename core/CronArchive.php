@@ -162,13 +162,6 @@ class CronArchive
      */
     public $maxConcurrentArchivers = false;
 
-    /**
-     * If enabled, segments will be only archived for yesterday, but not today. If the segment was created recently,
-     * then it will still be archived for today and the setting will be ignored for this segment.
-     * @var bool
-     */
-    public $skipSegmentsToday = false;
-
     private $archivingStartingTime;
 
     private $formatter;
@@ -311,10 +304,6 @@ class CronArchive
 
         if ($this->archiveFilter) {
             $this->archiveFilter->logFilterInfo($this->logger);
-        }
-
-        if ($this->skipSegmentsToday) {
-            $this->logger->info('Will skip segments archiving for today unless they were created recently');
         }
 
         /**
@@ -540,7 +529,7 @@ class CronArchive
         $url = $this->makeRequestUrl($url);
 
         if (!empty($segment)) {
-            $shouldSkipToday = !$this->wasSegmentChangedRecently($segment,
+            $shouldSkipToday = $this->archiveFilter->isSkipSegmentsForToday() && !$this->wasSegmentChangedRecently($segment,
                 $this->segmentArchiving->getAllSegments());
 
             if ($shouldSkipToday) {
