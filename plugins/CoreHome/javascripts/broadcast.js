@@ -784,10 +784,10 @@ var broadcast = {
 
             // try looking for multi value param
             lookFor = param + '[]=';
-            startStr = url.lastIndexOf(lookFor);
+            startStr = url.indexOf(lookFor);
             if (startStr >= 0) {
                 var result = [getSingleValue(startStr)];
-                while ((startStr = url.lastIndexOf(lookFor, startStr + 1)) !== -1) {
+                while ((startStr = url.indexOf(lookFor, startStr + 1)) !== -1) {
                     result.push(getSingleValue(startStr));
                 }
                 return result;
