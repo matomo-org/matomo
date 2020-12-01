@@ -201,6 +201,8 @@ class Model
 
         $now = Date::now()->getDatetime();
 
+        $existingInvalidations = $this->getExistingInvalidations();
+
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
             try {
@@ -223,6 +225,12 @@ class Model
 
                 $date1 = $period->getDateStart()->toString();
                 $date2 = $period->getDateEnd()->toString();
+
+                $key = $this->makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period->getId(), $doneFlag);
+                if (!empty($existingInvalidations[$key])) {
+                    continue; // avoid adding duplicates where possible
+                }
+
                 $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2] ?? null;
 
                 $dummyArchives[] = [
@@ -243,6 +251,26 @@ class Model
         Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $dummyArchives);
 
         return count($idArchives);
+    }
+
+    private function getExistingInvalidations()
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $sql = "SELECT idsite, date1, date2, period, name, COUNT(*) as count FROM `$table` GROUP BY idsite, date1, date2, period, name";
+        $rows = Db::fetchAll($sql);
+
+        $invalidations = [];
+        foreach ($rows as $row) {
+            $key = $this->makeExistingInvalidationArrayKey($row['idsite'], $row['date1'], $row['date2'], $row['period'], $row['name']);
+            $invalidations[$key] = $row['count'];
+        }
+        return $invalidations;
+    }
+
+    private function makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period, $name)
+    {
+        return implode('.', [$idSite, $date1, $date2, $period, $name]);
     }
 
     /**
