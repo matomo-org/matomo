@@ -124,12 +124,6 @@ class QueueConsumer
 
     public function getNextArchivesToProcess()
     {
-        // in case a site is deleted while archiving is running
-        if (!empty($this->idSite) && !$this->isSiteExists($this->idSite)) {
-            $this->logger->debug("Site ID = {$this->idSite} was deleted during archiving process, moving on.");
-            $this->idSite = null;
-        }
-
         if (empty($this->idSite)) {
             $this->idSite = $this->getNextIdSiteToArchive();
             if (empty($this->idSite)) { // no sites left to archive, stop
@@ -491,13 +485,9 @@ class QueueConsumer
         $this->invalidationsToExclude[$idinvalidation] = $idinvalidation;
     }
 
-    private function getDoneFlagType($name)
+    public function skipToNextSite()
     {
-        if ($name == 'done') {
-            return 'all';
-        } else {
-            return 'segment';
-        }
+        $this->idSite = null;
     }
 
     private function addInvalidationToExclude(array $invalidatedArchive)
@@ -510,22 +500,7 @@ class QueueConsumer
 
     private function getNextIdSiteToArchive()
     {
-        $loopCount = 0;
-
-        $idSite = null;
-        while ($idSite === null && $loopCount < 500) {
-            $idSite = $this->websiteIdArchiveList->getNextSiteId();
-            if ($idSite === null) {
-                return null;
-            }
-
-            if (!$this->isSiteExists($idSite)) {
-                $idSite = null;
-            }
-
-            ++$loopCount;
-        }
-        return $idSite;
+        return $this->websiteIdArchiveList->getNextSiteId();
     }
 
     private function getInvalidationDescription(array $invalidatedArchive)
@@ -572,13 +547,8 @@ class QueueConsumer
         return Date::factory($archiveIdAndVisits[4])->getDatetime();
     }
 
-    private function isSiteExists($idSite)
+    public function getIdSite()
     {
-        try {
-            $site = API::getInstance()->getSiteFromId($idSite);
-            return !empty($site);
-        } catch (UnexpectedWebsiteFoundException $ex) {
-            return false;
-        }
+        return $this->idSite;
     }
 }

@@ -373,7 +373,14 @@ class CronArchive
                 flush();
             }
 
-            $archivesToProcess = $queueConsumer->getNextArchivesToProcess();
+            try {
+                $archivesToProcess = $queueConsumer->getNextArchivesToProcess();
+            } catch (UnexpectedWebsiteFoundException $ex) {
+                $this->logger->debug("Site {$queueConsumer->getIdSite()} was deleted, skipping to next...");
+                $queueConsumer->skipToNextSite();
+                continue;
+            }
+
             if ($archivesToProcess === null) {
                 break;
             }
@@ -767,12 +774,6 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
-        if (!$this->siteExists($idSiteToInvalidate)) {
-            $this->invalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSiteToInvalidate);
-            $this->logger->info("Site $idSiteToInvalidate no longer exists, skipping invalidation.");
-            return;
-        }
-
         if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate)) {
             $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
             return;
@@ -1280,9 +1281,9 @@ class CronArchive
     private function siteExists($idSite)
     {
         try {
-            $site = APISitesManager::getInstance()->getSiteFromId($idSite);
-            return !empty($site);
-        } catch (UnexpectedWebsiteFoundException $ex) {
+            new Site($idSite);
+            return true;
+        } catch (\UnexpectedValueException $ex) {
             return false;
         }
     }
