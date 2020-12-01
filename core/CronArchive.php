@@ -882,7 +882,7 @@ class CronArchive
         $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date->toString(), 'day');
     }
 
-    public function isThereExistingValidPeriod(Parameters $params, $isYesterday = false)
+    public function isThereExistingValidPeriod(Parameters $params, $isYesterday = false) // TODO: rename
     {
         $today = Date::factoryInTimezone('today', Site::getTimezoneFor($params->getSite()->getId()));
 
@@ -890,17 +890,43 @@ class CronArchive
         $minArchiveProcessedTime = $isPeriodIncludesToday ? Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel())) : null;
 
         // empty plugins param since we only check for an 'all' archive
-        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
+        // TODO: refactor result of this
+        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived, $tsArchiveStart) =
+            ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
 
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday
             && !empty($idArchive)
             && Date::factory($tsArchived)->toString() != $today->toString()
         ) {
+            $this->logger->debug('Day has changed since last archive was archived, cannot skip archiving.');
             return false;
         }
 
-        return !empty($idArchive);
+        if (empty($idArchive)
+            || empty($tsArchiveStart)
+        ) {
+            $this->logger->debug('No usable archive found for period (ts_archived is too old).');
+            return false;
+        }
+
+        $idSite = $params->getSite()->getId();
+        $timezone = Site::getTimezoneFor($idSite);
+
+        list($date1, $date2) = $params->getPeriod()->getBoundsInTimezone($timezone);
+
+        $tsArchiveStart = Date::factory($tsArchiveStart);
+        $hasVisitsSinceLastArchiveTime = $this->rawLogDao->hasSiteVisitsBetweenTimeframe($tsArchiveStart, $date2, $idSite);
+
+        if ($hasVisitsSinceLastArchiveTime) {
+            return false;
+        }
+
+        $this->logger->debug('No visits recorded since last archive start time for period ' . $params->getPeriod()->getRangeString()
+            . ' (' . $tsArchiveStart->getDatetime() . '), no need to archive. '
+            . '(ts_archived of archive = ' . Date::factory($tsArchived)->getDatetime() . ')');
+
+        return true;
     }
 
     private function setInvalidationTime()

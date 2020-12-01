@@ -77,7 +77,7 @@ class ArchiveSelector
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false, false];
+            return [false, false, false, false, false, false];
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
@@ -85,6 +85,9 @@ class ArchiveSelector
         $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
+
+        $tsArchiveStart = $result[ArchiveWriter::ARCHIVE_START_TIME] ?? false;
+        $tsArchiveStart = (int) $tsArchiveStart;
 
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (isset($result['partial'])) {
@@ -94,7 +97,7 @@ class ArchiveSelector
         if (isset($result['value'])
             && !in_array($result['value'], $doneFlagValues)
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true, $tsArchived];
+            return [false, $visits, $visitsConverted, true, $tsArchived, $tsArchiveStart];
         }
 
         if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
@@ -106,12 +109,12 @@ class ArchiveSelector
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
-            return [false, $visits, $visitsConverted, true, $tsArchived];
+            return [false, $visits, $visitsConverted, true, $tsArchived, $tsArchiveStart];
         }
 
         $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchives, $visits, $visitsConverted, true, $tsArchived];
+        return [$idArchives, $visits, $visitsConverted, true, $tsArchived, $tsArchiveStart];
     }
 
     /**

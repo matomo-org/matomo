@@ -63,6 +63,8 @@ class ArchiveWriter
      */
     const DONE_PARTIAL = 5;
 
+    const ARCHIVE_START_TIME = 'archive_start_time';
+
     protected $fields = array('idarchive',
         'idsite',
         'date1',
@@ -153,6 +155,7 @@ class ArchiveWriter
     public function initNewArchive()
     {
         $idArchive = $this->allocateNewArchiveId();
+        $this->insertRecord(self::ARCHIVE_START_TIME, Date::now()->getTimestamp());
         $this->logArchiveStatusAsIncomplete();
         return $idArchive;
     }
