@@ -201,7 +201,7 @@ class Model
 
         $now = Date::now()->getDatetime();
 
-        $existingInvalidations = $this->getExistingInvalidations();
+        $existingInvalidations = $this->getExistingInvalidations($idSites);
 
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
@@ -253,11 +253,13 @@ class Model
         return count($idArchives);
     }
 
-    private function getExistingInvalidations()
+    private function getExistingInvalidations($idSites)
     {
         $table = Common::prefixTable('archive_invalidations');
 
-        $sql = "SELECT idsite, date1, date2, period, name, COUNT(*) as count FROM `$table` GROUP BY idsite, date1, date2, period, name";
+        $sql = "SELECT idsite, date1, date2, period, name, COUNT(*) as count FROM `$table`
+                 WHERE idsite IN (" . implode(',', $idSites) . ")
+              GROUP BY idsite, date1, date2, period, name";
         $rows = Db::fetchAll($sql);
 
         $invalidations = [];
