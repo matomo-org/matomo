@@ -24,6 +24,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -118,7 +119,7 @@ class QueueConsumerTest extends IntegrationTestCase
             }
 
             foreach ($next as &$item) {
-                Db::query("UPDATE " . Common::prefixTable('archive_invalidations') . " SET status = 1 WHERE idinvalidation = ?", [$item['idinvalidation']]);
+                $this->simulateJobStart($item['idinvalidation']);
 
                 unset($item['periodObj']);
                 unset($item['idinvalidation']);
@@ -334,12 +335,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ),
         ];
 
-        try {
-            $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
-        } catch (\Exception $ex) {
-            print "\nInvalidations inserted:\n" . var_export($invalidations, true) . "\n";
-            throw $ex;
-        }
+        $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
 
         // automated ccheck for no duplicates
         $invalidationDescs = [];
@@ -691,5 +687,10 @@ class QueueConsumerTest extends IntegrationTestCase
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function simulateJobStart($idinvalidation)
+    {
+        Db::query("UPDATE " . Common::prefixTable('archive_invalidations') . " SET status = 1 WHERE idinvalidation = ?", [$idinvalidation]);
     }
 }

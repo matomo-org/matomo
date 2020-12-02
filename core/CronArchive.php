@@ -26,6 +26,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
@@ -361,7 +362,14 @@ class CronArchive
                 flush();
             }
 
-            $archivesToProcess = $queueConsumer->getNextArchivesToProcess();
+            try {
+                $archivesToProcess = $queueConsumer->getNextArchivesToProcess();
+            } catch (UnexpectedWebsiteFoundException $ex) {
+                $this->logger->debug("Site {$queueConsumer->getIdSite()} was deleted, skipping to next...");
+                $queueConsumer->skipToNextSite();
+                continue;
+            }
+
             if ($archivesToProcess === null) {
                 break;
             }
@@ -406,6 +414,12 @@ class CronArchive
             }
 
             $idSite = $archive['idsite'];
+            if (!$this->siteExists($idSite)) {
+                $this->logger->debug("Site $idSite no longer exists, no longer launching archiving.");
+                $this->deleteInvalidatedArchives($archive);
+                continue;
+            }
+
             $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd()));
@@ -1250,6 +1264,16 @@ class CronArchive
             $this->logger->error("Found dangling invalidations that were not correctly reset or removed, this should be reported on the forums: {invalidations}", [
                 'idinvalidations' => json_encode($inProgress),
             ]);
+        }
+    }
+
+    private function siteExists($idSite)
+    {
+        try {
+            new Site($idSite);
+            return true;
+        } catch (\UnexpectedValueException $ex) {
+            return false;
         }
     }
 }

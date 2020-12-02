@@ -18,6 +18,7 @@ use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Period;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
@@ -123,12 +124,6 @@ class QueueConsumer
 
     public function getNextArchivesToProcess()
     {
-        // in case a site is deleted while archiving is running
-        if (!empty($this->idSite) && !$this->isSiteExists($this->idSite)) {
-            $this->logger->debug("Site ID = {$this->idSite} was deleted during archiving process, moving on.");
-            $this->idSite = null;
-        }
-
         if (empty($this->idSite)) {
             $this->idSite = $this->getNextIdSiteToArchive();
             if (empty($this->idSite)) { // no sites left to archive, stop
@@ -490,13 +485,9 @@ class QueueConsumer
         $this->invalidationsToExclude[$idinvalidation] = $idinvalidation;
     }
 
-    private function getDoneFlagType($name)
+    public function skipToNextSite()
     {
-        if ($name == 'done') {
-            return 'all';
-        } else {
-            return 'segment';
-        }
+        $this->idSite = null;
     }
 
     private function addInvalidationToExclude(array $invalidatedArchive)
@@ -556,9 +547,8 @@ class QueueConsumer
         return Date::factory($archiveIdAndVisits[4])->getDatetime();
     }
 
-    private function isSiteExists($idSite)
+    public function getIdSite()
     {
-        $site = API::getInstance()->getSiteFromId($idSite);
-        return !empty($site);
+        return $this->idSite;
     }
 }
