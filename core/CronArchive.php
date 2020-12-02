@@ -237,6 +237,8 @@ class CronArchive
         $this->rawLogDao = new RawLogDao();
 
         $this->cliMultiRequestParser = new RequestParser($this->makeCliMulti()->supportsAsync());
+
+        $this->archiveFilter = new ArchiveFilter();
     }
 
     private function isMaintenanceModeEnabled()
