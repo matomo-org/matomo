@@ -3269,7 +3269,7 @@ function PiwikTest() {
     });
 
     test("POST requests are sent with cookies", function() {
-        expect(3);
+        expect(5);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
@@ -3283,6 +3283,9 @@ function PiwikTest() {
             ok(event.success, 'succeeded');
             ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
         });
+        ok(tracker.isUsingAlwaysUseSendBeacon());
+        tracker.setRequestMethod('GeT');
+        ok(!tracker.isUsingAlwaysUseSendBeacon());
 
         stop();
         setTimeout(function() {
