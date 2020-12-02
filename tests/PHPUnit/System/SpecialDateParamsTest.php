@@ -52,7 +52,7 @@ class SpecialDateParamsTest extends SystemTestCase
                 ['VisitsSummary.getVisits', 'Actions.getPageTitles'],
                 [
                     'idSite'       => self::$fixture->idSite,
-                    'date'         => 'last year',
+                    'date'         => 'lastyear',
                     'periods'      => ['day'],
                     'testSuffix'   => '_lastyear',
                 ],
@@ -61,7 +61,7 @@ class SpecialDateParamsTest extends SystemTestCase
                 ['VisitsSummary.getVisits', 'Actions.getPageTitles'],
                 [
                     'idSite'       => self::$fixture->idSite,
-                    'date'         => 'last year,last week',
+                    'date'         => 'last-year,lastWeek',
                     'periods'      => ['range'],
                     'testSuffix'   => '_range',
                 ],

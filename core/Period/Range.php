@@ -290,7 +290,7 @@ class Range extends Period
      */
     public static function parseDateRange($dateString)
     {
-        $matched = preg_match('/^((?:[0-9]{4}-[0-9]{1,2}-[0-9]{1,2})|last[ -]?(?:week|month|year)),((?:[0-9]{4}-[0-9]{1,2}-[0-9]{1,2})|today|now|yesterday|last[ -]?(?:week|month|year))$/D', trim($dateString), $regs);
+        $matched = preg_match('/^((?:[0-9]{4}-[0-9]{1,2}-[0-9]{1,2})|last[ -]?(?:week|month|year)),((?:[0-9]{4}-[0-9]{1,2}-[0-9]{1,2})|today|now|yesterday|last[ -]?(?:week|month|year))$/Di', trim($dateString), $regs);
 
         if (empty($matched)) {
             return false;
