@@ -101,6 +101,11 @@ class QueueConsumer
      */
     private $siteTimer;
 
+    /**
+     * @var string
+     */
+    private $currentSiteArchivingStartTime;
+
     public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid, Model $model,
                                 SegmentArchiving $segmentArchiving, CronArchive $cronArchive, RequestParser $cliMultiRequestParser,
                                 ArchiveFilter $archiveFilter = null)
@@ -151,6 +156,8 @@ class QueueConsumer
             // NOTE: we do this on every site iteration so we don't end up processing say a single user entered invalidation,
             // and then stop until the next hour.
             $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
+
+            $this->currentSiteArchivingStartTime = Date::now()->getDatetime();
         }
 
         // we don't want to invalidate different periods together or segment archives w/ no-segment archives
@@ -324,7 +331,7 @@ class QueueConsumer
         while ($iterations < 100) {
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
 
-            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $invalidationsToExclude);
+            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
             if (empty($nextArchive)) {
                 break;
             }
