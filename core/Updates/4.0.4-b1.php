@@ -37,10 +37,22 @@ class Updates_4_0_4_b1 extends PiwikUpdates
         $migrations[] = $this->migration->plugin->deactivate('ExamplePlugin');
         $migrations[] = $this->migration->plugin->deactivate('ExampleLogTables');
         $migrations[] = $this->migration->plugin->deactivate('ExampleUI');
+        $migrations[] = $this->migration->plugin->deactivate('ExampleReport');
+        $migrations[] = $this->migration->plugin->deactivate('ExampleAPI');
+        $migrations[] = $this->migration->plugin->deactivate('ExampleCommand');
+        $migrations[] = $this->migration->plugin->deactivate('ExampleSettingsPlugin');
+        $migrations[] = $this->migration->plugin->deactivate('ExampleTracker');
+        $migrations[] = $this->migration->plugin->deactivate('ExampleVisualization');
 
         $migrations[] = $this->migration->plugin->uninstall('ExamplePlugin');
         $migrations[] = $this->migration->plugin->uninstall('ExampleLogTables');
         $migrations[] = $this->migration->plugin->uninstall('ExampleUI');
+        $migrations[] = $this->migration->plugin->uninstall('ExampleReport');
+        $migrations[] = $this->migration->plugin->uninstall('ExampleAPI');
+        $migrations[] = $this->migration->plugin->uninstall('ExampleCommand');
+        $migrations[] = $this->migration->plugin->uninstall('ExampleSettingsPlugin');
+        $migrations[] = $this->migration->plugin->uninstall('ExampleTracker');
+        $migrations[] = $this->migration->plugin->uninstall('ExampleVisualization');
         return $migrations;
     }
 
