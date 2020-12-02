@@ -640,7 +640,7 @@ class QueueConsumerTest extends IntegrationTestCase
         ]);
 
         $result = $queueConsumer->usableArchiveExists($invalidation);
-        $this->assertEquals('2020-04-04 23:58:20', $result);
+        $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
     }
 
     public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()

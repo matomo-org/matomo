@@ -228,12 +228,15 @@ class QueueConsumer
                 continue;
             }
 
-            $archivedTime = $this->usableArchiveExists($invalidatedArchive);
-            if ($archivedTime) {
+            list($isUsableExists, $archivedTime) = $this->usableArchiveExists($invalidatedArchive);
+            if ($isUsableExists) {
                 $now = Date::now()->getDatetime();
                 $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) skipping until archive is out of date: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
+            } else {
+                $now = Date::now()->getDatetime();
+                $this->logger->debug("No usable archive exists (ts_archived of existing = $archivedTime, now = $now).");
             }
 
             $alreadyInProgressId = $this->model->isArchiveAlreadyInProgress($invalidatedArchive);
@@ -536,22 +539,24 @@ class QueueConsumer
         $params = new Parameters($site, $period, $segment);
 
         // if latest archive includes today and is usable (DONE_OK or DONE_INVALIDATED and recent enough), skip
-        $today = Date::factoryInTimezone('today', Site::getTimezoneFor($site->getId()))->subSeconds(1);
+        $today = Date::factoryInTimezone('today', Site::getTimezoneFor($site->getId()));
         $isArchiveIncludesToday = $period->isDateInPeriod($today);
         if (!$isArchiveIncludesToday) {
-            return false;
+            return [false, null];
         }
 
         // if valid archive already exists, do not re-archive
         $minDateTimeProcessedUTC = Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($periodLabel));
         $archiveIdAndVisits = ArchiveSelector::getArchiveIdAndVisits($params, $minDateTimeProcessedUTC, $includeInvalidated = false);
 
+        $tsArchived = !empty($archiveIdAndVisits[4]) ? Date::factory($archiveIdAndVisits[4])->getDatetime() : null;
+
         $idArchive = $archiveIdAndVisits[0];
         if (empty($idArchive)) {
-            return false;
+            return [false, $tsArchived];
         }
 
-        return Date::factory($archiveIdAndVisits[4])->getDatetime();
+        return [true, $tsArchived];
     }
 
     public function getIdSite()
