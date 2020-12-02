@@ -17,6 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
 * The visitor ID cookie now contains less data (due to the _idvc, _idts, _viewts and _ects tracking parameters no longer being used). This is a breaking change if you use the Matomo PHP Tracker and forward the visitor cookie to it, and you will need to upgrade the PHP tracker to use with Matomo 4.
 * The tracker method `setVisitStandardLength` has been removed as there is no need for it anymore.
+* The tracker method `setGenerationTimeMs(generationTime)` has been removed as the performance API is now used. Any calls to this method will be ignored. There is currently no replacement available yet.
 
 #### Deprecations in Matomo JS tracker
 
