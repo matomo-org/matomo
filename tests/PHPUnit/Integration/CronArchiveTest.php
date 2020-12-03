@@ -34,6 +34,130 @@ use Psr\Log\NullLogger;
  */
 class CronArchiveTest extends IntegrationTestCase
 {
+    /**
+     * @dataProvider getTestDataForInvalidateRecentDate
+     */
+    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments($dateStr, $segments,
+                                                                                   $expectedInvalidationCalls)
+    {
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'Australia/Sydney');
+
+        Rules::setBrowserTriggerArchiving(false);
+        foreach ($segments as $idx => $segment) {
+            SegmentAPI::getInstance()->add('segment #' . $idx, $segment, $idx % 2 === 0 ? $idSite : false, true, true);
+        }
+        Rules::setBrowserTriggerArchiving(true);
+
+        $t = Fixture::getTracker($idSite, Date::yesterday()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/abc');
+        Fixture::checkResponse($t->doTrackPageView('some page'));
+
+        $t = Fixture::getTracker($idSite, Date::today()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/def');
+        Fixture::checkResponse($t->doTrackPageView('some page 2'));
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+
+        $archiver->invalidateRecentDate($dateStr, $idSite);
+
+        $actualInvalidationCalls = $mockInvalidateApi->getInvalidations();
+
+        $this->assertEquals($expectedInvalidationCalls, $actualInvalidationCalls);
+    }
+
+    public function getTestDataForInvalidateRecentDate()
+    {
+        $segments = [
+            'browserCode==IE',
+            'visitCount>5',
+        ];
+
+        return [
+            [
+                'today',
+                $segments,
+                [
+                    array (
+                        1,
+                        '2020-02-03',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-03',
+                        'day',
+                        'browserCode==IE',
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-03',
+                        'day',
+                        'visitCount>5',
+                        false,
+                        false,
+                    ),
+                ],
+            ],
+            [
+                'yesterday',
+                $segments,
+                [
+                    array (
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'browserCode==IE',
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'visitCount>5',
+                        false,
+                        false,
+                    ),
+                ],
+            ],
+        ];
+    }
+
+    private function getMockInvalidateApi()
+    {
+        $mock = new class {
+            private $calls = [];
+
+            public function invalidateArchivedReports()
+            {
+                $this->calls[] = func_get_args();
+            }
+
+            public function getInvalidations()
+            {
+                return $this->calls;
+            }
+        };
+        return $mock;
+    }
+
     public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
     {
         Fixture::createWebsite('2019-04-04 03:45:45');

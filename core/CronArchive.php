@@ -840,7 +840,7 @@ class CronArchive
         $this->logger->debug("Done invalidating");
     }
 
-    private function invalidateRecentDate($dateStr, $idSite)
+    public function invalidateRecentDate($dateStr, $idSite)
     {
         $timezone = Site::getTimezoneFor($idSite);
         $date = Date::factoryInTimezone($dateStr, $timezone);
