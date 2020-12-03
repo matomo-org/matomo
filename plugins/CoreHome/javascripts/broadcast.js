@@ -182,7 +182,7 @@ var broadcast = {
     },
 
     isWidgetizeRequestWithoutSession: function() {
-        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('force_api_session') != '1';
+        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('module') == 'iframe' && broadcast.getValueFromUrl('force_api_session') != '1';
     },
 
     /**
