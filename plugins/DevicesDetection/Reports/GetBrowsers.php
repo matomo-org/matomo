@@ -20,7 +20,7 @@ class GetBrowsers extends Base
         parent::init();
         $this->dimension     = new BrowserName();
         $this->name          = Piwik::translate('DevicesDetection_Browsers');
-        $this->documentation = Piwik::translate('DevicesDetection_WidgetBrowsersDocumentation', '<br />');
+        $this->documentation = Piwik::translate('DevicesDetection_WidgetBrowsersDocumentation');
         $this->order = 5;
         $this->subcategoryId = 'DevicesDetection_Software';
         $this->hasGoalMetrics = true;

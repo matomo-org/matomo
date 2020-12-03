@@ -20,7 +20,7 @@ class GetType extends Base
         parent::init();
         $this->dimension     = new DeviceType();
         $this->name          = Piwik::translate('DevicesDetection_DeviceType');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('DevicesDetection_DeviceTypeReportDocumentation');
         $this->order = 0;
         $this->hasGoalMetrics = true;
         $this->subcategoryId = 'DevicesDetection_Devices';
