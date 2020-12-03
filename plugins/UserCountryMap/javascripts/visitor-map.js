@@ -122,7 +122,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: dataType,
-                    data: { token_auth: token_auth, force_api_session: (piwik.broadcast.getValueFromUrl('module') !== 'Widgetize') ? 1 : 0 },
+                    data: { token_auth: token_auth, force_api_session: piwik.broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1 },
                     type: 'POST'
                 });
             }

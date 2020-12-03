@@ -494,7 +494,7 @@ function ajaxHelper() {
             return {
                 token_auth: piwik.token_auth,
                 // When viewing a widgetized report there won't be any session that can be used, so don't force session usage
-                force_api_session: (broadcast.getValueFromUrl('module') !== 'Widgetize') ? 1 : 0
+                force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
             };
         }
 
