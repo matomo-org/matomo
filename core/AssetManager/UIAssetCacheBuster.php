@@ -33,14 +33,17 @@ class UIAssetCacheBuster extends Singleton
 
             $masterFile     = PIWIK_INCLUDE_PATH . '/.git/refs/heads/master';
             $currentGitHash = file_exists($masterFile) ? @file_get_contents($masterFile) : null;
+            $manager = Manager::getInstance();
 
-            $plugins = !$pluginNames ? Manager::getInstance()->getLoadedPluginsName() : $pluginNames;
+            $plugins = !$pluginNames ? $manager->getActivatedPlugins() : $pluginNames;
             sort($plugins);
 
             $pluginsInfo = '';
             foreach ($plugins as $pluginName) {
-                $plugin      = Manager::getInstance()->getLoadedPlugin($pluginName);
-                $pluginsInfo .= $plugin->getPluginName() . $plugin->getVersion() . ',';
+                if ($manager->isPluginLoaded($pluginName)) {
+                    $plugin      = $manager->getLoadedPlugin($pluginName);
+                    $pluginsInfo .= $plugin->getPluginName() . $plugin->getVersion() . ',';
+                }
             }
 
             $cacheBuster = md5($pluginsInfo . PHP_VERSION . Version::VERSION . trim($currentGitHash));
@@ -51,7 +54,7 @@ class UIAssetCacheBuster extends Singleton
 
             $cachedCacheBuster = $cacheBuster;
         }
-
+        
         return $cachedCacheBuster;
     }
 
