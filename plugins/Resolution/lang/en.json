@@ -7,6 +7,7 @@
         "Resolutions": "Resolutions",
         "WidgetGlobalVisitors": "Visitor Configuration",
         "WidgetGlobalVisitorsDocumentation": "This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.",
-        "WidgetResolutions": "Screen Resolution"
+        "WidgetResolutions": "Screen Resolution",
+        "WidgetResolutionsDocumentation": "This report shows the screen resolutions your visitors used when viewing your website."
     }
 }

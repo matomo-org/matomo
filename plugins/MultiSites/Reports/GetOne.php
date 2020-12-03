@@ -18,7 +18,7 @@ class GetOne extends Base
         parent::init();
         $this->dimension     = new Website();
         $this->name          = Piwik::translate('General_SingleWebsitesDashboard');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('MultiSites_SingleWebsitesDashboardDocumentation');
         $this->constantRowsCount = false;
         $this->order = 5;
     }

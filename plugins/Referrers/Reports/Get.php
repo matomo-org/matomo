@@ -38,7 +38,7 @@ class Get extends Base
         parent::init();
 
         $this->name = Piwik::translate('Referrers_ReferrersOverview');
-        $this->documentation = '';
+        $this->documentation = Piwik::translate('Referrers_ReferrersOverviewDocumentation');
         $this->processedMetrics = [
             // none
         ];

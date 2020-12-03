@@ -18,7 +18,7 @@ class Get extends Base
         parent::init();
 
         $this->name          = Piwik::translate('General_Actions') . ' - ' . Piwik::translate('General_MainMetrics');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('Actions_MainMetricsReportDocumentation');
         $this->order = 1;
         $this->processedMetrics = array(
             new AveragePageGenerationTime()

@@ -27,6 +27,7 @@ class GetTemperatures extends Base
         parent::init();
 
         $this->name = Piwik::translate('ExampleUI_GetTemperaturesDataTable');
+        $this->documentation = 'This is an example documentation of a report.';
         $this->subcategoryId = 'ExampleUI_GetTemperaturesDataTable';
         $this->order = 110;
     }
