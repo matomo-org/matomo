@@ -24,6 +24,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -104,6 +105,9 @@ class QueueConsumerTest extends IntegrationTestCase
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+
+            // high ts_invalidated, should not be selected
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-01-01', 'date2' => '2018-01-31', 'period' => 3, 'report' => null, 'ts_invalidated' => Date::factory(time() + 300)->getDatetime()],
         ];
 
         shuffle($invalidations);
@@ -118,7 +122,7 @@ class QueueConsumerTest extends IntegrationTestCase
             }
 
             foreach ($next as &$item) {
-                Db::query("UPDATE " . Common::prefixTable('archive_invalidations') . " SET status = 1 WHERE idinvalidation = ?", [$item['idinvalidation']]);
+                $this->simulateJobStart($item['idinvalidation']);
 
                 unset($item['periodObj']);
                 unset($item['idinvalidation']);
@@ -334,12 +338,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ),
         ];
 
-        try {
-            $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
-        } catch (\Exception $ex) {
-            print "\nInvalidations inserted:\n" . var_export($invalidations, true) . "\n";
-            throw $ex;
-        }
+        $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
 
         // automated ccheck for no duplicates
         $invalidationDescs = [];
@@ -504,6 +503,8 @@ class QueueConsumerTest extends IntegrationTestCase
 
     private function insertInvalidations(array $invalidations)
     {
+        $now = Date::now()->getDatetime();
+
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $inv) {
             $bind = [
@@ -513,10 +514,11 @@ class QueueConsumerTest extends IntegrationTestCase
                 $inv['date1'],
                 $inv['date2'],
                 $inv['period'],
+                isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
                 $inv['report'],
             ];
             Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
-                VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, 0)", $bind);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)", $bind);
         }
     }
 
@@ -638,7 +640,7 @@ class QueueConsumerTest extends IntegrationTestCase
         ]);
 
         $result = $queueConsumer->usableArchiveExists($invalidation);
-        $this->assertEquals('2020-04-04 23:58:20', $result);
+        $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
     }
 
     public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()
@@ -691,5 +693,10 @@ class QueueConsumerTest extends IntegrationTestCase
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function simulateJobStart($idinvalidation)
+    {
+        Db::query("UPDATE " . Common::prefixTable('archive_invalidations') . " SET status = 1 WHERE idinvalidation = ?", [$idinvalidation]);
     }
 }

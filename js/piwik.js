@@ -62,7 +62,7 @@
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -5521,6 +5521,14 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setRequestContentType = function (requestContentType) {
                 configRequestContentType = requestContentType || defaultRequestContentType;
+            };
+
+            /**
+             * Removed since Matomo 4
+             * @param generationTime
+             */
+            this.setGenerationTimeMs = function(generationTime) {
+                logConsoleError('setGenerationTimeMs is no longer supported since Matomo 4. The call will be ignored. There is currently no replacement yet.');
             };
 
             /**
