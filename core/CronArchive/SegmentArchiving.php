@@ -279,6 +279,21 @@ class SegmentArchiving
         return $this->segmentListCache->fetch('all');
     }
 
+    public function getAllSegmentsToArchive($idSite)
+    {
+        $segments = [];
+        foreach ($this->getAllSegments() as $segment) {
+            if (!$this->isAutoArchivingEnabledFor($segment)
+                || !$this->isSegmentForSite($segment, $idSite)
+            ) {
+                continue;
+            }
+
+            $segments[] = $segment;
+        }
+        return $segments;
+    }
+
     private function isSegmentForSite($segment, $idSite)
     {
         return $segment['enable_only_idsite'] == 0

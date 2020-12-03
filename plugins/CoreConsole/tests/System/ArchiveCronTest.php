@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\CronArchive;
+use Piwik\Plugins\SegmentEditor\API;
 use Psr\Container\ContainerInterface;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
@@ -36,6 +37,9 @@ use Psr\Log\LoggerInterface;
  */
 class ArchiveCronTest extends SystemTestCase
 {
+    const NEW_SEGMENT = 'operatingSystemCode==IOS';
+    const NEW_SEGMENT_NAME = 'segmentForToday';
+
     /**
      * @var ManySitesImportedLogs
      */
@@ -46,6 +50,29 @@ class ArchiveCronTest extends SystemTestCase
         parent::setUpBeforeClass();
 
         Db::exec("UPDATE " . Common::prefixTable('site') . ' SET ts_created = \'2005-01-02 00:00:00\'');
+    }
+
+    private static function addNewSegmentToPast()
+    {
+        // add one segment and set it's created/updated time to some time in the past so we don't re-archive for it
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        $idSegment = API::getInstance()->add(self::NEW_SEGMENT_NAME, self::NEW_SEGMENT, self::$fixture->idSite, $autoArchive = 1, $enabledAllUsers = 1);
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        Db::exec("UPDATE " . Common::prefixTable('segment') . ' SET ts_created = \'2015-01-02 00:00:00\', ts_last_edit = \'2015-01-02 00:00:00\' WHERE idsegment = ' . $idSegment);
+    }
+
+    private static function trackVisitsForToday()
+    {
+        $startTime = Date::today()->addHour(12)->getDatetime();
+
+        $t = Fixture::getTracker(self::$fixture->idSite, $startTime);
+        $t->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148');
+        $t->setUrl('http://awebsite.com/here/we/go');
+        Fixture::checkResponse($t->doTrackPageView('a page title'));
+
+        $t->setUrl('http://awebsite.com/another/page');
+        $t->setForceVisitDateTime(Date::factory($startTime)->addHour(1));
+        Fixture::checkResponse($t->doTrackPageView('a second page title'));
     }
 
     public function getApiForTesting()
@@ -61,6 +88,12 @@ class ArchiveCronTest extends SystemTestCase
                                                           'segment'    => $info['definition'],
                                                           'testSuffix' => '_' . $segmentName));
         }
+
+        $results[] = array('VisitsSummary.get', array('idSite' => 'all',
+                                                      'date' => 'today',
+                                                      'periods' => ['day', 'week', 'month', 'year'],
+                                                      'segment' => self::NEW_SEGMENT,
+                                                      'testSuffix' => '_' . self::NEW_SEGMENT_NAME));
 
         // ExamplePlugin metric
         $results[] = ['ExamplePlugin.getExampleArchivedMetric', [
@@ -116,6 +149,12 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated(
@@ -134,6 +173,12 @@ class ArchiveCronTest extends SystemTestCase
         Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS); // clear so segment re-archive logic runs on this run
         Option::delete(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME);
         $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
+
+        // add new segment w/ edited created/edit time so it will not trigger segment re-archiving, then track a visit
+        // so the segments will be archived w/ other invalidation
+        self::addNewSegmentToPast();
+        self::trackVisitsForToday();
+        $output = $this->runArchivePhpCron();
 
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
@@ -164,6 +209,12 @@ class ArchiveCronTest extends SystemTestCase
      */
     public function testArchivePhpCronWithSingleReportRearchive()
     {
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+
         // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
         // (do it after the last run so we don't end up just re-using the ExamplePlugin archive)
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
