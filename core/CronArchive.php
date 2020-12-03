@@ -842,7 +842,8 @@ class CronArchive
 
     private function invalidateRecentDate($dateStr, $idSite)
     {
-        $date = Date::factory($dateStr);
+        $timezone = Site::getTimezoneFor($idSite);
+        $date = Date::factoryInTimezone($dateStr, $timezone);
         $period = PeriodFactory::build('day', $date);
 
         $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
