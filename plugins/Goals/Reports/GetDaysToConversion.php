@@ -22,6 +22,7 @@ class GetDaysToConversion extends Base
         parent::init();
 
         $this->name = Piwik::translate('Goals_DaysToConv');
+        $this->documentation = Piwik::translate('Goals_DaysToConvReportDocumentation');
         $this->dimension = new DaysToConversion();
         $this->constantRowsCount = true;
         $this->processedMetrics = false;

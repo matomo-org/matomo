@@ -22,6 +22,7 @@ class GetVisitsUntilConversion extends Base
         parent::init();
 
         $this->name = Piwik::translate('Goals_VisitsUntilConv');
+        $this->documentation = Piwik::translate('Goals_VisitsUntilConvReportDocumentation');
         $this->dimension = new VisitsUntilConversion();
         $this->constantRowsCount = true;
         $this->processedMetrics = array();
