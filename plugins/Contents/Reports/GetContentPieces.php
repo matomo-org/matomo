@@ -24,8 +24,7 @@ class GetContentPieces extends Base
         parent::init();
 
         $this->name          = Piwik::translate('Contents_ContentPiece');
-        $this->dimension     = null;
-        // TODO $this->documentation = Piwik::translate('ContentsDocumentation');
+        $this->documentation = Piwik::translate('Contents_ContentPieceReportDocumentation');
         $this->dimension     = new ContentPiece();
         $this->order         = 36;
         $this->actionToLoadSubTables = 'getContentPieces';
