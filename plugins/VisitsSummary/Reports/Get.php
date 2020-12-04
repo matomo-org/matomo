@@ -36,7 +36,7 @@ class Get extends \Piwik\Plugin\Report
         parent::init();
         $this->categoryId    = 'General_Visitors';
         $this->name          = Piwik::translate('VisitsSummary_VisitsSummary');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('VisitsSummary_VisitsSummaryReportDocumentation');
         $this->processedMetrics = array(
             new BounceRate(),
             new ActionsPerVisit(),
