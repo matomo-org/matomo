@@ -9,6 +9,7 @@
 		<module>Events</module>
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
+		<documentation>This report shows you the actions that were tracked for any event. You can view the event categories and names that were tracked along with an event action in each rows subtable</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventAction>Event Action</Events_EventAction>

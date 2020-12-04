@@ -9,6 +9,7 @@
 		<module>Contents</module>
 		<action>getContentPieces</action>
 		<dimension>Content Piece</dimension>
+		<documentation>This report shows the pieces of content your visitors viewed and interacted with.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>

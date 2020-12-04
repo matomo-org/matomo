@@ -9,6 +9,7 @@
 		<module>Contents</module>
 		<action>getContentNames</action>
 		<dimension>Content Name</dimension>
+		<documentation>This report shows the names of the content your visitors viewed and interacted with.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
