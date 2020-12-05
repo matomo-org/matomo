@@ -876,15 +876,4 @@ class Model
         $query = Db::query($sql, $bind);
         return $query->rowCount();
     }
-
-    public function isInvalidationsScheduledForSite($idSite)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-
-        $bind = [(int) $idSite];
-
-        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
-        $value = Db::fetchOne($sql, $bind);
-        return !empty($value);
-    }
 }
