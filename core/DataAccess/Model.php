@@ -713,7 +713,7 @@ class Model
     public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report
+        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report, ts_invalidated
                   FROM `$table`
                  WHERE idsite = ? AND status != ? AND ts_invalidated <= ?";
         $bind = [
