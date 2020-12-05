@@ -97,7 +97,7 @@
         "SystemCheckIconvHelp": "你需要設定及重建 PHP，然後啟用 iconv 支援，--with-iconv。",
         "SystemCheckMailHelp": "意見回饋及忘記密碼的訊息若沒有 mail() 將無法寄送。",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringHelp": "處理多字節的使用者介面或 API 回應資料必須使用 mbstring 擴充功能。並請檢查 php.ini 中的 mbstring.func_overload 已設定值為「0」。",
+        "SystemCheckMbstringHelp": "處理多字節的使用者介面或 API 回應資料必須使用 mbstring 擴充功能。並請檢查 php.ini 中的 mbstring.func_overload 已將值設定為「0」。",
         "SystemCheckMemoryLimit": "記憶體限制",
         "SystemCheckMemoryLimitHelp": "在一個高流量的網站，資料彙整處理過程可能超過目前所允許使用的記憶體量。<br \/>如果必要，試著變更在你 php.ini 檔案裡的 memory_limit。",
         "SystemCheckNoErrorsOrWarnings": "沒有錯誤或警告",
@@ -151,6 +151,6 @@
         "WelcomeToCommunity": "歡迎來到 Matomo 社區！",
         "CannotConnectToDb": "無法連接資料庫",
         "CannotConnectToDbResolvingExplanation": "這可能是暫時性的問題，試試%1$s重新整理頁面%2$s。如果問題持續發生請聯絡你的 Matomo 管理員。",
-        "EmailPrivacyNotice": "你的 Email 將只用於向你寄送電子報，為此我們需要分享你的 Email 給第三方供應商。此供應商目前是 Mad Mimi，但是未來有可能變更。我們不會透漏你的 Email 給其他人，或將你的 Email 用於電子報以外的其他用途。你隨時可以退訂。參考我們的%1$s隱私權政策%2$s取得更多資訊。"
+        "EmailPrivacyNotice": "你的 Email 將只用於向你寄送電子報，為此我們需要分享你的 Email 給第三方供應商。此供應商目前是 Mad Mimi，但是未來有可能變更。我們不會透漏你的 Email 給其他人，或將你的 Email 用於電子報以外的其他用途。你隨時可以取消訂閱。參考我們的%1$s隱私權政策%2$s以取得更多資訊。"
     }
 }
