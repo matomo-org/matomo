@@ -313,7 +313,16 @@ class Url
 
     protected static function getHostFromServerVariable()
     {
-        if (Config::getInstance()->General['prefer_server_name'] && strlen($host = self::getHostFromServerNameVar())) {
+        try {
+            // this fails when trying to get the hostname before the config was initialized
+            // e.g. for loading the domain specific configuration file
+            // in such a case we always use HTTP_HOST
+            $preferServerName = Config::getInstance()->General['prefer_server_name'];
+        } catch (\Exception $e) {
+            $preferServerName = false;
+        }
+
+        if ($preferServerName && strlen($host = self::getHostFromServerNameVar())) {
             return $host;
         } elseif (isset($_SERVER['HTTP_HOST']) && strlen($host = $_SERVER['HTTP_HOST'])) {
             return $host;

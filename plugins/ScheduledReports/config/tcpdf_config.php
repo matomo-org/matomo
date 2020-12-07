@@ -63,7 +63,7 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
                 $k_path_url = 'http://';
             }
             $k_path_url .= $host;
-            $k_path_url     .= str_replace('\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
+            $k_path_url .= str_replace('\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
         }
 
         /**
