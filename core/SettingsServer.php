@@ -91,6 +91,9 @@ class SettingsServer
      */
     public static function isWindows()
     {
+        if (PHP_OS_FAMILY == "Unknown") {
+            return DIRECTORY_SEPARATOR === '\\';
+        }
         return PHP_OS_FAMILY === "Windows";
     }
 
