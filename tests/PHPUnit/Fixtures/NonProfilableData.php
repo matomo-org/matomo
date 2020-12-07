@@ -11,6 +11,7 @@ use PHPUnit\Framework\Assert;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Tests\Framework\Fixture;
 
 class NonProfilableData extends Fixture
@@ -49,7 +50,14 @@ class NonProfilableData extends Fixture
 
     private function createTestWebsite()
     {
-        self::createWebsite('2020-03-04 03:00:00', $ecommerce = 1);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite('2020-03-04 03:00:00', $ecommerce = 1);
+        }
+
+        $idGoal = 1;
+        if (!self::goalExists($idSite, $idGoal)) {
+            APIGoals::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains');
+        }
     }
 
     private function unsetVisitorId(\MatomoTracker $t)
