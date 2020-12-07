@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_ExcludeLowPopulationTest extends \PHPUnit\Framework\TestCase
+class ExcludeLowPopulationTest extends \PHPUnit\Framework\TestCase
 {
     protected function getTestDataTable()
     {

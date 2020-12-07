@@ -493,7 +493,8 @@ function ajaxHelper() {
         if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
                 token_auth: piwik.token_auth,
-                force_api_session: '1'
+                // When viewing a widgetized report there won't be any session that can be used, so don't force session usage
+                force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
             };
         }
 
