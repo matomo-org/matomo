@@ -27,7 +27,7 @@
         "EnterUsernameOrEmail": "輸入使用者名稱或 Email",
         "ExceptionAccessValues": "參數存取必須包含其中一個值：[ %1$s ]，目前僅有「%2$s」。",
         "ExceptionMultipleRoleSet": "只能設定一個角色，但是已被設定多個。使用其中之一：%s",
-        "ExceptionAnonymousNoCapabilities": "你不能給匿名使用者任何能力。",
+        "ExceptionAnonymousNoCapabilities": "你不能給匿名使用者任何權限。",
         "ExceptionAnonymousAccessNotPossible": "你只能給匿名使用者設定 %1$s 或 %2$s 存取權限。",
         "ExceptionDeleteDoesNotExist": "使用者「%s」不存在，所以無法刪除它。",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "無法刪除使用者「%s」",
