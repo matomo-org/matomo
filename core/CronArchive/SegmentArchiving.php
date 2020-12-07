@@ -20,7 +20,6 @@ use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
-use function DI\object;
 
 /**
  * Provides URLs that initiate archiving during cron archiving for segments.
@@ -305,7 +304,7 @@ class SegmentArchiving
         return $segments;
     }
 
-    public function isSegmentForSite($segment, $idSite)
+    private function isSegmentForSite($segment, $idSite)
     {
         return $segment['enable_only_idsite'] == 0
             || $segment['enable_only_idsite'] == $idSite;
