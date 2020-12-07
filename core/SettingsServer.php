@@ -91,7 +91,7 @@ class SettingsServer
      */
     public static function isWindows()
     {
-        return DIRECTORY_SEPARATOR === '\\';
+        return PHP_OS_FAMILY === "Windows";
     }
 
     /**
