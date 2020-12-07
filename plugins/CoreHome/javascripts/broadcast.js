@@ -181,6 +181,10 @@ var broadcast = {
         return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
     },
 
+    isWidgetizeRequestWithoutSession: function() {
+        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('module') == 'iframe' && broadcast.getValueFromUrl('force_api_session') != '1';
+    },
+
     /**
      * Returns if the current page is the login page
      * @return {boolean}
