@@ -17,7 +17,7 @@ use Piwik\DataTable\Simple;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_XMLTest extends \PHPUnit\Framework\TestCase
+class XMLTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp(): void
     {
