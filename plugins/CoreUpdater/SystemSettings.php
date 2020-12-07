@@ -53,20 +53,19 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $this->title = Piwik::translate('CoreAdminHome_UpdateSettings');
 
-        $isWritable = Piwik::hasUserSuperUserAccess()
-                        && CoreAdminController::isGeneralSettingsAdminEnabled()
-                        && SettingsPiwik::isMultiServerEnvironment() === false;
+        $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $this->releaseChannel = $this->createReleaseChannel();
-        $this->releaseChannel->setIsWritableByCurrentUser($isWritable);
+        $this->releaseChannel->setIsWritableByCurrentUser($isWritable
+            && SettingsPiwik::isMultiServerEnvironment() === false);
+
+        $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
+        $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable
+            && PluginUpdateCommunication::canBeEnabled());
 
         $dbSettings = new Settings();
         if ($isWritable && $dbSettings->getUsedCharset() !== 'utf8mb4' && DbHelper::getDefaultCharset() === 'utf8mb4') {
             $this->updateToUtf8mb4 = $this->createUpdateToUtf8mb4();
         }
-
-        $isWritable = $isWritable && PluginUpdateCommunication::canBeEnabled();
-        $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
-        $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable);
     }
 
     private function createReleaseChannel()
