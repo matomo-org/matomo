@@ -46,6 +46,7 @@
         "GenericDevice": "Generic %s",
         "MobileDevice": "Mobile device",
         "Tablet": "Tablet",
+        "Peripheral": "Peripheral",
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
