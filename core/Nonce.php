@@ -144,11 +144,27 @@ class Nonce
                 $origins[] = 'http://' . $host .':' . $port;
             }
             $origins[] = 'https://' . $host . ':' . $port;
+
+            $alternativeHost = self::getAlternativeHostToAccept($host);
+
+            if ($alternativeHost) {
+                $origins[] = 'http://' . $alternativeHost;
+                $origins[] = 'https://' . $alternativeHost;
+                $origins[] = 'https://' . $alternativeHost . ':' . $port;
+                if ($port != 443) {
+                    $origins[] = 'http://' . $alternativeHost .':' . $port;
+                }
+            }
         } elseif (Config::getInstance()->General['force_ssl']) {
             $origins = array(
                 'https://' . $host,
                 'https://' . $host . ':443',
             );
+            $alternativeHost = self::getAlternativeHostToAccept($host);
+            if ($alternativeHost) {
+                $origins[] = 'https://' . $alternativeHost;
+                $origins[] = 'https://' . $alternativeHost . ':443';
+            }
         } else {
             $origins = array(
                 'http://' . $host,
@@ -156,9 +172,38 @@ class Nonce
                 'http://' . $host . ':80',
                 'https://' . $host . ':443',
             );
+            $alternativeHost = self::getAlternativeHostToAccept($host);
+            if ($alternativeHost) {
+                $origins[] = 'http://' . $alternativeHost;
+                $origins[] = 'https://' . $alternativeHost;
+                $origins[] = 'https://' . $alternativeHost . ':80';
+                $origins[] = 'https://' . $alternativeHost . ':443';
+            }
+
         }
 
         return $origins;
+    }
+
+    private static function getAlternativeHostToAccept($host)
+    {
+        if ($host && strpos($host, 'www.') === 0) {
+            $alternativeHost = substr($host, 4);
+        } elseif ($host) {
+            $parts = explode('.', $host);
+            if ($parts >= 4) {
+                // when it already is a subdomain then we don't prefix www.
+                return;
+                // it is for sure a subdomain. because there's like .co.uk etc we can't test for 3 parts
+                // it is not super accurate but better than nothing
+                // eventually would need to hard code a list of tld domains or something.
+            }
+
+            $alternativeHost = 'www.' . $host;
+        } else {
+            return;
+        }
+        return $alternativeHost;
     }
 
     /**
