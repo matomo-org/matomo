@@ -234,6 +234,14 @@ class Archive implements ArchiveQuery
             $isMultipleDate);
     }
 
+    public static function shouldSkipArchiveIfSkippingSegmentArchiveForToday(Site $site, Period $period, Segment $segment)
+    {
+        $now = Date::factory('now', $site->getTimezone());
+        return $period->getLabel() === 'day'
+            && !$segment->isEmpty()
+            && $period->getDateStart()->toString() === $now->toString();
+    }
+
     /**
      * Queries and returns metric data in an array.
      *
@@ -580,10 +588,8 @@ class Archive implements ArchiveQuery
             foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Site($idSite);
 
-                if ($period->getLabel() === 'day'
-                    && !$this->params->getSegment()->isEmpty()
-                    && Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
-                    && $period->getDateStart()->toString() === Date::factory('now', $site->getTimezone())->toString()
+                if (Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
+                    && self::shouldSkipArchiveIfSkippingSegmentArchiveForToday($site, $period, $this->params->getSegment())
                 ) {
                     Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());
                     continue;

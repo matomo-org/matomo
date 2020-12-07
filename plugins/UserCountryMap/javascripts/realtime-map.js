@@ -148,7 +148,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: 'json',
-                    data: { token_auth: tokenAuth, force_api_session: '1' },
+                    data: { token_auth: tokenAuth, force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1 },
                     type: 'POST'
                 });
             }
