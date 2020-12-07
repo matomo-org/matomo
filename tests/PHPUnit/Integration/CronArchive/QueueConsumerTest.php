@@ -40,6 +40,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->add('testegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('testegment2', 'browserCode==ff', false);
         Rules::setBrowserTriggerArchiving(true);
 
         // force archiving so we don't skip those without visits
@@ -66,6 +67,7 @@ class QueueConsumerTest extends IntegrationTestCase
         );
 
         $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+        $segmentHash2 = (new Segment('browserCode==ff', [1]))->getHash();
 
         $invalidations = [
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
@@ -90,6 +92,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
 
             // invalid plugin
             ['idarchive' => 1, 'name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => 'testReport'],
@@ -351,6 +354,12 @@ class QueueConsumerTest extends IntegrationTestCase
         $uniqueInvalidationDescs = array_unique($invalidationDescs);
 
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
+
+        // check that segment hash 2 is no longer in the invalidations table
+        $count = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE name = ?', [
+            'done' . $segmentHash2,
+        ]);
+        $this->assertEquals(0, $count);
     }
 
     public function test_skipSegmentsToday()
