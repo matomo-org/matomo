@@ -23,6 +23,8 @@ class PagePerformance extends \Piwik\Plugin
         'getExitPageUrls',
         'getPageUrlsFollowingSiteSearch',
         'getPageTitles',
+        'getEntryPageTitles',
+        'getExitPageTitles',
         'getPageTitlesFollowingSiteSearch',
     ];
 

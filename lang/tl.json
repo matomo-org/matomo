@@ -249,7 +249,6 @@
         "ParameterMustIntegerBetween": "Ang parameter %1$s ay dapat na isang integer value sa pagitan ng %2$s at %3$s.",
         "Password": "Password",
         "Period": "Panahon",
-        "Piechart": "Piechart",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s ay magagamit. Mangyaring i-notify ang %2$s Matomo administrator %3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Ang Matomo %1$s ay available. %2$s Mangyaring i-update ngayon! %3$s (tingnan ang %4$s na pagbabago %5$s).",
         "PleaseSpecifyValue": "Mangyaring i-specify ang value para sa '%s'.",

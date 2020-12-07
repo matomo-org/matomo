@@ -13,6 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ReArchiveList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
@@ -27,6 +28,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Segment;
+use Psr\Log\NullLogger;
 
 /**
  * @group Archiver
@@ -79,7 +81,79 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class));
+        $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class), new NullLogger());
+    }
+
+    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenNoPluginSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
+
+        $list = new ReArchiveList();
+        $list->add('badjson');
+
+        $this->invalidator->removeInvalidationsFromDistributedList([2,3]);
+
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1],"pluginName":"ExamplePlugin","report":null,"startDate":null}',
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameIsSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList([1,2,3], 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    public function test_removeInvalidationsFromDistributedList_removesAllSiteEntries()
+    {
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList('all', 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameAndReportIsSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin', 'myReport');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin', 'myOtherReport');
+
+        $this->invalidator->removeInvalidationsFromDistributedList([1,4,5], 'ExamplePlugin', 'myReport');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null}',
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":"myOtherReport","startDate":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
     }
 
     public function test_removeInvalidations_removesAll_ifAllSitesSpecified()
@@ -130,7 +204,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'doneSEGMENTHASH.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
             ['name' => 'done.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
+            ['name' => 'doneSEGMENTHASH.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
         ]);
@@ -140,6 +216,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $invalidations = $this->getInvalidatedArchiveTableEntries();
         $expectedInvalidations = [
             ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done.MyOtherPlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'doneSEGMENTHASH.MyOtherPlugin', 'report' => null],
             ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'name' => 'done', 'report' => null],
         ];
 
@@ -151,6 +228,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'doneSEGMENTHASH.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => null],
+            ['name' => 'doneSEGMENTHASH.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
             ['name' => 'done.MyOtherPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-05-05', 'period' => 1, 'report' => ''],
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myOtherReport'],
@@ -167,6 +246,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date2' => '2015-03-04',
                 'period' => '1',
                 'name' => 'done.MyPlugin',
+                'report' => NULL,
+            ],
+            [
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2012-03-04',
+                'date2' => '2015-03-04',
+                'period' => '1',
+                'name' => 'doneSEGMENTHASH.MyPlugin',
                 'report' => NULL,
             ],
             [
@@ -1118,9 +1206,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
 
-        $this->invalidator->reArchiveReport('all', 'VisitsSummary');
+        $this->invalidator->scheduleReArchiving('all', 'VisitsSummary');
+        $this->invalidator->applyScheduledReArchiving();
 
-        $countInvalidations = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
+        $countInvalidations = $this->getNumInvalidations();
 
         $invalidationSites = Db::fetchAll("SELECT DISTINCT idsite FROM " . Common::prefixTable('archive_invalidations'));
         $invalidationSites = array_column($invalidationSites, 'idsite');
@@ -1129,6 +1218,24 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
     }
 
+    private function getNumInvalidations()
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
+    }
+
+    public function test_scheduleReArchiving_cleanupWhenReportGiven()
+    {
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
+        $this->invalidator->applyScheduledReArchiving();
+        $numInvalidations = $this->getNumInvalidations();
+        $this->assertGreaterThanOrEqual(600, $numInvalidations);
+
+        $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
+        $this->invalidator->applyScheduledReArchiving();
+        // should not end up having twice the amount of invalidations but delete existing
+        $this->assertEquals($numInvalidations, $this->getNumInvalidations());
+
+    }
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');

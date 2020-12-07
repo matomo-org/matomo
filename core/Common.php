@@ -283,6 +283,32 @@ class Common
     }
 
     /**
+     * Timing attack safe string comparison.
+     *
+     * @param string $stringA
+     * @param string $stringB
+     * @return bool
+     */
+    public static function hashEquals(string $stringA, string $stringB)
+    {
+        if (function_exists('hash_equals')) {
+            return hash_equals($stringA, $stringB);
+        }
+
+        if (strlen($stringA) !== strlen($stringB)) {
+            return false;
+        }
+
+        $result = "\0";
+        $stringA^= $stringB;
+        for ($i = 0; $i < strlen($stringA); $i++) {
+            $result|= $stringA[$i];
+        }
+
+        return $result === "\0";
+    }
+
+    /**
      * Secure wrapper for unserialize, which by default disallows unserializing classes
      *
      * @param string $string String to unserialize

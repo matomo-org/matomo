@@ -35,6 +35,7 @@
         "InvalidGeoIPUpdatePeriod": "GeoIP güncelleme sıklığı geçersiz: %1$s. Geçerli değerler şunlardır: %2$s.",
         "IPurchasedGeoIPDBs": "Daha doğru %3$sDB-IP%4$s ya da %1$sMaxMind%2$s veritabanları satın aldım ve otomatik güncellemeleri kurmak istiyorum.",
         "ISPDatabase": "ISP Veritabanı",
+        "ISPRequiresProviderPlugin": "İnternet hizmeti sağlayıcılarını izlemek için hizmet sağlayıcı uygulama eki kurulmuş ve etkinleştirilmiş olmalıdır.",
         "IWantToDownloadFreeGeoIP": "Ücretsiz DB-IP veritabanını indirmek istiyorum...",
         "PluginDescription": "DB-IP \/ GeoIP2 konum hizmeti sağlayıcılarını sunar.",
         "LocationDatabase": "Konum Veritabanı",

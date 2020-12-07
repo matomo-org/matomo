@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "Search Keywords with No Results",
         "ActionType": "Action Type",
         "ActionTypes": "Action Types",
-        "Behaviour": "Behaviour"
+        "Behaviour": "Behaviour",
+        "TimeSpentInReferringAction": "Time Spent in Referring Action"
     }
 }

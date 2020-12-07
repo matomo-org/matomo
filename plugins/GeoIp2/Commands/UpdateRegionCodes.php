@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateRegionCodes extends ConsoleCommand
 {
-    public $source = 'https://salsa.debian.org/iso-codes-team/iso-codes/raw/master/data/iso_3166-2.json';
+    public $source = 'https://salsa.debian.org/iso-codes-team/iso-codes/-/raw/main/data/iso_3166-2.json';
 
     protected function configure()
     {

@@ -898,7 +898,7 @@ class Http
     {
         return !empty($_SERVER['HTTP_USER_AGENT'])
             ? $_SERVER['HTTP_USER_AGENT']
-            : 'Piwik/' . Version::VERSION;
+            : 'Matomo/' . Version::VERSION;
     }
 
     /**
