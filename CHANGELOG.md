@@ -160,7 +160,7 @@ These are only recommendations (because we will keep backward compatibility for 
 
 ### New config.ini.php settings
 
-* `prefer_server_name = 0`, if set to 1, Matomo will prefer using SERVER_NAME variable over HTTP_HOST. This can add an additional layer of security, as SERVER_NAME can't be manipulated by sending custom host headers when configured correctly.
+* `host_validation_use_server_name = 0`, if set to 1, Matomo will prefer using SERVER_NAME variable over HTTP_HOST. This can add an additional layer of security, as SERVER_NAME can't be manipulated by sending custom host headers when configured correctly.
 
 
 ## Matomo 3.14.0

@@ -317,7 +317,7 @@ class Url
             // this fails when trying to get the hostname before the config was initialized
             // e.g. for loading the domain specific configuration file
             // in such a case we always use HTTP_HOST
-            $preferServerName = Config::getInstance()->General['prefer_server_name'];
+            $preferServerName = Config::getInstance()->General['host_validation_use_server_name'];
         } catch (\Exception $e) {
             $preferServerName = false;
         }

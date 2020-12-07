@@ -397,7 +397,7 @@ force_ssl = 0
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
 ; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
-prefer_server_name = 0
+host_validation_use_server_name = 0
 
 ; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
 session_gc_probability = 1
