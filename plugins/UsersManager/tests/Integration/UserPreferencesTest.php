@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\UsersManager\tests;
+namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Piwik;
@@ -43,12 +43,11 @@ class UserPreferencesTest extends IntegrationTestCase
         FakeAccess::$identity = $identity;
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage User does not exist
-     */
     public function test_getDefaultReport_WhenLoginNotExists()
     {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('User does not exist');
+
         APIUsersManager::getInstance()->setUserPreference(
             'foo',
             APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -56,13 +55,11 @@ class UserPreferencesTest extends IntegrationTestCase
         );
     }
 
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Not supported preference name
-     */
     public function test_getDefaultReport_WhenWrongPreference()
     {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Not supported preference name');
+
         APIUsersManager::getInstance()->setUserPreference(
             Piwik::getCurrentUserLogin(),
             'foo',

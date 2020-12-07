@@ -2093,7 +2093,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(119);
+        expect(120);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2151,6 +2151,7 @@ function PiwikTest() {
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
+        equal( typeof tracker.setGenerationTimeMs, 'function', 'setGenerationTimeMs' );
         equal( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
         equal( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
         equal( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
@@ -3268,7 +3269,7 @@ function PiwikTest() {
     });
 
     test("POST requests are sent with cookies", function() {
-        expect(3);
+        expect(5);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
@@ -3282,6 +3283,9 @@ function PiwikTest() {
             ok(event.success, 'succeeded');
             ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
         });
+        ok(tracker.isUsingAlwaysUseSendBeacon());
+        tracker.setRequestMethod('GeT');
+        ok(!tracker.isUsingAlwaysUseSendBeacon());
 
         stop();
         setTimeout(function() {

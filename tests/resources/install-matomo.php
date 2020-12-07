@@ -13,6 +13,7 @@ use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -91,12 +92,7 @@ function createSuperUser() {
     $user  = $model->getUser($login);
 
     if (empty($user)) {
-        // @todo remove once there is a first stable 4.0 release
-        if (version_compare(\Piwik\Version::VERSION, '4.0.0-b1', '<')) {
-            $model->addUser($login, $password, 'hello@example.org', $login, '01234567890123456789012345678912', Date::now()->getDatetime());
-        } else {
-            $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
-        }
+        $model->addUser($login, $password, 'hello@example.org', Date::now()->getDatetime());
     } else {
         $model->updateUser($login, $password, 'hello@example.org');
     }
@@ -139,14 +135,6 @@ function createWebsite($dateTime)
     Cache::deleteCacheWebsiteAttributes($idSite);
 
     return $idSite;
-}
-
-function getTokenAuth()
-{
-    $model = new \Piwik\Plugins\UsersManager\Model();
-    $user  = $model->getUser('superUserLogin');
-
-    return $user['token_auth'];
 }
 
 $_SERVER['HTTP_HOST'] = $host;
@@ -229,5 +217,4 @@ $settings->releaseChannel->save();
 print "set release channel\n";
 
 // print token auth (on last line so it can be easily parsed)
-$tokenAuth = getTokenAuth();
-print "$tokenAuth";
+print Piwik::requestTemporarySystemAuthToken('InstallerUITests', 24);
