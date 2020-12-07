@@ -20,6 +20,7 @@ use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
+use function DI\object;
 
 /**
  * Provides URLs that initiate archiving during cron archiving for segments.
@@ -89,7 +90,9 @@ class SegmentArchiving
 
         $segmentsForSite = $this->getAllSegments();
         foreach ($segmentsForSite as $storedSegment) {
-            if (!$this->isAutoArchivingEnabledFor($storedSegment)) {
+            if (!$this->isAutoArchivingEnabledFor($storedSegment)
+                || !$this->isSegmentForSite($storedSegment, $idSite)
+            ) {
                 continue;
             }
 
@@ -121,11 +124,19 @@ class SegmentArchiving
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
-            if (!$this->isAutoArchivingEnabledFor($segment)) {
+            if (!$this->isAutoArchivingEnabledFor($segment)
+                || !$this->isSegmentForSite($segment, $idSite)
+            ) {
                 continue;
             }
 
-            $segmentObj = new Segment($segment['definition'], [$idSite]);
+            try {
+                $segmentObj = new Segment($segment['definition'], [$idSite]);
+            } catch (\Exception $ex) {
+                $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
+                continue;
+            }
+
             if ($segmentObj->getHash() == $hash) {
                 return $segment;
             }
@@ -294,7 +305,7 @@ class SegmentArchiving
         return $segments;
     }
 
-    private function isSegmentForSite($segment, $idSite)
+    public function isSegmentForSite($segment, $idSite)
     {
         return $segment['enable_only_idsite'] == 0
             || $segment['enable_only_idsite'] == $idSite;
