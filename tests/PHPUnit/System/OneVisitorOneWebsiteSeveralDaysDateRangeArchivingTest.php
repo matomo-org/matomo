@@ -121,9 +121,9 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
-                                            + 2 /* Resolution */
-                                            + 2 /* VisitTime */) * 3 + 1,
+            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
+                    + 2 /* Resolution */
+                    + 2 /* VisitTime */) * 3,
 
             /**
              *  In Each "Period=range" Archive, we expect following non zero numeric entries:

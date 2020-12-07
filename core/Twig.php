@@ -455,13 +455,6 @@ class Twig
             if (SettingsPiwik::isMatomoInstalled()) {
                 $string = str_replace(SettingsPiwik::getPiwikUrl(), '$MATOMO_URL', $string);
                 $string = str_replace(SettingsPiwik::getSalt(), '$MATOMO_SALT', $string);
-
-                $config = Config::getInstance();
-                $db = $config->database;
-                $string = str_replace($db['username'], '$DB_USERNAME', $string);
-                $string = str_replace($db['password'], '$DB_PASSWORD', $string);
-                $string = str_replace($db['host'], '$DB_HOST', $string);
-                $string = str_replace($db['dbname'], '$DB_NAME', $string);
             }
             return $string;
         });

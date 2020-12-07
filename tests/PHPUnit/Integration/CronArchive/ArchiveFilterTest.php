@@ -11,6 +11,7 @@ namespace PHPUnit\Unit\CronArchive;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\ArchiveFilter;
+use Piwik\Date;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -32,6 +33,28 @@ class ArchiveFilterTest extends IntegrationTestCase
 
         $expectedSegments = array('actions>=2', 'actions>=4');
         $this->assertEquals($expectedSegments, array_values($cronarchive->getSegmentsToForce()));
+    }
+
+    public function test_filterArchive_filtersSegmentArchivesForToday_IfSkippingSegmentsForToday()
+    {
+        Date::$now = strtotime('2020-03-04 04:05:06');
+
+        Fixture::createWebsite('2014-12-12 00:01:02', 0, false, false, 1, null, null, 'America/Los_Angeles');
+
+        $cronarchive = new ArchiveFilter();
+        $cronarchive->setSkipSegmentsForToday(true);
+
+        $result = $cronarchive->filterArchive(['idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'segment' => 'browserCode==IE']);
+        $this->assertFalse($result);
+
+        $result = $cronarchive->filterArchive(['idsite' => 1, 'period' => 1, 'date1' => '2020-03-03', 'segment' => 'browserCode==IE']);
+        $this->assertEquals('skipping segment archives for today', $result);
+
+        $result = $cronarchive->filterArchive(['idsite' => 1, 'period' => 1, 'date1' => '2020-03-02', 'segment' => 'browserCode==IE']);
+        $this->assertFalse($result);
+
+        $result = $cronarchive->filterArchive(['idsite' => 1, 'period' => 2, 'date1' => '2020-03-03', 'segment' => 'browserCode==IE']);
+        $this->assertFalse($result);
     }
 
     public function test_filterArchive_filtersSegmentArchives_IfSegmentArchivingIsDisabled()
