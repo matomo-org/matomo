@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_ConsoleTest extends \PHPUnit\Framework\TestCase
+class ConsoleTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp(): void
     {

@@ -14,7 +14,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_AddSummaryRowTest extends \PHPUnit\Framework\TestCase
+class AddSummaryRowTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group AddSummaryRow
