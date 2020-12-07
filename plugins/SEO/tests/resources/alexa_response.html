@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="robots" content="noindex">
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>matomo.org Site Overview from Alexa</title><style type="text/css">/*<![CDATA[*/
+/* reset.css v1.0 | 20080212 from: http://meyerweb.com/eric/tools/css/reset/  */
+body#alx_traffic_body, #alx_traffic div, #alx_traffic span, #alx_traffic applet, #alx_traffic object, #alx_traffic iframe,
+#alx_traffic h1, #alx_traffic h2, #alx_traffic h3, #alx_traffic h4, #alx_traffic h5, #alx_traffic h6, #alx_traffic p, #alx_traffic blockquote, #alx_traffic pre,
+#alx_traffic a, #alx_traffic abbr, #alx_traffic acronym, #alx_traffic address, #alx_traffic big, #alx_traffic cite, #alx_traffic code,
+#alx_traffic del, #alx_traffic dfn, #alx_traffic em, #alx_traffic font, #alx_traffic img, #alx_traffic ins, #alx_traffic kbd, #alx_traffic q, #alx_traffic s, #alx_traffic samp,
+#alx_traffic small, #alx_traffic strike, #alx_traffic strong, #alx_traffic sub, #alx_traffic sup, #alx_traffic tt, #alx_traffic var,
+#alx_traffic b, #alx_traffic u, #alx_traffic i, #alx_traffic center,
+#alx_traffic dl, #alx_traffic dt, #alx_traffic dd, #alx_traffic ol, #alx_traffic ul, #alx_traffic li,
+#alx_traffic fieldset, #alx_traffic form, #alx_traffic label, #alx_traffic legend,
+#alx_traffic table, #alx_traffic caption, #alx_traffic tbody, #alx_traffic tfoot, #alx_traffic thead, #alx_traffic tr, #alx_traffic th, #alx_traffic td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+#alx_traffic {
+    background: #eff2f7;
+    border: 1px solid #b0bfd7;
+    color: #333;
+    font-size: 12px;
+    font-family:Verdana, Geneva, sans-serif;
+    line-height: 14px;
+    margin: 0 auto;
+    padding: 6px 6px 12px 6px;
+    position: relative;
+    top: 10px;
+    word-wrap: break-word;
+}
+#alx_traffic_body.chrome {
+    background: #eff2f7;
+}
+#alx_traffic_body.chrome #alx_traffic {
+    border: 0;
+}
+#alx_traffic ul {
+    list-style: none;
+}
+#alx_traffic blockquote, #alx_traffic q {
+    quotes: none;
+}
+#alx_traffic blockquote:before, #alx_traffic blockquote:after,
+#alx_traffic q:before, #alx_traffic q:after {
+    content: '';
+    content: none;
+}
+/* remember to define focus styles! */
+#alx_traffic :focus {
+    outline: 0;
+}
+/* remember to highlight inserts somehow! */
+#alx_traffic ins {
+    text-decoration: none;
+}
+#alx_traffic del {
+    text-decoration: line-through;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+#alx_traffic table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/* end reset.css */
+#alx_traffic h1 {
+    color:#000;
+}
+#alx_traffic h2 {
+    color:rgb(37,55,89); /*#507EA1; */
+}
+#alx_traffic h3,  #alx_traffic h5 {
+    color:rgb(37,55,89); /*#507EA1;*/
+}
+#alx_traffic h4 {
+    color:rgb(89,82,79); /*#738040; */
+}
+#alx_traffic h6 {
+    color:#507EA1;
+}
+#alx_traffic ul, #alx_traffic ol, #alx_traffic dl, #alx_traffic blockquote, #alx_traffic cite {
+    color:#404053;
+}
+#alx_traffic a, #alx_traffic .searchLink {text-decoration:none; color: #039}
+#alx_traffic a:visited {text-decoration:none; color: #993366}
+#alx_traffic a:hover, #alx_traffic a:active {color:#c60;text-decoration:underline;}
+#alx_traffic h3 a, #alx_traffic a h3 {color: #0033CC}
+/* --- FONT SIZES --- */
+#alx_traffic h1 {
+    padding-top: 5px;
+}
+#alx_traffic h1, #alx_traffic h2, #alx_traffic h3, #alx_traffic h4, #alx_traffic h5, #alx_traffic h6 {
+    font-family: "Lucida Grande",Geneva, Verdana,Arial, sans-serif;
+    font-size: 100%;
+    font-weight: normal;
+}
+#alx_traffic h1 {font-size:1.3em; /* 24pt */
+}
+#alx_traffic h2 {font-size:1.2em; /* 22pt */
+    padding: 0;
+}
+#alx_traffic h3 {font-size:1.125em; /* 18pt */
+    line-height:1.25;
+    margin: 24px 0 0;
+}
+#alx_traffic a, #alx_traffic button {
+    cursor: pointer;
+}
+#alx_traffic a:hover {
+    text-decoration:none;
+}
+/* basic list styling - more-styled lists in list.css */
+#alx_traffic ul, #alx_traffic dl, #alx_traffic ol {
+    margin:0 0 .75em 0; /* lists without specific classes */
+    line-height:1.5;}
+#alx_traffic li, #alx_traffic dd {
+    padding:0em 0; /* lists without specific classes */
+}
+#alx_traffic ol li {
+    margin-left: 20px;
+    vertical-align: top;
+}
+#alx_traffic dt {font-weight:bold;}
+#alx_traffic code {font-size:1.25em;}
+#alx_traffic * html code {font-size:1.1em;} /* default size is smaller in IE */
+#alx_traffic img {
+    border:0;
+    margin-bottom: 2px;
+}
+#alx_traffic #alx_traffic_content_rank_change_img {
+    float: left;
+}
+#alx_traffic .date {
+    font-size: .8em;
+}
+/* basic table styling  - more-styled tables in tables.css */
+#alx_traffic table caption {
+    font-weight:bold;
+    font-size:1em;
+    margin-top:.6em;
+}
+#alx_traffic table th   {
+    padding: .3em .5em .3em .5em;
+    /*border-bottom:2px solid #069;*/
+}
+#alx_traffic #siteStats {
+    border-collapse:collapse;
+    width: 100%;
+}
+#alx_traffic #siteStats td {
+    border-right: 1px solid #ddd;
+    padding: 4px 10px;
+    text-align: center;
+    vertical-align: bottom;
+}
+#alx_traffic #siteStats.chrome td {
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 14px 10px;
+    vertical-align: middle;
+}
+#alx_traffic #siteStats div.label {
+    font-size: .9em;
+    color: #777;
+}
+#alx_traffic .chrome .label {
+    padding-top: 3px;
+}
+#alx_traffic #siteStats div.data {
+    font-size: 1.3em;
+    display: inline-block;
+    white-space: nowrap;
+}
+#alx_traffic #siteStats div.up {color: #690;}
+#alx_traffic #siteStats div.down {color: #900;}
+#alx_traffic #siteStats div.steady {color: #660;}
+#alx_traffic #siteStats td.start {padding-left: 0;border-right:0;}
+#alx_traffic #siteStats td.end {border-right: 0;}
+/* MISC CLASSES */
+#alx_traffic .ch {cursor: pointer;}
+#alx_traffic .noborder {border: 0 !important;}
+#alx_traffic .textOn { }
+#alx_traffic .textOff {display: none;}
+#alx_traffic .alignright {float: right;}
+#alx_traffic .alignleft {float: left;}
+#alx_traffic .textRight {text-align: right;}
+#alx_traffic .offsite {
+    background: url(/images/icons/external_link_gray2.png) top right no-repeat;
+    padding: 0 16px 0 0;
+}
+#alx_traffic .small {
+    font-size: 0.8em;
+}
+#alx_traffic .VeryFast {
+    background: url('https://www.alexa.com/images/icons/hourglass-veryfast1.gif') top left no-repeat;
+    color: #007236;
+    padding: 2px 0 2px 14px;
+}
+#alx_traffic .Fast {
+    background: url('https://www.alexa.com/images/icons/hourglass-fast1.gif') top left no-repeat;
+    color:  #617128;
+    padding: 2px 0 2px 14px;
+}
+#alx_traffic .Average {
+    background: url('https://www.alexa.com/images/icons/hourglass-average1.gif') top left no-repeat;
+    color: #827b00;
+    padding: 2px 0 2px 14px;
+}
+#alx_traffic .Slow {
+    background: url('https://www.alexa.com/images/icons/hourglass-slow1.gif') top left no-repeat;
+    color: #a3620a;
+    padding: 2px 0 2px 14px;
+}
+#alx_traffic .VerySlow {
+    background: url('https://www.alexa.com/images/icons/hourglass-veryslow1.gif') top left no-repeat;
+    color: #9e0b0f;
+    padding: 2px 0 2px 14px;
+}
+#alx_traffic .icon {
+    background-position: top left;
+    background-repeat: no-repeat;
+    padding: 2px 0 2px 22px;
+}
+#alx_traffic .search {background-image: url('https://www.alexa.com/images/toolbar/icons/search.png');}
+#alx_traffic .related {background-image: url('https://www.alexa.com/images/toolbar/icons/related.png');}
+#alx_traffic .wayback {background-image: url('https://www.alexa.com/images/toolbar/icons/wayback.png');}
+#alx_traffic .site-title {font-size: 1.2em; margin-top: 2px;}
+#alx_traffic .rl {
+    margin: 0 auto;
+    overflow: hidden;
+    width: 150px;
+}
+#alx_traffic .related-links {
+    margin: 4px 0 0 16px;
+    text-align: left;
+}
+#alx_traffic .related-links li {
+    list-style: circle;
+    white-space: nowrap;
+}
+#alx_traffic .btn-css{
+    padding: 7px 7px 5px;
+    color: #fff;
+    font: normal 12px Helvetica, Arial, sans-serif;
+    line-height: 100%;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 1px 2px #000;
+    -webkit-box-shadow: 0 1px 2px #000;
+    box-shadow: 0 1px 2px #000;
+    cursor: pointer;
+}
+#alx_traffic span.btn-css{
+    display: inline-block;
+}
+#alx_traffic .btn-blue{
+    background-color: #009ed0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#009ed0', endColorstr='#0066a6');
+    background: -moz-linear-gradient(#009ed0, #0066a6);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#009ed0), to(#0066a6));
+}
+/* not sure if we need this
+* html #alx_traffic {width: 800px;}
+*/
+/*]]>*/
+</style>
+    <!-- NOTE: Firefox toolbar currently doesn't support external scripts so this is a no-op there. But it helps for IE. -->
+    <script type="text/javascript" src="https://s3.amazonaws.com/com.alexa.toolbar/buttons/api.js"> </script>
+    <script type="text/javascript" src="https://s3.amazonaws.com/com.alexa.toolbar/buttons/newalexa/newalexa_siteinfo.js"></script>
+</head>
+<body id="alx_traffic_body">
+<div id="alx_traffic">
+    <img id="alx_traffic_arrow_right" alt="" src="https://s3.amazonaws.com/com.alexa.toolbar/buttons/twitter/update-arrow.gif"
+         style="position: absolute; top: -10px; right: 5px;" />
+    <div id="alx_traffic_content">
+        <h2> Traffic stats for matomo.org</h2>
+        <table id="siteStats">
+            <tbody><tr>
+                <td>
+                    <div class="data up"><a onclick="Alexa.browser.navigate('https://www.alexa.com/siteinfo/matomo.org#trafficstats', 'newTab', '', null); window.close(); "><img src="https://www.alexa.com/images/icons/globe-sm.png" alt="Global" style="margin-bottom:-2px;"/> 25,558</a></div>
+                    <div class="label">Alexa Traffic Rank</div>
+                </td>
+                <td>
+                    <div class="data"><a onclick="Alexa.browser.navigate('https://www.alexa.com/siteinfo/matomo.org#trafficstats', 'newTab', '', null); window.close();" title="United States"><img class="dynamic-icon" src="https://www.alexa.com/alx-sa-9c2fead3-1606247898/images/flags/us.png" alt="United States Flag"/>
+                        18,004</a></div>
+                    <div class="label">Traffic Rank in <a onclick="Alexa.browser.navigate('https://www.alexa.com/topsites/countries/US', 'newTab', '', null); window.close();" title="United States">US</a></div>
+                </td>
+                <td class="end">
+                    <div class="data">
+                        <a onclick="Alexa.browser.navigate('https://www.alexa.com/site/linksin/matomo.org', 'newTab', '', null); window.close();">152</a>
+                    </div>
+                    <div class="label">Sites Linking In </div>
+                </td>
+            </tr></tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

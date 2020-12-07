@@ -696,7 +696,7 @@ class Model
             $bind[] = $invalidation['report'];
         }
 
-        $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND `period` = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `status` = ? AND $reportClause LIMIT 1";
+        $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND `period` = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `status` = ? AND ts_started IS NOT NULL AND $reportClause LIMIT 1";
         $result = Db::fetchOne($sql, $bind);
 
         return !empty($result);
@@ -705,19 +705,21 @@ class Model
     /**
      * Gets the next invalidated archive that should be archived in a table.
      *
-     * @param string[] $tables
-     * @param int $count
+     * @param int $idSite
+     * @param string $archivingStartTime
+     * @param int[]|null $idInvalidationsToExclude
      * @param bool $useLimit Whether to limit the result set to one result or not. Used in tests only.
      */
-    public function getNextInvalidatedArchive($idSite, $idInvalidationsToExclude = null, $useLimit = true)
+    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
     {
         $table = Common::prefixTable('archive_invalidations');
         $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report
                   FROM `$table`
-                 WHERE idsite = ? AND status != ?";
+                 WHERE idsite = ? AND status != ? AND ts_invalidated <= ?";
         $bind = [
             $idSite,
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+            $archivingStartTime,
         ];
 
         if (!empty($idInvalidationsToExclude)) {
@@ -755,7 +757,7 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
         $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?";
 
-        Db::query($sql, ['done.' . str_replace('_', "\\_", $start) . '%']);
+        Db::query($sql, ['done%.' . str_replace('_', "\\_", $start)]);
     }
 
     public function removeInvalidations($idSite, $plugin, $report)
@@ -763,9 +765,9 @@ class Model
         $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` = ? AND report = ?";
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ? AND report = ?";
 
-        Db::query($sql, ['done.' . $plugin, $report]);
+        Db::query($sql, ['done%.' . str_replace('_', "\\_", $plugin), $report]);
     }
 
     public function isArchiveAlreadyInProgress($invalidatedArchive)
@@ -840,14 +842,6 @@ class Model
         Db::query($sql);
     }
 
-    public function isInvalidationsScheduledForSite($idSite)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
-        $value = Db::fetchOne($sql, [(int) $idSite]);
-        return !empty($value);
-    }
-
     private function getRemoveInvalidationsIdSitesClause($idSite)
     {
         if ($idSite === 'all') {
@@ -881,5 +875,16 @@ class Model
 
         $query = Db::query($sql, $bind);
         return $query->rowCount();
+    }
+
+    public function isInvalidationsScheduledForSite($idSite)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $bind = [(int) $idSite];
+
+        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
+        $value = Db::fetchOne($sql, $bind);
+        return !empty($value);
     }
 }

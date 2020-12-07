@@ -86,6 +86,11 @@ class ArchiveInvalidator
      */
     private $logger;
 
+    /**
+     * @var int[]
+     */
+    private $allIdSitesCache;
+
     public function __construct(Model $model, ArchivingStatus $archivingStatus, LoggerInterface $logger)
     {
         $this->model = $model;
@@ -539,12 +544,15 @@ class ArchiveInvalidator
      * since adding invalidations can take a long time and delay UI response times.
      *
      * @param int|int[]|'all' $idSites
-     * @param string $pluginName
+     * @param string|int $pluginName
      * @param string|null $report
      * @param Date|null $startDate
      */
-    public function scheduleReArchiving($idSites, string $pluginName, string $report = null, Date $startDate = null)
+    public function scheduleReArchiving($idSites, string $pluginName, $report = null, Date $startDate = null)
     {
+        if (!empty($report)) {
+            $this->removeInvalidationsSafely($idSites, $pluginName, $report);
+        }
         try {
             $reArchiveList = new ReArchiveList($this->logger);
             $reArchiveList->add(json_encode([
@@ -598,22 +606,27 @@ class ArchiveInvalidator
      *
      * @param int|int[]|'all' $idSites
      * @param string $pluginName
+     * @param string|null $report
      */
-    public function removeInvalidationsSafely($idSites, $pluginName)
+    public function removeInvalidationsSafely($idSites, $pluginName, $report = null)
     {
         try {
-            $this->removeInvalidations($idSites, $pluginName);
-            $this->removeInvalidationsFromDistributedList($idSites, $pluginName);
+            $this->removeInvalidations($idSites, $pluginName, $report);
+            $this->removeInvalidationsFromDistributedList($idSites, $pluginName, $report);
         } catch (\Throwable $ex) {
             $logger = StaticContainer::get(LoggerInterface::class);
             $logger->debug("Failed to remove invalidations the for $pluginName plugin.");
         }
     }
 
-    public function removeInvalidationsFromDistributedList($idSites, $pluginName = null)
+    public function removeInvalidationsFromDistributedList($idSites, $pluginName = null, $report = null)
     {
         $list = new ReArchiveList();
         $entries = $list->getAll();
+
+        if ($idSites === 'all') {
+            $idSites = $this->getAllSitesId();
+        }
 
         foreach ($entries as $index => $entry) {
             $entry = @json_decode($entry, true);
@@ -622,13 +635,24 @@ class ArchiveInvalidator
                 continue;
             }
 
-            $sitesInEntry = $entry['idSites'];
             $entryPluginName = $entry['pluginName'];
-
             if (!empty($pluginName)
                 && $pluginName != $entryPluginName
             ) {
                 continue;
+            }
+
+            $entryReport = $entry['report'];
+            if (!empty($pluginName)
+                && !empty($report)
+                && $report != $entryReport
+            ) {
+                continue;
+            }
+
+            $sitesInEntry = $entry['idSites'];
+            if ($sitesInEntry === 'all') {
+                $sitesInEntry = $this->getAllSitesId();
             }
 
             $diffSites = array_diff($sitesInEntry, $idSites);
@@ -757,8 +781,13 @@ class ArchiveInvalidator
 
     private function getAllSitesId()
     {
+        if (isset($this->allIdSitesCache)) {
+            return $this->allIdSitesCache;
+        }
+
         $model = new \Piwik\Plugins\SitesManager\Model();
-        return $model->getSitesId();
+        $this->allIdSitesCache = $model->getSitesId();
+        return $this->allIdSitesCache;
     }
 
     private function getEarliestDateToRearchive()
