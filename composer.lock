@@ -494,16 +494,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "3799f71f4211346158a1e96f3b0bef615c873923"
+                "reference": "20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/3799f71f4211346158a1e96f3b0bef615c873923",
-                "reference": "3799f71f4211346158a1e96f3b0bef615c873923",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a",
+                "reference": "20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a",
                 "shasum": ""
             },
             "require": {
@@ -559,7 +559,7 @@
                 "source": "https://github.com/matomo-org/piwik",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2020-11-12T17:19:41+00:00"
+            "time": "2020-12-07T09:40:38+00:00"
         },
         {
             "name": "matomo/ini",

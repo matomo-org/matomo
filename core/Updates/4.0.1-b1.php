@@ -9,6 +9,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -35,6 +36,10 @@ class Updates_4_0_1_b1 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         $migrations = [];
+
+        $table = Common::prefixTable('user_token_auth');
+        $migrations[] = $this->migration->db->sql('UPDATE ' . $table . ' SET hash_algo = "sha512" where hash_algo is null or hash_algo = "" ');
+
         if (SettingsPiwik::isGitDeployment()) {
             return $migrations;
         }

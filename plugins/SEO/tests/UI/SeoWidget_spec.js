@@ -21,6 +21,9 @@ describe("SeoWidgetTest", function () {
             height: 500
         });
         await page.goto(url);
+        await page.evaluate(function () {
+            $('td:last div').text('3 years 78 days');
+        });
         expect(await page.screenshotSelector('.widget')).to.matchImage('widget');
     });
 });
