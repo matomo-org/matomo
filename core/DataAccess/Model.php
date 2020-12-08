@@ -260,6 +260,8 @@ class Model
     {
         $table = Common::prefixTable('archive_invalidations');
 
+        $idSites = array_map('intval', $idSites);
+
         $sql = "SELECT idsite, date1, date2, period, name, COUNT(*) as `count` FROM `$table`
                  WHERE idsite IN (" . implode(',', $idSites) . ") AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . "
                        $periodCondition AND $nameCondition
