@@ -416,4 +416,24 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 		), $result);
 	}
 
+    /**
+     * @dataProvider getProtocolUrls
+     */
+	public function test_invalid_protocols($url, $message)
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage($message);
+
+        Http::sendHttpRequest($url, 5);
+    }
+
+    public function getProtocolUrls()
+    {
+        return [
+            ['phar://malformed.url', 'Protocol phar not in list of allowed protocols: http,https'],
+            ['ftp://usful.ftp/file.md', 'Protocol ftp not in list of allowed protocols: http,https'],
+            ['rtp://custom.url', 'Protocol rtp not in list of allowed protocols: http,https'],
+            ['/local/file', 'Missing scheme in given url'],
+        ];
+    }
 }
