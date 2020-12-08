@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Widgetize;
 
 use Piwik\Access;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
@@ -31,11 +32,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function iframe()
     {
+        // also called by FrontController, we call it explicitly as a safety measure in case something changes in the future
         $token_auth = Common::getRequestVar('token_auth', '', 'string');
-
-        if ($token_auth !== ''
-            && Access::getInstance()->isUserHasSomeWriteAccess()) {
-            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired'));
+        if (!empty($token_auth)) {
+            Request::checkTokenAuthIsNotLimited('Widgetize', 'iframe');
         }
 
         $this->init();
