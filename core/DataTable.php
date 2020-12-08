@@ -1522,7 +1522,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
         if ($thisIsNotThatSimple === false) {
             // case when the array is indexed by the default numeric index
-            if (array_keys($array) == array_keys(array_fill(0, count($array), true))) {
+            if (array_keys($array) === array_keys(array_fill(0, count($array), true))) {
                 foreach ($array as $row) {
                     $this->addRow(new Row(array(Row::COLUMNS => array($row))));
                 }
