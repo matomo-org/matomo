@@ -953,11 +953,11 @@ class CronArchive
             $bind[] = $archiveToProcess['report'];
         }
 
-        $sql = "SELECT DISTINCT period FROM `$table` WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ? $reportClause";
+        $sql = "SELECT DISTINCT period FROM `$table`
+                 WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ? AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . " $reportClause";
 
         $higherPeriods = Db::fetchAll($sql, $bind);
         $higherPeriods = array_column($higherPeriods, 'period');
-        $higherPeriods = array_flip($higherPeriods);
 
         $invalidationsToInsert = [];
         foreach (Piwik::$idPeriods as $label => $id) {
@@ -966,7 +966,7 @@ class CronArchive
                 continue;
             }
 
-            if (isset($higherPeriods[$id])) { // period exists in table
+            if (in_array($id, $higherPeriods)) { // period exists in table
                 continue;
             }
 

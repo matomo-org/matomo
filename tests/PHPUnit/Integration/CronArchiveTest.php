@@ -109,10 +109,21 @@ class CronArchiveTest extends IntegrationTestCase
             [
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00', 'status' => 1], // duplicate w/ status = 1
                 ],
                 ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
                 [
                     array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array ( // status = 1 version
                         'idarchive' => '1',
                         'idsite' => '1',
                         'period' => '2',
@@ -823,9 +834,10 @@ LOG;
                 $inv['period'],
                 isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
                 $inv['report'],
+                isset($inv['status']) ? $inv['status'] : 0,
             ];
             Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)", $bind);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
         }
     }
 
