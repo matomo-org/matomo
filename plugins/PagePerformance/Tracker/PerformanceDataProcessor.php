@@ -47,13 +47,6 @@ class PerformanceDataProcessor extends RequestProcessor
             return;
         }
 
-        $idLinkVa = $this->getPageViewId($idVisit, $pageViewId);
-
-        // ignore requests
-        if (empty($idLinkVa)) {
-            return;
-        }
-
         /** @var ActionDimension[] $performanceDimensions */
         $performanceDimensions = [
             new TimeNetwork(),
@@ -75,6 +68,13 @@ class PerformanceDataProcessor extends RequestProcessor
 
         if (empty($valuesToUpdate)) {
             return; // no values to update given with the request
+        }
+
+        $idLinkVa = $this->getPageViewId($idVisit, $pageViewId);
+
+        // ignore requests
+        if (empty($idLinkVa)) {
+            return;
         }
 
         Log::info('Updating page performance metrics of page view with id ' . $pageViewId);
