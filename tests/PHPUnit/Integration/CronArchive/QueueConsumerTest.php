@@ -133,6 +133,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
                 unset($item['periodObj']);
                 unset($item['idinvalidation']);
+                unset($item['ts_invalidated']);
             }
 
             $iteratedInvalidations[] = $next;
@@ -426,6 +427,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
                 unset($item['periodObj']);
                 unset($item['idinvalidation']);
+                unset($item['ts_invalidated']);
             }
 
             $iteratedInvalidations[] = $next;
