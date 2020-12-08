@@ -978,7 +978,8 @@ class CronArchive
             }
 
             $period = Period\Factory::build($label, $archiveToProcess['date1']);
-            $invalidationsToInsert[] = [
+
+            $invalidationToInsert = [
                 'idarchive' => null,
                 'name' => $archiveToProcess['name'],
                 'report' => $archiveToProcess['report'],
@@ -988,6 +989,12 @@ class CronArchive
                 'period' => $id,
                 'ts_invalidated' => $archiveToProcess['ts_invalidated'],
             ];
+
+            $this->logger->debug("Found dangling invalidation, inserting {invalidationToInsert}", [
+                'invalidationToInsert' => json_encode($invalidationToInsert),
+            ]);
+
+            $invalidationsToInsert[] = $invalidationToInsert;
         }
 
         if (empty($invalidationsToInsert)) {
