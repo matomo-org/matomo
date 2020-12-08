@@ -35,6 +35,7 @@ class BatchInsert
         $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
 
         foreach ($values as $row) {
+            $row = array_values($row);
             $query = "INSERT $ignore INTO " . $tableName . "
 					  $fieldList
 					  VALUES (" . Common::getSqlStringFieldsArray($row) . ")";

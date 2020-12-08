@@ -3101,7 +3101,7 @@
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
-		<deviceModel>GALAXY S5</deviceModel>
+		<deviceModel>Galaxy S5</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>

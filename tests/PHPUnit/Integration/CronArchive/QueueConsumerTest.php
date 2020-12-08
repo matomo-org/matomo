@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\CronArchive;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\RequestParser;
 use Piwik\Common;
+use Piwik\Plugins\CustomDimensions;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\CronArchive\FixedSiteIds;
@@ -38,8 +39,10 @@ class QueueConsumerTest extends IntegrationTestCase
         Fixture::createWebsite('2020-04-06');
         Fixture::createWebsite('2010-04-06');
 
+        CustomDimensions\API::getInstance()->configureNewCustomDimension(1, 'custom 1', 'visit', true);
+
         Rules::setBrowserTriggerArchiving(false);
-        API::getInstance()->add('testegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('testegment', 'browserCode==IE;dimension1==val', 1, true);
         API::getInstance()->add('testegment2', 'browserCode==ff', false);
         Rules::setBrowserTriggerArchiving(true);
 
@@ -66,7 +69,7 @@ class QueueConsumerTest extends IntegrationTestCase
             $archiveFilter
         );
 
-        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+        $segmentHash = (new Segment('browserCode==IE;dimension1==val', [1]))->getHash();
         $segmentHash2 = (new Segment('browserCode==ff', [1]))->getHash();
 
         $invalidations = [
@@ -92,6 +95,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 2, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
 
             // invalid plugin
@@ -178,10 +182,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-08',
                     'date2' => '2018-03-08',
                     'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => 'browserCode==IE;dimension1==val',
                 ),
                 array (
                     'idarchive' => '1',
@@ -189,10 +193,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-07',
                     'date2' => '2018-03-07',
                     'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => 'browserCode==IE;dimension1==val',
                 ),
                 array (
                     'idarchive' => '1',
@@ -213,10 +217,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-06',
                     'date2' => '2018-03-06',
                     'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => 'browserCode==IE;dimension1==val',
                 ),
                 array (
                     'idarchive' => '1',
@@ -237,10 +241,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-04',
                     'date2' => '2018-03-04',
                     'period' => '1',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => 'browserCode==IE;dimension1==val',
                 ),
             ),
             array (
@@ -276,10 +280,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-04',
                     'date2' => '2018-03-11',
                     'period' => '2',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => 'browserCode==IE;dimension1==val',
                 ),
             ),
             array (
@@ -315,10 +319,10 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date1' => '2018-03-01',
                     'date2' => '2018-03-31',
                     'period' => '3',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => NULL,
                     'plugin' => NULL,
-                    'segment' => 'browserCode==IE',
+                    'segment' => 'browserCode==IE;dimension1==val',
                 ),
             ),
             array ( // end of idsite=1
@@ -355,6 +359,12 @@ class QueueConsumerTest extends IntegrationTestCase
         $uniqueInvalidationDescs = array_unique($invalidationDescs);
 
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
+
+        // check that segment hash 2 is no longer in the invalidations table
+        $count = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE name = ?', [
+            'done' . $segmentHash2,
+        ]);
+        $this->assertEquals(0, $count);
     }
 
     public function test_skipSegmentsToday()

@@ -353,7 +353,7 @@ class QueueConsumer
             }
 
             $this->logger->debug("Found invalidation for segment that does not have auto archiving enabled, skipping: {$nextArchive['idinvalidation']}");
-            $this->invalidationsToExclude[] = $nextArchive['idinvalidation'];
+            $this->model->deleteInvalidations([$nextArchive]);
 
             ++$iterations;
         }
