@@ -280,8 +280,6 @@ class QueueConsumer
 
             $this->logger->debug("Processing invalidation: $invalidationDesc.");
 
-            $this->repairInvalidationsIfNeeded($invalidatedArchive);
-
             $archivesToProcess[] = $invalidatedArchive;
         }
 
@@ -313,66 +311,6 @@ class QueueConsumer
         $this->siteRequests += count($archivesToProcess);
 
         return $archivesToProcess;
-    }
-
-    // public for tests
-    public function repairInvalidationsIfNeeded($archiveToProcess)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-
-        $bind = [
-            $archiveToProcess['idsite'],
-            $archiveToProcess['name'],
-            $archiveToProcess['period'],
-            $archiveToProcess['date1'],
-            $archiveToProcess['date2'],
-        ];
-
-        $reportClause = '';
-        if (!empty($archiveToProcess['report'])) {
-            $reportClause = " AND report = ?";
-            $bind[] = $archiveToProcess['report'];
-        }
-
-        $sql = "SELECT DISTINCT period FROM `$table` WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ? $reportClause";
-
-        $higherPeriods = Db::fetchAll($sql, $bind);
-        $higherPeriods = array_column($higherPeriods, 'period');
-        $higherPeriods = array_flip($higherPeriods);
-
-        $invalidationsToInsert = [];
-        foreach (Piwik::$idPeriods as $label => $id) {
-            // lower period than the one we're processing or range, don't care
-            if ($id <= $archiveToProcess['period'] || $label == 'range') {
-                continue;
-            }
-
-            if (isset($higherPeriods[$id])) { // period exists in table
-                continue;
-            }
-
-            // archive is for week that is over two months, we don't need to care about the month
-            if ($label == 'month'
-                && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
-            ) {
-                continue;
-            }
-
-            $period = Period\Factory::build($label, $archiveToProcess['date1']);
-            $invalidationsToInsert[] = [
-                'idarchive' => null,
-                'name' => $archiveToProcess['name'],
-                'report' => $archiveToProcess['report'],
-                'idsite' => $archiveToProcess['idsite'],
-                'date1' => $period->getDateStart()->getDatetime(),
-                'date2' => $period->getDateEnd()->getDatetime(),
-                'period' => $id,
-                'ts_invalidated' => $archiveToProcess['ts_invalidated'],
-            ];
-        }
-
-        $fields = ['idarchive', 'name', 'report', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
-        Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $invalidationsToInsert);
     }
 
     private function archiveArrayContainsArchive($archiveArray, $archive)

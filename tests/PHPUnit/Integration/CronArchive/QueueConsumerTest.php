@@ -32,277 +32,6 @@ use Psr\Log\LoggerInterface;
 
 class QueueConsumerTest extends IntegrationTestCase
 {
-    /**
-     * @dataProvider getTestDataForRepairInvalidationsIfNeeded
-     */
-    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations($existingInvalidations, $archive,
-                                                                                $expectedInvalidations)
-    {
-        $this->insertInvalidations($existingInvalidations);
-
-        $cronArchive = new CronArchive();
-        $cronArchive->init();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
-
-        $queueConsumer = new QueueConsumer(
-            StaticContainer::get(LoggerInterface::class),
-            new FixedSiteIds([1, 2, 3]),
-            3,
-            24,
-            new Model(),
-            new SegmentArchiving('beginning_of_time'),
-            $cronArchive,
-            new RequestParser(true),
-            $archiveFilter
-        );
-
-        $queueConsumer->repairInvalidationsIfNeeded($archive);
-
-        $invalidations = $this->getInvalidationsInTable(true);
-
-        $this->assertEquals($expectedInvalidations, $invalidations);
-    }
-
-    public function getTestDataForRepairInvalidationsIfNeeded()
-    {
-        return [
-            // day w/ nothing else
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                [
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '1',
-                        'date1' => '2020-03-04',
-                        'date2' => '2020-03-04',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '3',
-                        'date1' => '2020-03-01',
-                        'date2' => '2020-03-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '4',
-                        'date1' => '2020-01-01',
-                        'date2' => '2020-12-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                ],
-            ],
-
-            // week with nothing else
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                [
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '3',
-                        'date1' => '2020-03-01',
-                        'date2' => '2020-03-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '4',
-                        'date1' => '2020-01-01',
-                        'date2' => '2020-12-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                ],
-            ],
-
-            // week w/ month
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                [
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '3',
-                        'date1' => '2020-03-01',
-                        'date2' => '2020-03-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '4',
-                        'date1' => '2020-01-01',
-                        'date2' => '2020-12-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                ],
-            ],
-
-            // week on edge of month w/ nothing else
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                [
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-02-24',
-                        'date2' => '2020-03-01',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '4',
-                        'date1' => '2020-01-01',
-                        'date2' => '2020-12-31',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 01:00:00',
-                    ),
-                ],
-            ],
-
-            // week for report w/ some other similar archives
-            [
-                [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myOtherReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyOtherPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 03:04:04'],
-                ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
-                [
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done.MyPlugin',
-                        'report' => 'myReport',
-                        'ts_invalidated' => '2020-03-04 03:04:04',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done.MyPlugin',
-                        'report' => 'myOtherReport',
-                        'ts_invalidated' => '2020-03-04 03:04:04',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done.MyOtherPlugin',
-                        'report' => 'myReport',
-                        'ts_invalidated' => '2020-03-04 03:04:04',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'period' => '2',
-                        'date1' => '2020-03-02',
-                        'date2' => '2020-03-08',
-                        'name' => 'done',
-                        'report' => NULL,
-                        'ts_invalidated' => '2020-03-04 03:04:04',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '3',
-                        'date1' => '2020-03-01',
-                        'date2' => '2020-03-31',
-                        'name' => 'done.MyPlugin',
-                        'report' => 'myReport',
-                        'ts_invalidated' => '2020-03-04 03:04:04',
-                    ),
-                    array (
-                        'idarchive' => NULL,
-                        'idsite' => '1',
-                        'period' => '4',
-                        'date1' => '2020-01-01',
-                        'date2' => '2020-12-31',
-                        'name' => 'done.MyPlugin',
-                        'report' => 'myReport',
-                        'ts_invalidated' => '2020-03-04 03:04:04',
-                    ),
-                ],
-            ],
-        ];
-    }
-
     public function test_invalidateConsumeOrder()
     {
         Fixture::createWebsite('2015-02-03');
@@ -311,6 +40,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->add('testegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('testegment2', 'browserCode==ff', false);
         Rules::setBrowserTriggerArchiving(true);
 
         // force archiving so we don't skip those without visits
@@ -337,6 +67,7 @@ class QueueConsumerTest extends IntegrationTestCase
         );
 
         $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+        $segmentHash2 = (new Segment('browserCode==ff', [1]))->getHash();
 
         $invalidations = [
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
@@ -361,6 +92,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
 
             // invalid plugin
             ['idarchive' => 1, 'name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => 'testReport'],
@@ -589,45 +321,6 @@ class QueueConsumerTest extends IntegrationTestCase
                     'segment' => 'browserCode==IE',
                 ),
             ),
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-01-01',
-                    'date2' => '2018-12-31',
-                    'period' => '4',
-                    'name' => 'done',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => '',
-                ],
-            ],
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-01-01',
-                    'date2' => '2018-12-31',
-                    'period' => '4',
-                    'name' => 'done.Actions',
-                    'report' => 'testReport',
-                    'plugin' => 'Actions',
-                    'segment' => '',
-                ],
-            ],
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-01-01',
-                    'date2' => '2018-12-31',
-                    'period' => '4',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => 'browserCode==IE',
-                ],
-            ],
             array ( // end of idsite=1
             ),
             array (
@@ -643,22 +336,9 @@ class QueueConsumerTest extends IntegrationTestCase
                     'segment' => '',
                 ),
             ),
-            array (
-                [
-                    'idarchive' => null,
-                    'idsite' => '2',
-                    'date1' => '2020-01-01',
-                    'date2' => '2020-12-31',
-                    'period' => '4',
-                    'name' => 'done',
-                    'report' => 'testReport',
-                    'plugin' => null,
-                    'segment' => '',
-                ],
-            ),
             array ( // end of idsite=2
             ),
-            array ( // end of idsite=2
+            array ( // end of idsite=3
             ),
         ];
 
@@ -768,19 +448,6 @@ class QueueConsumerTest extends IntegrationTestCase
                         'segment' => 'browserCode==IE',
                     ),
             ),
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-03-01',
-                    'date2' => '2018-03-31',
-                    'period' => '3',
-                    'name' => 'done',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => '',
-                ],
-            ],
             array (
                 0 =>
                     array (
@@ -795,63 +462,16 @@ class QueueConsumerTest extends IntegrationTestCase
                         'segment' => 'browserCode==IE',
                     ),
             ),
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-02-26',
-                    'date2' => '2018-03-04',
-                    'period' => '2',
-                    'name' => 'done',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => '',
-                ],
-            ],
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-02-26',
-                    'date2' => '2018-03-04',
-                    'period' => '2',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => 'browserCode==IE',
-                ],
-            ],
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-01-01',
-                    'date2' => '2018-12-31',
-                    'period' => '4',
-                    'name' => 'done',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => '',
-                ],
-            ],
-            [
-                [
-                    'idarchive' => null,
-                    'idsite' => '1',
-                    'date1' => '2018-01-01',
-                    'date2' => '2018-12-31',
-                    'period' => '4',
-                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => 'browserCode==IE',
-                ],
-            ],
             array (// end of idsite=1
             ),
         ];
 
-        $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
+        try {
+            $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
+        } catch (\Exception $ex) {
+            print "\nInvalidations inserted:\n" . var_export($invalidations, true) . "\n";
+            throw $ex;
+        }
 
         // automated check for no duplicates
         $invalidationDescs = [];
@@ -1083,13 +703,5 @@ class QueueConsumerTest extends IntegrationTestCase
     private function simulateJobStart($idinvalidation)
     {
         Db::query("UPDATE " . Common::prefixTable('archive_invalidations') . " SET status = 1 WHERE idinvalidation = ?", [$idinvalidation]);
-    }
-
-    private function getInvalidationsInTable($includeInvalidated = false)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-        $suffix = $includeInvalidated ? ', ts_invalidated' : '';
-        $sql = "SELECT idarchive, idsite, period, date1, date2, name, report$suffix FROM `$table`";
-        return Db::fetchAll($sql);
     }
 }
