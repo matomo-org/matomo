@@ -430,48 +430,48 @@ Checking for queued invalidations...
   Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
   Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
-Found invalidated archive we can skip (no visits): [idinvalidation = 75, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 76, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 74, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 72, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 73, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 68, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 65, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 66, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 67, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 60, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 58, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 59, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 56, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 57, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 54, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 55, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 53, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 54, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 52, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 50, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 51, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 46, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 43, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 44, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 45, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 35, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 33, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 34, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 31, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 32, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 29, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Found invalidated archive we can skip (no visits): [idinvalidation = 30, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
 Processing invalidation: [idinvalidation = 5, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Processing invalidation: [idinvalidation = 29, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 14, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = day, date = 2019-12-12, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-11, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-10, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Found invalidated archive we can skip (no visits): [idinvalidation = 52, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Processing invalidation: [idinvalidation = 53, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Processing invalidation: [idinvalidation = 49, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Found invalidated archive we can skip (no visits): [idinvalidation = 28, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Processing invalidation: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 22, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-09, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 50, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 23, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 51, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 64, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
