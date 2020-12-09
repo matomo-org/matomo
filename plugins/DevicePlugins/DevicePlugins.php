@@ -10,6 +10,7 @@ namespace Piwik\Plugins\DevicePlugins;
 
 use Piwik\Cache;
 use Piwik\CacheId;
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugin;
 
@@ -56,6 +57,14 @@ class DevicePlugins extends \Piwik\Plugin
                 $instance = new $className();
                 $instances[] = $instance;
             }
+
+            /**
+             * Triggered to filter / restrict dimensions.
+             *
+             * @param Dimension[] $dimensions An array of dimensions
+             */
+            Piwik::postEvent('Dimension.filterDimensions', array(&$instances));
+
             $cache->save($cacheId, $instances);
         }
 

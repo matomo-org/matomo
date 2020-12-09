@@ -762,6 +762,13 @@ abstract class Dimension
             $instances[] = new $colum();
         }
 
+        /**
+         * Triggered to filter / restrict dimensions.
+         *
+         * @param Dimension[] $dimensions An array of dimensions
+         */
+        Piwik::postEvent('Dimension.filterDimensions', array(&$instances));
+
         return $instances;
     }
 
