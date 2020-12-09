@@ -423,7 +423,14 @@ class API extends \Piwik\Plugin\API
             }
 
             // nothing found in all sub tables
-            return new DataTable;
+            $result = new DataTable;
+            $subTables = $table->getDataTables();
+            if (count($subTables) > 0) {
+                // use the first subtable's metadata to ensure basic metadata like `period` is available in response
+                $subTable = reset($subTables);
+                $result->setAllTableMetadata($subTable->getAllTableMetadata());
+            }
+            return $result;
         }
 
         // filter regular data table
