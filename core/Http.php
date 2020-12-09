@@ -168,7 +168,7 @@ class Http
             throw new Exception('Missing scheme in given url');
         }
 
-        $allowedProtocols = Config::getInstance()->General['allowed_protocols'];
+        $allowedProtocols = Config::getInstance()->General['allowed_outgoing_protocols '];
         $isAllowed = false;
 
         foreach (explode(',', $allowedProtocols) as $protocol) {
