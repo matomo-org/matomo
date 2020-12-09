@@ -19,6 +19,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
@@ -386,6 +387,10 @@ class Model
 
     public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
     {
+        if (SettingsServer::isTrackerApiRequest()) {
+            return; // do not update usage in tracking requests as this can cause trouble during log import
+        }
+
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
             $this->updateTokenAuthTable($token['idusertokenauth'], array(
