@@ -182,7 +182,8 @@ var broadcast = {
     },
 
     isWidgetizeRequestWithoutSession: function() {
-        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('module') == 'iframe' && broadcast.getValueFromUrl('force_api_session') != '1';
+        // whenever a token_auth is set in the URL, we assume a widget or page is tried to be shown widgetized.
+        return broadcast.getValueFromUrl('token_auth') != '' && broadcast.getValueFromUrl('force_api_session') != '1';
     },
 
     /**
