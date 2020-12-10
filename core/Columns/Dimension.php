@@ -845,7 +845,12 @@ abstract class Dimension
     }
 
     /**
-     * TODO
+     * Returns true if this dimension requires profilable visit data in order to be useful.
+     * Dimensions that require profilable data are hidden (as are their associated reports)
+     * when we find that a specific period contains a majority of un-profilable tracked data.
+     *
+     * Derived classes should set the $isRequiresProfilableData member if they are not profilable.
+     *
      * @return mixed
      */
     public function isRequiresProfilableData()
