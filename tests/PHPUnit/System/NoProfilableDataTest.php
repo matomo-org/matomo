@@ -28,11 +28,11 @@ class NoProfilableDataTest extends SystemTestCase
     public function getApiForTesting()
     {
         $dateTime = self::$fixture->dateTime;
-        $idSite = self::$fixture->idSite;
 
         $apiToCall = ['VisitsSummary.get', 'Actions.getPageUrls', 'Actions.get'];
         return [
-            array($apiToCall, array('idSite' => $idSite,
+            array($apiToCall, array(
+                'idSite' => 'all',
                 'date' => $dateTime,
             )),
         ];

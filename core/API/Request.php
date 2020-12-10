@@ -703,13 +703,13 @@ class Request
         return $shouldDisable;
     }
 
-    public static function isCurrentPeriodProfilable($idSite = null, $period = null, $date = null)
+    public static function isCurrentPeriodProfilable($idSite = null, $period = null, $date = null, $segment = null)
     {
         $idSite = $idSite ?: Common::getRequestVar('idSite', $default = false);
         $period = $period ?: Common::getRequestVar('period', $default = false);
         $date = $date ?: Common::getRequestVar('date', $default = false);
+        $segment = $segment ?: Request::getRawSegmentFromRequest();
 
-        // TODO: should we handle multiperiod/site requests? yes.
         if ($idSite === false
             || $period === false
             || $date === false
@@ -719,7 +719,12 @@ class Request
             return true;
         }
 
-        $isProfilable = Request::processRequest('VisitsSummary.isProfilable');
+        $isProfilable = Request::processRequest('VisitsSummary.isProfilable', [
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+        ]);
         return $isProfilable;
     }
 }

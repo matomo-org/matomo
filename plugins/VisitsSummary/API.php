@@ -11,6 +11,7 @@ namespace Piwik\Plugins\VisitsSummary;
 use Matomo\Cache\Transient;
 use Piwik\Archive;
 use Piwik\Metrics\Formatter;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
@@ -60,6 +61,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         // TODO: disable multi site and multiperiod
+        if (!is_numeric($idSite)
+            || Period::isMultiplePeriod($date, $period)
+        ) {
+            throw new \Exception("VisitsSummary.isProfilable should not be called with multisites or period [idSite = $idSite, date = $date, period = $period]");
+        }
 
         $segment = new Segment($segment, [$idSite]);
 
