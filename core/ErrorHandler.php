@@ -19,6 +19,8 @@ class ErrorHandler
 {
     private static $fatalErrorStackTrace = [];
 
+    private static $lastError = '';
+
     /**
      * Fatal errors in PHP do not leave behind backtraces, which can make it impossible to determine
      * the exact cause of one. We can, however, save a partial stack trace by remembering certain execution
@@ -132,6 +134,8 @@ class ErrorHandler
 
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
+        self::$lastError = self::createLogMessage($errno, $errstr, $errfile, $errline);
+
         // if the error has been suppressed by the @ we don't handle the error
         if (!(error_reporting() & $errno)) {
             return;
@@ -172,6 +176,17 @@ class ErrorHandler
 
                 break;
         }
+    }
+
+    public static function getLastError()
+    {
+        $lastError = error_get_last();
+
+        if (!empty($lastError['message'])) {
+            return $lastError['message'];
+        }
+
+        return self::$lastError;
     }
 
     private static function createLogMessage($errno, $errstr, $errfile, $errline)

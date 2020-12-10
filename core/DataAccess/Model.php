@@ -131,8 +131,9 @@ class Model
                   FROM `$archiveTable`
                  WHERE idsite IN (" . implode(',', $idSites) . ")";
 
+        $periodCondition = '';
         if (!empty($allPeriodsToInvalidate)) {
-            $sql .= " AND (";
+            $periodCondition .= " AND (";
 
             $isFirst = true;
             /** @var Period $period */
@@ -140,21 +141,22 @@ class Model
                 if ($isFirst) {
                     $isFirst = false;
                 } else {
-                    $sql .= " OR ";
+                    $periodCondition .= " OR ";
                 }
 
                 if ($period->getLabel() == 'range') { // for ranges, we delete all ranges that contain the given date(s)
-                    $sql .= "(period = " . (int)$period->getId()
+                    $periodCondition .= "(period = " . (int)$period->getId()
                         . " AND date2 >= '" . $period->getDateStart()->getDatetime()
                         . "' AND date1 <= '" . $period->getDateEnd()->getDatetime() . "')";
                 } else {
-                    $sql .= "(period = " . (int)$period->getId()
+                    $periodCondition .= "(period = " . (int)$period->getId()
                         . " AND date1 = '" . $period->getDateStart()->getDatetime() . "'"
                         . " AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
                 }
             }
-            $sql .= ")";
+            $periodCondition .= ")";
         }
+        $sql .= $periodCondition;
 
         if (!empty($name)) {
             if (strpos($name, '.') !== false) {
@@ -201,6 +203,8 @@ class Model
 
         $now = Date::now()->getDatetime();
 
+        $existingInvalidations = $this->getExistingInvalidations($idSites, $periodCondition, $nameCondition);
+
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
             try {
@@ -223,6 +227,12 @@ class Model
 
                 $date1 = $period->getDateStart()->toString();
                 $date2 = $period->getDateEnd()->toString();
+
+                $key = $this->makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period->getId(), $doneFlag);
+                if (!empty($existingInvalidations[$key])) {
+                    continue; // avoid adding duplicates where possible
+                }
+
                 $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2] ?? null;
 
                 $dummyArchives[] = [
@@ -238,11 +248,37 @@ class Model
             }
         }
 
-        $fields = ['idarchive', 'name', 'report', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
-
-        Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $dummyArchives);
+        if (!empty($dummyArchives)) {
+            $fields = ['idarchive', 'name', 'report', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
+            Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $dummyArchives);
+        }
 
         return count($idArchives);
+    }
+
+    private function getExistingInvalidations($idSites, $periodCondition, $nameCondition)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $idSites = array_map('intval', $idSites);
+
+        $sql = "SELECT idsite, date1, date2, period, name, COUNT(*) as `count` FROM `$table`
+                 WHERE idsite IN (" . implode(',', $idSites) . ") AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . "
+                       $periodCondition AND $nameCondition
+              GROUP BY idsite, date1, date2, period, name";
+        $rows = Db::fetchAll($sql);
+
+        $invalidations = [];
+        foreach ($rows as $row) {
+            $key = $this->makeExistingInvalidationArrayKey($row['idsite'], $row['date1'], $row['date2'], $row['period'], $row['name']);
+            $invalidations[$key] = $row['count'];
+        }
+        return $invalidations;
+    }
+
+    private function makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period, $name)
+    {
+        return implode('.', [$idSite, $date1, $date2, $period, $name]);
     }
 
     /**
@@ -713,7 +749,7 @@ class Model
     public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report
+        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report, ts_invalidated
                   FROM `$table`
                  WHERE idsite = ? AND status != ? AND ts_invalidated <= ?";
         $bind = [
@@ -875,16 +911,5 @@ class Model
 
         $query = Db::query($sql, $bind);
         return $query->rowCount();
-    }
-
-    public function isInvalidationsScheduledForSite($idSite)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-
-        $bind = [(int) $idSite];
-
-        $sql = "SELECT idsite FROM `$table` WHERE idsite = ? LIMIT 1";
-        $value = Db::fetchOne($sql, $bind);
-        return !empty($value);
     }
 }

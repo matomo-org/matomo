@@ -459,7 +459,7 @@ b,d,f,g';
         $render = new Csv();
         $render->setTable($data);
         $render->convertToUnicode = false;
-        $expected = 'b';
+        $expected = "a\nb";
 
         $this->assertEquals($expected, $render->render());
     }

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
 use Piwik\NumberFormatter;
+use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -56,8 +57,8 @@ class Google implements MetricsProvider
                 return 0;
             }
         } catch (\Exception $e) {
-            $this->logger->warning('Error while getting Google search SEO stats: {message}', array('message' => $e->getMessage()));
-            return null;
+            $this->logger->info('Error while getting Google search SEO stats: {message}', array('message' => $e->getMessage()));
+            return Piwik::translate('General_Error');
         }
     }
 

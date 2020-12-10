@@ -246,7 +246,7 @@ class Http
 		     * @ignore
 		     */
                     Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
- 
+
                     if ($destinationPath && file_exists($destinationPath)) {
                         return true;
                     }
@@ -533,10 +533,10 @@ class Http
                 if (isset($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
                     $status = (int)$m[2];
                 }
-		    
+
                 if (!$status && $response === false) {
-                    $error = error_get_last();
-                    throw new \Exception($error['message']);
+                    $error = ErrorHandler::getLastError();
+                    throw new \Exception($error);
                 }
                 $fileLength = strlen($response);
             }

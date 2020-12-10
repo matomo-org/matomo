@@ -224,7 +224,7 @@ class ThemeStyles
         $result = '';
         foreach (get_object_vars($this) as $name => $value) {
             $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
-            $result .= "@$varName = $value;\n";
+            $result .= "@$varName: $value;\n";
         }
         return $result;
     }
