@@ -8,6 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesVisitsInPast;
 use Exception;
@@ -99,18 +100,28 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
         // Make an invalid call
         $idSiteNoAccess = 777;
         try {
-            $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSiteNoAccess . "&dates=2010-03-03&format=original");
+            FakeAccess::clearAccess();
+            $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSiteNoAccess . "&dates=2010-03-03&format=original&token_auth=" . self::$fixture::VIEW_USER_TOKEN);
             $request->process();
-            $this->fail();
-        } catch(Exception $e) {}
+            $this->fail('Invalidating archived reports with invalid idSite worked, but shouldn\'t');
+        } catch(\PHPUnit\Framework\Exception $e) {
+            throw $e;
+        } catch(Exception $e) {
+            $this->assertStringContainsString('checkUserHasAdminAccess Fake exception', $e->getMessage());
+        }
+        FakeAccess::clearAccess(true);
 
         // test an invalidate period parameter
         try {
             $invalidPeriod = "day,month";
             $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$invalidPeriod&idSites=$idSite&dates=2010-03-03&format=original");
             $request->process();
-            $this->fail();
-        } catch(Exception $e) {}
+            $this->fail('Invalidating archived reports with an invalid period worked, but shouldn\'t');
+        } catch(\PHPUnit\Framework\Exception $e) {
+            throw $e;
+        } catch(Exception $e) {
+            $this->assertStringContainsString("The period 'day,month' is not supported", $e->getMessage());
+        }
 
         // 2) Call API again, with an older date, which should now return data
         $this->runApiTests($api, $params);
@@ -142,6 +153,13 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))),
+        );
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
         );
     }
 

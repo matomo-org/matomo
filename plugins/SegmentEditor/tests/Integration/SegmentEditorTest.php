@@ -43,9 +43,6 @@ class SegmentEditorTest extends IntegrationTestCase
         APISitesManager::getInstance()->addSite('test', 'http://example.org');
     }
 
-    /**
-     * @group Plugins
-     */
     public function testAddInvalidSegment_ShouldThrow()
     {
         $this->expectException(\Exception::class);
@@ -57,9 +54,6 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->fail("Exception not raised.");
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_AddAndGet_SimpleSegment()
     {
         $name = 'name';
@@ -83,9 +77,6 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($segment, $expected);
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_AddAndGet_AnotherSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
@@ -118,21 +109,14 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($segments, array($expected));
 
         // There is no segment to process for a non existing site
-        try {
-            $model->getSegmentsToAutoArchive(33);
-            $this->fail();
-        } catch(Exception $e) {
-            // expected
-        }
+        $segments = $model->getSegmentsToAutoArchive(33);
+        $this->assertEquals($segments, array());
 
         // There is no segment to process across all sites
         $segments = $model->getSegmentsToAutoArchive($idSite = false);
         $this->assertEquals($segments, array());
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_UpdateSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
@@ -176,9 +160,6 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($newSegment['name'], $nameSegment1);
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_deleteSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
