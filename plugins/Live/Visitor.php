@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\API\Request;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Config;
@@ -34,7 +35,7 @@ class Visitor implements VisitorInterface
 
         $instances = self::getAllVisitorDetailsInstances();
 
-        $isProfilable = Plugin\Report::getIsCurrentPeriodProfilable();
+        $isProfilable = Request::isCurrentPeriodProfilable();
 
         foreach ($instances as $instance) {
             $instance->setDataProfilable($isProfilable);

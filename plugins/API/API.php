@@ -198,7 +198,7 @@ class API extends \Piwik\Plugin\API
         $cache->save($cacheKey, $segments);
 
         if ($_hideSegmentsIfDataNotProfilable
-            && !Report::getIsCurrentPeriodProfilable()
+            && !Request::isCurrentPeriodProfilable()
         ) {
             $segments = array_filter($segments, function ($data) {
                 return empty($data['requiresProfilableData']);

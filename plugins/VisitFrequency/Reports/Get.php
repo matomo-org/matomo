@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\VisitFrequency\Reports;
 
+use Piwik\API\Request;
 use Piwik\DataTable;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
@@ -58,7 +59,7 @@ class Get extends \Piwik\Plugin\Report
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        if (!Report::getIsCurrentPeriodProfilable()) {
+        if (!Request::isCurrentPeriodProfilable()) {
             $widgetsList->addWidgetConfig(
                 $factory->createWidget()
                     ->setName('VisitFrequency_WidgetGraphReturning')

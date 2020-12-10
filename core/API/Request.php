@@ -18,6 +18,7 @@ use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\IP;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreHome\LoginAllowlist;
@@ -700,5 +701,25 @@ class Request
         }
 
         return $shouldDisable;
+    }
+
+    public static function isCurrentPeriodProfilable($idSite = null, $period = null, $date = null)
+    {
+        $idSite = $idSite ?: Common::getRequestVar('idSite', $default = false);
+        $period = $period ?: Common::getRequestVar('period', $default = false);
+        $date = $date ?: Common::getRequestVar('date', $default = false);
+
+        // TODO: should we handle multiperiod/site requests? yes.
+        if ($idSite === false
+            || $period === false
+            || $date === false
+            || !is_numeric($idSite)
+            || Period::isMultiplePeriod($date, $period)
+        ) {
+            return true;
+        }
+
+        $isProfilable = Request::processRequest('VisitsSummary.isProfilable');
+        return $isProfilable;
     }
 }

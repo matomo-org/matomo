@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
@@ -161,7 +162,7 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public function addSparklineMetric($metricName, $order = null, $graphParams = null)
     {
-        if (!Report::getIsCurrentPeriodProfilable()) {
+        if (!Request::isCurrentPeriodProfilable()) {
             if (is_array($metricName)) {
                 $metricName = array_filter($metricName, function ($value) { return $value != 'nb_uniq_visitors'; });
             } else if ($metricName == 'nb_uniq_visitors') {

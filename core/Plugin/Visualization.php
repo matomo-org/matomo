@@ -877,7 +877,7 @@ class Visualization extends ViewDataTable
             return;
         }
 
-        $isProfilable = Report::getIsCurrentPeriodProfilable();
+        $isProfilable = ApiRequest::isCurrentPeriodProfilable();
         if ($isProfilable) {
             return;
         }

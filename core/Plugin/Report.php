@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
@@ -239,11 +240,10 @@ class Report
      */
     public function isEnabled()
     {
-        // TODO: method naming consistency requiresProfilableVisitors/isRequiresProfilableData
         if ($this->isRequiresProfilableData()
             || (isset($this->dimension) && $this->dimension->isRequiresProfilableData())
         ) {
-            $isProfilable = self::getIsCurrentPeriodProfilable();
+            $isProfilable = Request::isCurrentPeriodProfilable();
             if (!$isProfilable) {
                 return false;
             }
@@ -1104,23 +1104,5 @@ class Report
 
             $callback($name);
         }
-    }
-
-    // TODO: move somewhere more appropriate
-    public static function getIsCurrentPeriodProfilable()
-    {
-        // TODO (need to make sure idSite/period/date are all there)
-        $idSite = Common::getRequestVar('idSite', $default = false);
-        $period = Common::getRequestVar('period', $default = false);
-        $date = Common::getRequestVar('date', $default = false);
-
-        if ($idSite === false || $period === false || $date === false
-            // TODO: also check multi site/period
-        ) {
-            return true;
-        }
-
-        $isProfilable = Request::processRequest('VisitsSummary.isProfilable');
-        return $isProfilable;
     }
 }

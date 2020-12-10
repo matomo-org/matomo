@@ -684,7 +684,7 @@ class   Config
      */
     public function setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors)
     {
-        $isProfilable = Report::getIsCurrentPeriodProfilable();
+        $isProfilable = ApiRequest::isCurrentPeriodProfilable();
 
         if ($hasNbVisits || $hasNbUniqVisitors) {
             $columnsToDisplay = array('label');
