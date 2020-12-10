@@ -60,7 +60,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        // TODO: disable multi site and multiperiod
         if (!is_numeric($idSite)
             || Period::isMultiplePeriod($date, $period)
         ) {
