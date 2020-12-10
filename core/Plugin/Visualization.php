@@ -871,8 +871,6 @@ class Visualization extends ViewDataTable
 
     private function showNotificationIfDataIsNotProfilable(View $dataTableView)
     {
-        // TODO: actually do we even need to specify a segment? maybe we want to check all visits regardless of segment.
-        //       better performance, certainly.
         if (!$this->report->isRequiresProfilableData()) {
             return;
         }

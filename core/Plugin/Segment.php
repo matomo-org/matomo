@@ -442,7 +442,8 @@ class Segment
     }
 
     /**
-     * TODO
+     * Returns true if this segment is only useful with profilable data, false if not.
+     *
      * @return bool
      */
     public function isRequiresProfilableData(): bool
@@ -451,7 +452,10 @@ class Segment
     }
 
     /**
-     * TODO
+     * Set whether this segment is only useful with profilable data. If a segment requires
+     * profilable data and Matomo detects that this data is not present, the segment will be
+     * hidden in the UI. (It will still work in the API.)
+     *
      * @param bool $requiresProfilableData
      */
     public function setRequiresProfilableData(bool $requiresProfilableData): void
