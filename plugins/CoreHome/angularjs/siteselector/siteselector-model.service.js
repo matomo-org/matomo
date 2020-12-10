@@ -99,7 +99,12 @@
 
         function loadSite(idsite) {
             if (idsite == 'all') {
-                piwik.broadcast.propagateNewPage('module=MultiSites&action=index');
+                document.location.href = piwikHelper.getCurrentQueryStringWithParametersModified(piwikHelper.getQueryStringFromParameters({
+                    module: 'MultiSites',
+                    action: 'index',
+                    date: piwik.currentDateString,
+                    period: piwik.period
+                }));
             } else {
                 piwik.broadcast.propagateNewPage('segment=&idSite=' + idsite, false);
             }
