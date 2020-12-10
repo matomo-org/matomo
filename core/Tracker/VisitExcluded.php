@@ -218,7 +218,7 @@ class VisitExcluded
         return $isInRanges;
     }
 
-    private function isChromeDataSaverUsed(IP $ip)
+    public function isChromeDataSaverUsed(IP $ip)
     {
         // see https://github.com/piwik/piwik/issues/7733
         return !empty($_SERVER['HTTP_VIA'])

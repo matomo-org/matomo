@@ -15,6 +15,8 @@ use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 
 /**
+ * @group Core
+ * @group DateTest
  */
 class DateTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,8 +38,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
 
     /**
      * create today object check that timestamp is correct (midnight)
-     *
-     * @group Core
      */
     public function testToday()
     {
@@ -52,29 +52,70 @@ class DateTest extends \PHPUnit\Framework\TestCase
 
     /**
      * create tomorrow object check that timestamp is correct (midnight)
-     *
-     * @group Core
      */
     public function testTomorrow()
     {
+        Date::$now = strtotime('2020-05-05 17:00:00'); // 1588698000
         $date = Date::tomorrow();
-        $this->assertEquals(strtotime(date("Y-m-d ", strtotime('+1day')) . " 00:00:00"), $date->getTimestamp());
+        $this->assertEquals("2020-05-06 00:00:00", $date->getDatetime());
+        $this->assertEquals(1588723200, $date->getTimestamp());
     }
 
     /**
      * create today object check that timestamp is correct (midnight)
-     *
-     * @group Core
      */
     public function testYesterday()
     {
+        Date::$now = strtotime('2020-05-05 17:00:00'); // 1588698000
         $date = Date::yesterday();
-        $this->assertEquals(strtotime(date("Y-m-d", strtotime('-1day')) . " 00:00:00"), $date->getTimestamp());
+        $this->assertEquals("2020-05-04 00:00:00", $date->getDatetime());
+        $this->assertEquals(1588550400, $date->getTimestamp());
     }
 
     /**
-     * @group Core
+     * create today object check that timestamp is correct (same time)
      */
+    public function testYesterdaySameTime()
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00'); // 1588698000
+        $date = Date::yesterdaySameTime();
+        $this->assertEquals("2020-05-04 17:00:00", $date->getDatetime());
+        $this->assertEquals(1588611600, $date->getTimestamp());
+    }
+
+    /**
+     * create last week object check that timestamp is correct (midnight)
+     */
+    public function testLastWeek()
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00'); // 1588698000
+        $date = Date::lastWeek();
+        $this->assertEquals("2020-04-28 00:00:00", $date->getDatetime());
+        $this->assertEquals(1588032000, $date->getTimestamp());
+    }
+
+    /**
+     * create last month object check that timestamp is correct (midnight)
+     */
+    public function testLastMonth()
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00'); // 1588698000
+        $date = Date::lastMonth();
+        $this->assertEquals("2020-04-05 00:00:00", $date->getDatetime());
+        $this->assertEquals(1586044800, $date->getTimestamp());
+    }
+
+    /**
+     * create last year object check that timestamp is correct (midnight)
+     */
+    public function testLastYear()
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00'); // 1588698000
+        $date = Date::lastYear();
+        $this->assertEquals("2019-05-05 00:00:00", $date->getDatetime());
+        $this->assertEquals(1557014400, $date->getTimestamp());
+    }
+
     public function testInvalidDateThrowsException()
     {
         $this->expectException(Exception::class);
@@ -94,8 +135,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @group Core
-     * @group DateTest
      * @dataProvider getTimezoneOffsets
      */
     public function testGetUtcOffset($timezone, $expectedOffset)
@@ -104,9 +143,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOffset, $offset);
     }
 
-    /**
-     * @group Core
-     */
     public function testFactoryTimezone()
     {
         // now in UTC converted to UTC+10 means adding 10 hours
@@ -158,9 +194,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('19', $hour);
     }
 
-    /**
-     * @group Core
-     */
     public function testSetTimezoneDayInUTC()
     {
         $date = Date::factory('2010-01-01');
@@ -208,9 +241,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testModifyDateWithTimezone()
     {
         $date = Date::factory('2010-01-01');
@@ -229,9 +259,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testGetDateStartUTCEndDuringDstTimezone()
     {
         if (SettingsServer::isTimezoneSupportEnabled()) {
@@ -246,9 +273,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testAddHour()
     {
         // add partial hours less than 1
@@ -270,9 +294,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dayExpected, $date->getDatetime());
     }
 
-    /**
-     * @group Core
-     */
     public function testAddHourLongHours()
     {
         $dateTime = '2010-01-03 11:22:33';
@@ -281,9 +302,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dateTime, Date::factory($dateTime)->addHour(48.1)->subHour(48.1)->getDatetime());
     }
 
-    /**
-     * @group Core
-     */
     public function testAddPeriod()
     {
         $date = Date::factory('2010-01-01');
@@ -297,9 +315,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dateExpected->getTimestamp(), $date->getTimestamp());
     }
 
-    /**
-     * @group Core
-     */
     public function testSubPeriod()
     {
         $date = Date::factory('2010-03-01');
@@ -313,9 +328,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dateExpected->getTimestamp(), $date->getTimestamp());
     }
 
-    /**
-     * @group Core
-     */
     public function testSubSeconds()
     {
         $date = Date::factory('2010-03-01 00:01:25');
@@ -330,9 +342,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
     }
 
-    /**
-     * @group Core
-     */
     public function testAddPeriodMonthRespectsMaxDaysInMonth()
     {
         $date = Date::factory('2014-07-31');
@@ -352,9 +361,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dateExpected->toString(), $dateActual->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testIsLeapYear()
     {
         $date = Date::factory('2011-03-01');
@@ -395,7 +401,6 @@ class DateTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @group Core
      * @dataProvider getLocalizedLongStrings
      */
     public function testGetLocalizedTimeFormats($language, $use12HourClock, $time, $shouldBe)
@@ -441,6 +446,18 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['yesterdaySameTime', 'UTC-5', '2012-12-30 20:00:00', '2013-01-01 01:00:00'],
             ['yesterdaySameTime', 'UTC-5', '2012-12-31 01:00:00', '2013-01-01 06:00:00'],
             ['yesterdaySameTime', 'America/Toronto', '2012-12-31 01:00:00', '2013-01-01 06:00:00'],
+            ['lastWeek', 'America/Toronto', '2012-12-24 00:00:00', '2013-01-01 01:00:00'],
+            ['lastweek', 'UTC-5', '2012-12-24 00:00:00', '2013-01-01 01:00:00'],
+            ['last week', 'UTC-5', '2012-12-25 00:00:00', '2013-01-01 06:00:00'],
+            ['last-week', 'America/Toronto', '2012-12-25 00:00:00', '2013-01-01 06:00:00'],
+            ['lastMonth', 'America/Toronto', '2012-12-01 00:00:00', '2013-01-01 01:00:00'],
+            ['lastmonth', 'UTC-5', '2012-12-01 00:00:00', '2013-01-01 01:00:00'],
+            ['last month', 'UTC-5', '2012-12-01 00:00:00', '2013-01-01 06:00:00'],
+            ['last-month', 'America/Toronto', '2012-12-01 00:00:00', '2013-01-01 06:00:00'],
+            ['lastYear', 'America/Toronto', '2011-12-31 00:00:00', '2013-01-01 01:00:00'],
+            ['lastyear', 'UTC-5', '2011-12-31 00:00:00', '2013-01-01 01:00:00'],
+            ['last year', 'UTC-5', '2012-01-01 00:00:00', '2013-01-01 06:00:00'],
+            ['last-year', 'America/Toronto', '2012-01-01 00:00:00', '2013-01-01 06:00:00'],
 
             // UTC+5
             ['now', 'Antarctica/Mawson', '2012-12-31 19:00:00', '2012-12-31 14:00:00'],
@@ -459,6 +476,18 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['yesterdaySameTime', 'UTC+5', '2012-12-30 19:00:00', '2012-12-31 14:00:00'],
             ['yesterdaySameTime', 'UTC+5', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
             ['yesterdaySameTime', 'Antarctica/Mawson', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
+            ['lastWeek', 'Antarctica/Mawson', '2012-12-24 00:00:00', '2012-12-31 14:00:00'],
+            ['lastweek', 'UTC+5', '2012-12-24 00:00:00', '2012-12-31 14:00:00'],
+            ['last week', 'UTC+5', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['last-week', 'Antarctica/Mawson', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['lastMonth', 'Antarctica/Mawson', '2012-12-01 00:00:00', '2012-12-31 14:00:00'],
+            ['lastmonth', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 14:00:00'],
+            ['last month', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['last-month', 'Antarctica/Mawson', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['lastYear', 'Antarctica/Mawson', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
+            ['lastyear', 'UTC+5', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
+            ['last year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
+            ['last-year', 'Antarctica/Mawson', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
         ];
     }
 

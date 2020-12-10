@@ -258,7 +258,7 @@
 				<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 				<min>1</min>
 				<max>1</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</nb_visits_3>
 		</metrics>
 		<dimension>Search Engine</dimension>
