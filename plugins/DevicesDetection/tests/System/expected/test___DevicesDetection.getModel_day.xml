@@ -118,7 +118,7 @@
 		<segment>deviceBrand==Philips;deviceModel==Blu-ray+Player+%28BDP5600%29</segment>
 	</row>
 	<row>
-		<label>Samsung - GALAXY Tab 3 8.0&quot; WiFi</label>
+		<label>Samsung - Galaxy Tab 3 8.0&quot; WiFi</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -127,7 +127,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>deviceBrand==Samsung;deviceModel==GALAXY+Tab+3+8.0%22+WiFi</segment>
+		<segment>deviceBrand==Samsung;deviceModel==Galaxy+Tab+3+8.0%22+WiFi</segment>
 	</row>
 	<row>
 		<label>ViewSonic - ViewPad 7e</label>

@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\NumberFormatter;
+use Piwik\Piwik;
 use Piwik\Site;
 
 /**
@@ -151,17 +152,24 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      *                                      from this value to $currentValue.
      * @param float|int $quotientPrecision The quotient precision to round to.
      * @param bool $appendPercentSign Whether to append a '%' sign to the end of the number or not.
+     * @param bool $prependPlusSignWhenPositive Whether to prepend a '+' sign before the number if it's not negative.
      *
      * @return string The evolution percent, eg `'15%'`.
      */
-    public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = true)
+    public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = true, $prependPlusSignWhenPositive = false)
     {
         $number = self::getPercentageValue($currentValue - $pastValue, $pastValue, $quotientPrecision);
         if ($appendPercentSign) {
-            return NumberFormatter::getInstance()->formatPercent($number, $quotientPrecision);
+            $formatted = NumberFormatter::getInstance()->formatPercent($number, $quotientPrecision);
+        } else {
+            $formatted = NumberFormatter::getInstance()->format($number, $quotientPrecision);
         }
 
-        return NumberFormatter::getInstance()->format($number, $quotientPrecision);
+        if ($prependPlusSignWhenPositive && $number >= 0) {
+            $formatted = Piwik::translate('Intl_NumberSymbolPlus') . $formatted;
+        }
+
+        return $formatted;
     }
 
     public static function appendPercentSign($number)
@@ -171,8 +179,8 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 
     public static function prependPlusSignToNumber($number)
     {
-        if ($number > 0) {
-            $number = '+' . $number;
+        if ((float) $number > 0) {
+            return '+' . $number;
         }
 
         return $number;
