@@ -142,7 +142,7 @@ class DataTablePostProcessor
 
     private function removeMetricsIfNotProfilable(DataTableInterface $dataTable)
     {
-        if (Report::getIsCurrentPeriodProfilable()) {
+        if (Request::isCurrentPeriodProfilable()) {
             return $dataTable;
         }
 
