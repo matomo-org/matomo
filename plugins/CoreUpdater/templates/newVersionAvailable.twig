@@ -36,7 +36,7 @@
 
             <ul>
                 {% for plugin in incompatiblePlugins %}
-                    <li>{{ plugin.getMissingDependenciesAsString(piwik_new_version) }}</li>
+                    <li>{{ plugin.pluginName }}</li>
                 {% endfor %}
             </ul>
         {% endif %}

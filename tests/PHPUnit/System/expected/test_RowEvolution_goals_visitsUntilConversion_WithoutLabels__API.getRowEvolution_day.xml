@@ -183,7 +183,7 @@
 				<name>1 visit (Conversions)</name>
 				<min>2</min>
 				<max>2</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</nb_conversions_0>
 			<nb_conversions_1>
 				<name>2 visits (Conversions)</name>

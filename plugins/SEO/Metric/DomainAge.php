@@ -127,7 +127,7 @@ class DomainAge implements MetricsProvider
         try {
             return $this->getHttpResponse($url);
         } catch (\Exception $e) {
-            $this->logger->warning('Error while getting SEO stats (domain age): {message}', array('message' => $e->getMessage()));
+            $this->logger->info('Error while getting SEO stats (domain age): {message}', array('message' => $e->getMessage()));
             return '';
         }
     }
