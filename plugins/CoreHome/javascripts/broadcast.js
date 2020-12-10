@@ -181,6 +181,11 @@ var broadcast = {
         return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
     },
 
+    isWidgetizeRequestWithoutSession: function() {
+        // whenever a token_auth is set in the URL, we assume a widget or page is tried to be shown widgetized.
+        return broadcast.getValueFromUrl('token_auth') != '' && broadcast.getValueFromUrl('force_api_session') != '1';
+    },
+
     /**
      * Returns if the current page is the login page
      * @return {boolean}

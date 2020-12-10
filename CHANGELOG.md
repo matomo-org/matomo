@@ -11,12 +11,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 #### Breaking changes in Matomo JS tracker
 
 * Matomo no longer polyfills the `JSON` object in the JavaScript tracker. This means IE7 and older, Firefox 3 and older will be no longer suppported in the tracker. 
-* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools. This will improve the load time of your website.
+* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools. This will improve the load time of your website. Tracking requests will be sent as POST request instead of GET but the parameters are by default included in the URL so they don't go lost in a redirect. 
 * The JS tracker event `PiwikInitialized` has been renamed to `MatomoInitialized`
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
 * The visitor ID cookie now contains less data (due to the _idvc, _idts, _viewts and _ects tracking parameters no longer being used). This is a breaking change if you use the Matomo PHP Tracker and forward the visitor cookie to it, and you will need to upgrade the PHP tracker to use with Matomo 4.
 * The tracker method `setVisitStandardLength` has been removed as there is no need for it anymore.
+* The tracker method `setGenerationTimeMs(generationTime)` has been removed as the performance API is now used. Any calls to this method will be ignored. There is currently no replacement available yet.
 
 #### Deprecations in Matomo JS tracker
 
@@ -140,7 +141,6 @@ These are only recommendations (because we will keep backward compatibility for 
 
 * When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access, unless the `[General] enable_framed_allow_write_admin_token_auth` is set. This means if you currently rely on this functionality, you will need to update your matomo config when updating to Matomo 4. Alternatively, create a user with `view` access and use the token of this user to embed the report.
 * The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
-* Matomo now uses the SERVER_NAME for host validation and no longer the HOST header. If you're running Matomo behind a load balancer or a proxy you need to ensure that SERVER_NAME is set correctly.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
@@ -157,6 +157,11 @@ These are only recommendations (because we will keep backward compatibility for 
   * The Method `\DI\object()` has been removed. You can use `\DI\autowire()` or `\DI\create()` instead.
   * The Method `\DI\link()` has been removed. Use `\DI\get()` instead.
   * Defining global observer functions in config now requires the functions to be wrapped in `\DI\value()`, unless they are a factory.
+
+### New config.ini.php settings
+
+* `host_validation_use_server_name = 0`, if set to 1, Matomo will prefer using SERVER_NAME variable over HTTP_HOST. This can add an additional layer of security, as SERVER_NAME can't be manipulated by sending custom host headers when configured correctly.
+
 
 ## Matomo 3.14.0
 

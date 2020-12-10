@@ -767,12 +767,12 @@ class GeoIP2AutoUpdater extends Task
 
     public static function isDbIpUrl($url)
     {
-        return !! preg_match('/db-ip\.com/', $url);
+        return !! preg_match('/^http[s]?:\/\/([a-z0-9-]+\.)?db-ip\.com/', $url);
     }
 
     protected static function isPaidDbIpUrl($url)
     {
-        return !! preg_match('/db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
+        return !! preg_match('/^http[s]?:\/\/([a-z0-9-]+\.)?db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
     }
 
     protected function fetchPaidDbIpUrl($url)

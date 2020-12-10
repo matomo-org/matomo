@@ -505,7 +505,10 @@ class ModelTest extends IntegrationTestCase
             ),
         );
 
-        $actual = $this->model->getNextInvalidatedArchive(1, null, $useLimit = false);
+        $actual = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, $useLimit = false);
+        foreach ($actual as &$item) {
+            unset($item['ts_invalidated']);
+        }
 
         $this->assertEquals($expected, $actual);
     }
@@ -547,11 +550,12 @@ class ModelTest extends IntegrationTestCase
     private function insertInvalidations(array $invalidations)
     {
         $table = Common::prefixTable('archive_invalidations');
+        $now = Date::now()->getDatetime();
         foreach ($invalidations as $invalidation) {
             $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             Db::query($sql, [
                 $invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name'],
-                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? null, $invalidation['ts_started'] ?? null,
+                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null,
             ]);
         }
     }

@@ -49,7 +49,8 @@ var hasBlockedContent = false;
         function withTokenInUrl()
         {
             postParams['token_auth'] = piwik.token_auth;
-            postParams['force_api_session'] = '1';
+            // When viewing a widgetized report there won't be any session that can be used, so don't force session usage
+            postParams['force_api_session'] = piwik.broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1;
         }
 
         function isRequestToApiMethod() {
@@ -192,7 +193,8 @@ var hasBlockedContent = false;
         function getPostParams (params) {
             if (isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
                 params.token_auth = piwik.token_auth;
-                params.force_api_session = '1';
+                // When viewing a widgetized report there won't be any session that can be used, so don't force session usage
+                params.force_api_session = piwik.broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1;
             }
 
             return params;
@@ -278,7 +280,8 @@ var hasBlockedContent = false;
             if (_postParams_) {
                 if (postParams && postParams.token_auth && !_postParams_.token_auth) {
                     _postParams_.token_auth = postParams.token_auth;
-                    _postParams_.force_api_session = '1';
+                    // When viewing a widgetized report there won't be any session that can be used, so don't force session usage
+                    _postParams_.force_api_session = piwik.broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1;
                 }
                 postParams = _postParams_;
             }

@@ -35,6 +35,7 @@ class BatchInsert
         $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
 
         foreach ($values as $row) {
+            $row = array_values($row);
             $query = "INSERT $ignore INTO " . $tableName . "
 					  $fieldList
 					  VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
@@ -243,6 +244,9 @@ class BatchInsert
             } catch (Exception $e) {
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
+                if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                    $message .= "\n" . $e->getTraceAsString();
+                }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
             }
         }
