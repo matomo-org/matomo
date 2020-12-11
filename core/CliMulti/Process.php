@@ -181,7 +181,8 @@ class Process
             return false;
         }
 
-        if (!in_array(getmypid(), self::getRunningProcesses())) {
+        $pid = @getmypid();
+        if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
             return false;
         }
 
