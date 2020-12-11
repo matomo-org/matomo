@@ -19,7 +19,7 @@
         "CampaignPlacement": "Campaign Placement",
         "CampaignPlacementHelp": "Used to describe the advertising placement or position, for example an entire website, specific pages from a website, an individual ad unit positioned on a single page, a video, a mobile phone app, and more.",
         "CampaignId": "Campaign ID",
-        "CampaignIdHelp": "This parameter is used to track a Campaign ID: an identifier which can be a number or any string of data up to 100 characters.",
+        "CampaignIdHelp": "This parameter is used to track a Campaign ID: a unique identifier for the campaign consisting of at most 100 numbers, letters or symbols.",
         "ColumnSearchEngine": "Search Engine",
         "ColumnSocial": "Social network",
         "ColumnWebsite": "Website",
