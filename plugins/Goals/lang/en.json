@@ -109,7 +109,7 @@
         "GoalsAdjective": "Goals %s",
         "VisitPageTitle": "Visit a given Page Title",
         "VisitsUntilConv": "Visits to Conversion",
-        "VisitsUntilConvReportDocumentation": "This reports show how many visits a visitor need to convert a goal.",
+        "VisitsUntilConvReportDocumentation": "This reports show how many visits a visitor needs to convert a goal.",
         "VisitUrl": "Visit a given URL (page or group of pages)",
         "VisitDurationMatchAttr": "Stay for a certain amount of time",
         "VisitDuration": "visit duration is",
