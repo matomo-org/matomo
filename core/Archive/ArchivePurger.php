@@ -139,10 +139,10 @@ class ArchivePurger
             $this->logger->debug("No outdated archives found in archive numeric table for {date}.", array('date' => $dateStart));
         }
 
-        $this->logger->debug("Purging temporary archives: done [ purged archives older than {date} in {yearMonth} ] [Deleted IDs: {deletedIds}]", array(
+        $this->logger->debug("Purging temporary archives: done [ purged archives older than {date} in {yearMonth} ] [Deleted IDs count: {deletedIds}]", array(
             'date' => $purgeArchivesOlderThan,
             'yearMonth' => $dateStart->toString('Y-m'),
-            'deletedIds' => implode(',', $idArchivesToDelete)
+            'deletedIds' => count($idArchivesToDelete),
         ));
 
         return $deletedRowCount;
@@ -191,8 +191,8 @@ class ArchivePurger
                 )
             );
 
-            $this->logger->debug("[Deleted IDs: {deletedIds}]", array(
-                'deletedIds' => implode(',', $idArchivesToDelete)
+            $this->logger->debug("[Deleted IDs count: {deletedIds}]", array(
+                'deletedIds' => count($idArchivesToDelete),
             ));
         } else {
             $this->logger->debug(

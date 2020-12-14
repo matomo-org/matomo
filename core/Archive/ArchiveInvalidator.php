@@ -544,12 +544,15 @@ class ArchiveInvalidator
      * since adding invalidations can take a long time and delay UI response times.
      *
      * @param int|int[]|'all' $idSites
-     * @param string $pluginName
+     * @param string|int $pluginName
      * @param string|null $report
      * @param Date|null $startDate
      */
-    public function scheduleReArchiving($idSites, string $pluginName, string $report = null, Date $startDate = null)
+    public function scheduleReArchiving($idSites, string $pluginName, $report = null, Date $startDate = null)
     {
+        if (!empty($report)) {
+            $this->removeInvalidationsSafely($idSites, $pluginName, $report);
+        }
         try {
             $reArchiveList = new ReArchiveList($this->logger);
             $reArchiveList->add(json_encode([

@@ -165,7 +165,7 @@ class Goals extends \Piwik\Plugin
             $metric->setCategory($custom->getCategoryId());
             $metric->setDocumentation('The number of days it took a visitor to convert this goal.');
             $metric->setName('goal_' . $goal['idgoal'] . '_daystoconversion');
-            $metric->setQuery('sum(log_conversion.visitor_seconds_since_first * 86400)');
+            $metric->setQuery('sum(floor(log_visit.visitor_seconds_since_first / 86400))');
             $metricsList->addMetric($metric);
 
             $custom = new GoalDimension($goal, 'visitor_count_visits', 'Visits to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');

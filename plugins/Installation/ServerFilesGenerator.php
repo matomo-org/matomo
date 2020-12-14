@@ -101,7 +101,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
      * @param bool $overwrite whether to overwrite an existing file or not
      * @param string $content
      */
-    protected static function createHtAccess($path, $overwrite = true, $content)
+    protected static function createHtAccess($path, $overwrite, $content)
     {
         $file = $path . '/.htaccess';
 

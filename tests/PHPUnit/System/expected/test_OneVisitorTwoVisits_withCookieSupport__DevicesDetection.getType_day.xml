@@ -52,6 +52,12 @@
 		<logo>plugins/Morpheus/icons/dist/devices/feature_phone.png</logo>
 	</row>
 	<row>
+		<label>Peripheral</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==peripheral</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/peripheral.png</logo>
+	</row>
+	<row>
 		<label>Phablet</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==phablet</segment>

@@ -32,6 +32,7 @@ class SharedSiteIds
     private $currentSiteId;
     private $done = false;
     private $initialResetQueueTime = null;
+    private $isContinuingPreviousRun = false;
 
     public function __construct($websiteIds, $optionName = self::OPTION_DEFAULT)
     {
@@ -48,6 +49,7 @@ class SharedSiteIds
             $existingWebsiteIds = $self->getAllSiteIdsToArchive();
 
             if (!empty($existingWebsiteIds)) {
+                $this->isContinuingPreviousRun = true;
                 return $existingWebsiteIds;
             }
 
@@ -213,5 +215,13 @@ class SharedSiteIds
     public static function isSupported()
     {
         return Process::isSupported();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isContinuingPreviousRun(): bool
+    {
+        return $this->isContinuingPreviousRun;
     }
 }

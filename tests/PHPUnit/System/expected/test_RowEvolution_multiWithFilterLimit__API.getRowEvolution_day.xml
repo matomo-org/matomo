@@ -51,7 +51,7 @@
 				<name>www.referrer0.com (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</nb_visits_0>
 			<nb_visits_1>
 				<name>www.referrer4.com (Visits)</name>

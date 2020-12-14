@@ -6337,7 +6337,7 @@
 		<deviceType>Phablet</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/phablet.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
-		<deviceModel>GALAXY Note 3</deviceModel>
+		<deviceModel>Galaxy Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
@@ -6969,7 +6969,7 @@
 		<deviceType>Phablet</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/phablet.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
-		<deviceModel>GALAXY Note 3</deviceModel>
+		<deviceModel>Galaxy Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>

@@ -10,9 +10,11 @@
 namespace Piwik\Updates;
 
 use Piwik\DataAccess\TableMetadata;
-use Piwik\Date;
+use Piwik\Updater\Migration\Custom as CustomMigration;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreAdminHome\Commands\MigrateTokenAuths;
 use Piwik\Plugins\CoreHome\Columns\Profilable;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst;
 use Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder;
@@ -28,6 +30,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;
+use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -55,35 +58,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         $migrations = [];
 
-        /** APP SPECIFIC TOKEN START */
-        $migrations[] = $this->migration->db->createTable('user_token_auth', array(
-            'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
-            'login' => 'VARCHAR(100) NOT NULL',
-            'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
-            'password' => 'VARCHAR(191) NOT NULL',
-            'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
-            'hash_algo' => 'VARCHAR(30) NOT NULL',
-            'last_used' => 'DATETIME NULL',
-            'date_created' => ' DATETIME NOT NULL',
-            'date_expired' => ' DATETIME NULL',
-        ), 'idusertokenauth');
-        $migrations[] = $this->migration->db->addUniqueKey('user_token_auth', 'password', 'uniq_password');
+        $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
+        $domainArg = !empty($domain) ? "--matomo-domain=". escapeshellarg($domain) . " " : '';
+        $toString = sprintf('./console %score:matomo4-migrate-token-auths', $domainArg);
+        $custom = new CustomMigration(array(MigrateTokenAuths::class, 'migrate'), $toString);
 
-        $migrations[] = $this->migration->db->dropIndex('user', 'uniq_keytoken');
-
-        $userModel = new Model();
-        foreach ($userModel->getUsers(array()) as $user) {
-            if (!empty($user['token_auth'])) {
-                $migrations[] = $this->migration->db->insert('user_token_auth', array(
-                    'login' => $user['login'],
-                    'description' => 'Created by Matomo 4 migration',
-                    'password' => $userModel->hashTokenAuth($user['token_auth']),
-                    'date_created' => Date::now()->getDatetime()
-                ));
-            }
-        }
-
-        /** APP SPECIFIC TOKEN END */
+        $migrations[] = $custom;
 
         // invalidations table
         $migrations[] = $this->migration->db->createTable('archive_invalidations', [
@@ -102,7 +82,9 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->addIndex('archive_invalidations', ['idsite', 'date1', 'period'], 'index_idsite_dates_period_name');
 
         $migrations[] = $this->migration->db->dropColumn('user', 'alias');
-        $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
+
+        // prevent possible duplicates when shorting session id
+        $migrations[] = $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('session') . '` WHERE length(id) > 190');
 
         $migrations[] = $this->migration->db->changeColumnType('session', 'id', 'VARCHAR(191)');
         $migrations[] = $this->migration->db->changeColumnType('site_url', 'url', 'VARCHAR(190)');
@@ -252,6 +234,20 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function doUpdate(Updater $updater)
     {
+        $salt = SettingsPiwik::getSalt();
+        $sessions = Db::fetchAll('SELECT id from ' . Common::prefixTable('session'));
+
+        foreach ($sessions as $session) {
+            if (!empty($session['id']) && Common::mb_strlen($session['id']) != 128) {
+                $bind = [ hash('sha512', $session['id'] . $salt), $session['id'] ];
+                try {
+                    Db::query(sprintf('UPDATE %s SET id = ? WHERE id = ?', Common::prefixTable('session')), $bind);
+                } catch (\Exception $e) {
+                    // ignore possible duplicate key errors
+                }
+            }
+        }
+
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         if ($this->usesGeoIpLegacyLocationProvider()) {
