@@ -141,7 +141,6 @@ These are only recommendations (because we will keep backward compatibility for 
 
 * When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access, unless the `[General] enable_framed_allow_write_admin_token_auth` is set. This means if you currently rely on this functionality, you will need to update your matomo config when updating to Matomo 4. Alternatively, create a user with `view` access and use the token of this user to embed the report.
 * The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
-* Matomo now uses the SERVER_NAME for host validation and no longer the HOST header. If you're running Matomo behind a load balancer or a proxy you need to ensure that SERVER_NAME is set correctly.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
@@ -158,6 +157,11 @@ These are only recommendations (because we will keep backward compatibility for 
   * The Method `\DI\object()` has been removed. You can use `\DI\autowire()` or `\DI\create()` instead.
   * The Method `\DI\link()` has been removed. Use `\DI\get()` instead.
   * Defining global observer functions in config now requires the functions to be wrapped in `\DI\value()`, unless they are a factory.
+
+### New config.ini.php settings
+
+* `host_validation_use_server_name = 0`, if set to 1, Matomo will prefer using SERVER_NAME variable over HTTP_HOST. This can add an additional layer of security, as SERVER_NAME can't be manipulated by sending custom host headers when configured correctly.
+
 
 ## Matomo 3.14.0
 

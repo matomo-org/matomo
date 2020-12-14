@@ -140,7 +140,7 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
 
         $render = new Console();
         $render->setTable($data);
-        $expected = "- 1 ['0' => 'b'] [] [idsubtable = ]<br />
+        $expected = "- 1 ['a' => 'b'] [] [idsubtable = ]<br />
 ";
 
         $this->assertEquals($expected, $render->render());

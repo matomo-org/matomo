@@ -68,7 +68,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     
     private function getCssStatementForReplacement($path)
     {
-        return '.nonExistingSelectorOnlyForReplacementOfCssFiles { display:"' . $path . '"; }';
+        return ".nonExistingSelectorOnlyForReplacementOfCssFiles {\n  display: \"" . $path . "\";\n}";
     }
 
     protected function concatenateAssets()

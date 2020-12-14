@@ -395,6 +395,10 @@ hash_algorithm = whirlpool
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
+; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
+host_validation_use_server_name = 0
+
 ; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
 session_gc_probability = 1
 
@@ -714,6 +718,10 @@ enable_auto_update = 1
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+; This option defines the protocols Matomo's Http class is allowed to open.
+; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
+allowed_outgoing_protocols = 'http,https'
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=

@@ -322,98 +322,118 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(51, strlen($result));
     }
 
-	public function test_http_postsEvent()
-	{
-		$params = null;
-		$params2 = null;
-		Piwik::addAction('Http.sendHttpRequest', function () use (&$params) {
-			$params = func_get_args();
-		});
-		Piwik::addAction('Http.sendHttpRequest.end', function () use (&$params2) {
-			$params2 = func_get_args();
-		});
-		$destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
-		$url = Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php';
-		Http::sendHttpRequestBy(
-			Http::getTransportMethod(),
-			$url,
-			30,
-			$userAgent = null,
-			$destinationPath,
-			$file = null,
-			$followDepth = 0,
-			$acceptLanguage = false,
-			$acceptInvalidSslCertificate = false,
-			$byteRange = array(10, 20),
-			$getExtendedInfo = false,
-			$httpMethod = 'POST',
-			$httpUsername = '',
-			$httpPassword = '',
-			array('adf2' => '44', 'afc23' => 'ab12')
-		);
+    public function test_http_postsEvent()
+    {
+        $params = null;
+        $params2 = null;
+        Piwik::addAction('Http.sendHttpRequest', function () use (&$params) {
+            $params = func_get_args();
+        });
+        Piwik::addAction('Http.sendHttpRequest.end', function () use (&$params2) {
+            $params2 = func_get_args();
+        });
+        $destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
+        $url = Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php';
+        Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            $url,
+            30,
+            $userAgent = null,
+            $destinationPath,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = array(10, 20),
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            array('adf2' => '44', 'afc23' => 'ab12')
+        );
 
-		$this->assertEquals(array($url, array(
-			'httpMethod' => 'POST',
-			'body' => array('adf2' => '44','afc23' => 'ab12'),
-			'userAgent' => 'Matomo/' . Version::VERSION,
-			'timeout' => 30,
-			'headers' => array(
-				'Range: bytes=10-20',
-                'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
-				'X-Forwarded-For: 127.0.0.1',
-			),
-			'verifySsl' => true,
-			'destinationPath' => $destinationPath
-		), null, null, array()), $params);
-
-		$this->assertNotEmpty($params2[4]);// headers
-		unset($params2[4]);
-		$this->assertEquals(array($url, array(
-			'httpMethod' => 'POST',
-			'body' => array('adf2' => '44','afc23' => 'ab12'),
+        $this->assertEquals(array($url, array(
+            'httpMethod' => 'POST',
+            'body' => array('adf2' => '44','afc23' => 'ab12'),
             'userAgent' => 'Matomo/' . Version::VERSION,
-			'timeout' => 30,
-			'headers' => array(
-				'Range: bytes=10-20',
+            'timeout' => 30,
+            'headers' => array(
+                'Range: bytes=10-20',
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
-				'X-Forwarded-For: 127.0.0.1',
-			),
-			'verifySsl' => true,
-			'destinationPath' => $destinationPath
-		), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
-	}
+                'X-Forwarded-For: 127.0.0.1',
+            ),
+            'verifySsl' => true,
+            'destinationPath' => $destinationPath
+        ), null, null, array()), $params);
 
-	public function test_http_returnsResultOfPostedEvent()
-	{
-		Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status, &$headers) {
-			$response = '{test: true}';
-			$status = 204;
-			$headers = array('content-length' => 948);
-		});
+        $this->assertNotEmpty($params2[4]);// headers
+        unset($params2[4]);
+        $this->assertEquals(array($url, array(
+            'httpMethod' => 'POST',
+            'body' => array('adf2' => '44','afc23' => 'ab12'),
+            'userAgent' => 'Matomo/' . Version::VERSION,
+            'timeout' => 30,
+            'headers' => array(
+                'Range: bytes=10-20',
+                'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
+                'X-Forwarded-For: 127.0.0.1',
+            ),
+            'verifySsl' => true,
+            'destinationPath' => $destinationPath
+        ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
+    }
 
-		$result = Http::sendHttpRequestBy(
-			Http::getTransportMethod(),
-			Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
-			30,
-			$userAgent = null,
-			$destinationPath = null,
-			$file = null,
-			$followDepth = 0,
-			$acceptLanguage = false,
-			$acceptInvalidSslCertificate = false,
-			$byteRange = array(10, 20),
-			$getExtendedInfo = true,
-			$httpMethod = 'POST',
-			$httpUsername = '',
-			$httpPassword = '',
-			array('adf2' => '44', 'afc23' => 'ab12')
-		);
+    public function test_http_returnsResultOfPostedEvent()
+    {
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status, &$headers) {
+            $response = '{test: true}';
+            $status = 204;
+            $headers = array('content-length' => 948);
+        });
 
-		$this->assertEquals(array(
-			'data' => '{test: true}',
-			'status' => 204,
-			'headers' => array('content-length' => 948)
-		), $result);
-	}
+        $result = Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = array(10, 20),
+            $getExtendedInfo = true,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            array('adf2' => '44', 'afc23' => 'ab12')
+        );
 
+        $this->assertEquals(array(
+            'data' => '{test: true}',
+            'status' => 204,
+            'headers' => array('content-length' => 948)
+        ), $result);
+    }
+
+    /**
+     * @dataProvider getProtocolUrls
+     */
+    public function test_invalid_protocols($url, $message)
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage($message);
+
+        Http::sendHttpRequest($url, 5);
+    }
+
+    public function getProtocolUrls()
+    {
+        return [
+            ['phar://malformed.url', 'Protocol phar not in list of allowed protocols: http,https'],
+            ['ftp://usful.ftp/file.md', 'Protocol ftp not in list of allowed protocols: http,https'],
+            ['rtp://custom.url', 'Protocol rtp not in list of allowed protocols: http,https'],
+            ['/local/file', 'Missing scheme in given url'],
+        ];
+    }
 }

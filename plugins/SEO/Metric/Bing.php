@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
 use Piwik\NumberFormatter;
+use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,8 +44,8 @@ class Bing implements MetricsProvider
                 $pageCount = 0;
             }
         } catch (\Exception $e) {
-            $this->logger->warning('Error while getting Bing SEO stats: {message}', array('message' => $e->getMessage()));
-            $pageCount = null;
+            $this->logger->info('Error while getting Bing SEO stats: {message}', array('message' => $e->getMessage()));
+            $pageCount = Piwik::translate('General_Error');
         }
 
         $logo = "plugins/Morpheus/icons/dist/SEO/bing.com.png";

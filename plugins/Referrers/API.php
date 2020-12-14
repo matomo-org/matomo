@@ -752,12 +752,12 @@ class API extends \Piwik\Plugin\API
 
             $table->setAllTableMetadata($numericArchives->getAllTableMetadata());
 
-            if ($table->getRows() == 0) {
-                $table->addRow(new DataTable\Row());
-            }
-
             if ($numericArchives->getRowsCount() == 0) {
                 return;
+            }
+
+            if ($table->getRowsCountWithoutSummaryRow() == 0) {
+                $table->addRow(new DataTable\Row());
             }
 
             $row = $table->getFirstRow();
