@@ -261,7 +261,6 @@
             it('should return false if comparison is disabled for the page', function () {
                 $location.search('category=MyModule2&subcategory=disabledPage2&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
-                console.log($window.location.href);
 
                 expect(piwikComparisonsService.isComparisonEnabled()).to.be.false;
             });
