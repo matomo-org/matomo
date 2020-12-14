@@ -45,13 +45,13 @@ var Piwik_Popover = (function () {
                 // doesn't center the modal.g
                 var self = this;
 
-                scrollTopPosition = window.scrollY;
+                scrollTopPosition = $(window).scrollTop();
 
                 $('#root').css({
                     position: 'fixed',
-                    height: $(window).height + window.scrollY,
+                    height: $(window).height + scrollTopPosition,
                     width: '100%',
-                    top: -window.scrollY
+                    top: -scrollTopPosition
                 });
 
                 window.scrollTo(0, 0);
