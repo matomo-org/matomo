@@ -161,6 +161,31 @@ class Http
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
 
+        $aUrl = trim($aUrl);
+        $parsedUrl = @parse_url($aUrl);
+
+        if (empty($parsedUrl['scheme'])) {
+            throw new Exception('Missing scheme in given url');
+        }
+
+        $allowedProtocols = Config::getInstance()->General['allowed_outgoing_protocols'];
+        $isAllowed = false;
+
+        foreach (explode(',', $allowedProtocols) as $protocol) {
+            if (strtolower($parsedUrl['scheme']) === strtolower(trim($protocol))) {
+                $isAllowed = true;
+                break;
+            }
+        }
+
+        if (!$isAllowed) {
+            throw new Exception(sprintf(
+                'Protocol %s not in list of allowed protocols: %s',
+                $parsedUrl['scheme'],
+                $allowedProtocols
+            ));
+        }
+
         $contentLength = 0;
         $fileLength = 0;
 
@@ -193,8 +218,6 @@ class Http
         }
 
         list($proxyHost, $proxyPort, $proxyUser, $proxyPassword) = self::getProxyConfiguration($aUrl);
-
-        $aUrl = trim($aUrl);
 
         // other result data
         $status  = null;
@@ -246,7 +269,7 @@ class Http
 		     * @ignore
 		     */
                     Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
- 
+
                     if ($destinationPath && file_exists($destinationPath)) {
                         return true;
                     }
@@ -533,10 +556,10 @@ class Http
                 if (isset($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
                     $status = (int)$m[2];
                 }
-		    
+
                 if (!$status && $response === false) {
-                    $error = error_get_last();
-                    throw new \Exception($error['message']);
+                    $error = ErrorHandler::getLastError();
+                    throw new \Exception($error);
                 }
                 $fileLength = strlen($response);
             }

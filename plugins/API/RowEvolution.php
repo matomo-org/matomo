@@ -411,8 +411,8 @@ class RowEvolution
                 continue;
             }
 
-            $change = CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0);
-            $change = CalculateEvolutionFilter::prependPlusSignToNumber($change);
+            $change = CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0, true, true);
+
             $metricsResult[$metric]['change'] = $change;
         }
 

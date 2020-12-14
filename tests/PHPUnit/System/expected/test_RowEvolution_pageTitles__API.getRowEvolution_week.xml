@@ -54,13 +54,13 @@
 				<name>Pageviews</name>
 				<min>2</min>
 				<max>3</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</nb_hits>
 			<nb_visits>
 				<name>Unique Pageviews</name>
 				<min>2</min>
 				<max>3</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</nb_visits>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>
@@ -69,13 +69,13 @@
 				<name>Bounce Rate</name>
 				<min>100</min>
 				<max>100</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</bounce_rate>
 			<exit_rate>
 				<name>Exit rate</name>
 				<min>100</min>
 				<max>100</max>
-				<change>0%</change>
+				<change>+0%</change>
 			</exit_rate>
 			<avg_time_generation>
 				<name>Avg. generation time</name>
