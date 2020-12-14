@@ -321,6 +321,8 @@
             return strDate;
         }
 
+        strDate = decodeURIComponent(strDate);
+
         if (strDate === 'today'
             || strDate === 'now'
         ) {
@@ -334,6 +336,24 @@
             var yesterday = getToday();
             yesterday.setDate(yesterday.getDate() - 1);
             return yesterday;
+        }
+
+        if (strDate.match(/last[ -]?week/i)) {
+            var lastWeek = getToday();
+            lastWeek.setDate(lastWeek.getDate() - 7);
+            return lastWeek;
+        }
+
+        if (strDate.match(/last[ -]?month/i)) {
+            var lastMonth = getToday();
+            lastMonth.setMonth(lastMonth.getMonth() - 1);
+            return lastMonth;
+        }
+
+        if (strDate.match(/last[ -]?year/i)) {
+            var lastYear = getToday();
+            lastYear.setFullYear(lastYear.getFullYear() - 1);
+            return lastYear;
         }
 
         try {

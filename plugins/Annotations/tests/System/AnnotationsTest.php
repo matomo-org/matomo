@@ -264,29 +264,32 @@ class AnnotationsTest extends SystemTestCase
      */
     public function testMethodPermissions($hasAdminAccess, $hasViewAccess, $request, $checkException, $failMessage)
     {
+        if (true === $checkException) {
+            self::expectException(Exception::class);
+        } else {
+            self::expectNotToPerformAssertions();
+        }
+
         // create fake access that denies user access
-        FakeAccess::$superUser = false;
+        FakeAccess::clearAccess(false);
+        FakeAccess::$identity = 'user' . (int)$hasAdminAccess . (int)$hasViewAccess;
         FakeAccess::$idSitesAdmin = $hasAdminAccess ? array(self::$fixture->idSite1) : array();
         FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
 
-        if ($checkException) {
-            try {
-                $request = new Request($request);
-                $request->process();
-                $this->fail($failMessage);
-            } catch (Exception $ex) {
-                $this->assertTrue(true); // pass
-            }
-        } else {
-            $request = new Request($request);
-            $request->process();
-
-        }
+        $request = new Request($request.'&format=original');
+        $request->process();
     }
 
     public static function getPathToTestDirectory()
     {
         return dirname(__FILE__);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }
 

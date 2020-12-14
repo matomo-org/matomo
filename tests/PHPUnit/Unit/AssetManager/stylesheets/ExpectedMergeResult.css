@@ -1,15 +1,19 @@
 /* compile_me_once={{{CACHE-BUSTER-JS}}} */
 /* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */
-#page #header { color:white; }
-#footer { color:red; }
+#page #header {
+  color: #ffffff;
+}
+#footer {
+  color: #ff0000;
+}
 .box {
-  color:#fe33ac;
-  border-color:#fdcdea;
+  color: #fe33ac;
+  border-color: #fdcdea;
 }
 .box div {
-  -webkit-box-shadow:0 0 5px rgba(0,0,0,0.3);
-  -moz-box-shadow:0 0 5px rgba(0,0,0,0.3);
-  box-shadow:0 0 5px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 h1 {
     color: orange;

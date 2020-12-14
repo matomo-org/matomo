@@ -506,6 +506,9 @@ class ModelTest extends IntegrationTestCase
         );
 
         $actual = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, $useLimit = false);
+        foreach ($actual as &$item) {
+            unset($item['ts_invalidated']);
+        }
 
         $this->assertEquals($expected, $actual);
     }
