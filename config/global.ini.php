@@ -719,6 +719,10 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+; This option defines the protocols Matomo's Http class is allowed to open.
+; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
+allowed_outgoing_protocols = 'http,https'
+
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
 
