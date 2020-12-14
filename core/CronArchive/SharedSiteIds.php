@@ -10,6 +10,7 @@ namespace Piwik\CronArchive;
 
 use Exception;
 use Piwik\CliMulti\Process;
+use Piwik\Log;
 use Piwik\Option;
 
 /**
@@ -20,6 +21,7 @@ class SharedSiteIds
 {
     const OPTION_DEFAULT = 'SharedSiteIdsToArchive';
     const OPTION_ALL_WEBSITES = 'SharedSiteIdsToArchive_AllWebsites';
+    const KEY_TIMESTAMP = '_ResetQueueTime';
 
     /**
      * @var string
@@ -29,7 +31,7 @@ class SharedSiteIds
     private $siteIds = array();
     private $currentSiteId;
     private $done = false;
-    private $numWebsitesLeftToProcess;
+    private $initialResetQueueTime = null;
     private $isContinuingPreviousRun = false;
 
     public function __construct($websiteIds, $optionName = self::OPTION_DEFAULT)
@@ -51,11 +53,24 @@ class SharedSiteIds
                 return $existingWebsiteIds;
             }
 
+            $self->setQueueWasReset();
             $self->setSiteIdsToArchive($websiteIds);
 
             return $websiteIds;
         });
-        $this->numWebsitesLeftToProcess = $this->getNumSites();
+
+        $this->initialResetQueueTime = $this->getResetQueueTime();
+    }
+
+    public function setQueueWasReset()
+    {
+        Option::set($this->optionName . self::KEY_TIMESTAMP, floor(microtime(true) * 1000));
+    }
+
+    private function getResetQueueTime()
+    {
+        Option::clearCachedOption($this->optionName . self::KEY_TIMESTAMP);
+        return (int) Option::get($this->optionName . self::KEY_TIMESTAMP);
     }
 
     public function getInitialSiteIds()
@@ -164,6 +179,14 @@ class SharedSiteIds
             return null;
         }
 
+        if ($this->initialResetQueueTime !== $this->getResetQueueTime()) {
+            // queue was reset/finished by some other process
+            $this->currentSiteId = null;
+            $this->done = true;
+            Log::debug('The shared site ID queue was reset, stopping.');
+            return null;
+        }
+
         $self = $this;
 
         $this->currentSiteId = $this->runExclusive(function () use ($self) {
@@ -175,15 +198,8 @@ class SharedSiteIds
                 return null;
             }
 
-            if (count($siteIds) > $self->numWebsitesLeftToProcess) {
-                // done... the number of siteIds in SharedSiteIds is larger than it was initially... therefore it must have
-                // been reset at some point.
-                return null;
-            }
-
-            $self->numWebsitesLeftToProcess = count($siteIds);
-
             $nextSiteId = array_shift($siteIds);
+
             $self->setSiteIdsToArchive($siteIds);
 
             return $nextSiteId;
@@ -191,7 +207,6 @@ class SharedSiteIds
 
         if (is_null($this->currentSiteId)) {
             $this->done = true;
-            $this->numWebsitesLeftToProcess = 0;
         }
 
         return $this->currentSiteId;
