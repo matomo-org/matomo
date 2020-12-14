@@ -387,12 +387,17 @@ class Model
 
     public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
     {
-        if (SettingsServer::isTrackerApiRequest()) {
-            return; // do not update usage in tracking requests as this can cause trouble during log import
-        }
-
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
+
+            $lastUsage = strtotime($token['last_used']);
+            $newUsage = strtotime($dateLastUsed);
+
+            // update token usage only every 10 minutes
+            if ($lastUsage > $newUsage - 600) {
+                return;
+            }
+
             $this->updateTokenAuthTable($token['idusertokenauth'], array(
                 'last_used' => $dateLastUsed
             ));
