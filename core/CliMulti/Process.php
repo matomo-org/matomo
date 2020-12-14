@@ -21,6 +21,7 @@ use Piwik\SettingsServer;
  */
 class Process
 {
+    private $finished = null;
     private $pidFile = '';
     private $timeCreation = null;
     private $isSupported = null;
@@ -81,6 +82,10 @@ class Process
 
     public function hasFinished()
     {
+        if ($this->finished) {
+            return true;
+        }
+
         $content = $this->getPidFileContent();
 
         return !$this->doesPidFileExist($content);
@@ -129,6 +134,7 @@ class Process
 
     public function finishProcess()
     {
+        $this->finished = true;
         Filesystem::deleteFileIfExists($this->pidFile);
     }
 
