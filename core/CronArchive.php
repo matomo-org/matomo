@@ -654,7 +654,7 @@ class CronArchive
     {
         $request = "?module=API&method=CoreAdminHome.archiveReports&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
-            $request .= '&segment=' . urlencode($segment);
+            $request .= '&segment=' . urlencode(urlencode($segment));
         }
         if (!empty($plugin)) {
             $request .= "&plugin=" . $plugin;
