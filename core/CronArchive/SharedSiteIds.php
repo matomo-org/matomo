@@ -68,7 +68,7 @@ class SharedSiteIds
     private function getResetQueueTime()
     {
         Option::clearCachedOption($this->optionName . self::KEY_TIMESTAMP);
-        return Option::get($this->optionName . self::KEY_TIMESTAMP);
+        return (int) Option::get($this->optionName . self::KEY_TIMESTAMP);
     }
 
     public function getInitialSiteIds()
