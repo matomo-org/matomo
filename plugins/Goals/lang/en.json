@@ -41,7 +41,7 @@
         "ConversionsOverview": "Conversions Overview",
         "ConversionsOverviewBy": "Conversions overview by type of visit",
         "DaysToConv": "Days to Conversion",
-        "DaysToConvReportDocumentation": "This report shows how many days are passing till your visitors convert a goal.",
+        "DaysToConvReportDocumentation": "This report shows how many days pass before your visitors convert a goal.",
         "Details": "Goal details",
         "DefaultGoalConvertedOncePerVisit": "(default) Goal can only be converted once per visit",
         "DefaultRevenueLabel": "Goal default revenue",
