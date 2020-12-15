@@ -5,24 +5,28 @@
 		<category>Visitors</category>
 		<name>Actions In Visit</name>
 		<segment>actions</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Days since first visit</name>
 		<segment>daysSinceFirstVisit</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Days since last Ecommerce order</name>
 		<segment>daysSinceLastEcommerceOrder</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Days since last visit</name>
 		<segment>daysSinceLastVisit</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
@@ -30,6 +34,7 @@
 		<name>Events</name>
 		<segment>events</segment>
 		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
@@ -37,6 +42,7 @@
 		<name>Local time - minute (Start of visit)</name>
 		<segment>visitLocalMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
@@ -44,6 +50,7 @@
 		<name>Number of Interactions</name>
 		<segment>interactions</segment>
 		<acceptedValues>Any positive integer</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
@@ -51,36 +58,42 @@
 		<name>Number of Internal Searches</name>
 		<segment>searches</segment>
 		<acceptedValues>To select all visits who used internal Site Search, use: &amp;segment=searches&gt;0</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Seconds since first visit</name>
 		<segment>secondsSinceFirstVisit</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Seconds since last Ecommerce order</name>
 		<segment>secondsSinceLastEcommerceOrder</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Seconds since last visit</name>
 		<segment>secondsSinceLastVisit</segment>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Visit Duration (in seconds)</name>
 		<segment>visitDuration</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
@@ -89,6 +102,7 @@
 		<segment>visitIp</segment>
 		<acceptedValues>13.54.122.1. &lt;/code&gt;Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255</acceptedValues>
 		<permission>1</permission>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -96,6 +110,7 @@
 		<name>Browser</name>
 		<segment>browserName</segment>
 		<acceptedValues>FireFox, Internet Explorer, Chrome, Safari, Opera etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -103,6 +118,7 @@
 		<name>Browser code</name>
 		<segment>browserCode</segment>
 		<acceptedValues>FF, IE, CH, SF, OP etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -111,6 +127,7 @@
 		<segment>browserEngine</segment>
 		<acceptedValues>Trident, WebKit, Presto, Gecko, Blink, etc.</acceptedValues>
 		<suggestedValuesCallback>\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines</suggestedValuesCallback>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -118,6 +135,7 @@
 		<name>Browser version</name>
 		<segment>browserVersion</segment>
 		<acceptedValues>1.0, 8.0, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -125,6 +143,7 @@
 		<name>Device brand</name>
 		<segment>deviceBrand</segment>
 		<acceptedValues>2E, 3Q, 4Good, 360, 8848, A1, Accent, Ace, Acer, Advan, Advance, AGM, Ainol, Airness, Airties, AIS, Aiwa, Akai, Alba, Alcatel, Alcor, Alfawise, Aligator, AllCall, AllDocube, Allview, Allwinner, Altech UEC, altron, Amazon, AMGOO, Amigoo, Amoi, Andowl, Anry, ANS, Aoson, Apple, Archos, Arian Space, Ark, ArmPhone, Arnova, ARRIS, Artel, Asano, Ask, Assistant, Asus, AT&amp;T, Atom, Audiovox, Avenzo, AVH, Avvio, Axxion, Azumi Mobile, BangOlufsen, Barnes &amp; Noble, BBK, BB Mobile, BDF, Becker, Beeline, Beelink, Beetel, BenQ, BenQ-Siemens, Bezkam, BGH, BIHEE, Billion, Bird, Bitel, Bitmore, Black Fox, Blackview, Blaupunkt, Blu, Bluboo, Bluegood, Bmobile, Bobarry, bogo, Boway, bq, Bravis, Brondi, Bush, CAGI, Capitel, Captiva, Carrefour, Casio, Casper, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, Chuwi, Clarmin, Cloudfone, Cloudpad, Clout, CnM, Coby Kyros, Comio, Compal, Compaq, ComTrade Tesla, Concord, ConCorde, Condor, Conquest, Contixo, Coolpad, Cowon, CreNova, Crescent, Cricket, Crius Mea, Crony, Crosscall, Cube, CUBOT, CVTE, Cyrus, Daewoo, Danew, Datang, Datawind, Datsun, Dbtel, Dell, Denver, Desay, DeWalt, DEXP, Dialog, Dicam, Digi, Digicel, Digiland, Digma, Divisat, DMM, DNS, DoCoMo, Doffler, Dolamee, Doogee, Doopro, Doov, Dopod, Doro, Droxio, Dune HD, E-Boda, E-Ceros, E-tel, Easypix, EBEST, Echo Mobiles, ECS, EE, EKO, Eks Mobility, Element, Elenberg, Elephone, Eltex, Energizer, Energy Sistem, Enot, Ergo, Ericsson, Ericy, Essential, Essentielb, eSTAR, Eton, eTouch, Etuline, Eurostar, Evercoss, Evertek, Evolio, Evolveo, EvroMedia, ExMobile, EXO, Explay, Extrem, Ezio, Ezze, Fairphone, Famoco, Fengxiang, Fero, FiGO, FinePower, FireFly Mobile, Fly, FNB, Fondi, Fonos, FORME, Forstar, Foxconn, Freetel, Fujitsu, G-TiDE, Garmin-Asus, Gateway, Gemini, General Mobile, GEOFOX, Geotel, Ghia, Ghong, Gigabyte, Gigaset, Ginzzu, Gionee, Globex, GOCLEVER, Goly, Gome, GoMobile, Google, Goophone, Gradiente, Grape, Gree, Grundig, Hafury, Haier, HannSpree, Hardkernel, Hasee, Hi-Level, Highscreen, Hipstreet, Hisense, Hoffmann, Hometech, Homtom, Hoozo, Hosin, Hotwav, How, HP, HTC, Huadoo, Huawei, Humax, Hyrican, Hyundai, i-Cherry, i-Joy, i-mate, i-mobile, iBall, iBerry, iBrit, IconBIT, iDroid, iGet, iHunt, Ikea, iKoMo, iLA, iLife, iMars, IMO Mobile, Impression, iNew, Infinix, InFocus, Inkti, InnJoo, Innostream, Inoi, INQ, Insignia, Intek, Intex, Inverto, Invin, iOcean, iPro, IQM, Irbis, Iris, iRola, iRulu, iTel, iTruck, iVA, iView, iVooMi, iZotron, JAY-Tech, JFone, Jiayu, Jinga, JKL, Jolla, Just5, K-Touch, Kaan, Kaiomy, Kalley, Kanji, Karbonn, KATV1, Kazam, KDDI, Kempler &amp; Strauss, Keneksi, Kenxinda, Kiano, Kingsun, Kivi, Klipad, Kocaso, Kodak, Kogan, Komu, Konka, Konrow, Koobee, Kooper, KOPO, Koridy, KRONO, Krüger&amp;Matz, KT-Tech, Kuliao, Kumai, Kyocera, Kzen, LAIQ, Land Rover, Landvo, Lanix, Lark, Lava, LCT, Leagoo, Ledstar, LeEco, Lemhoov, Lenco, Lenovo, Leotec, Le Pan, Lephone, Lesia, Lexand, Lexibook, LG, Lingwin, Loewe, Logic, Logicom, Lumigon, Lumus, Luna, LYF, M.T.T., M4tel, Macoox, Majestic, Mann, Manta Multimedia, Masstel, Matrix, Maxcom, Maxtron, MAXVI, Maxwest, Maze, meanIT, Mecer, Mecool, Mediacom, MediaTek, Medion, MEEG, MegaFon, Meitu, Meizu, Melrose, Memup, Metz, MEU, MicroMax, Microsoft, Minix, Mio, Miray, Mito, Mitsubishi, MIXC, MiXzo, MLLED, MLS, Mobicel, Mobiistar, Mobiola, Mobistel, Mobo, Modecom, Mofut, Motorola, Movic, Mpman, MSI, MTC, MTN, Multilaser, MYFON, MyPhone, Myria, Mystery, MyTab, MyWigo, National, Navitech, Navon, NEC, Neffos, Neomi, Netgear, NeuImage, Newgen, Newland, Newman, NewsMy, NEXBOX, Nexian, NEXON, Nextbit, NextBook, NextTab, NGM, NG Optics, Nikon, Nintendo, NOA, Noain, Nobby, Noblex, Nokia, Nomi, Nomu, NorthTech, Nos, Nous, NUU Mobile, Nuvo, Nvidia, NYX Mobile, O+, O2, Obi, Odys, Okapia, Onda, OnePlus, Onix, ONN, Openbox, OPPO, Opsson, Orange, Orbic, Ordissimo, Ouki, Oukitel, OUYA, Overmax, Ovvi, Owwo, Oysters, Oyyu, OzoneHD, P-UP, Palm, Panacom, Panasonic, Pantech, PCBOX, PCD, PCD Argentina, PEAQ, Pentagram, Phicomm, Philco, Philips, Phonemax, phoneOne, Pioneer, Pixelphone, Pixus, Ployer, Plum, PocketBook, POCO, Point of View, Polaroid, PolyPad, Polytron, Pomp, Positivo, Positivo BGH, PPTV, Prestigio, Primepad, Primux, Prixton, Proline, ProScan, Protruly, PULID, Q-Touch, Q.Bell, Qilive, QMobile, Qtek, Quantum, Quechua, Qumo, R-TV, Ramos, Ravoz, Razer, RCA Tablets, Readboy, Realme, RED, Rikomagic, RIM, Rinno, Ritmix, Ritzviva, Riviera, Roadrover, Rokit, Roku, Rombica, Ross&amp;Moor, Rover, RoverPad, RT Project, RugGear, Runbo, Ryte, Safaricom, Sagem, Samsung, Sanei, Santin, Sanyo, Savio, Schneider, Sega, Selenga, Selevision, Selfix, SEMP TCL, Sencor, Sendo, Senkatel, Senseit, Senwa, SFR, Sharp, Shift Phones, Shtrikh-M, Shuttle, Siemens, Sigma, Silent Circle, Simbans, Sky, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sonim, Sony, Sony Ericsson, Soundmax, Soyes, Spectrum, Spice, SQOOL, Star, Starlight, Starway, STF Mobile, STK, Stonex, Storex, Sugar, Sumvision, Sunstech, SunVan, Sunvell, SuperSonic, Supra, Swipe, SWISSMOBILITY, Swisstone, Symphony, Syrox, T-Mobile, Takara, TB Touch, TCL, TD Systems, TechniSat, TechnoTrend, TechPad, Teclast, Tecno Mobile, Tele2, Telefunken, Telego, Telenor, Telit, Tesco, Tesla, Tetratab, teXet, ThL, Thomson, TIANYU, Time2, Timovi, Tinai, Tinmo, TiPhone, Tolino, Tone, Tooky, Top House, Toplux, Torex, Toshiba, Touchmate, Transpeed, TrekStor, Trevi, Tronsmart, True, TTEC, Tunisie Telecom, Turbo, Turbo-X, TurboKids, TVC, TWM, Twoe, U.S. Cellular, Ugoos, Uhans, Uhappy, Ulefone, Umax, UMIDIGI, Unihertz, Unimax, Uniscope, UNIWA, Unknown, Unnecto, Unonu, Unowhy, UTOK, UTStarcom, Vastking, Venso, Verico, Verizon, Vernee, Vertex, Vertu, Verykool, Vesta, Vestel, VGO TEL, Videocon, Videoweb, ViewSonic, Vinga, Vinsoc, Vipro, Vitelcom, Vivax, Vivo, Vizio, VK Mobile, VKworld, Vodacom, Vodafone, Vonino, Vontar, Vorago, Vorke, Voto, Voxtel, Voyo, Vsmart, Vsun, Vulcan, VVETIME, Walton, Web TV, Weimei, WellcoM, Wexler, Wieppo, Wigor, Wiko, Wileyfox, Winds, Wink, Wiseasy, Wolder, Wolfgang, Wonu, Woo, Wortmann, Woxter, X-BO, X-TIGI, X-View, Xgody, Xiaolajiao, Xiaomi, Xion, Xolo, Xoro, Xshitou, Xtouch, Yandex, Yarvik, Yes, Yezz, Yota, Ytone, Yu, Yuandao, Yusun, Yxtel, Zatec, Zeemi, Zen, Zenek, Zfiner, Zidoo, Ziox, Zonda, Zopo, ZTE, Zuum, Zync, ZYQ, öwn</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -132,6 +151,7 @@
 		<name>Device model</name>
 		<segment>deviceModel</segment>
 		<acceptedValues>iPad, Nexus 5, Galaxy S5, Fire TV, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -139,6 +159,7 @@
 		<name>Device type</name>
 		<segment>deviceType</segment>
 		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet, smart speaker, wearable, peripheral</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -147,6 +168,7 @@
 		<segment>fingerprint</segment>
 		<acceptedValues>1eceaa833348b187 - any 16 Hexadecimal chars ID, which can be fetched from API.getLastVisitsDetails</acceptedValues>
 		<permission>1</permission>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -154,6 +176,7 @@
 		<name>Local time - hour (Start of visit)</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -161,6 +184,7 @@
 		<name>Operating system</name>
 		<segment>operatingSystemName</segment>
 		<acceptedValues>Windows, Linux, Mac, Android, iOS etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -168,6 +192,7 @@
 		<name>Operating system code</name>
 		<segment>operatingSystemCode</segment>
 		<acceptedValues>WIN, LIN, MAX, AND, IOS etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -175,6 +200,7 @@
 		<name>Operating system version</name>
 		<segment>operatingSystemVersion</segment>
 		<acceptedValues>XP, 7, 2.3, 5.1, ...</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -182,6 +208,7 @@
 		<name>Profilable</name>
 		<segment>profilable</segment>
 		<acceptedValues>1 for profilable (eg cookies were used), 0 for not profilable (eg no cookies were used)</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -189,6 +216,7 @@
 		<name>Resolution</name>
 		<segment>resolution</segment>
 		<acceptedValues>1280x1024, 800x600, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -196,6 +224,7 @@
 		<name>Server time - date (Time of last action)</name>
 		<segment>visitEndServerDate</segment>
 		<acceptedValues>2018-12-31, 2018-03-20, ...</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -203,6 +232,7 @@
 		<name>Server time - day of month (Time of last action)</name>
 		<segment>visitEndServerDayOfMonth</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 29, 30, 31</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -210,6 +240,7 @@
 		<name>Server time - day of week (Time of last action)</name>
 		<segment>visitEndServerDayOfWeek</segment>
 		<acceptedValues>1, 2, 3, 4, 5, 6, 7</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -217,6 +248,7 @@
 		<name>Server time - day of year (Time of last action)</name>
 		<segment>visitEndServerDayOfYear</segment>
 		<acceptedValues>1, 2, 3, 4, ..., 365, 366</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -224,6 +256,7 @@
 		<name>Server time - hour (Start of visit)</name>
 		<segment>visitStartServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -231,6 +264,7 @@
 		<name>Server time - hour (Time of last action)</name>
 		<segment>visitServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -238,6 +272,7 @@
 		<name>Server time - minute (Start of visit)</name>
 		<segment>visitStartServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -245,6 +280,7 @@
 		<name>Server time - minute (Time of last action)</name>
 		<segment>visitEndServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -252,6 +288,7 @@
 		<name>Server time - month (Time of last action)</name>
 		<segment>visitEndServerMonth</segment>
 		<acceptedValues>1, 2, 3, ..., 11, 12</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -259,6 +296,7 @@
 		<name>Server time - quarter (Time of last action)</name>
 		<segment>visitEndServerQuarter</segment>
 		<acceptedValues>1, 2, 3, 4</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -266,6 +304,7 @@
 		<name>Server time - second (Time of last action)</name>
 		<segment>visitEndServerSecond</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 58, 59</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -273,6 +312,7 @@
 		<name>Server time - week of year (Time of last action)</name>
 		<segment>visitEndServerWeekOfYear</segment>
 		<acceptedValues>1, 2, 3, 4, ..., 51, 52, 53</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -280,6 +320,7 @@
 		<name>Server time - year (Time of last action)</name>
 		<segment>visitEndServerYear</segment>
 		<acceptedValues>2016, 2017, 2018, ..., 9998, 9999</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -288,6 +329,7 @@
 		<segment>userId</segment>
 		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
 		<permission>1</permission>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -295,6 +337,7 @@
 		<name>Visit Ecommerce status at the end of the visit</name>
 		<segment>visitEcommerceStatus</segment>
 		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -303,6 +346,7 @@
 		<segment>visitId</segment>
 		<acceptedValues>Any integer.</acceptedValues>
 		<permission>1</permission>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -310,6 +354,7 @@
 		<name>Visit converted a specific Goal Id</name>
 		<segment>visitConvertedGoalId</segment>
 		<acceptedValues>1, 2, 3, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -317,6 +362,7 @@
 		<name>Visit converted at least one Goal</name>
 		<segment>visitConverted</segment>
 		<acceptedValues>0, 1</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -324,6 +370,7 @@
 		<name>Visit type</name>
 		<segment>visitorType</segment>
 		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -332,6 +379,7 @@
 		<segment>visitorId</segment>
 		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
 		<permission>1</permission>
+		<requiresProfilableData>1</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -339,6 +387,7 @@
 		<name>City</name>
 		<segment>city</segment>
 		<acceptedValues>Sydney, Sao Paolo, Rome, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -346,6 +395,7 @@
 		<name>Continent</name>
 		<segment>continentCode</segment>
 		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -353,6 +403,7 @@
 		<name>Country</name>
 		<segment>countryName</segment>
 		<acceptedValues>Germany, France, Spain, ...</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -360,6 +411,7 @@
 		<name>Country code</name>
 		<segment>countryCode</segment>
 		<acceptedValues>ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -367,6 +419,7 @@
 		<name>Language</name>
 		<segment>languageCode</segment>
 		<acceptedValues>de, fr, en-gb, zh-cn, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -374,6 +427,7 @@
 		<name>Latitude</name>
 		<segment>latitude</segment>
 		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -381,6 +435,7 @@
 		<name>Longitude</name>
 		<segment>longitude</segment>
 		<acceptedValues>-70.664, 14.326, etc.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -388,6 +443,7 @@
 		<name>Region</name>
 		<segment>regionCode</segment>
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=BFC;country=fr</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -401,36 +457,42 @@
 			<row>customVariableName4</row>
 			<row>customVariableName5</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 1 (scope visit)</name>
 		<segment>customVariableName1</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 2 (scope visit)</name>
 		<segment>customVariableName2</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 3 (scope visit)</name>
 		<segment>customVariableName3</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 4 (scope visit)</name>
 		<segment>customVariableName4</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 5 (scope visit)</name>
 		<segment>customVariableName5</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -444,36 +506,42 @@
 			<row>customVariablePageName4</row>
 			<row>customVariablePageName5</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 1 (scope page)</name>
 		<segment>customVariablePageName1</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 2 (scope page)</name>
 		<segment>customVariablePageName2</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 3 (scope page)</name>
 		<segment>customVariablePageName3</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 4 (scope page)</name>
 		<segment>customVariablePageName4</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 5 (scope page)</name>
 		<segment>customVariablePageName5</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -487,36 +555,42 @@
 			<row>customVariablePageValue4</row>
 			<row>customVariablePageValue5</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 1 (scope page)</name>
 		<segment>customVariablePageValue1</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 2 (scope page)</name>
 		<segment>customVariablePageValue2</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 3 (scope page)</name>
 		<segment>customVariablePageValue3</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 4 (scope page)</name>
 		<segment>customVariablePageValue4</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope page)</name>
 		<segment>customVariablePageValue5</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -530,36 +604,42 @@
 			<row>customVariableValue4</row>
 			<row>customVariableValue5</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 1 (scope visit)</name>
 		<segment>customVariableValue1</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 2 (scope visit)</name>
 		<segment>customVariableValue2</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 3 (scope visit)</name>
 		<segment>customVariableValue3</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 4 (scope visit)</name>
 		<segment>customVariableValue4</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope visit)</name>
 		<segment>customVariableValue5</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
@@ -567,6 +647,7 @@
 		<name>Bandwidth</name>
 		<segment>bandwidth</segment>
 		<acceptedValues>Any number in bytes, eg. 1000</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -574,6 +655,7 @@
 		<name>Action Type</name>
 		<segment>actionType</segment>
 		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -586,18 +668,21 @@
 			<row>outlinkUrl</row>
 			<row>eventUrl</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Category (Site Search)</name>
 		<segment>siteSearchCategory</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -605,6 +690,7 @@
 		<name>Content Interaction</name>
 		<segment>contentInteraction</segment>
 		<acceptedValues>The type of interaction with the content. For instance &quot;click&quot; or &quot;submit&quot;.</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -612,6 +698,7 @@
 		<name>Content Name</name>
 		<segment>contentName</segment>
 		<acceptedValues>The name of a content block, for instance &quot;Ad Sale&quot;</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -619,6 +706,7 @@
 		<name>Content Piece</name>
 		<segment>contentPiece</segment>
 		<acceptedValues>The actual content. For instance &quot;ad.jpg&quot; or &quot;My text ad&quot;</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -626,54 +714,63 @@
 		<name>Content Target</name>
 		<segment>contentTarget</segment>
 		<acceptedValues>For instance the URL of a landing page: &quot;http://landingpage.example.com&quot;</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Download URL</name>
 		<segment>downloadUrl</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Entry Page URL</name>
 		<segment>entryPageUrl</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Entry Page title</name>
 		<segment>entryPageTitle</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Exit Page Title</name>
 		<segment>exitPageTitle</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Keyword (Site Search)</name>
 		<segment>siteSearchKeyword</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Keyword count (Site Search)</name>
 		<segment>siteSearchCount</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Page Title</name>
 		<segment>pageTitle</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -681,12 +778,14 @@
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
 		<acceptedValues>All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Server time - hour</name>
 		<segment>actionServerHour</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -694,30 +793,35 @@
 		<name>Server time - minute</name>
 		<segment>actionServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Events</category>
 		<name>Event value</name>
 		<segment>eventValue</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Events</category>
 		<name>Event Action</name>
 		<segment>eventAction</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Events</category>
 		<name>Event Category</name>
 		<segment>eventCategory</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Events</category>
 		<name>Event Name</name>
 		<segment>eventName</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -725,6 +829,7 @@
 		<name>Event URL</name>
 		<segment>eventUrl</segment>
 		<acceptedValues>The URL must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -732,6 +837,7 @@
 		<name>Channel Type</name>
 		<segment>referrerType</segment>
 		<acceptedValues>direct, search, website, campaign</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -739,6 +845,7 @@
 		<name>Keyword</name>
 		<segment>referrerKeyword</segment>
 		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -746,6 +853,7 @@
 		<name>Referrer Name</name>
 		<segment>referrerName</segment>
 		<acceptedValues>twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -753,24 +861,28 @@
 		<name>Referrer URL</name>
 		<segment>referrerUrl</segment>
 		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Ecommerce</category>
 		<name>Order ID</name>
 		<segment>orderId</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Ecommerce</category>
 		<name>Product Price</name>
 		<segment>productPrice</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Ecommerce</category>
 		<name>Viewed Product Price</name>
 		<segment>productViewPrice</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -784,18 +896,21 @@
 			<row>productCategory4</row>
 			<row>productCategory5</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Ecommerce</category>
 		<name>Product Name</name>
 		<segment>productName</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Ecommerce</category>
 		<name>Product SKU</name>
 		<segment>productSku</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -809,17 +924,20 @@
 			<row>productViewCategory4</row>
 			<row>productViewCategory5</row>
 		</unionOfSegments>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Ecommerce</category>
 		<name>Viewed Product Name</name>
 		<segment>productViewName</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Ecommerce</category>
 		<name>Viewed Product SKU</name>
 		<segment>productViewSku</segment>
+		<requiresProfilableData>0</requiresProfilableData>
 	</row>
 </result>
