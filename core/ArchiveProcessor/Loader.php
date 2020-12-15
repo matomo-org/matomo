@@ -417,7 +417,7 @@ class Loader
 
         $timezone = Site::getTimezoneFor($idSite);
         list($date1, $date2) = $period->getBoundsInTimezone($timezone);
-        if ($date2->isEarlier($minVisitTimesPerSite)) {
+        if ($date2->getTimestamp() < $minVisitTimesPerSite) {
             return false;
         }
 
@@ -435,10 +435,6 @@ class Loader
             if (!empty($value)) {
                 $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
             }
-        }
-
-        if (!empty($value)) {
-            $value = Date::factory($value);
         }
 
         return $value;
