@@ -1715,8 +1715,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
 
-            $idArchives = Db::fetchAll("SELECT idarchive FROM $table WHERE name LIKE 'done%' AND value = ?", array(ArchiveWriter::DONE_INVALIDATED));
-            $idArchives = array_map('reset', $idArchives);
+            $idArchives = Db::query("SELECT idarchive FROM $table WHERE name LIKE 'done%' AND value = ?", array(ArchiveWriter::DONE_INVALIDATED))->fetchAll(\Zend_Db::FETCH_COLUMN);
 
             $result[$date] = $idArchives;
         }
@@ -1734,8 +1733,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 $sql .= " AND ts_archived IS NOT NULL";
             }
 
-            $archiveSpecs = Db::fetchAll($sql, array(ArchiveWriter::DONE_INVALIDATED));
-            $archiveSpecs = array_map('reset', $archiveSpecs);
+            $archiveSpecs = Db::query($sql, array(ArchiveWriter::DONE_INVALIDATED))->fetchAll(\Zend_Db::FETCH_COLUMN);
             if (empty($archiveSpecs)) {
                 continue;
             }
