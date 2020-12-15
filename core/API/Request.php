@@ -705,6 +705,10 @@ class Request
 
     public static function isCurrentPeriodProfilable($idSite = null, $period = null, $date = null, $segment = null)
     {
+        if (self::isProfilableCheckDisabledInTests()) {
+            return true;
+        }
+
         $idSite = $idSite ?: Common::getRequestVar('idSite', $default = false);
         $period = $period ?: Common::getRequestVar('period', $default = false);
         $date = $date ?: Common::getRequestVar('date', $default = false);
@@ -726,5 +730,19 @@ class Request
             'segment' => $segment,
         ]);
         return $isProfilable;
+    }
+
+    private static function isProfilableCheckDisabledInTests()
+    {
+        if (!defined('PIWIK_TEST_MODE')) {
+            return false;
+        }
+
+        try {
+            $isDisabled = (bool) StaticContainer::get('tests.isProfilableCheckDisabled');
+            return $isDisabled;
+        } catch (\Exception $ex) {
+            return false;
+        }
     }
 }
