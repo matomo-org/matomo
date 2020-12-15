@@ -121,11 +121,20 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->process->hasFinished());
     }
 
-    public function test_hasStarted()
+    public function test_hasStarted_startedWhenContentFalse()
     {
         $this->assertTrue($this->process->hasStarted(false));
-        $this->assertTrue($this->process->hasStarted('6341'));
+    }
 
+    public function test_hasStarted_startedWhenPidGiven()
+    {
+        $this->assertTrue($this->process->hasStarted('6341'));
+        // remembers the process was started at some point
+        $this->assertTrue($this->process->hasStarted(''));
+    }
+
+    public function test_hasStarted_notStartedYetEmptyContentInPid()
+    {
         $this->assertFalse($this->process->hasStarted(''));
     }
 

@@ -161,6 +161,31 @@ class Http
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
 
+        $aUrl = trim($aUrl);
+        $parsedUrl = @parse_url($aUrl);
+
+        if (empty($parsedUrl['scheme'])) {
+            throw new Exception('Missing scheme in given url');
+        }
+
+        $allowedProtocols = Config::getInstance()->General['allowed_outgoing_protocols'];
+        $isAllowed = false;
+
+        foreach (explode(',', $allowedProtocols) as $protocol) {
+            if (strtolower($parsedUrl['scheme']) === strtolower(trim($protocol))) {
+                $isAllowed = true;
+                break;
+            }
+        }
+
+        if (!$isAllowed) {
+            throw new Exception(sprintf(
+                'Protocol %s not in list of allowed protocols: %s',
+                $parsedUrl['scheme'],
+                $allowedProtocols
+            ));
+        }
+
         $contentLength = 0;
         $fileLength = 0;
 
@@ -193,8 +218,6 @@ class Http
         }
 
         list($proxyHost, $proxyPort, $proxyUser, $proxyPassword) = self::getProxyConfiguration($aUrl);
-
-        $aUrl = trim($aUrl);
 
         // other result data
         $status  = null;

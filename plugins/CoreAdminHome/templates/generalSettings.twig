@@ -76,7 +76,9 @@
             <div onconfirm="archivingSettings.save()" saving="archivingSettings.isLoading" piwik-save-button></div>
         </div>
     </div>
-    <div piwik-content-block content-title="{{ 'CoreAdminHome_EmailServerSettings'|translate|e('html_attr') }}">
+
+    {% if not isMultiServerEnvironment %}
+        <div piwik-content-block content-title="{{ 'CoreAdminHome_EmailServerSettings'|translate|e('html_attr') }}">
 
         <div piwik-form ng-controller="MailSmtpController as mailSettings">
             <div piwik-field uicontrol="checkbox" name="mailUseSmtp"
@@ -153,6 +155,7 @@
             <div onconfirm="mailSettings.save()" saving="mailSettings.isLoading" piwik-save-button></div>
         </div>
     </div>
+    {% endif %}
 {% endif %}
 
 {% if customLogoEnabled %}
