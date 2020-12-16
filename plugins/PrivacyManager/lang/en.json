@@ -173,6 +173,8 @@
         "UseDeleteLog": "Regularly delete old raw data from the database",
         "UseDeleteReports": "Regularly delete old reports from the database",
         "UsersOptOut": "Users opt-out",
+        "ImprintUrl": "Imprint URL",
+        "ImprintUrlDescription": "A link to your Imprint page.",
         "PrivacyPolicyUrl": "Privacy Policy URL",
         "PrivacyPolicyUrlDescription": "A link to your Privacy Policy page.",
         "TermsAndConditionUrl": "Terms & Conditions URL",
@@ -180,6 +182,7 @@
         "PrivacyPolicyUrlDescriptionSuffix": "If you set this, it will be displayed at the bottom of the login page and on pages that the '%1$s' user can access.",
         "ShowInEmbeddedWidgets": "Show in embedded widgets",
         "ShowInEmbeddedWidgetsDescription": "If checked, a link to your Privacy Policy and your Terms & Conditions will be displayed at the bottom of embedded widgets.",
+        "Imprint": "Imprint",
         "PrivacyPolicy": "Privacy Policy",
         "TermsAndConditions": "Terms & Conditions"
     }
