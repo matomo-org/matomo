@@ -107,12 +107,12 @@ class DataSubjects
          */
         Piwik::postEvent('PrivacyManager.deleteDataSubjects', array(&$results, $visits));
 
-        $this->invalidateArchives($visits);
-
         $logTables = $this->getLogTablesToDeleteFrom();
         $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
             return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
         });
+
+        $this->invalidateArchives($visits);
 
         $results = array_merge($results, $deleteCounts);
         krsort($results); // make sure test results are always in same order
