@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Composer\CaBundle\CaBundle;
 use Exception;
 
 /**
@@ -912,7 +913,7 @@ class Http
         if (!empty($general['custom_cacert_pem'])) {
             $cacertPath = $general['custom_cacert_pem'];
         } else {
-            $cacertPath = PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem';
+            $cacertPath = CaBundle::getBundledCaBundlePath();
         }
         @curl_setopt($ch, CURLOPT_CAINFO, $cacertPath);
     }

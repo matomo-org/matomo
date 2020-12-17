@@ -569,6 +569,7 @@ assume_secure_protocol = 0
 ; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
 ; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
 ; installed on one server or a config one change would be only made on one server instead of all servers.
+; This flag doesn't need to be enabled when the config file is on a shared filesystem such as NFS or EFS.
 multi_server_environment = 0
 
 ; List of proxy headers for client IP addresses

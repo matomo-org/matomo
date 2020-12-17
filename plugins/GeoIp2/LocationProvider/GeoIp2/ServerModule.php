@@ -347,4 +347,14 @@ class ServerModule extends GeoIp2
 
         return $settingValues;
     }
+
+    public function getUsageWarning(): ?string
+    {
+        $comment = Piwik::translate('GeoIp2_GeoIPLocationProviderNotRecommended') . ' ';
+        $comment .= Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule2', array(
+            '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
+        ));
+
+        return $comment;
+    }
 }

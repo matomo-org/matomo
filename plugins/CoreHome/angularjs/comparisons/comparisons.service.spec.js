@@ -64,6 +64,7 @@
 
             $rootScope = $injector.get('$rootScope');
             $location = $injector.get('$location');
+            $window = $injector.get('$window');
             $httpBackend = $injector.get('$httpBackend');
         }));
         beforeEach(inject(function($injector) {
