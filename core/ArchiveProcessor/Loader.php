@@ -31,8 +31,6 @@ use Psr\Log\LoggerInterface;
  */
 class Loader
 {
-    const MIN_VISIT_TIME_TTL = 3600;
-
     /**
      * @var Parameters
      */
