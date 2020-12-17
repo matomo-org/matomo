@@ -10,51 +10,51 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 
 
-INFO [2020-12-15 05:07:35] 13520  ---------------------------
-INFO [2020-12-15 05:07:35] 13520  INIT
-INFO [2020-12-15 05:07:35] 13520  Running Matomo 4.0.5 as Super User
-INFO [2020-12-15 05:07:35] 13520  ---------------------------
-INFO [2020-12-15 05:07:35] 13520  NOTES
-INFO [2020-12-15 05:07:35] 13520  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
-INFO [2020-12-15 05:07:35] 13520    See the doc at: https://matomo.org/docs/setup-auto-archiving/
-INFO [2020-12-15 05:07:35] 13520  - Async process archiving supported, using CliMulti.
-INFO [2020-12-15 05:07:35] 13520  - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
-INFO [2020-12-15 05:07:35] 13520  - Archiving was last executed without error 1s ago
-INFO [2020-12-15 05:07:35] 13520  ---------------------------
-INFO [2020-12-15 05:07:35] 13520  START
-INFO [2020-12-15 05:07:35] 13520  Starting Matomo reports archiving...
-INFO [2020-12-15 05:07:35] 13520  Start processing archives for site 1.
-INFO [2020-12-15 05:07:35] 13520    Will invalidate archived reports for today in site ID = 1's timezone (2020-12-15 00:00:00).
-INFO [2020-12-15 05:07:35] 13520  Archived website id 1, period = day, date = 2020-12-15, segment = '', 2 visits found. Time elapsed: 0.539s
-INFO [2020-12-15 05:07:36] 13520  Archived website id 1, period = day, date = 2020-12-15, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 0.539s
-INFO [2020-12-15 05:07:37] 13520  Archived website id 1, period = day, date = 2020-12-15, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.535s
-INFO [2020-12-15 05:07:37] 13520  Archived website id 1, period = day, date = 2020-12-15, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.539s
-INFO [2020-12-15 05:07:38] 13520  Archived website id 1, period = week, date = 2020-12-14, segment = '', 2 visits found. Time elapsed: 0.536s
-INFO [2020-12-15 05:07:39] 13520  Archived website id 1, period = week, date = 2020-12-14, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 0.800s
-INFO [2020-12-15 05:07:39] 13520  Archived website id 1, period = week, date = 2020-12-14, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.537s
-INFO [2020-12-15 05:07:40] 13520  Archived website id 1, period = week, date = 2020-12-14, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.540s
-INFO [2020-12-15 05:07:41] 13520  Archived website id 1, period = month, date = 2020-12-01, segment = '', 2 visits found. Time elapsed: 0.804s
-INFO [2020-12-15 05:07:42] 13520  Archived website id 1, period = month, date = 2020-12-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 0.797s
-INFO [2020-12-15 05:07:42] 13520  Archived website id 1, period = month, date = 2020-12-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.535s
-INFO [2020-12-15 05:07:43] 13520  Archived website id 1, period = month, date = 2020-12-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.539s
-INFO [2020-12-15 05:07:44] 13520  Archived website id 1, period = year, date = 2020-01-01, segment = '', 2 visits found. Time elapsed: 1.054s
-INFO [2020-12-15 05:07:45] 13520  Archived website id 1, period = year, date = 2020-01-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.061s
-INFO [2020-12-15 05:07:45] 13520  Archived website id 1, period = year, date = 2020-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.536s
-INFO [2020-12-15 05:07:46] 13520  Archived website id 1, period = year, date = 2020-01-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.542s
-INFO [2020-12-15 05:07:46] 13520  Finished archiving for site 1, 16 API requests, Time elapsed: 11.342s [1 / 3 done]
-INFO [2020-12-15 05:07:46] 13520  Start processing archives for site 2.
-INFO [2020-12-15 05:07:46] 13520  Finished archiving for site 2, 0 API requests, Time elapsed: 0.004s [2 / 3 done]
-INFO [2020-12-15 05:07:46] 13520  Start processing archives for site 3.
-INFO [2020-12-15 05:07:46] 13520  Finished archiving for site 3, 0 API requests, Time elapsed: 0.004s [3 / 3 done]
-INFO [2020-12-15 05:07:46] 13520  Done archiving!
-INFO [2020-12-15 05:07:46] 13520  ---------------------------
-INFO [2020-12-15 05:07:46] 13520  SUMMARY
-INFO [2020-12-15 05:07:46] 13520  Processed 16 archives.
-INFO [2020-12-15 05:07:46] 13520  Total API requests: 16
-INFO [2020-12-15 05:07:46] 13520  done: 16 req, 11489 ms, no error
-INFO [2020-12-15 05:07:46] 13520  Time elapsed: 11.489s
-INFO [2020-12-15 05:07:46] 13520  ---------------------------
-INFO [2020-12-15 05:07:46] 13520  SCHEDULED TASKS
-INFO [2020-12-15 05:07:46] 13520  Starting Scheduled tasks...
-INFO [2020-12-15 05:07:46] 13520  done
-INFO [2020-12-15 05:07:46] 13520  ---------------------------
+INFO [2020-12-17 06:03:34] 13233  ---------------------------
+INFO [2020-12-17 06:03:34] 13233  INIT
+INFO [2020-12-17 06:03:34] 13233  Running Matomo 4.0.5 as Super User
+INFO [2020-12-17 06:03:34] 13233  ---------------------------
+INFO [2020-12-17 06:03:34] 13233  NOTES
+INFO [2020-12-17 06:03:34] 13233  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
+INFO [2020-12-17 06:03:34] 13233    See the doc at: https://matomo.org/docs/setup-auto-archiving/
+INFO [2020-12-17 06:03:34] 13233  - Async process archiving supported, using CliMulti.
+INFO [2020-12-17 06:03:34] 13233  - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
+INFO [2020-12-17 06:03:34] 13233  - Archiving was last executed without error 0s ago
+INFO [2020-12-17 06:03:34] 13233  ---------------------------
+INFO [2020-12-17 06:03:34] 13233  START
+INFO [2020-12-17 06:03:34] 13233  Starting Matomo reports archiving...
+INFO [2020-12-17 06:03:34] 13233  Start processing archives for site 1.
+INFO [2020-12-17 06:03:35] 13233    Will invalidate archived reports for today in site ID = 1's timezone (2020-12-17 00:00:00).
+INFO [2020-12-17 06:03:35] 13233  Archived website id 1, period = day, date = 2020-12-17, segment = '', 2 visits found. Time elapsed: 0.537s
+INFO [2020-12-17 06:03:36] 13233  Archived website id 1, period = day, date = 2020-12-17, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 0.538s
+INFO [2020-12-17 06:03:36] 13233  Archived website id 1, period = day, date = 2020-12-17, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.538s
+INFO [2020-12-17 06:03:37] 13233  Archived website id 1, period = day, date = 2020-12-17, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.536s
+INFO [2020-12-17 06:03:38] 13233  Archived website id 1, period = week, date = 2020-12-14, segment = '', 2 visits found. Time elapsed: 0.794s
+INFO [2020-12-17 06:03:39] 13233  Archived website id 1, period = week, date = 2020-12-14, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 0.794s
+INFO [2020-12-17 06:03:39] 13233  Archived website id 1, period = week, date = 2020-12-14, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.537s
+INFO [2020-12-17 06:03:40] 13233  Archived website id 1, period = week, date = 2020-12-14, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.539s
+INFO [2020-12-17 06:03:41] 13233  Archived website id 1, period = month, date = 2020-12-01, segment = '', 2 visits found. Time elapsed: 0.792s
+INFO [2020-12-17 06:03:42] 13233  Archived website id 1, period = month, date = 2020-12-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 0.797s
+INFO [2020-12-17 06:03:42] 13233  Archived website id 1, period = month, date = 2020-12-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.535s
+INFO [2020-12-17 06:03:43] 13233  Archived website id 1, period = month, date = 2020-12-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.535s
+INFO [2020-12-17 06:03:44] 13233  Archived website id 1, period = year, date = 2020-01-01, segment = '', 2 visits found. Time elapsed: 1.070s
+INFO [2020-12-17 06:03:45] 13233  Archived website id 1, period = year, date = 2020-01-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.075s
+INFO [2020-12-17 06:03:46] 13233  Archived website id 1, period = year, date = 2020-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 0.534s
+INFO [2020-12-17 06:03:46] 13233  Archived website id 1, period = year, date = 2020-01-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.536s
+INFO [2020-12-17 06:03:46] 13233  Finished archiving for site 1, 16 API requests, Time elapsed: 11.590s [1 / 3 done]
+INFO [2020-12-17 06:03:46] 13233  Start processing archives for site 2.
+INFO [2020-12-17 06:03:46] 13233  Finished archiving for site 2, 0 API requests, Time elapsed: 0.004s [2 / 3 done]
+INFO [2020-12-17 06:03:46] 13233  Start processing archives for site 3.
+INFO [2020-12-17 06:03:46] 13233  Finished archiving for site 3, 0 API requests, Time elapsed: 0.004s [3 / 3 done]
+INFO [2020-12-17 06:03:46] 13233  Done archiving!
+INFO [2020-12-17 06:03:46] 13233  ---------------------------
+INFO [2020-12-17 06:03:46] 13233  SUMMARY
+INFO [2020-12-17 06:03:46] 13233  Processed 16 archives.
+INFO [2020-12-17 06:03:46] 13233  Total API requests: 16
+INFO [2020-12-17 06:03:46] 13233  done: 16 req, 11742 ms, no error
+INFO [2020-12-17 06:03:46] 13233  Time elapsed: 11.742s
+INFO [2020-12-17 06:03:46] 13233  ---------------------------
+INFO [2020-12-17 06:03:46] 13233  SCHEDULED TASKS
+INFO [2020-12-17 06:03:46] 13233  Starting Scheduled tasks...
+INFO [2020-12-17 06:03:46] 13233  done
+INFO [2020-12-17 06:03:46] 13233  ---------------------------
