@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
+use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -496,12 +497,7 @@ class CoreHome extends \Piwik\Plugin
      */
     public function removeOldDimensions(&$instances)
     {
-        $removedDimensions = [
-            // dimensions removed in Matomo 4.0.0
-            'Piwik\Plugins\DevicePlugins\Columns\PluginDirector',
-            'Piwik\Plugins\DevicePlugins\Columns\PluginGears',
-            'Piwik\Plugins\VisitorInterest\Columns\VisitsByDaysSinceLastVisit',
-        ];
+        $removedDimensions = Dimension::getRemovedDimensions();
 
         $instances = array_filter($instances, function ($dimension) use ($removedDimensions) {
             $className = get_class($dimension);
