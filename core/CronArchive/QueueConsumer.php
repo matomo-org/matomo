@@ -215,7 +215,7 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->hasIntersectingPeriod($archivesToProcess, $invalidatedArchive)) {
+            if (self::hasIntersectingPeriod($archivesToProcess, $invalidatedArchive)) {
                 $this->logger->debug("Found archive with intersecting period with others in concurrent batch, skipping until next batch: $invalidationDesc");
 
                 $idinvalidation = $invalidatedArchive['idinvalidation'];
@@ -260,7 +260,6 @@ class QueueConsumer
                 continue;
             }
 
-            // TODO: should use descriptive string instead of just invalidation ID
             $reason = $this->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($invalidatedArchive);
             if ($reason) {
                 $this->logger->debug("Skipping invalidated archive, $reason: $invalidationDesc");
@@ -398,6 +397,14 @@ class QueueConsumer
                 continue;
             }
 
+            // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
+            if (!empty($archiveBeingProcessed['segment'])
+                && !empty($archiveToProcess['segment'])
+                && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
+            ) {
+                continue;
+            }
+
             $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
 
             if ($this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
@@ -447,13 +454,32 @@ class QueueConsumer
         $archive['plugin'] = $this->getPluginNameForArchiveIfAny($archive);
     }
 
-    private function hasIntersectingPeriod(array $archivesToProcess, $invalidatedArchive)
+    // static so it can be unit tested
+    public static function hasIntersectingPeriod(array $archivesToProcess, $invalidatedArchive)
     {
         if (empty($archivesToProcess)) {
             return false;
         }
 
         foreach ($archivesToProcess as $archive) {
+            $isSamePeriod = $archive['period'] == $invalidatedArchive['period']
+                && $archive['date1'] == $invalidatedArchive['date1']
+                && $archive['date2'] == $invalidatedArchive['date2'];
+
+            // don't do the check for $archvie, if we have the same period and segment as $invalidatedArchive
+            // we only want to to do the intersecting periods check if there are different periods or one of the
+            // invalidations is for an "all visits" archive.
+            //
+            // it's allowed to archive the same period concurrently for different segments, where neither is
+            // "All Visits"
+            if (!empty($archive['segment'])
+                && !empty($invalidatedArchive['segment'])
+                && $archive['segment'] != $invalidatedArchive['segment']
+                && $isSamePeriod
+            ) {
+                continue;
+            }
+
             if ($archive['periodObj']->isPeriodIntersectingWith($invalidatedArchive['periodObj'])) {
                 return true;
             }
@@ -517,13 +543,14 @@ class QueueConsumer
 
     private function getInvalidationDescription(array $invalidatedArchive)
     {
-        return sprintf("[idinvalidation = %s, idsite = %s, period = %s(%s - %s), name = %s]",
+        return sprintf("[idinvalidation = %s, idsite = %s, period = %s(%s - %s), name = %s, segment = %s]",
             $invalidatedArchive['idinvalidation'],
             $invalidatedArchive['idsite'],
             $this->periodIdsToLabels[$invalidatedArchive['period']],
             $invalidatedArchive['date1'],
             $invalidatedArchive['date2'],
-            $invalidatedArchive['name']
+            $invalidatedArchive['name'],
+            $invalidatedArchive['segment'] ?? ''
         );
     }
 
