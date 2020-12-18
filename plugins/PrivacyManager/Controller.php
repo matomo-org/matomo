@@ -19,6 +19,7 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Scheduler\Scheduler;
@@ -187,8 +188,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Piwik::hasUserSuperUserAccess()) {
             $jsCodeGenerator = new TrackerCodeGenerator();
             $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
+            $filename = $jsCodeGenerator->getJsTrackerEndpoint();
 
-            $view->trackerFileName = $jsCodeGenerator->getJsTrackerEndpoint();
+            if (Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
+                $file = StaticContainer::get('Piwik\Plugins\CustomJsTracker\TrackerUpdater')->getToFile();
+                $filename = $file->getName();
+            }
+
+            $view->trackerFileName = $filename;
             $view->trackerWritable = $file->hasWriteAccess();
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
