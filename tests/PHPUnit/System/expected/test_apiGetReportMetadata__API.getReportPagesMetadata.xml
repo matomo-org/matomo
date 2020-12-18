@@ -70,6 +70,38 @@
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
+			<row>
+				<name>Returning Visits Over Time</name>
+				<module>VisitFrequency</module>
+				<action>getEvolutionGraph</action>
+				<order>1</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphEvolution</viewDataTable>
+					<module>VisitFrequency</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetVisitFrequencygetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Frequency Overview</name>
+				<module>VisitFrequency</module>
+				<action>get</action>
+				<order>2</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>VisitFrequency</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetVisitFrequencygetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
 		</widgets>
 	</row>
 	<row>
