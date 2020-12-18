@@ -208,14 +208,10 @@ class Url
         }
 
         if ($host === false) {
-            $host = self::getHostFromServerNameVar();
+            $host = self::getHostFromServerVariable();
             if (empty($host)) {
-                // fallback to old behaviour
-                $host = @$_SERVER['HTTP_HOST'];
-                if (empty($host)) {
-                    // if no current host, assume valid
-                    return true;
-                }
+                // if no current host, assume valid
+                return true;
             }
         }
 
@@ -301,24 +297,35 @@ class Url
      */
     public static function getHost($checkIfTrusted = true)
     {
-        if (strlen($host = self::getHostFromServerNameVar())) {
-            // if server_name is set we don't want to look at HTTP_HOST
+        $host = self::getHostFromServerVariable();
 
-            if (!$checkIfTrusted || self::isValidHost($host)) {
-               return $host;
-            }
-        } elseif (isset($_SERVER['HTTP_HOST'])
-            && strlen($host = $_SERVER['HTTP_HOST'])
-            && (!$checkIfTrusted
-                || self::isValidHost($host))
-        ) {
-            // HTTP/1.1 request
+        if (strlen($host) && (!$checkIfTrusted || self::isValidHost($host))) {
             return $host;
         }
 
         // HTTP/1.0 request doesn't include Host: header
         if (isset($_SERVER['SERVER_ADDR'])) {
             return $_SERVER['SERVER_ADDR'];
+        }
+
+        return false;
+    }
+
+    protected static function getHostFromServerVariable()
+    {
+        try {
+            // this fails when trying to get the hostname before the config was initialized
+            // e.g. for loading the domain specific configuration file
+            // in such a case we always use HTTP_HOST
+            $preferServerName = Config::getInstance()->General['host_validation_use_server_name'];
+        } catch (\Exception $e) {
+            $preferServerName = false;
+        }
+
+        if ($preferServerName && strlen($host = self::getHostFromServerNameVar())) {
+            return $host;
+        } elseif (isset($_SERVER['HTTP_HOST']) && strlen($host = $_SERVER['HTTP_HOST'])) {
+            return $host;
         }
 
         return false;

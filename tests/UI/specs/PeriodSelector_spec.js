@@ -126,4 +126,12 @@ describe("PeriodSelector", function () {
 
         expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison');
     });
+
+    it('should show an error when invalid date/period combination is given', async function () {
+        await page.goto('about:blank');
+        await page.goto(url.replace(/date=[^&#]+&/, 'date=2020-08-08,2020-08-09&'));
+        await page.waitFor(250);
+
+        expect(await page.screenshotSelector(selector + ',#notificationContainer')).to.matchImage('invalid');
+    });
 });

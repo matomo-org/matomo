@@ -107,22 +107,22 @@ class DataSubjects
          */
         Piwik::postEvent('PrivacyManager.deleteDataSubjects', array(&$results, $visits));
 
-        $this->invalidateArchives($visits);
+        $datesToInvalidateByIdSite = $this->getDatesToInvalidate($visits);
 
         $logTables = $this->getLogTablesToDeleteFrom();
         $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
             return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
         });
 
+        $this->invalidateArchives($datesToInvalidateByIdSite);
+
         $results = array_merge($results, $deleteCounts);
         krsort($results); // make sure test results are always in same order
         return $results;
     }
 
-    private function invalidateArchives($visits)
+    private function invalidateArchives($datesToInvalidateByIdSite)
     {
-        $datesToInvalidateByIdSite = $this->getDatesToInvalidate($visits);
-
         $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         foreach ($datesToInvalidateByIdSite as $idSite => $visitDates) {

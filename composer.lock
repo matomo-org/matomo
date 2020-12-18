@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "436a8ac860535902739aa0c17595a5e9",
+    "content-hash": "79aedd52470e03e3ab883affab84ce48",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -366,40 +366,6 @@
                 "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.11.0"
             },
             "time": "2020-10-01T18:48:34+00:00"
-        },
-        {
-            "name": "leafo/lessphp",
-            "version": "dev-php74-compat",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/lessphp.git",
-                "reference": "1c1bf226f6d394f28cc676a6c2893556a5dcb495"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.4.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "lessc.inc.php"
-                ]
-            },
-            "license": [
-                "MIT",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Leaf Corcoran",
-                    "email": "leafot@gmail.com",
-                    "homepage": "http://leafo.net"
-                }
-            ],
-            "description": "lessphp is a compiler for LESS written in PHP.",
-            "homepage": "http://leafo.net/lessphp/",
-            "time": "2020-06-18T02:38:35+00:00"
         },
         {
             "name": "matomo/cache",
@@ -2248,6 +2214,71 @@
                 }
             ],
             "time": "2020-10-27T19:28:23+00:00"
+        },
+        {
+            "name": "wikimedia/less.php",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wikimedia/less.php.git",
+                "reference": "c1affb4d4472c9e100fc80bf456b4334862ace3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wikimedia/less.php/zipball/c1affb4d4472c9e100fc80bf456b4334862ace3c",
+                "reference": "c1affb4d4472c9e100fc80bf456b4334862ace3c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.5.14"
+            },
+            "bin": [
+                "bin/lessc"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Less": "lib/"
+                },
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Schmidt",
+                    "homepage": "https://github.com/oyejorge"
+                },
+                {
+                    "name": "Matt Agar",
+                    "homepage": "https://github.com/agar"
+                },
+                {
+                    "name": "Martin Jantošovič",
+                    "homepage": "https://github.com/Mordred"
+                }
+            ],
+            "description": "PHP port of the Javascript version of LESS http://lesscss.org (Originally maintained by Josh Schmidt)",
+            "keywords": [
+                "css",
+                "less",
+                "less.js",
+                "lesscss",
+                "php",
+                "stylesheet"
+            ],
+            "support": {
+                "issues": "https://github.com/wikimedia/less.php/issues",
+                "source": "https://github.com/wikimedia/less.php/tree/v2.0.0"
+            },
+            "time": "2020-02-04T22:36:29+00:00"
         }
     ],
     "packages-dev": [
@@ -4012,7 +4043,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "leafo/lessphp": 20,
         "tedivm/jshrink": 20,
         "lox/xhprof": 20
     },

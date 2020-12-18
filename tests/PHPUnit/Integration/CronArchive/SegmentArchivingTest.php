@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\CronArchive;
+namespace Piwik\Tests\Integration\CronArchive;
 
 use Piwik\Config;
 use Piwik\CronArchive;
@@ -14,6 +14,7 @@ use Piwik\Date;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Option;
 use Piwik\Site;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -74,6 +75,14 @@ class SegmentArchivingTest extends IntegrationTestCase
             array(
                 'ts_created' => '2012-01-01',
                 'definition' => 'countryCode==ca',
+                'enable_only_idsite' => 2,
+                'ts_last_edit' => '2011-01-01',
+                'auto_archive' => 1,
+            ),
+
+            array(
+                'ts_created' => '2012-01-01',
+                'definition' => 'countryCode==br',
                 'enable_only_idsite' => 2,
                 'ts_last_edit' => '2011-01-01',
                 'auto_archive' => 1,
@@ -201,6 +210,21 @@ class SegmentArchivingTest extends IntegrationTestCase
                     ],
                 ],
             ],
+
+            [
+                'segment_last_edit_time',
+                2,
+                [
+                    [
+                        'date' => '2014-01-01 00:00:00',
+                        'segment' => 'countryCode==ca',
+                    ],
+                    [
+                        'date' => '2012-01-01 00:00:00',
+                        'segment' => 'countryCode==br',
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -274,10 +298,10 @@ class SegmentArchivingTest extends IntegrationTestCase
         $this->assertEquals($expected, $segments);
     }
 
-    private function createUrlProviderToTest($processNewSegmentsFrom)
+    private function createUrlProviderToTest($processNewSegmentsFrom, $mockData = null)
     {
         $mockSegmentEditorModel = $this->createPartialMock('Piwik\Plugins\SegmentEditor\Model', array('getAllSegmentsAndIgnoreVisibility'));
-        $mockSegmentEditorModel->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->will($this->returnValue($this->mockSegmentEntries));
+        $mockSegmentEditorModel->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->will($this->returnValue($mockData ?: $this->mockSegmentEntries));
 
         return new SegmentArchiving($processNewSegmentsFrom, $beginningOfTimeLastN = 7, $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));
     }

@@ -18,6 +18,7 @@
             this.campaignKeyword = '';
             this.campaignSource = '';
             this.campaignMedium = '';
+            this.campaignId = '';
             this.campaignContent = '';
             this.campaignGroup = '';
             this.campaignPlacement = '';
@@ -66,6 +67,10 @@
 
             if (this.campaignContent) {
                 this.generatedUrl += '&mtm_content='+encodeURIComponent(this.campaignContent.trim());
+            }
+
+            if (this.campaignId) {
+                this.generatedUrl += '&mtm_cid='+encodeURIComponent(this.campaignId.trim());
             }
 
             if (this.campaignGroup) {

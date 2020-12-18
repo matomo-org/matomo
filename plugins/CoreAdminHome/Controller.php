@@ -280,6 +280,7 @@ class Controller extends ControllerAdmin
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
+        $view->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
         if ($view->isGeneralSettingsAdminEnabled) {
             $this->displayWarningIfConfigFileNotWritable();

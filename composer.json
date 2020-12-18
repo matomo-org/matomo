@@ -2,7 +2,12 @@
     "name": "matomo/matomo",
     "type": "application",
     "description": "the leading free/libre analytics platform",
-    "keywords": ["piwik","matomo","web","analytics"],
+    "keywords": [
+        "piwik",
+        "matomo",
+        "web",
+        "analytics"
+    ],
     "homepage": "https://matomo.org",
     "license": "GPL-3.0+",
     "authors": [
@@ -27,10 +32,10 @@
     },
     "require": {
         "php": ">=7.2.5",
+        "composer/ca-bundle": "^1.2",
         "composer/semver": "~1.3.0",
         "davaxi/sparkline": "~1.2",
         "geoip2/geoip2": "^2.8",
-        "leafo/lessphp": "dev-php74-compat",
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
         "matomo/device-detector": "^4.0",
@@ -51,7 +56,8 @@
         "szymach/c-pchart": "^2.0",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "dev-master#aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "wikimedia/less.php": "^2.0"
     },
     "require-dev": {
         "lox/xhprof": "dev-master",
@@ -67,12 +73,6 @@
         "symfony/polyfill-php71": "*",
         "symfony/polyfill-php72": "*"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/matomo-org/lessphp.git"
-        }
-    ],
     "scripts": {
         "pre-update-cmd": [
             "Piwik\\Composer\\ScriptHandler::cleanXhprof"
@@ -98,7 +98,9 @@
             "PEAR_": "libs/",
             "Archive_": "libs/"
         },
-        "files": ["LegacyAutoloader.php"]
+        "files": [
+            "LegacyAutoloader.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

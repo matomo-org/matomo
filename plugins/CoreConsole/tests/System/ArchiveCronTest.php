@@ -39,6 +39,8 @@ class ArchiveCronTest extends SystemTestCase
 {
     const NEW_SEGMENT = 'operatingSystemCode==IOS';
     const NEW_SEGMENT_NAME = 'segmentForToday';
+    const ENCODED_SEGMENT = 'pageUrl=@%252F';
+    const ENCODED_SEGMENT_NAME = 'segmentWithEncoding';
 
     /**
      * @var ManySitesImportedLogs
@@ -54,11 +56,13 @@ class ArchiveCronTest extends SystemTestCase
 
     private static function addNewSegmentToPast()
     {
-        // add one segment and set it's created/updated time to some time in the past so we don't re-archive for it
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        // add one segment and set it's created/updated time to some time in the past so we don't re-archive for it
         $idSegment = API::getInstance()->add(self::NEW_SEGMENT_NAME, self::NEW_SEGMENT, self::$fixture->idSite, $autoArchive = 1, $enabledAllUsers = 1);
+        // add another segment w/ special encoded value
+        $idSegment2 = API::getInstance()->add(self::ENCODED_SEGMENT_NAME, self::ENCODED_SEGMENT, self::$fixture->idSite, $autoArchive = 1, $enabledAllUsers = 1);
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
-        Db::exec("UPDATE " . Common::prefixTable('segment') . ' SET ts_created = \'2015-01-02 00:00:00\', ts_last_edit = \'2015-01-02 00:00:00\' WHERE idsegment = ' . $idSegment);
+        Db::exec("UPDATE " . Common::prefixTable('segment') . ' SET ts_created = \'2015-01-02 00:00:00\', ts_last_edit = \'2015-01-02 00:00:00\' WHERE idsegment IN (' . $idSegment . ", " . $idSegment2 . ")");
     }
 
     private static function trackVisitsForToday()
@@ -94,6 +98,12 @@ class ArchiveCronTest extends SystemTestCase
                                                       'periods' => ['day', 'week', 'month', 'year'],
                                                       'segment' => self::NEW_SEGMENT,
                                                       'testSuffix' => '_' . self::NEW_SEGMENT_NAME));
+
+        $results[] = array('VisitsSummary.get', array('idSite' => 'all',
+            'date' => 'today',
+            'periods' => ['day', 'week', 'month', 'year'],
+            'segment' => self::ENCODED_SEGMENT,
+            'testSuffix' => '_' . self::ENCODED_SEGMENT_NAME));
 
         // ExamplePlugin metric
         $results[] = ['ExamplePlugin.getExampleArchivedMetric', [

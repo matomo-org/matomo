@@ -8,9 +8,9 @@
 
 namespace Piwik\Tests\Integration;
 
-use Monolog\Logger;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -27,7 +27,6 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 use Piwik\Version;
-use Psr\Log\NullLogger;
 
 /**
  * @group Archiver
@@ -35,6 +34,274 @@ use Psr\Log\NullLogger;
  */
 class CronArchiveTest extends IntegrationTestCase
 {
+    /**
+     * @dataProvider getTestDataForRepairInvalidationsIfNeeded
+     */
+    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations($existingInvalidations, $archive,
+                                                                                $expectedInvalidations)
+    {
+        $this->insertInvalidations($existingInvalidations);
+
+        $cronArchive = new CronArchive();
+        $cronArchive->init();
+
+        $cronArchive->repairInvalidationsIfNeeded($archive);
+
+        $invalidations = $this->getInvalidationsInTable(true);
+
+        $this->assertEquals($expectedInvalidations, $invalidations);
+    }
+
+    public function getTestDataForRepairInvalidationsIfNeeded()
+    {
+        return [
+            // day w/ nothing else
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '1',
+                        'date1' => '2020-03-04',
+                        'date2' => '2020-03-04',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week with nothing else
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00', 'status' => 1], // duplicate w/ status = 1
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array ( // status = 1 version
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week w/ month
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week on edge of month w/ nothing else
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-02-24',
+                        'date2' => '2020-03-01',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week for report w/ some other similar archives
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myOtherReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyOtherPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 03:04:04'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myOtherReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done.MyOtherPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                ],
+            ],
+        ];
+    }
+
     /**
      * @dataProvider getTestDataForInvalidateRecentDate
      */
@@ -430,50 +697,33 @@ Checking for queued invalidations...
   Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
   Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
-Found invalidated archive we can skip (no visits): [idinvalidation = 75, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 76, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 74, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 72, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 73, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 68, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 65, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 66, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 67, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 60, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 58, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 59, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 56, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 57, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 54, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found invalidated archive we can skip (no visits): [idinvalidation = 55, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Processing invalidation: [idinvalidation = 5, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Processing invalidation: [idinvalidation = 29, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%3E%3D2&trigger=archivephp
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%3E%3D2&trigger=archivephp
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%3E%3D2&trigger=archivephp
+Processing invalidation: [idinvalidation = 5, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 14, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%253E%253D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%253E%253D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%253E%253D2&trigger=archivephp
 Archived website id 1, period = day, date = 2019-12-12, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-11, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-10, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Found invalidated archive we can skip (no visits): [idinvalidation = 52, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Processing invalidation: [idinvalidation = 53, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Processing invalidation: [idinvalidation = 49, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 22, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%253E%253D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%253E%253D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-09, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 50, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 23, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%253E%253D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 51, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%253E%253D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 64, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Processing invalidation: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%253E%253D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
 No next invalidated archive.
 Finished archiving for site 1, 8 API requests, Time elapsed: %fs [1 / 1 done]
@@ -500,6 +750,7 @@ LOG;
         $output = array_filter($output, function ($l) { return strpos($l, 'Found archive with intersecting period') === false; });
         $output = array_filter($output, function ($l) { return strpos($l, 'Found duplicate invalidated archive') === false; });
         $output = array_filter($output, function ($l) { return strpos($l, 'No usable archive exists') === false; });
+        $output = array_filter($output, function ($l) { return strpos($l, 'Found invalidated archive we can skip (no visits)') === false; });
         $output = implode("\n", $output);
         return $output;
     }
@@ -550,6 +801,36 @@ LOG;
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function insertInvalidations(array $invalidations)
+    {
+        $now = Date::now()->getDatetime();
+
+        $table = Common::prefixTable('archive_invalidations');
+        foreach ($invalidations as $inv) {
+            $bind = [
+                $inv['idarchive'],
+                $inv['name'],
+                $inv['idsite'],
+                $inv['date1'],
+                $inv['date2'],
+                $inv['period'],
+                isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
+                $inv['report'],
+                isset($inv['status']) ? $inv['status'] : 0,
+            ];
+            Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
+        }
+    }
+
+    private function getInvalidationsInTable($includeInvalidated = false)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $suffix = $includeInvalidated ? ', ts_invalidated' : '';
+        $sql = "SELECT idarchive, idsite, period, date1, date2, name, report$suffix FROM `$table`";
+        return Db::fetchAll($sql);
     }
 }
 

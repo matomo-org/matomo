@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
 use Piwik\NumberFormatter;
+use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,7 +44,8 @@ class Alexa implements MetricsProvider
                 $value = NumberFormatter::getInstance()->formatNumber($globalRanking);
             }
         } catch (\Exception $e) {
-            $this->logger->warning('Error while getting Alexa SEO stats via fallback method: {message}', array('message' => $e->getMessage()));
+            $this->logger->info('Error while getting Alexa SEO stats: {message}', array('message' => $e->getMessage()));
+            $value = Piwik::translate('General_Error');
         }
 
         $logo = "plugins/Morpheus/icons/dist/SEO/alexa.com.png";
