@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
-use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -50,7 +49,6 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.addStylesheets' => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
-            'Dimension.filterDimensions'                 => 'removeOldDimensions'
         );
     }
 
@@ -488,20 +486,5 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Custom';
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
-    }
-
-    /**
-     * Ensures dimensions that should have been removed are not used any longer even if the file failed to remove on update
-     *
-     * @param $instances
-     */
-    public function removeOldDimensions(&$instances)
-    {
-        $removedDimensions = Dimension::getRemovedDimensions();
-
-        $instances = array_filter($instances, function ($dimension) use ($removedDimensions) {
-            $className = get_class($dimension);
-            return !in_array($className, $removedDimensions);
-        });
     }
 }

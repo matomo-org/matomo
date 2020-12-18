@@ -759,7 +759,9 @@ abstract class Dimension
         $instances  = array();
 
         foreach ($columns as $column) {
-            $instances[] = new $column();
+            if (!in_array($column, self::getRemovedDimensions())) {
+                $instances[] = new $column();
+            }
         }
 
         /**
