@@ -92,9 +92,11 @@ class WidgetContainerConfig extends WidgetConfig
      */
     public function addWidgetConfig(WidgetConfig $widget)
     {
-        if ($widget instanceof ReportWidgetConfig && $widget->isReportEnabled()) {
-            $this->widgets[] = $widget;
+        if ($widget instanceof ReportWidgetConfig && !$widget->isReportEnabled()) {
+            return $this;
         }
+
+        $this->widgets[] = $widget;
 
         return $this;
     }
