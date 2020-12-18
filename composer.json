@@ -25,7 +25,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2.5"
+            "php": "7.2.9"
         },
         "prepend-autoloader": false,
         "sort-packages": true
@@ -57,7 +57,7 @@
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "dev-master#aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
         "twig/twig": "^3.0",
-        "wikimedia/less.php": "^2.0"
+        "wikimedia/less.php": "^3.0"
     },
     "require-dev": {
         "lox/xhprof": "dev-master",
