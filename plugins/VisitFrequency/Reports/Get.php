@@ -59,7 +59,7 @@ class Get extends \Piwik\Plugin\Report
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        if (!Request::isCurrentPeriodProfilable()) {
+        if (Request::isCurrentPeriodProfilable()) {
             $widgetsList->addWidgetConfig(
                 $factory->createWidget()
                     ->setName('VisitFrequency_WidgetGraphReturning')
