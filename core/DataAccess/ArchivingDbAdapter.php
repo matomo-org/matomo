@@ -43,7 +43,7 @@ class ArchivingDbAdapter
         $this->wrapped = $wrapped;
         $this->archivingLock = $archivingLock;
         $this->logger = $logger;
-        $this->maxExecutionTime = Config::getInstance()->General['archiving_query_max_execution_time'];
+        $this->maxExecutionTime = (float) Config::getInstance()->General['archiving_query_max_execution_time'];
     }
 
     public function __call($name, $arguments)
