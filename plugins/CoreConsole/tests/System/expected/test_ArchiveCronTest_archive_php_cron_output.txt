@@ -10,55 +10,55 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 
 
-INFO [2020-12-18 03:21:23] 13246  ---------------------------
-INFO [2020-12-18 03:21:23] 13246  INIT
-INFO [2020-12-18 03:21:23] 13246  Running Matomo 4.1.0-b1 as Super User
-INFO [2020-12-18 03:21:23] 13246  ---------------------------
-INFO [2020-12-18 03:21:23] 13246  NOTES
-INFO [2020-12-18 03:21:23] 13246  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
-INFO [2020-12-18 03:21:23] 13246    See the doc at: https://matomo.org/docs/setup-auto-archiving/
-INFO [2020-12-18 03:21:23] 13246  - Async process archiving supported, using CliMulti.
-INFO [2020-12-18 03:21:23] 13246  - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
-INFO [2020-12-18 03:21:23] 13246  - Archiving was last executed without error 1s ago
-INFO [2020-12-18 03:21:23] 13246  ---------------------------
-INFO [2020-12-18 03:21:23] 13246  START
-INFO [2020-12-18 03:21:23] 13246  Starting Matomo reports archiving...
-INFO [2020-12-18 03:21:23] 13246  Start processing archives for site 1.
-INFO [2020-12-18 03:21:23] 13246    Will invalidate archived reports for today in site ID = 1's timezone (2020-12-18 00:00:00).
-INFO [2020-12-18 03:21:24] 13246  Archived website id 1, period = day, date = 2020-12-18, segment = '', 2 visits found. Time elapsed: 0.540s
-INFO [2020-12-18 03:21:25] 13246  Archived website id 1, period = day, date = 2020-12-18, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 0.761s
-INFO [2020-12-18 03:21:25] 13246  Archived website id 1, period = day, date = 2020-12-18, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.042s
-INFO [2020-12-18 03:21:25] 13246  Archived website id 1, period = day, date = 2020-12-18, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.042s
-INFO [2020-12-18 03:21:26] 13246  Archived website id 1, period = day, date = 2020-12-18, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.540s
-INFO [2020-12-18 03:21:27] 13246  Archived website id 1, period = week, date = 2020-12-14, segment = '', 2 visits found. Time elapsed: 0.808s
-INFO [2020-12-18 03:21:28] 13246  Archived website id 1, period = week, date = 2020-12-14, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 1.365s
-INFO [2020-12-18 03:21:28] 13246  Archived website id 1, period = week, date = 2020-12-14, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.365s
-INFO [2020-12-18 03:21:28] 13246  Archived website id 1, period = week, date = 2020-12-14, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.365s
-INFO [2020-12-18 03:21:29] 13246  Archived website id 1, period = week, date = 2020-12-14, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.538s
-INFO [2020-12-18 03:21:30] 13246  Archived website id 1, period = month, date = 2020-12-01, segment = '', 2 visits found. Time elapsed: 0.808s
-INFO [2020-12-18 03:21:31] 13246  Archived website id 1, period = month, date = 2020-12-01, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 1.597s
-INFO [2020-12-18 03:21:31] 13246  Archived website id 1, period = month, date = 2020-12-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.597s
-INFO [2020-12-18 03:21:31] 13246  Archived website id 1, period = month, date = 2020-12-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.597s
-INFO [2020-12-18 03:21:32] 13246  Archived website id 1, period = month, date = 2020-12-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.542s
-INFO [2020-12-18 03:21:33] 13246  Archived website id 1, period = year, date = 2020-01-01, segment = '', 2 visits found. Time elapsed: 1.058s
-INFO [2020-12-18 03:21:35] 13246  Archived website id 1, period = year, date = 2020-01-01, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 1.897s
-INFO [2020-12-18 03:21:35] 13246  Archived website id 1, period = year, date = 2020-01-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.897s
-INFO [2020-12-18 03:21:35] 13246  Archived website id 1, period = year, date = 2020-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.897s
-INFO [2020-12-18 03:21:35] 13246  Archived website id 1, period = year, date = 2020-01-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.541s
-INFO [2020-12-18 03:21:35] 13246  Finished archiving for site 1, 20 API requests, Time elapsed: 12.163s [1 / 3 done]
-INFO [2020-12-18 03:21:35] 13246  Start processing archives for site 2.
-INFO [2020-12-18 03:21:35] 13246  Finished archiving for site 2, 0 API requests, Time elapsed: 0.005s [2 / 3 done]
-INFO [2020-12-18 03:21:36] 13246  Start processing archives for site 3.
-INFO [2020-12-18 03:21:36] 13246  Finished archiving for site 3, 0 API requests, Time elapsed: 0.005s [3 / 3 done]
-INFO [2020-12-18 03:21:36] 13246  Done archiving!
-INFO [2020-12-18 03:21:36] 13246  ---------------------------
-INFO [2020-12-18 03:21:36] 13246  SUMMARY
-INFO [2020-12-18 03:21:36] 13246  Processed 20 archives.
-INFO [2020-12-18 03:21:36] 13246  Total API requests: 20
-INFO [2020-12-18 03:21:36] 13246  done: 20 req, 12324 ms, no error
-INFO [2020-12-18 03:21:36] 13246  Time elapsed: 12.324s
-INFO [2020-12-18 03:21:36] 13246  ---------------------------
-INFO [2020-12-18 03:21:36] 13246  SCHEDULED TASKS
-INFO [2020-12-18 03:21:36] 13246  Starting Scheduled tasks...
-INFO [2020-12-18 03:21:36] 13246  done
-INFO [2020-12-18 03:21:36] 13246  ---------------------------
+INFO [2020-12-18 04:39:51] 13236  ---------------------------
+INFO [2020-12-18 04:39:51] 13236  INIT
+INFO [2020-12-18 04:39:51] 13236  Running Matomo 4.1.0-b1 as Super User
+INFO [2020-12-18 04:39:51] 13236  ---------------------------
+INFO [2020-12-18 04:39:51] 13236  NOTES
+INFO [2020-12-18 04:39:51] 13236  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
+INFO [2020-12-18 04:39:51] 13236    See the doc at: https://matomo.org/docs/setup-auto-archiving/
+INFO [2020-12-18 04:39:51] 13236  - Async process archiving supported, using CliMulti.
+INFO [2020-12-18 04:39:51] 13236  - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
+INFO [2020-12-18 04:39:51] 13236  - Archiving was last executed without error 1s ago
+INFO [2020-12-18 04:39:51] 13236  ---------------------------
+INFO [2020-12-18 04:39:51] 13236  START
+INFO [2020-12-18 04:39:51] 13236  Starting Matomo reports archiving...
+INFO [2020-12-18 04:39:51] 13236  Start processing archives for site 1.
+INFO [2020-12-18 04:39:51] 13236    Will invalidate archived reports for today in site ID = 1's timezone (2020-12-18 00:00:00).
+INFO [2020-12-18 04:39:52] 13236  Archived website id 1, period = day, date = 2020-12-18, segment = '', 2 visits found. Time elapsed: 0.533s
+INFO [2020-12-18 04:39:53] 13236  Archived website id 1, period = day, date = 2020-12-18, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 0.751s
+INFO [2020-12-18 04:39:53] 13236  Archived website id 1, period = day, date = 2020-12-18, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.030s
+INFO [2020-12-18 04:39:53] 13236  Archived website id 1, period = day, date = 2020-12-18, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.030s
+INFO [2020-12-18 04:39:53] 13236  Archived website id 1, period = day, date = 2020-12-18, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.534s
+INFO [2020-12-18 04:39:54] 13236  Archived website id 1, period = week, date = 2020-12-14, segment = '', 2 visits found. Time elapsed: 0.802s
+INFO [2020-12-18 04:39:55] 13236  Archived website id 1, period = week, date = 2020-12-14, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 1.310s
+INFO [2020-12-18 04:39:55] 13236  Archived website id 1, period = week, date = 2020-12-14, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.310s
+INFO [2020-12-18 04:39:55] 13236  Archived website id 1, period = week, date = 2020-12-14, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.310s
+INFO [2020-12-18 04:39:56] 13236  Archived website id 1, period = week, date = 2020-12-14, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.533s
+INFO [2020-12-18 04:39:57] 13236  Archived website id 1, period = month, date = 2020-12-01, segment = '', 2 visits found. Time elapsed: 0.794s
+INFO [2020-12-18 04:39:58] 13236  Archived website id 1, period = month, date = 2020-12-01, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 1.331s
+INFO [2020-12-18 04:39:58] 13236  Archived website id 1, period = month, date = 2020-12-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.331s
+INFO [2020-12-18 04:39:58] 13236  Archived website id 1, period = month, date = 2020-12-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.331s
+INFO [2020-12-18 04:39:59] 13236  Archived website id 1, period = month, date = 2020-12-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.539s
+INFO [2020-12-18 04:40:00] 13236  Archived website id 1, period = year, date = 2020-01-01, segment = '', 2 visits found. Time elapsed: 1.064s
+INFO [2020-12-18 04:40:02] 13236  Archived website id 1, period = year, date = 2020-01-01, segment = 'pageUrl%3D%40%25252F', 2 visits found. Time elapsed: 1.850s
+INFO [2020-12-18 04:40:02] 13236  Archived website id 1, period = year, date = 2020-01-01, segment = 'operatingSystemCode%3D%3DIOS', 2 visits found. Time elapsed: 1.850s
+INFO [2020-12-18 04:40:02] 13236  Archived website id 1, period = year, date = 2020-01-01, segment = 'visitCount%3C%3D5%3BpageUrl%3D%40%2Fblog%2F%3BcountryCode%3D%3Djp', 0 visits found. Time elapsed: 1.850s
+INFO [2020-12-18 04:40:02] 13236  Archived website id 1, period = year, date = 2020-01-01, segment = 'browserCode%3D%3DIE', 0 visits found. Time elapsed: 0.532s
+INFO [2020-12-18 04:40:02] 13236  Finished archiving for site 1, 20 API requests, Time elapsed: 11.610s [1 / 3 done]
+INFO [2020-12-18 04:40:02] 13236  Start processing archives for site 2.
+INFO [2020-12-18 04:40:02] 13236  Finished archiving for site 2, 0 API requests, Time elapsed: 0.004s [2 / 3 done]
+INFO [2020-12-18 04:40:02] 13236  Start processing archives for site 3.
+INFO [2020-12-18 04:40:02] 13236  Finished archiving for site 3, 0 API requests, Time elapsed: 0.004s [3 / 3 done]
+INFO [2020-12-18 04:40:03] 13236  Done archiving!
+INFO [2020-12-18 04:40:03] 13236  ---------------------------
+INFO [2020-12-18 04:40:03] 13236  SUMMARY
+INFO [2020-12-18 04:40:03] 13236  Processed 20 archives.
+INFO [2020-12-18 04:40:03] 13236  Total API requests: 20
+INFO [2020-12-18 04:40:03] 13236  done: 20 req, 11742 ms, no error
+INFO [2020-12-18 04:40:03] 13236  Time elapsed: 11.742s
+INFO [2020-12-18 04:40:03] 13236  ---------------------------
+INFO [2020-12-18 04:40:03] 13236  SCHEDULED TASKS
+INFO [2020-12-18 04:40:03] 13236  Starting Scheduled tasks...
+INFO [2020-12-18 04:40:03] 13236  done
+INFO [2020-12-18 04:40:03] 13236  ---------------------------
