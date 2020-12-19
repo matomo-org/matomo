@@ -21,6 +21,8 @@
         "GeoIPDocumentationSuffix": "Që të mund të shihni të dhëna për këtë raport, duhet të rregulloni GeoIP-në te skeda e përgjegjësit për Gjeovendëzimin. Bazat komerciale të të dhënave GeoIP %1$sMaxmind%2$s janë më të sakta se sa ato falas. Që të shihni se sa të sakta janë, klikoni %3$skëtu%4$s.",
         "Geolocation": "Gjeovendëzim",
         "GeolocationPageDesc": "Në këtë faqe mund të ndryshoni mënyrën se si përcakton Matomo vendndodhjet e vizitorëve.",
+        "GeolocationProviderBroken": "Furnizuesi i formësuar për gjeovendëzim, %1$s, është i dëmtuar. Ju lutemi, që gjeovendëzimi të punojë sërish, ndreqni furnizuesin ose formësoni një tjetër.",
+        "GeolocationProviderUnavailable": "Furnizuesi i formësuar për gjeovendëzim, %1$s s’është më i passshëm. Ju lutemi, formësoni një tjetër.",
         "getCityDocumentation": "Ky raport shfaq qytetet ku gjendeshin vizitorët tuaj kur përdorën sajtin tuaj.",
         "getContinentDocumentation": "Ky raport shfaq kontinentet ku gjendeshin vizitorët tuaj kur përdorën sajtin tuaj.",
         "getCountryDocumentation": "Ky raport shfaq vendet ku gjendeshin vizitorët tuaj kur përdorën sajtin tuaj.",
