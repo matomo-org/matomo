@@ -363,6 +363,14 @@ class API extends \Piwik\Plugin\API
 
         $segments = $this->sortSegmentsCreatedByUserFirst($segments);
 
+        $model = new \Piwik\Plugins\SitesManager\Model();
+        $allSites = $model->getSitesId();
+        foreach ($segments as &$segment) {
+            $idSites = !empty($segment['enable_only_idsite']) ? [(int)$segment['enable_only_idsite']] : $allSites;
+            $segmentObj = new Segment($segment['definition'], $idSites);
+            $segment['hash'] = $segmentObj->getHash();
+        }
+
         return $segments;
     }
 
