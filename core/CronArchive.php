@@ -1279,7 +1279,8 @@ class CronArchive
             $instanceId = SettingsPiwik::getPiwikInstanceId();
 
             foreach ($processes as $process) {
-                if (strpos($process, 'console core:archive') !== false &&
+                if (strpos($process, ' core:archive') !== false &&
+                    strpos($process, 'console ') !== false &&
                     (!$instanceId
                         || strpos($process, '--matomo-domain=' . $instanceId) !== false
                         || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
