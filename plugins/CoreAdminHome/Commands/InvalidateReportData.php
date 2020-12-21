@@ -43,7 +43,8 @@ class InvalidateReportData extends ConsoleCommand
             . 'week, month, year or "all" for all of them.',
             self::ALL_OPTION_VALUE);
         $this->addOption('segment', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-            'List of segments to invalidate report data for.');
+            'List of segments to invalidate report data for. This can be the segment string itself, the segment name from the UI or the ID of the segment.'
+            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL.');
         $this->addOption('cascade', null, InputOption::VALUE_NONE,
             'If supplied, invalidation will cascade, invalidating child period types even if they aren\'t specified in'
             . ' --periods. For example, if --periods=week, --cascade will cause the days within those weeks to be '
@@ -225,8 +226,9 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         $result = array();
-        foreach ($segments as $segmentString) {
-            $result[] = new Segment($segmentString, $idSites);
+        foreach ($segments as $segmentOptionValue) {
+            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites);
+            $result[] = new Segment($segmentDefinition, $idSites);
         }
         return $result;
     }
