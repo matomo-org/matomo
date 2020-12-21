@@ -84,8 +84,8 @@ class API extends \Piwik\Plugin\API
                     $nbProfilable = 0;
                 }
 
-                $quotientProfilable = (float) $nbProfilable / (float) $row['nb_visits']; // TODO: php quotient math check (check safe method)
-                $value = (int) ($quotientProfilable >= 0.01);
+                // check that nb_profilable / nb_visits >= 0.01
+                $value = (int) ($nbProfilable * 100 >= $row['nb_visits']);
             }
 
             $this->transientCache->save($cacheKey, $value);

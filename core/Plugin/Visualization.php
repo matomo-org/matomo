@@ -882,7 +882,6 @@ class Visualization extends ViewDataTable
 
         $view = new View("@CoreHome/_nonProfilableDataWarning.twig");
 
-        // TODO: allow closing permanently (option value? session would be faster, but then reset after logout.)
         $notification = new Notification($view->render());
         $notification->priority = Notification::PRIORITY_HIGH;
         $notification->context = Notification::CONTEXT_INFO;
