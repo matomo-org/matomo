@@ -18,6 +18,8 @@
         "CampaignGroupHelp": "Ky parametër përdoret për të ndjekur një Grup Fushate për të identifikuar një grup ose publik. Grupet e fushatave janë të dobishëm për ndjekjen ecurinë në përgjithësi të shumë fushatave me synime të ngjashme.",
         "CampaignPlacement": "Vendosje Fushate",
         "CampaignPlacementHelp": "E përdorur për të përshkruar vendosjen ose pozicionin e reklamës, për shembull, një sajt të tërë, faqe specifike prej një sajti, një njësi individuale reklamash të vendosur në një faqe të vetme, një video, një aplikacion telefoni celular, etj.",
+        "CampaignId": "ID Fushate",
+        "CampaignIdHelp": "Ky parametër përdoret për të ndjekur një ID Fushate: një identifikues unik për fushatën, që përbëhet nga e shumta 100 numra, shkronja ose simbole.",
         "ColumnSearchEngine": "Motorë Kërkimesh",
         "ColumnSocial": "Rrjet shoqëror",
         "ColumnWebsite": "Sajt",

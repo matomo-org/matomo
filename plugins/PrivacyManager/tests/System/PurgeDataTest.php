@@ -141,6 +141,28 @@ class PurgeDataTest extends SystemTestCase
         $this->assertHasNoDownload('year');
     }
 
+    public function test_purgeData_shouldPurgeEverything_IfNoPeriodToKeepIsGivenAndBasicMetricsNotKeptSegmentsKept()
+    {
+        $this->assertHasOneDownload('day');
+        $this->assertHasOneDownload('week');
+        $this->assertHasOneDownload('month');
+        $this->assertHasOneDownload('year');
+
+        $deleteReportsOlderThan = 1;
+        $keepBasicMetrics       = false;
+        $reportPeriodsToKeep    = array();
+        $this->purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics, true);
+
+        $this->assertNumVisits(0, 'day');
+        $this->assertNumVisits(0, 'week');
+        $this->assertNumVisits(0, 'month');
+        $this->assertNumVisits(0, 'year');
+        $this->assertHasNoDownload('day');
+        $this->assertHasNoDownload('week');
+        $this->assertHasNoDownload('month');
+        $this->assertHasNoDownload('year');
+    }
+
     private function assertNumVisits($expectedNumVisits, $period)
     {
         $url = 'method=VisitsSummary.getVisits'
@@ -176,14 +198,14 @@ class PurgeDataTest extends SystemTestCase
              . '&format=original';
     }
 
-    private function purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics)
+    private function purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics, $keepSegmentReports = false)
     {
         $metricsToKeep           = PrivacyManager::getAllMetricsToKeep();
         $maxRowsToDeletePerQuery = 100000;
-        $keepSegmentReports      = false;
 
         $purger = new ReportsPurger($deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
                                     $keepSegmentReports, $metricsToKeep, $maxRowsToDeletePerQuery);
+        $purger->getPurgeEstimate();
         $purger->purgeData();
     }
 }

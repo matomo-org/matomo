@@ -780,33 +780,38 @@ var broadcast = {
      */
     getParamValue: function (param, url) {
         var lookFor = param + '=';
-        var startStr = url.indexOf(lookFor);
 
-        if (startStr >= 0) {
-            return getSingleValue(startStr, url);
-        } else {
-            url = decodeURIComponent(url);
+        if (url.indexOf('?') >= 0) {
+            url = url.substr(url.indexOf('?')+1);
+        }
 
-            // try looking for multi value param
-            lookFor = param + '[]=';
-            startStr = url.indexOf(lookFor);
-            if (startStr >= 0) {
-                var result = [getSingleValue(startStr)];
-                while ((startStr = url.indexOf(lookFor, startStr + 1)) !== -1) {
-                    result.push(getSingleValue(startStr));
-                }
-                return result;
-            } else {
-                return '';
+        var urlPieces = url.split('&');
+
+        // look for the latest occurrence of the parameter if available
+        for (var i=urlPieces.length-1; i>=0; i--) {
+            if (urlPieces[i].indexOf(lookFor) === 0) {
+                return getSingleValue(urlPieces[i]);
             }
         }
 
-        function getSingleValue(startPos) {
-            var endStr = url.indexOf("&", startPos);
-            if (endStr === -1) {
-                endStr = url.length;
+        // gather parameter array if available
+        lookFor = param + '[]=';
+        var result = [];
+        for (var j=0; j<urlPieces.length; j++) {
+            if (urlPieces[j].indexOf(lookFor) === 0) {
+                result.push(getSingleValue(urlPieces[j]));
+            } else if (decodeURIComponent(urlPieces[j]).indexOf(lookFor) === 0) {
+                result.push(getSingleValue(decodeURIComponent(urlPieces[j])));
             }
-            var value = url.substring(startPos + lookFor.length, endStr);
+        }
+        return result.length ? result : '';
+
+        function getSingleValue(urlPart) {
+            var startPos = urlPart.indexOf("=");
+            if (startPos === -1) {
+                return '';
+            }
+            var value = urlPart.substring(startPos+1);
 
             // we sanitize values to add a protection layer against XSS
             // parameters 'segment', 'popover' and 'compareSegments' are not sanitized, since segments are designed to accept any user input

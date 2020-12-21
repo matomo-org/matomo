@@ -561,7 +561,7 @@ class CronArchive
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
-            . "{$params['date']}, segment = '" . (isset($params['segment']) ? $params['segment'] : '') . "', "
+            . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode($params['segment']) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
 
@@ -654,7 +654,7 @@ class CronArchive
     {
         $request = "?module=API&method=CoreAdminHome.archiveReports&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
-            $request .= '&segment=' . urlencode($segment);
+            $request .= '&segment=' . urlencode(urlencode($segment));
         }
         if (!empty($plugin)) {
             $request .= "&plugin=" . $plugin;
@@ -1279,7 +1279,8 @@ class CronArchive
             $instanceId = SettingsPiwik::getPiwikInstanceId();
 
             foreach ($processes as $process) {
-                if (strpos($process, 'console core:archive') !== false &&
+                if (strpos($process, ' core:archive') !== false &&
+                    strpos($process, 'console ') !== false &&
                     (!$instanceId
                         || strpos($process, '--matomo-domain=' . $instanceId) !== false
                         || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
