@@ -397,10 +397,17 @@ class QueueConsumer
                 continue;
             }
 
+            if (empty($archiveBeingProcessed['idSite'])
+                || $archiveBeingProcessed['idSite'] != $archiveToProcess['idsite']
+            ) {
+                continue; // different site
+            }
+
             // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
             if (!empty($archiveBeingProcessed['segment'])
                 && !empty($archiveToProcess['segment'])
                 && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
+                && urldecode($archiveBeingProcessed['segment']) != $archiveToProcess['segment']
             ) {
                 continue;
             }
@@ -408,7 +415,7 @@ class QueueConsumer
             $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
 
             if ($this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
-                return "lower period in progress (period = {$archiveBeingProcessed['period']}, date = {$archiveBeingProcessed['date']})";
+                return "lower or same period in progress in another local climulti process (period = {$archiveBeingProcessed['period']}, date = {$archiveBeingProcessed['date']})";
             }
 
             if ($this->isArchiveNonSegmentAndInProgressArchiveSegment($archiveToProcess, $archiveBeingProcessed)) {
