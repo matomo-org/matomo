@@ -407,6 +407,7 @@ class QueueConsumer
             if (!empty($archiveBeingProcessed['segment'])
                 && !empty($archiveToProcess['segment'])
                 && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
+                && urldecode($archiveBeingProcessed['segment']) != $archiveToProcess['segment']
             ) {
                 continue;
             }
