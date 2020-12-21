@@ -397,8 +397,8 @@ class QueueConsumer
                 continue;
             }
 
-            if (empty($inProgressArchives['idSite'])
-                || $inProgressArchives['idSite'] != $archiveToProcess['idsite']
+            if (empty($archiveBeingProcessed['idSite'])
+                || $archiveBeingProcessed['idSite'] != $archiveToProcess['idsite']
             ) {
                 continue; // different site
             }
