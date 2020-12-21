@@ -757,19 +757,13 @@ abstract class Dimension
     {
         $columns = $plugin->findMultipleComponents('Columns', '\\Piwik\\Columns\\Dimension');
         $instances  = array();
+        $removedDimensions = self::getRemovedDimensions();
 
         foreach ($columns as $column) {
-            if (!in_array($column, self::getRemovedDimensions())) {
+            if (!in_array($column, $removedDimensions)) {
                 $instances[] = new $column();
             }
         }
-
-        /**
-         * Triggered to filter / restrict dimensions.
-         *
-         * @param Dimension[] $dimensions An array of dimensions
-         */
-        Piwik::postEvent('Dimension.filterDimensions', array(&$instances));
 
         return $instances;
     }

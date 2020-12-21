@@ -49,21 +49,16 @@ class DevicePlugins extends \Piwik\Plugin
     {
         $cacheId = CacheId::pluginAware('DevicePluginColumns');
         $cache   = Cache::getTransientCache();
+        $removedDimensions = Dimension::getRemovedDimensions();
 
         if (!$cache->contains($cacheId)) {
             $instances = [];
 
             foreach (self::getAllDevicePluginsColumnClasses() as $className) {
-                $instance = new $className();
-                $instances[] = $instance;
+                if (!in_array($className, $removedDimensions)) {
+                    $instances[] = new $className();
+                }
             }
-
-            /**
-             * Triggered to filter / restrict dimensions.
-             *
-             * @param Dimension[] $dimensions An array of dimensions
-             */
-            Piwik::postEvent('Dimension.filterDimensions', array(&$instances));
 
             $cache->save($cacheId, $instances);
         }
