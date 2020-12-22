@@ -87,7 +87,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function test_minimumPhpVersion_isDefinedInComposerJson()
     {
         $composerJson = $this->getComposerJsonAsArray();
-        $this->assertEquals(self::MINIMUM_PHP_VERSION, $composerJson['config']['platform']['php']);
+        // platform value is currently higher than minimum required php version to circumvent minimum requirement of wikimedia/less.php
+        $this->assertEquals('7.2.9' /*self::MINIMUM_PHP_VERSION*/, $composerJson['config']['platform']['php']);
 
         $expectedRequirePhp = '>=' . self::MINIMUM_PHP_VERSION;
         $this->assertEquals($expectedRequirePhp, $composerJson['require']['php']);
