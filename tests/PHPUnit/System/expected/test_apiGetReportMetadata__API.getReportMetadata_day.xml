@@ -1676,13 +1676,13 @@
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		</metrics>
 		<metricsDocumentation>
-			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
-			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
-			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
-			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
-			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
-			<avg_time_on_load>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</avg_time_on_load>
-			<avg_page_load_time>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
+			<avg_time_network>Average time (in seconds) it takes to connect to the server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) it takes the server to generate the page. This is the time between the server receiving the request and starting to serve the response.</avg_time_server>
+			<avg_time_transfer>Average time (in seconds) it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
+			<avg_time_dom_processing>Average time (in seconds) the browser spends loading the webpage after the response was fully received and before the user can start interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time (in seconds) it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
+			<avg_time_on_load>Average time (in seconds) it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM has completely rendered.</avg_time_on_load>
+			<avg_page_load_time>Average time (in seconds) it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_network>Avg. network time</avg_time_network>
@@ -2701,13 +2701,13 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<avg_time_network>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
-			<avg_time_server>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</avg_time_server>
-			<avg_time_transfer>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
-			<avg_time_dom_processing>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</avg_time_dom_processing>
-			<avg_time_dom_completion>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
-			<avg_time_on_load>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</avg_time_on_load>
-			<avg_page_load_time>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
+			<avg_time_network>Average time (in seconds) it takes to connect to the server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
+			<avg_time_server>Average time (in seconds) it takes the server to generate the page. This is the time between the server receiving the request and starting to serve the response.</avg_time_server>
+			<avg_time_transfer>Average time (in seconds) it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>
+			<avg_time_dom_processing>Average time (in seconds) the browser spends loading the webpage after the response was fully received and before the user can start interacting with it.</avg_time_dom_processing>
+			<avg_time_dom_completion>Average time (in seconds) it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
+			<avg_time_on_load>Average time (in seconds) it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM has completely rendered.</avg_time_on_load>
+			<avg_page_load_time>Average time (in seconds) it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>

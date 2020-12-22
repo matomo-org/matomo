@@ -924,7 +924,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             if(strpos($file, 'vendor/php-di/php-di/website/') !== false
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
-                || strpos($file, 'vendor/vendor/wikimedia/less.php/') !== false
+                || strpos($file, 'vendor/wikimedia/less.php/') !== false
                 || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
