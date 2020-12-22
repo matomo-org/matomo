@@ -65,59 +65,17 @@ class SegmentArchiving
      */
     private $forceArchiveAllSegments;
 
-    public function __construct($processNewSegmentsFrom, $beginningOfTimeLastNInYears = self::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS,
+    public function __construct($beginningOfTimeLastNInYears = self::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS,
                                 Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null,
                                 LoggerInterface $logger = null)
     {
-        $this->processNewSegmentsFrom = $processNewSegmentsFrom;
+        $this->processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
         $this->beginningOfTimeLastNInYears = $beginningOfTimeLastNInYears;
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->forceArchiveAllSegments = $this->getShouldForceArchiveAllSegments();
-    }
-
-    public function getSegmentArchivesToInvalidateForNewSegments($idSite)
-    {
-        return $this->getSegmentArchivesToInvalidate($idSite, true);
-    }
-
-    public function getSegmentArchivesToInvalidate($idSite, $checkOnlyForNewSegments = false)
-    {
-        $result = [];
-
-        $segmentsForSite = $this->getAllSegments();
-        foreach ($segmentsForSite as $storedSegment) {
-            if (!$this->isAutoArchivingEnabledFor($storedSegment)
-                || !$this->isSegmentForSite($storedSegment, $idSite)
-            ) {
-                continue;
-            }
-
-            $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $storedSegment, $checkOnlyForNewSegments);
-            if (empty($oldestDateToProcessForNewSegment)) {
-                continue;
-            }
-
-            $found = false;
-            foreach ($result as $segment) {
-                if ($segment['segment'] == $storedSegment['definition']) {
-                    $segment['date'] = $segment['date']->isEarlier($oldestDateToProcessForNewSegment) ? $segment['date'] : $oldestDateToProcessForNewSegment;
-
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found) {
-                $result[] = [
-                    'date' => $oldestDateToProcessForNewSegment,
-                    'segment' => $storedSegment['definition'],
-                ];
-            }
-        }
-        return $result;
     }
 
     public function findSegmentForHash($hash, $idSite)
@@ -143,50 +101,27 @@ class SegmentArchiving
         return null;
     }
 
-    private function getOldestDateToProcessForNewSegment($idSite, $storedSegment, $checkOnlyForNewSegments)
+    public function getReArchiveSegmentStartDate($segmentInfo)
     {
         /**
          * @var Date $segmentCreatedTime
          * @var Date $segmentLastEditedTime
          */
-        list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($idSite, $storedSegment);
+        list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($segmentInfo);
         if (empty($segmentCreatedTime)) {
             return null;
         }
 
-        $lastInvalidationTime = CronArchive::getLastInvalidationTime();
-        if (!empty($lastInvalidationTime)) {
-            $lastInvalidationTime = Date::factory((int) $lastInvalidationTime);
-        }
-
-        $segmentTimeToUse = $segmentLastEditedTime ?: $segmentCreatedTime;
-        if ($checkOnlyForNewSegments) {
-            if (!empty($lastInvalidationTime)
-                && !empty($segmentTimeToUse)
-                && $segmentTimeToUse->isEarlier($lastInvalidationTime)
-            ) {
-                return null; // has already have been invalidated, ignore
-            }
-        }
-
-        if ($this->processNewSegmentsFrom == self::CREATION_TIME) {
+        if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME) {
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
-        } elseif ($this->processNewSegmentsFrom == self::LAST_EDIT_TIME) {
+        } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME) {
             $this->logger->debug("process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
                 array('time' => $segmentLastEditedTime));
 
-            if ($segmentLastEditedTime === null
-                || $segmentLastEditedTime->getTimestamp() < $segmentCreatedTime->getTimestamp()
-            ) {
-                $this->logger->debug("segment last edit time is older than created time, using created time instead");
-
-                $segmentLastEditedTime = $segmentCreatedTime;
-            }
-
             return $segmentLastEditedTime;
-        } elseif (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
@@ -198,11 +133,15 @@ class SegmentArchiving
         } else {
             $this->logger->debug("process_new_segments_from set to beginning_of_time or cannot recognize value");
 
-            $siteCreationDate = Date::factory(Site::getCreationDateFor($idSite));
-
             $result = Date::factory('today')->subYear($this->beginningOfTimeLastNInYears);
-            if ($result->isEarlier($siteCreationDate)) {
-                $result = $siteCreationDate;
+
+            $idSite = $segmentInfo['enable_only_idsite'] ?? null;
+            if (!empty($idSite)) {
+                $siteCreationDate = Date::factory(Site::getCreationDateFor($idSite));
+
+                if ($result->isEarlier($siteCreationDate)) {
+                    $result = $siteCreationDate;
+                }
             }
 
             $earliestVisitTime = $this->getEarliestVisitTimeFor($idSite);
@@ -214,6 +153,22 @@ class SegmentArchiving
 
             return $result;
         }
+    }
+
+    private function getCreatedTimeOfSegment($storedSegment)
+    {
+        // check for an earlier ts_created timestamp
+        $createdTime = Date::factory($storedSegment['ts_created']);
+
+        // if there is no ts_last_edit timestamp, initialize it to ts_created
+        if (empty($storedSegment['ts_last_edit'])) {
+            $storedSegment['ts_last_edit'] = $storedSegment['ts_created'];
+        }
+
+        // check for a later ts_last_edit timestamp
+        $lastEditTime = Date::factory($storedSegment['ts_last_edit']);
+
+        return array($createdTime, $lastEditTime);
     }
 
     private function getEarliestVisitTimeFor($idSite)
@@ -230,52 +185,6 @@ class SegmentArchiving
         }
 
         return Date::factory($earliestStartTime);
-    }
-
-    private function getCreatedTimeOfSegment($idSite, $storedSegment)
-    {
-        /** @var Date $latestEditTime */
-        $latestEditTime = null;
-        $earliestCreatedTime = $this->now;
-        if (empty($storedSegment['ts_created'])
-            || empty($storedSegment['definition'])
-            || !isset($storedSegment['enable_only_idsite'])
-            || !$this->isSegmentForSite($storedSegment, $idSite)
-        ) {
-            return [null, null];
-        }
-
-        // check for an earlier ts_created timestamp
-        $createdTime = Date::factory($storedSegment['ts_created']);
-        if ($createdTime->getTimestamp() < $earliestCreatedTime->getTimestamp()) {
-            $earliestCreatedTime = $createdTime;
-        }
-
-        // if there is no ts_last_edit timestamp, initialize it to ts_created
-        if (empty($storedSegment['ts_last_edit'])) {
-            $storedSegment['ts_last_edit'] = $storedSegment['ts_created'];
-        }
-
-        // check for a later ts_last_edit timestamp
-        $lastEditTime = Date::factory($storedSegment['ts_last_edit']);
-        if ($latestEditTime === null
-            || $latestEditTime->getTimestamp() < $lastEditTime->getTimestamp()
-        ) {
-            $latestEditTime = $lastEditTime;
-        }
-
-        $this->logger->debug(
-            "Earliest created time of segment '{segment}' w/ idSite = {idSite} is found to be {createdTime}. Latest " .
-            "edit time is found to be {latestEditTime}.",
-            array(
-                'segment' => $storedSegment['definition'],
-                'idSite' => $idSite,
-                'createdTime' => $earliestCreatedTime,
-                'latestEditTime' => $latestEditTime,
-            )
-        );
-
-        return array($earliestCreatedTime, $latestEditTime);
     }
 
     public function getAllSegments()
