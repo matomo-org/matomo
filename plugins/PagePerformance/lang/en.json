@@ -11,7 +11,7 @@
         "ColumnAverageTimeDomProcessing": "Avg. DOM processing time",
         "ColumnAverageTimeDomProcessingDocumentation": "Average time (in seconds) the browser spends loading the webpage after the response was fully received and before the user can starting interacting with it.",
         "ColumnAverageTimeDomCompletion": "Avg. DOM completion time",
-        "ColumnAverageTimeDomCompletionDocumentation": "Average time (in seconds) it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.",
+        "ColumnAverageTimeDomCompletionDocumentation": "Average time (in seconds) it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the webpage was loaded and the user can already interact with it.",
         "ColumnAverageTimeOnLoad": "Avg. on load time",
         "ColumnAverageTimeOnLoadDocumentation": "Average time (in seconds) it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.",
         "ColumnViewsWithTimeNetwork": "Pageviews with network time",
