@@ -13,14 +13,19 @@ use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * Provides a simple interface for invalidating report data by date ranges, site IDs and periods.
@@ -28,6 +33,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class InvalidateReportData extends ConsoleCommand
 {
     const ALL_OPTION_VALUE = 'all';
+
+    private $allSegments = null;
 
     protected function configure()
     {
@@ -71,7 +78,7 @@ class InvalidateReportData extends ConsoleCommand
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
-        $segments = $this->getSegmentsToInvalidateFor($input, $sites);
+        $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output);
 
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
@@ -215,7 +222,7 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites)
+    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites, OutputInterface $output)
     {
         $segments = $input->getOption('segment');
         $segments = array_map('trim', $segments);
@@ -227,9 +234,62 @@ class InvalidateReportData extends ConsoleCommand
 
         $result = array();
         foreach ($segments as $segmentOptionValue) {
-            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites);
+            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites, $input, $output);
+            if (empty($segmentDefinition)) {
+                continue;
+            }
+
             $result[] = new Segment($segmentDefinition, $idSites);
         }
         return $result;
+    }
+
+    private function findSegment($segmentOptionValue, $idSites, InputInterface $input, OutputInterface $output)
+    {
+        $logger = StaticContainer::get(LoggerInterface::class);
+
+        $allSegments = $this->getAllSegments();
+        foreach ($allSegments as $segment) {
+            if (!empty($segment['enable_only_idsite'])
+                && !in_array($segment['enable_only_idsite'], $idSites)
+            ) {
+                continue;
+            }
+
+            if ($segmentOptionValue == $segment['idsegment']) {
+                $logger->debug("Matching '$segmentOptionValue' by idsegment with segment {segment}.", ['segment' => json_encode($segment)]);
+                return $segment['definition'];
+            }
+
+            if (strtolower($segmentOptionValue) == strtolower($segment['name'])) {
+                $logger->debug("Matching '$segmentOptionValue' by name with segment {segment}.", ['segment' => json_encode($segment)]);
+                return $segment['definition'];
+            }
+
+            if ($segment['definition'] == $segmentOptionValue
+                || $segment['definition'] == urldecode($segmentOptionValue)
+            ) {
+                $logger->debug("Matching '{value}' by definition with segment {segment}.", ['value' => $segmentOptionValue, 'segment' => json_encode($segment)]);
+                return $segment['definition'];
+            }
+        }
+
+        /** @var QuestionHelper $helper */
+        $helper = $this->getHelperSet()->get('question');
+        $confirm = $helper->ask($input, $output,
+            new ConfirmationQuestion("'$segmentOptionValue' does not match any stored segment, invalidating it will cause archiving to launch for the segment, in addition to stored segments. Do you want to continue? (y/n) "));
+        if (!$confirm) {
+            return null;
+        }
+
+        return $segmentOptionValue;
+    }
+
+    private function getAllSegments()
+    {
+        if ($this->allSegments === null) {
+            $this->allSegments = API::getInstance()->getAll();
+        }
+        return $this->allSegments;
     }
 }
