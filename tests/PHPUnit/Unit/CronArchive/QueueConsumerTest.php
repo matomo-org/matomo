@@ -11,9 +11,14 @@ namespace PHPUnit\Unit\CronArchive;
 
 
 use PHPUnit\Framework\TestCase;
+use Piwik\CliMulti\RequestParser;
+use Piwik\CronArchive;
 use Piwik\CronArchive\QueueConsumer;
+use Piwik\CronArchive\SegmentArchiving;
+use Piwik\DataAccess\Model;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
+use Psr\Log\NullLogger;
 
 class QueueConsumerTest extends TestCase
 {
@@ -37,7 +42,7 @@ class QueueConsumerTest extends TestCase
 
     public function getTestDataForHasIntersectingPeriod()
     {
-        return  [
+        return [
             // no intersecting periods
             [
                 [
@@ -91,5 +96,135 @@ class QueueConsumerTest extends TestCase
                 true,
             ],
         ];
+    }
+
+    /**
+     * @dataProvider getTestDataForShouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress
+     */
+    public function test_shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($cliMultiProcesses, $archiveToProcess, $expected)
+    {
+        $cliRequestProcessor = $this->getMockRequestParser($cliMultiProcesses);
+
+        /** @var QueueConsumer $queueConsumer */
+        $queueConsumer = $this->getQueueConsumerWithMocks($cliRequestProcessor);
+
+        $periods = array_flip(Piwik::$idPeriods);
+
+        $archiveToProcess['periodObj'] = Factory::build($periods[$archiveToProcess['period']], $archiveToProcess['date']);
+        $actual = $queueConsumer->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($archiveToProcess);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForShouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress()
+    {
+        return [
+            // test idSite different
+            [
+                [
+                    ['idSite' => 5, 'date' => '2020-03-04', 'period' => 'day'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1],
+                false,
+            ],
+
+            // test no period/date
+            [
+                [
+                    ['idSite' => 3],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1],
+                false,
+            ],
+
+            // test same segment
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day', 'segment' => 'pageUrl=@%2C'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1, 'segment' => 'pageUrl=@%2C'],
+                'lower or same period in progress in another local climulti process (period = day, date = 2020-03-04)',
+            ],
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day', 'segment' => 'pageUrl=@%252C'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1, 'segment' => 'pageUrl=@%2C'],
+                'lower or same period in progress in another local climulti process (period = day, date = 2020-03-04)',
+            ],
+
+            // test different segment
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day', 'segment' => 'pageUrl=@%2C'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1, 'segment' => 'pageUrl=@%2Ca'],
+                false,
+            ],
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day', 'segment' => 'pageUrl=@%252C'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1, 'segment' => 'pageUrl%3D%40%252C'],
+                false,
+            ],
+
+            // test lower periods together
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1],
+                'lower or same period in progress in another local climulti process (period = day, date = 2020-03-04)',
+            ],
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-01', 'period' => 3],
+                'lower or same period in progress in another local climulti process (period = day, date = 2020-03-04)',
+            ],
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-01', 'period' => 'month'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-01', 'period' => 1],
+                false,
+            ],
+
+            // test segment w/ non-segment
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day', 'segment' => ''],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 2, 'segment' => 'pageUrl=@%2C'],
+                'lower or same period in progress in another local climulti process (period = day, date = 2020-03-04)',
+            ],
+            [
+                [
+                    ['idSite' => 3, 'date' => '2020-03-04', 'period' => 'day', 'segment' => 'pageUrl=@%2C'],
+                ],
+                ['idsite' => 3, 'date' => '2020-03-04', 'period' => 1, 'segment' => ''],
+                'lower or same period in progress in another local climulti process (period = day, date = 2020-03-04)',
+            ],
+        ];
+    }
+
+    private function getMockRequestParser($cliMultiProcesses)
+    {
+        $mock = $this->getMockBuilder(RequestParser::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getInProgressArchivingCommands'])
+            ->getMock();
+        $mock->method('getInProgressArchivingCommands')->willReturn($cliMultiProcesses);
+        return $mock;
+    }
+
+    private function getQueueConsumerWithMocks($cliRequestProcessor)
+    {
+        $mockCronArchive = $this->getMockBuilder(CronArchive::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        return new QueueConsumer(new NullLogger(), null, null, null, new Model(), new SegmentArchiving(null), $mockCronArchive, $cliRequestProcessor);
     }
 }
