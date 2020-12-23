@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\SettingsServer;
 use ReflectionClass;
 use ReflectionMethod;
 
