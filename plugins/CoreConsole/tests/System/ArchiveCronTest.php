@@ -9,6 +9,7 @@ namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\CronArchive;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Psr\Container\ContainerInterface;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
@@ -178,17 +179,18 @@ class ArchiveCronTest extends SystemTestCase
         // empty the list so nothing is invalidated during core:archive (so we only archive ExamplePlugin and not all plugins)
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
 
-        $output = $this->runArchivePhpCron();
-
-        Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS); // clear so segment re-archive logic runs on this run
-        Option::delete(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME);
-        $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
+        $this->runArchivePhpCron();
 
         // add new segment w/ edited created/edit time so it will not trigger segment re-archiving, then track a visit
-        // so the segments will be archived w/ other invalidation
-        self::addNewSegmentToPast();
-        self::trackVisitsForToday();
-        $output = $this->runArchivePhpCron();
+        // so the segments will be archived w/ other invalidation. this also runs core:archive forcing CURL requests.
+        try {
+            self::forceCurlCliMulti();
+            self::addNewSegmentToPast();
+            self::trackVisitsForToday();
+            $output = $this->runArchivePhpCron();
+        } finally {
+            self::undoForceCurlCliMulti();
+        }
 
         $expectedInvalidations = [];
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
@@ -230,7 +232,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
 
-        $output = $this->runArchivePhpCron(['-vvv' => null]);
+        $output = $this->runArchivePhpCron();
 
         Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS); // clear so segment re-archive logic runs on this run
         Option::delete(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME);
@@ -357,6 +359,20 @@ class ArchiveCronTest extends SystemTestCase
     private function getInvalidatedArchiveTableEntries()
     {
         return Db::fetchAll("SELECT idinvalidation, idarchive, idsite, date1, date2, period, name, status FROM " . Common::prefixTable('archive_invalidations'));
+    }
+
+    private static function undoForceCurlCliMulti()
+    {
+        $testVars = new TestingEnvironmentVariables();
+        $testVars->forceCliMultiViaCurl = 0;
+        $testVars->save();
+    }
+
+    private static function forceCurlCliMulti()
+    {
+        $testVars = new TestingEnvironmentVariables();
+        $testVars->forceCliMultiViaCurl = 1;
+        $testVars->save();
     }
 }
 
