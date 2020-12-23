@@ -37,6 +37,7 @@ class API extends \Piwik\Plugin\API
 
     public function getSegmentHash($segment, $idSites)
     {
+        Piwik::checkUserIsNotAnonymous();
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         $segment = new Segment($segment, $idSites);
         return $segment->getHash();
