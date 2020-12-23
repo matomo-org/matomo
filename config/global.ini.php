@@ -881,6 +881,12 @@ create_new_visit_when_website_referrer_changes = 0
 ; Whether to force a new visit at midnight for every visitor. Default 1.
 create_new_visit_after_midnight = 1
 
+; Will force the creation of a new visit once a visit had this many actions.
+; Increasing this number can slow down the tracking in Matomo and put more load on the database.
+; Increase this limit if it's expected that you have visits with more than this many actions.
+; Set to 0 or a negative value to allow unlimited actions.
+create_new_visit_after_x_actions = 10000
+
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
