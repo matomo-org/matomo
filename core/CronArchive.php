@@ -212,6 +212,11 @@ class CronArchive
     private $cliMultiRequestParser;
 
     /**
+     * @var bool|mixed
+     */
+    private $supportsAsync;
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -235,7 +240,8 @@ class CronArchive
 
         $this->rawLogDao = new RawLogDao();
 
-        $this->cliMultiRequestParser = new RequestParser($this->makeCliMulti()->supportsAsync());
+        $this->supportsAsync = $this->makeCliMulti()->supportsAsync();
+        $this->cliMultiRequestParser = new RequestParser($this->supportsAsync);
 
         $this->archiveFilter = new ArchiveFilter();
     }
@@ -654,7 +660,11 @@ class CronArchive
     {
         $request = "?module=API&method=CoreAdminHome.archiveReports&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
-            $request .= '&segment=' . urlencode(urlencode($segment));
+            $segmentParamValue = $segment;
+            if ($this->supportsAsync) {
+                $segmentParamValue = urlencode($segmentParamValue);
+            }
+            $request .= '&segment=' . urlencode($segmentParamValue);
         }
         if (!empty($plugin)) {
             $request .= "&plugin=" . $plugin;
