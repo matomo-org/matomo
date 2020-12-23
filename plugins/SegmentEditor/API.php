@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Segment;
+use Piwik\Site;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
@@ -32,6 +33,13 @@ class API extends \Piwik\Plugin\API
     public function __construct(Model $model)
     {
         $this->model = $model;
+    }
+
+    public function getSegmentHash($segment, $idSites)
+    {
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $segment = new Segment($segment, $idSites);
+        return $segment->getHash();
     }
 
     protected function checkSegmentValue($definition, $idSite)
