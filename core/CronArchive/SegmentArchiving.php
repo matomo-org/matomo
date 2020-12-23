@@ -158,15 +158,15 @@ class SegmentArchiving
     private function getCreatedTimeOfSegment($storedSegment)
     {
         // check for an earlier ts_created timestamp
-        $createdTime = Date::factory($storedSegment['ts_created']);
+        $createdTime = empty($storedSegment['ts_created']) ? null : Date::factory($storedSegment['ts_created']);
 
         // if there is no ts_last_edit timestamp, initialize it to ts_created
         if (empty($storedSegment['ts_last_edit'])) {
-            $storedSegment['ts_last_edit'] = $storedSegment['ts_created'];
+            $storedSegment['ts_last_edit'] = empty($storedSegment['ts_created']) ? null : $storedSegment['ts_created'];
         }
 
         // check for a later ts_last_edit timestamp
-        $lastEditTime = Date::factory($storedSegment['ts_last_edit']);
+        $lastEditTime = empty($storedSegment['ts_last_edit']) ? null : Date::factory($storedSegment['ts_last_edit']);
 
         return array($createdTime, $lastEditTime);
     }
