@@ -134,4 +134,6 @@ return array(
             file_put_contents($outputFile, json_encode($outputContents));
         })),
     )),
+
+    'test.vars.forceCliMultiViaCurl' => false,
 );
