@@ -587,7 +587,7 @@ class Http
                     @curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyUser . ':' . $proxyPassword);
                 }
             }
-            var_dump($userAgent);
+
             $curl_options = array(
                 // internal to ext/curl
                 CURLOPT_BINARYTRANSFER => is_resource($file),
