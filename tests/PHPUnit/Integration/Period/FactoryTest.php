@@ -85,6 +85,7 @@ class FactoryTest extends IntegrationTestCase
             ['day', 'last-week', 'day', '2020-12-16,2020-12-16'],
             ['day', 'last-month', 'day', '2020-11-23,2020-11-23'],
             ['day', 'last-year', 'day', '2019-12-23,2019-12-23'],
+            ['day', '2020-12-23', 'day', '2020-12-23,2020-12-23'],
         ];
     }
 
