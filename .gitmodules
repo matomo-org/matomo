@@ -75,3 +75,6 @@
 	url = https://github.com/matomo-org/matomo-icons.git
 
 # Note: do not add new plugin submodules here, but a few lines above
+[submodule "plugins/TrackingSpamPrevention"]
+	path = plugins/TrackingSpamPrevention
+	url = https://github.com/matomo-org/plugin-TrackingSpamPrevention.git
