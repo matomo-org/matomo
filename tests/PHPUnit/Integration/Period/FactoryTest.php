@@ -70,7 +70,7 @@ class FactoryTest extends IntegrationTestCase
     {
         Date::$now = strtotime('2020-12-24 03:37:00');
 
-        $factory = Period\Factory::makePeriodFromQueryParams('Europe/Paris', $period, $date);
+        $factory = Period\Factory::makePeriodFromQueryParams('America/Chicago', $period, $date);
         $this->assertEquals($expectedLabel, $factory->getLabel());
         $this->assertEquals($expectedRange, $factory->getRangeString());
     }
@@ -78,13 +78,13 @@ class FactoryTest extends IntegrationTestCase
     public function getTestDataForMakePeriodFromQueryParams()
     {
         return [
-            ['day', 'now', 'day', '2020-12-24,2020-12-24'],
-            ['day', 'today', 'day', '2020-12-24,2020-12-24'],
-            ['day', 'yesterday', 'day', '2020-12-23,2020-12-23'],
-            ['day', 'yesterdaySameTime', 'day', '2020-12-23,2020-12-23'],
-            ['day', 'last-week', 'day', '2020-12-17,2020-12-17'],
-            ['day', 'last-month', 'day', '2020-11-24,2020-11-24'],
-            ['day', 'last-year', 'day', '2019-12-24,2019-12-24'],
+            ['day', 'now', 'day', '2020-12-23,2020-12-23'],
+            ['day', 'today', 'day', '2020-12-23,2020-12-23'],
+            ['day', 'yesterday', 'day', '2020-12-22,2020-12-22'],
+            ['day', 'yesterdaySameTime', 'day', '2020-12-22,2020-12-22'],
+            ['day', 'last-week', 'day', '2020-12-16,2020-12-16'],
+            ['day', 'last-month', 'day', '2020-11-23,2020-11-23'],
+            ['day', 'last-year', 'day', '2019-12-23,2019-12-23'],
         ];
     }
 
