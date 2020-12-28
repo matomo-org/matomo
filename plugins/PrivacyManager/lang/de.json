@@ -175,14 +175,11 @@
         "UsersOptOut": "Benutzer Opt-Out",
         "PrivacyPolicyUrl": "URL für Datenschutzrichtlinie",
         "PrivacyPolicyUrlDescription": "Ein Link zu Ihrer Datenschutzrichtlinienseite.",
-        "ImprintUrl": "URL für Impressum",
-        "ImprintUrlDescription": "Ein Link zu Ihrem Impressum.",
         "TermsAndConditionUrl": "URL für Geschäftsbedingungen",
         "TermsAndConditionUrlDescription": "Ein Link zu Ihrer Geschäftsbedingungenseite.",
         "PrivacyPolicyUrlDescriptionSuffix": "Wenn Sie etwas angeben, wird es am Ende der Anmeldeseite und auf Seiten angezeigt, auf die der '%1$s' Benutzer Zugriff hat.",
         "ShowInEmbeddedWidgets": "In eingebetteten Widgets anzeigen",
         "ShowInEmbeddedWidgetsDescription": "Wenn angewählt, wird am Ende der eingebetteten Widgets ein Link zu Ihren Datenschutzrichtlinien und zu Ihren Geschäftsbedingungen angezeigt.",
-        "Imprint": "Impressum",
         "PrivacyPolicy": "Datenschutzrichtlinie",
         "TermsAndConditions": "Geschäftsbedingungen"
     }
