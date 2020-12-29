@@ -36,6 +36,7 @@ class Model
         $sql = "SELECT * FROM " . $this->getTable() . " WHERE deleted = 0";
 
         $segments = $this->getDb()->fetchAll($sql);
+        $segments = array_map(function ($s) { return $this->makeSegmentDefinitionSameAsQueryParam($s); }, $segments);
 
         return $segments;
     }
@@ -61,6 +62,7 @@ class Model
                                               AND deleted = 0 AND auto_archive = 1");
 
         $segments = $this->getDb()->fetchAll($sql, $bind);
+        $segments = array_map(function ($s) { return $this->makeSegmentDefinitionSameAsQueryParam($s); }, $segments);
 
         return $segments;
     }
@@ -77,6 +79,7 @@ class Model
         $sql  = $this->buildQuerySortedByName('deleted = 0 AND (enable_all_users = 1 OR login = ?)');
 
         $segments = $this->getDb()->fetchAll($sql, $bind);
+        $segments = array_map(function ($s) { return $this->makeSegmentDefinitionSameAsQueryParam($s); }, $segments);
 
         return $segments;
     }
@@ -95,6 +98,7 @@ class Model
                                                AND deleted = 0
                                                AND (enable_all_users = 1 OR login = ?)');
         $segments = $this->getDb()->fetchAll($sql, $bind);
+        $segments = array_map(function ($s) { return $this->makeSegmentDefinitionSameAsQueryParam($s); }, $segments);
 
         return $segments;
     }
@@ -116,6 +120,7 @@ class Model
 
         $sqlWhereCondition  = $this->buildQuerySortedByName($sqlWhereCondition . ' deleted = 0');
         $segments = $this->getDb()->fetchAll($sqlWhereCondition, $bind);
+        $segments = array_map(function ($s) { return $this->makeSegmentDefinitionSameAsQueryParam($s); }, $segments);
 
         return $segments;
     }
@@ -126,6 +131,7 @@ class Model
         $bind = [$definition];
 
         $segment = $this->getDb()->fetchRow($sql, $bind);
+        $segment = $this->makeSegmentDefinitionSameAsQueryParam($segment);
         return $segment;
     }
 
@@ -244,7 +250,20 @@ class Model
     {
         $db = $this->getDb();
         $segment = $db->fetchRow("SELECT * FROM " . $this->getTable() . " WHERE idsegment = ?", $idSegment);
+        $segment = $this->makeSegmentDefinitionSameAsQueryParam($segment);
 
+        return $segment;
+    }
+
+    /**
+     * TODO: docs
+     *
+     * @param $segment
+     * @return mixed
+     */
+    private function makeSegmentDefinitionSameAsQueryParam($segment)
+    {
+        $segment['definition'] = urlencode($segment['definition']);
         return $segment;
     }
 

@@ -192,10 +192,6 @@ class ArchiveCronTest extends SystemTestCase
             self::undoForceCurlCliMulti();
         }
 
-        $expectedInvalidations = [];
-        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertEquals($expectedInvalidations, $invalidationEntries);
-
         $this->compareArchivePhpOutputAgainstExpected($output);
 
         foreach ($this->getApiForTesting() as $testInfo) {
