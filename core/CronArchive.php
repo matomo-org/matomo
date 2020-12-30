@@ -855,7 +855,7 @@ class CronArchive
             }, $allDates);
             $allDates = implode(',', $allDates);
 
-            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, $allDates, $period = false, $info['segment']);
+            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, $allDates, $period = false, urlencode($info['segment']));
         }
 
         $this->setInvalidationTime();
@@ -911,11 +911,11 @@ class CronArchive
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segment) {
-                $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment['definition'], [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
+                $params = new Parameters(new Site($idSite), $periodObj, new Segment(urlencode($segment['definition']), [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
                 if ($this->isThereExistingValidPeriod($params)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
-                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segment['definition'],
+                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, urlencode($segment['definition']),
                         $cascadeDown = false, $_forceInvalidateNonexistant);
                 }
             }

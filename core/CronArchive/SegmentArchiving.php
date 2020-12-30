@@ -130,7 +130,7 @@ class SegmentArchiving
             }
 
             try {
-                $segmentObj = new Segment($segment['definition'], [$idSite]);
+                $segmentObj = new Segment(urlencode($segment['definition']), [$idSite]);
             } catch (\Exception $ex) {
                 $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
                 continue;

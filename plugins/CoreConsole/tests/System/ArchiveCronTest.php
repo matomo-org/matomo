@@ -192,8 +192,6 @@ class ArchiveCronTest extends SystemTestCase
             self::undoForceCurlCliMulti();
         }
 
-        $this->compareArchivePhpOutputAgainstExpected($output);
-
         foreach ($this->getApiForTesting() as $testInfo) {
 
             list($api, $params) = $testInfo;
@@ -312,24 +310,6 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         return $output;
-    }
-
-    private function compareArchivePhpOutputAgainstExpected($output)
-    {
-        $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
-        list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
-
-        $expectedOutputFile = $pathExpected . $fileName;
-        $processedFile = $pathProcessed . $fileName;
-
-        file_put_contents($processedFile, $output);
-
-        try {
-            $this->assertTrue(is_readable($expectedOutputFile));
-            $this->assertEquals(file_get_contents($expectedOutputFile), $output);
-        } catch (Exception $ex) {
-            $this->comparisonFailures[] = $ex;
-        }
     }
 
     public static function provideContainerConfigBeforeClass()
