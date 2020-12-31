@@ -333,10 +333,23 @@ class ModelTest extends IntegrationTestCase
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertSame('2025-01-02 03:04:05', $tokens[0]['last_used']);
+
+        // this should not update the token usage again, as it's within 10 minutes
+        $this->model->setTokenAuthWasUsed('token2',  '2025-01-02 03:08:05');
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertSame('2025-01-02 03:04:05', $tokens[0]['last_used']);
+
+        // this should update the token usage again, as it's after 10 minutes
+        $this->model->setTokenAuthWasUsed('token2',  '2025-01-02 03:15:05');
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertSame('2025-01-02 03:15:05', $tokens[0]['last_used']);
     }
 
     public function test_setTokenAuthWasUsed_doesNotFailWhenTokenNotExists()
     {
+        $this->expectNotToPerformAssertions();
         $this->model->setTokenAuthWasUsed('tokenFooBar',  '2025-01-02 03:04:05');
     }
 

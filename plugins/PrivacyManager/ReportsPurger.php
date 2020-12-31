@@ -274,8 +274,13 @@ class ReportsPurger
     {
         $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
+        $blobTableWhere = $this->getBlobTableWhereExpr($oldNumericTables, $table);
+        if (empty($blobTableWhere)) {
+            return 0;
+        }
+
         $sql = "SELECT COUNT(*) FROM $table
-                 WHERE " . $this->getBlobTableWhereExpr($oldNumericTables, $table) . "
+                 WHERE " . $blobTableWhere . "
                    AND idarchive >= ?
                    AND idarchive < ?";
 

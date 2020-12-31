@@ -18,12 +18,12 @@
 	<row>
 		<name>Avg. DOM completion time</name>
 		<id>avg_time_dom_completion</id>
-		<documentation>Average time (in seconds) how long it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the the webpage was loaded and the user can already interact with it.</documentation>
+		<documentation>Average time (in seconds) it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the webpage was loaded and the user can already interact with it.</documentation>
 	</row>
 	<row>
 		<name>Avg. DOM processing time</name>
 		<id>avg_time_dom_processing</id>
-		<documentation>Average time (in seconds) how long the browser spends loading the webpage after the response was fully received until the user can starting interacting with it.</documentation>
+		<documentation>Average time (in seconds) the browser spends loading the webpage after the response was fully received and before the user can start interacting with it.</documentation>
 	</row>
 	<row>
 		<name>Avg. Visit Duration (in seconds)</name>
@@ -38,22 +38,22 @@
 	<row>
 		<name>Avg. network time</name>
 		<id>avg_time_network</id>
-		<documentation>Average time (in seconds) how long it takes to connect to server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</documentation>
+		<documentation>Average time (in seconds) it takes to connect to the server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</documentation>
 	</row>
 	<row>
 		<name>Avg. on load time</name>
 		<id>avg_time_on_load</id>
-		<documentation>Average time (in seconds) how long it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM was completely rendered.</documentation>
+		<documentation>Average time (in seconds) it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM has completely rendered.</documentation>
 	</row>
 	<row>
 		<name>Avg. page load time</name>
 		<id>avg_page_load_time</id>
-		<documentation>Average time (in seconds) how long it takes from requesting a page until the page is fully rendered within the browser</documentation>
+		<documentation>Average time (in seconds) it takes from requesting a page until the page is fully rendered within the browser</documentation>
 	</row>
 	<row>
 		<name>Avg. server time</name>
 		<id>avg_time_server</id>
-		<documentation>Average time (in seconds) how long it takes the server to generate page. This is the time between the server receiving the request and start serving the response.</documentation>
+		<documentation>Average time (in seconds) it takes the server to generate the page. This is the time between the server receiving the request and starting to serve the response.</documentation>
 	</row>
 	<row>
 		<name>Avg. time on page</name>
@@ -63,7 +63,7 @@
 	<row>
 		<name>Avg. transfer time</name>
 		<id>avg_time_transfer</id>
-		<documentation>Average time (in seconds) how long it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</documentation>
+		<documentation>Average time (in seconds) it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</documentation>
 	</row>
 	<row>
 		<name>Bounce Rate</name>

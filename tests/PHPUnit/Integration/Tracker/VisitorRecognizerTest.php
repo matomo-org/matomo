@@ -8,10 +8,15 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
+use Matomo\Network\IP;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Date;
 use Piwik\EventDispatcher;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\VisitProperties;
 use Piwik\Tracker\VisitorRecognizer;
 
@@ -30,15 +35,54 @@ class VisitorRecognizerTest extends IntegrationTestCase
         parent::setUp();
         $this->recognizer = new VisitorRecognizer(true, 1800, 24000,
             new Model(), EventDispatcher::getInstance());
+
+        Fixture::createWebsite('2020-01-01 02:03:04');
     }
 
-    private function getVisitProperties()
+    public function test_findKnownVisitor_whenNotExceededMaxActionsLimitFindsVisitor()
     {
-        $visit = new VisitProperties();
-        $visit->setProperty('idvisit', '321');
-        $visit->setProperty('idvisitor', Common::hex2bin('1234567890234567'));
+        $this->assertNull($this->recognizer->getLastKnownVisit());
 
-        return $visit;
+        $configId = $this->createVisit(9999);
+        $visitor = $this->findKnownVisitor($configId);
+        $this->assertTrue($visitor);
+        $this->assertNotEmpty($this->recognizer->getLastKnownVisit());
+    }
+
+    private function findKnownVisitor($configId)
+    {
+        $visitProperties = new VisitProperties();
+        $request = new Request(['idsite' => 1, 'cid' => $configId, 'uid' => $configId]);
+
+        return $this->recognizer->findKnownVisitor($configId, $visitProperties, $request);
+    }
+
+    private function createVisit($maxTotalActions)
+    {
+        $configId = '1234567812345678';
+        $request = new Request(['idsite' => 1, 'uid' => $configId]);
+        $model = new Model();
+        $model->createVisit(array(
+            'config_id' => Common::hex2bin($configId),
+            'idsite' => 1,
+            'user_id' => $configId,
+            'visit_total_time' => 1,
+            'visit_total_actions' => $maxTotalActions,
+            'visit_last_action_time' => Date::now()->getDatetime(),
+            'visit_first_action_time' => Date::now()->getDatetime(),
+            'idvisitor' => $request->getVisitorId(),
+            'location_ip' => IP::fromStringIP('1.1.1.1')->toBinary()
+        ));
+
+        return $configId;
+    }
+
+    public function test_findKnownVisitor_whenExceededMaxActionsLimitFindsNotVisitor()
+    {
+        $configId = $this->createVisit(10000);
+        $visitor = $this->findKnownVisitor($configId);
+        $this->assertFalse($visitor);
+        $this->assertFalse($this->recognizer->getLastKnownVisit());
     }
 
     public function test_removeUnchangedValues_newVisit_shouldNotChangeAnything()

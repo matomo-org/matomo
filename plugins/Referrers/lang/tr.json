@@ -18,6 +18,8 @@
         "CampaignGroupHelp": "Bu parametre, bir grubu ya da hedef kitleyi tanımlayacak bir Kampanya Grubunu izlemek için kullanılır. Kampanya grupları, benzer hedeflere sahip birden çok kampanyanın genel başarımını izlemek için yararlıdır.",
         "CampaignPlacement": "Kampanya Konumlandırması",
         "CampaignPlacementHelp": "Reklam yerleşimi ya da konumunu belirtmek için kullanılır. Bir web sitesinin tamamı, bir web sitesindeki belirli sayfalar, tek bir sayfada konumlandırılmış tek bir reklam birimi, bir görüntü, bir cep telefonu uygulaması gibi diğer seçenekler olabilir.",
+        "CampaignId": "Kampanya Kodu",
+        "CampaignIdHelp": "Bu parametre bir Kampanya Kodunu izlemek için kullanılır. Kampanya kodu her kampanya için eşsizdir, en fazla 100 karakter uzunluğundadır ve rakam, harf ve simgelerden oluşur.",
         "ColumnSearchEngine": "Arama Motoru",
         "ColumnSocial": "Sosyal ağ",
         "ColumnWebsite": "Web sitesi",
