@@ -716,14 +716,16 @@ class PrivacyManager extends Plugin
             return;
         }
 
+        $imprintUrl           = $settings->imprintUrl->getValue();
         $privacyPolicyUrl     = $settings->privacyPolicyUrl->getValue();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
 
-        if (empty($privacyPolicyUrl) && empty($termsAndConditionUrl)) {
+        if (empty($imprintUrl) && empty($privacyPolicyUrl) && empty($termsAndConditionUrl)) {
             return;
         }
 
         $view = new View('@PrivacyManager/footerLinks.twig');
+        $view->imprintUrl  = $imprintUrl;
         $view->privacyPolicyUrl  = $privacyPolicyUrl;
         $view->termsAndCondition = $termsAndConditionUrl;
         $out .= $view->render();
