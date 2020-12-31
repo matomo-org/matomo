@@ -89,7 +89,9 @@ class SegmentArchiving
 
         $segmentsForSite = $this->getAllSegments();
         foreach ($segmentsForSite as $storedSegment) {
-            if (!$this->isAutoArchivingEnabledFor($storedSegment)) {
+            if (!$this->isAutoArchivingEnabledFor($storedSegment)
+                || !$this->isSegmentForSite($storedSegment, $idSite)
+            ) {
                 continue;
             }
 
@@ -121,11 +123,19 @@ class SegmentArchiving
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
-            if (!$this->isAutoArchivingEnabledFor($segment)) {
+            if (!$this->isAutoArchivingEnabledFor($segment)
+                || !$this->isSegmentForSite($segment, $idSite)
+            ) {
                 continue;
             }
 
-            $segmentObj = new Segment($segment['definition'], [$idSite]);
+            try {
+                $segmentObj = new Segment($segment['definition'], [$idSite]);
+            } catch (\Exception $ex) {
+                $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
+                continue;
+            }
+
             if ($segmentObj->getHash() == $hash) {
                 return $segment;
             }

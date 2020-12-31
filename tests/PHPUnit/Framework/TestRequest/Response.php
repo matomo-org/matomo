@@ -235,7 +235,7 @@ class Response
 
         // check we didn't delete the whole string
         if ($testNotSmallAfter && $input != $oldInput) {
-            $this->assertTrue(strlen($input) > 100);
+            Asserts::assertTrue(strlen($input) > 100);
         }
         return $input;
     }

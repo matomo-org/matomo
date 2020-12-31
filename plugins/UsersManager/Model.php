@@ -19,6 +19,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
@@ -388,6 +389,16 @@ class Model
     {
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
+
+            $lastUsage = !empty($token['last_used']) ? strtotime($token['last_used']) : 0;
+            $newUsage = strtotime($dateLastUsed);
+
+            // update token usage only every 10 minutes to avoid table locks when multiple requests with the same token are made
+            // see https://github.com/matomo-org/matomo/issues/16924
+            if ($lastUsage > $newUsage - 600) {
+                return;
+            }
+
             $this->updateTokenAuthTable($token['idusertokenauth'], array(
                 'last_used' => $dateLastUsed
             ));

@@ -374,7 +374,7 @@ class API extends \Piwik\Plugin\API
 
             foreach ($subData as &$row) {
                 if ($referrerType == Common::REFERRER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
-                    $row['referrer_data'] = \Piwik\Plugins\Referrers\API::LABEL_KEYWORD_NOT_DEFINED;
+                    $row['referrer_data'] = Piwik::translate('General_Unknown');
                 }
 
                 $referrerData[$referrerType][Metrics::INDEX_NB_VISITS] += $row[Metrics::INDEX_NB_VISITS];

@@ -212,6 +212,11 @@ class CronArchive
     private $cliMultiRequestParser;
 
     /**
+     * @var bool|mixed
+     */
+    private $supportsAsync;
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -235,7 +240,8 @@ class CronArchive
 
         $this->rawLogDao = new RawLogDao();
 
-        $this->cliMultiRequestParser = new RequestParser($this->makeCliMulti()->supportsAsync());
+        $this->supportsAsync = $this->makeCliMulti()->supportsAsync();
+        $this->cliMultiRequestParser = new RequestParser($this->supportsAsync);
 
         $this->archiveFilter = new ArchiveFilter();
     }
@@ -303,6 +309,12 @@ class CronArchive
         $this->allWebsites = $websitesIds;
         $this->websiteIdArchiveList = $this->makeWebsiteIdArchiveList($websitesIds);
 
+        if (method_exists($this->websiteIdArchiveList, 'isContinuingPreviousRun') &&
+            $this->websiteIdArchiveList->isContinuingPreviousRun()
+        ) {
+            $this->logger->info("- Continuing ongoing archiving run by pulling from shared idSite queue.");
+        }
+
         if ($this->archiveFilter) {
             $this->archiveFilter->logFilterInfo($this->logger);
         }
@@ -335,7 +347,6 @@ class CronArchive
             $this->logger->info("Reached maximum concurrent archivers allowed ({$this->maxConcurrentArchivers}), aborting run.");
             return;
         }
-
 
         $this->logger->debug("Applying queued rearchiving...");
         $this->invalidator->applyScheduledReArchiving();
@@ -485,8 +496,9 @@ class CronArchive
 
             $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod, $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report']);
 
-            // TODO: do in ArchiveWriter
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
+
+            $this->repairInvalidationsIfNeeded($archivesBeingQueried[$index]);
 
             ++$successCount;
         }
@@ -555,7 +567,7 @@ class CronArchive
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
-            . "{$params['date']}, segment = '" . (isset($params['segment']) ? $params['segment'] : '') . "', "
+            . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode($params['segment']) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
 
@@ -690,7 +702,7 @@ class CronArchive
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
 
-            if($this->makeCliMulti()->supportsAsync()) {
+            if($this->supportsAsync) {
                 $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
             } else {
                 $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Matomo's web server error logs. ";
@@ -764,11 +776,6 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
-        if ($this->model->isInvalidationsScheduledForSite($idSiteToInvalidate)) {
-            $this->logger->debug("Invalidations currently exist for idSite $idSiteToInvalidate, skipping invalidating for now...");
-            return;
-        }
-
         if (empty($this->segmentArchiving)) {
             // might not be initialised if init is not called
             $this->segmentArchiving = new SegmentArchiving($this->processNewSegmentsFrom, $this->dateLastForced);
@@ -936,6 +943,77 @@ class CronArchive
         }
 
         return !empty($idArchive);
+    }
+
+    // public for tests
+    public function repairInvalidationsIfNeeded($archiveToProcess)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $bind = [
+            $archiveToProcess['idsite'],
+            $archiveToProcess['name'],
+            $archiveToProcess['period'],
+            $archiveToProcess['date1'],
+            $archiveToProcess['date2'],
+        ];
+
+        $reportClause = '';
+        if (!empty($archiveToProcess['report'])) {
+            $reportClause = " AND report = ?";
+            $bind[] = $archiveToProcess['report'];
+        }
+
+        $sql = "SELECT DISTINCT period FROM `$table`
+                 WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ? AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . " $reportClause";
+
+        $higherPeriods = Db::fetchAll($sql, $bind);
+        $higherPeriods = array_column($higherPeriods, 'period');
+
+        $invalidationsToInsert = [];
+        foreach (Piwik::$idPeriods as $label => $id) {
+            // lower period than the one we're processing or range, don't care
+            if ($id <= $archiveToProcess['period'] || $label == 'range') {
+                continue;
+            }
+
+            if (in_array($id, $higherPeriods)) { // period exists in table
+                continue;
+            }
+
+            // archive is for week that is over two months, we don't need to care about the month
+            if ($label == 'month'
+                && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
+            ) {
+                continue;
+            }
+
+            $period = Period\Factory::build($label, $archiveToProcess['date1']);
+
+            $invalidationToInsert = [
+                'idarchive' => null,
+                'name' => $archiveToProcess['name'],
+                'report' => $archiveToProcess['report'],
+                'idsite' => $archiveToProcess['idsite'],
+                'date1' => $period->getDateStart()->getDatetime(),
+                'date2' => $period->getDateEnd()->getDatetime(),
+                'period' => $id,
+                'ts_invalidated' => $archiveToProcess['ts_invalidated'],
+            ];
+
+            $this->logger->debug("Found dangling invalidation, inserting {invalidationToInsert}", [
+                'invalidationToInsert' => json_encode($invalidationToInsert),
+            ]);
+
+            $invalidationsToInsert[] = $invalidationToInsert;
+        }
+
+        if (empty($invalidationsToInsert)) {
+            return;
+        }
+
+        $fields = ['idarchive', 'name', 'report', 'idsite', 'date1', 'date2', 'period', 'ts_invalidated'];
+        Db\BatchInsert::tableInsertBatch(Common::prefixTable('archive_invalidations'), $fields, $invalidationsToInsert);
     }
 
     private function setInvalidationTime()
@@ -1207,7 +1285,8 @@ class CronArchive
             $instanceId = SettingsPiwik::getPiwikInstanceId();
 
             foreach ($processes as $process) {
-                if (strpos($process, 'console core:archive') !== false &&
+                if (strpos($process, ' core:archive') !== false &&
+                    strpos($process, 'console ') !== false &&
                     (!$instanceId
                         || strpos($process, '--matomo-domain=' . $instanceId) !== false
                         || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false

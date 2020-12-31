@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "436a8ac860535902739aa0c17595a5e9",
+    "content-hash": "78bcf8d713875ccb984d130f8a16fc9e",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -368,40 +368,6 @@
             "time": "2020-10-01T18:48:34+00:00"
         },
         {
-            "name": "leafo/lessphp",
-            "version": "dev-php74-compat",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/lessphp.git",
-                "reference": "1c1bf226f6d394f28cc676a6c2893556a5dcb495"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.4.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "lessc.inc.php"
-                ]
-            },
-            "license": [
-                "MIT",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Leaf Corcoran",
-                    "email": "leafot@gmail.com",
-                    "homepage": "http://leafo.net"
-                }
-            ],
-            "description": "lessphp is a compiler for LESS written in PHP.",
-            "homepage": "http://leafo.net/lessphp/",
-            "time": "2020-06-18T02:38:35+00:00"
-        },
-        {
             "name": "matomo/cache",
             "version": "2.0.2",
             "source": {
@@ -494,16 +460,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "3799f71f4211346158a1e96f3b0bef615c873923"
+                "reference": "20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/3799f71f4211346158a1e96f3b0bef615c873923",
-                "reference": "3799f71f4211346158a1e96f3b0bef615c873923",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a",
+                "reference": "20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a",
                 "shasum": ""
             },
             "require": {
@@ -559,7 +525,7 @@
                 "source": "https://github.com/matomo-org/piwik",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2020-11-12T17:19:41+00:00"
+            "time": "2020-12-07T09:40:38+00:00"
         },
         {
             "name": "matomo/ini",
@@ -2248,6 +2214,75 @@
                 }
             ],
             "time": "2020-10-27T19:28:23+00:00"
+        },
+        {
+            "name": "wikimedia/less.php",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wikimedia/less.php.git",
+                "reference": "a486d78b9bd16b72f237fc6093aa56d69ce8bd13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wikimedia/less.php/zipball/a486d78b9bd16b72f237fc6093aa56d69ce8bd13",
+                "reference": "a486d78b9bd16b72f237fc6093aa56d69ce8bd13",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.9"
+            },
+            "require-dev": {
+                "mediawiki/mediawiki-codesniffer": "34.0.0",
+                "mediawiki/minus-x": "1.0.0",
+                "php-parallel-lint/php-console-highlighter": "0.5.0",
+                "php-parallel-lint/php-parallel-lint": "1.2.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "bin": [
+                "bin/lessc"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Less": "lib/"
+                },
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Schmidt",
+                    "homepage": "https://github.com/oyejorge"
+                },
+                {
+                    "name": "Matt Agar",
+                    "homepage": "https://github.com/agar"
+                },
+                {
+                    "name": "Martin Jantošovič",
+                    "homepage": "https://github.com/Mordred"
+                }
+            ],
+            "description": "PHP port of the Javascript version of LESS http://lesscss.org (Originally maintained by Josh Schmidt)",
+            "keywords": [
+                "css",
+                "less",
+                "less.js",
+                "lesscss",
+                "php",
+                "stylesheet"
+            ],
+            "support": {
+                "issues": "https://github.com/wikimedia/less.php/issues",
+                "source": "https://github.com/wikimedia/less.php/tree/v3.1.0"
+            },
+            "time": "2020-12-11T19:33:31+00:00"
         }
     ],
     "packages-dev": [
@@ -4012,7 +4047,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "leafo/lessphp": 20,
         "tedivm/jshrink": 20,
         "lox/xhprof": 20
     },
@@ -4023,7 +4057,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.2.5"
+        "php": "7.2.9"
     },
     "plugin-api-version": "2.0.0"
 }

@@ -395,6 +395,10 @@ hash_algorithm = whirlpool
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
+; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
+host_validation_use_server_name = 0
+
 ; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
 session_gc_probability = 1
 
@@ -565,6 +569,7 @@ assume_secure_protocol = 0
 ; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
 ; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
 ; installed on one server or a config one change would be only made on one server instead of all servers.
+; This flag doesn't need to be enabled when the config file is on a shared filesystem such as NFS or EFS.
 multi_server_environment = 0
 
 ; List of proxy headers for client IP addresses
@@ -714,6 +719,10 @@ enable_auto_update = 1
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+; This option defines the protocols Matomo's Http class is allowed to open.
+; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
+allowed_outgoing_protocols = 'http,https'
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
@@ -871,6 +880,12 @@ create_new_visit_when_website_referrer_changes = 0
 ; ONLY CHANGE THIS VALUE WHEN YOU DO NOT USE MATOMO ARCHIVING, SINCE THIS COULD CAUSE PARTIALLY MISSING ARCHIVE DATA
 ; Whether to force a new visit at midnight for every visitor. Default 1.
 create_new_visit_after_midnight = 1
+
+; Will force the creation of a new visit once a visit had this many actions.
+; Increasing this number can slow down the tracking in Matomo and put more load on the database.
+; Increase this limit if it's expected that you have visits with more than this many actions.
+; Set to 0 or a negative value to allow unlimited actions.
+create_new_visit_after_x_actions = 10000
 
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;

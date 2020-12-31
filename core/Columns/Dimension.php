@@ -757,12 +757,30 @@ abstract class Dimension
     {
         $columns = $plugin->findMultipleComponents('Columns', '\\Piwik\\Columns\\Dimension');
         $instances  = array();
+        $removedDimensions = self::getRemovedDimensions();
 
-        foreach ($columns as $colum) {
-            $instances[] = new $colum();
+        foreach ($columns as $column) {
+            if (!in_array($column, $removedDimensions)) {
+                $instances[] = new $column();
+            }
         }
 
         return $instances;
+    }
+
+    /**
+     * Returns a list of dimension class names that have been removed from core over time
+     *
+     * @return string[]
+     */
+    public static function getRemovedDimensions()
+    {
+        return [
+            // dimensions removed in Matomo 4.0.0
+            'Piwik\Plugins\DevicePlugins\Columns\PluginDirector',
+            'Piwik\Plugins\DevicePlugins\Columns\PluginGears',
+            'Piwik\Plugins\VisitorInterest\Columns\VisitsByDaysSinceLastVisit',
+        ];
     }
 
     /**
