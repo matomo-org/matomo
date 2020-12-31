@@ -205,7 +205,9 @@ class SearchEngine extends Singleton
 
         $searchEngineName = $definitions['name'];
         $variableNames    = $definitions['params'];
-        $keywordsHiddenFor = !empty($definitions['hiddenkeyword']) ? $definitions['hiddenkeyword'] : array();
+        $keywordsHiddenFor = !empty($definitions['hiddenkeyword']) ? $definitions['hiddenkeyword'] : array(
+            '/^$/', '/'
+        );
 
         $key = null;
         if ($searchEngineName === 'Google Images') {

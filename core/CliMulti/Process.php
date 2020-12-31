@@ -8,6 +8,7 @@
 namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
@@ -43,6 +44,15 @@ class Process
         $this->pid = $pid;
 
         $this->markAsNotStarted();
+    }
+
+    private static function isForcingAsyncProcessMode()
+    {
+        try {
+            return (bool) StaticContainer::get('test.vars.forceCliMultiViaCurl');
+        } catch (\Exception $ex) {
+            return false;
+        }
     }
 
     public function getPid()
@@ -178,6 +188,12 @@ class Process
 
     public static function isSupported()
     {
+        if (defined('PIWIK_TEST_MODE')
+            && self::isForcingAsyncProcessMode()
+        ) {
+            return false;
+        }
+
         if (SettingsServer::isWindows()) {
             return false;
         }

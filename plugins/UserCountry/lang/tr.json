@@ -21,6 +21,8 @@
         "GeoIPDocumentationSuffix": "Bu raporun verilerini görüntülemek için Coğrafi konum yönetici sekmesinden GeoIP kurulumunu yapmalısınız. Ticari %1$sMaxmind%2$s GeoIP veritabanları ücretsiz olanlardan daha doğrudur. Doğruluğu görmek için %3$sburaya tıklayın%4$s",
         "Geolocation": "Coğrafi Konum",
         "GeolocationPageDesc": "Ziyaretçi konumun Matomo tarafından nasıl bulunacağı bu bölümden ayarlanabilir.",
+        "GeolocationProviderBroken": "Yapılandırlmış %1$s coğrafi konum hizmeti sağlayıcısı çalışmıyor. Coğrafi konum hizmetini yeniden çalıştırmak için lütfen hizmet sağlayıcıyı çalışır duruma getirin ya da başka bir hizmet sağlayıcı yapılandırın.",
+        "GeolocationProviderUnavailable": "Yapılandırlmış %1$s coğrafi konum hizmeti sağlayıcısı artık kullanılamıyor. Lütfen başka bir hizmet sağlayıcı yapılandırın.",
         "getCityDocumentation": "Bu rapor, ziyaretçilerin web sitenize eriştiği il bilgilerini içerir.",
         "getContinentDocumentation": "Bu rapor, ziyaretçilerin web sitenize eriştiği kıta bilgilerini içerir.",
         "getCountryDocumentation": "Bu rapor, ziyaretçilerin web sitenize eriştiği ülke bilgilerini içerir.",

@@ -305,4 +305,146 @@ class ColumnDimensionTest extends IntegrationTestCase
             array($type = Dimension::TYPE_BOOL, $value = 1, $expected = 'Yes'),
         );
     }
+
+    protected static $availableColumnDimensions = [
+        'Piwik\Plugins\Actions\Columns\EntryPageTitle',
+        'Piwik\Plugins\Actions\Columns\EntryPageUrl',
+        'Piwik\Plugins\Actions\Columns\ExitPageTitle',
+        'Piwik\Plugins\Actions\Columns\ExitPageUrl',
+        'Piwik\Plugins\Actions\Columns\IdPageview',
+        'Piwik\Plugins\Actions\Columns\PageTitle',
+        'Piwik\Plugins\Actions\Columns\PageUrl',
+        'Piwik\Plugins\Actions\Columns\SearchCategory',
+        'Piwik\Plugins\Actions\Columns\SearchCount',
+        'Piwik\Plugins\Actions\Columns\TimeSpentRefAction',
+        'Piwik\Plugins\Actions\Columns\VisitTotalActions',
+        'Piwik\Plugins\Actions\Columns\VisitTotalInteractions',
+        'Piwik\Plugins\Actions\Columns\VisitTotalSearches',
+        'Piwik\Plugins\Bandwidth\Columns\Bandwidth',
+        'Piwik\Plugins\Contents\Columns\ContentInteraction',
+        'Piwik\Plugins\Contents\Columns\ContentName',
+        'Piwik\Plugins\Contents\Columns\ContentPiece',
+        'Piwik\Plugins\Contents\Columns\ContentTarget',
+        'Piwik\Plugins\CoreHome\Columns\Profilable',
+        'Piwik\Plugins\CoreHome\Columns\ServerTime',
+        'Piwik\Plugins\CoreHome\Columns\UserId',
+        'Piwik\Plugins\CoreHome\Columns\VisitFirstActionTime',
+        'Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer',
+        'Piwik\Plugins\CoreHome\Columns\VisitGoalConverted',
+        'Piwik\Plugins\CoreHome\Columns\VisitTotalTime',
+        'Piwik\Plugins\CoreHome\Columns\VisitorReturning',
+        'Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceFirst',
+        'Piwik\Plugins\CoreHome\Columns\VisitorSecondsSinceOrder',
+        'Piwik\Plugins\CoreHome\Columns\VisitsCount',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginCookie',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginFlash',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginJava',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginPdf',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginQuickTime',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginRealPlayer',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginSilverlight',
+        'Piwik\Plugins\DevicePlugins\Columns\PluginWindowsMedia',
+        'Piwik\Plugins\DevicesDetection\Columns\BrowserEngine',
+        'Piwik\Plugins\DevicesDetection\Columns\BrowserName',
+        'Piwik\Plugins\DevicesDetection\Columns\BrowserVersion',
+        'Piwik\Plugins\DevicesDetection\Columns\ClientType',
+        'Piwik\Plugins\DevicesDetection\Columns\DeviceBrand',
+        'Piwik\Plugins\DevicesDetection\Columns\DeviceModel',
+        'Piwik\Plugins\DevicesDetection\Columns\DeviceType',
+        'Piwik\Plugins\DevicesDetection\Columns\Os',
+        'Piwik\Plugins\DevicesDetection\Columns\OsVersion',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewCategory',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewCategory2',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewCategory3',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewCategory4',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewCategory5',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewName',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewPrice',
+        'Piwik\Plugins\Ecommerce\Columns\ProductViewSku',
+        'Piwik\Plugins\Ecommerce\Columns\Revenue',
+        'Piwik\Plugins\Events\Columns\EventAction',
+        'Piwik\Plugins\Events\Columns\EventCategory',
+        'Piwik\Plugins\Events\Columns\TotalEvents',
+        'Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion',
+        'Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing',
+        'Piwik\Plugins\PagePerformance\Columns\TimeNetwork',
+        'Piwik\Plugins\PagePerformance\Columns\TimeOnLoad',
+        'Piwik\Plugins\PagePerformance\Columns\TimeServer',
+        'Piwik\Plugins\PagePerformance\Columns\TimeTransfer',
+        'Piwik\Plugins\Referrers\Columns\Keyword',
+        'Piwik\Plugins\Referrers\Columns\ReferrerName',
+        'Piwik\Plugins\Referrers\Columns\ReferrerType',
+        'Piwik\Plugins\Referrers\Columns\ReferrerUrl',
+        'Piwik\Plugins\Resolution\Columns\Resolution',
+        'Piwik\Plugins\UserCountry\Columns\City',
+        'Piwik\Plugins\UserCountry\Columns\Country',
+        'Piwik\Plugins\UserCountry\Columns\Latitude',
+        'Piwik\Plugins\UserCountry\Columns\Longitude',
+        'Piwik\Plugins\UserCountry\Columns\Region',
+        'Piwik\Plugins\UserLanguage\Columns\Language',
+        'Piwik\Plugins\VisitTime\Columns\LocalTime',
+        'Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast',
+    ];
+
+    /**
+     * Check all available dimensions are listed above
+     */
+    public function testNoNewDimensionsAvailable()
+    {
+        self::expectNotToPerformAssertions();
+        Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
+
+        $dimensions = Dimension::getAllDimensions();
+
+        foreach ($dimensions as $dimension) {
+            if (!$dimension->getColumnName() || !$dimension->getVersion()) {
+                continue; // ignore dimensions that don't manage their database column
+            }
+
+            if (!in_array(get_class($dimension), self::$availableColumnDimensions)) {
+                $this->fail("New dimension found: ".get_class($dimension)."\nPlease update list of available column dimensions");
+            }
+        }
+    }
+
+    /**
+     * Check all dimensions listed above, still exist and manage their column
+     */
+    public function testNoDimensionWasRemoved()
+    {
+        self::expectNotToPerformAssertions();
+        Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
+
+        $removedDimensions = Dimension::getRemovedDimensions();
+
+        foreach (self::$availableColumnDimensions as $dimension) {
+            if (!class_exists($dimension)) {
+                $this->fail("Dimension does no longer exist: $dimension\nPlease update list of available column dimensions and don't forget to add dimension to Dimension::getRemovedDimensions()");
+            }
+
+            $dimensionObj = new $dimension();
+
+            if (!$dimensionObj->getColumnName() || !$dimensionObj->getVersion()) {
+                $this->fail("Dimension does no longer manage a column: $dimension\nPlease remove it from the list of available column dimensions");
+            }
+
+            if (in_array($dimension, $removedDimensions)) {
+                $this->fail("Dimension listed as available found in list of removed dimensions: $dimension");
+            }
+        }
+    }
+
+    /**
+     * Check non of the dimensions marked as removed still exist
+     */
+    public function testRemovedDimensionNoLongerExists()
+    {
+        Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
+
+        $removedDimensions = Dimension::getRemovedDimensions();
+
+        foreach ($removedDimensions as $removedDimension) {
+            $this->assertFalse(class_exists($removedDimension), "Dimension marked as removed but still exist: $removedDimension");
+        }
+    }
 }
