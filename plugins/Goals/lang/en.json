@@ -109,7 +109,7 @@
         "GoalsAdjective": "Goals %s",
         "VisitPageTitle": "Visit a given Page Title",
         "VisitsUntilConv": "Visits to Conversion",
-        "VisitsUntilConvReportDocumentation": "This reports show how many visits a visitor needs to convert a goal.",
+        "VisitsUntilConvReportDocumentation": "This report shows the number of visits made before a visitor converts a goal.",
         "VisitUrl": "Visit a given URL (page or group of pages)",
         "VisitDurationMatchAttr": "Stay for a certain amount of time",
         "VisitDuration": "visit duration is",
@@ -124,6 +124,6 @@
         "AtLeastMinutes": "at least %1$s minutes. Use decimals to match seconds, for example, %2$s to match 30 seconds.",
         "TimeInMinutes": "Time in Minutes",
         "ClickToViewThisGoal": "Click to view this goal.",
-        "OverviewReportDocumentation": "This report gives an overview over the base conversion metrics."
+        "OverviewReportDocumentation": "This report gives an overview of how well your visitors convert a specific goal."
     }
 }
