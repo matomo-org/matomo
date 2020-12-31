@@ -11,7 +11,9 @@ namespace Piwik\DataAccess;
 
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\Concurrency\Lock;
+use Piwik\Config;
 use Piwik\Db\AdapterInterface;
+use Piwik\DbHelper;
 use Psr\Log\LoggerInterface;
 
 class ArchivingDbAdapter
@@ -31,11 +33,17 @@ class ArchivingDbAdapter
      */
     private $logger;
 
+    /**
+     * @var int
+     */
+    private $maxExecutionTime;
+
     public function __construct($wrapped, Lock $archivingLock = null, LoggerInterface $logger = null)
     {
         $this->wrapped = $wrapped;
         $this->archivingLock = $archivingLock;
         $this->logger = $logger;
+        $this->maxExecutionTime = (float) Config::getInstance()->General['archiving_query_max_execution_time'];
     }
 
     public function __call($name, $arguments)
@@ -46,6 +54,7 @@ class ArchivingDbAdapter
     public function exec($sql)
     {
         $this->reexpireLock();
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
         return call_user_func_array([$this->wrapped, __FUNCTION__], func_get_args());
@@ -54,6 +63,7 @@ class ArchivingDbAdapter
     public function query($sql)
     {
         $this->reexpireLock();
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
         return call_user_func_array([$this->wrapped, __FUNCTION__], func_get_args());
@@ -62,6 +72,7 @@ class ArchivingDbAdapter
     public function fetchAll($sql)
     {
         $this->reexpireLock();
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
         return call_user_func_array([$this->wrapped, __FUNCTION__], func_get_args());
@@ -70,6 +81,7 @@ class ArchivingDbAdapter
     public function fetchRow($sql)
     {
         $this->reexpireLock();
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
         return call_user_func_array([$this->wrapped, __FUNCTION__], func_get_args());
@@ -78,6 +90,7 @@ class ArchivingDbAdapter
     public function fetchOne($sql)
     {
         $this->reexpireLock();
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
         return call_user_func_array([$this->wrapped, __FUNCTION__], func_get_args());
@@ -86,6 +99,7 @@ class ArchivingDbAdapter
     public function fetchAssoc($sql)
     {
         $this->reexpireLock();
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
         return call_user_func_array([$this->wrapped, __FUNCTION__], func_get_args());

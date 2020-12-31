@@ -276,6 +276,24 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_visits'));
     }
 
+    public function test_searchEngineWithHiddenKeywordIsTrackedCorrectly()
+    {
+        $dateTime = '2015-01-09';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+
+        $t->setUrlReferrer('https://www.looksmart.com/');
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('Referrers.getSearchEngines', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $this->assertEquals('Looksmart', $visits->getFirstRow()->getColumn('label'));
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+    }
+
     public static function getOutputPrefix()
     {
         return '';
