@@ -235,7 +235,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_GlobalListExcludedUserAgents_Desc')
                 . '<br />'
-                . Piwik::translate('SitesManager_GlobalExcludedUserAgentHelp2');
+                . Piwik::translate('SitesManager_GlobalExcludedUserAgentHelp2') . " "
+                . Piwik::translate('SitesManager_GlobalExcludedUserAgentHelp3', "/bot|spider|crawl|scanner/i")
+            ;
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->uiControlAttributes = array('cols' => '20', 'rows' => '4');
             $field->transform = function ($value) use ($self) {
