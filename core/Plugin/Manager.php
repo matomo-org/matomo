@@ -1466,6 +1466,7 @@ class Manager
             'PluginMarketplace', //defines a plugin.json but 1.x Piwik plugin
             'DoNotTrack', // Removed in 2.0.3
             'AnonymizeIP', // Removed in 2.0.3
+            'wp-optimize', // a WP plugin that has a plugin.json file but is not a matomo plugin
         );
         return in_array($pluginName, $bogusPlugins);
     }

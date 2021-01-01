@@ -113,16 +113,16 @@
                 ng-show="manageScheduledReport.report.displayFormat == '1' || manageScheduledReport.report.displayFormat == '2' || manageScheduledReport.report.displayFormat == '3'"
             >
                 <div class="col s12">
-                    <input id="report_evolution_period_for_each" name="report_evolution_period_for" type="radio" checked value="each" ng-model="manageScheduledReport.report.evolutionPeriodFor" />
-                    <label for="report_evolution_period_for_each" piwik-translate="ScheduledReports_EvolutionGraphsShowForEachInPeriod">
-                        <strong>::</strong>::{{ "{{ manageScheduledReport.getFrequencyPeriodSingle() }}" }}
+                    <label for="report_evolution_period_for_each">
+                        <input id="report_evolution_period_for_each" name="report_evolution_period_for" type="radio" checked value="each" ng-model="manageScheduledReport.report.evolutionPeriodFor" />
+                        <span piwik-translate="ScheduledReports_EvolutionGraphsShowForEachInPeriod"><strong>::</strong>::{{ "{{ manageScheduledReport.getFrequencyPeriodSingle() }}" }}</span>
                     </label>
                 </div>
                 <div class="col s12">
-                    <input id="report_evolution_period_for_prev" name="report_evolution_period_for" type="radio" value="prev" ng-model="manageScheduledReport.report.evolutionPeriodFor" />
                     <label for="report_evolution_period_for_prev">
-                        {{ "{{ 'ScheduledReports_EvolutionGraphsShowForPreviousN'|translate:manageScheduledReport.getFrequencyPeriodPlural() }}" }}:
-                        <input type="number" name="report_evolution_period_n" ng-model="manageScheduledReport.report.evolutionPeriodN" />
+                        <input id="report_evolution_period_for_prev" name="report_evolution_period_for" type="radio" value="prev" ng-model="manageScheduledReport.report.evolutionPeriodFor" />
+                        <span>{{ "{{ 'ScheduledReports_EvolutionGraphsShowForPreviousN'|translate:manageScheduledReport.getFrequencyPeriodPlural() }}" }}:
+                            <input type="number" name="report_evolution_period_n" ng-model="manageScheduledReport.report.evolutionPeriodN" /></span>
                     </label>
                 </div>
             </div>

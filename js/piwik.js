@@ -62,13 +62,13 @@
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
     setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
-    discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon,
+    discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon, isUsingAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
@@ -4827,6 +4827,9 @@ if (typeof window.Matomo !== 'object') {
             this.getContent = function () {
                 return content;
             };
+            this.isUsingAlwaysUseSendBeacon = function () {
+                return configAlwaysUseSendBeacon;
+            };
 
             this.buildContentImpressionRequest = buildContentImpressionRequest;
             this.buildContentInteractionRequest = buildContentInteractionRequest;
@@ -5504,12 +5507,21 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Set request method
+             * Set request method. If you specify GET then it will automatically disable sendBeacon.
              *
              * @param string method GET or POST; default is GET
              */
             this.setRequestMethod = function (method) {
-                configRequestMethod = method || defaultRequestMethod;
+                if (method) {
+                    configRequestMethod = String(method).toUpperCase();
+                } else {
+                    configRequestMethod = defaultRequestMethod;
+                }
+
+                if (configRequestMethod === 'GET') {
+                    // send beacon always sends a POST request so we have to disable it to make GET work
+                    this.disableAlwaysUseSendBeacon();
+                }
             };
 
             /**
@@ -5521,6 +5533,14 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setRequestContentType = function (requestContentType) {
                 configRequestContentType = requestContentType || defaultRequestContentType;
+            };
+
+            /**
+             * Removed since Matomo 4
+             * @param generationTime
+             */
+            this.setGenerationTimeMs = function(generationTime) {
+                logConsoleError('setGenerationTimeMs is no longer supported since Matomo 4. The call will be ignored. There is currently no replacement yet.');
             };
 
             /**

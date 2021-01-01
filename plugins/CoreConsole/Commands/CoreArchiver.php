@@ -41,7 +41,6 @@ class CoreArchiver extends ConsoleCommand
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
         $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
-        $archiver->skipSegmentsToday = $input->getOption('skip-segments-today');
         $archiver->shouldArchiveAllSites = $input->getOption('force-all-websites');
         $archiver->setUrlToPiwik($url);
 
@@ -49,6 +48,7 @@ class CoreArchiver extends ConsoleCommand
         $archiveFilter->setDisableSegmentsArchiving($input->getOption('skip-all-segments'));
         $archiveFilter->setRestrictToDateRange($input->getOption("force-date-range"));
         $archiveFilter->setRestrictToPeriods($input->getOption("force-periods"));
+        $archiveFilter->setSkipSegmentsForToday($input->getOption('skip-segments-today'));
 
         $segmentIds = $input->getOption('force-idsegments');
         $segmentIds = explode(',', $segmentIds);

@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp.service').service('piwik', piwikService);
 
-    piwikService.$inject = ['piwikPeriods'];
+    piwikService.$inject = ['piwikPeriods', 'piwikUrl'];
 
-    function piwikService(piwikPeriods) {
+    function piwikService(piwikPeriods, piwikUrl) {
         var originalTitle;
         piwik.helper    = piwikHelper;
         piwik.broadcast = broadcast;
@@ -23,8 +23,8 @@
         }
 
         function updatePeriodParamsFromUrl() {
-            var date = piwik.broadcast.getValueFromHash('date') || piwik.broadcast.getValueFromUrl('date');
-            var period = piwik.broadcast.getValueFromHash('period') || piwik.broadcast.getValueFromUrl('period');
+            var date = piwikUrl.getSearchParam('date');
+            var period = piwikUrl.getSearchParam('period');
             if (!isValidPeriod(period, date)) {
                 // invalid data in URL
                 return;
@@ -54,7 +54,7 @@
 
         function isValidPeriod(periodStr, dateStr) {
             try {
-                piwikPeriods.get(periodStr).parse(dateStr);
+                piwikPeriods.parse(periodStr, dateStr);
                 return true;
             } catch (e) {
                 return false;

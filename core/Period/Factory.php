@@ -74,7 +74,7 @@ abstract class Factory
         self::checkPeriodIsEnabled($period);
 
         if (is_string($date)) {
-            list($period, $date) = self::convertRangeToDateIfNeeded($period, $date);
+            [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
             if (Period::isMultiplePeriod($date, $period)
                 || $period == 'range'
             ) {
@@ -160,19 +160,18 @@ abstract class Factory
             $timezone = 'UTC';
         }
 
-        list($period, $date) = self::convertRangeToDateIfNeeded($period, $date);
+        [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
 
         if ($period == 'range') {
             self::checkPeriodIsEnabled('range');
             $oPeriod = new Range('range', $date, $timezone, Date::factory('today', $timezone));
         } else {
             if (!($date instanceof Date)) {
-                if ($date == 'now' || $date == 'today') {
-                    $date = date('Y-m-d', Date::factory('now', $timezone)->getTimestamp());
-                } elseif ($date == 'yesterday' || $date == 'yesterdaySameTime') {
-                    $date = date('Y-m-d', Date::factory('now', $timezone)->subDay(1)->getTimestamp());
+                if (preg_match('/^(now|today|yesterday|yesterdaySameTime|last[ -]?(?:week|month|year))$/i', $date)) {
+                    $date = Date::factory($date, $timezone);
+                } else {
+                    $date = Date::factory($date);
                 }
-                $date = Date::factory($date);
             }
             $oPeriod = Factory::build($period, $date);
         }

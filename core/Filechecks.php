@@ -148,9 +148,21 @@ class Filechecks
 
         $group = trim(shell_exec('groups '. $user .' | cut -f3 -d" "'));
 
+        if (empty($group) && function_exists('posix_getegid') && function_exists('posix_getgrgid')) {
+            $currentGroupId = posix_getegid();
+
+            $group = posix_getpwuid($currentGroupId);
+            if (!empty($group['name'])) {
+                $group = $group['name'];
+            } else {
+                $group = $currentGroupId;
+            }
+        }
+
         if (empty($group)) {
             $group = 'www-data';
         }
+
         return $user . ':' . $group;
     }
 
@@ -161,11 +173,23 @@ class Filechecks
         }
 
         $currentUser = get_current_user();
-        if(!empty($currentUser)) {
-            return $currentUser;
+
+        if (empty($currentUser) && function_exists('posix_geteuid') && function_exists('posix_getpwuid')) {
+            $currentUserId = posix_geteuid();
+
+            $user = posix_getpwuid($currentUserId);
+            if (!empty($user['name'])) {
+                $currentUser = $user['name'];
+            } else {
+                $currentUser = $currentUserId;
+            }
         }
 
-        return 'www-data';
+        if (empty($currentUser)) {
+            $currentUser = 'www-data';
+        }
+
+        return $currentUser;
     }
 
     /**
@@ -196,26 +220,33 @@ class Filechecks
     {
         $index = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/index.php');
         $stat = stat($index);
-        if(!$stat) {
+        if (!$stat) {
             return '';
         }
 
         if (function_exists('posix_getgrgid')) {
             $group = posix_getgrgid($stat[5]);
-            $group = $group['name'];
+
+            if (!empty($group['name'])) {
+                $group = $group['name'];
+            } else {
+                $group = $stat[5];
+            }
         } else {
             return '';
         }
 
         if (function_exists('posix_getpwuid')) {
             $user = posix_getpwuid($stat[4]);
-            $user = $user['name'];
+            if (!empty($user['name'])) {
+                $user = $user['name'];
+            } else {
+                $user = $stat[4];
+            }
         } else {
             return '';
         }
 
         return "$user:$group";
     }
-
-
 }

@@ -87,7 +87,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function test_minimumPhpVersion_isDefinedInComposerJson()
     {
         $composerJson = $this->getComposerJsonAsArray();
-        $this->assertEquals(self::MINIMUM_PHP_VERSION, $composerJson['config']['platform']['php']);
+        // platform value is currently higher than minimum required php version to circumvent minimum requirement of wikimedia/less.php
+        $this->assertEquals('7.2.9' /*self::MINIMUM_PHP_VERSION*/, $composerJson['config']['platform']['php']);
 
         $expectedRequirePhp = '>=' . self::MINIMUM_PHP_VERSION;
         $this->assertEquals($expectedRequirePhp, $composerJson['require']['php']);
@@ -252,6 +253,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whois_response.html',
+            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whoiscom_response.html',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
             // Note: entries below are paths and any file within these paths will be automatically allowed
@@ -922,6 +925,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             if(strpos($file, 'vendor/php-di/php-di/website/') !== false
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
+                || strpos($file, 'vendor/wikimedia/less.php/') !== false
                 || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;

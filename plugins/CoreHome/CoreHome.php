@@ -453,6 +453,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DoubleClickToChangePeriod';
         $translationKeys[] = 'General_Apply';
         $translationKeys[] = 'General_Period';
+        $translationKeys[] = 'General_CompareTo';
+        $translationKeys[] = 'CoreHome_DateInvalid';
         $translationKeys[] = 'CoreHome_EnterZenMode';
         $translationKeys[] = 'CoreHome_ExitZenMode';
         $translationKeys[] = 'CoreHome_ShortcutZenMode';

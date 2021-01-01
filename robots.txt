@@ -1,0 +1,32 @@
+User-agent: Googlebot
+User-agent: AdsBot-Google
+User-agent: AdsBot-Google-Mobile
+User-agent: AdsBot-Google-Mobile-Apps
+User-agent: Google Favicon
+User-agent: Googlebot-News
+User-agent: Googlebot-Image
+User-agent: Googlebot-Video
+User-agent: Mediapartners-Google
+User-agent: APIs-Google
+User-agent: DuplexWeb-Google
+User-agent: Bingbot
+User-agent: Slurp
+User-agent: DuckDuckBot
+User-agent: Baiduspider
+User-agent: AhrefsBot
+User-agent: rogerbot
+User-agent: YandexBot
+User-agent: DotBot
+User-agent: Twitterbot
+User-agent: BingPreview
+User-agent: LinkedInBot
+User-agent: Yandexbot
+User-agent: facebot
+User-agent: facebookexternalhit
+User-agent: MSNBot
+User-agent: MSNBot-Media
+Disallow: /
+
+User-agent: *
+Disallow: /matomo.php
+Disallow: /piwik.php

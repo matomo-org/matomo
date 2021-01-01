@@ -17,7 +17,7 @@ use Piwik\DataTable\Simple;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_CSVTest extends \PHPUnit\Framework\TestCase
+class CSVTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp(): void
     {
@@ -459,7 +459,7 @@ b,d,f,g';
         $render = new Csv();
         $render->setTable($data);
         $render->convertToUnicode = false;
-        $expected = 'b';
+        $expected = "a\nb";
 
         $this->assertEquals($expected, $render->render());
     }

@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_LimitTest extends \PHPUnit\Framework\TestCase
+class LimitTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Returns table used for the tests

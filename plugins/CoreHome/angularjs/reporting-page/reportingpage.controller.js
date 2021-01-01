@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingPageController', ReportingPageController);
 
-    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikUrl'];
+    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikUrl', 'piwikPeriods'];
 
-    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikUrl) {
+    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikUrl, $piwikPeriods) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
 
@@ -26,8 +26,8 @@
         function renderInitialPage()
         {
             var $search = $location.search();
-            currentPeriod = $search.period;
-            currentDate = $search.date;
+            currentPeriod = piwikUrl.getSearchParam('period');
+            currentDate = piwikUrl.getSearchParam('date');
             currentSegment = $search.segment;
             currentCompareSegments = piwikUrl.getSearchParam('compareSegments');
             currentCompareDates = piwikUrl.getSearchParam('compareDates');
@@ -41,6 +41,25 @@
                 $scope.loading = false;
                 return;
             }
+
+            var UI = require('piwik/UI');
+
+            try {
+                $piwikPeriods.parse(currentPeriod, currentDate);
+            } catch (e) {
+                var notification   = new UI.Notification();
+                var attributes = {};
+                attributes.id = 'invalidDate';
+                attributes.animate = false;
+                attributes.context = 'error';
+                notification.show(_pk_translate('CoreHome_DateInvalid'), attributes);
+
+                pageModel.resetPage();
+                $scope.loading = false;
+                return;
+            }
+
+            (new UI.Notification()).remove('invalidDate');
 
             $rootScope.$emit('piwikPageChange', {});
 
@@ -91,8 +110,8 @@
             // should be handled by $route
             var category = $search.category;
             var subcategory = $search.subcategory;
-            var period = $search.period;
-            var date = $search.date;
+            var period = piwikUrl.getSearchParam('period');
+            var date = piwikUrl.getSearchParam('date');
             var segment = $search.segment;
 
             // $location does not handle array parameters properly

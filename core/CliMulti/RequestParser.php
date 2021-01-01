@@ -9,6 +9,8 @@
 
 namespace Piwik\CliMulti;
 
+use Piwik\SettingsPiwik;
+
 class RequestParser
 {
     private $supportsAsync;
@@ -62,9 +64,13 @@ class RequestParser
 
     private function getPsLinesWithCliMulti(string $psOutput)
     {
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
         $lines = explode("\n", $psOutput);
         $lines = array_map('trim', $lines);
-        $lines = array_filter($lines, function ($line) {
+        $lines = array_filter($lines, function ($line) use ($instanceId) {
+            if (!empty($instanceId) && strpos($line, 'matomo-domain=' . $instanceId) === false) {
+                return false;
+            }
             return strpos($line, 'climulti:request') !== false
                 && (
                     strpos($line, 'console') !== false || strpos($line, 'php') !== false
