@@ -595,7 +595,6 @@ class Http
                 // curl options (sorted oldest to newest)
                 CURLOPT_URL            => $aUrl,
                 CURLOPT_USERAGENT      => $userAgent,
-                CURLOPT_ENCODING       => "",
                 CURLOPT_HTTPHEADER     => array_merge(array(
                     $xff,
                     $via,
@@ -609,6 +608,11 @@ class Http
 
             if ($rangeBytes) {
                 curl_setopt($ch, CURLOPT_RANGE, $rangeBytes);
+            } else {
+                // see https://github.com/matomo-org/matomo/pull/17009 for more info
+                // NOTE: we only do this when CURLOPT_RANGE is not being used, because when using both the
+                // response is empty.
+                $curl_options[CURLOPT_ENCODING] = "";
             }
 
             // Case core:archive command is triggering archiving on https:// and the certificate is not valid
