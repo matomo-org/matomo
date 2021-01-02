@@ -39,7 +39,6 @@
         "KeepURLFragmentsLong": "Zadrži URL fragmente prilikom praćenja",
         "ListOfIpsToBeExcludedOnAllWebsites": "Sledeće IP adrese će biti izuzete iz praćenja na svim sajtovima.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Sledeći parametri će biti izuzeti iz praćenja na svim sajtovima.",
-        "ListOfQueryParametersToExclude": "Navedite listu parametara, jedan po liniji, koje treba izuzeti iz izveštaja. Dozvoljeni su regularni izrazi poput %s.",
         "LogAnalytics": "Analiza zapisa",
         "LogAnalyticsDescription": "Ukoliko praćenje pomoću javaskripta nije moguće, možete %1$skoristiti analizu serverskih zapisa%2$s kao alternativnu metodu praćenja posetilaca vašeg sajta.",
         "MainDescription": "Potrebni su vam sajtovi da biste mogli da pratite izveštaje. Dodajte, izmenite ili uklonite sajtove, pogledajte JavaScript kod koji je potrebno postaviti na vaše stranice.",

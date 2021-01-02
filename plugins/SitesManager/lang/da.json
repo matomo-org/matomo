@@ -42,7 +42,6 @@
         "KeepURLFragmentsLong": "Behold URL-fragmenter ved sporing",
         "ListOfIpsToBeExcludedOnAllWebsites": "Indtast IP-adresser, som skal udelukkes fra at blive sporet på alle hjemmesider.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL-søgeparameterne nedenfor vil blive udelukket fra URL'er på alle hjemmesider.",
-        "ListOfQueryParametersToExclude": "Angiv listen af URL-parametre (én pr. linje), der skal ekskluderes fra side-URL-rapporter. Du kan bruge regulære udtryk, såsom %s.",
         "LogAnalytics": "Log-analyser",
         "LogAnalyticsDescription": "Hvis JavaScript tracking metode ikke er mulig, kan du %1$s bruge serverlog analyser %2$s som en alternativ metode til at tracke dine website-brugere.",
         "MainDescription": "Din hjemmesideanalyse kræver hjemmesider! Tilføj, opdater, slet hjemmesider og vis JavaScript-koden, som skal indsættes på dine sider.",

@@ -46,6 +46,7 @@
         "GenericDevice": "通用 %s",
         "MobileDevice": "行動裝置",
         "Tablet": "平板電腦",
+        "Peripheral": "周邊設備",
         "Phablet": "平板手機",
         "TV": "電視",
         "UserAgent": "User Agent",

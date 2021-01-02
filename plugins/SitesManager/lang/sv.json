@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Behåll sidans URL fragment när du spårar sidans URL.",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-adresserna som är listade nedan kommer att bli exkluderade från spårning på samtliga webbplatser.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Webbadressernas parametrar nedan kommer att uteslutas från webbadresser på alla webbplatser.",
-        "ListOfQueryParametersToExclude": "Ange en lista med URL-parametrar som du vill utesluta från Sid URL rapporterna. En parameter per rad, Regular expressions som t.ex. %s är tillåtna.",
         "LogAnalytics": "Loggfilsanalys",
         "LogAnalyticsDescription": "Om Javascript-spårning inte är möjlig kan du %1$s använda loggfilsanalys %2$s som en alternativ metod för att spåra webbplatsens användare.",
         "MainDescription": "Dina rapporter kräver att du har webbplatser upplagda! Lägg till, uppdatera, ta bort webbplatser, och visa JavaScript spårningskoden för att inkludera den på din webbplats.",
