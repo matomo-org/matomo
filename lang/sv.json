@@ -133,7 +133,10 @@
         "DaysHours": "%1$s dagar %2$s timmar",
         "DaysSinceFirstVisit": "Dagar sedan första besöket",
         "DaysSinceLastEcommerceOrder": "Antalet dagar sedan senaste ordern",
+        "SecondsSinceLastEcommerceOrder": "Sekunder sedan senaste e-handelsordern",
         "DaysSinceLastVisit": "Dagar sedan senaste besöket",
+        "SecondsSinceLastVisit": "Sekunder sedan senaste besöket",
+        "SecondsSinceFirstVisit": "Sekunder sedan första besöket",
         "Default": "Standard",
         "DefaultAppended": "(standard)",
         "Delete": "Ta bort",
@@ -514,7 +517,10 @@
         "MaximumNumberOfSegmentsComparedIs": "Max %s segment kan jämföras samtidigt.",
         "CompareDatesParamMustMatchComparePeriods": "Längden av frågeparametern %1$s måste matcha länden av %2$s.",
         "MaximumNumberOfPeriodsComparedIs": "Max %s perioder kan jämföras samtidigt.",
-        "Custom": "Anpassad"
+        "Custom": "Anpassad",
+        "PreviousPeriod": "Föregående period",
+        "PreviousYear": "Föregående år",
+        "ViewAccessRequired": "Den använda token_auth har för mycket rättigheter för att användas i en icke-API-URL. Använd ett app-specifikt lösenord för en användare som bara har läsrättigheter."
     },
     "Mobile": {
         "AboutPiwikMobile": "Om Matomo Mobile",

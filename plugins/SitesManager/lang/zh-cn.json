@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "跟踪网址时保留网址标签",
         "ListOfIpsToBeExcludedOnAllWebsites": "以下的IP地址将被排除在所有网站统计外。",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "以下的网址查询参数将会被所有网站忽略。",
-        "ListOfQueryParametersToExclude": "请输入URL查询参数的列表，一行一个，这些URL将被排除在页面报告之外。像%s的正则表达式也是支持的。",
         "LogAnalytics": "日志分析",
         "LogAnalyticsDescription": "如果无法使用Javascript跟踪方法，则可以%1$s使用服务器日志分析%2$s作为跟踪网站用户的另一种方法。",
         "MainDescription": "使用网站分析报表功能，必须有网站！在这里添加、修改、删除网站，或者显示需要加入页面代码里的 Javascript 跟踪代码。",

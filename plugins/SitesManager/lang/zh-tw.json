@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "追蹤網頁網址時保留網頁網址片段",
         "ListOfIpsToBeExcludedOnAllWebsites": "以下的 IP 位址將會被所有網站排除。",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "以下的網址查詢參數將會被所有網站排除。",
-        "ListOfQueryParametersToExclude": "輸入網址查詢參數列表，一行一個，將從網頁網址報表中被排除。支援正規表示式如 %s。",
         "LogAnalytics": "紀錄檔分析",
         "LogAnalyticsDescription": "如果無法使用 Javascript 來追蹤，你可以改用%1$s伺服器紀錄檔追蹤%2$s的方式來追蹤你的網站使用者。",
         "MainDescription": "你需要網站來查看網頁分析報表！新增、更新或刪除網站，並取得 JavaScript 追蹤程式碼插入在你的網頁之中。",

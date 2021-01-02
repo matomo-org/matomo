@@ -22,6 +22,9 @@
         "ProfessionalServicesOfferIntro": "Hvilke ydelser kan du gøre brug af?",
         "ContactUs": "Kontakt os",
         "VisitTheForums": "Besøg %1$sforummet%2$s og få hjælp fra andre Matomo-brugere",
-        "Forums": "Forum"
+        "Forums": "Forum",
+        "HowCanWeHelp": "Hvad kan vi hjælpe med?",
+        "SearchHelpResources": "Søg i hjælpeartikler på matomo.org",
+        "PopularHelpTopics": "Populære hjælpeartikler"
     }
 }
