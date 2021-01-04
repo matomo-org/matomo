@@ -367,7 +367,7 @@ class API extends \Piwik\Plugin\API
         $allSites = $model->getSitesId();
         foreach ($segments as &$segment) {
             $idSites = !empty($segment['enable_only_idsite']) ? [(int)$segment['enable_only_idsite']] : $allSites;
-            $segmentObj = new Segment($segment['definition'], $idSites);
+            $segmentObj = new Segment(urlencode($segment['definition']), $idSites);
             $segment['hash'] = $segmentObj->getHash();
         }
 
