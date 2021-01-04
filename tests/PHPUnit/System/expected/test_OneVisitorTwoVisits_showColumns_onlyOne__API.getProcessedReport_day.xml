@@ -8,7 +8,7 @@
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
 		<action>get</action>
-		<documentation>This report gives an overview over the most basic visitor metrics.</documentation>
+		<documentation>This report provides a very general overview of how your visitors behave.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
