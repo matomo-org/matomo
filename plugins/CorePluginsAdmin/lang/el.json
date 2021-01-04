@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "Παρακαλούμε αναβαθμίστε το %1$s %2$s σε νεότερη έκδοση, απαιτείται το %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Παρακαλούμε εγκαταστήστε τα %1$s %2$s καθώς απαιτούνται από το %3$s.",
         "NoZipFileSelected": "Επιλέξτε ένα αρχείο ZIP.",
+        "FileExceedsUploadLimit": "Το επιλεγμένο αρχείο υπερβαίνει το όριο του διακομιστή σας.",
         "NumUpdatesAvailable": "%s διαθέσιμες ενημερώσεις",
         "NoPluginSettings": "Δεν υπάρχουν ρυθμίσεις που μπορούν να παραμετροποιηθούν",
         "Origin": "Προέλευση",

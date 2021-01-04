@@ -385,6 +385,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp1";
         $translationKeys[] = "SitesManager_GlobalListExcludedUserAgents_Desc";
         $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp2";
+        $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp3";
         $translationKeys[] = "SitesManager_WebsitesManagement";
         $translationKeys[] = "SitesManager_MainDescription";
         $translationKeys[] = "SitesManager_YouCurrentlyHaveAccessToNWebsites";

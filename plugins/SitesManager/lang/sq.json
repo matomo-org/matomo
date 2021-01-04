@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "Mbaji fragmentet e URL-ve të Faqeve kur ndiqen URL Faqesh",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-të më poshtë do të përjashtohen në krejt sajtet nga ndjekja.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametrat për URL-ra Kërkesash më poshtë do të përjashtohen nga URL-të për krejt sajtet.",
-        "ListOfQueryParametersToExclude": "Jepni listën e Parametrave URL Query, një për rresht, që duhen përjashtuar nga raportet URL Faqesh. Mbulohen shprehje të rregullta si %s.",
         "LogAnalytics": "Analiza Regjistri",
         "LogAnalyticsDescription": "Nëse metoda Javascript e ndjekjeve s’është e mundur, si metodë alternative për ndjekjen e përdoruesve të sajtit tuaj mund të %1$spërdorni analizat e regjistrit të shërbyesit%2$s.",
         "MainDescription": "Raportet tuaja Analizash Web lypin sajte! Shtoni, përditësoni, hiqni sajte, dhe shfaqni JavaScript-in për futje në faqet tuaja.",
