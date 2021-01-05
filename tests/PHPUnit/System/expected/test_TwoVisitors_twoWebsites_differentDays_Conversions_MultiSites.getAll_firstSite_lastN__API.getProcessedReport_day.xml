@@ -8,6 +8,7 @@
 		<module>MultiSites</module>
 		<action>getAll</action>
 		<dimension>Website</dimension>
+		<documentation>This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>

@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<name>Actions - Main metrics (Actions)</name>
+		<documentation>This report provides a very basic overview of what actions your visitors take on your website.</documentation>
+	</row>
+	<row>
+		<name>Advanced tag cloud: with logos and links (UI Framework)</name>
+		<documentation>This report shows a sample tab cloud.</documentation>
+	</row>
+	<row>
 		<name>All Channels (Referrers)</name>
 		<documentation>This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
+	</row>
+	<row>
+		<name>All Websites dashboard (All Websites)</name>
+		<documentation>This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors.</documentation>
 	</row>
 	<row>
 		<name>Browser Plugins (Visitors)</name>
@@ -17,8 +29,12 @@
 		<documentation>This report shows which language the visitor's browsers are using. (e.g. &quot;English&quot;)</documentation>
 	</row>
 	<row>
-		<name>Browsers (Visitors)</name>
+		<name>Browser version (Visitors)</name>
 		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
+	</row>
+	<row>
+		<name>Browsers (Visitors)</name>
+		<documentation>This report contains information about what kind of browser your visitors were using.</documentation>
 	</row>
 	<row>
 		<name>Campaigns (Referrers)</name>
@@ -38,6 +54,16 @@
 		<documentation>This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.</documentation>
 	</row>
 	<row>
+		<name>Content Name (Actions)</name>
+		<documentation>This report shows the names of the content your visitors viewed and interacted with.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Content Piece (Actions)</name>
+		<documentation>This report shows the pieces of content your visitors viewed and interacted with.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Continent (Visitors)</name>
 		<documentation>This report shows which continent your visitors were in when they accessed your website.</documentation>
 	</row>
@@ -49,6 +75,27 @@
 		<name>Custom Variables (Visitors)</name>
 		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Data tables (UI Framework)</name>
+		<documentation>This is an example documentation of a report.</documentation>
+	</row>
+	<row>
+		<name>Days to Conversion (Goals)</name>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Device brand (Visitors)</name>
+		<documentation>This report shows the brands / manufacturers of the devices your visitors were using. In most cases this information is only available for non-desktop devices.</documentation>
+	</row>
+	<row>
+		<name>Device model (Visitors)</name>
+		<documentation>This report shows the devices your visitors are using. Each model is displayed combined with the device brand as some model names are used by multiple brands.</documentation>
+	</row>
+	<row>
+		<name>Device type (Visitors)</name>
+		<documentation>This report shows the types of devices your visitors were using. This report will always show all device types Matomo is able to detect, even if there were no visits with a specific type.</documentation>
 	</row>
 	<row>
 		<name>Downloads (Actions)</name>
@@ -63,12 +110,82 @@
 		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
+		<name>Event Actions (Actions)</name>
+		<documentation>This report shows you the number of times each event action occurred. You can view the event categories and names that were tracked along with each event action in the row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Event Categories (Actions)</name>
+		<documentation>This report shows the categories of each tracked event and how many times they occurred. You can view the event actions and names that were tracked along with each event category in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Event Names (Actions)</name>
+		<documentation>This report shows you the names associated with each tracked event and how many times they occurred. You can view the event actions and categories that were tracked along with each event name in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Exit page titles (Actions)</name>
 		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
 		<name>Exit pages (Actions)</name>
 		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+	</row>
+	<row>
+		<name>Goal 1 - Thank you - Days to Conversion (Goals)</name>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 1 - Thank you - Visits to Conversion (Goals)</name>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 2 - Hello - Days to Conversion (Goals)</name>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 2 - Hello - Visits to Conversion (Goals)</name>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal Goal 1 - Thank you (Goals)</name>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal Goal 2 - Hello (Goals)</name>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal triggered js (Goals)</name>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals (Goals)</name>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals Overview (Goals)</name>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals Overview - Days to Conversion (Goals)</name>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals Overview - Visits to Conversion (Goals)</name>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Keywords (Referrers)</name>
@@ -81,6 +198,18 @@
 	<row>
 		<name>Length of Visits (Actions)</name>
 		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+	</row>
+	<row>
+		<name>Main metrics (API)</name>
+		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
+	</row>
+	<row>
+		<name>Operating System families (Visitors)</name>
+		<documentation>This report shows you the operating systems your visitors are using grouped by operating system family. An operating system family consists of different versions or distributions.</documentation>
+	</row>
+	<row>
+		<name>Operating System versions (Visitors)</name>
+		<documentation>This report shows you the operating systems your visitors are using. Each version and distribution is shown separately.</documentation>
 	</row>
 	<row>
 		<name>Outlinks (Actions)</name>
@@ -109,8 +238,29 @@
 		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
+		<name>Performance overview (Actions)</name>
+		<documentation>This report provides an overview of how fast your webpages become visible to your visitors. This includes both how long it takes for browsers to download your webpages and how long it takes for browsers to display them.</documentation>
+		<onlineGuideUrl>https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Pie graph (UI Framework)</name>
+		<documentation>This report shows a sample Pie chart</documentation>
+	</row>
+	<row>
+		<name>Referrers Overview (Referrers)</name>
+		<documentation>This report shows what acquisition channels your visitors used to get to your website, and the number of visits each channel type is responsible for.</documentation>
+	</row>
+	<row>
 		<name>Region (Visitors)</name>
 		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+	</row>
+	<row>
+		<name>Returning Visits (Actions)</name>
+		<documentation>This report shows general metrics like visits for returning visitors side by side with the same metrics for new visitors. Learn how returning visitors perform overall compared to new visitors.</documentation>
+	</row>
+	<row>
+		<name>Screen Resolution (Visitors)</name>
+		<documentation>This report shows the screen resolutions your visitors used when viewing your website.</documentation>
 	</row>
 	<row>
 		<name>Search Categories (Actions)</name>
@@ -127,6 +277,10 @@
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
+		<name>Single Website dashboard (All Websites)</name>
+		<documentation>This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.</documentation>
+	</row>
+	<row>
 		<name>Site Search Keywords (Actions)</name>
 		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
@@ -134,6 +288,18 @@
 	<row>
 		<name>Social Networks (Referrers)</name>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+	</row>
+	<row>
+		<name>Temperatures evolution over time (UI Framework)</name>
+		<documentation>This is an example evolution report</documentation>
+	</row>
+	<row>
+		<name>User IDs (Visitors)</name>
+		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
+	</row>
+	<row>
+		<name>Visits Summary (Visitors)</name>
+		<documentation>This report provides a very general overview of how your visitors behave.</documentation>
 	</row>
 	<row>
 		<name>Visits by Day of Week (Visitors)</name>
@@ -156,7 +322,22 @@
 		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 	</row>
 	<row>
+		<name>Visits to Conversion (Goals)</name>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Websites (Referrers)</name>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+	</row>
+	<row>
+		<name>triggered js - Days to Conversion (Goals)</name>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>triggered js - Visits to Conversion (Goals)</name>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 </result>

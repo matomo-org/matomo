@@ -31,6 +31,7 @@
         "PluginDescription": "Adds some page performance reports",
         "PerformanceTable": "Table with performance metrics",
         "Overview": "Performance overview",
+        "OverviewDocumentation": "This report provides an overview of how fast your webpages become visible to your visitors. This includes both how long it takes for browsers to download your webpages and how long it takes for browsers to display them.",
         "Performance": "Performance",
         "HelpNote": "Some of those metrics might not always be available. You can find more information in our %1$sonline guide%2$s.",
         "RowActionTitle": "Open page performance report",

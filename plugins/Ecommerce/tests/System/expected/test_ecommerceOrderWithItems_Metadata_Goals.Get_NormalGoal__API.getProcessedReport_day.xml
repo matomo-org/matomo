@@ -10,6 +10,7 @@
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>

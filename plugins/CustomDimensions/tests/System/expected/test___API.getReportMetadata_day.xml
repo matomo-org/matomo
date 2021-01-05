@@ -6,6 +6,7 @@
 		<module>MultiSites</module>
 		<action>getAll</action>
 		<dimension>Website</dimension>
+		<documentation>This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
@@ -39,6 +40,7 @@
 		<module>MultiSites</module>
 		<action>getOne</action>
 		<dimension>Website</dimension>
+		<documentation>This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
@@ -72,6 +74,7 @@
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
 		<action>get</action>
+		<documentation>This report provides a very general overview of how your visitors behave.</documentation>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -338,6 +341,7 @@
 		<module>DevicesDetection</module>
 		<action>getType</action>
 		<dimension>Device type</dimension>
+		<documentation>This report shows the types of devices your visitors were using. This report will always show all device types Matomo is able to detect, even if there were no visits with a specific type.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -377,6 +381,7 @@
 		<module>DevicesDetection</module>
 		<action>getModel</action>
 		<dimension>Device model</dimension>
+		<documentation>This report shows the devices your visitors are using. Each model is displayed combined with the device brand as some model names are used by multiple brands.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -416,6 +421,7 @@
 		<module>DevicesDetection</module>
 		<action>getBrand</action>
 		<dimension>Device brand</dimension>
+		<documentation>This report shows the brands / manufacturers of the devices your visitors were using. In most cases this information is only available for non-desktop devices.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -455,6 +461,7 @@
 		<module>Resolution</module>
 		<action>getResolution</action>
 		<dimension>Resolution</dimension>
+		<documentation>This report shows the screen resolutions your visitors used when viewing your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -495,6 +502,7 @@
 		<module>DevicesDetection</module>
 		<action>getOsVersions</action>
 		<dimension>Operating system version</dimension>
+		<documentation>This report shows you the operating systems your visitors are using. Each version and distribution is shown separately.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -535,7 +543,7 @@
 		<module>DevicesDetection</module>
 		<action>getBrowsers</action>
 		<dimension>Browser</dimension>
-		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
+		<documentation>This report contains information about what kind of browser your visitors were using.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -582,6 +590,7 @@
 		<module>DevicesDetection</module>
 		<action>getBrowserVersions</action>
 		<dimension>Browser version</dimension>
+		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -663,6 +672,7 @@
 		<module>DevicesDetection</module>
 		<action>getOsFamilies</action>
 		<dimension>Operating system family</dimension>
+		<documentation>This report shows you the operating systems your visitors are using grouped by operating system family. An operating system family consists of different versions or distributions.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -880,6 +890,7 @@
 		<module>UserId</module>
 		<action>getUsers</action>
 		<dimension>UserId</dimension>
+		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
 		<metrics>
 			<label>Label</label>
 			<nb_visits>Visits</nb_visits>
@@ -1048,6 +1059,7 @@
 		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>
+		<documentation>This report provides a very basic overview of what actions your visitors take on your website.</documentation>
 		<metrics>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
@@ -1499,6 +1511,7 @@
 		<module>Events</module>
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
+		<documentation>This report shows the categories of each tracked event and how many times they occurred. You can view the event actions and names that were tracked along with each event category in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventCategory>Event Category</Events_EventCategory>
@@ -1534,6 +1547,7 @@
 		<module>Events</module>
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
+		<documentation>This report shows you the number of times each event action occurred. You can view the event categories and names that were tracked along with each event action in the row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventAction>Event Action</Events_EventAction>
@@ -1569,6 +1583,7 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<documentation>This report shows you the names associated with each tracked event and how many times they occurred. You can view the event actions and categories that were tracked along with each event name in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventName>Event Name</Events_EventName>
@@ -1604,6 +1619,7 @@
 		<module>Contents</module>
 		<action>getContentNames</action>
 		<dimension>Content Name</dimension>
+		<documentation>This report shows the names of the content your visitors viewed and interacted with.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
@@ -1629,6 +1645,7 @@
 		<module>Contents</module>
 		<action>getContentPieces</action>
 		<dimension>Content Piece</dimension>
+		<documentation>This report shows the pieces of content your visitors viewed and interacted with.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
@@ -1728,6 +1745,7 @@
 		<name>Returning Visits</name>
 		<module>VisitFrequency</module>
 		<action>get</action>
+		<documentation>This report shows general metrics like visits for returning visitors side by side with the same metrics for new visitors. Learn how returning visitors perform overall compared to new visitors.</documentation>
 		<metrics>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
@@ -1758,6 +1776,7 @@
 		<name>Performance overview</name>
 		<module>PagePerformance</module>
 		<action>get</action>
+		<documentation>This report provides an overview of how fast your webpages become visible to your visitors. This includes both how long it takes for browsers to download your webpages and how long it takes for browsers to display them.</documentation>
 		<onlineGuideUrl>https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/</onlineGuideUrl>
 		<metrics>
 			<avg_time_network>Avg. network time</avg_time_network>
@@ -1859,6 +1878,7 @@
 		<name>Referrers Overview</name>
 		<module>Referrers</module>
 		<action>get</action>
+		<documentation>This report shows what acquisition channels your visitors used to get to your website, and the number of visits each channel type is responsible for.</documentation>
 		<metrics>
 			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
 			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
@@ -2179,6 +2199,7 @@
 		<name>Goals</name>
 		<module>Goals</module>
 		<action>get</action>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2201,6 +2222,7 @@
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
 		<dimension>Visits to Conversion</dimension>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2222,6 +2244,7 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2245,6 +2268,7 @@
 		<parameters>
 			<idGoal>0</idGoal>
 		</parameters>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2270,6 +2294,7 @@
 			<idGoal>0</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2287,6 +2312,7 @@
 			<idGoal>0</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2303,6 +2329,7 @@
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2328,6 +2355,7 @@
 			<idGoal>1</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2345,6 +2373,7 @@
 			<idGoal>1</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2359,6 +2388,7 @@
 		<name>Data tables</name>
 		<module>ExampleUI</module>
 		<action>getTemperatures</action>
+		<documentation>This is an example documentation of a report.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -2390,6 +2420,7 @@
 		<name>Temperatures evolution over time</name>
 		<module>ExampleUI</module>
 		<action>getTemperaturesEvolution</action>
+		<documentation>This is an example evolution report</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -2422,6 +2453,7 @@
 		<name>Pie graph</name>
 		<module>ExampleUI</module>
 		<action>getPlanetRatios</action>
+		<documentation>This report shows a sample Pie chart</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -2454,6 +2486,7 @@
 		<name>Advanced tag cloud: with logos and links</name>
 		<module>ExampleUI</module>
 		<action>getPlanetRatiosWithLogos</action>
+		<documentation>This report shows a sample tab cloud.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -2485,6 +2518,7 @@
 		<name>Main metrics</name>
 		<module>API</module>
 		<action>get</action>
+		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
 		<metrics>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
