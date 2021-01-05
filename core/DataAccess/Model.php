@@ -746,7 +746,8 @@ class Model
      * @param int[]|null $idInvalidationsToExclude
      * @param bool $useLimit Whether to limit the result set to one result or not. Used in tests only.
      */
-    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
+    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $onlySelectSegmentArchives = false,
+                                              $archiveParamsToMatch = null, $useLimit = true)
     {
         $table = Common::prefixTable('archive_invalidations');
         $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report, ts_invalidated
@@ -757,6 +758,11 @@ class Model
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
             $archivingStartTime,
         ];
+
+        if ($onlySelectSegmentArchives) {
+            $sql .= " AND CHAR_LENGTH(name) > 32 AND date1 = ? AND date2 = ? AND period = ?";
+            $bind = array_merge($bind, [$archiveParamsToMatch['date1'], $archiveParamsToMatch['date2'], $archiveParamsToMatch['period']]);
+        }
 
         if (!empty($idInvalidationsToExclude)) {
             $idInvalidationsToExclude = array_map('intval', $idInvalidationsToExclude);

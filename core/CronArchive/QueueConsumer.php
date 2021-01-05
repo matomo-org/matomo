@@ -108,6 +108,13 @@ class QueueConsumer
      */
     private $currentSiteArchivingStartTime;
 
+    /**
+     * The total number of times we queried for another invalidation.
+     *
+     * @var int
+     */
+    private $totalIterations = 0;
+
     public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid, Model $model,
                                 SegmentArchiving $segmentArchiving, CronArchive $cronArchive, RequestParser $cliMultiRequestParser,
                                 ArchiveFilter $archiveFilter = null)
@@ -173,7 +180,7 @@ class QueueConsumer
         // get archives to process simultaneously
         $archivesToProcess = [];
         while (count($archivesToProcess) < $this->countOfProcesses) {
-            $invalidatedArchive = $this->getNextInvalidatedArchive($this->idSite, array_keys($invalidationsToExcludeInBatch));
+            $invalidatedArchive = $this->getNextInvalidatedArchive($this->idSite, array_keys($invalidationsToExcludeInBatch), $archivesToProcess);
             if (empty($invalidatedArchive)) {
                 $this->logger->debug("No next invalidated archive.");
                 break;
@@ -329,13 +336,23 @@ class QueueConsumer
         return false;
     }
 
-    private function getNextInvalidatedArchive($idSite, $extraInvalidationsToIgnore)
+    private function getNextInvalidatedArchive($idSite, $extraInvalidationsToIgnore, $archivesToProcess)
     {
         $iterations = 0;
         while ($iterations < 100) {
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
 
-            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
+            ++$this->totalIterations;
+
+            $isSegmentArchiveInArchivesToProcess = $this->isSegmentArchiveInArchivesToProcess($archivesToProcess);
+            if ($isSegmentArchiveInArchivesToProcess) {
+                // TODO
+                $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude,
+                    $onlySelectSegmentArchives = true, $archivesToProcess[0]);
+            } else {
+                $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
+            }
+
             if (empty($nextArchive)) {
                 break;
             }
@@ -598,5 +615,23 @@ class QueueConsumer
     public function getIdSite()
     {
         return $this->idSite;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalIterations(): int
+    {
+        return $this->totalIterations;
+    }
+
+    private function isSegmentArchiveInArchivesToProcess($archivesToProcess)
+    {
+        foreach ($archivesToProcess as $archive) {
+            if (!empty($archive['segment'])) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -401,6 +401,7 @@ class CronArchive
         $this->logSection("SUMMARY");
         $this->logger->info("Processed $numArchivesFinished archives.");
         $this->logger->info("Total API requests: {$this->requests}");
+        $this->logger->info("Total invalidation loop iterations: {$queueConsumer->getTotalIterations()}");
 
         $this->logger->info("done: " .
             $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
