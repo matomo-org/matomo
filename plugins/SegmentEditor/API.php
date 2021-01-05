@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -439,7 +440,9 @@ class API extends \Piwik\Plugin\API
         $definition = $segmentInfo['definition'];
         $idSite = $segmentInfo['enable_only_idsite'] ?? 'all';
 
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+        $idSites = Access::doAsSuperUser(function () use ($idSite) {
+            return Site::getIdSitesFromIdSitesString($idSite);
+        });
         $startDate = $this->segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
