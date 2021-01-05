@@ -995,7 +995,7 @@ host = ; SMTP server address
 type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
-encryption = ; SMTP transport-layer encryption, either 'ssl', 'tls', or empty (i.e., none).
+encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported
