@@ -713,8 +713,8 @@ class Http
             @fclose($file);
 
             $fileSize = filesize($destinationPath);
-            if ((($contentLength > 0) && ($fileLength != $contentLength))
-                || ($fileSize != $fileLength)
+            if ($contentLength > 0
+                && $fileSize != $contentLength
             ) {
                 throw new Exception('File size error: ' . $destinationPath . '; expected ' . $contentLength . ' bytes; received ' . $fileLength . ' bytes; saved ' . $fileSize . ' bytes to file');
             }
