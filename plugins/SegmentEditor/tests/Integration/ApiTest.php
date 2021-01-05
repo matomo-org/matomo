@@ -42,6 +42,27 @@ class ApiTest extends IntegrationTestCase
 
     }
 
+    public function test_getll_returnsCorrectHashes()
+    {
+        $this->createAdminUser();
+        $this->createSegments();
+        $this->setSuperUser();
+
+        $segments = $this->api->getAll();
+        $hashes = array_column($segments, 'hash', 'name');
+        $expectedHashes = [
+            'segment 4' => '2831795f8d5a6c8c2ef96c6ec35a35a6',
+            'segment 5' => '6ae79eae41a5ce05e5d137ae056029ca',
+            'segment 6' => '9fdd40fa3d8317f4883bbc616fff3957',
+            'segment 9' => '2831795f8d5a6c8c2ef96c6ec35a35a6',
+            'segment 1' => '9fdd40fa3d8317f4883bbc616fff3957',
+            'segment 2' => '37d1b27c81afefbcf0961472b9abdb0f',
+            'segment 3' => '9fdd40fa3d8317f4883bbc616fff3957',
+            'segment 7' => '9fdd40fa3d8317f4883bbc616fff3957',
+            'segment 8' => '9fdd40fa3d8317f4883bbc616fff3957',
+        ];
+        $this->assertEquals($expectedHashes, $hashes);
+    }
     public function test_getAll_forOneWebsite_returnsSortedSegments()
     {
         $this->createAdminUser();
@@ -161,7 +182,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->setSuperUser();
         $this->api->add('segment 4', 'countryCode!=fr', $idSite = false, $autoArchive = false, $enableAllUsers = false);
-        $this->api->add('segment 5', 'countryCode!=fr', $idSite = 1, $autoArchive = false, $enableAllUsers = true);
+        $this->api->add('segment 5', 'pageUrl!=' . urlencode(urlencode('http://somepage.com/some/path')), $idSite = 1, $autoArchive = false, $enableAllUsers = true);
         $this->api->add('segment 6', 'visitCount<2', $idSite = 2, $autoArchive = true, $enableAllUsers = true);
 
         $this->setAdminUser();
