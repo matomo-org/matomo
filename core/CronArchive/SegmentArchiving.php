@@ -9,6 +9,8 @@ namespace Piwik\CronArchive;
 
 use Doctrine\Common\Cache\Cache;
 use Matomo\Cache\Transient;
+use Piwik\Access;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -227,5 +229,19 @@ class SegmentArchiving
     private function getShouldForceArchiveAllSegments()
     {
         return !Rules::isBrowserTriggerEnabled() && !Rules::isBrowserArchivingAvailableForSegments();
+    }
+
+    public function reArchiveSegment($segmentInfo)
+    {
+        $definition = $segmentInfo['definition'];
+        $idSite = $segmentInfo['enable_only_idsite'] ?? 'all';
+
+        $idSites = Access::doAsSuperUser(function () use ($idSite) {
+            return Site::getIdSitesFromIdSitesString($idSite);
+        });
+        $startDate = $this->getReArchiveSegmentStartDate($segmentInfo);
+
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->scheduleReArchiving($idSites, null, null, $startDate, new Segment($definition, $idSites));
     }
 }

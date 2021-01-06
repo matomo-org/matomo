@@ -275,7 +275,7 @@ class API extends \Piwik\Plugin\API
         $this->getModel()->updateSegment($idSegment, $bind);
 
         if ($autoArchive && !Rules::isBrowserTriggerEnabled()) {
-            $this->reArchiveSegment($bind);
+            $this->segmentArchiving->reArchiveSegment($bind);
         }
 
         return true;
@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
             && !Rules::isBrowserTriggerEnabled()
             && $this->processNewSegmentsFrom != SegmentArchiving::CREATION_TIME
         ) {
-            $this->reArchiveSegment($bind);
+            $this->segmentArchiving->reArchiveSegment($bind);
         }
 
         return $id;
@@ -433,19 +433,5 @@ class API extends \Piwik\Plugin\API
             "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.";
 
         return $message;
-    }
-
-    private function reArchiveSegment($segmentInfo)
-    {
-        $definition = $segmentInfo['definition'];
-        $idSite = $segmentInfo['enable_only_idsite'] ?? 'all';
-
-        $idSites = Access::doAsSuperUser(function () use ($idSite) {
-            return Site::getIdSitesFromIdSitesString($idSite);
-        });
-        $startDate = $this->segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
-
-        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $invalidator->scheduleReArchiving($idSites, null, null, $startDate, new Segment($definition, $idSites));
     }
 }
