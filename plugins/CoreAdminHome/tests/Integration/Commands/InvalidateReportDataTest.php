@@ -112,6 +112,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             '--periods' => 'day',
             '--sites' => '1',
             '--segment' => array('ablksdjfdslkjf'),
+            '--yes' => true,
             '--dry-run' => true,
             '-vvv' => true,
         ));
@@ -134,6 +135,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             '--segment' => $segments ?: array(),
             '--dry-run' => true,
             '-vvv' => true,
+            '--yes' => true,
         );
 
         if (!empty($plugin)) {

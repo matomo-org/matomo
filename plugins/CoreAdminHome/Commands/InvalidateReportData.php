@@ -62,6 +62,7 @@ class InvalidateReportData extends ConsoleCommand
         $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For tests. Runs the command w/o actually '
             . 'invalidating anything.');
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'To invalidate data for a specific plugin only.');
+        $this->addOption('yes', null, InputOption::VALUE_NONE, 'Assume yes if an unrecognized segment is given.');
         $this->setHelp('Invalidate archived report data by date range, site and period. Invalidated archive data will '
             . 'be re-archived during the next core:archive run. If your log data has changed for some reason, this '
             . 'command can be used to make sure reports are generated using the new, changed log data.');
@@ -74,11 +75,12 @@ class InvalidateReportData extends ConsoleCommand
         $cascade = $input->getOption('cascade');
         $dryRun = $input->getOption('dry-run');
         $plugin = $input->getOption('plugin');
+        $yes = $input->getOption('yes');
 
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
-        $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output);
+        $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output, $yes);
 
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
@@ -222,7 +224,7 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites, OutputInterface $output)
+    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites, OutputInterface $output, $yes)
     {
         $segments = $input->getOption('segment');
         $segments = array_map('trim', $segments);
@@ -234,7 +236,7 @@ class InvalidateReportData extends ConsoleCommand
 
         $result = array();
         foreach ($segments as $segmentOptionValue) {
-            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites, $input, $output);
+            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites, $input, $output, $yes);
             if (empty($segmentDefinition)) {
                 continue;
             }
@@ -244,7 +246,7 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function findSegment($segmentOptionValue, $idSites, InputInterface $input, OutputInterface $output)
+    private function findSegment($segmentOptionValue, $idSites, InputInterface $input, OutputInterface $output, $yes)
     {
         $logger = StaticContainer::get(LoggerInterface::class);
 
@@ -272,6 +274,11 @@ class InvalidateReportData extends ConsoleCommand
                 $logger->debug("Matching '{value}' by definition with segment {segment}.", ['value' => $segmentOptionValue, 'segment' => json_encode($segment)]);
                 return $segment['definition'];
             }
+        }
+
+        if ($yes) {
+            $logger->info("'$segmentOptionValue' did not match any stored segment, but --yes supplied so invalidating it anyway.");
+            return $segmentOptionValue;
         }
 
         /** @var QuestionHelper $helper */
