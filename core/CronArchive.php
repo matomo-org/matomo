@@ -212,6 +212,11 @@ class CronArchive
     private $cliMultiRequestParser;
 
     /**
+     * @var bool|mixed
+     */
+    private $supportsAsync;
+
+    /**
      * Constructor.
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
@@ -233,7 +238,8 @@ class CronArchive
 
         $this->rawLogDao = new RawLogDao();
 
-        $this->cliMultiRequestParser = new RequestParser($this->makeCliMulti()->supportsAsync());
+        $this->supportsAsync = $this->makeCliMulti()->supportsAsync();
+        $this->cliMultiRequestParser = new RequestParser($this->supportsAsync);
 
         $this->archiveFilter = new ArchiveFilter();
     }
@@ -652,7 +658,7 @@ class CronArchive
     {
         $request = "?module=API&method=CoreAdminHome.archiveReports&idSite=$idSite&period=$period&date=" . $date . "&format=json";
         if ($segment) {
-            $request .= '&segment=' . urlencode(urlencode($segment));
+            $request .= '&segment=' . urlencode($segment);
         }
         if (!empty($plugin)) {
             $request .= "&plugin=" . $plugin;
@@ -694,7 +700,7 @@ class CronArchive
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
 
-            if($this->makeCliMulti()->supportsAsync()) {
+            if($this->supportsAsync) {
                 $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
             } else {
                 $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Matomo's web server error logs. ";

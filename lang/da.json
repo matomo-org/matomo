@@ -112,6 +112,7 @@
         "Continue": "Fortsæt",
         "ContinueToPiwik": "Fortsæt til Matomo",
         "CurrentlyUsingUnsecureHttp": "Du bruger i øjeblikket Matomo gennem en usikker HTTP forbindelse. Dette gør din Matomo sårbar overfor hackere. Du kan også risikere brud på privatlivslovgivning eftersom nogle funktioner omkring cookies ikke vil fungere. Vi anbefaler at du indstiller Matomo til at benytte SSL (HTTPS) for at forbedre sikkerheden.",
+        "CreationDate": "Oprettelsesdato",
         "CreatedByUser": "oprettet af %s",
         "CurrentMonth": "Denne måned",
         "CurrentWeek": "Nuværende uge",
@@ -132,7 +133,10 @@
         "DaysHours": "%1$s dage %2$s timer",
         "DaysSinceFirstVisit": "Dage siden første besøg",
         "DaysSinceLastEcommerceOrder": "Dage siden sidste e-handel ordre",
+        "SecondsSinceLastEcommerceOrder": "Sekunder siden sidste e-handelsordre",
         "DaysSinceLastVisit": "Dage siden sidste besøg",
+        "SecondsSinceLastVisit": "Sekunder siden sidste besøg",
+        "SecondsSinceFirstVisit": "Sekunder siden første besøg",
         "Default": "Standard",
         "DefaultAppended": "(standard)",
         "Delete": "Slet",
@@ -512,7 +516,10 @@
         "ClickToRemoveComp": "Klik for at fjerne denne sammenligning.",
         "MaximumNumberOfSegmentsComparedIs": "Det maksimale antal segmenter som kan sammenlignes samtidigt er %s.",
         "CompareDatesParamMustMatchComparePeriods": "%1$s forespørgselsparameter længde skal matche %2$s forespørgselsparameter længde.",
-        "MaximumNumberOfPeriodsComparedIs": "Det maksimale antal af perioder som kan sammenlignes samtidigt er %s."
+        "MaximumNumberOfPeriodsComparedIs": "Det maksimale antal af perioder som kan sammenlignes samtidigt er %s.",
+        "Custom": "Brugerdefineret",
+        "PreviousPeriod": "Forrige periode",
+        "PreviousYear": "Forrige år"
     },
     "Mobile": {
         "AboutPiwikMobile": "Om Matomo Mobil",

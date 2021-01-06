@@ -15,7 +15,9 @@ use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Plugins\Marketplace\UpdateCommunication;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Twig;
 use Piwik\View;
+use Twig\Environment;
 
 /**
  * @group Plugins
@@ -118,6 +120,8 @@ class UpdateCommunicationTest extends IntegrationTestCase
     {
         $subject = 'CoreUpdater_NotificationSubjectAvailablePluginUpdate';
         $rootUrl = Fixture::getTestRootUrl();
+        $twig = new Twig();
+
         $message = "<p>ScheduledReports_EmailHello</p>
 <p>CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate</p>
 
@@ -130,7 +134,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
 <p>
 CoreUpdater_NotificationClickToUpdatePlugins<br/>
-{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins
+<a href=\"".twig_escape_filter($twig->getTwigEnvironment(), $rootUrl, 'html_attr')."index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
 </p>
 
 <p>

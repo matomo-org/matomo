@@ -16,6 +16,7 @@
         "DataTableHowToSearch": "Arama yapmak için enter tuşuna basın ya da arama simgesine tıklayın",
         "DataTableShowDimensions": "Boyutlar birleştirildi %s Boyutları ayırarak görüntüle",
         "DataTableCombineDimensions": "Boyutlar ayrı görüntüleniyor %s Boyutları birleştirerek görüntüle",
+        "DateInvalid": "Belirtilen tarih ve sıklık kambinasyonu geçersiz. Lütfen tarih seçicisinden geçerli bir tarih seçin.",
         "Default": "varsayılan",
         "DonateCall1": "Matomo her zaman ücretsiz kullanılabilecek ancak bu durum geliştirmenin ücretsiz olduğu anlamına gelmiyor.",
         "DonateCall2": "Gelişip ilerleyebilmesi için Matomo projesi sürekli desteğinize gerek duyuyor.",

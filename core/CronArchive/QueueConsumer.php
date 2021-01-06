@@ -386,7 +386,7 @@ class QueueConsumer
         return $loader->canSkipThisArchive(); // if no point in archiving, skip
     }
 
-    private function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
+    public function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
     {
         $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
 

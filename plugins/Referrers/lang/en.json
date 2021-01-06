@@ -44,6 +44,7 @@
         "ReferrerNames": "Referrer Names",
         "Referrers": "Referrers",
         "ReferrersOverview": "Referrers Overview",
+        "ReferrersOverviewDocumentation": "This report shows what acquisition channels your visitors used to get to your website, and the number of visits each channel type is responsible for.",
         "ReferrerTypes": "Channel Types",
         "ReferrerURLs": "Referrer URLs",
         "SearchEngines": "Search Engines",

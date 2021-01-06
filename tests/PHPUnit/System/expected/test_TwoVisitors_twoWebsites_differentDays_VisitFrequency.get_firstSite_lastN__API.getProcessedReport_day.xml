@@ -8,6 +8,7 @@
 		<name>Returning Visits</name>
 		<module>VisitFrequency</module>
 		<action>get</action>
+		<documentation>This report shows general metrics like visits for returning visitors side by side with the same metrics for new visitors. Learn how returning visitors perform overall compared to new visitors.</documentation>
 		<metrics>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>

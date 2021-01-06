@@ -25,18 +25,23 @@
         "Device": "Device",
         "DeviceBrand": "Device brand",
         "DeviceBrands": "Device brands",
+        "DeviceBrandReportDocumentation": "This report shows the brands / manufacturers of the devices your visitors were using. In most cases this information is only available for non-desktop devices.",
         "DeviceDetection": "Device detection",
         "DeviceModel": "Device model",
         "DeviceModels": "Device models",
+        "DeviceModelReportDocumentation": "This report shows the devices your visitors are using. Each model is displayed combined with the device brand as some model names are used by multiple brands.",
         "DevicesDetection": "Visitor Devices",
         "DeviceType": "Device type",
         "DeviceTypes": "Device types",
+        "DeviceTypeReportDocumentation": "This report shows the types of devices your visitors were using. This report will always show all device types Matomo is able to detect, even if there were no visits with a specific type.",
         "FeaturePhone": "Feature phone",
         "OperatingSystemFamilies": "Operating System families",
         "OperatingSystemFamily": "Operating system family",
+        "OperatingSystemFamiliesReportDocumentation": "This report shows you the operating systems your visitors are using grouped by operating system family. An operating system family consists of different versions or distributions.",
         "OperatingSystemCode": "Operating system code",
         "OperatingSystems": "Operating systems",
         "OperatingSystemVersions": "Operating System versions",
+        "OperatingSystemVersionsReportDocumentation": "This report shows you the operating systems your visitors are using. Each version and distribution is shown separately.",
         "PluginDescription": "Provides extended information about user devices, such as Brand (manufacturer), Model (device version), device type (tv, consoles, smart phones, desktop, etc) and more.",
         "SmartDisplay": "Smart display",
         "Smartphone": "Smartphone",
@@ -58,6 +63,7 @@
         "XVisitsFromDevices": "%1$s visits from %2$s devices",
         "Wearable": "Wearable",
         "WidgetBrowsers": "Visitor Browser",
-        "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
+        "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using.",
+        "WidgetBrowserVersionsDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
     }
 }

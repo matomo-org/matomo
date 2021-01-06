@@ -1692,7 +1692,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (scope) {
                     var $doc = domElem.find('.reportDocumentation');
                     if ($doc.length) {
+                        // hackish solution to get binded html of p tag within the help node
+                        // at this point the ng-bind-html is not yet converted into html when report is not
+                        // initially loaded. Using $compile doesn't work. So get and set it manually
+                        var helpParagraph = $('p[ng-bind-html]', $doc);
+
+                        if (helpParagraph.length) {
+                            var $parse = angular.element(document).injector().get('$parse');
+                            helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+                        }
+
                         scope.inlineHelp = $.trim($doc.html());
+
                     }
                     scope.featureName = $.trim(relatedReportName);
                     setTimeout(function (){

@@ -26,6 +26,7 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\ProxyHttp;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\View;
 use Exception;
@@ -287,6 +288,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
         $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->uploadLimit = SettingsServer::getPostMaxUploadSize();
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
 
         return $view->render();

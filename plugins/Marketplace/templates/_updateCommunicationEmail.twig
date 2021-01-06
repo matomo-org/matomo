@@ -10,14 +10,14 @@
 {% if hasThemeUpdate %}
 <p>
 {{ 'CoreUpdater_NotificationClickToUpdateThemes'|translate }}<br/>
-{{ host }}index.php?module=CorePluginsAdmin&action=themes
+<a href="{{ host|e('html_attr') }}index.php?module=CorePluginsAdmin&action=themes">{{ host }}index.php?module=CorePluginsAdmin&action=themes</a>
 </p>
 {% endif %}
 
 {% if hasPluginUpdate %}
 <p>
 {{ 'CoreUpdater_NotificationClickToUpdatePlugins'|translate }}<br/>
-{{ host }}index.php?module=CorePluginsAdmin&action=plugins
+<a href="{{ host|e('html_attr') }}index.php?module=CorePluginsAdmin&action=plugins">{{ host }}index.php?module=CorePluginsAdmin&action=plugins</a>
 </p>
 {% endif %}
 

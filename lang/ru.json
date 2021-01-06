@@ -134,6 +134,8 @@
         "DaysSinceFirstVisit": "Дней с момента первого посещения",
         "DaysSinceLastEcommerceOrder": "Дней с момента последнего электронного заказа.",
         "DaysSinceLastVisit": "Дней прошло с момента последнего посещения",
+        "SecondsSinceLastVisit": "Прошло секунд с момента последнего посещения",
+        "SecondsSinceFirstVisit": "Прошло секунд с момента первого посещения",
         "Default": "По умолчанию",
         "DefaultAppended": "(по умолчанию)",
         "Delete": "Удалить",
@@ -506,7 +508,9 @@
         "Comparisons": "Сравнение",
         "ClickToRemoveComp": "Нажмите, чтобы удалить это сравнение.",
         "MaximumNumberOfSegmentsComparedIs": "Максимальное количество сегментов, которые можно сравнивать одновременно, равно%s.",
-        "MaximumNumberOfPeriodsComparedIs": "Максимальне количество периодов, которые можно сравнить одновременно: %s."
+        "MaximumNumberOfPeriodsComparedIs": "Максимальне количество периодов, которые можно сравнить одновременно: %s.",
+        "PreviousPeriod": "Предыдущий Период",
+        "PreviousYear": "Предыдущий Год"
     },
     "Mobile": {
         "AboutPiwikMobile": "О Matomo Mobile",

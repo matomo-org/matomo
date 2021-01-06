@@ -121,9 +121,10 @@ class Controller extends ControllerAdmin
             'Cram-md5' => 'Cram-md5',
         );
         $view->mailEncryptions = array(
-            '' => '',
+            '' => 'auto',
             'ssl' => 'SSL',
-            'tls' => 'TLS'
+            'tls' => 'TLS',
+            'none' => 'none',
         );
         $mail = new Mail();
         $view->mailHost = $mail->getMailHost();

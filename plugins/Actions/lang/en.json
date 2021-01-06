@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. %s The exit URLs are displayed as a folder structure.",
         "ExitPageTitles": "Exit page titles",
         "ExitPageTitlesReportDocumentation": "This report contains information about the titles of exit pages that occurred during the specified period.",
+        "MainMetricsReportDocumentation": "This report provides a very basic overview of what actions your visitors take on your website.",
         "OneSearch": "1 search",
         "OutlinkDocumentation": "An outlink is a link that leads the visitor away from your website (to another domain).",
         "OutlinksReportDocumentation": "This report shows a hierarchical list of outlink URLs that were clicked by your visitors.",

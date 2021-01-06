@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration\Period;
 
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
@@ -63,10 +64,36 @@ class MockPluginManager extends \Piwik\Plugin\Manager
 class FactoryTest extends IntegrationTestCase
 {
     /**
+     * @dataProvider getTestDataForMakePeriodFromQueryParams
+     */
+    public function test_makePeriodFromQueryParams_appliesTimezoneProperly($period, $date, $expectedLabel, $expectedRange)
+    {
+        Date::$now = strtotime('2020-12-24 03:37:00');
+
+        $factory = Period\Factory::makePeriodFromQueryParams('America/Chicago', $period, $date);
+        $this->assertEquals($expectedLabel, $factory->getLabel());
+        $this->assertEquals($expectedRange, $factory->getRangeString());
+    }
+
+    public function getTestDataForMakePeriodFromQueryParams()
+    {
+        return [
+            ['day', 'now', 'day', '2020-12-23,2020-12-23'],
+            ['day', 'today', 'day', '2020-12-23,2020-12-23'],
+            ['day', 'yesterday', 'day', '2020-12-22,2020-12-22'],
+            ['day', 'yesterdaySameTime', 'day', '2020-12-22,2020-12-22'],
+            ['day', 'last-week', 'day', '2020-12-16,2020-12-16'],
+            ['day', 'last-month', 'day', '2020-11-23,2020-11-23'],
+            ['day', 'last-year', 'day', '2019-12-23,2019-12-23'],
+            ['day', '2020-12-23', 'day', '2020-12-23,2020-12-23'],
+        ];
+    }
+
+    /**
      * @dataProvider getBuildTestData
      */
     public function test_build_CreatesCorrectPeriodInstances($strPeriod, $date, $timezone, $expectedPeriodClass,
-                                                            $expectedRangeString)
+                                                             $expectedRangeString)
     {
         $period = Period\Factory::build($strPeriod, $date, $timezone);
         $this->assertInstanceOf($expectedPeriodClass, $period);
