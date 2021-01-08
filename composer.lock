@@ -460,16 +460,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "4.0.2",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a"
+                "reference": "6b3facc35e7a465bc4223fddfa5fa88c5b327554"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a",
-                "reference": "20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/6b3facc35e7a465bc4223fddfa5fa88c5b327554",
+                "reference": "6b3facc35e7a465bc4223fddfa5fa88c5b327554",
                 "shasum": ""
             },
             "require": {
@@ -480,7 +480,7 @@
                 "piwik/device-detector": "self.version"
             },
             "require-dev": {
-                "matthiasmullie/scrapbook": "@stable",
+                "matthiasmullie/scrapbook": "^1.4.7",
                 "mayflower/mo4-coding-standard": "dev-master#275cb9d",
                 "phpstan/phpstan": "^0.12.52",
                 "phpunit/phpunit": "^8.5.8",
@@ -525,7 +525,7 @@
                 "source": "https://github.com/matomo-org/piwik",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2020-12-07T09:40:38+00:00"
+            "time": "2021-01-08T14:14:55+00:00"
         },
         {
             "name": "matomo/ini",
