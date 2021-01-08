@@ -199,20 +199,41 @@ nav {
         .border-radius(0px);
         border: 0;
         background: none;
+        position: relative;
 
         .item {
-          display: inline-block;
           width: 100%;
-          .font-default(13px, 21px);
           padding: 12px 21px 12px 19px;
-          color: @theme-color-menu-contrast-text;
-          decoration: none !important;
           word-wrap: break-word;
           word-break: break-word;
+        }
 
-          &:hover, &:focus {
-            decoration: none !important;
+        .item,.item-help-icon {
+          display: inline-block;
+          .font-default(13px, 21px);
+          color: @theme-color-menu-contrast-text;
+        }
+
+        .item-help-icon {
+          display:none;
+          opacity: 0.2;
+          position: absolute;
+          right: 21px;
+          top: 12px;
+          line-height: 13px;
+        }
+
+        &.menuTab:hover {
+          .item-help-icon:not(.active) {
+            display:inline-block;
+            color: @color-black-piwik;
           }
+        }
+
+        .item-help-icon.active {
+          display: inline-block;
+          color: #00bcd4;
+          opacity: 0.75;
         }
 
         > .item {
@@ -224,6 +245,7 @@ nav {
         }
 
         > ul {
+          position: relative;
 
           li {
             .item {
@@ -250,6 +272,9 @@ nav {
         }
       }
 
+      .menuTab > .item-help-icon {
+        top: 14px;
+      }
 
       .menuDropdown {
         width: 100%;
@@ -328,6 +353,10 @@ nav {
       }
     }
   }
+}
+
+p.reporting-page-help {
+
 }
 
 #root {

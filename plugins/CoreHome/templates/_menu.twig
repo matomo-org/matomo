@@ -22,7 +22,8 @@
                         <ul role="menu">
                             {% for name,urlParameters in level2 %}
                                 {% if name|slice(0,1) != '_' %}
-                                    <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
+                                    {% set isActive = urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}
+                                    <li {% if isActive %}class="active"{% endif %}
                                         role="menuitem"
                                     >
                                         <a class="item" tabindex="5" target="_self"

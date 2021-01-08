@@ -11,6 +11,8 @@
 
     function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl) {
 
+        $scope.helpShownCategory = null;
+
         var idSite = piwikUrl.getSearchParam('idSite');
         var period = piwikUrl.getSearchParam('period');
         var date   = piwikUrl.getSearchParam('date');
@@ -61,6 +63,18 @@
                 subcategory.name = subsubcategory.name;
                 subsubcategory.active = true;
             }
+        }
+
+        $scope.showHelp = function (category) {
+            var UI = require('piwik/UI');
+            var notification = new UI.Notification();
+            var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix') + '</strong><br/><br/>';
+            notification.show(prefix + category.help, { context: 'info', id: 'reportingmenu-help', type: 'persistent' });
+            $scope.helpShownCategory = category;
+        };
+
+        $scope.isNotificationShown = function () {
+            return !! $('#reportingmenu-help').length;
         };
 
         $scope.makeUrl = function (category, subcategory) {
@@ -97,6 +111,8 @@
             }
 
             if (category.active && category.subcategories && category.subcategories.length === 1) {
+                $scope.helpShownCategory = null;
+
                 var subcategory = category.subcategories[0];
 
                 if (subcategory.active) {
@@ -111,7 +127,12 @@
         };
 
         $scope.loadSubcategory = function (category, subcategory) {
+            var UI = require('piwik/UI');
+            UI.Notification.prototype.remove('reportingmenu-help');
+
             if (subcategory && subcategory.active) {
+                $scope.helpShownCategory = null;
+
                 // this menu item is already active, a location change success would not be triggered,
                 // instead trigger an event
                 $rootScope.$emit('loadPage', category.id, subcategory.id);
@@ -168,5 +189,8 @@
             enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
+        $scope.$on('loadPage', function () {
+            $scope.helpShownCategory = null;
+        });
     }
 })();

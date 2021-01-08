@@ -15,5 +15,5 @@ class VisitorsOverviewSubcategory extends Subcategory
     protected $categoryId = 'General_Visitors';
     protected $id = 'General_Overview';
     protected $order = 2;
-
+    protected $help = 'General_VisitorsOverviewHelp';
 }

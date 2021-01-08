@@ -113,6 +113,9 @@
         "SeeAvailableVersions": "See Available Versions",
         "QuickLinks": "Quick Links",
         "Profilable": "Profilable",
-        "SearchOnMatomo": "Search '%1$s' on Matomo.org"
+        "SearchOnMatomo": "Search '%1$s' on Matomo.org",
+        "ReportingCategoryHelpPrefix": "What does this reporting page show me?",
+        "VisitorsCategoryHelp1": "The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.",
+        "VisitorsCategoryHelp2": "In addition to general information about your visitors, you can also use the %1$sVisits Log%2$s to see what occurred in every individual visit."
     }
 }

@@ -121,4 +121,12 @@ class Category
         return $this->icon;
     }
 
+    /**
+     * Get the help text (if any) for this category.
+     * @return null
+     */
+    public function getHelp()
+    {
+        return null;
+    }
 }

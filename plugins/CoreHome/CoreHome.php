@@ -488,5 +488,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Custom';
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
+        $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
     }
 }

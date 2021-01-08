@@ -464,6 +464,7 @@
         "VisitType": "Visit type",
         "VisitTypes": "Visit types",
         "VisitTypeExample": "For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain %s",
+        "VisitorsOverviewHelp": "This page displays a general overview of your web traffic. See your website's visits and get a birds eye view of how they behave.",
         "Warning": "Warning",
         "Warnings": "Warnings",
         "WarningPhpVersionXIsTooOld": "The PHP version %s you are using has reached its End of Life (EOL). You are strongly urged to upgrade to a current version, as using this version may expose you to security vulnerabilities and bugs that have been fixed in more recent versions of PHP.",
