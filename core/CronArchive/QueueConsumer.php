@@ -346,7 +346,6 @@ class QueueConsumer
 
             $isSegmentArchiveInArchivesToProcess = $this->isSegmentArchiveInArchivesToProcess($archivesToProcess);
             if ($isSegmentArchiveInArchivesToProcess) {
-                // TODO
                 $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude,
                     $onlySelectSegmentArchives = true, $archivesToProcess[0]);
             } else {

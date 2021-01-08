@@ -741,10 +741,15 @@ class Model
     /**
      * Gets the next invalidated archive that should be archived in a table.
      *
-     * @param int $idSite
-     * @param string $archivingStartTime
-     * @param int[]|null $idInvalidationsToExclude
+     * @param int $idSite the ID of the site to get an invalidation for
+     * @param string $archivingStartTime the start time of archiving for this site
+     * @param int[]|null $idInvalidationsToExclude idinvalidations to not look at
+     * @param bool $onlySelectSegmentArchives if true, we only select segment archives for a single period
+     * @param null $archiveParamsToMatch the archive period params to use if $onlySelectSegmentArchives is true. should
+     *                                   contain 'period', 'date1', 'date2' elements.
      * @param bool $useLimit Whether to limit the result set to one result or not. Used in tests only.
+     * @return array
+     * @throws Exception
      */
     public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $onlySelectSegmentArchives = false,
                                               $archiveParamsToMatch = null, $useLimit = true)
@@ -760,6 +765,8 @@ class Model
         ];
 
         if ($onlySelectSegmentArchives) {
+            // we select only segment archiving by looking for archive done flags that have a length > 32. this works since the done flag
+            // for a segment archive will contain its hash
             $sql .= " AND CHAR_LENGTH(name) > 32 AND date1 = ? AND date2 = ? AND period = ?";
             $bind = array_merge($bind, [$archiveParamsToMatch['date1'], $archiveParamsToMatch['date2'], $archiveParamsToMatch['period']]);
         }
