@@ -72,6 +72,7 @@
             notification.show(prefix + category.help, { context: 'info', id: 'reportingmenu-help', type: 'persistent' });
             $scope.helpShownCategory = category;
         };
+        
 
         $scope.isNotificationShown = function () {
             return !! $('#reportingmenu-help').length;
