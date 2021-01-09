@@ -11,6 +11,6 @@
         "OperatingSystemFamily": "Hệ điều hành gia đình",
         "OperatingSystems": "Các hệ điều hành",
         "WidgetBrowsers": "Trình duyệt khách truy cập",
-        "WidgetBrowsersDocumentation": "Báo cáo này chứa thông tin về loại trình duyệt mà khách truy cập của bạn sử dụng. Mỗi phiên bản trình duyệt được liệt kê một cách riêng biệt."
+        "WidgetBrowserVersionsDocumentation": "Báo cáo này chứa thông tin về loại trình duyệt mà khách truy cập của bạn sử dụng. Mỗi phiên bản trình duyệt được liệt kê một cách riêng biệt."
     }
 }

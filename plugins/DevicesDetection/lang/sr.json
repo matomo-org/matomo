@@ -40,6 +40,6 @@
         "UserAgent": "Korisnički agent",
         "MobileApp": "Mobilna aplikacija",
         "WidgetBrowsers": "Brauzeri posetilaca",
-        "WidgetBrowsersDocumentation": "Ovaj izveštaj prikazuje koje brauzere koriste vaši posetioci. Svaka verzija brauzera je prikazana posebno."
+        "WidgetBrowserVersionsDocumentation": "Ovaj izveštaj prikazuje koje brauzere koriste vaši posetioci. Svaka verzija brauzera je prikazana posebno."
     }
 }
