@@ -46,6 +46,6 @@
         "MobileApp": "Aplikacja mobilna",
         "XVisitsFromDevices": "%1$s wizyt z %2$s urządzeń",
         "WidgetBrowsers": "Przeglądarki odwiedzających",
-        "WidgetBrowsersDocumentation": "Ten raport zawiera informacje o rodzajach przeglądarek używanych przez Twoich odwiedzających. Każda wersja przeglądarki prezentowana jest osobno."
+        "WidgetBrowserVersionsDocumentation": "Ten raport zawiera informacje o rodzajach przeglądarek używanych przez Twoich odwiedzających. Każda wersja przeglądarki prezentowana jest osobno."
     }
 }

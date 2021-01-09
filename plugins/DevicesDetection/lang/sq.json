@@ -25,18 +25,23 @@
         "Device": "Pajisje",
         "DeviceBrand": "Markë pajisjeje",
         "DeviceBrands": "Marka pajisjesh",
+        "DeviceBrandReportDocumentation": "Ky raport shfaq markat \/ prodhuesit e pajisjeve që përdornin vizitorët tuaj. Në shumicën e rasteve ky informacion është i passhëm vetëm për pajisje jo desktop.",
         "DeviceDetection": "Zbulim pajisjeje",
         "DeviceModel": "Model pajisjeje",
         "DeviceModels": "Modele pajisjesh",
+        "DeviceModelReportDocumentation": "Ky raport shfaq pajisjet që përdorin vizitorët tuaj. Secili model shfaqet me markën e pajisjes, ngaqë disa emra modelesh përdoren nga shumë marka.",
         "DevicesDetection": "Pajisje Vizitorësh",
         "DeviceType": "Lloj pajisjeje",
         "DeviceTypes": "Lloje pajisjesh",
+        "DeviceTypeReportDocumentation": "Ky raport shfaq llojet e pajisjeve që përdornin vizitorët tuaj. Ky raport do të shfaqë përherë krejt llojet e pajisjeve që është në gjendje të pikasë Matomo-ja, edhe pse s’pati vizita me një lloj të caktuar.",
         "FeaturePhone": "Telefon",
         "OperatingSystemFamilies": "Familje Sistemesh Operativë",
         "OperatingSystemFamily": "Familje Sistemi Operativ",
+        "OperatingSystemFamiliesReportDocumentation": "Ky raport shfaq sistemet operative që përdorin vizitorët tuaj, grupuar sipas familjeve të sistemit. Një familje sistemi operativ përbëhet nga versioni ose shpërndarje të ndryshme.",
         "OperatingSystemCode": "Kod sistemi operativ",
         "OperatingSystems": "Sisteme operativë",
         "OperatingSystemVersions": "Versione Sistemesh Operativë",
+        "OperatingSystemVersionsReportDocumentation": "Ky raport ju shfaq sistemet operative që po përdorin vizitorët tuaj. Çdo version dhe shpërndarje shfaqet më vete.",
         "PluginDescription": "Furnizon të dhëna të zgjeruara rreth pajisje përdoruesish, të tilla si Marka (prodhuesi), Modeli (version pajisjeje), lloj pajisjeje (tv, konsola, telefon të mençur, desktop, etj) dhe të tjera.",
         "SmartDisplay": "Ekran i mençur",
         "Smartphone": "Telefon i mençur",
@@ -56,6 +61,7 @@
         "MediaPlayer": "Lojtës Mediash",
         "XVisitsFromDevices": "%1$s vizita nga %2$s pajisje",
         "WidgetBrowsers": "Shfletues Vizitori",
-        "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas."
+        "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth ç’lloje shfletuesish përdornin vizitorët tuaj.",
+        "WidgetBrowserVersionsDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas."
     }
 }

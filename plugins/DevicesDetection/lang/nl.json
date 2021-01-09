@@ -44,6 +44,6 @@
         "MobileApp": "Mobiele app",
         "XVisitsFromDevices": "%1$s bezoeken van %2$s apparaten",
         "WidgetBrowsers": "Browser bezoeker",
-        "WidgetBrowsersDocumentation": "Dit rapport bevat informatie over het type browsers dat door door uw bezoekers werd gebruikt. Elke browserversie wordt apart vermeld."
+        "WidgetBrowserVersionsDocumentation": "Dit rapport bevat informatie over het type browsers dat door door uw bezoekers werd gebruikt. Elke browserversie wordt apart vermeld."
     }
 }

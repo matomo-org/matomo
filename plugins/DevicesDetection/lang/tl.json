@@ -32,6 +32,6 @@
         "TV": "Tv",
         "UserAgent": "User-Agent",
         "WidgetBrowsers": "Browser ng Bisita",
-        "WidgetBrowsersDocumentation": "Ang ulat na ito ay naglalaman ng mga impormasyon tungkol sa kung anong browser ang gamit ng iyong bisita. Bawat browser bersyon ay magkakahiwalay na naka-lista."
+        "WidgetBrowserVersionsDocumentation": "Ang ulat na ito ay naglalaman ng mga impormasyon tungkol sa kung anong browser ang gamit ng iyong bisita. Bawat browser bersyon ay magkakahiwalay na naka-lista."
     }
 }

@@ -50,6 +50,6 @@
         "MobileApp": "Aplicación móvil",
         "XVisitsFromDevices": "%1$s visitas desde %2$s dispositivos",
         "WidgetBrowsers": "Navegador del visitante",
-        "WidgetBrowsersDocumentation": "Este informe contiene información acerca de qué tipo de navegador el visitante está utilizando. Cada versión de navegador está alistado separadamente."
+        "WidgetBrowserVersionsDocumentation": "Este informe contiene información acerca de qué tipo de navegador el visitante está utilizando. Cada versión de navegador está alistado separadamente."
     }
 }
