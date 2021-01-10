@@ -14,7 +14,7 @@
 
         <a class="item-help-icon"
            tabindex="5" href="javascript:"
-           ng-if="(category.active || helpShownCategory == category) && category.help"
+           ng-if="(category.id == currentCategory || helpShownCategory == category) && category.help"
            ng-click="showHelp(category)"
            ng-class="{'active': helpShownCategory == category && category.help}"
         >
@@ -44,7 +44,7 @@
 
                 <a class="item-help-icon"
                    tabindex="5" href="javascript:"
-                   ng-if="(subcategory.active || elpShownCategory == subcategory) && subcategory.help"
+                   ng-if="(subcategory.id == currentSubcategory || helpShownCategory == subcategory) && subcategory.help"
                    ng-click="showHelp(subcategory)"
                    ng-class="{'active': helpShownCategory == subcategory && subcategory.help}"
                 >

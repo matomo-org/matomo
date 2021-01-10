@@ -22,6 +22,9 @@
         var compareDates   = piwikUrl.getSearchParam('compareDates');
         var compareSegments = piwikUrl.getSearchParam('compareSegments');
 
+        $scope.currentCategory = piwikUrl.getSearchParam('category');
+        $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
+
         function markAllCategoriesAsInactive()
         {
             angular.forEach(menuModel.menu, function (cat) {
@@ -72,7 +75,6 @@
             notification.show(prefix + category.help, { context: 'info', id: 'reportingmenu-help', type: 'persistent' });
             $scope.helpShownCategory = category;
         };
-        
 
         $scope.isNotificationShown = function () {
             return !! $('#reportingmenu-help').length;
@@ -190,8 +192,10 @@
             enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
-        $scope.$on('loadPage', function () {
+        $rootScope.$on('piwikPageChange', function (event) {
             $scope.helpShownCategory = null;
+            $scope.currentCategory = piwikUrl.getSearchParam('category');
+            $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
         });
     }
 })();
