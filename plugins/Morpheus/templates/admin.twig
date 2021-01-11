@@ -34,7 +34,7 @@
 
         {% if showMenu is not defined or showMenu %}
             {% import '@CoreHome/_menu.twig' as menu %}
-            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction) }}
+            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, hasSomeAdminAccess) }}
         {% endif %}
 
 
