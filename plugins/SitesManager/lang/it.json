@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "Conserva i frammenti di URL Pagina quando si tracciano gli URL Pagina",
         "ListOfIpsToBeExcludedOnAllWebsites": "I seguenti indirizzi IP verranno esclusi dal tracking su tutti i siti.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "I parametri URL Query qui sotto saranno esclusi dagli URL su tutti i siti.",
-        "ListOfQueryParametersToExclude": "Crea un elenco con i Parametri Query URL, uno per riga, da escludere dai report URL Pagina. Sono supportate le espressioni regolari come %s.",
         "LogAnalytics": "Statistiche Log",
         "LogAnalyticsDescription": "Se il tracciamento Javascript non è fattibile, puoi %1$sutilizzare le statistiche server log%2$s come metodo alternativo per tracciare i visitatori del tuo sito web.",
         "MainDescription": "Per generare i report dei tuoi siti web, devi configurarli in Matomo! Aggiungi, aggiorna, cancella i siti web e visualizza il codice JavaScript da inserire nelle tue pagine.",

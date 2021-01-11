@@ -77,7 +77,7 @@ class Sparklines extends ViewDataTable
             }
         }
 
-        $view->allMetricsDocumentation = Metrics::getDefaultMetricsDocumentation();
+        $view->allMetricsDocumentation = array_merge(Metrics::getDefaultMetricsDocumentation(), $this->config->metrics_documentation);
 
         $this->requestConfig->request_parameters_to_modify['columns'] = $columnsList;
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = '1';

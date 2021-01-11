@@ -21,6 +21,9 @@ use Piwik\Settings\FieldConfig;
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
     /** @var SystemSetting */
+    public $imprintUrl;
+
+    /** @var SystemSetting */
     public $privacyPolicyUrl;
 
     /** @var SystemSetting */
@@ -31,9 +34,20 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     protected function init()
     {
+        $this->imprintUrl = $this->createImprintUrlSetting();
         $this->privacyPolicyUrl = $this->createPrivacyPolicyUrlSetting();
         $this->termsAndConditionUrl = $this->createTermsAndConditionUrlSetting();
         $this->showInEmbeddedWidgets = $this->createShowInEmbeddedWidgetsSetting();
+    }
+
+    private function createImprintUrlSetting(): SystemSetting
+    {
+        return $this->makeSetting('ImprintUrl', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $field->title = Piwik::translate('PrivacyManager_ImprintUrl');
+            $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
+            $field->description = Piwik::translate('PrivacyManager_ImprintUrlDescription') . ' ' .
+                Piwik::translate('PrivacyManager_PrivacyPolicyUrlDescriptionSuffix', ['anonymous']);
+        });
     }
 
     private function createPrivacyPolicyUrlSetting(): SystemSetting

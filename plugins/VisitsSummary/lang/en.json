@@ -22,6 +22,7 @@
         "PluginDescription": "Reports general analytics metrics: visits, unique visitors, number of actions, bounce rate, etc.",
         "VisitsSummary": "Visits Summary",
         "VisitsSummaryDocumentation": "This is an overview of the visit evolution.",
+        "VisitsSummaryReportDocumentation": "This report provides a very general overview of how your visitors behave.",
         "WidgetLastVisits": "Visits Over Time",
         "WidgetOverviewGraph": "Visits Overview (with graph)",
         "WidgetVisits": "Visits Overview"

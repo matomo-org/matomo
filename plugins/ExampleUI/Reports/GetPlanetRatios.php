@@ -26,6 +26,7 @@ class GetPlanetRatios extends Base
         parent::init();
 
         $this->name = 'Pie graph';
+        $this->documentation = 'This report shows a sample Pie chart';
         $this->subcategoryId = $this->name;
         $this->order = 112;
     }

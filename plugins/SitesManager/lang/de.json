@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "URL Fragmente beim Tracking behalten",
         "ListOfIpsToBeExcludedOnAllWebsites": "Die untenstehenden IPs werden auf allen Websites ignoriert.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Die untenstehenden GET-Parameter werden von allen URLs aller Websites ignoriert.",
-        "ListOfQueryParametersToExclude": "Geben Sie die Liste der URL Query Parameter an, einen pro Zeile, um sie von der URL Berichtsseite auszuschließen. Reguläre Ausdrücke so wie %s werden unterstützt.",
         "LogAnalytics": "Log-Analyse",
         "LogAnalyticsDescription": "Wenn das Tracking per Javascript nicht möglich ist, können Sie %1$sServer Log Analytics %2$s als alternative Methode einsetzen, um die Besucher Ihrer Webseite zu analysieren.",
         "MainDescription": "Ihre Webanalyse benötigt Websites! Websites können hinzugefügt, aktualisiert und gelöscht werden. Hier wird auch der JavaScript-Code gezeigt, der in Ihre Websites eingefügt werden muss.",

@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "Conserver les fragments d'URL lors du suivi",
         "ListOfIpsToBeExcludedOnAllWebsites": "Les adresses IP ci-dessous seront exclues des statistiques sur tous les sites web.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Les paramètres ci-dessous seront exclus des statistiques de tous les sites web.",
-        "ListOfQueryParametersToExclude": "Entrez la liste de vos paramètres d'URL à exclure des rapports d'URL de page, un par ligne. Les expressions régulières comme %s sont supportées.",
         "LogAnalytics": "Analyse des logs",
         "LogAnalyticsDescription": "S'il n'est pas possible d'utiliser le code de suivi JavaScript, vous pouvez utiliser %1$sl'analyse des logs serveur%2$s comme solution alternative pour suivre les utilisateurs de vos sites web.",
         "MainDescription": "Matomo a besoin de sites pour générer des rapports ! Ajoutez, éditez et supprimez des sites, et voyez le code JavaScript à inclure dans vos pages.",

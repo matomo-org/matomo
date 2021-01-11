@@ -33,6 +33,7 @@
         "ReturnVisits": "returning visits",
         "SubmenuFrequency": "Frequency",
         "WidgetGraphReturning": "Returning Visits Over Time",
-        "WidgetOverview": "Frequency Overview"
+        "WidgetOverview": "Frequency Overview",
+        "VisitFrequencyReportDocumentation": "This report shows general metrics like visits for returning visitors side by side with the same metrics for new visitors. Learn how returning visitors perform overall compared to new visitors."
     }
 }

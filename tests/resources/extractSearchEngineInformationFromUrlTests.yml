@@ -545,3 +545,11 @@
   engine:
   keywords:
 
+# random search engines with a hiddenkeyword that is not defined in SearchEngines.yml
+- url: 'https://www.looksmart.com'
+  engine: 'Looksmart'
+  keywords: false
+
+- url: 'https://www.x-recherche.com'
+  engine: 'X-Recherche'
+  keywords: false

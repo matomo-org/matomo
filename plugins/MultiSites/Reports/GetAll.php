@@ -18,7 +18,7 @@ class GetAll extends Base
         parent::init();
         $this->dimension     = new Website();
         $this->name          = Piwik::translate('General_AllWebsitesDashboard');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('MultiSites_AllWebsitesDashboardDocumentation');
         $this->constantRowsCount = false;
         $this->order = 4;
     }

@@ -67,7 +67,6 @@ class API extends \Piwik\Plugin\API
         $subject = '[ Feedback Feature - Matomo ] ' . $subject;
         $body    = Common::unsanitizeInputValue($body) . "\n"
                  . 'Matomo ' . Version::VERSION . "\n"
-                 . 'IP: ' . IP::getIpFromHeader() . "\n"
                  . 'URL: ' . Url::getReferrer() . "\n";
 
         $mail = new Mail();

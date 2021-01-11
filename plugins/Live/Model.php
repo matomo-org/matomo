@@ -58,9 +58,9 @@ class Model
             $date = 'yesterdaySameTime';
         }
 
-        list($dateStart, $dateEnd) = $this->getStartAndEndDate($idSite, $period, $date);
+        [$dateStart, $dateEnd] = $this->getStartAndEndDate($idSite, $period, $date);
 
-        $queries = $this->splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset);
+        $queries = $this->splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset, $filterSortOrder);
 
         $foundVisits = array();
 
@@ -75,14 +75,14 @@ class Model
                 $updatedOffset = 0; // we've already skipped enough rows
             }
 
-            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+            [$sql, $bind] = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
             $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
 
             if (!empty($offset) && empty($visits)) {
                 // find out if there are any matches
                 $updatedOffset = 0;
-                list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+                [$sql, $bind] = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
                 $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
                 if (!empty($visits)) {
@@ -213,7 +213,7 @@ class Model
         return true;
     }
 
-    public function splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset)
+    public function splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset, $filterSortOrder)
     {
         $virtualDateEnd = $dateEnd;
         if (empty($dateEnd)) {
@@ -230,33 +230,64 @@ class Model
         if ($limit
             && $hasStartEndDateMoreThanOneDayInBetween
         ) {
-            $virtualDateEnd = $virtualDateEnd->subDay(1);
-            $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
+            if (strtolower($filterSortOrder) !== 'asc') {
+                $virtualDateEnd = $virtualDateEnd->subDay(1);
+                $queries[]      = [$virtualDateEnd, $dateEnd]; // need to use ",endDate" in case endDate is not set
 
-            if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
-                $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
-                $virtualDateEnd = $virtualDateEnd->subDay(7);
-            }
-
-            if (!$offset) {
-                // only when no offset
-                // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
-                // like we would need to execute each of the queries twice just to find out if there are some visits that
-                // need to be skipped...
-
-                if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
-                    $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
-                    $virtualDateEnd = $virtualDateEnd->subDay(30);
+                if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+                    $queries[]      = [$virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1)];
+                    $virtualDateEnd = $virtualDateEnd->subDay(7);
                 }
-                if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
-                    $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
-                    $virtualDateEnd = $virtualDateEnd->subYear(1);
-                }
-            }
 
-            if ($virtualDateStart->isEarlier($virtualDateEnd)) {
-                // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
-                $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
+                if (!$offset) {
+                    // only when no offset
+                    // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
+                    // like we would need to execute each of the queries twice just to find out if there are some visits that
+                    // need to be skipped...
+
+                    if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+                        $queries[]      = [$virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1)];
+                        $virtualDateEnd = $virtualDateEnd->subDay(30);
+                    }
+                    if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+                        $queries[]      = [$virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1)];
+                        $virtualDateEnd = $virtualDateEnd->subYear(1);
+                    }
+                }
+
+                if ($virtualDateStart->isEarlier($virtualDateEnd)) {
+                    // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
+                    $queries[] = [$dateStart, $virtualDateEnd->subSeconds(1)];
+                }
+            } else {
+                $queries[]      = [$virtualDateStart, $virtualDateStart->addDay(1)->subSeconds(1)];
+                $virtualDateStart = $virtualDateStart->addDay(1);
+
+                if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+                    $queries[]      = [$virtualDateStart, $virtualDateStart->addDay(7)->subSeconds(1)];
+                    $virtualDateStart = $virtualDateStart->addDay(7);
+                }
+
+                if (!$offset) {
+                    // only when no offset
+                    // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
+                    // like we would need to execute each of the queries twice just to find out if there are some visits that
+                    // need to be skipped...
+
+                    if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+                        $queries[]      = [$virtualDateStart, $virtualDateStart->addDay(30)->subSeconds(1)];
+                        $virtualDateStart = $virtualDateStart->addDay(30);
+                    }
+                    if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+                        $queries[]      = [$virtualDateStart, $virtualDateStart->addPeriod(1, 'year')->subSeconds(1)];
+                        $virtualDateStart = $virtualDateStart->addPeriod(1, 'year');
+                    }
+                }
+
+                if ($virtualDateStart->isEarlier($virtualDateEnd)) {
+                    // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
+                    $queries[] = [$virtualDateStart, $dateEnd];
+                }
             }
         } else {
             $queries[] = array($dateStart, $dateEnd);
@@ -348,7 +379,7 @@ class Model
             return 0;
         }
 
-        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
+        [$whereIdSites, $idSites] = $this->getIdSitesWhereClause($idSite, $from);
 
         $now = null;
         try {
@@ -459,9 +490,9 @@ class Model
      */
     public function makeLogVisitsQueryString($idSite, $startDate, $endDate, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
     {
-        list($whereClause, $bindIdSites) = $this->getIdSitesWhereClause($idSite);
+        [$whereClause, $bindIdSites] = $this->getIdSitesWhereClause($idSite);
 
-        list($whereBind, $where) = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $startDate, $endDate, $visitorId, $minTimestamp);
+        [$whereBind, $where] = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $startDate, $endDate, $visitorId, $minTimestamp);
 
         if (strtolower($filterSortOrder) !== 'asc') {
             $filterSortOrder = 'DESC';

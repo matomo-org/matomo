@@ -27,9 +27,9 @@ class Get extends \Piwik\Plugin\Report
     protected function init()
     {
         parent::init();
-        $this->categoryId      = 'General_Actions';
+        $this->categoryId    = 'General_Actions';
         $this->name          = Piwik::translate('VisitFrequency_ColumnReturningVisits');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('VisitFrequency_VisitFrequencyReportDocumentation');
         $this->processedMetrics = array(
             new ReturningMetric(new AverageTimeOnSite(), API::RETURNING_COLUMN_SUFFIX),
             new ReturningMetric(new ActionsPerVisit(), API::RETURNING_COLUMN_SUFFIX),
