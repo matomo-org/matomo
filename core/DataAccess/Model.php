@@ -767,7 +767,7 @@ class Model
         if ($onlySelectSegmentArchives) {
             // we select only segment archiving by looking for archive done flags that have a length > 32. this works since the done flag
             // for a segment archive will contain its hash
-            $sql .= " AND CHAR_LENGTH(name) > 32 AND date1 = ? AND date2 = ? AND period = ?";
+            $sql .= " AND CHAR_LENGTH(SUBSTRING_INDEX(name, '.', 1)) > 32 AND date1 = ? AND date2 = ? AND period = ?";
             $bind = array_merge($bind, [$archiveParamsToMatch['date1'], $archiveParamsToMatch['date2'], $archiveParamsToMatch['period']]);
         }
 

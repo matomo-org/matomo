@@ -269,8 +269,8 @@ class ModelTest extends IntegrationTestCase
             ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => 1, 'name' => 'done' . md5('testsegment2')],
             ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done'],
             ['date1' => '2015-04-15', 'date2' => '2015-04-24', 'period' => 5, 'name' => 'done'],
-            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done' . md5('testsegment3')],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done.SomePluginWithAVeryLongNameThatIsLongerThanThirtyTwoCharacters'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done' . md5('testsegment3') . '.SomePlugin'],
             ['date1' => '2015-04-03', 'date2' => '2015-04-03', 'period' => 1, 'name' => 'done'],
             ['date1' => '2015-04-05', 'date2' => '2015-04-05', 'period' => 1, 'name' => 'done'],
             ['date1' => '2015-03-30', 'date2' => '2015-04-05', 'period' => 2, 'name' => 'done'],
@@ -294,23 +294,23 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
             ),
             array (
-                'idinvalidation' => '12',
-                'idarchive' => NULL,
-                'idsite' => '1',
-                'date1' => '2015-04-06',
-                'date2' => '2015-04-06',
-                'period' => '1',
-                'name' => 'done',
-                'report' => null,
-            ),
-            array (
                 'idinvalidation' => '13',
                 'idarchive' => NULL,
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-06',
                 'period' => '1',
-                'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
+                'name' => 'done764644a7142bdcbedaab92f9dedef5e5.SomePlugin',
+                'report' => null,
+            ),
+            array (
+                'idinvalidation' => '12',
+                'idarchive' => NULL,
+                'idsite' => '1',
+                'date1' => '2015-04-06',
+                'date2' => '2015-04-06',
+                'period' => '1',
+                'name' => 'done.SomePluginWithAVeryLongNameThatIsLongerThanThirtyTwoCharacters',
                 'report' => null,
             ),
             array (
@@ -505,7 +505,66 @@ class ModelTest extends IntegrationTestCase
             ),
         );
 
-        $actual = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, $useLimit = false);
+        $actual = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, false, null, $useLimit = false);
+        foreach ($actual as &$item) {
+            unset($item['ts_invalidated']);
+        }
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_getNextInvalidatedArchive_selectsOnlySegmentsCorrectly()
+    {
+        $this->insertInvalidations([
+            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done' . md5('testsegment8')],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done' . md5('testsegment1')],
+            ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => 4, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => 2, 'name' => 'done' . md5('testsegment3')],
+            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-04', 'date2' => '2015-04-04', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done' . md5('testsegment2')],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done.SomePluginWithAVeryLongNameThatIsLongerThanThirtyTwoCharacters'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done' . md5('testsegment3') . '.SomePlugin'],
+            ['date1' => '2015-04-03', 'date2' => '2015-04-03', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-05', 'date2' => '2015-04-05', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-04-05', 'period' => 2, 'name' => 'done'],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done' . md5('testsegment1')],
+            ['date1' => '2015-03-01', 'date2' => '2015-03-24', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => 2, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-01', 'date2' => '2015-03-31', 'period' => 3, 'name' => 'done'],
+            ['date1' => '2015-03-31', 'date2' => '2015-03-31', 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $expected = array (
+            [
+                'idinvalidation' => '9',
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2015-04-02',
+                'date2' => '2015-04-02',
+                'period' => '1',
+                'name' => 'doneb321434abb5a139c17dadf08c9d2e315',
+                'report' => null,
+            ],
+            [
+                'idinvalidation' => '3',
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2015-04-02',
+                'date2' => '2015-04-02',
+                'period' => '1',
+                'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
+                'report' => null,
+            ],
+        );
+
+        $actual = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null,
+            true, ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1], $useLimit = false);
         foreach ($actual as &$item) {
             unset($item['ts_invalidated']);
         }
