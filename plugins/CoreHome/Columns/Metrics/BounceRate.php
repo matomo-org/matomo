@@ -39,7 +39,7 @@ class BounceRate extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        return $formatter->getPrettyPercentFromQuotient($value);
+        return $formatter->getPrettyPercentFromQuotient($value / 100);
     }
 
     public function compute(Row $row)
@@ -47,6 +47,6 @@ class BounceRate extends ProcessedMetric
         $bounceCount = $this->getMetric($row, 'bounce_count');
         $visits = $this->getMetric($row, 'nb_visits');
 
-        return Piwik::getQuotientSafe($bounceCount, $visits, $precision = 2);
+        return Piwik::getQuotientSafe($bounceCount, $visits, $precision = 2) * 100;
     }
 }
