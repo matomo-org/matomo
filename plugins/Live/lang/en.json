@@ -59,6 +59,9 @@
         "SegmentedVisitorLogTitle": "Visits Log showing visits where %1$s is \"%2$s\"",
         "OnClickPause": "%s is started. Click to pause.",
         "OnClickStart": "%s is stopped. Click to start.",
-        "ClickToSeeAllContents": "Click to see each content interaction/impression"
+        "ClickToSeeAllContents": "Click to see each content interaction/impression",
+        "VisitorLogSubcategoryHelp1": "The Visits Log is a unique feature of Matomo that shows you every visit your website receives in detail. You can see what actions were taken, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).",
+        "VisitorLogSubcategoryHelp2": "Other reports in Matomo show how your visitors behave at the macro level, as an aggregate. The Visits Log goes down to the micro level. Use segmentation to look for specific visits to understand your visitors better.",
+        "VisitorLogSubcategoryHelp3": "Learn more in the User Guide."
     }
 }

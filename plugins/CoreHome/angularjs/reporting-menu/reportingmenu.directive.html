@@ -44,7 +44,7 @@
 
                 <a class="item-help-icon"
                    tabindex="5" href="javascript:"
-                   ng-if="(subcategory.id == currentSubcategory || helpShownCategory == subcategory) && subcategory.help"
+                   ng-if="(subcategory.id == currentSubcategory || helpShownCategory.id == subcategory.id) && subcategory.help"
                    ng-click="showHelp(subcategory)"
                    ng-class="{'active': helpShownCategory == subcategory && subcategory.help}"
                 >

@@ -9,11 +9,16 @@
 namespace Piwik\Plugins\CoreHome\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class VisitorsOverviewSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'General_Overview';
     protected $order = 2;
-    protected $help = 'General_VisitorsOverviewHelp';
+
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('General_VisitorsOverviewHelp') . '</p>';
+    }
 }

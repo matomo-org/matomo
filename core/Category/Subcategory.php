@@ -56,13 +56,6 @@ class Subcategory
     protected $order = 99;
 
     /**
-     * Help text to display for this category.
-     *
-     * @var null
-     */
-    protected $help = null;
-
-    /**
      * Sets (overwrites) the id of the subcategory see {@link $id}.
      *
      * @param string $id A translation key eg 'General_Overview'.
@@ -157,15 +150,6 @@ class Subcategory
      */
     public function getHelp()
     {
-        return $this->help;
-    }
-
-    /**
-     * Sets the help text for this category.
-     * @param null $help
-     */
-    public function setHelp($help)
-    {
-        $this->help = $help;
+        return null;
     }
 }

@@ -72,7 +72,11 @@
             var UI = require('piwik/UI');
             var notification = new UI.Notification();
             var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix') + '</strong><br/><br/>';
-            notification.show(prefix + category.help, { context: 'info', id: 'reportingmenu-help', type: 'persistent' });
+
+            var options = { context: 'info', id: 'reportingmenu-help', type: 'persistent' };
+            options['class'] = 'help-notification';
+
+            notification.show(prefix + category.help, options);
             $scope.helpShownCategory = category;
         };
 
