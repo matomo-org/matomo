@@ -421,12 +421,6 @@ login_cookie_path =
 ; "remember me" option checked
 login_session_not_remembered_idle_timeout = 3600
 
-; email address that appears as a Sender in the password recovery email
-; if specified, {DOMAIN} will be replaced by the current Matomo domain
-login_password_recovery_email_address = "password-recovery@{DOMAIN}"
-; name that appears as a Sender in the password recovery email
-login_password_recovery_email_name = Matomo
-
 ; email address that appears as a Reply-to in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
