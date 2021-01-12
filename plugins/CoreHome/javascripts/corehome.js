@@ -90,6 +90,8 @@ $( document ).ready(function() {
         edge: 'right'
     });
 
+    $('.navbar.collapsible').collapsible();
+
     $('select').material_select();
 
     piwikHelper.registerShortcut('?', _pk_translate('CoreHome_ShortcutHelp') , function (event) {
