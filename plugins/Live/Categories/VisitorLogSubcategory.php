@@ -21,7 +21,7 @@ class VisitorLogSubcategory extends Subcategory
     {
         $help = '<p>' . Piwik::translate('Live_VisitorLogSubcategoryHelp1') . '</p><br/>';
         $help .= '<p>' . Piwik::translate('Live_VisitorLogSubcategoryHelp2') . '</p><br/>';
-        $help .= '<p><a href="https://matomo.org/docs/real-time/" rel="noreferrer noopener">' . Piwik::translate('Live_VisitorLogSubcategoryHelp3') . '</a></p>';
+        $help .= '<p><a href="https://matomo.org/docs/real-time/" target="_blank" rel="noreferrer noopener">' . Piwik::translate('Live_VisitorLogSubcategoryHelp3') . '</a></p>';
         return $help;
     }
 }

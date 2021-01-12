@@ -24,7 +24,7 @@ class VisitorsCategory extends Category
             'category' => 'General_Visitors',
             'subcategory' => 'Live_VisitorLog',
         ]);
-        $visitsLogUrl = '<a href="?' . htmlspecialchars($visitsLogUrl) . '" rer="noreferrer noopener">';
+        $visitsLogUrl = '<a href="?' . htmlspecialchars($visitsLogUrl) . '" rel="noreferrer noopener">';
 
         $helpText = '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp1') . '</p><br/>';
         $helpText .= '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp2', [$visitsLogUrl, '</a>']) . '</p>';

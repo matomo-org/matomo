@@ -71,13 +71,23 @@
         $scope.showHelp = function (category) {
             var UI = require('piwik/UI');
             var notification = new UI.Notification();
-            var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix') + '</strong><br/><br/>';
 
-            var options = { context: 'info', id: 'reportingmenu-help', type: 'persistent' };
+            if (category === $scope.helpShownCategory) {
+                notification.remove('reportingmenu-help');
+                $scope.helpShownCategory = null;
+                return;
+            }
+
+            var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix') + '</strong><br/>';
+
+            var options = { context: 'info', id: 'reportingmenu-help', type: 'persistent', noclear: true };
             options['class'] = 'help-notification';
 
             notification.show(prefix + category.help, options);
             $scope.helpShownCategory = category;
+
+            // move help notification so it is always the first one shown
+            $('[notification-id=reportingmenu-help]').prependTo($('#notificationContainer'));
         };
 
         $scope.isNotificationShown = function () {

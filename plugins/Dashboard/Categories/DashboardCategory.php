@@ -19,8 +19,6 @@ class DashboardCategory extends Category
 
     public function getHelp()
     {
-        // TODO: link
-        return '<p>' . Piwik::translate('Dashboard_DashboardCategoryHelp', ['<strong>', '</strong>']) . '</p>'
-            . '<p><a href="TODO" rel="noreferrer noopener">Learn more.</a></p>';
+        return '<p>' . Piwik::translate('Dashboard_DashboardCategoryHelp', ['<strong>', '</strong>']) . '</p>';
     }
 }
