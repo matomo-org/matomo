@@ -26,7 +26,7 @@ class VisitorsCategory extends Category
         ]);
         $visitsLogUrl = '<a href="?' . htmlspecialchars($visitsLogUrl) . '" rel="noreferrer noopener">';
 
-        $helpText = '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp1') . '</p><br/>';
+        $helpText = '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp1') . '</p>';
         $helpText .= '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp2', [$visitsLogUrl, '</a>']) . '</p>';
 
         return $helpText;
