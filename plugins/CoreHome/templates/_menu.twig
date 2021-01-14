@@ -1,9 +1,10 @@
-{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction) %}
+{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible) %}
     <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
-        <ul class="navbar hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
+        <ul class="navbar {% if collapsible %}collapsible collapsible-accordion{% endif %} hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
 
                 {% set hasSubmenuItem = false %}
+                {% set hasActive = false %}
                 {% for name,urlParameters in level2 %}
                     {% if name|slice(0,1) != '_' %}
                         {% set hasSubmenuItem = true %}
@@ -11,18 +12,19 @@
                 {% endfor %}
 
                 {% if hasSubmenuItem %}
-                    <li class="menuTab" role="menuitem">
-
-                        <a class="item" tabindex="5">
+                    {% set subMenu %}
+                        <a class="item {% if collapsible %}collapsible-header{% endif %}" tabindex="5">
                             <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
                             <span class="hidden">
                              {{ 'CoreHome_Menu'|translate }}
                            </span>
                         </a>
-                        <ul role="menu">
+                        <ul role="menu" {% if collapsible %}class="collapsible-body"{% endif %}>
                             {% for name,urlParameters in level2 %}
                                 {% if name|slice(0,1) != '_' %}
-                                    <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
+                                    {% set isActive = urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}
+                                    {% set hasActive = hasActive or isActive %}
+                                    <li {% if isActive %}class="active"{% endif %}
                                         role="menuitem"
                                     >
                                         <a class="item" tabindex="5" target="_self"
@@ -40,6 +42,9 @@
                                 {% endif %}
                             {% endfor %}
                         </ul>
+                    {% endset %}
+                    <li class="menuTab {% if hasActive %}active{% endif %}" role="menuitem">
+                        {{ subMenu }}
                     </li>
                 {% endif %}
             {% endfor %}

@@ -739,7 +739,7 @@ class CronArchive
         $websiteIds = array_intersect($websiteIds, $allWebsites);
 
         if (!empty($this->shouldSkipSpecifiedSites)) {
-            $websiteIds = array_intersect($websiteIds, $this->shouldSkipSpecifiedSites);
+            $websiteIds = array_diff($websiteIds, $this->shouldSkipSpecifiedSites);
         }
 
         /**

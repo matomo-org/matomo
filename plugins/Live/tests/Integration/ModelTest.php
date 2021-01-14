@@ -379,12 +379,25 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-02 00:00:00'), $dates);
     }
 
+    public function test_splitDatesIntoMultipleQueries_notMoreThanADayUsesOnlyOneQueryDesc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:00:00', $limit = 5, $offset = 0, 'asc');
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2010-01-02 00:00:00'), $dates);
+    }
 
     public function test_splitDatesIntoMultipleQueries_moreThanADayLessThanAWeek()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:01:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2010-01-01 00:01:00 2010-01-02 00:01:00', '2010-01-01 00:00:00 2010-01-01 00:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanADayLessThanAWeekAsc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:01:00', $limit = 5, $offset = 0, 'asc');
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-02 00:01:00'), $dates);
     }
 
     public function test_splitDatesIntoMultipleQueries_moreThanAWeekLessThanMonth()
@@ -394,11 +407,25 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array('2010-01-19 04:01:00 2010-01-20 04:01:00', '2010-01-12 04:01:00 2010-01-19 04:00:59', '2010-01-01 00:00:00 2010-01-12 04:00:59'), $dates);
     }
 
+    public function test_splitDatesIntoMultipleQueries_moreThanAWeekLessThanMonthAsc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-20 04:01:00', $limit = 5, $offset = 0, 'asc');
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-08 23:59:59', '2010-01-09 00:00:00 2010-01-20 04:01:00'), $dates);
+    }
+
     public function test_splitDatesIntoMultipleQueries_moreThanMonthLessThanYear()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-02-20 04:01:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2010-02-19 04:01:00 2010-02-20 04:01:00', '2010-02-12 04:01:00 2010-02-19 04:00:59', '2010-01-13 04:01:00 2010-02-12 04:00:59', '2010-01-01 00:00:00 2010-01-13 04:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanMonthLessThanYearAsc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-02-20 04:01:00', $limit = 5, $offset = 0, 'asc');
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-08 23:59:59', '2010-01-09 00:00:00 2010-02-07 23:59:59', '2010-02-08 00:00:00 2010-02-20 04:01:00'), $dates);
     }
 
     public function test_splitDatesIntoMultipleQueries_moreThanYear()
@@ -408,11 +435,25 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2012-01-13 04:01:00 2012-02-12 04:00:59', '2011-01-01 04:01:00 2012-01-13 04:00:59', '2010-01-01 00:00:00 2011-01-01 04:00:59'), $dates);
     }
 
+    public function test_splitDatesIntoMultipleQueries_moreThanYearAsc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 0, 'asc');
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-08 23:59:59', '2010-01-09 00:00:00 2010-02-07 23:59:59', '2010-02-08 00:00:00 2011-02-07 23:59:59', '2011-02-08 00:00:00 2012-02-20 04:01:00'), $dates);
+    }
+
     public function test_splitDatesIntoMultipleQueries_moreThanYear_withOffsetUsesLessQueries()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 5);
 
         $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2010-01-01 00:00:00 2012-02-12 04:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanYear_withOffsetUsesLessQueriesAsc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 04:01:00', '2012-02-20 00:00:00', $limit = 5, $offset = 5, 'asc');
+
+        $this->assertEquals(array('2010-01-01 04:01:00 2010-01-02 04:00:59', '2010-01-02 04:01:00 2010-01-09 04:00:59', '2010-01-09 04:01:00 2012-02-20 00:00:00'), $dates);
     }
 
     public function test_splitDatesIntoMultipleQueries_moreThanYear_noLimitDoesntUseMultipleQueries()
@@ -422,6 +463,13 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array('2010-01-01 00:00:00 2012-02-20 04:01:00'), $dates);
     }
 
+    public function test_splitDatesIntoMultipleQueries_moreThanYear_noLimitDoesntUseMultipleQueriesAsc()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 04:01:00', '2012-02-20 00:00:00', $limit = 0, $offset = 0, 'asc');
+
+        $this->assertEquals(array('2010-01-01 04:01:00 2012-02-20 00:00:00'), $dates);
+    }
+
     public function test_splitDatesIntoMultipleQueries_noStartDate()
     {
         $dates = $this->splitDatesIntoMultipleQueries(false, '2012-02-20 04:01:00', $limit = 5, $offset = 0);
@@ -429,7 +477,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2012-01-13 04:01:00 2012-02-12 04:00:59', '2011-01-01 04:01:00 2012-01-13 04:00:59', ' 2011-01-01 04:00:59'), $dates);
     }
 
-    private function splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset)
+    private function splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset, $order='desc')
     {
         if ($startDate) {
             $startDate = Date::factory($startDate);
@@ -438,7 +486,7 @@ class ModelTest extends IntegrationTestCase
             $endDate = Date::factory($endDate);
         }
         $model = new Model();
-        $queries = $model->splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset);
+        $queries = $model->splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset, $order);
 
         return array_map(function ($query) { return ($query[0] ? $query[0]->getDatetime() : '') . ' ' . ($query[1] ? $query[1]->getDatetime() : ''); }, $queries);
     }

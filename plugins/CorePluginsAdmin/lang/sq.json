@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "Ju lutemi, përditësojeni %1$s %2$s me një version më të ri, është i domosdoshëm %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Ju lutemi, instaloni %1$s %2$s pasi është i domosdoshëm për %3$s.",
         "NoZipFileSelected": "Ju lutemi, përzgjidhni një kartelë ZIP.",
+        "FileExceedsUploadLimit": "Kartela e përzgjedhur tejkalon kufi ngarkimesh të shërbyesit tuaj.",
         "NumUpdatesAvailable": "%s Përditësim(e) gati",
         "NoPluginSettings": "S’ka rregullime shtojce që mund të formësohen",
         "Origin": "Origjina",

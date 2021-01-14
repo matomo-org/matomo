@@ -33,6 +33,6 @@
         "TV": "Tv",
         "UserAgent": "User-Agent",
         "WidgetBrowsers": "Browsere vizitatori",
-        "WidgetBrowsersDocumentation": "Acest raport conține informații cu privire la ce fel de browser utilizeaza de vizitatori . Fiecare versiune de browser este listată separat."
+        "WidgetBrowserVersionsDocumentation": "Acest raport conține informații cu privire la ce fel de browser utilizeaza de vizitatori . Fiecare versiune de browser este listată separat."
     }
 }

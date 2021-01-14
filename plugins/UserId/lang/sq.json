@@ -2,6 +2,7 @@
     "UserId": {
         "UserId": "ID përdoruesi",
         "UserReportTitle": "ID-ra përdoruesish",
+        "UserReportDocumentation": "Ky raport shfaq vizita dhe vlera të tjera të përgjithshme për çdo ID individuale Përdoruesi.",
         "PluginDescription": "Shfaq raporte përdoruesi"
     }
 }

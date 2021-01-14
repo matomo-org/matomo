@@ -50,6 +50,6 @@
         "MobileApp": "モバイルアプリ",
         "XVisitsFromDevices": "%2$s デバイスからの %1$s ビジット",
         "WidgetBrowsers": "ブラウザ",
-        "WidgetBrowsersDocumentation": "ビジターが使用しているブラウザについてのリポートです。各ブラウザのバージョンは別途記載されています。"
+        "WidgetBrowserVersionsDocumentation": "ビジターが使用しているブラウザについてのリポートです。各ブラウザのバージョンは別途記載されています。"
     }
 }
