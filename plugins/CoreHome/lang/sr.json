@@ -51,7 +51,6 @@
         "PivotBySubtable": "Ovaj izveštaj nije pivotiran %1$s Pivotiraj sa %2$s",
         "SystemSummaryWidget": "Sumarno",
         "SystemSummaryNWebsites": "%d sajtova",
-        "SystemSummaryNSegments": "%d segmenata",
         "SystemSummaryNActivatedPlugins": "%d aktiviranih dodataka",
         "SystemSummaryPiwikVersion": "Verzija Matomo-a",
         "SystemSummaryMysqlVersion": "Verzija MySQL-a",

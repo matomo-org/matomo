@@ -12,7 +12,6 @@
         "LastHours": "Edelliset %s tuntia",
         "LastMinutes": "Edelliset %s minuuttia",
         "LastVisit": "Edellinen käynti",
-        "LinkVisitorLog": "Näytä tarkka käyntiloki",
         "LoadMoreVisits": "Lataa lisää käyntejä",
         "LimitedSummary": "Tässä profiilissa on yhteenveto %1$s viimeisestä käynnistä. Käyttäjällä on useampia käyntejä.",
         "LimitedVisitsShown": "Näytetään vain %1$s viimeistä käyntiä. Käyttäjällä on useampia käyntejä.",
@@ -49,10 +48,6 @@
         "VisitsFrom": "%1$s%2$s käyntiä%3$s lähteestä",
         "VisitSummary": "Käytti yhteensä %1$s%2$s sivustolla%3$s ja katsoi %4$s sivua%5$s %6$s käynnin aikana%7$s.",
         "VisitSummaryWithActionDetails": "Käytti yhteensä %1$s%2$s sivustolla%3$s ja suoritti %4$s toimintoa%5$s (%6$s) %7$s käynnin aikana%8$s.",
-        "RowActionTooltipDefault": "Näytä käyntiloki paloiteltuna tämän rivin mukaan",
-        "RowActionTooltipWithDimension": "Näytä käyntiloki paloiteltuna: %s",
-        "RowActionTooltipTitle": "Näytä paloiteltu käyntiloki",
-        "SegmentedVisitorLogTitle": "Käyntilokin käynnit, joissa %1$s on \"%2$s\"",
         "OnClickPause": "%s on käynnissä. Keskeytä klikkaamalla.",
         "OnClickStart": "%s on pysäytetty. Aloita klikkaamalla.",
         "ClickToSeeAllContents": "Klikkaa nähdäksesi interaktion sisältö"

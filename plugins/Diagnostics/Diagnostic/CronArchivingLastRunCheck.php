@@ -49,9 +49,7 @@ class CronArchivingLastRunCheck implements Diagnostic
         // check cron archiving has been enabled
         $isBrowserTriggerDisabled = !Rules::isBrowserTriggerEnabled();
         if (!$isBrowserTriggerDisabled) {
-            $comment = $this->translator->translate('Diagnostics_BrowserTriggeredArchivingEnabled', [
-                '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">', '</a>']);
-            return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment)];
+            return [];
         }
 
         // check archiving has been run

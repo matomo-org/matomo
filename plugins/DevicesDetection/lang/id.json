@@ -30,6 +30,6 @@
         "TV": "Tv",
         "MobileApp": "Aplikasi Mobil",
         "WidgetBrowsers": "Peramban Pengunjung",
-        "WidgetBrowsersDocumentation": "Laporan ini mengandung informasi tentabg jenis peramban yang pengunjung Anda gunakan. Setiap versi peramban diurutkan terpisah."
+        "WidgetBrowserVersionsDocumentation": "Laporan ini mengandung informasi tentabg jenis peramban yang pengunjung Anda gunakan. Setiap versi peramban diurutkan terpisah."
     }
 }

@@ -35,6 +35,7 @@
         "InvalidGeoIPUpdatePeriod": "Periudhë e pavlefshme për përditësuesin GeoIP: %1$s. Vlera të vlefshme janë %2$s.",
         "IPurchasedGeoIPDBs": "Bleva baza të dhënash më të sakta nga %3$sdbip%4$s ose %1$sMaxMind%2$s dhe dua të rregulloj përditësime të vetvetishme.",
         "ISPDatabase": "Bazë të Dhënash MShI",
+        "ISPRequiresProviderPlugin": "Ndjekja e furnizuesve të shërbimeve Internet lyp instalimin dhe aktivizimin e shtojcës Furnizues.",
         "IWantToDownloadFreeGeoIP": "Dua të shkarkoj bazën DBIP falas të të dhënave…",
         "PluginDescription": "Furnizon shërbime vendndodhjesh DBIP \/ GeoIP2.",
         "LocationDatabase": "Bazë të dhënash Vendi",

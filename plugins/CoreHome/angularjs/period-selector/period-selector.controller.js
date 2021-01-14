@@ -138,6 +138,12 @@
 
             vm.dateValue = vm.startRangeDate = vm.endRangeDate = null;
 
+            try {
+                piwikPeriods.parse(strPeriod, strDate);
+            } catch (e) {
+                return;
+            }
+
             if (strPeriod === 'range') {
                 var period = piwikPeriods.get(strPeriod).parse(strDate);
                 vm.dateValue = period.startDate;
@@ -156,8 +162,16 @@
         function getCurrentlyViewingText() {
             var date;
             if (vm.periodValue === 'range') {
+                if (!vm.startRangeDate || ! vm.endRangeDate) {
+                    return _pk_translate('General_Error');
+                }
+
                 date = vm.startRangeDate + ',' + vm.endRangeDate;
             } else {
+                if (!vm.dateValue) {
+                    return _pk_translate('General_Error');
+                }
+
                 date = formatDate(vm.dateValue);
             }
 

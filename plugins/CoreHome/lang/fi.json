@@ -76,7 +76,6 @@
         "PivotBySubtable": "Tämä raportti ei ole käännetty %1$s:n mukaan. Käännetty %2$s:llä.",
         "SystemSummaryWidget": "Järjestelmän yhteenveto",
         "SystemSummaryNWebsites": "%d verkkosivustoa",
-        "SystemSummaryNSegments": "%d segmenttiä",
         "SystemSummaryNActivatedPlugins": "%d lisäosaa käytössä",
         "SystemSummaryPiwikVersion": "Matomo-versio",
         "SystemSummaryMysqlVersion": "MySQL-versio",

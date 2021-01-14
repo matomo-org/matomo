@@ -126,7 +126,6 @@
         "SystemCheckWriteDirs": "書き込み権限のあるディレクトリ",
         "SystemCheckWriteDirsHelp": "この Linux システムでこの問題を修正するには、次のコマンドを打ち込んでみてください",
         "SystemCheckZlibHelp": "\"zlib\" のサポートを有効にして、PHP の再構築と設定を行う必要があります（--with-zlib）。",
-        "SystemCheckCronArchiveProcess": "アーカイブ cron",
         "SystemCheckCronArchiveProcessCLI": "CLI を経由してプロセス管理する",
         "SystemCheckPhpSetting": "いくつかの重大な問題を防ぐためには、php.ini ファイルで以下を設定する必要があります: %s　",
         "SystemCheckUpdateHttps": "HTTPS 経由で更新",

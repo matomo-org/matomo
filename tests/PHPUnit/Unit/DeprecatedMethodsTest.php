@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Version;
 use ReflectionClass;
@@ -85,7 +86,8 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\SettingsPiwik', 'isPiwikInstalled');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Piwik', 'doAsSuperUser');
 
-        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0-rc1', \Piwik\Plugins\Marketplace\tests\System\Api\ClientTest::class, 'skipTestUntilFirstRelease');
+        $validTill = '2021-03-01';
+        $this->assertDeprecatedMethodIsRemovedBeforeDate(CronArchive::class, 'checkNoDanglingInvalidations', $validTill);
     }
 
 

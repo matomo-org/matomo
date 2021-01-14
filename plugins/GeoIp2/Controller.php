@@ -36,7 +36,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
             Json::sendHeaderJSON();
-            $outputPath = GeoIp2::getPathForGeoIpDatabase('DBIP-City.mmdb') . '.gz';
+            $outputPath = GeoIP2AutoUpdater::getTemporaryFolder('DBIP-City.mmdb.gz', true);
             try {
                 $result = Http::downloadChunk(
                     $url = GeoIp2::getDbIpLiteUrl(),
@@ -146,7 +146,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 $url = GeoIP2AutoUpdater::getConfiguredUrl($key);
                 $filename = GeoIP2AutoUpdater::getZippedFilenameToDownloadTo($url, $key, GeoIP2AutoUpdater::getGeoIPUrlExtension($url));
-                $outputPath = GeoIp2::getPathForGeoIpDatabase($filename);
+                $outputPath = GeoIP2AutoUpdater::getTemporaryFolder($filename, true);
 
                 // download part of the file
                 $result = Http::downloadChunk(

@@ -118,7 +118,6 @@
         "SystemCheckWriteDirs": "Tiedostot kirjoitusoikeudella",
         "SystemCheckWriteDirsHelp": "Aja Linux-järjestelmässä seuraavat komennot:",
         "SystemCheckZlibHelp": "PHP pitää olla asennettuna zlib-lisäosan kanssa, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Arkistointityö",
         "SystemCheckCronArchiveProcessCLI": "Prosessien hallinta komentoriviltä",
         "SystemCheckPhpSetting": "Välttyäksesi kriittisiltä ongelmilta, aseta seuraavat php.ini-tiedostoon: %s",
         "SystemCheckUpdateHttps": "Päivitä HTTPS:n yli",

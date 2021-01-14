@@ -78,7 +78,6 @@
         "PivotBySubtable": "Questo report non è imperniato al Pivot %1$s da %2$s",
         "SystemSummaryWidget": "Riepilogo Sistema",
         "SystemSummaryNWebsites": "%d siti web",
-        "SystemSummaryNSegments": "%d segmenti",
         "SystemSummaryNActivatedPlugins": "%d plugin attivati",
         "SystemSummaryPiwikVersion": "Versione di Matomo",
         "SystemSummaryMysqlVersion": "Versione MySQL",

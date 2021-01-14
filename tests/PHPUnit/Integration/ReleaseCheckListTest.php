@@ -10,11 +10,14 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Piwik\Application\Kernel\PluginList;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Matomo\Ini\IniReader;
+use Piwik\Http;
+use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -37,6 +40,26 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
+    }
+
+    public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
+    {
+        $pluginsToTest = ['CustomVariables', 'Provider'];
+
+        $pluginManager = Plugin\Manager::getInstance();
+
+        $package = Http::sendHttpRequest('https://raw.githubusercontent.com/matomo-org/matomo-package/master/scripts/build-package.sh', 20);
+
+        foreach ($pluginsToTest as $pluginToTest) {
+            $isPluginBundledWithCore = $pluginManager->isPluginBundledWithCore($pluginToTest);
+            $isPluginIncludedInBuildZip = strpos($package, 'plugins/' . $pluginToTest) !== false;
+
+            if ($isPluginBundledWithCore xor $isPluginIncludedInBuildZip) {
+                throw new Exception('Expected that when plugin can be uninstalled (is not included in core), then the plugin is also included in the build-package.sh so it is included in the release zip. Once we no longer include this plugin in build.zip then we need to allow uninstalling these plugins by changing isPluginBundledWithCore method. Plugin is ' . $pluginToTest);
+            }
+        }
+
+        $this->assertNotEmpty($isPluginBundledWithCore, 'We expect at least one plugin to be checked in this test, otherwise we can remove this test once they are no longer included in core');
     }
 
     public function test_TestCaseHasSetGroupsMethod()
@@ -64,7 +87,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function test_minimumPhpVersion_isDefinedInComposerJson()
     {
         $composerJson = $this->getComposerJsonAsArray();
-        $this->assertEquals(self::MINIMUM_PHP_VERSION, $composerJson['config']['platform']['php']);
+        // platform value is currently higher than minimum required php version to circumvent minimum requirement of wikimedia/less.php
+        $this->assertEquals('7.2.9' /*self::MINIMUM_PHP_VERSION*/, $composerJson['config']['platform']['php']);
 
         $expectedRequirePhp = '>=' . self::MINIMUM_PHP_VERSION;
         $this->assertEquals($expectedRequirePhp, $composerJson['require']['php']);
@@ -229,6 +253,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whois_response.html',
+            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whoiscom_response.html',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
             // Note: entries below are paths and any file within these paths will be automatically allowed
@@ -643,7 +669,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $numTestedCorePlugins = 0;
 
         // eg these plugins are managed in a submodule and they are installing all tables/columns as part of their plugin install method etc.
-        $corePluginsThatAreIndependent = array('TagManager');
+        $corePluginsThatAreIndependent = array('TagManager', 'Provider', 'CustomVariables');
 
         foreach ($plugins as $pluginName => $info) {
             if ($manager->isPluginBundledWithCore($pluginName) && !in_array($pluginName, $corePluginsThatAreIndependent)) {
@@ -899,6 +925,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             if(strpos($file, 'vendor/php-di/php-di/website/') !== false
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
+                || strpos($file, 'vendor/wikimedia/less.php/') !== false
                 || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;

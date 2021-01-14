@@ -254,7 +254,7 @@ class RowEvolution
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $apiParameters)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $apiParameters)
     {
         if (!is_array($label)) {
             $label = array($label);
@@ -411,8 +411,8 @@ class RowEvolution
                 continue;
             }
 
-            $change = CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0);
-            $change = CalculateEvolutionFilter::prependPlusSignToNumber($change);
+            $change = CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0, true, true);
+
             $metricsResult[$metric]['change'] = $change;
         }
 

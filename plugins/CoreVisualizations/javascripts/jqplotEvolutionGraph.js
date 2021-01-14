@@ -114,7 +114,7 @@
 
                         var seriesColor = self.jqplotParams.seriesColors[d];
 
-                        dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: ' + seriesColor + ';"/>' + '<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
+                        dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: ' + seriesColor + ';"></span>' + '<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
                     }
 
                     var xAxisCount = 0;

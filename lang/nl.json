@@ -519,7 +519,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Het maximum aantal perioden dat te gelijk vergeleken kan worden is %s.",
         "Custom": "Maatwerk",
         "PreviousPeriod": "Vorige periode",
-        "PreviousYear": "Vorig jaar"
+        "PreviousYear": "Vorig jaar",
+        "ViewAccessRequired": "De gebruikte token_auth heeft te veel toegang om te worden gebruikt in een niet-API verzoek URL. Gebruik een app-specifiek wachtwoord voor een gebruiker die alleen weergavetoegang heeft."
     },
     "Mobile": {
         "AboutPiwikMobile": "Over Matomo Mobile",

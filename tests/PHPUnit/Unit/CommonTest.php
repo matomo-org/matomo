@@ -32,6 +32,18 @@ class CommonTest extends TestCase
         $this->assertEquals(getmypid(), Common::getProcessId());
     }
 
+    public function test_hashEquals()
+    {
+        $this->assertFalse(Common::hashEquals('foo', 'bar'));
+        $this->assertFalse(Common::hashEquals('foo', 'fo'));
+        $this->assertFalse(Common::hashEquals('foo', 'fooo'));
+        $this->assertFalse(Common::hashEquals('foo', 'foa'));
+        $this->assertFalse(Common::hashEquals('foo', 'eoo'));
+        $this->assertFalse(Common::hashEquals('foo', ''));
+        $this->assertFalse(Common::hashEquals('', 'bar'));
+        $this->assertTrue(Common::hashEquals('foo', 'foo'));
+    }
+
     /**
      * Dataprovider for testSanitizeInputValues
      */

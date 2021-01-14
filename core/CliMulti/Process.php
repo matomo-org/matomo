@@ -8,6 +8,7 @@
 namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
@@ -21,10 +22,12 @@ use Piwik\SettingsServer;
  */
 class Process
 {
+    private $finished = null;
     private $pidFile = '';
     private $timeCreation = null;
     private $isSupported = null;
     private $pid = null;
+    private $started = null;
 
     public function __construct($pid)
     {
@@ -41,6 +44,15 @@ class Process
         $this->pid = $pid;
 
         $this->markAsNotStarted();
+    }
+
+    private static function isForcingAsyncProcessMode()
+    {
+        try {
+            return (bool) StaticContainer::get('test.vars.forceCliMultiViaCurl');
+        } catch (\Exception $ex) {
+            return false;
+        }
     }
 
     public function getPid()
@@ -60,6 +72,16 @@ class Process
     }
 
     public function hasStarted($content = null)
+    {
+        if (!$this->started) {
+            $this->started = $this->checkPidIfHasStarted($content);
+        }
+        // PID will be deleted when process has finished so we want to remember this process started at some point. Otherwise we might return false here once the process finished.
+        // therefore we want to "cache" a successful start
+        return $this->started;
+    }
+
+    private function checkPidIfHasStarted($content = null)
     {
         if (is_null($content)) {
             $content = $this->getPidFileContent();
@@ -81,6 +103,10 @@ class Process
 
     public function hasFinished()
     {
+        if ($this->finished) {
+            return true;
+        }
+
         $content = $this->getPidFileContent();
 
         return !$this->doesPidFileExist($content);
@@ -129,6 +155,7 @@ class Process
 
     public function finishProcess()
     {
+        $this->finished = true;
         Filesystem::deleteFileIfExists($this->pidFile);
     }
 
@@ -161,6 +188,12 @@ class Process
 
     public static function isSupported()
     {
+        if (defined('PIWIK_TEST_MODE')
+            && self::isForcingAsyncProcessMode()
+        ) {
+            return false;
+        }
+
         if (SettingsServer::isWindows()) {
             return false;
         }
@@ -181,7 +214,8 @@ class Process
             return false;
         }
 
-        if (!in_array(getmypid(), self::getRunningProcesses())) {
+        $pid = @getmypid();
+        if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
             return false;
         }
 

@@ -22,6 +22,7 @@
             <form id="oneclickupdate" action="index.php">
                 <input type="hidden" name="module" value="CoreUpdater"/>
                 <input type="hidden" name="action" value="oneClickUpdate"/>
+                <input type="hidden" name="nonce" value="{{ nonce|e('html_attr') }}"/>
                 <input id="updateAutomatically" type="submit" class="btn" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
                 {% endif %}
                 <a class="btn"
@@ -35,7 +36,7 @@
 
             <ul>
                 {% for plugin in incompatiblePlugins %}
-                    <li>{{ plugin.getMissingDependenciesAsString(piwik_new_version) }}</li>
+                    <li>{{ plugin.pluginName }}</li>
                 {% endfor %}
             </ul>
         {% endif %}

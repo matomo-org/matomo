@@ -86,6 +86,12 @@ class Referrers extends \Piwik\Plugin
         $translationKeys[] = 'Referrers_CampaignContentHelp';
         $translationKeys[] = 'Referrers_CampaignMedium';
         $translationKeys[] = 'Referrers_CampaignMediumHelp';
+        $translationKeys[] = 'Referrers_CampaignGroup';
+        $translationKeys[] = 'Referrers_CampaignGroupHelp';
+        $translationKeys[] = 'Referrers_CampaignPlacement';
+        $translationKeys[] = 'Referrers_CampaignPlacementHelp';
+        $translationKeys[] = 'Referrers_CampaignId';
+        $translationKeys[] = 'Referrers_CampaignIdHelp';
         $translationKeys[] = 'Referrers_CampaignPageUrlHelp';
         $translationKeys[] = 'Referrers_CampaignNameHelp';
         $translationKeys[] = 'Referrers_CampaignKeywordHelp';

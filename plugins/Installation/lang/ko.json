@@ -112,7 +112,6 @@
         "SystemCheckWriteDirs": "쓰기 접근 가능 디렉토리",
         "SystemCheckWriteDirsHelp": "리눅스 시스템에서 이 에러를 고치기 위해서, 다음 명령어를 입력해보세요.",
         "SystemCheckZlibHelp": "zlib 지원 활성화된 상태로 PHP를 설정하고 리빌빙해야 합니다.",
-        "SystemCheckCronArchiveProcess": "아카이브 cron",
         "SystemCheckCronArchiveProcessCLI": "CLI를 통해서 프로세스 관리",
         "SystemCheckPhpSetting": "치명적인 문제를 막기 위해, 다음의 것을 php.ini 파일에 설정하셔야 합니다: %s",
         "SystemCheckUpdateHttps": "HTTPS를 통한 업데이트",

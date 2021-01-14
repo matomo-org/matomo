@@ -8,9 +8,11 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -33,10 +35,10 @@ class SearchCategory extends ActionDimension
         return parent::onNewAction($request, $visitor, $action);
     }
 
-    protected function addSegment(Segment $segment)
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        $segment->setName('Actions_SiteSearchCategory'); // use another name for segment
-
-        parent::addSegment($segment);
+        $segment = new Segment();
+        $segment->setName('Actions_SiteSearchCategory');
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 }

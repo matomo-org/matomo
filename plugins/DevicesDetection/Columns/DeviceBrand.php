@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use DeviceDetector\Parser\Device\DeviceParserAbstract;
+use DeviceDetector\Parser\Device\AbstractDeviceParser;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
@@ -32,7 +32,7 @@ class DeviceBrand extends Base
 
     public function __construct()
     {
-        $brands = DeviceParserAbstract::$deviceBrands;
+        $brands = AbstractDeviceParser::$deviceBrands;
         natcasesort ($brands);
         $brandList = implode(", ", $brands);
         $this->acceptValues = $brandList;

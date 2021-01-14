@@ -40,6 +40,27 @@
              inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignContentHelp'|translate}}">
         </div>
 
+        <div piwik-field uicontrol="text" name="campaignid"
+             data-title="{{ 'Referrers_CampaignId'|translate }}"
+             ng-model="campaignBuilder.campaignId"
+             ng-show="campaignBuilder.hasExtraPlugin"
+             inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignIdHelp'|translate}}">
+        </div>
+
+        <div piwik-field uicontrol="text" name="campaigngroup"
+             data-title="{{ 'Referrers_CampaignGroup'|translate }}"
+             ng-model="campaignBuilder.campaignGroup"
+             ng-show="campaignBuilder.hasExtraPlugin"
+             inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignGroupHelp'|translate}}">
+        </div>
+
+        <div piwik-field uicontrol="text" name="campaignplacement"
+             data-title="{{ 'Referrers_CampaignPlacement'|translate }}"
+             ng-model="campaignBuilder.campaignPlacement"
+             ng-show="campaignBuilder.hasExtraPlugin"
+             inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignPlacementHelp'|translate}}">
+        </div>
+
         <div piwik-save-button
              class="generateCampaignUrl"
              onconfirm="campaignBuilder.generateUrl()"

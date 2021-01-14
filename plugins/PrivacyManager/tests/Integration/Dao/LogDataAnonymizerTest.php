@@ -193,6 +193,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'visitor_returning' => null,
             'visitor_seconds_since_first' => null,
             'visitor_seconds_since_order' => null,
+            'visitor_count_visits' => '0',
             'visit_entry_idaction_name' => null,
             'visit_entry_idaction_url' => null,
             'visit_exit_idaction_name' => null,

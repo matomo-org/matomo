@@ -99,7 +99,7 @@ https://www.example.org/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are suported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
+				<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />
@@ -119,7 +119,7 @@ https://www.example.org/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Enter the list of user agents to exclude from being tracked by Matomo.&lt;br /&gt;&lt;br /&gt;If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Matomo.&lt;br /&gt;You can use this to exclude some bots from being tracked.</inlineHelp>
+				<inlineHelp>Enter the list of user agents to exclude from being tracked by Matomo.&lt;br /&gt;&lt;br /&gt;If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Matomo.&lt;br /&gt;You can use this to exclude some bots from being tracked. Regular expressions such as /bot|spider|crawl|scanner/i are supported.</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />

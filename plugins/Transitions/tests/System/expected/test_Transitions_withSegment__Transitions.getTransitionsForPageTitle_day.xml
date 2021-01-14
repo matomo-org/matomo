@@ -31,9 +31,9 @@
 	</previousSiteSearches>
 	<pageMetrics>
 		<loops>5</loops>
-		<pageviews>17</pageviews>
-		<entries>3</entries>
-		<exits>3</exits>
+		<pageviews>18</pageviews>
+		<entries>4</entries>
+		<exits>4</exits>
 	</pageMetrics>
 	<followingPages>
 		<row>
@@ -94,10 +94,14 @@
 		<row>
 			<label>From Search Engines</label>
 			<shortName>search</shortName>
-			<visits>1</visits>
+			<visits>2</visits>
 			<details>
 				<row>
 					<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
+					<referrals>1</referrals>
+				</row>
+				<row>
+					<label>Unknown</label>
 					<referrals>1</referrals>
 				</row>
 			</details>

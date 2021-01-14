@@ -18,7 +18,10 @@
             this.campaignKeyword = '';
             this.campaignSource = '';
             this.campaignMedium = '';
+            this.campaignId = '';
             this.campaignContent = '';
+            this.campaignGroup = '';
+            this.campaignPlacement = '';
             this.generatedUrl = '';
         };
 
@@ -64,6 +67,18 @@
 
             if (this.campaignContent) {
                 this.generatedUrl += '&mtm_content='+encodeURIComponent(this.campaignContent.trim());
+            }
+
+            if (this.campaignId) {
+                this.generatedUrl += '&mtm_cid='+encodeURIComponent(this.campaignId.trim());
+            }
+
+            if (this.campaignGroup) {
+                this.generatedUrl += '&mtm_group='+encodeURIComponent(this.campaignGroup.trim());
+            }
+
+            if (this.campaignPlacement) {
+                this.generatedUrl += '&mtm_placement='+encodeURIComponent(this.campaignPlacement.trim());
             }
 
             this.generatedUrl += urlHash;

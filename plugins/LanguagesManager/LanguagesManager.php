@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Intl\Locale;
+use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Translation\Translator;
@@ -26,6 +27,8 @@ use Piwik\View;
  */
 class LanguagesManager extends \Piwik\Plugin
 {
+    const LANGUAGE_SELECTION_NONCE = 'LanguagesManager.selection';
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -97,6 +100,7 @@ class LanguagesManager extends \Piwik\Plugin
         $view->languages = API::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
         $view->currentLanguageName = self::getLanguageNameForCurrentUser();
+        $view->nonce = Nonce::getNonce(self::LANGUAGE_SELECTION_NONCE);
         return $view->render();
     }
 

@@ -18,6 +18,7 @@ use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
@@ -144,6 +145,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->piwik_latest_version_url = $this->updater->getArchiveUrl($newVersion);
         $view->can_auto_update  = Filechecks::canAutoUpdate();
         $view->makeWritableCommands = Filechecks::getAutoUpdateMakeWritableMessage();
+        $view->nonce = Nonce::getNonce('oneClickUpdate');
 
         return $view->render();
     }
@@ -151,6 +153,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickUpdate()
     {
         Piwik::checkUserHasSuperUserAccess();
+
+        Nonce::checkNonce('oneClickUpdate');
 
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
 
@@ -224,6 +228,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($httpsFail) {
             $view = new View('@CoreUpdater/updateHttpsError');
+            $view->nonce = Nonce::getNonce('oneClickUpdate');
             $view->error = $error;
         } elseif ($error) {
             $view = new View('@CoreUpdater/updateHttpError');
@@ -394,7 +399,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // check file integrity
-        list($success, $messages) = FileIntegrity::getFileIntegrityInformation();
+        [$success, $messages] = FileIntegrity::getFileIntegrityInformation();
 
         if (!$success) {
             $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');

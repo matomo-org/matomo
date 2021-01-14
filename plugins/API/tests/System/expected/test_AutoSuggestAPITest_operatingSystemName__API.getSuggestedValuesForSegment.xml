@@ -15,11 +15,14 @@
 	<row>Chrome OS</row>
 	<row>CyanogenMod</row>
 	<row>Debian</row>
+	<row>Deepin</row>
 	<row>DragonFly</row>
 	<row>Fedora</row>
 	<row>Firefox OS</row>
 	<row>Fire OS</row>
+	<row>Freebox</row>
 	<row>FreeBSD</row>
+	<row>FydeOS</row>
 	<row>Gentoo</row>
 	<row>Google TV</row>
 	<row>HP-UX</row>
@@ -42,6 +45,7 @@
 	<row>MorphOS</row>
 	<row>NetBSD</row>
 	<row>MTK / Nucleus</row>
+	<row>MRE</row>
 	<row>Nintendo</row>
 	<row>Nintendo Mobile</row>
 	<row>OS/2</row>
@@ -52,11 +56,13 @@
 	<row>PlayStation</row>
 	<row>Red Hat</row>
 	<row>RISC OS</row>
+	<row>Rosa</row>
 	<row>Remix OS</row>
 	<row>RazoDroiD</row>
 	<row>Sabayon</row>
 	<row>SUSE</row>
 	<row>Sailfish OS</row>
+	<row>SeewoOS</row>
 	<row>Slackware</row>
 	<row>Solaris</row>
 	<row>Syllable</row>
@@ -69,7 +75,9 @@
 	<row>Tizen</row>
 	<row>TmaxOS</row>
 	<row>Ubuntu</row>
+	<row>watchOS</row>
 	<row>WebTV</row>
+	<row>Whale OS</row>
 	<row>Windows</row>
 	<row>Windows CE</row>
 	<row>Windows IoT</row>

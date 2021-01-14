@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use DeviceDetector\Parser\Device\DeviceParserAbstract;
+use DeviceDetector\Parser\Device\AbstractDeviceParser;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -54,7 +54,7 @@ class API extends \Piwik\Plugin\API
         // ensure all device types are in the list
         $this->ensureDefaultRowsInTable($dataTable);
 
-        $mapping = DeviceParserAbstract::getAvailableDeviceTypeNames();
+        $mapping = AbstractDeviceParser::getAvailableDeviceTypeNames();
         $dataTable->filter('AddSegmentByLabelMapping', array('deviceType', $mapping));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
@@ -63,7 +63,7 @@ class API extends \Piwik\Plugin\API
 
     protected function ensureDefaultRowsInTable($dataTable)
     {
-        $requiredRows = array_fill(0, count(DeviceParserAbstract::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
+        $requiredRows = array_fill(0, count(AbstractDeviceParser::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
 
         $dataTables = array($dataTable);
 

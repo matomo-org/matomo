@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Access;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\CronArchive;
@@ -47,9 +48,25 @@ class ReportInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('Had visits in last 5 days', $this->hadVisitsInLastDays(5));
             $results[] = DiagnosticResult::informationalResult('Archive Time Last Started', Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS));
             $results[] = DiagnosticResult::informationalResult('Archive Time Last Finished', Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS));
+            $numQueued = $this->getNumInvalidationEntries(ArchiveInvalidator::INVALIDATION_STATUS_QUEUED);
+            $numInProgress = $this->getNumInvalidationEntries(ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS);
+            $results[] = DiagnosticResult::informationalResult('Num invalidations', sprintf('%s queued, %s in progress', $numQueued, $numInProgress));
         }
 
         return $results;
+    }
+
+    private function getNumInvalidationEntries($status)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        try {
+            $numEntries = Db::fetchOne('SELECT count(*) from ' . $table . ' WHERE `status` = ?' , $status);
+        } catch ( \Exception $e ) {
+            $numEntries = '';
+        }
+
+        return $numEntries;
     }
 
     private function hadVisitsInLastDays($numDays)

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
@@ -77,5 +78,18 @@ class GetPageUrls extends Base
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
+
+        // related reports are only shown on performance page
+        if ($view->requestConfig->getRequestParam('performance') !== '1') {
+            $view->config->related_reports = [];
+        }
+    }
+
+    public function getRelatedReports()
+    {
+        return [
+            ReportsProvider::factory('Actions', 'getEntryPageUrls'),
+            ReportsProvider::factory('Actions', 'getExitPageUrls'),
+        ];
     }
 }

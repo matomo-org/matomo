@@ -78,13 +78,39 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->manager->getLoadedPlugins());
     }
 
-    public function test_deactivatePlugin()
+    public function test_activateDeactivatePlugin()
     {
+        $plugin = new Plugin('ExampleTheme');
+
+        $this->assertNull($plugin->getPluginLastActivationTime());
+        $this->assertNull($plugin->getPluginLastDeactivationTime());
+
         $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
         $this->manager->activatePlugin('ExampleTheme');
+
+        $lastActivationTime = $plugin->getPluginLastActivationTime();
+        $this->assertNotNull($lastActivationTime);
+
+        $this->assertNull($plugin->getPluginLastDeactivationTime());
+
         $this->assertTrue($this->manager->isPluginActivated('ExampleTheme'));
         $this->manager->deactivatePlugin('ExampleTheme');
         $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
+
+        $lastDeactivationTime = $plugin->getPluginLastDeactivationTime();
+        $this->assertNotNull($lastDeactivationTime);
+
+        sleep(1);
+
+        $this->manager->activatePlugin('ExampleTheme');
+
+        $nextLastActivationTime = $plugin->getPluginLastActivationTime();
+        $this->assertGreaterThan($lastActivationTime->getTimestamp(), $nextLastActivationTime->getTimestamp());
+
+        $this->manager->deactivatePlugin('ExampleTheme');
+
+        $nextLastDeactivationTime = $plugin->getPluginLastDeactivationTime();
+        $this->assertGreaterThan($lastDeactivationTime->getTimestamp(), $nextLastDeactivationTime->getTimestamp());
     }
 
     /** @see Issue https://github.com/piwik/piwik/issues/8422 */

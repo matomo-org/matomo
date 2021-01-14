@@ -261,7 +261,8 @@ currencies[BTC] = Bitcoin
 ; Notes:
 ;  * any existing Segment set to "processed in Real time", will still be set to Real-time.
 ;    this will only affect custom segments added or modified after this setting is changed.
-;  * when set to 0 then any user with at least 'view' access will be able to create pre-processed segments.
+;  * users with at least 'view' access will still be able to create pre-processed segments, regardless
+;    of what this is set to.
 enable_create_realtime_segments = 1
 
 ; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
@@ -355,6 +356,11 @@ archiving_range_force_on_browser_request = 1
 ; If you need any other period, or want to ensure one of those is always archived, you can define them here
 archiving_custom_ranges[] =
 
+; If configured, archiving queries will be aborted after the configured amount of seconds. Set it to -1 if the query time
+; should not be limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB
+; might not support this feature which uses the MAX_EXECUTION_TIME hint.
+archiving_query_max_execution_time = 7200
+
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
@@ -394,6 +400,10 @@ hash_algorithm = whirlpool
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
+; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
+host_validation_use_server_name = 0
+
 ; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
 session_gc_probability = 1
 
@@ -410,12 +420,6 @@ login_cookie_path =
 ; the amount of time before an idle session is considered expired. only affects session that were created without the
 ; "remember me" option checked
 login_session_not_remembered_idle_timeout = 3600
-
-; email address that appears as a Sender in the password recovery email
-; if specified, {DOMAIN} will be replaced by the current Matomo domain
-login_password_recovery_email_address = "password-recovery@{DOMAIN}"
-; name that appears as a Sender in the password recovery email
-login_password_recovery_email_name = Matomo
 
 ; email address that appears as a Reply-to in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
@@ -564,6 +568,7 @@ assume_secure_protocol = 0
 ; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
 ; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
 ; installed on one server or a config one change would be only made on one server instead of all servers.
+; This flag doesn't need to be enabled when the config file is on a shared filesystem such as NFS or EFS.
 multi_server_environment = 0
 
 ; List of proxy headers for client IP addresses
@@ -713,6 +718,10 @@ enable_auto_update = 1
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+; This option defines the protocols Matomo's Http class is allowed to open.
+; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
+allowed_outgoing_protocols = 'http,https'
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
@@ -871,6 +880,12 @@ create_new_visit_when_website_referrer_changes = 0
 ; Whether to force a new visit at midnight for every visitor. Default 1.
 create_new_visit_after_midnight = 1
 
+; Will force the creation of a new visit once a visit had this many actions.
+; Increasing this number can slow down the tracking in Matomo and put more load on the database.
+; Increase this limit if it's expected that you have visits with more than this many actions.
+; Set to 0 or a negative value to allow unlimited actions.
+create_new_visit_after_x_actions = 10000
+
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
@@ -974,7 +989,7 @@ host = ; SMTP server address
 type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
-encryption = ; SMTP transport-layer encryption, either 'ssl', 'tls', or empty (i.e., none).
+encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported

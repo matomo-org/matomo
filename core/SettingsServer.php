@@ -91,7 +91,10 @@ class SettingsServer
      */
     public static function isWindows()
     {
-        return DIRECTORY_SEPARATOR === '\\';
+        if (PHP_OS_FAMILY == "Unknown") {
+            return DIRECTORY_SEPARATOR === '\\';
+        }
+        return PHP_OS_FAMILY === "Windows";
     }
 
     /**
@@ -193,29 +196,59 @@ class SettingsServer
      * Prior to PHP 5.2.1, or on Windows, --enable-memory-limit is not a
      * compile-time default, so ini_get('memory_limit') may return false.
      *
-     * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
      * @return int|bool  memory limit in megabytes, or false if there is no limit
      */
     public static function getMemoryLimitValue()
     {
         if (($memory = ini_get('memory_limit')) > 0) {
-            // handle shorthand byte options (case-insensitive)
-            $shorthandByteOption = substr($memory, -1);
-            switch ($shorthandByteOption) {
-                case 'G':
-                case 'g':
-                    return substr($memory, 0, -1) * 1024;
-                case 'M':
-                case 'm':
-                    return substr($memory, 0, -1);
-                case 'K':
-                case 'k':
-                    return substr($memory, 0, -1) / 1024;
-            }
-            return $memory / 1048576;
+            return self::getMegaBytesFromShorthandByte($memory);
         }
 
         // no memory limit
+        return false;
+    }
+
+    /**
+     * Get php post_max_size (in Megabytes)
+     *
+     * @return int|bool  max upload size in megabytes, or false if there is no limit
+     */
+    public static function getPostMaxUploadSize()
+    {
+        if (($maxPostSize = ini_get('post_max_size')) > 0) {
+            return self::getMegaBytesFromShorthandByte($maxPostSize);
+        }
+
+        // no max upload size
+        return false;
+    }
+
+    /**
+     * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
+     * @param $value
+     * @return false|float|int
+     */
+    private static function getMegaBytesFromShorthandByte($value)
+    {
+        $value = str_replace(' ', '', $value);
+
+        $shorthandByteOption = substr($value, -1);
+        switch ($shorthandByteOption) {
+            case 'G':
+            case 'g':
+                return substr($value, 0, -1) * 1024;
+            case 'M':
+            case 'm':
+                return substr($value, 0, -1);
+            case 'K':
+            case 'k':
+                return substr($value, 0, -1) / 1024;
+        }
+
+        if (is_numeric($value)) {
+            return (int) $value / 1048576;
+        }
+
         return false;
     }
 

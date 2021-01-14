@@ -234,6 +234,25 @@ class VisitTest extends IntegrationTestCase
                 '12&^%345'       => true,
                 'sfasdf'         => false,
             )),
+            array( '/bot|spider|crawl|scanner/i', array( // case insensitive regex
+                'Mozilla/5.0 (compatible; SISTRIX Crawler; http://crawler.sistrix.net/)' => true,
+                'Googlebot/2.1 (+http://www.google.com/bot.html)' => true,
+                'Mozilla/5.0 (compatible; adscanner/)' => true,
+                'Baiduspider+(+http://www.baidu.com/search/spider.htm)' => true,
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36' => false,
+                'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko' => false,
+            )),
+            array('/google|yahoo/', array( // case sensitive regex
+                'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' => true,
+                'Mozilla/5.0 (compatible; Yahoo! Slurp/3.0; http://help.yahoo.com/help/us/ysearch/slurp)' => true,
+                'Googlebot-Image/1.0' => false,
+                'Yahoo! Slurp China' => false,
+            )),
+            array('/Mozilla/5.0/i)', array( // invalid regex
+                'Mozilla/5.0 (compatible; Yahoo! Slurp/3.0; http://help.yahoo.com/help/us/ysearch/slurp)' => false,
+                'Wget/1.13.4 (linux-gnu)' => false,
+                'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)' => false,
+            ))
         );
     }
 

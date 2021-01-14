@@ -50,7 +50,6 @@
         "PivotBySubtable": "이 보고서는 %1$s Pivot이 %2$s에 의해 결정되지 않았습니다.",
         "SystemSummaryWidget": "시스템 요약",
         "SystemSummaryNWebsites": "%d개 웹사이트",
-        "SystemSummaryNSegments": "%d개 세그멘트",
         "SystemSummaryNActivatedPlugins": "%d개 활성화된 플러그인",
         "SystemSummaryPiwikVersion": "Matomo 버전",
         "SystemSummaryMysqlVersion": "MySQL 버전",

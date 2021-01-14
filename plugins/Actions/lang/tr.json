@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "Sonuç Vermeyen Arama Anahtar Sözcükleri",
         "ActionType": "Eylem Türü",
         "ActionTypes": "İşlem Türleri",
-        "Behaviour": "Davranış"
+        "Behaviour": "Davranış",
+        "TimeSpentInReferringAction": "Belirtilen İşleme Harcanan Zaman"
     }
 }

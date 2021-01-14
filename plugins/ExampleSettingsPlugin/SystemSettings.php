@@ -91,7 +91,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->uiControl = FieldConfig::UI_CONTROL_PASSWORD;
             $field->description = 'Password for the 3rd API where we fetch the value';
             $field->transform = function ($value) {
-                return sha1($value . 'salt');
+                return password_hash($value, PASSWORD_DEFAULT);
             };
         });
     }

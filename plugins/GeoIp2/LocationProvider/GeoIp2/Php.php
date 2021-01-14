@@ -432,6 +432,7 @@ class Php extends GeoIp2
         $view->geoIPUpdatePeriod = GeoIP2AutoUpdater::getSchedulePeriod();
 
         $view->hasGeoIp2Provider = Manager::getInstance()->isPluginActivated('GeoIp2');
+        $view->isProviderPluginActive = Manager::getInstance()->isPluginActivated('Provider');
 
         $geoIPDatabasesInstalled = $view->hasGeoIp2Provider ? GeoIp2::isDatabaseInstalled() : false;
 

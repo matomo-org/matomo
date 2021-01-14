@@ -301,8 +301,22 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
+    /**
+     * @param $reportType
+     * @param $report
+     * @param $contents
+     * @param $filename
+     * @param $prettyDate
+     * @param $reportSubject
+     * @param $reportTitle
+     * @param $additionalFiles
+     * @param Period|null $period
+     * @param $force
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles, Period $period = null, $force)
+                               $additionalFiles, $period, $force)
     {
         if (! self::manageEvent($reportType)) {
             return;

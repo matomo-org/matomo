@@ -1,6 +1,6 @@
 /**
- * @license AngularJS v1.8.0
- * (c) 2010-2020 Google, Inc. http://angularjs.org
+ * @license AngularJS v1.8.2
+ * (c) 2010-2020 Google LLC. http://angularjs.org
  * License: MIT
  */
 (function(window, angular) {'use strict';
@@ -46,12 +46,12 @@ var htmlSanitizeWriter;
  * @description
  *   Sanitizes an html string by stripping all potentially dangerous tokens.
  *
- *   The input is sanitized by parsing the HTML into tokens. All safe tokens (from a whitelist) are
+ *   The input is sanitized by parsing the HTML into tokens. All safe tokens (from a trusted URI list) are
  *   then serialized back to a properly escaped HTML string. This means that no unsafe input can make
  *   it into the returned string.
  *
- *   The whitelist for URL sanitization of attribute values is configured using the functions
- *   `aHrefSanitizationWhitelist` and `imgSrcSanitizationWhitelist` of {@link $compileProvider}.
+ *   The trusted URIs for URL sanitization of attribute values is configured using the functions
+ *   `aHrefSanitizationTrustedUrlList` and `imgSrcSanitizationTrustedUrlList` of {@link $compileProvider}.
  *
  *   The input may also contain SVG markup if this is enabled via {@link $sanitizeProvider}.
  *
@@ -282,8 +282,8 @@ function $SanitizeProvider() {
    * **Note**:
    * The new attributes will not be treated as URI attributes, which means their values will not be
    * sanitized as URIs using `$compileProvider`'s
-   * {@link ng.$compileProvider#aHrefSanitizationWhitelist aHrefSanitizationWhitelist} and
-   * {@link ng.$compileProvider#imgSrcSanitizationWhitelist imgSrcSanitizationWhitelist}.
+   * {@link ng.$compileProvider#aHrefSanitizationTrustedUrlList aHrefSanitizationTrustedUrlList} and
+   * {@link ng.$compileProvider#imgSrcSanitizationTrustedUrlList imgSrcSanitizationTrustedUrlList}.
    *
    * <div class="alert alert-info">
    *   This method must be called during the {@link angular.Module#config config} phase. Once the
@@ -426,50 +426,28 @@ function $SanitizeProvider() {
   }
 
   /**
-   * Create an inert document that contains the dirty HTML that needs sanitizing
-   * Depending upon browser support we use one of three strategies for doing this.
-   * Support: Safari 10.x -> XHR strategy
-   * Support: Firefox -> DomParser strategy
+   * Create an inert document that contains the dirty HTML that needs sanitizing.
+   * We use the DOMParser API by default and fall back to createHTMLDocument if DOMParser is not
+   * available.
    */
   var getInertBodyElement /* function(html: string): HTMLBodyElement */ = (function(window, document) {
-    var inertDocument;
-    if (document && document.implementation) {
-      inertDocument = document.implementation.createHTMLDocument('inert');
-    } else {
+    if (isDOMParserAvailable()) {
+      return getInertBodyElement_DOMParser;
+    }
+
+    if (!document || !document.implementation) {
       throw $sanitizeMinErr('noinert', 'Can\'t create an inert html document');
     }
+    var inertDocument = document.implementation.createHTMLDocument('inert');
     var inertBodyElement = (inertDocument.documentElement || inertDocument.getDocumentElement()).querySelector('body');
+    return getInertBodyElement_InertDocument;
 
-    // Check for the Safari 10.1 bug - which allows JS to run inside the SVG G element
-    inertBodyElement.innerHTML = '<svg><g onload="this.parentNode.remove()"></g></svg>';
-    if (!inertBodyElement.querySelector('svg')) {
-      return getInertBodyElement_XHR;
-    } else {
-      // Check for the Firefox bug - which prevents the inner img JS from being sanitized
-      inertBodyElement.innerHTML = '<svg><p><style><img src="</style><img src=x onerror=alert(1)//">';
-      if (inertBodyElement.querySelector('svg img')) {
-        return getInertBodyElement_DOMParser;
-      } else {
-        return getInertBodyElement_InertDocument;
-      }
-    }
-
-    function getInertBodyElement_XHR(html) {
-      // We add this dummy element to ensure that the rest of the content is parsed as expected
-      // e.g. leading whitespace is maintained and tags like `<meta>` do not get hoisted to the `<head>` tag.
-      html = '<remove></remove>' + html;
+    function isDOMParserAvailable() {
       try {
-        html = encodeURI(html);
+        return !!getInertBodyElement_DOMParser('');
       } catch (e) {
-        return undefined;
+        return false;
       }
-      var xhr = new window.XMLHttpRequest();
-      xhr.responseType = 'document';
-      xhr.open('GET', 'data:text/html;charset=utf-8,' + html, false);
-      xhr.send(null);
-      var body = xhr.response.body;
-      body.firstChild.remove();
-      return body;
     }
 
     function getInertBodyElement_DOMParser(html) {
@@ -711,7 +689,7 @@ function sanitizeText(chars) {
 // define ngSanitize module and register $sanitize service
 angular.module('ngSanitize', [])
   .provider('$sanitize', $SanitizeProvider)
-  .info({ angularVersion: '1.8.0' });
+  .info({ angularVersion: '1.8.2' });
 
 /**
  * @ngdoc filter

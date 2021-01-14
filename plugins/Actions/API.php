@@ -354,6 +354,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
         $this->filterActionsDataTable($dataTable, $isPageTitleType = false);
         $dataTable->filter('ReplaceColumnNames');
+        $dataTable->filter('AddSegmentValue');
         $this->addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_actions');
 
         return $dataTable;

@@ -50,7 +50,6 @@
         "PivotBySubtable": "Denne rapporten er ikke pivotert %1$s Pivot etter %2$s",
         "SystemSummaryWidget": "Systemsammendrag",
         "SystemSummaryNWebsites": "%d nettsteder",
-        "SystemSummaryNSegments": "%d segmenter",
         "SystemSummaryNActivatedPlugins": "%d aktiverte utvidelser",
         "SystemSummaryPiwikVersion": "Matomo-versjon",
         "SystemSummaryMysqlVersion": "MySQL-versjon",

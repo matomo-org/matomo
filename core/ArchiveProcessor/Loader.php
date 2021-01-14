@@ -31,8 +31,6 @@ use Psr\Log\LoggerInterface;
  */
 class Loader
 {
-    const MIN_VISIT_TIME_TTL = 3600;
-
     /**
      * @var Parameters
      */
@@ -410,38 +408,10 @@ class Loader
 
     private function hasSiteVisitsBetweenTimeframe($idSite, Period $period)
     {
-        $minVisitTimesPerSite = $this->getMinVisitTimesPerSite($idSite);
-        if (empty($minVisitTimesPerSite)) {
-            return false;
-        }
-
         $timezone = Site::getTimezoneFor($idSite);
         list($date1, $date2) = $period->getBoundsInTimezone($timezone);
-        if ($date2->isEarlier($minVisitTimesPerSite)) {
-            return false;
-        }
 
         return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
-    }
-
-    private function getMinVisitTimesPerSite($idSite)
-    {
-        $cache = Cache::getLazyCache();
-        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
-
-        $value = $cache->fetch($cacheKey);
-        if ($value === false) {
-            $value = $this->rawLogDao->getMinimumVisitTimeForSite($idSite);
-            if (!empty($value)) {
-                $cache->save($cacheKey, $value, $ttl = self::MIN_VISIT_TIME_TTL);
-            }
-        }
-
-        if (!empty($value)) {
-            $value = Date::factory($value);
-        }
-
-        return $value;
     }
 
     public static function invalidateMinVisitTimeCache($idSite)

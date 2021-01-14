@@ -32,7 +32,7 @@ Matomo is released under the GPL v3 (or later) license, see [LICENSE](LICENSE).
 
 ## Requirements
 
-  * PHP 5.5.9 or greater
+  * PHP 7.2.5 or greater
   * MySQL version 5.5 or greater, or MariaDB 
   * PHP extension pdo and pdo_mysql, or the MySQLi extension
   * Matomo is OS / server independent
@@ -58,7 +58,7 @@ If you do not have a server or don't want to host yourself you can use our Matom
 
 ## Online Demo
 
-Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.org/).
+Check out the online demo for Matomo at [demo.matomo.cloud](https://demo.matomo.cloud/).
 
 ## Changelog
 

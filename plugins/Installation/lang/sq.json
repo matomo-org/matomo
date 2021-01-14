@@ -131,7 +131,8 @@
         "SystemCheckWriteDirs": "Drejtori me hyrje për shkrim",
         "SystemCheckWriteDirsHelp": "Për ndreqjen e këtij gabimi në sistemin tuaj Linux, provoni të shtypni urdhrin(at) vijues",
         "SystemCheckZlibHelp": "Lypset të formësoni dhe rikrijoni PHP-në me mbulim të zlib-it të aktivizuar, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Cron Arkivi",
+        "SystemCheckCronArchiveProcess": "Ujdisni Cron-in",
+        "FasterReportLoading": "ngarkim më i shpejtë raportesh",
         "SystemCheckCronArchiveProcessCLI": "Administrim procesesh përmes CLI-së",
         "SystemCheckPhpSetting": "Që të parandaloni disa probleme kritike, duhet të rregulloni sa vijon te kartela juaj php.ini: %s",
         "SystemCheckUpdateHttps": "Përditësoje përmes HTTPS-je",
@@ -153,6 +154,8 @@
         "WelcomeToCommunity": "Mirë se vini te bashkësia Matomo!",
         "CannotConnectToDb": "S’lidhet dot me bazën e të dhënave",
         "CannotConnectToDbResolvingExplanation": "Ky mund të jetë problem i përkohshëm, provoni %1$stë rifreskoni faqen%2$s. Nëse problemi vazhdon, ju lutemi lidhuni me përgjegjësin e Matomo-s tuaj.",
-        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin. Për këtë na duhet ta japim email-in tuaj te një furnizues palë e tretë. Aktualisht ky furnizues është Mad Mimi, por kjo mund të ndryshojë në të ardhmen. Email-in tuaj s’do t’ia japim kujt tjetër apo ta përdorim për çfarëdo qëllimi tjetër nga dërgimi për ju i buletinit. Mund të shpajtoheni kur të doni. Për më tepër të dhëna, ju lutemi, shihni %1$srregullat tona mbi privatësinë%2$s."
+        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin. Për këtë na duhet ta japim email-in tuaj te një furnizues palë e tretë. Aktualisht ky furnizues është Mad Mimi, por kjo mund të ndryshojë në të ardhmen. Email-in tuaj s’do t’ia japim kujt tjetër apo ta përdorim për çfarëdo qëllimi tjetër nga dërgimi për ju i buletinit. Mund të shpajtoheni kur të doni. Për më tepër të dhëna, ju lutemi, shihni %1$srregullat tona mbi privatësinë%2$s.",
+        "PerformanceSettingsDesc1": "Një fjalë të fundit lidhur me punimin: instanca juaj Matomo është ujdisur dhe është gati të ndjekë dhe raportojë mbi trafikun në sajtin tuaj, por nëse Matomo ju duket i ngadaltë, do të doni të hidhni hapin ekstra të ujdisjes së %1$sarkivimit CLI%2$s. Kjo do të sjellë prodhimin e raporteve tuaja në prapaskenë në mënyrë periodike, në vend se kur kërkohet.",
+        "PerformanceSettingsDesc2": "Kjo lyp shtimin e një urdhri Matomo te cron-i, çka s’mund të bëhet automatikisht nga instaluesi, por mund të %1$slexoni PBR-të tona që të mësoni se si ta ujdisni ju vetëm.%2$s"
     }
 }

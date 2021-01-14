@@ -16,12 +16,14 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Notification;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -39,6 +41,9 @@ use Piwik\Updater;
  */
 class Manager
 {
+    const LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX = 'LastPluginActivation.';
+    const LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX = 'LastPluginDeactivation.';
+
     /**
      * @return self
      */
@@ -512,10 +517,18 @@ class Manager
      */
     public function deactivatePlugin($pluginName)
     {
+        $plugins = $this->pluginList->getActivatedPlugins();
+        if (!in_array($pluginName, $plugins)) {
+            // plugin is already deactivated
+            return;
+        }
+
         $this->clearCache($pluginName);
 
         // execute deactivate() to let the plugin do cleanups
         $this->executePluginDeactivate($pluginName);
+
+        $this->savePluginTime(self::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX, $pluginName);
 
         $this->unloadPluginFromMemory($pluginName);
 
@@ -679,6 +692,8 @@ class Manager
         }
         $this->installPluginIfNecessary($plugin);
         $plugin->activate();
+
+        $this->savePluginTime(self::LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX, $pluginName);
 
         EventDispatcher::getInstance()->postPendingEventsTo($plugin);
 
@@ -852,7 +867,7 @@ class Manager
     {
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
-        || $name == self::DEFAULT_THEME;
+        || $name == self::DEFAULT_THEME || $name === 'CustomVariables' || $name === 'Provider';
     }
 
     /**
@@ -1451,6 +1466,7 @@ class Manager
             'PluginMarketplace', //defines a plugin.json but 1.x Piwik plugin
             'DoNotTrack', // Removed in 2.0.3
             'AnonymizeIP', // Removed in 2.0.3
+            'wp-optimize', // a WP plugin that has a plugin.json file but is not a matomo plugin
         );
         return in_array($pluginName, $bogusPlugins);
     }
@@ -1654,5 +1670,20 @@ class Manager
             $translator->addDirectory(self::getPluginDirectory($pluginName) . '/lang');
         }
     }
+
+    private function savePluginTime($timingName, $pluginName)
+    {
+        $optionName = $timingName . $pluginName;
+
+        try {
+            Option::set($optionName, time());
+        } catch (\Exception $e) {
+            if (SettingsPiwik::isMatomoInstalled()) {
+                throw $e;
+            }
+            // we ignore any error while Matomo is not installed yet. refs #16741
+        }
+    }
+
 }
 

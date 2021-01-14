@@ -12,7 +12,6 @@
         "LastHours": "最近の %s 時間",
         "LastMinutes": "最近の %s 分",
         "LastVisit": "最新のビジット",
-        "LinkVisitorLog": "詳細な訪問履歴を表示する",
         "LoadMoreVisits": "さらに訪問をロード",
         "LimitedSummary": "このプロファイルの情報は、過去 %1$s 回のビジットをまとめたものです。 このユーザーは合計でより多くのビジットを受けました。",
         "LimitedVisitsShown": "過去 %1$s 回のビジットのみが表示されます。 このユーザーは合計でより多くのビジットを受けました。",
@@ -49,10 +48,6 @@
         "VisitsFrom": "から %1$s%2$s が %3$s を訪問",
         "VisitSummary": "ウェブサイト%3$sに合計%1$s%2$sを費やし、%6$s 回の訪問%7$sで %4$sページ%5$sを閲覧しました。",
         "VisitSummaryWithActionDetails": "ウェブサイト%3$sに合計 %1$s%2$s を費やし、%7$s 回の訪問%8$sで %4$s 回のアクション%5$s (%6$s) を実行しました。",
-        "RowActionTooltipDefault": "この行でセグメント化された訪問履歴を表示する",
-        "RowActionTooltipWithDimension": "この %s でセグメント化された訪問履歴を表示する",
-        "RowActionTooltipTitle": "セグメント化された訪問履歴を開く",
-        "SegmentedVisitorLogTitle": "%1$s が「 %2$s 」である訪問を示す訪問履歴",
         "OnClickPause": "%s が開始されました。クリックして一時停止します。",
         "OnClickStart": "%s は停止しています。クリックして開始します。",
         "ClickToSeeAllContents": "各コンテンツのインタラクション\/インプレッションを見るためにクリック"

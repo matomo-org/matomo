@@ -113,7 +113,6 @@
         "SystemCheckWriteDirs": "Diektorijumi sa pristupom pisanja",
         "SystemCheckWriteDirsHelp": "Da biste ispravili ovu grešku na Linux serveru, ukucajte sledeće komande:",
         "SystemCheckZlibHelp": "Potrebno je da kompajlirate PHP sa \"zlib\" podrškom, --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Kron za arhiviranje",
         "SystemCheckCronArchiveProcessCLI": "Upravljanje procesima pomoću CLI",
         "SystemCheckPhpSetting": "Kako biste sprečili neke od kritičnih problema, morate podesiti sledeće u vašoj php.ini datoteci: %s",
         "SystemCheckUpdateHttps": "Nadogradnja preko HTTPS-a",

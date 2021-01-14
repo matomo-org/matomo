@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
@@ -42,26 +43,17 @@ class SegmentEditorTest extends IntegrationTestCase
         APISitesManager::getInstance()->addSite('test', 'http://example.org');
     }
 
-    /**
-     * @group Plugins
-     */
     public function testAddInvalidSegment_ShouldThrow()
     {
-        try {
-            API::getInstance()->add('name', 'test==test2');
-            $this->fail("Exception not raised.");
-        } catch (Exception $expected) {
-        }
-        try {
-            API::getInstance()->add('name', 'test');
-            $this->fail("Exception not raised.");
-        } catch (Exception $expected) {
-        }
+        $this->expectException(\Exception::class);
+
+        API::getInstance()->add('name', 'test==test2');
+        $this->fail("Exception not raised.");
+
+        API::getInstance()->add('name', 'test');
+        $this->fail("Exception not raised.");
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_AddAndGet_SimpleSegment()
     {
         $name = 'name';
@@ -85,11 +77,10 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($segment, $expected);
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_AddAndGet_AnotherSegment()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         $name = 'name';
         $definition = 'searches>1,visitIp!=127.0.0.1';
         $idSegment = API::getInstance()->add($name, $definition, $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
@@ -118,23 +109,18 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($segments, array($expected));
 
         // There is no segment to process for a non existing site
-        try {
-            $model->getSegmentsToAutoArchive(33);
-            $this->fail();
-        } catch(Exception $e) {
-            // expected
-        }
+        $segments = $model->getSegmentsToAutoArchive(33);
+        $this->assertEquals($segments, array());
 
         // There is no segment to process across all sites
         $segments = $model->getSegmentsToAutoArchive($idSite = false);
         $this->assertEquals($segments, array());
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_UpdateSegment()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         $name = 'name"';
         $definition = 'searches>1,visitIp!=127.0.0.1';
         $nameSegment1 = 'hello';
@@ -174,11 +160,10 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($newSegment['name'], $nameSegment1);
     }
 
-    /**
-     * @group Plugins
-     */
     public function test_deleteSegment()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         $idSegment1 = API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
         $idSegment2 = API::getInstance()->add('name 2', 'searches>1,visitIp!=127.0.0.1', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
 

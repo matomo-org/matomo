@@ -61,8 +61,19 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<segment>siteSearchCategory==Search+Category</segment>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
+			</row>
+			<row>
+				<segment>siteSearchCategory==Category</segment>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />

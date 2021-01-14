@@ -11,7 +11,7 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Piwik;
 use DeviceDetector\Parser\OperatingSystem AS OperatingSystemParser;
-use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
+use DeviceDetector\Parser\Device\AbstractDeviceParser AS DeviceParser;
 use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
@@ -178,6 +178,7 @@ function getDeviceTypeLabel($label)
         'portable media player' => 'DevicesDetection_PortableMediaPlayer',
         'smart speaker' => 'DevicesDetection_SmartSpeaker',
         'wearable'      => 'DevicesDetection_Wearable',
+        'peripheral'    => 'DevicesDetection_Peripheral',
     );
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();
@@ -251,7 +252,7 @@ function getOSFamilyFullName($label)
         $label = Piwik::translate('DevicesDetection_Console');
     }
 
-    if ($label !== false) {
+    if ($label !== null) {
         return $label;
     }
     return Piwik::translate('General_Unknown');
@@ -283,7 +284,7 @@ function getOsFullName($label)
     return Piwik::translate('General_Unknown');
 }
 
-function _mapLegacyOsShortCodes($shortCode)
+function _mapLegacyOsShortCodes($shortCode): string
 {
     $legacyShortCodes = array(
         'IPA' => 'IOS', // iPad => iOS
@@ -309,7 +310,7 @@ function _mapLegacyOsShortCodes($shortCode)
         'WXP' => 'WIN',
         //'VMS' => '', // OpenVMS => ??
     );
-    return ($shortCode && array_key_exists($shortCode, $legacyShortCodes)) ? $legacyShortCodes[$shortCode] : $shortCode;
+    return ($shortCode && array_key_exists($shortCode, $legacyShortCodes)) ? $legacyShortCodes[$shortCode] : (string) $shortCode;
 }
 
 /**

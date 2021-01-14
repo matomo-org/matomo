@@ -10,6 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Exception;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -444,6 +445,7 @@ class UITestFixture extends SqlDump
 
     public function createSegments()
     {
+        Rules::setBrowserTriggerArchiving(false);
         Db::exec("TRUNCATE TABLE " . Common::prefixTable('segment'));
 
         $segmentName = $this->xssTesting->forTwig('segment');
@@ -457,6 +459,7 @@ class UITestFixture extends SqlDump
             'From Europe ' . $segmentName, "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+        Rules::setBrowserTriggerArchiving(true);
     }
 
     public function provideContainerConfig()

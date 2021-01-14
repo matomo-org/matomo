@@ -1,0 +1,95 @@
+<?php
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+namespace PHPUnit\Integration;
+
+use Piwik\Common;
+use Piwik\CronArchive;
+use Piwik\CronArchive\ReArchiveList;
+use Piwik\Date;
+use Piwik\Db;
+use Piwik\Option;
+use Piwik\Plugin;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+
+class PluginTest extends IntegrationTestCase
+{
+    protected static function beforeTableDataCached()
+    {
+        parent::beforeTableDataCached();
+
+        Fixture::createWebsite('2020-03-04 00:00:00');
+    }
+
+    public function test_schedulePluginReArchiving_shouldReArchiveFromLastDeactivationTime()
+    {
+        $time = Date::today()->subDay(3);
+        Option::set(Plugin\Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . 'ExamplePlugin', $time->getTimestamp());
+
+        $plugin = new Plugin('ExamplePlugin');
+        $plugin->schedulePluginReArchiving();
+
+        $date = $this->getDateFromReArchiveList();
+        $this->assertEquals($time->getDatetime(), $date);
+    }
+
+    public function test_schedulePluginReArchiving_shouldReArchiveFromLastCoreArchiveTimeIfEarlier()
+    {
+        $time = Date::today()->subDay(3);
+        Option::set(Plugin\Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . 'ExamplePlugin', $time->getTimestamp());
+
+        $cronTime = Date::today()->subDay(5);
+        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, $cronTime->getTimestamp());
+
+        $plugin = new Plugin('ExamplePlugin');
+        $plugin->schedulePluginReArchiving();
+
+        $date = $this->getDateFromReArchiveList();
+        $this->assertEquals($cronTime->getDatetime(), $date);
+    }
+
+    public function test_schedulePluginReArchiving_shouldReArchiveFromLastCoreArchiveTimeIfNoDeactivation()
+    {
+        $cronTime = Date::today()->subDay(5);
+        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, $cronTime->getTimestamp());
+
+        $plugin = new Plugin('ExamplePlugin');
+        $plugin->schedulePluginReArchiving();
+
+        $date = $this->getDateFromReArchiveList();
+        $this->assertNull($date);
+    }
+
+    public function test_schedulePluginReArchiving_shouldReArchiveFromNMonthsAgo_IfNoDecativationTimeOrCronTimeExists()
+    {
+        $plugin = new Plugin('ExamplePlugin');
+        $plugin->schedulePluginReArchiving();
+
+        $date = $this->getDateFromReArchiveList();
+        $this->assertNull($date);
+    }
+
+    private function getDateFromReArchiveList()
+    {
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $item = reset($items);
+        $item = json_decode($item, $assocc = true);
+
+        $date = end($item);
+        if (empty($date)) {
+            return $date;
+        }
+
+        return Date::factory($date)->getDatetime();
+    }
+
+}

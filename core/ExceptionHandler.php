@@ -16,6 +16,7 @@ use Piwik\Container\ContainerDoesNotExistException;
 use Piwik\Http\HttpCodeException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -54,11 +55,10 @@ class ExceptionHandler
         }
 
         $message = sprintf(
-            "Uncaught exception: %s\nin %s line %d\n%s\n",
-            $message,
+            "Uncaught exception in %s line %d:\n%s\n",
             $exception->getFile(),
             $exception->getLine(),
-            $exception->getTraceAsString()
+            ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception)
         );
 
         echo $message;

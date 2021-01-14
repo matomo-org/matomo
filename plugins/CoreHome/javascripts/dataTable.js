@@ -566,8 +566,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             $('td span.label', domElem).each(function () { self.tooltip($(this)); });
-
-            self.overflowContentIfNeeded(domElem);
         }
 
         if (!self.windowResizeTableAttached) {
@@ -602,51 +600,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             $(window).on('resize', resizeDataTable);
             self._resizeDataTable = resizeDataTable;
-        }
-    },
-
-    overflowContentIfNeeded: function (domElem, showScrollbarIfMoreThanThisPxOverlap) {
-
-        var $domNodeToSetOverflow;
-
-        if (this.isDashboard()) {
-            $domNodeToSetOverflow = domElem.parents('.widgetContent').first();
-        } else if (this.isWidgetized()) {
-            $domNodeToSetOverflow = domElem.parents('.widget').first();
-        } else {
-            var inReportPage = domElem.parents('.theWidgetContent').first();
-            var displayedAsCard = inReportPage.find('> .card > .card-content');
-            if (displayedAsCard.length) {
-                $domNodeToSetOverflow = displayedAsCard.first();
-            } else {
-                $domNodeToSetOverflow = inReportPage;
-            }
-        }
-
-        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.length) {
-            return;
-        }
-
-        // show scrollbars for a report if table does not fit into widget/report page. This happens especially
-        // with AllTableColumn visualization
-        var tableWidth = domElem.width();
-        var dataTableWidth = domElem.find('table.dataTable').width();
-        var widthToCheckElementIsActuallyThere = 10;
-
-        // in dataTables there is a marginLeft -20px and marginRight -20px applied and jquery seems to not consider
-        // this. This results in the actual table always being 40px wider than the domElem. We add another 11px
-        // just in case some calculations are not 100% right
-        var normalOverlapBecauseTableIsFullWidth = showScrollbarIfMoreThanThisPxOverlap || 51;
-        if (tableWidth > widthToCheckElementIsActuallyThere && dataTableWidth > widthToCheckElementIsActuallyThere
-            && (dataTableWidth - tableWidth) > normalOverlapBecauseTableIsFullWidth) {
-            // when after adjusting the columns the widget/report is still wider than the actual dataTable, we need
-            // to make it scrollable otherwise reports overlap each other
-
-            $domNodeToSetOverflow.css('overflow-y', 'scroll');
-
-        } else if ($domNodeToSetOverflow.css('overflow-y') === 'scroll') {
-            // undo the overflow as apparently not needed anymore?
-            $domNodeToSetOverflow.css('overflow-y', 'auto');
         }
     },
 
@@ -1745,7 +1698,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (scope) {
                     var $doc = domElem.find('.reportDocumentation');
                     if ($doc.length) {
+                        // hackish solution to get binded html of p tag within the help node
+                        // at this point the ng-bind-html is not yet converted into html when report is not
+                        // initially loaded. Using $compile doesn't work. So get and set it manually
+                        var helpParagraph = $('p[ng-bind-html]', $doc);
+
+                        if (helpParagraph.length) {
+                            var $parse = angular.element(document).injector().get('$parse');
+                            helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+                        }
+
                         scope.inlineHelp = $.trim($doc.html());
+
                     }
                     scope.featureName = $.trim(relatedReportName);
                     setTimeout(function (){

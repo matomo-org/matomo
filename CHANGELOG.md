@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.2.0
+
+### Changed config.ini.php settings
+
+* The config settings `login_password_recovery_email_address` and `login_password_recovery_name` have been removed to avoid possible smtp problems when sending recovery mails. `noreply_email_address` and `noreply_email_name` will be used instead.
+
 ## Matomo 4.0.0
 
 ### JavaScript Tracker
@@ -11,12 +17,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 #### Breaking changes in Matomo JS tracker
 
 * Matomo no longer polyfills the `JSON` object in the JavaScript tracker. This means IE7 and older, Firefox 3 and older will be no longer suppported in the tracker. 
-* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools. This will improve the load time of your website.
+* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools. This will improve the load time of your website. Tracking requests will be sent as POST request instead of GET but the parameters are by default included in the URL so they don't go lost in a redirect. 
 * The JS tracker event `PiwikInitialized` has been renamed to `MatomoInitialized`
 * Support for tracking and reporting of these browser plugins has been discontinued: Gears, Director
 * Plugins that extend the JS tracker should now add their callback to `matomoPluginAsyncInit` instead of `piwikPluginAsyncInit`
 * The visitor ID cookie now contains less data (due to the _idvc, _idts, _viewts and _ects tracking parameters no longer being used). This is a breaking change if you use the Matomo PHP Tracker and forward the visitor cookie to it, and you will need to upgrade the PHP tracker to use with Matomo 4.
 * The tracker method `setVisitStandardLength` has been removed as there is no need for it anymore.
+* The tracker method `setGenerationTimeMs(generationTime)` has been removed as the performance API is now used. Any calls to this method will be ignored. There is currently no replacement available yet.
 
 #### Deprecations in Matomo JS tracker
 
@@ -32,6 +39,9 @@ These are only recommendations (because we will keep backward compatibility for 
 * If using the `piwik_download` css class to mark a link as download we recommend replacing it with `matomo_download` 
 * If using content tracking, we recommend replacing the following CSS classes should they be used `piwikTrackContent`, `piwikContentPiece`, `piwikContentTarget`, and `piwikContentIgnoreInteraction` with `matomoTrackContent`, `matomoContentPiece`, `matomoContentTarget`, and `matomoContentIgnoreInteraction`. 
 * We also encourage using the `matomo.js` JS tracker file instead of `piwik.js` and `matomo.php` tracker endpoint instead of `piwik.php` endpoint.
+
+#### New APIs
+* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
 
 ### HTTP APIs
 
@@ -121,6 +131,7 @@ These are only recommendations (because we will keep backward compatibility for 
 * The signature of the event `Segment.addSegments` has been changed. It now has one parameter `SegmentsList $list`, which allows adding new segments to the list
 * The core plugin `CustomPiwikJs` has been renamed to `CustomJsTracker`
 * The class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
+* The method `Piwik\Cookie::set` no longer accepts an array as value
 * `Zend_Validate` and all subclasses have been completely removed. 
 * Matomo's mail component (`Piwik\Mail`) has been rewritten:
   * Zend_Mail has been removed. `Piwik\Mail` is now an independet class.
@@ -129,14 +140,13 @@ These are only recommendations (because we will keep backward compatibility for 
   
 #### New APIs
 * A new API `UsersManager.createAppSpecificTokenAuth` has been added to create an app specific token for a user.
-* A new JS tracker method `getMatomoUrl` has been added which replaces `getPiwikUrl`.
+* A new method `Common::hashEquals` has been added for timing attack safe string comparisons.
 * Reporting API: It is now possible to apply `hideColumns` recursively to nested values by setting `hideColumnsRecursively=1`. For all `Live` api methods this is the default behaviour.
 
 ### Other Breaking changes
 
-* When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access, unless the `[General] enable_framed_allow_write_admin_token_auth` is set. This means if you currently rely on this functionality, you will need to update your matomo config when updating to Matomo 4.
+* When embedding reports (widgets) into a different site, it is no longer possible to use authentication tokens of users with at least write access, unless the `[General] enable_framed_allow_write_admin_token_auth` is set. This means if you currently rely on this functionality, you will need to update your matomo config when updating to Matomo 4. Alternatively, create a user with `view` access and use the token of this user to embed the report.
 * The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
-* Matomo now uses the SERVER_NAME for host validation and no longer the HOST header. If you're running Matomo behind a load balancer or a proxy you need to ensure that SERVER_NAME is set correctly.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
@@ -153,6 +163,11 @@ These are only recommendations (because we will keep backward compatibility for 
   * The Method `\DI\object()` has been removed. You can use `\DI\autowire()` or `\DI\create()` instead.
   * The Method `\DI\link()` has been removed. Use `\DI\get()` instead.
   * Defining global observer functions in config now requires the functions to be wrapped in `\DI\value()`, unless they are a factory.
+
+### New config.ini.php settings
+
+* `host_validation_use_server_name = 0`, if set to 1, Matomo will prefer using SERVER_NAME variable over HTTP_HOST. This can add an additional layer of security, as SERVER_NAME can't be manipulated by sending custom host headers when configured correctly.
+
 
 ## Matomo 3.14.0
 

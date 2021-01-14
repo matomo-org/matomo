@@ -102,11 +102,13 @@ class GeoIP2AutoUpdater extends Task
             $locUrl = Option::get(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
                 $this->downloadFile('loc', $locUrl);
+                $this->updateDbIpUrlOption(self::LOC_URL_OPTION_NAME);
             }
 
             $ispUrl = Option::get(self::ISP_URL_OPTION_NAME);
             if (!empty($ispUrl)) {
                 $this->downloadFile('isp', $ispUrl);
+                $this->updateDbIpUrlOption(self::ISP_URL_OPTION_NAME);
             }
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIP2AutoUpdater: '
@@ -156,7 +158,7 @@ class GeoIP2AutoUpdater extends Task
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
         $zippedFilename = $this->getZippedFilenameToDownloadTo($url, $dbType, $ext);
 
-        $zippedOutputPath = self::getTemporaryFolder($zippedFilename);
+        $zippedOutputPath = self::getTemporaryFolder($zippedFilename, true);
 
         $url = self::removeDateFromUrl($url);
 
@@ -190,9 +192,9 @@ class GeoIP2AutoUpdater extends Task
         Log::info("GeoIP2AutoUpdater: successfully updated GeoIP 2 database '%s'", $url);
     }
 
-    protected static function getTemporaryFolder($file)
+    public static function getTemporaryFolder($file, $isDownload = false)
     {
-        return \Piwik\Container\StaticContainer::get('path.tmp') . '/latest/' . $file;
+        return \Piwik\Container\StaticContainer::get('path.tmp') . '/latest/' . $file . ($isDownload ? '.download' : '');
     }
 
     /**
@@ -205,10 +207,17 @@ class GeoIP2AutoUpdater extends Task
     public static function unzipDownloadedFile($path, $dbType, $url, $unlink = false)
     {
         $isDbIp = self::isDbIpUrl($url);
-        $isDbIpUnknownDbType = $isDbIp && substr($path, -5, 5) == '.mmdb';
+
+        $filename = $path;
+
+        if (substr($filename, -9, 9) === '.download') {
+            $filename = substr($filename, 0, -9);
+        }
+
+        $isDbIpUnknownDbType = $isDbIp && substr($filename, -5, 5) == '.mmdb';
 
         // extract file
-        if (substr($path, -7, 7) == '.tar.gz') {
+        if (substr($filename, -7, 7) == '.tar.gz') {
             // find the .dat file in the tar archive
             $unzip = Unzip::factory('tar.gz', $path);
             $content = $unzip->listContent();
@@ -251,7 +260,7 @@ class GeoIP2AutoUpdater extends Task
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (substr($path, -3, 3) == '.gz'
+        } else if (substr($filename, -3, 3) == '.gz'
             || $isDbIpUnknownDbType
         ) {
             $unzip = Unzip::factory('gz', $path);
@@ -259,7 +268,7 @@ class GeoIP2AutoUpdater extends Task
             if ($isDbIpUnknownDbType) {
                 $tempFilename = 'unzipped-temp-dbip-file.mmdb';
             } else {
-                $dbFilename = substr(basename($path), 0, -3);
+                $dbFilename = substr(basename($filename), 0, -3);
                 $tempFilename = $dbFilename . '.new';
             }
 
@@ -276,7 +285,7 @@ class GeoIP2AutoUpdater extends Task
                 $dbFilename = $php->detectDatabaseType($dbType) . '.mmdb';
             }
         } else {
-            $parts = explode(basename($path), '.', 2);
+            $parts = explode(basename($filename), '.', 2);
             $ext = end($parts);
             throw new Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
@@ -765,12 +774,12 @@ class GeoIP2AutoUpdater extends Task
 
     public static function isDbIpUrl($url)
     {
-        return !! preg_match('/db-ip\.com/', $url);
+        return !! preg_match('/^http[s]?:\/\/([a-z0-9-]+\.)?db-ip\.com/', $url);
     }
 
     protected static function isPaidDbIpUrl($url)
     {
-        return !! preg_match('/db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
+        return !! preg_match('/^http[s]?:\/\/([a-z0-9-]+\.)?db-ip\.com\/account\/[0-9a-z]+\/db/', $url);
     }
 
     protected function fetchPaidDbIpUrl($url)
@@ -797,5 +806,32 @@ class GeoIP2AutoUpdater extends Task
     protected function fetchUrl($url)
     {
         return Http::fetchRemoteFile($url);
+    }
+
+    /**
+     * Updates the DB-IP URL option value so that users see
+     * the updated link in the "Download URL" field on the plugin page
+     * instead of the one that was set when Matomo was installed months
+     * or even years ago.
+     *
+     * @param  string  $option The option to check and update: either
+     * self::LOC_URL_OPTION_NAME or self::ISP_URL_OPTION_NAME
+     */
+    protected function updateDbIpUrlOption(string $option): void
+    {
+        if ($option !== self::LOC_URL_OPTION_NAME && $option !== self::ISP_URL_OPTION_NAME)
+        {
+            return;
+        }
+
+        $url = trim(Option::get($option));
+
+        if (self::isDbIpUrl($url)) {
+            $latestUrl = $this->getDbIpUrlWithLatestDate($url);
+
+            if($url !== $latestUrl) {
+                Option::set($option, $latestUrl);
+            }
+        }
     }
 }

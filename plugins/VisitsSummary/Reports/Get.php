@@ -36,7 +36,7 @@ class Get extends \Piwik\Plugin\Report
         parent::init();
         $this->categoryId    = 'General_Visitors';
         $this->name          = Piwik::translate('VisitsSummary_VisitsSummary');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('VisitsSummary_VisitsSummaryReportDocumentation');
         $this->processedMetrics = array(
             new BounceRate(),
             new ActionsPerVisit(),
@@ -82,8 +82,7 @@ class Get extends \Piwik\Plugin\Report
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
 
-            $numberFormatter = NumberFormatter::getInstance();
-            $view->config->filters[] = function (DataTable $table) use ($view, $numberFormatter) {
+            $view->config->filters[] = function (DataTable $table) use ($view) {
                 $firstRow = $table->getFirstRow();
 
                 if (($firstRow->getColumn('nb_pageviews')
@@ -103,6 +102,25 @@ class Get extends \Piwik\Plugin\Report
                     $view->config->replaceSparklineMetric(array('nb_users'), '');
                 }
             };
+
+            // Remove metric tooltips
+            $view->config->metrics_documentation['nb_actions'] = '';
+            $view->config->metrics_documentation['nb_visits'] = '';
+            $view->config->metrics_documentation['nb_users'] = '';
+            $view->config->metrics_documentation['nb_uniq_visitors'] = '';
+            $view->config->metrics_documentation['avg_time_generation'] = '';
+            $view->config->metrics_documentation['avg_time_on_site'] = '';
+            $view->config->metrics_documentation['max_actions'] = '';
+            $view->config->metrics_documentation['nb_actions_per_visit'] = '';
+            $view->config->metrics_documentation['nb_downloads'] = '';
+            $view->config->metrics_documentation['nb_uniq_downloads'] = '';
+            $view->config->metrics_documentation['nb_outlinks'] = '';
+            $view->config->metrics_documentation['nb_uniq_outlinks'] = '';
+            $view->config->metrics_documentation['nb_keywords'] = '';
+            $view->config->metrics_documentation['nb_searches'] = '';
+            $view->config->metrics_documentation['nb_pageviews'] = '';
+            $view->config->metrics_documentation['nb_uniq_pageviews'] = '';
+            $view->config->metrics_documentation['bounce_rate'] = '';
         }
     }
 

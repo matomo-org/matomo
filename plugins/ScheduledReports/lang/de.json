@@ -38,6 +38,7 @@
         "Segment_Deletion_Error": "Dieses Segment kann nicht gelöscht oder für andere Benutzer unsichtbar gemacht werden, da es zur Generierung der E-Mail-Berichte %s verwendet wird. Bitte versuchen Sie es erneut, nachdem Sie dieses Segment aus den Berichten entfernt haben.",
         "Segment_Help": "Sie können ein Segment wählen, das auf die Daten des E-Mail-Berichts angewendet werden soll. Sie können Segmente auf dem Dashboard anlegen oder bearbeiten %1$s(hier klicken zum öffnen)%2$s, klicken Sie dann auf die \"%3$s\" Box und dann auf \"%4$s\".",
         "SegmentAppliedToReports": "Das Segment '%s' wird auf die Berichte angewendet.",
+        "SegmentDeleted": "Segment gelöscht",
         "SendReportNow": "Bericht jetzt senden",
         "SendReportTo": "Bericht senden an",
         "SentToMe": "An mich senden",

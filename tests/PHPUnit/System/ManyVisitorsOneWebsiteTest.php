@@ -175,14 +175,13 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'otherRequestParameters' => array('filter_excludelowpop' => 'nb_visits', 'filter_excludelowpop_value' => 5)
         ));
 
-        // this also fails on all PHP versions, it seems randomly.
-//            $apiToTest[] = array('Live.getLastVisitsDetails', array(
-//                'idSite'                 => $idSite,
-//                'date'                   => $dateString,
-//                'periods'                => 'month',
-//                'testSuffix'             => '_Live.getLastVisitsDetails_sortAsc',
-//                'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7)
-//            ));
+        $apiToTest[] = array('Live.getLastVisitsDetails', array(
+            'idSite'                 => $idSite,
+            'date'                   => $dateString,
+            'periods'                => 'month',
+            'testSuffix'             => '_Live.getLastVisitsDetails_sortAsc',
+            'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7)
+        ));
 
         return $apiToTest;
     }

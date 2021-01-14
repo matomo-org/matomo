@@ -43,8 +43,8 @@
 
                 {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <div class="enable_all_users"><strong>
                         <select class="enable_all_users_select">
-                            <option value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
-                            <option selected="1" value="1">{{ 'SegmentEditor_VisibleToAllUsers'|translate }}</option>
+                            <option {% if not isSuperUser %}selected="1"{% endif %} value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
+                            <option {% if isSuperUser %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_VisibleToAllUsers'|translate }}</option>
                         </select>
                     </strong></div>
 
@@ -57,9 +57,9 @@
                 {{ 'General_And'|translate }} <div class="auto_archive"><strong>
                         <select class="auto_archive_select">
                             {% if createRealTimeSegmentsIsEnabled %}
-                            <option selected="1" value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }} {{ 'General_DefaultAppended'|translate }}</option>
+                            <option {% if isBrowserArchivingEnabled %}selected="1"{% endif%} value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }} {{ 'General_DefaultAppended'|translate }}</option>
                             {% endif %}
-                            <option {% if not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
+                            <option {% if not isBrowserArchivingEnabled or not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
                         </select>
                     </strong></div>
 

@@ -45,8 +45,8 @@ class CliPhp
             $bin = $this->getPhpCommandIfValid($possiblePhpPath);
         }
 
-        if (!$this->isValidPhpType($bin)) {
-            $bin = shell_exec('which php');
+        if (!$this->isValidPhpType($bin) && function_exists('shell_exec')) {
+            $bin = @shell_exec('which php');
         }
 
         if (!$this->isValidPhpType($bin)) {
@@ -73,7 +73,7 @@ class CliPhp
     {
         global $piwik_minimumPHPVersion;
         $cliVersion = $this->getPhpVersion($bin);
-        $isCliVersionValid = version_compare($piwik_minimumPHPVersion, $cliVersion) <= 0;
+        $isCliVersionValid = $cliVersion && version_compare($piwik_minimumPHPVersion, $cliVersion) <= 0;
         return $isCliVersionValid;
     }
 
@@ -107,7 +107,10 @@ class CliPhp
     private function getPhpVersion($bin)
     {
         $command = sprintf("%s -r 'echo phpversion();'", $bin);
-        $version = shell_exec($command);
+        $version = null;
+        if (function_exists('shell_exec')) {
+            $version = @shell_exec($command);
+        }
         return $version;
     }
 }

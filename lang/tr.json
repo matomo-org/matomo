@@ -340,7 +340,7 @@
         "ParameterMustIntegerBetween": "%1$s değeri %2$s ve %3$s arasında bir tamsayı değeri olmalıdır.",
         "Password": "Parola",
         "Period": "Zaman aralığı",
-        "Piechart": "Daire çizelde",
+        "Piechart": "Daire çizelge",
         "Print": "Yazdır",
         "Profiles": "Profiller",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "Daha önce Piwik olarak bilinen %1$sMatomo%2$s sizlere %7$sMatomo takımı%8$s üyeleri ve dünyanın pek çok yerinden katkıda bulunan diğer katılımcılar tarafından sunulan bir topluluk projesidir. <br\/>Bir Matomo taraftarıysanız, sonraki harika Matomo sürümüne destek olmak için %3$sMatomo projesine katkıda bulunabilir%4$s ya da %5$sbağış yapabilirsiniz%6$s!",

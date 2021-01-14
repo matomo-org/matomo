@@ -8,6 +8,8 @@
         "ConfigFileIntroduction": "Here you can view the Matomo configuration. If you are running Matomo in a load balanced environment, the page might be different depending on from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",
         "HideUnchanged": "If you want to see only changed values you can %1$shide all unchanged values%2$s.",
         "Sections": "Sections",
+        "BrowserAndAutoArchivingEnabledLabel": "Browser and Auto-archiving enabled",
+        "BrowserAndAutoArchivingEnabledComment": "It looks like both browser and auto archiving are enabled. Auto archiving last started %3$s ago. If %1$sauto archiving%2$s is enabled, you should disable browser archiving in \"General Settings\".",
         "DatabaseReaderConnection": "Database Reader Connection",
         "DatabaseUtf8Requirement": "This is required to be able to store 4-byte UTF8 characters. Unless utf8mb4 is available special characters, such as emojis, less common characters of asian languages, various historic scripts or mathematical symbols will be replaced with %1$s. You can read more details about this topic in %2$sthis FAQ%3$s.",
         "DatabaseUtf8mb4CharsetRecommended": "Your database doesn't support utf8mb4 charset yet.",

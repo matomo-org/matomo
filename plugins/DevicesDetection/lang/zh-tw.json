@@ -46,6 +46,7 @@
         "GenericDevice": "通用 %s",
         "MobileDevice": "行動裝置",
         "Tablet": "平板電腦",
+        "Peripheral": "周邊設備",
         "Phablet": "平板手機",
         "TV": "電視",
         "UserAgent": "User Agent",
@@ -57,6 +58,6 @@
         "XVisitsFromDevices": "來自%2$s裝置的%1$s個訪問數",
         "Wearable": "穿戴式裝置",
         "WidgetBrowsers": "訪客瀏覽器",
-        "WidgetBrowsersDocumentation": "這份報表包含訪客所使用的瀏覽器資訊。每個瀏覽器的版本都會分開排列。"
+        "WidgetBrowserVersionsDocumentation": "這份報表包含訪客所使用的瀏覽器資訊。每個瀏覽器的版本都會分開排列。"
     }
 }

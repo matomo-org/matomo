@@ -74,7 +74,6 @@
         "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s",
         "SystemSummaryWidget": "Systeem samenvatting",
         "SystemSummaryNWebsites": "%d websites",
-        "SystemSummaryNSegments": "%d segmenten",
         "SystemSummaryNActivatedPlugins": "%d geactiveerde plugins",
         "SystemSummaryPiwikVersion": "Matomo-versie",
         "SystemSummaryMysqlVersion": "MySQL-versie",

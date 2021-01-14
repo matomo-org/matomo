@@ -122,7 +122,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: dataType,
-                    data: { token_auth: token_auth, force_api_session: '1' },
+                    data: { token_auth: token_auth, force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1 },
                     type: 'POST'
                 });
             }

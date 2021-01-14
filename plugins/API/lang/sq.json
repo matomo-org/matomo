@@ -11,6 +11,7 @@
         "UserAuthentication": "Mirëfilltësim përdoruesi",
         "UsingTokenAuth": "Nëse doni %1$s të kërkoni të dhëna brenda një programthi, një crontab-i, etj. %2$s lypset të shtoni parametrin e URL-së %3$s te URL-të thirrëse të API-t që lypin doemos mirëfilltësim.",
         "Glossary": "Fjalorth",
+        "MainMetricsReportDocumentation": "Ky raport ju jep një përmbledhje të statistikave më të rëndësishme nëpër krejt kategoritë dhe shtojcat.",
         "LearnAboutCommonlyUsedTerms2": "Mësoni më tepër rreth termash të përdorur rëndom, që të përfitoni maksimumin prej Matomo Analytics.",
         "EvolutionMetricName": "Ecuri e %s"
     }

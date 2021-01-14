@@ -32,7 +32,7 @@
         "UpdaterScheduledForNextRun": "Est planifié pour un traitement durant la prochaine exécution du cron de archive.php.",
         "UpdaterWasLastRun": "La dernière mise à jour a été effectuée le %s.",
         "UpdaterWillRunNext": "Est planifié pour s'exécuter le %s.",
-        "ShowCustomServerVariablesConfig": "J'utilise le module serveur Goip2 (Nginx, Apache...) et je veux configurer les variables de serveur",
+        "ShowCustomServerVariablesConfig": "J'utilise le module serveur Goip2 (Nginx, Apache...) et je veux configurer les variables du serveur",
         "ServerBasedVariablesConfiguration": "Configuration des variables serveur utilisées par le module GeoIP 2.",
         "ServerVariableFor": "Variable serveur pour %s"
     }

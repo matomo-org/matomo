@@ -112,6 +112,8 @@ class Scheduler
                     continue;
                 }
 
+                $this->timetable->readFromOption();
+
                 $taskName = $task->getName();
                 $shouldExecuteTask = $this->timetable->shouldExecuteTask($taskName);
 

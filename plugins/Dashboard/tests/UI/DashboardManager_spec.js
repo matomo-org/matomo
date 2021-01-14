@@ -29,7 +29,7 @@ describe("DashboardManager", function () {
         live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)');
         await live.hover();
 
-        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors - Overview):first');
+        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
         await visitors.hover();
         await visitors.click();
 

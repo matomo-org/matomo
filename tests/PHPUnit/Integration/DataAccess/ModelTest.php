@@ -38,6 +38,33 @@ class ModelTest extends IntegrationTestCase
         $this->model->createArchiveTable($this->tableName, 'archive_numeric');
     }
 
+    public function test_resetFailedArchivingJobs_updatesCorrectStatuses()
+    {
+        Date::$now = strtotime('2020-03-03 04:00:00');
+
+        $this->insertInvalidations([
+            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => 1, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
+            ['idsite' => 2, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done.Plugin', 'value' => 2, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
+            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'doneblablah', 'value' => 3, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-03 00:00:00'],
+            ['idsite' => 3, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'donebluhbluh', 'value' => 4, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 12:00:00'],
+            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'donedone', 'value' => 5, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-01 03:00:00'],
+        ]);
+
+        $this->model->resetFailedArchivingJobs();
+
+        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, status FROM ' . Common::prefixTable('archive_invalidations'));
+
+        $expected = [
+            ['idinvalidation' => 1, 'status' => 0],
+            ['idinvalidation' => 2, 'status' => 0],
+            ['idinvalidation' => 3, 'status' => 0],
+            ['idinvalidation' => 4, 'status' => 1],
+            ['idinvalidation' => 5, 'status' => 0],
+        ];
+
+        $this->assertEquals($expected, $idinvalidationStatus);
+    }
+
     public function test_insertNewArchiveId()
     {
         $this->assertAllocatedArchiveId(1);
@@ -478,7 +505,10 @@ class ModelTest extends IntegrationTestCase
             ),
         );
 
-        $actual = $this->model->getNextInvalidatedArchive(1, null, $useLimit = false);
+        $actual = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, $useLimit = false);
+        foreach ($actual as &$item) {
+            unset($item['ts_invalidated']);
+        }
 
         $this->assertEquals($expected, $actual);
     }
@@ -509,7 +539,9 @@ class ModelTest extends IntegrationTestCase
         foreach ($archivesToInsert as $archive) {
             $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
             $sql = "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            Db::query($sql, [$idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value']]);
+            Db::query($sql, [
+                $idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value'],
+            ]);
 
             ++$idarchive;
         }
@@ -518,9 +550,13 @@ class ModelTest extends IntegrationTestCase
     private function insertInvalidations(array $invalidations)
     {
         $table = Common::prefixTable('archive_invalidations');
+        $now = Date::now()->getDatetime();
         foreach ($invalidations as $invalidation) {
-            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`) VALUES (?, ?, ?, ?, ?)";
-            Db::query($sql, [$invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name']]);
+            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            Db::query($sql, [
+                $invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name'],
+                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null,
+            ]);
         }
     }
 }

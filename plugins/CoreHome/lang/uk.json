@@ -78,7 +78,6 @@
         "PivotBySubtable": "Цей звіт не згенерований %1$s Згенеровано %2$s",
         "SystemSummaryWidget": "Відомості про систему",
         "SystemSummaryNWebsites": "%d сайтів",
-        "SystemSummaryNSegments": "%d сегментів",
         "SystemSummaryNActivatedPlugins": "%d активовані плагіни",
         "SystemSummaryPiwikVersion": "Версія Matomo",
         "SystemSummaryMysqlVersion": "Версія MySQL",

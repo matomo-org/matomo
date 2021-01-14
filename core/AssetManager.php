@@ -364,9 +364,12 @@ class AssetManager extends Singleton
         }
 
         $pluginManager = Manager::getInstance();
-        $plugin = $pluginManager->getLoadedPlugin($pluginName);
+        $plugin = null;
+        if ($pluginManager->isPluginLoaded($pluginName)) {
+            $plugin = $pluginManager->getLoadedPlugin($pluginName);
+        }
 
-        if ($plugin->isTheme()) {
+        if ($plugin && $plugin->isTheme()) {
             $theme = $pluginManager->getTheme($pluginName);
 
             $javaScriptFiles = $theme->getJavaScriptFiles();

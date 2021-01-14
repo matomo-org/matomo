@@ -43,7 +43,6 @@
         "VisitsFrom": "%1$s%2$s besökta %3$s från",
         "VisitSummary": "Spenderade totalt %1$s%2$s på webbplatsen%3$s och kollade på %4$s sidor%5$s under %6$s besök%7$s.",
         "VisitSummaryWithActionDetails": "Spenderade totalt %1$s%2$s på webbplatsen%3$s och genomförde %4$s händelser%5$s (%6$s) under %7$s besök%8$s.",
-        "RowActionTooltipTitle": "Öppna segmenterad besökslogg",
         "OnClickPause": "%s är startad. Klicka för att pausa.",
         "OnClickStart": "%s är stoppad. Klicka för att starta."
     }

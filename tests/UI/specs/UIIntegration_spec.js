@@ -398,6 +398,23 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('actions_outlinks');
         });
 
+        it('should load the segmented vlog correctly for outlink containing a &', async function () {
+            await (await page.jQuery('#widgetActionsgetOutlinks .value:contains("outlinks.org")')).click();
+            await page.waitForNetworkIdle();
+
+            const row = 'tr:contains("&pk") ';
+            const first = await page.jQuery(row + 'td.column:first');
+            await first.hover();
+            const second = await page.jQuery(row + 'td.label .actionSegmentVisitorLog');
+            await second.hover();
+            await second.click();
+            await page.waitForNetworkIdle();
+            await page.mouse.move(0, 0);
+
+            pageWrap = await page.$('.ui-dialog');
+            expect(await pageWrap.screenshot()).to.matchImage('actions_outlinks_vlog');
+        });
+
         it('should load the actions > downloads page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Downloads");
             await page.waitForNetworkIdle();
@@ -886,7 +903,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the widgets listing page correctly', async function () {
             await page.goto("?" + generalParams + "&module=Widgetize&action=index");
 
-            visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors - Overview):first');
+            visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
             await visitors.hover();
             await visitors.click();
             await page.waitFor(100);

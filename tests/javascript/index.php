@@ -2093,7 +2093,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(117);
+        expect(120);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2151,12 +2151,14 @@ function PiwikTest() {
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
+        equal( typeof tracker.setGenerationTimeMs, 'function', 'setGenerationTimeMs' );
         equal( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
         equal( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
         equal( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
         equal( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
         equal( typeof tracker.setLinkClasses, 'function', 'setLinkClasses' );
         equal( typeof tracker.setCampaignNameKey, 'function', 'setCampaignNameKey' );
+        equal( typeof tracker.disablePerformanceTracking, 'function', 'disablePerformanceTracking' );
         equal( typeof tracker.setCampaignKeywordKey, 'function', 'setCampaignKeywordKey' );
         equal( typeof tracker.discardHashTag, 'function', 'discardHashTag' );
         equal( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
@@ -2164,6 +2166,7 @@ function PiwikTest() {
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
         equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
         equal( typeof tracker.setSecureCookie, 'function', 'setSecureCookie' );
+        equal( typeof tracker.setCookieSameSite, 'function', 'setCookieSameSite' );
         equal( typeof tracker.getCookie, 'function', 'getCookie' );
         equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
         equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
@@ -2560,7 +2563,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
-        expect(168);
+        expect(173);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2816,6 +2819,16 @@ function PiwikTest() {
         tracker.setSessionCookie('mytest', 'myvalue');
         equal('myvalue', tracker.getCookie('mytest'));
         strictEqual(null, tracker.getCookie('34343434343'), 'not existing cookie returns null');
+
+        equal('Lax', tracker.getConfigCookieSameSite(), 'same site cookie value is Lax by default');
+        tracker.setCookieSameSite(null);
+        equal('Lax', tracker.getConfigCookieSameSite(), 'setCookieSameSite, wont unset the value when empty');
+        tracker.setCookieSameSite('invalid');
+        equal('Lax', tracker.getConfigCookieSameSite(), 'setCookieSameSite, wont unset the value when invlaid');
+        tracker.setCookieSameSite('strict');
+        equal('Strict', tracker.getConfigCookieSameSite(), 'setCookieSameSite can be used lower case');
+        tracker.setCookieSameSite('LaX');
+        equal('Lax', tracker.getConfigCookieSameSite(), 'setCookieSameSite can be used upper case');
     });
 
     test("Tracker CrossDomainLinking()", function() {
@@ -3256,7 +3269,7 @@ function PiwikTest() {
     });
 
     test("POST requests are sent with cookies", function() {
-        expect(3);
+        expect(5);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
@@ -3270,6 +3283,9 @@ function PiwikTest() {
             ok(event.success, 'succeeded');
             ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
         });
+        ok(tracker.isUsingAlwaysUseSendBeacon());
+        tracker.setRequestMethod('GeT');
+        ok(!tracker.isUsingAlwaysUseSendBeacon());
 
         stop();
         setTimeout(function() {
@@ -4157,13 +4173,13 @@ if ($mysql) {
             ok( /(MultipleCategories).*(&_pkc=%5B%22CATEGORY1%22%2C%22CATEGORY2%22%5D&_pks=SKUMultiple&_pkn=)/.test(results), "ecommerce view multiple categories");
 
             // Ecommerce order
-            ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D&ca=1/.test( results ), "logEcommerceOrder() with items" );
+            ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );
 
             // Cart update
-            ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D&ca=1/.test( results ), "logEcommerceCartUpdate() with items" );
+            ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
 
             // Ecommerce order recorded twice, but each order empties the cart/list of items, so this order is empty of items
-            ok( /idgoal=0&ec_id=ORDER%20WITHOUT%20ANY%20ITEM&revenue=777&ec_st=444&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5D&ca=1/.test( results ), "logEcommerceOrder() called twice, second time has no item" );
+            ok( /idgoal=0&ec_id=ORDER%20WITHOUT%20ANY%20ITEM&revenue=777&ec_st=444&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5D/.test( results ), "logEcommerceOrder() called twice, second time has no item" );
 
             // parameters inserted by plugin hooks
             ok( /testlog/.test( results ), "plugin hook log" );

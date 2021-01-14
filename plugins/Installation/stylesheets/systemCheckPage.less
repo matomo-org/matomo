@@ -40,8 +40,19 @@
 
     ul {
         li {
-            list-style-type: disc;
-            list-style-position: inside;
+            > span {
+                padding-right: 4px;
+            }
+
+            font-weight: bold;
+
+            &.system-check-widget-warning {
+                color: #DF9D27;
+            }
+
+            &.system-check-widget-error {
+                color: #D73F36;
+            }
         }
     }
 }

@@ -45,6 +45,6 @@
         "UserAgent": "Agent d'usuari",
         "XVisitsFromDevices": "%1$s de visites provenen de %2$s dispositius",
         "WidgetBrowsers": "Navegadors",
-        "WidgetBrowsersDocumentation": "Aquest informe conté informació sobre quin tipus de navegador està utilitzant els vostres visitants. Cada versió del navegador es llista per separat."
+        "WidgetBrowserVersionsDocumentation": "Aquest informe conté informació sobre quin tipus de navegador està utilitzant els vostres visitants. Cada versió del navegador es llista per separat."
     }
 }

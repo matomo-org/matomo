@@ -231,7 +231,7 @@ class CliMulti
             foreach ($this->outputs as $output) {
                 if ($output->getOutputId() === $pid && $output->isAbnormal()) {
                     $process->finishProcess();
-                    return true;
+                    continue;
                 }
             }
 

@@ -5,5 +5,6 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>3</nb_actions>
 		<nb_pages_per_search>1.5</nb_pages_per_search>
+		<segment>siteSearchCategory==Search+Category</segment>
 	</row>
 </result>

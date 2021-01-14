@@ -9,6 +9,8 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -19,13 +21,13 @@ use Piwik\Period\Factory;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
+use Piwik\Sequence;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 use Piwik\Version;
-use Psr\Log\NullLogger;
 
 /**
  * @group Archiver
@@ -33,6 +35,398 @@ use Psr\Log\NullLogger;
  */
 class CronArchiveTest extends IntegrationTestCase
 {
+    /**
+     * @dataProvider getTestDataForRepairInvalidationsIfNeeded
+     */
+    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations($existingInvalidations, $archive,
+                                                                                $expectedInvalidations)
+    {
+        $this->insertInvalidations($existingInvalidations);
+
+        $cronArchive = new CronArchive();
+        $cronArchive->init();
+
+        $cronArchive->repairInvalidationsIfNeeded($archive);
+
+        $invalidations = $this->getInvalidationsInTable(true);
+
+        $this->assertEquals($expectedInvalidations, $invalidations);
+    }
+
+    public function getTestDataForRepairInvalidationsIfNeeded()
+    {
+        return [
+            // day w/ nothing else
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '1',
+                        'date1' => '2020-03-04',
+                        'date2' => '2020-03-04',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week with nothing else
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00', 'status' => 1], // duplicate w/ status = 1
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array ( // status = 1 version
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week w/ month
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week on edge of month w/ nothing else
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-02-24',
+                        'date2' => '2020-03-01',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
+            // week for report w/ some other similar archives
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myOtherReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyOtherPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 03:04:04'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done.MyPlugin', 'report' => 'myReport', 'ts_invalidated' => '2020-03-04 03:04:04'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myOtherReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done.MyOtherPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => NULL,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForInvalidateRecentDate
+     */
+    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments($dateStr, $segments,
+                                                                                   $expectedInvalidationCalls)
+    {
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'Australia/Sydney');
+
+        Rules::setBrowserTriggerArchiving(false);
+        foreach ($segments as $idx => $segment) {
+            SegmentAPI::getInstance()->add('segment #' . $idx, $segment, $idx % 2 === 0 ? $idSite : false, true, true);
+        }
+        Rules::setBrowserTriggerArchiving(true);
+
+        $t = Fixture::getTracker($idSite, Date::yesterday()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/abc');
+        Fixture::checkResponse($t->doTrackPageView('some page'));
+
+        $t = Fixture::getTracker($idSite, Date::today()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/def');
+        Fixture::checkResponse($t->doTrackPageView('some page 2'));
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+
+        $archiver->invalidateRecentDate($dateStr, $idSite);
+
+        $actualInvalidationCalls = $mockInvalidateApi->getInvalidations();
+
+        $this->assertEquals($expectedInvalidationCalls, $actualInvalidationCalls);
+    }
+
+    public function getTestDataForInvalidateRecentDate()
+    {
+        $segments = [
+            'browserCode==IE',
+            'visitCount>5',
+        ];
+
+        return [
+            [
+                'today',
+                $segments,
+                [
+                    array (
+                        1,
+                        '2020-02-03',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-03',
+                        'day',
+                        'browserCode==IE',
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-03',
+                        'day',
+                        'visitCount>5',
+                        false,
+                        false,
+                    ),
+                ],
+            ],
+            [
+                'yesterday',
+                $segments,
+                [
+                    array (
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'browserCode==IE',
+                        false,
+                        false,
+                    ),
+                    array (
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'visitCount>5',
+                        false,
+                        false,
+                    ),
+                ],
+            ],
+        ];
+    }
+
+    private function getMockInvalidateApi()
+    {
+        $mock = new class {
+            private $calls = [];
+
+            public function invalidateArchivedReports()
+            {
+                $this->calls[] = func_get_args();
+            }
+
+            public function getInvalidations()
+            {
+                return $this->calls;
+            }
+        };
+        return $mock;
+    }
+
     public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
     {
         Fixture::createWebsite('2019-04-04 03:45:45');
@@ -50,7 +444,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $actual =$archiver->isThereExistingValidPeriod($params);
         $this->assertTrue($actual);
     }
 
@@ -165,28 +559,29 @@ class CronArchiveTest extends IntegrationTestCase
          */
         $invalidatedReports = $api->getInvalidatedReports();
         $this->assertCount(3, $invalidatedReports);
-        sort($invalidatedReports[0][0]);
-        sort($invalidatedReports[1][0]);
-        sort($invalidatedReports[2][0]);
+
         usort($invalidatedReports, function ($a, $b) {
             return strcmp($a[1], $b[1]);
         });
 
-        $this->assertSame(array(1), $invalidatedReports[0][0]);
+        $this->assertSame(1, $invalidatedReports[0][0]);
         $this->assertSame('2014-04-05', $invalidatedReports[0][1]);
 
-        $this->assertSame(array(2), $invalidatedReports[1][0]);
+        $this->assertSame(2, $invalidatedReports[1][0]);
         $this->assertSame('2014-04-05', $invalidatedReports[1][1]);
 
-        $this->assertSame(array(2), $invalidatedReports[2][0]);
+        $this->assertSame(2, $invalidatedReports[2][0]);
         $this->assertSame('2014-04-06', $invalidatedReports[2][1]);
     }
 
     public function test_wasSegmentCreatedRecently()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');
+
+        Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
         $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
@@ -210,8 +605,10 @@ class CronArchiveTest extends IntegrationTestCase
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
+        Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
         $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
@@ -220,7 +617,9 @@ class CronArchiveTest extends IntegrationTestCase
 
         $archiver = new CronArchive(null, $logger);
         $archiver->init();
-        $archiver->skipSegmentsToday = true;
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setSkipSegmentsForToday(true);
+        $archiver->setArchiveFilter($archiveFilter);
         $archiver->shouldArchiveAllSites = true;
         $archiver->shouldArchiveAllPeriodsSince = true;
         $archiver->init();
@@ -238,8 +637,10 @@ class CronArchiveTest extends IntegrationTestCase
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
+        Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
 
         $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
         $tracker->setUrl('http://someurl.com');
@@ -285,6 +686,7 @@ NOTES
 ---------------------------
 START
 Starting Matomo reports archiving...
+Applying queued rearchiving...
 Start processing archives for site 1.
 Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-12 for following websites ids: 1
@@ -296,129 +698,94 @@ Checking for queued invalidations...
   Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
   Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
-Found invalidated archive we can skip (no visits): [idinvalidation = 43, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 73, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 73, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 44, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 74, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 74, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 42, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 72, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 72, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 40, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 70, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 70, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 41, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 71, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 71, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 36, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 66, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 66, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 33, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 63, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 63, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 34, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 64, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 64, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 35, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 65, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 65, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 28, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 58, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 58, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 26, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 56, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 56, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 27, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 57, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 57, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 24, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 54, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 54, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 25, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 55, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 55, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 22, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 52, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 52, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 23, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 53, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 53, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 1, segment '' is not in --force-idsegments: [idinvalidation = 1, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = done]
-Skipping invalidated archive 5, segment '' is not in --force-idsegments: [idinvalidation = 5, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = done]
-Skipping invalidated archive 9, segment '' is not in --force-idsegments: [idinvalidation = 9, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = done]
-Found invalidated archive we can skip (no visits): [idinvalidation = 20, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 50, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 50, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 2, segment '' is not in --force-idsegments: [idinvalidation = 2, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
-Skipping invalidated archive 6, segment '' is not in --force-idsegments: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
-Skipping invalidated archive 10, segment '' is not in --force-idsegments: [idinvalidation = 10, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
-Processing invalidation: [idinvalidation = 21, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 51, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 13, segment '' is not in --force-idsegments: [idinvalidation = 13, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = done]
-Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 47, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 14, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 18, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 48, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 3, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 19, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
+Processing invalidation: [idinvalidation = 5, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 14, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%3E%3D2&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%3E%3D2&trigger=archivephp
+Archived website id 1, period = day, date = 2019-12-12, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Archived website id 1, period = day, date = 2019-12-11, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Archived website id 1, period = day, date = 2019-12-10, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 22, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = week, date = 2019-12-09, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Archived website id 1, period = day, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Skipping invalidated archive 51, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 51, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 47, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 47, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 14, segment '' is not in --force-idsegments: [idinvalidation = 14, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done]
-Processing invalidation: [idinvalidation = 18, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 48, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 3, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 19, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
+Archived website id 1, period = week, date = 2019-12-09, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Archived website id 1, period = day, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 23, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = week, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Skipping invalidated archive 48, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 48, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 3, segment '' is not in --force-idsegments: [idinvalidation = 3, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 7, segment '' is not in --force-idsegments: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 11, segment '' is not in --force-idsegments: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 15, segment '' is not in --force-idsegments: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Processing invalidation: [idinvalidation = 19, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
+Archived website id 1, period = week, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = month, date = 2019-12-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Skipping invalidated archive 49, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Skipping invalidated archive 4, segment '' is not in --force-idsegments: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 8, segment '' is not in --force-idsegments: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 12, segment '' is not in --force-idsegments: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 16, segment '' is not in --force-idsegments: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Processing invalidation: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
+Archived website id 1, period = month, date = 2019-12-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = year, date = 2019-01-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Skipping invalidated archive 62, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
+Archived website id 1, period = year, date = 2019-01-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 No next invalidated archive.
-Finished archiving for site 1, 5 API requests, Time elapsed: %fs [1 / 1 done]
+Finished archiving for site 1, 8 API requests, Time elapsed: %fs [1 / 1 done]
 No more sites left to archive, stopping.
 Done archiving!
 ---------------------------
 SUMMARY
-Processed 5 archives.
-Total API requests: 5
-done: 5 req, %d ms, no error
+Processed 8 archives.
+Total API requests: 8
+done: 8 req, %d ms, no error
 Time elapsed: %fs
 LOG;
+
+        // remove a bunch of debug lines since we can't have a sprintf format that long
+        $output = $this->cleanOutput($logger->output);
+
+        $this->assertStringMatchesFormat($expected, $output);
+    }
+
+    public function test_output_withSkipIdSites()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
+        );
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
+        $tracker->enableBulkTracking();
+        foreach ([1,2,3] as $idSite) {
+            $tracker->setIdSite($idSite);
+            $tracker->setUrl('http://someurl.com');
+            Fixture::assertTrue($tracker->doTrackPageView('abcdefg'));
+
+            $tracker->setForceVisitDateTime('2019-12-11 03:04:05');
+            $tracker->setUrl('http://someurl.com/2');
+            Fixture::assertTrue($tracker->doTrackPageView('abcdefg2'));
+
+            $tracker->setForceVisitDateTime('2019-12-10 03:04:05');
+            $tracker->setUrl('http://someurl.com/3');
+            Fixture::assertTrue($tracker->doTrackPageView('abcdefg3'));
+        }
+        $tracker->doBulkTrack();
+
+        $logger = new FakeLogger();
+
+        // prevent race condition in sequence creation during test
+        $sequence = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory('2019-12-10')));
+        $sequence->create();
+
+        $archiver = new CronArchive(null, $logger);
+
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiver->setArchiveFilter($archiveFilter);
+        $archiver->shouldSkipSpecifiedSites = [1,3];
+
+        $archiver->init();
+        $archiver->run();
+
         $version = Version::VERSION;
         $expected = <<<LOG
 ---------------------------
@@ -430,136 +797,38 @@ NOTES
   See the doc at: https://matomo.org/docs/setup-auto-archiving/
 - Async process archiving supported, using CliMulti.
 - Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
-- Limiting segment archiving to following segments:
-  * actions>=2;browserCode=FF
-  * actions>=2
 ---------------------------
 START
 Starting Matomo reports archiving...
-Start processing archives for site 1.
+Applying queued rearchiving...
+Start processing archives for site 2.
 Checking for queued invalidations...
-  Will invalidate archived reports for 2019-12-12 for following websites ids: 1
-  Will invalidate archived reports for 2019-12-11 for following websites ids: 1
-  Will invalidate archived reports for 2019-12-10 for following websites ids: 1
-  Will invalidate archived reports for 2019-12-02 for following websites ids: 1
-  Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
-  Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
-  Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
-  Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
+  Will invalidate archived reports for 2019-12-11 for following websites ids: 2
+  Will invalidate archived reports for 2019-12-10 for following websites ids: 2
+  Today archive can be skipped due to no visits for idSite = 2, skipping invalidation...
+  Yesterday archive can be skipped due to no visits for idSite = 2, skipping invalidation...
 Done invalidating
-Skipping invalidated archive 73, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 73, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 43, idsite = 1, period = day(2020-02-03 - 2020-02-03), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 74, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 74, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 44, idsite = 1, period = week(2020-02-03 - 2020-02-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 72, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 72, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 42, idsite = 1, period = day(2020-02-02 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 70, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 70, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 40, idsite = 1, period = day(2020-02-01 - 2020-02-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 71, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 71, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 41, idsite = 1, period = month(2020-02-01 - 2020-02-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 66, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 66, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 36, idsite = 1, period = week(2020-01-27 - 2020-02-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 63, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 63, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 33, idsite = 1, period = day(2020-01-01 - 2020-01-01), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 64, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 64, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 34, idsite = 1, period = month(2020-01-01 - 2020-01-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 65, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 65, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 35, idsite = 1, period = year(2020-01-01 - 2020-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 58, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 58, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 28, idsite = 1, period = day(2019-12-31 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 56, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 56, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 26, idsite = 1, period = day(2019-12-30 - 2019-12-30), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 57, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 57, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 27, idsite = 1, period = week(2019-12-30 - 2020-01-05), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 54, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 54, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 24, idsite = 1, period = day(2019-12-23 - 2019-12-23), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 55, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 55, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 25, idsite = 1, period = week(2019-12-23 - 2019-12-29), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 52, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 52, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 22, idsite = 1, period = day(2019-12-16 - 2019-12-16), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 53, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 53, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 23, idsite = 1, period = week(2019-12-16 - 2019-12-22), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 1, segment '' is not in --force-idsegments: [idinvalidation = 1, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = done]
-Skipping invalidated archive 5, segment '' is not in --force-idsegments: [idinvalidation = 5, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = done]
-Skipping invalidated archive 9, segment '' is not in --force-idsegments: [idinvalidation = 9, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = done]
-Skipping invalidated archive 50, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 50, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = done49a9440bd6dba4b8850035e09d043c67]
-Found invalidated archive we can skip (no visits): [idinvalidation = 20, idsite = 1, period = day(2019-12-09 - 2019-12-09), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Skipping invalidated archive 10, segment '' is not in --force-idsegments: [idinvalidation = 10, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
-Skipping invalidated archive 6, segment '' is not in --force-idsegments: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
-Skipping invalidated archive 2, segment '' is not in --force-idsegments: [idinvalidation = 2, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done]
-Skipping invalidated archive 51, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 51, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = done49a9440bd6dba4b8850035e09d043c67]
-Processing invalidation: [idinvalidation = 21, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Skipping invalidated archive 13, segment '' is not in --force-idsegments: [idinvalidation = 13, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = done]
-Skipping invalidated archive 47, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 47, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = done49a9440bd6dba4b8850035e09d043c67]
-Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 14, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 48, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 18, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 3, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 19, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Processing invalidation: [idinvalidation = 1, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
+Processing invalidation: [idinvalidation = 5, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = week, date = 2019-12-09, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Archived website id 1, period = day, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
-Skipping invalidated archive 14, segment '' is not in --force-idsegments: [idinvalidation = 14, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done]
-Skipping invalidated archive 48, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 48, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = done49a9440bd6dba4b8850035e09d043c67]
-Processing invalidation: [idinvalidation = 18, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 3, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 19, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=day&date=2019-12-11&format=json&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=day&date=2019-12-10&format=json&trigger=archivephp
+Archived website id 2, period = day, date = 2019-12-11, segment = '', 1 visits found. Time elapsed: %fs
+Archived website id 2, period = day, date = 2019-12-10, segment = '', 1 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 2, idsite = 2, period = week(2019-12-09 - 2019-12-15), name = done, segment = ].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = week, date = 2019-12-02, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
-Skipping invalidated archive 15, segment '' is not in --force-idsegments: [idinvalidation = 15, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 11, segment '' is not in --force-idsegments: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 7, segment '' is not in --force-idsegments: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 3, segment '' is not in --force-idsegments: [idinvalidation = 3, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done]
-Skipping invalidated archive 49, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 49, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Processing invalidation: [idinvalidation = 19, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Found archive with intersecting period with others in concurrent batch, skipping until next batch: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f]
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=week&date=2019-12-09&format=json&trigger=archivephp
+Archived website id 2, period = week, date = 2019-12-09, segment = '', 2 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 3, idsite = 2, period = month(2019-12-01 - 2019-12-31), name = done, segment = ].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = month, date = 2019-12-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
-Skipping invalidated archive 16, segment '' is not in --force-idsegments: [idinvalidation = 16, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 12, segment '' is not in --force-idsegments: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 8, segment '' is not in --force-idsegments: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 4, segment '' is not in --force-idsegments: [idinvalidation = 4, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done]
-Skipping invalidated archive 62, segment 'actions>=4' is not in --force-idsegments: [idinvalidation = 62, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = done49a9440bd6dba4b8850035e09d043c67]
-Processing invalidation: [idinvalidation = 32, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f].
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=month&date=2019-12-01&format=json&trigger=archivephp
+Archived website id 2, period = month, date = 2019-12-01, segment = '', 2 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 4, idsite = 2, period = year(2019-01-01 - 2019-12-31), name = done, segment = ].
 No next invalidated archive.
-Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
-Archived website id 1, period = year, date = 2019-01-01, segment = 'actions%3E%3D2', 0 visits found. Time elapsed: %fs
-Invalidations currently exist for idSite 1, skipping invalidating for now...
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=year&date=2019-01-01&format=json&trigger=archivephp
+Archived website id 2, period = year, date = 2019-01-01, segment = '', 2 visits found. Time elapsed: %fs
 No next invalidated archive.
-Finished archiving for site 1, 5 API requests, Time elapsed: %fs [1 / 1 done]
+Finished archiving for site 2, 5 API requests, Time elapsed: %fs [1 / 1 done]
 No more sites left to archive, stopping.
 Done archiving!
 ---------------------------
@@ -570,7 +839,22 @@ done: 5 req, %d ms, no error
 Time elapsed: %fs
 LOG;
 
-        $this->assertStringMatchesFormat($expected, $logger->output);
+        // remove a bunch of debug lines since we can't have a sprintf format that long
+        $output = $this->cleanOutput($logger->output);
+
+        $this->assertStringMatchesFormat($expected, $output);
+    }
+
+    private function cleanOutput($output)
+    {
+        $output = explode("\n", $output);
+        $output = array_filter($output, function ($l) { return strpos($l, 'Skipping invalidated archive') === false; });
+        $output = array_filter($output, function ($l) { return strpos($l, 'Found archive with intersecting period') === false; });
+        $output = array_filter($output, function ($l) { return strpos($l, 'Found duplicate invalidated archive') === false; });
+        $output = array_filter($output, function ($l) { return strpos($l, 'No usable archive exists') === false; });
+        $output = array_filter($output, function ($l) { return strpos($l, 'Found invalidated archive we can skip (no visits)') === false; });
+        $output = implode("\n", $output);
+        return $output;
     }
 
     public function test_shouldNotStopProcessingWhenOneSiteIsInvalid()
@@ -594,6 +878,7 @@ LOG;
 ---------------------------
 START
 Starting Matomo reports archiving...
+Applying queued rearchiving...
 Start processing archives for site 1.
 Checking for queued invalidations...
   Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
@@ -618,6 +903,36 @@ LOG;
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function insertInvalidations(array $invalidations)
+    {
+        $now = Date::now()->getDatetime();
+
+        $table = Common::prefixTable('archive_invalidations');
+        foreach ($invalidations as $inv) {
+            $bind = [
+                $inv['idarchive'],
+                $inv['name'],
+                $inv['idsite'],
+                $inv['date1'],
+                $inv['date2'],
+                $inv['period'],
+                isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
+                $inv['report'],
+                isset($inv['status']) ? $inv['status'] : 0,
+            ];
+            Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
+        }
+    }
+
+    private function getInvalidationsInTable($includeInvalidated = false)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $suffix = $includeInvalidated ? ', ts_invalidated' : '';
+        $sql = "SELECT idarchive, idsite, period, date1, date2, name, report$suffix FROM `$table`";
+        return Db::fetchAll($sql);
     }
 }
 

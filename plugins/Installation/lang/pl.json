@@ -124,7 +124,6 @@
         "SystemCheckWriteDirs": "Katalogi z prawem do zapisu",
         "SystemCheckWriteDirsHelp": "Aby naprawić ten błąd w swoim systemie Linux, próbuj wpisać następującą komendę(y)",
         "SystemCheckZlibHelp": "Potrzebujesz skonfigurować i przebudować środowisko PHP, z włączonym wsparciem dla \"zlib\", --with-zlib.",
-        "SystemCheckCronArchiveProcess": "Cron archiwizujący",
         "SystemCheckCronArchiveProcessCLI": "Zarządzaj procesami z wiersza poleceń",
         "SystemCheckPhpSetting": "Aby zapobiec kilku krytycznym problemom, musisz skonfigurować php.ini zgodnie z tymi wytycznymi: %s",
         "SystemCheckUpdateHttps": "Aktualizacja przez HTTPS",

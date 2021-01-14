@@ -122,6 +122,12 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
                              $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
                              $searchCategory = 'mysearchcat');
 
+
+        $tracker->setIp('156.5.3.8');
+        $tracker->setNewVisitorId();
+        $tracker->setUrlReferrer('http://www.google.com.vn/url?sa=t&rct=j&q='); // search w/ unknown keyword
+        $this->trackPageView($tracker, 0, 'page/one.html');
+
         self::checkBulkTrackingResponse($tracker->doBulkTrack());
     }
 

@@ -180,7 +180,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
-                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName with trace: " . $e->getTraceAsString(), $e->getCode(), $e);
+                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName.", $e->getCode(), $e);
                 } finally {
                     self::$currentPluginBeingArchived = null;
                 }

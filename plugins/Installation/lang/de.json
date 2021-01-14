@@ -95,6 +95,7 @@
         "SystemCheckGzuncompressHelp": "Sie müssen die zlib Erweiterung und die gzuncompress Funktion aktivieren.",
         "SystemCheckHashHelp": "Sie müssen PHP mit der hash() Funktionalität kompilieren, indem Sie die Option --disable-hash entfernen.",
         "SystemCheckIconvHelp": "Sie müssen PHP mit \"iconv\" Unterstützung konfigurieren und neu bauen ( --with-iconv).",
+        "SystemCheckJsonHelp": "Die php-json Erweiterung wird von Matomo benötigt, um JSON Daten zu lesen und zu schreiben.",
         "SystemCheckMailHelp": "Feedback und Nachrichten zu verlorenen Passwörtern können nicht ohne mail() versendet werden.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Die mbstring-Erweiterung wird benötigt, um multibyte-Zeichen in der Benutzeroberfläche und in den API-Antworten zu verarbeiten. Bitte überprüfen Sie ebenfalls, ob mbstring.func_overload in der php.ini auf \"0\" gesetzt ist.",
@@ -130,7 +131,8 @@
         "SystemCheckWriteDirs": "Verzeichnisse mit Schreibzugriff",
         "SystemCheckWriteDirsHelp": "Um diesen Fehler im Linux-System zu beheben, versuchen Sie den\/die folgenden Befehl(e) einzugeben",
         "SystemCheckZlibHelp": "Sie müssen PHP mit \"zlib\" Unterstützung konfigurieren und neu übersetzen ( --with-zlib).",
-        "SystemCheckCronArchiveProcess": "Archiv Cron",
+        "SystemCheckCronArchiveProcess": "Cron einrichten",
+        "FasterReportLoading": "schneller ladende Berichte",
         "SystemCheckCronArchiveProcessCLI": "Prozesse via CLI steuern",
         "SystemCheckPhpSetting": "Um schwerwiegende Probleme zu verhindern, sollten Sie Folgendes in Ihrer php.ini setzen: %s",
         "SystemCheckUpdateHttps": "Update über HTTPS",
@@ -152,6 +154,8 @@
         "WelcomeToCommunity": "Willkommen in der Matomo Community!",
         "CannotConnectToDb": "Verbindung zur Datenbank ist fehlgeschlagen",
         "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo Administrator.",
-        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird nur dafür verwendet, Ihnen den Newsletter zu senden. Dafür werden wir sie an einen Third-Party-Provider weitergeben. Dieser Provider ist aktuell Mad Mimi, aber das wird sich in Zukunft möglicherweise ändern. Wir werden Ihre E-Mail-Adresse sonst mit niemandem teilen oder sie für etwas anderes als für den Newsletter verwenden. Sie können sich jederzeit abmelden. Bitte konsultieren Sie unsere %1$sDatenschutzerklärung%2$s für weitere Informationen."
+        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird nur dafür verwendet, Ihnen den Newsletter zu senden. Dafür werden wir sie an einen Third-Party-Provider weitergeben. Dieser Provider ist aktuell Mad Mimi, aber das wird sich in Zukunft möglicherweise ändern. Wir werden Ihre E-Mail-Adresse sonst mit niemandem teilen oder sie für etwas anderes als für den Newsletter verwenden. Sie können sich jederzeit abmelden. Bitte konsultieren Sie unsere %1$sDatenschutzerklärung%2$s für weitere Informationen.",
+        "PerformanceSettingsDesc1": "Eine finale Anmerkung zur Performance: Ihr Matomo ist eingerichtet und bereit zum Tracken und Berichte über ihre Webseite anzuzeigen, aber wenn Ihnen Ihr Matomo langsam vorkommt, können sie zusätzliche Schritte vornehmen und %1$sCLI-Archivierung%2$s aktivieren. Dies generiert Ihre Berichte periodisch im Hintergrund anstatt, wenn Sie sie aufrufen.",
+        "PerformanceSettingsDesc2": "Dies erfordert, dass Sie einen Matomo Aufruf zu Cron hinzufügen, was nicht automatisch während der Installation gemacht werden kann. Aber Sie können %1$sunser FAQ lesen um zu erfahren, wie Sie es selbst einrichten können.%2$s"
     }
 }

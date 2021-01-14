@@ -49,7 +49,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Matomo 資料庫將從版本 %1$s 升級至新版本 %2$s 。",
         "ReadyToGo": "準備好了嗎？",
         "TheFollowingPluginsWillBeUpgradedX": "以下外掛將被更新：%s 。",
-        "TheFollowingDimensionsWillBeUpgradedX": "以下維度將被更新：%s。",
+        "TheFollowingDimensionsWillBeUpgradedX": "以下的資料表將被更新：%s。",
         "ThereIsNewPluginVersionAvailableForUpdate": "有些你使用外掛在市集上已經有新版本：",
         "ThereIsNewVersionAvailableForUpdate": "已有新版的 Matomo 可以更新",
         "TheUpgradeProcessMayFailExecuteCommand": "如果你有較大型的 Matomo 資料庫，在瀏覽器上更新可能需要花費較長的時間。在這個情況下，你可以透過執行以下指令來更新：%s",

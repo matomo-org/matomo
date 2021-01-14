@@ -47,14 +47,15 @@ class Controller extends PluginController
     {
         $apiMethod = Common::getRequestVar('apiMethod');
         $period    = Common::getRequestVar('period');
+        $date      = Common::getRequestVar('date');
 
         $params = [
             'method'    => $apiMethod,
-            'period'    => $period,
+            'period'    => 'range' === $period ? 'day' : $period,
             'label'     => Common::getRequestVar('label', ''),
             'idSite'    => $this->idSite,
             'segment'   => Common::getRequestVar('segment', ''),
-            'date'      => 'range' === $period ? $this->strDate : EvolutionViz::getDateRangeAndLastN($period, $this->strDate)[0],
+            'date'      => 'range' === $period ? $date : EvolutionViz::getDateRangeAndLastN($period, $date)[0],
             'format'    => 'original',
             'serialize' => '0',
         ];

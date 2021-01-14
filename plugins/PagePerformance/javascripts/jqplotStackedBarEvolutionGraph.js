@@ -108,10 +108,10 @@
 
                         var seriesColor = self.jqplotParams.seriesColors[d];
 
-                        dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: ' + seriesColor + ';"/>' + '<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
+                        dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: ' + seriesColor + ';"></span>' + '<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
                     }
 
-                    dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: #000;"/>' + '<strong>' + self.formatY(totalValue, 0) + '</strong> ' + _pk_translate('General_Total'));
+                    dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: #000;"></span>' + '<strong>' + self.formatY(totalValue, 0) + '</strong> ' + _pk_translate('General_Total'));
 
 
                     var xAxisCount = 0;

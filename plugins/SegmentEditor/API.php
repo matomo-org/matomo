@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -107,16 +108,15 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($autoArchive) {
-            if ($realTimeSegmentsEnabled && !Piwik::isUserHasAdminAccess($idSite)) {
-                // pre-processed segment for a given website requires admin access
-                throw new Exception(
-                    "Please contact Support to make these changes on your behalf. ".
-                    " To modify a pre-processed segment, a user must have admin access or super user access. "
-                );
-            } elseif (!$realTimeSegmentsEnabled) {
-                // we require view access only when only pre processed can be created
-                Piwik::checkUserHasViewAccess($idSite);
+            if (Rules::isBrowserTriggerEnabled()) {
+                $message = "Pre-processed segments can only be created if browser triggered archiving is disabled.";
+                if (Piwik::hasUserSuperUserAccess()) {
+                    $message .= " To disable browser archiving follow the instructions here: https://matomo.org/docs/setup-auto-archiving/.";
+                }
+                throw new Exception($message);
             }
+
+            Piwik::checkUserHasViewAccess($idSite);
         }
 
         return $autoArchive;

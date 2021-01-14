@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "Sayfa adresleri izlenirken sayfa adresi bölünmeleri korunsun",
         "ListOfIpsToBeExcludedOnAllWebsites": "Aşağıdaki IP adresi hiç bir web sitesinde izlenmeyecek.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Aşağıdaki sorgu adresi parametreleri hiç bir web sitesinde izlenmeyecek.",
-        "ListOfQueryParametersToExclude": "Sayfa adresi raporlarına katılmayacak sorgu adresi parametrelerini ayrı satırlara yazın. %s gibi kurallı ifadeler desteklenir.",
         "LogAnalytics": "Günlük İstatistikleri",
         "LogAnalyticsDescription": "JavaScript izleme yöntemi kullanılamıyorsa, web sitesine gelen kullanıcıları izlemek için alternatif olarak %1$ssunucu günlüğü istatistiklerini%2$s kullanabilirsiniz.",
         "MainDescription": "Web istatistik raporlarının oluşturulabilmesi için web sitelerinin tanımlanması gerekir. Web sitesi ekleme, güncelleme, kaldırma ve sayfalarınıza eklenecek JavaScript Kodu işlemleri bu bölümden yapılabilir.",

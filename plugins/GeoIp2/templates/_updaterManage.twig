@@ -22,6 +22,10 @@
 		 ng-model="locationUpdater.ispDbUrl"
 		 introduction="{{ 'GeoIp2_ISPDatabase'|translate|e('html_attr') }}"
 		 data-title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 disabled="{{ not isProviderPluginActive }}"
+		 {% if not isProviderPluginActive %}
+		 inline-help="<div class='alert alert-warning'>{{ 'GeoIp2_ISPRequiresProviderPlugin'|translate|e('html_attr') }}</div>"
+		 {% endif %}
 		 value="{{ geoIPIspUrl }}">
 	</div>
 

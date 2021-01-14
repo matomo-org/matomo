@@ -2,7 +2,12 @@
     "name": "matomo/matomo",
     "type": "application",
     "description": "the leading free/libre analytics platform",
-    "keywords": ["piwik","matomo","web","analytics"],
+    "keywords": [
+        "piwik",
+        "matomo",
+        "web",
+        "analytics"
+    ],
     "homepage": "https://matomo.org",
     "license": "GPL-3.0+",
     "authors": [
@@ -18,24 +23,24 @@
         "wiki": "https://github.com/matomo-org/matomo/wiki",
         "source": "https://github.com/matomo-org/matomo"
     },
-    "config":{
+    "config": {
         "platform": {
-            "php": "7.2.5"
+            "php": "7.2.9"
         },
         "prepend-autoloader": false,
         "sort-packages": true
     },
     "require": {
         "php": ">=7.2.5",
+        "composer/ca-bundle": "^1.2",
         "composer/semver": "~1.3.0",
         "davaxi/sparkline": "~1.2",
         "geoip2/geoip2": "^2.8",
-        "leafo/lessphp": "dev-php74-compat",
-        "matomo-org/jshrink": "1.3.1",
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
+        "matomo/device-detector": "^4.0",
         "matomo/ini": "~2.0",
-        "matomo/matomo-php-tracker": "dev-4.x-dev",
+        "matomo/matomo-php-tracker": "^3.0",
         "matomo/network": "~2.0",
         "matomo/referrer-spam-list": "~4.0.0",
         "matomo/searchengine-and-social-list": "~3.0",
@@ -44,14 +49,15 @@
         "pear/pear_exception": "~1.0.0",
         "php-di/php-di": "^6.0.0",
         "phpmailer/phpmailer": "^6.1",
-        "piwik/device-detector": "~3.0",
         "psr/log": "~1.0",
         "symfony/console": "~2.6.0",
         "symfony/event-dispatcher": "~2.6.0",
         "symfony/monolog-bridge": "~2.6.0",
         "szymach/c-pchart": "^2.0",
         "tecnickcom/tcpdf": "~6.0",
-        "twig/twig": "^3.0"
+        "tedivm/jshrink": "dev-master#aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
+        "twig/twig": "^3.0",
+        "wikimedia/less.php": "^3.0"
     },
     "require-dev": {
         "lox/xhprof": "dev-master",
@@ -59,41 +65,14 @@
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "matomo-org/jshrink",
-                "description": "Javascript Minifier built in PHP",
-                "keywords": ["minifier","javascript"],
-                "homepage": "http://github.com/tedious/JShrink",
-                "type": "library",
-                "license": "BSD-3-Clause",
-                "version": "1.3.1",
-                "authors": [
-                    {
-                        "name": "Robert Hafner",
-                        "email": "tedivm@tedivm.com"
-                    }
-                ],
-                "require": {
-                    "php": "*"
-                },
-                "autoload": {
-                    "psr-0": {"JShrink": "src/"}
-                },
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/tedious/JShrink",
-                    "reference": "v1.3.1"
-                }
-            }
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/matomo-org/lessphp.git"
-        }
-    ],
+    "replace": {
+        "symfony/polyfill-php54": "*",
+        "symfony/polyfill-php55": "*",
+        "symfony/polyfill-php56": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php72": "*"
+    },
     "scripts": {
         "pre-update-cmd": [
             "Piwik\\Composer\\ScriptHandler::cleanXhprof"
@@ -119,7 +98,9 @@
             "PEAR_": "libs/",
             "Archive_": "libs/"
         },
-        "files": ["LegacyAutoloader.php"]
+        "files": [
+            "LegacyAutoloader.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

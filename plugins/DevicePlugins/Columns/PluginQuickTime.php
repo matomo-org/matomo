@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,6 +19,11 @@ class PluginQuickTime extends DevicePluginColumn
     protected $columnName = 'config_quicktime';
     protected $columnType = 'TINYINT(1) NULL';
     protected $type = self::TYPE_BOOL;
+
+    public function getName()
+    {
+        return Piwik::translate('General_Plugin') . ' (QuickTime)';
+    }
 
     /**
      * @param Request $request

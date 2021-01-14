@@ -11,6 +11,7 @@ var Piwik_Popover = (function () {
     var isOpen = false;
     var closeCallback = false;
     var isProgrammaticClose = false;
+    var scrollTopPosition = 0;
 
     var createContainer = function () {
         if (container === false) {
@@ -43,9 +44,20 @@ var Piwik_Popover = (function () {
                 // we scroll to it to make sure it's visible. this isn't a perfect workaround, since it
                 // doesn't center the modal.g
                 var self = this;
-                setTimeout(function () {
-                    piwikHelper.lazyScrollTo(self, 0);
-                }, 0);
+
+                scrollTopPosition = $(window).scrollTop();
+
+                $('#root').css({
+                    position: 'fixed',
+                    height: $(window).height + scrollTopPosition,
+                    width: '100%',
+                    top: -scrollTopPosition
+                });
+
+                window.scrollTo(0, 0);
+
+                centerPopover();
+
             },
             close: function (event, ui) {
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
@@ -69,6 +81,15 @@ var Piwik_Popover = (function () {
                 if (!isProgrammaticClose || isEscapeKey(event)) {
                     broadcast.propagateNewPopoverParameter(false);
                 }
+
+                $('#root').css({
+                    position: '',
+                    height: '',
+                    width: '',
+                    top: ''
+                });
+
+                window.scrollTo(0, scrollTopPosition);
             }
         };
 
@@ -84,7 +105,9 @@ var Piwik_Popover = (function () {
 
     var centerPopover = function () {
         if (container !== false) {
+            $('.ui-dialog').css({margin: '0 0'});
             container.dialog("option", "position", {my: 'center', at: 'center', of: '.ui-widget-overlay', collision: 'fit'});
+            $('.ui-dialog').css({margin: '15px 0'});
         }
     };
 
@@ -260,18 +283,8 @@ var Piwik_Popover = (function () {
          * @param {object} [ajaxRequest]      optional instance of ajaxHelper
          */
         createPopupAndLoadUrl: function (url, loadingName, dialogClass, ajaxRequest) {
-            // make sure the minimum top position of the popover is 15px
-            var ensureMinimumTop = function () {
-                var popoverContainer = $('#Piwik_Popover').parent();
-                popoverContainer.css('top', (window.scrollY + 15) + 'px');
-                if (popoverContainer.position().top < 106) {
-                    popoverContainer.css('top', '15px');
-                }
-            };
-
             // open the popover
             var box = Piwik_Popover.showLoading(loadingName, null, null, dialogClass);
-            ensureMinimumTop();
 
             var callback = function (html) {
                 function setPopoverTitleIfOneFoundInContainer() {
@@ -284,7 +297,6 @@ var Piwik_Popover = (function () {
 
                 Piwik_Popover.setContent(html);
                 setPopoverTitleIfOneFoundInContainer();
-                ensureMinimumTop();
             };
 
             if ('undefined' === typeof ajaxRequest) {

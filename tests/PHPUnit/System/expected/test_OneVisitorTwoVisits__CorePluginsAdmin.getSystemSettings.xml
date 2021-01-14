@@ -319,6 +319,22 @@
 		<title>PrivacyManager</title>
 		<settings>
 			<row>
+				<name>imprintUrl</name>
+				<title>Imprint URL</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A link to your Imprint page. If you set this, it will be displayed at the bottom of the login page and on pages that the 'anonymous' user can access.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
 				<name>privacyPolicyUrl</name>
 				<title>Privacy Policy URL</title>
 				<value />

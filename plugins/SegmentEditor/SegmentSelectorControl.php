@@ -86,6 +86,7 @@ class SegmentSelectorControl extends UIControl
             'hideSegmentDefinitionChangeMessage',
             Piwik::getCurrentUserLogin()
         );
+        $this->isBrowserArchivingEnabled = Rules::isBrowserTriggerEnabled();
 
         $this->isVisitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
     }

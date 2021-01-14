@@ -218,7 +218,7 @@ class VisitExcluded
         return $isInRanges;
     }
 
-    private function isChromeDataSaverUsed(IP $ip)
+    public function isChromeDataSaverUsed(IP $ip)
     {
         // see https://github.com/piwik/piwik/issues/7733
         return !empty($_SERVER['HTTP_VIA'])
@@ -349,12 +349,13 @@ class VisitExcluded
      * Returns true if the specified user agent should be excluded for the current site or not.
      *
      * Visits whose user agent string contains one of the excluded_user_agents strings for the
-     * site being tracked (or one of the global strings) will be excluded.
+     * site being tracked (or one of the global strings) will be excluded. Regular expressions
+     * are also supported.
      *
      * @internal param string $this ->userAgent The user agent string.
      * @return bool
      */
-    protected function isUserAgentExcluded()
+    protected function isUserAgentExcluded(): bool
     {
         $excludedAgents = $this->getAttributes('excluded_user_agents', 'global_excluded_user_agents');
 
@@ -363,6 +364,10 @@ class VisitExcluded
                 // if the excluded user agent string part is in this visit's user agent, this visit should be excluded
                 if (stripos($this->userAgent, $excludedUserAgent) !== false) {
                     return true;
+                }
+                // if the string is a valid regex, and the user agent matches, this visit should be excluded
+                if (@preg_match($excludedUserAgent, null) !== false) {
+                    return preg_match($excludedUserAgent, $this->userAgent) ? true : false;
                 }
             }
         }

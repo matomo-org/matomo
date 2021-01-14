@@ -7,6 +7,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_actions>3</nb_actions>
 				<nb_pages_per_search>1.5</nb_pages_per_search>
+				<segment>siteSearchCategory==Search+Category</segment>
 			</row>
 		</result>
 		<result date="2010-01-04">
@@ -15,12 +16,14 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
 			</row>
 			<row>
 				<label>Category</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<segment>siteSearchCategory==Category</segment>
 			</row>
 		</result>
 		<result date="2010-01-05" />
@@ -36,6 +39,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<segment>siteSearchCategory==Bad+No+Result+Category+bis+%3A%28</segment>
 			</row>
 		</result>
 		<result date="2010-01-04" />
