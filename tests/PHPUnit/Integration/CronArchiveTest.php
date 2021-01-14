@@ -21,6 +21,7 @@ use Piwik\Period\Factory;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
+use Piwik\Sequence;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
@@ -734,6 +735,107 @@ SUMMARY
 Processed 8 archives.
 Total API requests: 8
 done: 8 req, %d ms, no error
+Time elapsed: %fs
+LOG;
+
+        // remove a bunch of debug lines since we can't have a sprintf format that long
+        $output = $this->cleanOutput($logger->output);
+
+        $this->assertStringMatchesFormat($expected, $output);
+    }
+
+    public function test_output_withSkipIdSites()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
+        );
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
+        $tracker->enableBulkTracking();
+        foreach ([1,2,3] as $idSite) {
+            $tracker->setIdSite($idSite);
+            $tracker->setUrl('http://someurl.com');
+            Fixture::assertTrue($tracker->doTrackPageView('abcdefg'));
+
+            $tracker->setForceVisitDateTime('2019-12-11 03:04:05');
+            $tracker->setUrl('http://someurl.com/2');
+            Fixture::assertTrue($tracker->doTrackPageView('abcdefg2'));
+
+            $tracker->setForceVisitDateTime('2019-12-10 03:04:05');
+            $tracker->setUrl('http://someurl.com/3');
+            Fixture::assertTrue($tracker->doTrackPageView('abcdefg3'));
+        }
+        $tracker->doBulkTrack();
+
+        $logger = new FakeLogger();
+
+        // prevent race condition in sequence creation during test
+        $sequence = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory('2019-12-10')));
+        $sequence->create();
+
+        $archiver = new CronArchive(null, $logger);
+
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiver->setArchiveFilter($archiveFilter);
+        $archiver->shouldSkipSpecifiedSites = [1,3];
+
+        $archiver->init();
+        $archiver->run();
+
+        $version = Version::VERSION;
+        $expected = <<<LOG
+---------------------------
+INIT
+Running Matomo $version as Super User
+---------------------------
+NOTES
+- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
+  See the doc at: https://matomo.org/docs/setup-auto-archiving/
+- Async process archiving supported, using CliMulti.
+- Reports for today will be processed at most every 900 seconds. You can change this value in Matomo UI > Settings > General Settings.
+---------------------------
+START
+Starting Matomo reports archiving...
+Applying queued rearchiving...
+Start processing archives for site 2.
+Checking for queued invalidations...
+  Will invalidate archived reports for 2019-12-11 for following websites ids: 2
+  Will invalidate archived reports for 2019-12-10 for following websites ids: 2
+  Today archive can be skipped due to no visits for idSite = 2, skipping invalidation...
+  Yesterday archive can be skipped due to no visits for idSite = 2, skipping invalidation...
+Done invalidating
+Processing invalidation: [idinvalidation = 1, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
+Processing invalidation: [idinvalidation = 5, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
+No next invalidated archive.
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=day&date=2019-12-11&format=json&trigger=archivephp
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=day&date=2019-12-10&format=json&trigger=archivephp
+Archived website id 2, period = day, date = 2019-12-11, segment = '', 1 visits found. Time elapsed: %fs
+Archived website id 2, period = day, date = 2019-12-10, segment = '', 1 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 2, idsite = 2, period = week(2019-12-09 - 2019-12-15), name = done, segment = ].
+No next invalidated archive.
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=week&date=2019-12-09&format=json&trigger=archivephp
+Archived website id 2, period = week, date = 2019-12-09, segment = '', 2 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 3, idsite = 2, period = month(2019-12-01 - 2019-12-31), name = done, segment = ].
+No next invalidated archive.
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=month&date=2019-12-01&format=json&trigger=archivephp
+Archived website id 2, period = month, date = 2019-12-01, segment = '', 2 visits found. Time elapsed: %fs
+Processing invalidation: [idinvalidation = 4, idsite = 2, period = year(2019-01-01 - 2019-12-31), name = done, segment = ].
+No next invalidated archive.
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=year&date=2019-01-01&format=json&trigger=archivephp
+Archived website id 2, period = year, date = 2019-01-01, segment = '', 2 visits found. Time elapsed: %fs
+No next invalidated archive.
+Finished archiving for site 2, 5 API requests, Time elapsed: %fs [1 / 1 done]
+No more sites left to archive, stopping.
+Done archiving!
+---------------------------
+SUMMARY
+Processed 5 archives.
+Total API requests: 5
+done: 5 req, %d ms, no error
 Time elapsed: %fs
 LOG;
 

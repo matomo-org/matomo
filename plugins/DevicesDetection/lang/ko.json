@@ -40,6 +40,6 @@
         "UserAgent": "사용자 에이전트",
         "MobileApp": "모바일 앱",
         "WidgetBrowsers": "방문자 브라우저",
-        "WidgetBrowsersDocumentation": "사용자가 어떤 브라우저를 사용하는지에 대한 보고서입니다. 각 브라우저의 버전은 별도로 기재되어 있습니다."
+        "WidgetBrowserVersionsDocumentation": "사용자가 어떤 브라우저를 사용하는지에 대한 보고서입니다. 각 브라우저의 버전은 별도로 기재되어 있습니다."
     }
 }
