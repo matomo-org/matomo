@@ -199,8 +199,6 @@ class CronArchive
      */
     private $periodIdsToLabels;
 
-    private $processNewSegmentsFrom;
-
     /**
      * @var ArchiveFilter
      */
@@ -219,11 +217,9 @@ class CronArchive
     /**
      * Constructor.
      *
-     * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
-     *                                            for possible values.
      * @param LoggerInterface|null $logger
      */
-    public function __construct($processNewSegmentsFrom = null, LoggerInterface $logger = null)
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->formatter = new Formatter();

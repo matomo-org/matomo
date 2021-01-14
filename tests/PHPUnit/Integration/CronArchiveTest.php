@@ -615,7 +615,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
         $archiver->init();
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSkipSegmentsForToday(true);
@@ -660,7 +660,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSegmentsToForce(['actions>=2;browserCode=FF', 'actions>=2']);
@@ -777,7 +777,7 @@ LOG;
         $sequence = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory('2019-12-10')));
         $sequence->create();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiver->setArchiveFilter($archiveFilter);
@@ -867,7 +867,7 @@ LOG;
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
         $archiver->shouldArchiveSpecifiedSites = array(99999, 1);
         $archiver->init();
         $archiver->run();
