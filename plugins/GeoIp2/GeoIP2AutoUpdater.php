@@ -446,12 +446,19 @@ class GeoIP2AutoUpdater extends Task
 
     protected static function checkGeoIPUpdateUrl($url)
     {
-        if (!empty($url) && strpos(Common::mb_strtolower($url), 'https://') !== 0 && strpos(Common::mb_strtolower($url), 'http://') !== 0) {
-            throw new Exception('Invalid download URL for geoip: ' . $url);
+        if (empty($url)) {
+            return;
+        }
+
+        $parsedUrl = @parse_url($url);
+        $schema = $parsedUrl['scheme'] ?? '';
+        $host = $parsedUrl['host'] ?? '';
+
+        if (empty($schema) || empty($host) || !in_array(Common::mb_strtolower($schema), ['http', 'https'])) {
+            throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>'.$url.'</i>'));
         }
 
         $validHosts = Config::getInstance()->General['geolocation_download_from_trusted_hosts'];
-        $host = @parse_url($url, PHP_URL_HOST);
         $isValidHost = false;
 
         foreach ($validHosts as $validHost) {
@@ -462,7 +469,9 @@ class GeoIP2AutoUpdater extends Task
         }
 
         if (true !== $isValidHost) {
-            throw new Exception('Host specified for geoip download not in list of valid hosts: ' . $url);
+            throw new Exception(Piwik::translate('GeoIp2_InvalidGeoIPUpdateHost', [
+                '<i>'.$url.'</i>', '<i>'.implode(', ', $validHosts).'</i>', '<i>geolocation_download_from_trusted_hosts</i>'
+            ]));
         }
     }
 

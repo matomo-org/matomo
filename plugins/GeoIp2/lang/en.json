@@ -44,6 +44,8 @@
     "LocationProviderDesc_Php_WithExtension": "This location provider is speeded up by the installed %1$smaxminddb%2$s extension.",
     "LocationProviderDesc_ServerModule": "This location provider uses the GeoIP 2 module that has been installed in your HTTP server. This provider is fast and accurate, but %1$scan only be used with normal browser tracking.%2$s",
     "LocationProviderDesc_ServerModule2": "If you have to import log files or do something else that requires setting IP addresses, use the %3$sPHP GeoIP 2 implementation%4$s and install %1$smaxminddb extension%2$s.",
+    "MalFormedUpdateUrl": "The url %1$s seems invalid. Please ensure to input a valid url starting with http:// or https://",
+    "InvalidGeoIPUpdateHost": "The host of the GeoIP update url %1$s is not trusted. To allow downloading GeoIP updates from hosts other than %2$s please adjust the setting for %3$s in config. ",
     "NotManagingGeoIPDBs": "Matomo is currently not managing any DBIP or MaxMind databases.",
     "UnsupportedArchiveType": "Encountered unsupported archive type %1$s.",
     "UpdaterHasNotBeenRun": "The updater has never been run.",
