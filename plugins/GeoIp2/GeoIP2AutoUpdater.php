@@ -11,6 +11,7 @@ namespace Piwik\Plugins\GeoIp2;
 use Exception;
 use GeoIp2\Database\Reader;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Http;
@@ -415,9 +416,9 @@ class GeoIP2AutoUpdater extends Task
 
             $url = $options[$optionKey];
             $url = self::removeDateFromUrl($url);
-            if (!empty($url) && strpos(Common::mb_strtolower($url), 'https://') !== 0 && strpos(Common::mb_strtolower($url), 'http://') !== 0) {
-                throw new Exception('Invalid download URL for geoip ' . $optionKey . ': ' . $url);
-            }
+
+            self::checkGeoIPUpdateUrl($url);
+
             Option::set($optionName, $url);
         }
 
@@ -440,6 +441,28 @@ class GeoIP2AutoUpdater extends Task
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
             $scheduler->rescheduleTaskAndRunTomorrow(new GeoIP2AutoUpdater());
+        }
+    }
+
+    protected static function checkGeoIPUpdateUrl($url)
+    {
+        if (!empty($url) && strpos(Common::mb_strtolower($url), 'https://') !== 0 && strpos(Common::mb_strtolower($url), 'http://') !== 0) {
+            throw new Exception('Invalid download URL for geoip: ' . $url);
+        }
+
+        $validHosts = Config::getInstance()->General['geolocation_download_from_trusted_hosts'];
+        $host = @parse_url($url, PHP_URL_HOST);
+        $isValidHost = false;
+
+        foreach ($validHosts as $validHost) {
+            if (substr($host, -strlen($validHost)) === $validHost) {
+                $isValidHost = true;
+                break;
+            }
+        }
+
+        if (true !== $isValidHost) {
+            throw new Exception('Host specified for geoip download not in list of valid hosts: ' . $url);
         }
     }
 
@@ -632,7 +655,7 @@ class GeoIP2AutoUpdater extends Task
                 }
 
                 // get the current filename for the DB and an available new one to rename it to
-                list($oldPath, $newPath) = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
+                [$oldPath, $newPath] = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
 
                 // rename the DB so tracking will not fail
                 if ($oldPath !== false
