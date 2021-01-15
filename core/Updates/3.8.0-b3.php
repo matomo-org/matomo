@@ -49,7 +49,7 @@ class Updates_3_8_0_b3 extends PiwikUpdates
 
         if (Plugin\Manager::getInstance()->isPluginActivated('GoogleAuthenticator')) {
             foreach (Option::getLike('GoogleAuthentication.%') as $name => $value) {
-                $value = @unserialize($value);
+                $value = @Common::safe_unserialize($value);
                 if (!empty($value['isActive']) && !empty($value['secret'])) {
                     $login = str_replace('GoogleAuthentication.', '', $name);
 
