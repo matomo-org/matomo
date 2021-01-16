@@ -2,7 +2,7 @@
     "VisitFrequency": {
         "ColumnActionsByReturningVisits": "回訪活動數",
         "ColumnAverageVisitDurationForReturningVisitors": "回訪平均時間（秒）",
-        "ColumnAvgActionsPerReturningVisit": "每次回訪平均活動數",
+        "ColumnAvgActionsPerReturningVisit": "單次回訪平均活動數",
         "ColumnBounceCountForReturningVisits": "回訪者跳出數",
         "ColumnBounceRateForReturningVisits": "回訪者跳出率",
         "ColumnMaxActionsInReturningVisit": "單次回訪最大活動數",

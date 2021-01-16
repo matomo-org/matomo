@@ -132,7 +132,7 @@
         "SystemCheckWriteDirsHelp": "要在你的 GNU\/Linux 系統修正這個錯誤，嘗試輸入以下指令",
         "SystemCheckZlibHelp": "你需要設定及重建 PHP，然後啟用 zlib 支援，--with-zlib。",
         "SystemCheckCronArchiveProcess": "建立工作排程",
-        "FasterReportLoading": "加速報告載入",
+        "FasterReportLoading": "加速報表載入",
         "SystemCheckCronArchiveProcessCLI": "透過 CLI 管理程序",
         "SystemCheckPhpSetting": "要預防一些嚴重問題，你必須變更 php.ini 檔案中的以下設定：%s",
         "SystemCheckUpdateHttps": "透過 HTTPS 更新",

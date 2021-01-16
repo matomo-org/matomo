@@ -7,6 +7,7 @@
         "Resolutions": "Çözünürlükler",
         "WidgetGlobalVisitors": "Ziyaretçi Yapılandırması",
         "WidgetGlobalVisitorsDocumentation": "Bu rapor ziyaretçilerinizin genel yapılandırmasını görüntüler. Yapılandırma bilgilerinde, işletim sistemi, web tarayıcı türü ve ekran çözünürlüğü bulunur.",
-        "WidgetResolutions": "Ekran Çözünürlüğü"
+        "WidgetResolutions": "Ekran Çözünürlüğü",
+        "WidgetResolutionsDocumentation": "Bu rapor, ziyaretçilerin web sitenizi görüntülediği ekran çözünürlüklerini içerir."
     }
 }
