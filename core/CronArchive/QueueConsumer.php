@@ -108,6 +108,8 @@ class QueueConsumer
      */
     private $currentSiteArchivingStartTime;
 
+    private $processedSiteCount = 0;
+
     public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid, Model $model,
                                 SegmentArchiving $segmentArchiving, CronArchive $cronArchive, RequestParser $cliMultiRequestParser,
                                 ArchiveFilter $archiveFilter = null)
@@ -137,6 +139,8 @@ class QueueConsumer
                 $this->logger->debug("No more sites left to archive, stopping.");
                 return null;
             }
+
+            ++$this->processedSiteCount;
 
             /**
              * This event is triggered before the cron archiving process starts archiving data for a single
@@ -298,7 +302,7 @@ class QueueConsumer
 
             $this->logger->info("Finished archiving for site {idSite}, {requests} API requests, {timer} [{processed} / {totalNum} done]", [
                 'idSite' => $this->idSite,
-                'processed' => $this->websiteIdArchiveList->getNumProcessedWebsites(),
+                'processed' => $this->processedSiteCount,
                 'totalNum' => $this->websiteIdArchiveList->getNumSites(),
                 'timer' => $this->siteTimer,
                 'requests' => $this->siteRequests,
@@ -386,7 +390,7 @@ class QueueConsumer
         return $loader->canSkipThisArchive(); // if no point in archiving, skip
     }
 
-    private function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
+    public function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
     {
         $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
 

@@ -57,6 +57,6 @@
         "XVisitsFromDevices": "%1$s visitas de %2$s dispositivos",
         "Wearable": "Dispositivo utilizável",
         "WidgetBrowsers": "Navegador do visitante",
-        "WidgetBrowsersDocumentation": "Este relatório contém informações sobre o tipo de navegadores que os seus visitantes estavam a utilizar. Cada versão do navegador é listada separadamente."
+        "WidgetBrowserVersionsDocumentation": "Este relatório contém informações sobre o tipo de navegadores que os seus visitantes estavam a utilizar. Cada versão do navegador é listada separadamente."
     }
 }

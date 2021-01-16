@@ -20,7 +20,7 @@ class GetOsFamilies extends Base
         parent::init();
         $this->dimension     = new Os();
         $this->name          = Piwik::translate('DevicesDetection_OperatingSystemFamilies');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('DevicesDetection_OperatingSystemFamiliesReportDocumentation');
         $this->order = 8;
 
         $this->subcategoryId = 'DevicesDetection_Software';

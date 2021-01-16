@@ -67,7 +67,7 @@
             var params = {
                 idSite: idSite,
                 period: period,
-                date: date,
+                date: decodeURIComponent(date),
                 segment: decodeURIComponent(segment),
                 category: category.id,
                 subcategory: subcategory.id,

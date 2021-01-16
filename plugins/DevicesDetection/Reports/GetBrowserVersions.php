@@ -20,7 +20,7 @@ class GetBrowserVersions extends Base
         parent::init();
         $this->dimension     = new BrowserVersion();
         $this->name          = Piwik::translate('DevicesDetection_BrowserVersion');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('DevicesDetection_WidgetBrowserVersionsDocumentation');
         $this->order = 6;
         $this->subcategoryId = 'DevicesDetection_Software';
     }

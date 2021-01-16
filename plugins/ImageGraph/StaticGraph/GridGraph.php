@@ -140,7 +140,9 @@ abstract class GridGraph extends StaticGraph
         // rounding top scale value to the next multiple of 10
         if ($maxOrdinateValue > 10) {
             $modTen = $maxOrdinateValue % 10;
-            if ($modTen) $maxOrdinateValue += 10 - $modTen;
+            if ($modTen) {
+                $maxOrdinateValue += 10 - $modTen;
+            }
         }
 
         $gridColor = $this->gridColor;

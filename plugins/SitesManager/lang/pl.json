@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Zachowaj fragmenty adresu URL podczas śledzenia",
         "ListOfIpsToBeExcludedOnAllWebsites": "Adresy IP z listy poniżej zostaną wykluczone ze śledzonych na wszystkich stronach.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametry dotyczące listy zapytań z adresami URL przedstawione poniżej zostaną wykluczone ze statystyk na wszystkich stronach.",
-        "ListOfQueryParametersToExclude": "Wprowadź listę parametrów zapytania z adresu, po jednym w linii, które mają być pominięte przy śledzeniu. Wyrażenia regularne takie jak %s są wspierane.",
         "LogAnalytics": "Analiza logów",
         "LogAnalyticsDescription": "Jeśli śledzenie przy pomocy kodu JavaScript nie jest dostępne, możesz %1$sskorzystać z analizy logów serwera%2$s, jako alternatywnej metody śledzenia użytkowników serwisu.",
         "MainDescription": "Twoje raporty z analityką statystyczną stron wymagają posiadania serwisu internetowego! Dodaj, zaktualizuj, zmień serwis internetowy, i wyświetl kod JavaScript do umieszczenia na stronach.",

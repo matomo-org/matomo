@@ -42,7 +42,6 @@
         "KeepURLFragmentsLong": "ページ URL をトラッキングする際は、ページ URL フラグメントを保持してください。",
         "ListOfIpsToBeExcludedOnAllWebsites": "次の IP は、全ウェブサイトのトラッキングから除外されます。",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "次のクエリー URL パラメータは、全ウェブサイトの URL から除外されます。",
-        "ListOfQueryParametersToExclude": "ページ URL レポートから除外する URL クエリパラメータのリストを 1 行に 1 つずつ入力します。 %s などの正規表現がサポートされています。",
         "LogAnalytics": "ログ解析",
         "LogAnalyticsDescription": "もし Javascript によるトラッキングができない場合は、ウェブサイトのユーザーをトラッキングするための代替方法として%1$sサーバーログ解析%2$sが使えます。",
         "MainDescription": "ウェブ解析リポートにはウェブサイトが必要です！ ウェブサイトの追加、更新、削除と、ページに挿入する Javascript を表示します。",

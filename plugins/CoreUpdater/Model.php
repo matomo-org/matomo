@@ -28,6 +28,7 @@ class Model
         Filesystem::unlinkTargetFilesNotPresentInSource($source . '/core', $target . '/core');
         Filesystem::unlinkTargetFilesNotPresentInSource($source . '/libs', $target . '/libs');
         Filesystem::unlinkTargetFilesNotPresentInSource($source . '/vendor', $target . '/vendor');
+        Filesystem::unlinkTargetFilesNotPresentInSource($source . '/node_modules', $target . '/node_modules');
 
         foreach ($this->getPluginsFromDirectoy($source) as $pluginDir) {
             Filesystem::unlinkTargetFilesNotPresentInSource($source . $pluginDir, $target . $pluginDir);

@@ -57,6 +57,6 @@
         "XVisitsFromDevices": "来自%2$s设备的%1$s次访问",
         "Wearable": "适合的",
         "WidgetBrowsers": "访客浏览器",
-        "WidgetBrowsersDocumentation": "此报表包含访客所用的浏览器信息，每个浏览器版本单独列出。"
+        "WidgetBrowserVersionsDocumentation": "此报表包含访客所用的浏览器信息，每个浏览器版本单独列出。"
     }
 }

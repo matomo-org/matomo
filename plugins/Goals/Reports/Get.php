@@ -35,7 +35,7 @@ class Get extends Base
 
         $this->name = Piwik::translate('Goals_Goals');
         $this->processedMetrics = array('conversion_rate');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('Goals_OverviewReportDocumentation');
         $this->order = 1;
         $this->orderGoal = 50;
         $this->metrics = array('nb_conversions', 'nb_visits_converted', 'revenue');

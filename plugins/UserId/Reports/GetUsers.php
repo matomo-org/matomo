@@ -27,7 +27,7 @@ class GetUsers extends Base
 
         $this->name            = Piwik::translate('UserId_UserReportTitle');
         $this->subcategoryId   = 'UserId_UserReportTitle';
-        $this->documentation   = '';
+        $this->documentation   = Piwik::translate('UserId_UserReportDocumentation');
         $this->dimension       = new UserId();
         $this->metrics         = array('label', 'nb_visits', 'nb_actions', 'nb_visits_converted');
         $this->supportsFlatten = false;

@@ -32,7 +32,7 @@ class Get extends Report
 
         $this->categoryId = 'API';
         $this->name = Piwik::translate('General_MainMetrics');
-        $this->documentation = '';
+        $this->documentation = Piwik::translate('API_MainMetricsReportDocumentation');
 
         $this->processedMetrics = array();
         foreach ($this->reportsToMerge as $report) {
