@@ -20,11 +20,7 @@ class VisitorsCategory extends Category
 
     public function getHelp()
     {
-        $visitsLogUrl = Url::getQueryStringFromParameters([
-            'category' => 'General_Visitors',
-            'subcategory' => 'Live_VisitorLog',
-        ]);
-        $visitsLogUrl = '<a href="?' . htmlspecialchars($visitsLogUrl) . '" rel="noreferrer noopener">';
+        $visitsLogUrl = '<a href="#" onclick="this.href=broadcast.buildReportingUrl(\'category=General_Visitors&subcategory=Live_VisitorLog\')">';
 
         $helpText = '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp1') . '</p>';
         $helpText .= '<p>' . Piwik::translate('CoreHome_VisitorsCategoryHelp2', [$visitsLogUrl, '</a>']) . '</p>';
