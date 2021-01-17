@@ -283,6 +283,7 @@ class GeoIP2AutoUpdater extends Task
             if ($isDbIpUnknownDbType) {
                 $php = new Php([$dbType => [$outputPath]]);
                 $dbFilename = $php->detectDatabaseType($dbType) . '.mmdb';
+                unset($php);
             }
         } else {
             $parts = explode(basename($filename), '.', 2);
@@ -306,6 +307,7 @@ class GeoIP2AutoUpdater extends Task
 
             try {
                 $location = $phpProvider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
+                unset($phpProvider);
             } catch (\Exception $e) {
                 Log::info("GeoIP2AutoUpdater: Encountered exception when testing newly downloaded" .
                     " GeoIP 2 database: %s", $e->getMessage());
@@ -315,6 +317,13 @@ class GeoIP2AutoUpdater extends Task
 
             if (empty($location)) {
                 throw new Exception(Piwik::translate('GeoIp2_ThisUrlIsNotAValidGeoIPDB'));
+            }
+
+            // ensure the cached location providers do no longer block any files on windows
+            foreach (LocationProvider::$providers as $provider) {
+                if ($provider instanceof Php) {
+                    $provider->clearCachedInstances();
+                }
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
@@ -625,6 +634,7 @@ class GeoIP2AutoUpdater extends Task
                 $reader = new Reader($pathToDb);
 
                 $location = $provider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
+                unset($provider, $reader);
             } catch (\Exception $e) {
                 if ($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
