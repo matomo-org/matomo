@@ -23,6 +23,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreHome\LoginAllowlist;
+use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -726,7 +727,9 @@ class Request
 
         $transientCache = StaticContainer::get(Transient::class);
 
-        $cacheKey = "VisitsSummary.isProfilable.$idSite.$period.$date." . $segment->getHash();
+        $segmentObj = new Segment($segment, [$idSite]);
+
+        $cacheKey = "VisitsSummary.isProfilable.$idSite.$period.$date." . $segmentObj->getHash();
         if (!$transientCache->contains($cacheKey)) {
             $isProfilable = Request::processRequest('VisitsSummary.isProfilable', [
                 'idSite' => $idSite,
