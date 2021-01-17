@@ -56,15 +56,6 @@ class ArchiveCronTest extends SystemTestCase
         Db::exec("UPDATE " . Common::prefixTable('site') . ' SET ts_created = \'2005-01-02 00:00:00\'');
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 1);
-        self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
-        self::$fixture->getTestEnvironment()->save();
-    }
-
     private static function addNewSegmentToPast()
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;

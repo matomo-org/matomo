@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ExamplePlugin;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Segment;
 
 /**
  * API for plugin ExamplePlugin
@@ -69,5 +70,11 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
         return $dataTable;
+    }
+
+    public function getSegmentHash($idSite, $segment)
+    {
+        $segment = new Segment($segment, [(int) $idSite]);
+        return $segment->getHash();
     }
 }
