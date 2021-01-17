@@ -46,7 +46,6 @@
         "KeepURLFragmentsLong": "Mantenha fragmentos de URL da página quando estiver rastreando URLs de páginas",
         "ListOfIpsToBeExcludedOnAllWebsites": "Os IPs abaixo serão excluídos por terem sido rastreados em todos os sites.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros Query URL abaixo serão excluídos das URLs em todos os sites.",
-        "ListOfQueryParametersToExclude": "Entre com a lista de parâmetros URL Query, um por linha, para excluir os relatórios das páginas URL. Expressões regulares tais como %s são suportadas.",
         "LogAnalytics": "Análise de registro",
         "LogAnalyticsDescription": "Se o método de rastreamento Javascript não for viável, você pode %1$susar análise de registro do servidor%2$s como um método alternativo para rastrear os usuários do seu site.",
         "MainDescription": "Seus relatórios de Web Analytics precisam de sites! Adicione, atualize, exclua sites, e mostre o JavaScript a ser inserido em suas páginas.",

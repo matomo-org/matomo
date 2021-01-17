@@ -20,7 +20,7 @@ class GetResolution extends Base
         parent::init();
         $this->dimension     = new Resolution();
         $this->name          = Piwik::translate('Resolution_WidgetResolutions');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('Resolution_WidgetResolutionsDocumentation');
         $this->order = 8;
 
         $this->subcategoryId = 'DevicesDetection_Devices';

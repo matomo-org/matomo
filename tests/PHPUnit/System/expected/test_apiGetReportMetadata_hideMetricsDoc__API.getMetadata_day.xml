@@ -5,6 +5,7 @@
 		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>
+		<documentation>This report provides a very basic overview of what actions your visitors take on your website.</documentation>
 		<metrics>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>

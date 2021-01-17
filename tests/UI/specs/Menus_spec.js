@@ -50,6 +50,15 @@ describe("Menus", function () {
         expect(await element.screenshot()).to.matchImage('admin_loaded');
     });
 
+    it('should toggle the submenu visibility when main item is clicked', async function() {
+        await openMenuItem(page, 'Website');
+        await page.mouse.move(0, 0);
+        await page.waitFor(500); // wait for animation
+
+        const element = await page.jQuery('#secondNavBar');
+        expect(await element.screenshot()).to.matchImage('admin_websites');
+    });
+
     it('should change the admin page correctly when an admin menu item is clicked', async function() {
         await openMenuItem(page, 'Manage');
         await page.waitForNetworkIdle();

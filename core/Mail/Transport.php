@@ -107,7 +107,7 @@ class Transport
     /**
      * @return void
      */
-    private function initSmtpTransport($phpMailer)
+    private function initSmtpTransport(PHPMailer $phpMailer)
     {
         $mailConfig = Config::getInstance()->mail;
 
@@ -133,7 +133,11 @@ class Transport
         }
 
         if (!empty($mailConfig['encryption'])) {
-            $phpMailer->SMTPSecure = $mailConfig['encryption'];
+            if (strtolower($mailConfig['encryption']) === 'none') {
+                $phpMailer->SMTPAutoTLS = false; // force using no encryption
+            } else {
+                $phpMailer->SMTPSecure = $mailConfig['encryption'];
+            }
         }
 
         if (!empty($mailConfig['port'])) {

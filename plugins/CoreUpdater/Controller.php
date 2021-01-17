@@ -268,11 +268,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function index()
     {
-        $language = Common::getRequestVar('language', '');
-        if (!empty($language)) {
-            LanguagesManager::setLanguageForSession($language);
-        }
-
         try {
             return $this->runUpdaterAndExit();
         } catch(NoUpdatesFoundException $e) {

@@ -194,7 +194,7 @@ nav {
       }
 
       > li {
-        display: inline-block;
+        display: block;
         width: 100%;
         .border-radius(0px);
         border: 0;
@@ -326,6 +326,21 @@ nav {
       .item .icon-arrow-right:before {
         content: "\e63b";
       }
+    }
+
+    .collapsible {
+      margin: 0;
+      border: 0;
+    }
+
+    .collapsible-header {
+      border-bottom: 0;
+      cursor: pointer!important;
+    }
+
+    .collapsible-body {
+      border-bottom: 0;
+      padding: 0;
     }
   }
 }

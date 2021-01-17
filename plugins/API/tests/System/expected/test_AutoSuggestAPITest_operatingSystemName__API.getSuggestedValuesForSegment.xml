@@ -15,11 +15,14 @@
 	<row>Chrome OS</row>
 	<row>CyanogenMod</row>
 	<row>Debian</row>
+	<row>Deepin</row>
 	<row>DragonFly</row>
 	<row>Fedora</row>
 	<row>Firefox OS</row>
 	<row>Fire OS</row>
+	<row>Freebox</row>
 	<row>FreeBSD</row>
+	<row>FydeOS</row>
 	<row>Gentoo</row>
 	<row>Google TV</row>
 	<row>HP-UX</row>
@@ -59,6 +62,7 @@
 	<row>Sabayon</row>
 	<row>SUSE</row>
 	<row>Sailfish OS</row>
+	<row>SeewoOS</row>
 	<row>Slackware</row>
 	<row>Solaris</row>
 	<row>Syllable</row>
@@ -71,7 +75,9 @@
 	<row>Tizen</row>
 	<row>TmaxOS</row>
 	<row>Ubuntu</row>
+	<row>watchOS</row>
 	<row>WebTV</row>
+	<row>Whale OS</row>
 	<row>Windows</row>
 	<row>Windows CE</row>
 	<row>Windows IoT</row>

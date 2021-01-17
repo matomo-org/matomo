@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "Nyckelord utan resultat",
         "ActionType": "Åtgärdstyp",
         "ActionTypes": "Typer av handlingar",
-        "Behaviour": "Beteende"
+        "Behaviour": "Beteende",
+        "TimeSpentInReferringAction": "Tid lagd i hänvisningsaktivitet"
     }
 }

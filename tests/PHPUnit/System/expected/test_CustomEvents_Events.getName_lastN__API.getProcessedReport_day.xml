@@ -9,6 +9,7 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<documentation>This report shows you the names associated with each tracked event and how many times they occurred. You can view the event actions and categories that were tracked along with each event name in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventName>Event Name</Events_EventName>

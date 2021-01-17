@@ -136,4 +136,5 @@ return array(
     )),
 
     'tests.isProfilableCheckDisabled' => true,
+    'test.vars.forceCliMultiViaCurl' => false,
 );
