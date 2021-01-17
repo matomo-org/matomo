@@ -11,6 +11,7 @@
         "UserAuthentication": "Autenticazione utente",
         "UsingTokenAuth": "Se desideri %1$s richiedere dati all'interno di uno script, un crontab, ecc., %2$sè necessario aggiungere il parametro URL %3$s agli URL delle chiamate API che richiedono l'autenticazione.",
         "Glossary": "Glossario",
+        "MainMetricsReportDocumentation": "Questo report offre una panoramica delle metriche più importanti in tutte le categorie e i plug-in.",
         "LearnAboutCommonlyUsedTerms2": "Scopri i termini comunemente utilizzati per ottenere il massimo da Matomo Analytics.",
         "EvolutionMetricName": "%s Evoluzione"
     }

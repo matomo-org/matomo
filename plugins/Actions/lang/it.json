@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "Questo report contiene le informazioni sulle pagine di uscita utilizzate nel periodo di tempo definito. Una pagina di uscita è l'ultima pagina che un utente vede durante la sua visita. %s Le URL di uscita vengono visualizzate come una struttura a cartelle.",
         "ExitPageTitles": "Titoli delle pagine di uscita",
         "ExitPageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine di uscita durante il periodo specificato.",
+        "MainMetricsReportDocumentation": "Questo report fornisce una panoramica molto semplice delle azioni intraprese dai visitatori sul tuo sito web.",
         "OneSearch": "1 ricerca",
         "OutlinkDocumentation": "Un link esterno è un link che conduce il visitatore lontano dal tuo sito web (in un altro dominio)",
         "OutlinksReportDocumentation": "Questo report mostra un elenco gerarchico di link esterni che sono stati cliccati dai visitatori.",
@@ -78,6 +79,7 @@
         "WidgetSearchNoResultKeywords": "Parole Chiave di Ricerca senza risultati",
         "ActionType": "Tipo di Azione",
         "ActionTypes": "Tipi di Azione",
-        "Behaviour": "Comportamento"
+        "Behaviour": "Comportamento",
+        "TimeSpentInReferringAction": "Tempo trascorso nell'azione di riferimento"
     }
 }
