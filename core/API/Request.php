@@ -9,6 +9,7 @@
 namespace Piwik\API;
 
 use Exception;
+use Matomo\Cache\Transient;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Common;
@@ -723,12 +724,22 @@ class Request
             return true;
         }
 
-        $isProfilable = Request::processRequest('VisitsSummary.isProfilable', [
-            'idSite' => $idSite,
-            'period' => $period,
-            'date' => $date,
-            'segment' => $segment,
-        ]);
+        $transientCache = StaticContainer::get(Transient::class);
+
+        $cacheKey = "VisitsSummary.isProfilable.$idSite.$period.$date." . $segment->getHash();
+        if (!$transientCache->contains($cacheKey)) {
+            $isProfilable = Request::processRequest('VisitsSummary.isProfilable', [
+                'idSite' => $idSite,
+                'period' => $period,
+                'date' => $date,
+                'segment' => $segment,
+            ]);
+
+            $transientCache->save($cacheKey, $isProfilable);
+        } else {
+            $isProfilable = (bool)$transientCache->fetch($cacheKey);
+        }
+
         return $isProfilable;
     }
 

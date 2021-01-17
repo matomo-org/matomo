@@ -26,16 +26,6 @@ use Piwik\SettingsPiwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Transient
-     */
-    private $transientCache;
-
-    public function __construct(Transient $transientCache)
-    {
-        $this->transientCache = $transientCache;
-    }
-
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -68,30 +58,24 @@ class API extends \Piwik\Plugin\API
 
         $segment = new Segment($segment, [$idSite]);
 
-        $cacheKey = "VisitsSummary.isProfilable.$idSite.$period.$date." . $segment->getHash();
-        if (!$this->transientCache->contains($cacheKey)) {
-            $data = $this->get($idSite, $period, $date, $segment, ['nb_visits', 'nb_profilable']);
-            $row = $data->getFirstRow()->getColumns();
+        $data = $this->get($idSite, $period, $date, $segment, ['nb_visits', 'nb_profilable']);
+        $row = $data->getFirstRow()->getColumns();
 
-            if (empty($row['nb_visits']) // no visits
-                || !isset($row['nb_profilable']) // no profilable metric
-                || $row['nb_profilable'] === false
-            ) {
-                $value = 1;
-            } else {
-                $nbProfilable = $row['nb_profilable'];
-                if ($nbProfilable < 0) {
-                    $nbProfilable = 0;
-                }
-
-                // check that nb_profilable / nb_visits >= 0.01
-                $value = (int) ($nbProfilable * 100 >= $row['nb_visits']);
+        if (empty($row['nb_visits']) // no visits
+            || !isset($row['nb_profilable']) // no profilable metric
+            || $row['nb_profilable'] === false
+        ) {
+            $value = 1;
+        } else {
+            $nbProfilable = $row['nb_profilable'];
+            if ($nbProfilable < 0) {
+                $nbProfilable = 0;
             }
 
-            $this->transientCache->save($cacheKey, $value);
+            // check that nb_profilable / nb_visits >= 0.01
+            $value = (int) ($nbProfilable * 100 >= $row['nb_visits']);
         }
 
-        $value = (bool) $this->transientCache->fetch($cacheKey);
         return $value;
     }
 
