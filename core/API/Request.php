@@ -725,6 +725,10 @@ class Request
             return true;
         }
 
+        if ($period == 'day') {
+            $period = 'week';
+        }
+
         $transientCache = StaticContainer::get(Transient::class);
 
         $segmentObj = new Segment($segment, [$idSite]);
