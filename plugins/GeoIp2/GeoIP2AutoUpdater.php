@@ -462,7 +462,7 @@ class GeoIP2AutoUpdater extends Task
         $isValidHost = false;
 
         foreach ($validHosts as $validHost) {
-            if (substr($host, -strlen($validHost)) === $validHost) {
+            if (preg_match('/(^|\.)' . preg_quote($validHost) . '$/i', $host)) {
                 $isValidHost = true;
                 break;
             }

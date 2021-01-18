@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\GeoIp2\tests\Unit;
 
 use Piwik\Config;
-use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 
 class public_GeoIP2AutoUpdater extends GeoIP2AutoUpdater
@@ -155,7 +153,8 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getUpdaterUrlOptions
      */
-    public function testInvalidUpdateOptions($url, $valid) {
+    public function testInvalidUpdateOptions($url, $valid)
+    {
         if (!$valid) {
             $this->expectException(\Exception::class);
         } else {
@@ -173,6 +172,8 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
             ['https://db-ip.com/account/ad446bf4cb9a44e5ff3f215deabc710f12f3/db/ip-to-country/mmdb', true],
             ['https://www.ip2location.com/download/?token={DOWNLOAD_TOKEN}&file={DATABASE_CODE}', true],
             ['https://download.maxmind.com.fake.org/app/geoip_download?edition_id=GeoLite2-ASN&license_key=YOUR_LICENSE_KEY&suffix=tar.gz', false],
+            ['https://fakemaxmind.com/ad446bf4cb9a44e4fff3f215deabc710f12f3.mmdb', false],
+            ['https://fake-db-ip.com/account/ad446bf4cb9a44e5ff3f215deabc710f12f3/db/ip-to-country/mmdb', false],
             ['http://my.custom.host/download.tar.gz', false],
             ['phar://local/input.file', false],
             ['ftp://db-ip.com/account/ad446bf4cb9a44e4fff3f215deabc710f12f3/db/ip-to-country/mmdb', false],
