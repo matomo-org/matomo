@@ -264,6 +264,8 @@ class Visualization extends ViewDataTable
             $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }
 
+        $this->appendFooterMessageIfRequiresProfilableAndNotProfilablePeriod($view);
+
         if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
             /**
              * @ignore
@@ -931,5 +933,26 @@ class Visualization extends ViewDataTable
         $notification->raw = true;
 
         $dataTableView->notifications[self::NO_PROFILABLE_DATA_NOTIFICATION_ID] = $notification;
+    }
+
+    private function appendFooterMessageIfRequiresProfilableAndNotProfilablePeriod(View $view)
+    {
+        if (!$this->report || !$this->report->isRequiresProfilableData()) {
+            return;
+        }
+
+        if (Request::isCurrentPeriodProfilable()) {
+            return;
+        }
+
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        $periodObj = Period\Factory::build($period, $date);
+        $periodStr = $periodObj->getPrettyString();
+
+        if (empty($view->properties['show_footer_message'])) {
+            $view->properties['show_footer_message'] = '';
+        }
+        $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_NoProfilableDataFooterMessage', [$periodStr]);
     }
 }

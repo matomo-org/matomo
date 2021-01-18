@@ -240,15 +240,6 @@ class Report
      */
     public function isEnabled()
     {
-        if ($this->isRequiresProfilableData()
-            || (isset($this->dimension) && $this->dimension->isRequiresProfilableData())
-        ) {
-            $isProfilable = Request::isCurrentPeriodProfilable();
-            if (!$isProfilable) {
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -1019,6 +1010,10 @@ class Report
      */
     public function isRequiresProfilableData()
     {
+        if ($this->dimension->isRequiresProfilableData()) {
+            return true;
+        }
+
         return false;
     }
 

@@ -535,7 +535,8 @@
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue.",
         "Update": "Update",
-        "Create": "Create"
+        "Create": "Create",
+        "NoProfilableDataFooterMessage": "This report requires profilable data, but the current period of %1$s does not have any, so this report will not have useful information and should not be relied upon."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",
