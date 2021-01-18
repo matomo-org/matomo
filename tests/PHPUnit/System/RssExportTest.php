@@ -56,6 +56,19 @@ class RssExportTest extends SystemTestCase
                     'idSite'                 => $idSite,
                     'period'                 => 'day',
                     'format'                 => 'rss',
+                    'date'                   => '2010-12-14,2010-12-21',
+                    'otherRequestParameters' => [
+                        'pageUrl' => '/sub1/sub2/sub3/index',
+                    ],
+                    'testSuffix'             => '_subdir'
+                ],
+            ],
+            [
+                'Actions.getPageUrl',
+                [
+                    'idSite'                 => $idSite,
+                    'period'                 => 'day',
+                    'format'                 => 'rss',
                     'otherRequestParameters' => [
                         'pageUrl' => '/page',
                         'date'                   => 'last7',
