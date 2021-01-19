@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc0a7b18fe50435386d42c10f2f91967",
+    "content-hash": "1fb038ec3571e182b3c780951401a2a8",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2084,27 +2084,26 @@
         },
         {
             "name": "tedivm/jshrink",
-            "version": "dev-master",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tedious/JShrink.git",
-                "reference": "aed09eace9d498e18d48a5b62a7e5a97dfc0e55d"
+                "reference": "0513ba1407b1f235518a939455855e6952a48bbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tedious/JShrink/zipball/aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
-                "reference": "aed09eace9d498e18d48a5b62a7e5a97dfc0e55d",
+                "url": "https://api.github.com/repos/tedious/JShrink/zipball/0513ba1407b1f235518a939455855e6952a48bbc",
+                "reference": "0513ba1407b1f235518a939455855e6952a48bbc",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6|^7.0"
+                "php": "^5.6|^7.0|^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.8",
                 "php-coveralls/php-coveralls": "^1.1.0",
                 "phpunit/phpunit": "^6"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -2129,7 +2128,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tedious/JShrink/issues",
-                "source": "https://github.com/tedious/JShrink/tree/master"
+                "source": "https://github.com/tedious/JShrink/tree/v1.4.0"
             },
             "funding": [
                 {
@@ -2137,7 +2136,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2019-10-07T21:24:34+00:00"
+            "time": "2020-11-30T18:10:21+00:00"
         },
         {
             "name": "twig/twig",
@@ -4398,7 +4397,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tedivm/jshrink": 20,
         "lox/xhprof": 20
     },
     "prefer-stable": false,
