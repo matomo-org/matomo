@@ -114,10 +114,6 @@ class Auth implements \Piwik\Auth
     {
         $user = $this->userModel->getUserByTokenAuth($token);
 
-        if (empty($user) && $login === 'anonymous') {
-            $user = $this->userModel->getUser('anonymous');
-        }
-
         if (!empty($user['login']) && $user['login'] === $login) {
             $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
             return $this->authenticationSuccess($user);
