@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "Lütfen %1$s %2$s uyygulamasını daha yeni bir sürüme güncelleyin, %1$s %3$s sürümü gerekli.",
         "MissingRequirementsPleaseInstallNotice": "Lütfen %3$s için %1$s %2$s sürümünü kurun.",
         "NoZipFileSelected": "Lütfen bir ZIP dosyası seçin.",
+        "FileExceedsUploadLimit": "Seçilmiş dosyanın boyutu sunucunuzun yükleme sınırını aşıyor.",
         "NumUpdatesAvailable": "%s güncelleme yayınlanmış",
         "NoPluginSettings": "Yapılandırılabilecek bir uygulama eki ayarı yok",
         "Origin": "Kaynak",

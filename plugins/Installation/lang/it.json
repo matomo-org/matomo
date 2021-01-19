@@ -22,6 +22,8 @@
         "GoBackAndDefinePrefix": "Torna indietro e definisci un nuovo prefisso per le Tabelle di Matomo",
         "HappyAnalysing": "Felici statistiche!",
         "Installation": "Installazione",
+        "InformationalResults": "Risultati informativi",
+        "CopyBelowInfoForSupport": "Copia o scarica le info qui sotto nel caso in cui il nostro team di assistenza ti chieda queste informazioni.",
         "InstallationStatus": "Stato dell'installazione",
         "InsufficientPrivilegesHelp": "È possibile aggiungere questi privilegi utilizzando uno strumento come phpMyAdmin o con l'esecuzione di opportune query SQL. Se non sai come fare queste cose, chiedi al tuo amministratore di sistema di concederti questi privilegi.",
         "InsufficientPrivilegesMain": "O il database non esiste (e non poteva essere creato), oppure l'utente specificato dispone di privilegi insufficienti. L'utente del database deve disporre dei seguenti privilegi: %s",

@@ -720,7 +720,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
+            var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+            var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
+            var endDateOfPeriod = currentPeriod.getDateRange()[1];
+            endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
+
             self.param['period'] = period;
+            self.param['date'] = endDateOfPeriod;
             self.reloadAjaxDataTable();
         });
     },

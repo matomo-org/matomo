@@ -6,6 +6,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 4.2.0
 
+### New config.ini.php settings
+
+* A config setting `geolocation_download_from_trusted_hosts` was introduced. Downloading GeoIP databases will now be limited to those configured hosts only.
+
+## Matomo 4.1.1
+
 ### Changed config.ini.php settings
 
 * The config settings `login_password_recovery_email_address` and `login_password_recovery_name` have been removed to avoid possible smtp problems when sending recovery mails. `noreply_email_address` and `noreply_email_name` will be used instead.

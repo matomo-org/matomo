@@ -32,6 +32,7 @@
         "ChooseLanguage": "Scegli la lingua",
         "ChoosePeriod": "Scegli il periodo",
         "ClickHere": "Clicca qui per maggiori informazioni",
+        "CompareTo": "Confrontare con:",
         "DoubleClickToChangePeriod": "Doppio click per applicare questo periodo.",
         "Close": "Chiudi",
         "ClickToSearch": "Clicca per cercare",
@@ -519,7 +520,8 @@
         "MaximumNumberOfPeriodsComparedIs": "Il numero massimo di periodi che possono essere comparati simultaneamente è %s.",
         "Custom": "Personalizzata",
         "PreviousPeriod": "Periodo Precedente",
-        "PreviousYear": "Anno Precedente"
+        "PreviousYear": "Anno Precedente",
+        "ViewAccessRequired": "Il token_auth utilizzato ha troppi accessi per essere usato in una richiesta URL non-API. Utilizza una password specifica per l'app per un utente che dispone solo dell'accesso in visualizzazione."
     },
     "Mobile": {
         "AboutPiwikMobile": "Informazioni su Matomo Mobile",

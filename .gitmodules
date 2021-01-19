@@ -59,6 +59,9 @@
 [submodule "plugins/CustomVariables"]
 	path = plugins/CustomVariables
 	url = https://github.com/matomo-org/plugin-CustomVariables.git
+[submodule "plugins/TrackingSpamPrevention"]
+	path = plugins/TrackingSpamPrevention
+	url = https://github.com/matomo-org/plugin-TrackingSpamPrevention.git
 
 
 # Add new Plugin submodule above this line ^^

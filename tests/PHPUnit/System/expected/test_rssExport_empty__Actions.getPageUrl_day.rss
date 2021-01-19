@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>matomo statistics - RSS</title>
+    <link>https://matomo.org</link>
+    <description>Matomo RSS feed</description>
+    <pubDate>Tue, 20 Oct 2020 20:10:20 +0000</pubDate>
+    <generator>matomo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 20 Oct 2020 20:10:20 +0000</lastBuildDate>
+	<item>
+		<pubDate>Tue, 20 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-20</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Mon, 19 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-19</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Sun, 18 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-18</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Sat, 17 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-17</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Fri, 16 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-16</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Thu, 15 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-15</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Wed, 14 Oct 2020 20:10:20 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=</link>
+		<title>Site AAAAAA on 2020-10-14</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	</channel>
+</rss>
