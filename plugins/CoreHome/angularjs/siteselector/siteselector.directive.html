@@ -1,6 +1,6 @@
 <div piwik-focus-anywhere-but-here="view.showSitesList=false"
      class="siteSelector piwikSelector borderedControl"
-     ng-class="{'expanded': view.showSitesList}">
+     ng-class="{'expanded': view.showSitesList, 'disabled': !model.hasMultipleSites()}">
 
     <script type="text/ng-template" id="siteselector_allsiteslink.html">
         <div ng-click="switchSite({idsite: 'all', name: allSitesText}, $event);view.showSitesList=false;"
@@ -13,10 +13,10 @@
 
     <input ng-if="inputName" type="hidden" name="{{ inputName }}" ng-value="selectedSite.id"/>
 
-    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
+    <a ng-click="model.hasMultipleSites() && (view.showSitesList=!view.showSitesList) && !model.isLoading && model.loadInitialSites();"
        piwik-onenter="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
        href="javascript:void(0)"
-       title="{{ 'CoreHome_ChangeCurrentWebsite'|translate:((selectedSite.name || model.firstSiteName)) }}"
+       ng-attr-title="{{ model.hasMultipleSites() ? _pk_translate('CoreHome_ChangeCurrentWebsite', (selectedSite.name || model.firstSiteName)) : '' }}"
        ng-class="{'loading': model.isLoading}"
        class="title" tabindex="4">
         <span class="icon icon-arrow-bottom"
