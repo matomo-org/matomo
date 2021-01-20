@@ -219,14 +219,27 @@ nav {
           opacity: 0.2;
           position: absolute;
           right: 21px;
-          top: 12px;
+          top: 0px;
           line-height: 13px;
+          padding-left: 16px;
+          padding-right: 16px;
+          height: calc(100%);
+
+          > span {
+            position: relative;
+            top: 12px;
+          }
         }
 
-        &.menuTab:hover {
+        &.menuTab li:hover {
           .item-help-icon:not(.active) {
             display:inline-block;
             color: @color-black-piwik;
+
+            &:hover {
+              color: @theme-color-help-background-color;
+              opacity: 0.75;
+            }
           }
         }
 

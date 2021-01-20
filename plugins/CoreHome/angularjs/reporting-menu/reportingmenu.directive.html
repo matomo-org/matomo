@@ -12,14 +12,6 @@
            </span>
         </a>
 
-        <a class="item-help-icon"
-           tabindex="5" href="javascript:"
-           ng-if="(category.id == currentCategory || helpShownCategory == category) && category.help"
-           ng-click="showHelp(category)"
-           ng-class="{'active': helpShownCategory == category && category.help}"
-        >
-            <span class="icon-help"></span>
-        </a>
         <ul role="menu">
             <li ng-repeat="subcategory in category.subcategories"
                 role="menuitem"
@@ -44,8 +36,8 @@
 
                 <a class="item-help-icon"
                    tabindex="5" href="javascript:"
-                   ng-if="(subcategory.id == currentSubcategory || helpShownCategory.id == subcategory.id) && subcategory.help"
-                   ng-click="showHelp(subcategory)"
+                   ng-if="subcategory.help"
+                   ng-click="showHelp(category, subcategory, $event)"
                    ng-class="{'active': helpShownCategory == subcategory && subcategory.help}"
                 >
                     <span class="icon-help"></span>
