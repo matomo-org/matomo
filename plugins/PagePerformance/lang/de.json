@@ -1,0 +1,8 @@
+{
+    "PagePerformance": {
+        "ColumnAverageTimeNetwork": "Durchschnittliche Netzwerkzeit",
+        "ColumnTimeNetwork": "Netzwerkzeit",
+        "ColumnTimeServer": "Server-Zeit",
+        "Performance": "Leistung"
+    }
+}

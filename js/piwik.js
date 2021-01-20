@@ -508,7 +508,7 @@ if (typeof window.Matomo !== 'object') {
             if ((expireDateTime - aliasTime) > 3000) {
                 expireDateTime = aliasTime + 3000;
             }
-            
+
             /*
              * Delay/pause (blocks UI)
              */
@@ -5806,7 +5806,7 @@ if (typeof window.Matomo !== 'object') {
              * then it will only be able to access the cookies if SameSite is set to 'None'.
              *
              *
-             * Warning: 
+             * Warning:
              * Sets CookieIsSecure to true on None, because None will only work with Secure; cookies
              * If your site is available under http and https,
              * using "None" might lead to duplicate or incomplete visits.
@@ -5823,7 +5823,7 @@ if (typeof window.Matomo !== 'object') {
                 if (sameSite === 'None') {
                     if (location.protocol === 'https:') {
                         this.setSecureCookie(true);
-                    } else { 
+                    } else {
                         logConsoleError('sameSite=None cannot be used on http, reverted to sameSite=Lax.');
                         sameSite = 'Lax';
                     }
@@ -6918,7 +6918,8 @@ if (typeof window.Matomo !== 'object') {
                             delete paq[iterator];
 
                             if (appliedMethods[methodName] > 1
-                                && methodName !== "addTracker") {
+                                && methodName !== "addTracker"
+                                && methodName !== "enableLinkTracking") {
                                 logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Matomo trackers documentation: https://developer.matomo.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 

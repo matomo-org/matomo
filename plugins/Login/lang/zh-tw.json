@@ -7,7 +7,7 @@
         "ExceptionPasswordMD5HashExpected": "密碼參數會是 MD5 雜湊加密的密碼。",
         "InvalidNonceOrHeadersOrReferrer": "表單安全性驗證失敗。請重新整理頁面並確定已啟用 cookies。如果你正在使用 Proxy 伺服器，你必須%1$s設定讓 Matomo 接受跳轉的 Proxy header%2$s。並檢查你的來源（Referrer）header 傳送正確。",
         "InvalidNonceSSLMisconfigured": "當然，你可以%1$s強制 Matomo 使用安全連線%2$s：在你的設定檔案 %3$s 在 %5$s 下方設定 %4$s",
-        "InvalidOrExpiredToken": "Token 不正確或已過期。",
+        "InvalidOrExpiredToken": "權杖無效已過期。",
         "InvalidUsernameEmail": "使用者名稱或 Email 無效",
         "LogIn": "登入",
         "LoginOrEmail": "使用者名稱或 Email",
