@@ -3463,12 +3463,20 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
-                // note: there might be negative values because of browser bugs see https://github.com/matomo-org/matomo/pull/16516 in this case we ignore the values
-                var timings = '';
+                if (!performanceAlias) {
+                    return request;
+                }
 
                 var performanceData = (typeof performanceAlias.getEntriesByType === 'function') && performanceAlias.getEntriesByType('navigation') ? performanceAlias.getEntriesByType('navigation')[0] : performanceAlias.timing;
 
-                if (performanceData && performanceData.connectEnd && performanceData.fetchStart) {
+                if (!performanceData) {
+                    return request;
+                }
+
+                // note: there might be negative values because of browser bugs see https://github.com/matomo-org/matomo/pull/16516 in this case we ignore the values
+                var timings = '';
+
+                if (performanceData.connectEnd && performanceData.fetchStart) {
 
                     if (performanceData.connectEnd < performanceData.fetchStart) {
                         return;
@@ -3477,7 +3485,7 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_net=' + (performanceData.connectEnd - performanceData.fetchStart);
                 }
 
-                if (performanceData && performanceData.responseStart && performanceData.requestStart) {
+                if (performanceData.responseStart && performanceData.requestStart) {
 
                     if (performanceData.responseStart < performanceData.requestStart) {
                         return;
@@ -3486,7 +3494,7 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_srv=' + (performanceData.responseStart - performanceData.requestStart);
                 }
 
-                if (performanceData && performanceData.responseStart && performanceData.responseEnd) {
+                if (performanceData.responseStart && performanceData.responseEnd) {
 
                     if (performanceData.responseEnd < performanceData.responseStart) {
                         return;
@@ -3495,7 +3503,7 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_tfr=' + (performanceData.responseEnd - performanceData.responseStart);
                 }
 
-                if (performanceData && performanceData.domInteractive && performanceData.domLoading) {
+                if (performanceData.domInteractive && performanceData.domLoading) {
 
                     if (performanceData.domInteractive < performanceData.domLoading) {
                         return;
@@ -3504,7 +3512,7 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_dm1=' + (performanceData.domInteractive - performanceData.domLoading);
                 }
 
-                if (performanceData && performanceData.domComplete && performanceData.domInteractive) {
+                if (performanceData.domComplete && performanceData.domInteractive) {
 
                     if (performanceData.domComplete < performanceData.domInteractive) {
                         return;
@@ -3513,7 +3521,7 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_dm2=' + (performanceData.domComplete - performanceData.domInteractive);
                 }
 
-                if (performanceData && performanceData.loadEventEnd && performanceData.loadEventStart) {
+                if (performanceData.loadEventEnd && performanceData.loadEventStart) {
 
                     if (performanceData.loadEventEnd < performanceData.loadEventStart) {
                         return;
