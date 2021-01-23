@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "Aggiorna %1$s %2$s a una versione più recente, è richiesto %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Si prega di installare %1$s %2$s come richiesto da %3$s.",
         "NoZipFileSelected": "Seleziona un file ZIP.",
+        "FileExceedsUploadLimit": "Il file selezionato eccede il limite del tuo server per l'upload.",
         "NumUpdatesAvailable": "%s Aggiornamenti disponibili",
         "NoPluginSettings": "Non ci sono plugin da configurare",
         "Origin": "Origine",

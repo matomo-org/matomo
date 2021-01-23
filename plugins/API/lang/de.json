@@ -11,6 +11,7 @@
         "UserAuthentication": "Benutzerauthentifizierung",
         "UsingTokenAuth": "Wenn Sie %1$sDaten mit einem Script, einem Crontab usw. abfragen%2$s möchten, müssen Sie den URL Parameter %3$sden API Aufrufen hinzufügen, welche Authentifizierung erfordern.",
         "Glossary": "Glossar",
+        "MainMetricsReportDocumentation": "Dieser Bericht gibt Ihnen eine Übersicht über die wichtigsten Metriken über alle Kategorien und Plugins hinweg.",
         "LearnAboutCommonlyUsedTerms2": "Lernen Sie mehr über die häufig verwendeten Begriffe, um das Beste aus Ihren Matomo Analysen zu machen.",
         "EvolutionMetricName": "%s Entwicklung"
     }

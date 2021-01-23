@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Disabilitazione plugins incompatibili: %s",
         "DownloadingUpdateFromX": "Sto scaricando gli aggiornamenti da %s",
         "DownloadX": "Scarica %s",
+        "UpdateLog": "Aggiorna registro",
         "EmptyDatabaseError": "Il database %s è pieno. Devi modificare il tuo file di configurazione Matomo.",
         "ErrorDIYHelp": "Se sei un utente avanzato e incontri un errore nell'aggiornamento del database:",
         "ErrorDIYHelp_1": "identifica e correggi la causa del problema (es. memory_limit o max_execution_time)",

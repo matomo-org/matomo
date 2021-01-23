@@ -19,6 +19,6 @@
         "WidgetPagesDocumentation": "Bu raporda belirli sayıda gösterilen sayfalara yapılan ziyaret sayısı görülebilir. Başlangıçta bu rapor bir etiket bulutu şeklindedir ve sayfa sayısı çok olan ziyaretler daha büyük görüntülenir.",
         "WidgetVisitsByDaysSinceLast": "Son Ziyaretten Bu Yana Geçen Gün Sayısı",
         "WidgetVisitsByDaysSinceLastDocumentation": "Bu raporda ziyaretçilerin son ziyaretinden bu yana belirli sayıda gün geçmiş ziyaret sayısı görülebilir.",
-        "WidgetVisitsByNumDocumentation": "Bu raporda web sitenizi en az N kez ziyaret etmiş ziyaretçiler görülebilir."
+        "WidgetVisitsByNumDocumentation": "Bu raporda web sitesini en az N kez ziyaret etmiş ziyaretçiler görülebilir."
     }
 }

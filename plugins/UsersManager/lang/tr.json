@@ -23,7 +23,7 @@
         "PleaseStoreToken": "Lütfen bir daha erişemeyeceğiniz ya da göremeyeceğiniz için kodunuzu güvenli bir yerde saklayın.",
         "DoNotStoreToken": "Kullanıcı adı ve parolanız gibi gizli bir bilgi olduğundan bu kodu başka kimse ile paylaşmayın.",
         "CreateNewToken": "Yeni kod seç",
-        "AnonymousAccessConfirmation": "Web sitenizde isimsiz kullanıcılara 'görüntüleme' izni vermek üzeresiniz. Bu izni verdiğinizde istatistik raporlarınız ve ziyaretçi bilgileriniz oturum açmamış bile olsalar herkes tarafından görüntülenebilir. Bu izni vermek istediğinize emin misiniz?",
+        "AnonymousAccessConfirmation": "Web sitesinde isimsiz kullanıcılara 'görüntüleme' izni vermek üzeresiniz. Bu izni verdiğinizde istatistik raporlarınız ve ziyaretçi bilgileriniz oturum açmamış bile olsalar herkes tarafından görüntülenebilir. Bu izni vermek istediğinize emin misiniz?",
         "AnonymousUser": "İsimsiz kullanıcı",
         "AnonymousUserHasViewAccess": "Not: %1$s kullanıcının web sitesine %2$s erişim izni var.",
         "AnonymousUserHasViewAccess2": "İstatistik raporlarınız ve ziyaretçi bilgileriniz herkese açık olarak görüntüleniyor.",
