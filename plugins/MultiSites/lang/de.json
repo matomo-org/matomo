@@ -3,6 +3,8 @@
         "Evolution": "Entwicklung",
         "LoadingWebsites": "Lade Websites",
         "PluginDescription": "Zeige und vergleiche alle Websites und Apps im hilfreichen 'Alle Websites' Dashboard.",
-        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Websites."
+        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Websites.",
+        "SingleWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht über eine bestimmte Webseite, in dem die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
+        "AllWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht für all Ihre Webseiten, in der die allgemeinsten Metriken Ihrer Besucher ausgewertet werden."
     }
 }

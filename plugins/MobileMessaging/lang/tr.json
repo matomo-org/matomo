@@ -29,7 +29,7 @@
         "Settings_PhoneNumbers_CountryCode_Help": "Telefon ülke kodunu bilmiyorsanız buradan bakabilirsiniz.",
         "Settings_PhoneNumbers_Help": "Telefona SMS (metin iletisi) bildirimlerini almadan önce aşağıya bir telefon numarası yazmalısınız.",
         "Settings_PhoneNumbers_HelpAdd": "\"Ekle\" üzerine tıkladığınızda telefona bir kod içeren SMS gönderilir. Kodu aldıktan sonra Matomo üzerinde oturum açıp, önce Ayarlar sonra Mobil İletiler üzerine tıklayın. Kodu yazdıktan sonra kullanıcının telefonuna metin raporları gönderilmeye başlanır.",
-        "Settings_PleaseSignUp": "SMS bilgilendirmeleri oluşturmak ve web sitenizin istatistiklerini SMS iletileri olarak telefonunuzdan almak için SMS API kaydınızı oluşturun ve aşağıdaki bilgileri yazın.",
+        "Settings_PleaseSignUp": "SMS bilgilendirmeleri oluşturmak ve web sitesinin istatistiklerini SMS iletileri olarak telefonunuzdan almak için SMS API kaydınızı oluşturun ve aşağıdaki bilgileri yazın.",
         "Settings_SMSAPIAccount": "SMS API Hesabı Yönetimi",
         "Settings_SMSProvider": "SMS Hizmeti Sağlayıcı",
         "Settings_SuperAdmin": "Süper Kullanıcı Ayarları",

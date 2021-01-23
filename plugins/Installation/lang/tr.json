@@ -65,7 +65,7 @@
         "SetupWebSiteName": "Web sitesi adı",
         "SetupWebsiteSetupSuccess": "Web sitesi %s eklendi.",
         "SetupWebSiteURL": "Web sitesi adresi",
-        "SiteSetup": "Lütfen Matomo ile izlemek ve incelemek istediğiniz ilk web sitenizi ekleyin:",
+        "SiteSetup": "Lütfen Matomo ile izlemek ve incelemek istediğiniz ilk web sitesini ekleyin:",
         "SiteSetupFootnote": "Not: Matomo kurulumu tamamlandığında izlenecek başka web siteleri ekleyebilirsiniz.",
         "SuperUser": "Süper Kullanıcı",
         "SuperUserLogin": "Süper kullanıcı kullanıcı adı",
@@ -150,12 +150,12 @@
         "Timezone": "Web sitesi saat dilimi",
         "WeHopeYouWillEnjoyPiwik": "Matomo uygulamasını kullanırken, bizim geliştirirken aldığımız kadar zevk aldığınızı umarız.",
         "Welcome": "Hoş geldiniz!",
-        "WelcomeHelp": "<p>Matomo web sitenizin ziyaretçileri hakkında bilgileri derleyerek incelemenizi kolaylaştıran özgür ve ücretsiz bir web istatistikleri yazılımıdır.<\/p><p>Bu işlem %s kolay adımda tamamlanacak ve yaklaşık 5 dakika sürecek.<\/p>",
+        "WelcomeHelp": "<p>Matomo web sitesinin ziyaretçileri hakkında bilgileri derleyerek incelemenizi kolaylaştıran özgür ve ücretsiz bir web istatistikleri yazılımıdır.<\/p><p>Bu işlem %s kolay adımda tamamlanacak ve yaklaşık 5 dakika sürecek.<\/p>",
         "WelcomeToCommunity": "Matomo Topluluğuna Hoş Geldiniz!",
         "CannotConnectToDb": "Veritabanı bağlantısı kurulamadı",
         "CannotConnectToDbResolvingExplanation": "Bu durum geçici bir sorun olabilir, %1$ssayfayı yenilemeyi deneyin%2$s. Sorun sürerse Matomo yöneticinizle görüşün.",
         "EmailPrivacyNotice": "E-posta adresiniz yalnız Matomo haberlerinin gönderilmesi için kullanılır. Bu işlem için e-posta adresinizi üçüncü taraf bir hizmet sağlayıcı ile paylaşmamız gerekiyor. Şu anda hizmet sağlayıcı olarak Mad Mimi kullanıyoruz ancak bu ileride değişebilir. E-posta adresinizi başka biri ile paylaşmayacağız ya da haber göndermek dışında başka bir amaçla kullanmayacağız. İstediğiniz an abonelikten ayrılabilirsiniz. Ayrıntılı bilgi almak için %1$sGizlilik İlkemize%2$s bakabilirsiniz.",
-        "PerformanceSettingsDesc1": "Başarım ile ilgili son bir not: Matomo kuruldu ve web sitenizin trafiğini izlemeye ve raporlamaya hazır. Ancak Matomo üzerindeki işlemleri yavaş bulursanız, %1$sCLI arşivlemeyi%2$s kurmak isteyebilirsiniz. Böylece raporlarınız çağrıldığı anda değil, düzenli aralıklarla arka planda oluşturulur.",
+        "PerformanceSettingsDesc1": "Başarım ile ilgili son bir not: Matomo kuruldu ve web sitesinin trafiğini izlemeye ve raporlamaya hazır. Ancak Matomo üzerindeki işlemleri yavaş bulursanız, %1$sCLI arşivlemeyi%2$s kurmak isteyebilirsiniz. Böylece raporlarınız çağrıldığı anda değil, düzenli aralıklarla arka planda oluşturulur.",
         "PerformanceSettingsDesc2": "Bunun için, kurucu tarafından otomatik olarak yapılamayan bir Matomo komutunun zamanlanmış göreve eklenmesi gerekir. %1$sBunu nasıl yapabileceğinizi öğrenmek için SSS bölümüne bakabilirsiniz.%2$s"
     }
 }
