@@ -6971,7 +6971,9 @@ if (typeof window.Matomo !== 'object') {
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker) && isDefined(navigatorAlias.serviceWorker.ready)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
-                    return swRegistration.sync.register('matomoSync');
+                    if (swRegistration && swRegistration.sync) {
+                        return swRegistration.sync.register('matomoSync');
+                    }
                 });
             }
         }, false);
