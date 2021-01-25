@@ -168,10 +168,10 @@ abstract class Factory
         } else {
             if (!($date instanceof Date)) {
                 if (preg_match('/^(now|today|yesterday|yesterdaySameTime|last[ -]?(?:week|month|year))$/i', $date)) {
-                    $date = Date::factory($date, $timezone);
-                } else {
-                    $date = Date::factory($date);
+                    // calculate the date taking the current time into account
+                    $date = Date::factory(Date::factory($date)->setTime(date('H:i:s', Date::getNowTimestamp()))->getTimestamp(), $timezone)->getDatetime();
                 }
+                $date = Date::factory($date);
             }
             $oPeriod = Factory::build($period, $date);
         }
