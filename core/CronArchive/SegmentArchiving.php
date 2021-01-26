@@ -291,17 +291,7 @@ class SegmentArchiving
 
     public function getAllSegmentsToArchive($idSite)
     {
-        $segments = [];
-        foreach ($this->getAllSegments() as $segment) {
-            if (!$this->isAutoArchivingEnabledFor($segment)
-                || !$this->isSegmentForSite($segment, $idSite)
-            ) {
-                continue;
-            }
-
-            $segments[] = $segment;
-        }
-        return $segments;
+        return Rules::getSegmentsToProcess([$idSite]);
     }
 
     private function isSegmentForSite($segment, $idSite)
