@@ -40,8 +40,8 @@
     areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name,
-    performance, mozPerformance, msPerformance, webkitPerformance, timing, connectEnd, requestStart, responseStart,
-    responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, getEntriesByType, connectEnd, requestStart,
+    responseStart, responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
@@ -3463,67 +3463,71 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
+                if (!performanceAlias) {
+                    return request;
+                }
+
+                var performanceData = (typeof performanceAlias.getEntriesByType === 'function') && performanceAlias.getEntriesByType('navigation') ? performanceAlias.getEntriesByType('navigation')[0] : performanceAlias.timing;
+
+                if (!performanceData) {
+                    return request;
+                }
+
                 // note: there might be negative values because of browser bugs see https://github.com/matomo-org/matomo/pull/16516 in this case we ignore the values
                 var timings = '';
 
-                if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.connectEnd && performanceAlias.timing.fetchStart) {
+                if (performanceData.connectEnd && performanceData.fetchStart) {
 
-                    if (performanceAlias.timing.connectEnd < performanceAlias.timing.fetchStart) {
+                    if (performanceData.connectEnd < performanceData.fetchStart) {
                         return;
                     }
 
-                    timings += '&pf_net=' + (performanceAlias.timing.connectEnd - performanceAlias.timing.fetchStart);
+                    timings += '&pf_net=' + (performanceData.connectEnd - performanceData.fetchStart);
                 }
 
-                if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.responseStart && performanceAlias.timing.requestStart) {
+                if (performanceData.responseStart && performanceData.requestStart) {
 
-                    if (performanceAlias.timing.responseStart < performanceAlias.timing.requestStart) {
+                    if (performanceData.responseStart < performanceData.requestStart) {
                         return;
                     }
 
-                    timings += '&pf_srv=' + (performanceAlias.timing.responseStart - performanceAlias.timing.requestStart);
+                    timings += '&pf_srv=' + (performanceData.responseStart - performanceData.requestStart);
                 }
 
-                if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.responseStart && performanceAlias.timing.responseEnd) {
+                if (performanceData.responseStart && performanceData.responseEnd) {
 
-                    if (performanceAlias.timing.responseEnd < performanceAlias.timing.responseStart) {
+                    if (performanceData.responseEnd < performanceData.responseStart) {
                         return;
                     }
 
-                    timings += '&pf_tfr=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.responseStart);
+                    timings += '&pf_tfr=' + (performanceData.responseEnd - performanceData.responseStart);
                 }
 
-                if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.domInteractive && performanceAlias.timing.domLoading) {
+                if (performanceData.domInteractive && performanceData.domLoading) {
 
-                    if (performanceAlias.timing.domInteractive < performanceAlias.timing.domLoading) {
+                    if (performanceData.domInteractive < performanceData.domLoading) {
                         return;
                     }
 
-                    timings += '&pf_dm1=' + (performanceAlias.timing.domInteractive - performanceAlias.timing.domLoading);
+                    timings += '&pf_dm1=' + (performanceData.domInteractive - performanceData.domLoading);
                 }
 
-                if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.domComplete && performanceAlias.timing.domInteractive) {
+                if (performanceData.domComplete && performanceData.domInteractive) {
 
-                    if (performanceAlias.timing.domComplete < performanceAlias.timing.domInteractive) {
+                    if (performanceData.domComplete < performanceData.domInteractive) {
                         return;
                     }
 
-                    timings += '&pf_dm2=' + (performanceAlias.timing.domComplete - performanceAlias.timing.domInteractive);
+                    timings += '&pf_dm2=' + (performanceData.domComplete - performanceData.domInteractive);
                 }
 
-                if (performanceAlias && performanceAlias.timing && performanceAlias
-                    && performanceAlias.timing.loadEventEnd && performanceAlias.timing.loadEventStart) {
+                if (performanceData.loadEventEnd && performanceData.loadEventStart) {
 
-                    if (performanceAlias.timing.loadEventEnd < performanceAlias.timing.loadEventStart) {
+                    if (performanceData.loadEventEnd < performanceData.loadEventStart) {
                         return;
                     }
 
-                    timings += '&pf_onl=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.loadEventStart);
+                    timings += '&pf_onl=' + (performanceData.loadEventEnd - performanceData.loadEventStart);
                 }
 
                 return request + timings;
