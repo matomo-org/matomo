@@ -16,6 +16,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -160,6 +161,12 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['url_prefix']);
         }
 
+        if (array_key_exists('url', $action) && preg_match('/^http:\/\/([^\/]+)\//i', $action['url'], $host)) {
+            if ($this->shouldUseHttpsHost($visitorDetails['idSite'], $host[1])) {
+                $action['url'] = 'https://' . substr($action['url'], 7);
+            }
+        }
+
         switch ($action['type']) {
             case 'goal':
                 $action['icon'] = 'plugins/Morpheus/images/goal.png';
@@ -250,6 +257,29 @@ class VisitorDetails extends VisitorDetailsAbstract
         $action['timestamp']        = $dateTimeVisit->getTimestamp();
 
         unset($action['idlink_va']);
+    }
+
+    private function shouldUseHttpsHost($idSite, $host)
+    {
+        static $siteUrlCache = [];
+        static $hostSiteCache = [];
+
+        if (empty($siteUrlCache[$idSite])) {
+            $siteUrlCache[$idSite] = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+        }
+
+        if (!isset($hostSiteCache[$idSite][$host])) {
+            $hostSiteCache[$idSite][$host] = false;
+
+            foreach ($siteUrlCache[$idSite] as $siteUrl) {
+                if (strpos(strtolower($siteUrl), strtolower('https://' . $host)) === 0) {
+                    $hostSiteCache[$idSite][$host] = true;
+                    break;
+                }
+            }
+        }
+
+        return $hostSiteCache[$idSite][$host];
     }
 
     /**
