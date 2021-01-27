@@ -237,9 +237,14 @@ class PageUrl
     {
         if (is_string($value)) {
             $decoded = urldecode($value);
-            if (function_exists('mb_check_encoding')
-                && @mb_check_encoding($decoded, $encoding)) {
-                $value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
+            try {
+                if (function_exists('mb_check_encoding')
+                    && @mb_check_encoding($decoded, $encoding)) {
+                    $value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
+                }
+            } catch (\Error $e) {
+                // mb_check_encoding might throw an ValueError on PHP 8 if the given encoding does not exist
+                // we can't simply catch ValueError as it was introduced in PHP 8
             }
         }
 
