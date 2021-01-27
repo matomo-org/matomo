@@ -11,6 +11,7 @@
         "UserAuthentication": "Kullanıcı kimlik doğrulaması",
         "UsingTokenAuth": "%1$sBir betik ya da bir zamanlanmış görev gibi yöntemlerle%2$s veri istiyorsanız, kimlik doğrulaması isteyen API çağrısı adresleri için adrese %3$s parametresini eklemelisiniz.",
         "Glossary": "Sözlük",
+        "MainMetricsReportDocumentation": "Bu rapor, tüm kategori ve uygulama ekleri ile ilgili en önemli ölçümlerin özetini içerir.",
         "LearnAboutCommonlyUsedTerms2": "Matomo istatistiklerini daha iyi anlamak için kullanılan terimler hakkında bilgi alın.",
         "EvolutionMetricName": "%s Gelişme"
     }

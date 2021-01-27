@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "Bitte aktualisieren Sie %1$s %2$s auf eine neuere Version, %1$s %3$s wird benötigt.",
         "MissingRequirementsPleaseInstallNotice": "Bitte installiere %1$s %2$s da es von %3$s benötigt wird.",
         "NoZipFileSelected": "Bitte wählen Sie eine ZIP Datei.",
+        "FileExceedsUploadLimit": "Die gewählte Datei überschreitet das Uploadlimit Ihres Servers.",
         "NumUpdatesAvailable": "%s Aktualisierung(en) verfügbar",
         "NoPluginSettings": "Es gibt keine Einstellungen dieser Erweiterung, die konfiguriert werden können",
         "Origin": "Quelle",

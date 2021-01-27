@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<ruleset name="matomo">
+
+    <description>Matomo Coding Standard</description>
+
+    <arg name="extensions" value="php" />
+
+    <file>core</file>
+    <file>plugins</file>
+    <file>tests/PHPUnit</file>
+
+    <exclude-pattern>tests/PHPUnit/proxy/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/libs/*</exclude-pattern>
+
+    <!-- Forbid other line endings than \n -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n" />
+        </properties>
+    </rule>
+
+    <!-- Forbid short open tags -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag.Found" />
+
+    <!-- Forbid inline control structures -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure" />
+
+    <!-- Forbid some functions that should not be used (directly) -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="eval" value="null"/>
+                <element key="create_function" value="null"/>
+                <element key="unserialize" value="\Piwik\Common::safe_unserialize"/>
+            </property>
+        </properties>
+        <!-- still allow those functions in tests -->
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+</ruleset>

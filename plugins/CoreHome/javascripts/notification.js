@@ -139,7 +139,7 @@
             }
         }
 
-        html += '>' + message + '</div>';
+        html += '><div ng-non-bindable>' + message + '</div></div>';
 
         return html;
     }

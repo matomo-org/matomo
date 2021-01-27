@@ -120,6 +120,11 @@ class Controller extends \Piwik\Plugin\Controller
     public function newVersionAvailable()
     {
         Piwik::checkUserHasSuperUserAccess();
+        
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         $this->checkNewVersionIsAvailableOrDie();
 
         $newVersion = $this->updater->getLatestVersion();
@@ -153,6 +158,10 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickUpdate()
     {
         Piwik::checkUserHasSuperUserAccess();
+
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
 
         Nonce::checkNonce('oneClickUpdate');
 
@@ -268,11 +277,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function index()
     {
-        $language = Common::getRequestVar('language', '');
-        if (!empty($language)) {
-            LanguagesManager::setLanguageForSession($language);
-        }
-
         try {
             return $this->runUpdaterAndExit();
         } catch(NoUpdatesFoundException $e) {

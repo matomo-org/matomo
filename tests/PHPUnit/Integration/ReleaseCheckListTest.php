@@ -927,6 +927,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
                 || strpos($file, 'vendor/wikimedia/less.php/') !== false
                 || strpos($file, 'node_modules/') !== false
+                || strpos($file, 'vendor/mayflower/mo4-coding-standard/') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
             }

@@ -41,9 +41,11 @@ class PluginManagerMock extends Manager
 
     public function getLoadedPlugin($name)
     {
-        foreach($this->plugins as $plugin)
-            if($plugin->getPluginName() == $name)
+        foreach ($this->plugins as $plugin) {
+            if ($plugin->getPluginName() == $name) {
                 return $plugin;
+            }
+        }
 
         return null;
     }
@@ -57,8 +59,9 @@ class PluginManagerMock extends Manager
     {
         $pluginNames = array();
 
-        foreach($this->plugins as $plugin)
+        foreach($this->plugins as $plugin) {
             $pluginNames[] = $plugin->getPluginName();
+        }
 
         return $pluginNames;
     }

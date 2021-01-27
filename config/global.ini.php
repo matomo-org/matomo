@@ -404,6 +404,11 @@ force_ssl = 0
 ; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
 host_validation_use_server_name = 0
 
+; This list defines the hostnames that a valid sources to download GeoIP databases from. Subdomains of those hostnames will be accepted automatically.
+geolocation_download_from_trusted_hosts[] = maxmind.com
+geolocation_download_from_trusted_hosts[] = db-ip.com
+geolocation_download_from_trusted_hosts[] = ip2location.com
+
 ; Session garbage collection on (as on some operating systems, i.e. Debian, it may be off by default)
 session_gc_probability = 1
 

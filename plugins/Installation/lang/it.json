@@ -22,6 +22,10 @@
         "GoBackAndDefinePrefix": "Torna indietro e definisci un nuovo prefisso per le Tabelle di Matomo",
         "HappyAnalysing": "Felici statistiche!",
         "Installation": "Installazione",
+        "InformationalResults": "Risultati informativi",
+        "CopyBelowInfoForSupport": "Copia o scarica le info qui sotto nel caso in cui il nostro team di assistenza ti chieda queste informazioni.",
+        "CopySystemCheck": "Copia controllo sistema",
+        "DownloadSystemCheck": "Scarica controllo sistema",
         "InstallationStatus": "Stato dell'installazione",
         "InsufficientPrivilegesHelp": "È possibile aggiungere questi privilegi utilizzando uno strumento come phpMyAdmin o con l'esecuzione di opportune query SQL. Se non sai come fare queste cose, chiedi al tuo amministratore di sistema di concederti questi privilegi.",
         "InsufficientPrivilegesMain": "O il database non esiste (e non poteva essere creato), oppure l'utente specificato dispone di privilegi insufficienti. L'utente del database deve disporre dei seguenti privilegi: %s",
@@ -91,6 +95,7 @@
         "SystemCheckGzuncompressHelp": "Devi abilitare l'estensione zlib e la funzione gzuncompress.",
         "SystemCheckHashHelp": "Devi configurare e ricostruire PHP con il supporto hash() abilitato escludendo l'opzione 'disabilita hash'.",
         "SystemCheckIconvHelp": "Hai bisogno di configurare e fare il rebuild del PHP con il supporto \"iconv\" abilitato, --with-iconv",
+        "SystemCheckJsonHelp": "L'estensione php-json è richiesta perché Matomo legga e scriva i dati JSON.",
         "SystemCheckMailHelp": "Feedback e messaggi su Password Perdute non saranno inviati senza che sia disponibile la funzione mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "L'estensione mbstring è necessaria per gestire i caratteri multibyte nell'interfaccia Utente e le risposte API. Inoltre, controlla che mbstring.func_overload sia impostato su \"0\" nel php.ini.",
@@ -126,6 +131,8 @@
         "SystemCheckWriteDirs": "Directories con permessi di scrittura",
         "SystemCheckWriteDirsHelp": "Per correggere questo errore nel tuo sistema GNU\/Linux, prova ad eseguire il seguente comando",
         "SystemCheckZlibHelp": "Devi configurare e ricostruire il PHP con il supporto zlib abilitato, --with-zlib.",
+        "SystemCheckCronArchiveProcess": "Impostazione Cron Job",
+        "FasterReportLoading": "caricamento veloce dei report",
         "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckPhpSetting": "Per prevenire alcuni problemi critici, devi impostare ciò che segue nel php.ini: %s",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
@@ -147,6 +154,8 @@
         "WelcomeToCommunity": "Benevenuto nella comunità di Matomo!",
         "CannotConnectToDb": "Impossibile connettersi al database",
         "CannotConnectToDbResolvingExplanation": "Potrebbe trattarsi di un problema temporaneo, prova a %1$sricaricare la pagina%2$s. Se il problema persiste, contatta il tuo amministratore di Matomo.",
-        "EmailPrivacyNotice": "Il tuo indirizzo email verrà utilizzato solo per inviarti la newsletter. Per questo dobbiamo condividere la tua email con un fornitore di terze parti. Questo provider è attualmente Mad Mimi, ma questo potrebbe cambiare in futuro. Non condivideremo la tua email con nessun altro né utilizzeremo la tua email per scopi diversi dall'invio della newsletter. È possibile disdire in qualsiasi momento. Si prega di consultare la nostra %1$spolitica sulla privacy%2$s per ulteriori informazioni."
+        "EmailPrivacyNotice": "Il tuo indirizzo email verrà utilizzato solo per inviarti la newsletter. Per questo dobbiamo condividere la tua email con un fornitore di terze parti. Questo provider è attualmente Mad Mimi, ma questo potrebbe cambiare in futuro. Non condivideremo la tua email con nessun altro né utilizzeremo la tua email per scopi diversi dall'invio della newsletter. È possibile disdire in qualsiasi momento. Si prega di consultare la nostra %1$spolitica sulla privacy%2$s per ulteriori informazioni.",
+        "PerformanceSettingsDesc1": "Un'ultima nota riguardo alle prestazioni: il tuo Matomo è configurato e pronto per monitorare e generare report sul traffico del tuo sito web, ma se trovi che Matomo sia lento, ti consigliamo di fare un passo in più per configurare l'%1$sarchiviazione CLI%2$s. Questo genererà periodicamente in background, anziché su richiesta, i tuoi report.",
+        "PerformanceSettingsDesc2": "Ciò richiede l'aggiunta di un comando Matomo al cron job che non può essere eseguito automaticamente dall'installer, ma puoi %1$sleggere le nostre FAQ per sapere come configurarlo da solo%2$s."
     }
 }

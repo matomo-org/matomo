@@ -41,6 +41,7 @@
         "ConversionsOverview": "Panoramica Conversioni",
         "ConversionsOverviewBy": "Panoramica conversioni per tipo di visita",
         "DaysToConv": "Giorni alla Conversione",
+        "DaysToConvReportDocumentation": "Questo report mostra quanti giorni passano prima che i tuoi visitatori convertano un goal.",
         "Details": "Dettagli Goal",
         "DefaultGoalConvertedOncePerVisit": "(default) Un Goal può essere convertito solo una volta per ogni visita",
         "DefaultRevenueLabel": "Ricavo predefinito obiettivo",
@@ -108,6 +109,7 @@
         "GoalsAdjective": "Goal %s",
         "VisitPageTitle": "Visita un determinato Titolo Pagina",
         "VisitsUntilConv": "Visite alla Conversione",
+        "VisitsUntilConvReportDocumentation": "Questo report mostra il numero delle visite prima che i tuoi visitatori convertano un goal.",
         "VisitUrl": "Visitano uno specifico URL (pagina o gruppo di pagine)",
         "VisitDurationMatchAttr": "Rimani per un certo periodo di tempo",
         "VisitDuration": "la durata della visita è",
@@ -121,6 +123,7 @@
         "EventValueAsRevenueHelp2": "Nota: se sono definiti sia un guadagno obiettivo che un valore evento, verrà utilizzato il valore dell'evento. Se questa opzione è abilitata e nessun valore evento viene inviato in una richiesta, verranno utilizzate le entrate predefinite (se definite).",
         "AtLeastMinutes": "almeno %1$s minuti. Usa i decimali per aggiungere i secondi, per esempio, %2$s per aggiungere 30 secondi.",
         "TimeInMinutes": "Tempo in Minuti",
-        "ClickToViewThisGoal": "Clicca per vedere questo obiettivo."
+        "ClickToViewThisGoal": "Clicca per vedere questo obiettivo.",
+        "OverviewReportDocumentation": "Questo report fornisce una panoramica di quanto i tuoi visitatori convertano bene uno specifico goal."
     }
 }

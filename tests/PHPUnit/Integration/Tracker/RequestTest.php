@@ -257,7 +257,7 @@ class RequestTest extends IntegrationTestCase
         $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));
         $request->setCurrentTimestamp($this->time);
 
-        $this->assertSame('' . ($this->time - 5), $request->getCurrentTimestamp());
+        $this->assertSame(($this->time - 5), $request->getCurrentTimestamp());
     }
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
@@ -265,7 +265,7 @@ class RequestTest extends IntegrationTestCase
         $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setCurrentTimestamp($this->time);
         $request->setIsAuthenticated();
-        $this->assertSame('' . ($this->time - 86500), $request->getCurrentTimestamp());
+        $this->assertSame(($this->time - 86500), $request->getCurrentTimestamp());
     }
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()

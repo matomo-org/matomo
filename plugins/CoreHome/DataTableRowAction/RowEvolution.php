@@ -95,7 +95,9 @@ class RowEvolution
         }
         $this->label = Common::unsanitizeInputValue($this->label[0]);
 
-        if ($this->label === '') throw new Exception("Parameter label not set.");
+        if ($this->label === '') {
+            throw new Exception("Parameter label not set.");
+        }
 
         $this->period = Common::getRequestVar('period', '', 'string');
         PeriodFactory::checkPeriodIsEnabled($this->period);

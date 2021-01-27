@@ -38,6 +38,7 @@
         "Segment_Deletion_Error": "Questo segmento non può essere eliminato o reso invisibile agli altri utenti perchè è utilizzato per generare %s report(s) email. Si prega di riprovare dopo aver rimosso questo segmento da questo report.",
         "Segment_Help": "È possibile selezionare un segmento personalizzato esistente da applicare ai dati in questo report e-mail. È possibile creare e modificare segmenti personalizzati nella tua dashboard %1$s(clicca qui per aprire)%2$s, quindi clicca sulla casella di controllo \"%3$s\", quindi su \"%4$s\".",
         "SegmentAppliedToReports": "Ai report è applicato il segmento'%s'.",
+        "SegmentDeleted": "Segmento eliminato",
         "SendReportNow": "Invia report adesso",
         "SendReportTo": "Invia il report a",
         "SentToMe": "Invia a me",
