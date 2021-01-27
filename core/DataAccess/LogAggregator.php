@@ -240,7 +240,7 @@ class LogAggregator
     {
         try {
             // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
-            $this->getDb()->fetchOne('SELECT 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $this->getDb()->fetchOne('SELECT /* WP IGNORE ERROR */ 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
             $tableExists = true;
         } catch (\Exception $e) {
             $tableExists = false;
