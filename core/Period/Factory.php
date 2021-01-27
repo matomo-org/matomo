@@ -168,11 +168,7 @@ abstract class Factory
         } else {
             if (!($date instanceof Date)) {
                 if (preg_match('/^(now|today|yesterday|yesterdaySameTime|last[ -]?(?:week|month|year))$/i', $date)) {
-                    // most magic keywords will automatically set the time to 00:00:00
-                    // we need to set the time manually, so the timezone can be applied correctly
-                    $timestampWithCurrentTime = Date::factory($date)->setTime(date('H:i:s', Date::getNowTimestamp()))->getTimestamp();
-                    // apply the timezone and convert it to a string date
-                    $date = Date::factory($timestampWithCurrentTime, $timezone)->toString('Y-m-d');
+                    $date = Date::factoryInTimezone($date, $timezone);
                 }
                 $date = Date::factory($date);
             }
