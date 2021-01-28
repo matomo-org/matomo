@@ -12,6 +12,7 @@ namespace Piwik\Archive;
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ReArchiveList;
@@ -503,20 +504,8 @@ class ArchiveInvalidator
         $this->markArchivesAsInvalidated($idSites, $dates, 'day', $segment, $cascadeDown = false, $forceInvalidateRanges = false, $name);
         if (empty($segment)) {
             foreach ($idSites as $idSite) {
-                $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
-                foreach ($segmentDatesToInvalidate as $info) {
-                    $latestDate = Date::factory($info['date']);
-                    $latestDate = $latestDate->isEarlier($startDate) ? $startDate : $latestDate;
-
-                    $datesToInvalidateForSegment = [];
-
-                    $date = $latestDate;
-                    while ($date->isEarlier($date2)) {
-                        $datesToInvalidateForSegment[] = $date;
-                        $date = $date->addDay(1);
-                    }
-
-                    $this->markArchivesAsInvalidated($idSites, $datesToInvalidateForSegment, 'day', new Segment($info['segment'], [$idSite]),
+                foreach (Rules::getSegmentsToProcess([$idSite]) as $segment) {
+                    $this->markArchivesAsInvalidated($idSites, $dates, 'day', new Segment($segment, [$idSite]),
                         $cascadeDown = false, $forceInvalidateRanges = false, $name);
                 }
             }
