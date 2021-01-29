@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
@@ -165,7 +166,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $host = parse_url($action['url'], PHP_URL_HOST);
 
             if ($host && $this->shouldUseHttpsHost($visitorDetails['idSite'], $host)) {
-                $action['url'] = 'https://' . substr($action['url'], 7);
+                $action['url'] = 'https://' . Common::mb_substr($action['url'], 7 /* = strlen('http://') */);
             }
         }
 
@@ -263,25 +264,32 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     private function shouldUseHttpsHost($idSite, $host)
     {
-        static $siteUrlCache = [];
-        static $hostSiteCache = [];
+        $cache = Cache::getTransientCache();
 
-        if (empty($siteUrlCache[$idSite])) {
-            $siteUrlCache[$idSite] = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+        $cacheKeySiteUrls = sprintf('siteurls-%s', $idSite);
+        $cacheKeyHttpsForHost = sprintf('shouldusehttps-%s-%s', $idSite, $host);
+
+        $siteUrlCache = $cache->fetch($cacheKeySiteUrls);
+
+        if (empty($siteUrlCache)) {
+            $siteUrlCache = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+            $cache->save($cacheKeySiteUrls, $siteUrlCache);
         }
 
-        if (!isset($hostSiteCache[$idSite][$host])) {
-            $hostSiteCache[$idSite][$host] = false;
+        if (!$cache->contains($cacheKeyHttpsForHost)) {
+            $hostSiteCache = false;
 
-            foreach ($siteUrlCache[$idSite] as $siteUrl) {
+            foreach ($siteUrlCache as $siteUrl) {
                 if (strpos(strtolower($siteUrl), strtolower('https://' . $host)) === 0) {
-                    $hostSiteCache[$idSite][$host] = true;
+                    $hostSiteCache = true;
                     break;
                 }
             }
+
+            $cache->save($cacheKeyHttpsForHost, $hostSiteCache);
         }
 
-        return $hostSiteCache[$idSite][$host];
+        return $cache->fetch($cacheKeyHttpsForHost);
     }
 
     /**
