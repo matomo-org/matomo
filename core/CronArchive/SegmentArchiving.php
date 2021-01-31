@@ -223,6 +223,10 @@ class SegmentArchiving
 
     public function reArchiveSegment($segmentInfo)
     {
+        if (empty($segmentInfo['definition'])) { // sanity check
+            return;
+        }
+
         $definition = $segmentInfo['definition'];
         $idSite = $segmentInfo['enable_only_idsite'] ?? 'all';
 
