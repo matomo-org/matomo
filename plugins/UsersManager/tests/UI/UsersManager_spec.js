@@ -442,7 +442,7 @@ describe("UsersManager", function () {
 
         await page.waitFor('.notification-error', { visible: true });
 
-        const notificationHtml = await page.evaluate(() => $('.notification-error>div').html());
+        const notificationHtml = await page.evaluate(() => $('.notification-error>div>div').html());
         expect(notificationHtml).to.equal('The current password you entered is not correct.');
     });
 

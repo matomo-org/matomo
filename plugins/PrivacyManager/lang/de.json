@@ -173,6 +173,8 @@
         "UseDeleteLog": "Lösche regelmäßig alte Daten aus der Datenbank",
         "UseDeleteReports": "Lösche regelmäßig alte Berichte aus der Datenbank",
         "UsersOptOut": "Benutzer Opt-Out",
+        "ImprintUrl": "Impressum URL",
+        "ImprintUrlDescription": "Ein Link zu Ihrer Impressumsseite.",
         "PrivacyPolicyUrl": "URL für Datenschutzrichtlinie",
         "PrivacyPolicyUrlDescription": "Ein Link zu Ihrer Datenschutzrichtlinienseite.",
         "TermsAndConditionUrl": "URL für Geschäftsbedingungen",
@@ -180,6 +182,7 @@
         "PrivacyPolicyUrlDescriptionSuffix": "Wenn Sie etwas angeben, wird es am Ende der Anmeldeseite und auf Seiten angezeigt, auf die der '%1$s' Benutzer Zugriff hat.",
         "ShowInEmbeddedWidgets": "In eingebetteten Widgets anzeigen",
         "ShowInEmbeddedWidgetsDescription": "Wenn angewählt, wird am Ende der eingebetteten Widgets ein Link zu Ihren Datenschutzrichtlinien und zu Ihren Geschäftsbedingungen angezeigt.",
+        "Imprint": "Impressum",
         "PrivacyPolicy": "Datenschutzrichtlinie",
         "TermsAndConditions": "Geschäftsbedingungen"
     }

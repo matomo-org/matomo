@@ -5,7 +5,7 @@
         "Domain": "Etki Alanı",
         "ErrorNotLoading": "Sayfa kaplama oturumu henüz başlatılmamış.",
         "ErrorNotLoadingDetails": "Sağ tarafta yüklenmiş olan sayfada Matomo izleme kodu bulunmuyor olabilir. Bu durumda Kaplamayı sayfa raporlarından farklı bir sayfa için başlatmayı deneyin.",
-        "ErrorNotLoadingDetailsSSL": "Matomo uygulamasını https üzerinden kullandığınız için en olası neden web sitenizin SSL desteklemiyor olabileceğidir. Matomo uygulamasını http üzerinden kullanmayı deneyin.",
+        "ErrorNotLoadingDetailsSSL": "Matomo uygulamasını https üzerinden kullandığınız için en olası neden web sitesinin SSL desteklemiyor olabileceğidir. Matomo uygulamasını http üzerinden kullanmayı deneyin.",
         "ErrorNotLoadingLink": "Daha fazla sorun giderme ipucu almak için buraya tıklayın",
         "Link": "Bağlantı",
         "Location": "Konum",

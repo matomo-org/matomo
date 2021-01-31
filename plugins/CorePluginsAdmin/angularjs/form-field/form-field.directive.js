@@ -17,21 +17,8 @@
     function piwikFormField(piwik, $timeout){
 
         function initMaterialSelect($select, placeholder, uiControlOptions) {
-            $select.material_select(uiControlOptions || {});
-
-            // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove z-index for all others
-            // NOTE: we can't remove it directly blur since the blur causes the select to overlap, aborting the select click. (a timeout is used
-            // to make sure the z-index is removed however, in case a non-select dropdown is displayed over it)
-            $select.closest('.select-wrapper').find('input.select-dropdown')
-                .focus(function () {
-                    $('.select-wrapper').css('z-index', '');
-                    $(this).closest('.select-wrapper').css('z-index', 999);
-                }).blur(function () {
-                    var self = this;
-                    setTimeout(function () {
-                        $(self).closest('.select-wrapper').css('z-index', '');
-                    }, 250);
-                });
+            uiControlOptions = uiControlOptions || {};
+            $select.material_select(uiControlOptions);
 
             // add placeholder to input
             if (placeholder) {

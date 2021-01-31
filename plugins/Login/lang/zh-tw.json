@@ -21,7 +21,7 @@
         "SettingBruteForceMaxFailedLoginsHelp": "如果在下方指定的時間內登入錯誤次數達到這個數字，封鎖該 IP。",
         "SettingBruteForceTimeRange": "計算登入錯誤次數的時間範圍",
         "SettingBruteForceTimeRangeHelp": "輸入一個數字，單位為分鐘。",
-        "ConfirmPasswordReset": "重置密碼確認",
+        "ConfirmPasswordReset": "確認重置密碼",
         "ConfirmPasswordResetIntro": "為了確保真的是你要求變更密碼，請再次輸入你的新密碼。",
         "ConfirmPasswordResetWrongPassword": "輸入的密碼不符合你的新密碼。若你忘記了你的新密碼，你可以再次重置你的密碼。若你沒有要求過變更密碼，則不用做任何事，你的密碼不會變更。",
         "LoginNotAllowedBecauseBlocked": "由於你登入失敗太多次，因此目前已不被允許登入，請稍後再試。",

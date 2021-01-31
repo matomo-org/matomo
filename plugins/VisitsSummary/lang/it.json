@@ -22,6 +22,7 @@
         "PluginDescription": "Riporta le comuni metriche delle statistiche: visite, visitatori unici, numero di azioni, percentuale rimbalzi, ecc.",
         "VisitsSummary": "Sommario delle visite",
         "VisitsSummaryDocumentation": "Questa è una panoramica dell'evoluzione delle visite.",
+        "VisitsSummaryReportDocumentation": "Questo report fornisce una panoramica molto generale di come si comportano i tuoi visitatori.",
         "WidgetLastVisits": "Visite nel Periodo",
         "WidgetOverviewGraph": "Riepilogo Visite (con grafico)",
         "WidgetVisits": "Riepilogo visite"

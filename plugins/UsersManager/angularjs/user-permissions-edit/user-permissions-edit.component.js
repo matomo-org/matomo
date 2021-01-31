@@ -23,9 +23,9 @@
         controller: UserPermissionsEditController
     });
 
-    UserPermissionsEditController.$inject = ['piwikApi', '$element', '$q'];
+    UserPermissionsEditController.$inject = ['piwikApi', '$element', '$q', '$timeout'];
 
-    function UserPermissionsEditController(piwikApi, $element, $q) {
+    function UserPermissionsEditController(piwikApi, $element, $q, $timeout) {
         var vm = this;
 
         // search/pagination state
@@ -176,9 +176,11 @@
         }
 
         function onRowSelected() {
-            var selectedRowKeyCount = getSelectedRowsCount();
-            vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
-            vm.isAllCheckboxSelected = selectedRowKeyCount === vm.siteAccess.length;
+            $timeout(function () {
+                var selectedRowKeyCount = getSelectedRowsCount();
+                vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
+                vm.isAllCheckboxSelected = selectedRowKeyCount === vm.siteAccess.length;
+            });
         }
 
         function getPaginationLowerBound() {

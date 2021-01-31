@@ -30,9 +30,9 @@
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = ['$element'];
+    PagedUsersListController.$inject = ['$element', '$timeout'];
 
-    function PagedUsersListController($element) {
+    function PagedUsersListController($element, $timeout) {
         var vm = this;
 
         // options for selects
@@ -154,9 +154,12 @@
         }
 
         function onRowSelected() {
-            var selectedRowKeyCount = getSelectedCount();
-            vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
-            vm.isAllCheckboxSelected = selectedRowKeyCount === vm.users.length;
+            // use a timeout since the method is called after the model is updated
+            $timeout(function () {
+                var selectedRowKeyCount = getSelectedCount();
+                vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
+                vm.isAllCheckboxSelected = selectedRowKeyCount === vm.users.length;
+            });
         }
 
         function getSelectedCount() {

@@ -8,6 +8,8 @@
         "ConfigFileIntroduction": "Qui puoi vedere la configurazione di Matomo. Se si esegue Matomo in un ambiente con bilanciamento del carico, la pagina potrebbe essere diversa a seconda del server su cui viene caricata. Righe con un colore di sfondo diverso hanno valori di configurazione cambiati, specificati per esempio nel file %1$s.",
         "HideUnchanged": "Se vuoi vedere soltanto i valori cambiati, puoi %1$snascondere tutti quelli che non sono cambiati%2$s.",
         "Sections": "Sezioni",
+        "BrowserAndAutoArchivingEnabledLabel": "Browser e Auto-archiviazione abilitati",
+        "BrowserAndAutoArchivingEnabledComment": "Sembra che sia il browser che l'archiviazione automatica siano abilitati. L'archiviazione automatica è iniziata l'ultima volta %3$s fa. Se l'%1$sarchiviazione automatica%2$s è abilitata, è necessario disabilitarla nelle \"Impostazioni generali\" del browser.",
         "DatabaseReaderConnection": "Connessione al Lettore del Database",
         "DatabaseUtf8Requirement": "Ciò è richiesto per conservare i caratteri UTF8 a 4-byte. Se il charset utf8mb4 non è disponibile, caratteri speciali come le emoji, i caratteri meno comuni delle lingue asiatiche, vari glifi antichi o i simboli matematici verranno sostituiti con %1$s. Puoi leggere più dettagli su questo argomento in %2$squeste FAQ%3$s.",
         "DatabaseUtf8mb4CharsetRecommended": "Il tuo database non supporta ancora il charset UTF8mb4.",

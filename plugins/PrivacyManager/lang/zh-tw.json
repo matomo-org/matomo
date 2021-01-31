@@ -16,7 +16,7 @@
         "AnonymizeRowDataFrom": "匿名化所有原始資料由：",
         "AnonymizeRowDataTo": "匿名化所有原始資料至：",
         "AnonymizeReferrerExcludeNone": "不要將參照連結匿名化",
-        "AnonymizeReferrerExcludeQuery": "從參照連結移除參數",
+        "AnonymizeReferrerExcludeQuery": "移除參照連結網址中的參數",
         "AnonymizeReferrerExcludePath": "僅保留參照連結網址內的網域名稱",
         "AnonymizeReferrerExcludeAll": "不記錄參照連結網址，但仍會偵測參照連結的類型",
         "AnonymizeIp": "IP 匿名化",

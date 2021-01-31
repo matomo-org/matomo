@@ -41,6 +41,7 @@
         "ConversionsOverview": "Hedef Tutturma Özeti",
         "ConversionsOverviewBy": "Ziyaret türüne göre hedef tutturma özeti",
         "DaysToConv": "Hedef Tutturmaya Kalan Gün",
+        "DaysToConvReportDocumentation": "Bu rapor, ziyaretçilerin bir hedefi tutturmasından önce geçen gün sayısını içerir.",
         "Details": "Hedef ayrıntıları",
         "DefaultGoalConvertedOncePerVisit": "(varsayılan) Hedef bir ziyarette yalnız bir kez tutturulabilir",
         "DefaultRevenueLabel": "Varsayılan hedef geliri",
@@ -80,7 +81,7 @@
         "MatchesExpression": "%s ifadesine uyan",
         "NewGoalIntro": "İş amaçlarınızı gerçekleştirmek için en etkili ölçme yöntemlerinden biri hedef tutturma izlemesidir.",
         "NewVisitorsConversionRateIs": "Yeni ziyaretçilerin hedef tutturma oranı %s",
-        "NoGoalsNeedAccess2": "Belirli bir web sitesinin hedeflerini yalnız Yazabilen Kullanıcılar, Yöneticiler ya da Süper Kullanıcılar yönetebilir. Bu yüzden web sitenize bir Hedef ataması için Matomo yöneticiniz ile görüşmelisiniz. <br> Hedefleri izlemek web sitesinizin başarımını anlamak ve arttırmak için harika bir yöntemdir!",
+        "NoGoalsNeedAccess2": "Belirli bir web sitesinin hedeflerini yalnız Yazabilen Kullanıcılar, Yöneticiler ya da Süper Kullanıcılar yönetebilir. Bu yüzden web sitesine bir Hedef ataması için Matomo yöneticiniz ile görüşmelisiniz. <br> Hedefleri izlemek web sitesinin başarımını anlamak ve arttırmak için harika bir yöntemdir!",
         "NoConversionsNoReportsMessage": "Seçilmiş amaç ve zaman aralığı için bir hedef tutturma verisi bulunmadığından rapor görüntülenemiyor.",
         "NeedAccess": "Belirtilen bir web sitesi için hedefleri yalnız yöneticiler ya da Süper Kullanıcılar değiştirebilir.",
         "Optional": "(isteğe bağlı)",
@@ -108,6 +109,7 @@
         "GoalsAdjective": "%s Hedef",
         "VisitPageTitle": "Belirtilen bir sayfa başlığı ziyareti",
         "VisitsUntilConv": "Hedefi Tutturan Ziyaret Sayısı",
+        "VisitsUntilConvReportDocumentation": "Bu rapor, ziyaretçilerin bir hedefi tutturmasından önce yaptığı ziyaret sayısını içerir.",
         "VisitUrl": "Belirtilen bir adres (sayfa ya da sayfa grubu) ziyareti",
         "VisitDurationMatchAttr": "Belirli bir süre kalan",
         "VisitDuration": "ziyaret süresi şu olan",
@@ -121,6 +123,7 @@
         "EventValueAsRevenueHelp2": "Not: Hem varsayılan hedef geliri hem de etkinlik değeri belirtilmiş ise etkinlik değeri kullanılır. Bu seçenek etkinleştirilmiş olduğu halde bir istekte herhangi bir etkinlik değeri gönderilmemiş ise (belirtilmiş ise) varsayılan gelir kullanılır.",
         "AtLeastMinutes": "en az %1$s dakika. Saniye belirtmek için ondalık olarak yazın. Örneğin 30 saniye için %2$s.",
         "TimeInMinutes": "Dakika Cinsinden Süre",
-        "ClickToViewThisGoal": "Bu hedefi görüntülemek için tıklayın."
+        "ClickToViewThisGoal": "Bu hedefi görüntülemek için tıklayın.",
+        "OverviewReportDocumentation": "Bu rapor, ziyaretçilerin belirli bir hedefi ne kadar tutturduğunun özetini içerir."
     }
 }
