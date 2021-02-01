@@ -9,9 +9,12 @@
 
 namespace Piwik\Tracker;
 
+use Piwik\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\UrlHelper;
 
 class PageUrl
@@ -80,7 +83,7 @@ class PageUrl
             $campaignTrackingParameters[1] // campaign keyword parameters
         );
 
-        $website = Cache::getCacheWebsiteAttributes($idSite);
+        $website = TrackerCache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
         $parametersToExclude = array_merge($excludedParameters,
@@ -127,7 +130,7 @@ class PageUrl
      */
     public static function shouldRemoveURLFragmentFor($idSite)
     {
-        $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
+        $websiteAttributes = TrackerCache::getCacheWebsiteAttributes($idSite);
         return empty($websiteAttributes['keep_url_fragment']);
     }
 
@@ -333,6 +336,44 @@ class PageUrl
         }
 
         return $fullUrl;
+    }
+
+    /**
+     * Returns if the given host is also configured as https in page urls of given site
+     *
+     * @param $idSite
+     * @param $host
+     * @return false|mixed
+     * @throws \Exception
+     */
+    public static function shouldUseHttpsHost($idSite, $host)
+    {
+        $cache = Cache::getTransientCache();
+
+        $cacheKeySiteUrls = sprintf('siteurls-%s', $idSite);
+        $cacheKeyHttpsForHost = sprintf('shouldusehttps-%s-%s', $idSite, $host);
+
+        $siteUrlCache = $cache->fetch($cacheKeySiteUrls);
+
+        if (empty($siteUrlCache)) {
+            $siteUrlCache = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+            $cache->save($cacheKeySiteUrls, $siteUrlCache);
+        }
+
+        if (!$cache->contains($cacheKeyHttpsForHost)) {
+            $hostSiteCache = false;
+
+            foreach ($siteUrlCache as $siteUrl) {
+                if (strpos(strtolower($siteUrl), strtolower('https://' . $host)) === 0) {
+                    $hostSiteCache = true;
+                    break;
+                }
+            }
+
+            $cache->save($cacheKeyHttpsForHost, $hostSiteCache);
+        }
+
+        return $cache->fetch($cacheKeyHttpsForHost);
     }
 
     /**

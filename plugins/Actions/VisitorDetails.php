@@ -165,7 +165,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         if (array_key_exists('url', $action) && strpos($action['url'], 'http://') === 0) {
             $host = parse_url($action['url'], PHP_URL_HOST);
 
-            if ($host && $this->shouldUseHttpsHost($visitorDetails['idSite'], $host)) {
+            if ($host && PageUrl::shouldUseHttpsHost($visitorDetails['idSite'], $host)) {
                 $action['url'] = 'https://' . Common::mb_substr($action['url'], 7 /* = strlen('http://') */);
             }
         }
@@ -260,36 +260,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $action['timestamp']        = $dateTimeVisit->getTimestamp();
 
         unset($action['idlink_va']);
-    }
-
-    private function shouldUseHttpsHost($idSite, $host)
-    {
-        $cache = Cache::getTransientCache();
-
-        $cacheKeySiteUrls = sprintf('siteurls-%s', $idSite);
-        $cacheKeyHttpsForHost = sprintf('shouldusehttps-%s-%s', $idSite, $host);
-
-        $siteUrlCache = $cache->fetch($cacheKeySiteUrls);
-
-        if (empty($siteUrlCache)) {
-            $siteUrlCache = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
-            $cache->save($cacheKeySiteUrls, $siteUrlCache);
-        }
-
-        if (!$cache->contains($cacheKeyHttpsForHost)) {
-            $hostSiteCache = false;
-
-            foreach ($siteUrlCache as $siteUrl) {
-                if (strpos(strtolower($siteUrl), strtolower('https://' . $host)) === 0) {
-                    $hostSiteCache = true;
-                    break;
-                }
-            }
-
-            $cache->save($cacheKeyHttpsForHost, $hostSiteCache);
-        }
-
-        return $cache->fetch($cacheKeyHttpsForHost);
     }
 
     /**
