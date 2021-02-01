@@ -333,7 +333,10 @@ class ArchiveInvalidator
             Loader::invalidateMinVisitTimeCache($idSite);
         }
 
-        if ($period != 'range') {
+        if ($period == 'day'
+            && (empty($segment)
+                || empty($segment->getString()))
+        ) {
             foreach ($idSites as $idSite) {
                 foreach ($dates as $date) {
                     if (is_string($date)) {

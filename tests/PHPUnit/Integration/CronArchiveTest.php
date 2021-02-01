@@ -544,7 +544,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $api = API::getInstance();
 
-        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $cronarchive = new TestCronArchive();
         $cronarchive->init();
         $cronarchive->setApiToInvalidateArchivedReport($api);
         $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
@@ -588,7 +588,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $allSegments = $segments->getSegmentsToAutoArchive(1);
 
-        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $cronarchive = new TestCronArchive();
         $this->assertTrue($cronarchive->wasSegmentChangedRecently('actions>=1', $allSegments));
 
         // created 30 hours ago...
@@ -695,34 +695,32 @@ Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-02 for following websites ids: 1
   Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
   Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
-  Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
-  Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
-Processing invalidation: [idinvalidation = 9, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 15, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 18, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 269, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 268, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 267, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = day, date = 2019-12-12, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-11, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-10, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 10, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 25, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 266, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 257, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-09, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 26, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 258, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 11, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 256, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 12, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 65, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
