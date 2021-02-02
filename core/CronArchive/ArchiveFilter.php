@@ -53,6 +53,13 @@ class ArchiveFilter
      */
     private $skipSegmentsForToday = false;
 
+    /**
+     * If enabled, the only invalidations that will be processed are for the specific plugin and report specified
+     * here. Must be in the format "MyPlugin.myReport".
+     * @var string|null
+     */
+    private $forceReport = null;
+
     public function __construct()
     {
         $this->setRestrictToPeriods('');
@@ -100,6 +107,14 @@ class ArchiveFilter
             && !in_array($periodLabel, $this->restrictToPeriods)
         ) {
             return "period is not specified in --force-periods";
+        }
+
+        if (!empty($this->forceReport)
+            && (empty($archive['plugin'])
+                || empty($archive['report'])
+                || $archive['plugin'] . '.' . $archive['report'] != $this->forceReport)
+        ) {
+            return "report is not the same as value specified in --force-report";
         }
 
         return false;
@@ -222,6 +237,11 @@ class ArchiveFilter
     public function isSkipSegmentsForToday(): bool
     {
         return $this->skipSegmentsForToday;
+    }
+
+    public function setForceReport($forceReport)
+    {
+        $this->forceReport = $forceReport;
     }
 
     /**

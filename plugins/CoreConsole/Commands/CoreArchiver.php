@@ -49,6 +49,7 @@ class CoreArchiver extends ConsoleCommand
         $archiveFilter->setRestrictToDateRange($input->getOption("force-date-range"));
         $archiveFilter->setRestrictToPeriods($input->getOption("force-periods"));
         $archiveFilter->setSkipSegmentsForToday($input->getOption('skip-segments-today'));
+        $archiveFilter->setForceReport($input->getOption('force-report'));
 
         $segmentIds = $input->getOption('force-idsegments');
         $segmentIds = explode(',', $segmentIds);
@@ -109,5 +110,6 @@ class CoreArchiver extends ConsoleCommand
             . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
         $command->addOption('php-cli-options', null, InputOption::VALUE_OPTIONAL, 'Forwards the PHP configuration options to the PHP CLI command. For example "-d memory_limit=8G". Note: These options are only applied if the archiver actually uses CLI and not HTTP.', $default = '');
         $command->addOption('force-all-websites', null, InputOption::VALUE_NONE, 'Force archiving all websites.');
+        $command->addOption('force-report', null, InputOption::VALUE_NONE, 'If specified, only processes invalidations for a specific report in a specific plugin. Value must be in the format of "MyPlugin.myReport".');
     }
 }
