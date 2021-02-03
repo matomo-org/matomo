@@ -84,11 +84,11 @@ class PluginTest extends IntegrationTestCase
         $item = reset($items);
         $item = json_decode($item, $assocc = true);
 
-        $date = end($item);
-        if (empty($date)) {
-            return $date;
+        if (empty($item['startDate'])) {
+            return null;
         }
 
+        $date = $item['startDate'];
         return Date::factory($date)->getDatetime();
     }
 
