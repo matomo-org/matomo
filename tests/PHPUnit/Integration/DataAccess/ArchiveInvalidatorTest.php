@@ -404,7 +404,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates()
+    public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates_IfPeriodIsDay()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -415,7 +415,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             Date::factory('2010-10-10'),
         );
 
-        $this->invalidator->markArchivesAsInvalidated($idSites, $dates, 'week');
+        $this->invalidator->markArchivesAsInvalidated($idSites, $dates, 'day');
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $expected = array(

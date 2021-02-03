@@ -52,7 +52,7 @@ class ArchiveInvalidationTest extends SystemTestCase
         return array(
 
             array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . "_NewDataShouldNotAppear_BecauseDayWasNotInvalidated",
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
                                     'periods'                => 'day',
                                     'segment'                => 'pageUrl=@category/',
