@@ -135,7 +135,8 @@ class ArchiveInvalidationTest extends SystemTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
-        // week reports only are invalidated and we test our daily report will still show old data.
+        // week reports only are invalidated. we test our daily report will show new data, even though weekly reports only are invalidated,
+        // because when we track data, it invalidates day periods as well.
         $this->invalidateTestArchive(self::$fixture->idSite2, 'week', self::$fixture->dateTimeFirstDateWebsite2);
     }
 

@@ -333,9 +333,10 @@ class ArchiveInvalidator
             Loader::invalidateMinVisitTimeCache($idSite);
         }
 
-        if ($period == 'day'
-            && (empty($segment)
-                || empty($segment->getString()))
+        $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
+        $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
+        if ($isInvalidatingDays
+            && $isNotInvalidatingSegment
         ) {
             foreach ($idSites as $idSite) {
                 foreach ($dates as $date) {
