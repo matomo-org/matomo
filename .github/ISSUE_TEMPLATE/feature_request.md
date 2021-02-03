@@ -1,7 +1,7 @@
 ---
 name: "Feature request"
 about: You think Matomo lacks some feature it should have?
-labels: enhancement
+labels: Enhancement
 
 ---
 
