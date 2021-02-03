@@ -9,8 +9,6 @@ labels: documentation
 <!-- should be reported at https://github.com/matomo-org/developer-documentation/issues/new -->
 
 <!-- Please provide a short summary of the issue in the *Title* above -->
-<!-- If the documentation issue is related to a specific add-on, please include its short name in -->
 
 <!-- Please include the URL of the part of the documentation that should be fixed/improved -->
 <!-- and describe which part causes you problems or the errors that are included in it -->
-
