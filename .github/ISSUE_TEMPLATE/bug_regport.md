@@ -1,7 +1,7 @@
 ---
 name: "Bug report"
 about: Something isn't working correctly with Matomo
-labels: bug
+labels: Bug
 
 ---
 
