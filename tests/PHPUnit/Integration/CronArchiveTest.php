@@ -626,7 +626,6 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->run();
 
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
-        self::assertStringContainsString('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
         self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
     }
 
