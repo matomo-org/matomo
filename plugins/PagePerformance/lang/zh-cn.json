@@ -1,0 +1,24 @@
+{
+    "PagePerformance": {
+        "ColumnAveragePageLoadTime": "平均页面加载时间",
+        "ColumnAveragePageLoadTimeDocumentation": "从请求一个页面到页面在浏览器中完全呈现所花费的平均时间(以秒为单位)",
+        "ColumnAverageTimeNetworkDocumentation": "连接到服务器的平均时间(以秒为单位)。这包括查找DNS和建立TCP连接所需的时间。在第一次请求域后，该值可能为0，因为浏览器可能缓存连接。",
+        "ColumnAverageTimeServerDocumentation": "服务器生成页面所需的平均时间(以秒为单位)。这是服务器接收请求到开始服务响应之间的时间。",
+        "ColumnAverageTimeTransfer": "平均传输时间",
+        "ColumnAverageTimeTransferDocumentation": "浏览器从服务器下载响应所需的平均时间(秒)。这是从收到第一个字节到响应完成的时间。",
+        "ColumnAverageTimeDomProcessing": "平均DOM处理时间",
+        "ColumnAverageTimeDomProcessingDocumentation": "浏览器在完全接收到响应后和用户开始与之交互之前加载网页的平均时间（秒）。",
+        "ColumnAverageTimeDomCompletion": "平均DOM完成时间",
+        "ColumnAverageTimeDomCompletionDocumentation": "加载网页并且用户已经可以与其交互后，浏览器加载媒体并执行任何Javascript代码侦听DOMContentLoaded事件所需的平均时间（秒）。",
+        "ColumnAverageTimeOnLoadDocumentation": "浏览器执行Javascript代码等待window.load事件。一旦DOM完全呈现，就会触发此事件。",
+        "ColumnTimeServer": "服务器时间",
+        "ColumnTimeDomProcessing": "DOM处理时间",
+        "ColumnTimeDomCompletion": "DOM完成时间",
+        "ColumnTimeOnLoad": "加载时间",
+        "PageLoadTime": "页面加载时间",
+        "EvolutionOverPeriod": "页面性能指标的演变",
+        "OverviewDocumentation": "此报告概述了访问者看到网页的速度。这既包括浏览器下载网页所需的时间，也包括浏览器显示网页所需的时间。",
+        "Performance": "性能",
+        "RowActionDescription": "显示此行的页面性能报告"
+    }
+}

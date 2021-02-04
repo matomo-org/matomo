@@ -11,6 +11,7 @@ namespace Piwik\Plugins\GeoIp2;
 use Exception;
 use GeoIp2\Database\Reader;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Http;
@@ -283,6 +284,7 @@ class GeoIP2AutoUpdater extends Task
             if ($isDbIpUnknownDbType) {
                 $php = new Php([$dbType => [$outputPath]]);
                 $dbFilename = $php->detectDatabaseType($dbType) . '.mmdb';
+                unset($php);
             }
         } else {
             $parts = explode(basename($filename), '.', 2);
@@ -306,6 +308,7 @@ class GeoIP2AutoUpdater extends Task
 
             try {
                 $location = $phpProvider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
+                unset($phpProvider);
             } catch (\Exception $e) {
                 Log::info("GeoIP2AutoUpdater: Encountered exception when testing newly downloaded" .
                     " GeoIP 2 database: %s", $e->getMessage());
@@ -315,6 +318,13 @@ class GeoIP2AutoUpdater extends Task
 
             if (empty($location)) {
                 throw new Exception(Piwik::translate('GeoIp2_ThisUrlIsNotAValidGeoIPDB'));
+            }
+
+            // ensure the cached location providers do no longer block any files on windows
+            foreach (LocationProvider::$providers as $provider) {
+                if ($provider instanceof Php) {
+                    $provider->clearCachedInstances();
+                }
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
@@ -415,9 +425,9 @@ class GeoIP2AutoUpdater extends Task
 
             $url = $options[$optionKey];
             $url = self::removeDateFromUrl($url);
-            if (!empty($url) && strpos(Common::mb_strtolower($url), 'https://') !== 0 && strpos(Common::mb_strtolower($url), 'http://') !== 0) {
-                throw new Exception('Invalid download URL for geoip ' . $optionKey . ': ' . $url);
-            }
+
+            self::checkGeoIPUpdateUrl($url);
+
             Option::set($optionName, $url);
         }
 
@@ -440,6 +450,37 @@ class GeoIP2AutoUpdater extends Task
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
             $scheduler->rescheduleTaskAndRunTomorrow(new GeoIP2AutoUpdater());
+        }
+    }
+
+    protected static function checkGeoIPUpdateUrl($url)
+    {
+        if (empty($url)) {
+            return;
+        }
+
+        $parsedUrl = @parse_url($url);
+        $schema = $parsedUrl['scheme'] ?? '';
+        $host = $parsedUrl['host'] ?? '';
+
+        if (empty($schema) || empty($host) || !in_array(Common::mb_strtolower($schema), ['http', 'https'])) {
+            throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>'.$url.'</i>'));
+        }
+
+        $validHosts = Config::getInstance()->General['geolocation_download_from_trusted_hosts'];
+        $isValidHost = false;
+
+        foreach ($validHosts as $validHost) {
+            if (preg_match('/(^|\.)' . preg_quote($validHost) . '$/i', $host)) {
+                $isValidHost = true;
+                break;
+            }
+        }
+
+        if (true !== $isValidHost) {
+            throw new Exception(Piwik::translate('GeoIp2_InvalidGeoIPUpdateHost', [
+                '<i>'.$url.'</i>', '<i>'.implode(', ', $validHosts).'</i>', '<i>geolocation_download_from_trusted_hosts</i>'
+            ]));
         }
     }
 
@@ -625,6 +666,7 @@ class GeoIP2AutoUpdater extends Task
                 $reader = new Reader($pathToDb);
 
                 $location = $provider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
+                unset($provider, $reader);
             } catch (\Exception $e) {
                 if ($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
@@ -632,7 +674,7 @@ class GeoIP2AutoUpdater extends Task
                 }
 
                 // get the current filename for the DB and an available new one to rename it to
-                list($oldPath, $newPath) = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
+                [$oldPath, $newPath] = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
 
                 // rename the DB so tracking will not fail
                 if ($oldPath !== false

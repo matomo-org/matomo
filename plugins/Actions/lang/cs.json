@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "Toto hlášení obsahujje informace o výstupních stránkách, které se za dané časové období vyskytly. Výstupní stránka je poslední stránka, kterou návštěvník během své návštěvy navštíví. %s URL jsou zobrazeny ve složkové struktuře.",
         "ExitPageTitles": "Titulky výstupních stránek",
         "ExitPageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích výstupních stránek za dané období.",
+        "MainMetricsReportDocumentation": "Tento přehled poskytuje velmi základní přehled o tom, jaké akce vaši návštěvníci na vašem webu provádějí.",
         "OneSearch": "1 Vyhledávání",
         "OutlinkDocumentation": "Externí odkaz je odkaz, který vede z vašich stránek na jinou domén.",
         "OutlinksReportDocumentation": "Toto hlášení zobrazuje hyerarchický seznam URL externích odkazů, na které vaši návštěvníci klikli.",
@@ -78,6 +79,7 @@
         "WidgetSearchNoResultKeywords": "Hledaná Klíčová slova bez výsledku hledání",
         "ActionType": "Typ akce",
         "ActionTypes": "Typy akcí",
-        "Behaviour": "Chování"
+        "Behaviour": "Chování",
+        "TimeSpentInReferringAction": "Čas strávený odkazující akci"
     }
 }

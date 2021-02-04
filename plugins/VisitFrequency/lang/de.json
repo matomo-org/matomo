@@ -33,6 +33,7 @@
         "ReturnVisits": "wiederkehrende Besucher",
         "SubmenuFrequency": "Häufigkeit",
         "WidgetGraphReturning": "Graph der wiederkehrenden Besuche",
-        "WidgetOverview": "Häufigkeitsübersicht"
+        "WidgetOverview": "Häufigkeitsübersicht",
+        "VisitFrequencyReportDocumentation": "Dieser Bericht zeigt allgemeine Metriken wie Besuche wiederkehrender Benutzer Seite an Seite mit den selben Metriken neuer Besucher. Lernen Sie wie sich wiederkehrende Besucher im Vergleich zu neuen Besuchern verhalten."
     }
 }

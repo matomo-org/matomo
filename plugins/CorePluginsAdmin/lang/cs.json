@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "Prosím aktualizujte %1$s%2$s na novější verzi, je vyžadována %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Prosím nainstalujte %1$s %2$s, protože je vyžadován %3$s.",
         "NoZipFileSelected": "Prosím vyberte soubor .zip.",
+        "FileExceedsUploadLimit": "Vybraný soubor překračuje limit nahrávání na vašem serveru.",
         "NumUpdatesAvailable": "%s Dostupné aktualizace",
         "NoPluginSettings": "Žádná nastavení zásuvného modulu, která by bylo možné nastavit",
         "Origin": "Původ",

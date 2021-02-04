@@ -364,43 +364,38 @@ class API extends \Piwik\Plugin\API
      * Will search in the DataTable for a Label matching the searched string
      * and return only the matching row, or an empty datatable
      */
-    protected function getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $table = false,
-                                                    $searchTree = false)
+    protected function getFilterPageDatatableSearch($callBackParameters, $search, $actionType)
     {
-        if ($searchTree === false) {
-            // build the query parts that are searched inside the tree
-            if ($actionType == Action::TYPE_PAGE_TITLE) {
-                $searchedString = Common::unsanitizeInputValue($search);
-            } else {
-                $idSite = $callBackParameters[1];
-                try {
-                    $searchedString = PageUrl::excludeQueryParametersFromUrl($search, $idSite);
-                } catch (Exception $e) {
-                    $searchedString = $search;
-                }
+        // build the query parts that are searched inside the tree
+        if ($actionType == Action::TYPE_PAGE_TITLE) {
+            $searchedString = Common::unsanitizeInputValue($search);
+        } else {
+            $idSite = $callBackParameters[1];
+            try {
+                $searchedString = PageUrl::excludeQueryParametersFromUrl($search, $idSite);
+            } catch (Exception $e) {
+                $searchedString = $search;
             }
-            ArchivingHelper::reloadConfig();
-            $searchTree = ArchivingHelper::getActionExplodedNames($searchedString, $actionType);
         }
+        ArchivingHelper::reloadConfig();
+        $searchTree = ArchivingHelper::getActionExplodedNames($searchedString, $actionType);
 
-        if ($table === false) {
-            // fetch the data table
-            $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
+        // fetch the data table
+        $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
 
-            if ($table instanceof DataTable\Map) {
-                // search an array of tables, e.g. when using date=last30
-                // note that if the root is an array, we filter all children
-                // if an array occurs inside the nested table, we only look for the first match (see below)
-                $dataTableMap = $table->getEmptyClone();
+        if ($table instanceof DataTable\Map) {
+            // search an array of tables, e.g. when using date=last30
+            // note that if the root is an array, we filter all children
+            // if an array occurs inside the nested table, we only look for the first match (see below)
+            $dataTableMap = $table->getEmptyClone();
 
-                foreach ($table->getDataTables() as $label => $subTable) {
-                    $newSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
+            foreach ($table->getDataTables() as $label => $subTable) {
+                $newSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
 
-                    $dataTableMap->addTable($newSubTable, $label);
-                }
-
-                return $dataTableMap;
+                $dataTableMap->addTable($newSubTable, $label);
             }
+
+            return $dataTableMap;
         }
 
         return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
@@ -423,7 +418,14 @@ class API extends \Piwik\Plugin\API
             }
 
             // nothing found in all sub tables
-            return new DataTable;
+            $result = new DataTable;
+            $subTables = $table->getDataTables();
+            if (count($subTables) > 0) {
+                // use the first subtable's metadata to ensure basic metadata like `period` is available in response
+                $subTable = reset($subTables);
+                $result->setAllTableMetadata($subTable->getAllTableMetadata());
+            }
+            return $result;
         }
 
         // filter regular data table

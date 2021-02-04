@@ -1,6 +1,6 @@
 <div
     piwik-content-block
-    content-title="{{ $ctrl.getFormTitle() }}"
+    content-title="{{ $ctrl.getFormTitle() }} {{ !$ctrl.isAdd ? ('\'' + $ctrl.user.login + '\'') : '' }}"
     class="userEditForm"
     ng-class="{ loading: $ctrl.isSavingUserInfo }"
 >

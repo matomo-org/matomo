@@ -2,6 +2,7 @@
     "UserId": {
         "UserId": "Benutzer-ID",
         "UserReportTitle": "Benutzer IDs",
+        "UserReportDocumentation": "Dieser Bericht zeigt Besuche und andere allgemeine Metriken für jede individuelle Benutzer-ID.",
         "PluginDescription": "Zeigt Benutzer-Berichte"
     }
 }

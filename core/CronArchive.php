@@ -910,12 +910,12 @@ class CronArchive
                     $_forceInvalidateNonexistant);
             }
 
-            foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segment) {
-                $params = new Parameters(new Site($idSite), $periodObj, new Segment(urlencode($segment['definition']), [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
+            foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
+                $params = new Parameters(new Site($idSite), $periodObj, new Segment(urlencode($segmentDefinition), [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
                 if ($this->isThereExistingValidPeriod($params)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
-                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, urlencode($segment['definition']),
+                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, urlencode($segmentDefinition),
                         $cascadeDown = false, $_forceInvalidateNonexistant);
                 }
             }

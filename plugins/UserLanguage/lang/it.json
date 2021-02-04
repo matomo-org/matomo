@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Lingua Browser",
         "LanguageCode": "Codice della lingua",
-        "PluginDescription": "Restituisce la lingua utilizzata dai browser dei tuoi visitatori."
+        "PluginDescription": "Restituisce la lingua utilizzata dai browser dei tuoi visitatori.",
+        "getLanguageDocumentation": "Questo report mostra la lingua utilizzata dai browser del visitatore. (ad es. \"Italiano\")",
+        "getLanguageCodeDocumentation": "Questo report mostra il codice esatto della lingua su cui è impostato il browser del visitatore. (ad es. \"Italiano (it-IT)\")"
     }
 }

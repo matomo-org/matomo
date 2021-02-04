@@ -95,6 +95,7 @@
         "SystemCheckGzuncompressHelp": "Musíte povolit rozšíření zlib a funkci gzuncompress.",
         "SystemCheckHashHelp": "Je nutné, aby jste znovu nakonfigurovali a sestavili PHP s povolenou podporou hash(), vynecháním volby --disable-hash.",
         "SystemCheckIconvHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"icont\", --with-iconv",
+        "SystemCheckJsonHelp": "Pro čtení a zápis dat JSON je pro Matomo nutné rozšíření php-json.",
         "SystemCheckMailHelp": "Bez funkce mail(), nebudou odeslány zprávy s odezvou, nebo při zapomenutém heslu",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "Rozšíření mbstring je vyžadováno pro zpracování vícebajtových znaků v uživatelském rozhraní a odpovědích API. Zkontrolujte také, zda je parametr mbstring.func_overload je v php.ini nastaven na hodnotu „0“.",
@@ -130,6 +131,8 @@
         "SystemCheckWriteDirs": "Adresáře s přístupem k zápisu",
         "SystemCheckWriteDirsHelp": "Pro opravu této chyby v Linuxu zkuste napsat následující příkaz(y)",
         "SystemCheckZlibHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"zlib\", --with-zlib",
+        "SystemCheckCronArchiveProcess": "Nastavit Cron",
+        "FasterReportLoading": "rychlejší načítání zpráv",
         "SystemCheckCronArchiveProcessCLI": "Správa procesů pomocí CLI",
         "SystemCheckPhpSetting": "Abyste zabránili vážným problémům, ve svém souboru php.ini musíte nastavit %s",
         "SystemCheckUpdateHttps": "Aktualizace přes HTTPS",
@@ -151,6 +154,8 @@
         "WelcomeToCommunity": "Vítejte v komunitě Matomou!",
         "CannotConnectToDb": "Nelze se připojit k databázi",
         "CannotConnectToDbResolvingExplanation": "To může být dočasný problém, zkuste %1$sobnovit stránku%2$s. Pokud problém přetrvá, kontaktujte svého administrátora Matomou.",
-        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání novinek. Z tohoto důvodu musíme sdílet váš e-mail s poskytovatelem třetí strany. Tento poskytovatel je v současné době Mad Mimi, ale to se může v budoucnu změnit. Váš e-mail nebudeme sdílet s nikým jiným, ani jej nebudeme používat k žádnému jinému účelu než k zasílání newsletteru. Odběr můžete kdykoli zrušit. Další informace naleznete v našich %1$s zásadách ochrany osobních údajů %2$s."
+        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání novinek. Z tohoto důvodu musíme sdílet váš e-mail s poskytovatelem třetí strany. Tento poskytovatel je v současné době Mad Mimi, ale to se může v budoucnu změnit. Váš e-mail nebudeme sdílet s nikým jiným, ani jej nebudeme používat k žádnému jinému účelu než k zasílání newsletteru. Odběr můžete kdykoli zrušit. Další informace naleznete v našich %1$s zásadách ochrany osobních údajů %2$s.",
+        "PerformanceSettingsDesc1": "Jedna poslední poznámka týkající se výkonu: vaše Matomo je nastaveno a připraveno sledovat a hlásit provoz na vašem webu, ale pokud zjistíte, že je Matomo pomalý, budete chtít provést další krok nastavení %1$s archivace CLI%2$s. To bude generovat vaše zprávy na pozadí pravidelně, namísto na vyžádání.",
+        "PerformanceSettingsDesc2": "To vyžaduje přidání příkazu Matomo do cron, co nemůže být provedeno automaticky instalátorem, ale můžete si %1$spřečíst naše Časté dotazy, kde se dozvíte, jak si jej můžete nastavit sami.%2$s"
     }
 }

@@ -58,7 +58,7 @@
         "EvolutionGraphsShowForEachInPeriod": "Gelişim çizelgesi son %3$s gündeki gelişimi %1$sgünlük%2$s olarak görüntüler",
         "EvolutionGraphsShowForPreviousN": "Gelişme çizelgeleri önceki N %s içindeki gelişmeyi görüntüler",
         "ReportPeriod": "Raporlama Aralığı",
-        "ReportPeriodHelp": "Bu raporun kapsadığı verilerin zaman aralığı. Varsayılan olarak e-posta zamanlaması ile aynıdır. Yani bir rapor haftalık olarak gönderiliyorsa son haftanın verilerini kapsar.",
+        "ReportPeriodHelp": "Bu raporun kapsadığı verilerin zaman aralığı. Varsayılan olarak e-posta zamanlaması ile aynıdır. Yani bir rapor haftalık olarak gönderiliyorsa son haftanın verilerini içerir.",
         "ReportPeriodHelp2": "Bununla birlikte, e-posta zamanlamasını aynı tutarken farklı bilgiler görüntülenmesini istiyorsanız bu aralığı değiştirebilirsiniz. Örneğin e-posta sıklığı haftalık iken rapor aralığı 'gün' ise, her hafta son günün raporu gönderilir."
     }
 }

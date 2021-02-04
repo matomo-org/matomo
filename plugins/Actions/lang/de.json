@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Ausstiegsseiten im gewählten Zeitraum. Die Ausstiegsseite ist die letzte Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
         "ExitPageTitles": "Titel der Ausstiegsseite",
         "ExitPageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Titel der Ausstiegsseiten, die angeforderten Zeitraum verwendet wurden.",
+        "MainMetricsReportDocumentation": "Dieser Bericht stellt einen sehr groben Überblick zur Verfügung darüber, welche Aktionen Ihre Besucher auf Ihrer Website ausgeführt haben.",
         "OneSearch": "1 Suche",
         "OutlinkDocumentation": "Ein ausgehender Verweis ist ein Link der einen Besucher auf eine andere Website führt (auf eine andere Domain).",
         "OutlinksReportDocumentation": "Dieser Bericht zeigt eine hierarchisch angeordnete Liste von ausgehenden Links, die von ihren Besuchern angeklickt wurden.",
@@ -78,6 +79,7 @@
         "WidgetSearchNoResultKeywords": "Suchbegriffe ohne Ergebnisse",
         "ActionType": "Typ der Aktion",
         "ActionTypes": "Aktionstypen",
-        "Behaviour": "Verhalten"
+        "Behaviour": "Verhalten",
+        "TimeSpentInReferringAction": "Verwendete Zeit für Verweisaktionen"
     }
 }

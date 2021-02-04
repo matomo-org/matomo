@@ -88,15 +88,13 @@ class Sms extends ReportRenderer
         // evolution metrics formatting :
         //  - remove monetary, percentage and white spaces to shorten SMS content
         //    (this is also needed to be able to test $value != 0 and see if there is an evolution at all in SMSReport.twig)
-        //  - adds a plus sign
         $reportData->filter(
             'ColumnCallbackReplace',
             array(
                  $evolutionMetrics,
                  function ($value) use ($floatRegex) {
                      $matched = preg_match($floatRegex, $value, $matches);
-                     $formatted = $matched ? sprintf("%+d", $matches[0]) : $value;
-                     return \Piwik\NumberFormatter::getInstance()->formatPercentEvolution($formatted);
+                     return $matched ? (float) $matches[0] : $value;
                  }
             )
         );

@@ -16,6 +16,7 @@
         "DataTableHowToSearch": "Drücken Sie Enter oder klicken Sie auf das Such-Symbol um eine Suche zu starten.",
         "DataTableShowDimensions": "Dimensionen wurden zusammengefasst %s Dimensionen separat anzeigen",
         "DataTableCombineDimensions": "Dimensionen werden einzeln angezeigt %s Dimensionen zusammengefasst anzeigen",
+        "DateInvalid": "Die angegebene Kombination von Datum und Zeitraum ist ungültig. Bitte in der Datumsselektion eine gültige Auswahl treffen.",
         "Default": "Standard",
         "DonateCall1": "Die Nutzung von Matomo wird immer kostenlos bleiben, was aber nicht heißt, dass es uns nichts kostet, es zu erstellen.",
         "DonateCall2": "Matomo braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",

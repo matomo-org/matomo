@@ -21,6 +21,8 @@
         "GeoIPDocumentationSuffix": "Um Daten für diesen Bericht sehen zu können, müssen Sie GeoIP im Standorterkennung Administrations-Reiter konfigurieren. Die kommerziellen %1$sMaxmind%2$s GeoIP Datenbanken sind weit genauer als die kostenlosen. Um zu sehen, wie genau sie sind, klicken Sie %3$shier%4$s.",
         "Geolocation": "Standorterkennung",
         "GeolocationPageDesc": "Auf dieser Seite können Sie einstellen auf welche Weise Matomo die Herkunft eines Besuchers ermittelt.",
+        "GeolocationProviderBroken": "Der konfigurierte Geolocation Provider %1$s funktioniert nicht. Bitte korrigieren Sie die Einstellungen oder stellen Sie einen anderen Provider ein, damit Geolocation wieder funktioniert.",
+        "GeolocationProviderUnavailable": "Der konfigurierte Geolocation Provider %1$s ist nicht mehr verfügbar, bitte stellen Sie einen anderen ein.",
         "getCityDocumentation": "Dieser Bericht enthält die Städte, in denen sich Ihre Besucher befanden, als sie Ihre Website besuchten.",
         "getContinentDocumentation": "Dieser Bericht enthält die Kontinente, auf denen sich Ihre Besucher befanden, als sie Ihre Website besuchten.",
         "getCountryDocumentation": "Dieser Bericht enthält die Länder, in denen sich Ihre Besucher befanden, als sie Ihre Website besuchten.",

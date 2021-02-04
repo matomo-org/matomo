@@ -8,6 +8,8 @@
         "ConfigFileIntroduction": "Hier können Sie die Matomo Konfiguration einsehen. Sollten Sie Matomo auf lastverteilten Systemen einsetzen, könnte diese Seite unterschiedlich sein, abhängig vom Server auf dem die Seite geladen wurde. Zeilen mit einer anderen Hintergrundfarbe sind geänderte Konfigurationswerte, die beispielsweise in der Datei %1$s definiert wurden.",
         "HideUnchanged": "Falls Sie nur die geänderten Werte einsehen möchten, können Sie %1$salle unveränderten Werte ausblenden%2$s.",
         "Sections": "Sektionen",
+        "BrowserAndAutoArchivingEnabledLabel": "Browser- und Autoarchivierung aktiviert",
+        "BrowserAndAutoArchivingEnabledComment": "Sowohl Browser als auch Autoarchivierung scheinen aktiviert zu sein. Autoarchivierung startete zuletzt vor %3$s. Wenn %1$sAutoarchvierung%2$s aktiviert ist, sollten Sie Browserarchivierung in \"Allgemeine Einstellungen\" deaktivieren.",
         "DatabaseReaderConnection": "Datenbankleserecht-Verbindung",
         "DatabaseUtf8Requirement": "Dies ist nötig, um 4-Byte UTF8 Zeichen speichern zu können. Wenn utf8mb4 nicht verfügbar ist, werden spezielle Zeichen wie Emojis, selten verwendete Zeichen asiatischer Sprachen, historische Schriftzeichen oder mathematische Symbole mit %1$s ersetzt. Sie können mehr über dieses Thema in %2$sdiesen FAQ%3$s lesen.",
         "DatabaseUtf8mb4CharsetRecommended": "Ihre Datenbank unterstützt den utf8mb4 Zeichensatz noch nicht.",

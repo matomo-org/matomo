@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Yeni pencerede açılsın",
-        "PluginDescription": "Basit bir Embed HTML kod imi ekleyerek istediğiniz Matomo raporunun web sitenizde ya da uygulamanızda görüntülenmesini sağlayabilirsiniz.",
+        "PluginDescription": "Basit bir Embed HTML kod imi ekleyerek istediğiniz Matomo raporunun web sitesinde ya da uygulamanızda görüntülenmesini sağlayabilirsiniz.",
         "ViewAccessRequired": "Bu kullanıcının en az bir yazma izni var. Yalnız görüntüleme iznine sahip olan kullanıcıların kodları kullanılabilir. Ayrıntılı bilgi almak için %1$s bölümüne bakabilirsiniz.",
         "TopLinkTooltip": "Matomo Raporlarını, uygulamanızın panosuna iFrame olarak ekleyebileceğiniz gereçler olarak dışa aktarabilirsiniz.",
         "TooHighAccessLevel": "Bu kullanıcının süper kullanıcı izinleri var. Gereçleri gömmek için süper kullanıcı kodları ile kimlik doğrulaması yapılamaz. %1$sAyrıntılı bilgi almak için sss bölümüne bakabilirsiniz.%2$s"
