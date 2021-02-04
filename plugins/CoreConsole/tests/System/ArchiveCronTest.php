@@ -9,6 +9,7 @@ namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\CronArchive;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Psr\Container\ContainerInterface;
 use Piwik\Archive\ArchiveInvalidator;
@@ -53,6 +54,7 @@ class ArchiveCronTest extends SystemTestCase
         parent::setUpBeforeClass();
 
         Db::exec("UPDATE " . Common::prefixTable('site') . ' SET ts_created = \'2005-01-02 00:00:00\'');
+        Site::clearCache();
     }
 
     private static function addNewSegmentToPast()
@@ -175,6 +177,9 @@ class ArchiveCronTest extends SystemTestCase
         $tracker = Fixture::getTracker(1, '2007-04-05');
         $tracker->setUrl('http://example.com/test/url');
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertGreaterThan(0, count($invalidationEntries));
 
         // empty the list so nothing is invalidated during core:archive (so we only archive ExamplePlugin and not all plugins)
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
