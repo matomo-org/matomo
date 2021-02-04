@@ -6,7 +6,8 @@ labels: Enhancement
 ---
 
 <!-- Please provide a short summary of the issue in the *Title* above -->
-<!-- Important: Please contact the Matomo community forum for questions -->
+
+<!-- Important: Please contact the Matomo community forum for questions: https://forum.matomo.org/ -->
 
 ## Summary
 <!-- Please provide a detailed summary of the feature -->
