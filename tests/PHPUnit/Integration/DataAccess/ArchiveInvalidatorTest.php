@@ -1224,12 +1224,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-10', 'date2' => '2020-05-10', 'period' => 1, 'report' => null],
 
             ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-01', 'date2' => '2020-05-31', 'period' => 3, 'report' => null],
+
+            ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-01', 'date2' => '2020-05-31', 'period' => 4, 'report' => 'aReport'],
+            ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-01', 'date2' => '2020-05-31', 'period' => 4, 'report' => 'anotherReport'],
         ];
 
         $this->insertInvalidations($existingInvalidations);
 
         $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-04', '2020-05-06'], 'week',
             $segment, $cascadeDown = true, false);
+        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-05-01'], 'year',
+            $segment, $cascadeDown = false, 'aReport');
 
         $expectedInvalidations = [
             array (
@@ -1312,6 +1317,24 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '3',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
                 'report' => NULL,
+            ),
+            array (
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-05-01',
+                'date2' => '2020-05-31',
+                'period' => '4',
+                'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                'report' => 'aReport',
+            ),
+            array (
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-05-01',
+                'date2' => '2020-05-31',
+                'period' => '4',
+                'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                'report' => 'anotherReport',
             ),
             array (
                 'idarchive' => NULL,
