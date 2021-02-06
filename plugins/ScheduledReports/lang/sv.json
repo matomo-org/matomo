@@ -38,6 +38,7 @@
         "Segment_Deletion_Error": "Det här segmentet kan inte raderas eller göras osynligt för andra användare eftersom det genererar mailrapporter (s) %s. Pröva igen efter att du har tagit bort det här segmentet från rapporten (s).",
         "Segment_Help": "Du kan välja ett befintligt kundsegment för att applicera data i den här mailrapporten. Du kan skapa och redigera kundsegment på ditt skrivbord %1$s (klicka här för att öppna)%2$s, efter det klickar du på \"%3$s\" lådan, efter det \"%4$s\".",
         "SegmentAppliedToReports": "Segmentet '%s' har applicerats till rapporterna.",
+        "SegmentDeleted": "Segment raderat",
         "SendReportNow": "Skicka rapport nu",
         "SendReportTo": "Skicka rapport till",
         "SentToMe": "Skicka rapport till mig",
@@ -53,6 +54,7 @@
         "SuccessfullyUnsubscribed": "Du har nu avslutat prenumerationen från rapporten %1$s.",
         "UnsubscribeFooter": "För att avsluta prenumerationen från denna rapport vänligen följ denna länk: %1$s",
         "NoTokenProvided": "Ingen token skickades med i webbadressen",
-        "NoSubscriptionFound": "Ingen prenumeration hittades. Kanske var prenumerationen redan avslutad eller rapporten borttagen."
+        "NoSubscriptionFound": "Ingen prenumeration hittades. Kanske var prenumerationen redan avslutad eller rapporten borttagen.",
+        "ReportPeriod": "Rapportperiod"
     }
 }
