@@ -16,6 +16,7 @@
         "DataTableHowToSearch": "按回车或者点击搜索图标进行搜索",
         "DataTableShowDimensions": "尺寸合并%s单独显示尺寸",
         "DataTableCombineDimensions": "尺寸单独显示%s显示组合尺寸",
+        "DateInvalid": "所选的日期和时期组合无效。请在日期选择器中选择一个有效的日期。",
         "Default": "默认",
         "DonateCall1": "Matomo 对您来说可以免费使用，但对我们来说并非零成本。",
         "DonateCall2": "Matomo 的茁壮成长离不开您的支持。",
