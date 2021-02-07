@@ -75,6 +75,8 @@ class ExceptionHandler
             && $exception->getCode() > 0
         ) {
             http_response_code($exception->getCode());
+        } else {
+            http_response_code(500);
         }
 
         self::logException($exception);
