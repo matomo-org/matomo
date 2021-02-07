@@ -394,6 +394,25 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
+; set the algorithm used by password_hash()
+; "default" for the algorithm used by the PHP version or one of ["bcrypt", "argon2i", "argon2id"]
+; "argon2id" requires at least PHP 7.3.0
+; for all argon2 algorithms, additional parameters can be changed below
+; any changes are applied to the stored hash on the next login of a user
+; see https://www.php.net/manual/en/function.password-hash.php and https://wiki.php.net/rfc/argon2_password_hash
+; for more information
+password_hash_algorithm = default
+
+; The number of CPU threads used for calculating the hash
+password_hash_argon2_threads = default
+
+; The amount of memory (in KB) used for calculating the hash
+; a minimum of 8 times the number of threads
+password_hash_argon2_memory_cost = default
+
+; The number of iterations for calculating the hash
+password_hash_argon2_time_cost = default
+
 ; If set to 1, Matomo will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Matomo
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0
