@@ -27,8 +27,7 @@ class Password
     private function preferredAlgorithm()
     {
         $passwordHashAlogrithm = Config::getInstance()->General['password_hash_algorithm'];
-        switch ($passwordHashAlogrithm)
-        {
+        switch ($passwordHashAlogrithm) {
             case "default":
                 return PASSWORD_DEFAULT;
             case "bcrypt":
@@ -36,8 +35,7 @@ class Password
             case "argon2i":
                 return PASSWORD_ARGON2I;
             case "argon2id":
-                if (version_compare(PHP_VERSION, '7.3.0', '<'))
-                {
+                if (version_compare(PHP_VERSION, '7.3.0', '<')) {
                     throw new Exception("argon2id needs at leat PHP 7.3.0");
                 }
                 return PASSWORD_ARGON2ID;
@@ -55,16 +53,13 @@ class Password
     {
         $options = [];
         $generalConfig = Config::getInstance()->General;
-        if ($generalConfig["password_hash_argon2_threads"] != "default")
-        {
+        if ($generalConfig["password_hash_argon2_threads"] != "default") {
             $options["threads"] = max($generalConfig["password_hash_argon2_threads"], 1);
         }
-        if ($generalConfig["password_hash_argon2_memory_cost"] != "default")
-        {
+        if ($generalConfig["password_hash_argon2_memory_cost"] != "default") {
             $options["memory_cost"] = max($generalConfig["password_hash_argon2_memory_cost"], 8 * $options["threads"]);
         }
-        if ($generalConfig["password_hash_argon2_time_cost"] != "default")
-        {
+        if ($generalConfig["password_hash_argon2_time_cost"] != "default") {
             $options["time_cost"] = max($generalConfig["password_hash_argon2_time_cost"], 1);
         }
         return $options;
