@@ -89,7 +89,7 @@
         "ExitPagesSubcategoryHelp1": "This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit.",
         "ExitPagesSubcategoryHelp2": "The exit URLs are displayed as a folder structure.",
         "PageTitlesSubcategoryHelp1": "This report contains information about the titles of the pages that have been visited.",
-        "PageTitlesSubcategoryHelp2": "The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.",
+        "PageTitlesSubcategoryHelp2": "The page title is the HTML &amp;lt;title&amp;gt; Tag that most browsers show in their window title.",
         "SiteSearchSubcategoryHelp1": "The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.",
         "SiteSearchSubcategoryHelp2": "These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.",
         "SiteSearchSubcategoryHelp3": "Learn more in the Site Search guide.",

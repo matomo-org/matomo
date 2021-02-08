@@ -20,6 +20,6 @@ class EventsSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Events_EventsSubcategoryHelp1') . '</p>'
-            . '<p><a href="https://matomo.org/docs/event-tracking/" rel="noreferrer noopener">' . Piwik::translate('Events_EventsSubcategoryHelp2') . '</a></p>';
+            . '<p><a href="https://matomo.org/docs/event-tracking/" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Events_EventsSubcategoryHelp2') . '</a></p>';
     }
 }

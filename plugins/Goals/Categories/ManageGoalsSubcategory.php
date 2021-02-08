@@ -20,6 +20,6 @@ class ManageGoalsSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Goals_ManageGoalsSubcategoryHelp1') . '</p>'
-            . '<p><a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener">' . Piwik::translate('Goals_ManageGoalsSubcategoryHelp2') . '</a></p>';
+            . '<p><a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Goals_ManageGoalsSubcategoryHelp2') . '</a></p>';
     }
 }
