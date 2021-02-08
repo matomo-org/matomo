@@ -62,6 +62,7 @@ class BulkTracking extends \Piwik\Plugin
 
         if ($this->isUsingBulkRequest()) {
             $handler = new Handler();
+            $handler->getResponse()->setShouldSendResponse($this->shouldSendResponse());
         }
     }
 
@@ -71,6 +72,14 @@ class BulkTracking extends \Piwik\Plugin
         $rawData  = $requests->getRawBulkRequest();
 
         return $requests->isUsingBulkRequest($rawData);
+    }
+
+    private function shouldSendResponse(): bool
+    {
+        $requests = $this->buildBulkRequests();
+        $rawData  = $requests->getRawBulkRequest();
+
+        return $requests->shouldSendResponse($rawData);
     }
 
     private function buildBulkRequests()
