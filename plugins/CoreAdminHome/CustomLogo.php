@@ -279,7 +279,7 @@ class CustomLogo
                 return false;
         }
 
-        if (!is_resource($image)) {
+         if (!is_resource($image) && !($image instanceof \GdImage)) {
             return false;
         }
 
