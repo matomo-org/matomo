@@ -89,7 +89,7 @@
                 return;
             }
 
-            var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix', [subcategory.name]) + '</strong><br/>';
+            var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix', [category.name, subcategory.name]) + '</strong><br/>';
 
             var options = { context: 'info', id: 'reportingmenu-help', type: 'persistent', noclear: true };
             options['class'] = 'help-notification';

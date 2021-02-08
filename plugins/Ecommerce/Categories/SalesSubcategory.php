@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Ecommerce\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class SalesSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class SalesSubcategory extends Subcategory
     protected $id = 'Ecommerce_Sales';
     protected $order = 15;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('Ecommerce_SalesSubcategoryHelp1') . '</p>'
+            . '<p>' . Piwik::translate('Ecommerce_SalesSubcategoryHelp2') . '</p>';
+    }
 }

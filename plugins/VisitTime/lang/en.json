@@ -30,6 +30,7 @@
         "WidgetLocalTime": "Visits by Local Time",
         "WidgetLocalTimeDocumentation": "This graph shows what time it was in the %1$s visitors' time zones %2$s during their visits.",
         "WidgetServerTime": "Visits by Server Time",
-        "WidgetServerTimeDocumentation": "This graph shows what time it was in the %1$s server's time zone %2$s during the visits."
+        "WidgetServerTimeDocumentation": "This graph shows what time it was in the %1$s server's time zone %2$s during the visits.",
+        "TimesSubcategoryHelp": "The Times section shows you when people are visiting your site. You can see the most popular local times your users visit at, so you can understand where your site fits into their life. Additionally, it shows the most popular server times, which can reveal demands on your technology stack."
     }
 }

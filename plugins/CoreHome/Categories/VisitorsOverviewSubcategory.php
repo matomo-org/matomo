@@ -19,6 +19,6 @@ class VisitorsOverviewSubcategory extends Subcategory
 
     public function getHelp()
     {
-        return '<p>' . Piwik::translate('General_VisitorsOverviewHelp') . '</p>';
+        return '<p>' . Piwik::translate('CoreHome_VisitorsOverviewHelp') . '</p>';
     }
 }

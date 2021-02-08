@@ -36,6 +36,8 @@
         "HelpNote": "Some of those metrics might not always be available. You can find more information in our %1$sonline guide%2$s.",
         "RowActionTitle": "Open page performance report",
         "RowActionDescription": "Show page performance report for this row",
-        "PagePerformanceTitle": "Page performance for page with %1$s \"%2$s\""
+        "PagePerformanceTitle": "Page performance for page with %1$s \"%2$s\"",
+        "PerformanceSubcategoryHelp1": "The Performance section can help you analyse how fast your website or app is performing on the whole and help discover whether you have specific pages that significantly deviate from your averages.",
+        "PerformanceSubcategoryHelp2": "You can also find reports showing exactly how long each page of your website takes to load and what is contributing to their loading time."
     }
 }
