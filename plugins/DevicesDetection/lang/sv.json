@@ -20,6 +20,8 @@
         "dataTableLabelModels": "Modell",
         "dataTableLabelSystemVersion": "Hanterar Systemets version",
         "dataTableLabelTypes": "Typ",
+        "ClientType": "Klienttyp",
+        "ClientTypes": "Klienttyper",
         "Device": "Enhet",
         "DeviceBrand": "Typ av utrustning",
         "DeviceBrands": "Typ av utrustning",
@@ -35,6 +37,7 @@
         "OperatingSystemCode": "Operativsystemskod",
         "OperatingSystems": "Operativsystem",
         "OperatingSystemVersions": "Operativsystemversion",
+        "OperatingSystemVersionsReportDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde. Varje version och distribution av webbläsare är listad separat.",
         "PluginDescription": "Visar utökad information om användarenheter som t.ex. tillverkare, modell, typ av enhet mm.",
         "SmartDisplay": "Smart skärm",
         "Smartphone": "Smartphone",
@@ -47,9 +50,12 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "Library": "Bibliotek",
         "MobileApp": "Mobilapp",
+        "MediaPlayer": "Mediaspelare",
         "XVisitsFromDevices": "%1$s besök från %2$s enheter",
         "WidgetBrowsers": "Webbläsare",
+        "WidgetBrowsersDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde.",
         "WidgetBrowserVersionsDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde. Varje version av webbläsare är listad separat."
     }
 }

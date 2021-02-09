@@ -9,13 +9,20 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\Access;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Segment;
+use Piwik\Site;
+use Psr\Log\LoggerInterface;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
@@ -29,9 +36,18 @@ class API extends \Piwik\Plugin\API
      */
     private $model;
 
-    public function __construct(Model $model)
+    /**
+     * @var SegmentArchiving
+     */
+    private $segmentArchiving;
+
+    private $processNewSegmentsFrom;
+
+    public function __construct(Model $model, SegmentArchiving $segmentArchiving)
     {
         $this->model = $model;
+        $this->segmentArchiving = $segmentArchiving;
+        $this->processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
     }
 
     protected function checkSegmentValue($definition, $idSite)
@@ -258,6 +274,10 @@ class API extends \Piwik\Plugin\API
 
         $this->getModel()->updateSegment($idSegment, $bind);
 
+        if ($autoArchive && !Rules::isBrowserTriggerEnabled()) {
+            $this->segmentArchiving->reArchiveSegment($bind);
+        }
+
         return true;
     }
 
@@ -293,6 +313,13 @@ class API extends \Piwik\Plugin\API
         );
 
         $id = $this->getModel()->createSegment($bind);
+
+        if ($autoArchive
+            && !Rules::isBrowserTriggerEnabled()
+            && $this->processNewSegmentsFrom != SegmentArchiving::CREATION_TIME
+        ) {
+            $this->segmentArchiving->reArchiveSegment($bind);
+        }
 
         return $id;
     }

@@ -22,294 +22,102 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SegmentArchivingTest extends IntegrationTestCase
 {
-    const TEST_NOW = '2015-03-01';
-
-    private $mockSegmentEntries;
-
-    public function setUp(): void
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
-
-        Config::getInstance()->General['enabled_periods_API'] = 'day,week,month,year,range';
-
-        Site::setSites([
-            1 => [
-                'idsite' => 1,
-                'ts_created' => '2013-03-03 00:00:00',
-            ],
-        ]);
-
-        $this->mockSegmentEntries = array(
-            array(
-                'ts_created' => '2014-01-01',
-                'definition' => 'browserName==FF',
-                'enable_only_idsite' => 1,
-                'ts_last_edit' => '2014-05-05 00:22:33',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2014-01-01',
-                'definition' => 'countryCode==us',
-                'enable_only_idsite' => 1,
-                'ts_last_edit' => '2014-02-02 00:33:44',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2012-01-01',
-                'definition' => 'countryCode==us',
-                'enable_only_idsite' => 1,
-                'ts_last_edit' => '2014-02-03',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2014-01-01',
-                'definition' => 'countryCode==ca',
-                'enable_only_idsite' => 2,
-                'ts_last_edit' => '2013-01-01',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2012-01-01',
-                'definition' => 'countryCode==ca',
-                'enable_only_idsite' => 2,
-                'ts_last_edit' => '2011-01-01',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2012-01-01',
-                'definition' => 'countryCode==br',
-                'enable_only_idsite' => 2,
-                'ts_last_edit' => '2011-01-01',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2011-01-01',
-                'definition' => 'countryCode==ca',
-                'enable_only_idsite' => 0,
-                'ts_last_edit' => null,
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2015-03-01',
-                'definition' => 'pageUrl==a',
-                'enable_only_idsite' => 1,
-                'ts_last_edit' => '2014-01-01',
-                'auto_archive' => 1,
-            ),
-
-            array(
-                'ts_created' => '2015-02-01',
-                'definition' => 'pageUrl==b',
-                'enable_only_idsite' => 1,
-                'ts_last_edit' => null,
-                'auto_archive' => 1,
-            ),
-        );
-
-        Date::$now = strtotime('2020-01-30 00:00:00');
+        parent::beforeTableDataCached();
+        Fixture::createWebsite('2020-01-04 12:00:00');
     }
 
     /**
-     * @dataProvider getTestDataForGetSegmentArchivesToInvalidateForNewSegments
+     * @dataProvider getTestDataForGetReArchiveSegmentStartDate
      */
-    public function test_getSegmentArchivesToInvalidateForNewSegments_returnsAllSegments_IfInvalidationHasNotRun($processFrom, $idSite, $expected)
+    public function test_getReArchiveSegmentStartDate($processNewSegmentFrom, $segmentInfo, $expected)
     {
-        $archiving = $this->createUrlProviderToTest($processFrom);
-        $segments = $archiving->getSegmentArchivesToInvalidateForNewSegments($idSite);
-        $this->getStringDates($segments);
-        $this->assertEquals($expected, $segments);
+        Date::$now = strtotime('2020-10-12 13:45:00');
+
+        Config::getInstance()->General['process_new_segments_from'] = $processNewSegmentFrom;
+
+        $segmentArchiving = new SegmentArchiving();
+        $result = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
+        if (!empty($result)) {
+            $result = $result->toString();
+        }
+        $this->assertEquals($expected, $result);
     }
 
-    public function getTestDataForGetSegmentArchivesToInvalidateForNewSegments()
+    public function getTestDataForGetReArchiveSegmentStartDate()
     {
         return [
+            // no segment creation time
             [
-                'beginning_of_time',
-                1,
-                [
-                    [
-                        'date' => '2013-03-03 00:00:00',
-                        'segment' => 'browserName==FF',
-                    ],
-                    [
-                        'date' => '2013-03-03 00:00:00',
-                        'segment' => 'countryCode==us',
-                    ],
-                    [
-                        'date' => '2013-03-03 00:00:00',
-                        'segment' => 'countryCode==ca',
-                    ],
-                    [
-                        'date' => '2013-03-03 00:00:00',
-                        'segment' => 'pageUrl==a',
-                    ],
-                    [
-                        'date' => '2013-03-03 00:00:00',
-                        'segment' => 'pageUrl==b',
-                    ],
-                ],
+                SegmentArchiving::CREATION_TIME,
+                [],
+                null,
             ],
 
+            // creation time
             [
-                'segment_creation_time',
-                1,
-                [
-                    [
-                        'date' => '2014-01-01 00:00:00',
-                        'segment' => 'browserName==FF',
-                    ],
-                    [
-                        'date' => '2014-01-01 00:00:00',
-                        'segment' => 'countryCode==us',
-                    ],
-                    [
-                        'date' => '2011-01-01 00:00:00',
-                        'segment' => 'countryCode==ca',
-                    ],
-                    [
-                        'date' => '2015-03-01 00:00:00',
-                        'segment' => 'pageUrl==a',
-                    ],
-                    [
-                        'date' => '2015-02-01 00:00:00',
-                        'segment' => 'pageUrl==b',
-                    ],
-                ],
+                SegmentArchiving::CREATION_TIME,
+                ['ts_created' => '2020-04-12 03:34:55'],
+                '2020-04-12',
             ],
 
+            // last edit time
             [
-                'segment_last_edit_time',
-                1,
-                [
-                    [
-                        'date' => '2014-05-05 00:22:33',
-                        'segment' => 'browserName==FF',
-                    ],
-                    [
-                        'date' => '2014-02-02 00:33:44',
-                        'segment' => 'countryCode==us',
-                    ],
-                    [
-                        'date' => '2011-01-01 00:00:00',
-                        'segment' => 'countryCode==ca',
-                    ],
-                    [
-                        'date' => '2015-03-01 00:00:00',
-                        'segment' => 'pageUrl==a',
-                    ],
-                    [
-                        'date' => '2015-02-01 00:00:00',
-                        'segment' => 'pageUrl==b',
-                    ],
-                ],
+                SegmentArchiving::LAST_EDIT_TIME,
+                ['ts_created' => '2020-02-02 03:00:00', 'ts_last_edit' => '2020-04-13 05:15:15'],
+                '2020-04-13',
             ],
 
+            // last edit time, no edit time in segment
             [
-                'segment_last_edit_time',
-                2,
-                [
-                    [
-                        'date' => '2014-01-01 00:00:00',
-                        'segment' => 'countryCode==ca',
-                    ],
-                    [
-                        'date' => '2012-01-01 00:00:00',
-                        'segment' => 'countryCode==br',
-                    ],
-                ],
+                SegmentArchiving::LAST_EDIT_TIME,
+                ['ts_created' => '2020-04-14 00:00:00'],
+                '2020-04-14',
+            ],
+
+            // lastN
+            [
+                'last30',
+                ['ts_created' => '2020-06-12'],
+                '2020-05-13',
+            ],
+
+            // beginning of time
+            [
+                SegmentArchiving::BEGINNING_OF_TIME,
+                ['ts_created' => '2020-06-12'],
+                '2013-01-01',
+            ],
+
+            // beginning of time (unreadable value)
+            [
+                'aslkdfjsdlkjf',
+                ['ts_created' => '2020-06-12'],
+                '2013-01-01',
             ],
         ];
     }
 
-    public function test_getSegmentArchivesToInvalidateForNewSegments_returnsSegmentsRecentlyCreated_IfInvalidationHasRun()
+    public function test_getReArchiveSegmentStartDate_whenSiteCreationDateIsLater()
     {
-        Option::set(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME, strtotime('2013-12-30 00:00:00'));
-
-        $archiving = $this->createUrlProviderToTest('beginning_of_time');
-        $segments = $archiving->getSegmentArchivesToInvalidateForNewSegments(1);
-        $this->getStringDates($segments);
-
-        $expected = [
-            [
-                'segment' => 'browserName==FF',
-                'date' => '2013-03-03 00:00:00',
-            ],
-            [
-                'segment' => 'countryCode==us',
-                'date' => '2013-03-03 00:00:00',
-            ],
-            [
-                'segment' => 'pageUrl==a',
-                'date' => '2013-03-03 00:00:00',
-            ],
-            [
-                'segment' => 'pageUrl==b',
-                'date' => '2013-03-03 00:00:00',
-            ],
-        ];
-        $this->assertEquals($expected, $segments);
+        $segmentInfo = ['ts_created' => '2019-05-03 00:00:00', 'enable_only_idsite' => 1];
+        $this->test_getReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-01-03');
     }
 
-    public function test_getSegmentArchivesToInvalidateForNewSegments_returnsNoSegments_IfInvalidationHasRunAndAllSegmentsCreatedBefore()
+    public function test_getReArchiveSegmentStartDate_whenEarliestVisitTimeIsLater()
     {
-        Option::set(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME, strtotime('2019-12-30 00:00:00'));
+        $t = Fixture::getTracker(1, '2020-02-05 03:00:00');
+        $t->setUrl('http://abc.com');
+        Fixture::checkResponse($t->doTrackPageView('abc'));
 
-        $archiving = $this->createUrlProviderToTest('beginning_of_time');
-        $segments = $archiving->getSegmentArchivesToInvalidateForNewSegments(1);
-        $this->getStringDates($segments);
-
-        $expected = [];
-        $this->assertEquals($expected, $segments);
+        $segmentInfo = ['ts_created' => '2019-05-03 00:00:00', 'enable_only_idsite' => 1];
+        $this->test_getReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-02-05');
     }
 
-    public function test_getSegmentArchivesToInvalidateForNewSegments_usesLastArchiveFinishTimeIfInvalidationTimeMissing()
+    protected static function configureFixture($fixture)
     {
-        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, strtotime('2013-12-30 00:00:00'));
-
-        $archiving = $this->createUrlProviderToTest('beginning_of_time');
-        $segments = $archiving->getSegmentArchivesToInvalidateForNewSegments(1);
-        $this->getStringDates($segments);
-
-        $expected = [
-            [
-                'segment' => 'browserName==FF',
-                'date' => '2013-03-03 00:00:00',
-            ],
-            [
-                'segment' => 'countryCode==us',
-                'date' => '2013-03-03 00:00:00',
-            ],
-            [
-                'segment' => 'pageUrl==a',
-                'date' => '2013-03-03 00:00:00',
-            ],
-            [
-                'segment' => 'pageUrl==b',
-                'date' => '2013-03-03 00:00:00',
-            ],
-        ];
-        $this->assertEquals($expected, $segments);
-    }
-
-    private function createUrlProviderToTest($processNewSegmentsFrom, $mockData = null)
-    {
-        $mockSegmentEditorModel = $this->createPartialMock('Piwik\Plugins\SegmentEditor\Model', array('getAllSegmentsAndIgnoreVisibility'));
-        $mockSegmentEditorModel->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->will($this->returnValue($mockData ?: $this->mockSegmentEntries));
-
-        return new SegmentArchiving($processNewSegmentsFrom, $beginningOfTimeLastN = 7, $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));
-    }
-
-    private function getStringDates(array &$entries)
-    {
-        foreach ($entries as &$entry) {
-            $entry['date'] = $entry['date']->getDatetime();
-        }
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }

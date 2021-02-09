@@ -228,7 +228,7 @@ class Model
                 $date1 = $period->getDateStart()->toString();
                 $date2 = $period->getDateEnd()->toString();
 
-                $key = $this->makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period->getId(), $doneFlag);
+                $key = $this->makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period->getId(), $doneFlag, $name);
                 if (!empty($existingInvalidations[$key])) {
                     continue; // avoid adding duplicates where possible
                 }
@@ -262,7 +262,7 @@ class Model
 
         $idSites = array_map('intval', $idSites);
 
-        $sql = "SELECT idsite, date1, date2, period, name, COUNT(*) as `count` FROM `$table`
+        $sql = "SELECT idsite, date1, date2, period, name, report, COUNT(*) as `count` FROM `$table`
                  WHERE idsite IN (" . implode(',', $idSites) . ") AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . "
                        $periodCondition AND $nameCondition
               GROUP BY idsite, date1, date2, period, name";
@@ -270,15 +270,15 @@ class Model
 
         $invalidations = [];
         foreach ($rows as $row) {
-            $key = $this->makeExistingInvalidationArrayKey($row['idsite'], $row['date1'], $row['date2'], $row['period'], $row['name']);
+            $key = $this->makeExistingInvalidationArrayKey($row['idsite'], $row['date1'], $row['date2'], $row['period'], $row['name'], $row['report']);
             $invalidations[$key] = $row['count'];
         }
         return $invalidations;
     }
 
-    private function makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period, $name)
+    private function makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period, $name, $report)
     {
-        return implode('.', [$idSite, $date1, $date2, $period, $name]);
+        return implode('.', [$idSite, $date1, $date2, $period, $name, $report]);
     }
 
     /**

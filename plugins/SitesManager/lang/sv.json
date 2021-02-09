@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ändring av din tidszon kommer endast att påverka informationen i framtiden, och kommer inte att tillämpas retroaktivt.",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Valutasymbolen kommer att visas intill Målintäkter.",
+        "CustomizeJavaScriptTracker": "Anpassa spårning med JavaScript",
         "DefaultCurrencyForNewWebsites": "Standardvaluta för nya webbplatser",
         "DefaultTimezoneForNewWebsites": "Standard tidszon för nya webbplatser",
         "DeleteConfirm": "Är du säker på att du vill ta bort denna webbplats (%s)?",
@@ -33,6 +34,7 @@
         "GlobalListExcludedUserAgents_Desc": "Om besökarens användaragent innehåller något av det du anger, så kommer besöket exkluderas från Matomo.",
         "GlobalSettings": "Globala inställningar",
         "GlobalWebsitesSettings": "Globala inställningar för webbplatser",
+        "Integrations": "Integrationer",
         "HelpExcludedIpAddresses": "Ange listan över IP-adresser, en per rad, som du önskar exkludera från spårningen av Matomo. Du kan använda CIDR notation t.ex. %1$s eller wildcards, t.ex. %2$s eller %3$s",
         "JsTrackingTagHelp": "Här är JavaScript-spårningskoden att inkludera på alla dina sidor",
         "KeepURLFragments": "Sidans URL fragment spåras",
@@ -87,6 +89,7 @@
         "YouCurrentlyHaveAccessToNWebsites": "Du har tillgång till %s webbplats(er).",
         "YourCurrentIpAddressIs": "Din aktuella IP-adress är %s",
         "DeleteSiteExplanation": "Genom att ta bort en webbplats så kommer all data som har sparats för den tas bort. Denna åtgärd är permanent och kan inte ångras.",
+        "EmailInstructionsButton": "Skicka instruktionerna med e-post",
         "EmailInstructionsSubject": "Matomo Analytics spårningskod"
     }
 }

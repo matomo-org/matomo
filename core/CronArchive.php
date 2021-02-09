@@ -199,8 +199,6 @@ class CronArchive
      */
     private $periodIdsToLabels;
 
-    private $processNewSegmentsFrom;
-
     /**
      * @var ArchiveFilter
      */
@@ -219,16 +217,12 @@ class CronArchive
     /**
      * Constructor.
      *
-     * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
-     *                                            for possible values.
      * @param LoggerInterface|null $logger
      */
-    public function __construct($processNewSegmentsFrom = null, LoggerInterface $logger = null)
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->formatter = new Formatter();
-
-        $this->processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
@@ -276,7 +270,7 @@ class CronArchive
 
     public function init()
     {
-        $this->segmentArchiving = new SegmentArchiving($this->processNewSegmentsFrom, $this->dateLastForced);
+        $this->segmentArchiving = StaticContainer::get(SegmentArchiving::class);
 
         /**
          * This event is triggered during initializing archiving.
@@ -567,7 +561,7 @@ class CronArchive
         $visits = (int) $visits;
 
         $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
-            . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode($params['segment']) : '') . "', "
+            . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
 
@@ -778,7 +772,7 @@ class CronArchive
     {
         if (empty($this->segmentArchiving)) {
             // might not be initialised if init is not called
-            $this->segmentArchiving = new SegmentArchiving($this->processNewSegmentsFrom, $this->dateLastForced);
+            $this->segmentArchiving = StaticContainer::get(SegmentArchiving::class);
         }
 
         $this->logger->debug("Checking for queued invalidations...");
@@ -836,26 +830,6 @@ class CronArchive
             $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
             $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range', $_forceInvalidateNonexistant = true);
-        }
-
-        // for new segments, invalidate past dates
-        $segmentDatesToInvalidate = $this->segmentArchiving->getSegmentArchivesToInvalidateForNewSegments($idSiteToInvalidate);
-
-        foreach ($segmentDatesToInvalidate as $info) {
-            $this->logger->info('  Segment "{segment}" was created or changed recently and will therefore archive today (for site ID = {idSite})', [
-                'segment' => $info['segment'],
-                'idSite' => $idSiteToInvalidate,
-            ]);
-
-            $earliestDate = $info['date'];
-
-            $allDates = PeriodFactory::build('range', $earliestDate . ',today')->getSubperiods();
-            $allDates = array_map(function (Period $p) {
-                return $p->getDateStart()->toString();
-            }, $allDates);
-            $allDates = implode(',', $allDates);
-
-            $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSiteToInvalidate, $allDates, $period = false, urlencode($info['segment']));
         }
 
         $this->setInvalidationTime();
