@@ -143,4 +143,13 @@ class Subcategory
     {
         return $this->order;
     }
+
+    /**
+     * Get the help text (if any) for this category.
+     * @return null
+     */
+    public function getHelp()
+    {
+        return null;
+    }
 }
