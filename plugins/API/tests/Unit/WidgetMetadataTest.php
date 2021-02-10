@@ -49,12 +49,14 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'id' => 'CategoryId',
                 'name' => 'CategoryId',
                 'order' => 99,
-                'icon' => ''
+                'icon' => '',
+                'help' => '',
             ),
             'subcategory' => array(
                 'id' => 'SubcategoryId',
                 'name' => 'SubcategoryIdName',
                 'order' => 99,
+                'help' => '',
             ),
             'module' => 'CoreHome',
             'action' => 'render',
@@ -89,6 +91,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             'name' => 'CategoryId',
             'order' => 99,
             'icon' => '',
+            'help' => '',
         ), $metadata['category']);
         $this->assertNull($metadata['subcategory']);
     }
@@ -141,12 +144,14 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'id' => 'NestedCategory1',
                 'name' => 'NestedCategory1',
                 'order' => 99,
-                'icon' => ''
+                'icon' => '',
+                'help' => '',
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory1',
                 'name' => 'NestedSubcategory1',
-                'order' => 99
+                'order' => 99,
+                'help' => '',
             ),
             'module' => 'CoreHome',
             'action' => 'render',
@@ -164,12 +169,14 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'id' => 'NestedCategory2',
                 'name' => 'NestedCategory2',
                 'order' => 99,
-                'icon' => ''
+                'icon' => '',
+                'help' => '',
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory2',
                 'name' => 'NestedSubcategory2',
-                'order' => 99
+                'order' => 99,
+                'help' => '',
             ),
             'module' => 'CoreHome',
             'action' => 'render',
@@ -204,11 +211,13 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'Category2',
                 'order' => 99,
                 'icon' => '',
+                'help' => '',
             ],
             'subcategory' => [
                 'id' => 'Subcategory2',
                 'name' => 'Subcategory2Name',
                 'order' => 99,
+                'help' => '',
             ],
             'module' => 'CoreHome',
             'action' => 'render',
@@ -244,11 +253,13 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'NestedCategory1',
                 'order' => 99,
                 'icon' => '',
+                'help' => '',
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory1',
                 'name' => 'NestedSubcategory1Name',
                 'order' => 99,
+                'help' => '',
             ),
             'widgets' => array (
                 0 => array ( // widgets should not have category / subcategory again, it's already present above
