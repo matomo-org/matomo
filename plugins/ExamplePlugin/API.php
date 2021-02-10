@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ExamplePlugin;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
 use Piwik\Segment;
 
 /**
