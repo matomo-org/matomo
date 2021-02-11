@@ -201,6 +201,15 @@ class Twig
         $this->addTest_isNumeric();
 
         $this->twig->addExtension(new PiwikTwigFilterExtension());
+
+        $this->addFunction_cspNonce();
+    }
+
+    private function addFunction_cspNonce()
+    {
+        $this->twig->addFunction(new TwigFunction('csp_nonce', function () {
+            return Piwik::getCspNonce();
+        }));
     }
 
     private function addTest_false()

@@ -53,6 +53,16 @@ class Piwik
      */
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
+    private static $cspNonce = null;
+
+    public static function getCspNonce()
+    {
+        if (self::$cspNonce === null) {
+            self::$cspNonce = base64_encode(Common::generateUniqId());
+        }
+        return self::$cspNonce;
+    }
+
     /**
      * Trigger E_USER_ERROR with optional message
      *
