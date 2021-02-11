@@ -498,9 +498,6 @@ class Updater
                     if ($name == 'core') {
                         $coreError = true;
                         break;
-                    } elseif ($pluginManager->isPluginActivated($name) && $pluginManager->isPluginBundledWithCore($name)) {
-                        $coreError = true;
-                        break;
                     } elseif ($pluginManager->isPluginActivated($name)) {
                         $pluginManager->deactivatePlugin($name);
                         $deactivatedPlugins[] = $name;
