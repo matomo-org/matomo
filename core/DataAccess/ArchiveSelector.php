@@ -70,9 +70,10 @@ class ArchiveSelector
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
+        $plugins = array_filter($plugins);
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
-        $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
+        $requestedPluginDoneFlags = empty($requestedPlugin) ? [] : Rules::getDoneFlags([$requestedPlugin], $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
