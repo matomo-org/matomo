@@ -195,7 +195,6 @@ class ArchiveSelector
 
             // get the archive IDs. we keep all archives until the first all plugins archive.
             // everything older than that one is discarded.
-            $pluginsFound = [];
             foreach ($archiveIds as $row) {
                 $dateStr = $row['date1'] . ',' . $row['date2'];
 
@@ -206,18 +205,7 @@ class ArchiveSelector
 
                     $result[$doneFlag][$dateStr][] = $idarchive;
                     if (strpos($doneFlag, '.') === false) { // all plugins archive
-                        break; // found the all plugins archive, don't need to look in older archives
-                    } else {
-                        list($ignore, $plugin) =  explode('.', $doneFlag);
-                        if (empty($pluginsFound[$plugin])) {
-                            $pluginsFound[$plugin] = true;
-
-                            $result[$doneFlag][$dateStr][] = $idarchive;
-
-                            if (count($plugins) == count($pluginsFound)) {
-                                break; // found archive for every plugin, don't need to keep looking
-                            }
-                        }
+                        break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
                 }
             }
@@ -375,7 +363,7 @@ class ArchiveSelector
         $doneFlags    = Rules::getDoneFlags($plugins, $segment);
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
-        $possibleValues = Rules::getSelectableDoneFlagValues($includeInvalidated);
+        $possibleValues = Rules::getSelectableDoneFlagValues($includeInvalidated, null, $checkAuthorizedToArchive = false);
 
         // create the SQL to find archives that are DONE
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
