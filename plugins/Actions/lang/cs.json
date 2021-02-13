@@ -80,6 +80,7 @@
         "ActionType": "Typ akce",
         "ActionTypes": "Typy akcí",
         "Behaviour": "Chování",
-        "TimeSpentInReferringAction": "Čas strávený odkazující akci"
+        "TimeSpentInReferringAction": "Čas strávený odkazující akci",
+        "PagesSubcategoryHelp3": "Použijte ikonu plus a mínus vlevo od navigace."
     }
 }

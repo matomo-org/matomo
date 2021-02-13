@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s pesquisas internas",
         "XOfAllPageviews": "%s de todas as visualizações desta página",
         "XOutOfYVisits": "%1$s (de %2$s)",
-        "PageURLTransitions": "Endereços de páginas de transição"
+        "PageURLTransitions": "Endereços de páginas de transição",
+        "TransitionsSubcategoryHelp1": "As Transições fornecem-lhe um relatório que mostra as coisas que os seus visitantes fizeram diretamente antes e depois de ver uma determinada página. Esta página irá explicar como aceder, compreender e utilizar o poderoso relatório das Transições.",
+        "TransitionsSubcategoryHelp2": "Mais detalhes"
     }
 }

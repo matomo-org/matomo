@@ -26,6 +26,7 @@
         "ToFollowingSiteSearches": "Pretraživanja sajta",
         "ToFollowingSiteSearchesInline": "%s pretraživanja sajta",
         "XOfAllPageviews": "%s od svih pregleda ove strane",
-        "XOutOfYVisits": "%1$s (od %2$s)"
+        "XOutOfYVisits": "%1$s (od %2$s)",
+        "TransitionsSubcategoryHelp2": "Više detalja"
     }
 }

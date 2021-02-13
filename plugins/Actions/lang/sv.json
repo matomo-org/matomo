@@ -79,6 +79,7 @@
         "ActionType": "Åtgärdstyp",
         "ActionTypes": "Typer av handlingar",
         "Behaviour": "Beteende",
-        "TimeSpentInReferringAction": "Tid lagd i hänvisningsaktivitet"
+        "TimeSpentInReferringAction": "Tid lagd i hänvisningsaktivitet",
+        "PagesSubcategoryHelp3": "Använd plus- och minusikonerna till höger för att navigera."
     }
 }

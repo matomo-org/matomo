@@ -59,6 +59,11 @@
         "SegmentedVisitorLogTitle": "Regjistër Vizitash që shfaq vizita ku %1$s është \"%2$s\"",
         "OnClickPause": "%s është nisur. Klikoni që të ndalet.",
         "OnClickStart": "%s është ndalur. Klikoni që të niset.",
-        "ClickToSeeAllContents": "Klikoni që të shihni çdo ndërveprim\/përshtypje lënde"
+        "ClickToSeeAllContents": "Klikoni që të shihni çdo ndërveprim\/përshtypje lënde",
+        "VisitorLogSubcategoryHelp1": "Regjistri i Vizitave ju shfaq hollësisht çdo vizitë që i vjen sajtit. Mund të shihni ç’veprime ka ndërmarrë çdo vizitor, se erdhën te sajti juaj, diçka rreth se cilët janë, etj (teksa jeni ende në pajtim me rregulloret vendore mbi privatësinë).",
+        "VisitorLogSubcategoryHelp2": "Teksa raporte të tjerë në Matomo tregojnë se si sillen vizitorët, parë si tërësi, Regjistri i Vizitave furnizon hollësi të imta. Mund të përdorni edhe segmente, për ta ngushtuar punën për lloje specifike vizitash, për të kuptuar më mirë vizitorët tuaj.",
+        "VisitorLogSubcategoryHelp3": "Mësoni më tepër, te udhërrëfyesi për Regjistër Vizitash.",
+        "RealTimeHelp1": "Raporti Vizita Aty për Aty shfaq aty për aty rrjedhën e vizitave në sajtin tuaj. Përmban një numërator të atypëratyshëm të vizitave dhe parjeve të faqeve tuaja për 24 orët e fundit dhe për 30 minutat e mëparshme.",
+        "RealTimeHelp2": "Ky raport rifreskohet çdo 5 sekonda dhe shfaq vizita të reja (ose vizitorë ekzistues që shohin një faqe të re) në krye të listës, me një efekt zbehjeje."
     }
 }

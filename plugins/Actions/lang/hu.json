@@ -41,6 +41,7 @@
         "WidgetSearchCategories": "Keresés kategóriák",
         "WidgetSearchKeywords": "Oldal keresés kulcsszavak",
         "WidgetSearchNoResultKeywords": "Kulcsszavak, melyekre nincs találat",
-        "ActionType": "Akció típusa"
+        "ActionType": "Akció típusa",
+        "PagesSubcategoryHelp3": "Használd a baloldali plusz és mínusz ikonokat a navigációhoz."
     }
 }

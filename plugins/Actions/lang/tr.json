@@ -80,6 +80,7 @@
         "ActionType": "Eylem Türü",
         "ActionTypes": "İşlem Türleri",
         "Behaviour": "Davranış",
-        "TimeSpentInReferringAction": "Belirtilen İşleme Harcanan Zaman"
+        "TimeSpentInReferringAction": "Belirtilen İşleme Harcanan Zaman",
+        "PagesSubcategoryHelp3": "Gezinmek için soldaki artı ve eksi simgelerini kullanın."
     }
 }

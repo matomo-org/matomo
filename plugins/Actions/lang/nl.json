@@ -73,6 +73,7 @@
         "WidgetSearchNoResultKeywords": "Zoekwoorden zonder resultaten",
         "ActionType": "Soort actie",
         "ActionTypes": "Soorten acties",
-        "Behaviour": "Gedrag"
+        "Behaviour": "Gedrag",
+        "PagesSubcategoryHelp3": "Gebruik de + en - icoontjes aan de linkerzijde om te navigeren."
     }
 }

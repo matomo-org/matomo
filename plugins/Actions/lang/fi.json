@@ -73,6 +73,7 @@
         "WidgetSearchNoResultKeywords": "Hakusanat ilman tuloksia",
         "ActionType": "Toiminnon tyyppi",
         "ActionTypes": "Toimintotyypit",
-        "Behaviour": "Käyttäytyminen"
+        "Behaviour": "Käyttäytyminen",
+        "PagesSubcategoryHelp3": "Käytä plus- ja miinus-merkkejä vasemmalla."
     }
 }
