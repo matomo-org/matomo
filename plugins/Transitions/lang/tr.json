@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s iç arama",
         "XOfAllPageviews": "Bu sayfanın tüm görüntülenmelerinden %s",
         "XOutOfYVisits": "%1$s (toplam %2$s)",
-        "PageURLTransitions": "Sayfa Adresi Dönüşümleri"
+        "PageURLTransitions": "Sayfa Adresi Dönüşümleri",
+        "TransitionsSubcategoryHelp1": "Dönüşümler raporu, kullanıcıların belirli bir sayfaya gelmeden önce ve sonra yaptıkları işlemleri içerir. Bu bölümde, Dönüşümler raporuna erişmek, yorumlamak ve kullanmak hakkında gerekli bilgiler bulunur.",
+        "TransitionsSubcategoryHelp2": "Daha Fazla Ayrıntı"
     }
 }

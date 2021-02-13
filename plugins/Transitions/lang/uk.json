@@ -26,6 +26,7 @@
         "ToFollowingSiteSearches": "внутрішніх пошуків по сайту",
         "ToFollowingSiteSearchesInline": "%s внутрішніх пошуків по сайту",
         "XOfAllPageviews": "%s з усіх переглядів сторінки",
-        "XOutOfYVisits": "%1$s (з %2$s)"
+        "XOutOfYVisits": "%1$s (з %2$s)",
+        "TransitionsSubcategoryHelp2": "Деталізація"
     }
 }

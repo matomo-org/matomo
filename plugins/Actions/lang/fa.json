@@ -73,6 +73,7 @@
         "WidgetSearchNoResultKeywords": "جستجوی کلیدواژه ها بدون نتیجه بود",
         "ActionType": "نوع فعالیت",
         "ActionTypes": "نوع فعالیت",
-        "Behaviour": "رفتار"
+        "Behaviour": "رفتار",
+        "PagesSubcategoryHelp3": "ازآیکون مثبت و منفی بر روی نوار سمت چپ برای حرکت استفاده کنید."
     }
 }

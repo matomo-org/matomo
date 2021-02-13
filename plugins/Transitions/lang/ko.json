@@ -23,6 +23,7 @@
         "ToFollowingSiteSearches": "내부 검색",
         "ToFollowingSiteSearchesInline": "%s 내부 검색",
         "XOfAllPageviews": "이 페이지의 모든 보기 중 %s",
-        "XOutOfYVisits": "%1$s (%2$s 나감)"
+        "XOutOfYVisits": "%1$s (%2$s 나감)",
+        "TransitionsSubcategoryHelp2": "자세히"
     }
 }

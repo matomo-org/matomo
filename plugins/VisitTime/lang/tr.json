@@ -30,6 +30,7 @@
         "WidgetLocalTime": "Yerel Zamana Göre Ziyaretler",
         "WidgetLocalTimeDocumentation": "Bu çizelgede ziyaret süresince %1$sziyaretçinin saat diliminde%2$s saatin kaç olduğu görüntülenir.",
         "WidgetServerTime": "Sunucu Zamanına Göre Ziyaretler",
-        "WidgetServerTimeDocumentation": "Bu çizelgede ziyaret süresince %1$ssunucunun saat diliminde%2$s saatin kaç olduğu görüntülenir."
+        "WidgetServerTimeDocumentation": "Bu çizelgede ziyaret süresince %1$ssunucunun saat diliminde%2$s saatin kaç olduğu görüntülenir.",
+        "TimesSubcategoryHelp": "Zamanlar bölümü, kullanıcıların siteyi ziyaret etme zamanlarını içerir. Kullanıcı ziyaretlerinin yoğunlaştığı yerel saatleri görerek, sitenin ziyaretçilerin yaşantısındaki yeri anlaşılabilir. Ayrıca teknoloji alt yapısının yoğun istekleri yanıtlaması gereken yoğun sunucu zamanları da görülebilir."
     }
 }

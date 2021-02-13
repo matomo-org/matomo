@@ -80,6 +80,7 @@
         "ActionType": "Tipo di Azione",
         "ActionTypes": "Tipi di Azione",
         "Behaviour": "Comportamento",
-        "TimeSpentInReferringAction": "Tempo trascorso nell'azione di riferimento"
+        "TimeSpentInReferringAction": "Tempo trascorso nell'azione di riferimento",
+        "PagesSubcategoryHelp3": "Usare le icone + e - per navigare."
     }
 }

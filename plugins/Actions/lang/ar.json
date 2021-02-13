@@ -57,6 +57,7 @@
         "WidgetSearchCategories": "فئات البحث",
         "WidgetSearchKeywords": "كلمات البحث الدلالية",
         "WidgetSearchNoResultKeywords": "كلمات البحث الدلالية بلا نتائج",
-        "ActionType": "نوع الأمر"
+        "ActionType": "نوع الأمر",
+        "PagesSubcategoryHelp3": "استخدم أيقونات زائد وناقص على اليمين للتنقل."
     }
 }
