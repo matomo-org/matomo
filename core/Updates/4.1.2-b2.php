@@ -41,7 +41,7 @@ class Updates_4_1_2_b2 extends PiwikUpdates
     {
         $migrations = [];
 
-        $tables = ArchiveTableCreator::getTablesArchivesInstalled('numeric', $forceReload = true);
+        $tables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
         foreach ($tables as $table) {
             $migrations[] = $this->migration->db->sql("UPDATE `$table` SET `name` = 'done' WHERE `name` = 'done.'");
         }
