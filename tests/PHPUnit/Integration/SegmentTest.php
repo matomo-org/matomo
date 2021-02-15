@@ -1894,13 +1894,13 @@ log_visit.visit_total_actions
         $this->assertWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willSegmentBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchive()
+    public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchiveAndSegmentBrowserArchivingDisabled()
     {
         $this->disableSegmentBrowserArchiving();
 
         SegmentEditorApi::getInstance()->add('My Name', $this->exampleSegment, $idSite = false, $autoArchive = false);
 
-        $this->assertNotWillBeArchived($this->exampleSegment);
+        $this->assertWillBeArchived($this->exampleSegment);
     }
 
     public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledButSegmentExistsWithAuthoArchive()
