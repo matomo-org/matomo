@@ -77,14 +77,14 @@ class SegmentArchiving
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
-        $this->forceArchiveAllSegments = $this->getShouldForceArchiveAllSegments();
+        $this->forceArchiveAllSegments = self::getShouldForceArchiveAllSegments();
     }
 
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
             if (!$this->isAutoArchivingEnabledFor($segment)
-                || !$this->isSegmentForSite($segment, $idSite)
+                || !self::isSegmentForSite($segment, $idSite)
             ) {
                 continue;
             }
@@ -205,7 +205,7 @@ class SegmentArchiving
         return Rules::getSegmentsToProcess([$idSite]);
     }
 
-    private function isSegmentForSite($segment, $idSite)
+    public static function isSegmentForSite($segment, $idSite)
     {
         return $segment['enable_only_idsite'] == 0
             || $segment['enable_only_idsite'] == $idSite;
@@ -216,7 +216,7 @@ class SegmentArchiving
         return $this->forceArchiveAllSegments || !empty($storedSegment['auto_archive']);
     }
 
-    private function getShouldForceArchiveAllSegments()
+    public static function getShouldForceArchiveAllSegments()
     {
         return !Rules::isBrowserTriggerEnabled() && !Rules::isBrowserArchivingAvailableForSegments();
     }
