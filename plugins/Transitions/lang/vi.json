@@ -22,6 +22,7 @@
         "ToFollowingSiteSearches": "Các tìm kiếm nội bộ",
         "ToFollowingSiteSearchesInline": "%s Các tìm kiếm nội bộ",
         "XOfAllPageviews": "%s của tất cả các lượt xem của trang này",
-        "XOutOfYVisits": "%1$s (trong số %2$s)"
+        "XOutOfYVisits": "%1$s (trong số %2$s)",
+        "TransitionsSubcategoryHelp2": "Xem chi tiết hơn"
     }
 }

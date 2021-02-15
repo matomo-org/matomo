@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "查無資料的關鍵字",
         "ActionType": "活動類型",
         "ActionTypes": "活動類型",
-        "Behaviour": "行為"
+        "Behaviour": "行為",
+        "PagesSubcategoryHelp3": "使用左邊的 +、- 圖示來導航。"
     }
 }

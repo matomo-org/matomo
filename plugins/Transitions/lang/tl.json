@@ -22,6 +22,7 @@
         "ToFollowingSiteSearches": "Panloob na paghahanap",
         "ToFollowingSiteSearchesInline": "panloob na paghahanap %s",
         "XOfAllPageviews": "%s ng lahat ng mga tanawin ng pahinang ito",
-        "XOutOfYVisits": "%1$s (mula sa %2$s)"
+        "XOutOfYVisits": "%1$s (mula sa %2$s)",
+        "TransitionsSubcategoryHelp2": "Higit pang mga detalye"
     }
 }

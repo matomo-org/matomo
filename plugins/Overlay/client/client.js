@@ -46,7 +46,7 @@ var Matomo_Overlay_Client = (function () {
             callback();
         }
         else {
-            Matomo_Overlay_Client.loadScript('libs/bower_components/jquery/dist/jquery.min.js', function () {
+            Matomo_Overlay_Client.loadScript('node_modules/jquery/dist/jquery.min.js', function () {
                 $ = jQuery;
                 jQuery.noConflict();
                 callback();

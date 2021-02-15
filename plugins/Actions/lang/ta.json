@@ -54,6 +54,7 @@
         "WidgetPageUrlsFollowingSearch": "தள தேடலை தொடர்ந்த பக்கங்கள்",
         "WidgetSearchCategories": "தேடல் பகுப்புகள்",
         "WidgetSearchKeywords": "தளத்தின் தேடல் திறவு சொற்கள்",
-        "WidgetSearchNoResultKeywords": "முடிவுகள் இல்லாத தேடல் திறவு சொற்கள்"
+        "WidgetSearchNoResultKeywords": "முடிவுகள் இல்லாத தேடல் திறவு சொற்கள்",
+        "PagesSubcategoryHelp3": "Fes servir les icones de més i menys a l'esquerra per navegar."
     }
 }

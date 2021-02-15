@@ -21,6 +21,7 @@
         "ToFollowingSiteSearches": "Външни търсения",
         "ToFollowingSiteSearchesInline": "%s вътрешни търсения",
         "XOfAllPageviews": "%s на всички показания за тази страница",
-        "XOutOfYVisits": "%1$s (от %2$s)"
+        "XOutOfYVisits": "%1$s (от %2$s)",
+        "TransitionsSubcategoryHelp2": "Детайли"
     }
 }

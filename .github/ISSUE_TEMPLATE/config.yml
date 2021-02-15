@@ -1,0 +1,23 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Tag Manager Issue
+    url: https://github.com/matomo-org/tag-manager/issues/new
+    about: Create a Tag Manager related report
+  - name: Log Analytics Issue
+    url: https://github.com/matomo-org/matomo-log-analytics/issues/new
+    about: Create a Log Analytics related report
+  - name: Developer Documentation Issue
+    url: https://github.com/matomo-org/developer-documentation/issues/new
+    about: Create an issue that is related to our developer documentation
+  - name: Premium Plugin Issue
+    url: https://matomo.org/support/
+    about: Report issues that are related to premium plugins
+  - name: Support/Usage Question
+    url: https://forum.matomo.org/
+    about: Feel free to ask anything
+  - name: Developer Documentation
+    url: https://developer.matomo.org/
+    about: Official documentation
+  - name: Translation feedback
+    url: https://matomo.org/translations/
+    about: Share feedback / help on translations

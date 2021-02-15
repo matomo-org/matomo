@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s 内部検索",
         "XOfAllPageviews": "このページの全ビューの %s",
         "XOutOfYVisits": "(%2$s の内の ) %1$s",
-        "PageURLTransitions": "ページURLのトランジション"
+        "PageURLTransitions": "ページURLのトランジション",
+        "TransitionsSubcategoryHelp1": "トランジションでは、ビジターが特定のページを閲覧する前後に直接行ったことを示すレポートが表示されます。 このページでは、強力な移行レポートにアクセスし、理解し、使用する方法について説明します。",
+        "TransitionsSubcategoryHelp2": "詳細"
     }
 }

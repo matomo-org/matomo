@@ -44,6 +44,7 @@
         "ToGeolocateOldVisits": "To get location data for your old visits, use the script described %1$shere%2$s.",
         "WidgetLocation": "Visitor Location",
         "GeoIpDbIpAccuracyNote": "Note: the DBIP databases are free and can be downloaded automatically, but geolocation results (specifically city results) are not as accurate as MaxMind's. MaxMind, however, requires that you create an account even for the free database. If you want to use MaxMind's geolocation database, you can start the process %1$shere%2$s",
-        "MaxMindLinkExplanation": "If you are using MaxMind's geolocation databases and you do not already know how to generate your download URL, %1$sclick here to learn how%2$s."
+        "MaxMindLinkExplanation": "If you are using MaxMind's geolocation databases and you do not already know how to generate your download URL, %1$sclick here to learn how%2$s.",
+        "LocationsSubcategoryHelp": "The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations."
     }
 }

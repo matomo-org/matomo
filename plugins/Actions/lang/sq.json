@@ -32,6 +32,7 @@
         "ColumnUniqueOutlinks": "Lidhje për Jashtë Unike",
         "ColumnIdPageview": "ID Parjeje Faqeje",
         "ColumnInteractionPosition": "Pozicion Ndërveprimi",
+        "ColumnPageViewPosition": "Pozicion Sipas Parjesh Faqeje",
         "ActionsInVisit": "Veprime Në Vizitë",
         "DownloadsReportDocumentation": "Në këtë raport, mund të shihni cilat kartela kanë shkarkuar vizitorët tuaj. %s Ato çka Matomo numëron si shkarkim është çdo klikim mbi një lidhje shkarkimi. Por Matomo s’mund ta dijë a u plotësua apo jo shkarkimi.",
         "EntryPagesReportDocumentation": "Ky raport përmban të dhëna rreth faqesh hyrjesh që janë përdorur gjatë një periudhe të caktuar. Faqe hyrjeje është faqja e parë që sheh një vizitor gjatë vizitës së tij. %s URL-të e hyrjeve shfaqen sipas një strukture dosjeje.",
@@ -40,6 +41,7 @@
         "ExitPagesReportDocumentation": "Ky raport përmban të dhëna rreth faqesh daljesh që janë kryer gjatë një periudhe të caktuar. Faqe daljeje është faqja e fundit që sheh një vizitor gjatë vizitës së tij. %s URL-të e daljeve shfaqen sipas një strukture dosjeje.",
         "ExitPageTitles": "Tituj faqesh dalje",
         "ExitPageTitlesReportDocumentation": "Ky raport përmban të dhëna rreth titujve të faqeve dalje që janë përdorur gjatë periudhës së dhënë.",
+        "MainMetricsReportDocumentation": "Ky raport furnizon një përmbledhje shumë elementare rreth çfarë veprimesh bëjnë vizitorët në sajtin tuaj.",
         "OneSearch": "1 kërkim",
         "OutlinkDocumentation": "Një lidhje për jashtë është një lidhje që e shpie përdoruesin diku jashtë sajtit tuaj (te një tjetër përkatësi).",
         "OutlinksReportDocumentation": "Ky raport shfaq një listë hierarkike URL-sh lidhjesh për jashtë që janë klikuar nga vizitorët tuaj.",
@@ -78,6 +80,21 @@
         "ActionType": "Lloj Veprimi",
         "ActionTypes": "Lloje Veprimesh",
         "Behaviour": "Sjellje",
-        "TimeSpentInReferringAction": "Kohë e Harxhuar në Veprim Referimi"
+        "TimeSpentInReferringAction": "Kohë e Harxhuar në Veprim Referimi",
+        "PagesSubcategoryHelp1": "Ky raport përmban të dhëna rreth URL-sh faqesh që janë vizituar.",
+        "PagesSubcategoryHelp2": "Tabela është e sistemuar në mënyrë hierarkike, URL-të tregohen si strukturë dosjeje.",
+        "PagesSubcategoryHelp3": "Për lëvizje përdorni ikonat plus dhe minus majtas.",
+        "EntryPagesSubcategoryHelp1": "Ky raport përmban të dhëna rreth faqesh hyrjesh që janë përdorur gjatë një periudhe të caktuar. Faqe hyrjeje është faqja e parë që sheh një vizitor gjatë vizitës së tij.",
+        "EntryPagesSubcategoryHelp2": "URL-të e hyrjeve tregohen si strukturë dosjeje.",
+        "ExitPagesSubcategoryHelp1": "Ky raport përmban të dhëna rreth faqesh daljesh që janë përdorur gjatë një periudhe të caktuar. Faqe daljeje është faqja e fundit që sheh një vizitor gjatë vizitës së tij.",
+        "ExitPagesSubcategoryHelp2": "URL-të e daljeve tregohen si strukturë dosjeje.",
+        "PageTitlesSubcategoryHelp1": "Ky raport përmban të dhëna rreth titujve të faqeve që janë vizituar.",
+        "PageTitlesSubcategoryHelp2": "Titulli i faqeve është Etiketa HTML &amp;lt;title&amp;gt; që shfaqin në titullin e dritares shumica e faqeve.",
+        "SiteSearchSubcategoryHelp1": "Ndarja Kërkim në Sajt shfaq cilat fjalëkyçe përdorin vizitorët kur kërkojnë në sajtin tuaj. Shfaqet gjithashtu cilat faqe shohin vizitorët pasi bëjnë një kërkim dhe cilat fjalëkyçe në sajt nuk japin asnjë përfundim.",
+        "SiteSearchSubcategoryHelp2": "Këto raporte mund t’ju japin ide rreth lënde që mungon në sajtin tuaj, se çfarë po kërkojnë vizitorët, por s’e gjejnë kollaj, etj.",
+        "SiteSearchSubcategoryHelp3": "Mësoni më tepër, te Udhërrëfyesi i Kërkimit Në Sajt.",
+        "OutlinksSubcategoryHelp1": "Ky raport shfaq një listë hierarkike URL-sh lidhjesh për jashtë që janë klikuar nga vizitorët tuaj. Një lidhje për jashtë është një lidhje që e largon vizitorin nga sajti juaj (drejt një përkatësie tjetër).",
+        "DownloadsSubcategoryHelp1": "Në këtë raport mund të shihni se çilat kartela kanë shkarkuar vizitorët tuaj.",
+        "DownloadsSubcategoryHelp2": "Ato çka Matomo numëron si shkarkim është çdo klikim mbi një lidhje shkarkimi. Por Matomo s’mund ta dijë a u plotësua apo jo shkarkimi."
     }
 }
