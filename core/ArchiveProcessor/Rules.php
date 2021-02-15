@@ -51,7 +51,9 @@ class Rules
      */
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
-        if (!self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)) {
+        if (!empty($plugin)
+            && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
+        ) {
             return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
         return self::getDoneFlagArchiveContainsAllPlugins($segment);

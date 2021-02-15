@@ -70,9 +70,10 @@ class ArchiveSelector
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
+        $plugins = array_filter($plugins);
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
-        $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
+        $requestedPluginDoneFlags = empty($requestedPlugin) ? [] : Rules::getDoneFlags([$requestedPlugin], $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
@@ -80,7 +81,8 @@ class ArchiveSelector
             return [false, false, false, false, false];
         }
 
-        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
+        $result = self::findArchiveDataWithLatestTsArchived($results,
+            array_merge($requestedPluginDoneFlags, [Rules::getDoneFlagArchiveContainsAllPlugins($segment)]));
 
         $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
@@ -394,10 +396,10 @@ class ArchiveSelector
      * - the doneFlag value for the latest archive
      *
      * @param $results
-     * @param $requestedPluginDoneFlags
+     * @param $doneFlags
      * @return array
      */
-    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
+    private static function findArchiveDataWithLatestTsArchived($results, $doneFlags)
     {
         // find latest idarchive for each done flag
         $idArchives = [];
@@ -416,7 +418,7 @@ class ArchiveSelector
         ];
 
         foreach ($results as $result) {
-            if (in_array($result['name'], $requestedPluginDoneFlags)
+            if (in_array($result['name'], $doneFlags)
                 && in_array($result['idarchive'], $idArchives)
             ) {
                 $archiveData = $result;
