@@ -56,6 +56,7 @@
         "WidgetSearchCategories": "Търси категории",
         "WidgetSearchKeywords": "Ключови думи търсени от сайта",
         "WidgetSearchNoResultKeywords": "Търсене по ключови думи без резултати",
-        "Behaviour": "Поведение"
+        "Behaviour": "Поведение",
+        "PagesSubcategoryHelp3": "Използвайте знаците плюс и минус за навигация."
     }
 }

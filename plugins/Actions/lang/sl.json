@@ -42,6 +42,7 @@
         "WidgetPageUrlsFollowingSearch": "Strani obiskane po iskanju na strani",
         "WidgetSearchCategories": "Kategorije za iskanje",
         "WidgetSearchKeywords": "Ključne besede",
-        "WidgetSearchNoResultKeywords": "Ključne besede brez zadetkov"
+        "WidgetSearchNoResultKeywords": "Ključne besede brez zadetkov",
+        "PagesSubcategoryHelp3": "Za navigacijo uporabite ikoni plus in minus na levi."
     }
 }

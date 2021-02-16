@@ -70,9 +70,11 @@ class ArchiveSelector
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
+        $plugins = array_filter($plugins);
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
-        $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
+
+        $requestedPluginDoneFlags = empty($requestedPlugin) ? [] : Rules::getDoneFlags([$requestedPlugin], $segment);
         $allPluginsDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
@@ -383,11 +385,13 @@ class ArchiveSelector
      * - the doneFlag value for the latest archive
      *
      * @param $results
-     * @param $requestedPluginDoneFlags
+     * @param $doneFlags
      * @return array
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag)
     {
+        $doneFlags = array_merge($requestedPluginDoneFlags, [$allPluginsDoneFlag]);
+
         // find latest idarchive for each done flag
         $idArchives = [];
         $tsArchiveds = [];
@@ -405,7 +409,7 @@ class ArchiveSelector
         ];
 
         foreach ($results as $result) {
-            if (in_array($result['name'], $requestedPluginDoneFlags)
+            if (in_array($result['name'], $doneFlags)
                 && in_array($result['idarchive'], $idArchives)
                 && $result['value'] != ArchiveWriter::DONE_PARTIAL
             ) {

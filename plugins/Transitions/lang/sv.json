@@ -30,6 +30,7 @@
         "ToFollowingSiteSearches": "Interna Sökningar",
         "ToFollowingSiteSearchesInline": "%s interna sökningar",
         "XOfAllPageviews": "%s av alla sidvisningar",
-        "XOutOfYVisits": "%1$s (av %2$s)"
+        "XOutOfYVisits": "%1$s (av %2$s)",
+        "TransitionsSubcategoryHelp2": "Mer detaljer"
     }
 }

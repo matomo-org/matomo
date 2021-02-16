@@ -63,6 +63,7 @@
         "WidgetSearchKeywords": "사이트 검색어",
         "WidgetSearchNoResultKeywords": "검색 결과 없음",
         "ActionType": "활동 종류",
-        "ActionTypes": "활동 종류들"
+        "ActionTypes": "활동 종류들",
+        "PagesSubcategoryHelp3": "왼쪽의 더하기와 빼기 아이콘을 클릭하여 작업합니다."
     }
 }

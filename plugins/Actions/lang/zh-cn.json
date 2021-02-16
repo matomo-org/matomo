@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "查无资料的关键词",
         "ActionType": "活动类型",
         "ActionTypes": "活动类型",
-        "Behaviour": "行为"
+        "Behaviour": "行为",
+        "PagesSubcategoryHelp3": "点击左边的 + 、 - 图标可展开\\\/合并分类。"
     }
 }

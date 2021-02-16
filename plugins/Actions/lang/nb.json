@@ -58,6 +58,7 @@
         "WidgetSearchCategories": "Søkekategorier",
         "WidgetSearchKeywords": "Nøkkelord for sidesøk",
         "WidgetSearchNoResultKeywords": "Nøkkelord uten resultater",
-        "ActionType": "Handlingstype"
+        "ActionType": "Handlingstype",
+        "PagesSubcategoryHelp3": "Bruk pluss- og minus-ikonene til venstre for å navigere."
     }
 }

@@ -23,6 +23,7 @@
         "ToFollowingSiteSearches": "Pencarian Dalam",
         "ToFollowingSiteSearchesInline": "%s pencarian dalam",
         "XOfAllPageviews": "%s dari selruh tanpilan dari halaman ini",
-        "XOutOfYVisits": "%1$s (di luar dari %2$s)"
+        "XOutOfYVisits": "%1$s (di luar dari %2$s)",
+        "TransitionsSubcategoryHelp2": "Selengkapnya"
     }
 }

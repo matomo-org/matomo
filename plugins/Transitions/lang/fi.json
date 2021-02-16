@@ -28,6 +28,7 @@
         "ToFollowingSiteSearches": "Sisäisiä hakuja",
         "ToFollowingSiteSearchesInline": "%s sisäistä hakua",
         "XOfAllPageviews": "%s kaikista tämän sivun katseluista",
-        "XOutOfYVisits": "%1$s (%2$s:stä)"
+        "XOutOfYVisits": "%1$s (%2$s:stä)",
+        "TransitionsSubcategoryHelp2": "Lisätietoja"
     }
 }
