@@ -185,7 +185,7 @@
                         }
                     }
 
-                    exportUrlParams.token_auth = piwik.token_auth;
+                    exportUrlParams.token_auth = _pk_translate('CoreHome_EnterYourToken');
                     exportUrlParams.force_api_session = 1;
                     exportUrlParams.filter_limit = limit;
 
