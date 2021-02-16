@@ -73,6 +73,7 @@ class ArchiveSelector
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $requestedPluginDoneFlags = Rules::getDoneFlags([$requestedPlugin], $segment);
+        $allPluginsDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
@@ -80,7 +81,7 @@ class ArchiveSelector
             return [false, false, false, false, false];
         }
 
-        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags);
+        $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag);
 
         $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
@@ -385,14 +386,14 @@ class ArchiveSelector
      * @param $requestedPluginDoneFlags
      * @return array
      */
-    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags)
+    private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag)
     {
         // find latest idarchive for each done flag
         $idArchives = [];
         $tsArchiveds = [];
         foreach ($results as $row) {
             $doneFlag = $row['name'];
-            if (!isset($idArchives[$doneFlag]) && $row['value'] != ArchiveWriter::DONE_PARTIAL) {
+            if (!isset($idArchives[$doneFlag])) {
                 $idArchives[$doneFlag] = $row['idarchive'];
                 $tsArchiveds[$doneFlag] = $row['ts_archived'];
             }
@@ -406,6 +407,7 @@ class ArchiveSelector
         foreach ($results as $result) {
             if (in_array($result['name'], $requestedPluginDoneFlags)
                 && in_array($result['idarchive'], $idArchives)
+                && $result['value'] != ArchiveWriter::DONE_PARTIAL
             ) {
                 $archiveData = $result;
                 if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
@@ -433,18 +435,17 @@ class ArchiveSelector
         }
 
         // add partial archives
+        $mainTsArchived = isset($tsArchiveds[$allPluginsDoneFlag]) ? $tsArchiveds[$allPluginsDoneFlag] : null;
         foreach ($results as $row) {
             if (!isset($idArchives[$row['name']])) {
                 continue;
             }
 
-            $mainTsArchived = $tsArchiveds[$row['name']];
             $thisTsArchived = $row['ts_archived'];
-
-            if ($row['value'] === ArchiveWriter::DONE_PARTIAL
-                && ($mainTsArchived == $thisTsArchived || Date::factory($mainTsArchived)->isEarlier($thisTsArchived))
+            if ($row['value'] == ArchiveWriter::DONE_PARTIAL
+                && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater(Date::factory($thisTsArchived)))
             ) {
-                $idArchives['partial'][] = $row['idarchive'];
+                $archiveData['partial'][] = $row['idarchive'];
             }
         }
 
