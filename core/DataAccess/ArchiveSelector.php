@@ -94,8 +94,9 @@ class ArchiveSelector
             $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
         }
 
-        if (isset($result['value'])
-            && !in_array($result['value'], $doneFlagValues)
+        if (empty($result['idarchive'])
+            || (isset($result['value'])
+                && !in_array($result['value'], $doneFlagValues))
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
@@ -445,11 +446,15 @@ class ArchiveSelector
                 continue;
             }
 
-            $thisTsArchived = $row['ts_archived'];
+            $thisTsArchived = Date::factory($row['ts_archived']);
             if ($row['value'] == ArchiveWriter::DONE_PARTIAL
-                && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater(Date::factory($thisTsArchived)))
+                && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater($thisTsArchived))
             ) {
                 $archiveData['partial'][] = $row['idarchive'];
+
+                if (empty($archiveData['ts_archived'])) {
+                    $archiveData['ts_archived'] = $row['ts_archived'];
+                }
             }
         }
 
