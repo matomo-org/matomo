@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\CronArchive;
+use Piwik\Http;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -60,11 +61,35 @@ class ArchiveCronTest extends SystemTestCase
     private static function addNewSegmentToPast()
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->save();
+
         // add one segment and set it's created/updated time to some time in the past so we don't re-archive for it
         $idSegment = API::getInstance()->add(self::NEW_SEGMENT_NAME, self::NEW_SEGMENT, self::$fixture->idSite, $autoArchive = 1, $enabledAllUsers = 1);
-        // add another segment w/ special encoded value
-        $idSegment2 = API::getInstance()->add(self::ENCODED_SEGMENT_NAME, self::ENCODED_SEGMENT, self::$fixture->idSite, $autoArchive = 1, $enabledAllUsers = 1);
+
+        // add another segment w/ special encoded value (but do it through the API which will use a definition query param which is not
+        // encoded the same as Request::getRawSegmentFromRequest()
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
+            'module' => 'API',
+            'method' => 'SegmentEditor.add',
+            'name' => self::ENCODED_SEGMENT_NAME,
+            'definition' => self::ENCODED_SEGMENT,
+            'idSite' => self::$fixture->idSite,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 1,
+            'format' => 'json',
+            'token_auth' => Fixture::getTokenAuth(),
+        ]);
+        self::assertStringContainsString(urlencode(self::ENCODED_SEGMENT), $url);
+
+        $idSegment2 = Http::sendHttpRequest($url, 10);
+        $idSegment2 = json_decode($idSegment2, $isAssoc = true);
+        $idSegment2 = $idSegment2['value'];
+
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 1);
+        self::$fixture->getTestEnvironment()->save();
+
         Db::exec("UPDATE " . Common::prefixTable('segment') . ' SET ts_created = \'2015-01-02 00:00:00\', ts_last_edit = \'2015-01-02 00:00:00\' WHERE idsegment IN (' . $idSegment . ", " . $idSegment2 . ")");
     }
 
@@ -164,6 +189,7 @@ class ArchiveCronTest extends SystemTestCase
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+        self::$fixture->getTestEnvironment()->save();
 
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
@@ -197,12 +223,6 @@ class ArchiveCronTest extends SystemTestCase
             self::undoForceCurlCliMulti();
         }
 
-        $expectedInvalidations = [];
-        $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertEquals($expectedInvalidations, $invalidationEntries);
-
-        $this->compareArchivePhpOutputAgainstExpected($output);
-
         foreach ($this->getApiForTesting() as $testInfo) {
 
             list($api, $params) = $testInfo;
@@ -228,6 +248,7 @@ class ArchiveCronTest extends SystemTestCase
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+        self::$fixture->getTestEnvironment()->save();
 
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
@@ -321,24 +342,6 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         return $output;
-    }
-
-    private function compareArchivePhpOutputAgainstExpected($output)
-    {
-        $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
-        list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
-
-        $expectedOutputFile = $pathExpected . $fileName;
-        $processedFile = $pathProcessed . $fileName;
-
-        file_put_contents($processedFile, $output);
-
-        try {
-            $this->assertTrue(is_readable($expectedOutputFile));
-            $this->assertEquals(file_get_contents($expectedOutputFile), $output);
-        } catch (Exception $ex) {
-            $this->comparisonFailures[] = $ex;
-        }
     }
 
     public static function provideContainerConfigBeforeClass()

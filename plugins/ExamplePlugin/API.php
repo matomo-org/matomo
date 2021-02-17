@@ -11,6 +11,8 @@ namespace Piwik\Plugins\ExamplePlugin;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
+use Piwik\Segment;
 
 /**
  * API for plugin ExamplePlugin
@@ -48,6 +50,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getExampleReport($idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $table = DataTable::makeFromSimpleArray(array(
             array('label' => 'My Label 1', 'nb_visits' => '1'),
             array('label' => 'My Label 2', 'nb_visits' => '5'),
@@ -66,8 +70,18 @@ class API extends \Piwik\Plugin\API
      */
     public function getExampleArchivedMetric($idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
         return $dataTable;
+    }
+
+    public function getSegmentHash($idSite, $segment)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $segment = new Segment($segment, [(int) $idSite]);
+        return $segment->getHash();
     }
 }
