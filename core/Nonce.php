@@ -99,7 +99,8 @@ class Nonce
         return true;
     }
 
-    private static function isReferrerHostValid($referrer, $expectedReferrerHost)
+    // public for tests
+    public static function isReferrerHostValid($referrer, $expectedReferrerHost)
     {
         if (empty($referrer)) {
             return false;
