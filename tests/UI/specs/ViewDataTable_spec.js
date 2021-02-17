@@ -200,6 +200,12 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await dialog.screenshot()).to.matchImage('export_options');
     });
 
+    it("should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url", async function () {
+        await page.click('.toggle-export-url');
+
+        expect(await dialog.screenshot()).to.matchImage('export_options_2');
+    });
+
     it("should show the totals row when the config link is clicked", async function () {
         await page.goto(url);
         await page.click('.dropdownConfigureIcon');
