@@ -30,7 +30,11 @@
 
                 scope.showUrl = false;
 
-                scope.getExportLink = function() {
+                scope.getExportLinkWithoutToken = function() {
+                    return scope.getExportLink(false);
+                }
+
+                scope.getExportLink = function(withToken = true) {
 
                     var dataTable = scope.dataTable;
                     var format    = scope.reportFormat;
@@ -185,8 +189,14 @@
                         }
                     }
 
+                    
                     exportUrlParams.token_auth = _pk_translate('CoreHome_EnterYourToken');
-                    exportUrlParams.force_api_session = 1;
+                    
+                    if (withToken === true) {
+                        exportUrlParams.token_auth = piwik.token_auth;
+                        exportUrlParams.force_api_session = 1;
+                    }
+                    
                     exportUrlParams.filter_limit = limit;
 
                     var currentUrl = $location.absUrl();

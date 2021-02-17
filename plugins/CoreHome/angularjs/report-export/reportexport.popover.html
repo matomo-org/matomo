@@ -61,7 +61,7 @@
     </div>
 
     <div class="col l12" ng-show="showUrl">
-        <textarea piwik-select-on-focus readonly class="exportFullUrl">{{ getExportLink() }}</textarea>
+        <textarea piwik-select-on-focus readonly class="exportFullUrl">{{ getExportLinkWithoutToken() }}</textarea>
         <div class="tooltip" ng-bind-html="'CoreHome_ExportTooltipWithLink'|translate:'<a target=_blank href=\'/index.php?module=UsersManager&action=userSecurity\'>':'</a>'"></div>
     </div>
 
