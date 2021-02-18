@@ -8,11 +8,10 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\API\Request;
 use Piwik\Plugins\CoreHome\SystemSummary;
-use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
 /**
@@ -52,8 +51,6 @@ class CoreAdminHome extends \Piwik\Plugin
     public function cleanupUser($userLogin)
     {
         PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
-
-        SegmentEditor::transferAllUserSegmentsToSuperUser($userLogin);
     }
 
     public function getStylesheetFiles(&$stylesheets)

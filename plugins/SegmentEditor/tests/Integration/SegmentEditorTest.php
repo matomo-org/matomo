@@ -205,6 +205,27 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals('super', $segment['login']);
     }
 
+    public function test_deletedUserLostTheSegments()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $model = new Model();
+
+        $this->addUser('user1');
+        $this->addUser('super', true);
+
+        FakeAccess::$identity = 'user1';
+        API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 0);
+
+        $segments = $model->getAllSegments('user1');
+        $this->assertNotEmpty($segments);
+
+        FakeAccess::$identity = 'super';
+        $this->deleteUser('user1');
+
+        $segments = $model->getAllSegments('user1');
+        $this->assertEmpty($segments);
+    }
+
     private function removeSecondsFromSegmentInfo(&$segmentInfo)
     {
         $timestampProperties = array('ts_last_edit', 'ts_created');
@@ -230,5 +251,10 @@ class SegmentEditorTest extends IntegrationTestCase
             $userUpdater = new UserUpdater();
             $userUpdater->setSuperUserAccessWithoutCurrentPassword($login, true);
         }
+    }
+
+    private function deleteUser($login)
+    {
+        UsersManagerAPI::getInstance()->deleteUser($login);
     }
 }

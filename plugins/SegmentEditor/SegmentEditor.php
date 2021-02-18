@@ -54,7 +54,8 @@ class SegmentEditor extends \Piwik\Plugin
             'Visualization.onNoData'                     => 'onNoData',
             'Archive.noArchivedData'                     => 'onNoArchiveData',
             'Db.getTablesInstalled'                      => 'getTablesInstalled',
-            'SitesManager.deleteSite.end'                => 'onDeleteSite'
+            'SitesManager.deleteSite.end'                => 'onDeleteSite',
+            'UsersManager.deleteUser'                    => 'onDeleteUser',
         );
     }
 
@@ -359,6 +360,11 @@ class SegmentEditor extends \Piwik\Plugin
             $cache->save($cacheKey, $segments);
         }
         return $segments;
+    }
+
+    public function onDeleteUser($userLogin)
+    {
+        $this->transferAllUserSegmentsToSuperUser($userLogin);
     }
 
     public static function transferAllUserSegmentsToSuperUser($userLogin)
