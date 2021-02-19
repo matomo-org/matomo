@@ -1,0 +1,45 @@
+<div ng-controller="ReferBannerController">
+    <div class="refer-banner" ng-show="referBanner.show">
+        <div class="flex items-center justify-center h-full" id="default-text">
+            <div class="flex-none"></div>
+            <div class="flex items-center justify-center flex-grow">
+                <div>
+                    Don't let your friend's data end up in the wrong hands!
+                    <span class="hide-on-med-and-down">Refer them to Matomo Analytics now to take back control!</span>
+                </div>
+
+                <div>
+                    <a href="mailto:YOUR_FRIEND@EMAIL.ADDRESS?subject=subject&body=body" target="_blank" class="btn premiumDownloadPiwik" rel="noreferrer noopener" id="send-email" style="width: max-content;">
+                        Refer Matomo
+                    </a>
+                </div>
+
+                <div class="hide-on-med-and-down flex items-center">
+                    <div>or share us on</div>
+                    <div class="flex items-center">
+                        <a href="https://twitter.com/intent/tweet" class="share-button" target="_blank" rel="noreferrer noopener">
+                            <ng-include src="'plugins/Feedback/images/twitter_logo.svg'" />
+                        </a>
+                        <a href="https://www.facebook.com/sharer.php" class="share-button" target="_blank" rel="noreferrer noopener">
+                            <ng-include src="'plugins/Feedback/images/facebook_logo.svg'" />
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle" class="share-button" target="_blank" rel="noreferrer noopener">
+                            <ng-include src="'plugins/Feedback/images/linkedin_logo.svg'" />
+                        </a>
+                        <a href="#" class="share-button" target="_blank" rel="noreferrer noopener">
+                            <ng-include src="'plugins/Feedback/images/mastodon_logo.svg'" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div title="Close" class="icon-close flex-none" id="close-banner"></div>
+        </div>
+
+        <div class="hide flex items-center justify-center h-full" id="thanks-text">
+            <div>Thank you for spreading the word and creating a safer web</div>
+
+            <div title="Close" class="icon-close" id="close-thanks"></div>
+        </div>
+    </div>
+</div>

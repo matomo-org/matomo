@@ -8,12 +8,12 @@
  */
 namespace Piwik\Plugins\Feedback;
 
-use Piwik\Common;
 use Piwik\Date;
-use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\View;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Option;
+use Piwik\Plugins\UsersManager\Model;
 
 /**
  *
@@ -31,7 +31,7 @@ class Feedback extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Controller.CoreHome.index.end'          => 'renderFeedbackPopup'
+            'Controller.CoreHome.index.end'          => 'renderViewsAndAddToPage'
         );
     }
 
@@ -40,6 +40,7 @@ class Feedback extends \Piwik\Plugin
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.less";
         $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
+        $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -49,6 +50,8 @@ class Feedback extends \Piwik\Plugin
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -68,13 +71,32 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'General_Cancel';
     }
 
-    public function renderFeedbackPopup(&$pageHtml)
+    public function renderViewsAndAddToPage(&$pageHtml)
+    {
+        $feedbackPopopView = $this->renderFeedbackPopup();
+        $referBannerView = $this->renderReferBanner();
+
+        $views = [$feedbackPopopView, $referBannerView];
+        $implodedViews = implode('', $views);
+
+        $endOfBody = strpos($pageHtml, '</body>');
+        $pageHtml = substr_replace($pageHtml, $implodedViews, $endOfBody, 0);
+    }
+
+    public function renderFeedbackPopup()
     {
         $popupView = new View('@Feedback/feedbackPopup');
         $popupView->promptForFeedback = (int)$this->getShouldPromptForFeedback();
-        $popupHtml = $popupView->render();
-        $endOfBody = strpos($pageHtml, "</body>");
-        $pageHtml = substr_replace($pageHtml, $popupHtml, $endOfBody, 0);
+
+        return $popupView->render();
+    }
+
+    public function renderReferBanner()
+    {
+        $referBannerView = new View('@Feedback/referBanner');
+        $referBannerView->promptForRefer = 1;
+
+        return $referBannerView->render();
     }
 
     public function getShouldPromptForFeedback()
