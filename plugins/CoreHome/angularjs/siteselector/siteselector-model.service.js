@@ -23,7 +23,8 @@
             updateWebsitesList: updateWebsitesList,
             searchSite: searchSite,
             loadSite: loadSite,
-            loadInitialSites: loadInitialSites
+            loadInitialSites: loadInitialSites,
+            hasMultipleSites: hasMultipleSites
         };
 
         return model;
@@ -122,8 +123,13 @@
             }
 
             searchSite('%').then(function () {
-                initialSites = model.sites
+                initialSites = model.sites;
+                model.isInitialized = true
             });
+        }
+
+        function hasMultipleSites() {
+            return initialSites && initialSites.length > 1;
         }
     }
 })();

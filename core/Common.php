@@ -319,6 +319,7 @@ class Common
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
     {
         try {
+            // phpcs:ignore Generic.PHP.ForbiddenFunctions
             return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {

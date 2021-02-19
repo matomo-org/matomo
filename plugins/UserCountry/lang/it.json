@@ -21,6 +21,8 @@
         "GeoIPDocumentationSuffix": "Per vedere i dati di questo report è necessario impostare GeoIP nella scheda Amministrazione Geolocation. I database GeoIP commerciali%1$sMaxmind%2$s sono più accurati di quelli gratuiti. Per vedere come sono precisi, clicca %3$squi%4$s.",
         "Geolocation": "Geolocalizzazione",
         "GeolocationPageDesc": "In questa pagina puoi cambiare le impostazioni di come Matomo determina la località dei visitatori.",
+        "GeolocationProviderBroken": "Il provider di geolocalizzazione configurato %1$s non funziona. Correggi il provider o configurane un altro per ripristinare il funzionamento della geolocalizzazione.",
+        "GeolocationProviderUnavailable": "Il provider di geolocalizzazione configurato %1$s non è più disponibile, configurane un altro.",
         "getCityDocumentation": "Questo report mostra le città in cui si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
         "getContinentDocumentation": "Questo report mostra in quale continente si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
         "getCountryDocumentation": "Questo report mostra in quale nazione si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",

@@ -6,7 +6,7 @@
         "ColumnActionURL": "活動網址",
         "ColumnClicks": "點擊數",
         "ColumnClicksDocumentation": "此連結被點擊的次數。",
-        "ColumnDownloadURL": "下載連結（URL）",
+        "ColumnDownloadURL": "下載網址",
         "ColumnDownloadURLs": "下載網址",
         "ColumnEntryPageTitle": "到達網頁標題",
         "ColumnEntryPageURL": "到達網頁網址",
@@ -23,7 +23,7 @@
         "ColumnSearches": "搜尋數",
         "ColumnSearchesDocumentation": "訪客在你網站搜尋引擎所搜尋的關鍵字次數。",
         "ColumnSearchExits": "%% 搜尋離站數",
-        "ColumnSearchExitsDocumentation": "訪客在你網站搜尋引擎搜尋後即離開網站的百分比。",
+        "ColumnSearchExitsDocumentation": "訪客在你的網站的搜尋引擎搜尋此關鍵字後即離開網站的百分比。",
         "ColumnSearchResultsCount": "搜尋結果筆數",
         "ColumnSiteSearchKeywords": "不重複關鍵字數",
         "ColumnUniqueClicks": "不重複點擊數",
@@ -78,6 +78,7 @@
         "WidgetSearchNoResultKeywords": "查無資料的關鍵字",
         "ActionType": "活動類型",
         "ActionTypes": "活動類型",
-        "Behaviour": "行為"
+        "Behaviour": "行為",
+        "PagesSubcategoryHelp3": "使用左邊的 +、- 圖示來導航。"
     }
 }

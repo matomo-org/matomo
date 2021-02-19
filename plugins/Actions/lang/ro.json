@@ -55,6 +55,7 @@
         "WidgetPageUrlsFollowingSearch": "Pagini care urmeaza dupa o Cautare pe site.",
         "WidgetSearchCategories": "Categorii de cautare",
         "WidgetSearchKeywords": "Cuvinte-cheie pentru căutare pe site",
-        "WidgetSearchNoResultKeywords": "CUvinte-cheie de căutare fără rezultat"
+        "WidgetSearchNoResultKeywords": "CUvinte-cheie de căutare fără rezultat",
+        "PagesSubcategoryHelp3": "Folositi semnele de plus si minus din stanga pentru navigare"
     }
 }

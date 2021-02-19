@@ -11,6 +11,7 @@
         "UserAuthentication": "身份验证",
         "UsingTokenAuth": "如果要在脚本，crontab等%2$s中请求数据%1$s，则需要将URL参数%3$s添加到需要身份验证的API调用URL中。",
         "Glossary": "词汇表",
+        "MainMetricsReportDocumentation": "该报告为您概览了所有类别和插件最重要的指标。",
         "LearnAboutCommonlyUsedTerms2": "了解常用术语以便更好的利用Matomo数据分析。",
         "EvolutionMetricName": "%s演变"
     }

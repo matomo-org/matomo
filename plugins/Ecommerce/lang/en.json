@@ -17,6 +17,13 @@
         "LifeTimeValueDescription": "Total Ecommerce revenue attributed to this customer across all visits: the sum of revenue of all Ecommerce orders for Visitor ID %s.",
         "VisitorProfileLTV": "Generated a Life Time Revenue of %1$s.",
         "VisitorProfileItemsAndOrders": "Purchased %1$s items in %2$s ecommerce orders.",
-        "VisitorProfileAbandonedCartSummary": "Abandoned %1$s carts including %2$s items worth a total of %3$s."
+        "VisitorProfileAbandonedCartSummary": "Abandoned %1$s carts including %2$s items worth a total of %3$s.",
+        "EcommerceOverviewSubcategoryHelp1": "The Ecommerce Overview section is the best place to get a high-level view of your online store’s performance. At a glance, you can see how many sales you’re making, how much revenue you are generating, and your website’s conversion rate.",
+        "EcommerceOverviewSubcategoryHelp2": "Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.",
+        "SalesSubcategoryHelp1": "This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.",
+        "SalesSubcategoryHelp2": "You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.",
+        "EcommerceLogSubcategoryHelp1": "The Ecommerce log provides granular session-level data so you can look at the full session for each user that either made a purchase or abandoned their cart. This can help you understand what users do before and after purchasing to reveal optimisation opportunities.",
+        "EcommerceLogSubcategoryHelp2": "Data on this page is updated in real-time.",
+        "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages."
     }
 }

@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Başka bir kullanıcı yeni bir pano eklediğinde ya da \"%s\" özelliği kullanıldığında, varsayılan olarak bu gereç seçimi ve sütun düzeni kullanılır.",
         "TopLinkTooltip": "%s için web istatistikleri raporunu görüntüle.",
         "WidgetNotFound": "Gereç bulunamadı",
-        "WidgetPreview": "Gereç önizlemesi"
+        "WidgetPreview": "Gereç önizlemesi",
+        "DashboardCategoryHelp": "Pano bölümü. Panolar, gereksinimlerinize göre Matomo pano gereçlerini ekleyerek oluşturabileceğiniz görünümlerdir. %1$s\"Sizin\"%2$s gerek duyduğunuz verileri bir bakışta görebileceğiniz şekilde bir araya getirir."
     }
 }

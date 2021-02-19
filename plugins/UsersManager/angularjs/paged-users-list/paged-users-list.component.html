@@ -166,7 +166,8 @@
                     </td>
                     <td id="email" ng-if="$ctrl.currentUserRole == 'superuser'">{{ user.email }}</td>
                     <td id="twofa" ng-if="$ctrl.currentUserRole == 'superuser'">
-                        {{ user.uses_2fa ? ('✓') : '☓' }}
+                        <span class="icon-ok" ng-if="user.uses_2fa"></span>
+                        <span class="icon-close" ng-if="!user.uses_2fa"></span>
                     </td>
                     <td id="last_seen" ng-if="$ctrl.currentUserRole == 'superuser'">
                         {{ user.last_seen ? (user.last_seen + ' ago') : '-' }}

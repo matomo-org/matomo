@@ -5,6 +5,6 @@
         "PluginDescription": "Ziyaretçilerin web tarayıcıları tarafından desteklenen uygulama eklerinin listesini görüntüler.",
         "PluginDetectionDoesNotWorkInIE": "Not: Uygulama eki algılaması Internet Explorer 11 öncesindeki sürümleri desteklemez. Bu raporda yalnız IE dışındaki tarayıcılar ve yeni IE tarayıcıları için veriler bulunur.",
         "WidgetPlugins": "Tarayıcı Uygulama Ekleri",
-        "WidgetPluginsDocumentation": "Bu raporda ziyaretçilerinizin web tarayıcılarında hangi uygulama eklerinin etkin olduğu görüntülenir. Bu bilgiler içeriğinizi doğru şekilde sunmanız için önemli olabilir."
+        "WidgetPluginsDocumentation": "Bu rapor ziyaretçilerin web tarayıcılarında hangi uygulama eklerinin etkin olduğunu içerir. Bu bilgiler içeriğinizi doğru şekilde sunmanız için önemli olabilir."
     }
 }

@@ -427,6 +427,10 @@ class Model
 
     public function getUserByTokenAuth($tokenAuth)
     {
+        if ($tokenAuth === 'anonymous') {
+            return $this->getUser('anonymous');
+        }
+
         $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();

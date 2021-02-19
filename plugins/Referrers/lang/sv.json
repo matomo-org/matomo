@@ -6,6 +6,8 @@
         "ColumnCampaign": "Kampanj",
         "CampaignSource": "Kampanjkälla",
         "CampaignContent": "Kampanjinnehåll",
+        "CampaignMedium": "Kampanjkälla - Medium",
+        "CampaignGroup": "Kampanjgrupp",
         "ColumnSearchEngine": "Sökmotor",
         "ColumnSocial": "Sociala nätverk",
         "ColumnWebsite": "Webbplats",
@@ -53,7 +55,10 @@
         "WidgetTopKeywordsForPages": "Toppnyckelord för sid-URL",
         "XPercentOfVisits": "%s av besökare",
         "Acquisition": "Förvärv",
+        "VisitorsFromSearchEngines": "Besökare från sökmotorer",
+        "PercentOfX": "Procent av %s",
         "VisitorsFromSocialNetworks": "Besökare från sociala nätverk",
+        "VisitorsFromDirectEntry": "Direkttrafik",
         "VisitorsFromWebsites": "Besökare från webbplatser",
         "VisitorsFromCampaigns": "Besökare från kampanjer"
     }

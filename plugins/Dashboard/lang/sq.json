@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Kjo përzgjedhje widget-sh dhe shtyllash për pultin do të përdoret kur cilido përdorues krijon një pult të ri, ose kur përdoret veçoria \"%s\".",
         "TopLinkTooltip": "Shihni raporte Analizash Web për %s.",
         "WidgetNotFound": "S’u gjet widget-i",
-        "WidgetPreview": "Paraparje widget-i"
+        "WidgetPreview": "Paraparje widget-i",
+        "DashboardCategoryHelp": "Kjo është një faqe pulti. Pultet janë një koleksion widget-esh Matomo që mund t’i shtoni ju vetë, sipas nevojave tuaja. Zgjidhni dhe merrni çfarëdo widget-esh të Matomo-s, që të keni me një shikim të dhënat që %1$s*ju*%2$s keni nevojë."
     }
 }

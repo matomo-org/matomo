@@ -16,6 +16,7 @@ use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Notification;
 use Piwik\Piwik;
@@ -122,7 +123,20 @@ class SegmentEditor extends \Piwik\Plugin
     public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
     {
         $model = new Model();
-        $segmentToAutoArchive = $model->getSegmentsToAutoArchive($idSite);
+        $segmentToAutoArchive = $model->getAllSegmentsAndIgnoreVisibility();
+
+        $forceAutoArchive = SegmentArchiving::getShouldForceArchiveAllSegments();
+        foreach ($segmentToAutoArchive as $index => $segmentInfo) {
+            if (!SegmentArchiving::isSegmentForSite($segmentInfo, $idSite)) {
+                unset($segmentToAutoArchive[$index]);
+            }
+
+            if (!$forceAutoArchive
+                && empty($segmentInfo['auto_archive'])
+            ) {
+                unset($segmentToAutoArchive[$index]);
+            }
+        }
 
         foreach ($segmentToAutoArchive as $segmentInfo) {
             $segments[] = $segmentInfo['definition'];

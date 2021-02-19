@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Http;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -41,6 +42,10 @@ class SegmentTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
 
         Fixture::createWebsite('2015-01-01 00:00:00');
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 1);
+        self::$fixture->getTestEnvironment()->save();
     }
 
     static public function removeExtraWhiteSpaces($valueToFilter)
@@ -1889,13 +1894,13 @@ log_visit.visit_total_actions
         $this->assertWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willSegmentBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchive()
+    public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchiveAndSegmentBrowserArchivingDisabled()
     {
         $this->disableSegmentBrowserArchiving();
 
         SegmentEditorApi::getInstance()->add('My Name', $this->exampleSegment, $idSite = false, $autoArchive = false);
 
-        $this->assertNotWillBeArchived($this->exampleSegment);
+        $this->assertWillBeArchived($this->exampleSegment);
     }
 
     public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledButSegmentExistsWithAuthoArchive()
@@ -2031,5 +2036,12 @@ log_visit.visit_total_actions
                 })],
             ],
         ];
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
+        $fixture->extraPluginsToLoad = ['ExamplePlugin'];
     }
 }

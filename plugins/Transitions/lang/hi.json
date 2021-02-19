@@ -22,6 +22,7 @@
         "ToFollowingSiteSearches": "आंतरिक खोजें",
         "ToFollowingSiteSearchesInline": "%s आंतरिक खोजें",
         "XOfAllPageviews": "इस पृष्ठ के सभी दृश्यों का %s",
-        "XOutOfYVisits": "%1$s (बाहर %2$s)"
+        "XOutOfYVisits": "%1$s (बाहर %2$s)",
+        "TransitionsSubcategoryHelp2": "अधिक जानकारी"
     }
 }

@@ -24,7 +24,7 @@
         "EndShortcut": "End 鍵",
         "EnterZenMode": "進入勿擾模式（隱藏選單）",
         "ExitZenMode": "離開勿擾模式（顯示選單）",
-        "ExceptionNotAllowlistedIP": "你無法使用這個 Matomo，因為你的 IP %s 不在白名單內。",
+        "ExceptionNotAllowlistedIP": "你無法使用此 Matomo，因為你的 IP %s 未被允許。",
         "ExcludeRowsWithLowPopulation": "已顯示所有列 %s 排除較低人數",
         "ExternalHelp": "幫助（在新分頁中開啟）",
         "FlattenDataTable": "報表目前已分層 %s 平面化顯示",
@@ -46,7 +46,7 @@
         "VisitTypeReturningCustomer": "回訪顧客",
         "MainNavigation": "主選單",
         "YourDonationWillHelp": "你的捐款會直接用於建立新功能、和改善此自由開源的分析平台。由此，社群都能助益於這個能保障隱私、且使你真正擁有個人資料的工具。",
-        "ThanksFromAllOfUs": "Matomo 所有成員感謝你！",
+        "ThanksFromAllOfUs": "Matomo 全體成員感謝你！",
         "Menu": "選單",
         "NoPrivilegesAskPiwikAdmin": "你目前以「%1$s」登入，但你似乎在 Matomo 中沒有被授予任何權限。%2$s要求你的管理員（點擊以寄信）%3$s給你網站的「檢視」權限。",
         "OnlyForSuperUserAccess": "這個小工具只顯示於擁有超級使用者權限使用者的預設展示板。",
@@ -104,7 +104,7 @@
         "RowLimit": "行數限制",
         "CustomLimit": "自訂限制",
         "ExportFormat": "匯出格式",
-        "ExportTooltip": "注意：此匯出的 URL 僅能在本次瀏覽器的工作階段生效。如果你想要在其他地方使用，你需要建立應用程式專用的 token。你可以在 個人設定→API 驗證 Token 頁面管理這些 token。",
+        "ExportTooltip": "注意：產生的匯出網址僅在本次瀏覽器的工作階段中有效。如果你想要在其他地方使用，你需要建立應用程式專用的權杖。你可以在「管理中心」>「安全性」>「存取權杖」中設定這些權杖。",
         "ExpandSubtables": "展開子表格",
         "StandardReport": "標準報表",
         "FlattenReport": "平滑化報表",
@@ -112,7 +112,7 @@
         "ReadMoreOnlineGuide": "在線上說明了解更多此主題",
         "SeeAvailableVersions": "查看可用版本",
         "QuickLinks": "快速連結",
-        "Profilable": "可以紀錄的",
-        "SearchOnMatomo": "於 Matomo.org 搜尋「%1$s」"
+        "Profilable": "可紀錄的",
+        "SearchOnMatomo": "在 Matomo.org 上搜尋「%1$s」"
     }
 }

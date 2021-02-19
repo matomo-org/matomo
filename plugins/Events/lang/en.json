@@ -33,6 +33,8 @@
         "TotalEventsDocumentation": "Total number of events",
         "TotalValue": "Event value",
         "TotalValueDocumentation": "The sum of event values",
-        "ViewEvents": "View Events"
+        "ViewEvents": "View Events",
+        "EventsSubcategoryHelp1": "The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.",
+        "EventsSubcategoryHelp2": "Learn more about event tracking here."
     }
 }

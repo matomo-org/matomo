@@ -1,0 +1,28 @@
+{
+    "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Temps de chargement moyen",
+        "ColumnAveragePageLoadTimeDocumentation": "Temps moyen (en secondes) qu'il a fallu pour demander une page jusqu'à la ce que la page soit pleinement affichée dans le navigateur",
+        "ColumnAverageTimeNetwork": "Temps moyen de connexion",
+        "ColumnAverageTimeNetworkDocumentation": "Temps moyen (en secondes) pour se connecter au serveur. Ceci inclus le temps nécessaire pour procéder à une requête DNS et établir une connexion TCP. Cette valeur peut être égale à 0 après la première requête car le navigateur peut garder la connexion en cache",
+        "ColumnAverageTimeServerDocumentation": "Temps moyen (en secondes) nécessaire au serveur pour générer la page. Il s'agit du temps entre la réception de la requête par le serveur et le moment où la réponse commence à être envoyée.",
+        "ColumnAverageTimeDomProcessing": "Temps moyen de traitement du DOM",
+        "ColumnAverageTimeDomProcessingDocumentation": "Temps moyen (en secondes) que le navigateur passe à charger la page après que la réponse ait été intégralement reçue et avant que l'utilisateur puisse commencer à interagir avec.",
+        "ColumnAverageTimeDomCompletion": "Temps moyen de génération du DOM",
+        "ColumnAverageTimeDomCompletionDocumentation": "Temps moyen (en secondes) nécessaire au navigateur pour charger les media et exécuter le code Javascript écoutant l'événement DOMContentLoaded après que la page ait été chargée et alors que l'utilisateur peu déjà interagir avec.",
+        "ColumnTimeServer": "Heure serveur",
+        "ColumnTimeTransfer": "Temps de transfert",
+        "ColumnTimeDomProcessing": "Temps de traitement du DOM",
+        "ColumnTimeDomCompletion": "Temps de génération du DOM",
+        "PageLoadTime": "Temps de chargement de la page",
+        "EvolutionOverPeriod": "Évolution des indicateurs de performance de la page",
+        "PluginDescription": "Ajoute quelque rapports de performance sur la page",
+        "PerformanceTable": "Tableau avec des indicateurs de performance",
+        "Overview": "Performance globale",
+        "OverviewDocumentation": "Ce rapport fournit un aperçu de la vitesse à laquelle vos pages deviennent visibles pour vos visiteurs. Cela inclut aussi bien le temps nécessaire à votre navigateur pour télécharger les pages que celui qu'il leur faut pour les afficher.",
+        "Performance": "Performance",
+        "HelpNote": "Certains de ces indicateurs peuvent ne pas être toujours disponibles. Vous pouvez obtenir plus d'information dans notre %1$s guide en ligne %2$s.",
+        "RowActionTitle": "Ouvrir le rapport de performance de la page",
+        "RowActionDescription": "Voir le rapport de performance pour cette ligne",
+        "PagePerformanceTitle": "Performance de la page avec %1$s \"%2$s\""
+    }
+}

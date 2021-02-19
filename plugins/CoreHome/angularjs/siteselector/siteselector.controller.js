@@ -13,6 +13,8 @@
 
         $scope.model = siteSelectorModel;
 
+        $scope.model.loadInitialSites();
+
         $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
         $scope.activeSiteId = piwik.idSite;
 

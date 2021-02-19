@@ -1,0 +1,17 @@
+name: PHPCS check
+
+on: pull_request
+
+jobs:
+  phpcs:
+    name: PHPCS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: composer install --dev --prefer-dist --no-progress --no-suggest
+      - name: PHPCS check
+        uses: chekalsky/phpcs-action@v1
+        with:
+          phpcs_bin_path: './vendor/bin/phpcs'
+          enable_warnings: true

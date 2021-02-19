@@ -113,6 +113,9 @@
         "SeeAvailableVersions": "Kullanılabilecek Sürümlere Bakın",
         "QuickLinks": "Kestirme Bağlantıları",
         "Profilable": "Profillenebilir",
-        "SearchOnMatomo": "Matomo.org üzerinde '%1$s' arayın"
+        "SearchOnMatomo": "Matomo.org üzerinde '%1$s' arayın",
+        "ReportingCategoryHelpPrefix": "\"%1$s > %2$s\" raporları bölümü bana nasıl yardımcı olabilir?",
+        "VisitorsCategoryHelp1": "Ziyaretçiler bölümünde, ziyaretçilerin kim olduğu hakkında bilgiler bulunur. Ziyaretçilerin nereden geldiği, hangi aygıtlar üzerinde hangi tarayıcıları kullandığı ve genel olarak web sitenizi ne zaman ziyaret ettikleri gibi bilgiler sunulur. Kitlenin kimlerden oluştuğunun anlaşılmasını ve nasıl büyütülebileceğini görmek için aykırılıklara toplu olarak bakılabilmesini sağlar.",
+        "VisitorsCategoryHelp2": "Ziyaretçiler hakkındaki genel bilgilere ek olarak, her ziyarette ne olduğunu görmek için %1$sZiyaret Günlüğü%2$s kullanılabilir."
     }
 }

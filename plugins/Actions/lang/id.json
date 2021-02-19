@@ -76,6 +76,7 @@
         "WidgetSearchCategories": "Kategori Pencarian",
         "WidgetSearchKeywords": "Kata Kunci Pencarian Situs",
         "WidgetSearchNoResultKeywords": "Kata Kunci Pencarian dengan Tanpa Hasil",
-        "ActionType": "Jenis Tindakan"
+        "ActionType": "Jenis Tindakan",
+        "PagesSubcategoryHelp3": "Gunakan ikon plus dan minus di kiri untuk bernavigasi."
     }
 }

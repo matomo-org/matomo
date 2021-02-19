@@ -358,7 +358,9 @@ class ProcessedReport
                                                        'idSubtable' => $idSubtable,
                                                   ));
 
-        if (!empty($segment)) $parameters['segment'] = $segment;
+        if (!empty($segment)) {
+            $parameters['segment'] = $segment;
+        }
 
         if (!empty($reportMetadata['processedMetrics'])
             && !empty($reportMetadata['metrics']['nb_visits'])
