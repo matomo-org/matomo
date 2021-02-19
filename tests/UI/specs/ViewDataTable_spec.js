@@ -196,18 +196,18 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.activateExportSelection');
         await page.waitFor('#reportExport .btn');
 
-        var dialog = await page.$('.ui-dialog');
+        let dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_options');
     });
 
     it("should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url", async function () {
         await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
         await page.click('.activateExportSelection');
-        await page.waitFor('.toggle-export-url'); 
+        await page.waitFor('.toggle-export-url');
         await page.click('.toggle-export-url');
         await page.waitFor('.exportFullUrl');
-        
-        var dialog = await page.$('.ui-dialog');
+
+        let dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_options_2');
     });
 
