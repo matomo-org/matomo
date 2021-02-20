@@ -17,6 +17,8 @@
         "Contents": "Contenuti",
         "InteractionsMetricDocumentation": "Numero di volte in cui si è interagito con un blocco di contenuto (es. un 'click' su un banner o una inserzione).",
         "ImpressionsMetricDocumentation": "Numero di volte in cui un blocco di contenuto, come un banner o una inserzione, è stato mostrato in una pagina.",
-        "InteractionRateMetricDocumentation": "Rapporto tra impressioni contenuto e interazioni."
+        "InteractionRateMetricDocumentation": "Rapporto tra impressioni contenuto e interazioni.",
+        "ContentsSubcategoryHelp1": "Il monitoraggio dei contenuti ti aiuta a determinare la popolarità di parti specifiche di contenuto su qualsiasi pagina del tuo sito web o della tua app. Questa sezione riporta il numero di impressioni e interazioni ricevute dai vari contenuti del tuo sito.",
+        "ContentsSubcategoryHelp2": "Ulteriori informazioni nella guida al Monitoraggio dei Contenuti."
     }
 }

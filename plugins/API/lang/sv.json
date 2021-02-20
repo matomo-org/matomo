@@ -11,6 +11,7 @@
         "UserAuthentication": "Användarautentisering",
         "UsingTokenAuth": "Om du vill %1$s begära data i ett skript, en crontab, osv., %2$s behöver du lägga till en URL-parameter %3$s till URL:erna för API-anropen som kräver autentisering.",
         "Glossary": "Ordbok",
+        "MainMetricsReportDocumentation": "Denna rapport ger dig en översikt över de viktigaste mätvärdena i alla kategorier och plugins.",
         "LearnAboutCommonlyUsedTerms2": "Lär dig mer om de vanligaste termerna för att få ut mest av Matomo Analytics.",
         "EvolutionMetricName": "%s Utveckling"
     }

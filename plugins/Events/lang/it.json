@@ -33,6 +33,8 @@
         "TotalEventsDocumentation": "Numero totale degli eventi",
         "TotalValue": "Valore Evento",
         "TotalValueDocumentation": "Somma dei valori degli eventi",
-        "ViewEvents": "Vedi Eventi"
+        "ViewEvents": "Vedi Eventi",
+        "EventsSubcategoryHelp1": "La sezione Eventi offre dei report sugli eventi personalizzati associati al tuo sito. Gli eventi in genere richiedono una configurazione personalizzata. Una volta configurato, puoi rivedere i report suddivisi per categoria, azione e nome.",
+        "EventsSubcategoryHelp2": "Ulteriori informazioni sul monitoraggio degli eventi qui."
     }
 }

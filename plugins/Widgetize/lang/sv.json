@@ -2,6 +2,7 @@
     "Widgetize": {
         "OpenInNewWindow": "Öppna i ett nytt fönster",
         "PluginDescription": "Visa alla Matomo rapporter på din webbplats eller app med hjälp av enkel kod (en HTML-tagg).",
+        "ViewAccessRequired": "Den här användaren har åtminstone lite skrivåtkomst. Endast tokens för användare som bara har visningsåtkomst kan användas. Se %1$s för mer information.",
         "TopLinkTooltip": "Exportera rapporter från Matomo som Widgets och bädda in instrumentpanelen i din app som en iframe."
     }
 }
