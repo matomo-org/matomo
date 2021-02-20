@@ -5,6 +5,9 @@
         "Order": "Order",
         "OrderId": "Order ID",
         "Orders": "Ordrar",
+        "ViewedProductCategory": "Visad produktkategori",
+        "ViewedProductName": "Visat produktnamn",
+        "ViewedProductPrice": "Visat produktpris",
         "SalesBy": "Försäljning genom %s",
         "SalesAdjective": "Försäljning %s",
         "NumberOfItems": "Antal artiklar i Varukorgen",
@@ -13,6 +16,13 @@
         "LifeTimeValueDescription": "Summan av alla e-handelsinkomster som tilldelats denna kund i alla besök: summan av intäkterna för alla e-handelsorder för Visitor ID %s.",
         "VisitorProfileLTV": "Genererade Life Time Revenue för %1$s.",
         "VisitorProfileItemsAndOrders": "Har köpt %1$s artiklar i %2$s e-handelsordrar.",
-        "VisitorProfileAbandonedCartSummary": "Har övergivit %1$s varukorgar med %2$s artiklar till ett totalt värde av %3$s."
+        "VisitorProfileAbandonedCartSummary": "Har övergivit %1$s varukorgar med %2$s artiklar till ett totalt värde av %3$s.",
+        "EcommerceOverviewSubcategoryHelp1": "Sektionen E-handelöversikt är det bästa stället att få en överblick över din webbutiks resultat på hög nivå. Med en överblick kan du se hur många försäljningar du gör, hur mycket inkomst du genererar och din webbplats konverteringsfrekvens.",
+        "EcommerceOverviewSubcategoryHelp2": "Klicka på ett enskilt mått i sparkline-diagrammet för att fokusera på det i det fullstora utvecklingsdiagrammet.",
+        "SalesSubcategoryHelp1": "Detta avsnitt innehåller en omfattande samling rapporter som hjälper dig att analysera de olika förhållanden som oftast leder till försäljning, såsom trafik- och kampanjkällor, användarens tid och plats och enheter som används för att komma åt dem.",
+        "SalesSubcategoryHelp2": "Du kan också lära dig exakt hur intäkterna är kopplade till varje dimension, till exempel specifika trafiktyper eller spårade kampanjer.",
+        "EcommerceLogSubcategoryHelp1": "E-handelsloggen innehåller detaljerad sessionsnivåinformation så att du kan titta på hela sessionen för varje användare som antingen gjorde ett köp eller övergav sin kundvagn. Detta kan hjälpa dig att förstå vad användare gör före och efter inköp för att upptäcka optimeringsmöjligheter.",
+        "EcommerceLogSubcategoryHelp2": "Data på den här sidan uppdateras i realtid.",
+        "ProductSubcategoryHelp": "Produktvyn kan hjälpa dig att identifiera produkter och kategorier som är överpresterande eller underpresterande för att avslöja trender och möjligheter relaterade till ditt produktval och butiksidor."
     }
 }

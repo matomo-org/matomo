@@ -7,6 +7,7 @@
         "AddToCart": "Lägg i varukorg",
         "AllowedUploadFormats": "På den här sidan kan du ladda upp ett plugin eller ett tema via .zipformat.",
         "Authors": "Upphovsman",
+        "SupportMatomoThankYou": "Alla inköp hjälper till att finansiera framtiden för Matomo-projektet med öppen källkod. Tack för ditt stöd!",
         "BackToMarketplace": "Tillbaka till butiken",
         "BrowseMarketplace": "Utforska marknadsplatsen",
         "ByXDevelopers": "av %s utvecklare",
@@ -65,6 +66,7 @@
         "NoValidSubscriptionNoUpdates": "När en prenumeration är utgången får du inte längre några uppdateringar till denna plugin.",
         "PluginSubscriptionsList": "Detta är en lista på prenumerationer kopplade till din licensnyckel.",
         "PaidPluginsNoLicenseKeyIntro": "Om du har köpt en %1$s premium plugin %2$s, så lägger du in den nedan.",
+        "PaidPluginsWithLicenseKeyIntro": "En giltig licensnyckel har ställts in. Av säkerhetsskäl visar vi inte licensnyckeln här. Om du har tappat bort din licensnyckel, vänligen kontakta Matomo-teamet.",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "Om du köpt ett %1$spremium plugin %2$s på marknadsplatsen behöver du be en användare med Administratörs rättigheter om att lägga till licensnyckeln.",
         "PluginDescription": "Utöka och expandera Matomos funktionalitet genom att ladda ned Theman och Plugins på Marknadsplatsen.",
         "PluginKeywords": "Nyckelord",
@@ -105,6 +107,7 @@
         "PluginUploadDisabled": "Manuell plugin uppladdning är inaktiverad i konfigurationsfilen. För att tillåta detta behöver konfigurationsfilen uppdateras med rätt inställningar av en administratör för systemet.",
         "LicenseKeyExpiresSoon": "Licensnyckeln går snart ut, kontakta %1$s",
         "LicenseKeyIsExpired": "Licensnyckeln är utgången, kontakta %1$s",
+        "MultiServerEnvironmentWarning": "Du kan inte installera eller uppdatera plugin direkt eftersom du använder Matomo på flera servrar. Plugin skulle bara installeras på en server. Ladda istället ned pluginet och distribuera det manuellt till alla dina servrar.",
         "AutoUpdateDisabledWarning": "Du kan inte installera eller uppdatera denna plugin direkt eftersom automatiska uppdateringar är inaktiverade i konfigurationsfilen. För att tillåta automatiska uppdateringar ändra %1$s i %2$s.",
         "ViewRepositoryChangelog": "Se ändringar"
     }

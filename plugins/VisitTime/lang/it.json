@@ -30,6 +30,7 @@
         "WidgetLocalTime": "Visite per ora locale",
         "WidgetLocalTimeDocumentation": "Questo grafico mostra che ora era nel %1$sfuso orario dei visitatori%2$s durante le loro visite.",
         "WidgetServerTime": "Visite per ora del server",
-        "WidgetServerTimeDocumentation": "Questo grafico mostra che ora era nel %1$sfuso orario del server%2$s durante le visite."
+        "WidgetServerTimeDocumentation": "Questo grafico mostra che ora era nel %1$sfuso orario del server%2$s durante le visite.",
+        "TimesSubcategoryHelp": "La sezione Orari ti mostra quando le persone visitano il tuo sito. Puoi vedere gli orari locali più popolari in cui i tuoi utenti visitano, così puoi capire dove si inserisce il tuo sito nella loro vita. Inoltre, mostra gli orari dei server più popolari, il che può rivelare le richieste sul tuo stack tecnologico."
     }
 }

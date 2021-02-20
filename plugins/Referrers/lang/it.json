@@ -82,6 +82,19 @@
         "VisitorsFromSocialNetworks": "Visitatori da Social Networks",
         "VisitorsFromDirectEntry": "Visitatori da Ingressi Diretti",
         "VisitorsFromWebsites": "Visitatori da Siti Web",
-        "VisitorsFromCampaigns": "Visitatori da Campagne"
+        "VisitorsFromCampaigns": "Visitatori da Campagne",
+        "ReferrersOverviewSubcategoryHelp1": "La Panoramica Acquisizione mostra la percentuale del tuo traffico proveniente da tutte le sorgenti in un intervallo di date selezionato.",
+        "ReferrersOverviewSubcategoryHelp2": "Puoi anche cliccare su un tipo di canale specifico per visualizzarlo all'interno del grafico dell'evoluzione. Questo può aiutarti a scoprire quali canali contribuiscono alla maggior parte del traffico verso il tuo sito e qualsiasi potenziale schema temporale. Ad esempio, un determinato canale potrebbe funzionare meglio nei fine settimana.",
+        "AllReferrersSubcategory1": "Questa sezione mostra il numero di visite che arrivano da diversi tipi di canale e referrer. Clicca sui pulsanti più o meno per visualizzare i referrer all'interno di ciascun tipo.",
+        "AllReferrersSubcategory2": "Puoi anche analizzare il numero di azioni eseguite da ciascuna delle tue sorgenti di traffico abilitando la tabella con la visualizzazione delle metriche sul coinvolgimento dei visitatori.",
+        "SearchEnginesSubcategoryHelp1": "Questa sezione ti aiuta ad analizzare l'ottimizzazione e le prestazioni del tuo motore di ricerca. Puoi analizzare le tue parole chiave più popolari con i report combinasti sulle parole chiave o vedere quali parole chiave hanno un buon rendimento su motori di ricerca specifici, per un'analisi e un'ottimizzazione più mirate.",
+        "SearchEnginesSubcategoryHelp2": "Gli utenti dei plug-in %1$sMatomo Cloud%2$s e %3$sSearch Engine Keywords Performance%4$s riceveranno i migliori risultati da questo report.",
+        "WebsitesSubcategoryHelp1": "In questa tabella puoi vedere quali siti web hanno indirizzato i visitatori al tuo sito.",
+        "WebsitesSubcategoryHelp2": "Cliccando su una riga nella tabella, puoi vedere su quali URL si trovavano i link al tuo sito web.",
+        "SocialsSubcategoryHelp": "In questa tabella puoi vedere quali siti web hanno indirizzato i visitatori al tuo sito.",
+        "CampaignsSubcategoryHelp": "La sezione Tracking Campagna ti permette di analizzare le visite associate ai vari valori di tracking che sono stati collegati alle tue campagne digitali. Può rivelare informazioni come quanto traffico stanno portando le tue campagne, quali creativi stanno ottenendo i migliori risultati, quanto sono coinvolti i visitatori della campagna e se la campagna sta generando vendite o meno.",
+        "EcommerceLogSubcategoryHelp1": "Il log Ecommerce fornisce dati granulari a livello di sessione in modo da poter esaminare l'intera sessione per ogni utente che ha effettuato un acquisto o abbandonato il carrello. Questo può aiutarti a capire cosa fanno gli utenti prima e dopo l'acquisto per rivelare opportunità di un'ottimizzazione.",
+        "EcommerceLogSubcategoryHelp2": "I dati su questa pagina vengono aggiornati in tempo reale.",
+        "ProductSubcategoryHelp": "La visualizzazione Prodotti può aiutarti a identificare i prodotti e le categorie con prestazioni superiori o inferiori per rivelare tendenze e opportunità correlate alla selezione dei prodotti e alle pagine del negozio."
     }
 }
