@@ -18,7 +18,7 @@
         return {
             restrict: 'A',
             scope: {
-                promptForRefer: '<'
+                showReferBanner: '<'
             },
             templateUrl: 'plugins/Feedback/angularjs/refer-banner/refer-banner.directive.html?cb=' + piwik.cacheBuster,
             controller: 'ReferBannerController',

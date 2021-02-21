@@ -34,7 +34,7 @@
             $scope.referBanner.closeBanner = closeBanner;
             $scope.referBanner.share = share;
 
-            if ($scope.promptForRefer === 1) {
+            if ($scope.showReferBanner === 1) {
                 $scope.referBanner.show = true;
             };
         };
@@ -76,5 +76,12 @@
 
             return '#';
         };
+
+        $scope.referEmail = function () {
+            let subject = 'Why I no longer use Google Analytics';
+            let body = 'Did you know Google uses data for "own purposes"? That means Google owns your data and is using it to monetise their advertising platforms.\r\nThis is why I don’t use Google Analytics for analysing the performance of my website.\r\n\r\nInstead I choose Matomo, an ethical alternative to Google Analytics that gives me 100% data ownership and protects the data of my website visitors.\r\nI’m sharing this message in the hope that you too will take back the power from Google and get complete ownership of your own data.\r\n\r\nCheck out Matomo at https://matomo.org';
+
+            return encodeURI(`mailto:YOUR_FRIEND@EMAIL.ADDRESS?subject=${subject}&body=${body}`);
+        }
     }
 })();

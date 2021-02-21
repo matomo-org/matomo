@@ -94,9 +94,40 @@ class Feedback extends \Piwik\Plugin
     public function renderReferBanner()
     {
         $referBannerView = new View('@Feedback/referBanner');
-        $referBannerView->promptForRefer = 1;
+        $referBannerView->showReferBanner = (int) $this->showReferBanner();
 
         return $referBannerView->render();
+    }
+
+    public function showReferBanner()
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return false;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return false;
+        }
+
+        if ($this->isDisabledInTestMode()) {
+            return false;
+        }
+
+        $referReminder = new ReferReminder();
+        $nextReminderDate = $referReminder->getUserOption();
+
+        if ($nextReminderDate === false) {
+            return true;
+        }
+
+        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
+            return false;
+        }
+
+        $now = Date::now()->getTimestamp();
+        $nextReminderDate = Date::factory($nextReminderDate);
+
+        return $nextReminderDate->getTimestamp() <= $now;
     }
 
     public function getShouldPromptForFeedback()
@@ -135,6 +166,8 @@ class Feedback extends \Piwik\Plugin
     // needs to be protected not private for testing purpose
     protected function isDisabledInTestMode()
     {
+        // var_dump(defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
+        // var_dump(!Common::getRequestVar('forceFeedbackTest', false));
         return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
     }
 
