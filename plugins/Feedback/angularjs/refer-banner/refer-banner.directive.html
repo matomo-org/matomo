@@ -17,7 +17,7 @@
                 <div class="hide-on-med-and-down flex items-center">
                     <div>or share us on</div>
                     <div class="flex items-center">
-                        <a href="https://twitter.com/intent/tweet" class="share-button" target="_blank" rel="noreferrer noopener">
+                        <a href="{{ socialUrl('twitter') }}" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/twitter_logo.svg'" />
                         </a>
                         <a href="https://www.facebook.com/sharer.php" class="share-button" target="_blank" rel="noreferrer noopener">
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div title="Close" class="icon-close flex-none" id="close-banner"></div>
+            <div title="Close" class="icon-close flex-none" ng-click="referBanner.closeBanner()"></div>
         </div>
 
         <div class="hide flex items-center justify-center h-full" id="thanks-text">

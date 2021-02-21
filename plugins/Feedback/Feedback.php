@@ -12,8 +12,8 @@ use Piwik\Date;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Option;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\Feedback\FeedbackReminder;
 
 /**
  *
@@ -110,9 +110,8 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
-        $login = Piwik::getCurrentUserLogin();
-        $feedbackReminderKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
-        $nextReminderDate = Option::get($feedbackReminderKey);
+        $feedbackReminder = new FeedbackReminder();
+        $nextReminderDate = $feedbackReminder->getUserOption();
 
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
             return false;
@@ -120,7 +119,7 @@ class Feedback extends \Piwik\Plugin
 
         if ($nextReminderDate === false) {
             $model = new Model();
-            $user = $model->getUser($login);
+            $user = $model->getUser(Piwik::getCurrentUserLogin());
             if (empty($user['date_registered'])) {
                 return false;
             }
