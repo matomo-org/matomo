@@ -104,8 +104,11 @@ class Row extends \ArrayObject
      */
     public function __destruct()
     {
+        static $depth = 0;
+
         if ($this->isSubtableLoaded) {
             Manager::getInstance()->deleteTable($this->subtableId);
+
             $this->subtableId = null;
             $this->isSubtableLoaded = false;
         }

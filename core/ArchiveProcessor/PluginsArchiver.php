@@ -161,11 +161,23 @@ class PluginsArchiver
                     if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving $period reports for plugin '%s' from raw data.", __FUNCTION__, $pluginName);
 
+                        $previousCount = count(Manager::getInstance());
                         $archiver->callAggregateDayReport();
+                        $afterCount = count(Manager::getInstance());
+
+                        if ($previousCount != $afterCount) {
+                            throw new \Exception("memory leak detected in $pluginName\Archiver::callAggregateDayReport(), DataTable count not the same, from $previousCount to $afterCount.");
+                        }
                     } else {
                         Log::debug("PluginsArchiver::%s: Archiving $period reports for plugin '%s' using reports for smaller periods.", __FUNCTION__, $pluginName);
 
+                        $previousCount = count(Manager::getInstance());
                         $archiver->callAggregateMultipleReports();
+                        $afterCount = count(Manager::getInstance());
+
+                        if ($previousCount != $afterCount) {
+                            throw new \Exception("memory leak detected in $pluginName\Archiver::callAggregateMultipleReports(), DataTable count not the same, from $previousCount to $afterCount.");
+                        }
                     }
 
                     $this->logAggregator->setQueryOriginHint('');

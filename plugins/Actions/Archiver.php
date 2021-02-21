@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -69,7 +70,19 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->insertDayReports();
 
+        $this->cleanUpDataTables();
+
         return true;
+    }
+
+    private function cleanUpDataTables()
+    {
+        $GLOBALS['abc']=1;
+        foreach ($this->actionsTablesByType as $index => &$table) {
+            Common::destroy($table);
+            unset($this->actionsTablesByType[$index]);
+        }
+        unset($this->actionsTablesByType);
     }
 
     /**

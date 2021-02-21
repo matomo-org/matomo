@@ -223,7 +223,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Maximum nesting level.
      */
-    private static $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;
+    public static $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;
 
     /**
      * Array of Row
@@ -354,12 +354,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function __destruct()
     {
-        static $depth = 0;
-        // destruct can be called several times
-        if ($depth < self::$maximumDepthLevelAllowed
-            && isset($this->rows)
-        ) {
-            $depth++;
+        if (isset($this->rows)) {
             foreach ($this->rows as $row) {
                 Common::destroy($row);
             }
@@ -368,7 +363,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             }
             unset($this->rows);
             Manager::getInstance()->setTableDeleted($this->currentId);
-            $depth--;
         }
     }
 

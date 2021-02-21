@@ -75,7 +75,7 @@ class Manager extends \ArrayObject
      */
     public function getMostRecentTableId()
     {
-        return $this->nextTableId;
+        return $this->nextTableId - 1; // TODO: test this change
     }
 
     /**

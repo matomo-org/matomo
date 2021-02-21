@@ -80,7 +80,14 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
         }
-
+return [
+    array('VisitsSummary.get', array('idSite' => $idSite,
+        'date' => $dateTime,
+        'otherRequestParameters' => array(
+            'hideColumns' => OneVisitorTwoVisits::getValueForHideColumns(),
+        )
+    )),
+];
         return array(
             array('all', array('idSite' => $idSite,
                                'date' => $dateTime,
