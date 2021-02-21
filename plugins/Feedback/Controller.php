@@ -44,6 +44,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $feedbackReminder = new FeedbackReminder();
         $feedbackReminder->setUserOption($nextReminder);
+
+        return json_encode(['Next reminder date: ' . $nextReminder]);
     }
 
     public function updateReferReminderDate()

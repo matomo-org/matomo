@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReferBannerController', ReferBannerController);
 
-    ReferBannerController.$inject = ['$scope', '$timeout', 'piwikApi'];
+    ReferBannerController.$inject = ['$scope'];
 
-    function ReferBannerController($scope, $timeout, piwikApi) {
+    function ReferBannerController($scope) {
         let setNextReminder = function(nextReminder) {
             let ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({'module': 'Feedback', 'action': 'updateReferReminderDate'}, 'GET');
@@ -28,18 +28,6 @@
 
             setNextReminder(-1);
         }
-
-        let init = function() {
-            $scope.referBanner.show = false;
-            $scope.referBanner.closeBanner = closeBanner;
-            $scope.referBanner.share = share;
-
-            if ($scope.showReferBanner === 1) {
-                $scope.referBanner.show = true;
-            };
-        };
-
-        init();
 
         $scope.socialUrl = function (type) {
             let text = 'Did you know Google is using your data for "own purposes"? This means Google owns your data and uses it to monetise their advertising platforms. If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!';
@@ -81,5 +69,17 @@
 
             return encodeURI(`mailto:YOUR_FRIEND@EMAIL.ADDRESS?subject=${subject}&body=${body}`);
         }
+
+        let init = function() {
+            $scope.referBanner.show = false;
+            $scope.referBanner.closeBanner = closeBanner;
+            $scope.referBanner.share = share;
+
+            if ($scope.showReferBanner === 1) {
+                $scope.referBanner.show = true;
+            };
+        };
+
+        init();
     }
 })();

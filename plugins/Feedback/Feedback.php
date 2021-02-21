@@ -166,8 +166,6 @@ class Feedback extends \Piwik\Plugin
     // needs to be protected not private for testing purpose
     protected function isDisabledInTestMode()
     {
-        // var_dump(defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
-        // var_dump(!Common::getRequestVar('forceFeedbackTest', false));
         return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
     }
 
