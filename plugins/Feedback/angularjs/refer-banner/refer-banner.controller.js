@@ -42,10 +42,8 @@
         init();
 
         $scope.socialUrl = function (type) {
-            let title = 'Did you know Google is using your data for "own purposes"?';
             let text = 'Did you know Google is using your data for "own purposes"? This means Google owns your data and uses it to monetise their advertising platforms. If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!';
-            let url = 'https://matomo.org/google-owns-your-data?pk_campaign=share&pk_kwd=onpremise';
-            let source = 'matomo.org';
+            let url = 'https://matomo.org/google-owns-your-data/?pk_campaign=share&pk_kwd=onpremise';
 
             if (type === 'twitter') {
                 let base = 'https://twitter.com/intent/tweet?';
@@ -66,9 +64,9 @@
             }
 
             if (type === 'linkedin') {
-                let base = 'https://www.linkedin.com/shareArticle?';
+                let base = 'https://www.linkedin.com/sharing/share-offsite/?';
 
-                let params = { mini: 'true', title, summary: text, url, source};
+                let params = { url };
                 let paramString = new URLSearchParams(params);
 
                 return `${base}${paramString.toString()}`;

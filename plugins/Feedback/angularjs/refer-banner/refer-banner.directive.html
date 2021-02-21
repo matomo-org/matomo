@@ -26,7 +26,7 @@
                         <a href="{{ socialUrl('linkedin') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/linkedin_logo.svg'" />
                         </a>
-                        <a href="{{ socialUrl('mastodon') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
+                        <a ng-show="{{ false }}" href="{{ socialUrl('mastodon') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/mastodon_logo.svg'" />
                         </a>
                     </div>
