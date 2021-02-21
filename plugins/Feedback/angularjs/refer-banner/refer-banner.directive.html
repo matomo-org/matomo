@@ -17,16 +17,16 @@
                 <div class="hide-on-med-and-down flex items-center">
                     <div>or share us on</div>
                     <div class="flex items-center">
-                        <a href="{{ socialUrl('twitter') }}" class="share-button" target="_blank" rel="noreferrer noopener">
+                        <a ng-href="{{ socialUrl('twitter') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/twitter_logo.svg'" />
                         </a>
-                        <a href="https://www.facebook.com/sharer.php" class="share-button" target="_blank" rel="noreferrer noopener">
+                        <a href="{{ socialUrl('facebook') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/facebook_logo.svg'" />
                         </a>
-                        <a href="https://www.linkedin.com/shareArticle" class="share-button" target="_blank" rel="noreferrer noopener">
+                        <a href="{{ socialUrl('linkedin') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/linkedin_logo.svg'" />
                         </a>
-                        <a href="#" class="share-button" target="_blank" rel="noreferrer noopener">
+                        <a href="{{ socialUrl('mastodon') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
                             <ng-include src="'plugins/Feedback/images/mastodon_logo.svg'" />
                         </a>
                     </div>
