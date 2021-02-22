@@ -3381,8 +3381,9 @@ if (typeof window.Matomo !== 'object') {
 
             function isPossibleToSetCookieOnDomain(domainToTest)
             {
+                var testCookieName = configCookieNamePrefix + 'testcookie_domain';
                 var valueToSet = 'testvalue';
-                setCookie('test', valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite);
+                setCookie(testCookieName, valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite);
 
                 if (getCookie('test') === valueToSet) {
                     deleteCookie('test', null, domainToTest);
