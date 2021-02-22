@@ -62,7 +62,11 @@ class Updates_4_1_2_b1 extends PiwikUpdates
                 $timeToUse = max($tsCreated, $tsLastEdit);
 
                 if ($timeToUse > $timeOfLastInvalidateTime) {
-                    $segmentArchiving->reArchiveSegment($segment);
+                    try {
+                        $segmentArchiving->reArchiveSegment($segment);
+                    } catch (\Exception $ex) {
+                        // ignore
+                    }
                 }
             }
         }, '');
