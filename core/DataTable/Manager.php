@@ -37,6 +37,18 @@ class Manager extends \ArrayObject
         return self::$instance;
     }
 
+    public function getTableCount()
+    {
+        $count = 0;
+        foreach ($this as $table) {
+            if (!isset($table)) {
+                continue;
+            }
+            ++$count;
+        }
+        return $count;
+    }
+
     /**
      * Add a DataTable to the registry
      *
@@ -75,7 +87,7 @@ class Manager extends \ArrayObject
      */
     public function getMostRecentTableId()
     {
-        return $this->nextTableId - 1; // TODO: test this change
+        return $this->nextTableId;// - 1; // TODO: test this change
     }
 
     /**

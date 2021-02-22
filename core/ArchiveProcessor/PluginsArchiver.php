@@ -161,9 +161,13 @@ class PluginsArchiver
                     if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving $period reports for plugin '%s' from raw data.", __FUNCTION__, $pluginName);
 
-                        $previousCount = count(Manager::getInstance());
+                        $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+                        $previousCount = Manager::getInstance()->getTableCount();
+
                         $archiver->callAggregateDayReport();
-                        $afterCount = count(Manager::getInstance());
+
+                        Manager::getInstance()->deleteAll($latestUsedTableId);
+                        $afterCount = Manager::getInstance()->getTableCount();
 
                         if ($previousCount != $afterCount) {
                             throw new \Exception("memory leak detected in $pluginName\Archiver::callAggregateDayReport(), DataTable count not the same, from $previousCount to $afterCount.");
@@ -171,9 +175,13 @@ class PluginsArchiver
                     } else {
                         Log::debug("PluginsArchiver::%s: Archiving $period reports for plugin '%s' using reports for smaller periods.", __FUNCTION__, $pluginName);
 
-                        $previousCount = count(Manager::getInstance());
+                        $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+                        $previousCount = Manager::getInstance()->getTableCount();
+
                         $archiver->callAggregateMultipleReports();
-                        $afterCount = count(Manager::getInstance());
+
+                        Manager::getInstance()->deleteAll($latestUsedTableId);
+                        $afterCount = Manager::getInstance()->getTableCount();
 
                         if ($previousCount != $afterCount) {
                             throw new \Exception("memory leak detected in $pluginName\Archiver::callAggregateMultipleReports(), DataTable count not the same, from $previousCount to $afterCount.");

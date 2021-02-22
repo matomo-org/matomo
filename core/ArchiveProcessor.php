@@ -204,7 +204,7 @@ class ArchiveProcessor
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
-            $previousCount = count(Manager::getInstance());
+            $previousCount = Manager::getInstance()->getTableCount();
 
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
@@ -220,7 +220,7 @@ class ArchiveProcessor
             unset($blob);
             DataTable\Manager::getInstance()->deleteAll($latestUsedTableId);
 
-            $afterCount = count(Manager::getInstance());
+            $afterCount = Manager::getInstance()->getTableCount();
             if ($previousCount != $afterCount) { // TODO: code redundancy, move to helper
                 throw new \Exception("DataTable count not the same after ArchiveProcessor::aggregateDataTableRecords(): from $previousCount to $afterCount");
             }
