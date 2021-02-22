@@ -36,7 +36,7 @@
             if (type === 'twitter') {
                 var base = 'https://twitter.com/intent/tweet?';
 
-                var params = { text, url};
+                var params = { 'text': text, 'url': url};
                 var paramString = new URLSearchParams(params);
 
                 return base + paramString.toString();
@@ -45,7 +45,7 @@
             if (type === 'facebook') {
                 var base = 'https://www.facebook.com/sharer.php?';
 
-                var params = { t: text, u: url};
+                var params = { 't': text, 'u': url};
                 var paramString = new URLSearchParams(params);
 
                 return base + paramString.toString();
@@ -54,7 +54,7 @@
             if (type === 'linkedin') {
                 var base = 'https://www.linkedin.com/sharing/share-offsite/?';
 
-                var params = { url };
+                var params = { 'url': url };
                 var paramString = new URLSearchParams(params);
 
                 return base + paramString.toString();
