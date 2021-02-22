@@ -82,7 +82,7 @@ class Model
             while (!empty($duplicateArchives)) {
                 $pair = $duplicateArchives[0];
                 if (strpos($pair, '.') === false) {
-                    continue; // see below
+                    break;
                 }
 
                 list($idarchive, $value) = explode('.', $pair);
