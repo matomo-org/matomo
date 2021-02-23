@@ -367,7 +367,7 @@ class SegmentEditor extends \Piwik\Plugin
         $this->transferAllUserSegmentsToSuperUser($userLogin);
     }
 
-    public static function transferAllUserSegmentsToSuperUser($userLogin)
+    public function transferAllUserSegmentsToSuperUser($userLogin)
     {
         $model = new Model();
         $updatedAt = Date::factory('now')->toString('Y-m-d H:i:s');
