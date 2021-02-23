@@ -3618,7 +3618,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(159);
+        expect(160);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4045,6 +4045,10 @@ if ($mysql) {
 
         // Track pageview
         tracker3.trackPageView("DoTrack");
+
+        var userIdNum = 12345;
+        tracker3.setUserId(userIdNum);
+        tracker3.trackPageView('AnotherTrack');
 
         // Firefox 9: navigator.doNotTrack is read-only
         navigator.doNotTrack = "yes";
