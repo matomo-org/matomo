@@ -34,7 +34,7 @@
                     return scope.getExportLink(false);
                 }
 
-                scope.getExportLink = function(withToken = true) {
+                scope.getExportLink = function(withToken) {
 
                     var dataTable = scope.dataTable;
                     var format    = scope.reportFormat;
