@@ -176,7 +176,13 @@ class Cookie
     public function delete()
     {
         $this->setP3PHeader();
-        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
+
+        if (ProxyHttp::isHttps()) {
+            $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, TRUE, FALSE, 'None');
+        } else {
+            $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
+        }
+
         $this->clear();
     }
 
@@ -292,7 +298,7 @@ class Cookie
             } elseif (!is_numeric($value)) {
                 $value = base64_encode($value);
             }
-            $cookieStrArr[] = "$name=$value"; 
+            $cookieStrArr[] = "$name=$value";
         }
 
         return implode(self::VALUE_SEPARATOR, $cookieStrArr);
