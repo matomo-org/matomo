@@ -177,11 +177,8 @@ class Cookie
     {
         $this->setP3PHeader();
 
-        if (ProxyHttp::isHttps()) {
-            $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, TRUE, FALSE, 'None');
-        } else {
-            $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
-        }
+        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
+        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, TRUE, FALSE, 'None');
 
         $this->clear();
     }
