@@ -52,15 +52,18 @@ class Model
      *
      * @param string $archiveTable
      * @param array $idSites
+     * @param bool $setMaxLen for tests only
      * @return array
      * @throws Exception
      */
-    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, $setGroupContentMaxLen = true)
     {
-        try {
-            Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
-        } catch (\Exception $ex) {
-            $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
+        if ($setGroupContentMaxLen) {
+            try {
+                Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+            } catch (\Exception $ex) {
+                $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
+            }
         }
 
         $sql = "SELECT idsite, date1, date2, period, name,
