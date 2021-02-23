@@ -25,12 +25,13 @@
 
         var share = function() {
             $scope.referBanner.show = false;
+            $scope.referBanner.showThanks = true;
 
             setNextReminder(-1);
         }
 
         $scope.socialUrl = function (type) {
-            var text = 'Did you know Google is using your data for "own purposes"? This means Google owns your data and uses it to monetise their advertising platforms. If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!';
+            var text = _pk_translate('Feedback_ReferBannerSocialShareText');
             var url = 'https://matomo.org/google-owns-your-data/?pk_campaign=share&pk_kwd=onpremise';
 
             if (type === 'twitter') {
@@ -64,14 +65,15 @@
         };
 
         $scope.referEmail = function () {
-            var subject = 'Why I no longer use Google Analytics';
-            var body = 'Did you know Google uses data for "own purposes"? That means Google owns your data and is using it to monetise their advertising platforms.\r\nThis is why I don’t use Google Analytics for analysing the performance of my website.\r\n\r\nInstead I choose Matomo, an ethical alternative to Google Analytics that gives me 100% data ownership and protects the data of my website visitors.\r\nI’m sharing this message in the hope that you too will take back the power from Google and get complete ownership of your own data.\r\n\r\nCheck out Matomo at https://matomo.org';
+            var subject = _pk_translate('Feedback_ReferBannerEmailShareSubject');
+            var body = _pk_translate('Feedback_ReferBannerEmailShareBody');
 
             return encodeURI('mailto:YOUR_FRIEND@EMAIL.ADDRESS?subject=' + subject + '&body=' + body);
         }
 
         var init = function() {
             $scope.referBanner.show = false;
+            $scope.referBanner.showThanks = false;
             $scope.referBanner.closeBanner = closeBanner;
             $scope.referBanner.share = share;
 

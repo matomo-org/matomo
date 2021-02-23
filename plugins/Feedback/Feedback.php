@@ -57,6 +57,7 @@ class Feedback extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
@@ -67,6 +68,12 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
+        $translationKeys[] = 'Feedback_ReferMatomo';
+        $translationKeys[] = 'Feedback_ReferBannerTitle';
+        $translationKeys[] = 'Feedback_ReferBannerLonger';
+        $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
+        $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
+        $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }

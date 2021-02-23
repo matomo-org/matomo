@@ -4,13 +4,13 @@
             <div class="flex-none"></div>
             <div class="flex items-center justify-center flex-grow">
                 <div>
-                    Don't let your friend's data end up in the wrong hands!
-                    <span class="hide-on-med-and-down">Refer them to Matomo Analytics now to take back control!</span>
+                    {{ 'Feedback_ReferBannerTitle'|translate }}
+                    <span class="hide-on-med-and-down">{{ 'Feedback_ReferBannerLonger'|translate }}</span>
                 </div>
 
                 <div>
                     <a ng-href="{{ referEmail() }}" ng-click="referBanner.share()" target="_blank" class="btn premiumDownloadPiwik" rel="noreferrer noopener" id="send-email" style="width: max-content;">
-                        Refer Matomo
+                        {{ 'Feedback_ReferMatomo'|translate }}
                     </a>
                 </div>
 
@@ -35,11 +35,11 @@
 
             <div title="Close" class="icon-close flex-none" ng-click="referBanner.closeBanner()"></div>
         </div>
+    </div>
 
-        <div class="hide flex items-center justify-center h-full" id="thanks-text">
-            <div>Thank you for spreading the word and creating a safer web</div>
+    <div class="ui-confirm ratefeatureDialog" piwik-dialog="referBanner.showThanks" yes="">
+        <h2>{{ 'Feedback_ThankYouForSpreading'|translate }}</h2>
 
-            <div title="Close" class="icon-close" id="close-thanks"></div>
-        </div>
+        <input type="button" value="{{ 'General_Ok'|translate }}" role="yes"/>
     </div>
 </div>
