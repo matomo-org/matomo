@@ -22,6 +22,7 @@ use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionInitializer;
+use Piwik\SupportedBrowser;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -154,7 +155,7 @@ class FrontController extends Singleton
         if (self::$enableDispatch === false) {
             return;
         }
-        
+
         $filter = new Router();
         $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {
@@ -305,6 +306,7 @@ class FrontController extends Singleton
         );
 
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
+        SupportedBrowser::checkIfBrowserSupported();
 
         $this->handleMaintenanceMode();
         $this->handleProfiler();
