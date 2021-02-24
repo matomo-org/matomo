@@ -52,7 +52,7 @@ class Model
      *
      * @param string $archiveTable
      * @param array $idSites
-     * @param bool $setMaxLen for tests only
+     * @param bool $setGroupContentMaxLen for tests only
      * @return array
      * @throws Exception
      */
@@ -84,11 +84,14 @@ class Model
             // and we don't want to delete the latest archive if it is usable
             while (!empty($duplicateArchives)) {
                 $pair = $duplicateArchives[0];
-                if (strpos($pair, '.') === false) {
+                if (strpos($pair, '.') === false) { // can occur if the GROUP_CONCAT value is cut off
                     break;
                 }
 
                 list($idarchive, $value) = explode('.', $pair);
+                if (empty($value)) { // can occur if the GROUP_CONCAT value is cut off
+                    break;
+                }
 
                 array_shift($duplicateArchives);
 
