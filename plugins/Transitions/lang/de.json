@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s interne Suchen",
         "XOfAllPageviews": "%s von allen Seitenansichten",
         "XOutOfYVisits": "%1$s (von insgesamt %2$s)",
-        "PageURLTransitions": "Seiten URL Übergänge"
+        "PageURLTransitions": "Seiten URL Übergänge",
+        "TransitionsSubcategoryHelp1": "Übergänge zeigen Ihnen auf, was genau Ihre Besucher machten bevor und nachdem sie eine bestimmte Seite aufgerufen haben. Diese Seite erklärt wie man zum Übergangsbericht kommt, wie man ihn versteht und wie man ihn nutzt.",
+        "TransitionsSubcategoryHelp2": "Mehr Details"
     }
 }

@@ -101,6 +101,7 @@
         "SystemCheckMbstringHelp": "Η επέκταση mbstring απαιτείται για τον χειρισμό χαρακτήρων πολλών Bytes στην διεπαφή χρήστη και στις αποκρίσεις API. Επίσης, βεβαιωθείτε ότι η τιμή mbstring.func_overload έχει οριστεί στο \"0\" στο php.ini.",
         "SystemCheckMemoryLimit": "Όριο μνήμης",
         "SystemCheckMemoryLimitHelp": "Σε μια ιστοσελίδα υψηλής επισκεψιμότητας, η διαδικασία αρχειοθέτησης ίσως απαιτεί περισσότερη μνήμη από την επιτρεπόμενη.<br \/>Δείτε την οδηγία memory_limit στο αρχείο php.ini αν είναι απαραίτητο.",
+        "SystemCheckMemoryNoMemoryLimitSet": "Δεν έχει οριστεί όριο για τη μνήμη",
         "SystemCheckNoErrorsOrWarnings": "Δεν υπάρχουν σφάλματα ή προειδοποιήσεις",
         "SystemCheckViewFullSystemCheck": "Εμφάνιση της πλήρης αναφοράς ελέγχου συστήματος",
         "SystemCheckOpenURL": "Άνοιγμα URL",

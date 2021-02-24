@@ -101,6 +101,7 @@
         "SystemCheckMbstringHelp": "Për trajtimin e shenjave shumëbajtshe te ndërfaqja e përdoruesit dhe përgjigjet API lypset zgjerimi mbstring. Shihni gjithashtu që mbstring.func_overload te php.ini i është dhënë vlera \"0\".",
         "SystemCheckMemoryLimit": "Kufi kujtese",
         "SystemCheckMemoryLimitHelp": "Në një sajt me shumë trafik, procesi i arkivimit mund të dojë më tepër kujtesë se sa i është dhënë tani. Në u dashtë, ndryshojeni parametrin memory_limit te kartela juaj php.ini.",
+        "SystemCheckMemoryNoMemoryLimitSet": "S'është caktuar kufi kujtese",
         "SystemCheckNoErrorsOrWarnings": "S’ka gabime apo sinjalizime",
         "SystemCheckViewFullSystemCheck": "Shihni raportin e plotë të kontrollit të sistemit",
         "SystemCheckOpenURL": "Hap URL",

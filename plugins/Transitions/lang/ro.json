@@ -22,6 +22,7 @@
         "ToFollowingSiteSearches": "Cautari interne",
         "ToFollowingSiteSearchesInline": "%s căutări interne",
         "XOfAllPageviews": "%s toate vizualizarile de pe aceasta pagina",
-        "XOutOfYVisits": "%1$s (din %2$s)"
+        "XOutOfYVisits": "%1$s (din %2$s)",
+        "TransitionsSubcategoryHelp2": "Mai multe detalii"
     }
 }

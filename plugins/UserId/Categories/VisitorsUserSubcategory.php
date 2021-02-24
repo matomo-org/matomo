@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserId\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class VisitorsUserSubcategory extends Subcategory
 {
@@ -16,4 +17,8 @@ class VisitorsUserSubcategory extends Subcategory
     protected $id = 'UserId_UserReportTitle';
     protected $order = 40;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('UserId_VisitorsUserSubcategoryHelp') . '</p>';
+    }
 }

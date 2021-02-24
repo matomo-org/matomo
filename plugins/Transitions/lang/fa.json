@@ -21,6 +21,7 @@
         "ToFollowingSiteSearches": "جستجوهای داخلی",
         "ToFollowingSiteSearchesInline": "%s جستجوهای داخلی",
         "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه",
-        "XOutOfYVisits": "%1$s (از %2$s)"
+        "XOutOfYVisits": "%1$s (از %2$s)",
+        "TransitionsSubcategoryHelp2": "جزئیات بیشتر"
     }
 }

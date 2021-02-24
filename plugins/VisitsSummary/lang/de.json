@@ -22,6 +22,7 @@
         "PluginDescription": "Berichte mit generellen analytischen Metriken: Besuche, eindeutige Besucher, Anzahl Aktionen, Absprungsrate, usw.",
         "VisitsSummary": "Besucherüberblick",
         "VisitsSummaryDocumentation": "Dies ist eine Übersicht über die Entwicklung der Besuche.",
+        "VisitsSummaryReportDocumentation": "Dieser Bericht liefert eine sehr grobe Übersicht darüber, wie Ihre Besucher sich verhalten.",
         "WidgetLastVisits": "Graph der letzten Besuche",
         "WidgetOverviewGraph": "Übersicht mit Graph",
         "WidgetVisits": "Besucherübersicht"

@@ -75,6 +75,7 @@
         "WidgetSearchNoResultKeywords": "Palavras-Chave de Pesquisas Sem Resultados",
         "ActionType": "Tipo de Ação",
         "ActionTypes": "Tipo de Ação",
-        "Behaviour": "Comportamento"
+        "Behaviour": "Comportamento",
+        "PagesSubcategoryHelp3": "Use os ícones de mais e menos à esquerda para navegar."
     }
 }

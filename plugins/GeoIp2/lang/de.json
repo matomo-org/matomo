@@ -44,6 +44,8 @@
         "LocationProviderDesc_Php_WithExtension": "Dieser Standorterkennungsdienst wird durch die installierte %1$smaxminddb%2$s Erweiterung beschleunigt.",
         "LocationProviderDesc_ServerModule": "Diese Art der Standortbestimmung verwendet das GeoIP2-Modul das auf ihrem HTTP-Server installiert ist. Diese ist am schnellsten und genauesten, aber %1$skann nur bei normalem Browser-Tracking benutzt werden%2$s",
         "LocationProviderDesc_ServerModule2": "Falls Sie Protokolldateien oder andere Dinge importieren welche IP-Adressen enthalten sollten Sie die %3$sPHP GeoIP 2 Implementierung%4$s nutzen und die %1$smaxminddb Erweiterung%2$s installieren.",
+        "MalFormedUpdateUrl": "Die URL %1$s scheint ungültig zu sein. Bitte geben Sie eine gültige URL ein, die mit http:\/\/ oder https:\/\/ beginnt.",
+        "InvalidGeoIPUpdateHost": "Der Host der URL %1$s für die GeoIP Aktualisierung ist nicht vertrauenswürdig. Sollten sie das Herunterladen von GeoIP Aktualisierungen von anderen Hosts als %2$s erlauben wollen, passen Sie bitte die Einstellung für %3$s in der Konfiguration an.",
         "NotManagingGeoIPDBs": "Matomo kann aktuell keine DBIP oder MaxMind Datenbanken verwalten.",
         "UnsupportedArchiveType": "Nicht unterstützter Archivtyp erkannt: %1$s",
         "UpdaterHasNotBeenRun": "Es hat noch keine Aktualisierung stattgefunden.",

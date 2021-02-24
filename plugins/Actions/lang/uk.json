@@ -73,6 +73,7 @@
         "WidgetSearchNoResultKeywords": "Пошукові ключові слова без результатів",
         "ActionType": "Тип дії",
         "ActionTypes": "Типи дії",
-        "Behaviour": "Поведінка"
+        "Behaviour": "Поведінка",
+        "PagesSubcategoryHelp3": "Використовуйте іконки плюс і мінус зліва для навігації"
     }
 }

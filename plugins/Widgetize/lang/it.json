@@ -2,6 +2,8 @@
     "Widgetize": {
         "OpenInNewWindow": "Apri in una nuova finestra",
         "PluginDescription": "Mostra ogni report di Matomo nel tuo sito o nell'app con un semplice tag HTML.",
-        "TopLinkTooltip": "Esporta i Reports di Matomo come Widgets e includi la Dashboard nella tua app come iFrame."
+        "ViewAccessRequired": "Questo utente ha almeno un accesso in scrittura. È possibile utilizzare solo i token di utenti che hanno solo accesso in visualizzazione. Vedi %1$s per ulteriori informazioni.",
+        "TopLinkTooltip": "Esporta i Reports di Matomo come Widgets e includi la Dashboard nella tua app come iFrame.",
+        "TooHighAccessLevel": "Questo utente dispone dell'accesso come super utente. Per l'incorporamento di widget non sono consentite autorizzazioni di token per utenti super. %1$sConsulta le nostre domande frequenti per ulteriori informazioni%2$s."
     }
 }

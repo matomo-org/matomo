@@ -162,7 +162,7 @@ class Http
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
 
-        $aUrl = trim($aUrl);
+        $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
 
         if (empty($parsedUrl['scheme'])) {

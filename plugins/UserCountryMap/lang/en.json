@@ -22,6 +22,7 @@
         "WithUnknownRegion": "%s with unknown region",
         "WithUnknownCity": "%s with unknown city",
         "NoVisitsInfo": "There are no visits displayed currently, because no visit for this period has the correct geolocation information (latitude & longitude).",
-        "NoVisitsInfo2": "To resolve this issue, make sure you are using a GeoIP geolocation provider with a GeoIP city database. If this does not resolve your issue, then it is possible (though unlikely) that your visits have IP addresses that just cannot be geolocated."
+        "NoVisitsInfo2": "To resolve this issue, make sure you are using a GeoIP geolocation provider with a GeoIP city database. If this does not resolve your issue, then it is possible (though unlikely) that your visits have IP addresses that just cannot be geolocated.",
+        "RealTimeMapHelp": "The Real-time Map shows the location of visitors on your site within the last 30 minutes. Large orange bubbles represent more recent visits, while smaller grey bubbles represent older visits. This data refreshes every five seconds, and new visitors appear with a flashing effect."
     }
 }

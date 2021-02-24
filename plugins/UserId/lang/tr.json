@@ -2,7 +2,8 @@
     "UserId": {
         "UserId": "Kullanıcı Kodu",
         "UserReportTitle": "Kullanıcı Kodları",
-        "UserReportDocumentation": "Bu rapor, her kullanıcı kodu için, ziyaretler, ve diğer genel istatistik ölçümlerini içerir.",
-        "PluginDescription": "Kullanıcı raporlarını görüntüler"
+        "UserReportDocumentation": "Bu rapor, her kullanıcı kodu için, ziyaretler, ve diğer genel ölçümleri içerir.",
+        "PluginDescription": "Kullanıcı raporlarını görüntüler",
+        "VisitorsUserSubcategoryHelp": "Kullanıcı Kodları raporu, kayıtlı ve oturum açmış tüm kullanıcıların ziyaretlerini içerir. Bu bölüm, web sitesinin belirli kullanıcılar tarafından nasıl kullanıldığını anlamak ve en fazla ya da en az etkin kullanıcıların kimler olduğunu belirlemek için kullanılabilir."
     }
 }

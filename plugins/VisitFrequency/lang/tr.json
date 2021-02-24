@@ -33,6 +33,7 @@
         "ReturnVisits": "geri dönen ziyaretler",
         "SubmenuFrequency": "Sıklık",
         "WidgetGraphReturning": "Zamana Göre Geri Gelen Ziyaretler",
-        "WidgetOverview": "Sıklık Özeti"
+        "WidgetOverview": "Sıklık Özeti",
+        "VisitFrequencyReportDocumentation": "Bu rapor, geri gelen ziyaretçiler gibi genel ölçümleri, yeni ziyaretçilerin aynı ölçümleri ile yan yana görüntüler. Böylece geri gelen ziyaretçilerin, yeni ziyaretçilere göre genel başarımı öğrenilebilir."
     }
 }

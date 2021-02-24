@@ -7,7 +7,7 @@
  *
  */
 
-namespace PHPUnit\Unit\CronArchive;
+namespace PHPUnit\Integration\CronArchive;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\ArchiveFilter;
@@ -16,8 +16,33 @@ use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @group Core
+ */
 class ArchiveFilterTest extends IntegrationTestCase
 {
+
+    public function test_archiveFilter_filtersOutArchivesWhenForceReportIsSpecified()
+    {
+        $filter = new ArchiveFilter();
+        $filter->setForceReport('MyPlugin.myName');
+
+        $result = $filter->filterArchive(['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1]);
+        $this->assertEquals('report is not the same as value specified in --force-report', $result);
+
+        $result = $filter->filterArchive(['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'plugin' => 'MyPlugin']);
+        $this->assertEquals('report is not the same as value specified in --force-report', $result);
+
+        $result = $filter->filterArchive(['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'plugin' => 'MyPlugin', 'report' => 'myOtherName']);
+        $this->assertEquals('report is not the same as value specified in --force-report', $result);
+
+        $result = $filter->filterArchive(['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'plugin' => 'MyOtherPlugin', 'report' => 'myName']);
+        $this->assertEquals('report is not the same as value specified in --force-report', $result);
+
+        $result = $filter->filterArchive(['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'plugin' => 'MyPlugin', 'report' => 'myName']);
+        $this->assertFalse($result);
+    }
+
     public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
     {
         Rules::setBrowserTriggerArchiving(false);

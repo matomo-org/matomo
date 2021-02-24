@@ -41,6 +41,7 @@
         "ConversionsOverview": "Konversions-Überblick",
         "ConversionsOverviewBy": "Überblick über Konversionen nach Besuchstyp",
         "DaysToConv": "Tage bis zur Konversion",
+        "DaysToConvReportDocumentation": "Dieser Bericht zeigt, wie viele Tage vergingen, bevor Ihre Besucher ein Ziel erreicht haben.",
         "Details": "Ziel-Details",
         "DefaultGoalConvertedOncePerVisit": "(default) Ziel kann nur einmal pro Besuch erreicht werden",
         "DefaultRevenueLabel": "Standard Ertrags-Ziel",
@@ -108,6 +109,7 @@
         "GoalsAdjective": "Ziele %s",
         "VisitPageTitle": "eine Seite mit einem bestimmten Titel besucht",
         "VisitsUntilConv": "Besuche bis zur Konversion",
+        "VisitsUntilConvReportDocumentation": "Dieser Bericht zeigt die Anzahl der Besuche, die getätigt wurden, bevor ein Besucher ein Ziel erreichen konnte.",
         "VisitUrl": "Die angegebene URL (Seite oder Gruppe von Seiten) wird besucht",
         "VisitDurationMatchAttr": "Verweilt für eine bestimmte Zeitdauer",
         "VisitDuration": "Besuchsdauer ist",
@@ -121,6 +123,7 @@
         "EventValueAsRevenueHelp2": "Hinweis: Wenn sowohl ein Ertragsziel als auch ein Ereignis-Wert definiert ist, wird der Ereignis-Wert verwendet. Wenn diese Option aktiviert ist und in einer Anfrage kein Ereignis-Wert gesangt wird, dann wird das Standard Ertrags-Ziel (falls definiert) verwendet.",
         "AtLeastMinutes": "mindestens %1$s Minuten. Verwenden Sie Dezimale um Sekunden anzugeben, zum Beispiel %2$s um 30 Sekunden zu definieren.",
         "TimeInMinutes": "Zeit in Minuten",
-        "ClickToViewThisGoal": "Klicken Sie um dieses Ziel zu sehen."
+        "ClickToViewThisGoal": "Klicken Sie um dieses Ziel zu sehen.",
+        "OverviewReportDocumentation": "Dieser Bericht gibt einen Überblick daüber, wie häufig Ihre Besucher ein spezifisches Ziel erreichen konnten."
     }
 }

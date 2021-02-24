@@ -11,7 +11,7 @@
         "CorsDomains": "Përkatësi Cross-Origin Resource Sharing (CORS)",
         "CorsDomainsHelp": "Mund të përkufizoni përkatësi ose nënpërkatësi të tilla si http:\/\/shembull.com ose http:\/\/stats.shembull.com. Ose, që të lejoni kërkesa ndërpërkatësore për krejt përkatësitë, thjesht shtoni *",
         "CustomLogoFeedbackInfo": "Nëse e përshtatni logon e Matomo-s, mund t’ju interesonte edhe fshehja lidhjes %1$s te menuja në krye. Për ta bërë këtë, mund të çaktivizoni shtojcën e Përshtypjeve te faqja e %2$sAdministrimit të Shtojcave%3$s.",
-        "CustomLogoHelpText": "Logon e Matomo-s, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email, mund ta personalizoni.",
+        "CustomLogoHelpText": "Logon e Matomo-s, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email, mund ta përshtatni si doni.",
         "DevelopmentProcess": "Teksa procesi ynë i zhvillimit përfshin mijëra teste të automatizuara, Testuesit Beta luajnë një rol kyç në plotësimin e \"politikës Pa të Meta\" në Matomo.",
         "EmailServerSettings": "Rregullime shërbyesi email",
         "ForBetaTestersOnly": "Vetëm për testues beta",

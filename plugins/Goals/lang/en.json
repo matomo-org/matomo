@@ -124,6 +124,10 @@
         "AtLeastMinutes": "at least %1$s minutes. Use decimals to match seconds, for example, %2$s to match 30 seconds.",
         "TimeInMinutes": "Time in Minutes",
         "ClickToViewThisGoal": "Click to view this goal.",
-        "OverviewReportDocumentation": "This report gives an overview of how well your visitors convert a specific goal."
+        "OverviewReportDocumentation": "This report gives an overview of how well your visitors convert a specific goal.",
+        "GoalsOverviewSubcategoryHelp1": "The Goals Overview reports on the performance of the goals defined for your website. You can access your goal’s conversion percentages, amount of revenue generated and full reports for each.",
+        "GoalsOverviewSubcategoryHelp2": "Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.",
+        "ManageGoalsSubcategoryHelp1": "This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.",
+        "ManageGoalsSubcategoryHelp2": "Learn more in our Goals guide here."
     }
 }

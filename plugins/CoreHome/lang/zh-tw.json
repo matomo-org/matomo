@@ -24,7 +24,7 @@
         "EndShortcut": "End 鍵",
         "EnterZenMode": "進入勿擾模式（隱藏選單）",
         "ExitZenMode": "離開勿擾模式（顯示選單）",
-        "ExceptionNotAllowlistedIP": "你無法使用這個 Matomo，因為你的 IP %s 不在白名單內。",
+        "ExceptionNotAllowlistedIP": "你無法使用此 Matomo，因為你的 IP %s 未被允許。",
         "ExcludeRowsWithLowPopulation": "已顯示所有列 %s 排除較低人數",
         "ExternalHelp": "幫助（在新分頁中開啟）",
         "FlattenDataTable": "報表目前已分層 %s 平面化顯示",
@@ -112,7 +112,7 @@
         "ReadMoreOnlineGuide": "在線上說明了解更多此主題",
         "SeeAvailableVersions": "查看可用版本",
         "QuickLinks": "快速連結",
-        "Profilable": "可以紀錄的",
+        "Profilable": "可紀錄的",
         "SearchOnMatomo": "在 Matomo.org 上搜尋「%1$s」"
     }
 }

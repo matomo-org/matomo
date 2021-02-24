@@ -469,6 +469,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_RowLimit';
         $translationKeys[] = 'CoreHome_ExportFormat';
         $translationKeys[] = 'CoreHome_ExportTooltip';
+        $translationKeys[] = 'CoreHome_ExportTooltipWithLink';
         $translationKeys[] = 'CoreHome_FlattenReport';
         $translationKeys[] = 'CoreHome_CustomLimit';
         $translationKeys[] = 'CoreHome_ExpandSubtables';
@@ -488,5 +489,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Custom';
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
+        $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
     }
 }

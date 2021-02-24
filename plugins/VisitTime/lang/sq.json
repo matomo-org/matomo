@@ -29,6 +29,7 @@
         "WidgetLocalTime": "Vizita sipas Kohës Vendore",
         "WidgetLocalTimeDocumentation": "Ky grafik shfaq kohën sipas %1$s zonës kohore të vizitorit %2$s kur ka ndodhur një vizitë.",
         "WidgetServerTime": "Vizita sipas Kohës së Shërbyesit",
-        "WidgetServerTimeDocumentation": "Ky grafik shfaq kohën sipas %1$s zonës kohore të shërbyesit %2$s kur ka ndodhur një vizitë."
+        "WidgetServerTimeDocumentation": "Ky grafik shfaq kohën sipas %1$s zonës kohore të shërbyesit %2$s kur ka ndodhur një vizitë.",
+        "TimesSubcategoryHelp": "Ndarja Kohë ju shfaq kur e vizitojnë sajtin tuaj njerëzit. Mund të shihni kohët vendore më popullore kur e vizitojnë përdoruesit tuaj, që të mund të kuptoni kur futet sajti në jetën e tyre. Më tej, shfaq kohët më popullore të shërbyesit, çka mund të zbulojë kërkesa lidhur me platformën tuaj teknologjike."
     }
 }

@@ -543,7 +543,7 @@ class Request
             }
         }
 
-        return $cdt;
+        return (int) $cdt;
     }
 
     /**

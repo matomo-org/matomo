@@ -57,6 +57,7 @@
         "WidgetSearchCategories": "Số danh mục tìm kiếm",
         "WidgetSearchKeywords": "Số từ khóa trang tìm kiếm",
         "WidgetSearchNoResultKeywords": "Các từ khóa tìm kiếm không có kết quả",
-        "ActionType": "Loại hành động"
+        "ActionType": "Loại hành động",
+        "PagesSubcategoryHelp3": "Sử dụng các biểu tượng cộng và trừ ở bên trái để di chuyển."
     }
 }
