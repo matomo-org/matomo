@@ -15,8 +15,6 @@ use Piwik\Translation\Translator;
 
 /**
  * Information about the archive invalidations.
- *
- * TODO: integration test, definitely
  */
 class ArchiveInvalidationsInformational implements Diagnostic
 {
