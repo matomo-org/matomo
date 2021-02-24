@@ -53,7 +53,7 @@ class ArchiveInvalidationsInformational implements Diagnostic
         return $results;
     }
 
-    private function getInvalidationCounts()
+    public function getInvalidationCounts()
     {
         $table = Common::prefixTable('archive_invalidations');
         $sql = "SELECT COUNT(*) as `count`, status FROM `$table` GROUP BY status";
@@ -68,7 +68,7 @@ class ArchiveInvalidationsInformational implements Diagnostic
         return $result;
     }
 
-    private function getInvalidationMinMaxes()
+    public function getInvalidationMinMaxes()
     {
         $sql = "SELECT MIN(ts_started) as min_ts_started, MAX(ts_started) as max_ts_started, MIN(ts_invalidated) as min_ts_invalidated, MAX(ts_invalidated) as max_ts_invalidated FROM "
             . Common::prefixTable('archive_invalidations');
@@ -76,7 +76,7 @@ class ArchiveInvalidationsInformational implements Diagnostic
         return $row;
     }
 
-    private function getInvalidationTypes()
+    public function getInvalidationTypes()
     {
         $table = Common::prefixTable('archive_invalidations');
 
@@ -105,6 +105,10 @@ class ArchiveInvalidationsInformational implements Diagnostic
 
             $result['plugins'][] = $row['plugin'];
         }
+
+        $result['plugins'] = array_unique($result['plugins']);
+        $result['plugins'] = array_filter($result['plugins']);
+        $result['plugins'] = array_values($result['plugins']);
 
         return $result;
     }
