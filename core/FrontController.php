@@ -306,7 +306,6 @@ class FrontController extends Singleton
         );
 
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
-        SupportedBrowser::checkIfBrowserSupported();
 
         $this->handleMaintenanceMode();
         $this->handleProfiler();
@@ -418,6 +417,10 @@ class FrontController extends Singleton
             }
         } else {
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
+        }
+
+        if (Piwik::isUserIsAnonymous() && Piwik::getModule() !== 'API') {
+            SupportedBrowser::checkIfBrowserSupported();
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
