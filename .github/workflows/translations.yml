@@ -1,6 +1,7 @@
 name: Translation Updates
 
 on:
+  workflow_dispatch:
   schedule:
   - cron: "0 2 * * 6"
 
@@ -69,7 +70,7 @@ jobs:
           IFS=$'\n'
           changes=( $(git diff --numstat HEAD | grep -E '([0-9]+)\s+([0-9]+)\s+[a-zA-Z\/]*lang\/([a-z]{2,3}(-[a-z]{2,3})?)\.json' ) )
           unset IFS
-          
+
           # abort here if no change available
           if [[ ${#changes[@]} -eq 0 ]]
           then
