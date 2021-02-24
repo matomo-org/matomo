@@ -53,7 +53,7 @@ class SupportedBrowser
 
     private static function browserNotSupported($shortName, $version)
     {
-        return array_key_exists($shortName, self::$notSupportedBrowsers) && $version <= self::$notSupportedBrowsers[$shortName];
+        return array_key_exists($shortName, self::$notSupportedBrowsers) && $version > 0 && $version <= self::$notSupportedBrowsers[$shortName];
     }
 
     private static function throwException()
