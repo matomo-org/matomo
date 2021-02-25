@@ -30,6 +30,7 @@
         "WidgetLocalTime": "Besök efter lokal tid",
         "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %1$s besökarens tidszon %2$s vid deras besök.",
         "WidgetServerTime": "Besök efter servertid",
-        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %1$s serverns tidszon %2$s vid besöket."
+        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %1$s serverns tidszon %2$s vid besöket.",
+        "TimesSubcategoryHelp": "Avsnittet Tider visar när människor besöker din webbplats. Du kan se de mest populära lokala tiderna som dina användare besöker, så att du kan förstå var din webbplats passar in i deras liv. Dessutom visar den de mest populära servertiderna, vilket kan avslöja krav på din teknikstack."
     }
 }

@@ -82,6 +82,9 @@
         "VisitorsFromSocialNetworks": "Besucher von sozialen Netzwerken",
         "VisitorsFromDirectEntry": "Besucher von Direktzugriffen",
         "VisitorsFromWebsites": "Besucher von Webseiten",
-        "VisitorsFromCampaigns": "Besucher von Kampagnen"
+        "VisitorsFromCampaigns": "Besucher von Kampagnen",
+        "WebsitesSubcategoryHelp1": "In dieser Tabelle können Sie sehen, welche Websites Besucher auf Ihre Website gelenkt haben.",
+        "SocialsSubcategoryHelp": "In dieser Tabelle können Sie sehen, welche Websites Besucher auf Ihre Website gelenkt haben.",
+        "EcommerceLogSubcategoryHelp2": "Die Daten auf dieser Seite werden in Echtzeit aktualisiert"
     }
 }

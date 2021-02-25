@@ -84,7 +84,7 @@
         "SystemSummaryWidget": "Systemzusammenfassung",
         "SystemSummaryNWebsites": "%d Websites",
         "SystemSummaryNSegments": "%1$d Segmente",
-        "SystemSummaryNSegmentsWithBreakdown": "%1$dSegmente (%2$sim Hintergrund verarbeitet, %3$sin Echtzeit verarbeitet)",
+        "SystemSummaryNSegmentsWithBreakdown": "%1$d Segmente (%2$s im Hintergrund verarbeitet, %3$s in Echtzeit verarbeitet)",
         "SystemSummaryNActivatedPlugins": "%d aktivierte Plugins",
         "SystemSummaryPiwikVersion": "Matomo-Version",
         "SystemSummaryMysqlVersion": "MySQL-Version",
@@ -104,7 +104,7 @@
         "RowLimit": "Zeilenlimit",
         "CustomLimit": "Eigenes Limit",
         "ExportFormat": "Exportformat",
-        "ExportTooltip": "Hinweis: Die generierte Export URL wird nur in der aktuellen Browser Session funktionieren. Wenn Sie sie andernorts verwenden wollen, müssen Sie einen appspezifischen Token verwenden. Sie können diese Token in Admin -> Security ->Token Auths konfigurieren.",
+        "ExportTooltip": "Hinweis: Um die generierte Export-URL zu verwenden, müssen Sie einen Authentifizierungstoken angeben. Sie können diese Token unter Admin -> Sicherheit -> Authentifizierungstoken konfigurieren.",
         "ExpandSubtables": "Erweitere Untertabellen",
         "StandardReport": "Standard Bericht",
         "FlattenReport": "Flacher Bericht",
@@ -113,6 +113,9 @@
         "SeeAvailableVersions": "Zeige verfügbare Versionen",
         "QuickLinks": "Schnelllinks",
         "Profilable": "Profilierbar",
-        "SearchOnMatomo": "Suche '%1$s' auf Matomo.org"
+        "SearchOnMatomo": "Suche '%1$s' auf Matomo.org",
+        "VisitorsOverviewHelp": "Die Besucherübersicht hilft Ihnen, die Popularität Ihrer Website zu verstehen. Dazu stellt sie Diagramme bereit, die zeigen, wie viele Besuche Ihre Website über einen ausgewählten Zeitraum erhält und wie hoch das durchschnittliche Engagement für wichtige Funktionen wie Suchen und Downloads ist.",
+        "EngagementSubcategoryHelp1": "Der Bereich \"Engagement\" bietet Berichte, die dabei helfen, zu quantifizieren, wie viele neue und wiederkehrende Besucher Sie haben. Sie können auch Berichte einsehen, die die durchschnittliche Zeit und Anzahl der Seiten pro Besuch aufschlüsseln, sowie die Anzahl der Besuche eines Besuchers auf Ihrer Website und die übliche Anzahl an Tagen zwischen den Besuchen.",
+        "EngagementSubcategoryHelp2": "Dies kann Ihnen helfen, neben der Maximierung Ihrer Reichweite auch die Häufigkeit und die Interaktionsrate zu optimieren."
     }
 }

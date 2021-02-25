@@ -55,9 +55,15 @@
         "VisitSummaryWithActionDetails": "Spenderade totalt %1$s%2$s på webbplatsen%3$s och genomförde %4$s händelser%5$s (%6$s) under %7$s besök%8$s.",
         "RowActionTooltipDefault": "Visa besökslogg segmenterad efter denna rad",
         "RowActionTooltipWithDimension": "Visa besökslogg segmenterad efter detta %s",
+        "RowActionTooltipTitle": "Öppna segmenterad besökslogg",
         "SegmentedVisitorLogTitle": "Besökslogg som visar besök var %1$s \"%2$s\"",
         "OnClickPause": "%s är startad. Klicka för att pausa.",
         "OnClickStart": "%s är stoppad. Klicka för att starta.",
-        "ClickToSeeAllContents": "Klicka för att se varje innehållsinteraktion\/intryck"
+        "ClickToSeeAllContents": "Klicka för att se varje innehållsinteraktion\/intryck",
+        "VisitorLogSubcategoryHelp1": "Besöksloggen visar varje besök som din webbplats får i detalj. Du kan se vilka åtgärder varje besökare har vidtagit, hur de kom till din webbplats, lite om vem de är och mer (samtidigt som de fortfarande följer dina lokala sekretessregler).",
+        "VisitorLogSubcategoryHelp2": "Medan andra rapporter i Matomo visar hur dina besökare beter sig på aggregerad nivå, ger besöksloggen detaljerad detalj. Du kan också använda segment för att begränsa det till specifika typer av besök för att bättre förstå dina besökare.",
+        "VisitorLogSubcategoryHelp3": "Läs mer i besökslogg-guiden.",
+        "RealTimeHelp1": "Rapporten Besök i realtid visar flödet av besök i realtid på din webbplats. Den inkluderar en realtidsräknare för dina besök och sidvisningar under de senaste 24 timmarna och de föregående 30 minuterna.",
+        "RealTimeHelp2": "Denna rapport uppdateras var 5: e sekund och visar nya besök (eller befintliga besökare som visar en ny sida) högst upp på listan med en fade-in-effekt."
     }
 }

@@ -22,6 +22,7 @@
         "PluginDescription": "Rapporter för allmän analytics-statistik: besök, unika besökare, antal slutförda mål, avvisningsfrekvens , etc.",
         "VisitsSummary": "Besökssummering",
         "VisitsSummaryDocumentation": "Detta är en översikt av besöksutvecklingen.",
+        "VisitsSummaryReportDocumentation": "Denna rapport ger en mycket allmän översikt över hur dina besökare beter sig.",
         "WidgetLastVisits": "Besöksgraf",
         "WidgetOverviewGraph": "Översiktsgraf",
         "WidgetVisits": "Besöksöversikt"

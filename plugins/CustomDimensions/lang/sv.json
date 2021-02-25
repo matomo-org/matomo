@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Genomsnittlig tid på Dimension",
         "CustomDimensionId": "Anpassade Dimensioner (Id %d)",
         "NoValue": "inget värde",
+        "PluginDescription": "Utöka Matomo efter dina behov genom att definiera och spåra anpassade dimensioner inom ramen för åtgärd eller besök",
         "EmptyValue": "tomt värde"
     }
 }
