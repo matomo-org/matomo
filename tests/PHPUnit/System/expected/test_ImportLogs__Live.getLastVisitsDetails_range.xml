@@ -2333,7 +2333,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/view/my/file.html</url>
+				<url>http://d111111abcdef8.cloudfront.net/view/my/file.html</url>
 				<pageTitle />
 				<pageIdAction>69</pageIdAction>
 				
@@ -2342,7 +2342,7 @@
 				<bandwidth>182</bandwidth>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
-				<subtitle>http://piwik.net/view/my/file.html</subtitle>
+				<subtitle>http://d111111abcdef8.cloudfront.net/view/my/file.html</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
@@ -2362,7 +2362,7 @@
 				<revenue>5</revenue>
 				<goalPageId>86</goalPageId>
 				
-				<url>http://piwik.net/view/my/file.html</url>
+				<url>http://d111111abcdef8.cloudfront.net/view/my/file.html</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
