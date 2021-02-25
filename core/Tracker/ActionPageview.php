@@ -58,7 +58,7 @@ class ActionPageview extends Action
         $actionCategoryDelimiter = $this->getActionCategoryDelimiter();
 
         if ($actionCategoryDelimiter === '') {
-            return $actionName;
+            return trim($actionName);
         }
 
         // create an array of the categories delimited by the delimiter
