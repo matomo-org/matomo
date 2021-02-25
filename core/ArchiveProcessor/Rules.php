@@ -330,7 +330,9 @@ class Rules
 
     public static function isForceArchivingSinglePlugin()
     {
-        if (!SettingsServer::isArchivePhpTriggered()) {
+        if (!SettingsServer::isArchivePhpTriggered()
+            || Loader::getArchivingDepth() > 1
+        ) {
             return false;
         }
 
