@@ -104,7 +104,6 @@
         "RowLimit": "行限制",
         "CustomLimit": "自定义限制",
         "ExportFormat": "出口格式",
-        "ExportTooltip": "注意：生成的导出URL只会在当前浏览器窗口有效。如果你想把链接用在其他地方，你需要生成一个密钥。你可以到 管理 -> 安全 -> 密钥管理 中配置。",
         "ExpandSubtables": "展开子表",
         "StandardReport": "标准报告",
         "FlattenReport": "展平报告",

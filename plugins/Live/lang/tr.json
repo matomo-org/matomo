@@ -59,6 +59,11 @@
         "SegmentedVisitorLogTitle": "%1$s değerinin \"%2$s\" olduğu ziyaret kayıtları görüntüleniyor",
         "OnClickPause": "%s başlatıldı. Duraklatmak için tıklayın.",
         "OnClickStart": "%s durduruldu. Başlatmak için tıklayın.",
-        "ClickToSeeAllContents": "Her bir içerik etkileşimi ya da gösterimini görüntülemek için tıklayın"
+        "ClickToSeeAllContents": "Her bir içerik etkileşimi ya da gösterimini görüntülemek için tıklayın",
+        "VisitorLogSubcategoryHelp1": "Ziyaret Günlüğü, web sitesine yapılan her ziyareti ayrıntılı olarak görüntüler. Her ziyaretçinin yaptığı işlemler, siteye nasıl ulaştığı, kim olduğu hakkında biraz bilgi ve diğer ayrıntılar (ülkenizdeki kişisel veri gizliliği düzenlemelerine uymalısınız) görülebilir.",
+        "VisitorLogSubcategoryHelp2": "Matomo üzerindeki diğer raporlar ziyaretçilerin toplu olarak nasıl davrandığını gösterirken, Ziyaret Günlüğü ayrıntıya iner. Ayrıca, ziyaretçileri daha iyi anlamak adına belirli ziyaret türlerini gruplamak için parçaları kullanabilirsiniz.",
+        "VisitorLogSubcategoryHelp3": "Ayrıntılı bilgi almak için ziyaret günlüğü rehberine bakabilirsiniz.",
+        "RealTimeHelp1": "Gerçek zamanlı ziyaretler raporu, gerçek zamanlı olarak web sitesine yapılan ziyaret akışını görüntüler. Son 24 saat ve önceki 30 dakika içindeki ziyaret ve sayfa görüntülemelerinin gerçek zamanlı sayacını içerir.",
+        "RealTimeHelp2": "Bu rapor 5 saniyede bir yenilenir ve yeni ziyaretleri (veya yeni bir sayfa görüntüleyen var olan ziyaretçileri) listenin en üstünde bir belirme etkisi ile görüntüler."
     }
 }

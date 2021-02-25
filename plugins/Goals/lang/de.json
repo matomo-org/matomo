@@ -124,6 +124,10 @@
         "AtLeastMinutes": "mindestens %1$s Minuten. Verwenden Sie Dezimale um Sekunden anzugeben, zum Beispiel %2$s um 30 Sekunden zu definieren.",
         "TimeInMinutes": "Zeit in Minuten",
         "ClickToViewThisGoal": "Klicken Sie um dieses Ziel zu sehen.",
-        "OverviewReportDocumentation": "Dieser Bericht gibt einen Überblick daüber, wie häufig Ihre Besucher ein spezifisches Ziel erreichen konnten."
+        "OverviewReportDocumentation": "Dieser Bericht gibt einen Überblick daüber, wie häufig Ihre Besucher ein spezifisches Ziel erreichen konnten.",
+        "GoalsOverviewSubcategoryHelp1": "Die Zielübersicht zeigt Berichte über die Leistung der für Ihre Website definierten Ziele. Sie können auf die prozentualen Konversionsraten Ihrer Ziele, die Höhe des generierten Umsatzes und vollständige Berichte für jedes Ziel zugreifen.",
+        "GoalsOverviewSubcategoryHelp2": "Klicken Sie auf eine einzelne Metrik innerhalb des Sparkline-Diagramms, um sie im Entwicklungsdiagramm in voller Größe zu betrachten.",
+        "ManageGoalsSubcategoryHelp1": "In diesem Bereich können Sie Ziele für bestimmte Aktionen erstellen und bearbeiten, die Besucher auf Ihrer Website durchführen, z. B. den Besuch einer bestimmten Seite oder das Absenden eines bestimmten Formulars. Zielberichte variieren, können Ihnen aber dabei helfen, die Leistung Ihrer Website im Hinblick auf Unternehmensziele wie Lead-Generierung, Online-Verkäufe und erhöhte Markenpräsenz zu überwachen.",
+        "ManageGoalsSubcategoryHelp2": "Weitere Informationen finden Sie in der Anleitung zu Zielen."
     }
 }

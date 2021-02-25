@@ -8,6 +8,7 @@
         "ViewedProductCategory": "Visad produktkategori",
         "ViewedProductName": "Visat produktnamn",
         "ViewedProductPrice": "Visat produktpris",
+        "ViewedProductSKU": "Visad produkt SKU",
         "SalesBy": "Försäljning genom %s",
         "SalesAdjective": "Försäljning %s",
         "NumberOfItems": "Antal artiklar i Varukorgen",

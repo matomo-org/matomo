@@ -53,6 +53,9 @@
         "CustomUnprocessedSegmentApiError6": "När du använder den här API-metoden ser du vilka användare och åtgärder som matchades av din &segment=parameter.",
         "CustomUnprocessedSegmentNoData": "Om du vill se data för det här segmentet måste du skapa det här segmentet manuellt i Segmentredigeraren och därefter vänta ett par timmar innan bearbetningen har slutförts.",
         "AddThisToMatomo": "Lägg till detta segment i Matomo",
+        "ThisSegmentIsCompared": "Detta segment jämförs för närvarande.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Detta segment är för närvarande valt och kan därför inte väljas för att jämföras.",
+        "CompareThisSegment": "Jämför detta segment med det valda segmentet och perioden.",
         "Test": "Test"
     }
 }

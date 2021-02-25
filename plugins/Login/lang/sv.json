@@ -43,7 +43,7 @@
         "PasswordResetAlreadySent": "Du har begärt för många återställningar av lösenord senaste tiden. En ny begäran kan göras om en timme. Om du har problem med att återställa ditt lösenord, kontakta din administratör för hjälp.",
         "WrongPasswordEntered": "Vänligen ange ditt giltiga lösenord.",
         "ConfirmPasswordToContinue": "Bekräfta ditt lösenord för att fortsätta.",
-        "PluginDescription": "Tillhandahåller autentisering med användarnamn och lösenord samt lösenordsåterställning. Autentiseringsmetoden kan anpassas med en annan plugin som t.ex. LoginLdap från marknadsplatsen.",
+        "PluginDescription": "Tillhandahåller autentisering med användarnamn och lösenord samt lösenordsåterställning. Autentiseringsmetoden kan anpassas med en annan plugin som t.ex. LoginLdap från Marketplace.",
         "RememberMe": "Kom ihåg mig"
     }
 }

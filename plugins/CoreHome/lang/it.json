@@ -104,7 +104,6 @@
         "RowLimit": "Limite riga",
         "CustomLimit": "Limite personalizzato",
         "ExportFormat": "Esporta formato",
-        "ExportTooltip": "Nota: l'URL di esportazione generato funzionerà solo nella sessione corrente del browser. Se vuoi usarlo da qualche altra parte devi usare un token specifico per l'app. È possibile configurare questi token in Amministrazione > Sicurezza > Token Auths.",
         "ExpandSubtables": "Espandi sottotabelle",
         "StandardReport": "Report standard",
         "FlattenReport": "Report piatto",

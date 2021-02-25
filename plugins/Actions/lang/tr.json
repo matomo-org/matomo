@@ -81,6 +81,20 @@
         "ActionTypes": "İşlem Türleri",
         "Behaviour": "Davranış",
         "TimeSpentInReferringAction": "Belirtilen İşleme Harcanan Zaman",
-        "PagesSubcategoryHelp3": "Gezinmek için soldaki artı ve eksi simgelerini kullanın."
+        "PagesSubcategoryHelp1": "Bu rapor, ziyaret edilen sayfa adresleri hakkında bilgi içerir.",
+        "PagesSubcategoryHelp2": "Tablo hiyerarşik olarak düzenlenmiştir, adresler klasör yapısında görüntülenir.",
+        "PagesSubcategoryHelp3": "Gezinmek için soldaki artı ve eksi simgelerini kullanın.",
+        "EntryPagesSubcategoryHelp1": "Bu rapor, belirtilen zaman aralığında kullanılan giriş sayfaları hakkında bilgi içerir. Bir giriş sayfası, kullanıcının ziyaretine başladığı ilk sayfadır.",
+        "EntryPagesSubcategoryHelp2": "Giriş adresleri bir klasör yapısı biçiminde görüntülenir.",
+        "ExitPagesSubcategoryHelp1": "Bu rapor, belirtilen zaman aralığında kullanılan çıkış sayfaları hakkında bilgi içerir. Bir çıkış sayfası, kullanıcının ziyaretini bitirdiği son sayfadır.",
+        "ExitPagesSubcategoryHelp2": "Çıkış adresleri bir klasör yapısı biçiminde görüntülenir.",
+        "PageTitlesSubcategoryHelp1": "Bu rapor, ziyaret edilen sayfa başlıkları hakkında bilgi içerir.",
+        "PageTitlesSubcategoryHelp2": "Sayfa başlığı HTML &amp;lt;title&amp;gt; kod imidir. Çoğu web tarayıcı bu kod iminin içeriğini kendi penceresinin başlığı olarak görüntüler.",
+        "SiteSearchSubcategoryHelp1": "Site Arama bölümünde, ziyaretçilerin web sitesinde arama yaparken kullandığı anahtar sözcükler görüntülenir. Ayrıca, kullanıcıların bir arama yaptıktan sonra açtığı sayfalar ile site içi aramasında hiçbir sonuç döndürmeyen anahtar sözcükler de görüntülenir.",
+        "SiteSearchSubcategoryHelp2": "Bu raporlar, sitede eksik içerikler ile ziyaretçilerin aradığı ancak kolayca bulamadığı şeyler hakkında fikir vermek ve yeni bakış açıları kazanmak için kullanılabilir.",
+        "SiteSearchSubcategoryHelp3": "Ayrıntılı bilgi almak için site arama rehberine bakabilirsiniz.",
+        "OutlinksSubcategoryHelp1": "Bu rapor, ziyaretçilerin tıkladığı dış bağlantıların hiyerarşik listesini içerir. Dış bağlantılar, ziyaretçileri web sitesinden dışarı (başka bir etki alanına) götüren bağlantılardır.",
+        "DownloadsSubcategoryHelp1": "Bu rapor, ziyaretçilerin dosya indirme bilgilerini içerir.",
+        "DownloadsSubcategoryHelp2": "İndirme bağlantısına tıklandığında Matomo indirme sayısını arttırır. İndirmenin tamamlanıp tamamlanmadığı Matomo tarafından bilinmez."
     }
 }
