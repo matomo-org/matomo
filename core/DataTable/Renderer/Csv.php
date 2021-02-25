@@ -318,7 +318,7 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"', true);
+        Common::sendHeader("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($fileName), true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 
