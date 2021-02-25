@@ -5246,7 +5246,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<url>http://piwik.net/view/my/file.html</url>
+		<url>http://d111111abcdef8.cloudfront.net/view/my/file.html</url>
 		<Actions_PageUrl>/view/my/file.html</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -5281,7 +5281,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+				<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -5316,7 +5316,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+				<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -5401,7 +5401,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+				<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -5486,9 +5486,9 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+				<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+		<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 	</row>
 </result>
