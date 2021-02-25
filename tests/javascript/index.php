@@ -3618,7 +3618,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(160);
+        expect(159);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4103,7 +4103,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "41", "count tracking events" );
+                equal( countTrackingEvents[1], "42", "count tracking events" );
             }
 
             // firing callback
