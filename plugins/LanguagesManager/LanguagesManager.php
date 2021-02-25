@@ -237,6 +237,7 @@ class LanguagesManager extends \Piwik\Plugin
         $cookie = new Cookie($cookieName, 0);
         $cookie->set('language', $languageCode);
         $cookie->setSecure(ProxyHttp::isHttps());
+        $cookie->setHttpOnly(true);
         $cookie->save('Lax');
         return true;
     }
