@@ -419,7 +419,7 @@ class FrontController extends Singleton
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
-        if (Piwik::isUserIsAnonymous() && Piwik::getModule() !== 'API') {
+        if ($this->isSupportedBrowserCheckNeeded()) {
             SupportedBrowser::checkIfBrowserSupported();
         }
 
@@ -747,5 +747,31 @@ class FrontController extends Singleton
     {
         $requestId = self::getUniqueRequestId();
         Common::sendHeader("X-Matomo-Request-Id: $requestId");
+    }
+
+    private function isSupportedBrowserCheckNeeded()
+    {
+        if (Piwik::getModule() === 'API' && (empty(Piwik::getAction()) || Piwik::getAction() === 'index' || Piwik::getAction() === 'glossary')) {
+            return false;
+        }
+
+        if (Piwik::getModule() === 'Widgetize') {
+            return true;
+        }
+
+        $generalConfig = Config::getInstance()->General;
+        if ($generalConfig['enable_framed_pages'] == '1' || $generalConfig['enable_framed_settings'] == '1') {
+            return true;
+        }
+
+        if (Common::getRequestVar('token_auth', '', 'string') !== '') {
+            return true;
+        }
+
+        if (Piwik::isUserIsAnonymous()) {
+            return true;
+        }
+
+        return false;
     }
 }
