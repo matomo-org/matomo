@@ -45,7 +45,7 @@ jobs:
     - name: Check for changes
       id: changes
       run: |
-          git submodule | grep -oE '^\+[0-9a-f]+ ([A-z\/\-]+)' | cut -d' ' -f 2 | xargs git add
+          git submodule | grep -oE '^\+[0-9a-f]+ ([A-z\/\-]+)' | cut -d' ' -f 2 | xargs -r git add
           IFS=$'\n'
           changes=( $(git diff --staged --numstat | grep -oE '[A-z0-9\/\-]{2,}' ) )
 
