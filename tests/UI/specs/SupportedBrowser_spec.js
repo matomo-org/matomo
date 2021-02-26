@@ -14,19 +14,7 @@ describe("SupportedBrowser", function () {
     const ie10UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)";
     const firefoxUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.2; rv:85.0) Gecko/20100101 Firefox/85.0";
 
-    afterEach(function () {
-        delete testEnvironment.idSitesViewAccess;
-        delete testEnvironment.idSitesWriteAccess;
-        delete testEnvironment.idSitesAdminAccess;
-        testEnvironment.idSitesViewAccess = [1];
-        testEnvironment.testUseMockAuth = 1;
-        testEnvironment.save();
-    });
-
-    beforeEach(function () {
-        delete testEnvironment.idSitesViewAccess;
-        delete testEnvironment.idSitesWriteAccess;
-        delete testEnvironment.idSitesAdminAccess;
+    before(function () {
         testEnvironment.idSitesViewAccess = [1];
         testEnvironment.save();
     });
