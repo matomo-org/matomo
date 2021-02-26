@@ -245,7 +245,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (SettingsPiwik::isAutoUpdatePossible()) {
             foreach ($paidPlugins as $paidPlugin) {
                 if ($this->canPluginBeInstalled($paidPlugin)
-                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'])
+                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
                         && !$this->pluginManager->isPluginActivated($paidPlugin['name']))) {
                     $paidPluginsToInstallAtOnce[] = $paidPlugin['name'];
                 }
@@ -489,7 +489,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $pluginName = $plugin['name'];
 
-        $isAlreadyInstalled = $this->pluginManager->isPluginInstalled($pluginName)
+        $isAlreadyInstalled = $this->pluginManager->isPluginInstalled($pluginName, true)
             || $this->pluginManager->isPluginLoaded($pluginName)
             || $this->pluginManager->isPluginActivated($pluginName);
 
