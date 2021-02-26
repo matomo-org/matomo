@@ -44,6 +44,7 @@ jobs:
       run: git submodule foreach "git checkout 4.x-dev || git checkout master; git pull --ff-only"
     - name: Check for changes
       id: changes
+      continue-on-error: true
       run: |
           git submodule | grep -oE '^\+[0-9a-f]+ ([A-z\/\-]+)' | cut -d' ' -f 2 | xargs -r git add
           IFS=$'\n'
