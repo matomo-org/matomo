@@ -15,6 +15,7 @@ describe("SupportedBrowser", function () {
     const firefoxUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.2; rv:85.0) Gecko/20100101 Firefox/85.0";
 
     before(function () {
+        testEnvironment.testUseMockAuth = 1;
         testEnvironment.idSitesViewAccess = [1];
         testEnvironment.save();
     });
@@ -33,11 +34,13 @@ describe("SupportedBrowser", function () {
 
     it("should fail load widget when browser not supported", async function () {
         page.setUserAgent(ie10UserAgent);
-        await page.goto(pageUrl);
+        await page.goto(widgetUrl);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_load_fails_when_browser_not_supported');
     });
 
     it("should fail load page when browser not supported", async function () {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
         page.setUserAgent(ie10UserAgent);
         await page.goto(pageUrl);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('page_load_fails_when_browser_not_supported');
