@@ -31,7 +31,7 @@ class FrontControllerTest extends IntegrationTestCase
         $this->assertEquals('error', $response['result']);
 
         $expectedFormat = <<<FORMAT
-Allowed memory size of %s bytes exhausted (tried to allocate %s bytes) on {includePath}/tests/resources/trigger-fatal.php(22) #0 {includePath}/tests/resources/trigger-fatal.php(35): MyClass-&gt;triggerError(arg1=&quot;argval&quot;, arg2=&quot;another&quot;) #1 {includePath}/tests/resources/trigger-fatal.php(51): MyDerivedClass::staticMethod() #2 {includePath}/tests/resources/trigger-fatal.php(57): myFunction()
+Allowed memory size of %s bytes exhausted (tried to allocate %s bytes) on {includePath}/tests/resources/trigger-fatal.php(22) #0 {includePath}/tests/resources/trigger-fatal.php(35): MyClass-&gt;triggerError(arg1=&quot;argval&quot;, arg2=&quot;another&quot;) #1 {includePath}/tests/resources/trigger-fatal.php(51): MyDerivedClass::staticMethod() #2 {includePath}/tests/resources/trigger-fatal.php(57): myFunction() 
 FORMAT;
 
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
