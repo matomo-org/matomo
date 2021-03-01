@@ -8,7 +8,7 @@
  */
 
 describe("SupportedBrowser", function () {
-    const widgetUrl = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&idSite=1&period=range&date=previous7&disableLink=1&widget=1";
+    const widgetUrl = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&idSite=1&period=range&date=2012-01-12,2012-01-17&disableLink=1&widget=1";
     const generalParams = 'idSite=1&period=year&date=2009-01-04';
     const pageUrl = '?module=CoreHome&action=index&' + generalParams;
     const ie10UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)";
