@@ -43,4 +43,11 @@ class SupportedBrowserTest extends IntegrationTestCase
 
         SupportedBrowser::checkIfBrowserSupported();
     }
+
+    public function test_empty_user_agent_is_supported()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = '';
+
+        $this->assertNull(SupportedBrowser::checkIfBrowserSupported());
+    }
 }

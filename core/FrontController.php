@@ -751,6 +751,20 @@ class FrontController extends Singleton
 
     private function isSupportedBrowserCheckNeeded()
     {
+        if (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) {
+            return false;
+        }
+
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if ($userAgent === '') {
+            return false;
+        }
+
+        $isTestMode = defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
+        if (!$isTestMode && Common::isPhpCliMode() === true) {
+            return false;
+        }
+
         if (Piwik::getModule() === 'API' && (empty(Piwik::getAction()) || Piwik::getAction() === 'index' || Piwik::getAction() === 'glossary')) {
             return false;
         }

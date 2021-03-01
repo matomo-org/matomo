@@ -38,7 +38,11 @@ class SupportedBrowser
 
     public static function checkIfBrowserSupported()
     {
-        $userAgent = Http::getUserAgent();
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if ($userAgent === '') {
+            return;
+        }
+
         $ddFactory = StaticContainer::get(DeviceDetectorFactory::class);
         /** @var \DeviceDetector\DeviceDetector */
         $deviceDetector = $ddFactory->makeInstance($userAgent);
