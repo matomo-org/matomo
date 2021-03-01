@@ -8,10 +8,14 @@
   font-size: 14px;
   border-radius: 4px;
 
-  &.update_available:not(.isPiwikDemo) .title {
-    color: #f57c00;
-    font-weight: bold;
-    cursor: default;
+  &.update_available:not(.isPiwikDemo) {
+    display: inline-block !important;
+
+    .title {
+      color: #f57c00;
+      font-weight: bold;
+      cursor: default;
+    }
   }
 
   .icon-warning {
