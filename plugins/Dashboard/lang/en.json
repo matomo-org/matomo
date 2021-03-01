@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "This widgets selection and dashboard columns layout will be used when any user creates a new dashboard, or when \"%s\" feature is used.",
         "TopLinkTooltip": "View Web Analytics reports for %s.",
         "WidgetNotFound": "Widget not found",
-        "WidgetPreview": "Widget preview"
+        "WidgetPreview": "Widget preview",
+        "DashboardCategoryHelp": "This is a dashboard page. Dashboards are a collection of Matomo's widgets that you add yourself to suit your specific needs. Mix and match any of Matomo's widgets to get the data %1$s*you*%2$s need at a glance."
     }
 }

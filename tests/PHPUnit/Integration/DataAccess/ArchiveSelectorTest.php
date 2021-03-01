@@ -30,24 +30,85 @@ class ArchiveSelectorTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getTestDataForGetArchiveIdAndVisits
+     * @dataProvider getTestDataForGetArchiveIds
      */
-    public function test_getArchiveIdAndVisits_returnsCorrectResult($archiveRows, $segment, $minDateProcessed, $includeInvalidated, $expected)
+    public function test_getArchiveIds_returnsCorrectResult($archiveRows, $siteIds, $periods, $segment, $plugins, $expected)
     {
         Fixture::createWebsite('2010-02-02 00:00:00');
+        Fixture::createWebsite('2010-02-02 00:00:00');
+
+        foreach ($periods as $index => [$periodStr, $dateStr]) {
+            $periods[$index] = Factory::build($periodStr, $dateStr);
+        }
 
         $this->insertArchiveData($archiveRows);
 
-        $params = new Parameters(new Site(1), Factory::build('day', '2019-10-05'), new Segment($segment, [1]));
-        $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
+        $archiveIds = ArchiveSelector::getArchiveIds($siteIds, $periods, new Segment($segment, $siteIds), $plugins);
 
-        if ($result[4] !== false) {
-            Date::factory($result[4]);
-        }
+        $this->assertEquals($expected, $archiveIds);
+    }
 
-        unset($result[4]);
+    public function getTestDataForGetArchiveIds()
+    {
+        return [
+            // normal single site
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done', 'value' => 4],
 
-        $this->assertEquals($expected, $result);
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 2],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 2],
+
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 6, 'idsite' => 2, 'period' => 2, 'date1' => '2020-02-24', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1],
+                ],
+                [1],
+                [
+                    ['day', '2020-03-01'],
+                    ['week', '2020-03-02'],
+                ],
+                '',
+                [],
+                [
+                    'done' => [
+                        '2020-03-01,2020-03-01' => [1],
+                        '2020-03-02,2020-03-08' => [2],
+                    ],
+                ],
+            ],
+
+            // multiple partials for specific reports + normal
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-03 01:00:00'],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-03 01:00:00'],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-03 01:00:00'],
+
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1, 'ts_archived' => '2020-03-04 00:00:00'],
+
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 6, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-04 01:05:00'],
+                    ['idarchive' => 7, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-04 01:07:00'],
+                    ['idarchive' => 8, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.AnotherPlugin', 'value' => 5, 'ts_archived' => '2020-03-04 01:05:00'],
+                    ['idarchive' => 9, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.AnotherPlugin', 'value' => 5, 'ts_archived' => '2020-03-04 01:07:00'],
+                ],
+                [1],
+                [
+                    ['day', '2020-03-01'],
+                ],
+                '',
+                ['Funnels'],
+                [
+                    'done' => [
+                        '2020-03-01,2020-03-01' => [4],
+                    ],
+                    'done.Funnels' => [
+                        '2020-03-01,2020-03-01' => [7,6,5],
+                    ],
+                ],
+            ],
+        ];
     }
 
     private function insertArchiveData($archiveRows)

@@ -56,7 +56,7 @@
         "ShortcutCalendar": "kalender openen (d staat voor Datum)",
         "ShortcutSearch": "zoekveld openen (f staat voor Find)",
         "ShortcutHelp": "om deze help te tonen",
-        "ShowJSCode": "toon de javascript code",
+        "ShowJSCode": "Toon de in te voegen JavaScript code",
         "SkipToContent": "Ga naar de inhoud",
         "SubscribeAndBecomePiwikSupporter": "Ga verder naar een veilige kredietkaart betaalpagina (Paypal) en wordt een Matomo Supporter!",
         "SupportPiwik": "Ondersteun Matomo!",
@@ -93,8 +93,9 @@
         "RowLimit": "Rij limiet",
         "ExportFormat": "Export formaat",
         "StandardReport": "Standaard rapport",
-        "FlattenReport": "Rapport vlak maken",
+        "FlattenReport": "Rapport afvlakken",
         "ReportWithMetadata": "Rapport met metadata",
+        "ReadMoreOnlineGuide": "Lees meer over dit onderwerp in de online handleiding.",
         "SeeAvailableVersions": "Zie Beschikbare Versies"
     }
 }

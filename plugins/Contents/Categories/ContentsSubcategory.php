@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Contents\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class ContentsSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class ContentsSubcategory extends Subcategory
     protected $id = 'Contents_Contents';
     protected $order = 45;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('Contents_ContentsSubcategoryHelp1') . '</p>'
+            . '<p><a href="https://matomo.org/docs/content-tracking/" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Contents_ContentsSubcategoryHelp2') . '</a></p>';
+    }
 }

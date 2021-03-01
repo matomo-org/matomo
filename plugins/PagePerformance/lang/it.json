@@ -36,6 +36,8 @@
         "HelpNote": "Alcune di queste metriche potrebbero non essere sempre disponibili. Puoi trovare maggiori informazioni nella nostra %1$sguida online%2$s.",
         "RowActionTitle": "Apri il report con le prestazioni della pagina",
         "RowActionDescription": "Mostra il report con le prestazioni della pagina per questa riga",
-        "PagePerformanceTitle": "Pagina delle prestazioni della pagina con %1$s \"%2$s\""
+        "PagePerformanceTitle": "Pagina delle prestazioni della pagina con %1$s \"%2$s\"",
+        "PerformanceSubcategoryHelp1": "La sezione Prestazioni può aiutarti ad analizzare la velocità del tuo sito web o app nel complesso e aiutarti a scoprire se hai pagine specifiche che si discostano significativamente dalle tue medie.",
+        "PerformanceSubcategoryHelp2": "Puoi anche trovare dei report che mostrano esattamente quanto tempo impiega ciascuna pagina del tuo sito web per caricarsi e cosa contribuisce al suo tempo di caricamento."
     }
 }

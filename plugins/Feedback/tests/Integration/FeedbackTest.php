@@ -48,6 +48,7 @@ class FeedbackTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
+        FakeAccess::$identity = 'user1';
         Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');
         Date::$now = $this->now;

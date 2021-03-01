@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class PageTitlesSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class PageTitlesSubcategory extends Subcategory
     protected $id = 'Actions_SubmenuPageTitles';
     protected $order = 20;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('Actions_PageTitlesSubcategoryHelp1') . '</p>'
+            . '<p>' . Piwik::translate('Actions_PageTitlesSubcategoryHelp2') . '</p>';
+    }
 }

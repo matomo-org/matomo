@@ -11,6 +11,8 @@
 
     function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl) {
 
+        $scope.helpShownCategory = null;
+
         var idSite = piwikUrl.getSearchParam('idSite');
         var period = piwikUrl.getSearchParam('period');
         var date   = piwikUrl.getSearchParam('date');
@@ -19,6 +21,11 @@
         var comparePeriods = piwikUrl.getSearchParam('comparePeriods');
         var compareDates   = piwikUrl.getSearchParam('compareDates');
         var compareSegments = piwikUrl.getSearchParam('compareSegments');
+
+        var showSubcategoryHelpOnLoad = null;
+
+        $scope.currentCategory = piwikUrl.getSearchParam('category');
+        $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
 
         function markAllCategoriesAsInactive()
         {
@@ -61,6 +68,41 @@
                 subcategory.name = subsubcategory.name;
                 subsubcategory.active = true;
             }
+        }
+
+        $scope.showHelp = function (category, subcategory, $event) {
+            if (( $scope.currentCategory !== category.id
+                || $scope.currentSubcategory !== subcategory.id )
+                && $event
+            ) {
+                showSubcategoryHelpOnLoad = { category: category, subcategory: subcategory };
+                window.location.href = '#?' + $scope.makeUrl(category, subcategory);
+                return;
+            }
+
+            var UI = require('piwik/UI');
+            var notification = new UI.Notification();
+
+            if (subcategory === $scope.helpShownCategory) {
+                notification.remove('reportingmenu-help');
+                $scope.helpShownCategory = null;
+                return;
+            }
+
+            var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix', [category.name, subcategory.name]) + '</strong><br/>';
+
+            var options = { context: 'info', id: 'reportingmenu-help', type: 'persistent', noclear: true };
+            options['class'] = 'help-notification';
+
+            notification.show(prefix + subcategory.help, options);
+            $scope.helpShownCategory = subcategory;
+
+            // move help notification so it is always the first one shown
+            $('[notification-id=reportingmenu-help]').prependTo($('#notificationContainer'));
+        };
+
+        $scope.isNotificationShown = function () {
+            return !! $('#reportingmenu-help').length;
         };
 
         $scope.makeUrl = function (category, subcategory) {
@@ -97,6 +139,8 @@
             }
 
             if (category.active && category.subcategories && category.subcategories.length === 1) {
+                $scope.helpShownCategory = null;
+
                 var subcategory = category.subcategories[0];
 
                 if (subcategory.active) {
@@ -111,7 +155,12 @@
         };
 
         $scope.loadSubcategory = function (category, subcategory) {
+            var UI = require('piwik/UI');
+            UI.Notification.prototype.remove('reportingmenu-help');
+
             if (subcategory && subcategory.active) {
+                $scope.helpShownCategory = null;
+
                 // this menu item is already active, a location change success would not be triggered,
                 // instead trigger an event
                 $rootScope.$emit('loadPage', category.id, subcategory.id);
@@ -168,5 +217,15 @@
             enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
+        $rootScope.$on('piwikPageChange', function (event) {
+            $scope.helpShownCategory = null;
+            $scope.currentCategory = piwikUrl.getSearchParam('category');
+            $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
+
+            if (showSubcategoryHelpOnLoad) {
+                $scope.showHelp(showSubcategoryHelpOnLoad.category, showSubcategoryHelpOnLoad.subcategory);
+                showSubcategoryHelpOnLoad = null;
+            }
+        });
     }
 })();

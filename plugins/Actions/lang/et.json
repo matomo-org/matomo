@@ -38,6 +38,7 @@
         "WidgetPageUrlsFollowingSearch": "Peale otsingut külastatud lehed",
         "WidgetSearchCategories": "Otsingu Kategooriad",
         "WidgetSearchKeywords": "Lehe otsingu võtmesõnad",
-        "WidgetSearchNoResultKeywords": "Ilma tulemusteta otsingu võtmesõnad"
+        "WidgetSearchNoResultKeywords": "Ilma tulemusteta otsingu võtmesõnad",
+        "PagesSubcategoryHelp3": "Kasuta pluss ja miinus ikoone vasakul, et navigeerida"
     }
 }

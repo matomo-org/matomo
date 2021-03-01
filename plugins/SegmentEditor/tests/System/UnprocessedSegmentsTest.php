@@ -57,7 +57,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
-        self::assertTrue(!in_array(self::TEST_SEGMENT, $segments));
+        self::assertTrue(in_array(self::TEST_SEGMENT, $segments)); // auto archive is forced when browser archiving is fully disabled
 
         $this->runAnyApiTest('VisitsSummary.get', 'realTimeSegmentUnprocessed', [
             'idSite' => self::$fixture->idSite,

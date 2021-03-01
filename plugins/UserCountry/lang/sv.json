@@ -14,6 +14,7 @@
         "VisitLocation": "Besök plats",
         "CurrentLocationIntro": "Enligt denna leverantör är din aktuella plats",
         "DefaultLocationProviderDesc1": "Som standard gissar sig platstjänsten till besökarens plats baserat på vilket språk som används.",
+        "DefaultLocationProviderDesc2": "Detta är inte särskilt exakt, så %1$svi rekommenderar att du installerar och använder %2$sen geolokaliseringsdatabas%3$s.%4$s",
         "DefaultLocationProviderExplanation": "Du använder den standardiserade platsleverantören, det innebär att Matomo kommer räkna ut besökarens geografiska position baserat på språket de använder. %1$sLäs det här%2$s för att lära dig mer om hur du får en mer exakt lokalisering av dina besökare.",
         "DistinctCountries": "%s distinkta länder",
         "FromDifferentCities": "Olika städer",
@@ -24,6 +25,7 @@
         "getContinentDocumentation": "Den här rapporten visar vilka kontinenter dina besökare var på när dom besökte webbplatsen.",
         "getCountryDocumentation": "Den här rapporten visar vilka länder dina besökare var i när dom besökte webbplatsen.",
         "getRegionDocumentation": "Den här rapporten visar vilka regioner dina besökare var i när dom besökte webbplatsen.",
+        "HowToInstallGeoIPDatabases": "Hur får jag geolokaliseringsdatabaser?",
         "Latitude": "Latitud",
         "Latitudes": "Latituder",
         "Location": "Plats",
@@ -35,7 +37,10 @@
         "PluginDescription": "Geografiska rapporter för dina besökare: land, region, stad och geografiska koordinater (latitud\/longitud).",
         "Region": "Region",
         "SubmenuLocations": "Platser",
+        "TestIPLocatorFailed": "Matomo försökte kontrollera platsen för en känd IP-adress (%1$s), men din server returnerade ingen information. Den här leverantören kanske inte är konfigurerad korrekt (geolokaliseringsdatabasen kan exempelvis ha felaktig namngivning eller finnas i fel katalog).",
         "ToGeolocateOldVisits": "Används skriptet som beskrivs %1$shär%2$s för att få platsdata för gamla besök.",
-        "WidgetLocation": "Besökares plats"
+        "WidgetLocation": "Besökares plats",
+        "GeoIpDbIpAccuracyNote": "Obs: DBIP-databaserna är gratis och kan laddas ner automatiskt, men geolokaliseringsresultat (särskilt stadsresultat) är inte lika exakta som MaxMinds. MaxMind kräver dock att du skapar ett konto även för den kostnadsfria databasen. Om du vill använda MaxMinds geolokaliseringsdatabas kan du starta processen %1$shär%2$s",
+        "MaxMindLinkExplanation": "Om du använder MaxMinds geolokaliseringsdatabaser och du inte redan vet hur du skapar din nedladdnings-URL, %1$sklicka här för att lära dig hur du gör det%2$s."
     }
 }

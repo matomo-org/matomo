@@ -62,6 +62,7 @@
         "WidgetSearchCategories": "Kategorije za pretragu",
         "WidgetSearchKeywords": "Ključne reči",
         "WidgetSearchNoResultKeywords": "Ključne reči bez rezultata pretrage",
-        "ActionType": "Tip akcije"
+        "ActionType": "Tip akcije",
+        "PagesSubcategoryHelp3": "Za navigaciju koristite sličice plus i minus s leve strane."
     }
 }

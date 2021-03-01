@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\PagePerformance\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class PerformanceSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class PerformanceSubcategory extends Subcategory
     protected $id = 'PagePerformance_Performance';
     protected $order = 47;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('PagePerformance_PerformanceSubcategoryHelp1') . '</p>'
+            . '<p>' . Piwik::translate('PagePerformance_PerformanceSubcategoryHelp2') . '</p>';
+    }
 }

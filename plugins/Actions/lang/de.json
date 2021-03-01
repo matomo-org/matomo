@@ -80,6 +80,7 @@
         "ActionType": "Typ der Aktion",
         "ActionTypes": "Aktionstypen",
         "Behaviour": "Verhalten",
-        "TimeSpentInReferringAction": "Verwendete Zeit für Verweisaktionen"
+        "TimeSpentInReferringAction": "Verwendete Zeit für Verweisaktionen",
+        "PagesSubcategoryHelp3": "Benutzen Sie zur Navigation die Symbole Plus und Minus auf der linken Seite."
     }
 }

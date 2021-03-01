@@ -191,6 +191,7 @@ class WidgetMetadata
             'name'  => $category->getDisplayName(),
             'order' => $category->getOrder(),
             'icon' => $category->getIcon(),
+            'help' => Piwik::translate($category->getHelp()),
         );
     }
 
@@ -208,6 +209,7 @@ class WidgetMetadata
             'id'    => (string) $subcategory->getId(),
             'name'  => Piwik::translate($subcategory->getName()),
             'order' => $subcategory->getOrder(),
+            'help' => Piwik::translate($subcategory->getHelp()),
         );
     }
 

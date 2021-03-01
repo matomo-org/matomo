@@ -1,6 +1,20 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Genomsnitt sidladdningstid",
+        "ColumnAverageTimeNetwork": "Genomsnitt nätverkstid",
+        "ColumnAverageTimeTransferDocumentation": "Genomsnittlig tid (i sekunder) det tar webbläsaren att ladda ner svaret från servern. Detta är tiden från mottagandet av den första byten till svaret är klart.",
+        "ColumnViewsWithTimeNetwork": "Sidvisningar med nätverkstid",
+        "ColumnViewsWithTimeTransfer": "Sidvisningar med överföringstid",
+        "ColumnViewsWithTimeDomProcessing": "Sidvisningar med DOM-bearbetningstid",
+        "ColumnViewsWithTimeOnLoad": "Sidvisningar med laddningstid",
+        "ColumnTimeNetwork": "Nätverkstid",
         "ColumnTimeServer": "Servertid",
-        "Performance": "Resultat"
+        "PerformanceTable": "Tabell med prestandamätvärden",
+        "Overview": "Prestandaöversikt",
+        "OverviewDocumentation": "Denna rapport ger en översikt över hur snabbt dina webbsidor blir synliga för dina besökare. Detta inkluderar både hur lång tid det tar för webbläsare att ladda ner dina webbsidor och hur lång tid det tar för webbläsare att visa dem.",
+        "Performance": "Resultat",
+        "RowActionTitle": "Öppna sidans resultatrapport",
+        "RowActionDescription": "Visa sidprestationsrapport för den här raden",
+        "PagePerformanceTitle": "Sidprestanda för sida med %1$s \"%2$s\""
     }
 }

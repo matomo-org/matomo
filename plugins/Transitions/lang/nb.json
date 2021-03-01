@@ -25,6 +25,7 @@
         "ToFollowingSiteSearches": "Interne søk",
         "ToFollowingSiteSearchesInline": "%s interne søk",
         "XOfAllPageviews": "%s av alle besøk på denne siden",
-        "XOutOfYVisits": "%1$s (av %2$s)"
+        "XOutOfYVisits": "%1$s (av %2$s)",
+        "TransitionsSubcategoryHelp2": "Flere detaljer"
     }
 }
