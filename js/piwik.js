@@ -184,7 +184,9 @@ if (typeof window.Matomo !== 'object') {
 
             trackerIdCounter = 0,
 
-            isPageUnloading = false;
+            isPageUnloading = false,
+
+            javaScriptErrors = [];
 
         /************************************************************
          * Private methods
@@ -6087,7 +6089,11 @@ if (typeof window.Matomo !== 'object') {
                             action += ':' + column;
                         }
 
-                        logEvent(category, action, message);
+                        if (javaScriptErrors.indexOf(category + action + message) === -1) {
+                            javaScriptErrors.push(category + action + message);
+
+                            logEvent(category, action, message);
+                        }
                     });
 
                     if (onError) {
@@ -6213,6 +6219,7 @@ if (typeof window.Matomo !== 'object') {
             this.trackPageView = function (customTitle, customData, callback) {
                 trackedContentImpressions = [];
                 consentRequestsQueue = [];
+                javaScriptErrors = [];
 
                 if (isOverlaySession(configTrackerSiteId)) {
                     trackCallback(function () {
