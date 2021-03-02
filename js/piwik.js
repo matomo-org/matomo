@@ -6089,7 +6089,7 @@ if (typeof window.Matomo !== 'object') {
                             action += ':' + column;
                         }
 
-                        if (javaScriptErrors.indexOf(category + action + message) === -1) {
+                        if (indexOfArray(javaScriptErrors, category + action + message) === -1) {
                             javaScriptErrors.push(category + action + message);
 
                             logEvent(category, action, message);
