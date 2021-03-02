@@ -226,6 +226,8 @@
                 $scope.showHelp(showSubcategoryHelpOnLoad.category, showSubcategoryHelpOnLoad.subcategory);
                 showSubcategoryHelpOnLoad = null;
             }
+
+            $('#loadingError').hide();
         });
     }
 })();
