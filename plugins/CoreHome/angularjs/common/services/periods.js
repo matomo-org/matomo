@@ -209,6 +209,7 @@
         } else if (childPeriodType === 'week') {
             startDate.setDate(startDate.getDate() - (nAmount * 7));
         } else if (childPeriodType === 'month') {
+            startDate.setDate(1);
             startDate.setMonth(startDate.getMonth() - nAmount);
         } else if (childPeriodType === 'year') {
             startDate.setFullYear(startDate.getFullYear() - nAmount);
