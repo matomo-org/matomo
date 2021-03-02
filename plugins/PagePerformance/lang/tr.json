@@ -36,6 +36,8 @@
         "HelpNote": "Bu ölçümlerin hepsi her zaman kullanılamayabilir. Ayrıntılı bilgi almak için %1$sçevrimiçi rehbere bakabilirsiniz%2$s.",
         "RowActionTitle": "Sayfa başarımı raporunu aç",
         "RowActionDescription": "Bu satır için sayfa başarımı raporunu görüntüle",
-        "PagePerformanceTitle": "Sayfanın %1$s \"%2$s\" ile sayfa başarımı raporu"
+        "PagePerformanceTitle": "Sayfanın %1$s \"%2$s\" ile sayfa başarımı raporu",
+        "PerformanceSubcategoryHelp1": "Başarım bölümü, web sitesinin ya da uygulamanın genel olarak başarımının ne kadar hızlı olduğunu incelemeye ve ortalama değerlerden önemli ölçüde sapan sayfalar olup olmadığını keşfetmeye yardımcı olabilir.",
+        "PerformanceSubcategoryHelp2": "Ayrıca, web sitesinin her sayfasının tam olarak ne kadar sürede yüklendiği ve yükleme sürelerini neyin etkilediğini gösteren raporlar da kullanılabilir."
     }
 }

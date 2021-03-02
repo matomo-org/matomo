@@ -3647,7 +3647,7 @@ if (typeof window.Matomo !== 'object') {
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
-                    ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
+                    (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + cookieVisitorIdValues.uuid +
 
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused

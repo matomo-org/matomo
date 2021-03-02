@@ -3,6 +3,7 @@
         "UserId": "Id Utente",
         "UserReportTitle": "ID Utente",
         "UserReportDocumentation": "Questo report mostra le visite e altre metriche generali per ogni singolo ID utente.",
-        "PluginDescription": "Mostra i report utente"
+        "PluginDescription": "Mostra i report utente",
+        "VisitorsUserSubcategoryHelp": "Il report ID Utente mostra le visite associate a tutti gli utenti registrati e connessi. È possibile utilizzare questa sezione per comprendere l'utilizzo del sito web da parte di utenti specifici e identificare chi sono gli utenti più e meno attivi."
     }
 }

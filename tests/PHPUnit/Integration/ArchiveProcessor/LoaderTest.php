@@ -40,6 +40,99 @@ class LoaderTest extends IntegrationTestCase
         Fixture::createWebsite('2012-02-03 00:00:00');
     }
 
+    public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives()
+    {
+        $_GET['pluginOnly'] = 1;
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $dateTime = '2020-01-20 02:03:04';
+        $date = '2020-01-20';
+        $period = 'week';
+        $segment = '';
+        $plugin = 'Actions';
+
+        $t = Fixture::getTracker($idSite, $dateTime);
+        $t->setUrl('http://slkdfj.com');
+        Fixture::checkResponse($t->doTrackPageView('alsdkjf'));
+
+        $periodObj = Factory::build($period, $date);
+        foreach ($periodObj->getSubperiods() as $day) {
+            // archive each day before hand
+            $params = new Parameters(new Site($idSite), $day, new Segment($segment, [$idSite]));
+            $loader = new Loader($params);
+            $loader->prepareArchive($plugin);
+        }
+
+        $existingArchives = $this->getExistingArchives($date);
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done.Actions',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+        ], $existingArchives);
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
+
+        $loader = new Loader($params);
+        $loader->prepareArchive($plugin);
+
+        $existingArchives = $this->getExistingArchives($date);
+
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done.Actions',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '3',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+            [
+                'idarchive' => '4',
+                'name' => 'done.Actions',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+        ], $existingArchives);
+    }
+
+    private function getExistingArchives($date)
+    {
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        return Db::fetchAll("SELECT idarchive, `name`, date1, date2, period, `value` FROM `$table` WHERE `name` LIKE 'done%' ORDER BY idarchive ASC");
+    }
+
     /**
      * @dataProvider getTestDataForArchiving
      */

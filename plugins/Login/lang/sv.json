@@ -16,10 +16,14 @@
         "SettingBruteForceEnableHelp": "Totalsöknings-detektion är en viktig säkerhetsfunktion som skyddar dina data från obehörig åtkomst. Istället för att tillåta vilken användare som helst att försöka tusentals eller flera miljoner tänkbara lösenord i snabb följd, kommer den endast tillåta ett visst antal misslyckade inloggningsförsök under en viss tid. Om för många inloggningsförsök misslyckas under det tidsspannet kommer användaren inte kunna logga in tills en viss tid passerat. Observera att om en IP-adress blockeras, kommer samtliga användare med den IP-adressen nekas inloggning.",
         "SettingBruteForceWhitelistIp": "Tillåt alltid följande IP-adresser att logga in",
         "SettingBruteForceBlacklistIp": "Tillåt aldrig följande IP-adresser att logga in",
+        "NotAllowListTakesPrecendence": "Om en IP matchar både blockeringslistan och aldrig-blockeringslistan, har blockeringslistan företräde och IP skulle inte tillåtas.",
         "SettingBruteForceMaxFailedLogins": "Antal tillåtna inloggningsförsök inom tidsspannet",
         "SettingBruteForceMaxFailedLoginsHelp": "IP-adressen blockeras om fler än detta antal inloggningsförsök misslyckas inom tidsspannet nedan.",
         "SettingBruteForceTimeRange": "Räkna antal inloggningsförsök inom detta tidsspannet (i minuter)",
         "SettingBruteForceTimeRangeHelp": "Ange en tid i minuter.",
+        "ConfirmPasswordReset": "Bekräfta återställning av lösenord",
+        "ConfirmPasswordResetIntro": "För att bekräfta att det verkligen är du som begärde denna lösenordsändring, skriv ditt nya lösenord igen.",
+        "ConfirmPasswordResetWrongPassword": "Det angivna lösenordet matchar inte ditt nya lösenord. Om du inte kommer ihåg ditt nyligen valda lösenord kan du återställa ditt lösenord igen. Om du inte begärde lösenordsändringen, så gör du helt enkelt ingenting och ditt lösenord kommer inte att ändras.",
         "LoginNotAllowedBecauseBlocked": "Du har inte behörighet att logga in för närvarande eftersom du har för många misslyckade inloggningsförsök, försök igen senare.",
         "CurrentlyBlockedIPs": "IP-adresser som blockeras just nu",
         "IPsAlwaysBlocked": "Följande IP-adresser blockeras alltid",
@@ -39,7 +43,7 @@
         "PasswordResetAlreadySent": "Du har begärt för många återställningar av lösenord senaste tiden. En ny begäran kan göras om en timme. Om du har problem med att återställa ditt lösenord, kontakta din administratör för hjälp.",
         "WrongPasswordEntered": "Vänligen ange ditt giltiga lösenord.",
         "ConfirmPasswordToContinue": "Bekräfta ditt lösenord för att fortsätta.",
-        "PluginDescription": "Tillhandahåller autentisering med användarnamn och lösenord samt lösenordsåterställning. Autentiseringsmetoden kan anpassas med en annan plugin som t.ex. LoginLdap från marknadsplatsen.",
+        "PluginDescription": "Tillhandahåller autentisering med användarnamn och lösenord samt lösenordsåterställning. Autentiseringsmetoden kan anpassas med en annan plugin som t.ex. LoginLdap från Marketplace.",
         "RememberMe": "Kom ihåg mig"
     }
 }

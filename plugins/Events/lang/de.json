@@ -33,6 +33,7 @@
         "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse",
         "TotalValue": "Ereigniswert",
         "TotalValueDocumentation": "Summe der Ereigniswerte",
-        "ViewEvents": "Ereignisse ansehen"
+        "ViewEvents": "Ereignisse ansehen",
+        "EventsSubcategoryHelp2": "Erfahren Sie mehr über die Erfassung von Ereignissen."
     }
 }

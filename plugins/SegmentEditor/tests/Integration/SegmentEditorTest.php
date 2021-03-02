@@ -17,6 +17,9 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
+use Piwik\Plugins\UsersManager\UserUpdater;
+use Piwik\Plugins\SegmentEditor\SegmentEditor;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 
 /**
  * Class Plugins_SegmentEditorTest
@@ -180,6 +183,49 @@ class SegmentEditorTest extends IntegrationTestCase
         API::getInstance()->get($idSegment1);
     }
 
+    public function test_transferAllUserSegmentsToSuperUser()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $this->addUser('user1');
+        $this->addUser('super', true);
+
+        FakeAccess::$identity = 'user1';
+
+        $idSegment = API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 0);
+        $segment = API::getInstance()->get($idSegment);
+
+        $this->assertEquals('user1', $segment['login']);
+
+        $segmentEditor = new SegmentEditor();
+        $segmentEditor->transferAllUserSegmentsToSuperUser('user1');
+
+        $segment = API::getInstance()->get($idSegment);
+
+        $this->assertEquals('super', $segment['login']);
+    }
+
+    public function test_deletedUserLostTheSegments()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $model = new Model();
+
+        $this->addUser('user1');
+        $this->addUser('super', true);
+
+        FakeAccess::$identity = 'user1';
+        API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 0);
+
+        $segments = $model->getAllSegments('user1');
+        $this->assertNotEmpty($segments);
+
+        FakeAccess::$identity = 'super';
+        $this->deleteUser('user1');
+
+        $segments = $model->getAllSegments('user1');
+        $this->assertEmpty($segments);
+    }
+
     private function removeSecondsFromSegmentInfo(&$segmentInfo)
     {
         $timestampProperties = array('ts_last_edit', 'ts_created');
@@ -195,5 +241,20 @@ class SegmentEditorTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    private function addUser($login, $isSuper = false)
+    {
+        UsersManagerAPI::getInstance()->addUser($login, 'password', "{$login}@test.com");
+
+        if ($isSuper) {
+            $userUpdater = new UserUpdater();
+            $userUpdater->setSuperUserAccessWithoutCurrentPassword($login, true);
+        }
+    }
+
+    private function deleteUser($login)
+    {
+        UsersManagerAPI::getInstance()->deleteUser($login);
     }
 }
