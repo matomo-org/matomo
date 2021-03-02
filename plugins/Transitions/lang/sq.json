@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s kërkime të brendshme",
         "XOfAllPageviews": "%s e krejt parjeve të kësaj faqeje",
         "XOutOfYVisits": "%1$s (nga %2$s gjithsej)",
-        "PageURLTransitions": "Tranzicione URL-je Faqeje"
+        "PageURLTransitions": "Tranzicione URL-je Faqeje",
+        "TransitionsSubcategoryHelp1": "Tranzicionet ju japin një raport që tregon gjëra që vizitorët tuaj bënë fill para dhe pas parjes së një faqeje të dhënë. Kjo faqe do të shpjegojë si të hyhet, të kuptohet dhe të përdoret raporti i fuqishëm Tranzicione.",
+        "TransitionsSubcategoryHelp2": "Më Tepër Hollësi"
     }
 }

@@ -82,6 +82,19 @@
         "VisitorsFromSocialNetworks": "Visitors from Social Networks",
         "VisitorsFromDirectEntry": "Visitors from Direct Entry",
         "VisitorsFromWebsites": "Visitors from Websites",
-        "VisitorsFromCampaigns": "Visitors from Campaigns"
+        "VisitorsFromCampaigns": "Visitors from Campaigns",
+        "ReferrersOverviewSubcategoryHelp1": "The Acquisition Overview shows you the percentage of your traffic from all sources over a selected date range.",
+        "ReferrersOverviewSubcategoryHelp2": "You can also click on a specific channel type to display it within the evolution graph. This can help you discover which channels contribute the most traffic to your site as well as any potential patterns over time. For example, a certain channel may perform better on weekends.",
+        "AllReferrersSubcategory1": "This section shows you the number of visits that arrive from different channel types and referrers. Click on the plus or minus buttons to view the referrers within each type.",
+        "AllReferrersSubcategory2": "You can also analyse the number of actions performed by each of your traffic sources by enabling the table with Visitor engagement metrics view.",
+        "SearchEnginesSubcategoryHelp1": "This section helps you analyse your search engine optimisation and performance. You can analyse your most popular keywords with the combined keyword reports or see which keywords perform well on specific search engines for more targeted analysis and optimisation.",
+        "SearchEnginesSubcategoryHelp2": "%1$sMatomo Cloud%2$s and %3$sSearch Engine Keywords Performance%4$s plugin users will receive the best results from this report.",
+        "WebsitesSubcategoryHelp1": "In this table, you can see which websites referred visitors to your site.",
+        "WebsitesSubcategoryHelp2": "By clicking on a row in the table, you can see which URLs the links to your website were on.",
+        "SocialsSubcategoryHelp": "In this table, you can see which websites referred visitors to your site.",
+        "CampaignsSubcategoryHelp": "The Campaign Tracking section allows you to analyse the visits associated with the various tracking values that have been linked to your digital campaigns. It can reveal things like, how much traffic your campaigns are bringing in, which creatives are performing best, how engaged campaign visitors are, and whether the campaign is resulting in sales or not.",
+        "EcommerceLogSubcategoryHelp1": "The Ecommerce log provides granular session-level data so you can look at the full session for each user that either made a purchase or abandoned their cart. This can help you understand what users do before and after purchasing to reveal optimisation opportunities.",
+        "EcommerceLogSubcategoryHelp2": "Data on this page is updated in real-time.",
+        "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages."
     }
 }

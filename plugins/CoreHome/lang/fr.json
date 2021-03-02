@@ -97,7 +97,6 @@
         "RowLimit": "Limite de rang",
         "CustomLimit": "Limite personnalisée",
         "ExportFormat": "Format d'export",
-        "ExportTooltip": "Remarque : l'URL d'exportation générée ne fonctionnera que dans la session de navigateur en cours. Si vous souhaitez l'utiliser ailleurs, vous devez utiliser un jeton spécifique à l'application. Vous pouvez configurer ces jetons dans Admin -> Sécurité -> Token Auths.",
         "ExpandSubtables": "Élargir les sous-tables",
         "StandardReport": "Rapport standard",
         "FlattenReport": "Aplatir le rapport",

@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s internal searches",
         "XOfAllPageviews": "%s of all views of this page",
         "XOutOfYVisits": "%1$s (out of %2$s)",
-        "PageURLTransitions": "Page URL Transitions"
+        "PageURLTransitions": "Page URL Transitions",
+        "TransitionsSubcategoryHelp1": "Transitions gives you a report that shows the things your visitors did directly before and after viewing a certain page. This page will explain how to access, understand, and use the powerful Transitions report.",
+        "TransitionsSubcategoryHelp2": "More Details"
     }
 }

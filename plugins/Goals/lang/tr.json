@@ -124,6 +124,10 @@
         "AtLeastMinutes": "en az %1$s dakika. Saniye belirtmek için ondalık olarak yazın. Örneğin 30 saniye için %2$s.",
         "TimeInMinutes": "Dakika Cinsinden Süre",
         "ClickToViewThisGoal": "Bu hedefi görüntülemek için tıklayın.",
-        "OverviewReportDocumentation": "Bu rapor, ziyaretçilerin belirli bir hedefi ne kadar tutturduğunun özetini içerir."
+        "OverviewReportDocumentation": "Bu rapor, ziyaretçilerin belirli bir hedefi ne kadar tutturduğunun özetini içerir.",
+        "GoalsOverviewSubcategoryHelp1": "Hedefler Özeti raporu, web sitesi için tanımlanmış hedeflerin başarımını içerir. Hedeflerin dönüşüm yüzdeleri, elde edilen toplam gelir miktarı ve her bir hedef için tam raporlar görülebilir.",
+        "GoalsOverviewSubcategoryHelp2": "Tam boyutlu gelişim çizelgesi içinde odaklamak istediğiniz ölçüt için mini grafik üzerindeki bir ölçüte tıklayın.",
+        "ManageGoalsSubcategoryHelp1": "Bu bölümde, ziyaretçilerin sitede belirli bir sayfayı açmak ya da belirli bir formu göndermek gibi gerçekleştirdiği belirli işlemler için Hedefler oluşturulup düzenlenebilir. Hedef raporları değişkendir ve web sitesinin başarımının, potansiyel oluşturma, çevrimiçi satış ve artan marka görünürlüğü gibi iş hedeflerine göre izlenmesine yardımcı olabilir.",
+        "ManageGoalsSubcategoryHelp2": "Ayrıntılı bilgi almak için hedefler rehberine bakabilirsiniz."
     }
 }

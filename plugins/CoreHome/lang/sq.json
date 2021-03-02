@@ -104,7 +104,8 @@
         "RowLimit": "Kufi i papërpunuar",
         "CustomLimit": "Kufi vetjak",
         "ExportFormat": "Format eksportimi",
-        "ExportTooltip": "Shënim: URL e prodhuar për eksportimin do të funksionojë vetëm në sesionin e tanishëm të shfletuesit. Nëse doni ta përdorni gjetkë, lypset të përdorni një token të posaçëm për aplikacionin. Këta token-ë mund t’i formësoni te Përgjegjës -> Siguri -> Mirëfilltësime Me Token.",
+        "ExportTooltip": "Shënim: Për të përdorur URL-në e prodhuar për eksport, do t’ju duhet të specifikoni një aplikacion mirëfilltësimi token-ësh. Këta token-ë mund t’i formësoni te Përgjegjës -> Siguri -> Token-ë Mirëfilltësimi.",
+        "ExportTooltipWithLink": "Shënim: Për të përdorur URL-në e prodhuar për eksport, do t’ju duhet të specifikoni një aplikacion mirëfilltësimi token-ësh. Këta token-ë mund t’i formësoni te %1$s[Përgjegjës -> Siguri -> Token-ë Mirëfilltësimi]%2$s. Zëvendësoni %3$s ite URL Eksporti ,e token-in tuaj të Mirëfilltësimit. Kujdes: Mos ia jepni kujt tjetër URL-në me token-in real.",
         "ExpandSubtables": "Zgjeroji nëntabelat",
         "StandardReport": "Raport standard",
         "FlattenReport": "Raport i sheshtë",
@@ -113,6 +114,14 @@
         "SeeAvailableVersions": "Shihni Versione të Gatshëm",
         "QuickLinks": "Lidhje të Shpejta",
         "Profilable": "E profilizueshme",
-        "SearchOnMatomo": "Kërkoni për '%1$s' te Matomo.org"
+        "SearchOnMatomo": "Kërkoni për '%1$s' te Matomo.org",
+        "ReportingCategoryHelpPrefix": "Si më ndihmon faqja e raportimeve \"%1$s > %2$s\"?",
+        "VisitorsCategoryHelp1": "Faqet Vizitorë ju tregojnë gjëra rreth se cilët janë vizitorët tuaj. Gjëra të tilla si nga vijnë vizitorët tuaj, çfarë pajisjesh dhe shfletuesish përdorin dhe kur e vizitojnë, përgjithësisht, sajtin tuaj. Të kuptoni, përmbledhtas, cili është publiku juaj, dhe të kërkoni për veçanti, për të parë se si mund të shtohet publiku juaj.",
+        "VisitorsCategoryHelp2": "Përveç informacionit të përgjithshëm rreth vizitorëve tuaj, mund të përdorni edhe %1$sRegjistër Vizitash%2$s, që të shihni ç’ndodhi gjatë çdo vizite individuale.",
+        "VisitorsOverviewHelp": "Përmbledhja mbi Vizitorët ju ndihmon të kuptoni popullaritetin e sajtit tuaj. Kjo bëhet duke dhënë grafikë që shfaqin sa vizita ka sajti juaj gjatë një periudhe të caktuar dhe shkallën mesatare të angazhimit për veçori bazë, bie fjala, kërkime dhe shkarkime.",
+        "DevicesSubcategoryHelp": "Ndarja Pajisje ju ndihmon të njihni teknologjinë që vizitorët tuaj përdorin në sajtin tuaj. Do të shihni raporte mbi llojin e pajisjes dhe modele specifike, që t’ju bëjnë të mundur ta optimizoni sajtin për shumicën e pajisjeve popullore.",
+        "SoftwareSubcategoryHelp": "Ndarja Software ju shfaq sistemet operative, shfletues dhe shtojca që vizitorët tuaj përdorin për sajtin, që të mund ta optimizoni sajtin tuaj për të garantuar se është plotësisht i përputhshëm me formësimet më popullore.",
+        "EngagementSubcategoryHelp1": "Ndarja Angazhim ju furnizon raporte që ndihmojnë të kini një ide mbi sasinë e vizitave të reja dhe të rikthyerish që përfiton sajti juaj. Mund të shqyrtoni edhe raporte që japin kohën mesatare dhe numrin e faqeve sipas vizitash, si dhe numrin e herëve që një vizitor ka qenë në sajtin tuaj dhe numrin më të zakonshëm të ditëve mes vizitash.",
+        "EngagementSubcategoryHelp2": "Kjo mund t’ju ndihmojë të bëni optimizim për shpeshti dhe vizita me shkallë të lartë ndërveprimi, përveç se për të kapur maksimumin e shtrirjes tuaj."
     }
 }

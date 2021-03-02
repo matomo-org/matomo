@@ -8,7 +8,7 @@
         "Event": "Etkinlik",
         "EventAction": "Etkinlik İşlemi",
         "EventActions": "Etkinlik İşlemi",
-        "EventActionsReportDocumentation": "Bu rapor size her etkinlik işleminin kaç kez gerçekleştiğini içerir. Her bir etkinlik işlemiyle birlikte izlenen etkinlik kategorileri ve adları satır altındaki tabloda görülebilir. Raporun altındaki bağlantıyla ikincil boyut değiştirilerek neyin görüntüleneceği seçilebilir.",
+        "EventActionsReportDocumentation": "Bu rapor, her etkinlik işleminin kaç kez gerçekleştiği bilgisini içerir. Her bir etkinlik işlemiyle birlikte izlenen etkinlik kategorileri ve adları satır altındaki tabloda görülebilir. Raporun altındaki bağlantıyla ikincil boyut değiştirilerek neyin görüntüleneceği seçilebilir.",
         "EventCategories": "Etkinlik Kategorisi",
         "EventCategoriesReportDocumentation": "Bu rapor, izlenen her bir etkinliğin kategorilerini ve bunların kaç kez gerçekleştiğini içerir. Her satırın altındaki tabloda her etkinlik kategorisiyle birlikte izlenen etkinlik işlemleri ve adları görülebilir. Raporun altındaki bağlantıyla ikincil boyut değiştirilerek neyin görüntüleneceği seçilebilir.",
         "EventCategory": "Etkinlik Kategorisi",
@@ -33,6 +33,8 @@
         "TotalEventsDocumentation": "Toplam etkinlik sayısı",
         "TotalValue": "Etkinlik değeri",
         "TotalValueDocumentation": "Etkinlik değerleri toplamı",
-        "ViewEvents": "Etkinlikleri Görüntüle"
+        "ViewEvents": "Etkinlikleri Görüntüle",
+        "EventsSubcategoryHelp1": "Etkinlikler bölümü, site ile ilişkili özel etkinlikler hakkında raporlar sunar. Etkinlikler için genellikle özel yapılandırma gerekir. Yapılandırma sonrasında raporlar kategoriye, işleme ve ada göre düzenlenmiş olarak incelenebilir.",
+        "EventsSubcategoryHelp2": "Ayrıntılı bilgi almak için etkinlik izleme rehberine bakabilirsiniz."
     }
 }

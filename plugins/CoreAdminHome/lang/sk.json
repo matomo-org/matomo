@@ -48,6 +48,9 @@
         "UseCustomLogo": "Použiť vlastné logo",
         "YouAreOptedOut": "Aktuálne ste odhlásený.",
         "YouMayOptOut": "Zakliknutím v rámčeku nižšie, môžete zakázať uloženie cookie s identifikačným číslom prideleným vášmu počítaču a tým zamedziť prevádzkovateľovi tohto webu zhromažďovať a analyzovať štatistické údaje.",
-        "YouMayOptOutBis": "Ak ste sa rozhodli pre túto možnosť, kliknite prosím na priložený odkaz pre uloženie deaktivačného cookie vo svojom prehliadači."
+        "YouMayOptOutBis": "Ak ste sa rozhodli pre túto možnosť, kliknite prosím na priložený odkaz pre uloženie deaktivačného cookie vo svojom prehliadači.",
+        "YouMayOptOut2": "Máte možnosť zabrániť analyzovaniu a prepájaniu aktivít, ktoré tu vykonáte.",
+        "YouMayOptOut3": "Vďaka tomu síce ochránite vaše súkromie, no zároveň zabránite prevádzkovateľovi v tom, aby sa poučil z vašich aktivít a aby mohol zlepšovať ovládateľnosť pre vás a ďalších používateľov.",
+        "UncheckToOptOut": "Pre deaktiváciu odstráňte označenie tohto zaškrtávacieho políčka."
     }
 }

@@ -1,4 +1,4 @@
-<div><ul class="navbar hide-on-med-and-down" role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate }}">
+<div class="reportingMenu"><ul class="navbar hide-on-med-and-down" role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate }}">
     <li ng-repeat="category in menuModel.menu"
         class="menuTab"
         role="menuitem"
@@ -11,6 +11,7 @@
              {{ 'CoreHome_Menu'|translate }}
            </span>
         </a>
+
         <ul role="menu">
             <li ng-repeat="subcategory in category.subcategories"
                 role="menuitem"
@@ -31,6 +32,15 @@
                    class="item"
                    ng-click='loadSubcategory(category, subcategory)'>
                     {{ subcategory.name }}
+                </a>
+
+                <a class="item-help-icon"
+                   tabindex="5" href="javascript:"
+                   ng-if="subcategory.help"
+                   ng-click="showHelp(category, subcategory, $event)"
+                   ng-class="{'active': helpShownCategory == subcategory && subcategory.help}"
+                >
+                    <span class="icon-help"></span>
                 </a>
             </li>
         </ul>

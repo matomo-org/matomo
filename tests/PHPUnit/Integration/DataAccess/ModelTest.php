@@ -38,6 +38,48 @@ class ModelTest extends IntegrationTestCase
         $this->model->createArchiveTable($this->tableName, 'archive_numeric');
     }
 
+    public function test_getInvalidatedArchiveIdsSafeToDelete_handlesCutOffGroupMaxLenCorrectly()
+    {
+        Db::get()->query('SET SESSION group_concat_max_len=32');
+
+        $this->insertArchiveData([
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+        ]);
+
+        // sanity check
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
+        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
+                  FROM `$table`
+              GROUP BY idsite, date1, date2, period, name";
+        $result = Db::fetchRow($sql);
+        $this->assertEquals(['archives' => '21.1,20.1,19.1,18.1,17.1,16.1,15'], $result);
+
+        $ids = $this->model->getInvalidatedArchiveIdsSafeToDelete($table, $setMaxLen = false);
+
+        $expected = ['20', '19', '18', '17', '16'];
+        $this->assertEquals($expected, $ids);
+    }
+
     public function test_resetFailedArchivingJobs_updatesCorrectStatuses()
     {
         Date::$now = strtotime('2020-03-03 04:00:00');
@@ -536,11 +578,13 @@ class ModelTest extends IntegrationTestCase
     private function insertArchiveData($archivesToInsert)
     {
         $idarchive = 1;
+        $now = Date::now()->getDatetime();
         foreach ($archivesToInsert as $archive) {
             $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
-            $sql = "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             Db::query($sql, [
                 $idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value'],
+                $archive['ts_archived'] ?? $now
             ]);
 
             ++$idarchive;

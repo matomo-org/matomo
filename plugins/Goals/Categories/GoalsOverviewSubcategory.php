@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class GoalsOverviewSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class GoalsOverviewSubcategory extends Subcategory
     protected $id = 'General_Overview';
     protected $order = 2;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('Goals_GoalsOverviewSubcategoryHelp1') . '</p>'
+            . '<p>' . Piwik::translate('Goals_GoalsOverviewSubcategoryHelp2') . '</p>';
+    }
 }

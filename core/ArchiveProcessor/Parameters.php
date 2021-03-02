@@ -297,7 +297,7 @@ class Parameters
 
     public function __toString()
     {
-        return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}]";
+        return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}, plugin = {$this->getRequestedPlugin()}]";
     }
 
     /**

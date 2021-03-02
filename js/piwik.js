@@ -3000,7 +3000,7 @@ if (typeof window.Matomo !== 'object') {
 
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
-                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
+                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"],"send_image":0}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
                             // we apply this once we know send beacon works
@@ -3647,7 +3647,7 @@ if (typeof window.Matomo !== 'object') {
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
-                    ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
+                    (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + cookieVisitorIdValues.uuid +
 
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused

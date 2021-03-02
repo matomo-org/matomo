@@ -101,6 +101,7 @@
         "SystemCheckMbstringHelp": "L'estensione mbstring è necessaria per gestire i caratteri multibyte nell'interfaccia Utente e le risposte API. Inoltre, controlla che mbstring.func_overload sia impostato su \"0\" nel php.ini.",
         "SystemCheckMemoryLimit": "Memoria massima",
         "SystemCheckMemoryLimitHelp": "Su un sito web con grande traffico, il processo di archiviazione potrebbe richiedere più memoria di quella attualmente consentita.<br \/>Cambia la direttiva memory_limmit nel tuo file php.ini se necessario.",
+        "SystemCheckMemoryNoMemoryLimitSet": "Non è stato impostato il limite di memoria",
         "SystemCheckNoErrorsOrWarnings": "Non ci sono errori o avvisi",
         "SystemCheckViewFullSystemCheck": "Guarda il report completo di controllo del sistema",
         "SystemCheckOpenURL": "Apri URL",

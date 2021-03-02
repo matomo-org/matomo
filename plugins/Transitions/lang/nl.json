@@ -26,6 +26,7 @@
         "ToFollowingSiteSearches": "Interne zoekopdrachten",
         "ToFollowingSiteSearchesInline": "%s interne zoekopdrachten",
         "XOfAllPageviews": "%s van alle weergaves van deze pagina",
-        "XOutOfYVisits": "%1$s (van de %2$s)"
+        "XOutOfYVisits": "%1$s (van de %2$s)",
+        "TransitionsSubcategoryHelp2": "Meer details"
     }
 }

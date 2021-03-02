@@ -44,6 +44,7 @@
         "ToGeolocateOldVisits": "Eski ziyaretlerinizle ilgili konum bilgilerini almak için %1$sburada%2$s belirtilen betiği kullanın.",
         "WidgetLocation": "Ziyaretçi Konumu",
         "GeoIpDbIpAccuracyNote": "Not: DBIP veritabanları ücretsizdir ve otomatik olarak indirilebilir. Ancak coğrafi konum sonuçları (özellikle il sonuçları) MaxMind kadar tutarlı değildir. Bununla birlikte MaxMind ücretsiz veritabanı kullanıyor olsanız bile bir hesap açmanızı ister. MaxMind coğrafi konum veritabanını kullanmak istiyorsanız %1$sburaya tıklayarak%2$s başlayabilirsiniz",
-        "MaxMindLinkExplanation": "MaxMind coğrafi konum veritabanlarını kullanıyorsanız ve indirme adresinizi nasıl üreteceğinizi bilmiyorsanız %1$sbilgi almak için buraya tıklayın%2$s."
+        "MaxMindLinkExplanation": "MaxMind coğrafi konum veritabanlarını kullanıyorsanız ve indirme adresinizi nasıl üreteceğinizi bilmiyorsanız %1$sbilgi almak için buraya tıklayın%2$s.",
+        "LocationsSubcategoryHelp": "Konumlar bölümü, ziyaretçilerin siteye geldiği konumları içerir. Ziyaretçilerin geldiği ülkeleri, kıtaları, bölgeleri, illeri tablo ve harita olarak görüntüler. Ayrıca ziyaretçilerin hangi dilde tarayıcı kullandığı görülerek farklı konumlarda bulunan uluslararası ziyaretçiler belirlenebilir."
     }
 }

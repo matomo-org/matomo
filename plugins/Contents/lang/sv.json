@@ -7,14 +7,18 @@
         "ContentInteractions": "Innehållsinteraktioner",
         "InteractionRate": "Andel interaktioner",
         "ContentName": "Namn på innehåll",
+        "ContentNameReportDocumentation": "Denna rapport visar namnen på det innehåll som dina besökare tittade på och interagerade med.",
         "ContentNames": "Innehållsnamn",
         "ContentPiece": "Innehållsdel",
+        "ContentPieceReportDocumentation": "Den här rapporten visar det innehåll som dina besökare tittade på och interagerade med.",
         "ContentPieces": "Innehållsdelar",
         "ContentTarget": "Innehållsmål",
         "ContentTargets": "Innehållsmål",
         "Contents": "Innehåll",
         "InteractionsMetricDocumentation": "Antalet gånger ett innehållsblock har interagerats med (t.ex. ett \"klick\" på en banner eller annons).",
         "ImpressionsMetricDocumentation": "Antalet gånger ett innehållsblock såsom en banner eller en annons har visats på en sida.",
-        "InteractionRateMetricDocumentation": "Förhållandet mellan innehållsvisningar och interaktioner."
+        "InteractionRateMetricDocumentation": "Förhållandet mellan innehållsvisningar och interaktioner.",
+        "ContentsSubcategoryHelp1": "Innehållsspårning hjälper dig att bestämma populariteten för specifika innehållsdelar på vilken sida som helst på din webbplats eller applikation. Detta avsnitt rapporterar antalet intryck och interaktioner som de olika innehållsdelarna på din webbplats får.",
+        "ContentsSubcategoryHelp2": "Läs mer i innehållsspårningsguiden."
     }
 }

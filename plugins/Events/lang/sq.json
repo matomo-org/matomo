@@ -8,10 +8,13 @@
         "Event": "Akt",
         "EventAction": "Veprim Akti",
         "EventActions": "Veprime Akti",
+        "EventActionsReportDocumentation": "Ky raport shfaq numrin e herëve që ka ndodhur çdo veprim. Mund të shihni kategoritë dhe emrat e veprimtarive që janë ndjekur, tok me çdo veprim në to, te rreshti përkatës. Mund të ndryshoni çfarë duket, duke ndryshuar përmasën e dytë me lidhjen në fund të raportit.",
         "EventCategories": "Kategori Aktesh",
+        "EventCategoriesReportDocumentation": "Ky raport shfaq kategoritë e çdo veprimtarie të ndjekur dhe se sa herë ndodh ajo. Mund të shihni veprimet dhe emrat e veprimtarisë që qenë ndjekur, tok me çdo kategori veprimtarie, te nëntabela e çdo rreshti. Se ç’shfaqet, mund ta ndryshoni duke ndryshuar përmasën dytësore me lidhjen te fundi i raportit.",
         "EventCategory": "Kategori Akti",
         "EventName": "Emër Akti",
         "EventNames": "Emra Aktesh",
+        "EventNamesReportDocumentation": "Ky raport shfaq emrat përshoqëruar me çdo veprimtari të ndjekur dhe sa herë ka ndodhur. Mund të shihni veprimet dhe kategoritë e veprimtarive që janë ndjekur, tok me çdo emër veprim në to, te nëntabela e çdo rreshti. Mund të ndryshoni çfarë duket, duke ndryshuar përmasën e dytë me lidhjen në fund të raportit.",
         "EventUrl": "URLAkti",
         "EventUrls": "ULR-ra Aktesh",
         "Events": "Akte",
@@ -30,6 +33,8 @@
         "TotalEventsDocumentation": "Numri gjithsej i akteve",
         "TotalValue": "Vlerë akti",
         "TotalValueDocumentation": "Shuma e vlerave të akteve",
-        "ViewEvents": "Shihni Akte"
+        "ViewEvents": "Shihni Akte",
+        "EventsSubcategoryHelp1": "Ndarja Veprimtari ofron raporte mbi veprimtari vetjake përshoqëruar me sajtin tuaj. Veprimtaritë zakonisht lypin formësim vetjak. Pasi të jenë formësuar, mund të shqyrtoni raporte të grupuar sipas kategorish, veprimesh dhe emrash.",
+        "EventsSubcategoryHelp2": "Mësoni më tepër rreth ndjekjes, këtu."
     }
 }

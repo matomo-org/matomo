@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "Ett segment är en uppsättning kriterier som används för att bara välja en del av samtliga besök. Med hjälp av segment kan du föra in godtycklig kontext i dina rapporter.",
         "AddANDorORCondition": "Lägg till %s villkor",
         "AddNewSegment": "Lägg till nytt segment",
         "AreYouSureDeleteSegment": "Vill du verkligen radera detta segment?",
@@ -46,10 +47,15 @@
         "UnprocessedSegmentApiError3": "Efter några timmar ska dina segmentdata bli tillgängliga via API: n. (Om det inte gör det kan det vara ett fel ha uppstått.)",
         "CustomUnprocessedSegmentApiError1": "Segmentet du begärde har ännu inte skapats i Segmentredigeraren och därför har inte rapportdata bearbetats.",
         "CustomUnprocessedSegmentApiError2": "Om du vill se data för det här segmentet måste du gå till Matomo och skapa det här segmentet manuellt i Segmentredigeraren.",
+        "CustomUnprocessedSegmentApiError3": "(Alternativt kan du skapa ett nytt segment programmatiskt med API-metoden SegmentEditor.add).",
         "CustomUnprocessedSegmentApiError4": "När du skapat segmentet i redigeraren (eller via API), kommer detta felmeddelande att försvinna och inom några timmar ser du din segmenterade rapportdata efter segmentdata har bearbetats. (Om det inte gör det kan ett fel ha uppstått.)",
         "CustomUnprocessedSegmentApiError5": "Observera att du kan testa om ditt segment kommer fungera utan att behöva vänta på att det ska behandlas med hjälp av Live.getLastVisitsDetails API.",
         "CustomUnprocessedSegmentApiError6": "När du använder den här API-metoden ser du vilka användare och åtgärder som matchades av din &segment=parameter.",
         "CustomUnprocessedSegmentNoData": "Om du vill se data för det här segmentet måste du skapa det här segmentet manuellt i Segmentredigeraren och därefter vänta ett par timmar innan bearbetningen har slutförts.",
+        "AddThisToMatomo": "Lägg till detta segment i Matomo",
+        "ThisSegmentIsCompared": "Detta segment jämförs för närvarande.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Detta segment är för närvarande valt och kan därför inte väljas för att jämföras.",
+        "CompareThisSegment": "Jämför detta segment med det valda segmentet och perioden.",
         "Test": "Test"
     }
 }

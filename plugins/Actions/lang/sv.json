@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "Denna rapport innehåller information om utgångssidor som användes under perioden. En utgångssida är den sista sida en användare ser på under sitt besök. %sUtgångsside-URL:er visas i en katalogstruktur.",
         "ExitPageTitles": "Utgångssidors titel",
         "ExitPageTitlesReportDocumentation": "Den här rapporten innehåller information om sidtitlar för utgångssidorna som använts under den valda perioden.",
+        "MainMetricsReportDocumentation": "Denna rapport ger en mycket grundläggande översikt över vilka åtgärder dina besökare gör på din webbplats.",
         "OneSearch": "1 sökning",
         "OutlinkDocumentation": "En utlänk är en länk som leder besökaren bort från webbplatsen (till en annan domän).",
         "OutlinksReportDocumentation": "Denna rapport visar en hierarkisk lista över utlänkarnas webbadresser som klickades på utav dina besökare.",
@@ -79,6 +80,21 @@
         "ActionType": "Åtgärdstyp",
         "ActionTypes": "Typer av handlingar",
         "Behaviour": "Beteende",
-        "TimeSpentInReferringAction": "Tid lagd i hänvisningsaktivitet"
+        "TimeSpentInReferringAction": "Tid lagd i hänvisningsaktivitet",
+        "PagesSubcategoryHelp1": "Denna rapport innehåller information om sidans webbadresser som har besökts.",
+        "PagesSubcategoryHelp2": "Tabellen är organiserad hierarkiskt, URL:erna visas som en mappstruktur.",
+        "PagesSubcategoryHelp3": "Använd plus- och minusikonerna till höger för att navigera.",
+        "EntryPagesSubcategoryHelp1": "Denna rapport innehåller information om de ingångssidor som användes under den angivna perioden. En ingångssida är den första sidan som en användare ser under sitt besök.",
+        "EntryPagesSubcategoryHelp2": "Ingångs-URL:erna visas som en mappstruktur.",
+        "ExitPagesSubcategoryHelp1": "Denna rapport innehåller information om utgångssidorna som inträffade under den angivna perioden. En utgångssida är den sista sidan som en användare ser under sitt besök.",
+        "ExitPagesSubcategoryHelp2": "Utgångs-URL:erna visas som en mappstruktur.",
+        "PageTitlesSubcategoryHelp1": "Denna rapport innehåller information om titlarna på de sidor som har besökts.",
+        "PageTitlesSubcategoryHelp2": "Sidans titel är HTML &amp;lt;title&amp;gt; taggen som de flesta webbläsare visar i deras fönstertitel.",
+        "SiteSearchSubcategoryHelp1": "Sökdelen visar vilka nyckelord besökare använder när de söker på din webbplats. Det visar också vilka sidor användarna går in på efter en sökning och vilka sökord som inte ger några resultat alls.",
+        "SiteSearchSubcategoryHelp2": "Dessa rapporter kan ge dig en bild av innehåll som saknas på din webbplats, inblick i vad dina besökare letar efter men som de inte hittar så lätt, och mer.",
+        "SiteSearchSubcategoryHelp3": "Läs mer i webbplatssök-guiden.",
+        "OutlinksSubcategoryHelp1": "Den här rapporten visar en hierarkisk lista över utlänk-URL:er som besökarna klickade på. En utlänk är en länk som leder besökaren bort från din webbplats (till en annan domän).",
+        "DownloadsSubcategoryHelp1": "I den här rapporten kan du se vilka filer dina besökare har laddat ner.",
+        "DownloadsSubcategoryHelp2": "Vad Matomo räknar som en nedladdning är det klick som görs på en nedladdningslänk. Huruvida nedladdningen slutfördes eller inte är inte känt för Matomo."
     }
 }

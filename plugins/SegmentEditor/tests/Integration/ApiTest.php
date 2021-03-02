@@ -39,7 +39,6 @@ class ApiTest extends IntegrationTestCase
         if (!Fixture::siteCreated(2)) {
             Fixture::createWebsite('2012-01-01 00:00:00');
         }
-
     }
 
     public function test_getAll_forOneWebsite_returnsSortedSegments()

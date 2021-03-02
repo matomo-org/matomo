@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Db;
 use Piwik\Period\Factory;
 use Piwik\Segment;
 use Piwik\Site;
@@ -41,6 +42,8 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter->insertRecord('ExamplePlugin_archive2metric', 5);
         $archiveWriter->finalizeArchive();
 
+        sleep(1);
+
         // insert single plugin archive
         $_GET['pluginOnly'] = 1;
         $_GET['trigger'] = 'archivephp';
@@ -48,6 +51,7 @@ class ArchiveTest extends IntegrationTestCase
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
         $params->setRequestedPlugin('ExamplePlugin');
         $params->onlyArchiveRequestedPlugin();
+        $params->setIsPartialArchive(true);
         $archiveWriter = new ArchiveWriter($params);
         $archiveWriter->initNewArchive();
         $archiveWriter->insertRecord('ExamplePlugin_archive2metric', 2);
@@ -60,6 +64,7 @@ class ArchiveTest extends IntegrationTestCase
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
         $params->setRequestedPlugin('ExamplePlugin');
         $params->onlyArchiveRequestedPlugin();
+        $params->setIsPartialArchive(true);
         $archiveWriter = new ArchiveWriter($params);
         $archiveWriter->initNewArchive();
         $archiveWriter->insertRecord('ExamplePlugin_archive3metric', 7);
@@ -72,8 +77,8 @@ class ArchiveTest extends IntegrationTestCase
         $metrics = $archive->getNumeric(['ExamplePlugin_archive1metric', 'ExamplePlugin_archive2metric', 'ExamplePlugin_archive3metric']);
 
         $expected = [
-            'ExamplePlugin_archive1metric' => 0,
-            'ExamplePlugin_archive2metric' => 0,
+            'ExamplePlugin_archive1metric' => 1,
+            'ExamplePlugin_archive2metric' => 2,
             'ExamplePlugin_archive3metric' => 7,
         ];
 

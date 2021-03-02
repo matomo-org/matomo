@@ -75,6 +75,7 @@
         "WidgetSearchNoResultKeywords": "Słowa Kluczowe bez Wyników",
         "ActionType": "Typ Akcji",
         "ActionTypes": "Typy Akcji",
-        "Behaviour": "Zachowanie"
+        "Behaviour": "Zachowanie",
+        "PagesSubcategoryHelp3": "Użyj ikony plus i minus po lewej stronie nawigacji."
     }
 }

@@ -1,7 +1,25 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Konfigurationsfil",
+        "MysqlTemporaryTablesWarning": "MySQL-tillstånd CREATE TEMPORARY TABLES krävs för att Matomo ska fungera korrekt.",
+        "MysqlTransactionLevel": "Ändring av transaktionsisoleringsnivå stöds inte. Arkivering kommer fortfarande att fungera men det kan gå långsammare och det rekommenderas att ändra till exempel `binlog_format` till `row` om möjligt.",
+        "MysqlMaxPacketSize": "Max paketstorlek",
+        "MysqlMaxPacketSizeWarning": "Det rekommenderas att du konfigurerar en 'max_allowed_packet'-storlek i din MySQL-databas med minst %1$s. Konfigurerad är för närvarande %2$s.",
+        "ConfigFileIntroduction": "Här kan du se Matomo-konfigurationen. Om du kör Matomo i en belastningsbalanserad miljö kan sidan vara annorlunda beroende på vilken server denna sida laddas. Rader med en annan bakgrundsfärg är ändrade konfigurationsvärden som är specificerade till exempel i %1$s filen.",
         "HideUnchanged": "Om du vill se endast ändrade värden så kan du %1$s dölja alla oförändrade värden%2$s.",
-        "Sections": "Sektioner"
+        "Sections": "Sektioner",
+        "BrowserAndAutoArchivingEnabledLabel": "Webbläsare och automatisk arkivering aktiverat",
+        "BrowserAndAutoArchivingEnabledComment": "Det verkar som att både webbläsare och automatisk arkivering är aktiverade. Automatisk arkivering startade senast %3$s sedan. Om %1$sautomatisk arkivering%2$s är aktiverat bör du inaktivera webbläsararkivering i \"Allmänna inställningar\".",
+        "DatabaseReaderConnection": "Anslutning av databasläsare",
+        "DatabaseUtf8Requirement": "Detta krävs för att kunna lagra 4-byte UTF8-tecken. Om inte utf8mb4 finns så kommer specialtecken, som emojis, mindre vanliga tecken på asiatiska språk, olika historiska skript eller matematiska symboler att ersättas med%1$s. Du kan läsa mer information om detta ämne i %2$sdenna FAQ%3$s.",
+        "DatabaseUtf8mb4CharsetRecommended": "Din databas stödjer inte utf8mb4-teckenkodning än.",
+        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Din databas stödjer utf8mb4-teckenkodning, men dina databastabeller har inte konverterats ännu. Du kan göra detta genom att utföra kommandot %1$s eller genom att aktivera den automatiska konverteringen i Allmänna inställningar.",
+        "CronArchivingLastRunCheck": "Senaste avklarade arkiveringen",
+        "CronArchivingHasNotRun": "Arkiveringen har ännu inte körts.",
+        "CronArchivingHasNotRunInAWhile": "Arkiveringen kördes senast framgångsrikt i %1$s vilken är %2$s sedan.",
+        "CronArchivingRunDetails": "Kontrollera att du har ställt in en crontab som anropar %1$s konsolkommandot och att du har konfigurerat en %2$s för att ta emot fel via e-post om arkivering misslyckas. Du kan också försöka köra konsolkommandot för att arkivera dina rapporter manuellt: %3$s. %4$sLäs mer.%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "Arkiveringsprocessen slutfördes framgångsrikt för %1$s sedan.",
+        "BrowserTriggeredArchivingEnabled": "För optimal prestanda och en snabb Matomo rekommenderas det starkt att du ställer in en crontab för att automatiskt arkivera dina rapporter och inaktivera webbläsarutlösningen i Matomo-inställningarna. %1$sLäs mer.%2$s",
+        "NoDataForReportArchivingNotRun": "Arkiveringen av dina rapporter har inte genomförts på senaste tiden, %1$släs mer om hur du genererar dina rapporter.%2$s"
     }
 }

@@ -73,6 +73,7 @@
         "WidgetSearchNoResultKeywords": "Поисковые ключевые слова без результатов",
         "ActionType": "Тип действия",
         "ActionTypes": "Типы действия",
-        "Behaviour": "Содержание"
+        "Behaviour": "Содержание",
+        "PagesSubcategoryHelp3": "Используйте иконки плюс и минус слева для навигации"
     }
 }

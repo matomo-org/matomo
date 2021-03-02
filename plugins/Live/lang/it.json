@@ -59,6 +59,11 @@
         "SegmentedVisitorLogTitle": "Registro delle visite che mostra dove %1$s è \"%2$s\"",
         "OnClickPause": "%s è avviato. Clicca per mettere in pausa.",
         "OnClickStart": "%s è stato arrestato. Clicca per avviare.",
-        "ClickToSeeAllContents": "Clicca per vedere ogni interazione\/impressione con il contenuto"
+        "ClickToSeeAllContents": "Clicca per vedere ogni interazione\/impressione con il contenuto",
+        "VisitorLogSubcategoryHelp1": "Il registro delle visite mostra in dettaglio ogni visita ricevuta dal tuo sito web. Puoi vedere quali azioni ha intrapreso ogni visitatore, come è arrivato al tuo sito, un po' su chi sono e altro ancora (pur rispettando le normative locali sulla privacy).",
+        "VisitorLogSubcategoryHelp2": "Mentre altri report in Matomo mostrano come si comportano i tuoi visitatori a livello aggregato, il registro delle visite fornisce dettagli granulari. Puoi anche utilizzare i segmenti per restringere il campo a tipi specifici di visite per comprendere meglio i tuoi visitatori.",
+        "VisitorLogSubcategoryHelp3": "Ulteriori informazioni nella guida al Registro delle visite.",
+        "RealTimeHelp1": "Il report Visite in tempo reale mostra in tempo reale il flusso delle visite al tuo sito web. Include un contatore in tempo reale delle visite e delle visualizzazioni di pagina nelle ultime 24 ore e nei 30 minuti precedenti.",
+        "RealTimeHelp2": "Questo report si aggiorna ogni 5 secondi e mostra le nuove visite (o visitatori esistenti che visualizzano una nuova pagina) all'inizio dell'elenco con un effetto di dissolvenza in entrata."
     }
 }
