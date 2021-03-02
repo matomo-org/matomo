@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -21,9 +23,11 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     {
         parent::setUpBeforeClass();
 
+        $idSite = Fixture::createWebsite('2012-01-01 00:00:00');
         Fixture::createWebsite('2012-01-01 00:00:00');
         Fixture::createWebsite('2012-01-01 00:00:00');
-        Fixture::createWebsite('2012-01-01 00:00:00');
+
+        API::getInstance()->add('test segment', 'browserCode==IE', $idSite);
     }
 
     /**
@@ -112,7 +116,6 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             '--periods' => 'day',
             '--sites' => '1',
             '--segment' => array('ablksdjfdslkjf'),
-            '--yes' => true,
             '--dry-run' => true,
             '-vvv' => true,
         ));
@@ -135,7 +138,6 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             '--segment' => $segments ?: array(),
             '--dry-run' => true,
             '-vvv' => true,
-            '--yes' => true,
         );
 
         if (!empty($plugin)) {
@@ -384,6 +386,32 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'ExamplePlugin',
                 [
                     '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [  ], cascade = [ 0 ], plugin = [ ExamplePlugin ]',
+                ],
+            ],
+
+            // match segment by id
+            [
+                ['2015-05-04'],
+                'day',
+                '1',
+                false,
+                [1],
+                null,
+                [
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ browserCode==IE ], cascade = [ 0 ]',
+                ],
+            ],
+
+            // match segment by name
+            [
+                ['2015-05-04'],
+                'day',
+                '1',
+                false,
+                ['test segment'],
+                null,
+                [
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ browserCode==IE ], cascade = [ 0 ]',
                 ],
             ],
         );
