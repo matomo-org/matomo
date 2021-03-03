@@ -31,7 +31,8 @@ class SetTranslations extends TranslationBase
              ->setDescription('Sets new translations for a given language')
              ->addOption('code', 'c', InputOption::VALUE_REQUIRED, 'code of the language to set translations for')
              ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'json file to load new translations from')
-             ->addOption('plugin', 'pl', InputOption::VALUE_OPTIONAL, 'optional name of plugin to set translations for');
+             ->addOption('plugin', 'pl', InputOption::VALUE_OPTIONAL, 'optional name of plugin to set translations for')
+             ->addOption('validate', '', InputOption::VALUE_OPTIONAL, 'when set, the file will not be written, but validated. The given value will be used as filename to write filter results to.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -97,7 +98,24 @@ class SetTranslations extends TranslationBase
             return;
         }
 
-        $translationWriter->save();
+        if ($input->getOption('validate')) {
+            $translationWriter->applyFilters();
+            $filteredData = $translationWriter->getFilteredData();
+            unset($filteredData[EmptyTranslations::class]);
+
+            if (!empty($filteredData)) {
+                $content = "Filtered File: ".($plugin??'Base')." / ". $languageCode ."\n";
+                foreach ($filteredData as $filter => $data) {
+                    $content .= "- Filtered by: $filter\n";
+                    $content .= json_encode($data, JSON_PRETTY_PRINT);
+                    $content .= "\n";
+                }
+                $content .= "\n\n";
+                file_put_contents($input->getOption('validate'), $content, FILE_APPEND);
+            }
+        } else {
+            $translationWriter->save();
+        }
 
         $output->writeln("Finished.");
     }
