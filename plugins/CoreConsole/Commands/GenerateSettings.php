@@ -28,6 +28,8 @@ class GenerateSettings extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->throwErrorIfNotGitInstalled();
+
         $settingsType = $this->getSettingsType($input, $output);
         $settingsFilename = $settingsType . '.php';
 

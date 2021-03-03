@@ -18,6 +18,8 @@ use Piwik\Plugin\Manager;
 use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\SettingsPiwik;
+use Piwik\Exception\NotGitInstalledException;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
@@ -397,4 +399,10 @@ abstract class GeneratePluginBase extends ConsoleCommand
         return $contentToReplace;
     }
 
+    protected function throwErrorIfNotGitInstalled()
+    {
+        if (!SettingsPiwik::isGitDeployment()) {
+            throw new NotGitInstalledException('Using this feature Matomo has to be installed through git!');
+        }
+    }
 }
