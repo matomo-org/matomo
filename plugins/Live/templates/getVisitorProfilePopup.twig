@@ -60,7 +60,7 @@
 
                 {{ profileSummary|raw }}
 
-                {{ postEvent('Template.afterVisitorProfileOverview') }}
+                {{ postEvent('Template.afterVisitorProfileOverview', visitorData) }}
             </div>
             <div class="visitor-profile-visits-info">
                 <div class="visitor-profile-visits-container">
