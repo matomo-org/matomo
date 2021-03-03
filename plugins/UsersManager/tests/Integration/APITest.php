@@ -395,7 +395,7 @@ class APITest extends IntegrationTestCase
         $user2 = 'existed@example.com';
         $this->api->addUser($user2, 'password', 'userlogin2@password.de');
 
-        $this->api->updateUser($this->login, $this->password,  'existed@example.com', false, $this->password);
+        $this->api->updateUser($this->login, $this->password,  $user2, false, $this->password);
     }
 
     public function test_update_can_update_user_email_to_own_username()
@@ -405,10 +405,10 @@ class APITest extends IntegrationTestCase
         $this->api->addUser($user2, $password, 'ownemail_wrong@example.com');
 
         FakeAccess::$identity = $user2;
-        $this->api->updateUser($user2, $password, 'ownemail@example.com', false, $password);
+        $this->api->updateUser($user2, $password, $user2, false, $password);
 
         $user2Array = $this->api->getUser($user2);
-        $this->assertEquals($user2Array['email'], 'ownemail@example.com');
+        $this->assertEquals($user2Array['email'], $user2);
     }
 
     public function test_cannot_create_user_if_email_exists_as_username()
