@@ -619,7 +619,7 @@ class Twig
             $shortenWords = [];
 
             foreach ($words as $word) {
-                $shortenWords[] = strlen($word) > $limit ? substr($word, 0, $limit) . $append : $word;
+                $shortenWords[] = strlen($word) > $limit + 1 ? substr($word, 0, $limit) . $append : $word;
             }
 
             return implode(' ', $shortenWords);
