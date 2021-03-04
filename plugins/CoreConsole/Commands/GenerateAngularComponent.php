@@ -26,8 +26,6 @@ class GenerateAngularComponent extends GenerateAngularConstructBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $pluginName = $this->getPluginName($input, $output);
         $component  = $this->getConstructName($input, $output, $optionName = 'component', $constructType = 'component');
         $pluginPath = $this->getPluginPath($pluginName);

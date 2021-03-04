@@ -32,8 +32,6 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $pluginName  = $this->getPluginName($input, $output);
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
         $description = $this->getPluginDescription($input, $output);

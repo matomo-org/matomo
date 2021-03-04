@@ -35,8 +35,6 @@ class GeneratePlugin extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $isTheme     = $this->isTheme($input);
         $pluginName  = $this->getPluginName($input, $output);
         $description = $this->getPluginDescription($input, $output);

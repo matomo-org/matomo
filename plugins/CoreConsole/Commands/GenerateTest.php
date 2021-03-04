@@ -30,8 +30,6 @@ class GenerateTest extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $pluginName = $this->getPluginName($input, $output);
         $testType   = $this->getTestType($input, $output);
         $testName   = $this->getTestName($input, $output, $testType);

@@ -27,8 +27,6 @@ class GenerateUpdate extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $component = $this->getComponent($input, $output);
 
         $version   = $this->getVersion($component);

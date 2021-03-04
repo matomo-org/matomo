@@ -27,8 +27,6 @@ class GenerateController extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $pluginName = $this->getPluginName($input, $output);
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 

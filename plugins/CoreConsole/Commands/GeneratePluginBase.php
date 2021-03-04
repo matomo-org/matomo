@@ -23,6 +23,11 @@ use Piwik\Exception\NotGitInstalledException;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->throwErrorIfNotGitInstalled();
+    }
+
     public function isEnabled()
     {
         return Development::isEnabled();

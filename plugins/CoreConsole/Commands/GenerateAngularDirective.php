@@ -28,8 +28,6 @@ class GenerateAngularDirective extends GenerateAngularConstructBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->throwErrorIfNotGitInstalled();
-
         $pluginName = $this->getPluginName($input, $output);
         $directive  = $this->getConstructName($input, $output, $optionName = 'directive', $constructType = 'directive');
         $pluginPath = $this->getPluginPath($pluginName);
