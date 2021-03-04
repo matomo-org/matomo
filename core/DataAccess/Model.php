@@ -847,9 +847,10 @@ class Model
         while ($date->isEarlier($period->getDateEnd()->addPeriod(1, 'month'))) {
             $archiveTable = ArchiveTableCreator::getNumericTable($date);
 
+            $usableDoneFlags = [ArchiveWriter::DONE_OK, ArchiveWriter::DONE_INVALIDATED, ArchiveWriter::DONE_PARTIAL, ArchiveWriter::DONE_OK_TEMPORARY];
             $sql = "SELECT idarchive
                   FROM `$archiveTable`
-                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` = " . ArchiveWriter::DONE_OK . "
+                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN (" . implode(', ', $usableDoneFlags) . ")
                  LIMIT 1";
             $bind = [$idSite, $period->getDateStart()->getDatetime(), $period->getDateEnd()->getDatetime(), $period->getId()];
 
