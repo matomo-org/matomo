@@ -43,7 +43,7 @@ class Model
     public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false)
     {
         // to check for more entries increase the limit by one, but cut off the last entry before returning the result
-        if ($checkforMoreEntries) {
+        if ((int)$limit > -1 && $checkforMoreEntries) {
             $limit++;
         }
 
@@ -104,7 +104,7 @@ class Model
             }
         }
 
-        if ($checkforMoreEntries) {
+        if ((int)$limit > -1 && $checkforMoreEntries) {
             if (count($foundVisits) == $limit) {
                 array_pop($foundVisits);
                 return [$foundVisits, true];
