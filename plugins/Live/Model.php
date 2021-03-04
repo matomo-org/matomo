@@ -104,7 +104,7 @@ class Model
             }
         }
 
-        if ((int)$limit > -1 && $checkforMoreEntries) {
+        if ($checkforMoreEntries) {
             if (count($foundVisits) == $limit) {
                 array_pop($foundVisits);
                 return [$foundVisits, true];
