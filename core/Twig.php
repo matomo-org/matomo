@@ -182,6 +182,7 @@ class Twig
         $this->addFilter_onlyDomain();
         $this->addFilter_safelink();
         $this->addFilter_implode();
+        $this->addFilter_wordTruncate();
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
         $this->twig->addFilter(new TwigFilter('ucfirst', 'ucfirst'));
@@ -609,6 +610,22 @@ class Twig
             return implode($separator, $value);
         });
         $this->twig->addFilter($implode);
+    }
+
+    function addFilter_wordTruncate()
+    {
+        $wordtruncateFilter = new TwigFilter('wordtruncate', function ($value, $limit = 8, $append = '&hellip;') {
+            $words = explode(' ', $value);
+            $shortenWords = [];
+
+            foreach ($words as $word) {
+                $shortenWords[] = strlen($word) > $limit ? substr($word, 0, $limit) . $append : $word;
+            }
+
+            return implode(' ', $shortenWords);
+        });
+
+        $this->twig->addFilter($wordtruncateFilter);
     }
 
     private function addTest_isNumeric()
