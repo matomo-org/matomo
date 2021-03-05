@@ -66,7 +66,7 @@ class Model
 
         foreach ($queries as $queryRange) {
             $updatedLimit = $limit;
-            if (!empty($limit)) {
+            if (!empty($limit) && (int)$limit > -1) {
                 $updatedLimit = $limit - count($foundVisits);
             }
 
@@ -96,7 +96,7 @@ class Model
                 $foundVisits = array_merge($foundVisits, $visits);
             }
 
-            if ($limit && count($foundVisits) >= $limit) {
+            if ($limit > 0 && count($foundVisits) >= $limit) {
                 if (count($foundVisits) > $limit) {
                     $foundVisits = array_slice($foundVisits, 0, $limit);
                 }
