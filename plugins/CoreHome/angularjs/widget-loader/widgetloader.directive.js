@@ -181,7 +181,9 @@
                             cleanupLastWidgetContent();
 
                             scope.loading = false;
-                            scope.loadingFailed = true;
+                            $timeout(function (){
+                                scope.loadingFailed = true;
+                            }, 2000);
                         });
                     }
 
