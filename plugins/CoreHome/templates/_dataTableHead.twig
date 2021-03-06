@@ -12,7 +12,7 @@
                        {{ properties.metrics_documentation[column]|rawSafeDecoded|raw }}
                    </div>
                {% endif %}
-               <div id="thDIV" class="thDIV">{{ properties.translations[column]|default(column)|rawSafeDecoded|wordtruncate|raw }}</div>
+               <div id="thDIV" class="thDIV hyphenate">{{ properties.translations[column]|default(column)|rawSafeDecoded }}</div>
            </th>
        {% endfor %}
    </tr>

@@ -183,6 +183,7 @@ class Twig
         $this->addFilter_safelink();
         $this->addFilter_implode();
         $this->addFilter_wordTruncate();
+        $this->addFilter_wordwrap();
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
         $this->twig->addFilter(new TwigFilter('ucfirst', 'ucfirst'));
@@ -612,7 +613,29 @@ class Twig
         $this->twig->addFilter($implode);
     }
 
-    function addFilter_wordTruncate()
+    public function addFilter_wordwrap()
+    {
+        $wordwrapFilter = new TwigFilter('wordwrap', function ($value, $length = 8, $separator = '-') {
+            // return wordwrap($value, $length, $separator, true);
+            $sentences = [];
+            $pieces = mb_split($separator, $value);
+
+            foreach ($pieces as $piece) {
+                while (mb_strlen($piece) > $length) {
+                    $sentences[] = mb_substr($piece, 0, $length);
+                    $piece = mb_substr($piece, $length, 2048);
+                }
+
+                $sentences[] = $piece;
+            }
+
+            return implode($separator, $sentences);
+        });
+
+        $this->twig->addFilter($wordwrapFilter);
+    }
+
+    private function addFilter_wordTruncate()
     {
         $wordtruncateFilter = new TwigFilter('wordtruncate', function ($value, $limit = 8, $append = '&hellip;') {
             $words = explode(' ', $value);
