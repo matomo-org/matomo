@@ -24,6 +24,7 @@ use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -502,10 +503,13 @@ class CronArchive
         return $successCount;
     }
 
-    private function deleteInvalidatedArchives($archive)
+    // public for tests
+    public function deleteInvalidatedArchives($archive)
     {
         $idArchives = $this->model->getInvalidatedArchiveIdsAsOldOrOlderThan($archive);
-        if (!empty($idArchives)) {
+        if (!empty($idArchives)
+            && $archive['value'] != ArchiveWriter::DONE_PARTIAL
+        ) {
             $date = Date::factory($archive['date1']);
             $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);
         }
