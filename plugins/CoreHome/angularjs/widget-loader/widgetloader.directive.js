@@ -176,15 +176,16 @@
                                 return;
                             }
 
-                            if (response.xhrStatus === 'abort') {
-                                return;
-                            };
-
                             httpCanceler = null;
 
                             cleanupLastWidgetContent();
 
                             scope.loading = false;
+
+                            if (response.xhrStatus === 'abort') {
+                                return;
+                            };
+
                             scope.loadingFailed = true;
                         });
                     }
