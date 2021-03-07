@@ -170,20 +170,22 @@
                                     element: currentElement,
                                 });
                             });
-                        })['catch'](function () {
+                        })['catch'](function (response) {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
                             }
+
+                            if (response.xhrStatus === 'abort') {
+                                return;
+                            };
 
                             httpCanceler = null;
 
                             cleanupLastWidgetContent();
 
                             scope.loading = false;
-                            $timeout(function (){
-                                scope.loadingFailed = true;
-                            }, 2000);
+                            scope.loadingFailed = true;
                         });
                     }
 
