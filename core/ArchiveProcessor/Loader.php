@@ -421,13 +421,6 @@ class Loader
         return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
     }
 
-    public static function invalidateMinVisitTimeCache($idSite)
-    {
-        $cache = Cache::getLazyCache();
-        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
-        $cache->delete($cacheKey);
-    }
-
     public static function getArchivingDepth()
     {
         return self::$archivingDepth;
