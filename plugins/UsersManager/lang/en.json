@@ -183,6 +183,7 @@
         "NewsletterSignupTitle": "Newsletter Signup",
         "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on our %1$sPrivacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
-        "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon."
+        "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
+        "FirstWebsitePermission": "First website permission"
     }
 }
