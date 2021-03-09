@@ -1,6 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Konfigurationsfil",
+        "MysqlTemporaryTablesWarning": "MySQL-tillstånd CREATE TEMPORARY TABLES krävs för att Matomo ska fungera korrekt.",
         "MysqlTransactionLevel": "Ändring av transaktionsisoleringsnivå stöds inte. Arkivering kommer fortfarande att fungera men det kan gå långsammare och det rekommenderas att ändra till exempel `binlog_format` till `row` om möjligt.",
         "MysqlMaxPacketSize": "Max paketstorlek",
         "MysqlMaxPacketSizeWarning": "Det rekommenderas att du konfigurerar en 'max_allowed_packet'-storlek i din MySQL-databas med minst %1$s. Konfigurerad är för närvarande %2$s.",

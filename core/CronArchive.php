@@ -499,9 +499,6 @@ class CronArchive
 
         $this->requests += count($urls);
 
-        $idInvalidations = array_column($archives, 'idinvalidation');
-        $this->checkNoDanglingInvalidations($idInvalidations);
-
         return $successCount;
     }
 
@@ -1318,27 +1315,6 @@ class CronArchive
         }
 
         return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
-    }
-
-    /**
-     * @deprecaed
-     */
-    public function checkNoDanglingInvalidations(array $idInvalidations)
-    {
-        $table = Common::prefixTable('archive_invalidations');
-        $idInvalidations = array_map('intval', $idInvalidations);
-
-        $sql = "SELECT idinvalidation FROM `$table` WHERE idinvalidation IN (" . implode(',', $idInvalidations) . ") AND status = "
-            . ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS;
-
-        $inProgress = Db::fetchAll($sql);
-        $inProgress = array_column($inProgress, 'idinvalidation');
-
-        if (!empty($inProgress)) {
-            $this->logger->error("Found dangling invalidations that were not correctly reset or removed, this should be reported on the forums: {invalidations}", [
-                'idinvalidations' => json_encode($inProgress),
-            ]);
-        }
     }
 
     private function siteExists($idSite)

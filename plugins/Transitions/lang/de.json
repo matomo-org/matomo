@@ -2,15 +2,15 @@
     "Transitions": {
         "BouncesInline": "%s Absprünge",
         "DirectEntries": "Direkte Eingaben",
-        "Transitions": "Übergänge",
+        "Transitions": "Transitionen",
         "ErrorBack": "Gehe zurück zur letzten Aktion",
         "ExitsInline": "%s Ausstiege",
         "NumPageviews": "%s Seitenansichten",
         "NumDownloads": "%s Downloads",
         "NumOutlinks": "%s ausgehende Verweise",
         "TopX": "Top %s Beschriftungen",
-        "FeatureDescription": "Übergänge zeigen Ihnen auf, was genau Ihre Besucher machten bevor und nachdem sie eine bestimmte Seite aufgerufen haben. Diese Seite erklärt wie man zum Übergangsbericht kommt, wie man ihn versteht und wie man ihn nutzt.",
-        "AvailableInOtherReports": "Schon gewusst? Übergänge sind auch als Zeilenaktionen in folgenden Berichten verfügbar:",
+        "FeatureDescription": "Mit Transitionen erhalten Sie einen Bericht, der zeigt, was Ihre Besucher direkt vor und nach dem Betrachten einer bestimmten Seite getan haben. Auf dieser Seite wird erklärt, wie Sie auf den leistungsstarken Bericht \"Transitionen\" zugreifen, ihn verstehen und verwenden können.",
+        "AvailableInOtherReports": "Schon gewusst? Transitionen sind auch als Zeilenaktionen in folgenden Berichten verfügbar:",
         "AvailableInOtherReports2": "Fahren Sie einfach über eine Zeile einer dieser Berichte und klicken Sie auf das Übergangsicon %s um ihn aufzurufen.",
         "FromCampaigns": "Von Kampagnen",
         "FromPreviousPages": "Von internen Seiten",
@@ -25,7 +25,7 @@
         "NoDataForAction": "Es sind keine Daten für %s verfügbar",
         "NoDataForActionDetails": "Entweder hatte diese Aktion während des Zeitraums %s keine Seitenansichten oder sie ist ungültig.",
         "OutgoingTraffic": "Ausgehender Traffic",
-        "PluginDescription": "Berichte über vergangene und zukünftige Aktionen für jede Seiten-URL in einem neuen Transitions-Bericht, aufrufbar im Aktionen-Bericht über ein neues Icon.",
+        "PluginDescription": "Zeigt vorherige und nachfolgende Aktionen für jede Seiten-URL in einem neuen Bericht \"Transitionen\" an, der in den \"Aktionen\"-Berichten über ein neues Icon verfügbar ist.",
         "ShareOfAllPageviews": "Diese Seite wurde %1$s mal angesehen (%2$s aller Seitenansichten)",
         "ToFollowingPages": "Zu internen Seiten",
         "ToFollowingPagesInline": "%s zu internen Seiten",
@@ -34,7 +34,7 @@
         "XOfAllPageviews": "%s von allen Seitenansichten",
         "XOutOfYVisits": "%1$s (von insgesamt %2$s)",
         "PageURLTransitions": "Seiten URL Übergänge",
-        "TransitionsSubcategoryHelp1": "Übergänge zeigen Ihnen auf, was genau Ihre Besucher machten bevor und nachdem sie eine bestimmte Seite aufgerufen haben. Diese Seite erklärt wie man zum Übergangsbericht kommt, wie man ihn versteht und wie man ihn nutzt.",
+        "TransitionsSubcategoryHelp1": "Mit Transitionen erhalten Sie einen Bericht, der zeigt, was Ihre Besucher direkt vor und nach dem Betrachten einer bestimmten Seite getan haben. Auf dieser Seite wird erklärt, wie Sie auf den leistungsstarken Bericht \"Transitionen\" zugreifen, ihn verstehen und verwenden können.",
         "TransitionsSubcategoryHelp2": "Mehr Details"
     }
 }

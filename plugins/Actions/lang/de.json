@@ -81,6 +81,9 @@
         "ActionTypes": "Aktionstypen",
         "Behaviour": "Verhalten",
         "TimeSpentInReferringAction": "Verwendete Zeit für Verweisaktionen",
-        "PagesSubcategoryHelp3": "Benutzen Sie zur Navigation die Symbole Plus und Minus auf der linken Seite."
+        "PagesSubcategoryHelp3": "Benutzen Sie zur Navigation die Symbole Plus und Minus auf der linken Seite.",
+        "SiteSearchSubcategoryHelp3": "Weitere Informationen finden Sie in der Anleitung zur internen Suche.",
+        "DownloadsSubcategoryHelp1": "In diesem Bericht können Sie sehen, welche Dateien Ihre Besucher heruntergeladen haben.",
+        "DownloadsSubcategoryHelp2": "Als Download zählt bei Matomo der Klick auf einen Download-Link. Ob der Download abgeschlossen wurde oder nicht, ist Matomo nicht bekannt."
     }
 }

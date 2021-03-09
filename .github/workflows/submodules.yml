@@ -44,10 +44,12 @@ jobs:
       run: git submodule foreach "git checkout 4.x-dev || git checkout master; git pull --ff-only"
     - name: Check for changes
       id: changes
+      continue-on-error: true
       run: |
-          git submodule | grep -oE '^\+[0-9a-f]+ ([A-z\/\-]+)' | cut -d' ' -f 2 | xargs git add
+          git submodule | grep -oE '^\+[0-9a-f]+ ([A-z\/\-]+)' | cut -d' ' -f 2 | xargs -r git add
           IFS=$'\n'
-          changes=( $(git diff --staged --numstat | grep -oE '[A-z0-9\/\-]{2,}' ) )
+          changes=( $(git diff --staged --numstat | grep -oE '[A-z0-9\/\-]{2,}' || true ) )
+          unset IFS
 
           # abort here if no change available
           if [[ ${#changes[@]} -eq 0 ]]
@@ -69,6 +71,8 @@ jobs:
       run: |
           git commit -m "updates all submodules"
           git push --set-upstream origin submodules
+      shell: bash
+      if: steps.changes.outputs.message
     - name: Create PR    
       run: |
           curl \

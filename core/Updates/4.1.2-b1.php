@@ -57,16 +57,16 @@ class Updates_4_1_2_b1 extends PiwikUpdates
 
             $segments = API::getInstance()->getAll();
             foreach ($segments as $segment) {
-                $tsCreated = !empty($segment['ts_created']) ? Date::factory($segment['ts_created'])->getTimestamp() : 0;
-                $tsLastEdit = !empty($segment['ts_last_edit']) ? Date::factory($segment['ts_last_edit'])->getTimestamp() : null;
-                $timeToUse = max($tsCreated, $tsLastEdit);
+                try {
+                    $tsCreated = !empty($segment['ts_created']) ? Date::factory($segment['ts_created'])->getTimestamp() : 0;
+                    $tsLastEdit = !empty($segment['ts_last_edit']) ? Date::factory($segment['ts_last_edit'])->getTimestamp() : null;
+                    $timeToUse = max($tsCreated, $tsLastEdit);
 
-                if ($timeToUse > $timeOfLastInvalidateTime) {
-                    try {
+                    if ($timeToUse > $timeOfLastInvalidateTime) {
                         $segmentArchiving->reArchiveSegment($segment);
-                    } catch (\Exception $ex) {
-                        // ignore
                     }
+                } catch (\Exception $ex) {
+                    // ignore
                 }
             }
         }, '');

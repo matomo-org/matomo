@@ -31,6 +31,8 @@ use Psr\Log\LoggerInterface;
  */
 class Loader
 {
+    private static $archivingDepth = 0;
+
     /**
      * @var Parameters
      */
@@ -91,7 +93,12 @@ class Loader
     public function prepareArchive($pluginName)
     {
         return Context::changeIdSite($this->params->getSite()->getId(), function () use ($pluginName) {
-            return $this->prepareArchiveImpl($pluginName);
+            try {
+                ++self::$archivingDepth;
+                return $this->prepareArchiveImpl($pluginName);
+            } finally {
+                --self::$archivingDepth;
+            }
         });
     }
 
@@ -414,10 +421,8 @@ class Loader
         return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
     }
 
-    public static function invalidateMinVisitTimeCache($idSite)
+    public static function getArchivingDepth()
     {
-        $cache = Cache::getLazyCache();
-        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
-        $cache->delete($cacheKey);
+        return self::$archivingDepth;
     }
 }

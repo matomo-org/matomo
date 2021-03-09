@@ -329,10 +329,6 @@ class ArchiveInvalidator
 
         $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
 
-        foreach ($idSites as $idSite) {
-            Loader::invalidateMinVisitTimeCache($idSite);
-        }
-
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
         if ($isInvalidatingDays
