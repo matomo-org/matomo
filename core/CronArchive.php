@@ -767,6 +767,14 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
     {
+        \Piwik\Tracker\Cache::withDelegatedCacheClears(function () use ($idSiteToInvalidate) {
+            $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgainImpl($idSiteToInvalidate);
+        });
+    }
+
+    private function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgainImpl($idSiteToInvalidate)
+    {
+        // withDelegatedCacheClears
         if (empty($this->segmentArchiving)) {
             // might not be initialised if init is not called
             $this->segmentArchiving = StaticContainer::get(SegmentArchiving::class);
