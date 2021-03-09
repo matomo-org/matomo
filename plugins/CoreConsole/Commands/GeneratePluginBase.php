@@ -406,9 +406,9 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function throwErrorIfNotGitInstalled()
     {
-        if (SettingsPiwik::isGitDeployment()) {
+        if (!SettingsPiwik::isGitDeployment()) {
             $url = 'https://developer.matomo.org/guides/getting-started-part-1';
-            throw new NotGitInstalledException("Using this feature Matomo has to be installed through git. For more information please visit {$url}.");
+            throw new NotGitInstalledException("This development feature requires Matomo to be checked out from git. For more information please visit {$url}.");
         }
     }
 }
