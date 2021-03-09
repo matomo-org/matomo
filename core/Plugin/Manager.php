@@ -1600,13 +1600,22 @@ class Manager
     }
 
     /**
-     * @param $pluginName
+     * @param string $pluginName
+     * @param bool $checkPluginExistsInFilesystem if enabled, it won't rely on the information in the config file only
+     *                                            but also check the filesystem if the plugin really is installed.
+     *                                            For performance reasons this is not the case by default.
      * @return bool
      */
-    public function isPluginInstalled($pluginName)
+    public function isPluginInstalled($pluginName, $checkPluginExistsInFilesystem = false)
     {
         $pluginsInstalled = $this->getInstalledPluginsName();
-        return in_array($pluginName, $pluginsInstalled);
+        $isInstalledInConfig = in_array($pluginName, $pluginsInstalled);
+
+        if ($isInstalledInConfig && $checkPluginExistsInFilesystem) {
+            return $this->isPluginInFilesystem($pluginName);
+        }
+
+        return $isInstalledInConfig;
     }
 
     private function removeInstalledVersionFromOptionTable($name)
