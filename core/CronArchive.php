@@ -343,7 +343,9 @@ class CronArchive
         }
 
         $this->logger->debug("Applying queued rearchiving...");
-        $this->invalidator->applyScheduledReArchiving();
+        \Piwik\Tracker\Cache::withDelegatedCacheClears(function () {
+            $this->invalidator->applyScheduledReArchiving();
+        });
 
         $failedJobs = $this->model->resetFailedArchivingJobs();
         if ($failedJobs) {
