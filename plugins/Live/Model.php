@@ -43,7 +43,7 @@ class Model
     public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false)
     {
         // to check for more entries increase the limit by one, but cut off the last entry before returning the result
-        if ($checkforMoreEntries) {
+        if ((int)$limit > -1 && $checkforMoreEntries) {
             $limit++;
         }
 
@@ -66,7 +66,7 @@ class Model
 
         foreach ($queries as $queryRange) {
             $updatedLimit = $limit;
-            if (!empty($limit)) {
+            if (!empty($limit) && (int)$limit > -1) {
                 $updatedLimit = $limit - count($foundVisits);
             }
 
@@ -96,7 +96,7 @@ class Model
                 $foundVisits = array_merge($foundVisits, $visits);
             }
 
-            if ($limit && count($foundVisits) >= $limit) {
+            if ($limit > 0 && count($foundVisits) >= $limit) {
                 if (count($foundVisits) > $limit) {
                     $foundVisits = array_slice($foundVisits, 0, $limit);
                 }
