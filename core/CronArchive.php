@@ -774,7 +774,6 @@ class CronArchive
 
     private function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgainImpl($idSiteToInvalidate)
     {
-        // withDelegatedCacheClears
         if (empty($this->segmentArchiving)) {
             // might not be initialised if init is not called
             $this->segmentArchiving = StaticContainer::get(SegmentArchiving::class);
