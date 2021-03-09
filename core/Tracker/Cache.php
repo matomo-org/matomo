@@ -294,21 +294,18 @@ class Cache
             self::$delegatingCacheClears = true;
             self::$delegatedClears = [];
 
-            $result = $callback();
+            return $callback();
+        } finally {
+            self::$delegatingCacheClears = false;
 
             self::callAllDelegatedClears();
 
-            return $result;
-        } finally {
-            self::$delegatingCacheClears = false;
             self::$delegatedClears = [];
         }
     }
 
     private static function callAllDelegatedClears()
     {
-        self::$delegatingCacheClears = false;
-
         foreach (self::$delegatedClears as list($methodName, $params)) {
             if (!method_exists(self::class, $methodName)) {
                 continue;
