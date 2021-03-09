@@ -14,6 +14,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Map;
+use Piwik\Exception\InvalidDimensionException;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -493,6 +494,8 @@ class API extends \Piwik\Plugin\API
 
             // render graph
             $graph->renderGraph();
+        } catch (InvalidDimensionException $e) {
+            throw new Exception('Error: the graph dimension is not valid. Please try larger width and height values or use 0 for default values.');
         } catch (\Exception $e) {
 
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();

@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use Piwik\Exception\InvalidDimensionException;
 use Piwik\Plugins\ImageGraph\StaticGraph;
-use Piwik\Log;
 
 /**
  *
@@ -128,8 +128,7 @@ abstract class GridGraph extends StaticGraph
 
         $ordinateAxisLength =
             $horizontalGraph ? $bottomRightXValue - $topLeftXValue : $this->getGraphHeight($horizontalGraph, $verticalLegend);
-// $ordinateAxisLength = 1;
-            Log::debug('ordinatee ' . $ordinateAxisLength);
+
         $maxOrdinateValue = 0;
         foreach ($this->ordinateSeries as $column => $data) {
             $currentMax = $this->pData->getMax($column);
@@ -146,7 +145,11 @@ abstract class GridGraph extends StaticGraph
                 $maxOrdinateValue += 10 - $modTen;
             }
         }
-$ordinateAxisLength = $ordinateAxisLength < 2 ? 10 : $ordinateAxisLength;
+
+        if (($bottomRightYValue - $topLeftYValue) <= ($ordinateAxisLength / 2)) {
+            throw new InvalidDimensionException();
+        }
+
         $gridColor = $this->gridColor;
         $this->pImage->drawScale(
             array(
@@ -375,9 +378,6 @@ $ordinateAxisLength = $ordinateAxisLength < 2 ? 10 : $ordinateAxisLength;
 
     protected function getGraphHeight($horizontalGraph, $verticalLegend)
     {
-        Log::debug('a ' . $this->getGraphBottom($horizontalGraph));
-        Log::debug('a ' . $this->getGridTopMargin($horizontalGraph, $verticalLegend));
-
         return $this->getGraphBottom($horizontalGraph) - $this->getGridTopMargin($horizontalGraph, $verticalLegend);
     }
 
