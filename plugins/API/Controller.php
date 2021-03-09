@@ -64,7 +64,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
-        $hostname = @parse_url($prefixUrls, PHP_URL_HOST);
+        $hostname = parse_url($prefixUrls, PHP_URL_HOST);
         if (!UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($hostname)) {
             $prefixUrls = '';
         }
