@@ -21,11 +21,21 @@ use Piwik\Exception\Exception;
 class Filesystem
 {
     /**
+     * @var bool
+     * @internal
+     */
+    public static $skipCacheClearOnUpdate = false;
+
+    /**
      * Called on Core install, update, plugin enable/disable
      * Will clear all cache that could be affected by the change in configuration being made
      */
     public static function deleteAllCacheOnUpdate($pluginName = false)
     {
+        if (self::$skipCacheClearOnUpdate) {
+            return;
+        }
+
         AssetManager::getInstance()->removeMergedAssets($pluginName);
         View::clearCompiledTemplates();
         TrackerCache::deleteTrackerCache();
