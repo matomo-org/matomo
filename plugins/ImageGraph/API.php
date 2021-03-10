@@ -495,7 +495,7 @@ class API extends \Piwik\Plugin\API
             // render graph
             $graph->renderGraph();
         } catch (InvalidDimensionException $e) {
-            throw new Exception('Error: the graph dimension is not valid. Please try larger width and height values or use 0 for default values.');
+            throw $e;
         } catch (\Exception $e) {
 
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();

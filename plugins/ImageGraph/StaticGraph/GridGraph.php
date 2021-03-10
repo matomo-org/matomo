@@ -147,7 +147,7 @@ abstract class GridGraph extends StaticGraph
         }
 
         if (($bottomRightYValue - $topLeftYValue) <= ($ordinateAxisLength / 2)) {
-            throw new InvalidDimensionException();
+            throw new InvalidDimensionException('Error: the graph dimension is not valid. Please try larger width and height values or use 0 for default values.');
         }
 
         $gridColor = $this->gridColor;
