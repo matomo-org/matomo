@@ -99,13 +99,11 @@
             expect(result.endDate).to.eql(clearDate(last));
         });
 
-        function mockDateNow01() {
-            return clearDate('2021-03-31').getTime();
-        }
-
         it('should parse last month properly when date is 31th march', function() {
             originalDateNow = Date.now;
-            Date.now = mockDateNow01;
+            Date.now = function() {
+                return clearDate('2021-03-31').getTime();
+            }
 
             var result = piwikPeriods.parseDate('last month');
 
@@ -114,13 +112,11 @@
             Date.now = originalDateNow;
         });
 
-        function mockDateNow02() {
-            return clearDate('2021-03-10').getTime();
-        }
-
         it('should parse last month properly', function() {
             originalDateNow = Date.now;
-            Date.now = mockDateNow02;
+            Date.now = function() {
+                return clearDate('2021-03-10').getTime();
+            };
 
             var result = piwikPeriods.parseDate('last month');
 
