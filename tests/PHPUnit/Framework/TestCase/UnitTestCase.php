@@ -9,6 +9,8 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Application\Environment;
+use Piwik\Container\StaticContainer;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\File;
 
 /**
@@ -45,12 +47,14 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 
         $this->initEnvironment();
 
+        Fixture::clearInMemoryCaches();
         File::reset();
     }
 
     public function tearDown(): void
     {
         File::reset();
+        Fixture::clearInMemoryCaches();
 
         // make sure the global container exists for the next test case that is executed (since logging can be done
         // before a test sets up an environment)

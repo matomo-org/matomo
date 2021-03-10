@@ -381,17 +381,18 @@ class Fixture extends \PHPUnit\Framework\Assert
             $this->dropDatabase();
         }
 
-        $this->clearInMemoryCaches();
+        self::clearInMemoryCaches();
 
         Log::unsetInstance();
 
         $this->destroyEnvironment();
     }
 
-    public function clearInMemoryCaches()
+    public static function clearInMemoryCaches()
     {
         Date::$now = null;
         FrontController::$requestId = null;
+        Cache::$cache = null;
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
