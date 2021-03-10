@@ -502,7 +502,9 @@ class ArchiveInvalidator
         }
 
         $this->markArchivesAsInvalidated($idSites, $dates, 'day', $segment, $cascadeDown = false, $forceInvalidateRanges = false, $name);
-        if (empty($segment)) {
+        if (empty($segment)
+            && Rules::shouldProcessSegmentsWhenReArchivingReports()
+        ) {
             foreach ($idSites as $idSite) {
                 foreach (Rules::getSegmentsToProcess([$idSite]) as $segment) {
                     $this->markArchivesAsInvalidated($idSites, $dates, 'day', new Segment($segment, [$idSite]),
@@ -576,7 +578,7 @@ class ArchiveInvalidator
 
                 $idSites = Site::getIdSitesFromIdSitesString($entry['idSites']);
                 $this->reArchiveReport(
-                    $entry['idSites'],
+                    $idSites,
                     $entry['pluginName'],
                     $entry['report'],
                     !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null,
