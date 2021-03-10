@@ -508,7 +508,7 @@ class CronArchive
     {
         $idArchives = $this->model->getInvalidatedArchiveIdsAsOldOrOlderThan($archive);
         if (!empty($idArchives)
-            && !empty($archive['report'])
+            && empty($archive['report'])
         ) {
             $date = Date::factory($archive['date1']);
             $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);

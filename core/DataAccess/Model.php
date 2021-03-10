@@ -366,14 +366,14 @@ class Model
     {
         $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
         $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `value` IN ("
-            . ArchiveWriter::DONE_INVALIDATED . ") AND idarchive <= ?";
+            . ArchiveWriter::DONE_INVALIDATED . ") AND ts_archived <= ?";
         $bind = [
             $archive['idsite'],
             $archive['period'],
             $archive['date1'],
             $archive['date2'],
             $archive['name'],
-            $archive['idarchive'],
+            $archive['ts_invalidated'],
         ];
 
         $result = Db::fetchAll($sql, $bind);

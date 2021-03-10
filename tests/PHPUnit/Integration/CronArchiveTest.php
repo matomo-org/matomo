@@ -65,13 +65,13 @@ class CronArchiveTest extends IntegrationTestCase
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
                 ],
                 [
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-04 00:03:00'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-04 00:13:00'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-03-04 01:03:00'],
                 ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
-                [2,3],
+                ['idinvalidation' => 1, 'idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
                 [3],
+                [2,3],
             ],
 
             // partial archive, existing normal
@@ -82,14 +82,14 @@ class CronArchiveTest extends IntegrationTestCase
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
                 ],
                 [
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_INVALIDATED],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-03 14:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-03 15:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-03 16:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-04 16:32:03'],
                 ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.MyPlugin', 'report' => 'abc', 'ts_invalidated' => '2020-03-04 01:00:00'],
-                [2,3],
+                ['idinvalidation' => 1, 'idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.MyPlugin', 'report' => 'abc', 'ts_invalidated' => '2020-03-04 01:00:00'],
                 [1,2,3,4],
+                [2,3],
             ],
 
             // normal archive, existing partial
@@ -100,17 +100,17 @@ class CronArchiveTest extends IntegrationTestCase
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
                 ],
                 [
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_INVALIDATED],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_OK],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL],
-                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-03 14:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-03 15:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-03 16:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-04 17:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-03-04 18:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-04 19:02:03'],
+                    ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'name' => 'done.MyPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-04 20:02:03'],
                 ],
-                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.MyPlugin', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                ['idinvalidation' => 1, 'idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.MyPlugin', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [3,4,5,6],
                 [2,3],
-                [3,4,5],
             ],
         ];
     }
@@ -1031,7 +1031,7 @@ LOG;
     private function getAllIdArchivesByTable()
     {
         $result = [];
-        foreach (ArchiveTableCreator::getTablesArchivesInstalled('archive_numeric', true) as $table) {
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled('numeric', true) as $table) {
             $sql = "SELECT DISTINCT idarchive FROM " . $table;
             $data = Db::fetchAll($sql);
             $data = array_column($data, 'idarchive');
@@ -1042,7 +1042,7 @@ LOG;
 
     private function getAllIdInvalidations()
     {
-        $sql = "SELECT DISTINCT idinvalidation FROM " . Common::prefixTable('archive_invalidations');
+        $sql = "SELECT DISTINCT idinvalidation FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation ASC";
         $data = Db::fetchAll($sql);
         $data = array_column($data, 'idinvalidation');
         return $data;
