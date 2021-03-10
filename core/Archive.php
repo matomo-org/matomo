@@ -168,6 +168,14 @@ class Archive implements ArchiveQuery
     private static $cache;
 
     /**
+     * If true, this Archive instance will not launch the archiving process, even if the current request
+     * is authorized to.
+     *
+     * @var bool
+     */
+    private $forceFetchingWithoutLaunchingArchiving;
+
+    /**
      * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
@@ -557,7 +565,9 @@ class Archive implements ArchiveQuery
 
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())) {
+            if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
+                && !$this->forceFetchingWithoutLaunchingArchiving
+            ) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -851,5 +861,10 @@ class Archive implements ArchiveQuery
     public static function clearStaticCache()
     {
         self::$cache = null;
+    }
+
+    public function forceFetchingWithoutLaunchingArchiving()
+    {
+        $this->forceFetchingWithoutLaunchingArchiving = true;
     }
 }
