@@ -126,6 +126,7 @@
             startMonth.setDate(1);
 
             var endMonth = new Date(this.dateInPeriod.getTime());
+            endMonth.setDate(1);
             endMonth.setMonth(endMonth.getMonth() + 1);
             endMonth.setDate(0);
 
