@@ -348,6 +348,7 @@
 
         if (strDate.match(/last[ -]?month/i)) {
             var lastMonth = getToday();
+            lastMonth.setDate(1);
             lastMonth.setMonth(lastMonth.getMonth() - 1);
             return lastMonth;
         }

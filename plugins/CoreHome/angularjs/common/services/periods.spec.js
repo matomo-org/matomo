@@ -98,5 +98,35 @@
             expect(result.startDate).to.eql(clearDate(first));
             expect(result.endDate).to.eql(clearDate(last));
         });
+
+        function mockDateNow01() {
+            return clearDate('2021-03-31').getTime();
+        }
+
+        it('should parse last month properly when date is 31th march', function() {
+            originalDateNow = Date.now;
+            Date.now = mockDateNow01;
+
+            var result = piwikPeriods.parseDate('last month');
+
+            expect(result.getMonth()).to.eql(1); // 1 is February
+
+            Date.now = originalDateNow;
+        });
+
+        function mockDateNow02() {
+            return clearDate('2021-03-10').getTime();
+        }
+
+        it('should parse last month properly', function() {
+            originalDateNow = Date.now;
+            Date.now = mockDateNow02;
+
+            var result = piwikPeriods.parseDate('last month');
+
+            expect(result.getMonth()).to.eql(1); // 1 is February
+
+            Date.now = originalDateNow;
+        });
     });
 })();
