@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.3.0
+
+### Track JavaScript errors only once per page view
+
+* The same JavaScript error will be only tracked once per page view. If the very same error is happening multiple times, then it will be tracked only once within the same page view. If another page view is tracked or when the page reloads, then the error will be tracked again.
+
 ## Matomo 4.2.0
 
 ### New config.ini.php settings
@@ -1052,4 +1058,3 @@ We are using `@since` annotations in case we are introducing new API's to make i
  -->
 
 Find the general Matomo Changelogs for each release at [matomo.org/changelog](https://matomo.org/changelog/)
- 
