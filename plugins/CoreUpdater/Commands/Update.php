@@ -42,6 +42,7 @@ class Update extends ConsoleCommand
         $this->setDescription(Piwik::translate('CoreUpdater_ConsoleCommandDescription'));
 
         $this->addOption('yes', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
+        $this->addOption('skip-cache-clear', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_SkipCacheClearDesc'));
     }
 
     /**
@@ -49,33 +50,44 @@ class Update extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->executeClearCaches();
-
-        $yes = $input->getOption('yes');
-
+        $skipCacheClear = $input->getOption('skip-cache-clear');
         try {
-            $this->makeUpdate($input, $output, true);
+            if ($skipCacheClear) {
+                $output->writeln(Piwik::translate('CoreUpdater_SkipCacheClear'));
 
-            if (!$yes) {
-                $yes = $this->askForUpdateConfirmation($input, $output);
+                Filesystem::$skipCacheClearOnUpdate = true;
             }
 
-            if ($yes) {
-                $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
+            $this->executeClearCaches();
 
-                $this->makeUpdate($input, $output, false);
+            $yes = $input->getOption('yes');
 
-                $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
-            } else {
-                $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted')));
+            try {
+                $this->makeUpdate($input, $output, true);
+
+                if (!$yes) {
+                    $yes = $this->askForUpdateConfirmation($input, $output);
+                }
+
+                if ($yes) {
+                    $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
+
+                    $this->makeUpdate($input, $output, false);
+
+                    $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
+                } else {
+                    $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted')));
+                }
+
+                $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser($output);
+
+
+            } catch (NoUpdatesFoundException $e) {
+                // Do not fail if no updates were found
+                $this->writeSuccessMessage($output, array($e->getMessage()));
             }
-
-            $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser($output);
-
-
-        } catch(NoUpdatesFoundException $e) {
-            // Do not fail if no updates were found
-            $this->writeSuccessMessage($output, array($e->getMessage()));
+        } finally {
+            Filesystem::$skipCacheClearOnUpdate = false;
         }
     }
 
