@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
@@ -16,6 +17,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -158,6 +160,14 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
 
             unset($action['url_prefix']);
+        }
+
+        if (array_key_exists('url', $action) && strpos($action['url'], 'http://') === 0) {
+            $host = parse_url($action['url'], PHP_URL_HOST);
+
+            if ($host && PageUrl::shouldUseHttpsHost($visitorDetails['idSite'], $host)) {
+                $action['url'] = 'https://' . Common::mb_substr($action['url'], 7 /* = strlen('http://') */);
+            }
         }
 
         switch ($action['type']) {
