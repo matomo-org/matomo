@@ -261,12 +261,13 @@ class Parameters
     {
         $temporary = 'definitive archive';
         Log::debug(
-            "%s archive, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
+            "%s archive, idSite = %d (%s), segment '%s', plugin = '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->getPeriod()->getLabel(),
             $this->getSite()->getId(),
             $temporary,
             $this->getSegment()->getString(),
             $this->getRequestedPlugin(),
+            $this->getArchiveOnlyReport(),
             $this->getDateStart()->getDateStartUTC(),
             $this->getDateEnd()->getDateEndUTC()
         );
@@ -297,7 +298,7 @@ class Parameters
 
     public function __toString()
     {
-        return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}, plugin = {$this->getRequestedPlugin()}]";
+        return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}, plugin = {$this->getRequestedPlugin()}, report = {$this->getArchiveOnlyReport()}]";
     }
 
     /**
