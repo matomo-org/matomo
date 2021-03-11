@@ -846,7 +846,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>50%</exit_rate>
-				<url>http://example2.com/home#notIgnoredFragment</url>
+				<url>https://example2.com/home#notIgnoredFragment</url>
 				<segment>pageUrl==http%253A%252F%252Fexample2.com%252Fhome%2523notIgnoredFragment</segment>
 			</row>
 			<row>

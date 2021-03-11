@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Common;
 use Piwik\Config;
@@ -350,8 +351,8 @@ class PageUrl
     {
         $cache = Cache::getTransientCache();
 
-        $cacheKeySiteUrls = sprintf('siteurls-%s', $idSite);
-        $cacheKeyHttpsForHost = sprintf('shouldusehttps-%s-%s', $idSite, $host);
+        $cacheKeySiteUrls = CacheId::siteAware('siteurls', [$idSite]);
+        $cacheKeyHttpsForHost = CacheId::siteAware(sprintf('shouldusehttps-%s', $host), [$idSite]);
 
         $siteUrlCache = $cache->fetch($cacheKeySiteUrls);
 
@@ -364,7 +365,7 @@ class PageUrl
             $hostSiteCache = false;
 
             foreach ($siteUrlCache as $siteUrl) {
-                if (strpos(strtolower($siteUrl), strtolower('https://' . $host)) === 0) {
+                if (strpos(Common::mb_strtolower($siteUrl), Common::mb_strtolower('https://' . $host)) === 0) {
                     $hostSiteCache = true;
                     break;
                 }
