@@ -13,6 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
+use Piwik\Exception\NotYetInstalledException;
 use Piwik\Http\HttpCodeException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -75,6 +76,8 @@ class ExceptionHandler
             && $exception->getCode() > 0
         ) {
             http_response_code($exception->getCode());
+        } elseif ($exception instanceof NotYetInstalledException) {
+            http_response_code(404);
         } else {
             http_response_code(500);
         }

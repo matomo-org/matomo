@@ -235,7 +235,7 @@ class Plugins
             return true;
         }
 
-        return $this->pluginManager->isPluginInstalled($pluginName);
+        return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
     private function enrichPluginInformation($plugin)

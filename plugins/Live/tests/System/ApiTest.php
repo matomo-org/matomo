@@ -97,6 +97,33 @@ class ApiTest extends SystemTestCase
                 'testSuffix'             => 'actionSegment',
             ],
         ];
+
+        $apiToTest[] = [
+            ['Live.getLastVisitsDetails'],
+            [
+                'idSite'                 => '1',
+                'date'                   => self::$fixture->dateTime,
+                'periods'                => ['day'],
+                'otherRequestParameters' => [
+                    'filter_limit' => -1,
+                ],
+                'testSuffix'             => 'filterLimitDashOne',
+            ],
+        ];
+
+        $apiToTest[] = [
+            ['Live.getLastVisitsDetails'],
+            [
+                'idSite'                 => '1',
+                'date'                   => self::$fixture->dateTime,
+                'periods'                => ['day'],
+                'otherRequestParameters' => [
+                    'filter_limit' => 1,
+                ],
+                'testSuffix'             => 'filterLimitOne',
+            ],
+        ];
+
         $apiToTest[] = [
             ['Live.getLastVisitsDetails'],
             [

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use Piwik\Exception\InvalidDimensionException;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 
 /**
@@ -143,6 +144,10 @@ abstract class GridGraph extends StaticGraph
             if ($modTen) {
                 $maxOrdinateValue += 10 - $modTen;
             }
+        }
+
+        if (($bottomRightYValue - $topLeftYValue) <= ($ordinateAxisLength / 2)) {
+            throw new InvalidDimensionException('Error: the graph dimension is not valid. Please try larger width and height values or use 0 for default values.');
         }
 
         $gridColor = $this->gridColor;
