@@ -143,6 +143,10 @@ class Loader
             $this->invalidatedReportsIfNeeded();
         }
 
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $this->logger->info("initiating archiving via core:archive for " . $this->params);
+        }
+
         /** @var ArchivingStatus $archivingStatus */
         $archivingStatus = StaticContainer::get(ArchivingStatus::class);
         $locked = $archivingStatus->archiveStarted($this->params);
