@@ -47,14 +47,14 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 
         $this->initEnvironment();
 
-        Fixture::clearInMemoryCaches();
+        Fixture::clearInMemoryCaches($resetTranslations = false);
         File::reset();
     }
 
     public function tearDown(): void
     {
         File::reset();
-        Fixture::clearInMemoryCaches();
+        Fixture::clearInMemoryCaches($resetTranslations = false);
 
         // make sure the global container exists for the next test case that is executed (since logging can be done
         // before a test sets up an environment)
