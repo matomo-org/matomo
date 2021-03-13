@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "這個小工具和展示板版面將於使用者建立的新展示板，或是使用 %s 功能時套用。",
         "TopLinkTooltip": "查看 %s 的網頁分析報表。",
         "WidgetNotFound": "找不到小工具",
-        "WidgetPreview": "小工具預覽"
+        "WidgetPreview": "小工具預覽",
+        "DashboardCategoryHelp": "這裡是展示板網頁。展示板整合了你新增的 Matomo 小工具以符合你的需求。挑選、排列任何 %1$s*你*%2$s 想要的 Matomo 小工具，來快速展示你要的資料。"
     }
 }

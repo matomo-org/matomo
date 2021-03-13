@@ -13,6 +13,7 @@
         "LifeTimeValueDescription": "Revenu E-Commerce total attribué à ce client sur le total de ses visites : somme du chiffre d'affaire de toutes les commandes E-commerce du visiteur ID %s.",
         "VisitorProfileLTV": "A généré un revenu total de %1$s.",
         "VisitorProfileItemsAndOrders": "%1$s articles achetés en %2$s commandes e-commerce.",
-        "VisitorProfileAbandonedCartSummary": "A abandonné %1$s paniers contenant %2$s articles avec une valeur totale de %3$s."
+        "VisitorProfileAbandonedCartSummary": "A abandonné %1$s paniers contenant %2$s articles avec une valeur totale de %3$s.",
+        "EcommerceOverviewSubcategoryHelp2": "Cliquez sur une métrique dans le graphique pour vous concentrer sur celle-ci dans le graphique d'évolution en taille réelle."
     }
 }

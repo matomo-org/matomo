@@ -44,7 +44,7 @@
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth は、MD5 ハッシュ値のパスワード（32文字長の文字列）を想定しています。 このメソッドをコールする前に、パスワードに対して md5() 関数をコールしてください。",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "スーパーユーザーアクセスをユーザー '%s' から削除することができません。",
         "ExceptionSuperUserAccess": "このユーザーはスーパーユーザーアクセス権を持ち、既に Matomo の全ウェブサイトへのアクセスおよび修正の権限を持っています。このユーザーからスーパーユーザーアクセス権を削除し、再度試すことができます。",
-        "ExceptionUserHasSuperUserAccess": "ユーザー ' %s ' はスーパーユーザーのアクセス権を持ち、既に Matomo のすべての Web サイトにアクセスして修正する権限を持っています。 このユーザーからスーパーユーザーのアクセス権を削除して、もう一度お試しください。",
+        "ExceptionUserHasSuperUserAccess": "ユーザー '%s' はスーパーユーザーのアクセス権を持ち、既に Matomo のすべての Web サイトにアクセスして修正する権限を持っています。 このユーザーからスーパーユーザーのアクセス権を削除して、もう一度お試しください。",
         "ExceptionUserDoesNotExist": "ユーザー '%s' は存在しません。",
         "ExceptionYouMustGrantSuperUserAccessFirst": "スーパーユーザーアクセス権を持つユーザーが、少なくとも 1 人以上必要です。まず、別のユーザーにスーパーユーザーアクセス権を付与してください。",
         "ExceptionUserHasViewAccessAlready": "このユーザーは既にこのウェブサイトにアクセスしています。",

@@ -104,6 +104,8 @@
         "RowLimit": "Limite riga",
         "CustomLimit": "Limite personalizzato",
         "ExportFormat": "Esporta formato",
+        "ExportTooltip": "Nota: per utilizzare l'URL di esportazione generato, sarà necessario specificare un token auth dell'applicazione. Puoi configurare questi token in Admin -> Sicurezza -> Token Auth.",
+        "ExportTooltipWithLink": "Nota: per utilizzare l'URL di esportazione generato, sarà necessario specificare un token auth dell'applicazione. È possibile configurare questi token in %1$s[Admin -> Sicurezza-> Token Auth]%2$s. Sostituisci %3$s nell'URL di esportazione con il tuo token auth. Attenzione: non condividere mai con nessun altro l'URL con il token reale.",
         "ExpandSubtables": "Espandi sottotabelle",
         "StandardReport": "Report standard",
         "FlattenReport": "Report piatto",
