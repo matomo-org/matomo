@@ -8,10 +8,13 @@
         "Event": "Evènement",
         "EventAction": "Action de l'évènement",
         "EventActions": "Actions de l'évènement",
+        "EventActionsReportDocumentation": "Ce rapport vous indique le nombre de fois où chaque action s'est produite. Vous pouvez voir les catégories et les noms des évènements qui ont été suivis avec chaque action d'évènement dans le sous-tableau de la ligne. Vous pouvez modifier ce qui est affiché en changeant la dimension secondaire avec le lien en bas du rapport.",
         "EventCategories": "Catégories d'évènement",
+        "EventCategoriesReportDocumentation": "Ce rapport indique les catégories de chaque évènement suivi et le nombre de fois qu'il s'est produit. Vous pouvez voir les actions et les noms des évènements qui ont été suivis ainsi que chaque catégorie d'évènement dans le sous-tableau de chaque ligne. Vous pouvez modifier ce qui est affiché en changeant la dimension secondaire avec le lien en bas du rapport.",
         "EventCategory": "Catégorie d'évènement",
         "EventName": "Nom d'évènement",
         "EventNames": "Noms d'évènement",
+        "EventNamesReportDocumentation": "Ce rapport vous montre les noms associés à chaque évènement suivi et le nombre de fois qu'ils se sont produits. Vous pouvez voir les actions et les catégories d'évènements qui ont été suivis avec le nom de chaque évènement dans le sous-tableau de chaque ligne. Vous pouvez modifier ce qui est affiché en changeant la dimension secondaire avec le lien en bas du rapport.",
         "EventUrl": "URL d'évènement",
         "EventUrls": "URLs d'évènements",
         "Events": "Evènements",
@@ -30,6 +33,8 @@
         "TotalEventsDocumentation": "Nombre total des évènements",
         "TotalValue": "Valeur d'évènement",
         "TotalValueDocumentation": "Somme des valeurs d'évènement",
-        "ViewEvents": "Afficher les évènements"
+        "ViewEvents": "Afficher les évènements",
+        "EventsSubcategoryHelp1": "La page \"Évènements\" propose des rapports sur les évènements personnalisés associés à votre site. Les évènements nécessitent généralement une configuration personnalisée. Une fois configuré, vous pouvez consulter les rapports par catégorie, par action et par nom.",
+        "EventsSubcategoryHelp2": "Pour en savoir plus sur le suivi d'évènements, cliquez ici."
     }
 }

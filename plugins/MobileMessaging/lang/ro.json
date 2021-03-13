@@ -15,7 +15,7 @@
         "Settings_DeleteAccountConfirm": "Sigur doriţi să ştergeţi acest cont SMS ?",
         "Settings_InvalidActivationCode": "Codul introdus nu a fost valabil, vă rugăm să încercați din nou.",
         "Settings_LetUsersManageAPICredential": "Permite utilizatorilor să gestioneze propriile date SMS API",
-        "Settings_LetUsersManageAPICredential_No_Help": "Toți utilizatorii au posibilitatea de a primi raport SMS-uri și vor utiliza creditul contului dvs..",
+        "Settings_LetUsersManageAPICredential_No_Help": "Toți utilizatorii au posibilitatea de a primi raport SMS-uri și vor utiliza creditul contului dvs.",
         "Settings_ManagePhoneNumbers": "Gestionare Numere telefon",
         "Settings_PhoneActivated": "Număr de telefon validat! Puteți primi acum SMS-uri cu statisticile.",
         "Settings_PhoneNumber": "Număr de telefon",

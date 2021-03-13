@@ -29,9 +29,10 @@
         "SmartDisplay": "Display inteligent",
         "Smartphone": "Smartphone",
         "Devices": "Dispozitive",
-        "Tablet": "Tableta",
+        "Tablet": "Tabletă",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "MobileApp": "Aplicație mobilă",
         "WidgetBrowsers": "Browsere vizitatori",
         "WidgetBrowserVersionsDocumentation": "Acest raport conține informații cu privire la ce fel de browser utilizeaza de vizitatori . Fiecare versiune de browser este listată separat."
     }

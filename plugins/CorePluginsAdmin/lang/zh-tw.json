@@ -33,6 +33,7 @@
         "MissingRequirementsNotice": "請將 %1$s %2$s 更新到新版本，必須要 %1$s %3$s。",
         "MissingRequirementsPleaseInstallNotice": "請安裝 %3$s 所需的 %1$s %2$s。",
         "NoZipFileSelected": "請選擇 ZIP 檔案。",
+        "FileExceedsUploadLimit": "選擇的檔案超過了你的伺服器的上傳限制。",
         "NumUpdatesAvailable": "%s 個更新可用",
         "NoPluginSettings": "沒有可以可以變更設定的外掛",
         "Origin": "來源",

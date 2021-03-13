@@ -7,14 +7,18 @@
         "ContentInteractions": "Actions du contenu",
         "InteractionRate": "Taux d'interaction",
         "ContentName": "Nom du contenu",
+        "ContentNameReportDocumentation": "Ce rapport indique les titres des contenus que vos visiteurs ont consultés et avec lesquels ils ont interagi.",
         "ContentNames": "Noms du contenu",
         "ContentPiece": "Partie du contenu",
+        "ContentPieceReportDocumentation": "Ce rapport indique les éléments de contenu que vos visiteurs ont consultés et avec lesquels ils ont interagi.",
         "ContentPieces": "Portions de contenu",
         "ContentTarget": "Cible du contenu",
         "ContentTargets": "Cibles de contenu",
         "Contents": "Contenus",
         "InteractionsMetricDocumentation": "Nombre de fois où un bloc de contenu a subi une interaction (ex un click sur une bannière ou sur une publicité).",
         "ImpressionsMetricDocumentation": "Le nombre de fois qu'un bloc de contenu tel qu'une bannière ou une publicité a été affiché sur la page.",
-        "InteractionRateMetricDocumentation": "Le ratio entre les impressions de contenu et les interactions."
+        "InteractionRateMetricDocumentation": "Le ratio entre les impressions de contenu et les interactions.",
+        "ContentsSubcategoryHelp1": "Le suivi du contenu vous aide à déterminer la popularité de certains éléments de contenu sur n'importe quelle page de votre site web ou application. Cette section rapporte le nombre d'impressions et d'interactions que les différents éléments de contenu de votre site reçoivent.",
+        "ContentsSubcategoryHelp2": "Pour en savoir plus, consultez le guide de suivi du contenu."
     }
 }
