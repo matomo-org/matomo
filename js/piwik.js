@@ -4893,6 +4893,9 @@ if (typeof window.Matomo !== 'object') {
             this.getRequestQueue = function () {
                 return requestQueue;
             };
+            this.getJavascriptErrors = function () {
+                return javaScriptErrors;
+            };
             this.unsetPageIsUnloading = function () {
                 isPageUnloading = false;
             };
