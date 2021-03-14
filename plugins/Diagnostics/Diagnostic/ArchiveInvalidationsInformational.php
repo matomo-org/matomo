@@ -34,15 +34,15 @@ class ArchiveInvalidationsInformational implements Diagnostic
 
         if (SettingsPiwik::isMatomoInstalled()) {
             $invalidationCounts = $this->getInvalidationCounts();
-            $results[] = DiagnosticResult::informationalResult('Total Invalidation Count', $invalidationCounts['all']);
-            $results[] = DiagnosticResult::informationalResult('In Progress Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]);
-            $results[] = DiagnosticResult::informationalResult('Scheduled Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_QUEUED]);
+            $results[] = DiagnosticResult::informationalResult('Total Invalidation Count', $invalidationCounts['all'] ?? '0');
+            $results[] = DiagnosticResult::informationalResult('In Progress Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS] ?? '0');
+            $results[] = DiagnosticResult::informationalResult('Scheduled Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_QUEUED] ?? '0');
 
             $minMaxes = $this->getInvalidationMinMaxes();
-            $results[] = DiagnosticResult::informationalResult('Earliest ts_started', $minMaxes['min_ts_started']);
-            $results[] = DiagnosticResult::informationalResult('Latest ts_started', $minMaxes['max_ts_started']);
-            $results[] = DiagnosticResult::informationalResult('Earliest ts_invalidated', $minMaxes['min_ts_invalidated']);
-            $results[] = DiagnosticResult::informationalResult('Latest ts_invalidated', $minMaxes['max_ts_invalidated']);
+            $results[] = DiagnosticResult::informationalResult('Earliest invalidation ts_started', $minMaxes['min_ts_started']);
+            $results[] = DiagnosticResult::informationalResult('Latest invalidation ts_started', $minMaxes['max_ts_started']);
+            $results[] = DiagnosticResult::informationalResult('Earliest invalidation ts_invalidated', $minMaxes['min_ts_invalidated']);
+            $results[] = DiagnosticResult::informationalResult('Latest invalidation ts_invalidated', $minMaxes['max_ts_invalidated']);
 
             $invalidationTypes = $this->getInvalidationTypes();
             $results[] = DiagnosticResult::informationalResult('Number of segment invalidations', $invalidationTypes['count_segment']);
