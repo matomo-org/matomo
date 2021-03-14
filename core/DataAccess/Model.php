@@ -362,26 +362,6 @@ class Model
         return $deletedRows;
     }
 
-    public function getInvalidatedArchiveIdsAsOldOrOlderThan($archive)
-    {
-        $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
-        $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `value` IN ("
-            . ArchiveWriter::DONE_INVALIDATED . ") AND ts_archived <= ?";
-        $bind = [
-            $archive['idsite'],
-            $archive['period'],
-            $archive['date1'],
-            $archive['date2'],
-            $archive['name'],
-            $archive['ts_invalidated'],
-        ];
-
-        $result = Db::fetchAll($sql, $bind);
-        $result = array_column($result, 'idarchive');
-
-        return $result;
-    }
-
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);

@@ -505,17 +505,8 @@ class CronArchive
         return $successCount;
     }
 
-    // public for tests
-    public function deleteInvalidatedArchives($archive)
+    private function deleteInvalidatedArchives($archive)
     {
-        $idArchives = $this->model->getInvalidatedArchiveIdsAsOldOrOlderThan($archive);
-        if (!empty($idArchives)
-            && empty($archive['report'])
-        ) {
-            $date = Date::factory($archive['date1']);
-            $this->model->deleteArchiveIds(ArchiveTableCreator::getNumericTable($date), ArchiveTableCreator::getBlobTable($date), $idArchives);
-        }
-
         $this->model->deleteInvalidations([$archive]);
     }
 
