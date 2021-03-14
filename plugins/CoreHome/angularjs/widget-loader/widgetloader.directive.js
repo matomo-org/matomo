@@ -170,7 +170,7 @@
                                     element: currentElement,
                                 });
                             });
-                        })['catch'](function () {
+                        })['catch'](function (response) {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
@@ -181,6 +181,11 @@
                             cleanupLastWidgetContent();
 
                             scope.loading = false;
+
+                            if (response.xhrStatus === 'abort') {
+                                return;
+                            };
+
                             scope.loadingFailed = true;
                         });
                     }
