@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CustomDimensions;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Plugins\Actions\Metrics as ActionsMetrics;
@@ -123,6 +124,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
             $recordName = self::buildRecordNameForCustomDimensionId($dimension['idcustomdimension']);
             $this->getProcessor()->insertBlobRecord($recordName, $blob);
+
+            Common::destroy($table);
+            unset($this->dataArray);
         }
     }
 
