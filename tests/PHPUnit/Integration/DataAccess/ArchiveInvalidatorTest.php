@@ -97,8 +97,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $items = $list->getAll();
 
         $expected = [
-            '{"idSites":[1],"pluginName":"ExamplePlugin","report":null,"startDate":null}',
-            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null}',
+            '{"idSites":[1],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null,"segment":null}',
         ];
 
         $this->assertEquals($expected, $items);
@@ -115,7 +115,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $items = $list->getAll();
 
         $expected = [
-            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null}',
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null,"segment":null}',
         ];
 
         $this->assertEquals($expected, $items);
@@ -149,8 +149,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $items = $list->getAll();
 
         $expected = [
-            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null}',
-            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":"myOtherReport","startDate":null}',
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":"myOtherReport","startDate":null,"segment":null}',
         ];
 
         $this->assertEquals($expected, $items);
@@ -404,7 +404,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates()
+    public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates_IfPeriodIsDay()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -415,7 +415,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             Date::factory('2010-10-10'),
         );
 
-        $this->invalidator->markArchivesAsInvalidated($idSites, $dates, 'week');
+        $this->invalidator->markArchivesAsInvalidated($idSites, $dates, 'day');
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $expected = array(
@@ -1224,12 +1224,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-10', 'date2' => '2020-05-10', 'period' => 1, 'report' => null],
 
             ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-01', 'date2' => '2020-05-31', 'period' => 3, 'report' => null],
+
+            ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-01', 'date2' => '2020-05-31', 'period' => 4, 'report' => 'aReport'],
+            ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2020-05-01', 'date2' => '2020-05-31', 'period' => 4, 'report' => 'anotherReport'],
         ];
 
         $this->insertInvalidations($existingInvalidations);
 
         $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-04', '2020-05-06'], 'week',
             $segment, $cascadeDown = true, false);
+        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-05-01'], 'year',
+            $segment, $cascadeDown = false, 'aReport');
 
         $expectedInvalidations = [
             array (
@@ -1312,6 +1317,24 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '3',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
                 'report' => NULL,
+            ),
+            array (
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-05-01',
+                'date2' => '2020-05-31',
+                'period' => '4',
+                'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                'report' => 'aReport',
+            ),
+            array (
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-05-01',
+                'date2' => '2020-05-31',
+                'period' => '4',
+                'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                'report' => 'anotherReport',
             ),
             array (
                 'idarchive' => NULL,
@@ -1426,6 +1449,74 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $this->assertEquals(550, $countInvalidations);
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
+    }
+
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReArchivingSegments()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('autoArchiveSegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('secondArchiveSegment', 'browserCode==FF', false, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $reArchiveList = new ReArchiveList();
+        $reArchiveList->setAll([]); // clear list since adding segments will add to it
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 0;
+
+        $this->invalidator->scheduleReArchiving(1);
+        $this->invalidator->applyScheduledReArchiving();
+
+        $invalidationNames = Db::fetchAll("SELECT `name` FROM " . Common::prefixTable('archive_invalidations'));
+        $invalidationNames = array_column($invalidationNames, 'name');
+
+        $expectedCount = 165;
+        $this->assertCount($expectedCount, $invalidationNames);
+
+        $invalidationNames = array_unique($invalidationNames);
+        $invalidationNames = array_values($invalidationNames);
+
+        $expectedInvalidationNames = [
+            'done',
+            'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+            'done3736b708e4d20cfc10610e816a1b2341',
+        ];
+        $this->assertEquals($expectedInvalidationNames, $invalidationNames);
+    }
+
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNotReArchivingSegments()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('autoArchiveSegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('secondArchiveSegment', 'browserCode==FF', false, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $reArchiveList = new ReArchiveList();
+        $reArchiveList->setAll([]); // clear list since adding segments will add to it
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 1;
+
+        $this->invalidator->scheduleReArchiving(1);
+        $this->invalidator->applyScheduledReArchiving();
+
+        $invalidationNames = Db::fetchAll("SELECT `name` FROM " . Common::prefixTable('archive_invalidations'));
+        $invalidationNames = array_column($invalidationNames, 'name');
+
+        $expectedCount = 55;
+        $this->assertCount($expectedCount, $invalidationNames);
+
+        $invalidationNames = array_unique($invalidationNames);
+        $invalidationNames = array_values($invalidationNames);
+
+        $expectedInvalidationNames = [
+            'done',
+        ];
+        $this->assertEquals($expectedInvalidationNames, $invalidationNames);
     }
 
     private function getNumInvalidations()
@@ -1651,8 +1742,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary',
                 'report' => 'some.Report',
-                'dates' => '2020-05-04,2020-05-04|2020-05-05,2020-05-05|2020-05-06,2020-05-06|2020-05-07,2020-05-07|2020-05-08,2020-05-08|2020-05-09,2020-05-09|2020-05-10,2020-05-10|2020-05-11,2020-05-11|2020-05-12,2020-05-12|2020-05-13,2020-05-13|2020-05-14,2020-05-14|2020-05-15,2020-05-15|2020-05-16,2020-05-16|2020-05-17,2020-05-17|2020-05-18,2020-05-18|2020-05-19,2020-05-19|2020-05-20,2020-05-20|2020-05-21,2020-05-21|2020-05-22,2020-05-22|2020-05-23,2020-05-23|2020-05-24,2020-05-24|2020-05-25,2020-05-25|2020-05-26,2020-05-26|2020-05-27,2020-05-27|2020-05-28,2020-05-28|2020-05-29,2020-05-29|2020-05-30,2020-05-30|2020-05-31,2020-05-31|2020-06-01,2020-06-01|2020-06-02,2020-06-02|2020-06-03,2020-06-03|2020-06-04,2020-06-04|2020-06-05,2020-06-05|2020-06-06,2020-06-06|2020-06-07,2020-06-07|2020-06-08,2020-06-08|2020-06-09,2020-06-09|2020-06-10,2020-06-10|2020-06-11,2020-06-11|2020-06-12,2020-06-12|2020-06-13,2020-06-13|2020-06-14,2020-06-14',
-                'count' => '42',
+                'dates' => '2020-04-30,2020-04-30|2020-05-01,2020-05-01|2020-05-02,2020-05-02|2020-05-03,2020-05-03|2020-05-04,2020-05-04|2020-05-05,2020-05-05|2020-05-06,2020-05-06|2020-05-07,2020-05-07|2020-05-08,2020-05-08|2020-05-09,2020-05-09|2020-05-10,2020-05-10|2020-05-11,2020-05-11|2020-05-12,2020-05-12|2020-05-13,2020-05-13|2020-05-14,2020-05-14|2020-05-15,2020-05-15|2020-05-16,2020-05-16|2020-05-17,2020-05-17|2020-05-18,2020-05-18|2020-05-19,2020-05-19|2020-05-20,2020-05-20|2020-05-21,2020-05-21|2020-05-22,2020-05-22|2020-05-23,2020-05-23|2020-05-24,2020-05-24|2020-05-25,2020-05-25|2020-05-26,2020-05-26|2020-05-27,2020-05-27|2020-05-28,2020-05-28|2020-05-29,2020-05-29|2020-05-30,2020-05-30|2020-05-31,2020-05-31|2020-06-01,2020-06-01|2020-06-02,2020-06-02|2020-06-03,2020-06-03|2020-06-04,2020-06-04|2020-06-05,2020-06-05|2020-06-06,2020-06-06|2020-06-07,2020-06-07|2020-06-08,2020-06-08|2020-06-09,2020-06-09|2020-06-10,2020-06-10|2020-06-11,2020-06-11|2020-06-12,2020-06-12|2020-06-13,2020-06-13|2020-06-14,2020-06-14',
+                'count' => '46',
             ),
             array (
                 'idsite' => '11',
@@ -1667,8 +1758,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '2',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary',
                 'report' => 'some.Report',
-                'dates' => '2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-06-01,2020-06-07|2020-06-08,2020-06-14',
-                'count' => '6',
+                'dates' => '2020-04-27,2020-05-03|2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-06-01,2020-06-07|2020-06-08,2020-06-14',
+                'count' => '7',
             ),
             array (
                 'idsite' => '11',
@@ -1683,8 +1774,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '3',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary',
                 'report' => 'some.Report',
-                'dates' => '2020-05-01,2020-05-31|2020-06-01,2020-06-30',
-                'count' => '2',
+                'dates' => '2020-04-01,2020-04-30|2020-05-01,2020-05-31|2020-06-01,2020-06-30',
+                'count' => '3',
             ),
             array (
                 'idsite' => '11',

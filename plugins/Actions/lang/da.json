@@ -73,6 +73,7 @@
         "WidgetSearchNoResultKeywords": "Søgeord uden nogen resultater",
         "ActionType": "Handlingstype",
         "ActionTypes": "Handlingstyper",
-        "Behaviour": "Adfærd"
+        "Behaviour": "Adfærd",
+        "PagesSubcategoryHelp3": "Brug plus og minus ikonerne til venstre til at navigere."
     }
 }

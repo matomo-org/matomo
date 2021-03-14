@@ -52,7 +52,7 @@ class ArchiveInvalidationTest extends SystemTestCase
         return array(
 
             array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . "_NewDataShouldNotAppear_BecauseDayWasNotInvalidated",
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
                                     'periods'                => 'day',
                                     'segment'                => 'pageUrl=@category/',
@@ -135,7 +135,8 @@ class ArchiveInvalidationTest extends SystemTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
-        // week reports only are invalidated and we test our daily report will still show old data.
+        // week reports only are invalidated. we test our daily report will show new data, even though weekly reports only are invalidated,
+        // because when we track data, it invalidates day periods as well.
         $this->invalidateTestArchive(self::$fixture->idSite2, 'week', self::$fixture->dateTimeFirstDateWebsite2);
     }
 

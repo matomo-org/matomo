@@ -75,6 +75,7 @@
         "WidgetSearchNoResultKeywords": "検索結果無しの検索キーワード",
         "ActionType": "アクションタイプ",
         "ActionTypes": "アクションタイプ",
-        "Behaviour": "行動"
+        "Behaviour": "行動",
+        "PagesSubcategoryHelp3": "左側のプラス記号とマイナス記号のアイコンをクリックして操作します"
     }
 }

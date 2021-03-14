@@ -13,6 +13,7 @@
         "ToFollowingPagesInline": "%s na notranje strani",
         "ToFollowingSiteSearches": "Notranja iskanja",
         "ToFollowingSiteSearchesInline": "%s notranjih iskanj",
-        "XOutOfYVisits": "%1$s (od %2$s)"
+        "XOutOfYVisits": "%1$s (od %2$s)",
+        "TransitionsSubcategoryHelp2": "Več podrobnosti"
     }
 }

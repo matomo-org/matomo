@@ -57,6 +57,7 @@ php_errors.log
 /lang/.htaccess
 /libs/.htaccess
 /misc/.htaccess
+/misc/user/.htaccess
 /misc/cron/.htaccess
 /plugins/.htaccess
 /tests/resources/overlay-test-site-real/

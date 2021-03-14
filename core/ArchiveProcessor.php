@@ -116,6 +116,11 @@ class ArchiveProcessor
             $subPeriods = $this->params->getSubPeriods();
             $idSites    = $this->params->getIdSites();
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
+
+            /**
+             * @internal
+             */
+            Piwik::postEvent('ArchiveProcessor.getArchive', [$this->archive]);
         }
 
         return $this->archive;

@@ -1,16 +1,28 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Händelser av nya besök",
         "ColumnActionsByReturningVisits": "Händelser av återkommande besökare",
+        "ColumnAverageVisitDurationForNewVisitors": "Genomsnittlig besökstid för nya besökare (i sekunder)",
         "ColumnAverageVisitDurationForReturningVisitors": "Genomsnittlig besökstid för återkommande besökare (i sekunder)",
+        "ColumnAvgActionsPerNewVisit": "Genomsnittliga Händelser för nya besök",
         "ColumnAvgActionsPerReturningVisit": "Genomsnittliga Händelser per Återkommande besök",
         "ColumnBounceCountForReturningVisits": "Avvisningsfrekvens för Återkommande Besökare",
+        "ColumnBounceRateForNewVisits": "Avvisningsfrekvens för nya besök",
         "ColumnBounceRateForReturningVisits": "Avvisningsfrekvens för återkommande besök",
         "ColumnMaxActionsInReturningVisit": "Flest händelser under ett återkommande besök",
         "ColumnNbReturningVisitsConverted": "Antalet konverterade återkommande besök",
+        "ColumnNewVisits": "Nya besök",
         "ColumnReturningVisits": "Återkommande besök",
         "ColumnSumVisitLengthReturning": "Total tid som återkommande besökare spenderade (i sekunder)",
+        "ColumnUniqueNewVisitors": "Nya unika besökare",
         "ColumnUniqueReturningVisitors": "Unika återkommande besökare",
+        "ColumnNewUsers": "Nya användare",
         "ColumnReturningUsers": "Återkommande användare",
+        "NewActions": "händelser av nya besök",
+        "NewAverageVisitDuration": "genomsnittlig besökstid för nya besökare",
+        "NewAvgActions": "åtgärder per nytt besök",
+        "NewBounceRate": "nya besök har studsat (lämnat webbplatsen efter en sida)",
+        "NewVisits": "nya besök",
         "PluginDescription": "Rapport om förstagångsbesökare och återkommande användare.",
         "ReturnActions": "händelser av de återkommande besöken",
         "ReturnAverageVisitDuration": "genomsnittlig besökstid för återkommande besökare",
@@ -21,6 +33,7 @@
         "ReturnVisits": "återkommande besök",
         "SubmenuFrequency": "Frekvens",
         "WidgetGraphReturning": "Graf över återkommande besök",
-        "WidgetOverview": "Frekvensöversikt"
+        "WidgetOverview": "Frekvensöversikt",
+        "VisitFrequencyReportDocumentation": "Denna rapport visar allmänna mått som till exempel besök för återkommande besökare sida vid sida med samma mätvärden för nya besökare. Lär dig hur återkommande besökare presterar totalt sett jämfört med nya besökare."
     }
 }

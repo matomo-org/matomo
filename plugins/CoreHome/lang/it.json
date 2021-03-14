@@ -104,7 +104,8 @@
         "RowLimit": "Limite riga",
         "CustomLimit": "Limite personalizzato",
         "ExportFormat": "Esporta formato",
-        "ExportTooltip": "Nota: l'URL di esportazione generato funzionerà solo nella sessione corrente del browser. Se vuoi usarlo da qualche altra parte devi usare un token specifico per l'app. È possibile configurare questi token in Amministrazione > Sicurezza > Token Auths.",
+        "ExportTooltip": "Nota: per utilizzare l'URL di esportazione generato, sarà necessario specificare un token auth dell'applicazione. Puoi configurare questi token in Admin -> Sicurezza -> Token Auth.",
+        "ExportTooltipWithLink": "Nota: per utilizzare l'URL di esportazione generato, sarà necessario specificare un token auth dell'applicazione. È possibile configurare questi token in %1$s[Admin -> Sicurezza-> Token Auth]%2$s. Sostituisci %3$s nell'URL di esportazione con il tuo token auth. Attenzione: non condividere mai con nessun altro l'URL con il token reale.",
         "ExpandSubtables": "Espandi sottotabelle",
         "StandardReport": "Report standard",
         "FlattenReport": "Report piatto",
@@ -113,6 +114,14 @@
         "SeeAvailableVersions": "Vedi le Versioni Disponibili",
         "QuickLinks": "Link Rapidi",
         "Profilable": "Profilabili",
-        "SearchOnMatomo": "Cerca '%1$s' su matomo.org"
+        "SearchOnMatomo": "Cerca '%1$s' su matomo.org",
+        "ReportingCategoryHelpPrefix": "In che modo la pagina dei report \"%1$s > %2$s\" può aiutarmi?",
+        "VisitorsCategoryHelp1": "Le pagine dei visitatori ti dicono delle cose su chi sono i tuoi visitatori. Cose come la provenienza dei tuoi visitatori, quali dispositivi e browser stanno utilizzando e quando, di solito, visitano il tuo sito web. Comprendi, nel complesso, chi è il tuo pubblico e cerca valori anomali per vedere come potrebbe crescere.",
+        "VisitorsCategoryHelp2": "Oltre alle informazioni generali sui tuoi visitatori, puoi anche utilizzare il %1$sRegistro delle visite%2$s per vedere cosa è successo in ogni singola visita.",
+        "VisitorsOverviewHelp": "La panoramica sui visitatori ti aiuta a capire la popolarità del tuo sito. Lo fa fornendo grafici che mostrano quante visite sta ricevendo il tuo sito in un periodo selezionato e il livello medio di coinvolgimento per le funzionalità chiave, come ricerche e download.",
+        "DevicesSubcategoryHelp": "La sezione Dispositivi ti aiuta a capire la tecnologia che i tuoi visitatori utilizzano per accedere al tuo sito. Vedrai dei report sul tipo di dispositivo e sui modelli specifici per consentirti di ottimizzare il tuo sito per i dispositivi più popolari.",
+        "SoftwareSubcategoryHelp": "La sezione Software mostra i sistemi operativi, i browser e i plugin che i tuoi visitatori stanno utilizzando per accedere al sito, in modo da poterlo ottimizzare per assicurarti che sia completamente compatibile con le configurazioni più diffuse.",
+        "EngagementSubcategoryHelp1": "La sezione Engagement fornisce dei report che aiutano a quantificare il numero di visitatori nuovi e di ritorno che ricevi. Puoi anche esaminare i report che dettagliano il tempo medio e il numero di pagine per visita, nonché il numero di volte in cui un visitatore è stato sul tuo sito e il numero abituale di giorni che intercorrono tra le visite.",
+        "EngagementSubcategoryHelp2": "Questo può aiutarti a ottimizzare la frequenza e le visite ad alta interazione oltre a massimizzare la tua copertura."
     }
 }

@@ -17,6 +17,8 @@
         "LifeTimeValueDescription": "Die gesamten E-Commerce-Umsätze, die diesem Kunden bei allen Besuchen zugeschrieben werden: die Summe der Umsätze aller E-Commerce-Aufträge für Besucher-ID %s.",
         "VisitorProfileLTV": "Generierter Gesamtumsatz von %1$s.",
         "VisitorProfileItemsAndOrders": "%1$s Artikel in %2$s E-Commerce Bestellungen gekauft.",
-        "VisitorProfileAbandonedCartSummary": "%1$s verwaiste Warenkörbe mit %2$s Artikeln und einem Gesamtwert von %3$s."
+        "VisitorProfileAbandonedCartSummary": "%1$s verwaiste Warenkörbe mit %2$s Artikeln und einem Gesamtwert von %3$s.",
+        "EcommerceOverviewSubcategoryHelp2": "Klicken Sie auf eine einzelne Metrik innerhalb des Sparkline-Diagramms, um sie im Entwicklungsdiagramm in voller Größe zu betrachten.",
+        "EcommerceLogSubcategoryHelp2": "Die Daten auf dieser Seite werden in Echtzeit aktualisiert"
     }
 }

@@ -104,7 +104,6 @@
         "RowLimit": "行數限制",
         "CustomLimit": "自訂限制",
         "ExportFormat": "匯出格式",
-        "ExportTooltip": "注意：產生的匯出網址僅在本次瀏覽器的工作階段中有效。如果你想要在其他地方使用，你需要建立應用程式專用的權杖。你可以在「管理中心」>「安全性」>「存取權杖」中設定這些權杖。",
         "ExpandSubtables": "展開子表格",
         "StandardReport": "標準報表",
         "FlattenReport": "平滑化報表",
@@ -113,6 +112,7 @@
         "SeeAvailableVersions": "查看可用版本",
         "QuickLinks": "快速連結",
         "Profilable": "可紀錄的",
-        "SearchOnMatomo": "在 Matomo.org 上搜尋「%1$s」"
+        "SearchOnMatomo": "在 Matomo.org 上搜尋「%1$s」",
+        "ReportingCategoryHelpPrefix": "「%1$s > %2$s 」報告頁如何協助我？"
     }
 }

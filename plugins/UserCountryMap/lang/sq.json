@@ -22,6 +22,7 @@
         "WithUnknownRegion": "%s me rajon të panjohur",
         "WithUnknownCity": "%s me qytet të panjohur",
         "NoVisitsInfo": "Hëpërhë s’ka vizita të shfaqura, ngaqë për këtë periudhë asnjë vizitë nuk ka të dhëna të sakta gjeolokalizimi (gjerësi & gjatësi gjeografike).",
-        "NoVisitsInfo2": "Për ta zgjidhur këtë problem, sigurohuni që po përdorni një shërbim gjeolokalizimi GeoIP me një bazë të dhënash GeoIP qytetesh. Nëse kjo nuk e zgjidh problemin tuaj, atëherë ka mundësi (edhe pse zor) që vizitat tuaja të kenë adresa IP që nuk gjeolokalizohen dot."
+        "NoVisitsInfo2": "Për ta zgjidhur këtë problem, sigurohuni që po përdorni një shërbim gjeolokalizimi GeoIP me një bazë të dhënash GeoIP qytetesh. Nëse kjo nuk e zgjidh problemin tuaj, atëherë ka mundësi (edhe pse zor) që vizitat tuaja të kenë adresa IP që nuk gjeolokalizohen dot.",
+        "RealTimeMapHelp": "Harta Aty Për Aty shfaq vendndodhjen e vizitorëve tuaj në sajt brenda 30 minutave të fundit. Flluskat e mëdha portokalli përfaqësojnë vizitat më të freskëta, ndërsa flluskat më të vogla gri përfaqësojnë vizita më të vjetra. Këto të dhëna rifreskohen çdo pesë sekonda, dhe vizitorët e rinj shfaqen me një efekt xixëllimi."
     }
 }

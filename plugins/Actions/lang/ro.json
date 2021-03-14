@@ -1,8 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Media bazata pe %1$s hit(uri) %2$s intre %3$s si %4$s",
+        "AvgGenerationTimeTooltip": "Media bazată pe %1$s hit(uri) %2$s între %3$s și %4$s",
         "ColumnActionURL": "Acţiuni URL",
-        "ColumnClicks": "Click-uri",
+        "ColumnClicks": "Clicuri",
         "ColumnClicksDocumentation": "Numărul de ori link-ul a fost click-uit.",
         "ColumnDownloadURL": "URL Descărcare",
         "ColumnEntryPageTitle": "Titlul Paginii de Intrare",
@@ -20,7 +20,7 @@
         "ColumnSearchExitsDocumentation": "Procentul vizitelor care au parasit siteul dupa ce au cautat acest Cuvant prin intermediul casutei de Search (Cautare) prezenta pe siteul tau.",
         "ColumnSearchResultsCount": "Numărul rezultate căutare",
         "ColumnSiteSearchKeywords": "Cuvinte-cheie unice",
-        "ColumnUniqueClicks": "Click-uri unice.",
+        "ColumnUniqueClicks": "Clicuri unice",
         "ColumnUniqueClicksDocumentation": "Numărul de vizite ce a presupus un click pe acest link. Dacă un link a fost click-uit de mai multe ori în timpul unei vizite, este numărat o dată.",
         "ColumnUniqueDownloads": "Descărcări Unice",
         "ColumnUniqueOutlinks": "Outlink-uri Unice",
@@ -29,7 +29,7 @@
         "EntryPageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor de intrare ce au fost folosite în timpul perioadei specificate.",
         "ExitPageTitles": "Titlurile paginilor de ieşire",
         "ExitPageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor de ieşire ce au fost folosite în timpul perioadei specificate.",
-        "OneSearch": "1 căutare",
+        "OneSearch": "o căutare",
         "OutlinkDocumentation": "Un outlink este un link ce trimite vizitatori de pe website-ul tău (către alt domeniu).",
         "OutlinksReportDocumentation": "Acest raport arată o listă ierarhică al URL-urilor outlink-urilor ce au fost click-uite de vizitatorii tăi.",
         "PagesReportDocumentation": "Acest raport conţine informaţii despre URL-urile paginilor ce au fost vizitate. %s Acest tabel este organizat ierarhic,URL-urile sunt afişate într-o structură tip arbore.",
@@ -39,7 +39,10 @@
         "SiteSearchCategories2": "De exemplu, magazinele online de obicei au o optiune de a selecta o anumita \"Categorie\" dintr-o lista, pentru ca vizitatorii sa restrictioneze cautarile pe site doar la produsele aflate intr-o anumita Categorie.",
         "SiteSearchFollowingPagesDoc": "Cand vizitatorii cauta pe siteul tau, ei doresc sa gaseasca o anumita pagina, continut, produs sau serviciu. Acest raport afiseaza paginile care au fost cel mai accesate prin click dupa efectuarea unei cautari interne. Cu alte cuvinte, o lista cu paginile cele mai cautate de vizitatorii aflati deja pe siteul tau.",
         "SiteSearchIntro": "A urmari cautarile pe care vizitatorii le fac pe siteul tau este o modalitate foarte eficienta de a invata ce anume cauta audienta ta, te poate ajuta sa gasesti idei pentru continut nou, noi produse pentru magazinul online pe care potentialii clienti le-ar putea cauta si, in general, pentru a imbunatati experienta utilizatorilor pe siteul tau.",
+        "SiteSearchCategory": "Categorie (căutare pe site)",
+        "SiteSearchCategories": "Categorii (căutare pe site)",
         "SiteSearchKeyword": "Cuvânt-cheie (căutare pe site)",
+        "SiteSearchKeywords": "Cuvinte-cheie (căutare pe site)",
         "SiteSearchKeywordsDocumentation": "Acest raport afiseaza Cuvintele Cautate pe care vizitatorii le-au cautat prin intermediul optiunii de Cautare prezente pe siteul tau.",
         "SiteSearchKeywordsNoResultDocumentation": "Acest raport afiseaza Cuvintele Cautate care nu au returnat nici un rezultat: poate algoritmul functiei de cautare poate fi imbunatatit sau poate vizitatorii cauta continut care nu este (inca) prezent pe siteul tau?",
         "SubmenuPagesEntry": "Pagini de intrare",
@@ -55,6 +58,8 @@
         "WidgetPageUrlsFollowingSearch": "Pagini care urmeaza dupa o Cautare pe site.",
         "WidgetSearchCategories": "Categorii de cautare",
         "WidgetSearchKeywords": "Cuvinte-cheie pentru căutare pe site",
-        "WidgetSearchNoResultKeywords": "CUvinte-cheie de căutare fără rezultat"
+        "WidgetSearchNoResultKeywords": "Cuvinte-cheie de căutare fără rezultat",
+        "Behaviour": "Comportament",
+        "PagesSubcategoryHelp3": "Folosiți semnele de plus și minus din stânga pentru navigare."
     }
 }

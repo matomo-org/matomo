@@ -41,6 +41,7 @@
         "ConversionsOverview": "Përmbledhje Shndërrimesh",
         "ConversionsOverviewBy": "Përmbledhje shndërrimesh sipas llojit të vizitave",
         "DaysToConv": "Ditë për Shndërrim",
+        "DaysToConvReportDocumentation": "Ky raport shfaq sa ditë kalojnë para se vizitorët tuaj të shndërrojnë një objektiv.",
         "Details": "Hollësi objektivi",
         "DefaultGoalConvertedOncePerVisit": "(parazgjedhje) Objektivi mund të shndërrohet një herë për vizitë",
         "DefaultRevenueLabel": "Të ardhura parazgjedhje objektivi",
@@ -108,6 +109,7 @@
         "GoalsAdjective": "Objektiva %s",
         "VisitPageTitle": "Vizitoni një Titull Faqeje të dhënë",
         "VisitsUntilConv": "Vizita për Shndërrim",
+        "VisitsUntilConvReportDocumentation": "Ky raport shfaq numrin e vizitave të bëra përpara se një vizitor të shndërrojë një objekti.",
         "VisitUrl": "Vizitoni një URL të dhënë (faqe ose grup faqesh)",
         "VisitDurationMatchAttr": "Qëndro për një kohë të caktuar",
         "VisitDuration": "gjatësia e vizitës është",
@@ -121,6 +123,11 @@
         "EventValueAsRevenueHelp2": "Shënim: Nëse janë caktuar si e ardhura parazgjedhje e objektivit, ashtu edhe vlera e veprimtarisë, do të përdoret vlera e veprimtarisë. Nëse kjo mundësi është e aktivizuar dhe në një kërkesë nuk është dërguar vlerë veprimtarie, do të përdoret vlera parazgjedhje (në pastë të caktuar një të tillë).",
         "AtLeastMinutes": "të paktën %1$s minuta. Përdorni shifra dhjetore për sekonda, për shembull, %2$s për përputhje me 30 sekonda.",
         "TimeInMinutes": "Kohë në Minuta",
-        "ClickToViewThisGoal": "Klikoni për të parë këtë objektiv."
+        "ClickToViewThisGoal": "Klikoni për të parë këtë objektiv.",
+        "OverviewReportDocumentation": "Ky raport jep një përmbledhje se sa mirë e shndërrojnë vizitorët tuaj një objektiv të caktuar.",
+        "GoalsOverviewSubcategoryHelp1": "Përmbledhje Objektivash raporton mbi funksionimin e objektivave të përkufizuar për sajtin tuaj. Mund të shihni përqindje shndërrimesh për objektivat tuaj, sasinë e të ardhurave dhe raporte të plotë për secilin.",
+        "GoalsOverviewSubcategoryHelp2": "Klikoni mbi një vlerë individuale brenda grafikut që fokusi të kalojë mbi të, brenda grafikut në madhësi të plotë të evolucionit.",
+        "ManageGoalsSubcategoryHelp1": "Kjo ndarje ju lejon të krijoni dhe përpunoni Objektiva për veprime të caktuara që bëjnë vizitorët në sajtin tuaj, bie fjala, vizita në një faqe të caktuar ose parashtrimi i një formulari të caktuar. Raportet e objektivave janë të larmishëm, por mund t’ju ndihmojnë të ndiqni suksesin e sajtit tuaj sipas objektivash biznesi, të tillë si, “lead generation”, shitje internetore dhe ekspozim më i madh marke.",
+        "ManageGoalsSubcategoryHelp2": "Mësoni më tepër, te udhërrëfyesi unë për Objektiva, këtu."
     }
 }

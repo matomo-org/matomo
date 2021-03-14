@@ -199,10 +199,10 @@ class ComparisonRowGenerator
 
         // recurse on subtable if there
         $subtable = $row->getSubtable();
-        if ($subtable
-            && $compareRow
-        ) {
-            $this->compareTable($compareMetadata, $subtable, $rootTable, $compareRow->getSubtable());
+        $compareSubTable = $compareRow ? $compareRow->getSubtable() : null;
+
+        if ($subtable && $compareSubTable) {
+            $this->compareTable($compareMetadata, $subtable, $rootTable, $compareSubTable);
         }
     }
 

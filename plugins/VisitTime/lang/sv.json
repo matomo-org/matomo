@@ -5,8 +5,19 @@
         "ColumnLocalMinute": "Lokal tid - minut (Början av besöket)",
         "ColumnServerTime": "Servertid",
         "ColumnServerHour": "Servertid - timme",
+        "ColumnVisitEndServerHour": "Servertid - timme (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerMinute": "Servertid - minut (Tid för senaste åtgärd)",
         "ColumnVisitStartServerHour": "Servertid - timme (Början av besöket)",
         "ColumnVisitStartServerMinute": "Servertid - minut (Början av besöket)",
+        "ColumnVisitEndServerDate": "Servertid - datum (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerDayOfMonth": "Servertid - dag i månaden (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerDayOfWeek": "Servertid - veckodag (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerDayOfYear": "Servertid - dag på året (tid för senaste åtgärd)",
+        "ColumnVisitEndServerQuarter": "Servertid - kvartal (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerSecond": "Servertid - sekund (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerWeekOfYear": "Servertid - vecka på året (tid för senaste åtgärd)",
+        "ColumnVisitEndServerMonth": "Servertid - månad (Tid för senaste åtgärd)",
+        "ColumnVisitEndServerYear": "Servertid - år (Tid för senaste åtgärd)",
         "ColumnServerMinute": "Servertid - minut",
         "DayOfWeek": "Veckodag",
         "LocalTime": "Besök efter lokal tid",
@@ -19,6 +30,7 @@
         "WidgetLocalTime": "Besök efter lokal tid",
         "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %1$s besökarens tidszon %2$s vid deras besök.",
         "WidgetServerTime": "Besök efter servertid",
-        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %1$s serverns tidszon %2$s vid besöket."
+        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %1$s serverns tidszon %2$s vid besöket.",
+        "TimesSubcategoryHelp": "Avsnittet Tider visar när människor besöker din webbplats. Du kan se de mest populära lokala tiderna som dina användare besöker, så att du kan förstå var din webbplats passar in i deras liv. Dessutom visar den de mest populära servertiderna, vilket kan avslöja krav på din teknikstack."
     }
 }

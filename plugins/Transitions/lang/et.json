@@ -21,6 +21,7 @@
         "ToFollowingSiteSearches": "Sisemised otsingud",
         "ToFollowingSiteSearchesInline": "%s sisemist otsingut",
         "XOfAllPageviews": "%s kõigist antud lehe vaatamistest",
-        "XOutOfYVisits": "%1$s (%2$s kõigist)"
+        "XOutOfYVisits": "%1$s (%2$s kõigist)",
+        "TransitionsSubcategoryHelp2": "Rohkem detaile"
     }
 }

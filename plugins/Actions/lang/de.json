@@ -80,6 +80,15 @@
         "ActionType": "Typ der Aktion",
         "ActionTypes": "Aktionstypen",
         "Behaviour": "Verhalten",
-        "TimeSpentInReferringAction": "Verwendete Zeit für Verweisaktionen"
+        "TimeSpentInReferringAction": "Verwendete Zeit für Verweisaktionen",
+        "PagesSubcategoryHelp1": "Dieser Bericht enthält Informationen über die Seiten URLs, welche besucht wurden.",
+        "PagesSubcategoryHelp2": "Die Tabelle ist hierarchisch organisiert, die URLs werden als Verzeichnisstruktur angezeigt.",
+        "PagesSubcategoryHelp3": "Benutzen Sie zur Navigation die Symbole Plus und Minus auf der linken Seite.",
+        "EntryPagesSubcategoryHelp2": "Die Einstiegs-URLs werden als Verzeichnisstruktur angezeigt.",
+        "ExitPagesSubcategoryHelp2": "Die Ausstiegs-URLs werden als Verzeichnisstruktur angezeigt.",
+        "PageTitlesSubcategoryHelp1": "Dieser Bericht enthält Informationen über die Titel der Seiten, welche besucht wurden.",
+        "SiteSearchSubcategoryHelp3": "Weitere Informationen finden Sie in der Anleitung zur internen Suche.",
+        "DownloadsSubcategoryHelp1": "In diesem Bericht können Sie sehen, welche Dateien Ihre Besucher heruntergeladen haben.",
+        "DownloadsSubcategoryHelp2": "Als Download zählt bei Matomo der Klick auf einen Download-Link. Ob der Download abgeschlossen wurde oder nicht, ist Matomo nicht bekannt."
     }
 }

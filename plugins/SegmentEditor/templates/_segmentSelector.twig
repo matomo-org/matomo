@@ -57,7 +57,7 @@
                 {{ 'General_And'|translate }} <div class="auto_archive"><strong>
                         <select class="auto_archive_select">
                             {% if createRealTimeSegmentsIsEnabled %}
-                            <option {% if isBrowserArchivingEnabled %}selected="1"{% endif%} value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }} {{ 'General_DefaultAppended'|translate }}</option>
+                            <option {% if isBrowserArchivingEnabled %}selected="1"{% endif%} value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }}</option>
                             {% endif %}
                             <option {% if not isBrowserArchivingEnabled or not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
                         </select>

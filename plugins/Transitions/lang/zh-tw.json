@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s 站內搜尋",
         "XOfAllPageviews": "此網頁所有訪問中的 %s",
         "XOutOfYVisits": "%2$s 中的 %1$s",
-        "PageURLTransitions": "網頁網址行為流程"
+        "PageURLTransitions": "網頁網址行為流程",
+        "TransitionsSubcategoryHelp1": "你可以在行為流程中查看訪客在查看特定網頁之前和之後做的事情。這個頁面將解釋如何存取、了解和使用強大的行為流程報表。",
+        "TransitionsSubcategoryHelp2": "更多資訊"
     }
 }

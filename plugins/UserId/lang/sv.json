@@ -2,6 +2,8 @@
     "UserId": {
         "UserId": "Användar ID",
         "UserReportTitle": "Besökar-ID",
-        "PluginDescription": "Visa användarrapporter"
+        "UserReportDocumentation": "Denna rapport visar besök och andra allmänna mätvärden för varje enskilt användar-ID.",
+        "PluginDescription": "Visa användarrapporter",
+        "VisitorsUserSubcategoryHelp": "Rapporten Användar-ID visar besök som är associerade med alla dina registrerade och inloggade användare. Du kan använda detta avsnitt för att förstå webbplatsanvändning av specifika användare och identifiera vem dina mest och minst aktiva användare är."
     }
 }

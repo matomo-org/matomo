@@ -244,6 +244,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_Done";
         $translationKeys[] = "General_Pagination";
         $translationKeys[] = "General_PleaseTryAgain";
+        $translationKeys[] = "General_Username";
+        $translationKeys[] = "General_Password";
         $translationKeys[] = "UsersManager_DeleteConfirm";
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
@@ -332,5 +334,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_IncludedInUsersRole';
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
+        $translationKeys[] = 'UsersManager_FirstWebsitePermission';
     }
 }

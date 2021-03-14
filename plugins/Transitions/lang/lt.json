@@ -1,6 +1,7 @@
 {
     "Transitions": {
         "FromPreviousSiteSearches": "Iš vidinės paieškos",
-        "ToFollowingSiteSearches": "Vidinės paieškos"
+        "ToFollowingSiteSearches": "Vidinės paieškos",
+        "TransitionsSubcategoryHelp2": "Išsamiau"
     }
 }

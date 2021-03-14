@@ -55,6 +55,7 @@
         "WidgetPageUrlsFollowingSearch": "Pàgines despes d'una cerca interna",
         "WidgetSearchCategories": "Categoríes de cerca",
         "WidgetSearchKeywords": "Paraules de cerca al lloc",
-        "WidgetSearchNoResultKeywords": "Paraules Clau de cerca sense resultats"
+        "WidgetSearchNoResultKeywords": "Paraules Clau de cerca sense resultats",
+        "PagesSubcategoryHelp3": "Fes servir les icones de més i menys a l'esquerra per navegar."
     }
 }

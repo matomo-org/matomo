@@ -7,14 +7,18 @@
         "ContentInteractions": "Ndërveprime me Lëndën",
         "InteractionRate": "Shkallë Ndërveprimi",
         "ContentName": "Emër Lënde",
+        "ContentNameReportDocumentation": "Ky raport shfaq emrat për lëndën që vizitorët tuaj panë dhe ndërvepruan me të.",
         "ContentNames": "Emra Lënde",
         "ContentPiece": "Copëz Lënde",
+        "ContentPieceReportDocumentation": "Ky raport shfaq pjesë lënde që vizitorët tuaj panë dhe ndërvepruan me të.",
         "ContentPieces": "Copëza Lënde",
         "ContentTarget": "Synim Lënde",
         "ContentTargets": "Synime Lënde",
         "Contents": "Lëndë",
         "InteractionsMetricDocumentation": "Numri i herëve kur për një bllok lënde ka pasur ndërveprime (p.sh., një 'klikim' mbi një banderolë apo reklamë).",
         "ImpressionsMetricDocumentation": "Numri i herëve që një bllok lënde, i tillë si banderolë apo reklamë, është shfaqur në një faqe.",
-        "InteractionRateMetricDocumentation": "Përpjesëtimi i përshtypjeve nga lënda kundrejt ndërveprimeve."
+        "InteractionRateMetricDocumentation": "Përpjesëtimi i përshtypjeve nga lënda kundrejt ndërveprimeve.",
+        "ContentsSubcategoryHelp1": "Ndjekja e lëndës ju ndihmon të përcaktoni popullaritetin e pjesëve specifike të lëndës në çfarëdo faqe të sajtit apo aplikacionit tuaj. Kjo ndarje raporton numrin e përshtypjeve dhe ndërveprimeve që marrin pjesë të ndryshme të lëndës në sajtin tuaj.",
+        "ContentsSubcategoryHelp2": "Mësoni më tepër, te udhërrëfyesi i Ndjekjes së Lëndës."
     }
 }

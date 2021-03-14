@@ -788,6 +788,9 @@ enable_tracking_failures_notification = 1
 ; doing this (such as CustomReports). Set to 0 to disable the feature. Default is 6.
 rearchive_reports_in_past_last_n_months = last6
 
+; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
+rearchive_reports_in_past_exclude_segments = 0
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
