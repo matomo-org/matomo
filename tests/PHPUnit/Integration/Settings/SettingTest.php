@@ -33,8 +33,9 @@ class SettingTest extends \PHPUnit\Framework\TestCase
 
     public function tearDown(): void
     {
+        Fixture::clearInMemoryCaches();
+
         $fixutre = new Fixture();
-        $fixutre->clearInMemoryCaches();
         $fixutre->destroyEnvironment();
     }
 

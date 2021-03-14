@@ -218,6 +218,8 @@
         });
 
         $rootScope.$on('piwikPageChange', function (event) {
+            globalAjaxQueue.abort();
+
             $scope.helpShownCategory = null;
             $scope.currentCategory = piwikUrl.getSearchParam('category');
             $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
@@ -226,6 +228,8 @@
                 $scope.showHelp(showSubcategoryHelpOnLoad.category, showSubcategoryHelpOnLoad.subcategory);
                 showSubcategoryHelpOnLoad = null;
             }
+
+            $('#loadingError').hide();
         });
     }
 })();

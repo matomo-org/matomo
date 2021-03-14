@@ -1451,6 +1451,74 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
     }
 
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReArchivingSegments()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('autoArchiveSegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('secondArchiveSegment', 'browserCode==FF', false, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $reArchiveList = new ReArchiveList();
+        $reArchiveList->setAll([]); // clear list since adding segments will add to it
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 0;
+
+        $this->invalidator->scheduleReArchiving(1);
+        $this->invalidator->applyScheduledReArchiving();
+
+        $invalidationNames = Db::fetchAll("SELECT `name` FROM " . Common::prefixTable('archive_invalidations'));
+        $invalidationNames = array_column($invalidationNames, 'name');
+
+        $expectedCount = 165;
+        $this->assertCount($expectedCount, $invalidationNames);
+
+        $invalidationNames = array_unique($invalidationNames);
+        $invalidationNames = array_values($invalidationNames);
+
+        $expectedInvalidationNames = [
+            'done',
+            'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+            'done3736b708e4d20cfc10610e816a1b2341',
+        ];
+        $this->assertEquals($expectedInvalidationNames, $invalidationNames);
+    }
+
+    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNotReArchivingSegments()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('autoArchiveSegment', 'browserCode==IE', false, true);
+        API::getInstance()->add('secondArchiveSegment', 'browserCode==FF', false, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $reArchiveList = new ReArchiveList();
+        $reArchiveList->setAll([]); // clear list since adding segments will add to it
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 1;
+
+        $this->invalidator->scheduleReArchiving(1);
+        $this->invalidator->applyScheduledReArchiving();
+
+        $invalidationNames = Db::fetchAll("SELECT `name` FROM " . Common::prefixTable('archive_invalidations'));
+        $invalidationNames = array_column($invalidationNames, 'name');
+
+        $expectedCount = 55;
+        $this->assertCount($expectedCount, $invalidationNames);
+
+        $invalidationNames = array_unique($invalidationNames);
+        $invalidationNames = array_values($invalidationNames);
+
+        $expectedInvalidationNames = [
+            'done',
+        ];
+        $this->assertEquals($expectedInvalidationNames, $invalidationNames);
+    }
+
     private function getNumInvalidations()
     {
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));

@@ -4,7 +4,7 @@
         "CannotFindGeoIPServerVar": "Variabila %s nu este setata. Server-ul dvs. ar putea să nu fie configurat corect.",
         "CannotListContent": "Nu s-a putut lista continutul pentru: %1$s %2$s",
         "DownloadingDb": "Se descarcă %s",
-        "DownloadNewDatabasesEvery": "Actializează baza de date fiecare",
+        "DownloadNewDatabasesEvery": "Actualizează baza de date la fiecare",
         "FoundApacheModules": "Matomo a găsit următoarele module Apache",
         "GeoIPImplHasAccessTo": "Aceasta implementare GeoIP are acces la următoarele tipuri de baze de date",
         "GeoIPDatabases": "Bazele de date GeoIP",
@@ -15,16 +15,17 @@
         "HowToSetupGeoIPIntro": "Nu pare a avea o configurare exacte Geolocation. Aceasta este o caracteristică utilă și fără ea nu se vor vedea informatii corecte si complete de locație pentru vizitatori. Iată cum puteți începe rapid folosind-o:",
         "HowToInstallApacheModule": "Cum instalez modulul GeoIP pentru Apache?",
         "HowToInstallNginxModule": "Cum instalez modulul GeoIP pentru Nginx?",
-        "HttpServerModule": "Module HTTP Server",
+        "HttpServerModule": "Modul HTTP Server",
         "InvalidGeoIPUpdatePeriod": "Perioada de valabilitate pentru updater GeoIP:%1$s. Valorile valide sunt %2$s.",
         "ISPDatabase": "Baza de date provideri internet",
-        "LocationDatabase": "Locatie baza de date",
-        "LocationDatabaseHint": "O locatie bază de date este fie o țară, regiune sau oraș baza de date.",
+        "LocationDatabase": "Bază de date locații",
+        "LocationDatabaseHint": "O bază de date cu locații este o bază de date cu țări, regiuni sau orașe.",
         "UnsupportedArchiveType": "Arhiva neacceptata tip întâlnit %1$s.",
         "UpdaterHasNotBeenRun": "Updater-ul nu a fost rulat.",
         "UpdaterIsNotScheduledToRun": "Acesta nu este programata să ruleze în viitor.",
         "UpdaterScheduledForNextRun": "Acesta este programat să ruleze în următoarea executare archive.php cron.",
         "UpdaterWasLastRun": "Programul de actualizare a fost lasat sa ruleze %s.",
-        "UpdaterWillRunNext": "Programarea urmatoare trebuie sa ruleze pe %s."
+        "UpdaterWillRunNext": "Programarea urmatoare trebuie sa ruleze pe %s.",
+        "ServerVariableFor": "Variabila server-ului pentru %s"
     }
 }

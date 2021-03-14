@@ -97,7 +97,6 @@
         "RowLimit": "Limite de linha",
         "CustomLimit": "Limite personalizado",
         "ExportFormat": "Formato de exportação",
-        "ExportTooltip": "Nota: O gerador de exportação de URL somente funcionará na sessão atual do navegador. Se você quiser usar em outro lugar, precisará usar um token específico para o aplicativo. Você pode configurar esses tokens em Admin -> Segurança -> Autenticação de Token.",
         "ExpandSubtables": "Expandir sub tabelas",
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Achatar relatório",

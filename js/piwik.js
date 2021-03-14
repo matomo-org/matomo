@@ -3381,11 +3381,12 @@ if (typeof window.Matomo !== 'object') {
 
             function isPossibleToSetCookieOnDomain(domainToTest)
             {
+                var testCookieName = configCookieNamePrefix + 'testcookie_domain';
                 var valueToSet = 'testvalue';
-                setCookie('test', valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite);
+                setCookie(testCookieName, valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite);
 
-                if (getCookie('test') === valueToSet) {
-                    deleteCookie('test', null, domainToTest);
+                if (getCookie(testCookieName) === valueToSet) {
+                    deleteCookie(testCookieName, null, domainToTest);
 
                     return true;
                 }
@@ -3879,7 +3880,7 @@ if (typeof window.Matomo !== 'object') {
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
                 // append already available performance metrics if they were not already tracked (or appended)
-                if (!performanceTracked) {
+                if (configPerformanceTrackingEnabled && !performanceTracked) {
                     request = appendAvailablePerformanceMetrics(request);
                 }
 

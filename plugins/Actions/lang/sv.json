@@ -89,6 +89,7 @@
         "ExitPagesSubcategoryHelp1": "Denna rapport innehåller information om utgångssidorna som inträffade under den angivna perioden. En utgångssida är den sista sidan som en användare ser under sitt besök.",
         "ExitPagesSubcategoryHelp2": "Utgångs-URL:erna visas som en mappstruktur.",
         "PageTitlesSubcategoryHelp1": "Denna rapport innehåller information om titlarna på de sidor som har besökts.",
+        "PageTitlesSubcategoryHelp2": "Sidans titel är HTML &amp;lt;title&amp;gt; taggen som de flesta webbläsare visar i deras fönstertitel.",
         "SiteSearchSubcategoryHelp1": "Sökdelen visar vilka nyckelord besökare använder när de söker på din webbplats. Det visar också vilka sidor användarna går in på efter en sökning och vilka sökord som inte ger några resultat alls.",
         "SiteSearchSubcategoryHelp2": "Dessa rapporter kan ge dig en bild av innehåll som saknas på din webbplats, inblick i vad dina besökare letar efter men som de inte hittar så lätt, och mer.",
         "SiteSearchSubcategoryHelp3": "Läs mer i webbplatssök-guiden.",

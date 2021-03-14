@@ -35,6 +35,6 @@
         "TotalValueDocumentation": "Etkinlik değerleri toplamı",
         "ViewEvents": "Etkinlikleri Görüntüle",
         "EventsSubcategoryHelp1": "Etkinlikler bölümü, site ile ilişkili özel etkinlikler hakkında raporlar sunar. Etkinlikler için genellikle özel yapılandırma gerekir. Yapılandırma sonrasında raporlar kategoriye, işleme ve ada göre düzenlenmiş olarak incelenebilir.",
-        "EventsSubcategoryHelp2": "Etkinlik izleme hakkında ayrıntılı bilgi almak için buraya bakabilirsiniz."
+        "EventsSubcategoryHelp2": "Ayrıntılı bilgi almak için etkinlik izleme rehberine bakabilirsiniz."
     }
 }

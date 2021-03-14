@@ -104,7 +104,6 @@
         "RowLimit": "Limit řádků",
         "CustomLimit": "Vlastní limit",
         "ExportFormat": "Formát exportu",
-        "ExportTooltip": "Poznámka: Generovaná adresa URL exportu bude fungovat pouze v aktuální relaci prohlížeče. Pokud ji chcete použít někde jinde, musíte použít token specifický pro aplikaci. Tyto tokeny můžete nakonfigurovat v části Správce -> Zabezpečení -> Autentizace tokenů.",
         "ExpandSubtables": "Rozbalit dílčí tabulky",
         "StandardReport": "Standartní report",
         "FlattenReport": "Srovnat report",
