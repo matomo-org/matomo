@@ -5,7 +5,11 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Auth;
+
+use Exception;
+use Piwik\Config;
 
 /**
  * Main class to handle actions related to password hashing and verification.
@@ -15,6 +19,53 @@ namespace Piwik\Auth;
 class Password
 {
     /**
+     * Choose the used algorithm for password_hash depending on the config option
+     *
+     * @return string|int depending on PHP version
+     * @throws Exception
+     */
+    private function preferredAlgorithm()
+    {
+        $passwordHashAlogrithm = Config::getInstance()->General['password_hash_algorithm'];
+        switch ($passwordHashAlogrithm) {
+            case "default":
+                return PASSWORD_DEFAULT;
+            case "bcrypt":
+                return PASSWORD_BCRYPT;
+            case "argon2i":
+                return PASSWORD_ARGON2I;
+            case "argon2id":
+                if (version_compare(PHP_VERSION, '7.3.0', '<')) {
+                    throw new Exception("argon2id needs at leat PHP 7.3.0");
+                }
+                return PASSWORD_ARGON2ID;
+            default:
+                throw new Exception("invalid password_hash_algorithm");
+        }
+    }
+
+    /**
+     * Fetches argon2 options from config.ini.php
+     *
+     * @return array
+     */
+    private function algorithmOptions()
+    {
+        $options = [];
+        $generalConfig = Config::getInstance()->General;
+        if ($generalConfig["password_hash_argon2_threads"] != "default") {
+            $options["threads"] = max($generalConfig["password_hash_argon2_threads"], 1);
+        }
+        if ($generalConfig["password_hash_argon2_memory_cost"] != "default") {
+            $options["memory_cost"] = max($generalConfig["password_hash_argon2_memory_cost"], 8 * $options["threads"]);
+        }
+        if ($generalConfig["password_hash_argon2_time_cost"] != "default") {
+            $options["time_cost"] = max($generalConfig["password_hash_argon2_time_cost"], 1);
+        }
+        return $options;
+    }
+
+    /**
      * Hashes a password with the configured algorithm.
      *
      * @param string $password
@@ -22,7 +73,7 @@ class Password
      */
     public function hash($password)
     {
-        return password_hash($password, PASSWORD_BCRYPT);
+        return password_hash($password, $this->preferredAlgorithm(), $this->algorithmOptions());
     }
 
     /**
@@ -49,7 +100,7 @@ class Password
      */
     public function needsRehash($hash)
     {
-        return password_needs_rehash($hash, PASSWORD_BCRYPT);
+        return password_needs_rehash($hash, $this->preferredAlgorithm(), $this->algorithmOptions());
     }
 
     /**

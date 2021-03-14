@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.3.0
+
+### New config.ini.php settings
+
+* The `password_hash_algorithm`, `password_hash_argon2_threads`, `password_hash_argon2_memory_cost` and `password_hash_argon2_time_cost` INI config options have been added to allow using specific `password_hash` algorithms and options if desired.
+
 ## Matomo 4.2.0
 
 ### New config.ini.php settings
