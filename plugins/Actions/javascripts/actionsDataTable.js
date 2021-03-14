@@ -102,7 +102,7 @@
 
             if (hasOnlyOneSubtable) {
                 var hasOnlyOneRow = domElem.find('tbody tr.level0').length === 1;
-                
+
                 if (hasOnlyOneRow) {
                     var $labels = $subtables.find('.label');
                     if ($labels.length) {
@@ -137,7 +137,7 @@
             var imagePlusMinusHeight = 12;
             $('td:first-child', rowsWithSubtables)
                 .each(function () {
-                    $('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" />').insertBefore($(this).children('.label'));
+                    $('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" style="margin-left:0px"/>').insertBefore($(this).children('.label'));
 
                     if (self.param.filter_pattern_recursive) {
                         setImageMinus(this);
