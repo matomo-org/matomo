@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Cette sélection de gadgets et cette disposition du tableau de bord seront utilisées à chaque création de tableau de bord par n'importe quel utilisateur ou quand la fonctionnalité \"%s\" est utilisée.",
         "TopLinkTooltip": "Afficher les rapport de statistiques web pour %s.",
         "WidgetNotFound": "Widget introuvable",
-        "WidgetPreview": "Prévisualisation du Widget"
+        "WidgetPreview": "Prévisualisation du Widget",
+        "DashboardCategoryHelp": "Ceci est une page de tableau de bord. Les tableaux de bord sont une collection de gadgets Matomo que vous agencez vous-même en fonction de vos besoins. Combinez et disposez les widgets de Matomo pour obtenir les données dont %1$svous%2$s avez besoin en un coup d'œil."
     }
 }

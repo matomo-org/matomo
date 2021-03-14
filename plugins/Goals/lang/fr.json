@@ -41,6 +41,7 @@
         "ConversionsOverview": "Vue globale des conversions",
         "ConversionsOverviewBy": "Vue d'ensemble des conversions par type de visite",
         "DaysToConv": "Jours par conversion",
+        "DaysToConvReportDocumentation": "Ce rapport indique le nombre de jours qui s'écoulent avant que vos visiteurs atteignent un objectif.",
         "Details": "Détails de l'objectif",
         "DefaultGoalConvertedOncePerVisit": "(par défaut) Un objectif peut-être converti une seule fois par visite",
         "DefaultRevenueLabel": "Revenu de l'objectif par défaut",
@@ -108,6 +109,7 @@
         "GoalsAdjective": "Objectifs %s",
         "VisitPageTitle": "Visitent un titre de page donné.",
         "VisitsUntilConv": "Visites par conversion",
+        "VisitsUntilConvReportDocumentation": "Ce rapport indique le nombre de visites avant qu'un visiteur atteigne un objectif.",
         "VisitUrl": "Visitent une URL donnée (page ou groupe de pages)",
         "VisitDurationMatchAttr": "Rester pendant un certain temps",
         "VisitDuration": "durée de visite est",
@@ -121,6 +123,11 @@
         "EventValueAsRevenueHelp2": "Note : si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie).",
         "AtLeastMinutes": "au moins %1$s minutes. Utiliser les décimales pour les secondes, par exemple, %2$s pour 30 secondes.",
         "TimeInMinutes": "Durée en minute",
-        "ClickToViewThisGoal": "Cliquer pour voir cet objectif."
+        "ClickToViewThisGoal": "Cliquer pour voir cet objectif.",
+        "OverviewReportDocumentation": "Ce rapport donne un aperçu de la manière dont vos visiteurs convertissent un objectif spécifique.",
+        "GoalsOverviewSubcategoryHelp1": "La vue d'ensemble des objectifs rend compte de la performance des objectifs définis pour votre site web. Vous pouvez accéder aux pourcentages de conversion, au montant des revenus générés et aux rapports complets pour chacun de vos objectifs.",
+        "GoalsOverviewSubcategoryHelp2": "Cliquez sur une métrique dans le graphique pour vous concentrer sur celle-ci dans le graphique d'évolution en taille réelle.",
+        "ManageGoalsSubcategoryHelp1": "Cette section vous permet de créer et de modifier des objectifs pour des actions spécifiques que les visiteurs effectuent sur votre site, comme par exemple visiter une certaine page ou soumettre un formulaire spécifique. Les rapports d'objectifs varient mais peuvent vous aider à suivre les performances de votre site web par rapport à des objectifs commerciaux tels que la génération de prospects, les ventes en ligne et l'augmentation de la visibilité de la marque.",
+        "ManageGoalsSubcategoryHelp2": "Pour en savoir plus, consultez le guide des objectifs."
     }
 }

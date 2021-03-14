@@ -30,6 +30,7 @@
         "WidgetLocalTime": "Besuche nach lokaler Zeit",
         "WidgetLocalTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %1$s in der Zeitzone des Besuchers %2$s war, als er die Seite besuchte.",
         "WidgetServerTime": "Besuche nach Server-Zeit",
-        "WidgetServerTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %1$s in der Zeitzone des Servers %2$s war, als die Seite besucht wurde."
+        "WidgetServerTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %1$s in der Zeitzone des Servers %2$s war, als die Seite besucht wurde.",
+        "TimesSubcategoryHelp": "Der Zeitbereich zeigt Ihnen wann Leute Ihre Seite besuchen. Sie können die populärsten lokalen Zeiten sehen, an denen Ihre Besucher die Seite besuchen, damit Sie verstehen wo Ihre Seite in deren Leben passt. Zusätzlich zeigt es die beliebtesten Serverzeiten, welche Bedürfnisse für Ihre technologische Infrastruktur aufdecken könnte."
     }
 }

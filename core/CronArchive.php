@@ -344,7 +344,9 @@ class CronArchive
         }
 
         $this->logger->debug("Applying queued rearchiving...");
-        $this->invalidator->applyScheduledReArchiving();
+        \Piwik\Tracker\Cache::withDelegatedCacheClears(function () {
+            $this->invalidator->applyScheduledReArchiving();
+        });
 
         $failedJobs = $this->model->resetFailedArchivingJobs();
         if ($failedJobs) {
@@ -770,6 +772,13 @@ class CronArchive
     }
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
+    {
+        \Piwik\Tracker\Cache::withDelegatedCacheClears(function () use ($idSiteToInvalidate) {
+            $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgainImpl($idSiteToInvalidate);
+        });
+    }
+
+    private function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgainImpl($idSiteToInvalidate)
     {
         if (empty($this->segmentArchiving)) {
             // might not be initialised if init is not called

@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Désactivation des plugins incompatibles : %s",
         "DownloadingUpdateFromX": "Téléchargement de la mise à jour depuis %s",
         "DownloadX": "Télécharger %s",
+        "UpdateLog": "Journal des mises à jour",
         "EmptyDatabaseError": "La base de données %s est vide. Vous devez éditer ou supprimer votre fichier de configuration Matomo.",
         "ErrorDIYHelp": "Si vous êtes un utilisateur avancé et que vous rencontrez une erreur lors de la mise à jour de la base de données :",
         "ErrorDIYHelp_1": "identifiez la source exacte du problème (ex, memory_limit ou max_execution_time)",

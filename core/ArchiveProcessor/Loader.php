@@ -143,6 +143,10 @@ class Loader
             $this->invalidatedReportsIfNeeded();
         }
 
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $this->logger->info("initiating archiving via core:archive for " . $this->params);
+        }
+
         /** @var ArchivingStatus $archivingStatus */
         $archivingStatus = StaticContainer::get(ArchivingStatus::class);
         $locked = $archivingStatus->archiveStarted($this->params);
@@ -419,13 +423,6 @@ class Loader
         list($date1, $date2) = $period->getBoundsInTimezone($timezone);
 
         return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
-    }
-
-    public static function invalidateMinVisitTimeCache($idSite)
-    {
-        $cache = Cache::getLazyCache();
-        $cacheKey = 'Archiving.minVisitTime.' . $idSite;
-        $cache->delete($cacheKey);
     }
 
     public static function getArchivingDepth()

@@ -381,17 +381,18 @@ class Fixture extends \PHPUnit\Framework\Assert
             $this->dropDatabase();
         }
 
-        $this->clearInMemoryCaches();
+        self::clearInMemoryCaches();
 
         Log::unsetInstance();
 
         $this->destroyEnvironment();
     }
 
-    public function clearInMemoryCaches()
+    public static function clearInMemoryCaches($resetTranslations = true)
     {
         Date::$now = null;
         FrontController::$requestId = null;
+        Cache::$cache = null;
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
@@ -408,7 +409,9 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         Plugin\API::unsetAllInstances();
         $_GET = $_REQUEST = array();
-        self::resetTranslations();
+        if ($resetTranslations) {
+            self::resetTranslations();
+        }
 
         self::getConfig()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object

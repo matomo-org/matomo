@@ -49,7 +49,8 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         }
 
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, 0, "Site 2");
+            // set https url in website config, which should convert action urls to https in api response
+            self::createWebsite($this->dateTime, 0, "Site 2", ['http://piwik.net', 'http://example2.com', 'https://example2.com']);
         }
 
         if ($this->allowConversions) {
