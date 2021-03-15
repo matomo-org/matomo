@@ -26,7 +26,7 @@ use Twig\TwigTest;
 
 function piwik_filter_truncate($string, $size)
 {
-    if (Common::mb_strlen(html_entity_decode($string)) <= $size) {
+    if (mb_strlen(html_entity_decode($string)) <= $size) {
         return $string;
     } else {
         preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);

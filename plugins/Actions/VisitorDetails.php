@@ -166,7 +166,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $host = parse_url($action['url'], PHP_URL_HOST);
 
             if ($host && PageUrl::shouldUseHttpsHost($visitorDetails['idSite'], $host)) {
-                $action['url'] = 'https://' . Common::mb_substr($action['url'], 7 /* = strlen('http://') */);
+                $action['url'] = 'https://' . mb_substr($action['url'], 7 /* = strlen('http://') */);
             }
         }
 

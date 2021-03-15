@@ -186,7 +186,7 @@ class Common
      * @param int $start
      * @param int|null $length      optional length
      * @return string
-     * @deprecated since 4.1 - directly use mb_substr instead
+     * @deprecated since 4.4 - directly use mb_substr instead
      */
     public static function mb_substr($string, $start, $length = null)
     {
@@ -225,7 +225,7 @@ class Common
      *
      * @param string $string
      * @return int
-     * @deprecated since 4.1 - directly use mb_strlen instead
+     * @deprecated since 4.4 - directly use mb_strlen instead
      */
     public static function mb_strlen($string)
     {
@@ -239,7 +239,7 @@ class Common
      *
      * @param string $string
      * @return string
-     * @deprecated since 4.1 - directly use mb_strtolower instead
+     * @deprecated since 4.4 - directly use mb_strtolower instead
      */
     public static function mb_strtolower($string)
     {
@@ -253,7 +253,7 @@ class Common
      *
      * @param string $string
      * @return string
-     * @deprecated since 4.1 - directly use mb_strtoupper instead
+     * @deprecated since 4.4 - directly use mb_strtoupper instead
      */
     public static function mb_strtoupper($string)
     {

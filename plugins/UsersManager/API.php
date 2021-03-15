@@ -665,7 +665,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
         }
 
-        if ($userLogin && Common::mb_strtolower($userLogin) !== Common::mb_strtolower($email) && $this->userExists($email)) {
+        if ($userLogin && mb_strtolower($userLogin) !== mb_strtolower($email) && $this->userExists($email)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
         }
 
