@@ -9,6 +9,7 @@
 
 namespace Piwik\Archive;
 
+use Piwik\Access;
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Loader;
@@ -577,6 +578,7 @@ class ArchiveInvalidator
                 }
 
                 $idSites = Site::getIdSitesFromIdSitesString($entry['idSites']);
+
                 $this->reArchiveReport(
                     $idSites,
                     $entry['pluginName'],

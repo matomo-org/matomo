@@ -253,6 +253,12 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
 
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'));
+
+        // three whole plugin archives from previous tests
+        $countOfDoneExamplePluginArchives = Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'done.ExamplePlugin'");
+        $this->assertEquals(3, $countOfDoneExamplePluginArchives);
+
         // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
         // (do it after the last run so we don't end up just re-using the ExamplePlugin archive)
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
@@ -271,12 +277,15 @@ class ArchiveCronTest extends SystemTestCase
             'testSuffix' => '_singleMetric',
         ]);
 
+        // three new partial plugin archives should appear
+        $countOfDoneExamplePluginArchives = Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'done.ExamplePlugin'");
+        $this->assertEquals(6, $countOfDoneExamplePluginArchives);
+
         // test that latest archives for ExamplePlugin are partial
-        $archiveValues = Db::fetchAll("SELECT value FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'))
-            . " WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
+        $archiveValues = Db::fetchAll("SELECT value FROM $table WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
         $archiveValues = array_column($archiveValues, 'value');
         $archiveValues = array_unique($archiveValues);
-        $this->assertEquals([5], $archiveValues);
+        $this->assertEquals([5, 1], array_values($archiveValues));
     }
 
     public function testArchivePhpCronArchivesFullRanges()
