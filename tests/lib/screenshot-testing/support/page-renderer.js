@@ -403,6 +403,18 @@ PageRenderer.prototype._setupWebpageEvents = function () {
                 console.log('Reloading CSS failed (' + errorMessage + ').');
             }
         }
+
+        if (request.url().indexOf('action=getCoreJs')) {
+            if (errorMessage === 'net::ERR_ABORTED') {
+                console.log('JS request aborted.');
+            } else if (request.url().indexOf('&reload=1') === -1) {
+                console.log('Loading JS failed (' + errorMessage + ')... Try adding it with another script tag.');
+                await this.webpage.addScriptTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+                await this.webpage.waitFor(1000);
+            } else {
+                console.log('Reloading JS failed (' + errorMessage + ').');
+            }
+        }
     });
 
     this.webpage.on('requestfinished', async (request) => {
