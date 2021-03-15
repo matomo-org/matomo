@@ -8,22 +8,6 @@
 {% block content %}
 
     <div id="feedback-faq" class="admin">
-        <div piwik-content-block
-             content-title="{{ headline|e('html_attr') }}"
-             feature="{{ 'General_Help'|translate|e('html_attr') }}">
-            <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
-                    "</a>",
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/get-involved/'>",
-                    "</a>",
-                    "<a href='" ~ linkTo({'module':'CoreAdminHome', 'action': 'home'})~"'>",
-                    "</a>",
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/team/'>",
-                    "</a>"
-                )|raw }}
-            </p>
-        </div>
-
         <div piwik-content-block content-title="{{ "Feedback_HowCanWeHelp"|translate|e('html_attr') }}" class="feedback-help-resources">
             <form target="_blank" method="GET" action="https://matomo.org/">
                 <div class="search-matomo-form z-depth-1">
@@ -65,6 +49,22 @@
                 <br />
                 <input type="submit" class="btn" value="{{ 'General_MoreDetails'|translate }}">
             </form>
+        </div>
+
+        <div piwik-content-block
+             content-title="{{ headline|e('html_attr') }}"
+             feature="{{ 'General_Help'|translate|e('html_attr') }}">
+            <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
+                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
+                    "</a>",
+                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/get-involved/'>",
+                    "</a>",
+                    "<a href='" ~ linkTo({'module':'CoreAdminHome', 'action': 'home'})~"'>",
+                    "</a>",
+                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/team/'>",
+                    "</a>"
+                )|raw }}
+            </p>
         </div>
 
         <div piwik-content-block content-title="Premium products">
