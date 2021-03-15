@@ -245,7 +245,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (SettingsPiwik::isAutoUpdatePossible()) {
             foreach ($paidPlugins as $paidPlugin) {
                 if ($this->canPluginBeInstalled($paidPlugin)
-                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'])
+                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
                         && !$this->pluginManager->isPluginActivated($paidPlugin['name']))) {
                     $paidPluginsToInstallAtOnce[] = $paidPlugin['name'];
                 }
@@ -301,92 +301,102 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->dieIfPluginsAdminIsDisabled();
         Plugin\ControllerAdmin::displayWarningIfConfigFileNotWritable();
 
-        Nonce::checkNonce(static::INSTALL_NONCE);
+        $params = array(
+            'module' => 'Marketplace',
+            'action' => 'installAllPaidPlugins',
+            'nonce' => Common::getRequestVar('nonce')
+        );
+        if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            Nonce::checkNonce(static::INSTALL_NONCE);
 
-        $paidPlugins = $this->plugins->getAllPaidPlugins();
+            $paidPlugins = $this->plugins->getAllPaidPlugins();
 
-        $hasErrors = false;
-        foreach ($paidPlugins as $paidPlugin) {
-            if (!$this->canPluginBeInstalled($paidPlugin)) {
-                continue;
-            }
-
-            $pluginName = $paidPlugin['name'];
-
-            try {
-
-                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
-            } catch (\Exception $e) {
-
-                $notification = new Notification($e->getMessage());
-                $notification->context = Notification::CONTEXT_ERROR;
-                if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
-                    $notification->raw = true;
-                }
-                Notification\Manager::notify('Marketplace_Install' . $pluginName, $notification);
-
-                $hasErrors = true;
-            }
-        }
-
-        if ($hasErrors) {
-            Url::redirectToReferrer();
-            return;
-        }
-
-        $dependency = new Plugin\Dependency();
-
-        for ($i = 0; $i <= 10; $i++) {
-            foreach ($paidPlugins as $index => $paidPlugin) {
-                if (empty($paidPlugin)) {
+            $hasErrors = false;
+            foreach ($paidPlugins as $paidPlugin) {
+                if (!$this->canPluginBeInstalled($paidPlugin)) {
                     continue;
                 }
 
                 $pluginName = $paidPlugin['name'];
 
-                if ($this->pluginManager->isPluginActivated($pluginName)) {
-                    // we do not use unset since it might skip a plugin afterwards when removing index
-                    $paidPlugins[$index] = null;
-                    continue;
-                }
+                try {
 
-                if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
-                    $paidPlugins[$index] = null;
-                    continue;
-                }
+                    $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
 
-                if (empty($paidPlugin['require'])
-                    || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])) {
+                } catch (\Exception $e) {
 
-                    $paidPlugins[$index] = null;
-
-                    try {
-                        $this->pluginManager->activatePlugin($pluginName);
-                    } catch (Exception $e) {
-
-                        $hasErrors = true;
-                        $notification = new Notification($e->getMessage());
-                        $notification->context = Notification::CONTEXT_ERROR;
-                        Notification\Manager::notify('Marketplace_Install' . $pluginName, $notification);
+                    $notification          = new Notification($e->getMessage());
+                    $notification->context = Notification::CONTEXT_ERROR;
+                    if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
+                        $notification->raw = true;
                     }
+                    Notification\Manager::notify('Marketplace_Install' . $pluginName, $notification);
+
+                    $hasErrors = true;
                 }
             }
 
-            $paidPlugins = array_filter($paidPlugins);
+            if ($hasErrors) {
+                Url::redirectToReferrer();
+                return;
+            }
+
+            $dependency = new Plugin\Dependency();
+
+            for ($i = 0; $i <= 10; $i++) {
+                foreach ($paidPlugins as $index => $paidPlugin) {
+                    if (empty($paidPlugin)) {
+                        continue;
+                    }
+
+                    $pluginName = $paidPlugin['name'];
+
+                    if ($this->pluginManager->isPluginActivated($pluginName)) {
+                        // we do not use unset since it might skip a plugin afterwards when removing index
+                        $paidPlugins[$index] = null;
+                        continue;
+                    }
+
+                    if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                        $paidPlugins[$index] = null;
+                        continue;
+                    }
+
+                    if (empty($paidPlugin['require'])
+                        || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])) {
+
+                        $paidPlugins[$index] = null;
+
+                        try {
+                            $this->pluginManager->activatePlugin($pluginName);
+                        } catch (Exception $e) {
+
+                            $hasErrors             = true;
+                            $notification          = new Notification($e->getMessage());
+                            $notification->context = Notification::CONTEXT_ERROR;
+                            Notification\Manager::notify('Marketplace_Install' . $pluginName, $notification);
+                        }
+                    }
+                }
+
+                $paidPlugins = array_filter($paidPlugins);
+            }
+
+            if ($hasErrors) {
+                $notification          = new Notification(Piwik::translate('Marketplace_OnlySomePaidPluginsInstalledAndActivated'));
+                $notification->context = Notification::CONTEXT_INFO;
+            } else {
+                $notification          = new Notification(Piwik::translate('Marketplace_AllPaidPluginsInstalledAndActivated'));
+                $notification->context = Notification::CONTEXT_SUCCESS;
+            }
+
+            Notification\Manager::notify('Marketplace_InstallAll', $notification);
+
+            Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
+                    'action' => 'overview',
+                    'nonce' => null,
+                ]));
         }
-
-        if ($hasErrors) {
-            $notification = new Notification(Piwik::translate('Marketplace_OnlySomePaidPluginsInstalledAndActivated'));
-            $notification->context = Notification::CONTEXT_INFO;
-        } else {
-            $notification = new Notification(Piwik::translate('Marketplace_AllPaidPluginsInstalledAndActivated'));
-            $notification->context = Notification::CONTEXT_SUCCESS;
-        }
-
-        Notification\Manager::notify('Marketplace_InstallAll', $notification);
-
-        Url::redirectToReferrer();
     }
 
     public function updatePlugin()
@@ -489,7 +499,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $pluginName = $plugin['name'];
 
-        $isAlreadyInstalled = $this->pluginManager->isPluginInstalled($pluginName)
+        $isAlreadyInstalled = $this->pluginManager->isPluginInstalled($pluginName, true)
             || $this->pluginManager->isPluginLoaded($pluginName)
             || $this->pluginManager->isPluginActivated($pluginName);
 

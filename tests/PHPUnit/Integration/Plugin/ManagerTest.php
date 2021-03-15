@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Plugin;
 
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Http\ControllerResolver;
@@ -134,6 +135,25 @@ class ManagerTest extends IntegrationTestCase
                 }
             }
         }
+    }
+
+    public function test_isPluginInstalled_corePluginThatExists()
+    {
+        $this->assertTrue($this->manager->isPluginInstalled('CoreAdminHome', true));
+        $this->assertTrue($this->manager->isPluginInstalled('CoreAdminHome', false));
+    }
+
+    public function test_isPluginInstalled_pluginNotExists()
+    {
+        $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', true));
+        $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', false));
+    }
+
+    public function test_isPluginInstalled_pluginInstalledConfigButNotExists()
+    {
+        Config::getInstance()->PluginsInstalled['PluginsInstalled'][] = 'FooBarBaz';
+        $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', true));
+        $this->assertTrue($this->manager->isPluginInstalled('FooBarBaz', false));
     }
 
     /**

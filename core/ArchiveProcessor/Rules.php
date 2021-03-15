@@ -330,10 +330,17 @@ class Rules
 
     public static function isForceArchivingSinglePlugin()
     {
-        if (!SettingsServer::isArchivePhpTriggered()) {
+        if (!SettingsServer::isArchivePhpTriggered()
+            || Loader::getArchivingDepth() > 1
+        ) {
             return false;
         }
 
         return !empty($_GET['pluginOnly']) || !empty($_POST['pluginOnly']);
+    }
+
+    public static function shouldProcessSegmentsWhenReArchivingReports()
+    {
+        return Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] != 1;
     }
 }

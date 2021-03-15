@@ -11671,7 +11671,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://piwik.net/view/my/file.html</url>
+						<url>http://d111111abcdef8.cloudfront.net/view/my/file.html</url>
 						<comparisons>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -11698,7 +11698,7 @@
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+								<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -11725,10 +11725,10 @@
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+								<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
+						<segment>pageUrl==http%253A%252F%252Fd111111abcdef8.cloudfront.net%252Fview%252Fmy%252Ffile.html</segment>
 					</row>
 				</subtable>
 			</row>

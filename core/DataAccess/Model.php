@@ -52,15 +52,18 @@ class Model
      *
      * @param string $archiveTable
      * @param array $idSites
+     * @param bool $setGroupContentMaxLen for tests only
      * @return array
      * @throws Exception
      */
-    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable)
+    public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, $setGroupContentMaxLen = true)
     {
-        try {
-            Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
-        } catch (\Exception $ex) {
-            $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
+        if ($setGroupContentMaxLen) {
+            try {
+                Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+            } catch (\Exception $ex) {
+                $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
+            }
         }
 
         $sql = "SELECT idsite, date1, date2, period, name,
@@ -81,8 +84,8 @@ class Model
             // and we don't want to delete the latest archive if it is usable
             while (!empty($duplicateArchives)) {
                 $pair = $duplicateArchives[0];
-                if (strpos($pair, '.') === false) {
-                    continue; // see below
+                if ($this->isCutOffGroupConcatResult($pair)) { // can occur if the GROUP_CONCAT value is cut off
+                    break;
                 }
 
                 list($idarchive, $value) = explode('.', $pair);
@@ -97,7 +100,7 @@ class Model
             // if there is more than one archive, the older invalidated ones can be deleted
             if (!empty($duplicateArchives)) {
                 foreach ($duplicateArchives as $pair) {
-                    if (strpos($pair, '.') === false) {
+                    if ($this->isCutOffGroupConcatResult($pair)) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
                         break;
                     }
@@ -844,9 +847,15 @@ class Model
         while ($date->isEarlier($period->getDateEnd()->addPeriod(1, 'month'))) {
             $archiveTable = ArchiveTableCreator::getNumericTable($date);
 
+            // we look for any archive that can be used to compute this one. this includes invalidated archives, since it is possible
+            // under certain circumstances for them to exist, when archiving a higher period that includes them. the main example being
+            // the GoogleAnalyticsImporter which disallows the recomputation of invalidated archives for imported data, since that would
+            // essentially get rid of the imported data.
+            $usableDoneFlags = [ArchiveWriter::DONE_OK, ArchiveWriter::DONE_INVALIDATED, ArchiveWriter::DONE_PARTIAL, ArchiveWriter::DONE_OK_TEMPORARY];
+
             $sql = "SELECT idarchive
                   FROM `$archiveTable`
-                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` = " . ArchiveWriter::DONE_OK . "
+                 WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN (" . implode(', ', $usableDoneFlags) . ")
                  LIMIT 1";
             $bind = [$idSite, $period->getDateStart()->getDatetime(), $period->getDateEnd()->getDatetime(), $period->getId()];
 
@@ -911,5 +920,11 @@ class Model
 
         $query = Db::query($sql, $bind);
         return $query->rowCount();
+    }
+
+    private function isCutOffGroupConcatResult($pair)
+    {
+        $position = strpos($pair, '.');
+        return $position === false || $position === strlen($pair) - 1;
     }
 }

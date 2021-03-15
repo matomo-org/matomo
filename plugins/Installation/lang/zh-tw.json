@@ -101,6 +101,7 @@
         "SystemCheckMbstringHelp": "處理多字節的使用者介面或 API 回應資料必須使用 mbstring 擴充功能。並請檢查 php.ini 中的 mbstring.func_overload 已將值設定為「0」。",
         "SystemCheckMemoryLimit": "記憶體限制",
         "SystemCheckMemoryLimitHelp": "在一個高流量的網站，資料彙整處理過程可能超過目前所允許使用的記憶體量。<br \/>如果必要，試著變更在你 php.ini 檔案裡的 memory_limit。",
+        "SystemCheckMemoryNoMemoryLimitSet": "尚未設定記憶體限制。",
         "SystemCheckNoErrorsOrWarnings": "沒有錯誤或警告",
         "SystemCheckViewFullSystemCheck": "查看完整的系統檢查報表",
         "SystemCheckOpenURL": "開啟網址",

@@ -33,6 +33,8 @@
         "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse",
         "TotalValue": "Ereigniswert",
         "TotalValueDocumentation": "Summe der Ereigniswerte",
-        "ViewEvents": "Ereignisse ansehen"
+        "ViewEvents": "Ereignisse ansehen",
+        "EventsSubcategoryHelp1": "Der Ereignisbereich offeriert Berichte für mit Ihrer Seite verknüpfte benutzerdefinierte Ereignisse. Ereignisse benötigen normalerweise eine spezifische Konfiguration. Wenn sie einmal konfiguriert sind, können Sie Berichte auf Kategorie, Aktion und Name heruntergebrochen anzeigen.",
+        "EventsSubcategoryHelp2": "Erfahren Sie mehr über die Erfassung von Ereignissen."
     }
 }

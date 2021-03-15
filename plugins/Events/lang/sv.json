@@ -8,10 +8,13 @@
         "Event": "Händelse",
         "EventAction": "Åtgärd för händelse",
         "EventActions": "Åtgärder för händelse",
+        "EventActionsReportDocumentation": "Den här rapporten visar hur många gånger varje händelseåtgärd inträffade. Du kan se händelsekategorierna och namnen som spårades tillsammans med varje händelseåtgärd i radens undertabell. Du kan ändra vilket som visas genom att ändra den sekundära måttlinjen med länken längst ner i rapporten.",
         "EventCategories": "Händelsekategorier",
+        "EventCategoriesReportDocumentation": "Denna rapport visar kategorierna för varje spårad händelse och hur många gånger de inträffade. Du kan visa händelseshandlingarna och namnen som spårades tillsammans med varje händelsekategori i varje rads undertabell. Du kan ändra vilket som visas genom att ändra den sekundära måttlinjen med länken längst ner i rapporten.",
         "EventCategory": "Händelsekategori",
         "EventName": "Händelsens namn",
         "EventNames": "Händelsernas namn",
+        "EventNamesReportDocumentation": "Denna rapport visar namnen som är associerade med varje spårad händelse och hur många gånger de inträffade. Du kan se händelseåtgärderna och kategorierna som spårades tillsammans med varje händelses namn i varje rads undertabell. Du kan ändra vilket som visas genom att ändra den sekundära måttlinjen med länken längst ner i rapporten.",
         "EventUrl": "Händelsens adress",
         "EventUrls": "Händelsernas adresser",
         "Events": "Händelser",
@@ -30,6 +33,8 @@
         "TotalEventsDocumentation": "Totala antalet händelser",
         "TotalValue": "Händelse värde",
         "TotalValueDocumentation": "Summan av händelse värdena",
-        "ViewEvents": "Visa händelser"
+        "ViewEvents": "Visa händelser",
+        "EventsSubcategoryHelp1": "Sektionen Händelser erbjuder rapporter om anpassade händelser som är kopplade till din webbplats. Händelser kräver vanligtvis anpassad konfiguration. När du har konfigurerat kan du granska rapporterna uppdelade efter kategori, åtgärd och namn.",
+        "EventsSubcategoryHelp2": "Läs mer om händelsespårning här."
     }
 }

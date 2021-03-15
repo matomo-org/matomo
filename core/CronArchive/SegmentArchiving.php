@@ -228,7 +228,7 @@ class SegmentArchiving
         }
 
         $definition = urlencode($segmentInfo['definition']);
-        $idSite = $segmentInfo['enable_only_idsite'] ?? 'all';
+        $idSite = !empty($segmentInfo['enable_only_idsite']) ? $segmentInfo['enable_only_idsite'] : 'all';
 
         $idSites = Access::doAsSuperUser(function () use ($idSite) {
             return Site::getIdSitesFromIdSitesString($idSite);

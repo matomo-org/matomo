@@ -597,7 +597,7 @@
         "YouAreOffline": "Tyvärr, du är offline just nu",
         "ExceptionNoViewAccess": "Kontrollera ditt användarnamn och lösenord samt se till åtminstone ha behörigheten %s för minst en webbplats.",
         "Mobile_HowtoExitAndroid": "Klicka BAKÅT igen för att avsluta",
-        "MatomoMarketplace": "Matomo marknadsplats",
+        "MatomoMarketplace": "Matomo Marketplace",
         "EnterAuthCode": "Fyll i autentiseringskod",
         "EnterCorrectAuthCode": "Fyll i korrekt autentiseringskod",
         "EnterAuthCodeExplanation": "Det ser ut som att du använder tvåfaktorsautentisering. Fyll i den sexsiffriga koden för att logga in på ditt konto."

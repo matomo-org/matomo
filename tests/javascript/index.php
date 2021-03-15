@@ -4046,6 +4046,10 @@ if ($mysql) {
         // Track pageview
         tracker3.trackPageView("DoTrack");
 
+        var userIdNum = 12345;
+        tracker3.setUserId(userIdNum);
+        tracker3.trackPageView('AnotherTrack');
+
         // Firefox 9: navigator.doNotTrack is read-only
         navigator.doNotTrack = "yes";
         if (navigator.doNotTrack === "yes")
@@ -4099,7 +4103,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "41", "count tracking events" );
+                equal( countTrackingEvents[1], "42", "count tracking events" );
             }
 
             // firing callback

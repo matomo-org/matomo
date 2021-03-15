@@ -72,22 +72,23 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
             $this->assertStringStartsNotWith("/* idSegments", $sql);
         } else {
             $this->assertStringStartsWith($expectedPrefix, $sql);
+            $this->assertEquals(1, substr_count($sql, 'SELECT'));
         }
     }
 
     public function getTestDataForSegmentSqlTest()
     {
         return array(
-            array('countryCode==fr', null, '/* idSegments = [2] */'),
-            array('visitCount<2', null, '/* idSegments = [1, 3, 4, 5] */'),
+            array('countryCode==fr', null, 'SELECT /* idSegments = [2] */'),
+            array('visitCount<2', null, 'SELECT /* idSegments = [1, 3, 4, 5] */'),
             array('', null, null),
-            array('countryCode!=fr', null, '/* idSegments = [6] */'),
+            array('countryCode!=fr', null, 'SELECT /* idSegments = [6] */'),
 
-            array('', 'archivephp', '/* trigger = CronArchive */'),
-            array('countryCode!=fr', 'archivephp', '/* trigger = CronArchive, idSegments = [6] */'),
+            array('', 'archivephp', 'SELECT /* trigger = CronArchive */'),
+            array('countryCode!=fr', 'archivephp', 'SELECT /* trigger = CronArchive, idSegments = [6] */'),
 
             array('', 'garbage', null),
-            array('countryCode!=fr', 'garbage', '/* idSegments = [6] */'),
+            array('countryCode!=fr', 'garbage', 'SELECT /* idSegments = [6] */'),
         );
     }
 }

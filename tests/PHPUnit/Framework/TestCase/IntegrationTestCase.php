@@ -100,7 +100,7 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public function tearDown(): void
     {
-        static::$fixture->clearInMemoryCaches();
+        Fixture::clearInMemoryCaches();
         static::$fixture->destroyEnvironment();
 
         parent::tearDown();

@@ -124,6 +124,10 @@
         "AtLeastMinutes": "almeno %1$s minuti. Usa i decimali per aggiungere i secondi, per esempio, %2$s per aggiungere 30 secondi.",
         "TimeInMinutes": "Tempo in Minuti",
         "ClickToViewThisGoal": "Clicca per vedere questo obiettivo.",
-        "OverviewReportDocumentation": "Questo report fornisce una panoramica di quanto i tuoi visitatori convertano bene uno specifico goal."
+        "OverviewReportDocumentation": "Questo report fornisce una panoramica di quanto i tuoi visitatori convertano bene uno specifico goal.",
+        "GoalsOverviewSubcategoryHelp1": "La Panoramica degli Obiettivi riporta il rendimento degli obiettivi definiti per il tuo sito web. Puoi accedere alle percentuali di conversione del tuo obiettivo, all'importo delle entrate generate e ai report completi per ciascuno di essi.",
+        "GoalsOverviewSubcategoryHelp2": "Clicca su una singola metrica all'interno del grafico sparkline per focalizzarti su di essa all'interno del grafico dell'evoluzione a grandezza naturale.",
+        "ManageGoalsSubcategoryHelp1": "Questa sezione ti consente di creare e modificare gli obiettivi per azioni specifiche che i visitatori intraprendono sul tuo sito, come visitare una determinata pagina o inviare un modulo specifico. I report sugli obiettivi variano ma possono aiutarti a monitorare le prestazioni del tuo sito web rispetto agli obiettivi di business come la generazione di lead, le vendite online e una maggiore visibilità del marchio.",
+        "ManageGoalsSubcategoryHelp2": "Scopri di più nella nostra guida agli Obiettivi qui."
     }
 }

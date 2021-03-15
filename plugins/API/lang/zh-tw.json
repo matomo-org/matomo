@@ -11,6 +11,7 @@
         "UserAuthentication": "使用者驗證",
         "UsingTokenAuth": "如果你想%1$s經由程式碼或工作排程來請求資料。%2$s你需要增加網址參數 %3$s 至 API 呼叫網址來進行驗證。",
         "Glossary": "詞彙表",
+        "MainMetricsReportDocumentation": "此報表讓你檢視所有分類和外掛中最重要的指標。",
         "LearnAboutCommonlyUsedTerms2": "瞭解更多最常使用的術語，讓 Matomo 分析發揮至極。",
         "EvolutionMetricName": "%s發展趨勢"
     }

@@ -114,7 +114,7 @@
         "UncheckToOptOut": "Togli la spunta a questa casella per escluderti (opt-out).",
         "CheckToOptIn": "Metti la spunta a questa casella per abilitarti (opt-in).",
         "OptOutErrorNoCookies": "La funzione per l'opt-out dal monitoraggio richiede che siano abilitati i cookies.",
-        "OptOutErrorNotHttps": "La funzione di rinuncia al monitoraggio (opt-out) potrebbe non funzionare perché questo sito non è stato caricato su HTTPS. Ricarica la pagina per verificare se il tuo stato di rinuncia è cambiato.",
+        "OptOutErrorNotHttps": "La funzione di esclusione dal monitoraggio (opt-out) potrebbe non funzionare perché questo sito non è stato caricato su HTTPS. Ricarica la pagina per verificare se il tuo stato di rinuncia è cambiato.",
         "OptOutErrorWindowOpen": "La funzione di esclusione dal monitoraggio (opt-out) potrebbe non funzionare perché sembra che il popup di disattivazione sia stato bloccato. Ricarica la pagina per verificare se il tuo stato di rinuncia è cambiato.",
         "MissingTrackingCodeEmailSubject": "Non è stato registrato traffico per %s in Matomo Analytics, comincia ora!",
         "JsTrackingCodeMissingEmail1": "Qualche giorno fa hai aggiunto il sito web '%s' al tuo Matomo Analytics. Abbiamo appena controllato, e il tuo Matomo non sembra avere alcun traffico registrato per questo sito.",

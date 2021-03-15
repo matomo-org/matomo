@@ -117,7 +117,10 @@ class Advertising
      */
     public static function isAdsEnabledInConfig($configGeneralSection)
     {
-        $oldSettingValue = @$configGeneralSection['piwik_pro_ads_enabled'];
+        $oldSettingValue = false;
+        if (isset($configGeneralSection['piwik_pro_ads_enabled'])) {
+            $oldSettingValue = @$configGeneralSection['piwik_pro_ads_enabled'];
+        }
         $newSettingValue = @$configGeneralSection['piwik_professional_support_ads_enabled'];
         return (bool) ($newSettingValue || $oldSettingValue);
     }

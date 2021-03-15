@@ -55,6 +55,10 @@
         "UnsubscribeFooter": "För att avsluta prenumerationen från denna rapport vänligen följ denna länk: %1$s",
         "NoTokenProvided": "Ingen token skickades med i webbadressen",
         "NoSubscriptionFound": "Ingen prenumeration hittades. Kanske var prenumerationen redan avslutad eller rapporten borttagen.",
-        "ReportPeriod": "Rapportperiod"
+        "EvolutionGraphsShowForEachInPeriod": "Evolutionsdiagram visar utvecklingen för %1$svarje dag%2$s under den sista %3$s",
+        "EvolutionGraphsShowForPreviousN": "Evolutionskurvor visar utvecklingen jämfört med den tidigare N %s",
+        "ReportPeriod": "Rapportperiod",
+        "ReportPeriodHelp": "Den period av data som omfattas av denna rapport. Som standard är det samma som e-postschemat, så om rapporten skickas varje vecka kommer den att innehålla information om den senaste veckan.",
+        "ReportPeriodHelp2": "Du kan dock ändra detta om du vill se annan information och ändå behålla e-postschemat. Till exempel, om e-postschemat är veckovis och rapportperioden är \"dag\" får du information för den sista dagen, varje vecka."
     }
 }

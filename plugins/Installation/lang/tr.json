@@ -101,6 +101,7 @@
         "SystemCheckMbstringHelp": "Kullanıcı arayüzü ve API yanıtlarındaki multibayt karakterlerinin işlenebilmesi için mbstring eklentisi gereklidir. Ayrıca php.ini yapılandırma dosyası içindeki mbstring.func_overload seçeneğini \"0\" olarak ayarlayın.",
         "SystemCheckMemoryLimit": "Bellek sınırı",
         "SystemCheckMemoryLimitHelp": "Trafiği yüksek olan bir web sitesinde arşivleme işlemi normal olarak izin verilen değerden daha fazla bellek kullanımına gerek duyabilir. Gerekiyorsa php.ini yapılandırma dosyasındaki memory_limit seçeneğinin değerini değiştirin.",
+        "SystemCheckMemoryNoMemoryLimitSet": "Herhangi bir bellek sınırı ayarlanmamış",
         "SystemCheckNoErrorsOrWarnings": "Herhangi bir sorun ya da uyarı yok",
         "SystemCheckViewFullSystemCheck": "Tam sistem denetimi raporunu görüntüle",
         "SystemCheckOpenURL": "Açık Adres",
