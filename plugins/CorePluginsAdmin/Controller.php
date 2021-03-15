@@ -425,8 +425,21 @@ class Controller extends Plugin\ControllerAdmin
 
     public function activate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
         $this->dieIfPluginsAdminIsDisabled();
+
+        $params = [
+            'module' => 'CorePluginsAdmin',
+            'action' => 'activate',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce'),
+            'redirectTo' => Common::getRequestVar('redirectTo'),
+        ];
+
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
+        $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
 
         $this->pluginManager->activatePlugin($pluginName);
 
@@ -469,6 +482,17 @@ class Controller extends Plugin\ControllerAdmin
 
     public function deactivate($redirectAfter = true)
     {
+        $params = [
+            'module' => 'CorePluginsAdmin',
+            'action' => 'deactivate',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce'),
+            'redirectTo' => Common::getRequestVar('redirectTo'),
+        ];
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
         if($this->isAllowedToTroubleshootAsSuperUser()) {
             Access::doAsSuperUser(function() use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
@@ -480,8 +504,20 @@ class Controller extends Plugin\ControllerAdmin
 
     public function uninstall($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
         $this->dieIfPluginsAdminIsDisabled();
+
+        $params = [
+            'module' => 'CorePluginsAdmin',
+            'action' => 'uninstall',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce'),
+            'referrer' => urlencode(Url::getReferrer()),
+        ];
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
+        $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
 
         $uninstalled = $this->pluginManager->uninstallPlugin($pluginName);
 
@@ -501,7 +537,15 @@ class Controller extends Plugin\ControllerAdmin
             throw $ex;
         }
 
-        $this->redirectAfterModification($redirectAfter);
+        $referrer = Common::getRequestVar('referrer', false);
+        $referrer = Common::unsanitizeInputValue($referrer);
+        if ($referrer
+            && Url::isLocalUrl($referrer)
+        ) {
+            Url::redirectToUrl($referrer);
+        } else {
+            $this->redirectAfterModification($redirectAfter);
+        }
     }
 
     public function showLicense()
