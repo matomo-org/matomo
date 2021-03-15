@@ -68,7 +68,8 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
         $query = $this->decorator->getSelectQueryString($expression, '*', 'log_visit', '', array(), '', '', '');
 
-        $this->assertStringStartsWith('/* idSegments = [3] */', $query['sql']);
+        $this->assertStringStartsWith('SELECT /* idSegments = [3] */', $query['sql']);
+        $this->assertEquals(1, substr_count($query['sql'], 'SELECT'));
     }
 
     public function test_getSelectQueryString_DecoratesSql_WhenMultipleStoredSegmentsMatchUsedSegment()
@@ -78,7 +79,8 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
         $query = $this->decorator->getSelectQueryString($expression, '*', 'log_visit', '', array(), '', '', '');
 
-        $this->assertStringStartsWith('/* idSegments = [2, 4] */', $query['sql']);
+        $this->assertStringStartsWith('SELECT /* idSegments = [2, 4] */', $query['sql']);
+        $this->assertEquals(1, substr_count($query['sql'], 'SELECT'));
     }
 
     private function getMockSegmentEditorService()
