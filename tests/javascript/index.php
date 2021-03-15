@@ -4086,6 +4086,10 @@ if ($mysql) {
 
         window.onerror('Second Error: With less data', 'http://piwik.org/path/to/file.js?cb=3kfkf', 45);
         ok(!customOnErrorInvoked, "Custom onerror handler was ignored as expected");
+        equal(tracker2.getJavascriptErrors().length, 1, "Other tracker has 1 error");
+
+        window.onerror('Third Error: With less data', 'http://piwik.org/path/to/file.js?cb=3kfkf', 45);
+        equal(tracker2.getJavascriptErrors().length, 2, "Different error not ignored");
 
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
@@ -4107,7 +4111,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "42", "count tracking events" );
+                equal( countTrackingEvents[1], "43", "count tracking events" );
             }
 
             // firing callback

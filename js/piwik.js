@@ -184,9 +184,7 @@ if (typeof window.Matomo !== 'object') {
 
             trackerIdCounter = 0,
 
-            isPageUnloading = false,
-
-            javaScriptErrors = [];
+            isPageUnloading = false;
 
         /************************************************************
          * Private methods
@@ -2386,6 +2384,10 @@ if (typeof window.Matomo !== 'object') {
 
                 // holds all pending tracking requests that have not been tracked because we need consent
                 consentRequestsQueue = [],
+
+                // holds the actual javascript errors if enableJSErrorTracking is on, if the very same error is
+                // happening multiple times, then it will be tracked only once within the same page view
+                javaScriptErrors = [],
 
                 // a unique ID for this tracker during this request
                 uniqueTrackerId = trackerIdCounter++,
