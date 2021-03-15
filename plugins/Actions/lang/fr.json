@@ -40,6 +40,7 @@
         "ExitPagesReportDocumentation": "Ce rapport contient des informations à propos des pages de sortie utilisées durant la période sélectionnée. Une page de sortie est la dernière page de la visite que l'utilisateur voit avant de quitter le site. %s Les Urls de sorties sont affichées dans une structure de dossier.",
         "ExitPageTitles": "Titres de la page de sortie",
         "ExitPageTitlesReportDocumentation": "Ce rapport contient des infromations à propos des titres de pages de sortie qui ont été utilisées durant la période spécifiée.",
+        "MainMetricsReportDocumentation": "Ce rapport fournit une vue d'ensemble très sommaire des actions réalisées par les visiteurs de votre site web.",
         "OneSearch": "1 recherche",
         "OutlinkDocumentation": "Un lien sortant est un lien qui mène le visiteur en dehors de votre site web (vers un autre domaine).",
         "OutlinksReportDocumentation": "Ce rapport affiche une liste hiérarchique de liens sortants sur lesquels ont cliqué vos visiteurs.",

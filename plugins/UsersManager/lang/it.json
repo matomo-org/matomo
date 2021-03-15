@@ -183,6 +183,7 @@
         "NewsletterSignupTitle": "Iscrizione alla Newsletter",
         "NewsletterSignupMessage": "Iscriviti alla nostra newsletter per ricevere regolarmente informazioni su Matomo. Puoi cancellare l'iscrizione in ogni momento. Qeusto servizio utilizza MadMimi. Leggi di più su di esso nella nostra pagina %1$sPolitiche sulla Privacy%2$s.",
         "NewsletterSignupFailureMessage": "Oooops, qualcosa è andata storta. Non abbiamo potuto iscriverti alla newsletter.",
-        "NewsletterSignupSuccessMessage": "Super, sei iscritto! Ci sentiremo presto."
+        "NewsletterSignupSuccessMessage": "Super, sei iscritto! Ci sentiremo presto.",
+        "FirstWebsitePermission": "Permesso primo sito web"
     }
 }

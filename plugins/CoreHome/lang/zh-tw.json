@@ -112,6 +112,7 @@
         "SeeAvailableVersions": "查看可用版本",
         "QuickLinks": "快速連結",
         "Profilable": "可紀錄的",
-        "SearchOnMatomo": "在 Matomo.org 上搜尋「%1$s」"
+        "SearchOnMatomo": "在 Matomo.org 上搜尋「%1$s」",
+        "ReportingCategoryHelpPrefix": "「%1$s > %2$s 」報告頁如何協助我？"
     }
 }

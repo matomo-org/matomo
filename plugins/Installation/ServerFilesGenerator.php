@@ -16,12 +16,8 @@ class ServerFilesGenerator
 {
     public static function createFilesForSecurity()
     {
-        self::deleteHtAccessFiles();
         self::createHtAccessFiles();
-
-        self::deleteWebConfigFiles();
         self::createWebConfigFiles();
-
         self::createWebRootFiles();
     }
 

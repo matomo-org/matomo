@@ -22,6 +22,10 @@
         "GoBackAndDefinePrefix": "Retournez à la page précédente et définissez le préfixe pour les tables Matomo",
         "HappyAnalysing": "Bonne analyse !",
         "Installation": "Installation",
+        "InformationalResults": "Résultats pour information",
+        "CopyBelowInfoForSupport": "Copiez ou téléchargez les informations ci-dessous au cas où notre équipe d'assistance vous les demanderait.",
+        "CopySystemCheck": "Copier la vérification du système",
+        "DownloadSystemCheck": "Télécharger la vérification du système",
         "InstallationStatus": "Statut de l'installation",
         "InsufficientPrivilegesHelp": "Vous pouvez donner ces droits en utilisant un outils tel que phpMyAdmin ou en exécutant les requêtes SQL appropriées. Si vous ne savez pas comment effectuer cela veuillez demander à votre administrateur système de donner ces droits pour vous.",
         "InsufficientPrivilegesMain": "La base de données n'existe pas (et n'a pas pu être créée), ou l'utilisateur spécifié a des privilèges insuffisants. Les utilisateurs de la base de données doivent avoir les privilèges suivants : %s",
@@ -91,11 +95,13 @@
         "SystemCheckGzuncompressHelp": "Vous devez activer l'extension zlib et la fonction gzuncompress",
         "SystemCheckHashHelp": "Vous devez reconfigurer et re-compiler PHP en avec le support de hash() activé en enlevant l'option --disable-hash.",
         "SystemCheckIconvHelp": "Vous devez configurer PHP et le recompiler avec le support \"iconv\" activé, --with-iconv.",
+        "SystemCheckJsonHelp": "L'extension php-json est nécessaire pour que Matomo puisse lire et écrire des données au format JSON.",
         "SystemCheckMailHelp": "Les Feedback (commentaires) et mots de passe perdus ne pourront être envoyés sans la fonciton mail().",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringHelp": "L'extension mbstring est nécessaire pour gérer les caractères multi-octet dans l'interface utilisateur et les réponses API. Merci également de vérifier que mbstring.func_overload est paramétré à \"0\" dans php.ini.",
         "SystemCheckMemoryLimit": "Limite mémoire",
         "SystemCheckMemoryLimitHelp": "Sur un site à trafic important, le processus d'archivage peut prendre plus de mémoire que la limite actuelle autorisée.<br \/>Référez-vous à la configuration memory_limit de votre php.ini si nécessaire.",
+        "SystemCheckMemoryNoMemoryLimitSet": "Il n'y a pas de limite de mémoire",
         "SystemCheckNoErrorsOrWarnings": "Il n'y a aucune erreur ou avertissement",
         "SystemCheckViewFullSystemCheck": "Afficher le rapport complet du système",
         "SystemCheckOpenURL": "Ouvrez l'URL",
@@ -126,6 +132,8 @@
         "SystemCheckWriteDirs": "Répertoires avec les droits d'accès en écriture",
         "SystemCheckWriteDirsHelp": "Pour corriger les erreurs sur votre système Linux essayez de taper les commandes suivantes",
         "SystemCheckZlibHelp": "Vous devez reconfigurer et recompiler PHP avec le support zlib, --with-zlib.",
+        "SystemCheckCronArchiveProcess": "Paramétrer une tâche Cron",
+        "FasterReportLoading": "chargement plus rapide des rapports",
         "SystemCheckCronArchiveProcessCLI": "Gestion des processus via la ligne de commande",
         "SystemCheckPhpSetting": "Pour éviter certaines erreurs critique, vous devez définir les entrées suivantes dans votre fichier php.ini : %s",
         "SystemCheckUpdateHttps": "Mettre à jour via HTTPS",
@@ -147,6 +155,8 @@
         "WelcomeToCommunity": "Bienvenue dans la communauté Matomo !",
         "CannotConnectToDb": "Impossible de se connecter à la base de données",
         "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Matomo.",
-        "EmailPrivacyNotice": "Votre adresse courriel sera utilisée uniquement pour vous envoyer l'infolettre. Pour cela nous devons partager votre courriel avec un fournisseur tiers. Ce fournisseur est actuellement Mad Mimi, mais cela peut changer plus tard. Nous ne partagerons votre courriel avec personne d'autre et nous n'utiliserons pas votre courriel pour un autre motif que l'envoi de l'infolettre. Vous pouvez vous désinscrire à tout moment. Veuillez consulter notre %1$spolitique de respect de la vie privée%2$s pour plus d'information."
+        "EmailPrivacyNotice": "Votre adresse courriel sera utilisée uniquement pour vous envoyer l'infolettre. Pour cela nous devons partager votre courriel avec un fournisseur tiers. Ce fournisseur est actuellement Mad Mimi, mais cela peut changer plus tard. Nous ne partagerons votre courriel avec personne d'autre et nous n'utiliserons pas votre courriel pour un autre motif que l'envoi de l'infolettre. Vous pouvez vous désinscrire à tout moment. Veuillez consulter notre %1$spolitique de respect de la vie privée%2$s pour plus d'information.",
+        "PerformanceSettingsDesc1": "Une dernière remarque par rapport au performance : votre instance Matomo est paramétrée et prête à enregistrer le trafic de votre site web, mais si vous trouvez Matomo lent, vous voudrez peut-être exécuter une dernière étape afin de configurer %1$sl'archivage via une console%2$s. Cela permettrait de générer régulièrement les rapports en tâche de fond, plutôt qu'à la demande.",
+        "PerformanceSettingsDesc2": "Cela nécessite d'ajouter une commande Matomo comme tâche planifiée Cron, ce qui ne peut être fait automatiquement par le processus d'installation. Vous pouvez %1$slire notre FAQ pour savoir comment faire ce paramétrage%2$s."
     }
 }

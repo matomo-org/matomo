@@ -183,6 +183,7 @@
         "NewsletterSignupTitle": "Bülten Aboneliği",
         "NewsletterSignupMessage": "Matomo hakkında düzenli bilgi almak için haber bültenimize abone olabilirsiniz. Bülten aboneliğinden istediğiniz zaman çıkabilirsiniz. Bu hizmet için MadMimi kullanılır. Ayrıntılı bilgi almak için %1$sKişisel Gizlilik%2$s bölümüne bakabilirsiniz.",
         "NewsletterSignupFailureMessage": "Maalesef bir şeyler ters gitti. Bülten aboneliğiniz yapılamadı.",
-        "NewsletterSignupSuccessMessage": "Harika, abone oldunuz! Yakında görüşürüz."
+        "NewsletterSignupSuccessMessage": "Harika, abone oldunuz! Yakında görüşürüz.",
+        "FirstWebsitePermission": "İlk web sitesi izni"
     }
 }

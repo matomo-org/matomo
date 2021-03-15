@@ -274,6 +274,25 @@ class ModelTest extends IntegrationTestCase
                 'year',
                 true,
             ],
+            [
+                [
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 4],
+                ],
+                1,
+                '2015-02-04',
+                'year',
+                true,
+            ],
+            [
+                [
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 5],
+                    ['date1' => '2014-04-01', 'date2' => '2014-04-01', 'period' => 1, 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                '2015-02-04',
+                'year',
+                true,
+            ],
 
             // range period w/ day child
             [
