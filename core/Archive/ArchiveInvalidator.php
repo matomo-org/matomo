@@ -577,9 +577,7 @@ class ArchiveInvalidator
                     continue;
                 }
 
-                $idSites = Access::doAsSuperUser(function () use ($entry) {
-                    return Site::getIdSitesFromIdSitesString($entry['idSites']);
-                });
+                $idSites = Site::getIdSitesFromIdSitesString($entry['idSites']);
 
                 $this->reArchiveReport(
                     $idSites,

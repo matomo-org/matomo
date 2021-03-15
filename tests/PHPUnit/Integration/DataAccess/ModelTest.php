@@ -124,28 +124,6 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedId, $id);
     }
 
-    public function test_getInvalidatedArchiveIdsAsOldOrOlderThan_getsCorrectArchiveIds()
-    {
-        $this->insertArchiveData([
-            ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 3, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-            ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-            ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-            ['date1' => '2015-02-12', 'date2' => '2015-02-12', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-        ]);
-
-        $idArchives = $this->model->getInvalidatedArchiveIdsAsOldOrOlderThan([
-            'idarchive' => 7,
-            'idsite' => 1,
-            'date1' => '2015-02-12',
-            'date2' => '2015-02-12',
-            'period' => 1,
-            'name' => 'done',
-        ]);
-
-        $this->assertEquals([3, 4], $idArchives);
-    }
-
     /**
      * @dataProvider getTestDataForHasChildArchivesInPeriod
      */

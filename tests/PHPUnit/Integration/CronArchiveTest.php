@@ -931,42 +931,6 @@ LOG;
         $sql = "SELECT idarchive, idsite, period, date1, date2, name, report$suffix FROM `$table`";
         return Db::fetchAll($sql);
     }
-
-    private function insertArchiveData($archivesToInsert)
-    {
-        $idarchive = 1;
-        $now = Date::now()->getDatetime();
-        foreach ($archivesToInsert as $archive) {
-            $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
-            $sql = "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            Db::query($sql, [
-                $idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value'],
-                $archive['ts_archived'] ?? $now
-            ]);
-
-            ++$idarchive;
-        }
-    }
-
-    private function getAllIdArchivesByTable()
-    {
-        $result = [];
-        foreach (ArchiveTableCreator::getTablesArchivesInstalled('numeric', true) as $table) {
-            $sql = "SELECT DISTINCT idarchive FROM " . $table;
-            $data = Db::fetchAll($sql);
-            $data = array_column($data, 'idarchive');
-            $result = array_merge($result, $data);
-        }
-        return $result;
-    }
-
-    private function getAllIdInvalidations()
-    {
-        $sql = "SELECT DISTINCT idinvalidation FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation ASC";
-        $data = Db::fetchAll($sql);
-        $data = array_column($data, 'idinvalidation');
-        return $data;
-    }
 }
 
 class TestCronArchive extends CronArchive

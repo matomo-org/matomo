@@ -180,17 +180,23 @@ class Model
 
         $sql .= " AND $nameCondition";
 
-        $archivesToInvalidate = Db::fetchAll($sql);
-        $idArchives = array_column($archivesToInvalidate, 'idarchive');
+        $idArchives = [];
+        $archivesToInvalidate = [];
 
-        // update each archive as invalidated
-        if (!empty($idArchives)) {
-            $idArchives = array_map('intval', $idArchives);
+        // update each archive as invalidated (but only for full archives or plugin archives, not for partial archives.
+        // DONE_INVALIDATED also implies that an archive is whole and not partial, and we want to avoid that.)
+        if (empty($name)) {
+            $archivesToInvalidate = Db::fetchAll($sql);
+            $idArchives = array_column($archivesToInvalidate, 'idarchive');
 
-            $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                . implode(',', $idArchives) . ") AND $nameCondition";
+            if (!empty($idArchives)) {
+                $idArchives = array_map('intval', $idArchives);
 
-            Db::query($sql);
+                $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
+                    . implode(',', $idArchives) . ") AND $nameCondition";
+
+                Db::query($sql);
+            }
         }
 
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
