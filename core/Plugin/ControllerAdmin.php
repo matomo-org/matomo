@@ -177,6 +177,10 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
+        if (!Development::isEnabled()) {
+            return;
+        }
+
         if (SettingsPiwik::isGitDeployment()) {
             return;
         }
