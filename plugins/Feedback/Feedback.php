@@ -120,6 +120,17 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
+        $shouldShowReferBanner = true;
+
+        /**
+         * @internal
+         */
+        Piwik::postEvent('Feedback.showReferBanner', [&$shouldShowReferBanner]);
+
+        if (!$shouldShowReferBanner) {
+            return false;
+        }
+
         $referReminder = new ReferReminder();
         $nextReminderDate = $referReminder->getUserOption();
 

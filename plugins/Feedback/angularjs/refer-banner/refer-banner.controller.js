@@ -20,12 +20,14 @@
         var closeBanner = function() {
             $scope.referBanner.show = false;
 
-            setNextReminder(6 * 30);
+            if ($scope.referBanner.shared === false) {
+                setNextReminder(6 * 30);
+            }
         };
 
         var share = function() {
-            $scope.referBanner.show = false;
             $scope.referBanner.showThanks = true;
+            $scope.referBanner.shared = true;
 
             setNextReminder(-1);
         }
@@ -38,27 +40,36 @@
                 var base = 'https://twitter.com/intent/tweet?';
 
                 var params = { 'text': text, 'url': url};
-                var paramString = new URLSearchParams(params);
+                var paramString = '';
+                for (const param in params) {
+                    paramString += param + '=' + encodeURIComponent(params[param]) + '&';
+                }
 
-                return base + paramString.toString();
+                return base + paramString.slice(0, -1);
             }
 
             if (type === 'facebook') {
                 var base = 'https://www.facebook.com/sharer.php?';
 
                 var params = { 't': text, 'u': url};
-                var paramString = new URLSearchParams(params);
+                var paramString = '';
+                for (const param in params) {
+                    paramString += param + '=' + encodeURIComponent(params[param]) + '&';
+                }
 
-                return base + paramString.toString();
+                return base + paramString.slice(0, -1);
             }
 
             if (type === 'linkedin') {
                 var base = 'https://www.linkedin.com/sharing/share-offsite/?';
 
                 var params = { 'url': url };
-                var paramString = new URLSearchParams(params);
+                var paramString = '';
+                for (const param in params) {
+                    paramString += param + '=' + encodeURIComponent(params[param]) + '&';
+                }
 
-                return base + paramString.toString();
+                return base + paramString.slice(0, -1);
             }
 
             return '#';
@@ -76,6 +87,7 @@
             $scope.referBanner.showThanks = false;
             $scope.referBanner.closeBanner = closeBanner;
             $scope.referBanner.share = share;
+            $scope.referBanner.shared = false;
 
             if ($scope.showReferBanner === 1) {
                 $scope.referBanner.show = true;

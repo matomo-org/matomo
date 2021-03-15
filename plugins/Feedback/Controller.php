@@ -16,6 +16,7 @@ use Piwik\Version;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Feedback\ReferReminder;
 use Piwik\Plugins\Feedback\FeedbackReminder;
+use Piwik\DataTable\Renderer\Json;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -44,7 +45,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $feedbackReminder = new FeedbackReminder();
         $feedbackReminder->setUserOption($nextReminder);
-
+        
+        Json::sendHeaderJSON();
         return json_encode(['Next reminder date: ' . $nextReminder]);
     }
 
@@ -61,6 +63,7 @@ class Controller extends \Piwik\Plugin\Controller
         $referReminder = new ReferReminder();
         $referReminder->setUserOption($nextReminder);
 
+        Json::sendHeaderJSON();
         return json_encode(['Next reminder date: ' . $nextReminder]);
     }
 }
