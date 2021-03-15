@@ -562,6 +562,68 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEqualsSorted($expectedEntries, $invalidatedArchiveTableEntries);
     }
 
+    public function test_markArchivesAsInvalidated_AddsInvalidationEntries_ButDoesNotMarkArchivesAsInvalidated_IfArchiveIsPartial()
+    {
+        // insert some partial archives
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_OK, false, false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_OK, 'ExamplePlugin', false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin', false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin', false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin', false);
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
+        $result = $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-04'], 'day', null, false, false, 'ExamplePlugin.someData');
+
+        $this->assertEquals([Date::factory('2020-03-04')], $result->processedDates);
+
+        $idArchives = $this->getInvalidatedArchives();
+        $this->assertEquals([], $idArchives);
+
+        $expectedInvalidatedArchives = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-01-01',
+                'date2' => '2020-12-31',
+                'period' => '4',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-03-01',
+                'date2' => '2020-03-31',
+                'period' => '3',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-03-02',
+                'date2' => '2020-03-08',
+                'period' => '2',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-03-04',
+                'date2' => '2020-03-04',
+                'period' => '1',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+        ];
+
+        $invalidations = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEqualsSorted($expectedInvalidatedArchives, $invalidations);
+    }
+
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
@@ -1863,7 +1925,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    private function insertArchiveRow($idSite, $date, $periodLabel, $doneValue = ArchiveWriter::DONE_OK)
+    private function insertArchiveRow($idSite, $date, $periodLabel, $doneValue = ArchiveWriter::DONE_OK, $plugin = false, $varyArchiveTypes = true)
     {
         $periodObject = \Piwik\Period\Factory::build($periodLabel, $date);
         $dateStart = $periodObject->getDateStart();
@@ -1876,15 +1938,19 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $periodId = Piwik::$idPeriods[$periodLabel];
 
-        $doneFlag = 'done';
-        if ($idArchive % 5 == 1) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
-        } else if ($idArchive % 5 == 2) {
-            $doneFlag .= '.VisitsSummary';
-        } else if ($idArchive % 5 == 3) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
-        } else if ($idArchive % 5 == 4) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
+        if ($varyArchiveTypes) {
+            $doneFlag = 'done';
+            if ($idArchive % 5 == 1) {
+                $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
+            } else if ($idArchive % 5 == 2) {
+                $doneFlag .= '.VisitsSummary';
+            } else if ($idArchive % 5 == 3) {
+                $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
+            } else if ($idArchive % 5 == 4) {
+                $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
+            }
+        } else {
+            $doneFlag = $plugin ? 'done.' . $plugin : 'done';
         }
 
         $sql = "INSERT INTO $table (idarchive, name, value, idsite, date1, date2, period, ts_archived)
