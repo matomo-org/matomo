@@ -122,7 +122,7 @@
                 return;
             }
 
-            searchSite('%').then(function () {
+            return searchSite('%').then(function () {
                 initialSites = model.sites;
                 model.isInitialized = true
             });
