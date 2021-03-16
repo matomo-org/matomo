@@ -21,6 +21,7 @@ use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Sequence;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
@@ -348,6 +349,10 @@ class Model
 
     public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
     {
+        if (SettingsServer::isArchivePhpTriggered()) {
+            StaticContainer::get(LoggerInterface::class)->info('deleteArchivesWithPeriod: ' . $numericTable . ' with period = ' . $period . ' and date = ' . $date);
+        }
+
         $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
         $bind  = array($period, $date);
 
@@ -406,6 +411,10 @@ class Model
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
+        }
+
+        if (SettingsServer::isArchivePhpTriggered()) {
+            StaticContainer::get(LoggerInterface::class)->info('deleteOlderArchives with ' . $params . ', name = ' . $name . ', ts_archived < ' . $tsArchived . ', idarchive < ' . $idArchive);
         }
 
         $this->deleteArchiveIds($numericTable, $blobTable, $idArchives);
