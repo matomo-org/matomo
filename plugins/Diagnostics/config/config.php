@@ -40,6 +40,7 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ServerInformational'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ReportInformational'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\UserInformational'),
+        DI\get(\Piwik\Plugins\Diagnostics\Diagnostic\ArchiveInvalidationsInformational::class),
     ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
