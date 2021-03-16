@@ -27,6 +27,7 @@ use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
+use Piwik\CronArchive\SegmentArchiving;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -388,6 +389,22 @@ class Loader
         $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
+        $hasSegment = !$params->getSegment()->isEmpty();
+
+        if ($hasSegment) {
+            $periodEnd = $params->getPeriod()->getDateEnd();
+            $segmentHash = $params->getSegment()->getHash();
+            $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+            $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
+
+            if ($segmentInfo) {
+                $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
+
+                if ($segmentArchiveStartDate->isLater($periodEnd)) {
+                    return true;
+                }
+            }
+        }
 
         return $isWebsiteUsingTracker
             && !$isArchivingForcedWhenNoVisits
