@@ -12,58 +12,55 @@
         {{ periodSelector.getCurrentlyViewingText() }}
     </a>
     <div id="periodMore" class="dropdown">
-        <table>
-            <tr>
-                <td>
-                    <piwik-date-range-picker
-                        ng-show="periodSelector.selectedPeriod === 'range'"
-                        class="period-range"
-                        start-date="periodSelector.startRangeDate"
-                        end-date="periodSelector.endRangeDate"
-                        range-change="periodSelector.onRangeChange(start, end)"
-                        submit="periodSelector.onApplyClicked()"
+        <div class="flex">
+            <div>
+                <piwik-date-range-picker
+                    ng-show="periodSelector.selectedPeriod === 'range'"
+                    class="period-range"
+                    start-date="periodSelector.startRangeDate"
+                    end-date="periodSelector.endRangeDate"
+                    range-change="periodSelector.onRangeChange(start, end)"
+                    submit="periodSelector.onApplyClicked()"
+                >
+                </piwik-date-range-picker>
+                <div
+                    class="period-date"
+                    ng-show="periodSelector.selectedPeriod !== 'range'"
+                >
+                    <piwik-period-date-picker
+                        id="datepicker"
+                        period="periodSelector.selectedPeriod"
+                        date="periodSelector.periodValue === periodSelector.selectedPeriod ? periodSelector.dateValue : null"
+                        select="periodSelector.setPiwikPeriodAndDate(periodSelector.selectedPeriod, date)"
                     >
-                    </piwik-date-range-picker>
-                    <div
-                        class="period-date"
-                        ng-show="periodSelector.selectedPeriod !== 'range'"
-                    >
-                        <piwik-period-date-picker
-                            id="datepicker"
-                            period="periodSelector.selectedPeriod"
-                            date="periodSelector.periodValue === periodSelector.selectedPeriod ? periodSelector.dateValue : null"
-                            select="periodSelector.setPiwikPeriodAndDate(periodSelector.selectedPeriod, date)"
+                    </piwik-period-date-picker>
+                </div>
+            </div>
+
+            <div class="period-type">
+                <h6>{{ 'General_Period'|translate }}</h6>
+                <div id="otherPeriods">
+                    <p ng-repeat="period in periodSelector.periods">
+                        <label
+                            ng-attr-title="{{ period === periodSelector.periodValue ? '' : ('General_DoubleClickToChangePeriod'|translate) }}"
+                            ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
+                            ng-dblclick="periodSelector.changeViewedPeriod(period)"
                         >
-                        </piwik-period-date-picker>
-                    </div>
-                </td>
-                <td>
-                    <div class="period-type">
-                        <h6>{{ 'General_Period'|translate }}</h6>
-                        <div id="otherPeriods">
-                            <p ng-repeat="period in periodSelector.periods">
-                                <label
-                                    ng-attr-title="{{ period === periodSelector.periodValue ? '' : ('General_DoubleClickToChangePeriod'|translate) }}"
-                                    ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
+                            <input
+                                    type="radio"
+                                    name="period"
+                                    ng-attr-id="period_id_{{ period }}"
+                                    ng-model="periodSelector.selectedPeriod"
+                                    ng-checked="periodSelector.selectedPeriod == period"
+                                    ng-change="periodSelector.selectedPeriod = period"
                                     ng-dblclick="periodSelector.changeViewedPeriod(period)"
-                                >
-                                    <input
-                                            type="radio"
-                                            name="period"
-                                            ng-attr-id="period_id_{{ period }}"
-                                            ng-model="periodSelector.selectedPeriod"
-                                            ng-checked="periodSelector.selectedPeriod == period"
-                                            ng-change="periodSelector.selectedPeriod = period"
-                                            ng-dblclick="periodSelector.changeViewedPeriod(period)"
-                                    />
-                                    <span>{{ periodSelector.getPeriodDisplayText(period) }}</span>
-                                </label>
-                            </p>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                            />
+                            <span>{{ periodSelector.getPeriodDisplayText(period) }}</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
+        </div>
 
         <div class="compare-checkbox" ng-if="periodSelector.isComparisonEnabled()">
             <label>

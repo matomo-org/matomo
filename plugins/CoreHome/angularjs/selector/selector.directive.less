@@ -63,15 +63,17 @@
       box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
       padding: 16px;
       background-color: @theme-color-background-contrast;
-      
-      @media screen and (min-width: 700px) {
-        min-width: 460px;
-      }
+    }
 
-      @media screen and (min-width: 600px) and (max-width: 699px) {
+    #periodMore {
+      @media screen and (min-width: 600px) {
         min-width: 460px;
-        left: -100px;
       }
     }
+  }
+
+  .flex {
+    display: -ms-flex;
+    display: flex;
   }
 }
