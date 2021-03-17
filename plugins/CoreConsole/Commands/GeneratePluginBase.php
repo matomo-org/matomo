@@ -18,9 +18,16 @@ use Piwik\Plugin\Manager;
 use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\SettingsPiwik;
+use Piwik\Exception\NotGitInstalledException;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->throwErrorIfNotGitInstalled();
+    }
+
     public function isEnabled()
     {
         return Development::isEnabled();
@@ -397,4 +404,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
         return $contentToReplace;
     }
 
+    protected function throwErrorIfNotGitInstalled()
+    {
+        if (!SettingsPiwik::isGitDeployment()) {
+            $url = 'https://developer.matomo.org/guides/getting-started-part-1';
+            throw new NotGitInstalledException("This development feature requires Matomo to be checked out from git. For more information please visit {$url}.");
+        }
+    }
 }

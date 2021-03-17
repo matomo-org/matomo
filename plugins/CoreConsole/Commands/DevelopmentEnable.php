@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Config;
 use Piwik\Filesystem;
+use Piwik\SettingsPiwik;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,6 +52,11 @@ class DevelopmentEnable extends ConsoleCommand
         Filesystem::deleteAllCacheOnUpdate();
 
         $this->writeSuccessMessage($output, array($message));
+
+        if ($enable && !SettingsPiwik::isGitDeployment()) {
+            $comment = 'Development mode should be only enabled when installed through git. Not every development feature will be available.';
+            $this->writeComment($output, [$comment]);
+        }
     }
 
 }

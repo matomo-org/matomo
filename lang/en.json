@@ -487,6 +487,7 @@
         "WarningFileIntegrityNoMd5file": "File integrity check could not be completed due to missing md5_file() function.",
         "WarningPasswordStored": "%1$sWarning:%2$s This password will be stored in the config file visible to everybody who can access it.",
         "WarningDebugOnDemandEnabled": "Tracker %1$s mode is enabled. For security reasons this should be enabled only for a short time frame. To disable it set %2$s to %3$s in %4$s",
+        "WarningDevelopmentModeOnButNotGitInstalled": "You are currently using Matomo in development mode, but it was not installed through git. It's not recommended to use Matomo in development mode in production environment.",
         "Website": "Website",
         "Weekly": "Weekly",
         "WeeklyReport": "weekly",
