@@ -652,13 +652,25 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $userLogin));
         }
 
+        if ($this->userEmailExists($userLogin)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $userLogin));
+        }
+
         Piwik::checkValidLoginString($userLogin);
     }
 
-    private function checkEmail($email)
+    private function checkEmail($email, $userLogin = null)
     {
         if ($this->userEmailExists($email)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
+        }
+
+        if ($userLogin && Common::mb_strtolower($userLogin) !== Common::mb_strtolower($email) && $this->userExists($email)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
+        }
+
+        if (!$userLogin && $this->userExists($email)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
         }
 
         if (!Piwik::isValidEmailString($email)) {
@@ -918,7 +930,7 @@ class API extends \Piwik\Plugin\API
         $hasEmailChanged = Common::mb_strtolower($email) !== Common::mb_strtolower($userInfo['email']);
 
         if ($hasEmailChanged) {
-            $this->checkEmail($email);
+            $this->checkEmail($email, $userLogin);
             $changeShouldRequirePasswordConfirmation = true;
         }
 
@@ -1336,7 +1348,7 @@ class API extends \Piwik\Plugin\API
      *                                     sent as a POST parameter.
      * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @param string $expireDate Optionally a date when the token should expire
-     * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires. 
+     * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires.
      *                            If expireDate is set and expireHours, then expireDate will be used.
      *                            If expireDate is set and expireHours, then expireDate will be used.
      * @return string
@@ -1350,7 +1362,7 @@ class API extends \Piwik\Plugin\API
                 $userLogin = $user['login'];
             }
         }
-        
+
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**
