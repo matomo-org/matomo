@@ -22,6 +22,7 @@ use Piwik\Site;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Http;
 
 /**
  *
@@ -38,7 +39,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('index');
     }
-    
+
     public function globalSettings()
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -146,6 +147,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'idSite' => $this->idSite
         ), $viewType = 'basic');
 
+        $siteType = $this->guessSiteType();
+
         $googleAnalyticsImporterMessage = '';
         if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
             $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
@@ -167,5 +170,43 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
+    }
+
+    private function guessSiteType()
+    {
+        $url = $this->site->getMainUrl() . '/wp-content';
+        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
+        if ($response['status'] === 403) {
+            return 'wordpress';
+        }
+
+        $string = '<!-- This is Squarespace. -->';
+        $url = $this->site->getMainUrl();
+        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
+        if (strpos($response['data'], $string) !== false) {
+            return 'squarespace';
+        }
+
+        $string = 'X-Wix-Published-Version';
+        $url = $this->site->getMainUrl();
+        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
+        if (strpos($response['data'], $string) !== false) {
+            return 'wix';
+        }
+
+        // $url = $this->site->getMainUrl() . '/index.php?option=com_users';
+        // $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
+        // if ($response['status'] === 200) {
+        //     return 'joomla';
+        // }
+
+        $string = 'Shopify.theme';
+        $url = $this->site->getMainUrl();
+        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
+        if (strpos($response['data'], $string) !== false) {
+            return 'shopify';
+        }
+
+        return 'no';
     }
 }
