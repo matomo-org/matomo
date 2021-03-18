@@ -75,9 +75,14 @@ class CoreHome extends \Piwik\Plugin
 
     public function initAuthenticationObject()
     {
+        if (SettingsServer::isTrackerApiRequest()) {
+            // authenticated tracking requests should always work
+            return;
+        }
+
         $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
 
-        if (!SettingsServer::isTrackerApiRequest() && $isApi) {
+        if ($isApi) {
             // will be checked in API itself to make sure we return an API response in the proper format.
             return;
         }
