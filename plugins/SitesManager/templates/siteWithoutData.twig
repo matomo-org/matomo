@@ -21,25 +21,6 @@
                     action: 'getLastVisitsStart'
                 }
             });
-
-            console.log('here');
-            var activeIndex = $('.active-tab').index(),
-                $contentlis = $('.tabs-content li'),
-                $tabslis = $('.tabss li');
-            console.log(activeIndex);
-            // Show content of active tab on loads
-            $contentlis.eq(activeIndex).show();
-
-            $('.tabss').on('click', 'li', function (e) {
-                var $current = $(e.currentTarget),
-                    index = $current.index();
-                console.log('clicked');
-                console.log(index);
-                
-                $tabslis.removeClass('active-tab');
-                $current.addClass('active-tab');
-                $contentlis.hide().eq(index).show();
-            });
         });
     </script>
 
@@ -50,17 +31,21 @@
 
             <h3>{{ 'SitesManager_SiteWithoutDataChoosePreferredWay'|translate }}</h3>
 
-            <ul class="tabss">
-                <li class="active-tab">First tab</li>
-                <li>Second tab</li>
-                <li>Third tab</li>
-            </ul>
 
-            <ul class="tabs-content">
-                <li>Content of first tab</li>
-                <li>Content of second tab</li>
-                <li>Content of third tab</li>
-            </ul>
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s3"><a class="active" href="#test1">Test 1</a></li>
+                        <li class="tab col s3"><a href="#test2">Test 2</a></li>
+                        <li class="tab col s3"><a href="#test3"> Tab</a></li>
+                        <li class="tab col s3"><a href="#test4">Test 4</a></li>
+                    </ul>
+                </div>
+                <div id="test1" class="col s12">Test 1</div>
+                <div id="test2" class="col s12">Test 2</div>
+                <div id="test3" class="col s12">Test 3</div>
+                <div id="test4" class="col s12">Test 4</div>
+            </div>
 
             <div class='trackingHelp'>
                 {% if showMatomoLinks %}
@@ -142,7 +127,5 @@
 
         {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
     </div>
-
-    
 
 {% endblock %}

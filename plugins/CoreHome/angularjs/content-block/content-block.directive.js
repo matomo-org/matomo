@@ -82,7 +82,12 @@
                             element.css('marginTop', '0');
                         }
                     }
-
+                    
+                    var tabs = angular.element('.tabs');
+                    
+                    if (tabs.html()) {
+                        $('.tabs').tabs();
+                    }
                 };
             }
         };
