@@ -168,45 +168,48 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikUrl'      => $piwikUrl,
             'emailBody'     => $emailContent,
             'showMatomoLinks' => $showMatomoLinks,
+            'siteType' => $siteType,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }
 
     private function guessSiteType()
     {
-        $url = $this->site->getMainUrl() . '/wp-content';
-        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
-        if ($response['status'] === 403) {
-            return 'wordpress';
+        $siteMainUrl = $this->site->getMainUrl();
+
+        $response = Http::sendHttpRequest($siteMainUrl . '/wp-content', 5, null, null, 0, false, false, true);
+        if ($response['status'] === 403 || $response['status'] === 200) {
+            return SitesManager::SITE_TYPE_WORDPRESS;
         }
 
-        $string = '<!-- This is Squarespace. -->';
-        $url = $this->site->getMainUrl();
-        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
-        if (strpos($response['data'], $string) !== false) {
-            return 'squarespace';
+        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
+        $needle = '<!-- This is Squarespace. -->';
+        if (strpos($response['data'], $needle) !== false) {
+            return SitesManager::SITE_TYPE_SQUARESPACE;
         }
 
-        $string = 'X-Wix-Published-Version';
-        $url = $this->site->getMainUrl();
-        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
-        if (strpos($response['data'], $string) !== false) {
-            return 'wix';
+        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
+        $needle = 'X-Wix-Published-Version';
+        if (strpos($response['data'], $needle) !== false) {
+            return SitesManager::SITE_TYPE_WIX;
         }
 
-        // $url = $this->site->getMainUrl() . '/index.php?option=com_users';
-        // $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
-        // if ($response['status'] === 200) {
-        //     return 'joomla';
-        // }
-
-        $string = 'Shopify.theme';
-        $url = $this->site->getMainUrl();
-        $response = Http::sendHttpRequest($url, 5, null, null, 0, false, false, true);
-        if (strpos($response['data'], $string) !== false) {
-            return 'shopify';
+        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
+        if ($response['headers']['expires'] === 'Wed, 17 Aug 2005 00:00:00 GMT') {
+            return SitesManager::SITE_TYPE_JOOMLA;
         }
 
-        return 'no';
+        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
+        $needle = 'Shopify.theme';
+        if (strpos($response['data'], $needle) !== false) {
+            return SitesManager::SITE_TYPE_SHOPIFY;
+        }
+
+        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
+        if (false) {
+            return SitesManager::SITE_TYPE_SHAREPOINT;
+        }
+
+        return SitesManager::SITE_TYPE_UNKNOWN;
     }
 }
