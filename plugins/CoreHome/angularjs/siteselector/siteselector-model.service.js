@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').factory('siteSelectorModel', siteSelectorModel);
 
-    siteSelectorModel.$inject = ['piwikApi', '$filter', 'piwik'];
+    siteSelectorModel.$inject = ['piwikApi', '$filter', 'piwik', '$q'];
 
-    function siteSelectorModel(piwikApi, $filter, piwik) {
+    function siteSelectorModel(piwikApi, $filter, piwik, $q) {
 
         var initialSites = null;
         var limitPromise = null;
@@ -119,7 +119,9 @@
         function loadInitialSites() {
             if (initialSites) {
                 model.sites = initialSites;
-                return;
+                var deferred = $q.defer();
+                deferred.resolve();
+                return deferred.promise;
             }
 
             return searchSite('%').then(function () {
