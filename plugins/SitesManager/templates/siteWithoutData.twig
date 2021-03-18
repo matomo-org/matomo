@@ -21,23 +21,46 @@
                     action: 'getLastVisitsStart'
                 }
             });
+
+            console.log('here');
+            var activeIndex = $('.active-tab').index(),
+                $contentlis = $('.tabs-content li'),
+                $tabslis = $('.tabss li');
+            console.log(activeIndex);
+            // Show content of active tab on loads
+            $contentlis.eq(activeIndex).show();
+
+            $('.tabss').on('click', 'li', function (e) {
+                var $current = $(e.currentTarget),
+                    index = $current.index();
+                console.log('clicked');
+                console.log(index);
+                
+                $tabslis.removeClass('active-tab');
+                $current.addClass('active-tab');
+                $contentlis.hide().eq(index).show();
+            });
         });
     </script>
 
     <div class="site-without-data">
         <div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataTitle'|translate|e('html_attr') }}">
+            <p>{{ 'SitesManager_SiteWithoutDataDescription'|translate('<a href="#">', '</a>')|raw }}</p>
+            <p>{{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}</p>
 
-        <p>
-            {{ 'SitesManager_SiteWithoutDataDescription'|translate }} {{ 'Installation_JSTracking_Intro'|translate }}
-            {{ 'SitesManager_SiteWithoutDataSetupTracking'|translate('<a href="' ~ linkTo({
-                'module': 'CoreAdminHome',
-                'action': 'trackingCodeGenerator',
-            }) ~ '">', "</a>")|raw }}
-            <br />
-            <br />
-            {{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}
+            <h3>{{ 'SitesManager_SiteWithoutDataChoosePreferredWay'|translate }}</h3>
 
-        </p>
+            <ul class="tabss">
+                <li class="active-tab">First tab</li>
+                <li>Second tab</li>
+                <li>Third tab</li>
+            </ul>
+
+            <ul class="tabs-content">
+                <li>Content of first tab</li>
+                <li>Content of second tab</li>
+                <li>Content of third tab</li>
+            </ul>
 
             <div class='trackingHelp'>
                 {% if showMatomoLinks %}
@@ -111,11 +134,15 @@
             <br />
             <br />
             <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
-               class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
-
+               class="btn ignoreSitesWithoutData"
+            >
+                {{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}
+            </a>
         </div>
 
         {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
     </div>
+
+    
 
 {% endblock %}
