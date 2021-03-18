@@ -358,6 +358,20 @@ class SitesManager extends \Piwik\Plugin
         return $hosts;
     }
 
+    public static function getInstructionUrlBySiteType($siteType)
+    {
+        $map = [
+            self::SITE_TYPE_JOOMLA => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla',
+            self::SITE_TYPE_SHAREPOINT => 'https://matomo.org/faq/how-to-install/faq_19424',
+            self::SITE_TYPE_SHOPIFY => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store',
+            self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
+            self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
+            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress',
+        ];
+
+        return $map[$siteType] ? $map[$siteType] : false;
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "General_Save";

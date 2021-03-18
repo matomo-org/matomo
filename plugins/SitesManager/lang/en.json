@@ -81,6 +81,8 @@
         "SiteWithoutDataMessageDisappears": "This message will disappear as soon as some data was tracked for this website.",
         "SiteWithoutDataIgnoreMessage": "Don't show this message for the next hour",
         "SiteWithoutDataChoosePreferredWay": "Choose your preferred way of getting set up",
+        "SiteWithoutDataOtherWays": "Other ways",
+        "SiteWithoutDataDetectedSite": "We've detected you're using a %1$s site. Simple follow the instructions from this %2$sguide%3$s.",
         "SuperUserAccessCan": "A user with Super User access can also %1$s specify global settings%2$s for new websites.",
         "Timezone": "Time zone",
         "TrackingSiteSearch": "Tracking Internal Site Search",

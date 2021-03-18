@@ -147,8 +147,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'idSite' => $this->idSite
         ), $viewType = 'basic');
 
-        $siteType = $this->guessSiteType();
-
         $googleAnalyticsImporterMessage = '';
         if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
             $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
@@ -161,6 +159,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
         }
 
+        $siteType = $this->guessSiteType();
+        $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
+
         return $this->renderTemplateAs('siteWithoutData', array(
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
@@ -169,6 +170,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'emailBody'     => $emailContent,
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
+            'instructionUrl' => $instructionUrl,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }
@@ -176,36 +178,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function guessSiteType()
     {
         $siteMainUrl = $this->site->getMainUrl();
+        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
 
-        $response = Http::sendHttpRequest($siteMainUrl . '/wp-content', 5, null, null, 0, false, false, true);
-        if ($response['status'] === 403 || $response['status'] === 200) {
+        $needle = '/wp-content';
+        if (strpos($response['data'], $needle) !== false) {
             return SitesManager::SITE_TYPE_WORDPRESS;
         }
 
-        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
         $needle = '<!-- This is Squarespace. -->';
         if (strpos($response['data'], $needle) !== false) {
             return SitesManager::SITE_TYPE_SQUARESPACE;
         }
 
-        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
         $needle = 'X-Wix-Published-Version';
         if (strpos($response['data'], $needle) !== false) {
             return SitesManager::SITE_TYPE_WIX;
         }
 
-        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
         if ($response['headers']['expires'] === 'Wed, 17 Aug 2005 00:00:00 GMT') {
             return SitesManager::SITE_TYPE_JOOMLA;
         }
 
-        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
         $needle = 'Shopify.theme';
         if (strpos($response['data'], $needle) !== false) {
             return SitesManager::SITE_TYPE_SHOPIFY;
         }
 
-        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
         if (false) {
             return SitesManager::SITE_TYPE_SHAREPOINT;
         }
