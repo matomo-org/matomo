@@ -41,7 +41,7 @@
 
                 var params = { 'text': text, 'url': url};
                 var paramString = '';
-                for (const param in params) {
+                for (var param in params) {
                     paramString += param + '=' + encodeURIComponent(params[param]) + '&';
                 }
 
@@ -53,7 +53,7 @@
 
                 var params = { 't': text, 'u': url};
                 var paramString = '';
-                for (const param in params) {
+                for (var param in params) {
                     paramString += param + '=' + encodeURIComponent(params[param]) + '&';
                 }
 
@@ -65,7 +65,7 @@
 
                 var params = { 'url': url };
                 var paramString = '';
-                for (const param in params) {
+                for (var param in params) {
                     paramString += param + '=' + encodeURIComponent(params[param]) + '&';
                 }
 
