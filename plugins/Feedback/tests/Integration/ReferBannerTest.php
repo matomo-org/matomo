@@ -6,8 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Feedback\tests\Unit;
-
+namespace Piwik\Plugins\Feedback\tests\Integration;
 
 use Piwik\Date;
 use Piwik\Option;
@@ -46,7 +45,11 @@ class ReferBannerTest extends IntegrationTestCase
     public function tearDown(): void
     {
         Option::deleteLike('Feedback.nextReferReminder.%');
-        $this->userModel->deleteUserOnly('user1');
+        try {
+            $this->userModel->deleteUserOnly('user1');
+        } catch (\Exception $e) {
+            // ignore possible errors triggered when the delete user event is posted
+        }
 
         parent::tearDown();
     }
