@@ -159,7 +159,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
         }
 
-        $siteType = $this->guessSiteType();
+        list($siteType, $gtmUsed) = $this->guessSiteTypeAndGtm();
         $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
 
         return $this->renderTemplateAs('siteWithoutData', array(
@@ -171,43 +171,50 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
             'instructionUrl' => $instructionUrl,
+            'gtmUsed' => $gtmUsed,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }
 
-    private function guessSiteType()
+    private function guessSiteTypeAndGtm()
     {
         $siteMainUrl = $this->site->getMainUrl();
+        $gtmUsed = false;
         $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
+
+        $needle = 'gtm.start';
+        if (strpos($response['data'], $needle) !== false) {
+            $gtmUsed = true;
+        }
 
         $needle = '/wp-content';
         if (strpos($response['data'], $needle) !== false) {
-            return SitesManager::SITE_TYPE_WORDPRESS;
+            return [SitesManager::SITE_TYPE_WORDPRESS, $gtmUsed];
         }
 
         $needle = '<!-- This is Squarespace. -->';
         if (strpos($response['data'], $needle) !== false) {
-            return SitesManager::SITE_TYPE_SQUARESPACE;
+            return [SitesManager::SITE_TYPE_SQUARESPACE, $gtmUsed];
         }
 
         $needle = 'X-Wix-Published-Version';
         if (strpos($response['data'], $needle) !== false) {
-            return SitesManager::SITE_TYPE_WIX;
+            return [SitesManager::SITE_TYPE_WIX, $gtmUsed];
         }
 
         if ($response['headers']['expires'] === 'Wed, 17 Aug 2005 00:00:00 GMT') {
-            return SitesManager::SITE_TYPE_JOOMLA;
+            return [SitesManager::SITE_TYPE_JOOMLA, $gtmUsed];
         }
 
         $needle = 'Shopify.theme';
         if (strpos($response['data'], $needle) !== false) {
-            return SitesManager::SITE_TYPE_SHOPIFY;
+            return [SitesManager::SITE_TYPE_SHOPIFY, $gtmUsed];
         }
 
         if (false) {
-            return SitesManager::SITE_TYPE_SHAREPOINT;
+            return [SitesManager::SITE_TYPE_SHAREPOINT, $gtmUsed];
         }
 
-        return SitesManager::SITE_TYPE_UNKNOWN;
+        return [SitesManager::SITE_TYPE_UNKNOWN, $gtmUsed];
     }
 }
