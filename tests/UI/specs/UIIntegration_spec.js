@@ -150,6 +150,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         // one page w/ segment
         it('should load the visitors > overview page correctly when a segment is specified', async function () {
+            await page.goto('about:blank');
             testEnvironment.overrideConfig('General', {
                 enable_segments_cache: 0
             });
