@@ -143,6 +143,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
             await page.waitFor('.dataTable');
             await (await page.jQuery('#secondNavBar li[role=menuitem]:contains(Overview)')).hover();
+            await page.waitFor(100);
             await (await page.jQuery('#secondNavBar li[role=menuitem]:contains(Overview) .item-help-icon')).click();
             expect(await page.screenshotSelector('#secondNavBar,#notificationContainer')).to.matchImage('category_help');
         });
