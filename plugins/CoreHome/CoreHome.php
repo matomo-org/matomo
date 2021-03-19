@@ -45,7 +45,7 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
-            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'Request.initAuthenticationObject' => 'checkAllowedIpsOnAuthentication',
             'AssetManager.addStylesheets' => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
@@ -73,7 +73,7 @@ class CoreHome extends \Piwik\Plugin
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 
-    public function initAuthenticationObject()
+    public function checkAllowedIpsOnAuthentication()
     {
         if (SettingsServer::isTrackerApiRequest()) {
             // authenticated tracking requests should always work

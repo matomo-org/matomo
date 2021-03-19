@@ -8,7 +8,9 @@
 
 namespace Piwik\Tests\System;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -27,11 +29,31 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
         Fixture::createSuperUser(false);
     }
 
-    public function test_authenticateSuperUserOrAdmin_ShouldWorkWithIpNotOnLoginWhitelist()
+    public function test_authenticatedRequest_ShouldWorkWhenAuthenticationRequired()
     {
+        // authentication required due to an older date and custom ip
         $tracker = Fixture::getTracker(1, '2021-02-02 16:00:00', $defaultInit = true, $useLocalTracker = false);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
         Fixture::checkResponse($tracker->doTrackPageView('test'));
+
+        $this->assertEquals(1, Db::fetchOne('SELECT count(*) FROM ' . Common::prefixTable('log_visit')));
+    }
+
+    public function test_unauthenticatedRequest_ShouldWorkWhenAuthenticationNotRequired()
+    {
+        $tracker = Fixture::getTracker(1, date('Y-m-d H:i:s'), $defaultInit = false, $useLocalTracker = false);
+        Fixture::checkResponse($tracker->doTrackPageView('test'));
+
+        $this->assertEquals(1, Db::fetchOne('SELECT count(*) FROM ' . Common::prefixTable('log_visit')));
+    }
+
+    public function test_unauthenticatedRequest_ShouldNotWorkWhenAuthenticationRequired()
+    {
+        // authentication required due to an older date
+        $tracker = Fixture::getTracker(1, '2021-02-02 16:00:00', $defaultInit = false, $useLocalTracker = false);
+        Fixture::checkTrackingFailureResponse($tracker->doTrackPageView('test'));
+
+        $this->assertEquals(0, Db::fetchOne('SELECT count(*) FROM ' . Common::prefixTable('log_visit')));
     }
 
     public static function provideContainerConfigBeforeClass()
