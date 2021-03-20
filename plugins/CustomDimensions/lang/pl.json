@@ -38,6 +38,7 @@
         "ColumnAvgTimeOnDimension": "Śr. czas na Wymiarze",
         "CustomDimensionId": "Spersonalizowane Wymiary (Is %d)",
         "NoValue": "brak wartości",
+        "PluginDescription": "Dopasuj Matomo do swoich potrzeb definiując i śledząc Wymiary Niestandardowe w zakresie Akcji lub Wizyt",
         "EmptyValue": "pusta wartość"
     }
 }
