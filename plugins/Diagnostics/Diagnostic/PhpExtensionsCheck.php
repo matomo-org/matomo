@@ -64,6 +64,9 @@ class PhpExtensionsCheck implements Diagnostic
             'json',
             'mbstring',
             'Reflection',
+            'filter',
+            'hash',
+            'session',
         );
 
         return $requiredExtensions;
@@ -78,6 +81,9 @@ class PhpExtensionsCheck implements Diagnostic
             'json'       => 'Installation_SystemCheckWarnJsonHelp',
             'mbstring'   => 'Installation_SystemCheckMbstringHelp',
             'Reflection' => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
+            'filter' => 'Installation_SystemCheckFilterHelp',
+            'hash' => 'Installation_SystemCheckHashHelp',
+            'session' => 'Installation_SystemCheckSessionHelp'
         );
 
         return $this->translator->translate($messages[$missingExtension]);
