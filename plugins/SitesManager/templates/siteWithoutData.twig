@@ -97,6 +97,11 @@
 
                     <p><strong>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</strong></p>
                     <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
+
+                    {% if googleAnalyticsImporterMessage is defined %}
+                        <p><strong>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</strong></p>
+                        <p>{{ googleAnalyticsImporterMessage|raw }}</p>
+                    {% endif %}
                 </div>
             </div>
 
