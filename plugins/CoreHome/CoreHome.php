@@ -47,7 +47,7 @@ class CoreHome extends \Piwik\Plugin
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'Request.initAuthenticationObject' => 'checkAllowedIpsOnAuthentication',
             'AssetManager.addStylesheets' => 'addStylesheets',
-            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'checkAllowedIpsOnAuthentication',
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
         );
     }
