@@ -129,6 +129,7 @@
         "SystemCheckWarning": "Matomo will work normally but some features may be missing",
         "SystemCheckWarnJsonHelp": "You should enable \"json\" extension (e.g., install the \"php-json\" package).",
         "SystemCheckWarnLibXmlHelp": "You should enable the \"libxml\" extension (e.g., \"install the php-libxml\" package) as it is required by other core PHP extensions.",
+        "SystemCheckWarnOpensslHelp": "You should enable the \"openssl\" extension to allow secure updates.",
         "SystemCheckWarnSimpleXMLHelp": "You should enable the \"SimpleXML\" extension (e.g., install the \"php-simplexml\" and\/or \"php-xml\" package).",
         "SystemCheckWinPdoAndMysqliHelp": "On a Windows server you can add the following lines to your php.ini: %s",
         "SystemCheckWriteDirs": "Directories with write access",
