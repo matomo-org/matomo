@@ -24,6 +24,8 @@
 
         var showSubcategoryHelpOnLoad = null;
 
+        var initialLoad = true;
+
         $scope.currentCategory = piwikUrl.getSearchParam('category');
         $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
 
@@ -218,7 +220,9 @@
         });
 
         $rootScope.$on('piwikPageChange', function (event) {
-            globalAjaxQueue.abort();
+            if (!initialLoad) {
+                globalAjaxQueue.abort();
+            }
 
             $scope.helpShownCategory = null;
             $scope.currentCategory = piwikUrl.getSearchParam('category');
@@ -230,6 +234,8 @@
             }
 
             $('#loadingError').hide();
+
+            initialLoad = false;
         });
     }
 })();
