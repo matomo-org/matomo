@@ -162,6 +162,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         list($siteType, $gtmUsed) = $this->guessSiteTypeAndGtm();
         $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
 
+        $tagManagerActive = false;
+        if (Manager::getInstance()->isPluginActivated('TagManager')) {
+            $tagManagerActive = true;
+        }
+
         return $this->renderTemplateAs('siteWithoutData', array(
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
@@ -173,6 +178,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'instructionUrl' => $instructionUrl,
             'gtmUsed' => $gtmUsed,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
+            'tagManagerActive' => $tagManagerActive,
         ), $viewType = 'basic');
     }
 
