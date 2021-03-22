@@ -87,7 +87,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
     public function it_should_add_severity_for_errors()
     {
         $processor = new ExceptionToTextProcessor();
-        Log::$debugBacktraceForTests = '[stack trace]';
+        Log::$debugBacktraceForTests = '[message and stack trace]';
 
         $exception = new \ErrorException('Hello world', 0, 1, 'file.php', 123);
         $record = array(
@@ -99,7 +99,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => "file.php(123): Error - Hello world\n[stack trace]",
+            'message' => "file.php(123): Error - [message and stack trace]",
             'context' => array(
                 'exception' => $exception,
             ),

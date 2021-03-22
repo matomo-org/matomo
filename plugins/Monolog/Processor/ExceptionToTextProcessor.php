@@ -20,6 +20,13 @@ use Piwik\SettingsPiwik;
  */
 class ExceptionToTextProcessor
 {
+    private $forcePrintBacktrace = false;
+
+    public function __construct($forcePrintBacktrace = false)
+    {
+        $this->forcePrintBacktrace = $forcePrintBacktrace;
+    }
+
     public function __invoke(array $record)
     {
         if (! $this->contextContainsException($record)) {
@@ -34,10 +41,9 @@ class ExceptionToTextProcessor
         }
 
         $exceptionStr = sprintf(
-            "%s(%d): %s\n%s",
+            "%s(%d): %s",
             $exception instanceof \Exception ? $exception->getFile() : $exception['file'],
             $exception instanceof \Exception ? $exception->getLine() : $exception['line'],
-            $this->getMessage($exception),
             $this->getStackTrace($exception)
         );
 
@@ -79,7 +85,7 @@ class ExceptionToTextProcessor
 
     private function getStackTrace($exception)
     {
-        return Log::$debugBacktraceForTests ?: self::getMessageAndWholeBacktrace($exception);
+        return Log::$debugBacktraceForTests ?: self::getMessageAndWholeBacktrace($exception, $this->forcePrintBacktrace ? true : null);
     }
 
     /**
