@@ -1525,7 +1525,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $reArchiveList = new ReArchiveList();
         $reArchiveList->setAll([]); // clear list since adding segments will add to it
 
-        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = '1';
         Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 0;
 
         $this->invalidator->scheduleReArchiving(1);
@@ -1560,7 +1560,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $reArchiveList = new ReArchiveList();
         $reArchiveList->setAll([]); // clear list since adding segments will add to it
 
-        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 1;
         Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 1;
 
         $this->invalidator->scheduleReArchiving(1);

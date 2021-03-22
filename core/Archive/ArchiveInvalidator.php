@@ -796,9 +796,11 @@ class ArchiveInvalidator
             return null;
         }
 
-        $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
-        if (empty($lastNMonthsToInvalidate)) {
-            return null;
+        if (!is_numeric($lastNMonthsToInvalidate)) {
+            $lastNMonthsToInvalidate = (int)str_replace('last', '', $lastNMonthsToInvalidate);
+            if (empty($lastNMonthsToInvalidate)) {
+                return null;
+            }
         }
 
         return Date::yesterday()->subMonth($lastNMonthsToInvalidate)->setDay(1);
