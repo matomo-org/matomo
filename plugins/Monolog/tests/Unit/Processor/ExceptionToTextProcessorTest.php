@@ -60,7 +60,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
     public function it_should_replace_message_with_formatted_exception()
     {
         $processor = new ExceptionToTextProcessor();
-        Log::$debugBacktraceForTests = '[stack trace]';
+        Log::$debugBacktraceForTests = '[message and stack trace]';
 
         $exception = new \Exception('Hello world');
         $record = array(
@@ -72,7 +72,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(65): Hello world\n[stack trace]",
+            'message' => __FILE__ . "(65): [message and stack trace]",
             'context' => array(
                 'exception' => $exception,
             ),
@@ -99,7 +99,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => "file.php(123): Error - [message and stack trace]",
+            'message' => "file.php(123): [message and stack trace]",
             'context' => array(
                 'exception' => $exception,
             ),
