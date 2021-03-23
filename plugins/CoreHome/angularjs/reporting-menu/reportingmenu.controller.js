@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingMenuController', ReportingMenuController);
 
-    ReportingMenuController.$inject = ['$scope', 'piwik', '$location', '$timeout', 'reportingMenuModel', '$rootScope', 'piwikUrl'];
+    ReportingMenuController.$inject = ['$scope', 'piwik', '$location', '$timeout', 'reportingMenuModel', '$rootScope', 'piwikUrl', 'piwikApi'];
 
-    function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl) {
+    function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl, piwikApi) {
 
         $scope.helpShownCategory = null;
 
@@ -223,22 +223,30 @@
             enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
-        function showOnlyRawDataMessage() {
+        function showOnlyRawDataMessageIfRequired() {
             notification.remove(notificationId);
 
-            menuModel.fetchVisits(decodeURIComponent(date), period, function(json) {
+            var subcategoryExceptions = [
+                'Live_VisitorLog',
+                'General_RealTime',
+                'UserCountryMap_RealTimeMap',
+            ];
+
+            if (subcategoryExceptions.indexOf($scope.currentSubcategory) !== -1) {
+                return;
+            }
+
+            piwikApi.fetch({ method: 'VisitsSummary.getVisits' }).then(function (json) {
                 if (json.value > 0) {
                     return;
                 }
 
-                menuModel.fetchLiveVisits(decodeURIComponent(date), period, function(json) {
+                piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1 }).then(function (json)  {
                     if (json.length == 0) {
                         return;
                     }
 
-                    var url = piwik.broadcast.getHashFromUrl();
-                    url = piwik.broadcast.updateParamValue('category=General_Visitors', url);
-                    url = piwik.broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
+                    var url = broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')
 
                     var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + url + '">', '</a>']);
                     notification.show(message, {context: 'info', id: notificationId});
@@ -262,11 +270,7 @@
 
             $('#loadingError').hide();
 
-            if ($scope.currentSubcategory != 'Live_VisitorLog') {
-                showOnlyRawDataMessage();
-            } else {
-                notification.remove(notificationId);
-            }
+            showOnlyRawDataMessageIfRequired();
 
             initialLoad = false;
         });
