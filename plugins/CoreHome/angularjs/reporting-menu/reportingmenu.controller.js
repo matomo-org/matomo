@@ -226,7 +226,7 @@
         function showOnlyRawDataMessageIfRequired() {
             notification.remove(notificationId);
 
-            if (!!segment) {
+            if (segment !== '') {
                 return;
             }
 
