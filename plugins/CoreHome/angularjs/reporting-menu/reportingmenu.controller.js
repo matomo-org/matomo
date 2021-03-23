@@ -226,6 +226,10 @@
         function showOnlyRawDataMessageIfRequired() {
             notification.remove(notificationId);
 
+            if (!!segment) {
+                return;
+            }
+
             var subcategoryExceptions = [
                 'Live_VisitorLog',
                 'General_RealTime',
@@ -241,7 +245,7 @@
                     return;
                 }
 
-                piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1 }).then(function (json)  {
+                piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1, doNotFetchActions: 1 }).then(function (json)  {
                     if (json.length == 0) {
                         return;
                     }
