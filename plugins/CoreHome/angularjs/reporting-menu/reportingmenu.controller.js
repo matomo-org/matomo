@@ -26,6 +26,10 @@
 
         var initialLoad = true;
 
+        var UI = require('piwik/UI');
+        var notification = new UI.Notification();
+        var notificationId = 'only_raw_data_notification';
+
         $scope.currentCategory = piwikUrl.getSearchParam('category');
         $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
 
@@ -220,6 +224,8 @@
         });
 
         function showOnlyRawDataMessage() {
+            notification.remove(notificationId);
+
             menuModel.fetchVisits(decodeURIComponent(date), period, function(json) {
                 if (json.value > 0) {
                     return;
@@ -230,7 +236,12 @@
                         return;
                     }
 
-                    console.log('SHOW THE INFO');
+                    var url = piwik.broadcast.getHashFromUrl();
+                    url = piwik.broadcast.updateParamValue('category=General_Visitors', url);
+                    url = piwik.broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
+
+                    var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + url + '">', '</a>']);
+                    notification.show(message, {context: 'info', id: notificationId});
                 });
             });
         }
@@ -253,6 +264,8 @@
 
             if ($scope.currentSubcategory != 'Live_VisitorLog') {
                 showOnlyRawDataMessage();
+            } else {
+                notification.remove(notificationId);
             }
 
             initialLoad = false;
