@@ -11,6 +11,8 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
@@ -126,12 +128,37 @@ class ArchiveSelectorTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @dataProvider getTestDataForGetArchiveIdAndVisits
+     */
+    public function test_getArchiveIdAndVisits_returnsCorrectResult($period, $date, $archiveRows, $segment, $minDateProcessed, $includeInvalidated, $expected)
+    {
+        Fixture::createWebsite('2010-02-02 00:00:00');
+
+        Rules::setBrowserTriggerArchiving(false);
+
+        $this->insertArchiveData($archiveRows);
+
+        $params = new \Piwik\ArchiveProcessor\Parameters(new Site(1), Factory::build($period, $date), new Segment($segment, [1]));
+        $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
+
+        if ($result[4] !== false) {
+            Date::factory($result[4]);
+        }
+
+        unset($result[4]);
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function getTestDataForGetArchiveIdAndVisits()
     {
         $minDateProcessed = Date::factory('2020-03-04 00:00:00')->subSeconds(900)->getDatetime();
         return [
             // no archive data found
             [ // nothing in the db
+                'day',
+                '2019-10-05',
                 [],
                 '',
                 $minDateProcessed,
@@ -139,6 +166,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, false, false, false],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 1],
                     ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-06', 'date2' => '2019-10-06', 'name' => 'done', 'value' => 1],
@@ -152,6 +181,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
             // value is not valid
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 4],
                     ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 2],
@@ -164,6 +195,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, false, false, true],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 4],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 20],
@@ -178,6 +211,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, 0, 0, true],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done.VisitsSummary', 'value' => 4],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 20],
@@ -189,6 +224,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, 20, 40, true],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done.VisitsSummary', 'value' => 1],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 30],
@@ -200,6 +237,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, 30, 50, true],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done.VisitsSummary', 'value' => 1],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 30],
@@ -214,6 +253,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
             // archive is too old
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 1,
                         'ts_archived' => Date::factory($minDateProcessed)->subSeconds(1)->getDatetime()],
@@ -224,6 +265,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, false, false, true],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 1,
                         'ts_archived' => Date::factory($minDateProcessed)->subSeconds(1)->getDatetime()],
@@ -238,6 +281,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
             // no archive done flags, but metric
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits_converted', 'value' => 10],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 1],
@@ -248,6 +293,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [false, false, false, false],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits_converted', 'value' => 10],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 3],
@@ -261,6 +308,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
             // archive exists and is usable
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 1],
                 ],
@@ -270,6 +319,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [[1], 0, 0, true],
             ],
             [
+                'day',
+                '2019-10-05',
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'done', 'value' => 1],
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'nb_visits', 'value' => 5],
@@ -279,6 +330,36 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 $minDateProcessed,
                 false,
                 [[1], 5, 10, true],
+            ],
+
+            // range archive, valid
+            [
+                'day',
+                '2019-10-05,2019-10-09',
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2019-10-05', 'date2' => '2019-10-09', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2019-10-05', 'date2' => '2019-10-09', 'name' => 'nb_visits', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2019-10-05', 'date2' => '2019-10-09', 'name' => 'nb_visits_converted', 'value' => 10],
+                ],
+                '',
+                $minDateProcessed,
+                false,
+                [[1], 5, 10, true],
+            ],
+
+            // range archive, invalid
+            [
+                'day',
+                '2019-10-05,2019-10-09',
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2019-10-05', 'date2' => '2019-10-09', 'name' => 'done', 'value' => 4],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2019-10-05', 'date2' => '2019-10-09', 'name' => 'nb_visits', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2019-10-05', 'date2' => '2019-10-09', 'name' => 'nb_visits_converted', 'value' => 10],
+                ],
+                '',
+                $minDateProcessed,
+                false,
+                [false, 5, 10, true],
             ],
         ];
     }
