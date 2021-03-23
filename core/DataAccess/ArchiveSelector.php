@@ -19,6 +19,7 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
+use Piwik\SettingsServer;
 
 /**
  * Data Access object used to query archives
@@ -109,6 +110,14 @@ class ArchiveSelector
         if ($minDatetimeArchiveProcessedUTC
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
+        ) {
+            return [false, $visits, $visitsConverted, true, $tsArchived];
+        }
+
+        // the archive is invalidated and we are in a browser request that is authorized to archive it
+        if ($result['value'] == ArchiveWriter::DONE_INVALIDATED
+            && !SettingsServer::isArchivePhpTriggered() // for safety, don't force archiving of child archives in core:archive, this should be done in the queue
+            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }
