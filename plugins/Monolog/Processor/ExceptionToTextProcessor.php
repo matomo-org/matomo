@@ -100,12 +100,13 @@ class ExceptionToTextProcessor
         }
 
         if (is_array($exception)) {
+            $message = $exception['message'] ?? '';
             if ($shouldPrintBacktrace && isset($exception['backtrace'])) {
                 $trace = $exception['backtrace'];
                 $trace = self::replaceSensitiveValues($trace);
-                return $trace;
+                return $message . "\n" . $trace;
             } else {
-                return '';
+                return $message;
             }
         }
 
