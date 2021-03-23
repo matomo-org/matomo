@@ -219,6 +219,22 @@
             enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
+        function showOnlyRawDataMessage() {
+            menuModel.fetchVisits(decodeURIComponent(date), period, function(json) {
+                if (json.value > 0) {
+                    return;
+                }
+
+                menuModel.fetchLiveVisits(decodeURIComponent(date), period, function(json) {
+                    if (json.length == 0) {
+                        return;
+                    }
+
+                    console.log('SHOW THE INFO');
+                });
+            });
+        }
+
         $rootScope.$on('piwikPageChange', function (event) {
             if (!initialLoad) {
                 globalAjaxQueue.abort();
@@ -234,6 +250,10 @@
             }
 
             $('#loadingError').hide();
+
+            if ($scope.currentSubcategory != 'Live_VisitorLog') {
+                showOnlyRawDataMessage();
+            }
 
             initialLoad = false;
         });

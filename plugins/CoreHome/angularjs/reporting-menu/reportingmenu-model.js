@@ -17,7 +17,9 @@
             selected: [],
             fetchMenuItems: fetchMenuItems,
             reloadMenuItems: reloadMenuItems,
-            findSubcategory: findSubcategory
+            findSubcategory: findSubcategory,
+            fetchVisits: fetchVisits,
+            fetchLiveVisits: fetchLiveVisits,
         };
 
         return model;
@@ -160,6 +162,39 @@
 
                 return model.menu;
             });
+        }
+
+        function fetchVisits(date, period, callback) {
+            var ajaxRequest = new ajaxHelper();
+
+            ajaxRequest.addParams({
+                module: 'API',
+                method: 'VisitsSummary.getVisits',
+                format: 'json',
+                date: date,
+                period: period,
+            }, 'get');
+            ajaxRequest.setCallback(callback);
+            ajaxRequest.setFormat('json');
+            ajaxRequest.withTokenInUrl();
+
+            ajaxRequest.send();
+        }
+
+        function fetchLiveVisits(date, period, callback) {
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams({
+                module: 'API',
+                method: 'Live.getLastVisitsDetails',
+                format: 'json',
+                date: decodeURIComponent(date),
+                period: period,
+            }, 'get');
+            ajaxRequest.setCallback(callback);
+            ajaxRequest.setFormat('json');
+            ajaxRequest.withTokenInUrl();
+
+            ajaxRequest.send();
         }
     }
 })();
