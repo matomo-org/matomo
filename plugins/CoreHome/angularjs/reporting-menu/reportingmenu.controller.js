@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingMenuController', ReportingMenuController);
 
-    ReportingMenuController.$inject = ['$scope', 'piwik', '$location', '$timeout', 'reportingMenuModel', '$rootScope', 'piwikUrl', 'piwikApi'];
+    ReportingMenuController.$inject = ['$scope', 'piwik', '$location', '$timeout', 'reportingMenuModel', '$rootScope', 'piwikUrl'];
 
-    function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl, piwikApi) {
+    function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl) {
 
         $scope.helpShownCategory = null;
 
@@ -25,10 +25,6 @@
         var showSubcategoryHelpOnLoad = null;
 
         var initialLoad = true;
-
-        var UI = require('piwik/UI');
-        var notification = new UI.Notification();
-        var notificationId = 'only_raw_data_notification';
 
         $scope.currentCategory = piwikUrl.getSearchParam('category');
         $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
@@ -223,41 +219,6 @@
             enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
-        function showOnlyRawDataMessageIfRequired() {
-            notification.remove(notificationId);
-
-            if (segment !== '') {
-                return;
-            }
-
-            var subcategoryExceptions = [
-                'Live_VisitorLog',
-                'General_RealTime',
-                'UserCountryMap_RealTimeMap',
-            ];
-
-            if (subcategoryExceptions.indexOf($scope.currentSubcategory) !== -1) {
-                return;
-            }
-
-            piwikApi.fetch({ method: 'VisitsSummary.getVisits' }).then(function (json) {
-                if (json.value > 0) {
-                    return;
-                }
-
-                piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1, doNotFetchActions: 1 }).then(function (json)  {
-                    if (json.length == 0) {
-                        return;
-                    }
-
-                    var url = broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')
-
-                    var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + url + '">', '</a>']);
-                    notification.show(message, {context: 'info', id: notificationId});
-                });
-            });
-        }
-
         $rootScope.$on('piwikPageChange', function (event) {
             if (!initialLoad) {
                 globalAjaxQueue.abort();
@@ -273,8 +234,6 @@
             }
 
             $('#loadingError').hide();
-
-            showOnlyRawDataMessageIfRequired();
 
             initialLoad = false;
         });

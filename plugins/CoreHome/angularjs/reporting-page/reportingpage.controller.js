@@ -7,11 +7,12 @@
 (function () {
     angular.module('piwikApp').controller('ReportingPageController', ReportingPageController);
 
-    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikUrl', 'piwikPeriods'];
+    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikUrl', 'piwikPeriods', 'piwikApi'];
 
-    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikUrl, $piwikPeriods) {
+    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikUrl, $piwikPeriods, piwikApi) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
+        $scope.rawDataMessage = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog') + '">', '</a>']);
 
         var currentCategory = null;
         var currentSubcategory = null;
@@ -35,7 +36,41 @@
             $scope.renderPage($search.category, $search.subcategory);
         }
 
+        function showOnlyRawDataMessageIfRequired() {
+            var $search = $location.search();
+
+            if ($search.segment !== '') {
+                return;
+            }
+
+            var subcategoryExceptions = [
+                'Live_VisitorLog',
+                'General_RealTime',
+                'UserCountryMap_RealTimeMap',
+            ];
+
+            if (subcategoryExceptions.indexOf($search.subcategory) !== -1) {
+                return;
+            }
+
+            piwikApi.fetch({ method: 'VisitsSummary.getVisits' }).then(function (json) {
+                if (json.value > 0) {
+                    return;
+                }
+
+                piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1, doNotFetchActions: 1 }).then(function (json)  {
+                    if (json.length == 0) {
+                        return;
+                    }
+
+                    $scope.hasOnlyRawData = true;
+                });
+            });
+        }
+
         $scope.renderPage = function (category, subcategory) {
+            $scope.hasOnlyRawData = false;
+
             if (!category || !subcategory) {
                 pageModel.resetPage();
                 $scope.loading = false;
@@ -98,10 +133,12 @@
                 $scope.hasNoPage = !pageModel.page;
                 $scope.loading = false;
             });
+
+            showOnlyRawDataMessageIfRequired();
         };
 
         $scope.loading = true; // we only set loading on initial load
-        
+
         renderInitialPage();
 
         $rootScope.$on('$locationChangeSuccess', function () {
