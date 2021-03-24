@@ -904,6 +904,10 @@ class CronArchive
         $isYesterday = $params->getPeriod()->getLabel() == 'day' && $params->getPeriod()->getDateStart()->toString() == Date::factory('yesterday')->toString();
 
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
+        if (!$isPeriodIncludesToday) {
+            return false; // don't perform the check if the period does not include today
+        }
+
         $minArchiveProcessedTime = Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()));
 
         // empty plugins param since we only check for an 'all' archive
