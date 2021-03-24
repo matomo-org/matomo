@@ -147,6 +147,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'idSite' => $this->idSite
         ), $viewType = 'basic');
 
+        return $this->renderTemplateAs('siteWithoutData', array(
+            'siteName'      => $this->site->getName(),
+            'idSite'        => $this->idSite,
+            'piwikUrl'      => $piwikUrl,
+            'emailBody'     => $emailContent,
+        ), $viewType = 'basic');
+    }
+
+    public function siteWithoutDataTabs() {
+        list($siteType, $gtmUsed) = $this->guessSiteTypeAndGtm();
+        $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
+
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
         $googleAnalyticsImporterMessage = '';
         if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
             $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
@@ -159,20 +180,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
         }
 
-        list($siteType, $gtmUsed) = $this->guessSiteTypeAndGtm();
-        $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
-
         $tagManagerActive = false;
         if (Manager::getInstance()->isPluginActivated('TagManager')) {
             $tagManagerActive = true;
         }
 
-        return $this->renderTemplateAs('siteWithoutData', array(
+        return $this->renderTemplateAs('_siteWithoutDataTabs', array(
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
-            'emailBody'     => $emailContent,
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
             'instructionUrl' => $instructionUrl,

@@ -82,12 +82,6 @@
                             element.css('marginTop', '0');
                         }
                     }
-
-                    var tabs = element.find('.tabs');
-
-                    if (tabs.html()) {
-                        $('.tabs').tabs();
-                    }
                 };
             }
         };
