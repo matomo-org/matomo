@@ -1,5 +1,15 @@
 # Allow direct web access to Web cron
-<Files "archive.php">
-	Order Allow,Deny
-	Allow from all
-</Files>
+# Apache 2.2
+<IfModule !authz_core_module>
+        <Files "archive.php">
+                Order Allow,Deny
+                Allow from all
+        </Files>
+</IfModule>
+
+# Apache 2.4+
+<IfModule authz_core_module>
+        <Files "archive.php">
+                Require all granted
+        </Files>
+</IfModule>
