@@ -116,7 +116,7 @@ class ArchiveSelector
 
         // the archive is invalidated and we are in a browser request that is authorized to archive it
         if ($result['value'] == ArchiveWriter::DONE_INVALIDATED
-            && !SettingsServer::isArchivePhpTriggered() // for safety, don't force archiving of child archives in core:archive, this should be done in the queue
+            && !SettingsServer::isArchivePhpTriggered() // for core:archive initiated archiving, only initiate archiving
             && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];

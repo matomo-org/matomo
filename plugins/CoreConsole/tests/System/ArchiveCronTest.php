@@ -58,6 +58,18 @@ class ArchiveCronTest extends SystemTestCase
         Site::clearCache();
     }
 
+    private static function trackVisitInPast()
+    {
+        $t = Fixture::getTracker(self::$fixture->idSite, '2012-08-09 16:00:00');
+        $t->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148');
+        $t->setUrl('http://pastwebsite.com/here/we/go');
+        Fixture::checkResponse($t->doTrackPageView('a page title'));
+
+        // update ts_archived for archives in 2012_08 so they will be invalidated and rearchived
+        $sql = "UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory('2012-08-01')) . " SET ts_archived = ?";
+        Db::query($sql, [Date::now()->subHour(2)->getDatetime()]);
+    }
+
     private static function addNewSegmentToPast()
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
@@ -218,6 +230,7 @@ class ArchiveCronTest extends SystemTestCase
             self::forceCurlCliMulti();
             self::addNewSegmentToPast();
             self::trackVisitsForToday();
+            self::trackVisitInPast(); // track in the past so we end up invalidating and rearchiving a past month
             $output = $this->runArchivePhpCron();
         } finally {
             self::undoForceCurlCliMulti();
