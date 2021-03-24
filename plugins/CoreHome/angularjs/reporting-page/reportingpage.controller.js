@@ -103,6 +103,8 @@
 
             notifications.clearTransientNotifications();
 
+            showOnlyRawDataMessageIfRequired();
+
             if (category === 'Dashboard_Dashboard' && $.isNumeric(subcategory) && $('[piwik-dashboard]').length) {
                 // hack to make loading of dashboards faster since all the information is already there in the
                 // piwik-dashboard widget, we can let the piwik-dashboard widget render the page. We need to find
@@ -133,8 +135,6 @@
                 $scope.hasNoPage = !pageModel.page;
                 $scope.loading = false;
             });
-
-            showOnlyRawDataMessageIfRequired();
         };
 
         $scope.loading = true; // we only set loading on initial load
