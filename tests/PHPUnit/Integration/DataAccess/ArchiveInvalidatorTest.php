@@ -84,6 +84,30 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class), new NullLogger());
     }
 
+    public function test_reArchiveReport_doesNothingIfIniSettingSetToZero()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last0';
+
+        $this->invalidator->reArchiveReport([1], 'VisitsSummary', 'some.Report');
+
+        $expectedInvalidations = [];
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntriesSummary();
+
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+
+        // different format
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = '0';
+
+        $this->invalidator->reArchiveReport([1], 'VisitsSummary', 'some.Report');
+
+        $expectedInvalidations = [];
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntriesSummary();
+
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
     public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenNoPluginSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
