@@ -83,7 +83,7 @@
                         }
                     }
 
-                    var tabs = angular.element('.tabs');
+                    var tabs = element.find('.tabs');
 
                     if (tabs.html()) {
                         $('.tabs').tabs();
