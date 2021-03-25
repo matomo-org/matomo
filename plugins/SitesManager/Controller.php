@@ -199,12 +199,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ), $viewType = 'basic');
     }
 
-    private function guessSiteTypeAndGtm()
+    public function guessSiteTypeAndGtm()
     {
         $siteMainUrl = $this->site->getMainUrl();
         $gtmUsed = false;
         $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
-
+var_dump($response);
         $needle = 'gtm.start';
         if (strpos($response['data'], $needle) !== false) {
             $gtmUsed = true;
