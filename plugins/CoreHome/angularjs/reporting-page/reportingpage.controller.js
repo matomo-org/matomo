@@ -12,8 +12,6 @@
     function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikUrl, $piwikPeriods, piwikApi) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
-        $scope.rawDataMessage = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog') + '">', '</a>']);
-        $scope.showOnlyRawDataAlert = false;
 
         var currentCategory = null;
         var currentSubcategory = null;
@@ -29,6 +27,9 @@
         var hasNoVisits = false;
         var dateLastChecked = null;
 
+        var UI = require('piwik/UI');
+        var notification = new UI.Notification();
+
         function renderInitialPage()
         {
             var $search = $location.search();
@@ -41,15 +42,29 @@
             $scope.renderPage($search.category, $search.subcategory);
         }
 
+        function showOnlyRawDataNotification() {
+            var attributes = {};
+            attributes.id = 'onlyRawData';
+            attributes.animate = false;
+            attributes.context = 'info';
+            var url = broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')
+            var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + url + '">', '</a>']);
+            notification.show(message, attributes);
+        }
+
+        function hideOnlyRawDataNoticifation() {
+            notification.remove('onlyRawData');
+        }
+
         function showOnlyRawDataMessageIfRequired() {
             if (hasRawData && hasNoVisits) {
-                $scope.showOnlyRawDataAlert = true;
+                showOnlyRawDataNotification();
             }
 
             var $search = $location.search();
 
             if ($search.segment !== '') {
-                $scope.showOnlyRawDataAlert = false;
+                hideOnlyRawDataNoticifation();
                 return;
             }
 
@@ -70,7 +85,7 @@
             ];
 
             if (subcategoryExceptions.indexOf($search.subcategory) !== -1 || categoryExceptions.indexOf($search.category) !== -1 || $search.subcategory.toLowerCase().indexOf('manage') !== -1) {
-                $scope.showOnlyRawDataAlert = false;
+                hideOnlyRawDataNoticifation();
                 return;
             }
 
@@ -84,26 +99,26 @@
 
                 if (json.value > 0) {
                     hasNoVisits = false;
-                    $scope.showOnlyRawDataAlert = false;
+                    hideOnlyRawDataNoticifation();
                     return;
                 }
 
                 hasNoVisits = true;
 
                 if (hasRawData) {
-                    $scope.showOnlyRawDataAlert = true;
+                    showOnlyRawDataNotification();
                     return;
                 }
 
                 piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1, doNotFetchActions: 1 }).then(function (json)  {
                     if (json.length == 0) {
                         hasRawData = false;
-                        $scope.showOnlyRawDataAlert = false;
+                        hideOnlyRawDataNoticifation();
                         return;
                     }
 
                     hasRawData = true;
-                    $scope.showOnlyRawDataAlert = true;
+                    showOnlyRawDataNotification();
                 });
             });
         }
@@ -115,12 +130,9 @@
                 return;
             }
 
-            var UI = require('piwik/UI');
-
             try {
                 $piwikPeriods.parse(currentPeriod, currentDate);
             } catch (e) {
-                var notification   = new UI.Notification();
                 var attributes = {};
                 attributes.id = 'invalidDate';
                 attributes.animate = false;
@@ -132,7 +144,7 @@
                 return;
             }
 
-            (new UI.Notification()).remove('invalidDate');
+            notification.remove('invalidDate');
 
             $rootScope.$emit('piwikPageChange', {});
 
@@ -208,7 +220,7 @@
             }
 
             if (date !== currentDate) {
-                $scope.showOnlyRawDataAlert = false;
+                hideOnlyRawDataNoticifation();
                 dateLastChecked = null;
                 hasRawData = false;
                 hasNoVisits = false;

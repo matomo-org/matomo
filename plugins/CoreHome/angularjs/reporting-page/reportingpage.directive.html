@@ -4,8 +4,6 @@
 
     <div ng-show="hasNoPage">{{ 'CoreHome_NoSuchPage'|translate }}</div>
 
-    <div class="alert alert-info" ng-show="showOnlyRawDataAlert" ng-bind-html="rawDataMessage"></div>
-
     <div class="row" ng-repeat="widget in pageModel.widgets">
         <div class="col s12 fullWidgetColumn" ng-if="!widget.group" piwik-widget="widget"></div>
 
