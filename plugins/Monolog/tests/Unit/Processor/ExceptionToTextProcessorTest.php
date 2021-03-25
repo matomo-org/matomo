@@ -240,6 +240,7 @@ EOI;
         $wholeTrace = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exArray);
 
         $expected = <<<EOI
+themessage
 thestacktrace
 EOI;
 
@@ -255,7 +256,7 @@ EOI;
 
         $wholeTrace = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exArray);
 
-        $expected = '';
+        $expected = 'themessage';
 
         $this->assertEquals($expected, $wholeTrace);
     }
