@@ -63,6 +63,7 @@
     {% set errorIcon %} <span class="icon-error"></span> {% endset %}
     {% set warningIcon %} <span class="icon-warning"></span> {% endset %}
     {% set okIcon %} <span class="icon-ok"></span> {% endset %}
+    {% set infoIcon %} <span class="icon-info2"></span> {% endset %}
 
     {% for result in results %}
         <tr>
@@ -75,7 +76,7 @@
                     {% elseif item.status == warning %}
                         {{ warningIcon }} {{ item.comment|raw }}
                     {% elseif item.status == informational %}
-                        {{ item.comment }}
+                        {{ infoIcon }} {{ item.comment }}
                     {% else %}
                         {{ okIcon }} {{ item.comment|raw }}
                     {% endif %}
