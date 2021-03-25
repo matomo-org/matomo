@@ -153,7 +153,10 @@
 
             notifications.clearTransientNotifications();
 
-            showOnlyRawDataMessageIfRequired();
+            var dateRange = $piwikPeriods.parse(currentPeriod, currentDate).getDateRange();
+            if ($piwikPeriods.todayIsInRange(dateRange)) {
+                showOnlyRawDataMessageIfRequired();
+            }
 
             if (category === 'Dashboard_Dashboard' && $.isNumeric(subcategory) && $('[piwik-dashboard]').length) {
                 // hack to make loading of dashboards faster since all the information is already there in the

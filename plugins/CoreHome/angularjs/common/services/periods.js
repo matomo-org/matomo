@@ -275,7 +275,8 @@
             parse: parse,
             parseDate: parseDate,
             format: format,
-            RangePeriod: RangePeriod
+            RangePeriod: RangePeriod,
+            todayIsInRange: todayIsInRange
         };
 
         function getAllLabels() {
@@ -383,5 +384,17 @@
         date.setSeconds(0);
         date.setMilliseconds(0);
         return date;
+    }
+
+    function todayIsInRange(dateRange) {
+        if (!dateRange.isArray && dateRange.length !== 2) {
+            return false;
+        }
+
+        if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
+            return true;
+        }
+
+        return false;
     }
 })();
