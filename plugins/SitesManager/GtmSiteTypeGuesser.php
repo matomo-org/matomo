@@ -44,7 +44,8 @@ class GtmSiteTypeGuesser
             return SitesManager::SITE_TYPE_SHOPIFY;
         }
 
-        if (false) {
+        $needle = 'content="Microsoft SharePoint';
+        if (strpos($response['data'], $needle) !== false) {
             return SitesManager::SITE_TYPE_SHAREPOINT;
         }
 

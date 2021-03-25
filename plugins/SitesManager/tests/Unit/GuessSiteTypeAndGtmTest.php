@@ -87,6 +87,11 @@ class GtmSiteTypeGuesserTest extends \PHPUnit\Framework\TestCase
                 'headers' => [],
                 'data' => 'contains <!-- This is Squarespace. --> text'
             ]],
+            [SitesManager::SITE_TYPE_SHAREPOINT, [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'contains content="Microsoft SharePoint text'
+            ]],
             [SitesManager::SITE_TYPE_JOOMLA, [
                 'status' => 200,
                 'headers' => ['expires' => 'Wed, 17 Aug 2005 00:00:00 GMT'],
