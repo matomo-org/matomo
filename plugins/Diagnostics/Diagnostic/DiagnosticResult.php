@@ -28,6 +28,11 @@ class DiagnosticResult
     /**
      * @var string
      */
+    private $icon;
+
+    /**
+     * @var string
+     */
     private $longErrorMessage = '';
 
     /**
@@ -35,9 +40,10 @@ class DiagnosticResult
      */
     private $items = array();
 
-    public function __construct($label)
+    public function __construct($label, $icon = '')
     {
         $this->label = $label;
+        $this->icon = $icon;
     }
 
     /**
@@ -77,6 +83,14 @@ class DiagnosticResult
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 
     /**

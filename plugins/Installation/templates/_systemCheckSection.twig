@@ -1,4 +1,5 @@
 {% import _self as local %}
+{{ postEvent('Installation.topSystemCheckPage') }}
 <p>{{ 'Installation_CopyBelowInfoForSupport'|translate }}
     <br/> <br/>
     <a href="javascript:void(0);"
@@ -66,7 +67,7 @@
 
     {% for result in results %}
         <tr>
-            <td>{{ result.label }}</td>
+            <td>{% if result.icon %}<span class="icon-{{ result.icon }}"></span> {% endif %}{{ result.label }}</td>
             <td>
                 {% for item in result.items %}
 
