@@ -8,71 +8,90 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Unit;
 
-use Piwik\Plugins\SitesManager\Controller;
-use Piwik\SettingsServer;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Site;
-use ReflectionClass;
-use Piwik\Http;
+use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
+use Piwik\Plugins\SitesManager\SitesManager;
 
 /**
- * @group SitesManaager
- * @group APITest
+ * @group SitesManager
+ * @group GtmSiteTypeGuesserTest
  * @group Plugins
  */
-class GuessSiteTypeAndGtmTest extends \PHPUnit\Framework\TestCase
+class GtmSiteTypeGuesserTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Controller
+     * @var GtmSiteTypeGuesser
      */
-    private $controller;
+    private $guesser;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->controller = new Controller();
+        $this->guesser = new GtmSiteTypeGuesser();
     }
 
-    public function tearDown(): void
+    public function test_site_type_unknown_if_response_false()
     {
-        parent::tearDown();
+        $this->assertEquals(SitesManager::SITE_TYPE_UNKNOWN, $this->guesser->guessSiteTypeFromResponse(false));
     }
 
-    public function test_guess_site_type()
+    public function test_gtm_is_false_if_response_false()
     {
+        $this->assertFalse($this->guesser->guessGtmFromResponse(false));
+    }
 
-        // $mock = $this->getMockBuilder(Controller::class)
-        //      ->disableOriginalConstructor()
-        //      ->getMock();
+    public function test_gtm_is_true()
+    {
+        $response = [
+            'status' => 200,
+            'headers' => [],
+            'data' => 'it contains gtm.start somewhere'
+        ];
 
-        // $mockHttp = $this->getMockBuilder(Http::class)
-        //     ->onlyMethods(['sendHttpRequest'])
-        //     ->getMock();
+        $this->assertTrue($this->guesser->guessGtmFromResponse($response));
+    }
 
-        // $mockHttp->method('sendHttpRequest')->willReturn('abc');
-        // $reflection = new ReflectionClass($mock);
-        // $reflectionProperty = $reflection->getProperty('site');
-        // $reflectionProperty->setAccessible(true);
-        // $site = $this->getMockBuilder(Site::class)
-        //     ->disableOriginalConstructor()
-        //     ->onlyMethods(['getMainUrl'])
-        //     ->getMock();
-        // $site->method('getMainUrl')->willReturn('https://test.test');
+    /**
+     * @dataProvider responseProvider
+     */
+    public function test_site_types_by_response($expected, $response)
+    {
+        $this->assertEquals($expected, $this->guesser->guessSiteTypeFromResponse($response));
+    }
 
-        // $reflectionProperty->setValue($mock, $site);
-
-        $c = new Controller;
-        $reflection = new ReflectionClass($c);
-        $reflectionProperty = $reflection->getProperty('site');
-        $reflectionProperty->setAccessible(true);
-        $site = $this->getMockBuilder(Site::class)
-            ->disableOriginalConstructor()->onlyMethods(['getMainUrl'])->getMock();
-        $site->method('getMainUrl')->willReturn('http://test.test');
-
-        $reflectionProperty->setValue($c, $site);
-        $a = $c->guessSiteTypeAndGtm();
-
-        $this->assertTrue(true);
+    public function responseProvider()
+    {
+        return [
+            [SitesManager::SITE_TYPE_UNKNOWN, [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'nothing special'
+            ]],
+            [SitesManager::SITE_TYPE_SHOPIFY, [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'contains Shopify.theme text'
+            ]],
+            [SitesManager::SITE_TYPE_WORDPRESS, [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'contains /wp-content text'
+            ]],
+            [SitesManager::SITE_TYPE_WIX, [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'contains X-Wix-Published-Version text'
+            ]],
+            [SitesManager::SITE_TYPE_SQUARESPACE, [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'contains <!-- This is Squarespace. --> text'
+            ]],
+            [SitesManager::SITE_TYPE_JOOMLA, [
+                'status' => 200,
+                'headers' => ['expires' => 'Wed, 17 Aug 2005 00:00:00 GMT'],
+                'data' => 'nothing special'
+            ]],
+        ];
     }
 }

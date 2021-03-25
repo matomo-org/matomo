@@ -23,6 +23,7 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\Http;
+use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 
 /**
  *
@@ -156,7 +157,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     public function siteWithoutDataTabs() {
-        list($siteType, $gtmUsed) = $this->guessSiteTypeAndGtm();
+        $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
+        $guesser = new GtmSiteTypeGuesser();
+        $siteType = $guesser->guessSiteTypeFromResponse($response);
+        $gtmUsed = $guesser->guessGtmFromResponse($response);
         $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
 
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
@@ -197,49 +201,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
         ), $viewType = 'basic');
-    }
-
-    public function guessSiteTypeAndGtm()
-    {
-        $siteMainUrl = $this->site->getMainUrl();
-        $gtmUsed = false;
-        $response = Http::sendHttpRequest($siteMainUrl, 5, null, null, 0, false, false, true);
-var_dump($response);
-        $needle = 'gtm.start';
-        if (strpos($response['data'], $needle) !== false) {
-            $gtmUsed = true;
-        }
-
-        $needle = '/wp-content';
-        if (strpos($response['data'], $needle) !== false) {
-            return [SitesManager::SITE_TYPE_WORDPRESS, $gtmUsed];
-        }
-
-        $needle = '<!-- This is Squarespace. -->';
-        if (strpos($response['data'], $needle) !== false) {
-            return [SitesManager::SITE_TYPE_SQUARESPACE, $gtmUsed];
-        }
-
-        $needle = 'X-Wix-Published-Version';
-        if (strpos($response['data'], $needle) !== false) {
-            return [SitesManager::SITE_TYPE_WIX, $gtmUsed];
-        }
-
-        // https://github.com/joomla/joomla-cms/blob/staging/libraries/src/Application/WebApplication.php#L516
-        // Joomla was the outcome of a fork of Mambo on 17 August 2005 - https://en.wikipedia.org/wiki/Joomla
-        if ($response['headers']['expires'] === 'Wed, 17 Aug 2005 00:00:00 GMT') {
-            return [SitesManager::SITE_TYPE_JOOMLA, $gtmUsed];
-        }
-
-        $needle = 'Shopify.theme';
-        if (strpos($response['data'], $needle) !== false) {
-            return [SitesManager::SITE_TYPE_SHOPIFY, $gtmUsed];
-        }
-
-        if (false) {
-            return [SitesManager::SITE_TYPE_SHAREPOINT, $gtmUsed];
-        }
-
-        return [SitesManager::SITE_TYPE_UNKNOWN, $gtmUsed];
     }
 }
