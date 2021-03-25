@@ -13,6 +13,7 @@
         pageModel.resetPage();
         $scope.pageModel = pageModel;
         $scope.rawDataMessage = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog') + '">', '</a>']);
+        $scope.showOnlyRawDataAlert = false;
 
         var currentCategory = null;
         var currentSubcategory = null;
@@ -23,6 +24,10 @@
         var currentCompareDates = null;
         var currentComparePeriods = null;
         var currentCompareSegments = null;
+
+        var hasRawData = false;
+        var hasNoVisits = false;
+        var dateLastChecked = null;
 
         function renderInitialPage()
         {
@@ -37,9 +42,14 @@
         }
 
         function showOnlyRawDataMessageIfRequired() {
+            if (hasRawData && hasNoVisits) {
+                $scope.showOnlyRawDataAlert = true;
+            }
+
             var $search = $location.search();
 
             if ($search.segment !== '') {
+                $scope.showOnlyRawDataAlert = false;
                 return;
             }
 
@@ -47,30 +57,58 @@
                 'Live_VisitorLog',
                 'General_RealTime',
                 'UserCountryMap_RealTimeMap',
+                'MediaAnalytics_TypeAudienceLog',
+                'MediaAnalytics_TypeRealTime',
+                'FormAnalytics_TypeRealTime',
+                'Goals_AddNewGoal',
             ];
 
-            if (subcategoryExceptions.indexOf($search.subcategory) !== -1) {
+            var categoryExceptions = [
+                'HeatmapSessionRecording_Heatmaps',
+                'HeatmapSessionRecording_SessionRecordings',
+                'Marketplace_Marketplace',
+            ];
+
+            if (subcategoryExceptions.indexOf($search.subcategory) !== -1 || categoryExceptions.indexOf($search.category) !== -1 || $search.subcategory.toLowerCase().indexOf('manage') !== -1) {
+                $scope.showOnlyRawDataAlert = false;
+                return;
+            }
+
+            var minuteInMilliseconds = 60000;
+            if (dateLastChecked && (new Date().getTime() - dateLastChecked) < minuteInMilliseconds) {
                 return;
             }
 
             piwikApi.fetch({ method: 'VisitsSummary.getVisits' }).then(function (json) {
+                dateLastChecked = new Date().getTime();
+
                 if (json.value > 0) {
+                    hasNoVisits = false;
+                    $scope.showOnlyRawDataAlert = false;
+                    return;
+                }
+
+                hasNoVisits = true;
+
+                if (hasRawData) {
+                    $scope.showOnlyRawDataAlert = true;
                     return;
                 }
 
                 piwikApi.fetch({ method: 'Live.getLastVisitsDetails', filter_limit: 1, doNotFetchActions: 1 }).then(function (json)  {
                     if (json.length == 0) {
+                        hasRawData = false;
+                        $scope.showOnlyRawDataAlert = false;
                         return;
                     }
 
-                    $scope.hasOnlyRawData = true;
+                    hasRawData = true;
+                    $scope.showOnlyRawDataAlert = true;
                 });
             });
         }
 
         $scope.renderPage = function (category, subcategory) {
-            $scope.hasOnlyRawData = false;
-
             if (!category || !subcategory) {
                 pageModel.resetPage();
                 $scope.loading = false;
@@ -167,6 +205,13 @@
             ) {
                 // this page is already loaded
                 return;
+            }
+
+            if (date !== currentDate) {
+                $scope.showOnlyRawDataAlert = false;
+                dateLastChecked = null;
+                hasRawData = false;
+                hasNoVisits = false;
             }
 
             currentPeriod = period;
