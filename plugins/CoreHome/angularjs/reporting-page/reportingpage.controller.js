@@ -219,7 +219,7 @@
                 return;
             }
 
-            if (date !== currentDate) {
+            if (date !== currentDate || period !== currentPeriod) {
                 hideOnlyRawDataNoticifation();
                 dateLastChecked = null;
                 hasRawData = false;
