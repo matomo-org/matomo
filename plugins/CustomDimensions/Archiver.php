@@ -14,6 +14,7 @@ use Piwik\Metrics;
 use Piwik\Plugins\Actions\Metrics as ActionsMetrics;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
+use Piwik\RankingQuery;
 use Piwik\Tracker;
 use Piwik\ArchiveProcessor;
 
@@ -37,6 +38,11 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     private $processor;
 
+    /**
+     * @var int
+     */
+    private $rankingQueryLimit;
+
     function __construct($processor)
     {
         parent::__construct($processor);
@@ -45,6 +51,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_dimensions'];
         $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_dimensions'];
+        $this->rankingQueryLimit = $this->getRankingQueryLimit();
     }
 
     public static function buildRecordNameForCustomDimensionId($id)
@@ -132,7 +139,15 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateFromVisits($valueField, $dimensions, $where)
     {
-        $query = $this->getLogAggregator()->queryVisitsByDimension($dimensions, $where);
+        if ($this->rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            $rankingQuery->addLabelColumn($dimensions[0]);
+
+            $query = $this->getLogAggregator()->queryVisitsByDimension($dimensions, $where, [], false, $rankingQuery, false, -1,
+                $rankingQueryGenerate = true);
+        } else {
+            $query = $this->getLogAggregator()->queryVisitsByDimension($dimensions, $where);
+        }
 
         while ($row = $query->fetch()) {
             $value = $this->cleanCustomDimensionValue($row[$valueField]);
@@ -143,7 +158,14 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateFromConversions($valueField, $dimensions, $where)
     {
-        $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions, $where);
+        if ($this->rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            $rankingQuery->addLabelColumn($dimensions[0]);
+
+            $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions, $where, false, [], $rankingQuery, $rankingQueryGenerate = true);
+        } else {
+            $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions, $where);
+        }
 
         while ($row = $query->fetch()) {
             $value = $this->cleanCustomDimensionValue($row[$valueField]);
@@ -195,6 +217,19 @@ class Archiver extends \Piwik\Plugin\Archiver
         // get query with segmentation
         $logAggregator = $this->getLogAggregator();
         $query     = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        if ($this->rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            $rankingQuery->addLabelColumn(array($valueField, 'url'));
+            // TODO: combine below 4
+            $rankingQuery->addColumn(Metrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
+            $rankingQuery->addColumn(Metrics::INDEX_BOUNCE_COUNT, 'sum');
+            $rankingQuery->addColumn(Metrics::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
+            $rankingQuery->addColumn($metricIds, 'sum');
+
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+        }
+
         $db        = $logAggregator->getDb();
         $resultSet = $db->query($query['sql'], $query['bind']);
 
@@ -243,6 +278,17 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         return self::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+    }
+
+    private function getRankingQueryLimit()
+    {
+        $configGeneral = Config::getInstance()->General;
+        $configLimit = $configGeneral['archiving_ranking_query_row_limit'];
+        $limit = $configLimit == 0 ? 0 : max(
+            $configLimit,
+            $this->maximumRowsInDataTableLevelZero
+        );
+        return $limit;
     }
 
 }
