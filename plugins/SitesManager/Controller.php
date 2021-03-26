@@ -157,7 +157,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     public function siteWithoutDataTabs() {
-        $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
+        try {
+            $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
+        } catch (Exception $e) {
+            $response = false;
+        }
         $guesser = new GtmSiteTypeGuesser();
         $siteType = $guesser->guessSiteTypeFromResponse($response);
         $gtmUsed = $guesser->guessGtmFromResponse($response);
