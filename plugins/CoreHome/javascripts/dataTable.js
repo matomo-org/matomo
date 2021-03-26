@@ -1809,7 +1809,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (!trs || !trs.length || !trs[0]) {
             return;
         }
-        var parent = $(trs[0]).parents('table');
+        var parent = $(trs[0]).closest('table');
 
         var self = this;
 
