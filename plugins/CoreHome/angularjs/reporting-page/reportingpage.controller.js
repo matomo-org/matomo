@@ -48,7 +48,8 @@
             attributes.animate = false;
             attributes.context = 'info';
             var url = broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')
-            var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + url + '">', '</a>']);
+            var link = '<a href="' + url + '">' + _pk_translate('Live_VisitorLog') + '</a>';
+            var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', [link]);
             notification.show(message, attributes);
         }
 
