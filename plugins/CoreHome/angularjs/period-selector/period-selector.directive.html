@@ -81,6 +81,7 @@
                     ng-model="periodSelector.comparePeriodType"
                     full-width="true"
                     disabled="!periodSelector.isComparing"
+                    ng-style="{'visibility' : periodSelector.isComparing ? 'visible' : 'hidden'}"
             ></div>
         </div>
 
