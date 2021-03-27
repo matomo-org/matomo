@@ -76,7 +76,6 @@
         "SystemCheckTracker": "Estat del rastrejador",
         "SystemCheckWarnDomHelp": "Heu d'habilitar l'extensió \"dom\" (p.e, instalar els paquets \"php-dom\" i\/o \"php-xml\").",
         "SystemCheckWarning": "El Matomo funcionarà amb normalitat, però algunes funcions potser no estaran disponibles",
-        "SystemCheckWarnJsonHelp": "Heu d'instalar l'extensió \"json\" (p.e., instalar el paquet \"php-json\") per un millor rendiment.",
         "SystemCheckWarnLibXmlHelp": "Heu d'activar l'extensió \"libxml\" (e.g., instalar el paquet \"php-libxml\") perquè es necesària per altres extensions del nucli de PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Heu d'activar l'extensió \"SimpleXML\" (p.e., installar el paquet \"php-simplexml\" i\/o \"php-xml\")",
         "SystemCheckWinPdoAndMysqliHelp": "En un servidor Windows podeu afegir les línies següents al fitxer php.ini: %s",

@@ -119,7 +119,6 @@
         "SystemCheckTrackerHelp": "matomo.php への GET リクエストが失敗しました。 HTTP 認証からこの URL をホワイトリストに入れ、mod_security を無効にしてください（あなたのウェブホストに尋ねる必要があるかもしれません）。 エラーの詳細については、Web サーバーのエラーログファイルを確認してください。",
         "SystemCheckWarnDomHelp": "\"dom\" エクステンションを有効にする必要があります（例えば \"php-dom\" と \"php-xml\" パッケージのどちらか、あるいは両方をインストールする）。",
         "SystemCheckWarning": "Matomo は正常に動作しますが、いくつかの機能は動作しないかもしれません。",
-        "SystemCheckWarnJsonHelp": "より良いパフォーマンスのために、\"json\" エクステンションを有効にする必要があります（例えば \"php-json\" パッケージをインストールする）。",
         "SystemCheckWarnLibXmlHelp": "他のコア PHP エクステンションで必要となるため、\"libxml\" エクステンションを有効にする必要があります（例えば \"php-libxml\" パッケージをインストールする）。",
         "SystemCheckWarnSimpleXMLHelp": "\"SimpleXML\" エクステンションを有効にする必要があります（例えば \"php-simplexml\" と \"php-xml\" パッケージのどちらか、あるいは両方をインストールする）。",
         "SystemCheckWinPdoAndMysqliHelp": "Windows サーバーでは、php.ini に次の行を追加します：%s",

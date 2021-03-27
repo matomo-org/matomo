@@ -125,7 +125,6 @@
         "SystemCheckTrackerHelp": "La requête GET vers matomo.php a échoué. Essayez d'ajouter à la liste de confiance de l'authentification HTTP cette URL et désactivez le mod_security (il est possible que vous ayez besoin de demander à votre hébergeur). Pour plus d'information à propos de l'erreur, consultez le fichier de journalisation des erreurs de votre serveur.",
         "SystemCheckWarnDomHelp": "Vous devriez activer l'extension \"dom\" (ex installez le paquet \"php-dom\" et\/ou \"php-xml\").",
         "SystemCheckWarning": "Matomo fonctionnera normalement mais certaines fonctionnalités seront manquantes",
-        "SystemCheckWarnJsonHelp": "Vous devriez activer l'extension \"json\" (ex installez le paquet \"php-json\") pour de meilleures performances.",
         "SystemCheckWarnLibXmlHelp": "Vous devriez activer l'extension \"libxml\" (ex installez le paquet \"php-libxml\") qui est de plus requis par d'autres extensions internes de PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Vous devriez activer l'extension \"SimpleXML\" (ex installez le paquet \"php-simplexml\" et\/ou \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Sur un serveur windows vous pouvez ajouter les lignes suivantes à votre php.ini : %s",
