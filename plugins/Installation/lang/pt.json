@@ -124,7 +124,6 @@
         "SystemCheckTrackerHelp": "O pedido GET para o matomo.php falhou. Tente autorizar este endereço na autenticação HTTP e desative o mod_security (pode ter de solicitar à entidade responsável pelo alojamento). Para mais informação sobre o erro, consulte o ficheiro dp registo de erros do servidor web.",
         "SystemCheckWarnDomHelp": "Deve ativar a extensão \"dom\" (por exemplo, instalar o pacote \"php-dom\" e\/ou \"php-xml\").",
         "SystemCheckWarning": "O Matomo vai funcionar normalmente mas podem faltar algumas funcionalidades",
-        "SystemCheckWarnJsonHelp": "Deve ativar a extensão \"json\" (por exemplo, instalar o pacote \"php-json\") para um melhor desempenho.",
         "SystemCheckWarnLibXmlHelp": "Deve ativar a extensão \"libxml\" (por exemplo, \"instalar o pacote php-libxml\" ), já que é exigido por outras extensões essenciais do PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Deve ativar a extensão \"SimpleXML\" (por exemplo, instalar o pacote \"php-simplexml\" e\/ou \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Num servidor Windows pode adicionar as seguintes linhas ao seu ficheiro php.ini: %s",

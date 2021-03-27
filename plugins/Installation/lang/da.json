@@ -119,7 +119,6 @@
         "SystemCheckTrackerHelp": "GET forespørgsel til matomo.php fejlede. Prøv at hvisliste denne URL fra HTTP autentificering og deaktivér mod_security (du skal måske snakke med din hostingudbyder). Tjek din webservers fejl-logfil for yderligere information om denne fejl.",
         "SystemCheckWarnDomHelp": "Aktiver \"Dom\" udvidelsen (f.eks. installere \"php-dom\"og\/eller \"php-xml-pakken\").",
         "SystemCheckWarning": "Matomo vil virke normalt, men nogle funktioner vil måske mangle",
-        "SystemCheckWarnJsonHelp": "Aktiver \"JSON\" udvidelsen (f.eks. installere \"php-JSON\" pakken) for bedre ydeevne.",
         "SystemCheckWarnLibXmlHelp": "Aktiver \"libxml\" udvidelsen (fx \"installere php-libxml\" pakken), som kræves af andre centrale PHP udvidelser.",
         "SystemCheckWarnSimpleXMLHelp": "Aktiver \"SimpleXML\" udvidelsen (f.eks. installere \"php-Simplexml\" og\/eller \"php-xml\" pakken).",
         "SystemCheckWinPdoAndMysqliHelp": "På en Windows-server tilføj følgende linjer til php-ini: %s",
