@@ -221,7 +221,20 @@ class Archiver extends \Piwik\Plugin\Archiver
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
             $rankingQuery->addLabelColumn(array($valueField, 'url'));
-            $rankingQuery->addColumn($metricIds, 'sum');
+
+            $sumMetrics = [
+                Metrics::INDEX_NB_VISITS,
+                Metrics::INDEX_PAGE_SUM_TIME_SPENT,
+                Metrics::INDEX_BOUNCE_COUNT,
+            ];
+            $rankingQuery->addColumn($sumMetrics, 'sum');
+
+            foreach ($metricsConfig as $column => $config) {
+                if (empty($config['aggregation'])) {
+                    continue;
+                }
+                $rankingQuery->addColumn($column, $config['aggregation']);
+            }
 
             $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
         }
@@ -279,7 +292,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     private function getRankingQueryLimit()
     {
         $configGeneral = Config::getInstance()->General;
-        $configLimit = $configGeneral['archiving_ranking_query_row_limit'];
+        $configLimit = max($configGeneral['archiving_ranking_query_row_limit'], 10 * $this->maximumRowsInDataTableLevelZero);
         $limit = $configLimit == 0 ? 0 : max(
             $configLimit,
             $this->maximumRowsInDataTableLevelZero
