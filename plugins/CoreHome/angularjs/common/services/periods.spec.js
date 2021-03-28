@@ -124,5 +124,36 @@
 
             Date.now = originalDateNow;
         });
+
+        it('should contains today for daterange if it contains', function() {
+            var day = '2021-03-10';
+
+            originalDateNow = Date.now;
+            Date.now = function() {
+                return clearDate(day).getTime();
+            };
+
+            var result = piwikPeriods.parse('week', day).containsToday();
+
+            expect(result).to.be.true;
+
+            Date.now = originalDateNow;
+        });
+
+        it('should not contains today for daterange if it not contains', function() {
+            var today = '2021-03-10';
+            var day = '2021-03-17';
+
+            originalDateNow = Date.now;
+            Date.now = function() {
+                return clearDate(today).getTime();
+            };
+
+            var result = piwikPeriods.parse('week', day).containsToday();
+
+            expect(result).to.be.false;
+
+            Date.now = originalDateNow;
+        });
     });
 })();

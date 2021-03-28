@@ -26,6 +26,7 @@
  * - **getDateRange()**: returns an array w/ two elements, the first being the start
  *                       Date of the period, the second being the end Date. The dates
  *                       must be Date objects, not strings, and are inclusive.
+ * - **containsToday()**: returns true if the date period contains today. False if not.
  * - (_static_) **parse(strDate)**: creates a new instance of this period from the
  *                                  value of the 'date' query parameter.
  * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
@@ -64,6 +65,10 @@
 
         getDateRange: function () {
             return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -99,6 +104,10 @@
             endWeek.setDate(startWeek.getDate() + 6);
 
             return [startWeek, endWeek];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -131,6 +140,10 @@
             endMonth.setDate(0);
 
             return [startMonth, endMonth];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -162,6 +175,10 @@
             endYear.setDate(0);
 
             return [startYear, endYear];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -261,6 +278,10 @@
 
         getDateRange: function () {
             return [this.startDate, this.endDate];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 

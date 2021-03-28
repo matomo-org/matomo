@@ -48,8 +48,7 @@
             attributes.animate = false;
             attributes.context = 'info';
             var url = broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')
-            var link = '<a href="' + url + '">' + _pk_translate('Live_VisitorLog') + '</a>';
-            var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', [link]);
+            var message = _pk_translate('CoreHome_PeriodHasOnlyRawData', ['<a href="' + url + '">', '</a>']);
             notification.show(message, attributes);
         }
 
@@ -154,8 +153,7 @@
 
             notifications.clearTransientNotifications();
 
-            var dateRange = $piwikPeriods.parse(currentPeriod, currentDate).getDateRange();
-            if ($piwikPeriods.todayIsInRange(dateRange)) {
+            if ($piwikPeriods.parse(currentPeriod, currentDate).containsToday()) {
                 showOnlyRawDataMessageIfRequired();
             }
 
