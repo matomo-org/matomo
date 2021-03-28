@@ -160,7 +160,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
-            $rankingQuery->addLabelColumn($dimensions[0]);
+            $rankingQuery->addLabelColumn([$dimensions[0], 'idgoal']);
 
             $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions, $where, false, [], $rankingQuery, $rankingQueryGenerate = true);
         } else {
