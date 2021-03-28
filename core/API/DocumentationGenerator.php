@@ -314,10 +314,6 @@ class DocumentationGenerator
             } // if there isn't a default value for a given parameter,
             // we need a 'know default value' or we can't generate the link
             elseif ($defaultValue instanceof NoDefaultValue) {
-                if (defined('PIWIK_TEST_MODE') && $nameVariable != 'idSubtable') {
-                    // print error message since it is annoying to have to debug to find this
-                    print "$nameVariable required in $class::$methodName but no value given (this usually means your API test config is missing some parameters)\n";
-                }
                 return false;
             }
         }

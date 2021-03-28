@@ -221,10 +221,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
             $rankingQuery->addLabelColumn(array($valueField, 'url'));
-            // TODO: combine below 4
-            $rankingQuery->addColumn(Metrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
-            $rankingQuery->addColumn(Metrics::INDEX_BOUNCE_COUNT, 'sum');
-            $rankingQuery->addColumn(Metrics::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
             $rankingQuery->addColumn($metricIds, 'sum');
 
             $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);

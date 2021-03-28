@@ -422,7 +422,7 @@ class LogAggregator
         return $query;
     }
 
-    public function getVisitsMetricFields()
+    protected function getVisitsMetricFields()
     {
         return array(
             Metrics::INDEX_NB_UNIQ_VISITORS               => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
@@ -555,6 +555,8 @@ class LogAggregator
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link \Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
+     * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
+     *                                   ranking query SQL will be immediately executed and the results returned.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
@@ -1066,7 +1068,9 @@ class LogAggregator
      * @param array $additionalSelects Additional SELECT fields that are not included in the group by
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
      * @param RankingQuery|bool $rankingQuery
-     * @return \Zend_Db_Statement
+     * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
+     *                                   ranking query SQL will be immediately executed and the results returned.
+     * @return \Zend_Db_Statement|array
      */
     public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array(), $extraFrom = [],
                                                 $rankingQuery = false, $rankingQueryGenerate = false)
