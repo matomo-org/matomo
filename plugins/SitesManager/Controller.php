@@ -24,12 +24,23 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
+use Matomo\Cache\Lazy;
+use Piwik\Cache;
 
 /**
  *
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
+    /** @var Lazy */
+    private $cache;
+
+    public function __construct() {
+        $this->cache = Cache::getLazyCache();
+
+        parent::__construct();
+    }
+
     /**
      * Main view showing listing of websites and settings
      */
@@ -157,14 +168,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     public function siteWithoutDataTabs() {
-        try {
-            $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
-        } catch (Exception $e) {
-            $response = false;
+        $typeCacheId = 'guessedtype_' . md5($this->site->getMainUrl());
+        $gtmCacheId = 'guessedgtm_' . md5($this->site->getMainUrl());
+
+        $siteType = $this->cache->fetch($typeCacheId);
+        $gtmUsed = $this->cache->fetch($gtmCacheId);
+
+        if (!$siteType) {
+            try {
+                $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
+            } catch (Exception $e) {
+                $response = false;
+            }
+
+            $guesser = new GtmSiteTypeGuesser();
+            $siteType = $guesser->guessSiteTypeFromResponse($response);
+            $gtmUsed = $guesser->guessGtmFromResponse($response);
+
+            $this->cache->save($typeCacheId, $siteType, 60 * 60 * 24);
+            $this->cache->save($gtmCacheId, $gtmUsed, 60 * 60 * 24);
         }
-        $guesser = new GtmSiteTypeGuesser();
-        $siteType = $guesser->guessSiteTypeFromResponse($response);
-        $gtmUsed = $guesser->guessGtmFromResponse($response);
+
         $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
 
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
