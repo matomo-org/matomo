@@ -14,6 +14,7 @@
         "RateFeatureTitle": "'%s' özelliğini beğendiniz mi? Lütfen değerlendirin ve bir yorum yapın",
         "SendFeedback": "Geri Bildirim Gönderin",
         "ThankYou": "Matomo uygulamasını geliştirmemize yardımcı olduğunuz için teşekkür ederiz!",
+        "ThankYouForSpreading": "Dünyaya yayılmasına ve daha güvenli bir webe katkıda bulunduğunuz için teşekkürler!",
         "TopLinkTooltip": "Bize düşüncelerinizi iletin ya da Profesyonel Destek isteyin.",
         "ViewAnswersToFAQ": "%1$sSık Sorulan Soruların%2$s yanıtlarına bakın",
         "FAQs": "SSS",
@@ -41,6 +42,12 @@
         "RemoveOtherLabel": "'Diğerleri' ile ilgili bilgilerimi görmek istiyorum",
         "PurgeOldData": "Bazı eski verileri silmek istiyorum",
         "SearchHelpResources": "Matomo.org yardım kaynaklarında arayın",
-        "PopularHelpTopics": "Sık başvurulan yardım konuları"
+        "PopularHelpTopics": "Sık başvurulan yardım konuları",
+        "ReferMatomo": "Matomo uygulamasını önerin",
+        "ReferBannerTitle": "Arkadaşlarınızın verilerinin yanlış ellere geçmesine izin vermeyin!",
+        "ReferBannerLonger": "Verilerinin denetimini yeniden ele almaları için onlara Matomo kullanmalarını önerin!",
+        "ReferBannerEmailShareSubject": "Verilerinin denetimini yeniden ele almaları için onlara Matomo kullanmalarını önerin!",
+        "ReferBannerEmailShareBody": "Google Analytics uygulamasına etik bir alternatif olarak, verilerim üzerinde %%100 sahiplik sağlayan ve web sitesi ziyaretçilerimin verilerini koruyan Matomo uygulamasını kullanıyorum.\nSizin de Google üzerinden gücünüzü geri alarak kendi verilerinize ship olmanız umuduyla bu iletiyi paylaşıyorum.\n\nMatomo uygulamasını https:\/\/matomo.org adresinde bulabilirsiniz",
+        "ReferBannerSocialShareText": "Google Analytics kullanıyorsanız, Matomo gibi etik bir alternatife geçerek denetimi elinize alın!"
     }
 }

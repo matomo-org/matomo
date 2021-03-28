@@ -13,7 +13,11 @@
 
         $scope.model = siteSelectorModel;
 
-        $scope.model.loadInitialSites();
+        $scope.model.loadInitialSites().then(function(){
+            if (!$scope.selectedSite && !$scope.model.hasMultipleSites() && $scope.model.sites[0]) {
+                $scope.selectedSite = {id: $scope.model.sites[0].idsite, name: $scope.model.sites[0].name};
+            }
+        });
 
         $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
         $scope.activeSiteId = piwik.idSite;

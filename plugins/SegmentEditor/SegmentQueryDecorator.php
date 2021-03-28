@@ -50,8 +50,10 @@ class SegmentQueryDecorator extends LogQueryBuilder
             $prefixParts[] = "idSegments = [" . implode(', ', $idSegments) . "]";
         }
 
-        if (!empty($prefixParts)) {
-            $result['sql'] = "/* " . implode(', ', $prefixParts) . " */\n" . $result['sql'];
+        $select = 'SELECT';
+        if (!empty($prefixParts) && 0 === strpos(trim($result['sql']), $select)) {
+            $result['sql'] = trim($result['sql']);
+            $result['sql'] = 'SELECT /* ' . implode(', ', $prefixParts) . ' */' . substr($result['sql'], strlen($select));
         }
 
         return $result;

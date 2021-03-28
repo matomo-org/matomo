@@ -9,6 +9,12 @@
 
 describe("ViewDataTableTest", function () { // TODO: should remove Test suffix from images instead of naming suites ...Test
     // TODO: rename screenshot files, remove numbers
+
+    before(function () {
+        const firefoxUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.2; rv:85.0) Gecko/20100101 Firefox/85.0";
+        page.setUserAgent(firefoxUserAgent);
+    });
+
     var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 

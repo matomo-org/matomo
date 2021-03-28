@@ -487,6 +487,7 @@
         "WarningFileIntegrityNoMd5file": "md5_file() işlevi bulunamadığı için dosya bütünlüğü denetimi yapılamadı.",
         "WarningPasswordStored": "%1$sUyarı:%2$s Bu parola yapılandırma dosyasında saklanacağından bu dosyaya erişilebilen herkes tarafından görülebilir.",
         "WarningDebugOnDemandEnabled": "%1$s izleyici kipi etkinleştirilmiş. Güvenlik nedeniyle bu kip yalnız kısa bir süre için etkinleştirilmelidir. Devre dışı bırakmak için %4$s içindeki %2$s seçeneğini %3$s olarak ayarlayın",
+        "WarningDevelopmentModeOnButNotGitInstalled": "Şu anda Matomo uygulamasını geliştirme kipinde kullanıyorsunuz. Ancak bu kip git üzerinden yüklenmemiş. Matomo uygulamasını üretim ortamında geliştirme kipinde kullanmanız önerilmez.",
         "Website": "Web Sitesi",
         "Weekly": "Haftalık",
         "WeeklyReport": "haftalık",

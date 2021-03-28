@@ -137,7 +137,7 @@ class APITest extends IntegrationTestCase
      * @var Model
      */
     private $model;
-    
+
     private $login = 'userLogin';
 
     private $password = 'password';
@@ -159,14 +159,14 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, $this->password, $this->email);
     }
-    
+
     public function tearDown(): void
     {
         Config::getInstance()->General['enable_update_users_email'] = 1;
 
-        parent::tearDown(); 
+        parent::tearDown();
     }
-    
+
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
     {
         $eventTriggered = false;
@@ -385,6 +385,49 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionInvalidPasswordTooLong');
 
         $this->api->updateUser($this->login, str_pad('foo', UsersManager::PASSWORD_MAX_LENGTH + 1), 'email@example.com', false, $this->password);
+    }
+
+    public function test_update_user_fails_if_email_exists_as_other_user_username()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionEmailExistsAsLogin');
+
+        $user2 = 'existed@example.com';
+        $this->api->addUser($user2, 'password', 'userlogin2@password.de');
+
+        $this->api->updateUser($this->login, $this->password,  $user2, false, $this->password);
+    }
+
+    public function test_update_can_update_user_email_to_own_username()
+    {
+        $user2 = 'ownemail@example.com';
+        $password = 'password';
+        $this->api->addUser($user2, $password, 'ownemail_wrong@example.com');
+
+        FakeAccess::$identity = $user2;
+        $this->api->updateUser($user2, $password, $user2, false, $password);
+
+        $user2Array = $this->api->getUser($user2);
+        $this->assertEquals($user2Array['email'], $user2);
+    }
+
+    public function test_cannot_create_user_if_email_exists_as_username()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionEmailExistsAsLogin');
+
+        $user2 = 'existed@example.com';
+        $this->api->addUser($user2, 'password', 'email@example.com');
+
+        $this->api->addUser('user3', 'password', $user2);
+    }
+
+    public function test_cannot_create_user_if_username_exists_as_email()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionLoginExistsAsEmail');
+
+        $this->api->addUser($this->email, 'password', 'new_user@example.com');
     }
 
     public function test_getSitesAccessFromUser_forSuperUser()

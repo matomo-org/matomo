@@ -125,7 +125,6 @@
         "SystemCheckTrackerHelp": "Kërkesa GET te matomo.php dështoi. Provoni ta kaloni këtë URL si një të lejuar nga Mirëfilltësimi HTTP dhe çaktivizoni mod_security (mund t’ju duhet t’i kërkoni ndihmë strehuesit tuaj web). Për më tepër të dhëna mbi gabimin, shihni kartelën e regjistrimit të gabimeve të shërbyesit tuaj web.",
         "SystemCheckWarnDomHelp": "Do të duhej të aktivizonit zgjerimin \"dom\" (p.sh., instaloni paketën \"php-dom\" dhe\/ose \"php-xml\").",
         "SystemCheckWarning": "Matomo do të punojë normalisht por mund t’i mungojnë disa veçori",
-        "SystemCheckWarnJsonHelp": "Do të duhej të aktivizonit zgjerimin \"json\" (p.sh., instaloni paketën \"php-json\") për punim më të mirë.",
         "SystemCheckWarnLibXmlHelp": "Do të duhej të aktivizonit zgjerimin \"libxml\" (p.sh., paketën \"install the php-libxml\" ) meqë është e domosdoshme nga zgjerime të tjera bazë të PHP-së.",
         "SystemCheckWarnSimpleXMLHelp": "Do të duhej të aktivizonit zgjerimin \"SimpleXML\" (p.sh., instaloni paketën \"php-simplexml\" dhe\/ose \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Në një shërbyes Windows, mund të shtoni rreshtat vijues te php.ini juaj: %s",

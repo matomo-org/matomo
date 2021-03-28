@@ -45,9 +45,9 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
-            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'Request.initAuthenticationObject' => 'checkAllowedIpsOnAuthentication',
             'AssetManager.addStylesheets' => 'addStylesheets',
-            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'checkAllowedIpsOnAuthentication',
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
         );
     }
@@ -73,11 +73,16 @@ class CoreHome extends \Piwik\Plugin
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 
-    public function initAuthenticationObject()
+    public function checkAllowedIpsOnAuthentication()
     {
+        if (SettingsServer::isTrackerApiRequest()) {
+            // authenticated tracking requests should always work
+            return;
+        }
+
         $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
 
-        if (!SettingsServer::isTrackerApiRequest() && $isApi) {
+        if ($isApi) {
             // will be checked in API itself to make sure we return an API response in the proper format.
             return;
         }

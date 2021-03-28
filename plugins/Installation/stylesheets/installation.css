@@ -121,6 +121,10 @@ p.next-step:first-child {
     color: #D73F36;
     margin-right: 10px;
 }
+.system-check .icon-info2, .system-check-legend .icon-info2 {
+    color: #00bcd4;
+    margin-right: 10px;
+}
 
 .system-check-legend {
     font-size: 13px;

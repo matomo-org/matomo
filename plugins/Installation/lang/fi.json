@@ -111,7 +111,6 @@
         "SystemCheckTracker": "Seurantapalvelimen tila",
         "SystemCheckWarnDomHelp": "Asenna \"dom\"-lisäosa (yleensä php-dom ja\/tai php-xml).",
         "SystemCheckWarning": "Matomo toimii normaalisti, mutta osa ominaisuuksista puuttuu",
-        "SystemCheckWarnJsonHelp": "Asenna \"json\" (yleensä php-json), jos tarvitset parempaa suorituskykyä.",
         "SystemCheckWarnLibXmlHelp": "Asenna \"libxml\" (yleensä php-libxml), sillä muut PHP:n lisäosat tarvitsevat sitä.",
         "SystemCheckWarnSimpleXMLHelp": "Ota käyttöön \"SimpleXML\"-paketti (yleensä php-simplexml ja\/tai php-xml)",
         "SystemCheckWinPdoAndMysqliHelp": "Windows-palvelimella php.ini-tiedostoon tulee lisätä seuraavat rivit: %s",

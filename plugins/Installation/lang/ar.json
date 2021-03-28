@@ -115,7 +115,6 @@
         "SystemCheckTracker": "حالة المتتبع",
         "SystemCheckWarnDomHelp": "يفترض أن تفعل إضافة 'dom' (مثلاً: تثبيت حزمة 'php-dom' و\/أو حزمة 'php-xml').",
         "SystemCheckWarning": "سيعمل Matomo بشكل طبيعي ولكن بعض الخصائص ستصبح مفقودة.",
-        "SystemCheckWarnJsonHelp": "يفترض أن تفعل الإضافة 'json' (مثلاً ثبت حزمة 'php-json') لأداء أفضل.",
         "SystemCheckWarnLibXmlHelp": "يفترض أن تفعل الإضافة 'libxml' (مثلاً: تثبيت حزمة 'php=libxml' (حيث أنها مطلوبة بواسطة حزم إضافات PHP أخرى.",
         "SystemCheckWarnSimpleXMLHelp": "يتوجب عليك تفعيل إضافة 'SimpleXML' (مثلاً: تثبيت حزمة 'php-simplexml' و\/أو 'php-xml').",
         "SystemCheckWinPdoAndMysqliHelp": "على ملقم ويندوز، يمكنك إضافة الصطور التالية لملف php.ini الخاص بك: %s",

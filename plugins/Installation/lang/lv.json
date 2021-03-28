@@ -42,7 +42,6 @@
         "SystemCheckPhpPdoAndMysqli": "Vairāk informācija par %1$sPHP PDO%2$s un %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "Jums jāiestata un jāpārbūvē PHP ar ieslēgtu Standard PHP Library (SPL) (pēc noklusējuma).",
         "SystemCheckWarnDomHelp": "Jums ir jāieslēdz \"dom\" paplašinājums (piem., instalējiet \"php-dom\" un\/vai \"php-xml\" pakotnes).",
-        "SystemCheckWarnJsonHelp": "Jums ir jāieslēdz \"json\" paplašinājums (piem., instalējiet \"php-json\" pakotni) labākai veiktspējai.",
         "SystemCheckWarnLibXmlHelp": "Jums ir jāieslēdz \"libxml\" paplašinājums (piem., instalējiet \"php-libxml\" pakotni), jo tā ir nepieciešama citiem PHP paplašinājumiem.",
         "SystemCheckWarnSimpleXMLHelp": "Jums ir jāieslēdz \"SimpleXML\" paplašinājums (piem., instalējiet \"php-simplexml\" un\/vai \"php-xml\" pakotnes).",
         "SystemCheckWinPdoAndMysqliHelp": "Uz Windows servera Jūs varat pievienot sekojošas līnijas savā php.ini datnē: %s",

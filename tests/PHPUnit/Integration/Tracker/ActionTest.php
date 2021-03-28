@@ -409,6 +409,12 @@ class ActionTest extends IntegrationTestCase
                                     'url'  => 'http://example.org/ACTION/URL',
                                     'type' => Action::TYPE_PAGE_URL),
             ),
+            array(
+                'request'  => array('url' => 'http://example.org/', 'action_name' => ' not trimmed   '),
+                'expected' => array('name' => 'not trimmed',
+                                    'url'  => 'http://example.org/',
+                                    'type' => Action::TYPE_PAGE_URL),
+            ),
         );
     }
 

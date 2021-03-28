@@ -277,7 +277,7 @@ class LogAggregator
         if ($this->doesSegmentTableExist($table)) {
             return; // no need to create the table, it was already created... better to have a select vs unneeded create table
         }
-	    
+
         $engine = '';
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $engine = 'ENGINE=MEMORY';
@@ -403,11 +403,21 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
+        if (0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' */' . substr($query['sql'], strlen($select));
+        }
+
+        if ($this->sites && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $this->sites)) . ' */' . substr($query['sql'], strlen($select));
+        }
+
         if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
             $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+            $query['sql'] = 'SELECT /* ' . 'segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
         }
- 
+
         return $query;
     }
 

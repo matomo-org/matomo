@@ -113,7 +113,6 @@
         "SystemCheckTracker": "Status tracker",
         "SystemCheckWarnDomHelp": "U dient de \"dom\" extension (e.g., install the \"php-dom\" and\/or \"php-xml\" package) te activeren.",
         "SystemCheckWarning": "Matomo zal normaal functioneren, maar er zullen een aantal mogelijkheden ontbreken",
-        "SystemCheckWarnJsonHelp": "U dient de \"json\" extensie (e.g., install the \"php-json\" package) te activeren voor betere prestaties.",
         "SystemCheckWarnLibXmlHelp": "U dient de \"libxml\" extensie (e.g., \"install the php-libxml\" package) te activeren, omdat het gebruikt wordt door andere core PHP extensies.",
         "SystemCheckWarnSimpleXMLHelp": "U dient de \"SimpleXML\" extension (e.g., install the \"php-simplexml\" and\/or \"php-xml\" package) te activeren.",
         "SystemCheckWinPdoAndMysqliHelp": "Op een Windows server kunt u de volgende regels toevoegen aan het bestand php.ini: %s",

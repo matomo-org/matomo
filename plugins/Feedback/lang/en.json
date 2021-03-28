@@ -14,6 +14,7 @@
         "RateFeatureTitle": "Do you like the '%s' feature? Please rate and leave a comment",
         "SendFeedback": "Send Feedback",
         "ThankYou": "Thank you for helping us to make Matomo better!",
+        "ThankYouForSpreading": "Thank you for spreading the word and creating a safer web",
         "TopLinkTooltip": "Tell us what you think, or request Professional Support.",
         "ViewAnswersToFAQ": "View answers to %1$sFrequently Asked Questions%2$s",
         "FAQs": "FAQs",
@@ -41,6 +42,12 @@
         "RemoveOtherLabel": "I want to see my 'Others' data",
         "PurgeOldData": "I want to remove some old data",
         "SearchHelpResources": "Search matomo.org help resources",
-        "PopularHelpTopics": "Popular help topics"
+        "PopularHelpTopics": "Popular help topics",
+        "ReferMatomo": "Refer Matomo",
+        "ReferBannerTitle": "Don't let your friend's data end up in the wrong hands!",
+        "ReferBannerLonger": "Refer them to Matomo Analytics now to take back control!",
+        "ReferBannerEmailShareSubject": "Refer them to Matomo Analytics now to take back control!",
+        "ReferBannerEmailShareBody": "I choose Matomo, an ethical alternative to Google Analytics that gives me 100%% data ownership and protects the data of my website visitors.\r\nI’m sharing this message in the hope that you too will take back the power from Google and get complete ownership of your own data.\r\n\r\nCheck out Matomo at https://matomo.org",
+        "ReferBannerSocialShareText": "If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!"
     }
 }

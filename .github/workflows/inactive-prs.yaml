@@ -1,0 +1,21 @@
+name: 'Handle inactive PRs'
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v3
+        with:
+          debug-only: true
+          start-date: '2021-03-01T00:00:00Z'
+          days-before-pr-stale: 14
+          days-before-pr-close: 42
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          exempt-pr-labels: 'Do not close'
+          stale-pr-message: 'This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.'
+          stale-pr-label: 'Stale'
+          close-pr-message: 'Thank you for this proposed pull request. Because it was last updated more than one month ago, it is our policy to close pull requests opened for a long time without updates. If you would like to continue work on the pull request, please simply ping us to have it re-opened (after you have pushed a new commit). We hope you understand this and we look forward to seeing an update from you on this pull request or another one! Thanks.'
