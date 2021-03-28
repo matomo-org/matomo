@@ -37,7 +37,7 @@ use Psr\Log\LoggerInterface;
  * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
  *
  * "generateReport" will generate the requested report (for a specific date range, website and in the requested language).
- * "sendEmailReport" will send the report by email to the recipients specified for this report.
+ * "sendReport" will send the report by email to the recipients specified for this report.
  *
  * You can also get the list of all existing reports via "getReports", create new reports via "addReport",
  * or manage existing reports with "updateReport" and "deleteReport".
