@@ -78,7 +78,7 @@
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
+    requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, getJavascriptErrors, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -2384,6 +2384,10 @@ if (typeof window.Matomo !== 'object') {
 
                 // holds all pending tracking requests that have not been tracked because we need consent
                 consentRequestsQueue = [],
+
+                // holds the actual javascript errors if enableJSErrorTracking is on, if the very same error is
+                // happening multiple times, then it will be tracked only once within the same page view
+                javaScriptErrors = [],
 
                 // a unique ID for this tracker during this request
                 uniqueTrackerId = trackerIdCounter++,
@@ -4891,6 +4895,9 @@ if (typeof window.Matomo !== 'object') {
             this.getRequestQueue = function () {
                 return requestQueue;
             };
+            this.getJavascriptErrors = function () {
+                return javaScriptErrors;
+            };
             this.unsetPageIsUnloading = function () {
                 isPageUnloading = false;
             };
@@ -6088,7 +6095,11 @@ if (typeof window.Matomo !== 'object') {
                             action += ':' + column;
                         }
 
-                        logEvent(category, action, message);
+                        if (indexOfArray(javaScriptErrors, category + action + message) === -1) {
+                            javaScriptErrors.push(category + action + message);
+
+                            logEvent(category, action, message);
+                        }
                     });
 
                     if (onError) {
@@ -6214,6 +6225,7 @@ if (typeof window.Matomo !== 'object') {
             this.trackPageView = function (customTitle, customData, callback) {
                 trackedContentImpressions = [];
                 consentRequestsQueue = [];
+                javaScriptErrors = [];
 
                 if (isOverlaySession(configTrackerSiteId)) {
                     trackCallback(function () {
