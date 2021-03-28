@@ -124,7 +124,6 @@
         "SystemCheckTrackerHelp": "GET požadavek na matomo.php se nezdařil. Vyzkoušejte whitelisting této URL z ověřování HTTP a vypněte mod_security (možná o to budete muset požádat u svého poskytovatele webhostingu). Další informace o chybě naleznete v souboru protokolu chyb webového serveru.",
         "SystemCheckWarnDomHelp": "Měli byste povolit \"dom\" rozšíření t. j. nainstalovat balíček \"php-dom\" nebo \"php-xml\".",
         "SystemCheckWarning": "Matomo bude pracovat normálně, ale některé funkce mohou chybět",
-        "SystemCheckWarnJsonHelp": "Pro lepší výkon byste měli povolit rozšíření \"json\" t. j. nainstalovat balíček \"php-json\".",
         "SystemCheckWarnLibXmlHelp": "Protože je vyžadováno dalšími php rozšířeními, měli byste povolit rozšíření \"libxml\" t. j. nainstalovat balíček \"php-libxml\".",
         "SystemCheckWarnSimpleXMLHelp": "Měli byste povolit rozšíření \"SimpleXML\" t. j. nainstalovat balíček \"php-simplexml\" nebo \"php-xml\".",
         "SystemCheckWinPdoAndMysqliHelp": "Na serveru s Winwdows můžete do vašeho php.ini přidat následující řádky: %s",

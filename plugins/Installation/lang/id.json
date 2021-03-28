@@ -84,7 +84,6 @@
         "SystemCheckTracker": "Status Pelacak",
         "SystemCheckWarnDomHelp": "Anda harus mengaktifkan ekstensi \"dom\" (misalnya, memasang paket \"php-dom\" dan\/atau \"php-xml\").",
         "SystemCheckWarning": "Matomo akan berjalan normal, tetapi beberapa fitur kemungkinan tak tersedia",
-        "SystemCheckWarnJsonHelp": "Anda harus mengaktifkan ekstensi \"json\" (misalnya, memasang paket \"php-json\") untuk kinerja yang lebih baik.",
         "SystemCheckWarnLibXmlHelp": "Anda harus mengaktifkan ekstensi \"libxml\" (misalnya, paket \"instalasi php-libxml\") seperti yang dipersyaratkan oleh ekstensi PHP inti lainnya.",
         "SystemCheckWarnSimpleXMLHelp": "Anda harus mengaktifkan ekstensi \"SimpleXML\" (misalnya, memasang \"php-simplexml\" dan\/atau \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Dalam peladen Windows Anda dapat menambah baris berikut dalam php.ini Anda: %s",

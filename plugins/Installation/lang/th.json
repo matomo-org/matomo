@@ -62,7 +62,6 @@
         "SystemCheckTracker": "สถานะ Tracker",
         "SystemCheckWarnDomHelp": "คุณควรเปิดใช้ส่วนขยาย \"dom\" (เช่นการติดตั้ง \"php-dom\" และ\/หรือแพคเกจ \"php-xml\")",
         "SystemCheckWarning": "Matomo จะทำงานได้ปกติแต่ฟีเจอร์บางอย่างอาจทำงานผิดพลาด",
-        "SystemCheckWarnJsonHelp": "คุณควรเปิดใช้งานส่วนขยาย \"json\" (เช่นการติดตั้ง \"php-json\" แพคเกจ) เพื่อประสิทธิภาพที่ดีขึ้น",
         "SystemCheckWarnLibXmlHelp": "คุณควรเปิดใช้ส่วนขยาย \"libxml\" (เช่น \"ติดตั้ง PHP - libxml\" แพคเกจ) ตามที่จำเป็นต้องใช้นามสกุลอื่นๆ",
         "SystemCheckWarnSimpleXMLHelp": "คุณควรเปิดใช้ส่วนขยาย \"SimpleXML\" (เช่นการติดตั้ง \"php-simplexml\" และ\/หรือแพคเกจ \"php-xml\")",
         "SystemCheckWinPdoAndMysqliHelp": "บนเซิร์ฟเวอร์ของ Windows คุณสามารถเพิ่มบรรทัดต่อไปนี้เพื่อให้ php.ini ของคุณ: %s",
