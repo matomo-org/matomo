@@ -61,7 +61,6 @@
         "SystemCheckTracker": "Tracker státusz",
         "SystemCheckWarnDomHelp": "Engedélyezned kell a \"dom\" kiterjesztést (például a \"php-dom\" és\/vagy a \"php-xml\" csomag installálásával).",
         "SystemCheckWarning": "A Matomo működni fog normálisan, de néhány funkció hiányozhat",
-        "SystemCheckWarnJsonHelp": "Engedélyezned kell a \"json\" kiterjesztést (például a \"php-json\" csomag installálásával) a jobb teljesítmény érdekében.",
         "SystemCheckWarnLibXmlHelp": "Engedélyezned kell a \"libxml\" kiterjesztést (például a \"php-libxml\" csomag installásával), mivel erre szüksége van más, PHP core kiterjesztésnek.",
         "SystemCheckWarnSimpleXMLHelp": "Engedélyezned kell a \"SimpleXML\" kiterjesztést (például a \"php-simplexml\" és\/vagy a \"php-xml\" csomag installálásával).",
         "SystemCheckWinPdoAndMysqliHelp": "Windows szerveren a következő sorokat adhatja hozzá a php.ini fájhoz: %s",

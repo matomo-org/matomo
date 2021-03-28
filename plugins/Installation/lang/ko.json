@@ -105,7 +105,6 @@
         "SystemCheckTracker": "추적기 상태",
         "SystemCheckWarnDomHelp": "\"dom\"확장을 활성화해야합니다 (예: \"php-dom\"과 \"php-xml\"패키지 중 하나 또는 모두 설치).",
         "SystemCheckWarning": "Matomo 은 정상적으로 작동하지만 몇몇의 기능이 작동하지 않을 수 있습니다.",
-        "SystemCheckWarnJsonHelp": "더 나은 성능을 위해 \"json\"확장을 활성화해야합니다 (예: \"php-json\"패키지를 설치).",
         "SystemCheckWarnLibXmlHelp": "다른 핵심 PHP 확장에 필요하기 때문에 \"libxml\"확장을 활성화해야합니다 (예: \"php-libxml\"패키지를 설치).",
         "SystemCheckWarnSimpleXMLHelp": "\"SimpleXML\"확장을 활성화해야합니다 (예: \"php-simplexml\"며 \"php-xml\"패키지 중 하나 또는 모두 설치).",
         "SystemCheckWinPdoAndMysqliHelp": "Windows 서버에서는 php.ini에 다음 줄을 추가합니다: %s",

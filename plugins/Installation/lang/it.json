@@ -125,7 +125,6 @@
         "SystemCheckTrackerHelp": "Richiesta GET a matomo.php fallita. Prova ad autorizzare questo URL dall'Autenticazione HTTP e a disabilitare mod_security (potresti dover chiedere al tuo webhost). Per ulteriori informazioni sull'errore, controlla il log degli errori del server Web.",
         "SystemCheckWarnDomHelp": "Dovresti abilitare l'estensione \"dom\" (ad esempio, installando \"php-dom\" e\/o \"php-xml\").",
         "SystemCheckWarning": "Matomo sarà pienamente funzionante, ma alcune funzioni potrebbero essere mancanti.",
-        "SystemCheckWarnJsonHelp": "Dovresti abilitare l'estensione \"json\" (ad esempio, installando \"php-json\") per prestazioni migliori.",
         "SystemCheckWarnLibXmlHelp": "Dovresti abilitare l'estensione \"libxml\" (ad esempio, installando \"php-libxml\") in quanto è richiesto da altre estensioni di base di PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Dovresti abilitare l'estensione \"SimpleXML\" (ad esempio, installando \"php-simplexml\" e\/o \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Su un server Windows puoi aggiungere le seguenti righe al tuo php.ini: %s",

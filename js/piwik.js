@@ -3483,7 +3483,7 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    timings += '&pf_net=' + (performanceData.connectEnd - performanceData.fetchStart);
+                    timings += '&pf_net=' + Math.round(performanceData.connectEnd - performanceData.fetchStart);
                 }
 
                 if (performanceData.responseStart && performanceData.requestStart) {
@@ -3492,7 +3492,7 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    timings += '&pf_srv=' + (performanceData.responseStart - performanceData.requestStart);
+                    timings += '&pf_srv=' + Math.round(performanceData.responseStart - performanceData.requestStart);
                 }
 
                 if (performanceData.responseStart && performanceData.responseEnd) {
@@ -3501,7 +3501,7 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    timings += '&pf_tfr=' + (performanceData.responseEnd - performanceData.responseStart);
+                    timings += '&pf_tfr=' + Math.round(performanceData.responseEnd - performanceData.responseStart);
                 }
 
                 if (performanceData.domInteractive && performanceData.domLoading) {
@@ -3510,7 +3510,7 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    timings += '&pf_dm1=' + (performanceData.domInteractive - performanceData.domLoading);
+                    timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.domLoading);
                 }
 
                 if (performanceData.domComplete && performanceData.domInteractive) {
@@ -3519,7 +3519,7 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    timings += '&pf_dm2=' + (performanceData.domComplete - performanceData.domInteractive);
+                    timings += '&pf_dm2=' + Math.round(performanceData.domComplete - performanceData.domInteractive);
                 }
 
                 if (performanceData.loadEventEnd && performanceData.loadEventStart) {
@@ -3528,7 +3528,7 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    timings += '&pf_onl=' + (performanceData.loadEventEnd - performanceData.loadEventStart);
+                    timings += '&pf_onl=' + Math.round(performanceData.loadEventEnd - performanceData.loadEventStart);
                 }
 
                 return request + timings;

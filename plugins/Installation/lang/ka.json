@@ -57,7 +57,6 @@
         "SystemCheckTracker": "ტრეკერის სტატუსი",
         "SystemCheckWarnDomHelp": "სასურველია ჩართოთ \"dom\" გაფართოების გამოყენება (მაგ., დააინსტალირეთ \"php-dom\" და\/ან \"php-xml\" პაკეტი).",
         "SystemCheckWarning": "Matomo ნორმალურად იმუშავებს მაგრამ შეიძლება ზოგიერთი ფუნქცია აკლდეს.",
-        "SystemCheckWarnJsonHelp": "სასურველია ჩართოთ \"json\" გაფართოების გამოყენება (მაგ., დააინსტალირეთ \"php-json\" პაკეტი) უკეთესი ეფექტიანობისთვის.",
         "SystemCheckWarnLibXmlHelp": "სასურველია ჩართოთ \"libxml\" გაფართოების გამოყენება (მაგ., \"დააინსტალირეთ php-libxml\" პაკეტი), რადგან ის მოთხოვნილია PHP–ს სხვა ძირითადი გაფართოებების მიერ.",
         "SystemCheckWarnSimpleXMLHelp": "სასურველია ჩართოთ \"SimpleXML\" გაფართოების გამოყენება (მაგ., დააინსტალირეთ \"php-simplexml\" და\/ან \"php-xml\" პაკეტი)",
         "SystemCheckWinPdoAndMysqliHelp": "Windows სერვერზე თქვენ შეგიძლიათ დაამატოთ შემდეგი სტრიქონები თქვენს php.ini ფაილში: %s",

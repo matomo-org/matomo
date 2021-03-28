@@ -304,7 +304,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $result = Http::sendHttpRequestBy(
             $method,
-            'https://tools.ietf.org/html/rfc7233',
+            'https://builds.matomo.org/matomo.zip',
             300,
             null,
             null,
@@ -317,7 +317,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         /**
          * The last arg above asked the server to limit the response sent back to bytes 0->50.
          * The RFC for HTTP Range Requests says that these headers can be ignored, so the test
-         * depends on a server that will respect it - we are requesting the RFC itself, which does.
+         * depends on a server that will respect it - we are requesting our build download, which does.
          */
         $this->assertEquals(51, strlen($result));
     }

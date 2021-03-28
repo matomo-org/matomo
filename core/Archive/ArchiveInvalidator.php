@@ -476,6 +476,10 @@ class ArchiveInvalidator
 
         $earliestDateToRearchive = $this->getEarliestDateToRearchive();
         if (empty($startDate)) {
+            if (empty($earliestDateToRearchive)) {
+                return null; // INI setting set to 0 months so no rearchiving
+            }
+
             $startDate = $earliestDateToRearchive;
         } else if (!empty($earliestDateToRearchive)) {
             // don't allow archiving further back than the rearchive_reports_in_past_last_n_months date allows
@@ -796,8 +800,14 @@ class ArchiveInvalidator
             return null;
         }
 
-        $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
-        if (empty($lastNMonthsToInvalidate)) {
+        if (!is_numeric($lastNMonthsToInvalidate)) {
+            $lastNMonthsToInvalidate = (int)str_replace('last', '', $lastNMonthsToInvalidate);
+            if (empty($lastNMonthsToInvalidate)) {
+                return null;
+            }
+        }
+
+        if ($lastNMonthsToInvalidate <= 0) {
             return null;
         }
 

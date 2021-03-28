@@ -125,7 +125,6 @@
         "SystemCheckTrackerHelp": "GET-förfrågan till matomo.php misslyckades. Testa att vitlista den här URL:en från HTTP-autentisering och avaktivera mod_security (du kan behöva fråga ditt webbhotell). I din webbservers logg-fil kan du hitta mer information om problemet.",
         "SystemCheckWarnDomHelp": "Du bör aktivera tillägget \"dom\" (t.ex., installera paketet \"php-dom\" och\/eller \"php-xml\").",
         "SystemCheckWarning": "Matomo kommer fungera som normalt men kommer sakna vissa funktioner",
-        "SystemCheckWarnJsonHelp": "Du bör aktivera tillägget \"json\" (t.ex., installera paketet \"php-json\") för bättre prestanda.",
         "SystemCheckWarnLibXmlHelp": "Du bör aktivera tillägget \"libxml\" (t.ex., installera paketet \"php-libxml\") eftersom det krävs av andra grundläggande PHP-tillägg.",
         "SystemCheckWarnSimpleXMLHelp": "Du bör aktivera tillägget \"SimpleXML\" (t.ex., installera paketet \"php-simplexml\" och\/eller \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "På en Windows server kan du lägga till följande rader till din php.ini: %s",
