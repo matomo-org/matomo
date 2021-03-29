@@ -25,7 +25,6 @@ use Piwik\View;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 use Matomo\Cache\Lazy;
-use Piwik\Cache;
 
 /**
  *
@@ -35,8 +34,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var Lazy */
     private $cache;
 
-    public function __construct() {
-        $this->cache = Cache::getLazyCache();
+    public function __construct(Lazy $cache) {
+        $this->cache = $cache;
 
         parent::__construct();
     }
