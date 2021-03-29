@@ -20,6 +20,7 @@ use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -113,6 +114,12 @@ class Loader
             }
         }
 
+        // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
+        // made invalid, we will correctly re-archive below.
+        if ($this->invalidateBeforeArchiving) {
+            $this->invalidatedReportsIfNeeded();
+        }
+
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
@@ -133,14 +140,6 @@ class Loader
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
             return [false, 0];
-        }
-
-        // if there is an archive, but we can't use it for some reason, invalidate existing archives before
-        // we start archiving. if the archive is made invalid, we will correctly re-archive below.
-        if ($this->invalidateBeforeArchiving
-            && $isAnyArchiveExists
-        ) {
-            $this->invalidatedReportsIfNeeded();
         }
 
         if (SettingsServer::isArchivePhpTriggered()) {
@@ -352,6 +351,7 @@ class Loader
             return;
         }
 
+        $sitesPerDays = $this->getReportsToInvalidate();
         foreach ($sitesPerDays as $date => $siteIds) {
             try {
                 $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());
