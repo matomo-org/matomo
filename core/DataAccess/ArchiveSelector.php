@@ -115,7 +115,7 @@ class ArchiveSelector
         }
 
         // the archive is invalidated and we are in a browser request that is authorized to archive it
-        if (!empty($result['value'])
+        if (!empty($result['value']) // value can be empty if only partial archives are found
             && $result['value'] == ArchiveWriter::DONE_INVALIDATED
             && !SettingsServer::isArchivePhpTriggered() // for core:archive initiated archiving, only initiate archiving
             && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
