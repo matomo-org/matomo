@@ -80,7 +80,6 @@
         "SystemCheckTracker": "Статус на проследяване",
         "SystemCheckWarnDomHelp": "Трябва да включите \"dom\" разширенето (напр: install the \"php-dom\" и\/или \"php-xml\" пакета).",
         "SystemCheckWarning": "Matomo ще работи нормално, но някои услуги ще липсват",
-        "SystemCheckWarnJsonHelp": "Трябва да включите \"json\" разширението (пр: install the \"php-json\" пакета) за по-добро представяне.",
         "SystemCheckWarnLibXmlHelp": "Трябва да включите \"libxml\" разширението (напр. \"install the php-libxml package\"), тъй като това е нужно на други главни PHP разширения.",
         "SystemCheckWarnSimpleXMLHelp": "Трябва да включите \"SimpleXML\" разширенето (напр: install the \"php-simplexml\" и\/или \"php-xml\" пакета).",
         "SystemCheckWinPdoAndMysqliHelp": "За Windows сървър добавете следните редове в php.ini: %s",

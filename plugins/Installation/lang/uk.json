@@ -105,7 +105,6 @@
         "SystemCheckTracker": "Статус відслідковувача",
         "SystemCheckWarnDomHelp": "Необхідно увімкнути розширення \"dom\" (наприклад встановити пакунок \"php-dom\" та\/або \"php-xml\")",
         "SystemCheckWarning": "Matomo загалом буде працювати за вийнятком деяких можливостей",
-        "SystemCheckWarnJsonHelp": "Необхідно увімкнути розширення \"json\" (наприклад встановити пакунок \"php-json\") для забезпечення підвищеної швидкодії.",
         "SystemCheckWarnLibXmlHelp": "Необхідно вімкнути розширення \"libxml\" (наприклад встановити пакунок \"php-libxml\") так як він вимагається іншими розширеннями ядра PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Необхідно увімкнути розширення \"SimpleXML\" (наприклад встановити пакунок \"php-simplexml\" та\/або \"php-xml\")",
         "SystemCheckWinPdoAndMysqliHelp": "На Windows-сервері можна додати наступні рядки до php.ini: %s",

@@ -82,7 +82,6 @@
         "SystemCheckTracker": "Status ng tracker",
         "SystemCheckWarnDomHelp": "Dapat mong paganahin ang extension na \"DOM\" (hal i-install ang \"php-DOM\" at \/ o \"php-xml\" package).",
         "SystemCheckWarning": "Ang Matomo ay gagana nang normal ngunit ang ilang mga feature ay maaaring mawala.",
-        "SystemCheckWarnJsonHelp": "Dapat mong paganahin ang extension na \"json\" (hal i-install ang \"php-json\" package) para sa mas magandang performance.",
         "SystemCheckWarnLibXmlHelp": "Dapat mong paganahin \"libxml\" extension (hal.. \"i-install ang php-libxml\" package) dahil ito ay kinakailangan ng iba pang mga extension core ng PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Maaari mong paganahin ang extension na \"SimpleXML\" (hal. i-install ang \"php-simplexml\" at \/ o \"php-xml\" package).",
         "SystemCheckWinPdoAndMysqliHelp": "Sa isang Windows server maaari mong idagdag ang sumusunod na linya sa iyong php.ini: %s",

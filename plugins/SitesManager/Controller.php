@@ -22,12 +22,24 @@ use Piwik\Site;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Http;
+use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
+use Matomo\Cache\Lazy;
 
 /**
  *
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
+    /** @var Lazy */
+    private $cache;
+
+    public function __construct(Lazy $cache) {
+        $this->cache = $cache;
+
+        parent::__construct();
+    }
+
     /**
      * Main view showing listing of websites and settings
      */
@@ -38,7 +50,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('index');
     }
-    
+
     public function globalSettings()
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -146,6 +158,47 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'idSite' => $this->idSite
         ), $viewType = 'basic');
 
+        return $this->renderTemplateAs('siteWithoutData', array(
+            'siteName'      => $this->site->getName(),
+            'idSite'        => $this->idSite,
+            'piwikUrl'      => $piwikUrl,
+            'emailBody'     => $emailContent,
+        ), $viewType = 'basic');
+    }
+
+    public function siteWithoutDataTabs() {
+        $typeCacheId = 'guessedtype_' . md5($this->site->getMainUrl());
+        $gtmCacheId = 'guessedgtm_' . md5($this->site->getMainUrl());
+
+        $siteType = $this->cache->fetch($typeCacheId);
+        $gtmUsed = $this->cache->fetch($gtmCacheId);
+
+        if (!$siteType) {
+            try {
+                $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
+            } catch (Exception $e) {
+                $response = false;
+            }
+
+            $guesser = new GtmSiteTypeGuesser();
+            $siteType = $guesser->guessSiteTypeFromResponse($response);
+            $gtmUsed = $guesser->guessGtmFromResponse($response);
+
+            $this->cache->save($typeCacheId, $siteType, 60 * 60 * 24);
+            $this->cache->save($gtmCacheId, $gtmUsed, 60 * 60 * 24);
+        }
+
+        $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
+
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
         $googleAnalyticsImporterMessage = '';
         if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
             $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
@@ -158,14 +211,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
         }
 
-        return $this->renderTemplateAs('siteWithoutData', array(
+        $tagManagerActive = false;
+        if (Manager::getInstance()->isPluginActivated('TagManager')) {
+            $tagManagerActive = true;
+        }
+
+        return $this->renderTemplateAs('_siteWithoutDataTabs', array(
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
-            'emailBody'     => $emailContent,
             'showMatomoLinks' => $showMatomoLinks,
+            'siteType' => $siteType,
+            'instructionUrl' => $instructionUrl,
+            'gtmUsed' => $gtmUsed,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
+            'tagManagerActive' => $tagManagerActive,
         ), $viewType = 'basic');
     }
 }
