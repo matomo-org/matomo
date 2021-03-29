@@ -102,7 +102,7 @@ class ApiTest extends IntegrationTestCase
         });
 
         $idReport = APIScheduledReports::getInstance()->addReport(
-            $this->idSite, 'send report', 'day', 6, 'dummyreporttype', 'dummyreportformat',
+            $this->idSite, 'send report', 'never', 6, 'dummyreporttype', 'dummyreportformat',
             $reportIds, [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]);
 
         $eventCalledWith = [];
