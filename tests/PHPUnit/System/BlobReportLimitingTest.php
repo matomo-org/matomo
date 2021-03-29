@@ -10,7 +10,9 @@ namespace Piwik\Tests\System;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Cache;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
@@ -58,7 +60,35 @@ class BlobReportLimitingTest extends SystemTestCase
             array($ecommerceApi, array('idSite'  => self::$fixture->idSite,
                                        'date'    => self::$fixture->nextDay,
                                        'periods' => 'day')),
+
+            array('CustomDimensions.getCustomDimension',
+                array(
+                    'idSite'     => 1,
+                    'date'       => self::$fixture->dateTime,
+                    'periods'    => array('day'),
+                    'otherRequestParameters' => array(
+                        'idDimension' => self::$fixture->customDimensionId,
+                    ),
+                    'testSuffix' => "dimension_". self::$fixture->customDimensionId,
+                ),
+            ),
+            array('CustomDimensions.getCustomDimension',
+                array(
+                    'idSite'     => 1,
+                    'date'       => self::$fixture->dateTime,
+                    'periods'    => array('day'),
+                    'otherRequestParameters' => array(
+                        'idDimension' => self::$fixture->actionCustomDimensionId,
+                    ),
+                    'testSuffix' => "dimension_". self::$fixture->actionCustomDimensionId,
+                    // ranking query doesn't guarantee order if the main metric values are the same so the label/segment can randomly change.
+                    // in this test, we only care to check that the result is being limited/aggregated correctly, so we can remove these
+                    // when comparing.
+                    'xmlFieldsToRemove' => ['label', 'segment', 'url'],
+                ),
+            ),
         );
+
     }
 
     public function getRankingQueryDisabledApiForTesting()
