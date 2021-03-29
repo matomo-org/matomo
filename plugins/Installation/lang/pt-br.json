@@ -119,7 +119,6 @@
         "SystemCheckTrackerHelp": "Solicitação GET para matomo.php falhou. Tente whitelisting esta URL de Autenticação HTTP e desative mod_security (você pode ter que pedir ao serviço de hospedagem). Para obter mais informações sobre o erro verifique o arquivo log de erro do seu servidor web.",
         "SystemCheckWarnDomHelp": "Você deve habilitar a extensão \"dom\" por exemplo, instalar o \"php-dom\" e\/ou o pacote \"php-xml\").",
         "SystemCheckWarning": "Matomo vai funcionar corretamente mas alguns recursos podem não estar disponíveis",
-        "SystemCheckWarnJsonHelp": "Você deve habilitar a extensão \"json\" (por exemplo, instalar o pacote \"php-json\") para um melhor desempenho.",
         "SystemCheckWarnLibXmlHelp": "Você deve habilitar a extensão \"libxml\" (por exemplo, \"instalar o php-libxml\" pacote), como é exigido por extensões do PHP do núcleo.",
         "SystemCheckWarnSimpleXMLHelp": "Você deve habilitar a extensão \"SimpleXML\" (por exemplo, instalar o \"php-simplexml\" e\/ou o pacote \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Num servidor Windows você poderá adicionar as seguintes linhas ao seu php.ini: %s",

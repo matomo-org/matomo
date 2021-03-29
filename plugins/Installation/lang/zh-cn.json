@@ -124,7 +124,6 @@
         "SystemCheckTrackerHelp": "对matomo.php的GET请求失败。 尝试从HTTP身份验证中将此URL列入白名单并禁用mod_security（您可能需要询问您的webhost）。 有关错误的详细信息，请检查您的Web服务器错误日志文件。",
         "SystemCheckWarnDomHelp": "必须启用“dom”扩展（例如安装“php-dom”或“php-xml”包）。",
         "SystemCheckWarning": "Matomo 将正常运作，但某些功能可能失效",
-        "SystemCheckWarnJsonHelp": "为了更好的性能，您应该启用“json”扩展（例如安装“php-json”包）。",
         "SystemCheckWarnLibXmlHelp": "您必须启用“libxml”扩展（例如安装“php-libxml”包，它被其他核心 PHP 扩展所依赖。",
         "SystemCheckWarnSimpleXMLHelp": "您必须启用“SimpleXML”扩展（例如安装“php-simplexml”和\/或“php-xml”包）。",
         "SystemCheckWinPdoAndMysqliHelp": "在 Windows 服务器上您可以在您的 php.ini 中加入以下几行: %s",

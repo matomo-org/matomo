@@ -82,7 +82,6 @@
         "SystemCheckTracker": "ट्रैकर स्थिति",
         "SystemCheckWarnDomHelp": "आप \"डोम\" एक्सटेंशन (जैसे, \"php-डोम\" और \/ या \"php-xml\" पैकेज स्थापित) सक्षम होना चाहिए.",
         "SystemCheckWarning": "Matomo सामान्य रूप से काम करेगा, लेकिन कुछ सुविधाओं की कमी हो सकती है",
-        "SystemCheckWarnJsonHelp": "आप बेहतर प्रदर्शन के लिए \"json\" एक्सटेंशन (जैसे, \"php-json\" पैकेज स्थापित) सक्षम होना चाहिए.",
         "SystemCheckWarnLibXmlHelp": "यह अन्य कोर PHP विस्तार के लिए आवश्यक है के रूप में आप \"libxml\" एक्सटेंशन (उदाहरण के लिए, पैकेज \"php-libxml स्थापित\") सक्षम करे.",
         "SystemCheckWarnSimpleXMLHelp": "आप \"SimpleXML\" एक्सटेंशन (जैसे, \"php-SimpleXML\" और \/ या \"php-xml\" पैकेज स्थापित) सक्षम करे.",
         "SystemCheckWinPdoAndMysqliHelp": "एक विंडोज़ सर्वर पर आप अपने php.ini के लिए निम्न पंक्तियाँ जोड़ सकते हैं: %s",

@@ -11,7 +11,7 @@ $cacheBuster = md5(uniqid(mt_rand(), true));
 
 // Note: when you want to debug the piwik.js during the tests, you need to set a cache buster that is always the same
 // between requests so the browser knows it is the same file and know where to breakpoint.
-//$cacheBuster= 'nocb'; // uncomment to debug
+// $cacheBuster= 'nocb'; // uncomment to debug
 
 $root = dirname(__FILE__) . '/../..';
 $testPluginPath = '*';
@@ -671,14 +671,14 @@ function PiwikTest() {
 
     test("Piwik plugin methods", function() {
         expect(33);
-        
+
         // TESTS FOR retryMissedPluginCalls
 
         // these 2 calls should fail because they do not exist
         _paq.push(['MyCustomPlugin::myCustomStaticMethod']);
         _paq.push(['MyCustomPlugin::myCustomStaticMethod2']);
         _paq.push(['MyCustomPlugin.myCustomMethod']);
-        
+
         // now we define these method
         var called = 0;
         var calledStatic = 0;
@@ -689,10 +689,10 @@ function PiwikTest() {
         for (i; i < asyncTrackers.length; i++) {
             asyncTrackers[i].MyCustomPlugin = {myCustomMethod: function () { called++; }};
         }
-        
+
         // now we retry those calls
         Piwik.retryMissedPluginCalls();
-        
+
         strictEqual(1, called, "retryMissedPluginCalls, successfully executed non static method once it is defined");
         strictEqual(1, calledStatic, "retryMissedPluginCalls, successfully executed static method once it is defined");
         strictEqual(0, calledStatic2, "retryMissedPluginCalls, should not have executed not defined method");
@@ -706,7 +706,7 @@ function PiwikTest() {
         strictEqual(1, called, "retryMissedPluginCalls, should not execute a resolved missed call again");
         strictEqual(1, calledStatic, "retryMissedPluginCalls, should not execute a resolved missed call again");
         strictEqual(1, calledStatic2, "retryMissedPluginCalls, successfully executed static method 2 once it is defined");
-        
+
         // calling them now that they are defined increases the counter immediately
         _paq.push(['MyCustomPlugin::myCustomStaticMethod']);
         _paq.push(['MyCustomPlugin.myCustomMethod']);
@@ -727,7 +727,7 @@ function PiwikTest() {
 
         Piwik.on('myEvent1', callEvent1);
         Piwik.on('myEvent2', callEvent2);
-        
+
         Piwik.trigger('myEvent1', []);
         strictEqual(1, calledEvent1, "event, should trigger event and call handler callEvent1");
 
@@ -772,7 +772,7 @@ function PiwikTest() {
         Piwik.DOM.onReady(function () {
             ready = true;
         });
-        
+
         strictEqual(true, ready, "onReady, DOM should be ready");
         strictEqual(true, loaded, "event, DOM should be loaded");
 
@@ -789,7 +789,7 @@ function PiwikTest() {
         strictEqual('[]', Piwik.JSON.stringify([]));
         propEqual([], Piwik.JSON.parse('[]'));
     });
-    
+
     test("Query", function() {
         var tracker = Piwik.getTracker();
         var query   = tracker.getQuery();
@@ -2267,9 +2267,9 @@ function PiwikTest() {
         ok( !tracker.hook.test._isString(window), 'isString(window)' );
         ok( !tracker.hook.test._isString(function () { }), 'isString(function)' );
         ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
-        
+
         var arrayChunk = tracker.hook.test._arrayChunk;
-        deepEqual([[]], arrayChunk([]), 'empty array, no chunk size' ); 
+        deepEqual([[]], arrayChunk([]), 'empty array, no chunk size' );
         deepEqual([[]], arrayChunk([], 50), 'empty array, with chunk size' );
         deepEqual([[5]], arrayChunk([5], 50), 'one item, much larger chunk size' );
         deepEqual([[5,10,15,20,25]], arrayChunk([5,10,15,20,25]), 'multiple items, no chunk size' );
@@ -2277,7 +2277,7 @@ function PiwikTest() {
         deepEqual([[5,10],[15,20],[25]], arrayChunk([5,10,15,20,25], 2), 'multiple items, small chunk size' );
         deepEqual([[5,10,15,20,25]], arrayChunk([5,10,15,20,25], 5), 'multiple items, equals chunk size' );
     });
-    
+
     test("Default visitorId should be equal across Trackers", function() {
         expect(5);
 
@@ -2387,7 +2387,7 @@ function PiwikTest() {
             'decodeWrapper()'
         );
     });
-    
+
     test("Tracker getHostName(), *UrlParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
         expect(81);
 
@@ -3211,7 +3211,7 @@ function PiwikTest() {
 
             // Set the same Visitor IDs in both trackers
             tracker2.setVisitorId(tracker.getVisitorId());
-            
+
         // set userId works with a number
         tracker.setUserId(5939383);
         equal(5939383, tracker.getUserId(), "getUserId() returns numeric User Id");
@@ -3618,7 +3618,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(159);
+        expect(168);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3660,7 +3660,7 @@ if ($mysql) {
         equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, when using unminified piwik.js" );
 
         tracker.setTrackerUrl("matomo.php");
-        
+
         var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
         strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
 
@@ -3889,7 +3889,7 @@ if ($mysql) {
         requestQueue = tracker.getRequestQueue();
         equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
-        
+
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
@@ -4027,7 +4027,7 @@ if ($mysql) {
         tracker3.removeEcommerceItem(12345);
         cart = tracker3.getEcommerceItems();
         deepEqual(cart, {}, 'removed numeric item');
-        
+
         tracker3.clearEcommerceCart();
 
         // the same order tracked once more, should have no items
@@ -4076,12 +4076,20 @@ if ($mysql) {
         window.onerror('Uncaught Error: The message', 'http://piwik.org/path/to/file.js?cb=34343', 44, 12, new Error('The message'));
         ok(customOnErrorInvoked, "Custom onerror handler was called as expected");
 
+        equal(tracker.getJavascriptErrors().length, 1, "1 error was added to array");
+        window.onerror('Uncaught Error: The message', 'http://piwik.org/path/to/file.js?cb=34343', 44, 12, new Error('The message'));
+        equal(tracker.getJavascriptErrors().length, 1, "Same error ignored second time");
+
         // delete existing onerror handler and setup tracking again
         window.onerror = customOnErrorInvoked = false;
         tracker2.enableJSErrorTracking();
 
         window.onerror('Second Error: With less data', 'http://piwik.org/path/to/file.js?cb=3kfkf', 45);
         ok(!customOnErrorInvoked, "Custom onerror handler was ignored as expected");
+        equal(tracker2.getJavascriptErrors().length, 1, "Other tracker has 1 error");
+
+        window.onerror('Third Error: With less data', 'http://piwik.org/path/to/file.js?cb=3kfkf', 45);
+        equal(tracker2.getJavascriptErrors().length, 2, "Different error not ignored");
 
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
@@ -4103,7 +4111,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "42", "count tracking events" );
+                equal( countTrackingEvents[1], "43", "count tracking events" );
             }
 
             // firing callback
@@ -4231,7 +4239,7 @@ if ($mysql) {
         }).then(function () {
             triggerEvent(window, 'focus');
 
-            return Q.delay(4000); // ping request not sent after this 
+            return Q.delay(4000); // ping request not sent after this
         }).then(function () {
             // test ping not sent after N secs, if tracking request sent in the mean time
             tracker.setCustomData('token', 3 + tokenBase);
@@ -4680,7 +4688,7 @@ if ($mysql) {
                     "piece": toAbsoluteUrl("img1-en.jpg"),
                     "target": ""
                 }];
-        
+
         var consoleOld = console;
         var loggedContentBlocks = [];
         console = {log: function (content){
@@ -5166,7 +5174,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
     }
 })(PiwikTest);
  </script>
- 
+
 <?php
     include_once $root . '/core/Filesystem.php';
     $files = \Piwik\Filesystem::globr($root . '/plugins/'.$testPluginPath.'/tests/javascript', 'index.php');

@@ -79,7 +79,6 @@
         "SystemCheckTracker": "Tình trạng theo dõi",
         "SystemCheckWarnDomHelp": "Bạn nên kích hoạt \"dom\" mở rộng (ví dụ, cài đặt gói \"php-dom\" và \/ hoặc \"php-xml\").",
         "SystemCheckWarning": "Matomo sẽ làm việc bình thường nhưng một số tính năng có thể bị thiếu",
-        "SystemCheckWarnJsonHelp": "Bạn nên kích hoạt \"json\" mở rộng (ví dụ, cài đặt gói \"php-json\") để có hiệu suất tốt hơn.",
         "SystemCheckWarnLibXmlHelp": "Bạn nên kích hoạt \"libxml\" mở rộng (ví dụ, \"cài đặt gói php-libxml\") vì nó là yêu cầu của các mở rộng PHP lõi khác.",
         "SystemCheckWarnSimpleXMLHelp": "Bạn nên kích hoạt \"SimpleXML\" mở rộng (ví dụ, cài đặt \"php-SimpleXML\" và\/hoặc gói \"php-xml\").",
         "SystemCheckWinPdoAndMysqliHelp": "Trên một máy chủ Windows bạn có thể thêm các dòng sau đây vào tệp php.ini của bạn: %s",

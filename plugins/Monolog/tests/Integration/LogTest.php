@@ -31,7 +31,7 @@ class LogTest extends IntegrationTestCase
     public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(112): dummy error message
   dummy backtrace';
 
-    public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+    public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): dummy error message
   dummy backtrace';
 
     public function setUp(): void
@@ -41,7 +41,7 @@ class LogTest extends IntegrationTestCase
         Log::unsetInstance();
 
         @unlink(self::getLogFileLocation());
-        Log::$debugBacktraceForTests = "dummy backtrace";
+        Log::$debugBacktraceForTests = "dummy error message\ndummy backtrace";
     }
 
     public function tearDown(): void

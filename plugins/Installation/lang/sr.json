@@ -106,7 +106,6 @@
         "SystemCheckTracker": "Status trekera",
         "SystemCheckWarnDomHelp": "Trebalo bi da uključite \"dom\" proširenje (instalirajte npr. \"php-dom\" i\/ili \"php-xml\" paket).",
         "SystemCheckWarning": "Matomo će raditi normalno ali neke funkcije neće biti dostupne",
-        "SystemCheckWarnJsonHelp": "Trebalo bi da uključite \"json\" proširenje (instalirajte npr. \"php-json\" paket) zarad boljih performansi",
         "SystemCheckWarnLibXmlHelp": "Trebalo bi da uključite \"libxml\" proširenje (instalirajte npr. \"php-libxml\" paket) zato što je ono potrebno ostalim PHP proširenjima",
         "SystemCheckWarnSimpleXMLHelp": "Trebalo bi da uključite \"SimpleXML\" proširenje (instalirajte npr. \"php-simplexml\" i\/ili \"php-xml\" paket).",
         "SystemCheckWinPdoAndMysqliHelp": "Na Windows serveru možete dodati sledeće linije u datoteku php.ini: %s",

@@ -105,7 +105,6 @@
         "SystemCheckTracker": "Tracker-status",
         "SystemCheckWarnDomHelp": "Du bør aktivere «dom»-utvidelsen (ved å installere «php-dom»- og\/eller «php-xml»-pakken).",
         "SystemCheckWarning": "Matomo vil virke normalt, men noen tjenester vil kanskje mangle",
-        "SystemCheckWarnJsonHelp": "Du bør aktivere «json»-utvidelsen (ved å installere «php-json»-pakken) for bedre ytelse.",
         "SystemCheckWarnLibXmlHelp": "Du bør aktivere «libxml»-utvidelsen (ved å installere «php-libxml»-pakken) siden det kreves av andre kjerneutvidelser i PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Du bør aktivere «SimpleXML»-utvidelsen (ved å installere «php-simplexml»- og\/eller «php-xml»-pakken).",
         "SystemCheckWinPdoAndMysqliHelp": "På en Windows-server kan du legge til følgende linjer i php.ini: %s",
