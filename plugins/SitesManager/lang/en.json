@@ -112,6 +112,7 @@
         "EmailInstructionsSiteDetailsHeading": "Your Site Details",
         "EmailInstructionsSiteDetails": "You will need these details to use the API or SDKs to track Matomo visits.",
         "EmailInstructionsYourSiteId": "Your site ID: %1$s",
-        "EmailInstructionsYourTrackingUrl": "Your tracking URL: %1$s"
+        "EmailInstructionsYourTrackingUrl": "Your tracking URL: %1$s",
+        "DetectingYourSite": "Detecting your site"
     }
 }
