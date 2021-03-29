@@ -32,6 +32,13 @@ class SitesManager extends \Piwik\Plugin
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
     const KEEP_URL_FRAGMENT_YES = 1;
     const KEEP_URL_FRAGMENT_NO = 2;
+    const SITE_TYPE_UNKNOWN = 'unknown';
+    const SITE_TYPE_WORDPRESS = 'wordpress';
+    const SITE_TYPE_SQUARESPACE = 'squarespace';
+    const SITE_TYPE_WIX = 'wix';
+    const SITE_TYPE_SHAREPOINT = 'sharepoint';
+    const SITE_TYPE_JOOMLA = 'joomla';
+    const SITE_TYPE_SHOPIFY = 'shopify';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -349,6 +356,20 @@ class SitesManager extends \Piwik\Plugin
             }
         }
         return $hosts;
+    }
+
+    public static function getInstructionUrlBySiteType($siteType)
+    {
+        $map = [
+            self::SITE_TYPE_JOOMLA => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla',
+            self::SITE_TYPE_SHAREPOINT => 'https://matomo.org/faq/how-to-install/faq_19424',
+            self::SITE_TYPE_SHOPIFY => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store',
+            self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
+            self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
+            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress',
+        ];
+
+        return $map[$siteType] ? $map[$siteType] : false;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
