@@ -82,7 +82,6 @@
                             element.css('marginTop', '0');
                         }
                     }
-
                 };
             }
         };

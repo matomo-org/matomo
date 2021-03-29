@@ -27,7 +27,8 @@
             transclude: true,
             scope: {
                 piwikWidgetLoader: '=',
-                widgetName: '@'
+                widgetName: '@',
+                loadingMessage: '@'
             },
             templateUrl: 'plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {

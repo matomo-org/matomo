@@ -27,92 +27,27 @@
     <div class="site-without-data">
         <div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataTitle'|translate|e('html_attr') }}">
 
-        <p>
-            {{ 'SitesManager_SiteWithoutDataDescription'|translate }} {{ 'Installation_JSTracking_Intro'|translate }}
-            {{ 'SitesManager_SiteWithoutDataSetupTracking'|translate('<a href="' ~ linkTo({
-                'module': 'CoreAdminHome',
-                'action': 'trackingCodeGenerator',
-            }) ~ '">', "</a>")|raw }}
-            <br />
-            <br />
-            {{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}
+            <p>{{ 'SitesManager_SiteWithoutDataDescription'|translate('<a href="mailto:?subject=' ~ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') ~ '&body=' ~ emailBody|url_encode|e('html_attr') ~ '">', '</a>')|raw }}</p>
+            <p>{{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}</p>
 
-        </p>
+            <h3>{{ 'SitesManager_SiteWithoutDataChoosePreferredWay'|translate }}</h3>
 
-            <div class='trackingHelp'>
-                {% if showMatomoLinks %}
-                <h3>{{ 'SitesManager_InstallationGuides'|translate }}</h3>
-                <p>{{ 'SitesManager_InstallationGuidesIntro'|translate }}
+            <div piwik-widget-loader='{"module":"SitesManager","action":"siteWithoutDataTabs"}' loading-message="{{ 'SitesManager_DetectingYourSite'|translate|e('html_attr') }}..."></div>
 
-                <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/'>WordPress</a>
-                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/'>Squarespace</a>
-                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/'>Wix</a>
-                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/how-to-install/faq_19424/'>SharePoint</a>
-                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/'>Joomla</a>
-                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/'>Shopify</a>
-                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/'>Google Tag Manager</a>
-                    <br >
-                    <br >
-                    {{ 'SitesManager_ExtraInformationNeeded'|translate }}
-                    <br >
-                    Matomo URL: <code piwik-select-on-focus>{{ piwikUrl }}</code>
-                    <br >
-                    {{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code piwik-select-on-focus>' ~ idSite ~ '</code>')|raw }}
-                    <br >
-                </p>
-                {% endif %}
+            <hr>
 
-                <h3>{{ 'SitesManager_Integrations'|translate }}</h3>
-
-                <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
-
-                <div class="valign-wrapper trackingHelpHeader">
-                    <div>
-
-                        <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
-
-                        <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
-                    </div>
-                    <a class="btn" id="emailTrackingCodeBtn"
-                       href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
-                        {{ 'SitesManager_EmailInstructionsButton'|translate }}
-                    </a>
-                </div>
-
-                <pre piwik-select-on-focus>{{ jsTag|raw }}</pre>
-
-                <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}</p>
-
-                <p><br />{{ 'CoreAdminHome_JSTracking_EndNote'|translate('<a href="' ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}) ~'">','</a>')|raw }}
-                <br />
-                <br />
-                    <a href="{{ linkTo({module: 'CoreAdminHome', action: 'trackingCodeGenerator'}) }}"class="btn"><span class="icon-configure"></span> {{ 'SitesManager_CustomizeJavaScriptTracker'|translate }}</a></p>
-
-                <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
-
-                <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
-
-                <h3>{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</h3>
-
-                <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('<a href="https://matomo.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
-
-                <h3>{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</h3>
-                <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
-
-                {% if googleAnalyticsImporterMessage is defined %}
-                {{ googleAnalyticsImporterMessage|raw }}
-                {% endif %}
-
-                {{ postEvent('Template.endTrackingHelpPage') }}
-
-            </div>
+            <a class="btn" id="emailTrackingCodeBtn"
+                href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}"
+            >{{ 'SitesManager_EmailInstructionsButton'|translate }}</a>
 
             {{ postEvent('Template.siteWithoutData.afterIntro') }}
             <br />
             <br />
             <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
-               class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
-
+               class="btn ignoreSitesWithoutData"
+            >
+                {{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}
+            </a>
         </div>
 
         {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
