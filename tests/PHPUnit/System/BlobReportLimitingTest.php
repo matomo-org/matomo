@@ -81,6 +81,10 @@ class BlobReportLimitingTest extends SystemTestCase
                         'idDimension' => self::$fixture->actionCustomDimensionId,
                     ),
                     'testSuffix' => "dimension_". self::$fixture->actionCustomDimensionId,
+                    // ranking query doesn't guarantee order if the main metric values are the same so the label/segment can randomly change.
+                    // in this test, we only care to check that the result is being limited/aggregated correctly, so we can remove these
+                    // when comparing.
+                    'xmlFieldsToRemove' => ['label', 'segment', 'url'],
                 ),
             ),
         );

@@ -223,9 +223,11 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addLabelColumn(array($valueField, 'url'));
 
             $sumMetrics = [
-                Metrics::INDEX_NB_VISITS,
                 Metrics::INDEX_PAGE_SUM_TIME_SPENT,
                 Metrics::INDEX_BOUNCE_COUNT,
+                Metrics::INDEX_PAGE_EXIT_NB_VISITS,
+                // NOTE: INDEX_NB_UNIQ_VISITORS is summed in LogAggregator's queryActionsByDimension, so we do it here as well
+                Metrics::INDEX_NB_UNIQ_VISITORS,
             ];
             $rankingQuery->addColumn($sumMetrics, 'sum');
 
