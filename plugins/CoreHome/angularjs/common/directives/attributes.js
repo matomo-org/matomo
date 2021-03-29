@@ -51,10 +51,14 @@
                     }
                 }
 
-                applyAttributes(JSON.parse(attrs.piwikAttributes));
+                if (attrs.piwikAttributes && attrs.piwikAttributes !=='[object Object]') {
+                    applyAttributes(JSON.parse(attrs.piwikAttributes));
+                }
 
                 attrs.$observe('piwikAttributes', function (newVal) {
-                    applyAttributes(JSON.parse(newVal));
+                    if (newVal && newVal !=='[object Object]') {
+                        applyAttributes(JSON.parse(newVal));
+                    }
                 });
 
             }

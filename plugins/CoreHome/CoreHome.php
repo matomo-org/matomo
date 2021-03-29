@@ -169,6 +169,16 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
         $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
         $jsFiles[] = "node_modules/ng-dialog/js/ngDialog.min.js";
+        $jsFiles[] = "node_modules/rxjs/bundles/rxjs.umd.js";
+        $jsFiles[] = "node_modules/zone.js/bundles/zone.umd.js";
+        $jsFiles[] = "node_modules/@angular/core/bundles/core.umd.js";
+        $jsFiles[] = "node_modules/@angular/common/bundles/common.umd.js";
+        $jsFiles[] = "node_modules/@angular/common/bundles/common-http.umd.js";
+        $jsFiles[] = "node_modules/@angular/compiler/bundles/compiler.umd.js";
+        $jsFiles[] = "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js";
+        $jsFiles[] = "node_modules/@angular/upgrade/bundles/upgrade-static.umd.js";
+        $jsFiles[] = "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js";
+        $jsFiles[] = "node_modules/@angular/router/bundles/router.umd.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";

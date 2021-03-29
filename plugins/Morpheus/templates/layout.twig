@@ -31,7 +31,8 @@
         {% endblock %}
     </head>
     <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
-
+<app-root id="angularRoot">
+</app-root>
     {% block body %}
 
         {% include "_iframeBuster.twig" %}
