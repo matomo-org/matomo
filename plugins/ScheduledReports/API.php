@@ -663,7 +663,7 @@ class API extends \Piwik\Plugin\API
                     $reportSubject,
                     $reportTitle,
                     $additionalFiles,
-                    \Piwik\Period\Factory::build($report['period'], $date),
+                    \Piwik\Period\Factory::build($report['period_param'], $date),
                     $force
                 )
             );
