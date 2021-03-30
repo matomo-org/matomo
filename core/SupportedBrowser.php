@@ -50,7 +50,7 @@ class SupportedBrowser
         $deviceDetector->parse();
         $client = $deviceDetector->getClient();
 
-        if ($client['type'] === 'browser' && self::browserNotSupported($client['short_name'], (int)$client['version'])) {
+        if (!empty($client) && $client['type'] === 'browser' && self::browserNotSupported($client['short_name'], (int)$client['version'])) {
             self::throwException();
         }
     }
