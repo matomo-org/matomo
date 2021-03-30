@@ -225,6 +225,7 @@ class Model
     {
         $idSegment = (int) $idSegment;
 
+        $segment['hash'] = $this->createHash($segment['definition']);
         $db = $this->getDb();
         $db->update($this->getTable(), $segment, "idsegment = $idSegment");
 
@@ -234,6 +235,8 @@ class Model
     public function createSegment($segment)
     {
         $db = $this->getDb();
+
+        $segment['hash'] = $this->createHash($segment['definition']);
         $db->insert($this->getTable(), $segment);
         $id = $db->lastInsertId();
 
@@ -258,11 +261,17 @@ class Model
         return "SELECT * FROM " . $this->getTable() . " WHERE $where ORDER BY name ASC";
     }
 
+    private function createHash($definition)
+    {
+        return md5($definition);
+    }
+
     public static function install()
     {
         $segmentTable = "`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
 					     `name` VARCHAR(255) NOT NULL,
 					     `definition` TEXT NOT NULL,
+                         `hash` CHAR(32) NULL,
 					     `login` VARCHAR(100) NOT NULL,
 					     `enable_all_users` tinyint(4) NOT NULL default 0,
 					     `enable_only_idsite` INTEGER(11) NULL,

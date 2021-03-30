@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
+use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -460,6 +461,21 @@ class Segment
 
     public static function getSegmentHash($definition)
     {
+        $model = new SegmentEditorModel();
+        $storedSegment = $model->getSegmentByDefinition($definition);
+
+        if (empty($storedSegment)) {
+            $storedSegment = $model->getSegmentByDefinition(urldecode($definition));
+        }
+
+        if (empty($storedSegment)) {
+            $storedSegment = $model->getSegmentByDefinition(urlencode($definition));
+        }
+
+        if ($storedSegment && $storedSegment['hash']) {
+            return $storedSegment['hash'];
+        }
+
         // urldecode to normalize the string, as browsers may send slightly different payloads for the same archive
         return md5(urldecode($definition));
     }
@@ -477,7 +493,7 @@ class Segment
      * @param int $limit Limit number of result to $limit
      * @param int $offset Specified the offset of the first row to return
      * @param bool $forceGroupBy Force the group by and not using a subquery. Note: This may make the query slower see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
-     *                           A $groupBy value needs to be set for this to work. 
+     *                           A $groupBy value needs to be set for this to work.
      * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
      *              Use only when you're not aggregating or it will sample the data.
      * @return string The entire select query.
