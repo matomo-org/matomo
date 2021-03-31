@@ -16,13 +16,13 @@
             <div id="main" class="card">
                 <div class="card-content">
         {% endif %}
-                <div piwik-multisites-dashboard
+                <piwik-dashboard
                      display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
                      page-size="{{ limit }}"
                      show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
                      date-sparkline="{{ dateSparkline }}"
                      auto-refresh-today-report="{{ autoRefreshTodayReport }}">
-                </div>
+                </piwik-dashboard>
         {% if isWidgetized %}
             </div>
         {% else %}

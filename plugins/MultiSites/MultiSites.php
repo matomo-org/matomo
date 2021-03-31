@@ -81,6 +81,7 @@ class MultiSites extends \Piwik\Plugin
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.directive.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/site/site.controller.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/site/site.directive.js";
+        $jsFiles[] = "plugins/MultiSites/angular/multisites.umd.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
