@@ -225,7 +225,9 @@ class Model
     {
         $idSegment = (int) $idSegment;
 
-        $segment['hash'] = $this->createHash($segment['definition']);
+        if (isset($segment['definition'])) {
+            $segment['hash'] = $this->createHash($segment['definition']);
+        }
         $db = $this->getDb();
         $db->update($this->getTable(), $segment, "idsegment = $idSegment");
 
