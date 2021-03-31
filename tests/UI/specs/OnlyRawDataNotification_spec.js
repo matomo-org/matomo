@@ -10,7 +10,7 @@
 describe("OnlyRawDataNotification", function () {
     this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
 
-    const generalParams = 'idSite=1&period=week&date=today';
+    const generalParams = 'idSite=1&period=range&date=2021-01-01,today';
     const pageUrl = '?module=CoreHome&action=index&' + generalParams;
 
     before(function () {

@@ -31,9 +31,8 @@ class OneVisit extends Fixture
 
     private function setUpWebsites()
     {
-        $dateTime = Date::today()->toString();
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($dateTime);
+            self::createWebsite('2021-01-01');
         }
     }
 
