@@ -18,9 +18,9 @@ use Piwik\Common;
 use Piwik\Log;
 
 /**
- * Update for version 4.3.0-b2.
+ * Update for version 4.3.0-b3.
  */
-class Updates_4_3_0_b2 extends PiwikUpdates
+class Updates_4_3_0_b3 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
