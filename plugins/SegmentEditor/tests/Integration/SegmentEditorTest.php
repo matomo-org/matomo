@@ -66,9 +66,10 @@ class SegmentEditorTest extends IntegrationTestCase
         $segment = API::getInstance()->get($idSegment);
         unset($segment['ts_created']);
         $expected = array(
-            'idsegment' => 1,
+            'idsegment' => '1',
             'name' => $name,
             'definition' => $definition,
+            'hash' => md5($definition),
             'login' => 'superUserLogin',
             'enable_all_users' => '0',
             'enable_only_idsite' => '0',
@@ -95,6 +96,7 @@ class SegmentEditorTest extends IntegrationTestCase
             'idsegment' => '1',
             'name' => $name,
             'definition' => $definition,
+            'hash' => md5($definition),
             'login' => 'superUserLogin',
             'enable_all_users' => '1',
             'enable_only_idsite' => '1',
@@ -134,6 +136,7 @@ class SegmentEditorTest extends IntegrationTestCase
             'idsegment' => $idSegment2,
             'name' =>   'NEW name',
             'definition' =>  'searches==0',
+            'hash' => md5('searches==0'),
             'enable_only_idsite' => '0',
             'enable_all_users' => '0',
             'auto_archive' => '0',

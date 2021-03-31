@@ -41,7 +41,7 @@ class Updates_4_3_0_b2 extends PiwikUpdates
         $segmentTable = Common::prefixTable('segment');
         $segments = Db::fetchAll('SELECT idsegment, definition from ' . $segmentTable);
         foreach ($segments as $segment) {
-            $hash = md5(urlencode($segment['definition']));
+            $hash = md5($segment['definition']);
             $migrations[] = $this->migration->db->sql("UPDATE `$segmentTable` SET `hash` = '$hash' WHERE `idsegment` = '{$segment['idsegment']}'");
         }
 
