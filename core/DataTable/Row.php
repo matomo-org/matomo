@@ -9,9 +9,11 @@
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Log;
 use Piwik\Metrics;
+use Psr\Log\LoggerInterface;
 
 /**
  * This is what a {@link Piwik\DataTable} is composed of.
@@ -748,25 +750,27 @@ class Row extends \ArrayObject
     private function warnIfSubtableAlreadyExists()
     {
         if (!is_null($this->subtableId)) {
-            Log::warning(
+            $ex = new \Exception(sprintf(
                 "Row with label '%s' (columns = %s) has already a subtable id=%s but it was not loaded - overwriting the existing sub-table.",
                 $this->getColumn('label'),
                 implode(", ", $this->getColumns()),
                 $this->getIdSubDataTable()
-            );
+            ));
+            StaticContainer::get(LoggerInterface::class)->warning("{exception}", ['ex' => $ex]);
         }
     }
 
     protected function warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue, $columnName = null)
     {
         if (is_string($columnToSumValue)) {
-            Log::warning(
+            $ex = new \Exception(sprintf(
                 "Trying to add two strings in DataTable\Row::sumRowArray: %s + %s for column %s in row %s",
                 $thisColumnValue,
                 $columnToSumValue,
                 $columnName,
                 $this->__toString()
-            );
+            ));
+            Log::warning("{exception}", ['ex' => $ex]);
         }
     }
 }
