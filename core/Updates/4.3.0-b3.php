@@ -15,7 +15,6 @@ use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Db;
 use Piwik\Common;
-use Piwik\Log;
 
 /**
  * Update for version 4.3.0-b3.
@@ -39,12 +38,11 @@ class Updates_4_3_0_b3 extends PiwikUpdates
         $migrations[] = $this->migration->db->addColumn('segment', 'hash', 'CHAR(32) NULL', 'definition');
 
         $segmentTable = Common::prefixTable('segment');
-        $segments = Db::fetchAll('SELECT idsegment, definition from ' . $segmentTable);
+        $segments = Db::fetchAll("SELECT idsegment, definition FROM $segmentTable WHERE auto_archive = ? AND deleted = ?", [1, 0]);
         foreach ($segments as $segment) {
-            $hash = md5($segment['definition']);
+            $hash = md5(urldecode(urldecode($segment['definition'])));
             $migrations[] = $this->migration->db->sql("UPDATE `$segmentTable` SET `hash` = '$hash' WHERE `idsegment` = '{$segment['idsegment']}'");
         }
-
         return $migrations;
     }
 
