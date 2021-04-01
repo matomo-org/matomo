@@ -15,7 +15,7 @@ describe("JSTracker", function () {
         testEnvironment.save();
     });
 
-    const idSiteForTest = 5,
+    const idSiteForTest = 3,
         testWebsiteUrl = 'tests/resources/overlay-test-site-real/index.html',
         generalParams = 'idSite=' + idSiteForTest + '&period=day&date=today',
         widgetizeParams = "module=Widgetize&action=iframe",
