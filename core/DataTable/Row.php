@@ -756,7 +756,7 @@ class Row extends \ArrayObject
                 implode(", ", $this->getColumns()),
                 $this->getIdSubDataTable()
             ));
-            StaticContainer::get(LoggerInterface::class)->warning("{exception}", ['ex' => $ex]);
+            StaticContainer::get(LoggerInterface::class)->warning("{exception}", ['exception' => $ex]);
         }
     }
 
@@ -770,7 +770,7 @@ class Row extends \ArrayObject
                 $columnName,
                 $this->__toString()
             ));
-            Log::warning("{exception}", ['ex' => $ex]);
+            StaticContainer::get(LoggerInterface::class)->warning("{exception}", ['exception' => $ex]);
         }
     }
 }
