@@ -19,6 +19,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period;
+use Piwik\Plugins\FormAnalytics\Input\Rule;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\SettingsServer;
@@ -921,5 +922,30 @@ class Model
     {
         $position = strpos($pair, '.');
         return $position === false || $position === strlen($pair) - 1;
+    }
+
+    public function isRangeWhereAllChildArchivesAreUsable(Parameters $params, $doneFlags)
+    {
+        if ($params->getPeriod()->getLabel() != 'range') {
+            return false;
+        }
+
+        $doneFlagsSql = Common::getSqlStringFieldsArray($doneFlags);
+
+        $table = ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart());
+        $sql = "SELECT idarchive FROM $table WHERE idsite = ? AND period = ? AND date1 >= ? AND date2 <= ? AND name IN ($doneFlagsSql) AND value = ? LIMIT 1";
+
+        $bind = array_merge([
+            $params->getSite()->getId(),
+            Period\Day::PERIOD_ID,
+            $params->getPeriod()->getDateStart()->getDatetime(),
+            $params->getPeriod()->getDateEnd()->getDatetime(),
+        ], $doneFlags, [
+            ArchiveWriter::DONE_INVALIDATED,
+        ]);
+        $bind = array_values($bind);
+
+        $firstInvalidChildArchive = Db::fetchAll($sql, $bind);
+        return empty($firstInvalidChildArchive);
     }
 }

@@ -18,13 +18,20 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Factory;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @group Core
+ * @group Integration
+ */
 class ArchiveSelectorTest extends IntegrationTestCase
 {
+    const TEST_SEGMENT = 'operatingSystemCode==WIN';
+
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);
@@ -136,6 +143,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
         Fixture::createWebsite('2010-02-02 00:00:00');
 
         Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('test segment', self::TEST_SEGMENT, 0, 0); // processed in real time
 
         $this->insertArchiveData($archiveRows);
 
@@ -153,6 +161,9 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
     public function getTestDataForGetArchiveIdAndVisits()
     {
+        $segment = urlencode(self::TEST_SEGMENT);
+        $segmentHash = md5(self::TEST_SEGMENT);
+
         $minDateProcessed = Date::factory('2020-03-04 00:00:00')->subSeconds(900)->getDatetime();
         return [
             // no archive data found
@@ -359,8 +370,10 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 5, 10, true],
+                [false, 5, 10, true], // forcing archiving since invalid + browser archiving of ranges allowed
             ],
+
+            // TODO: add tests for changes to ArchiveSelector
         ];
     }
 

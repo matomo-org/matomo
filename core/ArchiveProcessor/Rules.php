@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
@@ -342,5 +343,54 @@ class Rules
     public static function shouldProcessSegmentsWhenReArchivingReports()
     {
         return Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] != 1;
+    }
+
+    public static function shouldForceArchiveInvalidatedArchiveInThisRequest(Parameters $params, $doneFlags)
+    {
+        $isArchivePhpTrigerred = !SettingsServer::isArchivePhpTriggered(); // safety to make sure core:archive doesn't trigger archiving if the archive is still usable
+        if (!$isArchivePhpTrigerred) {
+            return false;
+        }
+
+        $isArchivingEnabledFor = !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel());
+        if (!$isArchivingEnabledFor) {
+            return false;
+        }
+
+        // if the period includes today, then we only rearchive if the archive is past the TTL (to avoid rearchiving the range
+        // every time it's viewed on a high traffic site)
+        $periodIncludesToday = $params->getPeriod()->isDateInPeriod(Date::factory('today'));
+        if ($periodIncludesToday) {
+            return false;
+        }
+
+        // in this case, the archive is a segment that is not pre-processed. for these, if archiving is enabled for this request
+        // then child archiving will definitely be allowed, so we can just return true here.
+        if ($params->getPeriod()->getLabel() != 'range') {
+            return true;
+        }
+
+        // for range archives, we only want to trigger archiving of this invalidated archive if:
+        // 1. the child day archives are allowed to be archived (if one is invalid, it will then just be rearchived)
+        // 2. or child day archives are all usable (they are not invalidated)
+
+        $areChildArchivesAuthorizedToRearchive = self::areChildArchivesAuthorizedToRearchive($params);
+        if ($areChildArchivesAuthorizedToRearchive) {
+            return true;
+        }
+
+        $model = new Model();
+        $isRangeWhereAllChildArchivesAreUsable = $model->isRangeWhereAllChildArchivesAreUsable($params, $doneFlags);
+        return $isRangeWhereAllChildArchivesAreUsable;
+    }
+
+    private static function areChildArchivesAuthorizedToRearchive(Parameters $params)
+    {
+        foreach ($params->getSubPeriods() as $subperiod) {
+            if (Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $subperiod->getLabel())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Plugins\FormAnalytics\Input\Rule;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 
@@ -77,6 +78,10 @@ class ArchiveSelector
 
         $requestedPluginDoneFlags = empty($requestedPlugin) ? [] : Rules::getDoneFlags([$requestedPlugin], $segment);
         $allPluginsDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+
+        $allUsableDoneFlags = array_merge($requestedPluginDoneFlags, [$allPluginsDoneFlag]); // done flags except VisitsSummary plugin specific one
+        $allUsableDoneFlags = array_unique($allUsableDoneFlags);
+
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
@@ -117,8 +122,7 @@ class ArchiveSelector
         // the archive is invalidated and we are in a browser request that is authorized to archive it
         if (!empty($result['value']) // value can be empty if only partial archives are found
             && $result['value'] == ArchiveWriter::DONE_INVALIDATED
-            && !SettingsServer::isArchivePhpTriggered() // safety to make sure core:archive doesn't trigger archiving if the archive is still usable
-            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
+            && Rules::shouldForceArchiveInvalidatedArchiveInThisRequest($params, $allUsableDoneFlags)
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }

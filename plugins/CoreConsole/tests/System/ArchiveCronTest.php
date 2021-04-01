@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\Archive\ArchivePurger;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
@@ -61,9 +62,12 @@ class ArchiveCronTest extends SystemTestCase
         Site::clearCache();
     }
 
-    private static function trackVisitInPast()
+    private static function trackVisitInPast($ip = null)
     {
         $t = Fixture::getTracker(self::$fixture->idSite, '2012-08-09 16:00:00');
+        if ($ip) {
+            $t->setIp($ip);
+        }
         $t->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148');
         $t->setUrl('http://pastwebsite.com/here/we/go');
         Fixture::checkResponse($t->doTrackPageView('a page title'));
@@ -367,14 +371,21 @@ class ArchiveCronTest extends SystemTestCase
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
                 'periods'    => array('range'),
-                'testSuffix' => '_range_archive')
+                'testSuffix' => '_range_archive_before_invalidate')
         );
 
-        $this->trackVisitInPast();
+        $this->trackVisitInPast($ip = '124.56.23.23');
 
         $cronArchive = new CronArchive();
         $cronArchive->init();
         $cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+
+        // process day archive so range archive will process below (if we don't, then we'll skip processing the range archive,
+        // since it wouldn't trigger the child day archive. then later the day archive would be updated, and not the range, resulting
+        // in inaccurate data)
+        Rules::setBrowserTriggerArchiving(true);
+        \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', '2012-08-09');
+        Rules::setBrowserTriggerArchiving(false);
 
         $rangeArchivesInvalid = Db::fetchAll("SELECT idarchive, name, date1, date2 FROM " . $table . " WHERE period = 5 and name LIKE 'done.%' and value = " . ArchiveWriter::DONE_INVALIDATED);
         $this->assertNotEmpty($rangeArchivesInvalid);
@@ -385,7 +396,7 @@ class ArchiveCronTest extends SystemTestCase
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
                 'periods'    => array('range'),
-                'testSuffix' => '_range_archive')
+                'testSuffix' => '_range_archive_rearchived')
         );
 
         $archivePurger = StaticContainer::get(ArchivePurger::class);

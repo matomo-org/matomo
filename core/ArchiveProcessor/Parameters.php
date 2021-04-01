@@ -308,7 +308,7 @@ class Parameters
      */
     public function isPartialArchive()
     {
-        if (!$this->getRequestedPlugin()) { // sanity check, partial archives are only for
+        if (!$this->getRequestedPlugin()) { // sanity check, partial archives are only for single reports
             return false;
         }
 
