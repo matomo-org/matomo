@@ -487,6 +487,7 @@
         "WarningFileIntegrityNoMd5file": "Il controllo d'integrità dei file non ha potuto essere completato per la mancanza della funzione md5_file().",
         "WarningPasswordStored": "%1$sAttenzione:%2$s Questa password verrà salvata nel file di configurazione visibile da tutti che possono accedervi.",
         "WarningDebugOnDemandEnabled": "Modalità di tracciamento %1$s abilitata. Per ragioni di sicurezza, potrà essere abilitata solo per un breve lasso di tempo. Per disabilitarla imposta %2$s a %3$s in %4$s",
+        "WarningDevelopmentModeOnButNotGitInstalled": "Al momento stai utilizzando Matomo in modalità di sviluppo, ma non è stato installato tramite git. Non è consigliabile utilizzare Matomo in modalità di sviluppo in un ambiente di produzione.",
         "Website": "Sito:",
         "Weekly": "Settimanale",
         "WeeklyReport": "settimanale",

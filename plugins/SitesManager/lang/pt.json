@@ -74,7 +74,6 @@
         "Sites": "Sites",
         "SiteSearchUse": "Pode utilizar o Matomo para acompanhar e analisar o que os visitantes estão a pesquisar no motor de pesquisa interno do seu site.",
         "SiteWithoutDataTitle": "Ainda não foram registados dados. Configure abaixo",
-        "SiteWithoutDataDescription": "Ainda não foram registados dados de análise para este site.",
         "SiteWithoutDataSetupTracking": "Por favor, configure o %1$scódigo de acompanhamento%2$s abaixo no seu site ou aplicação móvel, caso ainda não o tenha feito.",
         "SiteWithoutDataMessageDisappears": "Esta mensagem irá desaparecer assim que forem registados alguns dados para este site.",
         "SiteWithoutDataIgnoreMessage": "Não mostrar esta mensagem durante a próxima hora",

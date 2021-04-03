@@ -70,7 +70,6 @@
         "Sites": "ウェブサイト",
         "SiteSearchUse": "Matomo を利用して、ビジターがウェブサイトの内部検索エンジンで検索しているものを追跡およびレポートすることができます。",
         "SiteWithoutDataTitle": "データはまだ記録されていません。以下に設定してください",
-        "SiteWithoutDataDescription": "まだこのウエブサイトの分析データは追跡されていません。",
         "SiteWithoutDataSetupTracking": "ウェブサイトあるいはモバイルアプリでトラッキングコードが未設定の場合は、下記の%1$sトラッキングコード%2$sを設定してください。",
         "SiteWithoutDataMessageDisappears": "このメッセージは、このウェブサイトの一部のデータが追跡されるとすぐに消えます。",
         "SiteWithoutDataIgnoreMessage": "次からこのメッセージを表示しない",
