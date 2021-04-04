@@ -73,7 +73,6 @@
         "Sites": "Sivustot",
         "SiteSearchUse": "Voit käyttää Matomoa seurataksesi ja raportoidaksesi, mitä kävijät etsivät sivustosi sisäisellä hakukoneella.",
         "SiteWithoutDataTitle": "Dataa ei ole vielä kerätty, määritä alla",
-        "SiteWithoutDataDescription": "Tämän sivuston analytiikkatietoja ei ole vielä kerätty.",
         "SiteWithoutDataSetupTracking": "Aseta alapuolella oleva %1$sseurantakoodi%2$s sivustollesi tai mobiilisovellukseen, jos et ole sitä vielä tehnyt.",
         "SiteWithoutDataMessageDisappears": "Tämä viesti poistuu näkyvistä, kun tämän sivuston kävijöistä voidaan näyttää kerättyjä tietoja.",
         "SiteWithoutDataIgnoreMessage": "Älä näytä tätä viestiä seuraavaan tuntiin",

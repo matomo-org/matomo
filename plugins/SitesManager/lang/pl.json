@@ -69,7 +69,6 @@
         "Sites": "Serwisy internetowe",
         "SiteSearchUse": "Możesz używać Matomo'a do śledzenia i raportowania czego odwiedzający poszukują w wewnętrznej wyszukiwarce Twojego serwisu WWW.",
         "SiteWithoutDataTitle": "Nie zebraliśmy jeszcze żadnych danych, skorzystaj z poniższej konfiguracji",
-        "SiteWithoutDataDescription": "Nie przechwycono jeszcze żadnych danych analitycznych dla tego serwisu.",
         "SiteWithoutDataSetupTracking": "Proszę dodaj %1$skod śledzący%2$s widoczny poniżej do Twojego serwisu WWW lub aplikacji mobilnej, jeśli jeszcze tego nie zrobiłeś\/aś.",
         "SiteWithoutDataMessageDisappears": "Ta wiadomość zniknie zaraz po zarejestrowaniu danych z pierwszych odwiedzin serwisu.",
         "SiteWithoutDataIgnoreMessage": "Nie pokazuj tej wiadomości przez najbliższą godzinę",

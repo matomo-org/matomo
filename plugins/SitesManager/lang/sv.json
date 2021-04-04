@@ -76,7 +76,6 @@
         "Sites": "Webbsidor",
         "SiteSearchUse": "Du kan använda Matomo för att spåra och rapportera om vad besökarna söker efter med din webbplats interna sökmotor.",
         "SiteWithoutDataTitle": "Ingen data har registrerats ännu, ställ in nedan",
-        "SiteWithoutDataDescription": "Inga data har samlats in för denna webbplats än.",
         "SiteWithoutDataSetupTracking": "Vänligen lägg till %1$sspårningskoden%2$s nedan i din webbplats eller mobilapp om du inte redan har gjort det.",
         "SiteWithoutDataMessageDisappears": "Detta meddelande kommer visas tills data samlats in för denna webbsida.",
         "SiteWithoutDataIgnoreMessage": "Visa inte detta meddelande under nästa timme.",

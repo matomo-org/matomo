@@ -74,7 +74,6 @@
         "ShowTrackingTag": "查看追蹤程式碼",
         "Sites": "網站",
         "SiteSearchUse": "你可以使用 Matomo 來追蹤並報告訪客在你網站內的搜尋引擎中搜尋了什麼。",
-        "SiteWithoutDataDescription": "這個網站還沒有追蹤分析資料。",
         "SiteWithoutDataSetupTracking": "請在你的網站或行動應用程式中設定%1$s追蹤程式碼%2$s（如果你還沒完成的話）。",
         "SiteWithoutDataMessageDisappears": "此訊息將會在這個網站開始收集到追蹤資料時隱藏。",
         "SiteWithoutDataIgnoreMessage": "一小時內不顯示此訊息",

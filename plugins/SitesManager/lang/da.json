@@ -70,7 +70,6 @@
         "Sites": "Hjemmesider",
         "SiteSearchUse": "Du kan bruge Matomo til at spore og rapportere hvad besøgende søger efter i hjemmesidens interne søgemaskine.",
         "SiteWithoutDataTitle": "Ingen data er registreret endnu. Sæt tingene op herunder",
-        "SiteWithoutDataDescription": "Ingen analysedata er blevet tracket endnu på dette website.",
         "SuperUserAccessCan": "En bruger med superbruger adgang kan også %1$s angive globale indstillinger %2$s for nye hjemmesider.",
         "Timezone": "Tidszone",
         "TrackingSiteSearch": "Sporing af intern webstedssøgning",

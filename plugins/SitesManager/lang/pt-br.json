@@ -74,7 +74,6 @@
         "Sites": "Sites",
         "SiteSearchUse": "Você pode utilizar o Matomo para acompanhar e informar o que os visitantes estão procurando no motor de pesquisa interna do seu site.",
         "SiteWithoutDataTitle": "Nenhum dado foi gravado ainda, configure abaixo",
-        "SiteWithoutDataDescription": "Ainda não há dados de análise de rastreamento para este site",
         "SiteWithoutDataSetupTracking": "Por favor, configure o %1$scódigo de rastreamento%2$s abaixo em seu site ou aplicativo móvel, caso ainda não tenha feito.",
         "SiteWithoutDataMessageDisappears": "Esta mensagem vai desaparecer assim que alguns dados forem rastreados para este site.",
         "SiteWithoutDataIgnoreMessage": "Não mostrar esta mensagem pela próxima hora",

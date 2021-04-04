@@ -210,6 +210,8 @@
         "ExceptionWidgetNotFound": "İstenen gereç bulunamadı.",
         "ExceptionReportNotEnabled": "İstenilen rapor etkinleştirilmemiş. Bu durum raporu oluşturan uygulama ekinin devre dışı bırakılmış olması ya da bu rapora erişme izninizin olmamasından kaynaklanıyor olabilir.",
         "ExceptionWidgetNotEnabled": "İstenilen gereç etkinleştirilmemiş. Bu durum gereci oluşturan uygulama ekinin devre dışı bırakılmış olması ya da bu gerece erişme izninizin olmamasından kaynaklanıyor olabilir.",
+        "ExceptionNotSupportedBrowserTitle": "Web tarayıcınız desteklenmiyor.",
+        "ExceptionNotSupportedBrowserText": "Güvenlik açıkları nedeniyle web tarayıcınız desteklenmiyor. Lütfen daha yeni bir sürüm kullanın.",
         "ExpandDataTableFooter": "Raporun görünümünü ya da ayarlarını değiştirin",
         "Export": "Dışa Aktar",
         "ExportAsImage": "Görsel Olarak Dışa Aktar",
