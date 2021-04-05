@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class ApiTest extends SystemTestCase
 {
 
-    public function test_segmentHashWorkflow_whenSegmentIsCrazyEncoded()
+    public function ttest_segmentHashWorkflow_whenSegmentIsCrazyEncoded()
     {
         $segment = 'pageUrl=@%252F1';
 
@@ -61,5 +61,51 @@ class ApiTest extends SystemTestCase
         $segmentApiHash = $segmentApiHash['value'];
 
         $this->assertEquals($segmentApiHash, $segmentDefinitionHash);
+    }
+
+    /**
+    * @dataProvider segmentsDataProvider
+    */
+    public function test_generatedSegmentHash($segment)
+    {
+        Fixture::createWebsite('2020-03-03 00:00:00');
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->save();
+
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
+            'module' => 'API',
+            'method' => 'SegmentEditor.add',
+            'name' => 'test segment',
+            'definition' => $segment,
+            'idSite' => 1,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 1,
+            'format' => 'json',
+            'token_auth' => Fixture::getTokenAuth(),
+        ]);
+        self::assertStringContainsString(urlencode($segment), $url);
+
+        Http::sendHttpRequest($url, 10);
+
+        $segments = SegmentEditorApi::getInstance()->getAll();
+        $segment = end($segments);
+        $hash = $segment['hash'];
+        $generatedHash = md5(urldecode($segment['definition']));
+
+        $this->assertEquals($generatedHash, $hash);
+    }
+
+    public function segmentsDataProvider()
+    {
+        return [
+            ['pageUrl=@%252F1'],
+            ['actions>=1'],
+            ['dimension1==guest'],
+            ['operatingSystemName==Ubuntu;browserName==Firefox'],
+            ['pageUrl==https%253A%252F%252Fmatomo.org%252Fpricing%252F'],
+            ['visitIp>=80.229.0.0;visitIp<=80.229.255.255'],
+        ];
     }
 }
