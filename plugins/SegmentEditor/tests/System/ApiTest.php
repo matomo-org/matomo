@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class ApiTest extends SystemTestCase
 {
 
-    public function ttest_segmentHashWorkflow_whenSegmentIsCrazyEncoded()
+    public function test_segmentHashWorkflow_whenSegmentIsCrazyEncoded()
     {
         $segment = 'pageUrl=@%252F1';
 

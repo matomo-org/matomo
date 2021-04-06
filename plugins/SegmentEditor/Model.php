@@ -265,7 +265,7 @@ class Model
 
     private function createHash($definition)
     {
-        return md5($definition);
+        return md5(urldecode($definition));
     }
 
     public static function install()
