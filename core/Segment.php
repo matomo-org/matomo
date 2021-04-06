@@ -16,6 +16,7 @@ use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
+use Piwik\Cache;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -100,6 +101,8 @@ class Segment
      * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
+
+    const CACHE_KEY = 'segmenthashes';
 
     /**
      * Constructor.
@@ -461,6 +464,13 @@ class Segment
 
     public static function getSegmentHash($definition)
     {
+        $cache = Cache::getEagerCache();
+        $cacheKey = self::CACHE_KEY . md5($definition);
+
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
+
         $model = new SegmentEditorModel();
         $storedSegment = $model->getSegmentByDefinition($definition);
 
@@ -473,8 +483,12 @@ class Segment
         }
 
         if ($storedSegment && $storedSegment['hash']) {
+            $cache->save($cacheKey, $storedSegment['hash']);
+
             return $storedSegment['hash'];
         }
+
+        $cache->save($cacheKey, md5(urldecode($definition)));
 
         // urldecode to normalize the string, as browsers may send slightly different payloads for the same archive
         return md5(urldecode($definition));
