@@ -1,56 +1,44 @@
-// Part of OpenPhantomScripts
-// http://github.com/mark-rushakoff/OpenPhantomScripts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * UI test runner script
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // ignore ssl errors
 
-// Copyright (c) 2012 Mark Rushakoff
+const puppeteer = require('puppeteer');
+const url = process.argv[2] || 'http://localhost/tests/javascript/';
 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to
-// deal in the Software without restriction, including without limitation the
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-// sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+main();
 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+async function main() {
 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--ignore-certificate-errors']});
+    const page = await browser.newPage();
 
-var fs  = require("fs");
-var system = require("system");
-var url = system.args[1] || 'http://localhost/tests/javascript/';
+    page.on('console', async (consoleMessage) => {
+        console.log("[" + consoleMessage.type()  + "] " + consoleMessage.text());
+    });
 
-function printError(message) {
-   console.error(message + "\n");
-}
+    await page.goto(url);
+    await page.waitFor(() => window.QUnit);
 
-var page = require("webpage").create();
+    await page.evaluate(() => {
+        window.testsDone = false;
+        window.testsSuccessfull = false;
 
-function isPhantomAttached() {
-    return page.evaluate(function() {return window.phantomAttached})
-}
-
-page.onResourceReceived = function() {
-    page.evaluate(function() {
-        if (!window.QUnit || window.phantomAttached) return;
-
-        QUnit.done(function(obj) {
-            console.log("Tests passed: " + obj.passed);
-            console.log("Tests failed: " + obj.failed);
-            console.log("Total tests:  " + obj.total);
-            console.log("Runtime (ms): " + obj.runtime);
-            window.phantomComplete = true;
-            window.phantomResults = obj;
+        QUnit.done(function (obj) {
+            console.info("Tests passed: " + obj.passed);
+            console.info("Tests failed: " + obj.failed);
+            console.info("Total tests:  " + obj.total);
+            console.info("Runtime (ms): " + obj.runtime);
+            window.testsDone = true;
+            window.testsSuccessfull = (obj.failed == 0);
         });
 
-        window.phantomAttached = true;
-
-        QUnit.log(function(obj) {
+        QUnit.log(function (obj) {
             if (!obj.result) {
                 var errorMessage = "Test failed in module " + obj.module + ": '" + obj.name + "' \nError: " + obj.message;
 
@@ -64,35 +52,16 @@ page.onResourceReceived = function() {
 
                 errorMessage += " \nSource: " + obj.source + "\n\n";
 
-                console.log(errorMessage);
+                console.info(errorMessage);
             }
         });
     });
+
+    await page.waitFor(() => !!window.testsDone, {timeout: 600000});
+
+    var success = await page.evaluate(function() {
+        return window.testsSuccessfull;
+    });
+
+    process.exit(success ? 0 : 1);
 }
-
-page.onConsoleMessage = function(message) {
-    console.log(message);
-}
-
-page.onAlert = function(msg) {
-    console.log('ALERT: ' + msg + "\n");
-}
-
-page.open(url, function(success) {
-    if (success === "success") {
-        if (!isPhantomAttached()) {
-            printError("Phantom callbacks not attached in time.  See http://github.com/mark-rushakoff/OpenPhantomScripts/issues/1");
-            phantom.exit(1);
-        }
-
-        setInterval(function() {
-            if (page.evaluate(function() {return window.phantomComplete;})) {
-                var failures = page.evaluate(function() {return window.phantomResults.failed;});
-                phantom.exit(failures);
-            }
-        }, 250);
-    } else {
-        printError("Failure opening " + url);
-        phantom.exit(1);
-    }
-});
