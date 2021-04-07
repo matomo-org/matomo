@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
@@ -122,10 +123,11 @@ class Loader
 
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
+        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb(); // TODO: $value
         if (!empty($idArchives)
             && !$this->params->getArchiveOnlyReport()
             && !Rules::isForceArchivingSinglePlugin()
+            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
@@ -256,7 +258,7 @@ class Loader
 
             // return no usable archive found, and no existing archive. this will skip invalidation, which should
             // be fine since we just force archiving.
-            return [false, false, false, false];
+            return [false, false, false, false, false, false];
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
@@ -434,5 +436,38 @@ class Loader
     public static function getArchivingDepth()
     {
         return self::$archivingDepth;
+    }
+
+    private function shouldForceInvalidatedArchive($value, $tsArchived)
+    {
+        $params = $this->params;
+
+        // the archive is invalidated and we are in a browser request that is allowed archive it
+        if ($value == ArchiveWriter::DONE_INVALIDATED
+            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
+        ) {
+            // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations
+            // w/o being rearchived
+            if (SettingsServer::isArchivePhpTriggered()) {
+                return true;
+            }
+
+            // if coming from a browser request, and period does not contain today, force rearchiving
+            if (!$params->getPeriod()->isDateInPeriod(Date::factory('today'))) {
+                return true;
+            }
+
+            // if coming from a browser request, and period does contain today, check the ttl for the period (done just below this)
+            $minDatetimeArchiveProcessedUTC = Rules::getMinTimeProcessedForInProgressArchive(
+                $params->getDateStart(), $params->getPeriod(), $params->getSegment(), $params->getSite());
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+            if ($minDatetimeArchiveProcessedUTC
+                && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
+            ) {
+                return false;
+            }
+        }
+
+        return false;
     }
 }

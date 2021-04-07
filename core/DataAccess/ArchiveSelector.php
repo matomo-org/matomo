@@ -82,7 +82,7 @@ class ArchiveSelector
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false, false];
+            return [false, false, false, false, false, false];
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag);
@@ -90,6 +90,7 @@ class ArchiveSelector
         $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
+        $value = isset($result['value']) ? $result['value'] : false;
 
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (isset($result['partial'])) {
@@ -100,32 +101,10 @@ class ArchiveSelector
             || (isset($result['value'])
                 && !in_array($result['value'], $doneFlagValues))
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true, $tsArchived];
+            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
         }
 
         if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
-            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
-        }
-
-        // the archive is invalidated and we are in a browser request that is allowed archive it
-        if (!empty($result['value']) // value can be empty if only partial archives are found
-            && $result['value'] == ArchiveWriter::DONE_INVALIDATED
-            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
-        ) {
-            // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations
-            // w/o being rearchived
-            if (SettingsServer::isArchivePhpTriggered()) {
-                return [false, $visits, $visitsConverted, true, $tsArchived];
-            }
-
-            // if coming from a browser request, and period does not contain today, force rearchiving
-            if (!$params->getPeriod()->isDateInPeriod(Date::factory('today'))) {
-                return [false, $visits, $visitsConverted, true, $tsArchived];
-            }
-
-            // if coming from a browser request, and period does contain today, check the ttl for the period (done just below this)
-            $minDatetimeArchiveProcessedUTC = Rules::getMinTimeProcessedForInProgressArchive(
-                $params->getDateStart(), $params->getPeriod(), $params->getSegment(), $params->getSite());
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
@@ -134,12 +113,12 @@ class ArchiveSelector
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
-            return [false, $visits, $visitsConverted, true, $tsArchived];
+            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
         }
 
         $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchives, $visits, $visitsConverted, true, $tsArchived];
+        return [$idArchives, $visits, $visitsConverted, true, $tsArchived, $value];
     }
 
     /**
