@@ -78,9 +78,6 @@ class ArchiveSelector
         $requestedPluginDoneFlags = empty($requestedPlugin) ? [] : Rules::getDoneFlags([$requestedPlugin], $segment);
         $allPluginsDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
 
-        $allUsableDoneFlags = array_merge($requestedPluginDoneFlags, [$allPluginsDoneFlag]); // done flags except VisitsSummary plugin specific one
-        $allUsableDoneFlags = array_unique($allUsableDoneFlags);
-
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
@@ -114,15 +111,6 @@ class ArchiveSelector
         if ($minDatetimeArchiveProcessedUTC
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
-        ) {
-            return [false, $visits, $visitsConverted, true, $tsArchived];
-        }
-
-        // the archive is invalidated and we are in a browser request that is authorized to archive it
-        if (!empty($result['value']) // value can be empty if only partial archives are found
-            && $result['value'] == ArchiveWriter::DONE_INVALIDATED
-            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
-            && !SettingsServer::isArchivePhpTriggered()
         ) {
             return [false, $visits, $visitsConverted, true, $tsArchived];
         }

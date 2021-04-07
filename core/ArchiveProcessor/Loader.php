@@ -357,7 +357,6 @@ class Loader
             return;
         }
 
-        $sitesPerDays = $this->getReportsToInvalidate();
         foreach ($sitesPerDays as $date => $siteIds) {
             try {
                 $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());

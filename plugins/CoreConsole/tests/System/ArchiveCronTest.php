@@ -343,7 +343,7 @@ class ArchiveCronTest extends SystemTestCase
     }
 
     /**
-     * @depens testArchivePhpCronArchivesFullRanges
+     * @depends testArchivePhpCronArchivesFullRanges
      */
     public function testRangeBrowserArchivingWorksWhenInvalidatedByVisit()
     {
