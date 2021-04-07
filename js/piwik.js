@@ -3514,14 +3514,15 @@ if (typeof window.Matomo !== 'object') {
 
                 if (performanceData.domLoading) {
                     if (performanceData.domInteractive && performanceData.domLoading) {
+
                         if (performanceData.domInteractive < performanceData.domLoading) {
                             return;
                         }
 
                         timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.domLoading);
-                        }
-                    } else {
-                        if (performanceData.domInteractive && performanceData.responseEnd) {
+                    }
+                } else {
+                    if (performanceData.domInteractive && performanceData.responseEnd) {
 
                         if (performanceData.domInteractive < performanceData.responseEnd) {
                             return;
