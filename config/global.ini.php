@@ -791,6 +791,9 @@ rearchive_reports_in_past_last_n_months = 6
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
 
+; Add the class of a system check diagnostic here to skip it
+; system_check_ignored_reports[] = "Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingCheck"
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to

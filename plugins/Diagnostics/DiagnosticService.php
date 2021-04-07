@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Diagnostics;
 
+use Piwik\Config;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 
@@ -63,8 +64,12 @@ class DiagnosticService
     private function run(array $diagnostics)
     {
         $results = array();
-
+        $general = Config::getInstance()->General;
+        $ignoredReports = $general['system_check_ignored_reports'];
         foreach ($diagnostics as $diagnostic) {
+            if (in_array(get_class($diagnostic), $ignoredReports)) {
+                continue;
+            }
             $results = array_merge($results, $diagnostic->execute());
         }
 
