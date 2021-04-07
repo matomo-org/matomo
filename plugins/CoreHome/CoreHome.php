@@ -183,7 +183,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/matomoRequire.js";
+        $jsFiles[] = "libs/requirejs/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_rowactions.js";
@@ -308,6 +309,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.js";
 
+        $jsFiles[] = "plugins/CoreHome/angular/polyfills.js";
         $jsFiles[] = "plugins/CoreHome/angular/core-home.umd.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,

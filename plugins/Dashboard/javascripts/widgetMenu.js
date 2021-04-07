@@ -161,7 +161,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 };
 
 (function ($, require) {
-    var exports = require('piwik/UI/Dashboard');
+    var exports = matomoRequire('piwik/UI/Dashboard');
 
     /**
      * Singleton instance that creates widget elements. Normally not needed even
@@ -202,7 +202,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
     };
 
     exports.WidgetFactory = new WidgetFactory();
-})(jQuery, require);
+})(jQuery, matomoRequire);
 
 /**
  * widgetPreview jQuery Extension
@@ -404,7 +404,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function(widget) {
                     var widgetParameters = widget['parameters'];
 
-                    var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
+                    var emptyWidgetHtml = matomoRequire('piwik/UI/Dashboard').WidgetFactory.make(
                         widgetUniqueId,
                         $('<span/>')
                             .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))

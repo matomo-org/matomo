@@ -153,7 +153,7 @@
         }
 
         function showUserSavedNotification() {
-            var UI = require('piwik/UI');
+            var UI = matomoRequire('piwik/UI');
             var notification = new UI.Notification();
             notification.show(_pk_translate('General_YourChangesHaveBeenSaved'), { context: 'success', type: 'toast' });
         }

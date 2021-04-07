@@ -12,7 +12,7 @@
 
 (function ($, require) {
 
-var exports = require('piwik/UI'),
+var exports = matomoRequire('piwik/UI'),
     UIControl = exports.UIControl;
 
 /**
@@ -43,7 +43,7 @@ DataTable.initNewDataTables = function () {
     $('div.dataTable').each(function () {
         if (!$(this).attr('id')) {
             var tableType = $(this).attr('data-table-type') || 'DataTable',
-                klass = require('piwik/UI')[tableType] || require(tableType);
+                klass = matomoRequire('piwik/UI')[tableType] || require(tableType);
 
             if (klass && $.isFunction(klass)) {
                 var table = new klass(this);
@@ -2060,4 +2060,4 @@ DataTable.registerFooterIconHandler('cloud', DataTable.switchToGraph);
 
 exports.DataTable = DataTable;
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

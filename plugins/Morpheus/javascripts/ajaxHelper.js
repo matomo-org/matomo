@@ -447,7 +447,7 @@ function ajaxHelper() {
 
                     if (response.message) {
 
-                        var UI = require('piwik/UI');
+                        var UI = matomoRequire('piwik/UI');
                         var notification = new UI.Notification();
                         notification.show(response.message, {
                             placeat: placeAt,

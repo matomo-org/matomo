@@ -42,7 +42,7 @@
                 return;
             }
 
-            var UI = require('piwik/UI');
+            var UI = matomoRequire('piwik/UI');
 
             try {
                 $piwikPeriods.parse(currentPeriod, currentDate);

@@ -28,7 +28,7 @@
             piwikApi.post({
                 module: 'UsersManager', action: 'recordUserSettings', format: 'json'
             }, postParams).then(function (success) {
-                var UI = require('piwik/UI');
+                var UI = matomoRequire('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(_pk_translate('CoreAdminHome_SettingsSaveSuccess'), {
                     id: 'PersonalSettingsSuccess', context: 'success'});
@@ -57,7 +57,7 @@
                 self.isProcessingNewsletterSignup = false;
                 self.showNewsletterSignup = false;
 
-                var UI = require('piwik/UI');
+                var UI = matomoRequire('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(translate('UsersManager_NewsletterSignupSuccessMessage'), { id: 'newslettersignup', context: 'success'});
                 notification.scrollToNotification();
@@ -65,7 +65,7 @@
             }, function () {
                 self.isProcessingNewsletterSignup = false;
 
-                var UI = require('piwik/UI');
+                var UI = matomoRequire('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(translate('UsersManager_NewsletterSignupFailureMessage'), { id: 'newslettersignup', context: 'error' });
                 notification.scrollToNotification();

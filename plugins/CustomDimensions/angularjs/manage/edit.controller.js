@@ -21,7 +21,7 @@
 
         function getNotification()
         {
-            var UI = require('piwik/UI');
+            var UI = matomoRequire('piwik/UI');
             return new UI.Notification();
         }
 

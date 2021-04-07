@@ -2,7 +2,7 @@ var SegmentedVisitorLog = function() {
 
     function getDataTableFromApiMethod(apiMethod)
     {
-        var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
+        var div = $(matomoRequire('piwik/UI').DataTable.getDataTableByReport(apiMethod));
         if (div.length && div.data('uiControlObject')) {
             return div.data('uiControlObject');
         }

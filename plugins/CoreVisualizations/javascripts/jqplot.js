@@ -15,7 +15,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
 (function ($, require) {
 
-    var exports = require('piwik/UI'),
+    var exports = matomoRequire('piwik/UI'),
         DataTable = exports.DataTable,
         dataTablePrototype = DataTable.prototype,
         getLabelFontFamily = function () {
@@ -680,7 +680,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
     DataTable.registerFooterIconHandler('graphVerticalBar', DataTable.switchToGraph);
     DataTable.registerFooterIconHandler('graphEvolution', DataTable.switchToGraph);
 
-})(jQuery, require);
+})(jQuery, matomoRequire);
 
 // ----------------------------------------------------------------
 //  EXTERNAL SERIES TOGGLE
@@ -1127,7 +1127,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var ctx = legend.legendCanvas._ctx;
         ctx.save();
-        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
+        ctx.font = '11px ' + matomoRequire('piwik/UI').getLabelFontFamily()
 
         // render series names
         var x = 0;
@@ -1183,7 +1183,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             return;
         }
 
-        var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
+        var SeriesPicker = matomoRequire('piwik/DataTableVisualizations/Widgets').SeriesPicker;
         var seriesPicker = new SeriesPicker(dataTable);
 
         // handle placeSeriesPicker event
@@ -1205,7 +1205,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push(function () {
         this.plugins.seriesPicker.init();
     });
-})(jQuery, require);
+})(jQuery, matomoRequire);
 
 // ------------------------------------------------------------
 //  PIE CHART LEGEND PLUGIN FOR JQPLOT
@@ -1266,7 +1266,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var ctx = legend.pieLegendCanvas._ctx;
         ctx.save();
 
-        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
+        ctx.font = '11px ' + matomoRequire('piwik/UI').getLabelFontFamily()
 
         // render labels
         var height = legend.pieLegendCanvas._elem.height();
@@ -1344,4 +1344,4 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.preInitHooks.push($.jqplot.PieLegend.init);
     $.jqplot.postDrawHooks.push($.jqplot.PieLegend.postDraw);
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

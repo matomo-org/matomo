@@ -21,7 +21,7 @@
      *                          '/', '.' or '\'.
      * @return {Object} The module object.
      */
-    window.require = function (moduleId) {
+    window.matomoRequire = function (moduleId) {
         var parts = moduleId.split(MODULE_SPLIT_REGEX);
 
         // TODO: we use window objects for backwards compatibility. when rest of Piwik is rewritten to use

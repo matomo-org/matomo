@@ -10,7 +10,7 @@
 
 (function ($, require) {
 
-    var exports = require('piwik/UI'),
+    var exports = matomoRequire('piwik/UI'),
         JqplotGraphDataTable = exports.JqplotGraphDataTable,
         JqplotGraphDataTablePrototype = JqplotGraphDataTable.prototype;
 
@@ -173,4 +173,4 @@
         }
     });
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

@@ -6,4 +6,4 @@
     data-params="{{ clientSideParameters|json_encode }}">
 {% render implView with implOverride %}
 </div>
-<script>$(document).ready(function () { require('{{ jsNamespace }}').{{ jsClass }}.initElements(); });</script>
+<script>$(document).ready(function () { matomoRequire('{{ jsNamespace }}').{{ jsClass }}.initElements(); });</script>

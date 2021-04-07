@@ -17,7 +17,7 @@
         };
 
         function parseNotificationDivs() {
-            var UI = require('piwik/UI');
+            var UI = matomoRequire('piwik/UI');
 
             var $notificationNodes = $('[data-role="notification"]');
 

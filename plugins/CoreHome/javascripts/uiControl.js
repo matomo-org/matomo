@@ -9,7 +9,7 @@
 
 (function ($, require) {
 
-    var exports = require('piwik/UI');
+    var exports = matomoRequire('piwik/UI');
 
     var ARRAY_PARAM_NAMES = ['compareDates', 'comparePeriods', 'compareSegments'];
 
@@ -125,4 +125,4 @@
 
     exports.UIControl = UIControl;
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

@@ -877,7 +877,7 @@ Segmentation = (function($) {
 })(jQuery);
 
 $(document).ready(function() {
-    var exports = require('piwik/UI');
+    var exports = matomoRequire('piwik/UI');
     var UIControl = exports.UIControl;
 
     /**

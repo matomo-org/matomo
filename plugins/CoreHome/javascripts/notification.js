@@ -7,13 +7,13 @@
 
 (function ($, require) {
 
-    var exports = require('piwik/UI');
+    var exports = matomoRequire('piwik/UI');
 
     /**
      * Creates a new notifications.
      *
      * Example:
-     * var UI = require('piwik/UI');
+     * var UI = matomoRequire('piwik/UI');
      * var notification = new UI.Notification();
      * notification.show('My Notification Message', {title: 'Low space', context: 'warning'});
      */
@@ -201,4 +201,4 @@
         return options;
     }
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

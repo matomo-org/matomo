@@ -74,7 +74,7 @@
             }
             $('*', this.element).off('.dashboardWidget'); // unbind all events
             $('.widgetContent', this.element).trigger('widget:destroy');
-            require('piwik/UI').UIControl.cleanupUnusedControls();
+            matomoRequire('piwik/UI').UIControl.cleanupUnusedControls();
             return this;
         },
 
@@ -229,7 +229,7 @@
                 }
 
                 var title = self.options.title === null ? $('<span/>').text(widgetName) : self.options.title;
-                var emptyWidgetContent = require('piwik/UI/Dashboard').WidgetFactory.make(uniqueId, title);
+                var emptyWidgetContent = matomoRequire('piwik/UI/Dashboard').WidgetFactory.make(uniqueId, title);
                 self.element.html(emptyWidgetContent);
 
                 var widgetElement = $('[id="' + uniqueId + '"]', self.element);

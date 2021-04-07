@@ -80,7 +80,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'js/',
             'piwik.js',
             'matomo.js',
-            'plugins/CoreHome/javascripts/require.js',
+            'plugins/CoreHome/javascripts/matomoRequire.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/Morpheus/javascripts/',
             'plugins/CoreHome/javascripts/uiControl.js',

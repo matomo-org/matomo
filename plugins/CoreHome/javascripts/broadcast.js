@@ -148,7 +148,7 @@ var broadcast = {
                     $('#dashboardWidgetsArea').dashboard('destroy');
 
                     // remove unused controls
-                    require('piwik/UI').UIControl.cleanupUnusedControls();
+                    matomoRequire('piwik/UI').UIControl.cleanupUnusedControls();
                 }
             }
 

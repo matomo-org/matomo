@@ -7,7 +7,7 @@
 
  (function ($, require) {
 
-    var exports = require('piwik/UI'),
+    var exports = matomoRequire('piwik/UI'),
         DataTable = exports.DataTable,
         dataTablePrototype = DataTable.prototype;
 
@@ -333,4 +333,4 @@
         }
     });
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

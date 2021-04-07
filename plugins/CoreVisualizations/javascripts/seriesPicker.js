@@ -111,7 +111,7 @@
                         $(self).trigger('seriesPicked', [columns, rows]);
 
                         // inform dashboard widget about changed parameters (to be restored on reload)
-                        var UI = require('piwik/UI');
+                        var UI = matomoRequire('piwik/UI');
                         var params = {
                             columns: columns,
                             columns_to_display: columns,
@@ -147,7 +147,7 @@
         }
     };
 
-    var exports = require('piwik/DataTableVisualizations/Widgets');
+    var exports = matomoRequire('piwik/DataTableVisualizations/Widgets');
     exports.SeriesPicker = SeriesPicker;
 
-})(jQuery, require);
+})(jQuery, matomoRequire);

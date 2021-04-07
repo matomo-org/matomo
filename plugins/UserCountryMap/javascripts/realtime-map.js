@@ -10,7 +10,7 @@
 
 (function () {
 
-    var UIControl = require('piwik/UI').UIControl;
+    var UIControl = matomoRequire('piwik/UI').UIControl;
 
     var RealtimeMap = window.UserCountryMap.RealtimeMap = function (element) {
         UIControl.call(this, element);
@@ -319,7 +319,7 @@
             // TODO: visitor profile launching logic should probably be contained in
             //       visitorProfile.js. not sure how to do that, though...
             this.$element.on('mapClick', function (e, visit, mapPath) {
-                var VisitorProfileControl = require('piwik/UI').VisitorProfileControl;
+                var VisitorProfileControl = matomoRequire('piwik/UI').VisitorProfileControl;
                 if (visit
                     && piwik.visitorProfileEnabled
                     && VisitorProfileControl

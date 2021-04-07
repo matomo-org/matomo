@@ -29,7 +29,7 @@
             }).then(function (success) {
                 self.isLoading = false;
 
-                var UI = require('piwik/UI');
+                var UI = matomoRequire('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(_pk_translate('CoreAdminHome_SettingsSaveSuccess'), {context: 'success', id:'privacyManagerSettings'});
                 notification.scrollToNotification();
