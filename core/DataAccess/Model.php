@@ -19,7 +19,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period;
-use Piwik\Plugins\FormAnalytics\Input\Rule;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\SettingsServer;
