@@ -41,7 +41,7 @@
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, getEntriesByType, connectEnd, requestStart,
-    responseStart, responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
+    responseStart, responseEnd, fetchStart, domInteractive, domComplete, loadEventStart, loadEventEnd,
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
@@ -3508,13 +3508,13 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_tfr=' + Math.round(performanceData.responseEnd - performanceData.responseStart);
                 }
 
-                if (performanceData.domInteractive && performanceData.domLoading) {
+                if (performanceData.domInteractive && performanceData.responseEnd) {
 
-                    if (performanceData.domInteractive < performanceData.domLoading) {
+                    if (performanceData.domInteractive < performanceData.responseEnd) {
                         return;
                     }
 
-                    timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.domLoading);
+                    timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.responseEnd);
                 }
 
                 if (performanceData.domComplete && performanceData.domInteractive) {
