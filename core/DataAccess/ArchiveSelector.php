@@ -209,7 +209,7 @@ class ArchiveSelector
                     list($idarchive, $doneFlag, $value) = explode('|', $pair);
 
                     $result[$doneFlag][$dateStr][] = $idarchive;
-                    if (strpos($doneFlag, '.') === false && $value == ArchiveWriter::DONE_OK) { // all plugins archive
+                    if (strpos($doneFlag, '.') === false && $value != ArchiveWriter::DONE_PARTIAL) { // all plugins archive
                         break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
                 }
