@@ -271,11 +271,17 @@ class Loader
      */
     protected function getMinTimeArchiveProcessed()
     {
-        $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
-        if ($endDateTimestamp) {
-            // past archive
-            return $endDateTimestamp;
+        // for range periods in this request, make sure to check for the ttl
+        $isRangeArchiveAndArchivingEnabled = $this->params->getPeriod()->getLabel() == 'range'
+            && !Rules::isArchivingDisabledFor([$this->params->getSite()->getId()], $this->params->getSegment(), $this->params->getPeriod()->getLabel());
+        if (!$isRangeArchiveAndArchivingEnabled) {
+            $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
+            if ($endDateTimestamp) {
+                // past archive
+                return $endDateTimestamp;
+            }
         }
+
         $dateStart = $this->params->getDateStart();
         $period    = $this->params->getPeriod();
         $segment   = $this->params->getSegment();

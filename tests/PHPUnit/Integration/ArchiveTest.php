@@ -169,13 +169,41 @@ class ArchiveTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
 
-        // check that range was not rearchived, because day was not allowed to be rearchived
-        $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
+        // check that range was rearchived
+        $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '4'],
-            ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
-            ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '4'],
+            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
+            ['idarchive' => '7', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '4'],
+            ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
+        ];
+        $this->assertEquals($expected, $archives);
+
+        // rearchive day and check range does not rearchive
+        Rules::setBrowserTriggerArchiving(true);
+        API::getInstance()->get(1, 'day', '2020-03-05');
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
+
+        $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
+            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+        $expected = [
+            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
+            ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
+            ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '1'],
+        ];
+        $this->assertEquals($expected, $archives);
+
+        // update range archive ts_archived to be beyond and check that range was rearchived
+        Db::query("UPDATE " . Common::prefixTable('archive_numeric_2020_03') . " SET ts_archived = ? WHERE period = 5", [Date::now()->subHour(2)->getDatetime()]);
+        API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
+
+        $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
+            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+        $expected = [
+            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
+            ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '1'],
+            ['idarchive' => '16', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
         ];
         $this->assertEquals($expected, $archives);
     }
