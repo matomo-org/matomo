@@ -107,6 +107,28 @@ class ArchiveSelector
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
+        // the archive is invalidated and we are in a browser request that is allowed archive it
+        if (!empty($result['value']) // value can be empty if only partial archives are found
+            && $result['value'] == ArchiveWriter::DONE_INVALIDATED
+            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
+        ) {
+            // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations
+            // w/o being rearchived
+            if (SettingsServer::isArchivePhpTriggered()) {
+                return [false, $visits, $visitsConverted, true, $tsArchived];
+            }
+
+            // if coming from a browser request, and period does not contain today, force rearchiving
+            if (!$params->getPeriod()->isDateInPeriod(Date::factory('today'))) {
+                return [false, $visits, $visitsConverted, true, $tsArchived];
+            }
+
+            // if coming from a browser request, and period does contain today, check the ttl for the period (done just below this)
+            $minDatetimeArchiveProcessedUTC = Rules::getMinTimeProcessedForInProgressArchive(
+                $params->getDateStart(), $params->getPeriod(), $params->getSegment(), $params->getSite());
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+        }
+
         // the archive is too old
         if ($minDatetimeArchiveProcessedUTC
             && !empty($result['idarchive'])

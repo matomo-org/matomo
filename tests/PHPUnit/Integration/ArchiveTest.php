@@ -165,10 +165,7 @@ class ArchiveTest extends IntegrationTestCase
         ];
         $this->assertEquals($expected, $archives);
 
-        // change ts_archived back
-        Db::query("UPDATE " . Common::prefixTable('archive_numeric_2020_03') . " SET ts_archived = ?", [Date::now()->getDatetime()]);
-
-        // archive range again
+        // archive range again since it is invalid and we updated the ts_archived to a older time
         Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
 

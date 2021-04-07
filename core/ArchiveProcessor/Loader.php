@@ -271,9 +271,10 @@ class Loader
      */
     protected function getMinTimeArchiveProcessed()
     {
-        // for range periods in this request, make sure to check for the ttl
+        // for range periods we can archive in a browser request request, make sure to check for the ttl no matter what
         $isRangeArchiveAndArchivingEnabled = $this->params->getPeriod()->getLabel() == 'range'
             && !Rules::isArchivingDisabledFor([$this->params->getSite()->getId()], $this->params->getSegment(), $this->params->getPeriod()->getLabel());
+
         if (!$isRangeArchiveAndArchivingEnabled) {
             $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
             if ($endDateTimestamp) {
