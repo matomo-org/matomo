@@ -401,6 +401,28 @@ class Loader
                 $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
                 if ($segmentArchiveStartDate->isLater($periodEnd)) {
+                    $doneFlag = Rules::getDoneStringFlagFor(
+                        [$idSite],
+                        $params->getSegment(),
+                        $params->getPeriod()->getLabel(),
+                        $params->getRequestedPlugin()
+                    );
+
+                    $table = Common::prefixTable('archive_invalidations');
+                    $sql = "SELECT MAX(idinvalidation) FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ?";
+
+                    $idInvalidation = Db::fetchOne($sql, [
+                        $idSite,
+                        $params->getPeriod()->getDateStart()->toString(),
+                        $params->getPeriod()->getDateEnd()->toString(),
+                        $params->getPeriod()->getId(),
+                        $doneFlag
+                    ]);
+                    if (!empty($idInvalidation)) {
+                        // it was specifically invalidated by a user
+                        // it would also detect if the system scheduled a rearchive but it wouldn't execute the query since it would already have this covered above in the `if ($segmentArchiveStartDate->isLater($periodEnd)) {`
+                        return false;
+                    }
                     return true;
                 }
             }
