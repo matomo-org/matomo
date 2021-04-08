@@ -482,6 +482,7 @@
         "ValidatorErrorNotUrlLike": "The value \"%s\" does not look like a URL.",
         "ValidatorErrorNotEmailLike": "The value \"%s\" does not look like a valid email.",
         "ValidatorErrorNoValidRegex": "The value \"%s\" is not a valid regular expression.",
+        "ValidatorErrorNoValidAlphaNumSpaces": "The value \"%s\" may only contain letters, numbers and spaces.",
         "ValidatorErrorXNotWhitelisted": "The value \"%1$s\" is not allowed, use one of: %2$s.",
         "ValidatorErrorInvalidDateTimeFormat": "The date \"%1$s\" does not have the correct format, please use %2$s",
         "WarningFileIntegrityNoManifest": "File integrity check could not be performed due to missing manifest.inc.php.",
