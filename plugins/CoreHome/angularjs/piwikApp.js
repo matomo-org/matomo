@@ -29,9 +29,8 @@ var AppModule = /** @class */ (function () {
     AppModule.prototype.ngDoBootstrap = function () {
         this.upgrade.bootstrap(document.documentElement, ['piwikApp'], { strictDi: false });
             angular.module('piwikApp').factory('$location', ng.upgrade.static.downgradeInjectable(ng.common.upgrade.$locationShim));
-        document.addEventListener('DOMContentLoaded', function () {
-           piwikHelper.compileAngularComponents(document.body);
-        });
+
+           //piwikHelper.compileAngularComponents(document.body);
     };
     return AppModule;
 }());
@@ -46,7 +45,7 @@ AppModule.decorators = [
 AppModule.ctorParameters = function () { return [
     { type: ng.upgrade.static.UpgradeModule }
 ]; };
-//
+document.addEventListener('DOMContentLoaded', function () {
 ng.platformBrowserDynamic
     .platformBrowserDynamic().bootstrapModule(AppModule);
-//});
+});
