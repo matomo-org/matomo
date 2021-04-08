@@ -103,6 +103,7 @@ class Segment
     const SEGMENT_TRUNCATE_LIMIT = 8192;
 
     const CACHE_KEY = 'segmenthashes';
+    const SEGMENT_HAS_BUILT_CACHE_KEY ='segmenthashbuilt';
 
     /**
      * Constructor.
@@ -471,27 +472,35 @@ class Segment
             return $cache->fetch($cacheKey);
         }
 
+        $defaultHash = md5(urldecode($definition));
+
+        // if the cache for segments already built, but this segment was not found,
+        // we return the default segment, this can be a segment from url or
+        // something like "visitorType==new"
+        if ($cache->contains(self::SEGMENT_HAS_BUILT_CACHE_KEY)) {
+            return $defaultHash;
+        }
+
+        // the segment hash is not built yet, let's do it
+        $cache->save(self::SEGMENT_HAS_BUILT_CACHE_KEY, true);
+
         $model = new SegmentEditorModel();
-        $storedSegment = $model->getSegmentByDefinition($definition);
+        $segments = $model->getAllSegmentsForAllUsers();
+        $foundSegment = false;
 
-        if (empty($storedSegment)) {
-            $storedSegment = $model->getSegmentByDefinition(urldecode($definition));
+        foreach ($segments as $segment) {
+            $cacheKey = self::CACHE_KEY . md5($segment['definition']);
+
+            $cache->save($cacheKey, $segment['hash']);
+
+            if ($segment['definition'] === $definition || $segment['definition'] === urldecode($definition) || $segment['definition'] === urlencode($definition)) {
+                $foundSegment = $segment;
+            }
         }
 
-        if (empty($storedSegment)) {
-            $storedSegment = $model->getSegmentByDefinition(urlencode($definition));
-        }
-
-        if ($storedSegment && $storedSegment['hash']) {
-            $cache->save($cacheKey, $storedSegment['hash']);
-
-            return $storedSegment['hash'];
-        }
-
-        $cache->save($cacheKey, md5(urldecode($definition)));
-
-        // urldecode to normalize the string, as browsers may send slightly different payloads for the same archive
-        return md5(urldecode($definition));
+        // if we found the segment, return it's hash, but maybe this
+        // segment is not stored in the db, return the default
+        return $foundSegment ? $foundSegment['hash'] : $defaultHash;
     }
 
     /**
