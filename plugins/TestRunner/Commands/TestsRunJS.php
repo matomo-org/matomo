@@ -25,16 +25,26 @@ class TestsRunJS extends ConsoleCommand
     {
         $matomoUrl = $input->getOption('matomo-url') ?? 'http://localhost';
 
-        $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/";
+        $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing";
         $javascriptTestingDir = PIWIK_INCLUDE_PATH . "/tests/javascript";
 
-        $cmd = "cd '$javascriptTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node testrunner.js '$matomoUrl/tests/javascript/'";
+        $cmdNode = "cd '$javascriptTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node testrunnerNode.js '$matomoUrl/tests/javascript/'";
 
-        $output->writeln('Executing command: <info>' . $cmd . '</info>');
+        $output->writeln('Executing command: <info>' . $cmdNode . '</info>');
         $output->writeln('');
 
-        passthru($cmd, $returnCode);
+        passthru($cmdNode, $returnCodeNode);
 
-        return $returnCode;
+        $cmdPhantom = "phantomjs $javascriptTestingDir/testrunnerPhantom.js '$matomoUrl/tests/javascript/'";
+
+        $output->writeln('');
+        $output->writeln('');
+        $output->writeln('Executing command: <info>' . $cmdPhantom . '</info>');
+        $output->writeln('');
+
+        passthru($cmdPhantom, $returnCodePhantom);
+
+
+        return $returnCodeNode + $returnCodePhantom;
     }
 }
