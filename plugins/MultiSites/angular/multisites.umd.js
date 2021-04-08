@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common/http'), require('@angular/router'), require('@angular/common'), require('@angular/forms'), require('core-home'), require('@angular/platform-browser')) :
     typeof define === 'function' && define.amd ? define('multisites', ['exports', '@angular/core', '@angular/common/http', '@angular/router', '@angular/common', '@angular/forms', 'core-home', '@angular/platform-browser'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.multisites = {}, global.ng.core, global.ng.common.http, global.ng.router, global.ng.common, global.ng.forms, global.i4, global.ng.platformBrowser));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.multisites = {}, global.ng.core, global.ng.common.http, global.ng.router, global.ng.common, global.ng.forms, global['core-home'], global.ng.platformBrowser));
 }(this, (function (exports, i0, i1, i2, i2$1, i3, i4, platformBrowser) { 'use strict';
 
     /**

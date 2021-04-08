@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/router')) :
-    typeof define === 'function' && define.amd ? define('core-home', ['exports', '@angular/core', '@angular/common', '@angular/router'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['core-home'] = {}, global.ng.core, global.ng.common, global.ng.router));
-}(this, (function (exports, core, common, router) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/router'), require('@angular/upgrade/static'), require('@angular/platform-browser')) :
+    typeof define === 'function' && define.amd ? define('core-home', ['exports', '@angular/core', '@angular/common', '@angular/router', '@angular/upgrade/static', '@angular/platform-browser'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['core-home'] = {}, global.ng.core, global.ng.common, global.ng.router, global.ng.upgrade.static, global.ng.platformBrowser));
+}(this, (function (exports, core, common, router, _static, platformBrowser) { 'use strict';
 
     var ActivityIndicatorComponent = /** @class */ (function () {
         function ActivityIndicatorComponent() {

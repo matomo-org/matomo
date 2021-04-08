@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %} ng-app="piwikApp">
+<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %} >
     <head>
         {% block head %}
             <meta charset="utf-8">
@@ -30,9 +30,9 @@
 
         {% endblock %}
     </head>
-    <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
-<app-root id="angularRoot">
-</app-root>
+    <body id="{{ bodyId|default('') }}" class="{{ bodyClass|default('') }}">
+
+
     {% block body %}
 
         {% include "_iframeBuster.twig" %}

@@ -22,32 +22,31 @@
     }]);
 })();
 
-var HelloComponent = function () {
-    var angular1Dependency =  piwikHelper.getAngularDependency('piwikApi');
-    console.log(angular1Dependency);
-};
-//HelloComponent.parameters = [[new ng.core.Inject(ng.common.http.HttpClient)]];
-HelloComponent.annotations = [
-    new ng.core.Component({
-        selector: 'app-root',
-        template: 'Hello World!'
-    })
-];
-
-var AppModule = function () {
-    this.ngDoBootstrap = function (app) {
-        // this.upgrade.bootstrap(document.getElementById('angularRoot'), ['HelloComponent']); //, { strictDi: true }
-        app.bootstrap(document.getElementById('angularRoot'), ['HelloComponent']); //, { strictDi: true }
+var AppModule = /** @class */ (function () {
+    function AppModule(upgrade) {
+        this.upgrade = upgrade;
     }
-};
-AppModule.annotations = [
-    new ng.core.NgModule({
-        imports: [ng.platformBrowser.BrowserModule, ng.upgrade.static.UpgradeModule],
-        declarations: [HelloComponent],
-        entryComponents: [],
-        bootstrap: [HelloComponent],
-    })
-];document.addEventListener('DOMContentLoaded', function () {
-    ng.platformBrowserDynamic
-        .platformBrowserDynamic().bootstrapModule(AppModule);
-});
+    AppModule.prototype.ngDoBootstrap = function () {
+        this.upgrade.bootstrap(document.documentElement, ['piwikApp'], { strictDi: false });
+            angular.module('piwikApp').factory('$location', ng.upgrade.static.downgradeInjectable(ng.common.upgrade.$locationShim));
+        document.addEventListener('DOMContentLoaded', function () {
+           piwikHelper.compileAngularComponents(document.body);
+        });
+    };
+    return AppModule;
+}());
+AppModule.decorators = [
+    { type: ng.core.NgModule, args: [{
+            imports: [
+                ng.platformBrowser.BrowserModule, ng.upgrade.static.UpgradeModule,
+                window['core-home'].CoreHomeModule
+            ]
+        },] }
+];
+AppModule.ctorParameters = function () { return [
+    { type: ng.upgrade.static.UpgradeModule }
+]; };
+//
+ng.platformBrowserDynamic
+    .platformBrowserDynamic().bootstrapModule(AppModule);
+//});

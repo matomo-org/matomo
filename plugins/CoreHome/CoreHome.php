@@ -169,22 +169,31 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
         $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
         $jsFiles[] = "node_modules/ng-dialog/js/ngDialog.min.js";
-        $jsFiles[] = "node_modules/rxjs/bundles/rxjs.umd.js";
+        $jsFiles[] = "plugins/CoreHome/angular/polyfills.js";
         $jsFiles[] = "node_modules/zone.js/bundles/zone.umd.js";
+        $jsFiles[] = "libs/systemjs/system.js";
+        $jsFiles[] = "node_modules/rxjs/bundles/rxjs.umd.js";
         $jsFiles[] = "node_modules/@angular/core/bundles/core.umd.js";
         $jsFiles[] = "node_modules/@angular/common/bundles/common.umd.js";
         $jsFiles[] = "node_modules/@angular/common/bundles/common-http.umd.js";
         $jsFiles[] = "node_modules/@angular/compiler/bundles/compiler.umd.js";
         $jsFiles[] = "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js";
         $jsFiles[] = "node_modules/@angular/upgrade/bundles/upgrade-static.umd.js";
+        $jsFiles[] = "node_modules/@angular/common/bundles/common-upgrade.umd.js";
         $jsFiles[] = "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js";
         $jsFiles[] = "node_modules/@angular/router/bundles/router.umd.js";
         $jsFiles[] = "node_modules/@angular/forms/bundles/forms.umd.js";
+        $jsFiles[] = "plugins/CoreHome/angular/core-home.umd.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/matomoRequire.js";
-        $jsFiles[] = "libs/requirejs/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_rowactions.js";
@@ -201,9 +210,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/global-ajax-queue.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
@@ -212,7 +218,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/periods.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
@@ -224,7 +229,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/urldecode.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/attributes.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/show-sensitive-data.js";
@@ -240,7 +244,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 
@@ -309,8 +312,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.js";
 
-        $jsFiles[] = "plugins/CoreHome/angular/polyfills.js";
-        $jsFiles[] = "plugins/CoreHome/angular/core-home.umd.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
