@@ -18,12 +18,21 @@ use Piwik\Validators\AlphaNumSpaces;
  */
 class AlphaNumSpacesTest extends TestCase
 {
-    public function test_validate_success_strings()
+    public function test_validate_success_english_strings()
     {
         $this->validate('onlyalpha');
         $this->validate(123);
         $this->validate('abc 123');
-        $this->validate('abc 123 and 0');
+        $this->validate('ABC 123 and 0');
+
+        $this->assertTrue(true);
+    }
+
+    public function test_validate_success_special_chars()
+    {
+        $this->validate('Äpfel äpfel und stühle');
+        $this->validate('워드  信件 λέξη từ ngữ');
+        $this->validate('áâäæãåāëíûî');
 
         $this->assertTrue(true);
     }
