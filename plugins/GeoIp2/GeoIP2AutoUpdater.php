@@ -464,7 +464,7 @@ class GeoIP2AutoUpdater extends Task
         $host = $parsedUrl['host'] ?? '';
 
         if (empty($schema) || empty($host) || !in_array(Common::mb_strtolower($schema), ['http', 'https'])) {
-            throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>'.htmlspecialchars($url).'</i>'));
+            throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>'.Common::sanitizeInputValue($url).'</i>'));
         }
 
         $validHosts = Config::getInstance()->General['geolocation_download_from_trusted_hosts'];
