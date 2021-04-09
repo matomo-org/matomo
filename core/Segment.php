@@ -482,25 +482,29 @@ class Segment
         }
 
         // the segment hash is not built yet, let's do it
-        $cache->save(self::SEGMENT_HAS_BUILT_CACHE_KEY, true);
-
         $model = new SegmentEditorModel();
         $segments = $model->getAllSegmentsForAllUsers();
-        $foundSegment = false;
 
         foreach ($segments as $segment) {
-            $cacheKey = self::CACHE_KEY . md5($segment['definition']);
+            $cacheKeyTemp = self::CACHE_KEY . md5($segment['definition']);
+            $cache->save($cacheKeyTemp, $segment['hash']);
 
-            $cache->save($cacheKey, $segment['hash']);
+            $cacheKeyTemp = self::CACHE_KEY . md5(urldecode($segment['definition']));
+            $cache->save($cacheKeyTemp, $segment['hash']);
 
-            if ($segment['definition'] === $definition || $segment['definition'] === urldecode($definition) || $segment['definition'] === urlencode($definition)) {
-                $foundSegment = $segment;
-            }
+            $cacheKeyTemp = self::CACHE_KEY . md5(urlencode($segment['definition']));
+            $cache->save($cacheKeyTemp, $segment['hash']);
         }
+
+        $cache->save(self::SEGMENT_HAS_BUILT_CACHE_KEY, true);
 
         // if we found the segment, return it's hash, but maybe this
         // segment is not stored in the db, return the default
-        return $foundSegment ? $foundSegment['hash'] : $defaultHash;
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
+
+        return $defaultHash;
     }
 
     /**
