@@ -726,9 +726,13 @@ abstract class SystemTestCase extends TestCase
         DbHelper::truncateAllTables();
 
         // insert data
+        $archiveTables = Db::fetchAll("SHOW TABLES LIKE '%archive_%'");
+        if (!empty($archiveTables)) {
+            $archiveTables = array_column($archiveTables, key($archiveTables[0]));
+        }
         foreach ($tables as $table => $rows) {
             // create table if it's an archive table
-            if (strpos($table, 'archive_') !== false && !DbHelper::tableExists($table)) {
+            if (strpos($table, 'archive_') !== false && !in_array($table, $archiveTables)) {
                 $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
 
                 $createSql = DbHelper::getTableCreateSql($tableType);
