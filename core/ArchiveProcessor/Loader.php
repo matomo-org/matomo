@@ -105,6 +105,7 @@ class Loader
     private function prepareArchiveImpl($pluginName)
     {
         $this->params->setRequestedPlugin($pluginName);
+        $this->params->setIsPartialArchive(false);
 
         if (SettingsServer::isArchivePhpTriggered()) {
             $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
@@ -117,8 +118,7 @@ class Loader
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives)
-            && !$this->params->getArchiveOnlyReport()
-            && !Rules::isForceArchivingSinglePlugin()
+            && !Rules::isActuallyForceArchivingSinglePlugin()
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
@@ -184,13 +184,18 @@ class Loader
 
             $this->params->setRequestedPlugin('VisitsSummary');
             $this->params->setArchiveOnlyReport(null);
+            $this->params->setIsPartialArchive(false);
 
-            $pluginsArchiver = new PluginsArchiver($this->params);
-            $metrics = $pluginsArchiver->callAggregateCoreMetrics();
-            $pluginsArchiver->finalizeArchive();
+            $metrics = Context::executeWithQueryParameters(['requestedReport' => ''], function () {
+                $pluginsArchiver = new PluginsArchiver($this->params);
+                $metrics = $pluginsArchiver->callAggregateCoreMetrics();
+                $pluginsArchiver->finalizeArchive();
+                return $metrics;
+            });
 
             $this->params->setRequestedPlugin($requestedPlugin);
             $this->params->setArchiveOnlyReport($requestedReport);
+            $this->params->setIsPartialArchive(false);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];

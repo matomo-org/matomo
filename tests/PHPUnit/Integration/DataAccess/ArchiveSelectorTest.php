@@ -78,7 +78,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 ],
             ],
 
-            // multiple partials for specific reports + normal
+            // multiple partials for specific reports + normal + one malformed partial
             [
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-03 01:00:00'],
@@ -92,6 +92,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                     ['idarchive' => 7, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5, 'ts_archived' => '2020-03-04 01:07:00'],
                     ['idarchive' => 8, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.AnotherPlugin', 'value' => 5, 'ts_archived' => '2020-03-04 01:05:00'],
                     ['idarchive' => 9, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.AnotherPlugin', 'value' => 5, 'ts_archived' => '2020-03-04 01:07:00'],
+                    ['idarchive' => 10, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 5, 'ts_archived' => '2020-03-04 01:07:00'],
                 ],
                 [1],
                 [
@@ -101,7 +102,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 ['Funnels'],
                 [
                     'done' => [
-                        '2020-03-01,2020-03-01' => [4],
+                        '2020-03-01,2020-03-01' => [10,4],
                     ],
                     'done.Funnels' => [
                         '2020-03-01,2020-03-01' => [7,6,5],

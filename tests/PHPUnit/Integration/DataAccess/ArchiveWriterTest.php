@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -17,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\Site;
@@ -45,6 +47,29 @@ class ArchiveWriterTest extends IntegrationTestCase
 
         Access::getInstance()->setSuperUserAccess(true);
         $this->idSite = Fixture::createWebsite('2019-08-29');
+    }
+
+    public function test_finalizeArchive_doesNotAllowCreatingPartialArchiveForAllPluginsArchive()
+    {
+        Date::$now = strtotime('2020-04-05 03:00:00');
+
+        $period = 'day';
+        $date = '2019-08-29';
+
+        $segment = 'browserCode==ff';
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('customsegment', $segment, $this->idSite, $autoArchive = 1);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $writer = $this->buildWriter($period, $date, $isPartial = true, $segment);
+        $writer->initNewArchive();
+        $writer->finalizeArchive();
+
+        $expected = [
+            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done' . md5($segment), 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-04-05 03:00:00'],
+        ];
+        $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
     }
 
     public function test_finalizeArchive_removesOldArchivesIfNotPartial()
@@ -226,10 +251,10 @@ class ArchiveWriterTest extends IntegrationTestCase
         }
     }
 
-    private function buildWriter($period, $date, $isPartial = false)
+    private function buildWriter($period, $date, $isPartial = false, $segment = '')
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', $period, $date);
-        $segment = new Segment('', []);
+        $segment = new Segment($segment, []);
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
         if ($isPartial) {
             $params->setRequestedPlugin('ExamplePlugin');
