@@ -48,6 +48,7 @@
         "UpdateHasBeenCancelledExplanation": "Matomo Actualizare cu Un Click a fost anulat. Daca nu puteti repara mesajul de eroare de mai sus, este recomandat sa actualizati Matomo manual. %1$s Va rugam uitati-va peste %2$sDocumentatia de Actualizare%3$s pentru a incepe!",
         "UpdateTitle": "Actualizare",
         "UpdateSuccessTitle": "Matomo a fost actualizat cu succes!",
+        "Updating": "Se actualizează",
         "UpgradeComplete": "Actualizare finalizată!",
         "UpgradePiwik": "Actualizează Matomo",
         "VerifyingUnpackedFiles": "Se verifică fişierele dezarchivate",

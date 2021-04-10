@@ -122,6 +122,7 @@
         "DevicesSubcategoryHelp": "Aygıtlar bölümü, ziyaretçilerin siteye erişmek için kullandığı teknolojinin anlaşılmasını sağlar. Sitenin yaygın kullanılan aygıtlara göre iyileştirilmesine yardımcı olan aygıt türü ve belirli model raporları içerir.",
         "SoftwareSubcategoryHelp": "Yazılım bölümü, ziyaretçilerin siteye erişmek için kullandığı işletim sistemlerini, tarayıcıları ve eklentileri içerir. Böylece site yaygın kullanılan yazılımlarla tam olarak uyumlu olacak şekilde iyileştirilebilir.",
         "EngagementSubcategoryHelp1": "Bağlılık arttırma bölümü, yeni ve geri gelen ziyaretçilerin ölçülmesini sağlayan raporlar içerir. Ayrıca raporlara, ortalama ziyaret süresi ve ziyaret edilen sayfa sayısı yanında bir ziyaretçinin siteyi kaç kez ziyaret ettiği ve ziyaretler arasındaki genellikle kaç gün olduğu gibi çeşitli kırılımlara göre bakabilirsiniz.",
-        "EngagementSubcategoryHelp2": "Bunlar ziyaretlerin sıklığını ve etkileşim oranını arttırarak erişimi iyileştirmeye yardımcı olabilir."
+        "EngagementSubcategoryHelp2": "Bunlar ziyaretlerin sıklığını ve etkileşim oranını arttırarak erişimi iyileştirmeye yardımcı olabilir.",
+        "PeriodHasOnlyRawData": "Bu dönemin raporları henüz işlenmemiş gibi görünüyor. Şu anda olduğunu görmek ister misiniz? %1$sZiyaret günlüğüne%2$s göz atın ya da raporlar oluşturulana kadar farklı bir tarih aralığı seçin."
     }
 }
