@@ -66,7 +66,6 @@
         "ShowTrackingTag": "zobrazit zaznamenávací tagy",
         "Sites": "Stránky",
         "SiteSearchUse": "Matomo můžete použít ke sledování a hlášení toho, co návštěvníci hledají pomocí interního vyhledávače.",
-        "SiteWithoutDataDescription": "Pro tuto stránku nebyla zatím zaznamenána žádná analytická data.",
         "SiteWithoutDataSetupTracking": "Prosím, nastavte %1$ssledovací kód%2$s uvedený níže na vašich stránkách nebo v mobilní aplikaci, pokud jste to ješště neudělali.",
         "SiteWithoutDataMessageDisappears": "Tato zpráva zmizí jakmile dojde k nahrání nějakých dat pro tento web.",
         "SiteWithoutDataIgnoreMessage": "Nezobrazovat tuto zprávu další hodinu",

@@ -15,11 +15,10 @@
 {% set informational = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL') %}
 {%- for result in results %}
 
-## {{ result.label -}}:
-{%- for item in result.items -%}
+#### {{ result.label }}:
+{% for item in result.items -%}
 {%- if item.status == error -%} &#9888; Error: {{ item.comment|anonymiseSystemInfo }}{% elseif item.status == warning %} &#9888; Warning: {{ item.comment|anonymiseSystemInfo }}{% elseif item.status == informational %} {{ item.comment|anonymiseSystemInfo }}{% else %} &#10004; {{ item.comment|anonymiseSystemInfo }}{% endif -%}
 {%- endfor %}
-
 
 {% if result.longErrorMessage -%}
 {{ result.longErrorMessage }}
@@ -28,14 +27,18 @@
 {%- endmacro %}
 <textarea style="width:100%;height: 200px;" readonly
           id="matomo_system_check_info">
-# Mandatory checks
+<details>
+<summary>Click to view System Check</summary>
+
+### Mandatory checks
 {{ local.diagnosticInfo(diagnosticReport.getMandatoryDiagnosticResults()) }}
 
-# Optional checks
+### Optional checks
 {{ local.diagnosticInfo(diagnosticReport.getOptionalDiagnosticResults()) }}
 
-# Informational results
+### Informational results
 {{ local.diagnosticInfo(diagnosticReport.getInformationalResults()) }}
+</details>
 </textarea>
 
 <table class="entityTable system-check" id="systemCheckRequired" piwik-content-table>

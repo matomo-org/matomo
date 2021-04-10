@@ -9,10 +9,12 @@
 namespace Piwik\Plugins\ScheduledReports\tests;
 
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
+use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -57,6 +59,67 @@ class ApiTest extends IntegrationTestCase
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
         FakeAccess::setIdSitesView(array($this->idSite, 2));
         APIScheduledReports::$cache = array();
+    }
+
+    public function test_sendReport_overridesParametersCorrectly()
+    {
+        $reportIds = [
+            'UserCountry_getCity',
+            'DevicesDetection_getType',
+        ];
+
+        Piwik::addAction(APIScheduledReports::GET_REPORT_TYPES_EVENT, function (&$reportTypes) {
+            $reportTypes[] = 'dummyreporttype';
+        });
+
+        Piwik::addAction(APIScheduledReports::GET_REPORT_FORMATS_EVENT, function (&$reportFormats) {
+            $reportFormats[] = 'dummyreportformat';
+        });
+
+        Piwik::addAction(APIScheduledReports::GET_REPORT_METADATA_EVENT, function (&$availableReportData, $reportType, $idSite) {
+            if ($reportType == 'dummyreporttype') {
+                $availableReportData = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
+            }
+        });
+
+        Piwik::addAction(APIScheduledReports::GET_RENDERER_INSTANCE_EVENT, function (&$reportRenderer, $reportType, $outputType, $report) {
+            if ($reportType == 'dummyrepor') { // apparently this gets cut off
+                $reportRenderer = new class() extends ReportRenderer {
+                    public function setLocale($locale) {}
+                    public function sendToDisk($filename) {
+                        $path = PIWIK_INCLUDE_PATH . '/tmp/' . $filename;
+                        file_put_contents($path, 'dummyreportdata');
+                        return $path;
+                    }
+                    public function sendToBrowserDownload($filename) {}
+                    public function sendToBrowserInline($filename) {}
+                    public function getRenderedReport() {}
+                    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment) {}
+                    public function renderReport($processedReport) {}
+                    public function getAttachments($report, $processedReports, $prettyDate) {}
+                };
+            }
+        });
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            $this->idSite, 'send report', 'never', 6, 'dummyreporttype', 'dummyreportformat',
+            $reportIds, [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]);
+
+        $eventCalledWith = [];
+        Piwik::addAction(APIScheduledReports::SEND_REPORT_EVENT, function (&$reportType, $report, $contents, $filename, $prettyDate, $reportSubject,
+                                                                           $reportTitle, $additionalFiles, $period, $force) {
+            $eventCalledWith[] = [$reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles,
+                $period->getLabel() . ' ' . $period->getRangeString(), $force];
+        });
+
+        Request::processRequest('ScheduledReports.sendReport', [
+            'idReport' => $idReport,
+            'period' => 'year',
+            'date' => '2018-02-04',
+        ]);
+
+        $expectedEventArgs = [];
+        $this->assertEquals($expectedEventArgs, $eventCalledWith);
     }
 
     /**

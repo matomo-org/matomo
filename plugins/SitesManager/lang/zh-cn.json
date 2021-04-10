@@ -74,7 +74,6 @@
         "Sites": "网站",
         "SiteSearchUse": "可以用 Matomo 跟踪统计访客站内搜索的内容。",
         "SiteWithoutDataTitle": "尚未记录数据，请在下面设置",
-        "SiteWithoutDataDescription": "这个站点没有跟踪到分析数据。",
         "SiteWithoutDataSetupTracking": "如果尚未完成，请在您的网站或移动应用中设置下面的%1$s个跟踪代码%2$s。",
         "SiteWithoutDataMessageDisappears": "跟踪此网站的某些数据后，此消息将消失。",
         "SiteWithoutDataIgnoreMessage": "下一个小时不显示此消息",

@@ -23,7 +23,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     public $idSite = 1;
     public $dateTime = '2010-01-03 01:22:33';
     public $nextDay = null;
-    public $customDimensionId;
+    public $customDimensionId = 1;
+    public $actionCustomDimensionId = 2;
 
     public function __construct()
     {
@@ -34,6 +35,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     {
         $this->setUpWebsitesAndGoals();
         $this->customDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim', 'visit', '1');
+        $this->actionCustomDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim2', 'action', '1');
 
         $this->setMockLocationProvider();
         $this->trackVisits();
@@ -169,6 +171,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
                 $t->setUrl("http://piwik.net/$visitorCounter/$actionNum");
                 $t->setForceVisitDateTime($actionDate->getDatetime());
+                $t->setCustomDimension('' . $this->actionCustomDimensionId, $i * 5 + $j);
 
                 if (!is_null($referrers)) {
                     $t->setUrlReferrer($referrers[$actionIdx]);

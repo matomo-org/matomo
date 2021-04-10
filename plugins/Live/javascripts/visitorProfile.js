@@ -156,7 +156,7 @@
             $element.on('mousedown', '.visitor-profile-export', function (e) {
                 var url = $(this).attr('href');
                 if (url.indexOf('&token_auth=') == -1) {
-                    $(this).attr('href', url + '&token_auth=' + piwik.token_auth);
+                    $(this).attr('href', url + '&force_api_session=1&token_auth=' + piwik.token_auth);
                 }
             });
 
