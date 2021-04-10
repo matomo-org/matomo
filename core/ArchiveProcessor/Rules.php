@@ -197,6 +197,11 @@ class Rules
         return !$generalConfig['browser_archiving_disabled_enforce'];
     }
 
+    public static function isArchivingEnabledFor(array $idSites, Segment $segment, $periodLabel)
+    {
+        return !self::isArchivingDisabledFor($idSites, $segment, $periodLabel);
+    }
+
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
         $generalConfig = Config::getInstance()->General;

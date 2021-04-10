@@ -117,7 +117,9 @@ class Loader
 
         // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
         // made invalid, we will correctly re-archive below.
-        if ($this->invalidateBeforeArchiving) {
+        if ($this->invalidateBeforeArchiving
+            && Rules::isBrowserTriggerEnabled()
+        ) {
             $this->invalidatedReportsIfNeeded();
         }
 
@@ -275,7 +277,7 @@ class Loader
     {
         // for range periods we can archive in a browser request request, make sure to check for the ttl no matter what
         $isRangeArchiveAndArchivingEnabled = $this->params->getPeriod()->getLabel() == 'range'
-            && !Rules::isArchivingDisabledFor([$this->params->getSite()->getId()], $this->params->getSegment(), $this->params->getPeriod()->getLabel());
+            && Rules::isArchivingEnabledFor([$this->params->getSite()->getId()], $this->params->getSegment(), $this->params->getPeriod()->getLabel());
 
         if (!$isRangeArchiveAndArchivingEnabled) {
             $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
@@ -444,7 +446,7 @@ class Loader
 
         // the archive is invalidated and we are in a browser request that is allowed archive it
         if ($value == ArchiveWriter::DONE_INVALIDATED
-            && !Rules::isArchivingDisabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
+            && Rules::isArchivingEnabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
         ) {
             // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations
             // w/o being rearchived
@@ -453,7 +455,8 @@ class Loader
             }
 
             // if coming from a browser request, and period does not contain today, force rearchiving
-            if (!$params->getPeriod()->isDateInPeriod(Date::factory('today'))) {
+            $timezone = $params->getSite()->getTimezone();
+            if (!$params->getPeriod()->isDateInPeriod(Date::factoryInTimezone('today', $timezone))) {
                 return true;
             }
 
