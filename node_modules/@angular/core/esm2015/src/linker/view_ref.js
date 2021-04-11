@@ -1,0 +1,73 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+import { ChangeDetectorRef } from '../change_detection/change_detector_ref';
+/**
+ * Represents an Angular [view](guide/glossary#view "Definition").
+ *
+ * @see {@link ChangeDetectorRef#usage-notes Change detection usage}
+ *
+ * @publicApi
+ */
+export class ViewRef extends ChangeDetectorRef {
+}
+/**
+ * Represents an Angular [view](guide/glossary#view) in a view container.
+ * An [embedded view](guide/glossary#view-tree) can be referenced from a component
+ * other than the hosting component whose template defines it, or it can be defined
+ * independently by a `TemplateRef`.
+ *
+ * Properties of elements in a view can change, but the structure (number and order) of elements in
+ * a view cannot. Change the structure of elements by inserting, moving, or
+ * removing nested views in a view container.
+ *
+ * @see `ViewContainerRef`
+ *
+ * @usageNotes
+ *
+ * The following template breaks down into two separate `TemplateRef` instances,
+ * an outer one and an inner one.
+ *
+ * ```
+ * Count: {{items.length}}
+ * <ul>
+ *   <li *ngFor="let  item of items">{{item}}</li>
+ * </ul>
+ * ```
+ *
+ * This is the outer `TemplateRef`:
+ *
+ * ```
+ * Count: {{items.length}}
+ * <ul>
+ *   <ng-template ngFor let-item [ngForOf]="items"></ng-template>
+ * </ul>
+ * ```
+ *
+ * This is the inner `TemplateRef`:
+ *
+ * ```
+ *   <li>{{item}}</li>
+ * ```
+ *
+ * The outer and inner `TemplateRef` instances are assembled into views as follows:
+ *
+ * ```
+ * <!-- ViewRef: outer-0 -->
+ * Count: 2
+ * <ul>
+ *   <ng-template view-container-ref></ng-template>
+ *   <!-- ViewRef: inner-1 --><li>first</li><!-- /ViewRef: inner-1 -->
+ *   <!-- ViewRef: inner-2 --><li>second</li><!-- /ViewRef: inner-2 -->
+ * </ul>
+ * <!-- /ViewRef: outer-0 -->
+ * ```
+ * @publicApi
+ */
+export class EmbeddedViewRef extends ViewRef {
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidmlld19yZWYuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi8uLi9wYWNrYWdlcy9jb3JlL3NyYy9saW5rZXIvdmlld19yZWYudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7OztHQU1HO0FBRUgsT0FBTyxFQUFDLGlCQUFpQixFQUFDLE1BQU0seUNBQXlDLENBQUM7QUFFMUU7Ozs7OztHQU1HO0FBQ0gsTUFBTSxPQUFnQixPQUFRLFNBQVEsaUJBQWlCO0NBbUJ0RDtBQUVEOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0dBb0RHO0FBQ0gsTUFBTSxPQUFnQixlQUFtQixTQUFRLE9BQU87Q0FVdkQiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEBsaWNlbnNlXG4gKiBDb3B5cmlnaHQgR29vZ2xlIExMQyBBbGwgUmlnaHRzIFJlc2VydmVkLlxuICpcbiAqIFVzZSBvZiB0aGlzIHNvdXJjZSBjb2RlIGlzIGdvdmVybmVkIGJ5IGFuIE1JVC1zdHlsZSBsaWNlbnNlIHRoYXQgY2FuIGJlXG4gKiBmb3VuZCBpbiB0aGUgTElDRU5TRSBmaWxlIGF0IGh0dHBzOi8vYW5ndWxhci5pby9saWNlbnNlXG4gKi9cblxuaW1wb3J0IHtDaGFuZ2VEZXRlY3RvclJlZn0gZnJvbSAnLi4vY2hhbmdlX2RldGVjdGlvbi9jaGFuZ2VfZGV0ZWN0b3JfcmVmJztcblxuLyoqXG4gKiBSZXByZXNlbnRzIGFuIEFuZ3VsYXIgW3ZpZXddKGd1aWRlL2dsb3NzYXJ5I3ZpZXcgXCJEZWZpbml0aW9uXCIpLlxuICpcbiAqIEBzZWUge0BsaW5rIENoYW5nZURldGVjdG9yUmVmI3VzYWdlLW5vdGVzIENoYW5nZSBkZXRlY3Rpb24gdXNhZ2V9XG4gKlxuICogQHB1YmxpY0FwaVxuICovXG5leHBvcnQgYWJzdHJhY3QgY2xhc3MgVmlld1JlZiBleHRlbmRzIENoYW5nZURldGVjdG9yUmVmIHtcbiAgLyoqXG4gICAqIERlc3Ryb3lzIHRoaXMgdmlldyBhbmQgYWxsIG9mIHRoZSBkYXRhIHN0cnVjdHVyZXMgYXNzb2NpYXRlZCB3aXRoIGl0LlxuICAgKi9cbiAgYWJzdHJhY3QgZGVzdHJveSgpOiB2b2lkO1xuXG4gIC8qKlxuICAgKiBSZXBvcnRzIHdoZXRoZXIgdGhpcyB2aWV3IGhhcyBiZWVuIGRlc3Ryb3llZC5cbiAgICogQHJldHVybnMgVHJ1ZSBhZnRlciB0aGUgYGRlc3Ryb3koKWAgbWV0aG9kIGhhcyBiZWVuIGNhbGxlZCwgZmFsc2Ugb3RoZXJ3aXNlLlxuICAgKi9cbiAgYWJzdHJhY3QgZ2V0IGRlc3Ryb3llZCgpOiBib29sZWFuO1xuXG4gIC8qKlxuICAgKiBBIGxpZmVjeWNsZSBob29rIHRoYXQgcHJvdmlkZXMgYWRkaXRpb25hbCBkZXZlbG9wZXItZGVmaW5lZCBjbGVhbnVwXG4gICAqIGZ1bmN0aW9uYWxpdHkgZm9yIHZpZXdzLlxuICAgKiBAcGFyYW0gY2FsbGJhY2sgQSBoYW5kbGVyIGZ1bmN0aW9uIHRoYXQgY2xlYW5zIHVwIGRldmVsb3Blci1kZWZpbmVkIGRhdGFcbiAgICogYXNzb2NpYXRlZCB3aXRoIGEgdmlldy4gQ2FsbGVkIHdoZW4gdGhlIGBkZXN0cm95KClgIG1ldGhvZCBpcyBpbnZva2VkLlxuICAgKi9cbiAgYWJzdHJhY3Qgb25EZXN0cm95KGNhbGxiYWNrOiBGdW5jdGlvbik6IGFueSAvKiogVE9ETyAjOTEwMCAqLztcbn1cblxuLyoqXG4gKiBSZXByZXNlbnRzIGFuIEFuZ3VsYXIgW3ZpZXddKGd1aWRlL2dsb3NzYXJ5I3ZpZXcpIGluIGEgdmlldyBjb250YWluZXIuXG4gKiBBbiBbZW1iZWRkZWQgdmlld10oZ3VpZGUvZ2xvc3Nhcnkjdmlldy10cmVlKSBjYW4gYmUgcmVmZXJlbmNlZCBmcm9tIGEgY29tcG9uZW50XG4gKiBvdGhlciB0aGFuIHRoZSBob3N0aW5nIGNvbXBvbmVudCB3aG9zZSB0ZW1wbGF0ZSBkZWZpbmVzIGl0LCBvciBpdCBjYW4gYmUgZGVmaW5lZFxuICogaW5kZXBlbmRlbnRseSBieSBhIGBUZW1wbGF0ZVJlZmAuXG4gKlxuICogUHJvcGVydGllcyBvZiBlbGVtZW50cyBpbiBhIHZpZXcgY2FuIGNoYW5nZSwgYnV0IHRoZSBzdHJ1Y3R1cmUgKG51bWJlciBhbmQgb3JkZXIpIG9mIGVsZW1lbnRzIGluXG4gKiBhIHZpZXcgY2Fubm90LiBDaGFuZ2UgdGhlIHN0cnVjdHVyZSBvZiBlbGVtZW50cyBieSBpbnNlcnRpbmcsIG1vdmluZywgb3JcbiAqIHJlbW92aW5nIG5lc3RlZCB2aWV3cyBpbiBhIHZpZXcgY29udGFpbmVyLlxuICpcbiAqIEBzZWUgYFZpZXdDb250YWluZXJSZWZgXG4gKlxuICogQHVzYWdlTm90ZXNcbiAqXG4gKiBUaGUgZm9sbG93aW5nIHRlbXBsYXRlIGJyZWFrcyBkb3duIGludG8gdHdvIHNlcGFyYXRlIGBUZW1wbGF0ZVJlZmAgaW5zdGFuY2VzLFxuICogYW4gb3V0ZXIgb25lIGFuZCBhbiBpbm5lciBvbmUuXG4gKlxuICogYGBgXG4gKiBDb3VudDoge3tpdGVtcy5sZW5ndGh9fVxuICogPHVsPlxuICogICA8bGkgKm5nRm9yPVwibGV0ICBpdGVtIG9mIGl0ZW1zXCI+e3tpdGVtfX08L2xpPlxuICogPC91bD5cbiAqIGBgYFxuICpcbiAqIFRoaXMgaXMgdGhlIG91dGVyIGBUZW1wbGF0ZVJlZmA6XG4gKlxuICogYGBgXG4gKiBDb3VudDoge3tpdGVtcy5sZW5ndGh9fVxuICogPHVsPlxuICogICA8bmctdGVtcGxhdGUgbmdGb3IgbGV0LWl0ZW0gW25nRm9yT2ZdPVwiaXRlbXNcIj48L25nLXRlbXBsYXRlPlxuICogPC91bD5cbiAqIGBgYFxuICpcbiAqIFRoaXMgaXMgdGhlIGlubmVyIGBUZW1wbGF0ZVJlZmA6XG4gKlxuICogYGBgXG4gKiAgIDxsaT57e2l0ZW19fTwvbGk+XG4gKiBgYGBcbiAqXG4gKiBUaGUgb3V0ZXIgYW5kIGlubmVyIGBUZW1wbGF0ZVJlZmAgaW5zdGFuY2VzIGFyZSBhc3NlbWJsZWQgaW50byB2aWV3cyBhcyBmb2xsb3dzOlxuICpcbiAqIGBgYFxuICogPCEtLSBWaWV3UmVmOiBvdXRlci0wIC0tPlxuICogQ291bnQ6IDJcbiAqIDx1bD5cbiAqICAgPG5nLXRlbXBsYXRlIHZpZXctY29udGFpbmVyLXJlZj48L25nLXRlbXBsYXRlPlxuICogICA8IS0tIFZpZXdSZWY6IGlubmVyLTEgLS0+PGxpPmZpcnN0PC9saT48IS0tIC9WaWV3UmVmOiBpbm5lci0xIC0tPlxuICogICA8IS0tIFZpZXdSZWY6IGlubmVyLTIgLS0+PGxpPnNlY29uZDwvbGk+PCEtLSAvVmlld1JlZjogaW5uZXItMiAtLT5cbiAqIDwvdWw+XG4gKiA8IS0tIC9WaWV3UmVmOiBvdXRlci0wIC0tPlxuICogYGBgXG4gKiBAcHVibGljQXBpXG4gKi9cbmV4cG9ydCBhYnN0cmFjdCBjbGFzcyBFbWJlZGRlZFZpZXdSZWY8Qz4gZXh0ZW5kcyBWaWV3UmVmIHtcbiAgLyoqXG4gICAqIFRoZSBjb250ZXh0IGZvciB0aGlzIHZpZXcsIGluaGVyaXRlZCBmcm9tIHRoZSBhbmNob3IgZWxlbWVudC5cbiAgICovXG4gIGFic3RyYWN0IGdldCBjb250ZXh0KCk6IEM7XG5cbiAgLyoqXG4gICAqIFRoZSByb290IG5vZGVzIGZvciB0aGlzIGVtYmVkZGVkIHZpZXcuXG4gICAqL1xuICBhYnN0cmFjdCBnZXQgcm9vdE5vZGVzKCk6IGFueVtdO1xufVxuXG5leHBvcnQgaW50ZXJmYWNlIEludGVybmFsVmlld1JlZiBleHRlbmRzIFZpZXdSZWYge1xuICBkZXRhY2hGcm9tQXBwUmVmKCk6IHZvaWQ7XG4gIGF0dGFjaFRvQXBwUmVmKGFwcFJlZjogVmlld1JlZlRyYWNrZXIpOiB2b2lkO1xufVxuXG4vKipcbiAqIEludGVyZmFjZSBmb3IgdHJhY2tpbmcgcm9vdCBgVmlld1JlZmBzIGluIGBBcHBsaWNhdGlvblJlZmAuXG4gKlxuICogTk9URTogSW1wb3J0aW5nIGBBcHBsaWNhdGlvblJlZmAgaGVyZSBkaXJlY3RseSBjcmVhdGVzIGNpcmN1bGFyIGRlcGVuZGVuY3ksIHdoaWNoIGlzIHdoeSB3ZSBoYXZlXG4gKiBhIHN1YnNldCBvZiB0aGUgYEFwcGxpY2F0aW9uUmVmYCBpbnRlcmZhY2UgYFZpZXdSZWZUcmFja2VyYCBoZXJlLlxuICovXG5leHBvcnQgaW50ZXJmYWNlIFZpZXdSZWZUcmFja2VyIHtcbiAgZGV0YWNoVmlldyh2aWV3UmVmOiBWaWV3UmVmKTogdm9pZDtcbn1cbiJdfQ==

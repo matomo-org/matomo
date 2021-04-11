@@ -1,0 +1,23 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+import { CompileReflector, core, DirectiveResolver } from '@angular/compiler';
+/**
+ * An implementation of {@link DirectiveResolver} that allows overriding
+ * various properties of directives.
+ */
+export declare class MockDirectiveResolver extends DirectiveResolver {
+    private _directives;
+    constructor(reflector: CompileReflector);
+    resolve(type: core.Type): core.Directive;
+    resolve(type: core.Type, throwIfNotFound: true): core.Directive;
+    resolve(type: core.Type, throwIfNotFound: boolean): core.Directive | null;
+    /**
+     * Overrides the {@link core.Directive} for a directive.
+     */
+    setDirective(type: core.Type, metadata: core.Directive): void;
+}

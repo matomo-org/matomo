@@ -1,0 +1,10 @@
+{
+  "name": "@angular/platform-browser/animations",
+  "sideEffects": false,
+  "main": "../bundles/platform-browser-animations.umd.js",
+  "fesm2015": "../fesm2015/animations.js",
+  "esm2015": "../esm2015/animations/animations.js",
+  "typings": "./animations.d.ts",
+  "module": "../fesm2015/animations.js",
+  "es2015": "../fesm2015/animations.js"
+}

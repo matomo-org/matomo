@@ -1,0 +1,23 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+import { initNgDevMode } from '../util/ng_dev_mode';
+/**
+ * This file contains reuseable "empty" symbols that can be used as default return values
+ * in different parts of the rendering code. Because the same symbols are returned, this
+ * allows for identity checks against these values to be consistently used by the framework
+ * code.
+ */
+export const EMPTY_ARRAY = [];
+// freezing the values prevents any code from accidentally inserting new values in
+if ((typeof ngDevMode === 'undefined' || ngDevMode) && initNgDevMode()) {
+    // These property accesses can be ignored because ngDevMode will be set to false
+    // when optimizing code and the whole if statement will be dropped.
+    // tslint:disable-next-line:no-toplevel-property-access
+    Object.freeze(EMPTY_ARRAY);
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZW1wdHkuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi8uLi9wYWNrYWdlcy9jb3JlL3NyYy9yZW5kZXIzL2VtcHR5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7R0FNRztBQUNILE9BQU8sRUFBQyxhQUFhLEVBQUMsTUFBTSxxQkFBcUIsQ0FBQztBQUVsRDs7Ozs7R0FLRztBQUVILE1BQU0sQ0FBQyxNQUFNLFdBQVcsR0FBVSxFQUFFLENBQUM7QUFFckMsa0ZBQWtGO0FBQ2xGLElBQUksQ0FBQyxPQUFPLFNBQVMsS0FBSyxXQUFXLElBQUksU0FBUyxDQUFDLElBQUksYUFBYSxFQUFFLEVBQUU7SUFDdEUsZ0ZBQWdGO0lBQ2hGLG1FQUFtRTtJQUNuRSx1REFBdUQ7SUFDdkQsTUFBTSxDQUFDLE1BQU0sQ0FBQyxXQUFXLENBQUMsQ0FBQztDQUM1QiIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQGxpY2Vuc2VcbiAqIENvcHlyaWdodCBHb29nbGUgTExDIEFsbCBSaWdodHMgUmVzZXJ2ZWQuXG4gKlxuICogVXNlIG9mIHRoaXMgc291cmNlIGNvZGUgaXMgZ292ZXJuZWQgYnkgYW4gTUlULXN0eWxlIGxpY2Vuc2UgdGhhdCBjYW4gYmVcbiAqIGZvdW5kIGluIHRoZSBMSUNFTlNFIGZpbGUgYXQgaHR0cHM6Ly9hbmd1bGFyLmlvL2xpY2Vuc2VcbiAqL1xuaW1wb3J0IHtpbml0TmdEZXZNb2RlfSBmcm9tICcuLi91dGlsL25nX2Rldl9tb2RlJztcblxuLyoqXG4gKiBUaGlzIGZpbGUgY29udGFpbnMgcmV1c2VhYmxlIFwiZW1wdHlcIiBzeW1ib2xzIHRoYXQgY2FuIGJlIHVzZWQgYXMgZGVmYXVsdCByZXR1cm4gdmFsdWVzXG4gKiBpbiBkaWZmZXJlbnQgcGFydHMgb2YgdGhlIHJlbmRlcmluZyBjb2RlLiBCZWNhdXNlIHRoZSBzYW1lIHN5bWJvbHMgYXJlIHJldHVybmVkLCB0aGlzXG4gKiBhbGxvd3MgZm9yIGlkZW50aXR5IGNoZWNrcyBhZ2FpbnN0IHRoZXNlIHZhbHVlcyB0byBiZSBjb25zaXN0ZW50bHkgdXNlZCBieSB0aGUgZnJhbWV3b3JrXG4gKiBjb2RlLlxuICovXG5cbmV4cG9ydCBjb25zdCBFTVBUWV9BUlJBWTogYW55W10gPSBbXTtcblxuLy8gZnJlZXppbmcgdGhlIHZhbHVlcyBwcmV2ZW50cyBhbnkgY29kZSBmcm9tIGFjY2lkZW50YWxseSBpbnNlcnRpbmcgbmV3IHZhbHVlcyBpblxuaWYgKCh0eXBlb2YgbmdEZXZNb2RlID09PSAndW5kZWZpbmVkJyB8fCBuZ0Rldk1vZGUpICYmIGluaXROZ0Rldk1vZGUoKSkge1xuICAvLyBUaGVzZSBwcm9wZXJ0eSBhY2Nlc3NlcyBjYW4gYmUgaWdub3JlZCBiZWNhdXNlIG5nRGV2TW9kZSB3aWxsIGJlIHNldCB0byBmYWxzZVxuICAvLyB3aGVuIG9wdGltaXppbmcgY29kZSBhbmQgdGhlIHdob2xlIGlmIHN0YXRlbWVudCB3aWxsIGJlIGRyb3BwZWQuXG4gIC8vIHRzbGludDpkaXNhYmxlLW5leHQtbGluZTpuby10b3BsZXZlbC1wcm9wZXJ0eS1hY2Nlc3NcbiAgT2JqZWN0LmZyZWV6ZShFTVBUWV9BUlJBWSk7XG59XG4iXX0=

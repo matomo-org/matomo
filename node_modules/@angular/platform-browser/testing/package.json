@@ -1,0 +1,9 @@
+{
+  "name": "@angular/platform-browser/testing",
+  "main": "../bundles/platform-browser-testing.umd.js",
+  "fesm2015": "../fesm2015/testing.js",
+  "esm2015": "../esm2015/testing/testing.js",
+  "typings": "./testing.d.ts",
+  "module": "../fesm2015/testing.js",
+  "es2015": "../fesm2015/testing.js"
+}

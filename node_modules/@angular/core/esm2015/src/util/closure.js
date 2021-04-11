@@ -1,0 +1,20 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Convince closure compiler that the wrapped function has no side-effects.
+ *
+ * Closure compiler always assumes that `toString` has no side-effects. We use this quirk to
+ * allow us to execute a function but have closure compiler mark the call as no-side-effects.
+ * It is important that the return value for the `noSideEffects` function be assigned
+ * to something which is retained otherwise the call to `noSideEffects` will be removed by closure
+ * compiler.
+ */
+export function noSideEffects(fn) {
+    return { toString: fn }.toString();
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2xvc3VyZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL3BhY2thZ2VzL2NvcmUvc3JjL3V0aWwvY2xvc3VyZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7O0dBTUc7QUFFSDs7Ozs7Ozs7R0FRRztBQUNILE1BQU0sVUFBVSxhQUFhLENBQUksRUFBVztJQUMxQyxPQUFPLEVBQUMsUUFBUSxFQUFFLEVBQUUsRUFBQyxDQUFDLFFBQVEsRUFBa0IsQ0FBQztBQUNuRCxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBAbGljZW5zZVxuICogQ29weXJpZ2h0IEdvb2dsZSBMTEMgQWxsIFJpZ2h0cyBSZXNlcnZlZC5cbiAqXG4gKiBVc2Ugb2YgdGhpcyBzb3VyY2UgY29kZSBpcyBnb3Zlcm5lZCBieSBhbiBNSVQtc3R5bGUgbGljZW5zZSB0aGF0IGNhbiBiZVxuICogZm91bmQgaW4gdGhlIExJQ0VOU0UgZmlsZSBhdCBodHRwczovL2FuZ3VsYXIuaW8vbGljZW5zZVxuICovXG5cbi8qKlxuICogQ29udmluY2UgY2xvc3VyZSBjb21waWxlciB0aGF0IHRoZSB3cmFwcGVkIGZ1bmN0aW9uIGhhcyBubyBzaWRlLWVmZmVjdHMuXG4gKlxuICogQ2xvc3VyZSBjb21waWxlciBhbHdheXMgYXNzdW1lcyB0aGF0IGB0b1N0cmluZ2AgaGFzIG5vIHNpZGUtZWZmZWN0cy4gV2UgdXNlIHRoaXMgcXVpcmsgdG9cbiAqIGFsbG93IHVzIHRvIGV4ZWN1dGUgYSBmdW5jdGlvbiBidXQgaGF2ZSBjbG9zdXJlIGNvbXBpbGVyIG1hcmsgdGhlIGNhbGwgYXMgbm8tc2lkZS1lZmZlY3RzLlxuICogSXQgaXMgaW1wb3J0YW50IHRoYXQgdGhlIHJldHVybiB2YWx1ZSBmb3IgdGhlIGBub1NpZGVFZmZlY3RzYCBmdW5jdGlvbiBiZSBhc3NpZ25lZFxuICogdG8gc29tZXRoaW5nIHdoaWNoIGlzIHJldGFpbmVkIG90aGVyd2lzZSB0aGUgY2FsbCB0byBgbm9TaWRlRWZmZWN0c2Agd2lsbCBiZSByZW1vdmVkIGJ5IGNsb3N1cmVcbiAqIGNvbXBpbGVyLlxuICovXG5leHBvcnQgZnVuY3Rpb24gbm9TaWRlRWZmZWN0czxUPihmbjogKCkgPT4gVCk6IFQge1xuICByZXR1cm4ge3RvU3RyaW5nOiBmbn0udG9TdHJpbmcoKSBhcyB1bmtub3duIGFzIFQ7XG59XG4iXX0=

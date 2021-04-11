@@ -1,0 +1,9 @@
+{
+  "name": "@angular/animations/browser/testing",
+  "main": "../../bundles/animations-browser-testing.umd.js",
+  "fesm2015": "../../fesm2015/browser/testing.js",
+  "esm2015": "../../esm2015/browser/testing/testing.js",
+  "typings": "./testing.d.ts",
+  "module": "../../fesm2015/browser/testing.js",
+  "es2015": "../../fesm2015/browser/testing.js"
+}

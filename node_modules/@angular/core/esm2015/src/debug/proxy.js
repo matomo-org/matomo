@@ -1,0 +1,23 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+import { global } from '../util/global';
+/**
+ * Creates an instance of a `Proxy` and creates with an empty target object and binds it to the
+ * provided handler.
+ *
+ * The reason why this function exists is because IE doesn't support
+ * the `Proxy` class. For this reason an error must be thrown.
+ */
+export function createProxy(handler) {
+    const g = global;
+    if (!g.Proxy) {
+        throw new Error('Proxy is not supported in this browser');
+    }
+    return new g.Proxy({}, handler);
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHJveHkuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi8uLi9wYWNrYWdlcy9jb3JlL3NyYy9kZWJ1Zy9wcm94eS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7O0dBTUc7QUFDSCxPQUFPLEVBQUMsTUFBTSxFQUFDLE1BQU0sZ0JBQWdCLENBQUM7QUFTdEM7Ozs7OztHQU1HO0FBQ0gsTUFBTSxVQUFVLFdBQVcsQ0FBQyxPQUEwQjtJQUNwRCxNQUFNLENBQUMsR0FBRyxNQUFnQyxDQUFDO0lBQzNDLElBQUksQ0FBQyxDQUFDLENBQUMsS0FBSyxFQUFFO1FBQ1osTUFBTSxJQUFJLEtBQUssQ0FBQyx3Q0FBd0MsQ0FBQyxDQUFDO0tBQzNEO0lBQ0QsT0FBTyxJQUFJLENBQUMsQ0FBQyxLQUFLLENBQUMsRUFBRSxFQUFFLE9BQU8sQ0FBQyxDQUFDO0FBQ2xDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEBsaWNlbnNlXG4gKiBDb3B5cmlnaHQgR29vZ2xlIExMQyBBbGwgUmlnaHRzIFJlc2VydmVkLlxuICpcbiAqIFVzZSBvZiB0aGlzIHNvdXJjZSBjb2RlIGlzIGdvdmVybmVkIGJ5IGFuIE1JVC1zdHlsZSBsaWNlbnNlIHRoYXQgY2FuIGJlXG4gKiBmb3VuZCBpbiB0aGUgTElDRU5TRSBmaWxlIGF0IGh0dHBzOi8vYW5ndWxhci5pby9saWNlbnNlXG4gKi9cbmltcG9ydCB7Z2xvYmFsfSBmcm9tICcuLi91dGlsL2dsb2JhbCc7XG5cbi8qKlxuICogVXNlZCB0byBpbmZvcm0gVFMgYWJvdXQgdGhlIGBQcm94eWAgY2xhc3MgZXhpc3RpbmcgZ2xvYmFsbHkuXG4gKi9cbmludGVyZmFjZSBHbG9iYWxXaXRoUHJveHkge1xuICBQcm94eTogdHlwZW9mIFByb3h5O1xufVxuXG4vKipcbiAqIENyZWF0ZXMgYW4gaW5zdGFuY2Ugb2YgYSBgUHJveHlgIGFuZCBjcmVhdGVzIHdpdGggYW4gZW1wdHkgdGFyZ2V0IG9iamVjdCBhbmQgYmluZHMgaXQgdG8gdGhlXG4gKiBwcm92aWRlZCBoYW5kbGVyLlxuICpcbiAqIFRoZSByZWFzb24gd2h5IHRoaXMgZnVuY3Rpb24gZXhpc3RzIGlzIGJlY2F1c2UgSUUgZG9lc24ndCBzdXBwb3J0XG4gKiB0aGUgYFByb3h5YCBjbGFzcy4gRm9yIHRoaXMgcmVhc29uIGFuIGVycm9yIG11c3QgYmUgdGhyb3duLlxuICovXG5leHBvcnQgZnVuY3Rpb24gY3JlYXRlUHJveHkoaGFuZGxlcjogUHJveHlIYW5kbGVyPGFueT4pOiB7fSB7XG4gIGNvbnN0IGcgPSBnbG9iYWwgYXMgYW55IGFzIEdsb2JhbFdpdGhQcm94eTtcbiAgaWYgKCFnLlByb3h5KSB7XG4gICAgdGhyb3cgbmV3IEVycm9yKCdQcm94eSBpcyBub3Qgc3VwcG9ydGVkIGluIHRoaXMgYnJvd3NlcicpO1xuICB9XG4gIHJldHVybiBuZXcgZy5Qcm94eSh7fSwgaGFuZGxlcik7XG59XG4iXX0=

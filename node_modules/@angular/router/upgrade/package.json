@@ -1,0 +1,10 @@
+{
+  "name": "@angular/router/upgrade",
+  "sideEffects": false,
+  "main": "../bundles/router-upgrade.umd.js",
+  "fesm2015": "../fesm2015/upgrade.js",
+  "esm2015": "../esm2015/upgrade/upgrade.js",
+  "typings": "./upgrade.d.ts",
+  "module": "../fesm2015/upgrade.js",
+  "es2015": "../fesm2015/upgrade.js"
+}

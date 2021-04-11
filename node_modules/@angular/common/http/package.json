@@ -1,0 +1,10 @@
+{
+  "name": "@angular/common/http",
+  "sideEffects": false,
+  "main": "../bundles/common-http.umd.js",
+  "fesm2015": "../fesm2015/http.js",
+  "esm2015": "../esm2015/http/http.js",
+  "typings": "./http.d.ts",
+  "module": "../fesm2015/http.js",
+  "es2015": "../fesm2015/http.js"
+}

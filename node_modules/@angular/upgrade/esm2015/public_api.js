@@ -1,0 +1,17 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @module
+ * @description
+ * Entry point for all public APIs of this package. allowing
+ * Angular 1 and Angular 2+ to run side by side in the same application.
+ */
+export { VERSION } from './src/common/src/version';
+export { UpgradeAdapter, UpgradeAdapterRef } from './src/dynamic/src/upgrade_adapter';
+// This file only re-exports content of the `src` folder. Keep it that way.
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3BhY2thZ2VzL3VwZ3JhZGUvcHVibGljX2FwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7O0dBTUc7QUFFSDs7Ozs7R0FLRztBQUNILE9BQU8sRUFBQyxPQUFPLEVBQUMsTUFBTSwwQkFBMEIsQ0FBQztBQUNqRCxPQUFPLEVBQUMsY0FBYyxFQUFFLGlCQUFpQixFQUFDLE1BQU0sbUNBQW1DLENBQUM7QUFFcEYsMkVBQTJFIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBAbGljZW5zZVxuICogQ29weXJpZ2h0IEdvb2dsZSBMTEMgQWxsIFJpZ2h0cyBSZXNlcnZlZC5cbiAqXG4gKiBVc2Ugb2YgdGhpcyBzb3VyY2UgY29kZSBpcyBnb3Zlcm5lZCBieSBhbiBNSVQtc3R5bGUgbGljZW5zZSB0aGF0IGNhbiBiZVxuICogZm91bmQgaW4gdGhlIExJQ0VOU0UgZmlsZSBhdCBodHRwczovL2FuZ3VsYXIuaW8vbGljZW5zZVxuICovXG5cbi8qKlxuICogQG1vZHVsZVxuICogQGRlc2NyaXB0aW9uXG4gKiBFbnRyeSBwb2ludCBmb3IgYWxsIHB1YmxpYyBBUElzIG9mIHRoaXMgcGFja2FnZS4gYWxsb3dpbmdcbiAqIEFuZ3VsYXIgMSBhbmQgQW5ndWxhciAyKyB0byBydW4gc2lkZSBieSBzaWRlIGluIHRoZSBzYW1lIGFwcGxpY2F0aW9uLlxuICovXG5leHBvcnQge1ZFUlNJT059IGZyb20gJy4vc3JjL2NvbW1vbi9zcmMvdmVyc2lvbic7XG5leHBvcnQge1VwZ3JhZGVBZGFwdGVyLCBVcGdyYWRlQWRhcHRlclJlZn0gZnJvbSAnLi9zcmMvZHluYW1pYy9zcmMvdXBncmFkZV9hZGFwdGVyJztcblxuLy8gVGhpcyBmaWxlIG9ubHkgcmUtZXhwb3J0cyBjb250ZW50IG9mIHRoZSBgc3JjYCBmb2xkZXIuIEtlZXAgaXQgdGhhdCB3YXkuXG4iXX0=
