@@ -84,6 +84,65 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class), new NullLogger());
     }
 
+    public function test_markArchivesAsInvalidated_doesNotInvalidatePartialArchives()
+    {
+        $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'week', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'month', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'year', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
+        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-03'], 'day',
+            null, $cascadeDown = true, false);
+
+        $invalidatedArchives = $this->getInvalidatedArchives();
+        $this->assertEmpty($invalidatedArchives);
+
+        $expectedInvalidations = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-03',
+                'date2' => '2020-03-03',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '2',
+                'name' => 'done',
+                'date1' => '2020-03-02',
+                'date2' => '2020-03-08',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '3',
+                'name' => 'done',
+                'date1' => '2020-03-01',
+                'date2' => '2020-03-31',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '4',
+                'name' => 'done',
+                'date1' => '2020-01-01',
+                'date2' => '2020-12-31',
+                'report' => null,
+            ],
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
     public function test_reArchiveReport_doesNothingIfIniSettingSetToZero()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
