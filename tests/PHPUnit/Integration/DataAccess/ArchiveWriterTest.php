@@ -49,29 +49,6 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->idSite = Fixture::createWebsite('2019-08-29');
     }
 
-    public function test_finalizeArchive_doesNotAllowCreatingPartialArchiveForAllPluginsArchive()
-    {
-        Date::$now = strtotime('2020-04-05 03:00:00');
-
-        $period = 'day';
-        $date = '2019-08-29';
-
-        $segment = 'browserCode==ff';
-
-        Rules::setBrowserTriggerArchiving(false);
-        API::getInstance()->add('customsegment', $segment, $this->idSite, $autoArchive = 1);
-        Rules::setBrowserTriggerArchiving(true);
-
-        $writer = $this->buildWriter($period, $date, $isPartial = true, $segment);
-        $writer->initNewArchive();
-        $writer->finalizeArchive();
-
-        $expected = [
-            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done' . md5($segment), 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-04-05 03:00:00'],
-        ];
-        $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
-    }
-
     public function test_finalizeArchive_removesOldArchivesIfNotPartial()
     {
         Date::$now = strtotime('2020-04-05 03:00:00');
