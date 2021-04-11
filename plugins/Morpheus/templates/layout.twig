@@ -31,6 +31,7 @@
         {% endblock %}
     </head>
     <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
+        {{ postEvent('Template.bodyTop' ) }}
 
     {% block body %}
 
@@ -53,5 +54,7 @@
         </div>
 
         {% include "@CoreHome/_adblockDetect.twig" %}
+
+        {{ postEvent('Template.bodyBottom' ) }}
     </body>
 </html>

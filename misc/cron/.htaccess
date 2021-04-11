@@ -1,5 +1,27 @@
 # Allow direct web access to Web cron
-<Files "archive.php">
-	Order Allow,Deny
-	Allow from all
-</Files>
+<IfModule mod_version.c>
+        <IfVersion < 2.4>
+                <Files "archive.php">
+                        Order Allow,Deny
+                        Allow from all
+                </Files>
+        </IfVersion>
+        <IfVersion >= 2.4>
+                <Files "archive.php">
+                        Require all granted
+                </Files>
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+        <IfModule !mod_authz_core.c>
+                <Files "archive.php">
+                        Order Allow,Deny
+                        Allow from all
+                </Files>
+        </IfModule>
+	<IfModule mod_authz_core.c>
+                <Files "archive.php">
+                        Require all granted
+                </Files>
+        </IfModule>
+</IfModule>

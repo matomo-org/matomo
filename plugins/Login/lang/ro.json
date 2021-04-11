@@ -7,6 +7,7 @@
         "InvalidOrExpiredToken": "Jetonul este invalid sau expirat.",
         "InvalidUsernameEmail": "Nume sau adresa email invalidă.",
         "LogIn": "Intrare",
+        "LoginOrEmail": "Nume utilizator sau Email",
         "LoginPasswordNotCorrect": "Numele sau parola sunt greşite.",
         "LostYourPassword": "Ai pierdut parola?",
         "MailTopicPasswordChange": "Confirmă schimbarea parolei",
