@@ -288,7 +288,7 @@ class ArchiveTest extends IntegrationTestCase
 
     protected static function configureFixture($fixture)
     {
-        parent::configureFixture($fixture); // TODO: document in t
+        parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
     }
 }

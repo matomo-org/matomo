@@ -155,6 +155,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
         }
 
         unset($result[4]);
+        $result = array_values($result);
 
         $this->assertEquals($expected, $result);
     }
@@ -174,7 +175,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 true,
-                [false, false, false, false],
+                [false, false, false, false, false],
             ],
             [
                 'day',
@@ -187,7 +188,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 true,
-                [false, false, false, false],
+                [false, false, false, false, false],
             ],
 
             // value is not valid
@@ -203,7 +204,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, true, '99'],
             ],
             [
                 'day',
@@ -219,7 +220,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 0, 0, true],
+                [false, 0, 0, true, '99'],
             ],
             [
                 'day',
@@ -232,7 +233,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 20, 40, true],
+                [false, 20, 40, true, false],
             ],
             [
                 'day',
@@ -245,7 +246,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 30, 50, true],
+                [false, 30, 50, true, false],
             ],
             [
                 'day',
@@ -259,7 +260,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, true, false],
             ],
 
             // archive is too old
@@ -273,7 +274,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true],
+                [false, false, false, true, '1'],
             ],
             [
                 'day',
@@ -287,7 +288,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 1, false, true],
+                [false, 1, false, true, '1'],
             ],
 
             // no archive done flags, but metric
@@ -301,7 +302,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, false],
+                [false, false, false, false, false],
             ],
             [
                 'day',
@@ -314,7 +315,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, false],
+                [false, false, false, false, false],
             ],
 
             // archive exists and is usable
@@ -327,7 +328,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [[1], 0, 0, true],
+                [[1], 0, 0, true, '1'],
             ],
             [
                 'day',
@@ -340,7 +341,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [[1], 5, 10, true],
+                [[1], 5, 10, true, '1'],
             ],
 
             // range archive, valid
@@ -355,7 +356,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [[1], 5, 10, true],
+                [[1], 5, 10, true, '1'],
             ],
 
             // range archive, invalid
@@ -370,10 +371,8 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 5, 10, true], // forcing archiving since invalid + browser archiving of ranges allowed
+                [false, 5, 10, true, '4'], // forcing archiving since invalid + browser archiving of ranges allowed
             ],
-
-            // TODO: add tests for changes to ArchiveSelector
         ];
     }
 
