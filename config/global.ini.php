@@ -286,6 +286,7 @@ allow_adding_segments_for_all_websites = 1
 ;                              "segment_last_edit_time" (start date of archiving will be the earliest last edit date found,
 ;                                                        if none is found, the created date is used)
 ;                              "segment_creation_time" (start date of archiving will be the creation date of the segment)
+;                              editLastN where N is an integer (eg "editLast10" to archive for 10 days before the segment last edit date)
 ;                              lastN where N is an integer (eg "last10" to archive for 10 days before the segment creation date)
 process_new_segments_from = "beginning_of_time"
 

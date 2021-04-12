@@ -83,6 +83,13 @@ class SegmentArchivingTest extends IntegrationTestCase
                 '2020-05-13',
             ],
 
+            // editLastN
+            [
+                'editLast30',
+                ['ts_created' => '2020-06-12 05:00:00', 'ts_last_edit' => '2020-09-13 05:15:15'],
+                '2020-08-14',
+            ],
+
             // beginning of time
             [
                 SegmentArchiving::BEGINNING_OF_TIME,
