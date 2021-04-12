@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SEO\tests\Integration;
 
 use Piwik\DataTable\Renderer;
+use Piwik\Piwik;
 use Piwik\Plugins\SEO\API;
 use Exception;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -46,16 +47,13 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        try {
-            $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
-        } catch(Exception $e) {
-            $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
-        }
+        $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
         $renderer = Renderer::factory('json');
         $renderer->setTable($dataTable);
         $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
-            if ($rank["id"] == "alexa") { // alexa is broken at the moment
+            if ($rank['rank'] == Piwik::translate('General_Error')) {
+                $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
             $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
