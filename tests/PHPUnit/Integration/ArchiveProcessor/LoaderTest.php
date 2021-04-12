@@ -1054,7 +1054,7 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertEquals([false, false, false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false, false, false], $archiveInfo);
     }
 
     /**
@@ -1073,13 +1073,14 @@ class LoaderTest extends IntegrationTestCase
         $this->assertNotEmpty($archiveInfo[4]);
         $this->assertLessThanOrEqual(time(), strtotime($archiveInfo[4]));
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertNotEquals([false, false, false, false], $archiveInfo);
+        $this->assertNotEquals([false, false, false, false, false, false], $archiveInfo);
 
         Config::getInstance()->Debug[$configSetting] = 1;
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false, false, false], $archiveInfo);
     }
 
     public function getTestDataForLoadExistingArchiveIdFromDbDebugConfig()
@@ -1104,8 +1105,9 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertEquals([['1'], '10', '0', true], $archiveInfo);
+        $this->assertEquals([['1'], '10', '0', true, '1'], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
@@ -1119,8 +1121,9 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertEquals([['1'], '10', '0', true], $archiveInfo);
+        $this->assertEquals([['1'], '10', '0', true, '1'], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
@@ -1134,8 +1137,9 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertEquals([false, '10', '0', true], $archiveInfo); // visits are still returned as this was the original behavior
+        $this->assertEquals([false, '10', '0', true, '1'], $archiveInfo); // visits are still returned as this was the original behavior
     }
 
     /**

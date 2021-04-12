@@ -25,6 +25,7 @@ use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -74,6 +75,11 @@ abstract class SystemTestCase extends TestCase
     public static function setUpBeforeClass(): void
     {
         Log::debug("Setting up " . get_called_class());
+
+        // NOTE: it is important to reference this class in a test framework class like Fixture so the mocks
+        // will be loaded before any testable classed load, otherwise some tests may fail w/o any obvious reason.
+        // (the actual reason being )
+        MockFileMethods::reset();
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();

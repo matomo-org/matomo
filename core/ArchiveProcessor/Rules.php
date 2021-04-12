@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
@@ -194,6 +195,11 @@ class Rules
     {
         $generalConfig = Config::getInstance()->General;
         return !$generalConfig['browser_archiving_disabled_enforce'];
+    }
+
+    public static function isArchivingEnabledFor(array $idSites, Segment $segment, $periodLabel)
+    {
+        return !self::isArchivingDisabledFor($idSites, $segment, $periodLabel);
     }
 
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
