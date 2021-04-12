@@ -85,7 +85,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
-        
+
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);
         }

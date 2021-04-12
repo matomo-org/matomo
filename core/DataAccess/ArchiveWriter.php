@@ -12,9 +12,11 @@ use Exception;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class is used to create a new Archive.
@@ -165,6 +167,8 @@ class ArchiveWriter
         $idArchive    = $this->getIdArchive();
 
         $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
+        $this->checkDoneValueIsOnlyPartialForPluginArchives($doneValue); // check and log
+
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
         if (!$this->parameters->isPartialArchive()
@@ -332,5 +336,18 @@ class ArchiveWriter
     private function isRecordNumeric($value)
     {
         return is_numeric($value);
+    }
+
+    private function checkDoneValueIsOnlyPartialForPluginArchives($doneValue)
+    {
+        // if the done flag is not like done%.PluginName, then it shouldn't be a partial archive.
+        // log a warning.
+        if ($doneValue == self::DONE_PARTIAL && strpos($this->doneFlag, '.') == false) {
+            $ex = new \Exception(sprintf("Trying to create a partial archive w/ an all plugins done flag (done flag = %s). This should not happen.",
+                $this->doneFlag));
+            StaticContainer::get(LoggerInterface::class)->warning('{exception}', [
+                'exception' => $ex,
+            ]);
+        }
     }
 }

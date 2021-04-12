@@ -19,6 +19,7 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
+use Piwik\SettingsServer;
 
 /**
  * Data Access object used to query archives
@@ -76,11 +77,12 @@ class ArchiveSelector
 
         $requestedPluginDoneFlags = empty($requestedPlugin) ? [] : Rules::getDoneFlags([$requestedPlugin], $segment);
         $allPluginsDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+
         $doneFlagValues = Rules::getSelectableDoneFlagValues($includeInvalidated === null ? true : $includeInvalidated, $params, $includeInvalidated === null);
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false, false];
+            return [false, false, false, false, false, false];
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag);
@@ -88,6 +90,7 @@ class ArchiveSelector
         $tsArchived = isset($result['ts_archived']) ? $result['ts_archived'] : false;
         $visits = isset($result['nb_visits']) ? $result['nb_visits'] : false;
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
+        $value = isset($result['value']) ? $result['value'] : false;
 
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (isset($result['partial'])) {
@@ -98,7 +101,7 @@ class ArchiveSelector
             || (isset($result['value'])
                 && !in_array($result['value'], $doneFlagValues))
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true, $tsArchived];
+            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
         }
 
         if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
@@ -110,12 +113,12 @@ class ArchiveSelector
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
-            return [false, $visits, $visitsConverted, true, $tsArchived];
+            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
         }
 
         $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchives, $visits, $visitsConverted, true, $tsArchived];
+        return [$idArchives, $visits, $visitsConverted, true, $tsArchived, $value];
     }
 
     /**
@@ -145,7 +148,7 @@ class ArchiveSelector
         }
 
         $getArchiveIdsSql = "SELECT idsite, date1, date2,
-                                    GROUP_CONCAT(CONCAT(idarchive,'|',`name`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
+                                    GROUP_CONCAT(CONCAT(idarchive,'|',`name`,'|',`value`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
@@ -205,10 +208,14 @@ class ArchiveSelector
                 $archives = $row['archives'];
                 $pairs = explode(',', $archives);
                 foreach ($pairs as $pair) {
-                    list($idarchive, $doneFlag) = explode('|', $pair);
+                    list($idarchive, $doneFlag, $value) = explode('|', $pair);
 
                     $result[$doneFlag][$dateStr][] = $idarchive;
-                    if (strpos($doneFlag, '.') === false) { // all plugins archive
+                    if (strpos($doneFlag, '.') === false // all plugins archive
+                        // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
+                        // don't treat it like an all plugins archive
+                        && $value != ArchiveWriter::DONE_PARTIAL
+                    ) {
                         break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
                 }

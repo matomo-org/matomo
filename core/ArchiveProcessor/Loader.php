@@ -16,10 +16,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -113,12 +115,20 @@ class Loader
             }
         }
 
+        // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
+        // made invalid, we will correctly re-archive below.
+        if ($this->invalidateBeforeArchiving
+            && Rules::isBrowserTriggerEnabled()
+        ) {
+            $this->invalidatedReportsIfNeeded();
+        }
+
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists) = $this->loadExistingArchiveIdFromDb();
+        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives)
-            && !$this->params->getArchiveOnlyReport()
-            && !Rules::isForceArchivingSinglePlugin()
+            && !Rules::isActuallyForceArchivingSinglePlugin()
+            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
@@ -133,14 +143,6 @@ class Loader
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
             return [false, 0];
-        }
-
-        // if there is an archive, but we can't use it for some reason, invalidate existing archives before
-        // we start archiving. if the archive is made invalid, we will correctly re-archive below.
-        if ($this->invalidateBeforeArchiving
-            && $isAnyArchiveExists
-        ) {
-            $this->invalidatedReportsIfNeeded();
         }
 
         if (SettingsServer::isArchivePhpTriggered()) {
@@ -181,16 +183,22 @@ class Loader
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $requestedReport = $this->params->getArchiveOnlyReport();
+            $isPartialArchive = $this->params->isPartialArchive();
 
             $this->params->setRequestedPlugin('VisitsSummary');
             $this->params->setArchiveOnlyReport(null);
+            $this->params->setIsPartialArchive(false);
 
-            $pluginsArchiver = new PluginsArchiver($this->params);
-            $metrics = $pluginsArchiver->callAggregateCoreMetrics();
-            $pluginsArchiver->finalizeArchive();
+            $metrics = Context::executeWithQueryParameters(['requestedReport' => ''], function () {
+                $pluginsArchiver = new PluginsArchiver($this->params);
+                $metrics = $pluginsArchiver->callAggregateCoreMetrics();
+                $pluginsArchiver->finalizeArchive();
+                return $metrics;
+            });
 
             $this->params->setRequestedPlugin($requestedPlugin);
             $this->params->setArchiveOnlyReport($requestedReport);
+            $this->params->setIsPartialArchive($isPartialArchive);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
@@ -257,7 +265,7 @@ class Loader
 
             // return no usable archive found, and no existing archive. this will skip invalidation, which should
             // be fine since we just force archiving.
-            return [false, false, false, false];
+            return [false, false, false, false, false, false];
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
@@ -272,11 +280,18 @@ class Loader
      */
     protected function getMinTimeArchiveProcessed()
     {
-        $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
-        if ($endDateTimestamp) {
-            // past archive
-            return $endDateTimestamp;
+        // for range periods we can archive in a browser request request, make sure to check for the ttl no matter what
+        $isRangeArchiveAndArchivingEnabled = $this->params->getPeriod()->getLabel() == 'range'
+            && Rules::isArchivingEnabledFor([$this->params->getSite()->getId()], $this->params->getSegment(), $this->params->getPeriod()->getLabel());
+
+        if (!$isRangeArchiveAndArchivingEnabled) {
+            $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
+            if ($endDateTimestamp) {
+                // past archive
+                return $endDateTimestamp;
+            }
         }
+
         $dateStart = $this->params->getDateStart();
         $period    = $this->params->getPeriod();
         $segment   = $this->params->getSegment();
@@ -428,5 +443,39 @@ class Loader
     public static function getArchivingDepth()
     {
         return self::$archivingDepth;
+    }
+
+    private function shouldForceInvalidatedArchive($value, $tsArchived)
+    {
+        $params = $this->params;
+
+        // the archive is invalidated and we are in a browser request that is allowed archive it
+        if ($value == ArchiveWriter::DONE_INVALIDATED
+            && Rules::isArchivingEnabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
+        ) {
+            // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations
+            // w/o being rearchived
+            if (SettingsServer::isArchivePhpTriggered()) {
+                return true;
+            }
+
+            // if coming from a browser request, and period does not contain today, force rearchiving
+            $timezone = $params->getSite()->getTimezone();
+            if (!$params->getPeriod()->isDateInPeriod(Date::factoryInTimezone('today', $timezone))) {
+                return true;
+            }
+
+            // if coming from a browser request, and period does contain today, check the ttl for the period (done just below this)
+            $minDatetimeArchiveProcessedUTC = Rules::getMinTimeProcessedForInProgressArchive(
+                $params->getDateStart(), $params->getPeriod(), $params->getSegment(), $params->getSite());
+            $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+            if ($minDatetimeArchiveProcessedUTC
+                && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
+            ) {
+                return false;
+            }
+        }
+
+        return false;
     }
 }

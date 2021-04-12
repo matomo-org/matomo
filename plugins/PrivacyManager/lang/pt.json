@@ -110,7 +110,7 @@
         "SaveSettingsBeforePurge": "Alterou as definições de eliminação de dados. Por favor, guarde estas definições antes de iniciar uma limpeza.",
         "SeeAlsoOurOfficialGuidePrivacy": "Consulte também o nosso guia oficial: %1$sPrivacidade em Web Analytics%2$s",
         "SecurityProcedures": "Procedimentos de segurança",
-        "SecurityProceduresDesc1": "Aplique as suas %1$srecomendações de segrança%2$s para poder manter os seus dados de Matomo seguros.",
+        "SecurityProceduresDesc1": "Aplique as suas %1$srecomendações de segurança%2$s para poder manter os seus dados de Matomo seguros.",
         "SecurityProceduresDesc3": "Inclua Matomo no seu %1$sprocedimento da violação de dados %2$s.",
         "SecurityProceduresDesc4": "Inclua Matomo na sua %1$savaliação do impacto da privacidade de dados (DPIA)%2$s, se aplicável.",
         "TeaserHeader": "Nesta página, pode configurar o Matomo de forma a que este esteja em conformidade com a legislação vigente, através: %1$sda anonimização do IP do visitante %2$s, %3$sremoção automática de registos antigos dos visitantes da base de dados %4$s, e %5$s da anonimização dos dados em bruto previamente acompanhados dos utilizadores %6$s.",
