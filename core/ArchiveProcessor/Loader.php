@@ -105,7 +105,6 @@ class Loader
     private function prepareArchiveImpl($pluginName)
     {
         $this->params->setRequestedPlugin($pluginName);
-        $this->params->setIsPartialArchive(false);
 
         if (SettingsServer::isArchivePhpTriggered()) {
             $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
@@ -181,6 +180,7 @@ class Loader
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $requestedReport = $this->params->getArchiveOnlyReport();
+            $isPartialArchive = $this->params->isPartialArchive();
 
             $this->params->setRequestedPlugin('VisitsSummary');
             $this->params->setArchiveOnlyReport(null);
@@ -195,7 +195,7 @@ class Loader
 
             $this->params->setRequestedPlugin($requestedPlugin);
             $this->params->setArchiveOnlyReport($requestedReport);
-            $this->params->setIsPartialArchive(false);
+            $this->params->setIsPartialArchive($isPartialArchive);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
