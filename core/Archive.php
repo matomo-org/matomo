@@ -565,7 +565,7 @@ class Archive implements ArchiveQuery
 
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
+            if (Rules::isArchivingEnabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
                 && !$this->forceFetchingWithoutLaunchingArchiving
             ) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);

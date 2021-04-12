@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<nb_visits>34</nb_visits>
-		<nb_actions>46</nb_actions>
-		<nb_visits_converted>32</nb_visits_converted>
-		<bounce_count>31</bounce_count>
+		<nb_visits>35</nb_visits>
+		<nb_actions>47</nb_actions>
+		<nb_visits_converted>33</nb_visits_converted>
+		<bounce_count>32</bounce_count>
 		<sum_visit_length>359</sum_visit_length>
 		<max_actions>10</max_actions>
 		<bounce_rate>91%</bounce_rate>
-		<nb_actions_per_visit>1.4</nb_actions_per_visit>
-		<avg_time_on_site>11</avg_time_on_site>
+		<nb_actions_per_visit>1.3</nb_actions_per_visit>
+		<avg_time_on_site>10</avg_time_on_site>
 	</result>
 	<result idSite="2">
 		<nb_visits>1</nb_visits>

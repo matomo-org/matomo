@@ -427,7 +427,7 @@ class CronArchiveTest extends IntegrationTestCase
         return $mock;
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
     {
         Fixture::createWebsite('2019-04-04 03:45:45');
 
@@ -444,12 +444,14 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params);
+        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnoughAndInvalidated()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnoughAndInvalidated()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05');
@@ -465,12 +467,14 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodDoesNotHaveToday_AndExistingArchiveIsOk()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsIfPeriodDoesNotHaveToday_AndExistingArchiveIsOk()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05');
@@ -479,19 +483,21 @@ class CronArchiveTest extends IntegrationTestCase
 
         $params = new Parameters(new Site(1), Factory::build('day', '2020-03-05'), new Segment('', [1]));
 
-        $tsArchived = Date::now()->subDay(1)->getDatetime();
+        $tsArchived = Date::now()->subHour(0.1)->getDatetime();
 
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-05'));
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1, 1, '2020-03-05', '2020-03-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsFalseIfDayHasChangedAndDateIsYesterday()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsFalseIfDayHasChangedAndDateIsYesterday()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05');
@@ -507,12 +513,14 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = true);
+        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertFalse($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfDayHasNotChangedAndDateIsYesterday()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfDayHasNotChangedAndDateIsYesterday()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05 06:23:40');
@@ -528,7 +536,8 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual = $archiver->isThereExistingValidPeriod($params, $isYesterday = true);
+        // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck = true);
         $this->assertTrue($actual);
     }
 

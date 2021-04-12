@@ -7,7 +7,11 @@
  */
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
+use Piwik\Archive\ArchivePurger;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive;
+use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\Model;
 use Piwik\Http;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
@@ -56,6 +60,21 @@ class ArchiveCronTest extends SystemTestCase
 
         Db::exec("UPDATE " . Common::prefixTable('site') . ' SET ts_created = \'2005-01-02 00:00:00\'');
         Site::clearCache();
+    }
+
+    private static function trackVisitInPast($ip = null)
+    {
+        $t = Fixture::getTracker(self::$fixture->idSite, '2012-08-09 16:00:00');
+        if ($ip) {
+            $t->setIp($ip);
+        }
+        $t->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148');
+        $t->setUrl('http://pastwebsite.com/here/we/go');
+        Fixture::checkResponse($t->doTrackPageView('a page title'));
+
+        // update ts_archived for archives in 2012_08 so they will be invalidated and rearchived
+        $sql = "UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory('2012-08-01')) . " SET ts_archived = ?";
+        Db::query($sql, [Date::now()->subHour(2)->getDatetime()]);
     }
 
     private static function addNewSegmentToPast()
@@ -218,6 +237,7 @@ class ArchiveCronTest extends SystemTestCase
             self::forceCurlCliMulti();
             self::addNewSegmentToPast();
             self::trackVisitsForToday();
+            self::trackVisitInPast(); // track in the past so we end up invalidating and rearchiving a past month
             $output = $this->runArchivePhpCron();
         } finally {
             self::undoForceCurlCliMulti();
@@ -288,6 +308,9 @@ class ArchiveCronTest extends SystemTestCase
         $this->assertEquals([5, 1], array_values($archiveValues));
     }
 
+    /**
+     * @depends testArchivePhpCronWithSingleReportRearchive
+     */
     public function testArchivePhpCronArchivesFullRanges()
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
@@ -317,6 +340,70 @@ class ArchiveCronTest extends SystemTestCase
                 'periods'    => array('range'),
                 'testSuffix' => '_range_archive')
         );
+    }
+
+    /**
+     * @depends testArchivePhpCronArchivesFullRanges
+     */
+    public function testRangeBrowserArchivingWorksWhenInvalidatedByVisit()
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        // remove the value, since the default is to always force archiving on browser request
+        self::$fixture->getTestEnvironment()->removeOverriddenConfig('General', 'archiving_range_force_on_browser_request');
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        unset(Config::getInstance()->General['archiving_range_force_on_browser_request']);
+
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'));
+        $blobTable = ArchiveTableCreator::getBlobTable(Date::factory('2012-08-09'));
+
+        // remove existing range archives
+        $idArchives = Db::fetchAll("SELECT DISTINCT idarchive FROM $table WHERE period = 5");
+        $idArchives = array_column($idArchives, 'idarchive');
+
+        $model = new Model();
+        $model->deleteArchiveIds($table, $blobTable, $idArchives);
+
+        // process archives once
+        $this->runApiTests(array(
+            'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
+            array('idSite'     => '1',
+                'date'       => '2012-08-09,2012-08-13',
+                'periods'    => array('range'),
+                'testSuffix' => '_range_archive_before_invalidate')
+        );
+
+        $this->trackVisitInPast($ip = '124.56.23.23');
+
+        $cronArchive = new CronArchive();
+        $cronArchive->init();
+        $cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+
+        // process day archive so range archive will process below (if we don't, then we'll skip processing the range archive,
+        // since it wouldn't trigger the child day archive. then later the day archive would be updated, and not the range, resulting
+        // in inaccurate data)
+        Rules::setBrowserTriggerArchiving(true);
+        \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', '2012-08-09');
+        Rules::setBrowserTriggerArchiving(false);
+
+        $rangeArchivesInvalid = Db::fetchAll("SELECT idarchive, name, date1, date2 FROM " . $table . " WHERE period = 5 and name LIKE 'done.%' and value = " . ArchiveWriter::DONE_INVALIDATED);
+        $this->assertNotEmpty($rangeArchivesInvalid);
+
+        // cron archive not run, but ranges should still be rearchived
+        $this->runApiTests(array(
+            'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
+            array('idSite'     => '1',
+                'date'       => '2012-08-09,2012-08-13',
+                'periods'    => array('range'),
+                'testSuffix' => '_range_archive_rearchived')
+        );
+
+        $archivePurger = StaticContainer::get(ArchivePurger::class);
+        $archivePurger->purgeInvalidatedArchivesFrom(Date::factory('2020-08-09'));
+
+        $rangeArchivesStillInvalid = Db::fetchAll("SELECT idarchive, name, date1, date2 FROM " . $table . " WHERE period = 5 and name = 'done.%' and value = " . ArchiveWriter::DONE_INVALIDATED);
+        $this->assertEmpty($rangeArchivesStillInvalid);
     }
 
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
