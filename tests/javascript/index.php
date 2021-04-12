@@ -3276,16 +3276,18 @@ function PiwikTest() {
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });
         tracker.setRequestMethod('POST');
+        ok(tracker.isUsingAlwaysUseSendBeacon());
+        tracker.setRequestMethod('GeT');
+        ok(!tracker.isUsingAlwaysUseSendBeacon());
 
+        tracker.setRequestMethod('POST');
+        tracker.disableAlwaysUseSendBeacon(); // disable send beacon to force sending a xhr
         var callbackCalled = false;
         tracker.trackPageView('withCredentialsTest', null, function (event) {
             callbackCalled = true;
             ok(event.success, 'succeeded');
             ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
         });
-        ok(tracker.isUsingAlwaysUseSendBeacon());
-        tracker.setRequestMethod('GeT');
-        ok(!tracker.isUsingAlwaysUseSendBeacon());
 
         stop();
         setTimeout(function() {
@@ -5116,13 +5118,14 @@ if ($mysql) {
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
         ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
 
+        tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
         startTime = new Date();
         tracker.trackPageView();
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var diffTime = (stopTime.getTime() - startTime.getTime());
-        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
+        ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
     });
 
 <?php

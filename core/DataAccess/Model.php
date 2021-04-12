@@ -133,7 +133,7 @@ class Model
         // select all idarchive/name pairs we want to invalidate
         $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
                   FROM `$archiveTable`
-                 WHERE idsite IN (" . implode(',', $idSites) . ")";
+                 WHERE idsite IN (" . implode(',', $idSites) . ") AND value <> " . ArchiveWriter::DONE_PARTIAL;
 
         $periodCondition = '';
         if (!empty($allPeriodsToInvalidate)) {

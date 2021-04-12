@@ -27,6 +27,7 @@
         "VisitedPages": "Pagini vizitate",
         "VisitorLogDocumentation": "Acest tabel arată cele mai recente vizite în intervalul de date selectat. Puteți vedea când a fost ultima vizita a unui vizitator a avut loc. %1$s În cazul în care intervalul de date include astăzi, puteți vedea vizitatorii dvs. în timp real! %2$s Datele afișate aici sunt mereu actualizate, indiferent cand si cât de des folosiți arhivarea cron.",
         "VisitorProfile": "Profilul vizitator",
+        "VisitorsInRealTime": "Vizite în Timp real",
         "VisitorsLastVisit": "Ultima vizită a acestui vizitator a avut loc cu %s zile în urmă.",
         "VisitsFrom": "%1$s%2$s vizite%3$s de la"
     }

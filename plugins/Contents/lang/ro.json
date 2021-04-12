@@ -1,5 +1,9 @@
 {
     "Contents": {
-        "ContentName": "Nume Continut"
+        "Impressions": "Impresii",
+        "InteractionRate": "Rata de interacţiune",
+        "ContentName": "Nume Continut",
+        "ContentTarget": "Conţinut ţintă",
+        "Contents": "Conţinut"
     }
 }

@@ -122,6 +122,7 @@
         "DevicesSubcategoryHelp": "Ndarja Pajisje ju ndihmon të njihni teknologjinë që vizitorët tuaj përdorin në sajtin tuaj. Do të shihni raporte mbi llojin e pajisjes dhe modele specifike, që t’ju bëjnë të mundur ta optimizoni sajtin për shumicën e pajisjeve popullore.",
         "SoftwareSubcategoryHelp": "Ndarja Software ju shfaq sistemet operative, shfletues dhe shtojca që vizitorët tuaj përdorin për sajtin, që të mund ta optimizoni sajtin tuaj për të garantuar se është plotësisht i përputhshëm me formësimet më popullore.",
         "EngagementSubcategoryHelp1": "Ndarja Angazhim ju furnizon raporte që ndihmojnë të kini një ide mbi sasinë e vizitave të reja dhe të rikthyerish që përfiton sajti juaj. Mund të shqyrtoni edhe raporte që japin kohën mesatare dhe numrin e faqeve sipas vizitash, si dhe numrin e herëve që një vizitor ka qenë në sajtin tuaj dhe numrin më të zakonshëm të ditëve mes vizitash.",
-        "EngagementSubcategoryHelp2": "Kjo mund t’ju ndihmojë të bëni optimizim për shpeshti dhe vizita me shkallë të lartë ndërveprimi, përveç se për të kapur maksimumin e shtrirjes tuaj."
+        "EngagementSubcategoryHelp2": "Kjo mund t’ju ndihmojë të bëni optimizim për shpeshti dhe vizita me shkallë të lartë ndërveprimi, përveç se për të kapur maksimumin e shtrirjes tuaj.",
+        "PeriodHasOnlyRawData": "Duket sikur raportet për këtë periudhë s’janë përpunuar ende. Doni të shihni ç’po ndodh tani? Shihni %1$sRegjistër vizitash%2$s ose zgjidhni një periudhë tjetër datash, deri sa të prodhohen raportet."
     }
 }
