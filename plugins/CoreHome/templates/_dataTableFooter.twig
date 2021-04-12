@@ -17,12 +17,24 @@
         {% endif %}
 
         <div class="row">
-            <div class="col s9 m9 dataTableControls">
+            <div class="col s4 m4 dataTableControls">
                 {% include "@CoreHome/_dataTableActions.twig" %}
             </div>
 
+            <div class="col s4 m4 dataTablePeriodSelector">
+                {% if properties.show_periods %}
+                    <div class="dataTablePeriods">
+                    {% for selectablePeriod in properties.selectable_periods %}
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
+                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
+                        </a>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
             {% if not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
-                <div class="col s3 m3 limitSelection"></div>
+                <div class="col s4 m4 limitSelection"></div>
             {% endif %}
         </div>
 
