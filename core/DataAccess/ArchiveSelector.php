@@ -148,7 +148,7 @@ class ArchiveSelector
         }
 
         $getArchiveIdsSql = "SELECT idsite, date1, date2,
-                                    GROUP_CONCAT(CONCAT(idarchive,'|',`name`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
+                                    GROUP_CONCAT(CONCAT(idarchive,'|',`name`,'|',`value`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
@@ -208,10 +208,14 @@ class ArchiveSelector
                 $archives = $row['archives'];
                 $pairs = explode(',', $archives);
                 foreach ($pairs as $pair) {
-                    list($idarchive, $doneFlag) = explode('|', $pair);
+                    list($idarchive, $doneFlag, $value) = explode('|', $pair);
 
                     $result[$doneFlag][$dateStr][] = $idarchive;
-                    if (strpos($doneFlag, '.') === false) { // all plugins archive
+                    if (strpos($doneFlag, '.') === false // all plugins archive
+                        // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
+                        // don't treat it like an all plugins archive
+                        && $value != ArchiveWriter::DONE_PARTIAL
+                    ) {
                         break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
                 }

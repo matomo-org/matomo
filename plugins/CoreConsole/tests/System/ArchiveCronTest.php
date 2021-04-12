@@ -24,14 +24,10 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
 use Piwik\Segment;
-use Piwik\Sequence;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
-use Exception;
-use Psr\Log\LoggerInterface;
 
 /**
  * Tests to call the cron core:archive command script and check there is no error,
@@ -83,6 +79,8 @@ class ArchiveCronTest extends SystemTestCase
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->save();
 
+        Rules::setBrowserTriggerArchiving(false);
+
         // add one segment and set it's created/updated time to some time in the past so we don't re-archive for it
         $idSegment = API::getInstance()->add(self::NEW_SEGMENT_NAME, self::NEW_SEGMENT, self::$fixture->idSite, $autoArchive = 1, $enabledAllUsers = 1);
 
@@ -108,6 +106,8 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 1);
         self::$fixture->getTestEnvironment()->save();
+
+        Rules::setBrowserTriggerArchiving(true);
 
         Db::exec("UPDATE " . Common::prefixTable('segment') . ' SET ts_created = \'2015-01-02 00:00:00\', ts_last_edit = \'2015-01-02 00:00:00\' WHERE idsegment IN (' . $idSegment . ", " . $idSegment2 . ")");
     }
@@ -213,6 +213,8 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
 
+        Rules::setBrowserTriggerArchiving(false);
+
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated(
@@ -273,7 +275,20 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
 
-        $table = ArchiveTableCreator::getNumericTable(Date::factory('2007-04-05'));
+        Rules::setBrowserTriggerArchiving(false);
+
+        // request a different date than other tests so we can test that only the single requested metric is archived
+        $dateToRequest = '2007-04-04';
+
+        // track a visit so archiving will go through
+        $tracker = Fixture::getTracker(1, '2007-04-04');
+        $tracker->setUrl('http://example.com/test/url2');
+        Fixture::checkResponse($tracker->doTrackPageView('jkl'));
+
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-04'));
+
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToRequest));
 
         // three whole plugin archives from previous tests
         $countOfDoneExamplePluginArchives = Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'done.ExamplePlugin'");
@@ -281,18 +296,13 @@ class ArchiveCronTest extends SystemTestCase
 
         // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
         // (do it after the last run so we don't end up just re-using the ExamplePlugin archive)
-        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $invalidator->markArchivesAsInvalidated([1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric2');
+        $invalidator->markArchivesAsInvalidated([1], [$dateToRequest], 'day', new Segment('', [1]), false, false, 'ExamplePlugin.ExamplePlugin_example_metric');
 
-        $output = $this->runArchivePhpCron();
-
-        Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS); // clear so segment re-archive logic runs on this run
-        Option::delete(CronArchive::CRON_INVALIDATION_TIME_OPTION_NAME);
-        $output = $this->runArchivePhpCron(); // have to run twice since we manually invalidate above
+        $output = $this->runArchivePhpCron(['-vvv' => null]);
 
         $this->runApiTests('ExamplePlugin.getExampleArchivedMetric', [
             'idSite' => 'all',
-            'date' => '2007-04-05',
+            'date' => $dateToRequest,
             'periods' => ['day', 'week'],
             'testSuffix' => '_singleMetric',
         ]);
@@ -321,6 +331,8 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['archiving_range_force_on_browser_request'] = 0;
         Config::getInstance()->General['archiving_custom_ranges'][] = '';
+
+        Rules::setBrowserTriggerArchiving(false);
 
         $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
 

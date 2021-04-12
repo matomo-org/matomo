@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -17,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\Site;
@@ -226,10 +228,10 @@ class ArchiveWriterTest extends IntegrationTestCase
         }
     }
 
-    private function buildWriter($period, $date, $isPartial = false)
+    private function buildWriter($period, $date, $isPartial = false, $segment = '')
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', $period, $date);
-        $segment = new Segment('', []);
+        $segment = new Segment($segment, []);
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
         if ($isPartial) {
             $params->setRequestedPlugin('ExamplePlugin');

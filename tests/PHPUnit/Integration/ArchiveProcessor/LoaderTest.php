@@ -127,6 +127,175 @@ class LoaderTest extends IntegrationTestCase
         ], $existingArchives);
     }
 
+    public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives_whenReusingAllPluginsArchives()
+    {
+        // not setting pluginOnly=1 to ensure all plugins archive is created for the day w/ visits
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $dateTime = '2020-01-20 02:03:04';
+        $anotherDayDateTime = '2020-01-22 08:00:00';
+        $date = '2020-01-20';
+        $period = 'week';
+        $segment = '';
+        $plugin = 'ExamplePlugin'; // NOTE: it's important to use ExamplePlugin here since it has an example of creating partial archives
+
+        $t = Fixture::getTracker($idSite, $dateTime);
+        $t->setUrl('http://slkdfj.com');
+        Fixture::checkResponse($t->doTrackPageView('alsdkjf'));
+
+        $periodObj = Factory::build($period, $date);
+        foreach ($periodObj->getSubperiods() as $day) {
+            // archive each day before hand
+            $params = new Parameters(new Site($idSite), $day, new Segment($segment, [$idSite]));
+            $loader = new Loader($params);
+            $loader->prepareArchive($plugin);
+        }
+
+        // add a visit to another day in the week, but no archive so it will get archived in pluginOnly request
+        $t = Fixture::getTracker($idSite, $anotherDayDateTime);
+        $t->setUrl('http://slkdfj.com');
+        Fixture::checkResponse($t->doTrackPageView('alsdkjf 2'));
+
+        $existingArchives = $this->getExistingArchives($date);
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '3',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '4',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '5',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+        ], $existingArchives);
+
+        // archiving w/ pluginOnly=1
+        $_GET['pluginOnly'] = 1;
+        $_GET['requestedReport'] = Archiver::EXAMPLEPLUGIN_METRIC_NAME; // so it will be set when the archiver recurses
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
+        $params->setRequestedPlugin($plugin);
+        $params->setArchiveOnlyReport(Archiver::EXAMPLEPLUGIN_METRIC_NAME);
+
+        $loader = new Loader($params);
+        $loader->prepareArchive($plugin);
+
+        $existingArchives = $this->getExistingArchives($date);
+
+        // expected result means:
+        // - we keep and reuse already existing all plugins archive for 2020-01-20
+        // - we create new single plugin (non-partial) archives for VisitsSummary
+        // - we create new single report (partial) archives for ExamplePlugin
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '3',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '4',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '5',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+
+            // start of new archives
+            [
+                'idarchive' => '6',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+            [
+                'idarchive' => '7',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-22',
+                'date2' => '2020-01-22',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '8',
+                'name' => 'done.ExamplePlugin',
+                'value' => '5',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+            [
+                'idarchive' => '9',
+                'name' => 'done.ExamplePlugin',
+                'value' => '5',
+                'date1' => '2020-01-22',
+                'date2' => '2020-01-22',
+                'period' => '1',
+            ],
+        ], $existingArchives);
+    }
+
     private function getExistingArchives($date)
     {
         $table = ArchiveTableCreator::getNumericTable(Date::factory($date));
