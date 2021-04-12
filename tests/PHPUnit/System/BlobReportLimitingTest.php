@@ -139,7 +139,7 @@ class BlobReportLimitingTest extends SystemTestCase
     /**
      * @dataProvider getApiForTesting
      */
-    public function testApiWithFlattening($apiToCall, $params)
+    public function no_testApiWithFlattening($apiToCall, $params)
     {
         self::setUpConfigOptions();
 
@@ -176,7 +176,7 @@ class BlobReportLimitingTest extends SystemTestCase
         }
     }
 
-    public function testApiWithRankingQueryDisabled()
+    public function no_testApiWithRankingQueryDisabled()
     {
         self::deleteArchiveTables();
         $generalConfig =& Config::getInstance()->General;
