@@ -409,7 +409,7 @@ class Loader
                     );
 
                     $table = Common::prefixTable('archive_invalidations');
-                    $sql = "SELECT MAX(idinvalidation) FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ?";
+                    $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ?";
 
                     $idInvalidation = Db::fetchOne($sql, [
                         $idSite,
