@@ -76,8 +76,6 @@ abstract class SystemTestCase extends TestCase
     {
         Log::debug("Setting up " . get_called_class());
 
-        gc_disable();
-
         // NOTE: it is important to reference this class in a test framework class like Fixture so the mocks
         // will be loaded before any testable classed load, otherwise some tests may fail w/o any obvious reason.
         // (the actual reason being )
