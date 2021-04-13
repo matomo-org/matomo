@@ -15,6 +15,7 @@
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
+         testdox="true"
          verbose="true">
 
 <testsuites>
