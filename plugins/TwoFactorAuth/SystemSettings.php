@@ -36,10 +36,12 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = Piwik::translate('TwoFactorAuth_RequireTwoFAForAll');
             $field->description = Piwik::translate('TwoFactorAuth_RequireTwoFAForAllInformation');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-        });
 
-        $isWritable = defined('PIWIK_TEST_MODE') || TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
-        $setting->setIsWritableByCurrentUser($isWritable);
+            $isWritable = defined('PIWIK_TEST_MODE') || TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+            if (!$isWritable) {
+                $field->uiControlAttributes = ['disabled' => 'disabled'];
+            }
+        });
 
         return $setting;
     }

@@ -46,6 +46,6 @@
     "GenerateNewRecoveryCodes": "Generate new recovery codes",
     "GenerateNewRecoveryCodesInfo": "When you generate new recovery codes, your old codes won’t work anymore. Make sure to download or print your new codes.",
     "RequireTwoFAForAll": "Require two-factor authentication for everyone",
-    "RequireTwoFAForAllInformation": "When enabled, every user has to enable two factor authentication. Enforcing 2FA will require all users to have access to an authenticator app. This means they need to have a device like a smartphone or computer where they can install an app."
+    "RequireTwoFAForAllInformation": "When enabled, every user has to enable two factor authentication. Enforcing 2FA will require all users to have access to a device where they can install an authenticator app. You can only enable this if you already have two factor authentication set up yourself."
   }
 }
