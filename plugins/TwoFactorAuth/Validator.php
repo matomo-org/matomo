@@ -59,14 +59,14 @@ class Validator
 
     public function check2FaEnabled()
     {
-        if (!$this->twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
+        if (!TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
             throw new Exception('not available');
         }
     }
 
     public function check2FaNotEnabled()
     {
-        if ($this->twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
+        if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
             throw new Exception('not available');
         }
     }

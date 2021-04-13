@@ -52,7 +52,7 @@ class TwoFactorAuthentication
         $this->secretGenerator = $twoFaSecretRandomGenerator;
     }
 
-    private function getUserModel()
+    private static function getUserModel()
     {
         return new Model();
     }
@@ -70,14 +70,14 @@ class TwoFactorAuthentication
         Piwik::postEvent('TwoFactorAuth.disabled', array($login));
     }
 
-    private function isAnonymous($login)
+    private static function isAnonymous($login)
     {
         return strtolower($login) === 'anonymous';
     }
 
     public function saveSecret($login, $secret)
     {
-        if ($this->isAnonymous($login)) {
+        if (self::isAnonymous($login)) {
             throw new Exception('Anonymous cannot use two-factor authentication');
         }
 
@@ -86,7 +86,7 @@ class TwoFactorAuthentication
             throw new Exception('Cannot enable two-factor authentication, no recovery codes have been created');
         }
 
-        $model = $this->getUserModel();
+        $model = self::getUserModel();
         $model->updateUserFields($login, array('twofactor_secret' => $secret));
     }
 
@@ -95,19 +95,19 @@ class TwoFactorAuthentication
         return $this->settings->twoFactorAuthRequired->getValue();
     }
 
-    public function isUserUsingTwoFactorAuthentication($login)
+    public static function isUserUsingTwoFactorAuthentication($login)
     {
-        if ($this->isAnonymous($login)) {
+        if (self::isAnonymous($login)) {
             return false; // not possible to use auth code with anonymous
         }
 
-        $user = $this->getUser($login);
+        $user = self::getUser($login);
         return !empty($user['twofactor_secret']);
     }
 
-    private function getUser($login)
+    private static function getUser($login)
     {
-        $model = $this->getUserModel();
+        $model = self::getUserModel();
         return $model->getUser($login);
     }
 
@@ -158,11 +158,11 @@ class TwoFactorAuthentication
 
     public function validateAuthCode($login, $authCode)
     {
-        if (!$this->isUserUsingTwoFactorAuthentication($login)) {
+        if (!self::isUserUsingTwoFactorAuthentication($login)) {
             return false;
         }
 
-        $user = $this->getUser($login);
+        $user = self::getUser($login);
 
         if ($this->wasTwoFaCodeUsedRecently($user['login'], $authCode)) {
             return false;

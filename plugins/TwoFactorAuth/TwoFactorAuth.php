@@ -82,7 +82,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             $twoFa = $this->getTwoFa();
 
             if ($authCode
-                && $twoFa->isUserUsingTwoFactorAuthentication($login)
+                && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
                 && $twoFa->validateAuthCode($login, $authCode)) {
                 $sessionFingerprint = new SessionFingerprint();
                 $sessionFingerprint->setTwoFactorAuthenticationVerified();
@@ -117,7 +117,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             $login = $params['parameters']['userLogin'];
             $twoFa = $this->getTwoFa();
 
-            if ($twoFa->isUserUsingTwoFactorAuthentication($login) && $this->isValidTokenAuth($returnedValue)) {
+            if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login) && $this->isValidTokenAuth($returnedValue)) {
                 $authCode = Common::getRequestVar('authCode', '', 'string');
                 // we only return an error when the login/password combo was correct. otherwise you could brute force
                 // auth tokens
@@ -130,7 +130,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                     throw new Exception(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
             } else if ($twoFa->isUserRequiredToHaveTwoFactorEnabled()
-                        && !$twoFa->isUserUsingTwoFactorAuthentication($login)) {
+                        && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
                 throw new Exception(Piwik::translate('TwoFactorAuth_RequiredAuthCodeNotConfiguredAPI'));
             }
         }
@@ -153,7 +153,7 @@ class TwoFactorAuth extends \Piwik\Plugin
 
         $twoFa = $this->getTwoFa();
 
-        $isUsing2FA = $twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+        $isUsing2FA = TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
         if ($isUsing2FA && !Request::isRootRequestApiRequest() && Session::isStarted()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
@@ -206,7 +206,7 @@ class TwoFactorAuth extends \Piwik\Plugin
 
         $twoFa = $this->getTwoFa();
 
-        $isUsing2FA = $twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+        $isUsing2FA = TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
         if ($isUsing2FA && !Request::isRootRequestApiRequest()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {

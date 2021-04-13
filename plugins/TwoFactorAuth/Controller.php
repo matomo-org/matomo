@@ -122,7 +122,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->checkCanUseTwoFa();
 
         return $this->renderTemplate('userSettings', array(
-            'isEnabled' => $this->twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin()),
+            'isEnabled' => TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin()),
             'isForced' => $this->twoFa->isUserRequiredToHaveTwoFactorEnabled(),
             'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE)
         ));
@@ -241,7 +241,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (!$this->recoveryCodeDao->getAllRecoveryCodesForLogin($login)
-            || (!$hasSubmittedForm && !$this->twoFa->isUserUsingTwoFactorAuthentication($login))) {
+            || (!$hasSubmittedForm && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login))) {
             // we cannot generate new codes after form has been submitted and user is not yet using 2fa cause we would
             // change recovery codes in the background without the user noticing... we cannot simply do this:
             // if !getAllRecoveryCodesForLogin => createRecoveryCodesForLogin. Because it could be a security issue that
@@ -254,7 +254,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->description = $login;
         $view->authCodeNonce = Nonce::getNonce(self::AUTH_CODE_NONCE);
         $view->AccessErrorString = $accessErrorString;
-        $view->isAlreadyUsing2fa = $this->twoFa->isUserUsingTwoFactorAuthentication($login);
+        $view->isAlreadyUsing2fa = TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login);
         $view->newSecret = $secret;
         $view->twoFaBarCodeSetupUrl = $this->getTwoFaBarCodeSetupUrl($secret);
         $view->codes = $this->recoveryCodeDao->getAllRecoveryCodesForLogin($login);
