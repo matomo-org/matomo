@@ -626,7 +626,6 @@ abstract class SystemTestCase extends TestCase
         $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
-            print_r($apiId . "\n");
             $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
         }
 
