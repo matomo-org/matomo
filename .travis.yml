@@ -126,7 +126,7 @@ before_script:
   - ./tests/travis/install_phantomjs.sh; export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH;
 
   # increase memory limit
-  echo "memory_limit = 1024M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "memory_limit = 1024M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   - cd tests/PHPUnit
 
