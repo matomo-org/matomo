@@ -483,7 +483,7 @@ class Segment
 
         // the segment hash is not built yet, let's do it
         $model = new SegmentEditorModel();
-        $segments = $model->getAllSegmentsForAllUsers();
+        $segments = $model->getAllSegmentsAndIgnoreVisibility();
 
         foreach ($segments as $segment) {
             $cacheKeyTemp = self::CACHE_KEY . md5($segment['definition']);
