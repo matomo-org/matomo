@@ -274,7 +274,9 @@ class API extends \Piwik\Plugin\API
 
         $this->getModel()->updateSegment($idSegment, $bind);
 
-        if ($autoArchive && !Rules::isBrowserTriggerEnabled()) {
+        $segmentDefinitionChanged = $segment['definition'] !== $definition;
+
+        if ($segmentDefinitionChanged && $autoArchive && !Rules::isBrowserTriggerEnabled()) {
             $this->segmentArchiving->reArchiveSegment($bind);
         }
 
