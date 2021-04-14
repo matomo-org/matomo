@@ -3512,7 +3512,7 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_tfr=' + Math.round(performanceData.responseEnd - performanceData.responseStart);
                 }
 
-                if (performanceData.domLoading !== undefined) {
+                if (isDefined(performanceData.domLoading)) {
                     if (performanceData.domInteractive && performanceData.domLoading) {
 
                         if (performanceData.domInteractive < performanceData.domLoading) {
