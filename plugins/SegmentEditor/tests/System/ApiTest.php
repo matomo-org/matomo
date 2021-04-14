@@ -64,9 +64,9 @@ class ApiTest extends SystemTestCase
     }
 
     /**
-    * @dataProvider segmentsDataProvider
+    * @dataProvider definitionsDataProvider
     */
-    public function test_generatedSegmentHash($segment)
+    public function test_generatedSegmentHash($definition)
     {
         Fixture::createWebsite('2020-03-03 00:00:00');
 
@@ -74,35 +74,20 @@ class ApiTest extends SystemTestCase
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->save();
 
-        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
-            'module' => 'API',
-            'method' => 'SegmentEditor.add',
-            'name' => 'test segment',
-            'definition' => $segment,
-            'idSite' => 1,
-            'autoArchive' => 1,
-            'enabledAllUsers' => 1,
-            'format' => 'json',
-            'token_auth' => Fixture::getTokenAuth(),
-        ]);
-        self::assertStringContainsString(urlencode($segment), $url);
+        $idSegment = SegmentEditorApi::getInstance()->add('test segment', $definition, 1, 1, 1);
+        $segment = SegmentEditorApi::getInstance()->get($idSegment);
 
-        Http::sendHttpRequest($url, 10);
-
-        $segments = SegmentEditorApi::getInstance()->getAll();
-        $segment = end($segments);
         $hash = $segment['hash'];
         $generatedHash = md5(urldecode($segment['definition']));
 
         $this->assertEquals($generatedHash, $hash);
     }
 
-    public function segmentsDataProvider()
+    public function definitionsDataProvider()
     {
         return [
             ['pageUrl=@%252F1'],
             ['actions>=1'],
-            ['dimension1==guest'],
             ['operatingSystemName==Ubuntu;browserName==Firefox'],
             ['pageUrl==https%253A%252F%252Fmatomo.org%252Fpricing%252F'],
             ['visitIp>=80.229.0.0;visitIp<=80.229.255.255'],
