@@ -18,6 +18,11 @@ describe("IntranetMeasurable", function () {
         testEnvironment.save();
     });
 
+    after(async function () {
+        // ensure the newly created site is removed afterwards, so other tests reusing the fixture won't change results
+        await testEnvironment.callApi('SitesManager.deleteSite', { idSite: 64 });
+    });
+
     it("should show intranet selection", async function () {
         await page.goto(url);
         await (await page.jQuery('.SitesManager .addSite:first')).click();
