@@ -598,7 +598,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $coreProperties = array();
-        $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues, $isRequired = true);
+        $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
@@ -689,7 +689,7 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function setSettingValue($fieldName, $value, $coreProperties, $settingValues, $isRequired = false)
+    private function setSettingValue($fieldName, $value, $coreProperties, $settingValues)
     {
         $pluginName = 'WebsiteMeasurable';
 
@@ -714,10 +714,6 @@ class API extends \Piwik\Plugin\API
                     return $coreProperties;
                 }
             }
-        }
-
-        if ($isRequired) {
-            $coreProperties[$pluginName][] = ['name' => $fieldName, 'value' => null];
         }
 
         return $coreProperties;
