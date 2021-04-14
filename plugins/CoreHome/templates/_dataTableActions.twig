@@ -140,8 +140,8 @@
                href="javascript:;"
                title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
                data-target="dropdownPeriods{{ randomIdForDropdown }}"
-               style="width:auto;text-align:left;padding-left:8px">
-                <div><span class="icon-calendar"></span><span style="padding-left:8px;padding-right:8px">{{ clientSideParameters.period }}</span></div>
+            >
+                <div><span class="icon-calendar"></span><span class="periodName">{{ clientSideParameters.period }}</span></div>
             </a>
             <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
                 {% for selectablePeriod in properties.selectable_periods %}
