@@ -151,7 +151,11 @@ var Piwik_Overlay = (function () {
 
         // unset iframe origin if it is not one of the site URLs
         var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
-            return url.match(ORIGIN_PARSE_REGEX)[0].toLowerCase();
+            var siteUrlMatch = url.match(ORIGIN_PARSE_REGEX);
+            if (!siteUrlMatch) {
+                return null;
+            }
+            return siteUrlMatch[0].toLowerCase();
         });
 
         if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin.toLowerCase()) === -1) {
