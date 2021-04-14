@@ -745,14 +745,15 @@ class Access
     {
         if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
-        }
-        // Try to detect whether user was previously logged in so that we can display a different message
-        $referrer = Url::getReferrer();
-        $matomoUrl = SettingsPiwik::getPiwikUrl();
-        if ($referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
-            strpos($referrer, $matomoUrl) === 0
-        ) {
-            $message = Piwik::translate('General_YourSessionHasExpired');
+
+            // Try to detect whether user was previously logged in so that we can display a different message
+            $referrer = Url::getReferrer();
+            $matomoUrl = SettingsPiwik::getPiwikUrl();
+            if ($referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
+                strpos($referrer, $matomoUrl) === 0
+            ) {
+                $message = Piwik::translate('General_YourSessionHasExpired');
+            }
         }
 
         throw new NoAccessException($message);
