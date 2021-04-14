@@ -28,9 +28,9 @@ class SettingsMetadata
             foreach ($settingsInstances as $pluginName => $pluginSetting) {
                 foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
 
-                    $value = $this->findSettingValueFromRequest($settingValues, $pluginName, $setting->getName());
+                    list($found, $value) = $this->findSettingValueFromRequest($settingValues, $pluginName, $setting->getName());
 
-                    if (isset($value)) {
+                    if ($found) {
                         $setting->setValue($value);
                     }
                 }
@@ -50,10 +50,16 @@ class SettingsMetadata
         }
     }
 
+    /**
+     * @param $settingValues
+     * @param $pluginName
+     * @param $settingName
+     * @return array first element is boolean saying whether the value was found or not, second is the actual value
+     */
     private function findSettingValueFromRequest($settingValues, $pluginName, $settingName)
     {
         if (!array_key_exists($pluginName, $settingValues)) {
-            return;
+            return [false, null];
         }
 
         foreach ($settingValues[$pluginName] as $setting) {
@@ -64,10 +70,10 @@ class SettingsMetadata
                 }
 
                 if (is_string($value)) {
-                    return Common::unsanitizeInputValue($value);
+                    return [true, Common::unsanitizeInputValue($value)];
                 }
 
-                return $value;
+                return [true, $value];
             }
         }
     }
