@@ -1,4 +1,4 @@
-name: 'Handle inactive PRs'
+name: 'Handle inactive PRs - closing message'
 on:
   schedule:
     - cron: '30 1 * * *'
@@ -11,10 +11,10 @@ jobs:
         with:
           debug-only: false
           start-date: 2021-03-01T00:00:00Z
-          days-before-pr-stale: 14
+          days-before-pr-stale: 42
           days-before-pr-close: -1
           days-before-issue-stale: -1
           days-before-issue-close: -1
           exempt-pr-labels: Do not close
-          stale-pr-message: If you don't want this PR to be closed automatically in 28 days then you need to assign the label 'Do not close'.
-          stale-pr-label: Stale
+          stale-pr-message: This PR was last updated more than one month ago, maybe it's time to close it. Please check if there is anything we still can do or close this PR. ping @tsteur @sgiehl @diosmosis @flamisz
+          stale-pr-label: Stale for long
