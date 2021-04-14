@@ -59,6 +59,62 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("", array("http://piwik.net"));
     }
 
+    public function test_addSite_WithEmptyPluginSettingsUrl_ThrowsException()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionNoUrl');
+
+        API::getInstance()->addSite("name", null, null, null, null,
+            null, null, null, null, null, null,
+            null, null, null, null, [
+                'WebsiteMeasurable' => [
+                    ['name' => 'urls', 'value' => null],
+                    ['name' => 'exclude_unknown_urls', 'value' => '0'],
+                    ['name' => 'keep_url_fragment', 'value' => '0'],
+                    ['name' => 'excluded_ips', 'value' => ''],
+                    ['name' => 'excluded_parameters', 'value' => ''],
+                    ['name' => 'excluded_user_agents', 'value' => ''],
+                    ['name' => 'sitesearch', 'value' => '0'],
+                    ['name' => 'use_default_site_search_params', 'value' => '0'],
+                    ['name' => 'sitesearch_keyword_parameters', 'value' => ''],
+                    ['name' => 'sitesearch_category_parameters', 'value' => ''],
+                    ['name' => 'ecommerce', 'value' => '0'],
+                ],
+                'Live' => [
+                    ['name' => 'disable_visitor_log', 'value' => '0'],
+                    ['name' => 'disable_visitor_profile', 'value' => '0'],
+                ],
+            ]
+        );
+    }
+
+    public function test_addSite_WithNoPluginSettingsUrl_ThrowsException()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionNoUrl');
+
+        API::getInstance()->addSite("name", null, null, null, null,
+            null, null, null, null, null, null,
+            null, null, null, null, [
+                'WebsiteMeasurable' => [
+                    // we also omit some other options
+                    ['name' => 'exclude_unknown_urls', 'value' => '0'],
+                    ['name' => 'keep_url_fragment', 'value' => '0'],
+                    ['name' => 'excluded_ips', 'value' => ''],
+                    ['name' => 'excluded_parameters', 'value' => ''],
+                    ['name' => 'excluded_user_agents', 'value' => ''],
+                    ['name' => 'sitesearch_keyword_parameters', 'value' => ''],
+                    ['name' => 'sitesearch_category_parameters', 'value' => ''],
+                    ['name' => 'ecommerce', 'value' => '0'],
+                ],
+                'Live' => [
+                    ['name' => 'disable_visitor_log', 'value' => '0'],
+                    ['name' => 'disable_visitor_profile', 'value' => '0'],
+                ],
+            ]
+        );
+    }
+
     /**
      * DataProvider for testAddSiteWrongUrls
      */
