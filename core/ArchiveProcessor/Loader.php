@@ -401,7 +401,7 @@ class Loader
             if ($segmentInfo) {
                 $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
-                if ($segmentArchiveStartDate->isLater($periodEnd)) {
+                if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($periodEnd)) {
                     $doneFlag = Rules::getDoneStringFlagFor(
                         [$idSite],
                         $params->getSegment(),
