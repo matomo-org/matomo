@@ -149,14 +149,24 @@ var Piwik_Overlay = (function () {
         var m = location.match(ORIGIN_PARSE_REGEX);
         iframeOrigin = m ? m[0] : null;
 
+        var foundValidSiteUrl = false;
+
         // unset iframe origin if it is not one of the site URLs
         var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
+            if (typeof url === 'string' && url !== "") {
+                foundValidSiteUrl = true;
+            }
+
             var siteUrlMatch = url.match(ORIGIN_PARSE_REGEX);
             if (!siteUrlMatch) {
                 return null;
             }
             return siteUrlMatch[0].toLowerCase();
         });
+
+        if (!foundValidSiteUrl) {
+            $('#overlayErrorNoSiteUrls').show();
+        }
 
         if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin.toLowerCase()) === -1) {
             try {
