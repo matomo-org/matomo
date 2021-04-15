@@ -394,6 +394,7 @@ class Loader
         if ($hasSegment) {
             $periodEnd = $params->getPeriod()->getDateEnd();
             $segmentHash = $params->getSegment()->getHash();
+            /** @var SegmentArchiving */
             $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
             $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
 

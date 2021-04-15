@@ -466,9 +466,9 @@ class CronArchive
         $cliMulti->timeRequests();
 
         $responses = $cliMulti->request($urls);
-        
+
         $this->disconnectDb();
-        
+
         $timers = $cliMulti->getTimers();
         $successCount = 0;
 
@@ -894,6 +894,22 @@ class CronArchive
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
+                    /** @var SegmentArchiving */
+                    $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+                    $segmentHash = $params->getSegment()->getHash();
+                    $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
+                    $periodEnd = $params->getPeriod()->getDateEnd();
+
+                    if ($segmentInfo) {
+                        $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
+
+                        if ($segmentArchiveStartDate->isLater($periodEnd)) {
+                            // the system is not allowed to invalidate reports for this period
+                            // automatically, only a user can specifically invalidate
+                            continue;
+                        }
+                    }
+
                     $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, urlencode($segmentDefinition),
                         $cascadeDown = false, $_forceInvalidateNonexistant);
                 }
