@@ -43,4 +43,50 @@ class SegmentsCacheTest extends IntegrationTestCase
 
         $this->assertEquals($defaultHash, Segment::getSegmentHash($definition));
     }
+
+    public function test_cashed_hashes_for_similar_segments()
+    {
+        $cache = Cache::getEagerCache();
+        $model = new SegmentEditorModel();
+
+        // pageUrl==http://abc.com/d+f
+        // pageUrl==http://abc.com/d f
+        // pageUrl==http://abc.com/d%20f
+        $definitions = [
+            'pageUrl==http%253A%252F%252Fabc.com%252Fd%252Bf',
+            'pageUrl==http%253A%252F%252Fabc.com%252Fd%2520f',
+            'pageUrl==http%253A%252F%252Fabc.com%252Fd%252520f',
+        ];
+
+        $idSegment1 = SegmentEditorApi::getInstance()->add('test segment 1', $definitions[0]);
+        $idSegment2 = SegmentEditorApi::getInstance()->add('test segment 2', $definitions[1]);
+        $idSegment3 = SegmentEditorApi::getInstance()->add('test segment 3', $definitions[2]);
+        $segment1 = $model->getSegment($idSegment1);
+        $segment2 = $model->getSegment($idSegment2);
+        $segment3 = $model->getSegment($idSegment3);
+        $key1 = Segment::CACHE_KEY . md5($segment1['definition']);
+        $key2 = Segment::CACHE_KEY . md5($segment2['definition']);
+        $key3 = Segment::CACHE_KEY . md5($segment3['definition']);
+
+        Segment::getSegmentHash('dummy');
+
+        $this->assertEquals($segment1['hash'], $cache->fetch($key1));
+        $this->assertEquals($segment2['hash'], $cache->fetch($key2));
+        $this->assertEquals($segment3['hash'], $cache->fetch($key3));
+    }
+
+    public function test_segment_cache_with_operator_characters()
+    {
+        $cache = Cache::getEagerCache();
+        $model = new SegmentEditorModel();
+
+        // pageUrl==http://abc.com/=/@/!/,/;
+        $idSegment = SegmentEditorApi::getInstance()->add('test segment 1', 'pageUrl==http%253A%252F%252Fabc.com%252F%253D%252F%2540%252F!%252F%252C%252F%253B');
+        $segment = $model->getSegment($idSegment);
+        $key1 = Segment::CACHE_KEY . md5($segment['definition']);
+
+        Segment::getSegmentHash('dummy');
+
+        $this->assertTrue($cache->contains($key1));
+    }
 }
