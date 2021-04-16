@@ -1,5 +1,4 @@
 $(function () {
-    return;// todo would need to be rewritten
     angular.element(document).injector().invoke(handleZenMode);
 
     function handleZenMode ($rootElement, $cookies) {

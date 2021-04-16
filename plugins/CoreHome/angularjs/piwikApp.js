@@ -34,10 +34,8 @@ var AppModule = /** @class */ (function () {
             );
         this.upgrade.bootstrap(document.documentElement, ['piwikApp'], { strictDi: false });
 
-
             angular.module('piwikApp').factory('$location', ng.upgrade.static.downgradeInjectable(ng.common.upgrade.$locationShim));
 
-           //piwikHelper.compileAngularComponents(document.body);
     };
     return AppModule;
 }());
@@ -55,4 +53,4 @@ AppModule.ctorParameters = function () { return [
 document.addEventListener('DOMContentLoaded', function () {
 ng.platformBrowserDynamic
     .platformBrowserDynamic().bootstrapModule(AppModule);
-});
+}, true);
