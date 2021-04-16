@@ -82,7 +82,7 @@
                 <form action="{{ linkTo({ 'module':'API', 'segment': null,
                     'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
                     'outputType':downloadOutputType, 'language':language,
-                    'format': (report.format in ['html', 'csv']) ? report.format : false }) }}"
+                    'format': (report.format in ['html', 'csv', 'tsv']) ? report.format : false }) }}"
                       method="POST"
                       target="_blank"
                       id="downloadReportForm_{{ report.idreport|e('html_attr') }}"
