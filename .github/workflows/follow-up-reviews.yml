@@ -10,11 +10,11 @@ jobs:
       - uses: actions/stale@v3
         with:
           debug-only: true
-          start-date: '2021-03-01T00:00:00Z'
+          start-date: 2021-03-01T00:00:00Z
           days-before-pr-stale: 7
           days-before-pr-close: -1
-          only-pr-labels: 'Needs Review'
+          only-pr-labels: Needs Review
           days-before-issue-stale: -1
           days-before-issue-close: -1
-          stale-pr-message: 'This issue is in "needs review" but there has been no activity for 7 days. ping @tsteur @sgiehl @diosmosis @flamisz'
-          stale-pr-label: 'Stale'
+          stale-pr-message: This issue is in "needs review" but there has been no activity for 7 days. ping @tsteur @sgiehl @diosmosis @flamisz
+          stale-pr-label: Stale
