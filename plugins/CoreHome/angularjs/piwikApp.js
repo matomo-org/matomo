@@ -27,7 +27,14 @@ var AppModule = /** @class */ (function () {
         this.upgrade = upgrade;
     }
     AppModule.prototype.ngDoBootstrap = function () {
+        angular.module('piwikApp')
+            .directive(
+                'piwikActivityIndicator',
+                ng.upgrade.static.downgradeComponent({ component: window['core-home'].ActivityIndicatorComponent })
+            );
         this.upgrade.bootstrap(document.documentElement, ['piwikApp'], { strictDi: false });
+
+
             angular.module('piwikApp').factory('$location', ng.upgrade.static.downgradeInjectable(ng.common.upgrade.$locationShim));
 
            //piwikHelper.compileAngularComponents(document.body);
@@ -38,7 +45,7 @@ AppModule.decorators = [
     { type: ng.core.NgModule, args: [{
             imports: [
                 ng.platformBrowser.BrowserModule, ng.upgrade.static.UpgradeModule,
-                window['core-home'].CoreHomeModule
+                window['core-home'].ea
             ]
         },] }
 ];

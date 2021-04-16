@@ -45,10 +45,10 @@
         </tr>
         </thead>
 
-        <tbody id="tb" ng-if="model.isLoading">
+        <tbody id="tb">
             <tr>
                 <td colspan="7" class="allWebsitesLoading">
-                    <div piwik-activity-indicator loading-message="model.loadingMessage" loading="model.isLoading"></div>
+                    <piwik-activity-indicator  loading-message="model.loadingMessage" loading="model.isLoading"></piwik-activity-indicator>
                 </td>
             </tr>
         </tbody>
