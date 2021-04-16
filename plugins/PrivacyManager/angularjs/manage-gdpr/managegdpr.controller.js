@@ -32,7 +32,7 @@
 
         function showSuccessNotification(message)
         {
-            var UI = matomoRequire('piwik/UI');
+            var UI = require('piwik/UI');
             var notification = new UI.Notification();
             notification.show(message, {context: 'success', id: 'manageGdpr'});
 
@@ -65,7 +65,7 @@
         }
 
         this.showProfile = function (visitorId, idSite) {
-            matomoRequire('piwik/UI').VisitorProfileControl.showPopover(visitorId, idSite);
+            require('piwik/UI').VisitorProfileControl.showPopover(visitorId, idSite);
         };
 
         this.exportDataSubject = function () {

@@ -66,7 +66,7 @@
                 vm.successResponse = response;
 
                 if (!vm.noSuccessNotification) {
-                    var UI = matomoRequire('piwik/UI');
+                    var UI = require('piwik/UI');
                     var notification = new UI.Notification();
                     notification.show($filter('translate')('General_YourChangesHaveBeenSaved'), {
                         context: 'success',

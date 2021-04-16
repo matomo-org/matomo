@@ -90,7 +90,7 @@
                 if (response && response.error) {
                     self.isUpdatingGeoIpDatabase = false;
 
-                    var UI = matomoRequire('piwik/UI');
+                    var UI = require('piwik/UI');
                     var notification = new UI.Notification();
                     notification.show(response.error, {
                         placeat: '#geoipdb-update-info-error',
@@ -117,7 +117,7 @@
                     self.progressUpdateLabel = '';
                     self.isUpdatingGeoIpDatabase = false;
 
-                    var UI = matomoRequire('piwik/UI');
+                    var UI = require('piwik/UI');
                     var notification = new UI.Notification();
                     notification.show(_pk_translate('General_Done'), {
                         placeat: '#done-updating-updater',

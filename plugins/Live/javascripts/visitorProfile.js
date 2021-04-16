@@ -10,7 +10,7 @@
 (function ($, require) {
 
     var piwik = require('piwik'),
-        exports = matomoRequire('piwik/UI'),
+        exports = require('piwik/UI'),
         UIControl = exports.UIControl;
 
     /**
@@ -295,4 +295,4 @@
     // add the popup handler that creates a visitor profile
     broadcast.addPopoverHandler('visitorProfile', VisitorProfileControl.showPopover);
 
-})(jQuery, matomoRequire);
+})(jQuery, require);

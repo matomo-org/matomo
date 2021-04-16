@@ -55,7 +55,7 @@
                 providerId: this.selectedProvider
             }).then(function () {
                 self.isLoading = false;
-                var UI = matomoRequire('piwik/UI');
+                var UI = require('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(_pk_translate('General_Done'), {
                     context: 'success',

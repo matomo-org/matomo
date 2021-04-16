@@ -15,7 +15,7 @@
 
     function getDataTableFromApiMethod(apiMethod)
     {
-        var div = $(matomoRequire('piwik/UI').DataTable.getDataTableByReport(apiMethod));
+        var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
         if (div.length && div.data('uiControlObject')) {
             return div.data('uiControlObject');
         }
@@ -82,7 +82,7 @@
                 // when row evolution is triggered from the url (not a click on the data table)
                 // we look for the data table instance in the dom
                 var report = param.split(':')[0];
-                var div = $(matomoRequire('piwik/UI').DataTable.getDataTableByReport(report));
+                var div = $(require('piwik/UI').DataTable.getDataTableByReport(report));
                 if (div.length && div.data('uiControlObject')) {
                     dataTable = div.data('uiControlObject');
                     if (typeof dataTable.pagePerformanceInstance != 'undefined') {

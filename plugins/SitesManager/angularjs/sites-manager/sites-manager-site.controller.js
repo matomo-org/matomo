@@ -135,7 +135,7 @@
             piwikApi.post({method: apiMethod}, values).then(function (response) {
                 $scope.site.editMode = false;
 
-                var UI = matomoRequire('piwik/UI');
+                var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
                 var message = 'Website updated';

@@ -59,7 +59,7 @@
             piwikApi.post({method: apiMethod}, {settingValues: values}).then(function (success) {
                 self.isSaving[settings.pluginName] = false;
 
-                var UI = matomoRequire('piwik/UI');
+                var UI = require('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(_pk_translate('CoreAdminHome_PluginSettingsSaveSuccess'), {
                     id: 'generalSettings', context: 'success'

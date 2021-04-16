@@ -66,7 +66,7 @@ var Piwik_Popover = (function () {
                 globalAjaxQueue.abort();
                 $('.ui-widget-overlay').off('click.popover');
                 isOpen = false;
-                matomoRequire('piwik/UI').UIControl.cleanupUnusedControls();
+                require('piwik/UI').UIControl.cleanupUnusedControls();
                 if (typeof closeCallback == 'function') {
                     closeCallback();
                     closeCallback = false;

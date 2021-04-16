@@ -82,7 +82,7 @@
                 return;
             }
 
-            var UI = matomoRequire('piwik/UI');
+            var UI = require('piwik/UI');
             var notification = new UI.Notification();
 
             if (subcategory === $scope.helpShownCategory) {
@@ -157,7 +157,7 @@
         };
 
         $scope.loadSubcategory = function (category, subcategory) {
-            var UI = matomoRequire('piwik/UI');
+            var UI = require('piwik/UI');
             UI.Notification.prototype.remove('reportingmenu-help');
 
             if (subcategory && subcategory.active) {

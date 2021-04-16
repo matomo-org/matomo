@@ -37,7 +37,7 @@ $(document).ready(function () {
     ];
     var message = _pk_translate('CoreAdminHome_ProtocolNotDetectedCorrectly') + " " + _pk_translate('CoreAdminHome_ProtocolNotDetectedCorrectlySolution', params);
 
-    var UI = matomoRequire('piwik/UI');
+    var UI = require('piwik/UI');
     var notification = new UI.Notification();
     notification.show(message, {context: 'warning'});
 });

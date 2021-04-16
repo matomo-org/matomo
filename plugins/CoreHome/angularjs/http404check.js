@@ -51,7 +51,7 @@
                         message = 'Please check if you have an ad blocker or something similar enabled.';
                     }
 
-                    var UI = matomoRequire('piwik/UI');
+                    var UI = require('piwik/UI');
                     var notification = new UI.Notification();
                     notification.show(message, {
                         title: 'Failed to load HTML file:',

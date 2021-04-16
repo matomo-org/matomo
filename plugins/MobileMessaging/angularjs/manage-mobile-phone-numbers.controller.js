@@ -28,7 +28,7 @@
 
                 self.isChangingPhoneNumber = false;
 
-                var UI = matomoRequire('piwik/UI');
+                var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
                 if (!response || !response.value) {

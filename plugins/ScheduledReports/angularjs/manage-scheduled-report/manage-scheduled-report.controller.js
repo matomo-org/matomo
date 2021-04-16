@@ -113,7 +113,7 @@
 
         function fadeInOutSuccessMessage(selector, message) {
 
-            var UI = matomoRequire('piwik/UI');
+            var UI = require('piwik/UI');
             var notification = new UI.Notification();
             notification.show(message, {
                 placeat: selector,

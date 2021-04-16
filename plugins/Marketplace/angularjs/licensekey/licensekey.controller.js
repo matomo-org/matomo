@@ -29,7 +29,7 @@
                 self.isUpdating = false;
 
                 if (response && response.value) {
-                    var UI = matomoRequire('piwik/UI');
+                    var UI = require('piwik/UI');
                     var notification = new UI.Notification();
                     notification.show(onSuccessMessage, {context: 'success'});
 

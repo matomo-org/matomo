@@ -151,7 +151,7 @@ function copyDashboardToUser() {
 }
 
 (function () {
-    var exports = window.matomoRequire('piwik/UI');
+    var exports = window.require('piwik/UI');
     var UIControl = exports.UIControl;
 
     /**

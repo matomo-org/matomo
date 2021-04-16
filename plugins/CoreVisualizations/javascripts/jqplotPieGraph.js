@@ -10,7 +10,7 @@
 
 (function ($, require) {
 
-    var exports = matomoRequire('piwik/UI'),
+    var exports = require('piwik/UI'),
         JqplotGraphDataTable = exports.JqplotGraphDataTable;
 
     exports.JqplotPieGraphDataTable = function (element) {
@@ -78,4 +78,4 @@
         }
     });
 
-})(jQuery, matomoRequire);
+})(jQuery, require);

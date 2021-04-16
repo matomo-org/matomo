@@ -22,7 +22,7 @@
                 {delegatedManagement: (this.enabled == '1') ? 'true' : 'false'}
             ).then(function () {
 
-                var UI = matomoRequire('piwik/UI');
+                var UI = require('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(_pk_translate('CoreAdminHome_SettingsSaveSuccess'), {
                     id: 'mobileMessagingSettings', context: 'success'
