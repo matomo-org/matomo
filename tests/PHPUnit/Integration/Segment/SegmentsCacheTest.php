@@ -64,15 +64,31 @@ class SegmentsCacheTest extends IntegrationTestCase
         $segment1 = $model->getSegment($idSegment1);
         $segment2 = $model->getSegment($idSegment2);
         $segment3 = $model->getSegment($idSegment3);
-        $key1 = Segment::CACHE_KEY . md5($segment1['definition']);
-        $key2 = Segment::CACHE_KEY . md5($segment2['definition']);
-        $key3 = Segment::CACHE_KEY . md5($segment3['definition']);
-
+        $tests = [];
+        
+        $tests[$segment1['hash']] = [
+            Segment::CACHE_KEY . md5($segment1['definition']),
+            Segment::CACHE_KEY . md5(urldecode($segment1['definition'])),
+            Segment::CACHE_KEY . md5(urlencode($segment1['definition'])),
+        ];
+        $tests[$segment2['hash']] = [
+            Segment::CACHE_KEY . md5($segment2['definition']),
+            Segment::CACHE_KEY . md5(urldecode($segment2['definition'])),
+            Segment::CACHE_KEY . md5(urlencode($segment2['definition'])),
+        ];
+        $tests[$segment3['hash']] = [
+            Segment::CACHE_KEY . md5($segment3['definition']),
+            Segment::CACHE_KEY . md5(urldecode($segment3['definition'])),
+            Segment::CACHE_KEY . md5(urlencode($segment3['definition'])),
+        ];
+        
         Segment::getSegmentHash('dummy');
 
-        $this->assertEquals($segment1['hash'], $cache->fetch($key1));
-        $this->assertEquals($segment2['hash'], $cache->fetch($key2));
-        $this->assertEquals($segment3['hash'], $cache->fetch($key3));
+        foreach ($tests as $hash => $keys) {
+            foreach ($keys as $key) {
+                $this->assertEquals($hash, $cache->fetch($key));
+            }
+        }
     }
 
     public function test_segment_cache_with_operator_characters()
