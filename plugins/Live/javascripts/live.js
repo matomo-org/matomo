@@ -304,7 +304,7 @@ $(function() {
         ajaxRequest.send();
     };
 
-    var exports =require("piwik/Live");
+    var exports = require("piwik/Live");
     exports.initSimpleRealtimeVisitorWidget = function () {
         $('.simple-realtime-visitor-widget').each(function() {
             var $this = $(this),
