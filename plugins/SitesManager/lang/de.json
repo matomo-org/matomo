@@ -79,6 +79,8 @@
         "SiteWithoutDataSetupTracking": "Bitte fügen Sie den folgenden %1$sTracking Code%2$s auf ihrer Website ein, insofern Sie dies noch nicht getan haben.",
         "SiteWithoutDataMessageDisappears": "Diese Nachricht wird verschwinden, sobald die ersten Daten für diese Website aufgezeichnet wurden.",
         "SiteWithoutDataIgnoreMessage": "Diese Nachricht für eine Stunde verbergen",
+        "SiteWithoutDataOtherWays": "Andere Wege",
+        "SiteWithoutDataOtherIntegrations": "Andere Integrationen",
         "SuperUserAccessCan": "Ein Nutzer mit Hauptadministrator-Berechtigung kann ebenfalls %1$sglobale Einstellungen%2$s für neue Websites vornehmen.",
         "Timezone": "Zeitzone",
         "TrackingSiteSearch": "Die interne Suche auswerten",

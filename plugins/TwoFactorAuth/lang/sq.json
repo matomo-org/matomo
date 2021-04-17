@@ -44,6 +44,8 @@
         "RecoveryCodesAllUsed": "Janë përdorur krejt kodet e rimarrjeve. Këshillohet me forcë të riprodhoni kode rimarrjesh.",
         "RecoveryCodesRegenerated": "U riprodhuan kode rimarrjesh. Sigurohuni se i shkarkuat ose i shtypët kodet e rinj të prodhuar.",
         "GenerateNewRecoveryCodes": "Prodhoni kode të rinj rimarrjesh",
-        "GenerateNewRecoveryCodesInfo": "Kur prodhoni kode të rinj rimarrjesh, kodet tuaj të dikurshëm s’do të funksionojnë më. Sigurohuni se i shkarkuat ose i shtypët kodet tuaj të rinj."
+        "GenerateNewRecoveryCodesInfo": "Kur prodhoni kode të rinj rimarrjesh, kodet tuaj të dikurshëm s’do të funksionojnë më. Sigurohuni se i shkarkuat ose i shtypët kodet tuaj të rinj.",
+        "RequireTwoFAForAll": "Kërko doemos mirëfilltësim dyfaktorësh për këdo",
+        "RequireTwoFAForAllInformation": "Në u aktivizoftë, çdo përdoruesi do t’i duhet të aktivizojë mirëfilltësimin dyfaktorësh. Përdorimi i detyrueshëm i 2FA-së do të dojë që krejt përdoruesit të mund të përdorin një pajisje ku mund të instalojnë një aplikacion mirëfilltësues. Këtë mund ta aktivizoni vetëm nëse e keni ujdisur tashmë mirëfilltësimin dyfaktorësh."
     }
 }
