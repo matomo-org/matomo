@@ -222,7 +222,7 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_events'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_events'] = 2;
         $generalConfig['archiving_ranking_query_row_limit'] = 50000;
-        // Should be more than the datatable_archiving_maximum_rows_actions as code will take the max of these two 
+        // Should be more than the datatable_archiving_maximum_rows_actions as code will take the max of these two
         $generalConfig['datatable_archiving_maximum_rows_site_search'] = 5;
     }
 }
