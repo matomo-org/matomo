@@ -44,6 +44,8 @@
         "RecoveryCodesAllUsed": "Tüm kurtarma kodları kullanılmış. Kurtarma kodlarını yeniden üretmeniz önemle önerilir.",
         "RecoveryCodesRegenerated": "Kurtarma kodları yeniden üretildi. Yeni üretilen kodları indirdiğinizden ya da yazdırdığınızdan emin olun.",
         "GenerateNewRecoveryCodes": "Kurtarma kodlarını yeniden üret",
-        "GenerateNewRecoveryCodesInfo": "Kurtarma kodlarını yeniden ürettiğinizde eski kodlarınız artık çalışmaz. Yeni kodları indirdiğinizden ya da yazdırdığınızdan emin olun."
+        "GenerateNewRecoveryCodesInfo": "Kurtarma kodlarını yeniden ürettiğinizde eski kodlarınız artık çalışmaz. Yeni kodları indirdiğinizden ya da yazdırdığınızdan emin olun.",
+        "RequireTwoFAForAll": "Herkes için iki aşamalı kimlik doğrulaması kullanılsın",
+        "RequireTwoFAForAllInformation": "Bu seçenek etkinleştirildiğinde, her kullanıcının iki aşamalı kimlik doğrulaması kullanması gerekir. İki aşamalı kimlik doğrulaması dayatıldığında, her kullanıcının bir kimlik doğrulama uygulaması kurabileceği bir aygıta sahip olması gerekir. Bu seçeneği yalnız kendiniz iki aşamalı kimlik doğrulaması kullanıyorsanız etkinleştirebilirsiniz."
     }
 }

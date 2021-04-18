@@ -41,6 +41,7 @@
         "RemoveOtherLabel": "Ich möchte meine 'anderen' Daten sehen",
         "PurgeOldData": "Ich möchte einige alte Daten entfernen",
         "SearchHelpResources": "matomo.org Hilfequellen durchsuchen",
-        "PopularHelpTopics": "Beliebte Hilfethemen"
+        "PopularHelpTopics": "Beliebte Hilfethemen",
+        "ReferMatomo": "Matomo empfehlen"
     }
 }
