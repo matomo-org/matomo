@@ -296,6 +296,7 @@
 	<row>
 		<name>User IDs (Visitors)</name>
 		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/user-id/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Visits Summary (Visitors)</name>
