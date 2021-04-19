@@ -894,14 +894,16 @@ class CronArchive
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
-                    /** @var SegmentArchiving */
-                    $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+                    if (empty($this->segmentArchiving)) {
+                        // might not be initialised if init is not called
+                        $this->segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+                    }
                     $segmentHash = $params->getSegment()->getHash();
-                    $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
+                    $segmentInfo = $this->segmentArchiving->findSegmentForHash($segmentHash, $idSite);
                     $periodEnd = $params->getPeriod()->getDateEnd();
 
                     if ($segmentInfo) {
-                        $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
+                        $segmentArchiveStartDate = $this->segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
                         if ($segmentArchiveStartDate !== null && $segmentArchiveStartDate->isLater($periodEnd)) {
                             // the system is not allowed to invalidate reports for this period
