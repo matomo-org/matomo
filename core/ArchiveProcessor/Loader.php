@@ -419,12 +419,10 @@ class Loader
                         $params->getPeriod()->getId(),
                         $doneFlag
                     ]);
-                    if (!empty($idInvalidation)) {
-                        // it was specifically invalidated by a user
-                        // it would also detect if the system scheduled a rearchive but it wouldn't execute the query since it would already have this covered above in the `if ($segmentArchiveStartDate->isLater($periodEnd)) {`
-                        return false;
+
+                    if (empty($idInvalidation)) {
+                        return true;
                     }
-                    return true;
                 }
             }
         }
