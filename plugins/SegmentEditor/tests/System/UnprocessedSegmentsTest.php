@@ -17,6 +17,7 @@ use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\VisitsSummary;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\CronArchive\SegmentArchiving;
 
 /**
  * @group SegmentEditor
@@ -257,6 +258,9 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
                 $previous->General['browser_archiving_disabled_enforce'] = 1;
                 return $previous;
             }),
+
+            SegmentArchiving::class => \DI\object()
+                ->constructorParameter('beginningOfTimeLastNInYears', 15)
         ];
     }
 

@@ -905,7 +905,7 @@ class CronArchive
                     if ($segmentInfo) {
                         $segmentArchiveStartDate = $this->segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
-                        if ($segmentArchiveStartDate !== null && $segmentArchiveStartDate->isLater($periodEnd)) {
+                        if ($segmentArchiveStartDate !== null && $segmentArchiveStartDate->isLater($periodEnd->getEndOfDay())) {
                             // the system is not allowed to invalidate reports for this period
                             // automatically, only a user can specifically invalidate
                             continue;
