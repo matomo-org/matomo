@@ -26,6 +26,7 @@ describe("SiteSelector", function () {
 
         await page.waitForSelector('.custom_select_ul_list');
         await page.waitForNetworkIdle();
+        await page.click('.websiteSearch');
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('expanded');
     });

@@ -1,9 +1,10 @@
 {
     "Insights": {
+        "PluginDescription": "Poznaj szczegóły ruchu na swojej stronie. Szczegóły te są dostępne jako widżety pulpitu oraz nowe ikony w raportach, pozwalając Ci zobaczyć najważniejsze trendy w Twoich danych.",
         "ControlComparedToDescription": "Wzrost w stosunku do",
         "ControlFilterByDescription": "Pokaż wszystkich, tylko przechodzących, tylko nowych lub tylko znikających",
-        "DatePeriodCombinationNotSupported": "Nie udało się wygenerować Insights'a dla tej kombinacji daty i okresu.",
-        "DayComparedToPreviousDay": "poprzedniego dnia",
+        "DatePeriodCombinationNotSupported": "Nie udało się wygenerować szczegółów dla tej kombinacji daty i okresu.",
+        "DayComparedToPreviousDay": "wczoraj",
         "DayComparedToPreviousWeek": "tego samego dnia w poprzednim tygodniu",
         "DayComparedToPreviousYear": "ten sam dzień w poprzednim roku",
         "Filter": "Filtr",

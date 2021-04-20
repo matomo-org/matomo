@@ -565,7 +565,7 @@ class Archive implements ArchiveQuery
 
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
+            if (Rules::isArchivingEnabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
                 && !$this->forceFetchingWithoutLaunchingArchiving
             ) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
@@ -756,7 +756,7 @@ class Archive implements ArchiveQuery
     {
         $periods = $this->params->getPeriods();
         $periodLabel = reset($periods)->getLabel();
-        
+
         if (Rules::shouldProcessReportsAllPlugins($this->params->getIdSites(), $this->params->getSegment(), $periodLabel)) {
             return self::ARCHIVE_ALL_PLUGINS_FLAG;
         }
@@ -822,7 +822,7 @@ class Archive implements ArchiveQuery
             $this->initializeArchiveIdCache($doneFlag);
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
-                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getString(),
+                $site->getId(), $period->getLabel(), $periodDateStr, urlencode($this->params->getSegment()->getString()),
                 $plugin, $requestedReport);
 
             if (!empty($prepareResult)

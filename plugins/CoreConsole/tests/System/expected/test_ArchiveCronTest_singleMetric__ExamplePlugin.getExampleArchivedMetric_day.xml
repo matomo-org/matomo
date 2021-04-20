@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<ExamplePlugin_example_metric>0</ExamplePlugin_example_metric>
-		<ExamplePlugin_example_metric2>1</ExamplePlugin_example_metric2>
+		<ExamplePlugin_example_metric>3383</ExamplePlugin_example_metric>
+		<ExamplePlugin_example_metric2>0</ExamplePlugin_example_metric2>
 	</result>
 	<result idSite="2" />
 	<result idSite="3" />

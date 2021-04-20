@@ -1,7 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Otwórz w nowym oknie",
-        "PluginDescription": "Wyświetl dowolny raport Matomo na swojej stronie lub w aplikacji przy pomocy zagnieżdżonego HTML'a.",
-        "TopLinkTooltip": "Eksportuj raporty Matomo jako widżety i zagnieżdżaj Pulpit w swoich aplikacjach jako iframe."
+        "PluginDescription": "Wyświetl dowolny raport Matomo na swojej stronie lub w aplikacji przy pomocy prostego zagnieżdżonego HTML'a.",
+        "ViewAccessRequired": "Ten użytkownik posiada uprawnienia do zapisu. Tylko tokeny użytkowników z uprawnieniami do odczytu mogą być użyte. Przeczytaj %1$s, żeby dowiedzieć się więcej.",
+        "TopLinkTooltip": "Eksportuj raporty Matomo jako widżety i zagnieżdżaj Pulpit w swoich aplikacjach jako iframe.",
+        "TooHighAccessLevel": "Użytkownik z uprawnieniami Super Użytkownika. Dla zagnieżdżanych widżetów tokeny Super Użytkowników są niedopuszczalne. %1$s Zapoznaj się z naszą dokumentacją.%2$s"
     }
 }

@@ -21,6 +21,7 @@ use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Sequence;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
@@ -132,7 +133,7 @@ class Model
         // select all idarchive/name pairs we want to invalidate
         $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
                   FROM `$archiveTable`
-                 WHERE idsite IN (" . implode(',', $idSites) . ")";
+                 WHERE idsite IN (" . implode(',', $idSites) . ") AND value <> " . ArchiveWriter::DONE_PARTIAL;
 
         $periodCondition = '';
         if (!empty($allPeriodsToInvalidate)) {
@@ -180,17 +181,23 @@ class Model
 
         $sql .= " AND $nameCondition";
 
-        $archivesToInvalidate = Db::fetchAll($sql);
-        $idArchives = array_column($archivesToInvalidate, 'idarchive');
+        $idArchives = [];
+        $archivesToInvalidate = [];
 
-        // update each archive as invalidated
-        if (!empty($idArchives)) {
-            $idArchives = array_map('intval', $idArchives);
+        // update each archive as invalidated (but only for full archives or plugin archives, not for partial archives.
+        // DONE_INVALIDATED also implies that an archive is whole and not partial, and we want to avoid that.)
+        if (empty($name)) {
+            $archivesToInvalidate = Db::fetchAll($sql);
+            $idArchives = array_column($archivesToInvalidate, 'idarchive');
 
-            $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                . implode(',', $idArchives) . ") AND $nameCondition";
+            if (!empty($idArchives)) {
+                $idArchives = array_map('intval', $idArchives);
 
-            Db::query($sql);
+                $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
+                    . implode(',', $idArchives) . ") AND $nameCondition";
+
+                Db::query($sql);
+            }
         }
 
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
@@ -342,6 +349,10 @@ class Model
 
     public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
     {
+        if (SettingsServer::isArchivePhpTriggered()) {
+            StaticContainer::get(LoggerInterface::class)->info('deleteArchivesWithPeriod: ' . $numericTable . ' with period = ' . $period . ' and date = ' . $date);
+        }
+
         $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
         $bind  = array($period, $date);
 
@@ -360,26 +371,6 @@ class Model
         }
 
         return $deletedRows;
-    }
-
-    public function getInvalidatedArchiveIdsAsOldOrOlderThan($archive)
-    {
-        $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
-        $sql = "SELECT idarchive FROM `$table` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND `name` = ? AND `value` IN ("
-            . ArchiveWriter::DONE_INVALIDATED . ") AND idarchive <= ?";
-        $bind = [
-            $archive['idsite'],
-            $archive['period'],
-            $archive['date1'],
-            $archive['date2'],
-            $archive['name'],
-            $archive['idarchive'],
-        ];
-
-        $result = Db::fetchAll($sql, $bind);
-        $result = array_column($result, 'idarchive');
-
-        return $result;
     }
 
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
@@ -420,6 +411,10 @@ class Model
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
+        }
+
+        if (SettingsServer::isArchivePhpTriggered()) {
+            StaticContainer::get(LoggerInterface::class)->info('deleteOlderArchives with ' . $params . ', name = ' . $name . ', ts_archived < ' . $tsArchived . ', idarchive < ' . $idArchive);
         }
 
         $this->deleteArchiveIds($numericTable, $blobTable, $idArchives);

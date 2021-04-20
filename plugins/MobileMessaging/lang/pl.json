@@ -28,6 +28,7 @@
         "Settings_PhoneNumbers_Add": "Dodaj nowy numer telefonu",
         "Settings_PhoneNumbers_CountryCode_Help": "Jeśli nie znasz numeru kierunkowego swojego kraju, poszukaj go tu.",
         "Settings_PhoneNumbers_Help": "Zanim zaczniesz otrzymywać raporty SMS'em (wiadomość tekstowa), numer Twojego telefonu musi zostać wprowadzony poniżej.",
+        "Settings_PhoneNumbers_HelpAdd": "Po kliknięciu \"Dodaj\", SMS zawierający kod zostanie wysłany na telefon. Użytkownik odbierający kod powinien zalogować się do Matomo, kliknąć w Ustawienia, potem kliknąć na Powiadomienia Mobilne. Po wprowadzeniu kodu użytkownik będzie miał możliwość odbioru raportów na telefonie.",
         "Settings_PleaseSignUp": "Aby stworzyć raport SMS i otrzymywać statystyki swoich serwisów w postaci wiadomości tekstowych, proszę wpisz poniżej dane dotyczące API SMS.",
         "Settings_SMSAPIAccount": "Zarządzaj kontem SMS API",
         "Settings_SMSProvider": "Dostawca usługi SMS",

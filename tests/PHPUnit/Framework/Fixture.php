@@ -48,6 +48,7 @@ use Piwik\Singleton;
 use Piwik\Site;
 use Piwik\Tests;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
@@ -393,6 +394,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         Date::$now = null;
         FrontController::$requestId = null;
         Cache::$cache = null;
+        MockFileMethods::reset();
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();

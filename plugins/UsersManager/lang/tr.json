@@ -47,6 +47,8 @@
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "%s",
         "ExceptionEditAnonymous": "İsimsiz kullanıcı düzenlenemez ya da silinemez. Bu kullanıcı Matomo tarafından henüz oturum açmamış ziyaretçiler için kullanılır. Örneğin herkese açık olarak görüntülenmesine izin vermek istediğinizde istatistikler için 'isimsiz' kullanıcıya 'görüntüleme' izni verin.",
         "ExceptionEmailExists": "'%s' e-posta adresini kullanan bir kullanıcı zaten var.",
+        "ExceptionEmailExistsAsLogin": "'%s' e-posta adresi zaten bir kullanıcı adı olarak kullanılmış.",
+        "ExceptionLoginExistsAsEmail": "'%s' kullanıcı adı zaten bir e-posta adresi olarak kullanılmış.",
         "ExceptionInvalidEmail": "E-posta biçimi geçersiz.",
         "ExceptionInvalidLoginFormat": "Kullanıcı adı %1$s ile %2$s karakter arasında olmalı ve yalnız harf, rakam ve '_ - . @ +' karakterlerini içermelidir.",
         "ExceptionInvalidPassword": "Parola %1$s karakterden uzun olmalıdır.",

@@ -6,7 +6,7 @@
         "LocalTime": "Besøg pr. lokaltid",
         "NHour": "%s",
         "ServerTime": "Besøg pr. servertid",
-        "SubmenuTimes": "Tider",
+        "SubmenuTimes": "Klokkeslæt",
         "VisitsByDayOfWeek": "Besøg efter ugedag",
         "WidgetByDayOfWeekDocumentation": "Denne graf viser antallet af besøg hjemmesiden har modtaget på hver dag i ugen.",
         "WidgetLocalTime": "Besøg (lokaltid)",

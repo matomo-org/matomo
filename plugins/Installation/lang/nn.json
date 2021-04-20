@@ -50,7 +50,6 @@
         "SystemCheckTimeLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir tid enn den hev lov til.<br \/>Viss det trengs, endre innstillinga max_execution_time i php.ini-fila di.",
         "SystemCheckWarnDomHelp": "Du bør slå på \"dom\"-utvidinga (t.d. installer \"php-dom\"- og\/eller \"php-xml\"-pakken).",
         "SystemCheckWarning": "Matomo vil fungera som normalt, men det kan hende at somme funksjonar manglar",
-        "SystemCheckWarnJsonHelp": "Du bør slå på \"json\"-utvidinga (t.d. installer \"php-json\"-pakken) for betre yting.",
         "SystemCheckWarnLibXmlHelp": "Du bør slå på \"libxml\"-utvidinga (t.d. installer \"php-libxml\"-pakken) sidan andre kjerneutvidingar i PHP krev den.",
         "SystemCheckWarnSimpleXMLHelp": "Du bør installera \"SimpleXML\"-utvidinga (t.d. installer \"php-simplexml\"- og\/eller \"php-xml\"-pakken).",
         "SystemCheckWinPdoAndMysqliHelp": "På ein Windows-tenar kan du leggja til følgjande liner i di php.ini-fil: %s",

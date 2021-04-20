@@ -30,6 +30,17 @@ class ConsoleCommand extends SymfonyCommand
         $output->writeln('');
     }
 
+    public function writeComment(OutputInterface $output, $messages)
+    {
+        $output->writeln('');
+
+        foreach ($messages as $message) {
+            $output->writeln('<comment>' . $message . '</comment>');
+        }
+
+        $output->writeln('');
+    }
+
     protected function checkAllRequiredOptionsAreNotEmpty(InputInterface $input)
     {
         $options = $this->getDefinition()->getOptions();

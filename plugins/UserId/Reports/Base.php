@@ -15,5 +15,6 @@ abstract class Base extends Report
     protected function init()
     {
         $this->categoryId = 'General_Visitors';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/user-id/';
     }
 }

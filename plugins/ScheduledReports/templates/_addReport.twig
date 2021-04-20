@@ -94,7 +94,7 @@
 
         {{ postEvent("Template.reportParametersScheduledReports") }}
 
-        <div ng-show="manageScheduledReport.report.type == 'email' && manageScheduledReport.report.formatemail !== 'csv'">
+        <div ng-show="manageScheduledReport.report.type == 'email' && manageScheduledReport.report.formatemail !== 'csv' && manageScheduledReport.report.formatemail !== 'tsv'">
             <div piwik-field uicontrol="select" name="display_format" class="email"
                  ng-model="manageScheduledReport.report.displayFormat"
                  options="{{ displayFormats|json_encode }}"

@@ -268,7 +268,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * erroe message can be:
+     * error message can be:
      *      curl_exec: server certificate verification failed. CAfile: /home/travis/build/piwik/piwik/core/DataFiles/cacert.pem CRLfile: none. Hostname requested was: self-signed.badssl.com
      * or
      *      curl_exec: SSL certificate problem: self signed certificate. Hostname requested was: self-signed.badssl.com
@@ -276,7 +276,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessageRegExp('/curl_exec: .*certificate.* /');
+        $this->expectExceptionMessageMatches('/curl_exec: .*certificate.* /');
 
         // use a domain from https://badssl.com/
         Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
@@ -304,7 +304,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $result = Http::sendHttpRequestBy(
             $method,
-            'https://tools.ietf.org/html/rfc7233',
+            'https://builds.matomo.org/matomo.zip',
             300,
             null,
             null,
@@ -317,7 +317,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         /**
          * The last arg above asked the server to limit the response sent back to bytes 0->50.
          * The RFC for HTTP Range Requests says that these headers can be ignored, so the test
-         * depends on a server that will respect it - we are requesting the RFC itself, which does.
+         * depends on a server that will respect it - we are requesting our build download, which does.
          */
         $this->assertEquals(51, strlen($result));
     }

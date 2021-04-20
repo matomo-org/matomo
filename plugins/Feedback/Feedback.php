@@ -8,12 +8,12 @@
  */
 namespace Piwik\Plugins\Feedback;
 
-use Piwik\Common;
 use Piwik\Date;
-use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\View;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\Feedback\FeedbackReminder;
 
 /**
  *
@@ -31,7 +31,7 @@ class Feedback extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Controller.CoreHome.index.end'          => 'renderFeedbackPopup'
+            'Controller.CoreHome.index.end'          => 'renderViewsAndAddToPage'
         );
     }
 
@@ -40,6 +40,7 @@ class Feedback extends \Piwik\Plugin
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.less";
         $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
+        $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -49,11 +50,14 @@ class Feedback extends \Piwik\Plugin
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
@@ -64,17 +68,84 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
+        $translationKeys[] = 'Feedback_ReferMatomo';
+        $translationKeys[] = 'Feedback_ReferBannerTitle';
+        $translationKeys[] = 'Feedback_ReferBannerLonger';
+        $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
+        $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
+        $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }
 
-    public function renderFeedbackPopup(&$pageHtml)
+    public function renderViewsAndAddToPage(&$pageHtml)
+    {
+        $feedbackPopopView = $this->renderFeedbackPopup();
+        $referBannerView = $this->renderReferBanner();
+
+        $views = [$feedbackPopopView, $referBannerView];
+        $implodedViews = implode('', $views);
+
+        $endOfBody = strpos($pageHtml, '</body>');
+        $pageHtml = substr_replace($pageHtml, $implodedViews, $endOfBody, 0);
+    }
+
+    public function renderFeedbackPopup()
     {
         $popupView = new View('@Feedback/feedbackPopup');
         $popupView->promptForFeedback = (int)$this->getShouldPromptForFeedback();
-        $popupHtml = $popupView->render();
-        $endOfBody = strpos($pageHtml, "</body>");
-        $pageHtml = substr_replace($pageHtml, $popupHtml, $endOfBody, 0);
+
+        return $popupView->render();
+    }
+
+    public function renderReferBanner()
+    {
+        $referBannerView = new View('@Feedback/referBanner');
+        $referBannerView->showReferBanner = (int) $this->showReferBanner();
+
+        return $referBannerView->render();
+    }
+
+    public function showReferBanner()
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return false;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return false;
+        }
+
+        if ($this->isDisabledInTestMode()) {
+            return false;
+        }
+
+        $shouldShowReferBanner = true;
+
+        /**
+         * @internal
+         */
+        Piwik::postEvent('Feedback.showReferBanner', [&$shouldShowReferBanner]);
+
+        if (!$shouldShowReferBanner) {
+            return false;
+        }
+
+        $referReminder = new ReferReminder();
+        $nextReminderDate = $referReminder->getUserOption();
+
+        if ($nextReminderDate === false) {
+            return true;
+        }
+
+        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
+            return false;
+        }
+
+        $now = Date::now()->getTimestamp();
+        $nextReminderDate = Date::factory($nextReminderDate);
+
+        return $nextReminderDate->getTimestamp() <= $now;
     }
 
     public function getShouldPromptForFeedback()
@@ -88,9 +159,8 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
-        $login = Piwik::getCurrentUserLogin();
-        $feedbackReminderKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
-        $nextReminderDate = Option::get($feedbackReminderKey);
+        $feedbackReminder = new FeedbackReminder();
+        $nextReminderDate = $feedbackReminder->getUserOption();
 
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
             return false;
@@ -98,7 +168,7 @@ class Feedback extends \Piwik\Plugin
 
         if ($nextReminderDate === false) {
             $model = new Model();
-            $user = $model->getUser($login);
+            $user = $model->getUser(Piwik::getCurrentUserLogin());
             if (empty($user['date_registered'])) {
                 return false;
             }

@@ -23,6 +23,7 @@ use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\ProxyHttp;
+use Piwik\SettingsPiwik;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
@@ -170,6 +171,29 @@ abstract class ControllerAdmin extends Controller
         Notification\Manager::notify('ControllerAdmin_HttpIsUsed', $notification);
     }
 
+    private static function notifyIfDevelopmentModeOnButNotInstalledThroughGit()
+    {
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        if (!Development::isEnabled()) {
+            return;
+        }
+
+        if (SettingsPiwik::isGitDeployment()) {
+            return;
+        }
+
+        $message = Piwik::translate('General_WarningDevelopmentModeOnButNotGitInstalled');
+
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->raw = true;
+        $notification->flags = Notification::FLAG_CLEAR;
+        Notification\Manager::notify('ControllerAdmin_DevelopmentModeOn', $notification);
+    }
+
     /**
      * @ignore
      */
@@ -313,6 +337,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
         self::notifyIfURLIsNotSecure();
+        self::notifyIfDevelopmentModeOnButNotInstalledThroughGit();
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
 
@@ -336,7 +361,7 @@ abstract class ControllerAdmin extends Controller
         /**
          * Posted when rendering an admin page and notifications about any warnings or errors should be triggered.
          * You can use it for example when you have a plugin that needs to be configured in order to work and the
-         * plugin has not been configured yet. It can be also used to cancel / remove other notifications by calling 
+         * plugin has not been configured yet. It can be also used to cancel / remove other notifications by calling
          * eg `Notification\Manager::cancel($notificationId)`.
          *
          * **Example**

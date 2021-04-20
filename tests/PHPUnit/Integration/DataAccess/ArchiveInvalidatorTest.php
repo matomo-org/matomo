@@ -84,6 +84,89 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class), new NullLogger());
     }
 
+    public function test_markArchivesAsInvalidated_doesNotInvalidatePartialArchives()
+    {
+        $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'week', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'month', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'year', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
+        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-03'], 'day',
+            null, $cascadeDown = true, false);
+
+        $invalidatedArchives = $this->getInvalidatedArchives();
+        $this->assertEmpty($invalidatedArchives);
+
+        $expectedInvalidations = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-03',
+                'date2' => '2020-03-03',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '2',
+                'name' => 'done',
+                'date1' => '2020-03-02',
+                'date2' => '2020-03-08',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '3',
+                'name' => 'done',
+                'date1' => '2020-03-01',
+                'date2' => '2020-03-31',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '4',
+                'name' => 'done',
+                'date1' => '2020-01-01',
+                'date2' => '2020-12-31',
+                'report' => null,
+            ],
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
+    public function test_reArchiveReport_doesNothingIfIniSettingSetToZero()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last0';
+
+        $this->invalidator->reArchiveReport([1], 'VisitsSummary', 'some.Report');
+
+        $expectedInvalidations = [];
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntriesSummary();
+
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+
+        // different format
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = '0';
+
+        $this->invalidator->reArchiveReport([1], 'VisitsSummary', 'some.Report');
+
+        $expectedInvalidations = [];
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntriesSummary();
+
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
     public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenNoPluginSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
@@ -560,6 +643,68 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
         $this->assertEqualsSorted($expectedEntries, $invalidatedArchiveTableEntries);
+    }
+
+    public function test_markArchivesAsInvalidated_AddsInvalidationEntries_ButDoesNotMarkArchivesAsInvalidated_IfArchiveIsPartial()
+    {
+        // insert some partial archives
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_OK, false, false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_OK, 'ExamplePlugin', false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin', false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin', false);
+        $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin', false);
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
+        $result = $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-04'], 'day', null, false, false, 'ExamplePlugin.someData');
+
+        $this->assertEquals([Date::factory('2020-03-04')], $result->processedDates);
+
+        $idArchives = $this->getInvalidatedArchives();
+        $this->assertEquals([], $idArchives);
+
+        $expectedInvalidatedArchives = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-01-01',
+                'date2' => '2020-12-31',
+                'period' => '4',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-03-01',
+                'date2' => '2020-03-31',
+                'period' => '3',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-03-02',
+                'date2' => '2020-03-08',
+                'period' => '2',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-03-04',
+                'date2' => '2020-03-04',
+                'period' => '1',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
+        ];
+
+        $invalidations = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEqualsSorted($expectedInvalidatedArchives, $invalidations);
     }
 
     /**
@@ -1463,7 +1608,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $reArchiveList = new ReArchiveList();
         $reArchiveList->setAll([]); // clear list since adding segments will add to it
 
-        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = '1';
         Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 0;
 
         $this->invalidator->scheduleReArchiving(1);
@@ -1498,7 +1643,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $reArchiveList = new ReArchiveList();
         $reArchiveList->setAll([]); // clear list since adding segments will add to it
 
-        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 1;
         Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] = 1;
 
         $this->invalidator->scheduleReArchiving(1);
@@ -1863,7 +2008,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    private function insertArchiveRow($idSite, $date, $periodLabel, $doneValue = ArchiveWriter::DONE_OK)
+    private function insertArchiveRow($idSite, $date, $periodLabel, $doneValue = ArchiveWriter::DONE_OK, $plugin = false, $varyArchiveTypes = true)
     {
         $periodObject = \Piwik\Period\Factory::build($periodLabel, $date);
         $dateStart = $periodObject->getDateStart();
@@ -1876,15 +2021,19 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $periodId = Piwik::$idPeriods[$periodLabel];
 
-        $doneFlag = 'done';
-        if ($idArchive % 5 == 1) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
-        } else if ($idArchive % 5 == 2) {
-            $doneFlag .= '.VisitsSummary';
-        } else if ($idArchive % 5 == 3) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
-        } else if ($idArchive % 5 == 4) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
+        if ($varyArchiveTypes) {
+            $doneFlag = 'done';
+            if ($idArchive % 5 == 1) {
+                $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
+            } else if ($idArchive % 5 == 2) {
+                $doneFlag .= '.VisitsSummary';
+            } else if ($idArchive % 5 == 3) {
+                $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
+            } else if ($idArchive % 5 == 4) {
+                $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
+            }
+        } else {
+            $doneFlag = $plugin ? 'done.' . $plugin : 'done';
         }
 
         $sql = "INSERT INTO $table (idarchive, name, value, idsite, date1, date2, period, ts_archived)

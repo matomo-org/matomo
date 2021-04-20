@@ -76,10 +76,19 @@
         "Sites": "Web Siteleri",
         "SiteSearchUse": "Matomo ile ziyaretçilerin web sitesinin iç arama motorunda yaptığı aramaları izleyip raporlayabilirsiniz.",
         "SiteWithoutDataTitle": "Henüz bir veri kaydedilmemiş, aşağıdaki ayarları yapın",
-        "SiteWithoutDataDescription": "Bu web sitesi için henüz bir izleme istatistiği verisi oluşturulmamış.",
+        "SiteWithoutDataDescription": "Matomo ile web trafiğini izlemek ve değerli bilgiler elde etmek için son bir adım kaldı. Henüz yapmadıysanız, web sitesine ya da mobil uygulamaya bir kod eklemeniz gerekir. Aşağıdaki seçeneğe bakın ya da %1$stüm yönergeleri bir ekip arkadaşınıza gönderin%2$s.",
         "SiteWithoutDataSetupTracking": "Henüz yapmadıysanız lütfen aşağıdaki %1$sizleme kodunu%2$s web sitesine ya da mobil uygulamanıza kurun.",
         "SiteWithoutDataMessageDisappears": "Web sitesi ile ilgili bir veri toplandığında bu ileti görüntülenmez.",
         "SiteWithoutDataIgnoreMessage": "Bu ileti bir saat boyunca görüntülenmesin",
+        "SiteWithoutDataChoosePreferredWay": "Kurulum için yeğlediğiniz yöntemi seçin",
+        "SiteWithoutDataOtherWays": "Diğer yöntemler",
+        "SiteWithoutDataOtherIntegrations": "Diğer bütünleştirmeler",
+        "SiteWithoutDataGoogleTagManager": "Google Kod İmi Yöneticisi",
+        "SiteWithoutDataMatomoTagManager": "Matomo Kod İmi Yöneticisi",
+        "SiteWithoutDataMatomoTagManagerNotActive": "Kod İmi Yöneticisinin ne olduğunu bilmiyorsanız %1$sKod imi rehberine%2$s bakabilirsiniz. Web sitesine 3. taraf web sitelerinden çeşitli kaynaklar gömüyorsanız, web sitesini normal Java Script izleyicisi yerine Kod İmi Yöneticisi ile izlemeniz daha iyi olur.",
+        "SiteWithoutDataGoogleTagManagerDescription": "Matomo uygulamasını Google Kod İmi Yöneticisi ile kullanabilirsiniz. Matomo izlemesini Google Kod İmi Yöneticisi üzerine kurmak için %1$sbu rehberdeki%2$s yönergeleri izleyin.",
+        "SiteWithoutDataDetectedSite": "Bir %1$s sitesi kullandığınız algılandı. Lütfen %2$sbu rehberdeki%3$s yönergeleri izleyin.",
+        "SiteWithoutDataDetectedGtm": "Google Kod İmi Yöneticisini de kullandığınız algılandı. Matomo kurulumu için Google Kod İmi Yöneticisini kullanmayı yeğlerseniz lütfen %2$sbu rehberdeki%3$s yönergeleri izleyin.",
         "SuperUserAccessCan": "Süper Kullanıcılar ayrıca yeni web siteleri için %1$sgenel ayarları%2$s yönetebilir.",
         "Timezone": "Saat dilimi",
         "TrackingSiteSearch": "İç Site Araması İzlemesi",
@@ -103,6 +112,7 @@
         "EmailInstructionsSiteDetailsHeading": "Sitenizin Ayrıntıları",
         "EmailInstructionsSiteDetails": "Matomo ziyaretlerini izlerken API ya da SDK kullanabilmek için bu bilgilere gerek duyacaksınız.",
         "EmailInstructionsYourSiteId": "Sitenizin kodu: %1$s",
-        "EmailInstructionsYourTrackingUrl": "İzleme adresiniz: %1$s"
+        "EmailInstructionsYourTrackingUrl": "İzleme adresiniz: %1$s",
+        "DetectingYourSite": "Siteniz algılanıyor"
     }
 }

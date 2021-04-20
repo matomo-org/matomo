@@ -25,6 +25,7 @@ use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -74,6 +75,11 @@ abstract class SystemTestCase extends TestCase
     public static function setUpBeforeClass(): void
     {
         Log::debug("Setting up " . get_called_class());
+
+        // NOTE: it is important to reference this class in a test framework class like Fixture so the mocks
+        // will be loaded before any testable classed load, otherwise some tests may fail w/o any obvious reason.
+        // (the actual reason being )
+        MockFileMethods::reset();
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
@@ -173,6 +179,27 @@ abstract class SystemTestCase extends TestCase
                     'otherRequestParameters' => array(
                         'idReport'     => 1,
                         'reportFormat' => ReportRenderer::CSV_FORMAT,
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                        'serialize' => 0,
+                    )
+                )
+            )
+        );
+
+        // TSV Scheduled Report
+        array_push(
+            $apiCalls,
+            array(
+                'ScheduledReports.generateReport',
+                array(
+                    'testSuffix'             => '_schedrep_in_tsv',
+                    'date'                   => $dateTime,
+                    'periods'                => array($period),
+                    'format'                 => 'original',
+                    'fileExtension'          => 'tsv',
+                    'otherRequestParameters' => array(
+                        'idReport'     => 1,
+                        'reportFormat' => ReportRenderer::TSV_FORMAT,
                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                         'serialize' => 0,
                     )
@@ -726,10 +753,13 @@ abstract class SystemTestCase extends TestCase
         DbHelper::truncateAllTables();
 
         // insert data
-        $existingTables = DbHelper::getTablesInstalled();
+        $archiveTables = Db::fetchAll("SHOW TABLES LIKE '%archive_%'");
+        if (!empty($archiveTables)) {
+            $archiveTables = array_column($archiveTables, key($archiveTables[0]));
+        }
         foreach ($tables as $table => $rows) {
             // create table if it's an archive table
-            if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {
+            if (strpos($table, 'archive_') !== false && !in_array($table, $archiveTables)) {
                 $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
 
                 $createSql = DbHelper::getTableCreateSql($tableType);
@@ -773,7 +803,6 @@ abstract class SystemTestCase extends TestCase
                 }
 
             }
-
 
         }
     }

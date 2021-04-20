@@ -286,6 +286,7 @@ allow_adding_segments_for_all_websites = 1
 ;                              "segment_last_edit_time" (start date of archiving will be the earliest last edit date found,
 ;                                                        if none is found, the created date is used)
 ;                              "segment_creation_time" (start date of archiving will be the creation date of the segment)
+;                              editLastN where N is an integer (eg "editLast10" to archive for 10 days before the segment last edit date)
 ;                              lastN where N is an integer (eg "last10" to archive for 10 days before the segment creation date)
 process_new_segments_from = "beginning_of_time"
 
@@ -786,7 +787,7 @@ enable_tracking_failures_notification = 1
 
 ; Controls how many months in the past reports are re-archived for plugins that support
 ; doing this (such as CustomReports). Set to 0 to disable the feature. Default is 6.
-rearchive_reports_in_past_last_n_months = last6
+rearchive_reports_in_past_last_n_months = 6
 
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
