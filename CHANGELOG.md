@@ -10,6 +10,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * Before every JS error was tracked, from this version the same JS error will be only tracked once per page view. If the very same error is happening multiple times, then it will be tracked only once within the same page view. If another page view is tracked or when the page reloads, then the error will be tracked again.
 
+### Upcoming Breaking Changes
+
+* In Matomo 4.3.0 we have added a 'passwordConfirmation' parameter to the CorePluginsAdmin.setSystemSettings API method. It is currently optional, but will become mandatory in version 4.4.0. Plugin developers and users of the API should make sure to update their plugins and apps before this happens.
+
 ### New config.ini.php settings
 
 * The `password_hash_algorithm`, `password_hash_argon2_threads`, `password_hash_argon2_memory_cost` and `password_hash_argon2_time_cost` INI config options have been added to allow using specific `password_hash` algorithms and options if desired.
