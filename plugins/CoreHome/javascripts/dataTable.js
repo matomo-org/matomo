@@ -720,12 +720,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
-            $('.periodName', domElem).html(period);
-
             var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
             var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
+
+            var newPeriod = piwikPeriods.get(period);
+            $('.periodName', domElem).html(newPeriod.getDisplayText());
 
             self.param['period'] = period;
             self.param['date'] = endDateOfPeriod;

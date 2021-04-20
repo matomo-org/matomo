@@ -141,7 +141,7 @@
                title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
                data-target="dropdownPeriods{{ randomIdForDropdown }}"
             >
-                <div><span class="icon-calendar"></span><span class="periodName">{{ clientSideParameters.period }}</span></div>
+                <div><span class="icon-calendar"></span><span class="periodName">{{ properties.translations[clientSideParameters.period]|default(clientSideParameters.period) }}</span></div>
             </a>
             <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
                 {% for selectablePeriod in properties.selectable_periods %}
