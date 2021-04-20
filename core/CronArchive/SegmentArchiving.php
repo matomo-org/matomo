@@ -90,7 +90,7 @@ class SegmentArchiving
             }
 
             try {
-                $segmentObj = new Segment(urlencode($segment['definition']), [$idSite]);
+                $segmentObj = new Segment($segment['definition'], [$idSite]);
             } catch (\Exception $ex) {
                 $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
                 continue;
@@ -236,7 +236,7 @@ class SegmentArchiving
             return;
         }
 
-        $definition = urlencode($segmentInfo['definition']);
+        $definition = $segmentInfo['definition'];
         $idSite = !empty($segmentInfo['enable_only_idsite']) ? $segmentInfo['enable_only_idsite'] : 'all';
 
         $idSites = Access::doAsSuperUser(function () use ($idSite) {
