@@ -8,6 +8,7 @@ labels: Potential Bug
 <!-- Please provide a short summary of the issue in the *Title* above -->
 
 <!-- Important: Please contact the Matomo community forum for questions: https://forum.matomo.org/ -->
+<!-- Important: If this bug is regarding a premium plugin you purchased on plugins.matomo.org, please email shop@innocraft.com instead of creating a bug report here. -->
 
 ## Expected Behavior
 <!-- When describing a bug, please tell us what should happen -->
