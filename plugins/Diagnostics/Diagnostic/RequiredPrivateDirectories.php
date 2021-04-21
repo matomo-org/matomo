@@ -71,6 +71,10 @@ class RequiredPrivateDirectories implements Diagnostic
 
             try {
                 $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, 0, false, false, true);
+                $status = $response['status'];
+                if ($status >= 400 && $status < 500) {
+                    // TODO
+                }
 
                 // TODO: check response
             } catch (\Exception $e) {
