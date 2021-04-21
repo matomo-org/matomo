@@ -890,7 +890,7 @@ class CronArchive
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
-                $params = new Parameters(new Site($idSite), $periodObj, new Segment(urlencode($segmentDefinition), [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
+                $params = new Parameters(new Site($idSite), $periodObj, new Segment($segmentDefinition, [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
@@ -912,7 +912,7 @@ class CronArchive
                         }
                     }
 
-                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, urlencode($segmentDefinition),
+                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segmentDefinition,
                         $cascadeDown = false, $_forceInvalidateNonexistant);
                 }
             }
