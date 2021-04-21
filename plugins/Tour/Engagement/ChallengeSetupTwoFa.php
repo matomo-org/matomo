@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Tour\Engagement;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 
@@ -31,8 +30,7 @@ class ChallengeSetupTwoFa extends Challenge
 
     public function isCompleted()
     {
-        $twoFa = StaticContainer::get(TwoFactorAuthentication::class);
-        return $twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+        return TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
     }
 
     public function getUrl()

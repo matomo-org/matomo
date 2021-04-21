@@ -123,6 +123,15 @@ class SegmentArchiving
                 array('time' => $segmentLastEditedTime));
 
             return $segmentLastEditedTime;
+        } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+            $lastN = $matches[1];
+
+            list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentLastEditedTime, 'day');
+            $result = Date::factory($lastDate);
+
+            $this->logger->debug("process_new_segments_from set to editLast{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
+
+            return $result;
         } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             $lastN = $matches[1];
 

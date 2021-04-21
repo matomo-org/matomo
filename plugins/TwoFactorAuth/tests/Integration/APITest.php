@@ -72,11 +72,11 @@ class APITest extends IntegrationTestCase
         $this->twoFa->saveSecret('mylogin1', '1234');
         $this->twoFa->saveSecret('mylogin2', '1234');
 
-        $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin1'));
-        $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin2'));
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
         $this->api->resetTwoFactorAuth('mylogin1');
-        $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin1'));
-        $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin2'));
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
 
         $this->assertEquals([], $this->recoveryCodes->getAllRecoveryCodesForLogin('mylogin1'));
     }

@@ -65,6 +65,7 @@ class ScheduledReports extends \Piwik\Plugin
         ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
         ReportRenderer::PDF_FORMAT  => 'plugins/Morpheus/icons/dist/plugins/pdf.png',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
+        ReportRenderer::TSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
 
     const OPTION_KEY_LAST_SENT_DATERANGE = 'report_last_sent_daterange_';

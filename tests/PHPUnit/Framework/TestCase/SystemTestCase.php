@@ -186,6 +186,27 @@ abstract class SystemTestCase extends TestCase
             )
         );
 
+        // TSV Scheduled Report
+        array_push(
+            $apiCalls,
+            array(
+                'ScheduledReports.generateReport',
+                array(
+                    'testSuffix'             => '_schedrep_in_tsv',
+                    'date'                   => $dateTime,
+                    'periods'                => array($period),
+                    'format'                 => 'original',
+                    'fileExtension'          => 'tsv',
+                    'otherRequestParameters' => array(
+                        'idReport'     => 1,
+                        'reportFormat' => ReportRenderer::TSV_FORMAT,
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                        'serialize' => 0,
+                    )
+                )
+            )
+        );
+
         if (Fixture::canImagesBeIncludedInScheduledReports()) {
             // PDF Scheduled Report
             // tests/PHPUnit/System/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf

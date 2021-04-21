@@ -240,7 +240,7 @@ class Model
      * Returns the list of all the website IDs registered.
      * Caller must check access.
      *
-     * @return array The list of website IDs
+     * @return int[]|string[] The list of website IDs
      */
     public function getSitesId()
     {

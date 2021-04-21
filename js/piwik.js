@@ -3472,7 +3472,11 @@ if (typeof window.Matomo !== 'object') {
                     return request;
                 }
 
-                var performanceData = (typeof performanceAlias.getEntriesByType === 'function') && performanceAlias.getEntriesByType('navigation') ? performanceAlias.getEntriesByType('navigation')[0] : performanceAlias.timing;
+                var performanceData = (typeof performanceAlias.timing === 'object') && performanceAlias.timing ? performanceAlias.timing : undefined;
+
+                if (!performanceData) {
+                    performanceData = (typeof performanceAlias.getEntriesByType === 'function') && performanceAlias.getEntriesByType('navigation') ? performanceAlias.getEntriesByType('navigation')[0] : undefined;
+                }
 
                 if (!performanceData) {
                     return request;
@@ -3508,13 +3512,24 @@ if (typeof window.Matomo !== 'object') {
                     timings += '&pf_tfr=' + Math.round(performanceData.responseEnd - performanceData.responseStart);
                 }
 
-                if (performanceData.domInteractive && performanceData.domLoading) {
+                if (isDefined(performanceData.domLoading)) {
+                    if (performanceData.domInteractive && performanceData.domLoading) {
 
-                    if (performanceData.domInteractive < performanceData.domLoading) {
-                        return;
+                        if (performanceData.domInteractive < performanceData.domLoading) {
+                            return;
+                        }
+
+                        timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.domLoading);
                     }
+                } else {
+                    if (performanceData.domInteractive && performanceData.responseEnd) {
 
-                    timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.domLoading);
+                        if (performanceData.domInteractive < performanceData.responseEnd) {
+                            return;
+                        }
+
+                        timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.responseEnd);
+                    }
                 }
 
                 if (performanceData.domComplete && performanceData.domInteractive) {

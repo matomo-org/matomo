@@ -34,6 +34,7 @@ abstract class ReportRenderer extends BaseFactory
     const HTML_FORMAT = 'html';
     const PDF_FORMAT = 'pdf';
     const CSV_FORMAT = 'csv';
+    const TSV_FORMAT = 'tsv';
 
     protected $idSite = 'all';
 
@@ -43,6 +44,7 @@ abstract class ReportRenderer extends BaseFactory
         self::PDF_FORMAT,
         self::HTML_FORMAT,
         self::CSV_FORMAT,
+        self::TSV_FORMAT,
     );
 
     /**

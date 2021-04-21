@@ -80,7 +80,7 @@
 {% set title %}
 {% if action.url|trim is not empty %}<span class='tooltip-action-url'>{{ action.url }}</span>{% endif %}
 
-{% if action.pageTitle is not empty %}<span class='tooltip-action-page-title'>{{ action.pageTitle }}</span>{% endif %}
+{% if action.pageTitle is not empty %}<span class='tooltip-action-page-title'>{{ action.pageTitle|rawSafeDecoded }}</span>{% endif %}
 
 <span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
     {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}

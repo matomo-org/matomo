@@ -8,10 +8,13 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Url;
+use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
+use Piwik\Container\StaticContainer;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -29,11 +32,18 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createRequire2FA()
     {
-        return $this->makeSetting('twoFactorAuthRequired', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $field->title = 'Require two-factor authentication for everyone';
-            $field->description = 'When enabled, every user has to enable two factor authentication.';
+        $setting = $this->makeSetting('twoFactorAuthRequired', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TwoFactorAuth_RequireTwoFAForAll');
+            $field->description = Piwik::translate('TwoFactorAuth_RequireTwoFAForAllInformation');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+
+            $isWritable = defined('PIWIK_TEST_MODE') || TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+            if (!$isWritable) {
+                $field->uiControlAttributes = ['disabled' => 'disabled'];
+            }
         });
+
+        return $setting;
     }
 
     private function create2FATitle()

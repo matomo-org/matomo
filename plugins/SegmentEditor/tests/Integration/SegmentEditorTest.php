@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\CronArchive\ReArchiveList;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
@@ -31,6 +32,8 @@ class SegmentEditorTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Date::$now = strtotime('2020-03-01 00:00:00');
 
         \Piwik\Plugin\Manager::getInstance()->loadPlugin('SegmentEditor');
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
@@ -59,16 +62,20 @@ class SegmentEditorTest extends IntegrationTestCase
 
     public function test_AddAndGet_SimpleSegment()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         $name = 'name';
         $definition = 'searches>1,visitIp!=127.0.0.1';
         $idSegment = API::getInstance()->add($name, $definition);
         $this->assertEquals($idSegment, 1);
+        $this->assertReArchivesQueued([]); // none since not auto archive
         $segment = API::getInstance()->get($idSegment);
         unset($segment['ts_created']);
         $expected = array(
-            'idsegment' => 1,
+            'idsegment' => '1',
             'name' => $name,
             'definition' => $definition,
+            'hash' => md5($definition),
             'login' => 'superUserLogin',
             'enable_all_users' => '0',
             'enable_only_idsite' => '0',
@@ -88,6 +95,9 @@ class SegmentEditorTest extends IntegrationTestCase
         $definition = 'searches>1,visitIp!=127.0.0.1';
         $idSegment = API::getInstance()->add($name, $definition, $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
         $this->assertEquals($idSegment, 1);
+        $this->assertReArchivesQueued([
+            ['idSites' => [1], 'pluginName' => null, 'report' => null, 'segment' => $definition, 'startDate' => Date::factory('2020-03-01 00:00:00')->getTimestamp()],
+        ]);
 
         // Testing get()
         $segment = API::getInstance()->get($idSegment);
@@ -95,6 +105,7 @@ class SegmentEditorTest extends IntegrationTestCase
             'idsegment' => '1',
             'name' => $name,
             'definition' => $definition,
+            'hash' => md5($definition),
             'login' => 'superUserLogin',
             'enable_all_users' => '1',
             'enable_only_idsite' => '1',
@@ -130,13 +141,16 @@ class SegmentEditorTest extends IntegrationTestCase
         $idSegment1 = API::getInstance()->add($nameSegment1, 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
         $idSegment2 = API::getInstance()->add($name, $definition, $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
 
+        $this->clearReArchiveList();
+
         $updatedSegment = array(
             'idsegment' => $idSegment2,
             'name' =>   'NEW name',
             'definition' =>  'searches==0',
+            'hash' => md5('searches==0'),
             'enable_only_idsite' => '0',
             'enable_all_users' => '0',
-            'auto_archive' => '0',
+            'auto_archive' => '1',
             'ts_last_edit' => Date::now()->getDatetime(),
             'ts_created' => Date::now()->getDatetime(),
             'login' => Piwik::getCurrentUserLogin(),
@@ -149,6 +163,10 @@ class SegmentEditorTest extends IntegrationTestCase
             $updatedSegment['auto_archive'],
             $updatedSegment['enable_all_users']
         );
+
+        $this->assertReArchivesQueued([
+            ['idSites' => [1], 'pluginName' => null, 'report' => null, 'segment' => $updatedSegment['definition'], 'startDate' => null],
+        ]);
 
         $newSegment = API::getInstance()->get($idSegment2);
 
@@ -256,5 +274,20 @@ class SegmentEditorTest extends IntegrationTestCase
     private function deleteUser($login)
     {
         UsersManagerAPI::getInstance()->deleteUser($login);
+    }
+
+    private function clearReArchiveList()
+    {
+        $list = new ReArchiveList();
+        $list->setAll([]);
+    }
+
+    private function assertReArchivesQueued($expected)
+    {
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+        $items = array_map(function ($s) { return json_decode($s, true); }, $items);
+
+        $this->assertEquals($expected, $items);
     }
 }

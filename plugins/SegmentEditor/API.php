@@ -23,6 +23,7 @@ use Piwik\Config;
 use Piwik\Segment;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
+use Piwik\Cache;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
@@ -222,6 +223,8 @@ class API extends \Piwik\Plugin\API
 
         $this->getModel()->deleteSegment($idSegment);
 
+        Cache::getEagerCache()->flushAll();
+
         return true;
     }
 
@@ -274,9 +277,13 @@ class API extends \Piwik\Plugin\API
 
         $this->getModel()->updateSegment($idSegment, $bind);
 
-        if ($autoArchive && !Rules::isBrowserTriggerEnabled()) {
+        $segmentDefinitionChanged = $segment['definition'] !== $definition;
+
+        if ($segmentDefinitionChanged && $autoArchive && !Rules::isBrowserTriggerEnabled()) {
             $this->segmentArchiving->reArchiveSegment($bind);
         }
+
+        Cache::getEagerCache()->flushAll();
 
         return true;
     }
@@ -313,6 +320,8 @@ class API extends \Piwik\Plugin\API
         );
 
         $id = $this->getModel()->createSegment($bind);
+
+        Cache::getEagerCache()->flushAll();
 
         if ($autoArchive
             && !Rules::isBrowserTriggerEnabled()
