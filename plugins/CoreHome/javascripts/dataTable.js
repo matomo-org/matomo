@@ -237,7 +237,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             delete self.param.filter_offset;
             delete self.param.filter_limit;
         }
-	    
+
         delete self.param.showtitle;
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
@@ -725,6 +725,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
 
+            var newPeriod = piwikPeriods.get(period);
+            $('.periodName', domElem).html(newPeriod.getDisplayText());
+
             self.param['period'] = period;
             self.param['date'] = endDateOfPeriod;
             self.reloadAjaxDataTable();
@@ -836,7 +839,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $searchAction.find('.icon-search').off('click', searchForPattern);
 
             $searchInput.val('');
-            
+
             if (currentPattern) {
                 // we search for this pattern so if there was a search term before, and someone closes the search
                 // we show all results again
@@ -1595,7 +1598,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('th:has(.columnDocumentation)', domElem).each(function () {
             var th = $(this);
             var tooltip = th.find('.columnDocumentation');
-            
+
             tooltip.next().hover(function () {
                 var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
                 var top = -1 * tooltip.outerHeight();

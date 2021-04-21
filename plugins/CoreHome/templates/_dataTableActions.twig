@@ -33,24 +33,6 @@
             </ul>
         {% endset %}
 
-        {% if properties.show_periods %}
-            <a class="dropdown-button dataTableAction activatePeriodsSelection"
-               href="javascript:;"
-               title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
-               data-target="dropdownPeriods{{ randomIdForDropdown }}">
-                <span class="icon-calendar"></span>
-            </a>
-            <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
-                {% for selectablePeriod in properties.selectable_periods %}
-                    <li>
-                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
-                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
         {% if activeFooterIcon and numIcons > 1 %}
             <a class="dropdown-button dataTableAction activateVisualizationSelection"
                href="javascript:;"
@@ -152,4 +134,23 @@
                 </li>
             {% endif %}
         </ul>
+
+        {% if properties.show_periods %}
+            <a class="dropdown-button dataTableAction activatePeriodsSelection"
+               href="javascript:;"
+               title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
+               data-target="dropdownPeriods{{ randomIdForDropdown }}"
+            >
+                <div><span class="icon-calendar"></span><span class="periodName">{{ properties.translations[clientSideParameters.period]|default(clientSideParameters.period) }}</span></div>
+            </a>
+            <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
+                {% for selectablePeriod in properties.selectable_periods %}
+                    <li>
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
+                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
