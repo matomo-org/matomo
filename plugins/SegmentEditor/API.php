@@ -280,7 +280,8 @@ class API extends \Piwik\Plugin\API
         $segmentDefinitionChanged = $segment['definition'] !== $definition;
 
         if ($segmentDefinitionChanged && $autoArchive && !Rules::isBrowserTriggerEnabled()) {
-            $this->segmentArchiving->reArchiveSegment($bind);
+            $updatedSegment = $this->getModel()->getSegment($idSegment);
+            $this->segmentArchiving->reArchiveSegment($updatedSegment);
         }
 
         Cache::getEagerCache()->flushAll();
@@ -327,7 +328,8 @@ class API extends \Piwik\Plugin\API
             && !Rules::isBrowserTriggerEnabled()
             && $this->processNewSegmentsFrom != SegmentArchiving::CREATION_TIME
         ) {
-            $this->segmentArchiving->reArchiveSegment($bind);
+            $addedSegment = $this->getModel()->getSegment($id);
+            $this->segmentArchiving->reArchiveSegment($addedSegment);
         }
 
         return $id;
