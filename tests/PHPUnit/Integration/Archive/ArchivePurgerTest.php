@@ -15,6 +15,7 @@ use Piwik\Db;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Segment;
 
 /**
  * @group ArchivePurgerTest
@@ -133,12 +134,12 @@ class ArchivePurgerTest extends IntegrationTestCase
         //Extra data set with segment and plugin archives
         self::$fixture->insertSegmentArchives($this->january);
 
-        $segmentsToDelete = array(
-            array('definition' => '9876fedc5432abcd', 'enable_only_idsite' => 0),
-            array('definition' => 'hash3', 'enable_only_idsite' => 0),
+        $segmentsToDelete = [
+            ['definition' => '9876fedc5432abcd', 'enable_only_idsite' => 0, 'hash' => Segment::getSegmentHash('9876fedc5432abcd')],
+            ['definition' => 'hash3', 'enable_only_idsite' => 0, 'hash' => Segment::getSegmentHash('hash3')],
             // This segment also has archives for idsite = 1, which will be retained
-            array('definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2)
-        );
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2, 'hash' => Segment::getSegmentHash('abcd1234abcd5678')]
+        ];
 
         //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
@@ -151,10 +152,10 @@ class ArchivePurgerTest extends IntegrationTestCase
         // Extra data set with segment and plugin archives
         self::$fixture->insertSegmentArchives($this->january);
 
-        $segmentsToDelete = array(
+        $segmentsToDelete = [
             // This segment also has archives for idsite = 1, which will be retained
-            array('definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => array(2))
-        );
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => [2], 'hash' => Segment::getSegmentHash('abcd1234abcd5678')]
+        ];
 
         // Archives for idsite=1 should be purged, but those for idsite=2 can stay
         $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
