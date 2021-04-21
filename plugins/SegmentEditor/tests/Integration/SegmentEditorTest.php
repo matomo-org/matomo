@@ -165,7 +165,7 @@ class SegmentEditorTest extends IntegrationTestCase
         );
 
         $this->assertReArchivesQueued([
-            ['idSites' => [1], 'pluginName' => null, 'report' => null, 'segment' => $updatedSegment['definition'], 'startDate' => null],
+            ['idSites' => [1], 'pluginName' => null, 'report' => null, 'segment' => $updatedSegment['definition'], 'startDate' => Date::factory('2013-01-01 00:00:00')->getTimestamp()],
         ]);
 
         $newSegment = API::getInstance()->get($idSegment2);
