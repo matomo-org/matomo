@@ -731,7 +731,11 @@ abstract class SystemTestCase extends TestCase
     protected static function getDbTablesWithData()
     {
         $result = array();
-        foreach (DbHelper::getTablesInstalled() as $tableName) {
+        $tables = Db::fetchAll('SHOW TABLES'); // tests should be in a clean database, so we can just get all tables
+        if (!empty($tables)) {
+            $tables = array_column($tables, key($tables[0]));
+        }
+        foreach ($tables as $tableName) {
             $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
         }
         return $result;
