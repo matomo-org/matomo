@@ -23,7 +23,8 @@
              title="{{ featureName }}"></div>
     </span>
 
-    <div class="helpIcon icon-char-pie"></div>
+    <div class="icon-chart-pie" ng-mouseenter="showit=true" ng-mouseleave="showit=false"  style="float:right;cursor: pointer;font-size: 13px;color:#888;opacity: 0.3;line-height: 32px;"></div>
+    <div ng-show="showit" style="float:right;cursor: pointer;font-size: 13px;line-height: 32px;margin-right: 5px;">Report generated on Apr 20, 2021 (UTC)</div>
 
     <div class="inlineHelp" ng-show="view.showInlineHelp">
         <div ng-bind-html="inlineHelp"></div>
