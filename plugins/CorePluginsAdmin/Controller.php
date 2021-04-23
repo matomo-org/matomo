@@ -433,6 +433,7 @@ class Controller extends Plugin\ControllerAdmin
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
             'redirectTo' => Common::getRequestVar('redirectTo'),
+            'referrer' => urlencode(Url::getReferrer()),
         ];
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
@@ -488,6 +489,7 @@ class Controller extends Plugin\ControllerAdmin
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
             'redirectTo' => Common::getRequestVar('redirectTo'),
+            'referrer' => urlencode(Url::getReferrer()),
         ];
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             return;
@@ -537,15 +539,7 @@ class Controller extends Plugin\ControllerAdmin
             throw $ex;
         }
 
-        $referrer = Common::getRequestVar('referrer', false);
-        $referrer = Common::unsanitizeInputValue($referrer);
-        if ($referrer
-            && Url::isLocalUrl($referrer)
-        ) {
-            Url::redirectToUrl($referrer);
-        } else {
-            $this->redirectAfterModification($redirectAfter);
-        }
+        $this->redirectAfterModification($redirectAfter);
     }
 
     public function showLicense()
@@ -596,7 +590,17 @@ class Controller extends Plugin\ControllerAdmin
 
     protected function redirectAfterModification($redirectAfter)
     {
-        if ($redirectAfter) {
+        if (!$redirectAfter) {
+            return;
+        }
+
+        $referrer = Common::getRequestVar('referrer', false);
+        $referrer = Common::unsanitizeInputValue($referrer);
+        if (!empty($referrer)
+            && Url::isLocalUrl($referrer)
+        ) {
+            Url::redirectToUrl($referrer);
+        } else {
             Url::redirectToReferrer();
         }
     }
