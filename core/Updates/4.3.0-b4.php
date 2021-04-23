@@ -17,7 +17,7 @@ use Piwik\Db;
 use Piwik\Common;
 
 /**
- * Update for version 4.3.0-b3.
+ * Update for version 4.3.0-b4.
  */
 class Updates_4_3_0_b4 extends PiwikUpdates
 {
