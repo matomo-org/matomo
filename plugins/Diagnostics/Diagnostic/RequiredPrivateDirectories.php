@@ -40,7 +40,7 @@ class RequiredPrivateDirectories implements Diagnostic
 
         // create test file to check if tmp/empty exists
         Filesystem::mkdir(PIWIK_INCLUDE_PATH . '/tmp');
-        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/', 'test');
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/empty', 'test');
 
         $baseUrl = SettingsPiwik::getPiwikUrl();
         if (!Common::stringEndsWith($baseUrl, '/')) {
