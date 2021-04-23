@@ -8,6 +8,8 @@
  */
 namespace Piwik\DataAccess;
 
+use DI\NotFoundException;
+use DI\DependencyException;
 use Exception;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\ArchivingStatus;
@@ -862,6 +864,39 @@ class Model
             $date = $date->addPeriod(1, 'month'); // move to next archive table
         }
         return false;
+    }
+
+    /**
+     * Returns true if any invalidations exists for the given
+     * $idsite and $doneFlag (name column) for the $period.
+     * 
+     * @param mixed $idSite 
+     * @param Period $period 
+     * @param mixed $doneFlag 
+     * @return bool 
+     * @throws NotFoundException 
+     * @throws DependencyException 
+     * @throws Exception 
+     */
+    public function hasInvalidationForPeriod($idSite, Period $period, $doneFlag)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? LIMIT 1";
+
+        $idInvalidation = Db::fetchOne($sql, [
+            $idSite,
+            $period->getDateStart()->toString(),
+            $period->getDateEnd()->toString(),
+            $period->getId(),
+            $doneFlag
+        ]);
+
+        if (empty($idInvalidation)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function deleteInvalidationsForSites(array $idSites)

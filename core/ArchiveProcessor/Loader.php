@@ -389,48 +389,52 @@ class Loader
         $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
-        $hasSegment = !$params->getSegment()->isEmpty();
 
-        if ($hasSegment) {
-            $periodEnd = $params->getPeriod()->getDateEnd();
-            $segmentHash = $params->getSegment()->getHash();
-            /** @var SegmentArchiving */
-            $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
-            $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
-
-            if ($segmentInfo) {
-                $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
-
-                if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($periodEnd->getEndOfDay())) {
-                    $doneFlag = Rules::getDoneStringFlagFor(
-                        [$idSite],
-                        $params->getSegment(),
-                        $params->getPeriod()->getLabel(),
-                        $params->getRequestedPlugin()
-                    );
-
-                    $table = Common::prefixTable('archive_invalidations');
-                    $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ?";
-
-                    $idInvalidation = Db::fetchOne($sql, [
-                        $idSite,
-                        $params->getPeriod()->getDateStart()->toString(),
-                        $params->getPeriod()->getDateEnd()->toString(),
-                        $params->getPeriod()->getId(),
-                        $doneFlag
-                    ]);
-
-                    if (empty($idInvalidation)) {
-                        return true;
-                    }
-                }
-            }
+        if ($this->canSkipArchiveForSegment()) {
+            return true;
         }
 
         return $isWebsiteUsingTracker
             && !$isArchivingForcedWhenNoVisits
             && !$hasSiteVisitsBetweenTimeframe
             && !$hasChildArchivesInPeriod;
+    }
+
+    public function canSkipArchiveForSegment()
+    {
+        $params = $this->params;
+        
+        if ($params->getSegment()->isEmpty()) {
+            return false;
+        }
+        
+        $idSite = $params->getSite()->getId();
+        $periodEnd = $params->getPeriod()->getDateEnd();
+        $segmentHash = $params->getSegment()->getHash();
+        /** @var SegmentArchiving */
+        $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+        $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
+
+        if (!$segmentInfo) {
+            return false;
+        }
+
+        $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
+
+        if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($periodEnd->getEndOfDay())) {
+            $doneFlag = Rules::getDoneStringFlagFor(
+                [$idSite],
+                $params->getSegment(),
+                $params->getPeriod()->getLabel(),
+                $params->getRequestedPlugin()
+            );
+
+            if (!$this->dataAccessModel->hasInvalidationForPeriod($idSite, $params->getPeriod(), $doneFlag)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isWebsiteUsingTheTracker($idSite)

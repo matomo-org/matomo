@@ -136,6 +136,31 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function test_hasInvalidationForPeriod_returnsTrueIfExists()
+    {
+        $date = '2021-03-23';
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $periodObj = Factory::build('day', $date);
+        $result = $this->model->hasInvalidationForPeriod(1, $periodObj, 'done');
+        $this->assertTrue($result);
+    }
+
+    public function test_hasInvalidationForPeriod_returnsFalseIfNotExists()
+    {
+        $date = '2021-03-23';
+        $date2 = '2021-03-22';
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $periodObj = Factory::build('day', $date2);
+        $result = $this->model->hasInvalidationForPeriod(1, $periodObj, 'done');
+        $this->assertFalse($result);
+    }
+
     public function getTestDataForHasChildArchivesInPeriod()
     {
         return [

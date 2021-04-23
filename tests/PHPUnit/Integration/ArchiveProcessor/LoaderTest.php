@@ -29,6 +29,10 @@ use Piwik\Sequence;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugins\SegmentEditor\API as SegmentApi;
+use Piwik\Option;
+use Piwik\ArchiveProcessor\Rules;
+use ReflectionClass;
 
 class LoaderTest extends IntegrationTestCase
 {
@@ -1343,6 +1347,50 @@ class LoaderTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackPageView('abc'));
 
         $this->assertFalse($loader->canSkipThisArchive());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfNoSegments()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfPeriodEndLaterThanSegmentArchiveStartDate()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2021-04-23'), new Segment('browserCode==ch', [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfPeriodEndEarlierThanSegmentArchiveStartDate()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2010-04-23'), new Segment('browserCode==ch', [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForThePeriod()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2010-04-23'), new Segment('browserCode==ch', [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
     public function test_forcePluginArchiving_createsPluginSpecificArchive()
