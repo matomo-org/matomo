@@ -11,13 +11,11 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Piwik;
-use Piwik\Plugins\HeatmapSessionRecording\HeatmapSessionRecording;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
- * TODO: describe
+ * Checks whether certain directories in Matomo that should be private are accessible through the internet.
  */
 class RequiredPrivateDirectories implements Diagnostic
 {
@@ -33,15 +31,11 @@ class RequiredPrivateDirectories implements Diagnostic
 
     public function execute()
     {
-        // TODO: translations
         $label = $this->translator->translate('Diagnostics_RequiredPrivateDirectories');
 
-        // TODO: test manually for configurations that allow these w/ nginx. post nginx config used to reproduce.
         $privatePaths = [
-            'tmp/',
-            'tmp/empty', // created by this diagnostic
-            '.git/',
-            '.git/config',
+            ['tmp/', 'tmp/empty'], // created by this diagnostic
+            ['.git/', '.git/config'],
         ];
 
         // create test file to check if tmp/empty exists
@@ -53,34 +47,47 @@ class RequiredPrivateDirectories implements Diagnostic
             $baseUrl .= '/';
         }
 
-        $errorResult = $this->translator->translate('Diagnostics_ConfigsPhpErrorResult');
-        $manualCheck = $this->translator->translate('Diagnostics_ConfigsPhpManualCheck');
+        $manualCheck = $this->translator->translate('Diagnostics_PrivateDirectoryManualCheck');
+
+        $results = [];
 
         $isInternetEnabled = SettingsPiwik::isInternetEnabled();
-        foreach ($privatePaths as $path) {
-            if (!file_exists($path)) {
-                continue;
-            }
-
-            $testUrl = $baseUrl . $path;
-
-            if (!$isInternetEnabled) {
-                $unknown = $this->translator->translate('Diagnostics_ConfigsInternetDisabled', $testUrl) . ' ' . $manualCheck;
-                return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $unknown));
-            }
-
-            try {
-                $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, 0, false, false, true);
-                $status = $response['status'];
-                if ($status >= 400 && $status < 500) {
-                    // TODO
+        foreach ($privatePaths as $checks) {
+            foreach ($checks as $path) {
+                if (!file_exists($path)) {
+                    continue;
                 }
 
-                // TODO: check response
-            } catch (\Exception $e) {
-                $error = $e->getMessage();
+                $testUrl = $baseUrl . $path;
+
+                if (!$isInternetEnabled) {
+                    $unknown = $this->translator->translate('Diagnostics_PrivateDirectoryInternetDisabled', $testUrl) . ' ' . $manualCheck;
+                    $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $unknown);
+                    continue;
+                }
+
+                try {
+                    $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
+                    $status = $response['status'];
+
+                    $isAccessible = !($status >= 400 && $status < 500);
+                    if ($isAccessible) {
+                        $pathIsAccessible = $this->translator->translate('Diagnostics_PrivateDirectoryIsAccessible', $testUrl);
+                        $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $pathIsAccessible);
+
+                        break; // skip rest of checks in this batch to provide cleaner output in the UI
+                    }
+                } catch (\Exception $e) {
+                    $error = $e->getMessage();
+                    $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, 'Unable to execute check: ' . $error);
+                }
             }
         }
-        // TODO: Implement execute() method.
+
+        if (empty($results)) {
+            $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK);
+        }
+
+        return $results;
     }
 }
