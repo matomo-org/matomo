@@ -19,6 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
+ * @group SegmentArchivingTest
  */
 class SegmentArchivingTest extends IntegrationTestCase
 {
@@ -48,11 +49,11 @@ class SegmentArchivingTest extends IntegrationTestCase
     public function getTestDataForGetReArchiveSegmentStartDate()
     {
         return [
-            // no segment creation time
+            // no segment creation time => fallback to beginning of time
             [
                 SegmentArchiving::CREATION_TIME,
                 [],
-                null,
+                '2013-01-01',
             ],
 
             // creation time
@@ -69,11 +70,25 @@ class SegmentArchivingTest extends IntegrationTestCase
                 '2020-04-13',
             ],
 
+            // last edit time, no creation time
+            [
+                SegmentArchiving::LAST_EDIT_TIME,
+                ['ts_last_edit' => '2020-04-13 05:15:15'],
+                '2020-04-13',
+            ],
+
             // last edit time, no edit time in segment
             [
                 SegmentArchiving::LAST_EDIT_TIME,
                 ['ts_created' => '2020-04-14 00:00:00'],
                 '2020-04-14',
+            ],
+
+            // last edit time, no edit or create time in segment => fallback to beginning of time
+            [
+                SegmentArchiving::LAST_EDIT_TIME,
+                [],
+                '2013-01-01',
             ],
 
             // lastN
