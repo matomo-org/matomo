@@ -110,20 +110,17 @@ class SegmentArchiving
          * @var Date $segmentLastEditedTime
          */
         list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($segmentInfo);
-        if (empty($segmentCreatedTime)) {
-            return null;
-        }
 
-        if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME) {
+        if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME && !empty($segmentCreatedTime)) {
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
-        } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME) {
+        } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME && !empty($segmentLastEditedTime)) {
             $this->logger->debug("process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
                 array('time' => $segmentLastEditedTime));
 
             return $segmentLastEditedTime;
-        } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches) && !empty($segmentLastEditedTime)) {
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentLastEditedTime, 'day');
@@ -132,7 +129,7 @@ class SegmentArchiving
             $this->logger->debug("process_new_segments_from set to editLast{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
 
             return $result;
-        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches) && !empty($segmentCreatedTime)) {
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
