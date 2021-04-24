@@ -76,9 +76,19 @@
         "Sites": "Siti web",
         "SiteSearchUse": "È possibile utilizzare Matomo per monitorare e creare dei report su ciò che i visitatori stanno cercando nel motore di ricerca interno del tuo sito web.",
         "SiteWithoutDataTitle": "Nessun dato è stato ancora registrato, imposta qui sotto",
+        "SiteWithoutDataDescription": "Solo un ultimo passaggio per monitorare il tuo traffico web con Matomo e ottenere preziose informazioni. Se non l'hai già fatto, devi aggiungere del codice extra al tuo sito web o all'app mobile. Controlla la tua opzione qui sotto o %1$sinvia tutte le istruzioni a un compagno di squadra%2$s.",
         "SiteWithoutDataSetupTracking": "Si prega di impostare in fondo al tuo sito web o all'app mobile il %1$scodice di traccimento%2$s, se non lo hai già fatto.",
         "SiteWithoutDataMessageDisappears": "Questo messaggio scomparirà non appena dei dati di questo sito saranno raccolti.",
         "SiteWithoutDataIgnoreMessage": "Non mostrare questo messaggio per tutta la prossima ora",
+        "SiteWithoutDataChoosePreferredWay": "Scegli il tuo modo preferito di fare le impostazioni",
+        "SiteWithoutDataOtherWays": "Altri modi",
+        "SiteWithoutDataOtherIntegrations": "Altre integrazioni",
+        "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
+        "SiteWithoutDataMatomoTagManager": "Matomo Tag Manager",
+        "SiteWithoutDataMatomoTagManagerNotActive": "Non sai cos'è un Tag Manager? Consulta la nostra %1$sGuida su Tag Manage%2$sr. Se stai incorporando più risorse da siti web di terze parti nel tuo sito web, il suo monitoraggio utilizzando Tag Manager potrebbe essere per te una scelta migliore rispetto all'utilizzo del normale tracking JavaScript.",
+        "SiteWithoutDataGoogleTagManagerDescription": "Puoi usare Matomo insieme a Google Tag Manager. Per configurare Matomo Tracking in Google Tag Manager, segui le istruzioni di questa %1$sguida%2$s.",
+        "SiteWithoutDataDetectedSite": "Abbiamo rilevato che stai utilizzando un sito %1$s. Segui semplicemente le istruzioni di questa %2$sguida%3$s.",
+        "SiteWithoutDataDetectedGtm": "Abbiamo anche rilevato che stai utilizzando Google Tag Manager. Se preferisci configurare Matomo utilizzando GTM, segui questa %2$sguida%3$s.",
         "SuperUserAccessCan": "Un utente con accesso Super User può anche %1$sspecificare le impostazioni globali%2$s per i nuovi siti.",
         "Timezone": "Fuso orario",
         "TrackingSiteSearch": "Tracciamento Ricerca Interna Sito",
@@ -102,6 +112,7 @@
         "EmailInstructionsSiteDetailsHeading": "Dettagli del tuo sito",
         "EmailInstructionsSiteDetails": "Avrai bisogno di questi dettagli per utilizzare API o SDK per tracciare le visite di Matomo.",
         "EmailInstructionsYourSiteId": "ID del tuo sito: %1$s",
-        "EmailInstructionsYourTrackingUrl": "La tua tracking URL: %1$s"
+        "EmailInstructionsYourTrackingUrl": "La tua tracking URL: %1$s",
+        "DetectingYourSite": "Rilevamento del tuo sito"
     }
 }

@@ -94,7 +94,7 @@
         "GdprChecklistDesc1": "Om du behandlar personuppgifter om europeiska medborgare genom Matomo, även om ditt företag är beläget utanför Europa, måste du uppfylla GDPR-skyldigheter och den här guiden hjälper dig.",
         "GdprChecklistDesc2": "Nedan hittar du våra verktyg som gör att du enkelt kan utöva dina användares rättigheter och listan över åtgärder för att göra din användning av Matomo kompatibel med GDPR och skydda dina uppgifter. Besök vår %1$sGDPR användarhandbok%2$s för att lära dig ännu mer.",
         "GdprOverview": "GDPR Översikt",
-        "GdprOverviewIntro1": "Den allmänna dataskyddsförordningen (GDPR) är en förordning som stärker och förenar dataskyddet för alla individer inom Europeiska unionen (EU).",
+        "GdprOverviewIntro1": "Den dataskyddsförordningen (GDPR) är en förordning som stärker och förenar dataskyddet för alla individer inom Europeiska unionen (EU).",
         "GdprOverviewIntro2": "Om du vidtar åtgärder för att säkerställa att inga personuppgifter samlas in i Matomo, kanske du inte berörs av GDPR för Matomo (om du inte spårar några IP-adresser, användar-ID:n eller geolokaliseringsdata etc.)",
         "GdprTools": "GDPR Verktyg",
         "GetPurgeEstimate": "Hämta uppskattning för rensning",

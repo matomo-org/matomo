@@ -44,6 +44,8 @@
         "RecoveryCodesAllUsed": "Tutti i codici di recupero sono stati utilizzati, si consiglia vivamente di rigenerarli.",
         "RecoveryCodesRegenerated": "I codici di recupero sono stati rigenerati. Assicurati di scaricare o stampare i codici appena generati.",
         "GenerateNewRecoveryCodes": "Genera nuovi codici di recupero",
-        "GenerateNewRecoveryCodesInfo": "Quando generi nuovi codici di recupero, i tuoi vecchi codici non funzioneranno più. Assicurati di scaricare o stampare i tuoi nuovi codici."
+        "GenerateNewRecoveryCodesInfo": "Quando generi nuovi codici di recupero, i tuoi vecchi codici non funzioneranno più. Assicurati di scaricare o stampare i tuoi nuovi codici.",
+        "RequireTwoFAForAll": "Richiedi l'autenticazione a due fattori per tutti",
+        "RequireTwoFAForAllInformation": "Quando è abilitato, ogni utente deve abilitare l'autenticazione a due fattori. L'applicazione della 2FA richiederà a tutti gli utenti di avere accesso a un dispositivo in cui possono installare un'app di autenticazione. Puoi abilitarlo solo se hai già configurato l'autenticazione a due fattori."
     }
 }
