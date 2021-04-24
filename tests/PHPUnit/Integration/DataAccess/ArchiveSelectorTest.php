@@ -38,6 +38,44 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
+    public function test_getArchiveIds_handlesCutOffGroupConcat()
+    {
+        Db::get()->query('SET SESSION group_concat_max_len=' . 20);
+
+        $archiveRows =                 [
+            ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1],
+            ['idarchive' => 2, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 4, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 5, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 6, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 7, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 8, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 9, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 10, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 11, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 12, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 13, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 14, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 15, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+            ['idarchive' => 16, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done.Funnels', 'value' => 5],
+        ];
+
+        $this->insertArchiveData($archiveRows);
+
+        $archiveIds = ArchiveSelector::getArchiveIds([1], [Factory::build('day', '2020-03-01')], new Segment('', [1]), ['Funnels'],
+            true, true);
+
+        $expected = [
+            'done.Funnels' => [
+                '2020-03-01,2020-03-01' => [
+                    '16',
+                ],
+            ],
+        ];
+        $this->assertEquals($expected, $archiveIds);
+    }
+
     /**
      * @dataProvider getTestDataForGetArchiveIds
      */
