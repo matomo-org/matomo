@@ -58,7 +58,13 @@ describe("TagManagerTeaser", function () {
     it('should be possible to activate plugin and redirect to tag manager', async function () {
         await page.click('.activateTagManager .activateTagManagerPlugin');
         await page.waitForNetworkIdle();
+
+        await page.type('#login_form_password', 'superUserPass');
+        await page.click('#login_form_submit');
+
+        await page.waitForNetworkIdle();
         await page.waitFor(250);
+
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('super_user_activate_plugin');
     });
 

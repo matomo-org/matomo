@@ -97,7 +97,7 @@
                 }
             }
 
-            $element.find('.change-password-modal').modal({ dismissible: false, ready: function () {
+            $element.find('.change-password-modal').modal({ dismissible: false, onOpenEnd: function () {
                 $('.modal.open #currentUserPassword').focus();
                 $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
             }}).modal('open');
