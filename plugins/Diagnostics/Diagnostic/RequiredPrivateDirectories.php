@@ -34,8 +34,9 @@ class RequiredPrivateDirectories implements Diagnostic
         $label = $this->translator->translate('Diagnostics_RequiredPrivateDirectories');
 
         $privatePaths = [
-            ['tmp/', 'tmp/empty'], // created by this diagnostic
+            ['tmp/', 'tmp/empty', 'tmp/cache/tracker/matomocache_general.php'], // tmp/empty is created by this diagnostic
             ['.git/', '.git/config'],
+            ['lang/en.json'],
         ];
 
         // create test file to check if tmp/empty exists
@@ -49,45 +50,88 @@ class RequiredPrivateDirectories implements Diagnostic
 
         $manualCheck = $this->translator->translate('Diagnostics_PrivateDirectoryManualCheck');
 
-        $results = [];
-
-        $isInternetEnabled = SettingsPiwik::isInternetEnabled();
+        $testUrls = [];
         foreach ($privatePaths as $checks) {
             foreach ($checks as $path) {
                 if (!file_exists($path)) {
                     continue;
                 }
 
-                $testUrl = $baseUrl . $path;
-
-                if (!$isInternetEnabled) {
-                    $unknown = $this->translator->translate('Diagnostics_PrivateDirectoryInternetDisabled', $testUrl) . ' ' . $manualCheck;
-                    $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $unknown);
-                    continue;
-                }
-
-                try {
-                    $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
-                    $status = $response['status'];
-
-                    $isAccessible = !($status >= 400 && $status < 500);
-                    if ($isAccessible) {
-                        $pathIsAccessible = $this->translator->translate('Diagnostics_PrivateDirectoryIsAccessible', $testUrl);
-                        $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $pathIsAccessible);
-
-                        break; // skip rest of checks in this batch to provide cleaner output in the UI
-                    }
-                } catch (\Exception $e) {
-                    $error = $e->getMessage();
-                    $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, 'Unable to execute check: ' . $error);
-                }
+                $testUrls[] = $baseUrl . $path;
             }
         }
 
-        if (empty($results)) {
-            $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK);
+        $isInternetEnabled = SettingsPiwik::isInternetEnabled();
+        if (!$isInternetEnabled) {
+            $testUrlsList = $this->getUrlList($testUrls);
+
+            $unknown = $this->translator->translate('Diagnostics_PrivateDirectoryInternetDisabled') . ' ' . $manualCheck
+                . $testUrlsList;
+            $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $unknown);
+            return $results;
         }
 
-        return $results;
+        $result = new DiagnosticResult($label);
+
+        $isConfigIniAccessible = $this->checkConfigIni($result, $baseUrl);
+
+        $atLeastOneIsAccessible = $isConfigIniAccessible;
+        foreach ($testUrls as $testUrl) {
+            try {
+                $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
+                $status = $response['status'];
+
+                $isAccessible = !($status >= 400 && $status < 500);
+                if ($isAccessible) {
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
+                    $atLeastOneIsAccessible = true;
+                }
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'Unable to execute check for ' .
+                    Common::sanitizeInputValue($testUrl) . ': ' . Common::sanitizeInputValue($error)));
+            }
+        }
+
+        if ($atLeastOneIsAccessible) {
+            $pathIsAccessible = $this->translator->translate('Diagnostics_PrivateDirectoryIsAccessible');
+            if ($isConfigIniAccessible) {
+                $pathIsAccessible .= '<br/><br/>' . $this->translator->translate('Diagnostics_ConfigIniAccessible');
+            }
+            $result->setLongErrorMessage($pathIsAccessible);
+        } else {
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
+        }
+
+        return [$result];
+    }
+
+    private function getUrlList(array $testUrls)
+    {
+        $testUrlsList = '';
+        foreach ($testUrls as $testUrl) {
+            $testUrlsList .= '<br/>' . Common::sanitizeInputValue($testUrl);
+        }
+        return $testUrlsList;
+    }
+
+    private function checkConfigIni(DiagnosticResult $result, $baseUrl)
+    {
+        $testUrl = $baseUrl . 'config/config.ini.php';
+        try {
+            $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
+            $data = $response['data'];
+
+            $isAccessible = strpos($data, ';') !== false;
+            if ($isAccessible) {
+                $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
+                return true;
+            }
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'Unable to execute check for '
+                . Common::sanitizeInputValue($testUrl) . ': ' . Common::sanitizeInputValue($error)));
+        }
+        return false;
     }
 }
