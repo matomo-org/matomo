@@ -20,6 +20,12 @@
         "CronArchivingRunDetails": "Please check that you have setup a crontab calling the %1$s console command, and that you have configured a %2$s to receive errors by email if archiving fails. You can also try to run the console command to archive your reports manually: %3$s. %4$sLearn more.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "The archiving process completed successfully %1$s ago.",
         "BrowserTriggeredArchivingEnabled": "For optimal performance and a speedy Matomo, it is highly recommended to set up a crontab to automatically archive your reports, and to disable browser triggering in the Matomo settings. %1$sLearn more.%2$s",
-        "NoDataForReportArchivingNotRun": "The archiving of your reports hasn't been executed recently, %1$slearn more about how to generate your reports.%2$s"
+        "NoDataForReportArchivingNotRun": "The archiving of your reports hasn't been executed recently, %1$slearn more about how to generate your reports.%2$s",
+        "RequiredPrivateDirectories": "Required Private Directories",
+        "PrivateDirectoryManualCheck": "Please open the URLs manually in a browser to see if you can access it. If you can, you might need to modify your server configuration as these files/directories should not be accessible via a browser from the Internet or Intranet.",
+        "PrivateDirectoryInternetDisabled": "We couldn't check if the following URLs are accessible because internet features are disabled on this Matomo.",
+        "PrivateDirectoryIsAccessible": "We found that the above URLs are accessible via the browser, but they should NOT be. Allowing them to be accessed can pose a potential security risk since the contents can provide information about your server and potentially your users. Please restrict access to them.",
+        "ConfigIniAccessible": "We also found that Matomo's config directory is publicly accessible. While attackers can't read the config now, if your webserver stops executing PHP files for some reason, your MySQL credentials and other information will be available to anyone. Please check your webserver config and deny access to this directory.",
+        "AllPrivateDirectoriesAreInaccessible": "All private directories are inaccessible from the internet."
     }
 }
