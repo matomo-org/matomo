@@ -11,11 +11,16 @@ namespace Piwik\Plugins\Login\Security;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
+use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Updater;
 use Piwik\Version;
 
 class BruteForceDetection {
+
+    const OVERALL_LOGIN_LOCKOUT_THRESHOLD = 1000; // TODO: maybe make this come from DI config or INI config
+    const NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX = 'BruteForceDetection.suspiciousLoginCountNotified.';
 
     private $minutesTimeRange;
     private $maxLogAttempts;
@@ -143,5 +148,80 @@ class BruteForceDetection {
     private function getDateTimeSubMinutes($minutes)
     {
         return $this->getNow()->subPeriod($minutes, 'minute')->getDatetime();
+    }
+
+    // TODO: new integration tests
+    // TODO: need to make sure bruteforcedetection happens after any ip allowlists/blocklists have been used
+    public function isUserLoginBlocked($login)
+    {
+        $count = $this->getTotalLoginAttemptsInLastHourForLogin($login);
+        if (!$this->hasTooManyTriesOverallInlastHour($count)) {
+            return false;
+        }
+
+        if (!$this->hasNotifiedUserAboutSuspiciousLogins($login)) {
+            $this->sendSuspiciousLoginsEmailToUser($login, $count);
+        }
+
+        return true;
+    }
+
+    private function getTotalLoginAttemptsInLastHourForLogin($login)
+    {
+        $sql = "SELECT COUNT(*) FROM `{$this->tablePrefixed}` WHERE login = ? AND attempted_at > ?";
+        $count = Db::fetchOne($sql, [$login, $this->getDateTimeSubMinutes(60)]);
+        return $count;
+    }
+
+    private function hasTooManyTriesOverallInLastHour($count)
+    {
+        return $count > self::OVERALL_LOGIN_LOCKOUT_THRESHOLD;
+    }
+
+    private function hasNotifiedUserAboutSuspiciousLogins($login)
+    {
+        $optionName = $this->getSusNotifiedOptionName($login);
+        $timeSent = Option::get($optionName);
+        $timeSent = (int) @json_decode($timeSent, true);
+        if ($timeSent <= 0) { // sanity check
+            return false;
+        }
+
+        $timeSinceSent = Date::getNowTimestamp() - $timeSent;
+        if ($timeSinceSent <= 0 // sanity check
+            || $timeSinceSent > $this->getAmountOfTimeBetweenSusLoginNotifications()
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function sendSuspiciousLoginsEmailToUser($login, $countOverall)
+    {
+        $distinctIps = $this->getDistinctIpsAttemptingLoginsInLastHour($login);
+
+        $email = new SuspiciousLoginAttemptsInLastHourEmail($login, $countOverall, $distinctIps);
+        $email->send();
+
+        $optionName = $this->getSusNotifiedOptionName($login);
+        Option::set($optionName, Date::getNowTimestamp());
+    }
+
+    private function getAmountOfTimeBetweenSusLoginNotifications()
+    {
+        return 2 * 7 * 24 * 60 * 60; // 2 weeks
+    }
+
+    private function getSusNotifiedOptionName($login)
+    {
+        return self::NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX . $login;
+    }
+
+    private function getDistinctIpsAttemptingLoginsInLastHour($login)
+    {
+        $sql = "SELECT COUNT(DISTINCT ip_address) FROM `{$this->tablePrefixed}` WHERE login = ? AND attempted_at > ?";
+        $count = Db::fetchOne($sql, [$login, $this->getDateTimeSubMinutes(60)]);
+        return $count;
     }
 }

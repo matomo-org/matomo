@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Session;
 use Piwik\SettingsServer;
 
@@ -26,6 +27,7 @@ class Login extends \Piwik\Plugin
 {
     private $hasAddedFailedAttempt = false;
     private $hasPerformedBruteForceCheck = false;
+    private $hasPerformedBruteForceCheckForUserPwdLogin = false;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -119,6 +121,31 @@ class Login extends \Piwik\Plugin
         }
         // for performance reasons we make sure to execute it only once per request
         $this->hasPerformedBruteForceCheck = true;
+    }
+
+    public function beforeLoginCheckBruteForceForUserPwdLogin()
+    {
+        // check that IP is not blocked
+        $this->beforeLoginCheckBruteForce();
+
+        // now check that user login (from any ip) is not blocked
+        $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();// TODO will this actually work
+        if (empty($login)) {
+            $login = Piwik::getCurrentUserLogin();
+        }
+        if (empty($login)
+            || $login == 'anonymous'
+        ) {
+            return; // can't do the check if we don't know the login
+        }
+
+        /** @var BruteForceDetection $bruteForce */
+        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+        if (!$this->hasPerformedBruteForceCheckForUserPwdLogin && $bruteForce->isEnabled() && $bruteForce->isUserLoginBlocked($login)) {
+            throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked')); // TODO: translate
+        }
+        // for performance reasons we make sure to execute it only once per request
+        $this->hasPerformedBruteForceCheckForUserPwdLogin = true;
     }
 
     public function getJsFiles(&$jsFiles)
