@@ -46,7 +46,7 @@ class Login extends \Piwik\Plugin
             'API.UsersManager.createAppSpecificTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
 
             // for brute force prevention of all UI requests
-            'Controller.Login.logme'           => 'beforeLoginCheckBruteForce',
+            'Controller.Login.logme'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
             'Controller.Login.'                => 'beforeLoginCheckBruteForce',
             'Controller.Login.index'           => 'beforeLoginCheckBruteForce',
             'Controller.Login.confirmResetPassword' => 'beforeLoginCheckBruteForce',
@@ -55,9 +55,9 @@ class Login extends \Piwik\Plugin
             'Controller.Login.login'           => 'beforeLoginCheckBruteForce',
             'Controller.TwoFactorAuth.loginTwoFactorAuth' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
-            'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForce', // record any failed attempt in UI
-            'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
-            'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
+            'Login.recordFailedLoginAttempt'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
+            'Login.authenticate.failed'        => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
             'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
