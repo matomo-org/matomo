@@ -31,6 +31,10 @@ class RequiredPrivateDirectories implements Diagnostic
 
     public function execute()
     {
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return [];
+        }
+
         $label = $this->translator->translate('Diagnostics_RequiredPrivateDirectories');
 
         $privatePaths = [
