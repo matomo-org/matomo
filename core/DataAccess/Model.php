@@ -8,8 +8,6 @@
  */
 namespace Piwik\DataAccess;
 
-use DI\NotFoundException;
-use DI\DependencyException;
 use Exception;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\ArchivingStatus;
@@ -874,8 +872,6 @@ class Model
      * @param Period $period 
      * @param mixed $doneFlag 
      * @return bool 
-     * @throws NotFoundException 
-     * @throws DependencyException 
      * @throws Exception 
      */
     public function hasInvalidationForPeriod($idSite, Period $period, $doneFlag)
