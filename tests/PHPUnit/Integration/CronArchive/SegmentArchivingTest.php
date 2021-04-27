@@ -49,11 +49,11 @@ class SegmentArchivingTest extends IntegrationTestCase
     public function getTestDataForGetReArchiveSegmentStartDate()
     {
         return [
-            // no segment creation time => fallback to beginning of time
+            // no segment creation time
             [
                 SegmentArchiving::CREATION_TIME,
                 [],
-                '2013-01-01',
+                null,
             ],
 
             // creation time
@@ -84,11 +84,11 @@ class SegmentArchivingTest extends IntegrationTestCase
                 '2020-04-14',
             ],
 
-            // last edit time, no edit or create time in segment => fallback to beginning of time
+            // last edit time, no edit or create time in segment
             [
                 SegmentArchiving::LAST_EDIT_TIME,
                 [],
-                '2013-01-01',
+                null,
             ],
 
             // lastN
@@ -98,11 +98,26 @@ class SegmentArchivingTest extends IntegrationTestCase
                 '2020-05-13',
             ],
 
+            // lastN, no date available
+            [
+                'last30',
+                [],
+                null,
+            ],
+
             // editLastN
             [
                 'editLast30',
                 ['ts_created' => '2020-06-12 05:00:00', 'ts_last_edit' => '2020-09-13 05:15:15'],
                 '2020-08-14',
+            ],
+
+
+            // editLastN, no date available
+            [
+                'editLast30',
+                [],
+                null,
             ],
 
             // beginning of time

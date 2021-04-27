@@ -111,16 +111,25 @@ class SegmentArchiving
          */
         list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($segmentInfo);
 
-        if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME && !empty($segmentCreatedTime)) {
+        if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME) {
+            if (empty($segmentCreatedTime)) {
+                return null;
+            }
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
-        } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME && !empty($segmentLastEditedTime)) {
+        } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME) {
+            if (empty($segmentLastEditedTime)) {
+                return null;
+            }
             $this->logger->debug("process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
                 array('time' => $segmentLastEditedTime));
 
             return $segmentLastEditedTime;
-        } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches) && !empty($segmentLastEditedTime)) {
+        } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+            if (empty($segmentLastEditedTime)) {
+                return null;
+            }
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentLastEditedTime, 'day');
@@ -129,7 +138,10 @@ class SegmentArchiving
             $this->logger->debug("process_new_segments_from set to editLast{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
 
             return $result;
-        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches) && !empty($segmentCreatedTime)) {
+        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+            if (empty($segmentCreatedTime)) {
+                return null;
+            }
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
