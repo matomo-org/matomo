@@ -173,7 +173,12 @@ class OptOutManager
         $setCookieInNewWindow = Common::getRequestVar('setCookieInNewWindow', false, 'int');
         if ($setCookieInNewWindow) {
             $requestNonce = Common::getRequestVar('nonce', false);
-            $nonce = Nonce::isValidMd5($requestNonce) ? $requestNonce : '';
+            $nonce = $requestNonce !== false ? $requestNonce : '';
+
+            if ($requestNonce !== false && !Nonce::verifyNonce('Piwik_OptOut', $requestNonce)) {
+                Nonce::discardNonce('Piwik_OptOut');
+                $nonce = '';
+            }
 
             $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
                 'showConfirmOnly' => 1,

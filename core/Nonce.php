@@ -99,22 +99,6 @@ class Nonce
         return true;
     }
 
-
-    /**
-     * Returns if a nonce is valid md5.
-     *
-     * @param string $md5
-     * @return bool
-     */
-    public static function isValidMd5($md5)
-    {
-        if (preg_match('/^[a-f0-9]{32}$/', $md5)) {
-            return true;
-        }
-
-        return false;
-    }
-
     // public for tests
     public static function isReferrerHostValid($referrer, $expectedReferrerHost)
     {
