@@ -34,6 +34,8 @@ use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
 use Psr\Log\LoggerInterface;
+use Piwik\DataTable\Map;
+use Piwik\Archive\DataTableFactory;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
@@ -464,6 +466,20 @@ class Visualization extends ViewDataTable
             }
         }
 
+        if ($this->dataTable instanceof Map) {
+            foreach ($this->dataTable->getDataTables() as $datatable) {
+                $metadata = $datatable->getAllTableMetadata();
+                $today = Date::today();
+                $period = $metadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX];
+
+                if ($period->isDateInPeriod($today) && $metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]) {
+                    $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
+
+                    break;
+                }
+            }
+        }
+
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
         if (empty($pivotBy)
             && $this->dataTable instanceof DataTable
@@ -561,9 +577,9 @@ class Visualization extends ViewDataTable
      *
      * @return string
      */
-    private function makePrettyArchivedOnText()
+    private function makePrettyArchivedOnText($dateText = null)
     {
-        $dateText = $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
+        $dateText = $dateText ? $dateText : $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
         $date     = Date::factory($dateText);
         $today    = mktime(0, 0, 0);
 
