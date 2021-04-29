@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API;
 use Piwik\Category\CategoryList;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
+use Piwik\Plugins\Live\Live;
 use Piwik\Segment\SegmentsList;
 
 class SegmentMetadata
@@ -36,6 +37,11 @@ class SegmentMetadata
 
             if ($segment->isRequiresRegisteredUser()) {
                 $segment->setPermission($isRegisteredUser);
+            }
+
+            // disable visitorId segment if visitor profile disabled
+            if ((!Live::isVisitorLogEnabled() || !Live::isVisitorProfileEnabled()) && $segment->getSegment() === 'visitorId' ) {
+                continue;
             }
 
             $segments[] = $segment->toArray();
