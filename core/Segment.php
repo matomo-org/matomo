@@ -17,6 +17,8 @@ use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Cache;
+use Piwik\Plugins\Live\SystemSettings;
+use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -198,6 +200,14 @@ class Segment
 
     private function getSegmentByName($name)
     {
+        if (!Common::isPhpCliMode()) {
+            $systemSettings = new SystemSettings();
+            $visitorProfileDisabled = $systemSettings->disableVisitorProfile->getValue() === true || $systemSettings->disableVisitorLog->getValue() === true;
+            if ($visitorProfileDisabled && $name == (new VisitorId())->getSegmentName()) {
+                throw new Exception('Visitor profile is deactivated globally. A user with super user access can enable this feature in the general settings.');
+            }
+        }
+
         $segments = $this->getAvailableSegments();
 
         foreach ($segments as $segment) {

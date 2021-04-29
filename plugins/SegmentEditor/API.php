@@ -24,8 +24,8 @@ use Piwik\Segment;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 use Piwik\Cache;
-use Piwik\Plugins\Live\Live;
 use Piwik\Segment\SegmentExpression;
+use Piwik\Plugins\Live\SystemSettings;
 use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 /**
@@ -406,9 +406,11 @@ class API extends \Piwik\Plugin\API
 
         $model = new \Piwik\Plugins\SitesManager\Model();
         $allIdSites = $model->getSitesId();
+        $systemSettings = new SystemSettings();
+        $visitorProfileDisabled = $systemSettings->disableVisitorProfile->getValue() === true || $systemSettings->disableVisitorLog->getValue() === true;
         foreach ($segments as $key => &$segmentInfo) {
             // disable visitorId segment if visitor profile disabled
-            if (!Live::isVisitorLogEnabled() || !Live::isVisitorProfileEnabled()) {
+            if ($visitorProfileDisabled) {
                 if (Segment::containsOperand($segmentInfo['definition'], (new VisitorId())->getSegmentName())) {
                     unset($segments[$key]);
                     continue;
