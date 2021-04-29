@@ -13,6 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Plugins\Live\Live;
 use Piwik\Segment\SegmentsList;
+use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 class SegmentMetadata
 {
@@ -40,7 +41,7 @@ class SegmentMetadata
             }
 
             // disable visitorId segment if visitor profile disabled
-            if ((!Live::isVisitorLogEnabled() || !Live::isVisitorProfileEnabled()) && $segment->getSegment() === 'visitorId' ) {
+            if ((!Live::isVisitorLogEnabled() || !Live::isVisitorProfileEnabled()) && $segment->getSegment() === (new VisitorId())->getSegmentName() ) {
                 continue;
             }
 

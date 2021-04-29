@@ -643,4 +643,20 @@ class Segment
 
         return $this->isSegmentEncoded ? urldecode($segment) : $segment;
     }
+
+    public static function containsOperand($definition, $operand)
+    {
+        $segmentExpression = new SegmentExpression($definition);
+        $expressions = $segmentExpression->parseSubExpressions();
+
+        foreach ($expressions as $expression) {
+            $name = $expression[SegmentExpression::INDEX_OPERAND][SegmentExpression::INDEX_OPERAND_NAME];
+
+            if ($name === $operand) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

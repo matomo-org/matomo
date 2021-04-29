@@ -24,6 +24,9 @@ use Piwik\Segment;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 use Piwik\Cache;
+use Piwik\Plugins\Live\Live;
+use Piwik\Segment\SegmentExpression;
+use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
@@ -403,7 +406,15 @@ class API extends \Piwik\Plugin\API
 
         $model = new \Piwik\Plugins\SitesManager\Model();
         $allIdSites = $model->getSitesId();
-        foreach ($segments as &$segmentInfo) {
+        foreach ($segments as $key => &$segmentInfo) {
+            // disable visitorId segment if visitor profile disabled
+            if (!Live::isVisitorLogEnabled() || !Live::isVisitorProfileEnabled()) {
+                if (Segment::containsOperand($segmentInfo['definition'], (new VisitorId())->getSegmentName())) {
+                    unset($segments[$key]);
+                    continue;
+                }
+            }
+
             $idSites = !empty($segmentInfo['enable_only_idsite']) ? [(int) $segmentInfo['enable_only_idsite']] : $allIdSites;
             try {
                 $segmentObj = new Segment($segmentInfo['definition'], $idSites);
@@ -412,6 +423,8 @@ class API extends \Piwik\Plugin\API
                 $segmentInfo['hash'] = 'INVALID SEGMENT';
             }
         }
+
+        $segments = array_values($segments);
 
         return $segments;
     }
@@ -456,5 +469,21 @@ class API extends \Piwik\Plugin\API
             "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.";
 
         return $message;
+    }
+
+    private function containsVisitorIdSegment($definition)
+    {
+        $segmentExpression = new SegmentExpression($definition);
+        $expressions = $segmentExpression->parseSubExpressions();
+
+        foreach ($expressions as $expression) {
+            $name = $expression[SegmentExpression::INDEX_OPERAND][SegmentExpression::INDEX_OPERAND_NAME];
+
+            if ($name === 'visitorId') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
