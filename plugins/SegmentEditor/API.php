@@ -472,20 +472,4 @@ class API extends \Piwik\Plugin\API
 
         return $message;
     }
-
-    private function containsVisitorIdSegment($definition)
-    {
-        $segmentExpression = new SegmentExpression($definition);
-        $expressions = $segmentExpression->parseSubExpressions();
-
-        foreach ($expressions as $expression) {
-            $name = $expression[SegmentExpression::INDEX_OPERAND][SegmentExpression::INDEX_OPERAND_NAME];
-
-            if ($name === 'visitorId') {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }
