@@ -200,6 +200,9 @@ class Segment
 
     private function getSegmentByName($name)
     {
+        // disable visitorid segment in api calls and
+        // throw exception when the visitor profile is deactivated
+        // do not throw in climode like core:archive
         if (!Common::isPhpCliMode()) {
             $systemSettings = new SystemSettings();
             $visitorProfileDisabled = $systemSettings->disableVisitorProfile->getValue() === true || $systemSettings->disableVisitorLog->getValue() === true;
