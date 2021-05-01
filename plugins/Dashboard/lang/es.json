@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de módulos y disposición de columnas del panel de control será usada cuando un usuario cree un nuevo panel de control o cuando se use la función \"%s\".",
         "TopLinkTooltip": "Ver los reportes de Análisis de internet para %s.",
         "WidgetNotFound": "Reproductor no encontrado",
-        "WidgetPreview": "Previsualización del reproductor"
+        "WidgetPreview": "Previsualización del reproductor",
+        "DashboardCategoryHelp": "Este es el tablero. Los tableros son una colección de widgets de Matomo los cuales cuales puede agregar para cubrir necesidades específicas. Combine cualquier widget de Matomo para obtener la información que %1$s*usted*%2$s necesita en un vistazo."
     }
 }
