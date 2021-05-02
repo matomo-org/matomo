@@ -473,7 +473,7 @@ class Visualization extends ViewDataTable
                 $period = $metadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX];
 
                 if ($period->isDateInPeriod($today) && $metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]) {
-                    $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
+                    $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME], true);
 
                     break;
                 }
@@ -577,11 +577,15 @@ class Visualization extends ViewDataTable
      *
      * @return string
      */
-    private function makePrettyArchivedOnText($dateText = null)
+    private function makePrettyArchivedOnText($dateText = null, $forceHtmlFormatter = false)
     {
         $dateText = $dateText ? $dateText : $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
         $date     = Date::factory($dateText);
         $today    = mktime(0, 0, 0);
+
+        if ($forceHtmlFormatter) {
+            $this->metricsFormatter = new HtmlFormatter();
+        }
 
         if ($date->getTimestamp() > $today) {
             $elapsedSeconds = time() - $date->getTimestamp();
