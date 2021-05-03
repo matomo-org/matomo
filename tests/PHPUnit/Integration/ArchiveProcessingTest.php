@@ -648,7 +648,7 @@ END;
         $table2 = new DataTable();
         $table2->addRowsFromSimpleArray([
             ['label' => 'a', 'nb_visits' => 2, 'nb_actions' => 2],
-            ['label' => -1, 'nb_visits' => 4, 'nb_actions' => 2],
+            ['label' => -1, 'nb_visits' => 9, 'nb_actions' => 5],
         ]);
         $table2->addSummaryRow(new DataTable\Row([
             DataTable\Row::COLUMNS => ['label' => -1, 'nb_visits' => 15, 'nb_actions' => 25],
@@ -694,7 +694,7 @@ END;
 	</row>
 	<row>
 		<label>-1</label>
-		<nb_visits>4</nb_visits>
+		<nb_visits>12</nb_visits>
 		<nb_actions>6</nb_actions>
 	</row>
 	<row>

@@ -589,7 +589,11 @@ class Row extends \ArrayObject
      * Returns `true` if this row is the summary row, `false` if otherwise. This function
      * depends on the label of the row, and so, is not 100% accurate.
      *
+     * This function can cause errors when there is a row whose label is legitimately "-1"
+     * (ie, "-1" was the data that was tracked), so it is not advised to use it.
+     *
      * @return bool
+     * @deprecated
      */
     public function isSummaryRow()
     {
