@@ -328,7 +328,10 @@ class Archive implements ArchiveQuery
     {
         $data  = $this->get($names, 'numeric');
         $resultIndexes = $this->getResultIndices();
-        return $data->getMergedDataTable($resultIndexes);
+        $datatable = $data->getMergedDataTable($resultIndexes);
+        $datatable->deleteColumn('_metadata');
+
+        return $datatable;
     }
 
     /**
