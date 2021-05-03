@@ -328,10 +328,7 @@ class Archive implements ArchiveQuery
     {
         $data  = $this->get($names, 'numeric');
         $resultIndexes = $this->getResultIndices();
-        $datatable = $data->getMergedDataTable($resultIndexes);
-        $datatable->deleteColumn('_metadata');
-
-        return $datatable;
+        return $data->getMergedDataTable($resultIndexes);
     }
 
     /**
@@ -517,7 +514,7 @@ class Archive implements ArchiveQuery
 
             if ($isNumeric) {
                 $row['value'] = $this->formatNumericValue($row['value']);
-                $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
+                // $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
             } else {
                 $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
             }

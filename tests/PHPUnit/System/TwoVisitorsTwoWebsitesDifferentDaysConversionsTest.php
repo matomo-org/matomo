@@ -132,10 +132,13 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
         $archive = Archive::build($idSite1, 'range', $dateTimeRange);
         $result = $archive->getNumeric($columns);
-        $this->assertArrayHasKey('nb_visits', $result);
-        $this->assertArrayHasKey('Goal_nb_conversions', $result);
-        $this->assertEquals(5, $result['nb_visits']);
-        $this->assertEquals(6, $result['Goal_nb_conversions']);
+        $this->assertEquals(
+            array(
+                'nb_visits' => 5,
+                'Goal_nb_conversions' => 6
+            ),
+            $result
+        );
     }
 
     public static function getOutputPrefix()
