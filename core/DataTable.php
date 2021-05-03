@@ -841,6 +841,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function addSummaryRow(Row $row)
     {
         $this->summaryRow = $row;
+        $row->setIsSummaryRow();
 
         // NOTE: the summary row does not go in the index, since it will overwrite rows w/ label == -1
 
@@ -1419,8 +1420,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
             if (is_array($rows[self::ID_SUMMARY_ROW])) {
                 $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]);
+                $this->summaryRow->setIsSummaryRow();
             } elseif (isset($rows[self::ID_SUMMARY_ROW]->c)) {
                 $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c); // Pre Piwik 2.13
+                $this->summaryRow->setIsSummaryRow();
             }
             unset($rows[self::ID_SUMMARY_ROW]);
         }
@@ -1467,6 +1470,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
             if ($id == self::ID_SUMMARY_ROW) {
                 $this->summaryRow = $row;
+                $this->summaryRow->setIsSummaryRow();
             } else {
                 $this->addRow($row);
             }
