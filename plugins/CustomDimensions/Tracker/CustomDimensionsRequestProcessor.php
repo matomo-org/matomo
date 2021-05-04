@@ -37,12 +37,27 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
-        if (!empty($action)) {
+        if (!empty($action) && $this->isNewVisit($request)) {
             $idLinkVisit = $action->getIdLinkVisitAction();
             $idVisit     = $visitProperties->getProperty('idvisit');
             $model->updateVisit($request->getIdSite(), $idVisit, array('last_idlink_va' => $idLinkVisit));
         }
 
+        $lastIdLinkVa = $visitProperties->getProperty('last_idlink_va');
+        $previousIdLinkVa = $request->getMetadata('CustomDimensions','previous_idlink_va');
+        if ($previousIdLinkVa) {
+            $lastIdLinkVa = $previousIdLinkVa;// when last_idlink_va was already updated in this visit because it was existing visit... we need to get the idlink_va from previous tracking request
+        }
+        $timeSpent    = $visitProperties->getProperty('time_spent_ref_action');
+
+        if (!empty($lastIdLinkVa) && $timeSpent > 0) {
+            $model->updateAction($lastIdLinkVa, array('time_spent' => $timeSpent));
+        }
+    }
+
+    private function isNewVisit(Request  $request)
+    {
+        return $request->getMetadata('CoreHome', 'isNewVisit');
     }
 
     public static function hasActionCustomDimensionConfiguredInSite($request)
@@ -75,6 +90,14 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         foreach ($dimensionsToSet as $field => $value) {
             $valuesToUpdate[$field] = $value;
             $visitProperties->setProperty($field, $value);
+        }
+
+        $action = $request->getMetadata('Actions', 'action');
+        if (!empty($action) && $action->getIdLinkVisitAction()) {
+
+            $request->setMetadata('CustomDimensions','previous_idlink_va', $visitProperties->getProperty('last_idlink_va'));
+            /** @var Action $action */
+            $valuesToUpdate['last_idlink_va'] = $action->getIdLinkVisitAction();
         }
     }
 

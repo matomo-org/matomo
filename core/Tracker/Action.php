@@ -423,10 +423,7 @@ abstract class Action
         }
 
         $visitAction = array_merge($visitAction, $this->customFields);
-        $timeSpentRefAction = $visitor->getVisitorColumn('time_spent_ref_action');
-        if (!empty($timeSpentRefAction) || $timeSpentRefAction === 0 || $timeSpentRefAction === '0') {
-            $visitAction['time_spent'] = $timeSpentRefAction;
-        }
+
         $this->idLinkVisitAction = $this->getModel()->createAction($visitAction);
 
         $visitAction['idlink_va'] = $this->idLinkVisitAction;

@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
 use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -194,6 +195,13 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
+
+            foreach ($this->requestProcessors as $processor) {
+                if ($processor instanceof ActionsRequestProcessor) {
+                    Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
+                    $processor->recordLogs($this->visitProperties, $this->request);
+                }
+            }
             try {
                 $this->handleExistingVisit($this->request->getMetadata('Goals', 'visitIsConverted'));
             } catch (VisitorNotFoundInDb $e) {
@@ -213,6 +221,9 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->request->getVisitorIdForThirdPartyCookie());
 
         foreach ($this->requestProcessors as $processor) {
+            if (!$isNewVisit && $processor instanceof ActionsRequestProcessor) {
+                continue; // already processed earlier
+            }
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
 
             $processor->recordLogs($this->visitProperties, $this->request);
