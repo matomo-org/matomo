@@ -272,12 +272,6 @@ class ArchiveInvalidator
             list($plugin) = explode('.', $name);
         }
 
-        // remove sites w/ no visits
-        $trackerModel = new TrackerModel();
-        $idSites = array_filter($idSites, function ($idSite) use ($trackerModel) {
-            return !$trackerModel->isSiteEmpty($idSite);
-        });
-
         if ($plugin
             && !Manager::getInstance()->isPluginActivated($plugin)
         ) {
