@@ -12,8 +12,6 @@ use Piwik\Category\CategoryList;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
-use Piwik\Plugins\Live\SystemSettings;
-use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 class SegmentMetadata
 {
@@ -28,8 +26,6 @@ class SegmentMetadata
         /** @var Segment[] $dimensionSegments */
         $dimensionSegments = SegmentsList::get()->getSegments();
         $segments = array();
-        $systemSettings = new SystemSettings();
-        $visitorProfileDisabled = $systemSettings->disableVisitorProfile->getValue() === true || $systemSettings->disableVisitorLog->getValue() === true;
 
         foreach ($dimensionSegments as $segment) {
             if (!$_showAllSegments
@@ -40,11 +36,6 @@ class SegmentMetadata
 
             if ($segment->isRequiresRegisteredUser()) {
                 $segment->setPermission($isRegisteredUser);
-            }
-
-            // disable visitorId segment if visitor profile disabled
-            if ($visitorProfileDisabled && ($segment->getSegment() === (new VisitorId())->getSegmentName())) {
-                continue;
             }
 
             $segments[] = $segment->toArray();

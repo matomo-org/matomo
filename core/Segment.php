@@ -200,17 +200,6 @@ class Segment
 
     private function getSegmentByName($name)
     {
-        // disable visitorid segment in api calls and
-        // throw exception when the visitor profile is deactivated
-        // do not throw in climode like core:archive
-        if (!Common::isPhpCliMode()) {
-            $systemSettings = new SystemSettings();
-            $visitorProfileDisabled = $systemSettings->disableVisitorProfile->getValue() === true || $systemSettings->disableVisitorLog->getValue() === true;
-            if ($visitorProfileDisabled && $name == (new VisitorId())->getSegmentName()) {
-                throw new Exception('Visitor profile is deactivated globally. A user with super user access can enable this feature in the general settings.');
-            }
-        }
-
         $segments = $this->getAvailableSegments();
 
         foreach ($segments as $segment) {
@@ -655,21 +644,5 @@ class Segment
         }
 
         return $this->isSegmentEncoded ? urldecode($segment) : $segment;
-    }
-
-    public static function containsOperand($definition, $operand)
-    {
-        $segmentExpression = new SegmentExpression($definition);
-        $expressions = $segmentExpression->parseSubExpressions();
-
-        foreach ($expressions as $expression) {
-            $name = $expression[SegmentExpression::INDEX_OPERAND][SegmentExpression::INDEX_OPERAND_NAME];
-
-            if ($name === $operand) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

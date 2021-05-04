@@ -109,36 +109,6 @@ class ApiTest extends SystemTestCase
         $this->assertTrue($contains);
     }
 
-    public function test_getAll_does_not_contain_visitorId_if_profile_disabled()
-    {
-        Cache::flushAll();
-        Fixture::createWebsite('2020-03-03 00:00:00');
-
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
-        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
-        self::$fixture->getTestEnvironment()->save();
-
-        $visitorSegment = 'visitorId==1234567890123456';
-        SegmentEditorApi::getInstance()->add('test segment2', $visitorSegment, 1, 1, 1);
-
-        $systemSettings = new SystemSettings();
-        $systemSettings->disableVisitorProfile->setValue(1);
-        $systemSettings->save();
-
-        $segments = SegmentEditorApi::getInstance()->getAll();
-
-        $contains = false;
-
-        foreach($segments as $segment) {
-            if ($segment['definition'] == $visitorSegment) {
-                $contains = true;
-                break;
-            }
-        }
-
-        $this->assertFalse($contains);
-    }
-
     public function definitionsDataProvider()
     {
         return [

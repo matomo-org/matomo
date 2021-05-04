@@ -14,6 +14,9 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Segment\SegmentsList;
+use Piwik\Plugins\Live\SystemSettings;
+use Piwik\Columns\DimensionSegmentFactory;
 
 /**
  * Dimension for the log_visit.idvisitor column. This column is added in the CREATE TABLE
@@ -37,5 +40,18 @@ class VisitorId extends VisitDimension
         $metric->setTranslatedName(Piwik::translate('General_ColumnNbUniqVisitors'));
         $metric->setName('nb_uniq_visitors');
         $metricsList->addMetric($metric);
+    }
+
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
+    {
+        $systemSettings = new SystemSettings();
+        $a = $systemSettings->disableVisitorProfile->getValue();
+        $b = $systemSettings->disableVisitorLog->getValue();
+
+        $visitorProfileEnabled = $systemSettings->disableVisitorProfile->getValue() === false
+            && $systemSettings->disableVisitorLog->getValue() === false;
+        if ($visitorProfileEnabled) {
+            parent::configureSegments($segmentsList, $dimensionSegmentFactory);
+        }
     }
 }

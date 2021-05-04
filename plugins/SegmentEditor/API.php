@@ -406,17 +406,7 @@ class API extends \Piwik\Plugin\API
 
         $model = new \Piwik\Plugins\SitesManager\Model();
         $allIdSites = $model->getSitesId();
-        $systemSettings = new SystemSettings();
-        $visitorProfileDisabled = $systemSettings->disableVisitorProfile->getValue() === true || $systemSettings->disableVisitorLog->getValue() === true;
-        foreach ($segments as $key => &$segmentInfo) {
-            // disable visitorId segment if visitor profile disabled
-            if ($visitorProfileDisabled) {
-                if (Segment::containsOperand($segmentInfo['definition'], (new VisitorId())->getSegmentName())) {
-                    unset($segments[$key]);
-                    continue;
-                }
-            }
-
+        foreach ($segments as &$segmentInfo) {
             $idSites = !empty($segmentInfo['enable_only_idsite']) ? [(int) $segmentInfo['enable_only_idsite']] : $allIdSites;
             try {
                 $segmentObj = new Segment($segmentInfo['definition'], $idSites);
