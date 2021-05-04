@@ -428,8 +428,13 @@ class FrontController extends Singleton
         if (Common::getRequestVar('token_auth', '', 'string') !== ''
             && Request::shouldReloadAuthUsingTokenAuth(null)
         ) {
+            if (!Common::isPhpCliMode()) {
+                Access::getInstance()->setSuperUserAccess(false);
+            }
+
             Request::reloadAuthUsingTokenAuth();
             Request::checkTokenAuthIsNotLimited($module, $action);
+            Session::close();
         }
 
         SettingsServer::raiseMemoryLimitIfNecessary();
