@@ -675,9 +675,9 @@ class FrontController extends Singleton
             return null;
         }
 
-        if (Common::getRequestVar('token_auth', '', 'string') !== '') {
-            return null;
-        }
+        if (Common::getRequestVar('token_auth', '', 'string') !== '' && !Common::getRequestVar('force_api_session', 0)) {
+             return null;
+         }
 
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);

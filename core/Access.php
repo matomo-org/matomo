@@ -162,10 +162,9 @@ class Access
         $isApiRequest = Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction());
         $apiMethod = Request::getMethodIfApiRequest(null);
         $isGetApiRequest = 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
-        $isWidgetize = Piwik::getModule() === 'Widgetize';
 
-        if (($forceApiSessionPost && $isApiRequest) || ($forceApiSessionGet && $isApiRequest && $isGetApiRequest) || $isWidgetize) {
-            $request = ($forceApiSessionGet && $isApiRequest && $isGetApiRequest) || $isWidgetize ? $_GET : $_POST;
+        if (($forceApiSessionPost && $isApiRequest) || ($forceApiSessionGet && $isApiRequest && $isGetApiRequest)) {
+            $request = ($forceApiSessionGet && $isApiRequest && $isGetApiRequest) ? $_GET : $_POST;
             $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $request);
             Session::start();
             $auth = StaticContainer::get(SessionAuth::class);
