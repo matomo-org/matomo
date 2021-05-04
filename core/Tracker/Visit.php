@@ -215,7 +215,8 @@ class Visit implements VisitInterface
 
         foreach ($this->requestProcessors as $processor) {
             if (!$isNewVisit && $processor instanceof ActionsRequestProcessor) {
-                continue; // already processed earlier when handling exisitng visit
+                // already processed earlier when handling exisitng visit see {@link self::handleExistingVisit()}
+                continue;
             }
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
 
@@ -250,6 +251,9 @@ class Visit implements VisitInterface
         }
 
         foreach ($this->requestProcessors as $processor) {
+            // for improving performance we create a log_link_visit_action entry before updating the visit.
+            // this way we save one extra update on log_visit in custom dimensions.
+            // Refs https://github.com/matomo-org/matomo/issues/17173
             if ($processor instanceof ActionsRequestProcessor) {
                 Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
                 $processor->recordLogs($this->visitProperties, $this->request);

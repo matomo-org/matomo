@@ -38,6 +38,12 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         $action = $request->getMetadata('Actions', 'action');
 
         if (!empty($action) && $this->isNewVisit($request)) {
+            // this logic is only for new visits because we have to create the visit to get an idvisit before we can insert
+            // the action and only then we can update the last_idink_va of the previously on the visit from the previously created actions.
+            // so flow is:
+            // * Create visit -> creates idVisit A
+            // * Create link visit action (requires idvisit) -> creates idlink_va B
+            // * Update visit A and set the idlink_va B
             $idLinkVisit = $action->getIdLinkVisitAction();
             $idVisit     = $visitProperties->getProperty('idvisit');
             $model->updateVisit($request->getIdSite(), $idVisit, array('last_idlink_va' => $idLinkVisit));
@@ -54,6 +60,8 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         $timeSpent    = $visitProperties->getProperty('time_spent_ref_action');
 
         if (!empty($lastIdLinkVa) && $timeSpent > 0) {
+            // here we don't update the action that was created in this request but the action of the previous tracking request
+            // we can only know how much time was spent on the previous action when the next action is recorded.
             $model->updateAction($lastIdLinkVa, array('time_spent' => $timeSpent));
         }
     }
