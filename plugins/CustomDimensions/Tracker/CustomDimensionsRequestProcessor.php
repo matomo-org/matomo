@@ -43,12 +43,6 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
             $model->updateVisit($request->getIdSite(), $idVisit, array('last_idlink_va' => $idLinkVisit));
         }
 
-        $lastIdLinkVa = $visitProperties->getProperty('last_idlink_va');
-        $timeSpent    = $visitProperties->getProperty('time_spent_ref_action');
-
-        if (!empty($lastIdLinkVa) && $timeSpent > 0) {
-            $model->updateAction($lastIdLinkVa, array('time_spent' => $timeSpent));
-        }
     }
 
     public static function hasActionCustomDimensionConfiguredInSite($request)

@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
@@ -426,6 +427,10 @@ abstract class Action
         $this->idLinkVisitAction = $this->getModel()->createAction($visitAction);
 
         $visitAction['idlink_va'] = $this->idLinkVisitAction;
+        $timeSpentRefAction = $visitor->getVisitorColumn('time_spent_ref_action');
+        if (!empty($timeSpentRefAction) || $timeSpentRefAction === 0 || $timeSpentRefAction === '0') {
+            $visitAction['time_spent'] = $timeSpentRefAction;
+        }
 
         $visitActionDebug = $visitAction;
         $visitActionDebug['idvisitor'] = bin2hex($visitActionDebug['idvisitor']);
