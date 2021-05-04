@@ -195,13 +195,6 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
-
-            foreach ($this->requestProcessors as $processor) {
-                if ($processor instanceof ActionsRequestProcessor) {
-                    Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
-                    $processor->recordLogs($this->visitProperties, $this->request);
-                }
-            }
             try {
                 $this->handleExistingVisit($this->request->getMetadata('Goals', 'visitIsConverted'));
             } catch (VisitorNotFoundInDb $e) {
@@ -254,6 +247,13 @@ class Visit implements VisitInterface
         // update visitorInfo
         foreach ($valuesToUpdate as $name => $value) {
             $this->visitProperties->setProperty($name, $value);
+        }
+
+        foreach ($this->requestProcessors as $processor) {
+            if ($processor instanceof ActionsRequestProcessor) {
+                Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
+                $processor->recordLogs($this->visitProperties, $this->request);
+            }
         }
 
         foreach ($this->requestProcessors as $processor) {
