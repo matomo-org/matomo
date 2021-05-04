@@ -73,11 +73,6 @@ abstract class ActionDimension extends Dimension
      * looked up action so it makes usually no sense to implement both methods but it sometimes does. You can assign
      * any value to the column or return boolan false in case you do not want to save any value.
      *
-     * If you are setting any visitor properties in a visit dimension please note that the `onNewVisit` hook in a visit 
-     * dimension is executed before `onNewAction` but the `onExistingVisit` hook action is executed after `onNewAction`.
-     * This means if you update the visitor object in an existing visit the set value won't be available in this method.
-     * You would need to update the visitor during the `afterRequestProcessed` hook in the visit dimension for example.
-     *
      * @param Request $request
      * @param Visitor $visitor
      * @param Action $action
