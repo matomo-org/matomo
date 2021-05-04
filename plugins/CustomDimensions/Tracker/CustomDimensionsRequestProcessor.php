@@ -37,7 +37,7 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
-        if (!empty($action) && $this->isNewVisit($request)) {
+        if (!empty($action) && $request->getMetadata('CoreHome', 'isNewVisit')) {
             // this logic is only for new visits because we have to create the visit to get an idvisit before we can insert
             // the action and only then we can update the last_idink_va of the previously on the visit from the previously created actions.
             // so flow is:
@@ -50,7 +50,7 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         }
 
         $lastIdLinkVa = $visitProperties->getProperty('last_idlink_va');
-        $previousIdLinkVa = $request->getMetadata('CustomDimensions','previous_idlink_va');
+        $previousIdLinkVa = $request->getMetadata('CustomDimensions', 'previous_idlink_va');
         if ($previousIdLinkVa) {
             // when last_idlink_va was already updated in this visit because it was existing visit... we need to get the idlink_va from previous tracking request
             // it's actually not needed to store previous_idlink_va in metadata currently but figured it be better just in case the logic changes in the future
@@ -64,11 +64,6 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
             // we can only know how much time was spent on the previous action when the next action is recorded.
             $model->updateAction($lastIdLinkVa, array('time_spent' => $timeSpent));
         }
-    }
-
-    private function isNewVisit(Request $request)
-    {
-        return $request->getMetadata('CoreHome', 'isNewVisit');
     }
 
     public static function hasActionCustomDimensionConfiguredInSite($request)
@@ -104,9 +99,11 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         }
 
         $action = $request->getMetadata('Actions', 'action');
+        /** @var Action $action */
         if (!empty($action) && $action->getIdLinkVisitAction() && self::hasActionCustomDimensionConfiguredInSite($request)) {
+            // when it is an existing visit, then we first create the action before recording the visit. This allows us
+            // to update last_idlink_va in the regular visit update
             $request->setMetadata('CustomDimensions','previous_idlink_va', $visitProperties->getProperty('last_idlink_va'));
-            /** @var Action $action */
             $valuesToUpdate['last_idlink_va'] = $action->getIdLinkVisitAction();
         }
     }
