@@ -42,7 +42,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         parent::__construct();
     }
-    
+
     public function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
@@ -156,6 +156,9 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function markNotificationAsRead()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        $this->checkTokenInUrl();
+
         $notificationId = Common::getRequestVar('notificationId');
         NotificationManager::cancel($notificationId);
     }

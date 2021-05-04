@@ -20,6 +20,7 @@
                 return;
             }
 
+            piwikApi.withTokenInUrl();
             piwikApi.post(
                 { // GET params
                     module: 'CoreHome',
