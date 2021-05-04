@@ -514,7 +514,6 @@ class Archive implements ArchiveQuery
 
             if ($isNumeric) {
                 $row['value'] = $this->formatNumericValue($row['value']);
-                // $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
             } else {
                 $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
             }
