@@ -24,9 +24,6 @@ use Piwik\Segment;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 use Piwik\Cache;
-use Piwik\Segment\SegmentExpression;
-use Piwik\Plugins\Live\SystemSettings;
-use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
@@ -415,8 +412,6 @@ class API extends \Piwik\Plugin\API
                 $segmentInfo['hash'] = 'INVALID SEGMENT';
             }
         }
-
-        $segments = array_values($segments);
 
         return $segments;
     }

@@ -14,8 +14,6 @@ use Piwik\Http;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorApi;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Cache;
-use Piwik\Plugins\Live\SystemSettings;
 
 class ApiTest extends SystemTestCase
 {
@@ -83,30 +81,6 @@ class ApiTest extends SystemTestCase
         $generatedHash = md5(urldecode($segment['definition']));
 
         $this->assertEquals($generatedHash, $hash);
-    }
-
-    public function test_getAll_contains_visitorId_by_default()
-    {
-        Fixture::createWebsite('2020-03-03 00:00:00');
-
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
-        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
-        self::$fixture->getTestEnvironment()->save();
-
-        $visitorSegment = 'visitorId==1234567890123456';
-        SegmentEditorApi::getInstance()->add('test segment2', $visitorSegment, 1, 1, 1);
-        $segments = SegmentEditorApi::getInstance()->getAll();
-
-        $contains = false;
-
-        foreach($segments as $segment) {
-            if ($segment['definition'] == $visitorSegment) {
-                $contains = true;
-                break;
-            }
-        }
-
-        $this->assertTrue($contains);
     }
 
     public function definitionsDataProvider()

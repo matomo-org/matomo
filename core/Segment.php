@@ -17,8 +17,6 @@ use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Cache;
-use Piwik\Plugins\Live\SystemSettings;
-use Piwik\Plugins\CoreHome\Columns\VisitorId;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
