@@ -215,7 +215,7 @@ class Visit implements VisitInterface
 
         foreach ($this->requestProcessors as $processor) {
             if (!$isNewVisit && $processor instanceof ActionsRequestProcessor) {
-                continue; // already processed earlier
+                continue; // already processed earlier when handling exisitng visit
             }
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
 
