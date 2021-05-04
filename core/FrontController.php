@@ -428,10 +428,6 @@ class FrontController extends Singleton
         if (Common::getRequestVar('token_auth', '', 'string') !== ''
             && Request::shouldReloadAuthUsingTokenAuth(null)
         ) {
-            if (!Common::isPhpCliMode()) {
-                Access::getInstance()->setSuperUserAccess(false);
-            }
-
             Request::reloadAuthUsingTokenAuth();
             Request::checkTokenAuthIsNotLimited($module, $action);
             Session::close();
@@ -676,6 +672,10 @@ class FrontController extends Singleton
         if (Common::isPhpClimode()
             && !defined('PIWIK_TEST_MODE')
         ) { // don't use the session auth during CLI requests
+            return null;
+        }
+
+        if (Common::getRequestVar('token_auth', '', 'string') !== '') {
             return null;
         }
 
