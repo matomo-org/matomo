@@ -222,7 +222,7 @@ class GoalManager
                 $valueToMatchAgainst = $visitDurationInSecs / 60;
                 break;
             case 'visit_nb_pageviews':
-                $totalInteractions = (int) $visitProperties->getProperty('visit_total_interactions');
+                $totalInteractions = (int) $visitProperties->getProperty('visit_total_pageviews');
 
                 if ($action instanceof ActionPageview) {
                     $totalInteractions++; // current action won't be included in interaction count
