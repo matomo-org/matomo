@@ -33,6 +33,14 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
+class MockCronArchive extends CronArchive
+{
+    public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSiteToInvalidate)
+    {
+        // empty (skip in these tests so we don't invalidate today)
+    }
+}
+
 class QueueConsumerTest extends IntegrationTestCase
 {
     public function test_invalidateConsumeOrder()
@@ -54,7 +62,7 @@ class QueueConsumerTest extends IntegrationTestCase
             $idSites[] = 2;
         });
 
-        $cronArchive = new CronArchive();
+        $cronArchive = new MockCronArchive();
         $cronArchive->init();
 
         $archiveFilter = $this->makeTestArchiveFilter();
@@ -385,7 +393,7 @@ class QueueConsumerTest extends IntegrationTestCase
             $idSites[] = 1;
         });
 
-        $cronArchive = new CronArchive();
+        $cronArchive = new MockCronArchive();
         $cronArchive->init();
 
         $archiveFilter = $this->makeTestArchiveFilter(null, null, null, false, true);

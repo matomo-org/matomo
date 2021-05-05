@@ -142,7 +142,11 @@ class Loader
         // we don't create an archive in this case, because the archive may be in progress in some way, so a 0
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
-            return [false, 0];
+            if (!empty($idArchives)) {
+                return [$idArchives, $visits];
+            } else {
+                return [false, 0];
+            }
         }
 
         if (SettingsServer::isArchivePhpTriggered()) {
