@@ -1912,7 +1912,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             // we simply add it (cloning the subtable)
             // if the row has the subtable already
             // then we have to recursively sum the subtables
-            $subTable = $thisRow->getSubtable();
+            $subTable = $otherRow->getSubtable();
             if ($subTable) {
                 $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOps;
                 $thisRow->sumSubtable($subTable);
