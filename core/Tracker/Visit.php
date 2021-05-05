@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
 use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -213,6 +214,10 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->request->getVisitorIdForThirdPartyCookie());
 
         foreach ($this->requestProcessors as $processor) {
+            if (!$isNewVisit && $processor instanceof ActionsRequestProcessor) {
+                // already processed earlier when handling exisitng visit see {@link self::handleExistingVisit()}
+                continue;
+            }
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
 
             $processor->recordLogs($this->visitProperties, $this->request);
@@ -243,6 +248,16 @@ class Visit implements VisitInterface
         // update visitorInfo
         foreach ($valuesToUpdate as $name => $value) {
             $this->visitProperties->setProperty($name, $value);
+        }
+
+        foreach ($this->requestProcessors as $processor) {
+            // for improving performance we create a log_link_visit_action entry before updating the visit.
+            // this way we save one extra update on log_visit in custom dimensions.
+            // Refs https://github.com/matomo-org/matomo/issues/17173
+            if ($processor instanceof ActionsRequestProcessor) {
+                Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
+                $processor->recordLogs($this->visitProperties, $this->request);
+            }
         }
 
         foreach ($this->requestProcessors as $processor) {
