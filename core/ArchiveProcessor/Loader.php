@@ -429,19 +429,11 @@ class Loader
                 $params->getRequestedPlugin()
             );
 
-            // no specific report request
             // if there is no invalidation where the report is null, we can skip
             // if we have invalidations for the period and name, but only for a specific reports, we can skip
-            if (!$params->getArchiveOnlyReport() && !$this->dataAccessModel->hasInvalidationForPeriodAndName($idSite, $params->getPeriod(), $doneFlag)) {
-                return true;
-            }
-
-            // specific report request
-            // we only want to rearchive if we have invalidation for that report
+            // if the report is not null we only want to rearchive if we have invalidation for that report
             // if we don't find invalidation for that report, we can skip
-            if ($params->getArchiveOnlyReport() && !$this->dataAccessModel->hasInvalidationForPeriodAndName($idSite, $params->getPeriod(), $doneFlag, $params->getArchiveOnlyReport())) {
-                return true;
-            }
+            return !$this->dataAccessModel->hasInvalidationForPeriodAndName($idSite, $params->getPeriod(), $doneFlag, $params->getArchiveOnlyReport());
         }
 
         return false;
