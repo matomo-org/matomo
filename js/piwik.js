@@ -4562,17 +4562,42 @@ if (typeof window.Matomo !== 'object') {
                 return event.target || event.srcElement;
             }
 
+            function isClickNode(nodeName)
+            {
+                return nodeName === 'A' || nodeName === 'AREA';
+            }
+
             /*
              * Handle click event
              */
             function clickHandler(enable) {
 
+                function getLinkTarget(event)
+                {
+                    var target = getTargetElementFromEvent(event);
+                    var nodeName = target.nodeName;
+                    var ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore');
+
+                    while (!isClickNode(nodeName) && target && target.parentNode) {
+                        target = target.parentNode;
+                        nodeName = target.nodeName;
+                    }
+
+                    if (target && isClickNode(nodeName) && !ignorePattern.test(target.className)) {
+                        return target;
+                    }
+                }
+
                 return function (event) {
 
                     event = event || windowAlias.event;
 
+                    var target = getLinkTarget(event);
+                    if (!target) {
+                        return;
+                    }
+
                     var button = getNameOfClickedButton(event);
-                    var target = getTargetElementFromEvent(event);
 
                     if (event.type === 'click') {
 
@@ -4627,32 +4652,20 @@ if (typeof window.Matomo !== 'object') {
             /*
              * Add click handlers to anchor and AREA elements, except those to be ignored
              */
-            function addClickListeners(enable, trackerInstance) {
+            function addClickListeners(enable) {
+                var enableType = typeof enable;
+                if (enableType === 'undefined') {
+                    enable = true;
+                }
+
                 linkTrackingInstalled = true;
 
-                // iterate through anchor elements with href and AREA elements
-                var i,
-                    ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'),
-                    linkElements = documentAlias.links,
-                    linkElement = null, trackerType = null;
+                addEventListener(documentAlias.body, 'click', clickHandler(enable), true);
 
-                if (linkElements) {
-                    for (i = 0; i < linkElements.length; i++) {
-                        linkElement = linkElements[i];
-                        if (!ignorePattern.test(linkElement.className)) {
-                            trackerType = typeof linkElement.matomoTrackers;
-
-                            if ('undefined' === trackerType) {
-                                linkElement.matomoTrackers = [];
-                            }
-
-                            if (-1 === indexOfArray(linkElement.matomoTrackers, trackerInstance)) {
-                                // we make sure to setup link only once for each tracker
-                                linkElement.matomoTrackers.push(trackerInstance);
-                                addClickListener(linkElement, enable);
-                            }
-                        }
-                    }
+                if (enable) {
+                    addEventListener(documentAlias.body, 'mouseup', clickHandler(enable), true);
+                    addEventListener(documentAlias.body, 'mousedown', clickHandler(enable), true);
+                    addEventListener(documentAlias.body, 'contextmenu', clickHandler(enable), true);
                 }
             }
 
@@ -6063,43 +6076,17 @@ if (typeof window.Matomo !== 'object') {
              *                    to wrong click numbers.
              */
             this.enableLinkTracking = function (enable) {
+                if (linkTrackingEnabled) {
+                    return;
+                }
                 linkTrackingEnabled = true;
 
-                function isClickNode(nodeName)
-                {
-                    return nodeName === 'A' || nodeName === 'AREA';
-                }
-
+                var self = this;
+                console.log(enable);
                 trackCallbackOnReady(function () {
-                    addEventListener(documentAlias.body, 'click', function (event) {
-                        if (!event.target) {
-                            return;
-                        }
-
-                        var target = event.target;
-                        var nodeName = target.nodeName;
-                        var ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore');
-
-                        while (!isClickNode(nodeName) && target && target.parentNode) {
-                            target = target.parentNode;
-                            nodeName = target.nodeName;
-                        }
-
-                        if (target && isClickNode(nodeName) && !ignorePattern.test(target.className)) {
-                            var trackerType = typeof target.matomoTrackers;
-
-                            if ('undefined' === trackerType) {
-                                target.matomoTrackers = [];
-                            }
-
-                            if (-1 === indexOfArray(target.matomoTrackers, trackerInstance)) {
-                                // we make sure to setup link only once for each tracker
-                                target.matomoTrackers.push(trackerInstance);
-                                addClickListener(target, enable);
-                            }
-                        }
-                    }, true);
+                    addClickListeners(enable, self);
                 });
+
             };
 
             /**
