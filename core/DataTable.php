@@ -1894,6 +1894,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             throw new Exception($message);
         }
         $rowFound = $this->getRowFromLabel($labelToLookFor);
+        // if we find the summary row in the other table, ignore it, since we're aggregating normal rows in this method.
+        // the summary row is aggregated explicitly after this method is called.
+        if (!empty($rowFound)
+            && $rowFound->isSummaryRow()
+        ) {
+            $rowFound = false;
+        }
         $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow = false);
     }
 
