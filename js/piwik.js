@@ -6075,18 +6075,28 @@ if (typeof window.Matomo !== 'object') {
                         if (!event.target) {
                             return;
                         }
-    
+
                         var target = event.target;
                         var nodeName = target.nodeName;
                         var ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore');
-    
+
                         while (!isClickNode(nodeName) && target && target.parentNode) {
                             target = target.parentNode;
                             nodeName = target.nodeName;
                         }
-    
+
                         if (target && isClickNode(nodeName) && !ignorePattern.test(target.className)) {
-                            addClickListener(target, enable);
+                            var trackerType = typeof target.matomoTrackers;
+
+                            if ('undefined' === trackerType) {
+                                target.matomoTrackers = [];
+                            }
+
+                            if (-1 === indexOfArray(target.matomoTrackers, trackerInstance)) {
+                                // we make sure to setup link only once for each tracker
+                                target.matomoTrackers.push(trackerInstance);
+                                addClickListener(target, enable);
+                            }
                         }
                     }, true);
                 });
