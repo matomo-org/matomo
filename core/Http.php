@@ -646,10 +646,19 @@ class Http
              * in safe_mode or open_basedir is set
              */
             if ((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+                $protocols = 0;
+
+                foreach (explode(',', $allowedProtocols) as $protocol) {
+                    if (defined('CURLPROTO_' . strtoupper(trim($protocol)))) {
+                        $protocols |= constant('CURLPROTO_' . strtoupper(trim($protocol)));
+                    }
+                }
+
                 $curl_options = array(
                     // curl options (sorted oldest to newest)
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_MAXREDIRS      => 5,
+                    CURLOPT_FOLLOWLOCATION  => true,
+                    CURLOPT_REDIR_PROTOCOLS => $protocols,
+                    CURLOPT_MAXREDIRS       => 5,
                 );
                 if ($forcePost) {
                     $curl_options[CURLOPT_POSTREDIR] = CURL_REDIR_POST_ALL;

@@ -322,6 +322,43 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(51, strlen($result));
     }
 
+    /**
+     * @dataProvider getRedirectUrls
+     */
+    public function test_redirects($url, $method, $isValid, $message)
+    {
+        if ($isValid === false) {
+            $this->expectException(\Exception::class);
+            $this->expectExceptionMessageMatches($message);
+        }
+
+        $response = Http::sendHttpRequestBy($method, $url, 1000);
+
+        if ($isValid !== false) {
+            $this->assertEquals($message, $response);
+        }
+    }
+
+    public function getRedirectUrls()
+    {
+        return [
+            // check 5 redirects are working
+            [Fixture::getRootUrl().'tests/resources/redirector.php?redirects=5', 'curl', true, Fixture::getRootUrl().'tests/resources/redirector.php?redirects=0'],
+            [Fixture::getRootUrl().'tests/resources/redirector.php?redirects=5', 'socket', true, Fixture::getRootUrl().'tests/resources/redirector.php?redirects=0'],
+            [Fixture::getRootUrl().'tests/resources/redirector.php?redirects=4', 'fopen', true, Fixture::getRootUrl().'tests/resources/redirector.php?redirects=0'],
+
+            // more than 5 redirects should fail
+            [Fixture::getRootUrl().'tests/resources/redirector.php?redirects=6', 'curl', false, '/curl_exec: Maximum \(5\) redirects followed./'],
+            [Fixture::getRootUrl().'tests/resources/redirector.php?redirects=6', 'socket', false, '/Too many redirects/'],
+            [Fixture::getRootUrl().'tests/resources/redirector.php?redirects=6', 'fopen', true, ''],
+
+            // Redirect to disallowed protocol shouldn't be possible
+            [Fixture::getRootUrl().'tests/resources/redirector.php?target='.urlencode('ftps://my.local'), 'curl', false, '/curl_exec: Protocol "ftps" not supported or disabled in libcurl/'],
+            [Fixture::getRootUrl().'tests/resources/redirector.php?target='.urlencode('ftps://my.local'), 'socket', false, '/Protocol ftps not in list of allowed protocols/'],
+            //[Fixture::getRootUrl().'tests/resources/redirector.php?target='.urlencode('ftps://my.local'), 'fopen', false, ''],
+        ];
+    }
+
     public function test_http_postsEvent()
     {
         $params = null;
