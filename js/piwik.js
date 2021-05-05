@@ -6065,14 +6065,30 @@ if (typeof window.Matomo !== 'object') {
             this.enableLinkTracking = function (enable) {
                 linkTrackingEnabled = true;
 
-                var self = this;
-                trackCallback(function () {
-                    trackCallbackOnReady(function () {
-                        addClickListeners(enable, self);
-                    });
-                    trackCallbackOnLoad(function () {
-                        addClickListeners(enable, self);
-                    });
+                function isClickNode(nodeName)
+                {
+                    return nodeName === 'A' || nodeName === 'AREA';
+                }
+
+                trackCallbackOnReady(function () {
+                    addEventListener(documentAlias.body, 'click', function (event) {
+                        if (!event.target) {
+                            return;
+                        }
+    
+                        var target = event.target;
+                        var nodeName = target.nodeName;
+                        var ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore');
+    
+                        while (!isClickNode(nodeName) && target && target.parentNode) {
+                            target = target.parentNode;
+                            nodeName = target.nodeName;
+                        }
+    
+                        if (target && isClickNode(nodeName) && !ignorePattern.test(target.className)) {
+                            addClickListener(target, enable);
+                        }
+                    }, true);
                 });
             };
 
