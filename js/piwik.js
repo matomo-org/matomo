@@ -6082,7 +6082,7 @@ if (typeof window.Matomo !== 'object') {
                 linkTrackingEnabled = true;
 
                 var self = this;
-                console.log(enable);
+
                 trackCallbackOnReady(function () {
                     addClickListeners(enable, self);
                 });
