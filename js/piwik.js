@@ -6051,8 +6051,8 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Install link tracker.
              *
-             * If you change the DOM of your website or web application you need to make sure to call this method
-             * again so Matomo can detect links that were added newly.
+             * If you change the DOM of your website or web application Matomo will automatically detect links
+             * that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
