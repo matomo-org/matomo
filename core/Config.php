@@ -139,7 +139,7 @@ class Config
         if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
             return call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
         }
-        
+
         $path = self::getByDomainConfigPath();
         if ($path) {
             return $path;
@@ -226,14 +226,14 @@ class Config
     public static function getHostname()
     {
         $checkIfTrusted = true;
-        
+
         try {
             // this fails before the config was initialized
-            Config::getInstance()->existsLocalConfig();
+            Config::getInstance();
         } catch (\Exception $e) {
             $checkIfTrusted = false;
         }
-        
+
         // Check trusted requires config file which is not ready yet
         $host = Url::getHost($checkIfTrusted);
 
@@ -318,7 +318,7 @@ class Config
     public function deleteLocalConfig()
     {
         $configLocal = $this->getLocalPath();
-        
+
         if(file_exists($configLocal)){
             @unlink($configLocal);
         }
@@ -354,7 +354,7 @@ class Config
     {
         return $this->settings->getIniFileChain()->getFrom($this->getCommonPath(), $name);
     }
-    
+
     /**
      * @api
      */
