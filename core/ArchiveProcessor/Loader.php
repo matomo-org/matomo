@@ -408,12 +408,9 @@ class Loader
             return false;
         }
 
-        $idSite = $params->getSite()->getId();
-        $periodEnd = $params->getPeriod()->getDateEnd();
-        $segmentHash = $params->getSegment()->getHash();
         /** @var SegmentArchiving */
         $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
-        $segmentInfo = $segmentArchiving->findSegmentForHash($segmentHash, $idSite);
+        $segmentInfo = $segmentArchiving->findSegmentForHash($params->getSegment()->getHash(), $params->getSite()->getId());
 
         if (!$segmentInfo) {
             return false;
@@ -421,9 +418,9 @@ class Loader
 
         $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
-        if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($periodEnd->getEndOfDay())) {
+        if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($params->getPeriod()->getDateEnd()->getEndOfDay())) {
             $doneFlag = Rules::getDoneStringFlagFor(
-                [$idSite],
+                [$params->getSite()->getId()],
                 $params->getSegment(),
                 $params->getPeriod()->getLabel(),
                 $params->getRequestedPlugin()

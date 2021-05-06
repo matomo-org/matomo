@@ -898,14 +898,13 @@ class CronArchive
                         // might not be initialised if init is not called
                         $this->segmentArchiving = StaticContainer::get(SegmentArchiving::class);
                     }
-                    $segmentHash = $params->getSegment()->getHash();
-                    $segmentInfo = $this->segmentArchiving->findSegmentForHash($segmentHash, $idSite);
-                    $periodEnd = $params->getPeriod()->getDateEnd();
+
+                    $segmentInfo = $this->segmentArchiving->findSegmentForHash($params->getSegment()->getHash(), $idSite);
 
                     if ($segmentInfo) {
                         $segmentArchiveStartDate = $this->segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
-                        if ($segmentArchiveStartDate !== null && $segmentArchiveStartDate->isLater($periodEnd->getEndOfDay())) {
+                        if ($segmentArchiveStartDate !== null && $segmentArchiveStartDate->isLater($params->getPeriod()->getDateEnd()->getEndOfDay())) {
                             // the system is not allowed to invalidate reports for this period
                             // automatically, only a user can specifically invalidate
                             continue;
