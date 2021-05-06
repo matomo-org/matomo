@@ -20,7 +20,7 @@ class VisitTotalPageViews extends VisitDimension
     protected $columnType = 'MEDIUMINT UNSIGNED DEFAULT 0';
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'pageviews';
-    protected $nameSingular = 'General_ColumnPageviews';
+    protected $nameSingular = 'General_NbPageviews';
     protected $acceptValues = 'Any positive integer';
 
     public function __construct()
