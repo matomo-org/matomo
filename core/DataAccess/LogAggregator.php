@@ -378,7 +378,7 @@ class LogAggregator
             $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
             foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-                if ($logTable->getDateTimeColumn()) {
+                if ($logTable->getDateTimeColumn() && $logTable->getName() === 'log_visit') {
                     $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
                     if (strpos($where, $whereTest) === 0) {
                         // we don't need to apply the where statement again as it would have been applied already
