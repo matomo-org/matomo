@@ -377,21 +377,14 @@ class LogAggregator
             $logTablesProvider = $this->getLogTableProvider();
             $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
-            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-                if ($logTable->getDateTimeColumn() && $logTable->getName() === 'log_visit') {
-                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
-                    if (strpos($where, $whereTest) === 0) {
-                        // we don't need to apply the where statement again as it would have been applied already
-                        // in the temporary table... instead it should join the tables through the idvisit index
-                        $where = ltrim(str_replace($whereTest, '', $where));
-                        if (stripos($where, 'and ') === 0) {
-                            $where = substr($where, strlen('and '));
-                        }
-                        $bind = array();
-                        break;
-                    }
+            if (strpos($where, $segmentWhere) === 0) {
+                // we don't need to apply the where statement again as it would have been applied already
+                // in the temporary table... instead it should join the tables through the idvisit index
+                $where = ltrim(str_replace($segmentWhere, '', $where));
+                if (stripos($where, 'and ') === 0) {
+                    $where = substr($where, strlen('and '));
                 }
-
+                $bind = array();
             }
 
         }
