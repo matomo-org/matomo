@@ -14,8 +14,7 @@
          * Marks a persistent notification as read so it will not reappear on the next page
          * load.
          */
-        this.markNotificationAsRead = function () {
-            var notificationId = this.notificationId;
+        this.markNotificationAsRead = function (notificationId) {
             if (!notificationId) {
                 return;
             }
