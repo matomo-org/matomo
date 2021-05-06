@@ -225,8 +225,17 @@ class Config
      */
     public static function getHostname()
     {
+        $checkIfTrusted = true;
+        
+        try {
+            // this fails before the config was initialized
+            Config::getInstance()->existsLocalConfig();
+        } catch (\Exception $e) {
+            $checkIfTrusted = false;
+        }
+        
         // Check trusted requires config file which is not ready yet
-        $host = Url::getHost($checkIfTrusted = false);
+        $host = Url::getHost($checkIfTrusted);
 
         // Remove any port number to get actual hostname
         $host = Url::getHostSanitized($host);
