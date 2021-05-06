@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Login\Security;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -16,6 +17,7 @@ use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Updater;
 use Piwik\Version;
+use Psr\Log\LoggerInterface;
 
 class BruteForceDetection {
 
@@ -57,11 +59,11 @@ class BruteForceDetection {
         return $this->settings->enableBruteForceDetection->getValue();
     }
 
-    public function addFailedAttempt($ipAddress)
+    public function addFailedAttempt($ipAddress, $login = null)
     {
         $now = $this->getNow()->getDatetime();
         $db = Db::get();
-        $db->query('INSERT INTO '.$this->tablePrefixed.' (ip_address, attempted_at) VALUES(?,?)', array($ipAddress, $now));
+        $db->query('INSERT INTO '.$this->tablePrefixed.' (ip_address, attempted_at, login) VALUES(?,?,?)', array($ipAddress, $now, $login));
     }
 
     public function isAllowedToLogin($ipAddress)
@@ -150,7 +152,6 @@ class BruteForceDetection {
         return $this->getNow()->subPeriod($minutes, 'minute')->getDatetime();
     }
 
-    // TODO: new integration tests
     // TODO: need to make sure bruteforcedetection happens after any ip allowlists/blocklists have been used
     public function isUserLoginBlocked($login)
     {
@@ -175,7 +176,7 @@ class BruteForceDetection {
 
     private function hasTooManyTriesOverallInLastHour($count)
     {
-        return $count > self::OVERALL_LOGIN_LOCKOUT_THRESHOLD;
+        return $count > $this->getOverallLoginLockoutThreshold();
     }
 
     private function hasNotifiedUserAboutSuspiciousLogins($login)
@@ -201,8 +202,18 @@ class BruteForceDetection {
     {
         $distinctIps = $this->getDistinctIpsAttemptingLoginsInLastHour($login);
 
-        $email = new SuspiciousLoginAttemptsInLastHourEmail($login, $countOverall, $distinctIps);
-        $email->send();
+        try {
+            $email = new SuspiciousLoginAttemptsInLastHourEmail($login, $countOverall, $distinctIps);
+            $email->send();
+        } catch (\Exception $ex) {
+            // log if error is not that we can't find a user
+            if (strpos($ex->getMessage(), 'unable to find user to send') === false) {
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}', [
+                    'exception' => $ex,
+                ]);
+            }
+        }
 
         $optionName = $this->getSusNotifiedOptionName($login);
         Option::set($optionName, Date::getNowTimestamp());
@@ -223,5 +234,10 @@ class BruteForceDetection {
         $sql = "SELECT COUNT(DISTINCT ip_address) FROM `{$this->tablePrefixed}` WHERE login = ? AND attempted_at > ?";
         $count = Db::fetchOne($sql, [$login, $this->getDateTimeSubMinutes(60)]);
         return $count;
+    }
+
+    protected function getOverallLoginLockoutThreshold()
+    {
+        return self::OVERALL_LOGIN_LOCKOUT_THRESHOLD;
     }
 }

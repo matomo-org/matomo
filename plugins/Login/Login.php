@@ -106,7 +106,8 @@ class Login extends \Piwik\Plugin
         // time frame
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled() && !$this->hasAddedFailedAttempt) {
-            $bruteForce->addFailedAttempt(IP::getIpFromHeader());
+            $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();// TODO will this actually work
+            $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
             // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
             // if eg API is called etc.
             $this->hasAddedFailedAttempt = true;
@@ -130,9 +131,6 @@ class Login extends \Piwik\Plugin
 
         // now check that user login (from any ip) is not blocked
         $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();// TODO will this actually work
-        if (empty($login)) {
-            $login = Piwik::getCurrentUserLogin();
-        }
         if (empty($login)
             || $login == 'anonymous'
         ) {
