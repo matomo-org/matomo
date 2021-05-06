@@ -220,21 +220,13 @@ class Config
 
     /**
      * Returns the hostname of the current request (without port number)
+     * @param bool $checkIfTrusted Check trusted requires config which is maybe not ready yet,
+     *                             make sure the config is ready when you call with true
      *
      * @return string
      */
-    public static function getHostname()
+    public static function getHostname($checkIfTrusted = false)
     {
-        $checkIfTrusted = true;
-
-        try {
-            // this fails before the config was initialized
-            Config::getInstance();
-        } catch (\Exception $e) {
-            $checkIfTrusted = false;
-        }
-
-        // Check trusted requires config file which is not ready yet
         $host = Url::getHost($checkIfTrusted);
 
         // Remove any port number to get actual hostname

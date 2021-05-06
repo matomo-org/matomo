@@ -90,7 +90,7 @@ class CronArchivingLastRunCheck implements Diagnostic
 
     private function getArchivingCommand()
     {
-        $domain = Config::getHostname();
+        $domain = Config::getHostname($checkIfTrusted = true);
         return PIWIK_INCLUDE_PATH . '/console --matomo-domain=' . $domain . ' core:archive';
     }
 
