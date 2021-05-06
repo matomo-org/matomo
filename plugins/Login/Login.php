@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
+use Piwik\Http\HttpCodeException;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
@@ -47,17 +48,17 @@ class Login extends \Piwik\Plugin
 
             // for brute force prevention of all UI requests
             'Controller.Login.logme'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.'                => 'beforeLoginCheckBruteForce',
-            'Controller.Login.index'           => 'beforeLoginCheckBruteForce',
-            'Controller.Login.confirmResetPassword' => 'beforeLoginCheckBruteForce',
-            'Controller.Login.confirmPassword' => 'beforeLoginCheckBruteForce',
-            'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForce',
-            'Controller.Login.login'           => 'beforeLoginCheckBruteForce',
+            'Controller.Login.'                => 'beforeLoginCheckBruteForceForUserPwdLogin',
+            'Controller.Login.index'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
+            'Controller.Login.confirmResetPassword' => 'beforeLoginCheckBruteForceForUserPwdLogin',
+            'Controller.Login.confirmPassword' => 'beforeLoginCheckBruteForceForUserPwdLogin',
+            'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForceForUserPwdLogin',
+            'Controller.Login.login'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
             'Controller.TwoFactorAuth.loginTwoFactorAuth' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
             'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
-            'Login.recordFailedLoginAttempt'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
-            'Login.authenticate.failed'        => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
+            'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
@@ -66,12 +67,12 @@ class Login extends \Piwik\Plugin
 
         if ($loginPlugin && $loginPlugin !== 'Login') {
             $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.confirmPassword'] = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.resetPassword']   = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.login']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForceForUserPwdLogin';
+            $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
+            $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForceForUserPwdLogin';
+            $hooks['Controller.'.$loginPlugin.'.confirmPassword'] = 'beforeLoginCheckBruteForceForUserPwdLogin';
+            $hooks['Controller.'.$loginPlugin.'.resetPassword']   = 'beforeLoginCheckBruteForceForUserPwdLogin';
+            $hooks['Controller.'.$loginPlugin.'.login']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
         }
 
         return $hooks;
@@ -106,7 +107,7 @@ class Login extends \Piwik\Plugin
         // time frame
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled() && !$this->hasAddedFailedAttempt) {
-            $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();// TODO will this actually work
+            $login = $this->getUsernameUsedInPasswordLogin();
             $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
             // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
             // if eg API is called etc.
@@ -130,7 +131,7 @@ class Login extends \Piwik\Plugin
         $this->beforeLoginCheckBruteForce();
 
         // now check that user login (from any ip) is not blocked
-        $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();// TODO will this actually work
+        $login = $this->getUsernameUsedInPasswordLogin();
         if (empty($login)
             || $login == 'anonymous'
         ) {
@@ -140,7 +141,8 @@ class Login extends \Piwik\Plugin
         /** @var BruteForceDetection $bruteForce */
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if (!$this->hasPerformedBruteForceCheckForUserPwdLogin && $bruteForce->isEnabled() && $bruteForce->isUserLoginBlocked($login)) {
-            throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked')); // TODO: translate
+            $ex = new HttpCodeException(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked'), 403);
+            throw $ex;
         }
         // for performance reasons we make sure to execute it only once per request
         $this->hasPerformedBruteForceCheckForUserPwdLogin = true;
@@ -212,6 +214,17 @@ class Login extends \Piwik\Plugin
     {
         return Piwik::getModule() === 'API'
                 && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
+    }
+
+    private function getUsernameUsedInPasswordLogin()
+    {
+        $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();
+        if (empty($login)
+            || $login == 'anonymous'
+        ) {
+            $login = Common::getRequestVar('form_login', false);
+        }
+        return $login;
     }
 
 

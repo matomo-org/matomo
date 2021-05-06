@@ -205,6 +205,9 @@ class BruteForceDetection {
         try {
             $email = new SuspiciousLoginAttemptsInLastHourEmail($login, $countOverall, $distinctIps);
             $email->send();
+
+            $optionName = $this->getSusNotifiedOptionName($login);
+            Option::set($optionName, Date::getNowTimestamp());
         } catch (\Exception $ex) {
             // log if error is not that we can't find a user
             if (strpos($ex->getMessage(), 'unable to find user to send') === false) {
@@ -214,9 +217,6 @@ class BruteForceDetection {
                 ]);
             }
         }
-
-        $optionName = $this->getSusNotifiedOptionName($login);
-        Option::set($optionName, Date::getNowTimestamp());
     }
 
     private function getAmountOfTimeBetweenSusLoginNotifications()
