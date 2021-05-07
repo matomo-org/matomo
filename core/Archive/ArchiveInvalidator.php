@@ -701,14 +701,17 @@ class ArchiveInvalidator
      */
     private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo)
     {
+        $period = $period ?: 'day';
+
         $this->findOlderDateWithLogs($invalidationInfo);
 
         $result = array();
         foreach ($dates as $date) {
-            $periodObj = $this->makePeriod($date, $period ?: 'day');
+            $periodObj = $this->makePeriod($date, $period);
 
             // we should only delete reports for dates that are more recent than N days
-            if ($invalidationInfo->minimumDateWithLogs
+            if ($period == 'day'
+                && $invalidationInfo->minimumDateWithLogs
                 && ($periodObj->getDateEnd()->isEarlier($invalidationInfo->minimumDateWithLogs)
                     || $periodObj->getDateStart()->isEarlier($invalidationInfo->minimumDateWithLogs))
             ) {
