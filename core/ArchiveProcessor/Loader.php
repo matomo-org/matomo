@@ -27,6 +27,7 @@ use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
+use Piwik\CronArchive\SegmentArchiving;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -393,10 +394,50 @@ class Loader
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
+        if ($this->canSkipArchiveForSegment()) {
+            return true;
+        }
+
         return $isWebsiteUsingTracker
             && !$isArchivingForcedWhenNoVisits
             && !$hasSiteVisitsBetweenTimeframe
             && !$hasChildArchivesInPeriod;
+    }
+
+    public function canSkipArchiveForSegment()
+    {
+        $params = $this->params;
+
+        if ($params->getSegment()->isEmpty()) {
+            return false;
+        }
+
+        /** @var SegmentArchiving */
+        $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+        $segmentInfo = $segmentArchiving->findSegmentForHash($params->getSegment()->getHash(), $params->getSite()->getId());
+
+        if (!$segmentInfo) {
+            return false;
+        }
+
+        $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
+
+        if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($params->getPeriod()->getDateEnd()->getEndOfDay())) {
+            $doneFlag = Rules::getDoneStringFlagFor(
+                [$params->getSite()->getId()],
+                $params->getSegment(),
+                $params->getPeriod()->getLabel(),
+                $params->getRequestedPlugin()
+            );
+
+            // if there is no invalidation where the report is null, we can skip
+            // if we have invalidations for the period and name, but only for a specific reports, we can skip
+            // if the report is not null we only want to rearchive if we have invalidation for that report
+            // if we don't find invalidation for that report, we can skip
+            return !$this->dataAccessModel->hasInvalidationForPeriodAndName($params->getSite()->getId(), $params->getPeriod(), $doneFlag, $params->getArchiveOnlyReport());
+        }
+
+        return false;
     }
 
     private function isWebsiteUsingTheTracker($idSite)

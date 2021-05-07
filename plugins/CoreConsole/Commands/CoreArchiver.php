@@ -23,6 +23,11 @@ class CoreArchiver extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if($input->getOption('force-date-last-n')) {
+            $message = '"force-date-last-n" is deprecated. Please use the "process_new_segments_from" INI configuration option instead.';
+            $output->writeln('<comment>' . $message .'</comment>');
+        }
+
         $archiver = self::makeArchiver($input->getOption('url'), $input);
         $archiver->main();
     }
@@ -38,7 +43,6 @@ class CoreArchiver extends ConsoleCommand
         $archiver->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
         $archiver->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
         $archiver->phpCliConfigurationOptions = $input->getOption("php-cli-options");
-        $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
         $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
         $archiver->shouldArchiveAllSites = $input->getOption('force-all-websites');
@@ -91,8 +95,8 @@ class CoreArchiver extends ConsoleCommand
             'If specified, segments will be only archived for yesterday, but not today. If the segment was created or changed recently, then it will still be archived for today and the setting will be ignored for this segment.');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
-        $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,
-            "This last N number of years of data to invalidate when a recently created or updated segment is found.", 7);
+        $command->addOption('force-date-last-n', null, InputOption::VALUE_OPTIONAL,
+            "Deprecated. Please use the \"process_new_segments_from\" INI configuration option instead.");
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
         $command->addOption('force-idsegments', null, InputOption::VALUE_REQUIRED,
