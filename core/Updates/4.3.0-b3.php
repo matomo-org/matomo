@@ -36,13 +36,6 @@ class Updates_4_3_0_b3 extends PiwikUpdates
         $migrations = [];
 
         $migrations[] = $this->migration->db->addColumn('segment', 'hash', 'CHAR(32) NULL', 'definition');
-
-        $segmentTable = Common::prefixTable('segment');
-        $segments = Db::fetchAll("SELECT idsegment, definition FROM $segmentTable WHERE deleted = ?", [0]);
-        foreach ($segments as $segment) {
-            $hash = md5(urldecode($segment['definition']));
-            $migrations[] = $this->migration->db->sql("UPDATE `$segmentTable` SET `hash` = '$hash' WHERE `idsegment` = '{$segment['idsegment']}'");
-        }
         return $migrations;
     }
 
