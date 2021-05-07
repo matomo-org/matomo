@@ -21,6 +21,10 @@ use Piwik\Session\SessionNamespace;
 use Piwik\Url;
 use Piwik\View;
 use Exception;
+use Piwik\Mail\EmailNotification\RecoveryCodesShowedEmailNotification;
+use Piwik\Mail\EmailNotification\TwoFactorAuthEnabledEmailNotification;
+use Piwik\Mail\EmailNotification\TwoFactorAuthDisabledEmailNotification;
+use Piwik\Mail\EmailNotification\RecoveryCodesRegeneratedEmailNotification;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -148,6 +152,9 @@ class Controller extends \Piwik\Plugin\Controller
             $this->twoFa->disable2FAforUser(Piwik::getCurrentUserLogin());
             $this->passwordVerify->forgetVerifiedPassword();
 
+            $emailNotification = new TwoFactorAuthDisabledEmailNotification();
+            $emailNotification->send();
+
             $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
                 'disableNonce' => false
             ));
@@ -218,6 +225,9 @@ class Controller extends \Piwik\Plugin\Controller
 
                 Piwik::postEvent('TwoFactorAuth.enabled', array($login));
 
+                $emailNotification = new TwoFactorAuthEnabledEmailNotification();
+                $emailNotification->send();
+
                 if ($standalone) {
                     $this->redirectToIndex('CoreHome', 'index');
                     return;
@@ -279,12 +289,20 @@ class Controller extends \Piwik\Plugin\Controller
             $this->passwordVerify->forgetVerifiedPassword();
             $this->recoveryCodeDao->createRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
             $regenerateSuccess = true;
+
+            $emailNotification = new RecoveryCodesRegeneratedEmailNotification();
+            $emailNotification->send();
             // no need to redirect as password was verified nonce
             // if user has posted a valid nonce, we do not need to require password again as nonce must have been generated recent
             // avoids use case where eg password verify is only valid for one more minute when opening the page but user regenerates 2min later
         } elseif (!$this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes'))) {
             // should usually not go in here but redirect instead
             throw new Exception('You have to verify your password first.');
+        }
+
+        if (!$regenerateSuccess && !$regenerateError) {
+            $emailNotification = new RecoveryCodesShowedEmailNotification();
+            $emailNotification->send();
         }
 
         if (!$postedValidNonce && !empty($regenerateNonce)) {
