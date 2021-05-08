@@ -26,7 +26,7 @@
         "InvalidPluginsYouCanUninstall": "Voit päivittää tai poistaa näiden liitännäisten asennuksen sivulla %1$sliitännäisten hallinnointi%2$s",
         "JavaScriptTracking": "JavaScript-seuranta",
         "HttpTrackingApi": "HTTP-seurantarajapinta",
-        "HttpTrackingApiDescription": "%1$sHTTP-seurantarajapinnan%2$savulla voi seurata mielivaltaisia tapahtumia. Tästä voi olla hyötyä, jos käytät ohjelmointikieltä jolle ei ole vielä Matomo SDK:ta. Toisaalta voit myös käyttää tätä rajapintaa sovelluksesi yksityiskohtaiseen seurantaan.",
+        "HttpTrackingApiDescription": "%1$sHTTP-seurantarajapinnan%2$s avulla voi seurata mitä tahansa tapahtumia. Tästä voi olla hyötyä, jos käytät ohjelmointikieltä, jolle ei ole vielä Matomo SDK:ta. Voit myös käyttää tätä rajapintaa sovelluksesi yksityiskohtaiseen seurantaan.",
         "JSTracking_CampaignKwdParam": "Kampanjan avainsanojen parametri",
         "JSTracking_CampaignNameParam": "Kampanjan nimen parametri",
         "JSTracking_CodeNoteBeforeClosingHead": "Huolehdi, että tämä koodi on sivustosi jokaisella sivulla. Suositamme, että liität sen sivulle juuri ennen sulkevaa %1$stägiä.",

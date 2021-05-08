@@ -133,7 +133,7 @@
         "Timezone": "Sivuston aikavyöhyke",
         "WeHopeYouWillEnjoyPiwik": "Toivomme että nautit Matomon käytöstä yhtä paljon kuin me nautimme sen luomisesta!",
         "Welcome": "Tervetuloa!",
-        "WelcomeHelp": "<p>Matomo on vapaa ja avoin web-analytiikkaohjelmisto, jonka avulla saat haluamaasi tietoa sivustojesi kävijöistä.<\/p><p>Tämä prosessi on jaettu%s helppoon vaiheeseen, ja niiden läpikäynti kestää noin 5 minuuttia.<\/p>",
+        "WelcomeHelp": "<p>Matomo on vapaa ja avoin web-analytiikkaohjelmisto, jonka avulla saat haluamaasi tietoa sivustojesi kävijöistä.<\/p><p>Tämä prosessi on jaettu %s helppoon vaiheeseen, ja niiden läpikäynti kestää noin 5 minuuttia.<\/p>",
         "WelcomeToCommunity": "Tervetuloa Matomo-yhteisöön!",
         "CannotConnectToDb": "Tietokantaan yhdistäminen epäonnistui",
         "CannotConnectToDbResolvingExplanation": "Tämä saattaa olla väliaikainen ongelma, %1$syritä päivittää sivu%2$s. Jos ongelma ilmenee uudelleen, ole yhteydessä tämän Matomo-instanssin ylläpitoon."
