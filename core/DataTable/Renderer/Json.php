@@ -48,18 +48,10 @@ class Json extends Renderer
                     || $tab instanceof DataTable
                     || $tab instanceof DataTable\Simple) {
                     $array[$key] = $this->convertDataTableToArray($tab);
-
-                    if (!is_array($array[$key])) {
-                        $array[$key] = array('value' => $array[$key]);
-                    }
                 }
             }
         } else {
             $array = $this->convertDataTableToArray($table);
-        }
-
-        if (!is_array($array)) {
-            $array = array('value' => $array);
         }
 
         // convert datatable column/metadata values

@@ -415,15 +415,6 @@ abstract class Renderer extends BaseFactory
             $flatArray = $this->convertSimpleTable($dataTable);
 
             reset($flatArray);
-            $firstKey = key($flatArray);
-
-            // if we return only one numeric value then we print out the result in a simple <result> tag
-            // keep it simple!
-            if (count($flatArray) == 1
-                && $firstKey !== DataTable\Row::COMPARISONS_METADATA_NAME
-            ) {
-                $flatArray = current($flatArray);
-            }
         } // A normal DataTable needs to be handled specifically
         else {
             $array = $this->convertTable($dataTable);

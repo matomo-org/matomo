@@ -66,11 +66,7 @@ class Xml extends Renderer
             return $out;
         }
         if ($table instanceof Simple) {
-            if (is_array($array)) {
-                $out = $this->renderDataTableSimple($array);
-            } else {
-                $out = $array;
-            }
+            $out = $this->renderDataTableSimple($array);
             if ($returnOnlyDataTableXml) {
                 return $out;
             }
@@ -403,10 +399,6 @@ class Xml extends Renderer
      */
     protected function renderDataTableSimple($array, $prefixLine = "")
     {
-        if (!is_array($array)) {
-            $array = array('value' => $array);
-        }
-
         $columnsHaveInvalidChars = $this->areTableLabelsInvalidXmlTagNames($array);
 
         $out = '';
