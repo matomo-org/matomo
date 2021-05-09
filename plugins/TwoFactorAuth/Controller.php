@@ -21,10 +21,10 @@ use Piwik\Session\SessionNamespace;
 use Piwik\Url;
 use Piwik\View;
 use Exception;
-use Piwik\Mail\EmailNotification\RecoveryCodesShowedEmailNotification;
-use Piwik\Mail\EmailNotification\TwoFactorAuthEnabledEmailNotification;
-use Piwik\Mail\EmailNotification\TwoFactorAuthDisabledEmailNotification;
-use Piwik\Mail\EmailNotification\RecoveryCodesRegeneratedEmailNotification;
+use Piwik\Plugins\CoreAdminHome\Emails\RecoveryCodesShowedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\TwoFactorAuthEnabledEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\TwoFactorAuthDisabledEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\RecoveryCodesRegeneratedEmail;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -152,8 +152,12 @@ class Controller extends \Piwik\Plugin\Controller
             $this->twoFa->disable2FAforUser(Piwik::getCurrentUserLogin());
             $this->passwordVerify->forgetVerifiedPassword();
 
-            $emailNotification = new TwoFactorAuthDisabledEmailNotification();
-            $emailNotification->send();
+            $container = StaticContainer::getContainer();
+            $email = $container->make(TwoFactorAuthDisabledEmail::class, array(
+                'login' => Piwik::getCurrentUserLogin(),
+                'emailAddress' => Piwik::getCurrentUserEmail()
+            ));
+            $email->send();
 
             $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
                 'disableNonce' => false
@@ -225,8 +229,12 @@ class Controller extends \Piwik\Plugin\Controller
 
                 Piwik::postEvent('TwoFactorAuth.enabled', array($login));
 
-                $emailNotification = new TwoFactorAuthEnabledEmailNotification();
-                $emailNotification->send();
+                $container = StaticContainer::getContainer();
+                $email = $container->make(TwoFactorAuthEnabledEmail::class, array(
+                    'login' => Piwik::getCurrentUserLogin(),
+                    'emailAddress' => Piwik::getCurrentUserEmail()
+                ));
+                $email->send();
 
                 if ($standalone) {
                     $this->redirectToIndex('CoreHome', 'index');
@@ -284,14 +292,18 @@ class Controller extends \Piwik\Plugin\Controller
 
         $regenerateSuccess = false;
         $regenerateError = false;
+        $container = StaticContainer::getContainer();
 
         if ($postedValidNonce && $this->passwordVerify->hasBeenVerified()) {
             $this->passwordVerify->forgetVerifiedPassword();
             $this->recoveryCodeDao->createRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
             $regenerateSuccess = true;
 
-            $emailNotification = new RecoveryCodesRegeneratedEmailNotification();
-            $emailNotification->send();
+            $email = $container->make(RecoveryCodesRegeneratedEmail::class, array(
+                'login' => Piwik::getCurrentUserLogin(),
+                'emailAddress' => Piwik::getCurrentUserEmail()
+            ));
+            $email->send();
             // no need to redirect as password was verified nonce
             // if user has posted a valid nonce, we do not need to require password again as nonce must have been generated recent
             // avoids use case where eg password verify is only valid for one more minute when opening the page but user regenerates 2min later
@@ -301,8 +313,11 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (!$regenerateSuccess && !$regenerateError) {
-            $emailNotification = new RecoveryCodesShowedEmailNotification();
-            $emailNotification->send();
+            $email = $container->make(RecoveryCodesShowedEmail::class, array(
+                'login' => Piwik::getCurrentUserLogin(),
+                'emailAddress' => Piwik::getCurrentUserEmail()
+            ));
+            $email->send();
         }
 
         if (!$postedValidNonce && !empty($regenerateNonce)) {

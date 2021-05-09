@@ -139,6 +139,11 @@
         "TrackingFailuresEmail1": "This is just to let you know that %s different kinds of tracking failures have occurred in the last days.",
         "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s.",
         "ImportFromGoogleAnalytics": "Import from Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin."
+        "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin.",
+        "SecurityNotificationEmailSubject": "Security Notification",
+        "SecurityNotificationRecoveryCodesShowedBody": "Someone viewed the two-factor authentication recovery codes of your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Someone generated new recovery codes for the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Someone enabled the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Someone disabled the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device."
     }
 }
