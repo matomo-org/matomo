@@ -26,4 +26,7 @@ User-agent: facebookexternalhit
 User-agent: MSNBot
 User-agent: MSNBot-Media
 Disallow: /
-Disallow: /index.php
+
+User-agent: *
+Allow: /matomo.php
+Allow: /piwik.php
