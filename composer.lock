@@ -1440,16 +1440,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.1.8",
+            "version": "v6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1"
+                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
-                "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9256f12d8fb0cd0500f93b19e18c356906cbed3d",
+                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d",
                 "shasum": ""
             },
             "require": {
@@ -1459,12 +1459,15 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "doctrine/annotations": "^1.2",
-                "friendsofphp/php-cs-fixer": "^2.2",
-                "phpunit/phpunit": "^4.8 || ^5.7"
+                "phpcompatibility/php-compatibility": "^9.3.5",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.5.6",
+                "yoast/phpunit-polyfills": "^0.2.0"
             },
             "suggest": {
-                "ext-mbstring": "Needed to send email in multibyte encoding charset",
+                "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
                 "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
                 "psr/log": "For optional PSR-3 debug logging",
@@ -1501,15 +1504,15 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.1.8"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.4.1"
             },
             "funding": [
                 {
-                    "url": "https://github.com/synchro",
+                    "url": "https://github.com/Synchro",
                     "type": "github"
                 }
             ],
-            "time": "2020-10-09T14:55:58+00:00"
+            "time": "2021-04-29T12:25:04+00:00"
         },
         {
             "name": "psr/container",

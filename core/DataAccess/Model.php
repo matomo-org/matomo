@@ -864,6 +864,48 @@ class Model
         return false;
     }
 
+    /**
+     * Returns true if any invalidations exists for the given
+     * $idsite and $doneFlag (name column) for the $period.
+     *
+     * @param mixed $idSite
+     * @param Period $period
+     * @param mixed $doneFlag
+     * @param mixed $report
+     * @return bool
+     * @throws Exception
+     */
+    public function hasInvalidationForPeriodAndName($idSite, Period $period, $doneFlag, $report = null)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        if (empty($report)) {
+            $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ?  AND `report` IS NULL LIMIT 1";
+        } else {
+            $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? AND `report` = ? LIMIT 1";
+        }
+
+        $bind = [
+            $idSite,
+            $period->getDateStart()->toString(),
+            $period->getDateEnd()->toString(),
+            $period->getId(),
+            $doneFlag
+        ];
+
+        if (!empty($report)) {
+            $bind[] = $report;
+        }
+
+        $idInvalidation = Db::fetchOne($sql, $bind);
+
+        if (empty($idInvalidation)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function deleteInvalidationsForSites(array $idSites)
     {
         $idSites = array_map('intval', $idSites);

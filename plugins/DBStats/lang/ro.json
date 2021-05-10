@@ -10,6 +10,7 @@
         "MetricDataByYear": "Tabelele cu Parametri dupa An",
         "MetricTables": "Tabele Metrici",
         "OtherTables": "Alte tablete",
+        "PluginDescription": "Oferă rapoarte detaliate de utilizare a bazei de date MySQL. Disponibil pentru super-utilizatori în meniul Diagnostice.",
         "ReportDataByYear": "Tabele din raport pentru anul",
         "ReportTables": "Tabele din raport",
         "RowCount": "Numărul de înregistrări",

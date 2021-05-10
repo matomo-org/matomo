@@ -139,7 +139,8 @@
             vm.isResetting2FA = true;
             return piwikApi.post({
                 method: 'TwoFactorAuth.resetTwoFactorAuth',
-                userLogin: vm.user.login
+                userLogin: vm.user.login,
+                passwordConfirmation: vm.passwordConfirmation
             }).catch(function (e) {
                 vm.isResetting2FA = false;
                 throw e;
@@ -149,6 +150,8 @@
                 vm.activeTab = 'basic';
 
                 showUserSavedNotification();
+            }).finally(function () {
+                vm.passwordConfirmation = '';
             });
         }
 

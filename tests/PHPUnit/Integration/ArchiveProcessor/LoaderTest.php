@@ -29,6 +29,10 @@ use Piwik\Sequence;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugins\SegmentEditor\API as SegmentApi;
+use Piwik\Option;
+use Piwik\ArchiveProcessor\Rules;
+use ReflectionClass;
 
 class LoaderTest extends IntegrationTestCase
 {
@@ -1345,6 +1349,120 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
+    public function test_canSkipArchiveForSegment_returnsFalseIfNoSegments()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfPeriodEndLaterThanSegmentArchiveStartDate()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $definition = 'browserCode==ch';
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2021-04-23'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfPeriodEndEarlierThanSegmentArchiveStartDate()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2010-04-23'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForThePeriod()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfHasInvalidationForReportButWeDonSpecifyReport()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForReportWeAskedFor()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $params->setArchiveOnlyReport('myReport');
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfHasNoInvalidationForReportWeAskedFor()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $params->setArchiveOnlyReport('otherReport');
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
     public function test_forcePluginArchiving_createsPluginSpecificArchive()
     {
         $_GET['trigger'] = 'archivephp';
@@ -1416,5 +1534,18 @@ class LoaderTest extends IntegrationTestCase
             $results = array_merge($results, $queryResults);
         }
         return $results;
+    }
+
+    private function insertInvalidations(array $invalidations)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $now = Date::now()->getDatetime();
+        foreach ($invalidations as $invalidation) {
+            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started, report) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Db::query($sql, [
+                $invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name'],
+                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null, $invalidation['report'] ?? null
+            ]);
+        }
     }
 }

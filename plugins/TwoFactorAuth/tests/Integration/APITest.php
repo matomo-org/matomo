@@ -50,7 +50,7 @@ class APITest extends IntegrationTestCase
             Fixture::createWebsite('2014-01-02 03:04:05');
         }
 
-        foreach (['mylogin1', 'mylogin2'] as $user) {
+        foreach (['mylogin1', 'mylogin2', 'login'] as $user) {
             UsersAPI::getInstance()->addUser($user, '123abcDk3_l3', $user . '@matomo.org');
         }
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
@@ -62,7 +62,7 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
 
         $this->setAdminUser();
-        $this->api->resetTwoFactorAuth('login');
+        $this->api->resetTwoFactorAuth('login', 'superUserPass');
     }
 
     public function test_resetTwoFactorAuth_resetsSecret()
@@ -74,7 +74,7 @@ class APITest extends IntegrationTestCase
 
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
-        $this->api->resetTwoFactorAuth('mylogin1');
+        $this->api->resetTwoFactorAuth('mylogin1', 'superUserPass');
         $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
 
@@ -94,5 +94,11 @@ class APITest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }
