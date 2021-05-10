@@ -13,7 +13,7 @@ use Piwik\Mail;
 use Piwik\View;
 use Piwik\Piwik;
 
-class LoginSettingsChangedEmail extends Mail
+class SettingsChangedEmail extends Mail
 {
     /**
      * @var string
@@ -30,12 +30,18 @@ class LoginSettingsChangedEmail extends Mail
      */
     private $emailAddress;
 
-    public function __construct($login, $emailAddress, $superuser = null)
+    /**
+     * @var string
+     */
+    private $pluginName;
+
+    public function __construct($login, $emailAddress, $pluginName, $superuser = null)
     {
         parent::__construct();
 
         $this->login = $login;
         $this->emailAddress = $emailAddress;
+        $this->pluginName = $pluginName;
         $this->superuser = $superuser;
 
         $this->setUpEmail();
@@ -83,10 +89,16 @@ class LoginSettingsChangedEmail extends Mail
 
     private function getBody()
     {
+        $pluginNameMap = [
+            'Login' => 'Brute Force',
+            'TwoFactorAuth' => 'Two-factor auth',
+            'CoreAdminHome' => 'CORS'
+        ];
+
         if ($this->superuser) {
-            return Piwik::translate('CoreAdminHome_SecurityNotificationLoginSettingsChangedByOtherSuperUserBody', [$this->superuser]);
+            return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByOtherSuperUserBody', [$this->superuser, $pluginNameMap[$this->pluginName]]);
         }
 
-        return Piwik::translate('CoreAdminHome_SecurityNotificationLoginSettingsChangedByUserBody');
+        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [$pluginNameMap[$this->pluginName]]);
     }
 }

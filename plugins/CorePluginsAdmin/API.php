@@ -14,7 +14,7 @@ use Exception;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Version;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\CoreAdminHome\Emails\LoginSettingsChangedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\SettingsChangedEmail;
 
 /**
  * API for plugin CorePluginsAdmin
@@ -63,15 +63,17 @@ class API extends \Piwik\Plugin\API
 
         $this->settingsMetadata->setPluginSettings($pluginsSettings, $settingValues);
 
-        $sendLoginSettingsChangedNotificationEmail = false;
+        $sendSettingsChangedNotificationEmail = false;
+        $notifyPluginList = ['Login', 'TwoFactorAuth', 'CoreAdminHome'];
 
         try {
             foreach ($pluginsSettings as $pluginSetting) {
                 if (!empty($settingValues[$pluginSetting->getPluginName()])) {
                     $pluginSetting->save();
 
-                    if ($pluginSetting->getPluginName() === 'Login') {
-                        $sendLoginSettingsChangedNotificationEmail = true;
+                    $pluginName = $pluginSetting->getPluginName();
+                    if (in_array($pluginSetting->getPluginName(), $notifyPluginList)) {
+                        $sendSettingsChangedNotificationEmail = true;
                     }
                 }
             }
@@ -79,21 +81,23 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'));
         }
 
-        if ($sendLoginSettingsChangedNotificationEmail) {
+        if ($sendSettingsChangedNotificationEmail) {
             $container = StaticContainer::getContainer();
             $superuserEmails = Piwik::getAllSuperUserAccessEmailAddresses();
 
-            $email = $container->make(LoginSettingsChangedEmail::class, array(
+            $email = $container->make(SettingsChangedEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail()
+                'emailAddress' => Piwik::getCurrentUserEmail(),
+                'pluginName' => $pluginName
             ));
             $email->send();
 
             foreach ($superuserEmails as $superuserEmail) {
                 if ($superuserEmail !== Piwik::getCurrentUserEmail()) {
-                    $email = $container->make(LoginSettingsChangedEmail::class, array(
+                    $email = $container->make(SettingsChangedEmail::class, array(
                         'login' => $superuserEmail,
                         'emailAddress' => $superuserEmail,
+                        'pluginName' => $pluginName,
                         'superuser' => Piwik::getCurrentUserLogin()
                     ));
                     $email->send();
