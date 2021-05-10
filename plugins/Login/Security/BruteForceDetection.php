@@ -186,7 +186,7 @@ class BruteForceDetection {
             $email = new SuspiciousLoginAttemptsInLastHourEmail($login, $countOverall, $distinctIps);
             $email->send();
 
-            $this->model->markSusNotifiedEmailSent($login);
+            $this->model->markSuspiciousLoginsNotifiedEmailSent($login);
         } catch (\Exception $ex) {
             // log if error is not that we can't find a user
             if (strpos($ex->getMessage(), 'unable to find user to send') === false) {

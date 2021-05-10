@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Login;
 
-
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -39,7 +38,7 @@ class Model
 
     public function hasNotifiedUserAboutSuspiciousLogins($login)
     {
-        $optionName = $this->getSusNotifiedOptionName($login);
+        $optionName = $this->getSuspiciousLoginsNotifiedOptionName($login);
         $timeSent = Option::get($optionName);
         $timeSent = (int) @json_decode($timeSent, true);
         if ($timeSent <= 0) { // sanity check
@@ -48,7 +47,7 @@ class Model
 
         $timeSinceSent = Date::getNowTimestamp() - $timeSent;
         if ($timeSinceSent <= 0 // sanity check
-            || $timeSinceSent > $this->getAmountOfTimeBetweenSusLoginNotifications()
+            || $timeSinceSent > $this->getAmountOfTimeBetweenSuspiciousLoginNotifications()
         ) {
             return false;
         }
@@ -68,19 +67,19 @@ class Model
         return Date::now()->subPeriod($minutes, 'minute')->getDatetime();
     }
 
-    private function getAmountOfTimeBetweenSusLoginNotifications()
+    private function getAmountOfTimeBetweenSuspiciousLoginNotifications()
     {
         return 2 * 7 * 24 * 60 * 60; // 2 weeks
     }
 
-    private function getSusNotifiedOptionName($login)
+    private function getSuspiciousLoginsNotifiedOptionName($login)
     {
         return self::NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX . $login;
     }
 
-    public function markSusNotifiedEmailSent($login)
+    public function markSuspiciousLoginsNotifiedEmailSent($login)
     {
-        $optionName = $this->getSusNotifiedOptionName($login);
+        $optionName = $this->getSuspiciousLoginsNotifiedOptionName($login);
         Option::set($optionName, Date::getNowTimestamp());
     }
 }
