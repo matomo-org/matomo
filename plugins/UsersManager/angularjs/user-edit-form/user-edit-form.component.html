@@ -166,7 +166,16 @@
                 <div class="twofa-confirm-modal modal">
                     <div class="modal-content">
                         <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
+                        <p>{{:: 'UsersManager_ConfirmWithPassword'|translate }}</p>
+
+                        <div piwik-field uicontrol="password" name="currentUserPassword" autocomplete="off"
+                             ng-model="$ctrl.passwordConfirmation"
+                             full-width="true"
+                             title="{{ 'UsersManager_YourCurrentPassword'|translate }}"
+                             value="">
+                        </div>
                     </div>
+
                     <div class="modal-footer">
                         <a href="" class="modal-action modal-close btn" ng-click="$ctrl.reset2FA()">{{:: 'General_Yes'|translate }}</a>
                         <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
