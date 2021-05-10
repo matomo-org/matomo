@@ -144,6 +144,10 @@
         "SecurityNotificationRecoveryCodesShowedBody": "Someone viewed the two-factor authentication recovery codes of your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device.",
         "SecurityNotificationRecoveryCodesRegeneratedBody": "Someone generated new recovery codes for the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device.",
         "SecurityNotificationTwoFactorAuthEnabledBody": "Someone enabled the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
-        "SecurityNotificationTwoFactorAuthDisabledBody": "Someone disabled the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device."
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Someone disabled the two-factor authentication in your account. If it was you, carry on. If you don't recognize this activity, please reset your password and check your two-factor authentication app or device.",
+        "SecurityNotificationTokenAuthCreatedBody": "Someone created an auth token in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
+        "SecurityNotificationTokenAuthDeletedBody": "Someone deleted an auth token in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
+        "SecurityNotificationLoginSettingsChangedByUserBody": "Someone modified the brute force logic in the system settings. If it was you, carry on. If you don't recognize this activity, please reset your password.",
+        "SecurityNotificationLoginSettingsChangedByOtherSuperUserBody": "An other super user (%s) modified the brute force logic in the system settings. If you know about this activity, carry on. If you don't recognize this activity, please contact the other super users."
     }
 }

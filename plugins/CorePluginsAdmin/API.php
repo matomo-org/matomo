@@ -13,6 +13,8 @@ use Piwik\Plugin\SettingsProvider;
 use Exception;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Version;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreAdminHome\Emails\LoginSettingsChangedEmail;
 
 /**
  * API for plugin CorePluginsAdmin
@@ -61,14 +63,42 @@ class API extends \Piwik\Plugin\API
 
         $this->settingsMetadata->setPluginSettings($pluginsSettings, $settingValues);
 
+        $sendLoginSettingsChangedNotificationEmail = false;
+
         try {
             foreach ($pluginsSettings as $pluginSetting) {
                 if (!empty($settingValues[$pluginSetting->getPluginName()])) {
                     $pluginSetting->save();
+
+                    if ($pluginSetting->getPluginName() === 'Login') {
+                        $sendLoginSettingsChangedNotificationEmail = true;
+                    }
                 }
             }
         } catch (Exception $e) {
             throw new Exception(Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'));
+        }
+
+        if ($sendLoginSettingsChangedNotificationEmail) {
+            $container = StaticContainer::getContainer();
+            $superuserEmails = Piwik::getAllSuperUserAccessEmailAddresses();
+
+            $email = $container->make(LoginSettingsChangedEmail::class, array(
+                'login' => Piwik::getCurrentUserLogin(),
+                'emailAddress' => Piwik::getCurrentUserEmail()
+            ));
+            $email->send();
+
+            foreach ($superuserEmails as $superuserEmail) {
+                if ($superuserEmail !== Piwik::getCurrentUserEmail()) {
+                    $email = $container->make(LoginSettingsChangedEmail::class, array(
+                        'login' => $superuserEmail,
+                        'emailAddress' => $superuserEmail,
+                        'superuser' => Piwik::getCurrentUserLogin()
+                    ));
+                    $email->send();
+                }
+            }
         }
     }
 

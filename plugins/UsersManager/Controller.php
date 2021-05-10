@@ -35,6 +35,8 @@ use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
 use Piwik\View;
 use Piwik\Session\SessionInitializer;
+use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthCreatedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthDeletedEmail;
 
 class Controller extends ControllerAdmin
 {
@@ -330,12 +332,25 @@ class Controller extends ControllerAdmin
                 $notification->context = Notification::CONTEXT_SUCCESS;
                 Notification\Manager::notify('successdeletetokens', $notification);
 
+                $container = StaticContainer::getContainer();
+                $email = $container->make(TokenAuthDeletedEmail::class, array(
+                    'login' => Piwik::getCurrentUserLogin(),
+                    'emailAddress' => Piwik::getCurrentUserEmail()
+                ));
+                $email->send();
             } elseif (is_numeric($idTokenAuth)) {
                 $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
 
                 $notification = new Notification(Piwik::translate('UsersManager_TokenSuccessfullyDeleted'));
                 $notification->context = Notification::CONTEXT_SUCCESS;
                 Notification\Manager::notify('successdeletetoken', $notification);
+
+                $container = StaticContainer::getContainer();
+                $email = $container->make(TokenAuthDeletedEmail::class, array(
+                    'login' => Piwik::getCurrentUserLogin(),
+                    'emailAddress' => Piwik::getCurrentUserEmail()
+                ));
+                $email->send();
             }
         }
 
@@ -366,6 +381,13 @@ class Controller extends ControllerAdmin
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
             $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime());
+
+            $container = StaticContainer::getContainer();
+            $email = $container->make(TokenAuthCreatedEmail::class, array(
+                'login' => Piwik::getCurrentUserLogin(),
+                'emailAddress' => Piwik::getCurrentUserEmail()
+            ));
+            $email->send();
 
             return $this->renderTemplate('addNewTokenSuccess', array('generatedToken' => $generatedToken));
         } elseif (isset($_POST['description'])) {
