@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreAdminHome\Emails;
 
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;
 
 class TokenAuthCreatedEmail extends SecurityNotificationEmail
 {

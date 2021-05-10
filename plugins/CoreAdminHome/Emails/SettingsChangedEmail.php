@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Emails;
 
-use Piwik\View;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;
 
 class SettingsChangedEmail extends SecurityNotificationEmail
 {
