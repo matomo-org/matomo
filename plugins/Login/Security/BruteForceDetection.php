@@ -152,7 +152,6 @@ class BruteForceDetection {
         return $this->getNow()->subPeriod($minutes, 'minute')->getDatetime();
     }
 
-    // TODO: need to make sure bruteforcedetection happens after any ip allowlists/blocklists have been used
     public function isUserLoginBlocked($login)
     {
         $count = $this->getTotalLoginAttemptsInLastHourForLogin($login);
