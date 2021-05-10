@@ -36,7 +36,7 @@ class Updates_4_3_0_b4 extends PiwikUpdates
         $migrations = [];
 
         $segmentTable = Common::prefixTable('segment');
-        $segments = Db::fetchAll("SELECT idsegment, hash, definition FROM $segmentTable");
+        $segments = Db::fetchAll("SELECT * FROM $segmentTable");
         foreach ($segments as $segment) {
             if (empty($segment['hash'])) {
                 $hash = md5(urldecode($segment['definition']));

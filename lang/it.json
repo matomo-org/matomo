@@ -210,6 +210,8 @@
         "ExceptionWidgetNotFound": "Il widget richiesto non esiste.",
         "ExceptionReportNotEnabled": "Il report richiesto non è abilitato. Questo in genere significa che il plugin che definisce il report è disattivato o che tu non hai i permessi sufficienti per accedere a questo report.",
         "ExceptionWidgetNotEnabled": "Il widget richiesto non è abilitato. Ciò significa, di solito, che il plugin che definisce il widget è disattivato o che tu non hai abbastanza permessi per accedere a questo widget.",
+        "ExceptionNotSupportedBrowserTitle": "Il tuo browser non è supportato.",
+        "ExceptionNotSupportedBrowserText": "Il tuo browser non è supportato a causa di problemi con la sicurezza. Aggiornalo a una nuova versione.",
         "ExpandDataTableFooter": "Cambia la visualizzazione o configura il report",
         "Export": "Esporta",
         "ExportAsImage": "Esporta come Immagine",

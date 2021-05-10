@@ -122,6 +122,7 @@
         "DevicesSubcategoryHelp": "La sezione Dispositivi ti aiuta a capire la tecnologia che i tuoi visitatori utilizzano per accedere al tuo sito. Vedrai dei report sul tipo di dispositivo e sui modelli specifici per consentirti di ottimizzare il tuo sito per i dispositivi più popolari.",
         "SoftwareSubcategoryHelp": "La sezione Software mostra i sistemi operativi, i browser e i plugin che i tuoi visitatori stanno utilizzando per accedere al sito, in modo da poterlo ottimizzare per assicurarti che sia completamente compatibile con le configurazioni più diffuse.",
         "EngagementSubcategoryHelp1": "La sezione Engagement fornisce dei report che aiutano a quantificare il numero di visitatori nuovi e di ritorno che ricevi. Puoi anche esaminare i report che dettagliano il tempo medio e il numero di pagine per visita, nonché il numero di volte in cui un visitatore è stato sul tuo sito e il numero abituale di giorni che intercorrono tra le visite.",
-        "EngagementSubcategoryHelp2": "Questo può aiutarti a ottimizzare la frequenza e le visite ad alta interazione oltre a massimizzare la tua copertura."
+        "EngagementSubcategoryHelp2": "Questo può aiutarti a ottimizzare la frequenza e le visite ad alta interazione oltre a massimizzare la tua copertura.",
+        "PeriodHasOnlyRawData": "Sembra che i report per questo periodo non siano stati ancora elaborati. Vuoi vedere cosa sta succedendo adesso? Controlla il %1$sRegistro delle visite%2$s o scegli un diverso intervallo di date fino alla generazione dei report."
     }
 }

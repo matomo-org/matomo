@@ -432,7 +432,7 @@ class ArchiveCronTest extends SystemTestCase
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" --force-date-last-n=10";
+        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\"";
         foreach ($options as $name => $value) {
             $cmd .= " $name";
             if ($value !== null) {
@@ -464,6 +464,9 @@ class ArchiveCronTest extends SystemTestCase
             },
 
             'Tests.log.allowAllHandlers' => true,
+
+            CronArchive\SegmentArchiving::class => \DI\object()
+                ->constructorParameter('beginningOfTimeLastNInYears', 10)
         );
     }
 

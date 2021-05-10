@@ -17,11 +17,11 @@
 
 #### {{ result.label }}:
 {% for item in result.items -%}
-{%- if item.status == error -%} &#9888; Error: {{ item.comment|anonymiseSystemInfo }}{% elseif item.status == warning %} &#9888; Warning: {{ item.comment|anonymiseSystemInfo }}{% elseif item.status == informational %} {{ item.comment|anonymiseSystemInfo }}{% else %} &#10004; {{ item.comment|anonymiseSystemInfo }}{% endif -%}
+{%- if item.status == error -%} &#9888; Error: {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% elseif item.status == warning %} &#9888; Warning: {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% elseif item.status == informational %} {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% else %} &#10004; {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% endif -%}
 {%- endfor %}
 
 {% if result.longErrorMessage -%}
-{{ result.longErrorMessage }}
+{{ result.longErrorMessage|striptags('<br><p><strong><code>') }}
 {%- endif -%}
     {%- endfor -%}
 {%- endmacro %}
