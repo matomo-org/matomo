@@ -8,14 +8,16 @@
 
 namespace Piwik\Plugins\Login\tests\Integration\Security;
 
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Dao\BruteForceDetectionDao;
 use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Plugins\UsersManager\API;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CustomBruteForceDetection extends BruteForceDetection {
@@ -69,7 +71,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->settings->maxFailedLoginsPerMinutes->setValue(5);
         $this->settings->whitelisteBruteForceIps->setValue(array('10.99.99.99'));
         $this->settings->blacklistedBruteForceIps->setValue(array('10.55.55.55'));
-        $this->detection = new CustomBruteForceDetection($this->settings);
+        $this->detection = new CustomBruteForceDetection($this->settings, new \Piwik\Plugins\Login\Model());
     }
 
     public function test_isEnabled_isEnabledByDefault()
@@ -270,8 +272,10 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertFalse($this->detection->isAllowedToLogin('10.55.55.55'));
     }
 
-    public function test_isUserLoginBlocked_returnsFalseIfThereAreLessThanTheThresholdNumOfAttempts()
+    public function test_isUserLoginBlocked_returnsTrueIfThereAreMoreThanTheThresholdNumOfAttempts()
     {
+        $this->detection->setNow(Date::now());
+
         $sentMail = null;
         Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
             $sentMail = $mail;
@@ -285,6 +289,8 @@ class BruteForceDetectionTest extends IntegrationTestCase
 
     public function test_isUserLoginBlocked_sendsEmailIfLoginIsForRealUser()
     {
+        $this->detection->setNow(Date::now());
+
         API::getInstance()->addUser('theuser', 'averybadpwd', 'someemail@email.com');
 
         /** @var SuspiciousLoginAttemptsInLastHourEmail $sentMail */
@@ -301,8 +307,10 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals(['someemail@email.com' => ''], $sentMail->getRecipients());
     }
 
-    public function test_isUserLoginBlocked_returnsTrueIfThereAreMoreThanTheThresholdNumOfAttempts()
+    public function test_isUserLoginBlocked_returnsFalseIfThereAreLessThanTheThresholdNumOfAttempts()
     {
+        $this->detection->setNow(Date::now());
+
         $this->addFailedAttemptsWithLogin();
 
         $this->assertFalse($this->detection->isUserLoginBlocked('anotheruser'));

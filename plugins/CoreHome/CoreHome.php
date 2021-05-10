@@ -45,9 +45,9 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
-            'Request.initAuthenticationObject' => ['checkAllowedIpsOnAuthentication', 'before' => true],
+            'Request.initAuthenticationObject' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'AssetManager.addStylesheets' => 'addStylesheets',
-            'Request.dispatchCoreAndPluginUpdatesScreen' => ['checkAllowedIpsOnAuthentication', 'before' => true],
+            'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
         );
     }
