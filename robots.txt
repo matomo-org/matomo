@@ -28,3 +28,6 @@ User-agent: MSNBot-Media
 Disallow: /
 Allow: /matomo.php
 Allow: /piwik.php
+Allow: /matomo.js
+Allow: /piwik.js
+Allow: /js/
