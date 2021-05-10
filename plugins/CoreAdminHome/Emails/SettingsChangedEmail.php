@@ -9,17 +9,11 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Emails;
 
-use Piwik\Mail;
 use Piwik\View;
 use Piwik\Piwik;
 
-class SettingsChangedEmail extends Mail
+class SettingsChangedEmail extends SecurityNotificationEmail
 {
-    /**
-     * @var string
-     */
-    private $login;
-
     /**
      * @var string
      */
@@ -28,66 +22,18 @@ class SettingsChangedEmail extends Mail
     /**
      * @var string
      */
-    private $emailAddress;
-
-    /**
-     * @var string
-     */
     private $pluginName;
 
     public function __construct($login, $emailAddress, $pluginName, $superuser = null)
     {
-        parent::__construct();
-
-        $this->login = $login;
-        $this->emailAddress = $emailAddress;
         $this->pluginName = $pluginName;
         $this->superuser = $superuser;
 
-        $this->setUpEmail();
-    }
-
-    /**
-     * @return string
-     */
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmailAddress()
-    {
-        return $this->emailAddress;
+        parent::__construct($login, $emailAddress);
     }
 
 
-    private function setUpEmail()
-    {
-        $this->setDefaultFromPiwik();
-        $this->addTo($this->emailAddress);
-        $this->setSubject($this->getDefaultSubject());
-        $this->addReplyTo($this->getFrom(), $this->getFromName());
-        $this->setWrappedHtmlBody($this->getDefaultBodyView());
-    }
-
-    protected function getDefaultSubject()
-    {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationEmailSubject');
-    }
-
-    protected function getDefaultBodyView()
-    {
-        $view = new View('@CoreAdminHome/_securityNotificationEmail.twig');
-        $view->login = $this->login;
-        $view->body = $this->getBody();
-
-        return $view;
-    }
-
-    private function getBody()
+    protected function getBody()
     {
         $pluginNameMap = [
             'Login' => 'Brute Force',

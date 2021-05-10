@@ -148,7 +148,7 @@
         "SecurityNotificationTokenAuthCreatedBody": "Someone created an auth token in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
         "SecurityNotificationTokenAuthDeletedBody": "Someone deleted an auth token in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
         "SecurityNotificationSettingsChangedByUserBody": "Someone modified the system settings. Affected settings: %s. If it was you, carry on. If you don't recognize this activity, please reset your password.",
-        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "An other super user (%s) modified the system settings. Affected settings: %s.If you know about this activity, carry on. If you don't recognize this activity, please contact the other super users.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "An other super user (%1$s) modified the system settings. Affected settings: %2$s.If you know about this activity, carry on. If you don't recognize this activity, please contact the other super users.",
         "SecurityNotificationUserCreatedBody": "Someone created a new user in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
         "SecurityNotificationUserDeletedBody": "Someone deleted a user in your account. If it was you, carry on. If you don't recognize this activity, please reset your password."
     }
