@@ -1,21 +1,20 @@
-Piwik comes with unit tests, integration tests, system tests, Javascript tests and UI tests.
-This document briefly describes how to use and modify Piwik tests.
+Matomo comes with unit tests, integration tests, system tests, Javascript tests and UI tests.
+This document briefly describes how to use and modify Matomo tests.
 
 ## Continuous Integration
 
 We use Travis CI for our continuous integration server. It automatically runs our battery of thousands of unit/integration/screenshot tests
 after each commit to our GIT repo. More information at the links:
 
- * Piwik on Travis CI: https://travis-ci.org/piwik/piwik
- * QA in Piwik: https://matomo.org/qa/
+ * Matomo on Travis CI: https://travis-ci.com/matomo-org/matomo
 
-Each core Piwik developer is responsible to keep the build green. If a developer breaks the build, he will receive an email from Travis CI.
+Each core Matomo developer is responsible to keep the build green. If a developer breaks the build, they will receive an E-Mail from Travis CI.
 
 The next section explains how you can run the test suite on your own dev machine.
 
-## How To Run Piwik Tests
+## How To Run Matomo Tests
 
-To run tests, you must install Piwik via Git and set it up for development. A guide for this is available in our [Developer Zone](http://developer.piwik.org/guides/getting-started-part-1). The part about "Creating a plugin" can be skipped.
+To run tests, you must install Matomo via Git and set it up for development. A guide for this is available in our [Developer Zone](https://developer.matomo.org/guides/getting-started-part-1). The part about "Creating a plugin" can be skipped.
 
 To execute the tests:
 
@@ -29,21 +28,21 @@ To execute the tests:
 
 ## PHPUnit Tests
 
-1. 	To install PHPUnit, run `php composer.phar install --dev` in the Piwik root directory.
+1. 	To install PHPUnit, run `php composer.phar install --dev` in the Matomo root directory.
 
-2.	Ensure the `[database_tests]` section in `piwik/config/config.ini.php` is set up correctly,
+2.	Ensure the `[database_tests]` section in `matomo/config/config.ini.php` is set up correctly,
 	i.e. with the correct password to prevent the following error:
 	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
 
 3. 	Run the tests
 
-    $ cd /path/to/piwik
+    $ cd /path/to/matomo
     $ ./console tests:run --testsuite unit
     $ ./console tests:run --testsuite integration
     $ ./console tests:run --testsuite system
 
 	There are also two main groups of tests: core and plugins
-	For example run `./console tests:run core` to run all Core Piwik tests.
+	For example run `./console tests:run core` to run all Core Matomo tests.
 
 	You can combine testsuite and groups like this:
 	`./console tests:run --testsuite unit core`. This would run all unit tests in core.
@@ -69,7 +68,7 @@ your test will be really fast.
 It is an integration test if you have any dependency to a loaded plugin, to the filesystem, web, config, database or something
 similar. It is an integration test if you test multiple classes in one test.
 
-It is a system test if you - for instance - make a call to Piwik itself via HTTP or CLI and the whole system is being tested.
+It is a system test if you - for instance - make a call to Matomo itself via HTTP or CLI and the whole system is being tested.
 
 ### Why do we split tests in unit, integration, system and ui folders?
 
@@ -88,14 +87,14 @@ not tested they would be still marked as tested when running integration tests.
 
 System tests files are in `tests/PHPUnit/System/*Test.php`
 
-System tests allow to test how major Piwik components interact together.
+System tests allow to test how major Matomo components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
 and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
 If a test fails, you can compare the processed/ and expected/ directories in a graphical text compare tool, such as WinMerge on Win, or MELD on Linux, or even with PhpStorm, to easily view changes between files.
 
 For example using Meld, click on "Start new comparison", "Directory comparison",
-in "Original" select "path/to/piwik/tests/PHPUnit/System/expected"
-in "Mine" select "path/to/piwik/tests/PHPUnit/System/processed"
+in "Original" select "path/to/matomo/tests/PHPUnit/System/expected"
+in "Mine" select "path/to/matomo/tests/PHPUnit/System/processed"
 
 If changes are expected due to the code changes you make, simply copy the file from processed/ to expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
 Otherwise, if you didn't expect to modify the API outputs, it might be that your changes are breaking some features unexpectedly.
@@ -133,11 +132,11 @@ If you use Ubuntu or another Linux distribution, you must make one change to the
 
 ## JavaScript Tests
 
-piwik.js is unit tested and you can run the Javascript tests at: /piwik/tests/javascript/
+piwik.js is unit tested and you can run the Javascript tests at: /matomo/tests/javascript/
 
 ## Testing Data
 
-See [tests/README.testing-data.md](https://github.com/matomo-org/matomo/blob/master/tests/README.testing-data.md) to import testing data in Piwik.
+See [tests/README.testing-data.md](https://github.com/matomo-org/matomo/blob/master/tests/README.testing-data.md) to import testing data in Matomo.
 
 ## UI Screenshots Tests
 
@@ -151,7 +150,7 @@ You can retrieve the files generated during the build (the build artifacts) at [
 
 ### Test logs on CI
 
-By default tests running on Travis CI will log all messages of at least `INFO` level in `$PIWIK_ROOT_DIR/tmp/logs/piwik.log`. In a given travis build output, you can view the logs by clicking on the line `$ cat $PIWIK_ROOT_DIR/tmp/logs/matomo.log` at the end of the build output text.
+By default tests running on Travis CI will log all messages of at least `INFO` level in `$PIWIK_ROOT_DIR/tmp/logs/matomo.log`. In a given travis build output, you can view the logs by clicking on the line `$ cat $PIWIK_ROOT_DIR/tmp/logs/matomo.log` at the end of the build output text.
 
 Note: `DEBUG` and `VERBOSE` messages are not logged by default (to keep Travis page loading fast). At any time you can temporarily enable logging by [modifying this file](https://github.com/matomo-org/matomo/blob/master/tests/PHPUnit/config.ini.travis.php#L23-27) and changing `log_level = info` to `log_level = debug` or `log_level = verbose`.
 
@@ -176,7 +175,7 @@ See [tests/PHPUnit/Benchmarks/README.md](https://github.com/matomo-org/matomo/bl
 
 ### Profiling
 
-See [tests/README.xhprof.md](https://github.com/matomo-org/matomo/blob/master/tests/README.xhprof.md) for help on how to profile Piwik with XHProf.
+See [tests/README.xhprof.md](https://github.com/matomo-org/matomo/blob/master/tests/README.xhprof.md) for help on how to profile Matomo with XHProf.
 
 
 

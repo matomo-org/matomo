@@ -352,7 +352,7 @@ enable_browser_archiving_triggering = 1
 ; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
 
-; By default Matomo will automatically archive all date ranges any user has chosen in his account settings.
+; By default Matomo will automatically archive all date ranges any user has chosen in their account settings.
 ; This is limited to the available options last7, previous7, last30 and previous30.
 ; If you need any other period, or want to ensure one of those is always archived, you can define them here
 archiving_custom_ranges[] =
