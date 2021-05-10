@@ -447,7 +447,7 @@ class Controller extends ControllerAdmin
                 $anonymousDefaultReport = Piwik::getLoginPluginName();
             } else {
                 // we manually imitate what would happen, in case the anonymous user logs in
-                // and is redirected to the first website available to him in the list
+                // and is redirected to the first website available to them in the list
                 // @see getDefaultWebsiteId()
                 $anonymousDefaultReport = '1';
                 $anonymousDefaultSite = $anonymousSites[0]['key'];
