@@ -4634,38 +4634,18 @@ if (typeof window.Matomo !== 'object') {
             /*
              * Add click listener to a DOM element
              */
-            function addClickListener(element, enable) {
+            function addClickListener(element, enable, useCapture) {
                 var enableType = typeof enable;
                 if (enableType === 'undefined') {
                     enable = true;
                 }
 
-                addEventListener(element, 'click', clickHandler(enable), false);
+                addEventListener(element, 'click', clickHandler(enable), useCapture);
 
                 if (enable) {
-                    addEventListener(element, 'mouseup', clickHandler(enable), false);
-                    addEventListener(element, 'mousedown', clickHandler(enable), false);
-                    addEventListener(element, 'contextmenu', clickHandler(enable), false);
-                }
-            }
-
-            /*
-             * Add click handlers to anchor and AREA elements, except those to be ignored
-             */
-            function addClickListeners(enable) {
-                var enableType = typeof enable;
-                if (enableType === 'undefined') {
-                    enable = true;
-                }
-
-                linkTrackingInstalled = true;
-
-                addEventListener(documentAlias.body, 'click', clickHandler(enable), true);
-
-                if (enable) {
-                    addEventListener(documentAlias.body, 'mouseup', clickHandler(enable), true);
-                    addEventListener(documentAlias.body, 'mousedown', clickHandler(enable), true);
-                    addEventListener(documentAlias.body, 'contextmenu', clickHandler(enable), true);
+                    addEventListener(element, 'mouseup', clickHandler(enable), useCapture);
+                    addEventListener(element, 'mousedown', clickHandler(enable), useCapture);
+                    addEventListener(element, 'contextmenu', clickHandler(enable), useCapture);
                 }
             }
 
@@ -6045,7 +6025,7 @@ if (typeof window.Matomo !== 'object') {
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
              */
             this.addListener = function (element, enable) {
-                addClickListener(element, enable);
+                addClickListener(element, enable, false);
             };
 
             /**
@@ -6084,7 +6064,10 @@ if (typeof window.Matomo !== 'object') {
                 var self = this;
 
                 trackCallbackOnReady(function () {
-                    addClickListeners(enable, self);
+                    linkTrackingInstalled = true;
+
+                    var element = documentAlias.body;
+                    addClickListener(element, enable, true);
                 });
 
             };
