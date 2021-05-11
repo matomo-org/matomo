@@ -157,6 +157,12 @@ archiving_profile = 0
 ; if set to an absolute path, core:archive profiling information will be logged to specified file
 archive_profiling_log =
 
+; if set to 1, use of a php profiler will be enabled. the profiler will not be activated unless its installation
+; can be detected and the correct query and CLI parameters are supplied to toggle it.
+; Note: this setting is not dependent on development mode, since it is often required to run the profiler with
+; all optimizations and caches enabled.
+enable_php_profiler = 0
+
 [DebugTests]
 ; When set to 1, standalone plugins (those with their own git repositories)
 ; will be loaded when executing tests.

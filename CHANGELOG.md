@@ -17,6 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New config.ini.php settings
 
 * The `password_hash_algorithm`, `password_hash_argon2_threads`, `password_hash_argon2_memory_cost` and `password_hash_argon2_time_cost` INI config options have been added to allow using specific `password_hash` algorithms and options if desired.
+* The `enable_php_profiler` INI config option was added. This must now be set to 1 before profiling is allowed in Matomo.
 
 ## Matomo 4.2.0
 

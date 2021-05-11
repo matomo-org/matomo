@@ -302,6 +302,7 @@ class Profiler
                     $baseUrl = $baseUrlStored;
                 }
                 $baseUrl = $baseUrlStored . "vendor/lox/xhprof/xhprof_html/?source=$profilerNamespace&run=$runId";
+                $baseUrl = Common::sanitizeInputValue($baseUrl);
 
                 $out .= "Profiler report is available at:\n";
                 $out .= "<a href='$baseUrl'>$baseUrl</a>";
