@@ -561,7 +561,7 @@ class FrontController extends Singleton
 
     private function handleProfiler()
     {
-        $profilerEnabled = Config::getInstance()->Development['enable_php_profiler'] == 1;
+        $profilerEnabled = Config::getInstance()->Debug['enable_php_profiler'] == 1;
         if (!$profilerEnabled) {
             return;
         }
