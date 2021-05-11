@@ -77,7 +77,9 @@ FORMAT;
 
     private function cleanMessage($message)
     {
-        return str_replace(PIWIK_INCLUDE_PATH, '{includePath}', $message);
+        $message = trim($message);
+        $message = str_replace(PIWIK_INCLUDE_PATH, '{includePath}', $message);
+        return $message;
     }
 
     /**
