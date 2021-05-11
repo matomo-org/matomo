@@ -52,6 +52,12 @@ class ArchiveTest extends IntegrationTestCase
         $data = $archive->getDataTableFromNumeric([]);
         $this->assertEquals([], $data->getRows());
 
+        $data = $archive->getDataTableFromNumeric(null);
+        $this->assertEquals([], $data->getRows());
+
+        $data = $archive->getDataTableFromNumeric(['']);
+        $this->assertEquals([], $data->getRows());
+
         $archiveRows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_numeric_2014_05') . ' WHERE idsite = 1 AND period = 5');
         $this->assertEquals([], $archiveRows);
     }
