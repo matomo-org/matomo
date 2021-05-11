@@ -493,6 +493,9 @@ class Archive implements ArchiveQuery
 
         $result = new Archive\DataCollection(
             $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
+        if (empty($archiveNames)) {
+            return $result; // NOTE: note posting Archive.noArchivedData here, because there might be archive data, someone just requested nothing
+        }
 
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
