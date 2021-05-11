@@ -70,7 +70,11 @@ class BruteForceDetection {
     {
         $now = $this->getNow()->getDatetime();
         $db = Db::get();
-        $db->query('INSERT INTO '.$this->tablePrefixed.' (ip_address, attempted_at, login) VALUES(?,?,?)', array($ipAddress, $now, $login));
+        try {
+            $db->query('INSERT INTO ' . $this->tablePrefixed . ' (ip_address, attempted_at, login) VALUES(?,?,?)', array($ipAddress, $now, $login));
+        } catch (\Exception $ex) {
+            $this->ignoreExceptionIfThrownDuringOneClickUpdate($ex);
+        }
     }
 
     public function isAllowedToLogin($ipAddress)
@@ -161,7 +165,13 @@ class BruteForceDetection {
 
     public function isUserLoginBlocked($login)
     {
-        $count = $this->model->getTotalLoginAttemptsInLastHourForLogin($login);
+        $count = 0;
+        try {
+            $count = $this->model->getTotalLoginAttemptsInLastHourForLogin($login);
+        } catch (\Exception $ex) {
+            $this->ignoreExceptionIfThrownDuringOneClickUpdate($ex);
+        }
+
         if (!$this->hasTooManyTriesOverallInlastHour($count)) {
             return false;
         }
@@ -208,5 +218,16 @@ class BruteForceDetection {
         $settings = new SystemSettings();
         $threshold = $settings->maxFailedLoginsPerMinutes->getValue() * 3;
         return max(self::OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN, $threshold);
+    }
+
+    private function ignoreExceptionIfThrownDuringOneClickUpdate(\Exception $ex)
+    {
+        // ignore column not found errors during one click update since the db will not be up to date while new code is being used
+        $module = Common::getRequestVar('module', false);
+        if (strpos($ex->getMessage(), 'Unknown column') === false
+            || $module != 'CoreUpdater'
+        ) {
+            throw $ex;
+        }
     }
 }
