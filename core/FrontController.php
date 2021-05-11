@@ -430,9 +430,6 @@ class FrontController extends Singleton
         ) {
             Request::reloadAuthUsingTokenAuth();
             Request::checkTokenAuthIsNotLimited($module, $action);
-            if ($module === 'Widgetize') {
-                Session::close();
-            }
         }
 
         SettingsServer::raiseMemoryLimitIfNecessary();
