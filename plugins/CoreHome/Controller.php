@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
@@ -161,6 +162,9 @@ class Controller extends \Piwik\Plugin\Controller
 
         $notificationId = Common::getRequestVar('notificationId');
         NotificationManager::cancel($notificationId);
+
+        Json::sendHeaderJSON();
+        return json_encode(true);
     }
 
     protected function getDefaultIndexView()
