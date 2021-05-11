@@ -15,6 +15,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\CronArchive;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
@@ -32,6 +33,33 @@ class ArchiveTest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::createWebsite('2014-05-06');
+    }
+
+    public function test_queryingForNoData_doesNotCreateEmptyArchive()
+    {
+        $tracker = Fixture::getTracker(1, '2014-05-07 07:00:00');
+        $tracker->setUrl('http://matomo.net/page/1');
+        Fixture::checkResponse($tracker->doTrackPageView('a page'));
+
+        $tracker->setForceVisitDateTime('2014-05-08 09:00:00');
+        $tracker->setUrl('http://matomo.net/page/2');
+        Fixture::checkResponse($tracker->doTrackPageView('a page'));
+
+        // the table may not be created if we skip archiving logic, so make sure it's created here
+        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'));
+
+        $archive = Archive::factory(new Segment('', [1]), [Factory::build('range', '2014-05-07,2014-05-08')], [1]);
+        $data = $archive->getDataTableFromNumeric([]);
+        $this->assertEquals([], $data->getRows());
+
+        $data = $archive->getDataTableFromNumeric(null);
+        $this->assertEquals([], $data->getRows());
+
+        $data = $archive->getDataTableFromNumeric(['']);
+        $this->assertEquals([], $data->getRows());
+
+        $archiveRows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_numeric_2014_05') . ' WHERE idsite = 1 AND period = 5');
+        $this->assertEquals([], $archiveRows);
     }
 
     public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive()
