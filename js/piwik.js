@@ -5958,7 +5958,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * When you call this method, we imply that the user has given cookie consent for this page view, and will also
              * imply consent for all future page views unless the cookie expires or the user
-             * deletes all her or his cookies. Remembering cookie consent means even if you call {@link disableCookies()},
+             * deletes all their cookies. Remembering cookie consent means even if you call {@link disableCookies()},
              * then cookies will still be enabled and it won't disable cookies since the user has given consent for cookies.
              *
              * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly. Please
@@ -6760,8 +6760,8 @@ if (typeof window.Matomo !== 'object') {
 
             /**
              * When called, no tracking request will be sent to the Matomo server until you have called `setConsentGiven()`
-             * unless consent was given previously AND you called {@link rememberConsentGiven()} when the user gave her
-             * or his consent.
+             * unless consent was given previously AND you called {@link rememberConsentGiven()} when the user gave their
+             * consent.
              *
              * This may be useful when you want to implement for example a popup to ask for consent before tracking the user.
              * Once the user has given consent, you should call {@link setConsentGiven()} or {@link rememberConsentGiven()}.
@@ -6842,7 +6842,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * When you call this method, we imply that the user has given consent for this page view, and will also
              * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
-             * deletes all her or his cookies. This means even if you call {@link requireConsent()}, then all requests
+             * deletes all their cookies. This means even if you call {@link requireConsent()}, then all requests
              * will still be tracked.
              *
              * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly and requires

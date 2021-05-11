@@ -570,10 +570,12 @@ class ArchivingHelper
      */
     private static function createSummaryRow()
     {
-        return new Row(array(
+        $summaryRow = new Row(array(
                             Row::COLUMNS =>
                                 array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
                        ));
+        $summaryRow->setIsSummaryRow(); // this should be set in DataTable::addSummaryRow(), but we set it here as well to be safe
+        return $summaryRow;
     }
 
     private static function splitNameByDelimiter($name, $type)

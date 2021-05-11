@@ -541,6 +541,44 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReport(7, '2014-04-08');
     }
 
+    public function test_markArchivesAsInvalidated_invalidatesPastPurgeThreshold_ifFlagToIgnoreIsProvided()
+    {
+        PrivacyManager::savePurgeDataSettings(array(
+            'delete_logs_enable' => 1,
+            'delete_logs_older_than' => 180,
+        ));
+
+        $dateBeforeThreshold = Date::factory('today')->subDay(190);
+        $thresholdDate = Date::factory('today')->subDay(180);
+
+        $this->insertArchiveRow(1, $dateBeforeThreshold, 'day');
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+        $result = $archiveInvalidator->markArchivesAsInvalidated(array(1), array($dateBeforeThreshold), 'day',
+            null, false, false, null, true);
+
+        $this->assertEquals($thresholdDate->toString(), $result->minimumDateWithLogs);
+
+        $expectedProcessedDates = array($dateBeforeThreshold->toString());
+        $this->assertEquals($expectedProcessedDates, $result->processedDates);
+
+        $this->assertEmpty($result->warningDates);
+
+        $invalidatedArchives = $this->getInvalidatedIdArchives();
+
+        $countInvalidatedArchives = 0;
+        foreach ($invalidatedArchives as $idarchives) {
+            $countInvalidatedArchives += count($idarchives);
+        }
+
+        // the day, day w/ a segment, week, month & year are invalidated
+        $this->assertEquals(1, $countInvalidatedArchives);
+
+        $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
+        $this->assertCount(4, $invalidatedArchiveTableEntries);
+    }
+
     public function test_markArchivesAsInvalidated_DoesNotInvalidateDatesBeforePurgeThreshold()
     {
         PrivacyManager::savePurgeDataSettings(array(
