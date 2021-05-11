@@ -8,9 +8,16 @@
 
 namespace Piwik\Plugins\Login\tests\Integration\Security;
 
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Mail;
+use Piwik\Piwik;
+use Piwik\Plugins\Login\Dao\BruteForceDetectionDao;
+use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\Login\SystemSettings;
+use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CustomBruteForceDetection extends BruteForceDetection {
@@ -31,6 +38,11 @@ class CustomBruteForceDetection extends BruteForceDetection {
         }
 
         return $this->now;
+    }
+
+    protected function getOverallLoginLockoutThreshold()
+    {
+        return 3;
     }
 }
 
@@ -59,7 +71,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->settings->maxFailedLoginsPerMinutes->setValue(5);
         $this->settings->whitelisteBruteForceIps->setValue(array('10.99.99.99'));
         $this->settings->blacklistedBruteForceIps->setValue(array('10.55.55.55'));
-        $this->detection = new CustomBruteForceDetection($this->settings);
+        $this->detection = new CustomBruteForceDetection($this->settings, new \Piwik\Plugins\Login\Model());
     }
 
     public function test_isEnabled_isEnabledByDefault()
@@ -81,26 +93,31 @@ class BruteForceDetectionTest extends IntegrationTestCase
                     'id_brute_force_log' => '1',
                     'ip_address' => '127.0.0.1',
                     'attempted_at' => '2018-09-23 12:39:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '2',
                     'ip_address' => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
                     'attempted_at' => '2018-09-23 12:38:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '3',
                     'ip_address' => '10.1.2.3',
                     'attempted_at' => '2018-09-23 12:37:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '4',
                     'ip_address' => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
                     'attempted_at' => '2018-09-23 12:36:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '5',
                     'ip_address' => '10.1.2.3',
                     'attempted_at' => '2018-09-23 12:35:10',
+                    'login' => null,
                 ),
         );
         $this->assertEquals($expected, $entries);
@@ -129,16 +146,19 @@ class BruteForceDetectionTest extends IntegrationTestCase
                     'id_brute_force_log' => '1',
                     'ip_address' => '127.0.0.1',
                     'attempted_at' => '2018-09-23 12:39:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '4',
                     'ip_address' => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
                     'attempted_at' => '2018-09-03 12:40:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '5',
                     'ip_address' => '10.1.2.3',
                     'attempted_at' => '2018-09-03 12:40:10',
+                    'login' => null,
                 ),
         );
         $this->assertEquals($expected, $entries);
@@ -149,7 +169,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $now = $this->detection->getNow();
         // these should be kept cause they are recent
         $this->addFailedLoginInPast('127.0.0.1', 1);
-        $this->addFailedLoginInPast('10.1.2.3', 2);
+        $this->addFailedLoginInPast('10.1.2.3', 2, 'auser');
 
         $this->detection->setNow($now->subDay(5));
         $this->detection->addFailedAttempt('10.1.2.6');
@@ -170,16 +190,19 @@ class BruteForceDetectionTest extends IntegrationTestCase
                     'id_brute_force_log' => '1',
                     'ip_address' => '127.0.0.1',
                     'attempted_at' => '2018-09-23 12:39:10',
+                    'login' => null,
                 ),
                 array (
                     'id_brute_force_log' => '2',
                     'ip_address' => '10.1.2.3',
                     'attempted_at' => '2018-09-23 12:38:10',
+                    'login' => 'auser',
                 ),
                 array (
                     'id_brute_force_log' => '3',
                     'ip_address' => '10.1.2.6',
                     'attempted_at' => '2018-09-18 12:40:10',
+                    'login' => null,
                 ),
         );
         $this->assertEquals($expected, $entries);
@@ -249,12 +272,69 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertFalse($this->detection->isAllowedToLogin('10.55.55.55'));
     }
 
-    private function addFailedLoginInPast($ipAddress, $minutes)
+    public function test_isUserLoginBlocked_returnsTrueIfThereAreMoreThanTheThresholdNumOfAttempts()
+    {
+        $this->detection->setNow(Date::now());
+
+        $sentMail = null;
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+
+        $this->addFailedAttemptsWithLogin();
+
+        $this->assertTrue($this->detection->isUserLoginBlocked('theuser'));
+        $this->assertNull($sentMail); // user does not exist so no mail sent
+    }
+
+    public function test_isUserLoginBlocked_sendsEmailIfLoginIsForRealUser()
+    {
+        $this->detection->setNow(Date::now());
+
+        API::getInstance()->addUser('theuser', 'averybadpwd', 'someemail@email.com');
+
+        /** @var SuspiciousLoginAttemptsInLastHourEmail $sentMail */
+        $sentMail = null;
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+
+        $this->addFailedAttemptsWithLogin();
+
+        $this->assertTrue($this->detection->isUserLoginBlocked('theuser'));
+        $this->assertNotNull($sentMail);
+        $this->assertInstanceOf(SuspiciousLoginAttemptsInLastHourEmail::class, $sentMail);
+        $this->assertEquals(['someemail@email.com' => ''], $sentMail->getRecipients());
+    }
+
+    public function test_isUserLoginBlocked_returnsFalseIfThereAreLessThanTheThresholdNumOfAttempts()
+    {
+        $this->detection->setNow(Date::now());
+
+        $this->addFailedAttemptsWithLogin();
+
+        $this->assertFalse($this->detection->isUserLoginBlocked('anotheruser'));
+    }
+
+    private function addFailedLoginInPast($ipAddress, $minutes, $login = null)
     {
         $now = $this->detection->getNow();
         $this->detection->setNow($now->subPeriod($minutes, 'minute'));
-        $this->detection->addFailedAttempt($ipAddress);
+        $this->detection->addFailedAttempt($ipAddress, $login);
         $this->detection->setNow($now);
+    }
+
+    private function addFailedAttemptsWithLogin()
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $this->addFailedLoginInPast('10.99.99.' . $i, $i * 5, 'theuser');
+        }
+
+        for ($i = 0; $i < 2; $i++) {
+            $this->addFailedLoginInPast('10.99.99.' . $i, $i * 5, 'anotheruser');
+        }
+
+        $this->addFailedLoginInPast('10.99.88.1', 75, 'theuser');
     }
 
 }
