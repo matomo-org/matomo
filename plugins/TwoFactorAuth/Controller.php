@@ -96,7 +96,7 @@ class Controller extends \Piwik\Plugin\Controller
                     try {
                         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
                         if ($bruteForce->isEnabled()) {
-                            $bruteForce->addFailedAttempt(IP::getIpFromHeader());
+                            $bruteForce->addFailedAttempt(IP::getIpFromHeader(), Piwik::getCurrentUserLogin());
                         }
                     } catch (Exception $e) {
                         // ignore error eg if login plugin is disabled
