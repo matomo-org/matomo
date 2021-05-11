@@ -183,7 +183,12 @@ class BruteForceDetection {
         $distinctIps = $this->model->getDistinctIpsAttemptingLoginsInLastHour($login);
 
         try {
-            $email = new SuspiciousLoginAttemptsInLastHourEmail($login, $countOverall, $distinctIps);
+            // create from DI container so plugins can modify email contents if they want
+            $email = StaticContainer::getContainer()->make(SuspiciousLoginAttemptsInLastHourEmail::class, [
+                'login' => $login,
+                'countOverall' => $countOverall,
+                'countDistinctIps' => $distinctIps
+            ]);
             $email->send();
 
             $this->model->markSuspiciousLoginsNotifiedEmailSent($login);
