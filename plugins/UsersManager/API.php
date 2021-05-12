@@ -729,7 +729,7 @@ class API extends \Piwik\Plugin\API
             'login' => Piwik::getCurrentUserLogin(),
             'emailAddress' => Piwik::getCurrentUserEmail()
         ));
-        $email->send();
+        $email->safeSend();
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
@@ -1002,7 +1002,7 @@ class API extends \Piwik\Plugin\API
             'login' => Piwik::getCurrentUserLogin(),
             'emailAddress' => Piwik::getCurrentUserEmail()
         ));
-        $email->send();
+        $email->safeSend();
 
         Cache::deleteTrackerCache();
     }

@@ -90,7 +90,7 @@ class API extends \Piwik\Plugin\API
                 'emailAddress' => Piwik::getCurrentUserEmail(),
                 'pluginName' => $pluginName
             ));
-            $email->send();
+            $email->safeSend();
 
             foreach ($superuserEmails as $superuserEmail) {
                 if ($superuserEmail !== Piwik::getCurrentUserEmail()) {
@@ -100,7 +100,7 @@ class API extends \Piwik\Plugin\API
                         'pluginName' => $pluginName,
                         'superuser' => Piwik::getCurrentUserLogin()
                     ));
-                    $email->send();
+                    $email->safeSend();
                 }
             }
         }

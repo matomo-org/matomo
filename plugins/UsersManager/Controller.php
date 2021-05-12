@@ -337,7 +337,7 @@ class Controller extends ControllerAdmin
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail()
                 ));
-                $email->send();
+                $email->safeSend();
             } elseif (is_numeric($idTokenAuth)) {
                 $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
 
@@ -350,7 +350,7 @@ class Controller extends ControllerAdmin
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail()
                 ));
-                $email->send();
+                $email->safeSend();
             }
         }
 
@@ -387,7 +387,7 @@ class Controller extends ControllerAdmin
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail()
             ));
-            $email->send();
+            $email->safeSend();
 
             return $this->renderTemplate('addNewTokenSuccess', array('generatedToken' => $generatedToken));
         } elseif (isset($_POST['description'])) {

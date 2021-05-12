@@ -157,7 +157,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail()
             ));
-            $email->send();
+            $email->safeSend();
 
             $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
                 'disableNonce' => false
@@ -234,7 +234,7 @@ class Controller extends \Piwik\Plugin\Controller
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail()
                 ));
-                $email->send();
+                $email->safeSend();
 
                 if ($standalone) {
                     $this->redirectToIndex('CoreHome', 'index');
@@ -303,7 +303,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail()
             ));
-            $email->send();
+            $email->safeSend();
             // no need to redirect as password was verified nonce
             // if user has posted a valid nonce, we do not need to require password again as nonce must have been generated recent
             // avoids use case where eg password verify is only valid for one more minute when opening the page but user regenerates 2min later
@@ -317,7 +317,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail()
             ));
-            $email->send();
+            $email->safeSend();
         }
 
         if (!$postedValidNonce && !empty($regenerateNonce)) {
