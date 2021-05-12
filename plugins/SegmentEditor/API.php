@@ -406,7 +406,7 @@ class API extends \Piwik\Plugin\API
         foreach ($segments as &$segmentInfo) {
             $idSites = !empty($segmentInfo['enable_only_idsite']) ? [(int) $segmentInfo['enable_only_idsite']] : $allIdSites;
             try {
-                $segmentObj = new Segment($segmentInfo['definition'], $idSites);
+                $segmentObj = new Segment($segmentInfo['definition'], $idSites, Date::yesterday(), Date::now());
                 $segmentInfo['hash'] = $segmentObj->getHash();
             } catch (\Exception $ex) {
                 $segmentInfo['hash'] = 'INVALID SEGMENT';
