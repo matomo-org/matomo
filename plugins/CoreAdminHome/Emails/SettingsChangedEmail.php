@@ -35,16 +35,10 @@ class SettingsChangedEmail extends SecurityNotificationEmail
 
     protected function getBody()
     {
-        $pluginNameMap = [
-            'Login' => 'Brute Force',
-            'TwoFactorAuth' => 'Two-factor auth',
-            'CoreAdminHome' => 'CORS'
-        ];
-
         if ($this->superuser) {
-            return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByOtherSuperUserBody', [$this->superuser, $pluginNameMap[$this->pluginName]]);
+            return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByOtherSuperUserBody', [$this->superuser, SecurityNotificationEmail::$notifyPluginList[$this->pluginName]]);
         }
 
-        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [$pluginNameMap[$this->pluginName]]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [SecurityNotificationEmail::$notifyPluginList[$this->pluginName]]);
     }
 }

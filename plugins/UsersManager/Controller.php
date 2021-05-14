@@ -335,10 +335,13 @@ class Controller extends ControllerAdmin
                 $container = StaticContainer::getContainer();
                 $email = $container->make(TokenAuthDeletedEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
-                    'emailAddress' => Piwik::getCurrentUserEmail()
+                    'emailAddress' => Piwik::getCurrentUserEmail(),
+                    'tokenDescription' => '',
+                    'all' => true
                 ));
                 $email->safeSend();
             } elseif (is_numeric($idTokenAuth)) {
+                $description = $this->userModel->getUserTokenDescriptionByIdTokenAuth($idTokenAuth, Piwik::getCurrentUserLogin());
                 $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
 
                 $notification = new Notification(Piwik::translate('UsersManager_TokenSuccessfullyDeleted'));
@@ -348,7 +351,8 @@ class Controller extends ControllerAdmin
                 $container = StaticContainer::getContainer();
                 $email = $container->make(TokenAuthDeletedEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
-                    'emailAddress' => Piwik::getCurrentUserEmail()
+                    'emailAddress' => Piwik::getCurrentUserEmail(),
+                    'tokenDescription' => $description
                 ));
                 $email->safeSend();
             }
@@ -385,7 +389,8 @@ class Controller extends ControllerAdmin
             $container = StaticContainer::getContainer();
             $email = $container->make(TokenAuthCreatedEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail()
+                'emailAddress' => Piwik::getCurrentUserEmail(),
+                'tokenDescription' => $description
             ));
             $email->safeSend();
 

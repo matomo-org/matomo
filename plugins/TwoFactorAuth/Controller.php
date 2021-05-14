@@ -232,7 +232,8 @@ class Controller extends \Piwik\Plugin\Controller
                 $container = StaticContainer::getContainer();
                 $email = $container->make(TwoFactorAuthEnabledEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
-                    'emailAddress' => Piwik::getCurrentUserEmail()
+                    'emailAddress' => Piwik::getCurrentUserEmail(),
+                    'superuserEmails' => Piwik::getAllSuperUserAccessEmailAddresses()
                 ));
                 $email->safeSend();
 
@@ -312,6 +313,12 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('You have to verify your password first.');
         }
 
+        if (!$postedValidNonce && !empty($regenerateNonce)) {
+            $regenerateError = true;
+        }
+
+        $recoveryCodes = $this->recoveryCodeDao->getAllRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
+
         if (!$regenerateSuccess && !$regenerateError) {
             $email = $container->make(RecoveryCodesShowedEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
@@ -319,12 +326,6 @@ class Controller extends \Piwik\Plugin\Controller
             ));
             $email->safeSend();
         }
-
-        if (!$postedValidNonce && !empty($regenerateNonce)) {
-            $regenerateError = true;
-        }
-
-        $recoveryCodes = $this->recoveryCodeDao->getAllRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
 
         return $this->renderTemplate('showRecoveryCodes', array(
             'codes' => $recoveryCodes,

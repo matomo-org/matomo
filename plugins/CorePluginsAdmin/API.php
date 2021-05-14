@@ -15,6 +15,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Version;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\Emails\SettingsChangedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;
 
 /**
  * API for plugin CorePluginsAdmin
@@ -63,8 +64,7 @@ class API extends \Piwik\Plugin\API
 
         $this->settingsMetadata->setPluginSettings($pluginsSettings, $settingValues);
 
-        $sendSettingsChangedNotificationEmail = false;
-        $notifyPluginList = ['Login', 'TwoFactorAuth', 'CoreAdminHome'];
+        $sendSettingsChangedNotificationEmailPlugins = [];
 
         try {
             foreach ($pluginsSettings as $pluginSetting) {
@@ -72,8 +72,8 @@ class API extends \Piwik\Plugin\API
                     $pluginSetting->save();
 
                     $pluginName = $pluginSetting->getPluginName();
-                    if (in_array($pluginSetting->getPluginName(), $notifyPluginList)) {
-                        $sendSettingsChangedNotificationEmail = true;
+                    if (in_array($pluginName, array_keys(SecurityNotificationEmail::$notifyPluginList))) {
+                        $sendSettingsChangedNotificationEmailPlugins[] = $pluginName;
                     }
                 }
             }
@@ -81,14 +81,14 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'));
         }
 
-        if ($sendSettingsChangedNotificationEmail) {
+        foreach ($sendSettingsChangedNotificationEmailPlugins as $plugin) {
             $container = StaticContainer::getContainer();
             $superuserEmails = Piwik::getAllSuperUserAccessEmailAddresses();
 
             $email = $container->make(SettingsChangedEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
-                'pluginName' => $pluginName
+                'pluginName' => $plugin
             ));
             $email->safeSend();
 
@@ -97,7 +97,7 @@ class API extends \Piwik\Plugin\API
                     $email = $container->make(SettingsChangedEmail::class, array(
                         'login' => $superuserEmail,
                         'emailAddress' => $superuserEmail,
-                        'pluginName' => $pluginName,
+                        'pluginName' => $plugin,
                         'superuser' => Piwik::getCurrentUserLogin()
                     ));
                     $email->safeSend();

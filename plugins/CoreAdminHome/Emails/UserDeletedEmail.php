@@ -14,8 +14,20 @@ use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;
 
 class UserDeletedEmail extends SecurityNotificationEmail
 {
+    /**
+     * @var string
+     */
+    private $userLogin;
+
+    public function __construct($login, $emailAddress, $userLogin)
+    {
+        $this->userLogin = $userLogin;
+
+        parent::__construct($login, $emailAddress);
+    }
+
     protected function getBody()
     {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationUserDeletedBody');
+        return Piwik::translate('CoreAdminHome_SecurityNotificationUserDeletedBody', [$this->userLogin]);
     }
 }

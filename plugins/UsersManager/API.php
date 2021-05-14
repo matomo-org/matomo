@@ -727,7 +727,8 @@ class API extends \Piwik\Plugin\API
         $container = StaticContainer::getContainer();
         $email = $container->make(UserCreatedEmail::class, array(
             'login' => Piwik::getCurrentUserLogin(),
-            'emailAddress' => Piwik::getCurrentUserEmail()
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'userLogin' => $userLogin
         ));
         $email->safeSend();
 
@@ -1000,7 +1001,8 @@ class API extends \Piwik\Plugin\API
         $container = StaticContainer::getContainer();
         $email = $container->make(UserDeletedEmail::class, array(
             'login' => Piwik::getCurrentUserLogin(),
-            'emailAddress' => Piwik::getCurrentUserEmail()
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'userLogin' => $userLogin
         ));
         $email->safeSend();
 

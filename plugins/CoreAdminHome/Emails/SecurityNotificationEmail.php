@@ -12,11 +12,15 @@ namespace Piwik\Plugins\CoreAdminHome\Emails;
 use Piwik\Mail;
 use Piwik\View;
 use Piwik\Piwik;
-use Psr\Log\LoggerInterface;
-use Piwik\Container\StaticContainer;
 
 abstract class SecurityNotificationEmail extends Mail
 {
+    public static $notifyPluginList = [
+        'Login' => 'Brute Force',
+        'TwoFactorAuth' => 'Two-factor auth',
+        'CoreAdminHome' => 'CORS'
+    ];
+
     /**
      * @var string
      */
@@ -75,16 +79,6 @@ abstract class SecurityNotificationEmail extends Mail
         $view->body = $this->getBody();
 
         return $view;
-    }
-
-    public function safeSend()
-    {
-        try {
-            $this->send();
-        } catch (\Exception $e) {
-            // we do nothing but log if the email send was unsuccessful
-            StaticContainer::get(LoggerInterface::class)->warning('Could not send {class} email: {exception}', ['class' => get_class($this), 'exception' => $e]);
-        }
     }
 
     abstract protected function getBody();
