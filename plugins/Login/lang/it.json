@@ -44,6 +44,13 @@
         "WrongPasswordEntered": "Si prega di inserire la tua password corretta.",
         "ConfirmPasswordToContinue": "Conferma la tua password per continuare",
         "PluginDescription": "Fornisce l'autenticazione tramite user name e password, e anche la funzione di reset della password. Il metodo di autenticazione può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap disponibile nel Marketplace.",
-        "RememberMe": "Ricordami"
+        "RememberMe": "Ricordami",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Abbiamo notato alcuni tentativi di accesso sospetti al tuo account ...",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Abbiamo notato un numero sospetto di tentativi di accesso al tuo account Matomo nell'ultima ora, in particolare %1$s tentativi di accesso da %2$s indirizzi IP distinti. Sospettiamo che qualcuno stia tentando di entrare nel tuo account.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Per salvaguardare il tuo Matomo, ti consigliamo di prendere le seguenti precauzioni:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Assicurati che la tua password sia sicura, casuale e di lunghezza appropriata (ad esempio, almeno 30 caratteri).",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Imposta l'autenticazione a due fattori in modo che gli intrusi abbiano bisogno di più informazioni, oltre alla tua password, per accedere.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Inoltre, se il tuo Matomo ha un numero limitato di utenti o di IP da cui gli utenti accedono, potrebbe essere utile impostare un elenco di indirizzi IP consentiti. %1$sLeggi la nostra documentazione per ulteriori informazioni.%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "La funzionalità di accesso è temporaneamente disabilitata poiché nell'ultima ora è stato rilevato un numero sospetto di tentativi di accesso non riusciti."
     }
 }
