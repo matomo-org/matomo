@@ -44,6 +44,13 @@
         "WrongPasswordEntered": "Lütfen doğru parolayı yazın.",
         "ConfirmPasswordToContinue": "Devam etmek için parolanızı yazın",
         "PluginDescription": "Kullanıcı adı ve parola ile kimlik doğrulaması yapar. Ek olarak parola sıfırlama seçeneği bulunur. Kimlik doğrulama yöntemi, mağazadan alınabilecek LoginLdap gibi başka bir oturum açma uygulama eki kullanılarak değiştirilebilir.",
-        "RememberMe": "Bilgilerim Hatırlansın"
+        "RememberMe": "Bilgilerim Hatırlansın",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Hesabınızda bazı şüpheli oturum açma girişimleri fark ettik ...",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Son bir saat içinde Matomo hesabınızda şüphe uyandıracak kadar çok sayıda oturum açma girişimi fark ettik. %2$s farklı IP adresinden %1$s oturum açma girişiminde bulunuldu. Birilerinin hesabınızı ele geçirmeye çalıştığından şüpheleniyoruz.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Matomo hesabınızı korumak için şu önlemleri almanızı öneriyoruz:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Parolanızın güvenli olduğundan emin olun. Yeterli uzunlukta (en az 30 karakter) rastgele bir parola kullanın.",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "İki aşamalı kimlik doğrulaması kullanın. Böylece saldırganlar yalnızca parolanızı ele geçirerek oturum açamaz.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Ek olarak, Matomo uygulamanıza, erişen kullanıcıların sayısı ya da IP adresleri sınırlı ise, bir IP adresi beyaz listesi oluşturmak faydalı olabilir. %1$sAyrıntılı bilgi almak için belgeler bölümüne bakabilirsiniz.%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "Son bir saat içinde hesabınızda şüpheli sayıda başarısız oturum açma girişiminde bulunulduğundan oturum açma özelliği geçici olarak devre dışı bırakıldı."
     }
 }
