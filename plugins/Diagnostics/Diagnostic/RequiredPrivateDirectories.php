@@ -124,8 +124,9 @@ class RequiredPrivateDirectories implements Diagnostic
         $testUrl = $baseUrl . 'config/config.ini.php';
         try {
             $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
+            $status = $response['status'];
 
-            $isAccessible = $response['status'] >= 200 && $response['status'] < 300;
+            $isAccessible = !($status >= 400 && $status < 500);
             if ($isAccessible) {
                 $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                 return true;
