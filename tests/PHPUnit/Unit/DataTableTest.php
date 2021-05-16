@@ -453,6 +453,26 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $table->getSerialized();
     }
 
+    public function test_getSerialized_SerializesSubtablesOfSummaryRows()
+    {
+        $table = new DataTable;
+        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'dimval1', 'visits' => 245)));
+
+        $summaryRow = new Row([Row::COLUMNS => ['label' => 'others', 'visits' => 500]]);
+
+        $summaryRowSubtable = new DataTable;
+        $summaryRowSubtable->addRow(new Row([Row::COLUMNS => ['label' => 'subtabledimension', 'visits' => 100]]));
+        $summaryRow->setSubtable($summaryRowSubtable);
+
+        $table->addSummaryRow($summaryRow);
+
+        $results = $table->getSerialized();
+
+        $this->assertCount(2, $results);
+        $this->assertStringContainsString('dimval1', $results[0]);
+        $this->assertStringContainsString('subtabledimension', $results[1]);
+    }
+
     /**
      * Test queing filters
      */

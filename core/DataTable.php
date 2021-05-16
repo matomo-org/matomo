@@ -1317,10 +1317,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $consecutiveSubtableIds = array();
         $forcedId = $subtableId;
 
-        // For each row, get the serialized row
+        // For each row (including the summary row), get the serialized row
         // If it is associated to a sub table, get the serialized table recursively ;
         // but returns all serialized tables and subtable in an array of 1 dimension
-        foreach ($this->rows as $id => $row) {
+        foreach ($this->getRows() as $id => $row) {
             $subTable = $row->getSubtable();
             if ($subTable) {
                 $consecutiveSubtableIds[$id] = ++$subtableId;
