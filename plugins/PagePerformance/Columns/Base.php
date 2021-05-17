@@ -37,6 +37,12 @@ abstract class Base extends ActionDimension
             throw new InvalidRequestParameterException(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
+        // ignore obviously incorrect values (nothing should take more than 1 hour to load)
+        // refs https://github.com/matomo-org/matomo/issues/17035
+        if ($time > 3600000) {
+            return false;
+        }
+
         return $time;
     }
 }
