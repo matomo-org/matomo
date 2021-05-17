@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for sending mails
