@@ -88,6 +88,24 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($tracker->idPageview, 0, 66, 445, 1025, 12, 111);
     }
 
+    public function test_shouldNotUseObviouslyTooHighNumbers()
+    {
+        $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
+        $tracker->setUrl('http://example.org/test');
+        Fixture::checkResponse($tracker->doTrackPageView('My Page'));
+
+        $idPageView = $tracker->idPageview;
+
+        $this->checkActionHasTimings($idPageView);
+
+        $tracker->setPerformanceTimings(6525265942, 6525265942, 6525265942, 6525265942, 6525265942, 111);
+        $tracker->setUrl('http://example.org/test2');
+        Fixture::checkResponse($tracker->doTrackPageView('Another Page'));
+
+        $this->checkActionHasTimings($idPageView);
+        $this->checkActionHasTimings($tracker->idPageview, null, null, null, null, null, 111);
+    }
+
     protected function checkActionHasTimings($pageViewId, $network = null, $server = null, $transfer = null, $domProcessing = null, $domCompletion = null, $onload = null)
     {
         $result = Db::fetchRow(
