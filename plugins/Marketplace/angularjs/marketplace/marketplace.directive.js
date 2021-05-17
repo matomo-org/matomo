@@ -37,6 +37,8 @@
                             after: 'a.more',
                             watch: 'window'
                         });
+                        
+                        piwik.helper.compileAngularComponents(element.find('[piwik-plugin-name]'));
 
                         function syncMaxHeight2 (selector) {
 
