@@ -155,8 +155,8 @@
         "SecurityNotificationUserDeletedBody": "Someone deleted a user (login: %s) in your account. If it was you, carry on. If you don't recognize this activity, please reset your password.",
         "SecurityNotificationIfItWasYou": "If it was you, carry on. If you don't recognize this activity, please reset your password.",
         "SecurityNotificationCheckTwoFactor": "Please check your two-factor authentication app or device.",
-        "SecurityNotifitcationBruteForce": "Brute Force",
-        "SecurityNotifitcationTwoFactorAuth": "Two-factor auth",
-        "SecurityNotifitcationCors": "Cors"
+        "BruteForce": "Brute Force",
+        "TwoFactorAuth": "Two-factor auth",
+        "Cors": "Cors"
     }
 }

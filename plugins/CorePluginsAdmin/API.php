@@ -81,28 +81,8 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'));
         }
 
-        foreach ($sendSettingsChangedNotificationEmailPlugins as $plugin) {
-            $container = StaticContainer::getContainer();
-            $superuserEmails = Piwik::getAllSuperUserAccessEmailAddresses();
-
-            $email = $container->make(SettingsChangedEmail::class, array(
-                'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail(),
-                'pluginName' => $plugin
-            ));
-            $email->safeSend();
-
-            foreach ($superuserEmails as $superuserEmail) {
-                if ($superuserEmail !== Piwik::getCurrentUserEmail()) {
-                    $email = $container->make(SettingsChangedEmail::class, array(
-                        'login' => $superuserEmail,
-                        'emailAddress' => $superuserEmail,
-                        'pluginName' => $plugin,
-                        'superuser' => Piwik::getCurrentUserLogin()
-                    ));
-                    $email->safeSend();
-                }
-            }
+        if (count($sendSettingsChangedNotificationEmailPlugins) > 0) {
+            $this->sendNotificationEmails($sendSettingsChangedNotificationEmailPlugins);
         }
     }
 
@@ -169,6 +149,42 @@ class API extends \Piwik\Plugin\API
         $loginCurrentUser = Piwik::getCurrentUserLogin();
         if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+        }
+    }
+
+    private function sendNotificationEmails($sendSettingsChangedNotificationEmailPlugins)
+    {
+        $pluginNames = [];
+        foreach ($sendSettingsChangedNotificationEmailPlugins as $plugin) {
+            $pluginNames[] = Piwik::translate(SettingsChangedEmail::$notifyPluginList[$plugin]);
+        }
+        $pluginNames = implode(', ', $pluginNames);
+
+        $container = StaticContainer::getContainer();
+
+        $email = $container->make(SettingsChangedEmail::class, array(
+            'login' => Piwik::getCurrentUserLogin(),
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'pluginNames' => $pluginNames
+        ));
+        $email->safeSend();
+
+        $superuserEmailAddresses = Piwik::getAllSuperUserAccessEmailAddresses();
+        unset($superuserEmailAddresses[Piwik::getCurrentUserLogin()]);
+        $superUserEmail = false;
+
+        foreach ($superuserEmailAddresses as $address) {
+            $superUserEmail = $superUserEmail ?: $container->make(SettingsChangedEmail::class, array(
+                'login' => Piwik::translate('Installation_SuperUser'),
+                'emailAddress' => $address,
+                'pluginNames' => $pluginNames,
+                'superuser' => Piwik::getCurrentUserLogin()
+            ));
+            $superUserEmail->addTo($address);
+        }
+
+        if ($superUserEmail) {
+            $superUserEmail->safeSend();
         }
     }
 }

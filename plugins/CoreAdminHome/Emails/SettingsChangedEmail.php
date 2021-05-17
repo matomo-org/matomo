@@ -22,23 +22,22 @@ class SettingsChangedEmail extends SecurityNotificationEmail
     /**
      * @var string
      */
-    private $pluginName;
+    private $pluginNames;
 
-    public function __construct($login, $emailAddress, $pluginName, $superuser = null)
+    public function __construct($login, $emailAddress, $pluginNames, $superuser = null)
     {
-        $this->pluginName = $pluginName;
+        $this->pluginNames = $pluginNames;
         $this->superuser = $superuser;
 
         parent::__construct($login, $emailAddress);
     }
 
-
     protected function getBody()
     {
         if ($this->superuser) {
-            return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByOtherSuperUserBody', [$this->superuser, SecurityNotificationEmail::$notifyPluginList[$this->pluginName]]);
+            return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByOtherSuperUserBody', [$this->superuser, $this->pluginNames]);
         }
 
-        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [SecurityNotificationEmail::$notifyPluginList[$this->pluginName]]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [$this->pluginNames]);
     }
 }
