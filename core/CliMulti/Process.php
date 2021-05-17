@@ -210,7 +210,7 @@ class Process
             return false;
         }
 
-        if (!self::commandExists('ps') || !self::returnsSuccessCode('ps') || !self::commandExists('awk')) {
+        if (!self::returnsSuccessCode('ps --version') || !self::returnsSuccessCode('awk --version')) {
             return false;
         }
 
@@ -257,13 +257,6 @@ class Process
         $returnCode = shell_exec($exec);
         $returnCode = trim($returnCode);
         return 0 == (int) $returnCode;
-    }
-
-    private static function commandExists($command)
-    {
-        $result = @shell_exec('which ' . escapeshellarg($command) . ' 2> /dev/null');
-
-        return !empty($result);
     }
 
     /**
