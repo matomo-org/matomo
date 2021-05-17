@@ -210,7 +210,7 @@ class Process
             return false;
         }
 
-        if (!self::returnsSuccessCode('ps --version') || !self::returnsSuccessCode('awk --version')) {
+        if (!self::returnsSuccessCode('ps') || !self::returnsSuccessCode('awk')) {
             return false;
         }
 
