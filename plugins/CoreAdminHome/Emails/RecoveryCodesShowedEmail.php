@@ -16,6 +16,6 @@ class RecoveryCodesShowedEmail extends SecurityNotificationEmail
 {
     protected function getBody()
     {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationRecoveryCodesShowedBody');
+        return Piwik::translate('CoreAdminHome_SecurityNotificationRecoveryCodesShowedBody') . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

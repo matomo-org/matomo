@@ -16,6 +16,6 @@ class TwoFactorAuthDisabledEmail extends SecurityNotificationEmail
 {
     protected function getBody()
     {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationTwoFactorAuthDisabledBody');
+        return Piwik::translate('CoreAdminHome_SecurityNotificationTwoFactorAuthDisabledBody') . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

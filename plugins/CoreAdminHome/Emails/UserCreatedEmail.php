@@ -28,6 +28,6 @@ class UserCreatedEmail extends SecurityNotificationEmail
 
     protected function getBody()
     {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationUserCreatedBody', [$this->userLogin]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationUserCreatedBody', [$this->userLogin]) . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

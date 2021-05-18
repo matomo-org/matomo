@@ -28,6 +28,6 @@ class TokenAuthCreatedEmail extends SecurityNotificationEmail
 
     protected function getBody()
     {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationTokenAuthCreatedBody', [$this->tokenDescription]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationTokenAuthCreatedBody', [$this->tokenDescription]) . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

@@ -35,9 +35,9 @@ class TokenAuthDeletedEmail extends SecurityNotificationEmail
     protected function getBody()
     {
         if ($this->all) {
-            return Piwik::translate('CoreAdminHome_SecurityNotificationAllTokenAuthDeletedBody');
+            return Piwik::translate('CoreAdminHome_SecurityNotificationAllTokenAuthDeletedBody') . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
         }
 
-        return Piwik::translate('CoreAdminHome_SecurityNotificationTokenAuthDeletedBody', [$this->tokenDescription]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationTokenAuthDeletedBody', [$this->tokenDescription]) . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

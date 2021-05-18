@@ -38,6 +38,6 @@ class SettingsChangedEmail extends SecurityNotificationEmail
             return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByOtherSuperUserBody', [$this->superuser, $this->pluginNames]);
         }
 
-        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [$this->pluginNames]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationSettingsChangedByUserBody', [$this->pluginNames]) . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

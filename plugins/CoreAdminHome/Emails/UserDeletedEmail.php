@@ -28,6 +28,6 @@ class UserDeletedEmail extends SecurityNotificationEmail
 
     protected function getBody()
     {
-        return Piwik::translate('CoreAdminHome_SecurityNotificationUserDeletedBody', [$this->userLogin]);
+        return Piwik::translate('CoreAdminHome_SecurityNotificationUserDeletedBody', [$this->userLogin]) . ' ' . Piwik::translate('UsersManager_IfThisWasYouPasswordChange');
     }
 }

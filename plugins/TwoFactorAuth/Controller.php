@@ -232,8 +232,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $container = StaticContainer::getContainer();
                 $email = $container->make(TwoFactorAuthEnabledEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
-                    'emailAddress' => Piwik::getCurrentUserEmail(),
-                    'superuserEmails' => Piwik::getAllSuperUserAccessEmailAddresses()
+                    'emailAddress' => Piwik::getCurrentUserEmail()
                 ));
                 $email->safeSend();
 
