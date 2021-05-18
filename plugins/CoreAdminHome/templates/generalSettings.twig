@@ -182,6 +182,7 @@
             <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
                 {% if fileUploadEnabled %}
                     <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
+                    <input type="hidden" name="force_api_session" value="1"/>
 
                     {% if logosWriteable %}
                         <div class="alert alert-warning uploaderror" style="display:none;">
