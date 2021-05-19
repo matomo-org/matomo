@@ -566,10 +566,11 @@ class Visualization extends ViewDataTable
         $dateText = $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
         $date     = Date::factory($dateText);
         $today    = mktime(0, 0, 0);
+        $metricsFormatter = new HtmlFormatter();
 
         if ($date->getTimestamp() > $today) {
             $elapsedSeconds = time() - $date->getTimestamp();
-            $timeAgo        = $this->metricsFormatter->getPrettyTimeFromSeconds($elapsedSeconds);
+            $timeAgo        = $metricsFormatter->getPrettyTimeFromSeconds($elapsedSeconds);
 
             return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }
