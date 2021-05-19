@@ -108,6 +108,10 @@ class Feedback extends \Piwik\Plugin
 
     public function showReferBanner()
     {
+        if ($this->getShouldPromptForFeedback()) {
+            return false;
+        }
+
         if (Piwik::isUserIsAnonymous()) {
             return false;
         }
@@ -135,7 +139,12 @@ class Feedback extends \Piwik\Plugin
         $nextReminderDate = $referReminder->getUserOption();
 
         if ($nextReminderDate === false) {
-            return true;
+            $nextReminder = Date::now()->getStartOfDay()->addDay(6 * 30)->toString('Y-m-d');
+
+            $referReminder = new ReferReminder();
+            $referReminder->setUserOption($nextReminder);
+
+            return false;
         }
 
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
