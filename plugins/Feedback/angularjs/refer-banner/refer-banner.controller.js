@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReferBannerController', ReferBannerController);
 
-    ReferBannerController.$inject = ['$scope'];
+    ReferBannerController.$inject = ['$scope', '$timeout'];
 
-    function ReferBannerController($scope) {
+    function ReferBannerController($scope, $timeout) {
         var setNextReminder = function(nextReminder) {
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({'module': 'Feedback', 'action': 'updateReferReminderDate'}, 'GET');
@@ -17,24 +17,34 @@
             ajaxHandler.send();
         };
 
-        var closeBanner = function() {
+        var remindMeLater = function() {
             $scope.referBanner.show = false;
 
-            if ($scope.referBanner.shared === false) {
-                setNextReminder(6 * 30);
-            }
+            setNextReminder(6 * 30);
+        };
+
+        var dontShowAgain = function() {
+            $scope.referBanner.show = false;
+
+            setNextReminder(-1);
         };
 
         var share = function() {
+            var modal = M.Modal.getInstance($('.modal.open'));
+
+            if (modal) {
+                modal.close();
+            }
+
             $scope.referBanner.showThanks = true;
-            $scope.referBanner.shared = true;
+            $scope.referBanner.show = false;
 
             setNextReminder(-1);
         }
 
         $scope.socialUrl = function (type) {
             var text = _pk_translate('Feedback_ReferBannerSocialShareText');
-            var url = 'https://matomo.org/google-owns-your-data/?pk_campaign=share&pk_kwd=onpremise';
+            var url = 'https://matomo.org/?pk_campaign=share&pk_kwd=onpremise';
 
             if (type === 'twitter') {
                 var base = 'https://twitter.com/intent/tweet?';
@@ -83,15 +93,16 @@
         }
 
         var init = function() {
-            $scope.referBanner.show = false;
             $scope.referBanner.showThanks = false;
-            $scope.referBanner.closeBanner = closeBanner;
+            $scope.referBanner.remindMeLater = remindMeLater;
+            $scope.referBanner.dontShowAgain = dontShowAgain;
             $scope.referBanner.share = share;
-            $scope.referBanner.shared = false;
 
             if ($scope.showReferBanner === 1) {
-                $scope.referBanner.show = true;
-            };
+                $timeout(function() {
+                    $scope.referBanner.show = true;
+                });
+            }
         };
 
         init();
