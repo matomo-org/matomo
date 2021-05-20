@@ -140,9 +140,7 @@ class Feedback extends \Piwik\Plugin
         $nextReminderDate = $referReminder->getUserOption();
 
         if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(6 * 30)->toString('Y-m-d');
-
-            $referReminder = new ReferReminder();
+            $nextReminder = Date::now()->getStartOfDay()->addDay(135)->toString('Y-m-d');
             $referReminder->setUserOption($nextReminder);
 
             return false;
@@ -177,17 +175,15 @@ class Feedback extends \Piwik\Plugin
         }
 
         if ($nextReminderDate === false) {
-            $model = new Model();
-            $user = $model->getUser(Piwik::getCurrentUserLogin());
-            if (empty($user['date_registered'])) {
-                return false;
-            }
-            $nextReminderDate = Date::factory($user['date_registered'])->addDay(90)->getStartOfDay();
-        } else {
-            $nextReminderDate = Date::factory($nextReminderDate);
+            $nextReminder = Date::now()->getStartOfDay()->addDay(90)->toString('Y-m-d');
+            $feedbackReminder->setUserOption($nextReminder);
+
+            return false;
         }
 
         $now = Date::now()->getTimestamp();
+        $nextReminderDate = Date::factory($nextReminderDate);
+
         return $nextReminderDate->getTimestamp() <= $now;
     }
 
