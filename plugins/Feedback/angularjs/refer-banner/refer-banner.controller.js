@@ -30,7 +30,16 @@
         };
 
         var share = function() {
+            var modal = M.Modal.getInstance($('.modal.open'));
+
+            if (modal) {
+                modal.close();
+            }
+
             $scope.referBanner.showThanks = true;
+            $scope.referBanner.show = false;
+
+            setNextReminder(-1);
         }
 
         $scope.socialUrl = function (type) {
@@ -91,7 +100,6 @@
 
             if ($scope.showReferBanner === 1) {
                 $timeout(function() {
-                    $scope.referBanner.dialog = {};
                     $scope.referBanner.show = true;
                 });
             }

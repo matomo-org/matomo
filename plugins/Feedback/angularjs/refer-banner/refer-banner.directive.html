@@ -1,5 +1,5 @@
 <div ng-controller="ReferBannerController">
-    <div class="refer-banner referBanner ui-confirm"
+    <div class="refer-banner ui-confirm"
          piwik-dialog="referBanner.show"
          yes="referBanner.remindMeLater()"
          no="referBanner.dontShowAgain()"
@@ -12,7 +12,6 @@
 
         <div class="text-center">
             <p>{{'Feedback_ReferBannerLonger'|translate }}</p>
-            <p ng-show="referBanner.showThanks">{{'Feedback_ThankYouForSpreading'|translate }}</p>
 
             <div class="flex items-center justify-around">
                 <a ng-href="{{ socialUrl('twitter') }}" ng-click="referBanner.share()" class="share-button text-twitter-blue" target="_blank" rel="noreferrer noopener">
@@ -34,5 +33,12 @@
             <input type="button" value="{{ 'Feedback_RemindMeLater'|translate }}" role="yes"/>
             <input type="button" value="{{ 'Feedback_NeverAskMeAgain'|translate }}" role="no"/>
         </div>
+    </div>
+
+    <div class="ui-confirm" piwik-dialog="referBanner.showThanks" yes="">
+        <h2>{{ 'Feedback_ThankYouForSpreading'|translate }}</h2>
+        <p>{{ 'Feedback_WontShowAgain'|translate }}</p>
+
+        <input type="button" value="{{ 'General_Ok'|translate }}" role="yes"/>
     </div>
 </div>

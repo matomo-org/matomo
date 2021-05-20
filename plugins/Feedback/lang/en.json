@@ -48,6 +48,7 @@
         "ReferBannerLonger": "Please help us spread the word about us so more people get control over their analytics data.",
         "ReferBannerEmailShareSubject": "Refer them to Matomo Analytics now to take back control!",
         "ReferBannerEmailShareBody": "I choose Matomo, an ethical alternative to Google Analytics that gives me 100%% data ownership and protects the data of my website visitors.\r\nI’m sharing this message in the hope that you too will take back the power from Google and get complete ownership of your own data.\r\n\r\nCheck out Matomo at https://matomo.org",
-        "ReferBannerSocialShareText": "If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!"
+        "ReferBannerSocialShareText": "If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!",
+        "WontShowAgain": "We won't show this message again."
     }
 }

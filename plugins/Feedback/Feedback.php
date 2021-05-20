@@ -74,6 +74,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
         $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
         $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
+        $translationKeys[] = 'Feedback_WontShowAgain';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }
