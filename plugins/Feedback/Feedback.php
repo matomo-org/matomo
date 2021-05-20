@@ -12,7 +12,7 @@ use Piwik\Date;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Feedback\FeedbackReminder;
 
 /**
@@ -147,6 +147,11 @@ class Feedback extends \Piwik\Plugin
         }
 
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
+            return false;
+        }
+
+        $pluginManager = PluginManager::getInstance();
+        if ($pluginManager->hasPremiumFeatures()) {
             return false;
         }
 
