@@ -78,13 +78,6 @@ class FeedbackTest extends IntegrationTestCase
         $this->assertFalse($this->feedback->getShouldPromptForFeedback());
     }
 
-    public function test_shouldPromptForFeedback_noFeedbackReminderOptionForUser_newUser()
-    {
-        Date::$now = Date::factory('2019-06-01')->getTimestamp();   // 90 days
-
-        $this->assertTrue($this->feedback->getShouldPromptForFeedback());
-    }
-
     public function test_shouldPromptForFeedback_dontRemindUserAgain()
     {
         Option::set('Feedback.nextFeedbackReminder.user1', '-1');
