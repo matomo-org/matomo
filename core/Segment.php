@@ -446,7 +446,7 @@ class Segment
      */
     public function getString()
     {
-        return $this->string;
+        return $this->originalString;
     }
 
     /**
