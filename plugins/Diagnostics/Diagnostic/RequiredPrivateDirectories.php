@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -43,7 +44,7 @@ class RequiredPrivateDirectories implements Diagnostic
             ['lang/en.json'],
         ];
 
-        // create test file to check if tmp/empty exists
+        // create test file to check if tmp/empty exists Note: This won't work in a load balanced environment!
         Filesystem::mkdir(PIWIK_INCLUDE_PATH . '/tmp');
         file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/empty', 'test');
 
@@ -77,23 +78,12 @@ class RequiredPrivateDirectories implements Diagnostic
 
         $result = new DiagnosticResult($label);
 
-        $isConfigIniAccessible = $this->checkConfigIni($result, $baseUrl);
+        $isConfigIniAccessible = $this->isAccessible($result, $baseUrl . 'config/config.ini.php', ';', 'trusted_hosts[]');
 
         $atLeastOneIsAccessible = $isConfigIniAccessible;
         foreach ($testUrls as $testUrl) {
-            try {
-                $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
-                $status = $response['status'];
-
-                $isAccessible = !($status >= 400 && $status < 500);
-                if ($isAccessible) {
-                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
-                    $atLeastOneIsAccessible = true;
-                }
-            } catch (\Exception $e) {
-                $error = $e->getMessage();
-                $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'Unable to execute check for ' .
-                    Common::sanitizeInputValue($testUrl) . ': ' . Common::sanitizeInputValue($error)));
+            if ($this->isAccessible($result, $testUrl, '', '')) {
+                $atLeastOneIsAccessible = true;
             }
         }
 
@@ -102,6 +92,7 @@ class RequiredPrivateDirectories implements Diagnostic
             if ($isConfigIniAccessible) {
                 $pathIsAccessible .= '<br/><br/>' . $this->translator->translate('Diagnostics_ConfigIniAccessible');
             }
+            $pathIsAccessible .= '<br/><br/><a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
             $result->setLongErrorMessage($pathIsAccessible);
         } else {
             $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
@@ -119,15 +110,45 @@ class RequiredPrivateDirectories implements Diagnostic
         return $testUrlsList;
     }
 
-    private function checkConfigIni(DiagnosticResult $result, $baseUrl)
+    private function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
     {
-        $testUrl = $baseUrl . 'config/config.ini.php';
         try {
             $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
             $status = $response['status'];
 
-            $isAccessible = !($status >= 400 && $status < 500);
-            if ($isAccessible) {
+            if ($status >= 400 && $status < 500) {
+                return false;
+            } elseif ($status >= 300 && $status < 400) {
+                // follow the redirect
+                $response = Http::sendHttpRequest($testUrl, $timeout = 5, null, null, 5, false, false, true);
+                $isResolvedRedirectProtected = $response['status'] >= 400 &&  $response['status'] < 500;
+                if ($isResolvedRedirectProtected) {
+                    // eg someone redirect from http to https or the other way around
+                    return false;
+                }
+
+                // we check for content if possible as they may redirect these files eg to /home or something else
+                if (!$publicIfResponseContains || !$publicIfResponseEquals) {
+                    // it may or may not be an issue depending where they redirect to
+                    // TODO ideally we make this more clear maybe?
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $testUrl));
+                    return true;
+                }
+
+                if (trim($response) === $publicIfResponseEquals) {
+                    // we assume it is publicly accessible because either the exact expected content is returned or because we don't check for content match
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
+                    return true;
+                } elseif (strpos($response, $publicIfResponseContains) !== false) {
+                    // we assume it is publicly accessible because a unique content is included in the response or because we don't check for content contains
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
+                    return true;
+                }
+                // in other cases we assume it's not publicly accessible because we didn't get any expected output in the response
+                // so it seems like they redirect eg to the homepage or another page
+
+            } else {
+                // we assume the file is accessible publicly
                 $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                 return true;
             }
