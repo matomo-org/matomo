@@ -60,7 +60,7 @@ class SegmentTest extends IntegrationTestCase
         $hash = $segment->getHash();
         $this->assertEquals($segmentInfo['hash'], $hash);
 
-        $segmentStringFromObject = $segment->getString();
+        $segmentStringFromObject = $segment->getOriginalString();
         $segment2 = new Segment($segmentStringFromObject, []);
 
         $hash = $segment2->getHash();

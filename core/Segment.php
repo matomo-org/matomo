@@ -446,7 +446,7 @@ class Segment
      */
     public function getString()
     {
-        return $this->originalString;
+        return $this->string;
     }
 
     /**
@@ -642,5 +642,10 @@ class Segment
         }
 
         return $this->isSegmentEncoded ? urldecode($segment) : $segment;
+    }
+
+    public function getOriginalString()
+    {
+        return $this->originalString;
     }
 }
