@@ -81,6 +81,11 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             $directoriesToProtect[dirname($file)] = $denyAll;
         }
 
+        $gitDir = PIWIK_INCLUDE_PATH . '/.git';
+        if (is_dir($gitDir) && is_writable($gitDir)) {
+            $directoriesToProtect[$gitDir] = $denyAll;
+        }
+
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess($directoryToProtect, $overwrite = true, $content);
         }

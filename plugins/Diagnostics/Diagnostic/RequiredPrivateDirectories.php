@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -34,6 +35,10 @@ class RequiredPrivateDirectories implements Diagnostic
         if (!SettingsPiwik::isMatomoInstalled()) {
             return [];
         }
+
+        // trying to fix this error automatically for some. in case they weren't generated previously for some reason
+        // and also to have an easy way in the faq to get users to create them.
+        ServerFilesGenerator::createFilesForSecurity();
 
         $label = $this->translator->translate('Diagnostics_RequiredPrivateDirectories');
 
@@ -91,6 +96,7 @@ class RequiredPrivateDirectories implements Diagnostic
             if ($isConfigIniAccessible) {
                 $pathIsAccessible .= '<br/><br/>' . $this->translator->translate('Diagnostics_ConfigIniAccessible');
             }
+            $pathIsAccessible .= '<br/><br/><a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
             $result->setLongErrorMessage($pathIsAccessible);
         } else {
             $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
@@ -121,6 +127,7 @@ class RequiredPrivateDirectories implements Diagnostic
                 $response = Http::sendHttpRequest($testUrl, $timeout = 5, null, null, 5, false, false, true);
                 $isResolvedRedirectProtected = $response['status'] >= 400 &&  $response['status'] < 500;
                 if ($isResolvedRedirectProtected) {
+                    // eg someone redirect from http to https or the other way around
                     return false;
                 }
 
