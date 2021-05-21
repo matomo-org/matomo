@@ -36,10 +36,6 @@ class RequiredPrivateDirectories implements Diagnostic
             return [];
         }
 
-        // trying to fix this error automatically for some. in case they weren't generated previously for some reason
-        // and also to have an easy way in the faq to get users to create them.
-        ServerFilesGenerator::createFilesForSecurity();
-
         $label = $this->translator->translate('Diagnostics_RequiredPrivateDirectories');
 
         $privatePaths = [
