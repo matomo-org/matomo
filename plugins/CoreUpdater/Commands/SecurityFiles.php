@@ -28,6 +28,6 @@ class SecurityFiles extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         ServerFilesGenerator::createFilesForSecurity();
-        $output->writeln('Done. To check if this worked please open the system report and look out for the private directories check. If it doesn\'t work you may need to execute it using a different user. Please note you may need to execut this command every time you update Matomo to a newer version.');
+        $output->writeln('Done. To check if this worked please open the system report or run `./console diagnostics:run` and look out for the private directories check. If it doesn\'t work you may need to execute this command using a different user. Please note you may need to execut this command every time you update Matomo to a newer version.');
     }
 }
