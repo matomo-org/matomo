@@ -14,6 +14,7 @@
         "RateFeatureTitle": "Ju pëlqen veçoria '%s'? Ju lutemi, vlerësojeni dhe lini një koment",
         "SendFeedback": "Dërgoji Përshtypjet",
         "ThankYou": "Faleminderit që na ndihmoni ta bëjmë më të mirë Matomo-n!",
+        "ThankYouForSpreading": "Faleminderit për përhapjen e fjalës dhe për krijimin e një web-i më të parrezik",
         "TopLinkTooltip": "Na thoni se ç’mendim keni, ose kërkoni Asistencë Profesionale.",
         "ViewAnswersToFAQ": "Shihni përgjigjet te %1$sPyetje të Bëra Shpesh%2$s",
         "FAQs": "PBR-ra",
@@ -31,7 +32,7 @@
         "ContactUs": "Lidhuni me ne",
         "VisitTheForums": "Vizitoni %1$s Forumet%2$s dhe merrni ndihmë prej bashkësisë së përdoruesve të Matomo-s",
         "Forums": "Forume",
-        "ReviewMatomoTitle": "Besoni në Matomo?",
+        "ReviewMatomoTitle": "Ju pëlqen Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Ndajini mendimet tuaja me të tjerët në një nga këto sajte dhe frymëzoni të tjerët të bahen pjesë e revolucionet tonë të të dhënave.",
         "RemindMeLater": "Kujtomë më vonë",
         "NeverAskMeAgain": "Mos më ripyet më kurrë",
@@ -41,6 +42,13 @@
         "RemoveOtherLabel": "Dua të shoh të dhëna 'Të tjera' të miat",
         "PurgeOldData": "Dua të heq ca të dhëna të vjetra",
         "SearchHelpResources": "Kërkoni për burime ndihme te matomo.org",
-        "PopularHelpTopics": "Tema popullore ndihme"
+        "PopularHelpTopics": "Tema popullore ndihme",
+        "ReferMatomo": "Referoni Matomo-n",
+        "ReferBannerTitle": "Besoni në Matomo?",
+        "ReferBannerLonger": "Ju lutemi, na ndihmoni të përhapim fjalën rreth nesh, që kështu më tepër njerëz të kenë kontrollin mbi të dhënat e tyre analitike.",
+        "ReferBannerEmailShareSubject": "U tregoni për Matomo Analytics që tani, që të rifitojnë kontrollin!",
+        "ReferBannerEmailShareBody": "Zgjedh Matomo-n, një alternativë etike kundrejt Google Analytics, që më jep 100%% pronësi të dhënash dhe i mbron të dhënat e vizitorëve të sajtit tim.\nPo e jap këtë mesazh me shpresën se do t’i riktheni vetes pushtetin nga Google dhe do të keni pronësi të plotë të të dhënave tuaja.\n\nShiheni Matomo-n te https:\/\/matomo.org",
+        "ReferBannerSocialShareText": "Nëse përdorni Google Analytics, jini në kontroll, duke u hedhur te një alternativë etike si Matomoja që sot!",
+        "WontShowAgain": "S’do ta rishfaqim këtë mesazh."
     }
 }

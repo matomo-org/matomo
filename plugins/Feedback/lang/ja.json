@@ -31,7 +31,6 @@
         "ContactUs": "お問い合わせ",
         "VisitTheForums": "%1$s フォーラム %2$s にアクセスし、Matomo ユーザーのコミュニティから助けを得る",
         "Forums": "フォーラム",
-        "ReviewMatomoTitle": "Matomo を信じますか？",
         "PleaseLeaveExternalReviewForMatomo": "これらのサイトの1つについてあなたの考えを分かち合い、他の人々に私たちのデータ革命に加わるよう促してください。",
         "RemindMeLater": "後で通知する",
         "NeverAskMeAgain": "次回から確認しない",
@@ -41,6 +40,7 @@
         "RemoveOtherLabel": "'その他'のデータを見たい",
         "PurgeOldData": "古いデータを削除したい",
         "SearchHelpResources": "matomo.org ヘルプリソースを検索する",
-        "PopularHelpTopics": "人気のあるヘルプトピック"
+        "PopularHelpTopics": "人気のあるヘルプトピック",
+        "ReferBannerTitle": "Matomo を信じますか？"
     }
 }

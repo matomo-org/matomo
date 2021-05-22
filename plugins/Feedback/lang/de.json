@@ -31,7 +31,6 @@
         "ContactUs": "Kontaktieren Sie uns",
         "VisitTheForums": "Besuchen Sie die %1$s Foren%2$s und erhalten Sie Hilfe von der Matomo Community",
         "Forums": "Forum",
-        "ReviewMatomoTitle": "Vertrauen Sie Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Teilen Sie Ihre Überlegungen auf einer dieser Seiten und inspirieren Sie so andere, Ihrer Datenrevolution zu folgen.",
         "RemindMeLater": "Erinnere mich später daran",
         "NeverAskMeAgain": "Nie mehr fragen",
@@ -42,6 +41,7 @@
         "PurgeOldData": "Ich möchte einige alte Daten entfernen",
         "SearchHelpResources": "matomo.org Hilfequellen durchsuchen",
         "PopularHelpTopics": "Beliebte Hilfethemen",
-        "ReferMatomo": "Matomo empfehlen"
+        "ReferMatomo": "Matomo empfehlen",
+        "ReferBannerTitle": "Vertrauen Sie Matomo?"
     }
 }
