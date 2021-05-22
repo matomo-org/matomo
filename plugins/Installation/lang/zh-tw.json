@@ -117,6 +117,7 @@
         "SystemCheckPhp": "PHP 版本",
         "SystemCheckPhpPdoAndMysqli": "更多資訊：%1$sPHP PDO%2$s 和 %3$sMYSQLI%4$s。",
         "SystemCheckSplHelp": "你需要設定及重建 PHP，然後啟用 Standard PHP Library (SPL)（預設啟用）。",
+        "SystemCheckSessionHelp": "你必須開啟「session」功能並設定及重新建置 PHP (不要使用 --disable-session)。",
         "SystemCheckSettings": "必要的 PHP 設定（php.ini）",
         "SystemCheckSummaryNoProblems": "好極了！Matomo 安裝過程中沒有問題！給自己掌聲鼓勵吧。",
         "SystemCheckSummaryThereWereErrors": "啊噢！Matomo 在安裝過程中偵測到一些%1$s嚴重問題%2$s。%3$s這些問題必須立即被修正。%4$s",

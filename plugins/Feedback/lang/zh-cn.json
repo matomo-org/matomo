@@ -31,7 +31,6 @@
         "ContactUs": "联系我们",
         "VisitTheForums": "访问%1$s论坛%2$s并从Matomo用户社区获得帮助",
         "Forums": "论坛",
-        "ReviewMatomoTitle": "相信Matomo？",
         "PleaseLeaveExternalReviewForMatomo": "在其中一个站点上分享您的想法，并激发其他人加入我们的数据革命。",
         "RemindMeLater": "稍后提醒我",
         "NeverAskMeAgain": "再也不问我",
@@ -41,6 +40,7 @@
         "RemoveOtherLabel": "我想查看我的“其他”数据",
         "PurgeOldData": "我想删除一些旧数据",
         "SearchHelpResources": "搜索matomo.org帮助资源",
-        "PopularHelpTopics": "热门帮助主题"
+        "PopularHelpTopics": "热门帮助主题",
+        "ReferBannerTitle": "相信Matomo？"
     }
 }

@@ -10,7 +10,7 @@
         "ClickHereToOptOut": "點擊這裡退出。",
         "CorsDomains": "跨來源資源共用（CORS）域名",
         "CorsDomainsHelp": "你可以定義像是 http:\/\/example.com 或是 http:\/\/stats.example.com 的域名或子域名。或是直接增加 * 來允許所有域名的跨來源請求。",
-        "CustomLogoFeedbackInfo": "如果你自訂 Matomo 標誌，你應該也對隱藏上方選單中的「%1$s」連結有興趣。要那麼做的話可以在%2$s外掛管理%3$s中停用回饋外掛（Feedback）。",
+        "CustomLogoFeedbackInfo": "如果你自訂 Matomo 標誌，你應該也對隱藏上方選單中的 %1$s 連結有興趣。要那麼做的話可以在%2$s外掛管理%3$s中停用回饋外掛（Feedback）。",
         "CustomLogoHelpText": "你可以自訂要顯示於使用者介面或報表信件中的 Matomo 標誌。",
         "DevelopmentProcess": "雖然我們的開發過程包含了上千種自動化測試，但 Beta 測試員在實現 Matomo「無 Bug 政策」中扮演了關鍵角色。",
         "EmailServerSettings": "設定信件伺服器",
