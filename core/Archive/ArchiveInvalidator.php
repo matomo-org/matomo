@@ -553,7 +553,7 @@ class ArchiveInvalidator
                 'pluginName' => $pluginName,
                 'report' => $report,
                 'startDate' => $startDate ? $startDate->getTimestamp() : null,
-                'segment' => $segment ? $segment->getString() : null,
+                'segment' => $segment ? $segment->getOriginalString() : null,
             ]));
         } catch (\Throwable $ex) {
             $this->logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
