@@ -210,7 +210,9 @@ class Process
             return false;
         }
 
-        if (!self::returnsSuccessCode('ps') || !self::returnsSuccessCode('awk')) {
+        $awkTestCommand = 'awk -Wversion 2>/dev/null || awk --version || awk \'BEGIN {print "ping"}\' || awk';
+        $psTestCommand = 'ps || ps --version';
+        if (!self::returnsSuccessCode($psTestCommand) || !self::returnsSuccessCode($awkTestCommand)) {
             return false;
         }
 
