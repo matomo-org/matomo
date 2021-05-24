@@ -827,7 +827,7 @@ class Archive implements ArchiveQuery
             $this->initializeArchiveIdCache($doneFlag);
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
-                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getString(),
+                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getOriginalString(),
                 $plugin, $requestedReport);
 
             if (!empty($prepareResult)

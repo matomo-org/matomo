@@ -137,6 +137,11 @@ class ManagerTest extends IntegrationTestCase
         }
     }
 
+    public function test_hasPremiumFeatures()
+    {
+        $this->assertFalse($this->manager->hasPremiumFeatures());
+    }
+
     public function test_isPluginInstalled_corePluginThatExists()
     {
         $this->assertTrue($this->manager->isPluginInstalled('CoreAdminHome', true));

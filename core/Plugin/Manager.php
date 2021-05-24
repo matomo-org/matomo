@@ -380,7 +380,7 @@ class Manager
         if (!empty($envCopyDir)) {
             $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
         }
-        
+
         if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
             && !in_array($GLOBALS['MATOMO_PLUGIN_COPY_DIR'], self::getPluginsDirectories())
         ) {
@@ -660,7 +660,7 @@ class Manager
     public function installLoadedPlugins()
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
-        
+
         foreach ($this->getLoadedPlugins() as $plugin) {
             $this->installPluginIfNecessary($plugin);
         }
@@ -885,7 +885,7 @@ class Manager
         }
 
         $path = self::getPluginDirectory($pluginName);
-      
+
         if (!$this->isManifestFileFound($path)) {
             return true;
         }
@@ -1123,7 +1123,7 @@ class Manager
                 $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
             } else {
                 // tracker mode, we assume it is not missing until cache is written
-                $pluginLicenseInfo = array('missing' => false); 
+                $pluginLicenseInfo = array('missing' => false);
             }
 
             if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
@@ -1388,7 +1388,7 @@ class Manager
         if (!$this->isPluginInstalled($plugin->getPluginName())) {
             return false;
         }
-        
+
         if ($plugin->isTrackerPlugin()) {
             return true;
         }
@@ -1680,6 +1680,16 @@ class Manager
         }
     }
 
+    public function hasPremiumFeatures()
+    {
+        foreach ($this->getPluginsLoadedAndActivated() as $activatedPlugin) {
+            if ($activatedPlugin->isPremiumFeature()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private function savePluginTime($timingName, $pluginName)
     {
         $optionName = $timingName . $pluginName;
@@ -1695,4 +1705,3 @@ class Manager
     }
 
 }
-
