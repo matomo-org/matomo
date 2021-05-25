@@ -210,6 +210,8 @@
         "ExceptionWidgetNotFound": "請求的小工具不存在。",
         "ExceptionReportNotEnabled": "請求的報表未啟用。這代表定義報表的外掛已停用或是你沒有足夠的權限來存取這個報表。",
         "ExceptionWidgetNotEnabled": "請求的小工具未啟用。這代表定義小工具的外掛已停用或是你沒有足夠的權限來存取這個小工具。",
+        "ExceptionNotSupportedBrowserTitle": "你的瀏覽器已不受支援。",
+        "ExceptionNotSupportedBrowserText": "因為安全性問題，你的瀏覽器已不受支援。請升級至更新的版本。",
         "ExpandDataTableFooter": "變更報表的顯示方式或設定",
         "Export": "匯出",
         "ExportAsImage": "匯出為圖片",

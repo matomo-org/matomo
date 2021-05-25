@@ -31,7 +31,6 @@
         "ContactUs": "Nous contacter",
         "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Matomo.",
         "Forums": "Forums",
-        "ReviewMatomoTitle": "Vous croyez en Matomo ?",
         "PleaseLeaveExternalReviewForMatomo": "Partagez votre avis sur un de ces sites web et encouragez les autres à se joindre à notre révolution des données.",
         "RemindMeLater": "Me le rappeler plus tard",
         "NeverAskMeAgain": "Ne plus me demander",
@@ -41,6 +40,7 @@
         "RemoveOtherLabel": "Je veux voir mes 'Autres' données",
         "PurgeOldData": "Je veux supprimer d'anciennes données",
         "SearchHelpResources": "Rechercher dans les ressources de matomo.org",
-        "PopularHelpTopics": "Rubriques d'aide les plus populaires"
+        "PopularHelpTopics": "Rubriques d'aide les plus populaires",
+        "ReferBannerTitle": "Vous croyez en Matomo ?"
     }
 }

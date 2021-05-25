@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
         "UsesTwoFactorAuthentication": "使用兩步驟驗證",
         "TwoFactorAuthentication": "兩步驟驗證",
         "ResetTwoFactorAuthentication": "重置兩步驟驗證",

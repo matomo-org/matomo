@@ -21,7 +21,6 @@
         "ContactUs": "Ota yhteyttä",
         "VisitTheForums": "Käy %1$skeskustelupalstalla%2$s ja saa apua Matomo-käyttäjien yhteisöltä",
         "Forums": "Foorumit",
-        "ReviewMatomoTitle": "Uskotko Matomoon?",
         "RemindMeLater": "Muistuta myöhemmin",
         "NeverAskMeAgain": "Älä kysy uudestaan",
         "HowCanWeHelp": "Miten voimme auttaa?",
@@ -29,6 +28,7 @@
         "TrackMultipleSites": "Minun pitää seurata useita sivustoja tai aliverkkotunnuksia",
         "PurgeOldData": "Haluan poistaa vanhoja tietoja",
         "SearchHelpResources": "Hae ohjeita matomo.orgista",
-        "PopularHelpTopics": "Suositut ohjeaiheet"
+        "PopularHelpTopics": "Suositut ohjeaiheet",
+        "ReferBannerTitle": "Uskotko Matomoon?"
     }
 }

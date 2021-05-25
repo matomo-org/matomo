@@ -28,11 +28,11 @@
         "ContactUs": "Neem contact met ons op",
         "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Matomo users",
         "Forums": "Forums",
-        "ReviewMatomoTitle": "Geloof je in Matomo?",
         "RemindMeLater": "Herinner mij later",
         "NeverAskMeAgain": "Vraag het me nooit meer",
         "HowCanWeHelp": "Hoe kunnen we helpen?",
         "NotTrackingVisits": "Matomo houdt geen bezoeken bij",
-        "PopularHelpTopics": "Populaire help onderwerpen"
+        "PopularHelpTopics": "Populaire help onderwerpen",
+        "ReferBannerTitle": "Geloof je in Matomo?"
     }
 }
