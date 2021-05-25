@@ -44,12 +44,18 @@ class VisitorId extends VisitDimension
 
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        $systemSettings = new SystemSettings();
-        $a = $systemSettings->disableVisitorProfile->getValue();
-        $b = $systemSettings->disableVisitorLog->getValue();
+        try {
+            $systemSettings        = new SystemSettings();
+            $visitorProfileEnabled = $systemSettings->disableVisitorProfile->getValue() === false
+                && $systemSettings->disableVisitorLog->getValue() === false;
+        } catch (\Zend_Db_Exception $e) {
+            // when running tests the db might not yet be set up when fetching available segments
+            if (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE) {
+                throw $e;
+            }
+            $visitorProfileEnabled = true;
+        }
 
-        $visitorProfileEnabled = $systemSettings->disableVisitorProfile->getValue() === false
-            && $systemSettings->disableVisitorLog->getValue() === false;
         if ($visitorProfileEnabled) {
             parent::configureSegments($segmentsList, $dimensionSegmentFactory);
         }
