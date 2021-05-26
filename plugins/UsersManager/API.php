@@ -25,11 +25,13 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\View;
+use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -722,6 +724,14 @@ class API extends \Piwik\Plugin\API
 
         $this->model->addUser($userLogin, $passwordTransformed, $email, Date::now()->getDatetime());
 
+        $container = StaticContainer::getContainer();
+        $email = $container->make(UserCreatedEmail::class, array(
+            'login' => Piwik::getCurrentUserLogin(),
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'userLogin' => $userLogin
+        ));
+        $email->safeSend();
+
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
         Cache::deleteTrackerCache();
@@ -987,6 +997,14 @@ class API extends \Piwik\Plugin\API
         $this->model->deleteUserOnly($userLogin);
         $this->model->deleteUserOptions($userLogin);
         $this->model->deleteUserAccess($userLogin);
+
+        $container = StaticContainer::getContainer();
+        $email = $container->make(UserDeletedEmail::class, array(
+            'login' => Piwik::getCurrentUserLogin(),
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'userLogin' => $userLogin
+        ));
+        $email->safeSend();
 
         Cache::deleteTrackerCache();
     }

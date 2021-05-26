@@ -8,10 +8,13 @@
  */
 namespace Piwik;
 
+use DI\NotFoundException;
+use DI\DependencyException;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for sending mails
@@ -287,6 +290,23 @@ class Mail
         Piwik::postEvent('Mail.send', [$mail]);
 
         return StaticContainer::get('Piwik\Mail\Transport')->send($mail);
+    }
+
+    /**
+     * If the send email process throws an exception, we catch it and log it
+     *
+     * @return void
+     * @throws NotFoundException
+     * @throws DependencyException
+     */
+    public function safeSend()
+    {
+        try {
+            $this->send();
+        } catch (\Exception $e) {
+            // we do nothing but log if the email send was unsuccessful
+            StaticContainer::get(LoggerInterface::class)->warning('Could not send {class} email: {exception}', ['class' => get_class($this), 'exception' => $e]);
+        }
     }
 
     /**
