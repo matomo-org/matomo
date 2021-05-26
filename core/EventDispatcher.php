@@ -176,9 +176,17 @@ class EventDispatcher
     public function postPendingEventsTo($plugin)
     {
         foreach ($this->pendingEvents as $eventInfo) {
-            list($eventName, $eventParams) = $eventInfo;
+            [$eventName, $eventParams] = $eventInfo;
             $this->postEvent($eventName, $eventParams, $pending = false, array($plugin));
         }
+    }
+
+    /**
+     * @internal  For testing purpose only
+     */
+    public function clearCache()
+    {
+        $this->pluginHooks = [];
     }
 
     private function getCallbackFunctionAndGroupNumber($hookInfo)
