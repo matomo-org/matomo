@@ -176,7 +176,7 @@ class Piwik
     public static function getCurrentUserEmail()
     {
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
-        return $user['email'];
+        return $user['email'] ?? '';
     }
 
     /**
