@@ -77,8 +77,8 @@ class Model
 
         $archiveIds = array();
 
-        $rows = Db::fetchAll($sql);
-        foreach ($rows as $row) {
+        $cursor = Db::query($sql);
+        while ($row = $cursor->fetch()) {
             $duplicateArchives = explode(',', $row['archives']);
 
             // do not consider purging partial archives, if they are the latest archive,
@@ -109,6 +109,11 @@ class Model
                     list($idarchive, $value) = explode('.', $pair);
                     $archiveIds[] = $idarchive; // does not matter what the value is, the latest is usable so older archives can be purged
                 }
+            }
+
+            if (count($archiveIds) > 50000) {
+                $this->logger->info("Found in excess of 50000 duplicate archives to purge, you will need to purge archives again.");
+                break;
             }
         }
 
