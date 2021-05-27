@@ -12,6 +12,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 4.3.0
 
+### JavaScript Tracker
+
+#### Breaking changes in Matomo JS tracker
+
+* Before the JS tracker method, `enableLinkTracking` did not follow the DOM changes, from this version when the DOM updates, Matomo automatically adds event listeners for new links on the page. It makes it easier to track clicks on links in SPAs. From this version, if we use the `addListener` method to add event listener manually after the DOM has changed and the `enableLinkTracking` is turned on we will track the click event for that element twice.
+
 ### Breaking Changes
 
 * Before every JS error was tracked, from this version the same JS error will be only tracked once per page view. If the very same error is happening multiple times, then it will be tracked only once within the same page view. If another page view is tracked or when the page reloads, then the error will be tracked again.
