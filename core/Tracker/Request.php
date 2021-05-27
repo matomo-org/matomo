@@ -262,8 +262,8 @@ class Request
                         $valueRightMember = urldecode($matches[3]);
                     }
                     $actual = Common::getRequestVar($leftMember, '', 'string', $this->params);
-                    $actual = Common::mb_strtolower($actual);
-                    $valueRightMember = Common::mb_strtolower($valueRightMember);
+                    $actual = mb_strtolower($actual);
+                    $valueRightMember = mb_strtolower($valueRightMember);
                     switch ($operation) {
                         case SegmentExpression::MATCH_EQUAL:
                             if ($actual === $valueRightMember) {

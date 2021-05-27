@@ -731,7 +731,7 @@ class GoalManager
                 if (empty($lastActionTime)) {
                     $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(10);
                 } else {
-                    $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(2) . Common::mb_substr($visitProperties->getProperty('visit_last_action_time'), 2);
+                    $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(2) . mb_substr($visitProperties->getProperty('visit_last_action_time'), 2);
                 }
             }
 

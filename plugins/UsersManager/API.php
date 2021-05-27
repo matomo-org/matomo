@@ -667,7 +667,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
         }
 
-        if ($userLogin && Common::mb_strtolower($userLogin) !== Common::mb_strtolower($email) && $this->userExists($email)) {
+        if ($userLogin && mb_strtolower($userLogin) !== mb_strtolower($email) && $this->userExists($email)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
         }
 
@@ -937,7 +937,7 @@ class API extends \Piwik\Plugin\API
             $email = $userInfo['email'];
         }
 
-        $hasEmailChanged = Common::mb_strtolower($email) !== Common::mb_strtolower($userInfo['email']);
+        $hasEmailChanged = mb_strtolower($email) !== mb_strtolower($userInfo['email']);
 
         if ($hasEmailChanged) {
             $this->checkEmail($email, $userLogin);

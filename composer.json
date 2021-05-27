@@ -53,6 +53,8 @@
         "symfony/console": "~2.6.0",
         "symfony/event-dispatcher": "~2.6.0",
         "symfony/monolog-bridge": "~2.6.0",
+        "symfony/polyfill-iconv": "^1.20",
+        "symfony/polyfill-mbstring": "^1.20",
         "szymach/c-pchart": "^2.0",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "~v1.4.0",

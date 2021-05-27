@@ -673,11 +673,11 @@ class CronArchive
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
             $m = str_replace(array("\n", "\t"), " ", $m);
-            if (Common::mb_strlen($m) > self::TRUNCATE_ERROR_MESSAGE_SUMMARY) {
+            if (mb_strlen($m) > self::TRUNCATE_ERROR_MESSAGE_SUMMARY) {
                 $numCharactersKeepFromEnd = 100;
-                $m = Common::mb_substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY - $numCharactersKeepFromEnd)
+                $m = mb_substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY - $numCharactersKeepFromEnd)
                      . ' ... ' .
-                    Common::mb_substr($m, -1 * $numCharactersKeepFromEnd);
+                    mb_substr($m, -1 * $numCharactersKeepFromEnd);
             }
         }
         $this->errors[] = $m;

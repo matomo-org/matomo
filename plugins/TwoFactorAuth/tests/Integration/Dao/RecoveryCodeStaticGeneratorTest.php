@@ -33,7 +33,7 @@ class RecoveryCodeStaticGeneratorTest extends IntegrationTestCase
 
     public function test_generatorCode_length()
     {
-        $this->assertSame(16, Common::mb_strlen($this->generator->generateCode()));
+        $this->assertSame(16, mb_strlen($this->generator->generateCode()));
     }
 
     public function test_generatorCode_alwaysDifferent()
