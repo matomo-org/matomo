@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\DataAccess\RawLogDao;
-use Piwik\Db\TransactionLevel;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\SitesManager\Model;
 
