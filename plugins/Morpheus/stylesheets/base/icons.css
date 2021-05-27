@@ -388,3 +388,6 @@
 .icon-page-performance:before {
   content: "\e9a6";
 }
+.icon-clock:before {
+  content: "\e901";
+}

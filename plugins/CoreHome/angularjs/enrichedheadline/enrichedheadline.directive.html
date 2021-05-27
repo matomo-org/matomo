@@ -23,6 +23,8 @@
              title="{{ featureName }}"></div>
     </span>
 
+    <div ng-show="showReportGenerated" class="icon-clock report-generated"></div>
+
     <div class="inlineHelp" ng-show="view.showInlineHelp">
         <div ng-bind-html="inlineHelp"></div>
         <a ng-if="helpUrl"
