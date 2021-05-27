@@ -139,6 +139,23 @@
         "TrackingFailuresEmail1": "This is just to let you know that %s different kinds of tracking failures have occurred in the last days.",
         "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s.",
         "ImportFromGoogleAnalytics": "Import from Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin."
+        "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin.",
+        "SecurityNotificationEmailSubject": "Security Notification",
+        "SecurityNotificationRecoveryCodesShowedBody": "Someone viewed the two-factor authentication recovery codes of your account.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Someone generated new two-factor authentication recovery codes for your account.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Someone enabled two-factor authentication in your account.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Someone disabled two-factor authentication in your account.",
+        "SecurityNotificationTokenAuthCreatedBody": "Someone created an auth token (description: %s) in your account. If it wasn't you, delete the token.",
+        "SecurityNotificationTokenAuthDeletedBody": "Someone deleted an auth token (description: %s) in your account.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Someone deleted all of the auth tokens in your account.",
+        "SecurityNotificationSettingsChangedByUserBody": "Someone modified the system settings. Affected settings: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Another super user (%1$s) modified the system settings. Affected settings: %2$s. If you know about this activity, carry on. If you don't recognize this activity, please contact the other super users.",
+        "SecurityNotificationUserCreatedBody": "Someone created a new user (login: %s) in your account.",
+        "SecurityNotificationUserDeletedBody": "Someone deleted a user (login: %s) in your account.",
+        "SecurityNotificationIfItWasYou": "If it was you, carry on. If you don't recognize this activity, please reset your password.",
+        "SecurityNotificationCheckTwoFactor": "Please check your two-factor authentication app or device.",
+        "BruteForce": "Brute Force",
+        "TwoFactorAuth": "Two-factor auth",
+        "Cors": "Cors"
     }
 }
