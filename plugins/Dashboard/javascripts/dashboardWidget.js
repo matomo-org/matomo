@@ -350,6 +350,9 @@
                 }
             });
             this.element.find('div.piwik-graph').trigger('resizeGraph');
+            // remove all previously shown tooltips as they might not be destroyed automatically
+            // see https://github.com/matomo-org/matomo/issues/17625
+            $('.ui-tooltip').remove();
 
             var currentWidget = this.element;
             $('body').on('click.dashboardWidget', function (ev) {
