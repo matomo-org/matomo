@@ -25,7 +25,7 @@ class Response
     {
         ob_start(); // we use ob_start only because of Common::printDebug, we should actually not really use ob_start
 
-        if ($tracker->isDebugModeEnabled() && TrackerConfig::getConfigValue('enable_sql_profiler', $this->getIdSite())) {
+        if ($tracker->isDebugModeEnabled() && TrackerConfig::getConfigValue('enable_sql_profiler')) {
             $this->timer = new Timer();
 
             TrackerDb::enableProfiling();
