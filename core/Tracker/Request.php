@@ -239,11 +239,10 @@ class Request
 
     public function isRequestExcluded()
     {
-        $config = Config::getInstance();
-        $tracker = $config->Tracker;
+        $excludedRequests = TrackerConfig::getConfigValue('exclude_requests', $this->getIdSite());
 
-        if (!empty($tracker['exclude_requests'])) {
-            $excludedRequests = explode(',', $tracker['exclude_requests']);
+        if (!empty($excludedRequests)) {
+            $excludedRequests = explode(',', $excludedRequests);
             $pattern = '/^(.+?)('.SegmentExpression::MATCH_EQUAL.'|'
                 .SegmentExpression::MATCH_NOT_EQUAL.'|'
                 .SegmentExpression::MATCH_CONTAINS.'|'
@@ -626,7 +625,7 @@ class Request
 
     public function shouldUseThirdPartyCookie()
     {
-        return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
+        return TrackerConfig::getConfigValue('use_third_party_id_cookie', $this->getIdSite());
     }
 
     public function getThirdPartyCookieVisitorId()
