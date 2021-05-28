@@ -192,7 +192,7 @@ class VisitRequestProcessor extends RequestProcessor
             return true;
         }
 
-        if (!TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')
+        if (!TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $request->getIdSite())
             && !$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request)) {
             Common::printDebug("Visitor detected, but last user_id does not match...");
             return true;

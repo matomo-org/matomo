@@ -73,7 +73,6 @@ class Request
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
         $this->isEmptyRequest = empty($params);
-        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than');
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -90,6 +89,8 @@ class Request
 
         // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
+
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than', $this->getIdSite());
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
@@ -148,7 +149,7 @@ class Request
      */
     protected function authenticateTrackingApi($tokenAuth)
     {
-        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
+        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication', $this->getIdSite());
 
         if ($shouldAuthenticate) {
             try {
@@ -685,22 +686,22 @@ class Request
 
     protected function getCookieName()
     {
-        return TrackerConfig::getConfigValue('cookie_name');
+        return TrackerConfig::getConfigValue('cookie_name', $this->getIdSite());
     }
 
     protected function getCookieExpire()
     {
-        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire');
+        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire', $this->getIdSite());
     }
 
     protected function getCookiePath()
     {
-        return TrackerConfig::getConfigValue('cookie_path');
+        return TrackerConfig::getConfigValue('cookie_path', $this->getIdSite());
     }
 
     protected function getCookieDomain()
     {
-        return TrackerConfig::getConfigValue('cookie_domain');
+        return TrackerConfig::getConfigValue('cookie_domain', $this->getIdSite());
     }
 
     /**
@@ -716,7 +717,7 @@ class Request
     {
         $found = false;
 
-        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
+        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSite())) {
             // If User ID is set it takes precedence
             $userId = $this->getForcedUserId();
             if ($userId) {
