@@ -139,6 +139,23 @@
         "TrackingFailuresEmail1": "Bu ileti, son günlerde %s farklı izleme sorunu oluştuğunu bildirir.",
         "TrackingFailuresEmail2": "Tüm izleme sorunlarını görüntülemek için %1$sburaya tıklayın%2$s.",
         "ImportFromGoogleAnalytics": "Google Analytics Üzerinden İçe Aktar",
-        "ImportFromGoogleAnalyticsDescription": "Bir Google Analytics mülkünüz varsa ve Matomo uygulamasına geçiyorsanız, %1$sGoogleAnalyticsImporter%2$s uygulama ekini kullanarak var olan verilerinizi içe aktarabilirsiniz."
+        "ImportFromGoogleAnalyticsDescription": "Bir Google Analytics mülkünüz varsa ve Matomo uygulamasına geçiyorsanız, %1$sGoogleAnalyticsImporter%2$s uygulama ekini kullanarak var olan verilerinizi içe aktarabilirsiniz.",
+        "SecurityNotificationEmailSubject": "Güvenlik Bildirimi",
+        "SecurityNotificationRecoveryCodesShowedBody": "Birisi hesabınızın iki aşamalı kimlik doğrulama kurtarma kodlarına baktı.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Birisi hesabınız için yeni iki aşamalı kimlik doğrulama kurtarma kodları oluşturdu.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Birisi hesabınız için iki aşamalı kimlik doğrulamasını etkinleştirdi.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Birisi hesabınız için iki aşamalı kimlik doğrulamasını devre dışı bıraktı.",
+        "SecurityNotificationTokenAuthCreatedBody": "Birisi hesabınız için bir kimlik doğrulama kodu oluşturdu (açıklama: %s). Bu işlemi siz yapmadıysanız bu kodu silin.",
+        "SecurityNotificationTokenAuthDeletedBody": "Birisi hesabınızın bir kimlik doğrulama kodunu sildi (açıklama: %s).",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Birisi hesabınızın tüm kimlik doğrulama kodlarını sildi",
+        "SecurityNotificationSettingsChangedByUserBody": "Birisi sistem ayarlarını değiştirdi. Etkilenen ayarlar: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Başka bir süper kullanıcı (%1$s) sistem ayarlarını değiştirdi. Etkilenen ayarlar: %2$s. Bu işlem hakkında bilginiz varsa bu uyarıyı yok sayabilirsiniz. Bilginiz yoksa, diğer süper kullanıcılar ile görüşün.",
+        "SecurityNotificationUserCreatedBody": "Birisi hesabınız için yeni bir kullanıcı oluşturdu (kullanıcı adı: %s)",
+        "SecurityNotificationUserDeletedBody": "Birisi hesabınızdan bir kullanıcı sildi (kullanıcı adı: %s).",
+        "SecurityNotificationIfItWasYou": "Bu işlem hakkında bilginiz varsa bu uyarıyı yok sayabilirsiniz. Bilginiz yoksa, lütfen parolanızı sıfırlayın.",
+        "SecurityNotificationCheckTwoFactor": "Lütfen iki aşamalı kimlik doğrulama uygulamanızı ya da aygıtınızı denetleyin.",
+        "BruteForce": "Kaba Kuvvet",
+        "TwoFactorAuth": "İki aşamalı kimlik doğrulaması",
+        "Cors": "Cors"
     }
 }

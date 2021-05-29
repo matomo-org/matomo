@@ -42,7 +42,7 @@
         "UnprocessedSegmentInVisitorLog1": "%1$sEinstweilen können Sie das Visitor Log verwenden%2$s um zu testen ob Ihr Segment Ihre Benutzer korrekt erfasst, in dem Sie es dort anwenden.",
         "UnprocessedSegmentInVisitorLog2": "Wenn angewandt, können Sie sofort sehen welche Besucher und Aktionen von Ihrem Segment betroffen sind.",
         "UnprocessedSegmentInVisitorLog3": "Dies kann Ihnen helfen sicherzustellen, dass Ihr Segment die erwarteten Benutzer und Aktionen registriert.",
-        "UnprocessedSegmentApiError1": "Das Segment '%1$s' ist auf '%2$s' gesetzt, aber Matomo ist aktuell nicht konfiguriert um segmentierte Berichte in API Anfragen auszuführen.",
+        "UnprocessedSegmentApiError1": "Das Segment '%1$s' ist auf '%2$s' gesetzt, aber Matomo ist aktuell nicht konfiguriert, um segmentierte Berichte in API Anfragen auszuführen.",
         "UnprocessedSegmentApiError2": "Um in Zukunft Daten für diesen Bericht zu sehen, werden Sie Ihr Segment ändern müssen und die Option mit Namen '%s' anwählen.",
         "UnprocessedSegmentApiError3": "Dann nach ein paar Stunden werden Ihre Segmentdaten über die API verfügbar sein. (Falls nicht, liegt ein Problem vor.)",
         "CustomUnprocessedSegmentApiError1": "Das gesuchte Segment wurde noch nicht im Segment Editor erstellt und dementsprechend konnten die Berichtdaten nicht aufbereitet werden.",
