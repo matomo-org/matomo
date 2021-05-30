@@ -90,7 +90,8 @@ class Request
         // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
 
-        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than', $this->getIdSite());
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than',
+            $this->getIdSiteIfExists());
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
@@ -585,6 +586,15 @@ class Request
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
         return $idSite;
+    }
+
+    public function getIdSiteIfExists()
+    {
+        try {
+            return $this->getIdSite();
+        } catch (UnexpectedWebsiteFoundException $ex) {
+            return null;
+        }
     }
 
     public function getIdSite()
