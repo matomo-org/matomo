@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.4.0
+
+### Changes to events
+
+* It is now possible via the Mail.send event to abort sending emails. Set the `$mail` event parameter to null to do this.
+
 ## Matomo 4.3.1
 
 ### New commands

@@ -270,7 +270,7 @@ class Mail
     /**
      * Sends the mail
      *
-     * @return bool
+     * @return bool|null returns null if sending the mail was aborted by the Mail.send event
      * @throws \DI\NotFoundException
      */
     public function send()
@@ -285,9 +285,14 @@ class Mail
          * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
          * the subject/body, changing the from address, etc.
          *
-         * @param Mail $mail The Mail instance that is about to be sent.
+         * @param Mail &$mail The Mail instance that is about to be sent. Set it to null to stop the email from
+         *                    being sent.
          */
-        Piwik::postEvent('Mail.send', [$mail]);
+        Piwik::postEvent('Mail.send', [&$mail]);
+
+        if (empty($mail)) {
+            return null;
+        }
 
         return StaticContainer::get('Piwik\Mail\Transport')->send($mail);
     }
