@@ -210,9 +210,7 @@ class Process
             return false;
         }
 
-        $awkTestCommand = 'awk -Wversion 2>/dev/null || awk --version || awk \'BEGIN {print "ping"}\' || awk';
-        $psTestCommand = 'ps || ps --version';
-        if (!self::returnsSuccessCode($psTestCommand) || !self::returnsSuccessCode($awkTestCommand)) {
+        if (!self::psExistsAndRunsCorrectly() || !self::awkExistsAndRunsCorrectly()) {
             return false;
         }
 
@@ -226,6 +224,17 @@ class Process
         }
 
         return true;
+    }
+
+    private static function psExistsAndRunsCorrectly()
+    {
+        return self::returnsSuccessCode('ps x 2>/dev/null');
+    }
+
+    private static function awkExistsAndRunsCorrectly()
+    {
+        $testResult = `echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | awk '! /defunct/ {print $1}`;
+        return $testResult == '537';
     }
 
     private static function isSystemNotSupported()
