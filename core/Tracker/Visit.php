@@ -586,7 +586,7 @@ class Visit implements VisitInterface
             $valuesToUpdate['idvisitor'] = $this->request->getVisitorId(); 
         }
 
-        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->request->getIdSite())) {
+        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->request->getIdSiteIfExists())) {
             // User ID takes precedence and overwrites idvisitor value
             $userId = $this->request->getForcedUserId();
             if ($userId) {

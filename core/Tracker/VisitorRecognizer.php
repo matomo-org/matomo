@@ -104,7 +104,7 @@ class VisitorRecognizer
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
 
-        $maxActions = TrackerConfig::getConfigValue('create_new_visit_after_x_actions', $request->getIdSite());
+        $maxActions = TrackerConfig::getConfigValue('create_new_visit_after_x_actions', $request->getIdSiteIfExists());
 
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
 

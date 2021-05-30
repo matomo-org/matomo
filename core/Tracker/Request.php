@@ -240,7 +240,7 @@ class Request
 
     public function isRequestExcluded()
     {
-        $excludedRequests = TrackerConfig::getConfigValue('exclude_requests', $this->getIdSite());
+        $excludedRequests = TrackerConfig::getConfigValue('exclude_requests', $this->getIdSiteIfExists());
 
         if (!empty($excludedRequests)) {
             $excludedRequests = explode(',', $excludedRequests);
@@ -635,7 +635,7 @@ class Request
 
     public function shouldUseThirdPartyCookie()
     {
-        return TrackerConfig::getConfigValue('use_third_party_id_cookie', $this->getIdSite());
+        return TrackerConfig::getConfigValue('use_third_party_id_cookie', $this->getIdSiteIfExists());
     }
 
     public function getThirdPartyCookieVisitorId()
@@ -695,22 +695,22 @@ class Request
 
     protected function getCookieName()
     {
-        return TrackerConfig::getConfigValue('cookie_name', $this->getIdSite());
+        return TrackerConfig::getConfigValue('cookie_name', $this->getIdSiteIfExists());
     }
 
     protected function getCookieExpire()
     {
-        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire', $this->getIdSite());
+        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire', $this->getIdSiteIfExists());
     }
 
     protected function getCookiePath()
     {
-        return TrackerConfig::getConfigValue('cookie_path', $this->getIdSite());
+        return TrackerConfig::getConfigValue('cookie_path', $this->getIdSiteIfExists());
     }
 
     protected function getCookieDomain()
     {
-        return TrackerConfig::getConfigValue('cookie_domain', $this->getIdSite());
+        return TrackerConfig::getConfigValue('cookie_domain', $this->getIdSiteIfExists());
     }
 
     /**
@@ -726,7 +726,7 @@ class Request
     {
         $found = false;
 
-        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSite())) {
+        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
             // If User ID is set it takes precedence
             $userId = $this->getForcedUserId();
             if ($userId) {
