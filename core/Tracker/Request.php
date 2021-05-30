@@ -150,7 +150,7 @@ class Request
      */
     protected function authenticateTrackingApi($tokenAuth)
     {
-        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication', $this->getIdSite());
+        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication', $this->getIdSiteIfExists());
 
         if ($shouldAuthenticate) {
             try {
