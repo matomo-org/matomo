@@ -233,7 +233,7 @@ class Process
 
     private static function awkExistsAndRunsCorrectly()
     {
-        $testResult = `echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | awk '! /defunct/ {print $1}`;
+        $testResult = `echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | awk '! /defunct/ {print $1}'`;
         return $testResult == '537';
     }
 
