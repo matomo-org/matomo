@@ -1,7 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Möchten Sie einen Fehler melden oder haben Sie eine Idee für eine neue Funktion?",
-        "HowToCreateTicket": "Bitte lesen Sie die Empfehlungen wie man eine gute %1$sFehlermeldung%2$s oder einen %3$sVerbesserungsvorschlag%4$s erstellt. Dann registrieren Sie sich oder loggen Sie sich bei %5$sunserem Fehlermeldesystem%6$s an und erstellen Sie einen %7$sneuen Fall%8$s.",
+        "HowToCreateTicket": "Bitte lesen Sie die Empfehlungen wie man einen guten %1$sProblembericht%2$s oder einen %3$sVerbesserungsvorschlag%4$s erstellt. Dann registrieren Sie sich oder loggen Sie sich bei %5$sunserem Fehlermeldesystem%6$s an und erstellen Sie einen %7$sneuen Fall%8$s.",
         "IWantTo": "Ich möchte:",
         "LearnWaysToParticipate": "Lernen Sie alle Möglichkeiten kennen, wie Sie %1$s uns unterstützen können%2$s",
         "ManuallySendEmailTo": "Senden Sie Ihre Nachricht manuell an",
@@ -44,7 +44,7 @@
         "SearchHelpResources": "matomo.org Hilfequellen durchsuchen",
         "PopularHelpTopics": "Beliebte Hilfethemen",
         "ReferMatomo": "Matomo empfehlen",
-        "ReferBannerTitle": "Gefällt Ihnen Matomo?",
+        "ReferBannerTitle": "Konnte Matomo Sie überzeugen?",
         "ReferBannerLonger": "Bitte helfen Sie dabei, uns bekannt zu machen, damit mehr Leute Kontrolle über deren Analysedaten bekommen.",
         "ReferBannerEmailShareSubject": "Verweisen Sie sie jetzt auf Matomo Analytics, damit sie die Kontrolle zurückerhalten!",
         "ReferBannerEmailShareBody": "Ich verwende Matomo - eine ethische Alternative zu Google Analytics - welche mir 100%%Datenhoheit gibt und die Daten meiner Webseitenbesucher schützt.\nIch teile diese Nachricht in der Hoffnung das du dir die Macht von Google zurückholst und mit deinen eigenen Daten wie mit deinem anderen Eigentum umgehst.\n\nSchau dir Matomo an, auf https:\/\/matomo.org",
