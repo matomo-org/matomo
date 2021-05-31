@@ -256,9 +256,10 @@ class Model
                     $hash = $this->getHashFromDoneFlag($doneFlagToCheck);
                     if ($doneFlagToCheck != $doneFlag
                         && (empty($hash)
-                            || !in_array($hash, $hashesOfAllSegmentsToArchiveInCoreArchive))
+                            || !in_array($hash, $hashesOfAllSegmentsToArchiveInCoreArchive)
+                            || strpos($doneFlagToCheck, '.') !== false)
                     ) {
-                        continue; // the done flag is for a segment that is not auto archive, so we don't want to process it
+                        continue; // the done flag is for a segment that is not auto archive or a plugin specific archive, so we don't want to process it.
                     }
 
                     $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2][$doneFlagToCheck] ?? null;
