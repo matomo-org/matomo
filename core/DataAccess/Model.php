@@ -204,16 +204,17 @@ class Model
         // except for archives that are DONE_IN_PROGRESS.
         $archivesToCreateInvalidationRowsFor = [];
         foreach ($archivesToInvalidate as $row) {
-            if ($row['name'] != $doneFlag) { // only look at done flags that equal the one we are explicitly adding
-                continue;
-            }
-
-            $archivesToCreateInvalidationRowsFor[$row['idsite']][$row['period']][$row['date1']][$row['date2']] = $row['idarchive'];
+            $archivesToCreateInvalidationRowsFor[$row['idsite']][$row['period']][$row['date1']][$row['date2']][$row['name']] = $row['idarchive'];
         }
 
         $now = Date::now()->getDatetime();
 
         $existingInvalidations = $this->getExistingInvalidations($idSites, $periodCondition, $nameCondition);
+
+        $hashesOfAllSegmentsToArchiveInCoreArchive = Rules::getSegmentsToProcess($idSites);
+        $hashesOfAllSegmentsToArchiveInCoreArchive = array_map(function ($definition) use ($idSites) {
+            return (new Segment($definition, $idSites, Date::factory('yesterday'), Date::factory('today')))->getHash();
+        }, $hashesOfAllSegmentsToArchiveInCoreArchive);
 
         $dummyArchives = [];
         foreach ($idSites as $idSite) {
@@ -238,23 +239,42 @@ class Model
                 $date1 = $period->getDateStart()->toString();
                 $date2 = $period->getDateEnd()->toString();
 
-                $key = $this->makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period->getId(), $doneFlag, $name);
-                if (!empty($existingInvalidations[$key])) {
-                    continue; // avoid adding duplicates where possible
+                // we insert rows for the doneFlag we want to invalidate + any others we invalidated when doing the LIKE above.
+                // if we invalidated something in the archive tables, we want to make sure it appears in the invalidation queue,
+                // so we'll eventually reprocess it.
+                $doneFlagsFound = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2] ?? [];
+                $doneFlagsFound = array_keys($doneFlagsFound);
+                $doneFlagsToCheck = array_merge([$doneFlag], $doneFlagsFound);
+                $doneFlagsToCheck = array_unique($doneFlagsToCheck);
+
+                foreach ($doneFlagsToCheck as $doneFlagToCheck) {
+                    $key = $this->makeExistingInvalidationArrayKey($idSite, $date1, $date2, $period->getId(), $doneFlagToCheck, $name);
+                    if (!empty($existingInvalidations[$key])) {
+                        continue; // avoid adding duplicates where possible
+                    }
+
+                    $hash = $this->getHashFromDoneFlag($doneFlagToCheck);
+                    if ($doneFlagToCheck != $doneFlag
+                        && (empty($hash)
+                            || !in_array($hash, $hashesOfAllSegmentsToArchiveInCoreArchive)
+                            || strpos($doneFlagToCheck, '.') !== false)
+                    ) {
+                        continue; // the done flag is for a segment that is not auto archive or a plugin specific archive, so we don't want to process it.
+                    }
+
+                    $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2][$doneFlagToCheck] ?? null;
+
+                    $dummyArchives[] = [
+                        'idarchive' => $idArchive,
+                        'name' => $doneFlagToCheck,
+                        'report' => $name,
+                        'idsite' => $idSite,
+                        'date1' => $period->getDateStart()->getDatetime(),
+                        'date2' => $period->getDateEnd()->getDatetime(),
+                        'period' => $period->getId(),
+                        'ts_invalidated' => $now,
+                    ];
                 }
-
-                $idArchive = $archivesToCreateInvalidationRowsFor[$idSite][$period->getId()][$date1][$date2] ?? null;
-
-                $dummyArchives[] = [
-                    'idarchive' => $idArchive,
-                    'name' => $doneFlag,
-                    'report' => $name,
-                    'idsite' => $idSite,
-                    'date1' => $period->getDateStart()->getDatetime(),
-                    'date2' => $period->getDateEnd()->getDatetime(),
-                    'period' => $period->getId(),
-                    'ts_invalidated' => $now,
-                ];
             }
         }
 
@@ -963,5 +983,11 @@ class Model
     {
         $position = strpos($pair, '.');
         return $position === false || $position === strlen($pair) - 1;
+    }
+
+    private function getHashFromDoneFlag($doneFlag)
+    {
+        preg_match('/^done([a-zA-Z0-9]+)/', $doneFlag, $matches);
+        return $matches[1] ?? '';
     }
 }
