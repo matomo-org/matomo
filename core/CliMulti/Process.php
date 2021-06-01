@@ -188,42 +188,52 @@ class Process
 
     public static function isSupported()
     {
+        $reason = self::isSupportedWithReason();
+        return $reason === null;
+    }
+
+    public static function isSupportedWithReason()
+    {
         if (defined('PIWIK_TEST_MODE')
             && self::isForcingAsyncProcessMode()
         ) {
-            return false;
+            return 'forcing multicurl use for tests';
         }
 
         if (SettingsServer::isWindows()) {
-            return false;
+            return 'not supported on windows';
         }
 
         if (self::isMethodDisabled('shell_exec')) {
-            return false;
+            return 'shell_exec is disabled';
         }
 
         if (self::isMethodDisabled('getmypid')) {
-            return false;
+            return 'getmypid is disabled';
         }
 
         if (self::isSystemNotSupported()) {
-            return false;
+            return 'system returned by `uname -a` is not supported';
         }
 
-        if (!self::psExistsAndRunsCorrectly() || !self::awkExistsAndRunsCorrectly()) {
-            return false;
+        if (!self::psExistsAndRunsCorrectly()) {
+            return 'shell_exec("ps x 2> /dev/null") did not return a success code';
+        }
+
+        if (!self::awkExistsAndRunsCorrectly()) {
+            return 'awk is not available or did not run as we would expect it to';
         }
 
         $pid = @getmypid();
         if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
-            return false;
+            return 'could not find our pid (from getmypid()) in the output of `ps x`';
         }
 
         if (!self::isProcFSMounted() && !SettingsServer::isMac()) {
-            return false;
+            return 'procfs is not mounted';
         }
 
-        return true;
+        return null;
     }
 
     private static function psExistsAndRunsCorrectly()
@@ -234,7 +244,7 @@ class Process
     private static function awkExistsAndRunsCorrectly()
     {
         $testResult = shell_exec('echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | awk \'! /defunct/ {print $1}\'');
-        return $testResult == '537';
+        return trim($testResult) == '537';
     }
 
     private static function isSystemNotSupported()

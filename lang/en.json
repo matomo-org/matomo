@@ -524,7 +524,8 @@
         "Custom": "Custom",
         "PreviousPeriod": "Previous Period",
         "PreviousYear": "Previous Year",
-        "ViewAccessRequired": "The token_auth used has too much access to be used in a non-API request URL. Please use an app specific password for a user that only has view access."
+        "ViewAccessRequired": "The token_auth used has too much access to be used in a non-API request URL. Please use an app specific password for a user that only has view access.",
+        "Reason": "Reason"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

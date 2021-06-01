@@ -69,8 +69,10 @@ class CronArchivingCheck implements Diagnostic
             $comment .= $this->translator->translate('General_Ok');
             $status = DiagnosticResult::STATUS_OK;
         } else {
+            $reason = CliMulti\Process::isSupportedWithReason();
             $comment .= $this->translator->translate('Installation_NotSupported')
-                . ' ' . $this->translator->translate('Goals_Optional');
+                . ' ' . $this->translator->translate('Goals_Optional')
+                . ' (' . $this->translator->translate('General_Reason') . ': ' . ($reason ?? $this->translator->translate('General_Unknown')) . ')';
             $status = DiagnosticResult::STATUS_INFORMATIONAL;
         }
 
