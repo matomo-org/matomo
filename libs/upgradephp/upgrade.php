@@ -674,32 +674,6 @@ if (!function_exists('utf8_decode')) {
 }
 
 /**
- * Use strtolower if mb_strtolower doesn't exist (i.e., php not compiled with --enable-mbstring)
- * This is not a functional replacement for mb_strtolower.
- *
- * @param string $input
- * @param string $charset
- */
-if(!function_exists('mb_strtolower')) {
-    function mb_strtolower($input, $charset = '') {
-        return strtolower($input);
-    }
-}
-
-/**
- * Use strlen if mb_strlen doesn't exist (i.e., php not compiled with --enable-mbstring)
- * This is not a functional replacement for mb_strlen.
- *
- * @param string $input
- * @param string $charset
- */
-if(!function_exists('mb_strlen')) {
-    function mb_strlen($input, $charset = '') {
-        return strlen($input);
-    }
-}
-
-/**
  * On ubuntu in some cases, there is a bug that gzopen does not exist and one must use gzopen64 instead
  */
 if (!function_exists('gzopen')

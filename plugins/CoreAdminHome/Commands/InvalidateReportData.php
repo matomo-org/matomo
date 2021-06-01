@@ -85,6 +85,8 @@ class InvalidateReportData extends ConsoleCommand
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
         $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output);
 
+        $logger = StaticContainer::get(LoggerInterface::class);
+
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
                 continue; // special handling for range below
@@ -93,7 +95,7 @@ class InvalidateReportData extends ConsoleCommand
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
 
-                    $output->writeln("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
+                    $logger->info("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
 
                     $dates = $this->getPeriodDates($periodType, $dateRange);
 
@@ -104,13 +106,13 @@ class InvalidateReportData extends ConsoleCommand
                         if (!empty($plugin)) {
                             $message .= ", plugin = [ $plugin ]";
                         }
-                        $output->writeln($message);
+                        $logger->info($message);
                     } else {
                         $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
                             false, $plugin, $ignoreLogDeletionLimit);
 
                         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                            $output->writeln($invalidationResult->makeOutputLogs());
+                            $logger->info($invalidationResult->makeOutputLogs());
                         }
                     }
                 }
@@ -134,7 +136,7 @@ class InvalidateReportData extends ConsoleCommand
                     $segmentStr = $segment ? $segment->getString() : '';
                     if ($dryRun) {
                         $dateRangeStr = implode(';', $dateRanges);
-                        $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                        $logger->info("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
                     } else {
                         $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
                     }

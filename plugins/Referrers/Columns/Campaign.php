@@ -23,13 +23,7 @@ class Campaign extends Base
      *
      * @var bool
      */
-    protected $createNewVisitWhenCampaignChanges;
     protected $nameSingular = 'Referrers_ColumnCampaign';
-
-    public function __construct()
-    {
-        $this->createNewVisitWhenCampaignChanges = TrackerConfig::getConfigValue('create_new_visit_when_campaign_changes') == 1;
-    }
 
     /**
      * If we should create a new visit when the campaign changes, check if the campaign info changed and if so
@@ -42,7 +36,7 @@ class Campaign extends Base
      */
     public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
     {
-        if (!$this->createNewVisitWhenCampaignChanges) {
+        if (TrackerConfig::getConfigValue('create_new_visit_when_campaign_changes', $request->getIdSiteIfExists()) != 1) {
             return false;
         }
 

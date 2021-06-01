@@ -20,22 +20,9 @@ class Website extends Base
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'General_Website';
 
-    /**
-     * Set using the `[Tracker] create_new_visit_when_website_referrer_changes` INI config option.
-     * If true, will force new visits if the referrer website changes.
-     *
-     * @var bool
-     */
-    protected $createNewVisitWhenWebsiteReferrerChanges;
-
-    public function __construct()
-    {
-        $this->createNewVisitWhenWebsiteReferrerChanges = TrackerConfig::getConfigValue('create_new_visit_when_website_referrer_changes') == 1;
-    }
-
     public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
     {
-        if (!$this->createNewVisitWhenWebsiteReferrerChanges) {
+        if (TrackerConfig::getConfigValue('create_new_visit_when_website_referrer_changes', $request->getIdSiteIfExists()) != 1) {
             return false;
         }
 

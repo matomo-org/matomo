@@ -316,6 +316,15 @@ class Model
         return $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?", $tokenAuth);
     }
 
+    public function getUserTokenDescriptionByIdTokenAuth($idTokenAuth, $login)
+    {
+        $db = $this->getDb();
+
+        $token = $db->fetchRow("SELECT description FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ? LIMIT 1", array($idTokenAuth, $login));
+
+        return $token ? $token['description'] : '';
+    }
+
     private function getQueryNotExpiredToken()
     {
         return array(

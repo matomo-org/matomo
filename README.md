@@ -1,7 +1,7 @@
 # Matomo (formerly Piwik) - matomo.org
 
-[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://matomo.org/download/)
-[![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
+[![Latest Stable Version](https://poser.pugx.org/matomo/matomo/v/stable)](https://matomo.org/download/)
+[![Latest Unstable Version](https://poser.pugx.org/matomo/matomo/v/unstable)](https://builds.matomo.org/)
 [![License](https://poser.pugx.org/piwik/piwik/license)](https://matomo.org/free-software/)
 
 ## Code Status

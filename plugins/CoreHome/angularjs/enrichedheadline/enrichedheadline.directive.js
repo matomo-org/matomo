@@ -28,16 +28,22 @@
  * </h2>
  * -> alternative definition for inline help
  * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
+ *
+ * * <h2 piwik-enriched-headline report-generated="generated time">Pages report</h2>
+ * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which activated by hover
+ * -> the tooltip shows the value of the attribute
  */
 (function () {
     angular.module('piwikApp').directive('piwikEnrichedHeadline', piwikEnrichedHeadline);
 
-    piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$filter', '$parse'];
+    piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$filter', '$parse', 'piwikPeriods'];
 
-    function piwikEnrichedHeadline($document, piwik, $filter, $parse){
+    function piwikEnrichedHeadline($document, piwik, $filter, $parse, piwikPeriods){
         var defaults = {
             helpUrl: '',
-            editUrl: ''
+            editUrl: '',
+            reportGenerated: '',
+            showReportGenerated: '',
         };
 
         return {
@@ -46,8 +52,10 @@
             scope: {
                 helpUrl: '@',
                 editUrl: '@',
+                reportGenerated: '@?',
                 featureName: '@',
-                inlineHelp: '@?'
+                inlineHelp: '@?',
+                showReportGenerated: '=?'
             },
             templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
@@ -86,6 +94,18 @@
 
                     if (!attrs.featureName) {
                         attrs.featureName = $.trim(element.find('.title').first().text());
+                    }
+
+                    if (scope.reportGenerated && piwikPeriods.parse(piwik.period, piwik.currentDateString).containsToday()) {
+                        element.find('.report-generated').first().tooltip({
+                            track: true,
+                            content: scope.reportGenerated,
+                            items: 'div',
+                            show: false,
+                            hide: false
+                        });
+
+                        scope.showReportGenerated = '1';
                     }
                 };
             }

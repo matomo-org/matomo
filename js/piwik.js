@@ -4562,17 +4562,42 @@ if (typeof window.Matomo !== 'object') {
                 return event.target || event.srcElement;
             }
 
+            function isClickNode(nodeName)
+            {
+                return nodeName === 'A' || nodeName === 'AREA';
+            }
+
             /*
              * Handle click event
              */
             function clickHandler(enable) {
 
+                function getLinkTarget(event)
+                {
+                    var target = getTargetElementFromEvent(event);
+                    var nodeName = target.nodeName;
+                    var ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore');
+
+                    while (!isClickNode(nodeName) && target && target.parentNode) {
+                        target = target.parentNode;
+                        nodeName = target.nodeName;
+                    }
+
+                    if (target && isClickNode(nodeName) && !ignorePattern.test(target.className)) {
+                        return target;
+                    }
+                }
+
                 return function (event) {
 
                     event = event || windowAlias.event;
 
+                    var target = getLinkTarget(event);
+                    if (!target) {
+                        return;
+                    }
+
                     var button = getNameOfClickedButton(event);
-                    var target = getTargetElementFromEvent(event);
 
                     if (event.type === 'click') {
 
@@ -4609,50 +4634,18 @@ if (typeof window.Matomo !== 'object') {
             /*
              * Add click listener to a DOM element
              */
-            function addClickListener(element, enable) {
+            function addClickListener(element, enable, useCapture) {
                 var enableType = typeof enable;
                 if (enableType === 'undefined') {
                     enable = true;
                 }
 
-                addEventListener(element, 'click', clickHandler(enable), false);
+                addEventListener(element, 'click', clickHandler(enable), useCapture);
 
                 if (enable) {
-                    addEventListener(element, 'mouseup', clickHandler(enable), false);
-                    addEventListener(element, 'mousedown', clickHandler(enable), false);
-                    addEventListener(element, 'contextmenu', clickHandler(enable), false);
-                }
-            }
-
-            /*
-             * Add click handlers to anchor and AREA elements, except those to be ignored
-             */
-            function addClickListeners(enable, trackerInstance) {
-                linkTrackingInstalled = true;
-
-                // iterate through anchor elements with href and AREA elements
-                var i,
-                    ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'),
-                    linkElements = documentAlias.links,
-                    linkElement = null, trackerType = null;
-
-                if (linkElements) {
-                    for (i = 0; i < linkElements.length; i++) {
-                        linkElement = linkElements[i];
-                        if (!ignorePattern.test(linkElement.className)) {
-                            trackerType = typeof linkElement.matomoTrackers;
-
-                            if ('undefined' === trackerType) {
-                                linkElement.matomoTrackers = [];
-                            }
-
-                            if (-1 === indexOfArray(linkElement.matomoTrackers, trackerInstance)) {
-                                // we make sure to setup link only once for each tracker
-                                linkElement.matomoTrackers.push(trackerInstance);
-                                addClickListener(linkElement, enable);
-                            }
-                        }
-                    }
+                    addEventListener(element, 'mouseup', clickHandler(enable), useCapture);
+                    addEventListener(element, 'mousedown', clickHandler(enable), useCapture);
+                    addEventListener(element, 'contextmenu', clickHandler(enable), useCapture);
                 }
             }
 
@@ -6032,14 +6025,14 @@ if (typeof window.Matomo !== 'object') {
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
              */
             this.addListener = function (element, enable) {
-                addClickListener(element, enable);
+                addClickListener(element, enable, false);
             };
 
             /**
              * Install link tracker.
              *
-             * If you change the DOM of your website or web application you need to make sure to call this method
-             * again so Matomo can detect links that were added newly.
+             * If you change the DOM of your website or web application Matomo will automatically detect links
+             * that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
@@ -6063,17 +6056,20 @@ if (typeof window.Matomo !== 'object') {
              *                    to wrong click numbers.
              */
             this.enableLinkTracking = function (enable) {
+                if (linkTrackingEnabled) {
+                    return;
+                }
                 linkTrackingEnabled = true;
 
                 var self = this;
-                trackCallback(function () {
-                    trackCallbackOnReady(function () {
-                        addClickListeners(enable, self);
-                    });
-                    trackCallbackOnLoad(function () {
-                        addClickListeners(enable, self);
-                    });
+
+                trackCallbackOnReady(function () {
+                    linkTrackingInstalled = true;
+
+                    var element = documentAlias.body;
+                    addClickListener(element, enable, true);
                 });
+
             };
 
             /**

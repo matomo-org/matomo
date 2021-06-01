@@ -20,6 +20,12 @@
         "CronArchivingRunDetails": "Bitte überprüfen Sie, ob Sie einen Crontab eingerichtet haben, der den %1$s Konsolenbefehl aufruft, und ob Sie einen %2$s konfiguriert haben, um Fehler per E-Mail zu erhalten, wenn die Archivierung fehlschlägt. Sie können auch versuchen, den Konsolenbefehl auszuführen, um Ihre Berichte manuell zu archivieren: %3$s. %4$s Mehr erfahren.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "Der Archivierungsprozess wurde vor %1$s erfolgreich abgeschlossen.",
         "BrowserTriggeredArchivingEnabled": "Für eine optimale Leistung und ein schnelles Matomo wird dringend empfohlen, einen Crontab einzurichten, um Ihre Berichte automatisch zu archivieren und das Auslösen durch den Browser in den Matomo-Einstellungen zu deaktivieren. %1$sErfahren Sie mehr.%2$s",
-        "NoDataForReportArchivingNotRun": "Die Archivierung Ihrer Berichte wurde in letzter Zeit nicht durchgeführt, %1$serfahren Sie mehr darüber, wie Sie Ihre Berichte erzeugen können.%2$s"
+        "NoDataForReportArchivingNotRun": "Die Archivierung Ihrer Berichte wurde in letzter Zeit nicht durchgeführt, %1$serfahren Sie mehr darüber, wie Sie Ihre Berichte erzeugen können.%2$s",
+        "RequiredPrivateDirectories": "Verzeichnisse, welche privat sein müssen",
+        "PrivateDirectoryManualCheck": "Bitte öffnen Sie die URLs manuell in einem Browser um zu sehen, ob Sie Zugang dazu haben. Wenn Sie können, sollten Sie Ihre Serverkonfiguration so ändern, dass diese Dateien\/Verzeichnisse nicht via Browser aus dem Internet oder Intranet verfügbar sind.",
+        "PrivateDirectoryInternetDisabled": "Wir konnten bei den folgenden URLs nicht prüfen, ob sie erreichbar sind, weil Internet Features aktuell auf dieser Matomo Installation deaktiviert sind.",
+        "PrivateDirectoryIsAccessible": "Wir haben festgestellt, dass auf die oben aufgelisteten URLs über den Browser zugegriffen werden kann, was aber NICHT so sein sollte. Der Zugriff kann ein mögliches Sicherheitsrisiko darstellen, weil der Inhalt Informationen über Ihren Server und potenziell über Ihre Benutzer enthält. Bitte beschränken Sie den Zugriff auf diese URLs.",
+        "ConfigIniAccessible": "Wir haben auch herausgefunden, dass Matomos Konfigurationsverzeichnis öffentlich zugänglich ist. Zwar können Angreifer die Konfigurationsdatei nicht lesen, jedoch sind Ihre MySQL Anmeldeinformationen und andere Informationen für jeden zugänglich, wenn Ihr Webserver aus irgend einem Grund aufhört, PHP Dateien auszuführen. Bitte prüfen Sie Ihre Webserverkonfiguration und verwehren Sie den Zugriff zu diesem Verzeichnis.",
+        "AllPrivateDirectoriesAreInaccessible": "Alle privaten Verzeichnisse sind nicht aus dem Internet zugänglich."
     }
 }

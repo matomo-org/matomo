@@ -1,7 +1,11 @@
 {
     "TwoFactorAuth": {
         "TwoFactorAuthentication": "兩步驟驗證",
+        "TwoFAShort": "2FA",
         "TwoFactorAuthenticationIsEnabled": "已啟用兩步驟驗證。",
-        "TwoFactorAuthenticationIsDisabled": "已停用兩步驟驗證。"
+        "TwoFactorAuthenticationIsDisabled": "已停用兩步驟驗證。",
+        "TwoFactorAuthenticationRequired": "所有人都需要開啟兩步驟驗證，你不能關閉。",
+        "ConfigureDifferentDevice": "設定另一台裝置",
+        "SetUpTwoFactorAuthentication": "開始設定兩步驟驗證 (2FA)"
     }
 }

@@ -32,7 +32,6 @@
         "ContactUs": "Contattaci",
         "VisitTheForums": "Visita il %1$s Forum%2$s e ottieni aiuto dalla comunità degli utenti Matomo",
         "Forums": "Forum",
-        "ReviewMatomoTitle": "Credi in Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Condividi ciò che pensi su uno di questi siti e ispira altri a unirsi alla nostra rivoluzione dei dati.",
         "RemindMeLater": "Ricordamelo più tardi",
         "NeverAskMeAgain": "Non chiedermelo di nuovo",
@@ -44,8 +43,7 @@
         "SearchHelpResources": "Cerca nelle risorse di matomo.org per aiuto",
         "PopularHelpTopics": "Argomenti di aiuto popolari",
         "ReferMatomo": "Parla di Matomo",
-        "ReferBannerTitle": "Non lasciare che i dati dei tuoi amici finiscano in mani sbagliate!",
-        "ReferBannerLonger": "Indirizzali adesso verso Matomo Analytics per riprendere il controllo!",
+        "ReferBannerTitle": "Credi in Matomo?",
         "ReferBannerEmailShareSubject": "Indirizzali adesso verso Matomo Analytics per riprendere il controllo!",
         "ReferBannerEmailShareBody": "Scelgo Matomo, un'alternativa etica a Google Analytics che mi dà al 100%% la proprietà dei dati e protegge i dati dei visitatori del mio sito web.\nCondivido questo messaggio nella speranza che anche tu riprenderai il potere da Google e acquisirai la completa proprietà dei tuoi dati.\n\nDai un'occhiata a Matomo su https:\/\/matomo.org",
         "ReferBannerSocialShareText": "Se stai utilizzando Google Analytics, mantieni il controllo passando adesso a un'alternativa etica come Matomo!"

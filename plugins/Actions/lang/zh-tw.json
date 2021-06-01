@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "這份報表包含指定期間內之離開網頁的相關資訊。所謂的離開網頁，是訪客離開網頁前最後瀏覽的頁面。%s 離開網頁的網址以資料夾結構顯示。",
         "ExitPageTitles": "離站網頁標題",
         "ExitPageTitlesReportDocumentation": "此報表包含關於指定期間內離站網頁之標題等資訊",
+        "MainMetricsReportDocumentation": "這份報表提供了訪客在你的網站上的基本活動概觀。",
         "OneSearch": "1 搜尋數",
         "OutlinkDocumentation": "離開連結是將訪客帶出網站的連結（到其他域名）。",
         "OutlinksReportDocumentation": "這份報表以分層列表顯示訪客所點擊的離開連結網址。",

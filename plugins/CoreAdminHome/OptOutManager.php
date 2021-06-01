@@ -172,10 +172,17 @@ class OptOutManager
 
         $setCookieInNewWindow = Common::getRequestVar('setCookieInNewWindow', false, 'int');
         if ($setCookieInNewWindow) {
+            $nonce = Common::getRequestVar('nonce', false);
+
+            if ($nonce !== false && !Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+                Nonce::discardNonce('Piwik_OptOut');
+                $nonce = '';
+            }
+
             $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
                 'showConfirmOnly' => 1,
                 'setCookieInNewWindow' => 0,
-                'nonce' => Common::getRequestVar('nonce')
+                'nonce' => $nonce ? $nonce : ''
             ));
         } else {
             $reloadUrl = false;
@@ -232,7 +239,7 @@ class OptOutManager
         $cssbody = 'body { ';
 
         $hexstrings = array(
-            'fontColor' => $cssfontcolour, 
+            'fontColor' => $cssfontcolour,
             'backgroundColor' => $cssbackgroundcolor
         );
         foreach ($hexstrings as $key => $testcase) {
@@ -242,7 +249,7 @@ class OptOutManager
         }
 
         if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
-            $cssbody .= 'font-size: ' . $cssfontsize . '; '; 
+            $cssbody .= 'font-size: ' . $cssfontsize . '; ';
         } else if ($cssfontsize) {
             throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
         }

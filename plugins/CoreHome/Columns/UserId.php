@@ -57,7 +57,7 @@ class UserId extends VisitDimension
     {
         $value = $request->getForcedUserId();
         if (!empty($value)) {
-            return Common::mb_substr($value, 0, self::MAXLENGTH);
+            return mb_substr($value, 0, self::MAXLENGTH);
         }
         return $value;
     }

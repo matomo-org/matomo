@@ -56,7 +56,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
 
     public function test_generateSecret()
     {
-        $this->assertSame(16, Common::mb_strlen($this->twoFa->generateSecret()));
+        $this->assertSame(16, mb_strlen($this->twoFa->generateSecret()));
     }
 
     public function test_isUserRequiredToHaveTwoFactorEnabled_notByDefault()

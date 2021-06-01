@@ -40,7 +40,7 @@ class Controller extends \Piwik\Plugin\Controller
         $reportTypes = API::getReportTypes();
         $reportTypeOptions = array();
         foreach ($reportTypes as $reportType => $icon) {
-            $reportTypeOptions[$reportType] = Common::mb_strtoupper($reportType);
+            $reportTypeOptions[$reportType] = mb_strtoupper($reportType);
         }
         $view->reportTypes = $reportTypes;
         $view->reportTypeOptions = $reportTypeOptions;
@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
             $reportFormatsByReportType[$reportType] = API::getReportFormats($reportType);
             $reportFormatsByReportTypeOptions[$reportType] = $reportFormatsByReportType[$reportType];
             foreach ($reportFormatsByReportTypeOptions[$reportType] as $type => $icon) {
-                $reportFormatsByReportTypeOptions[$reportType][$type] = Common::mb_strtoupper($type);
+                $reportFormatsByReportTypeOptions[$reportType][$type] = mb_strtoupper($type);
             }
             $allowMultipleReportsByReportType[$reportType] = API::allowMultipleReports($reportType);
 

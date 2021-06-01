@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.4.0
+
+### Changes to events
+
+* It is now possible via the Mail.send event to abort sending emails. Set the `$mail` event parameter to null to do this.
+
 ## Matomo 4.3.1
 
 ### New commands
@@ -11,6 +17,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added new command `core:create-security-files` which creates some web server security files if they haven't existed previously (useful when using for example Apache or IIS web server).
 
 ## Matomo 4.3.0
+
+### JavaScript Tracker
+
+#### Breaking changes in Matomo JS tracker
+
+* Before the JS tracker method, `enableLinkTracking` did not follow the DOM changes, from this version when the DOM updates, Matomo automatically adds event listeners for new links on the page. It makes it easier to track clicks on links in SPAs. From this version, if we use the `addListener` method to add event listener manually after the DOM has changed and the `enableLinkTracking` is turned on we will track the click event for that element twice.
 
 ### Breaking Changes
 

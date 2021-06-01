@@ -211,7 +211,7 @@ class SiteUrls
 
     private function toCanonicalHost($host)
     {
-        $host = Common::mb_strtolower($host);
+        $host = mb_strtolower($host);
         if (strpos($host, 'www.') === 0) {
             $host = substr($host, 4);
         }
@@ -224,7 +224,7 @@ class SiteUrls
         $path = '/';
 
         if (isset($urlParsed['path'])) {
-            $path = Common::mb_strtolower($urlParsed['path']);
+            $path = mb_strtolower($urlParsed['path']);
             if (!Common::stringEndsWith($path, '/')) {
                 $path .= '/';
             }

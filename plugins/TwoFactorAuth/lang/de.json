@@ -44,6 +44,8 @@
         "RecoveryCodesAllUsed": "Alle Recovery Codes wurden verwendet, es wird wärmstens empfohlen Ihre Recovery Codes zu regenerieren.",
         "RecoveryCodesRegenerated": "Recovery Codes wurden regeneriert. Stellen Sie sicher, dass die neu generierten Codes heruntergeladen oder ausgedruckt werden.",
         "GenerateNewRecoveryCodes": "Einen neuen Wiederherstellungscode generieren",
-        "GenerateNewRecoveryCodesInfo": "Wenn Sie neue Recovery Codes generieren, werden Ihre alten nicht mehr funktionieren. Stellen Sie sicher dass Sie die neuen Codes herunterladen oder ausdrucken."
+        "GenerateNewRecoveryCodesInfo": "Wenn Sie neue Recovery Codes generieren, werden Ihre alten nicht mehr funktionieren. Stellen Sie sicher dass Sie die neuen Codes herunterladen oder ausdrucken.",
+        "RequireTwoFAForAll": "Zwei-Faktor Authentifizierung für alle benötigt",
+        "RequireTwoFAForAllInformation": "Wenn angewählt, muss jeder Benutzer sich per Zwei-Faktor Authentifizierung anmelden. 2FA zu erzwingen hat zur Folge, dass alle Benutzer Zugang zu einem Gerät haben müssen, auf welchem eine Authentifizierungs-App installierbar ist. Sie können diese Funktion nur aktivieren wenn Sie die Zwei-Faktor-Authentifizierung bereits bei sich aktiviert haben."
     }
 }

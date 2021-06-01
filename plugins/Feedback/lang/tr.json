@@ -32,7 +32,7 @@
         "ContactUs": "Bizimle görüşün",
         "VisitTheForums": "%1$sForumları%2$s ziyaret ederek Matomo kullanıcı topluluğundan destek alabilirsiniz",
         "Forums": "Forum",
-        "ReviewMatomoTitle": "Matomo uygulamasına güveniyor musunuz?",
+        "ReviewMatomoTitle": "Matomo hoşunuza gitti mi?",
         "PleaseLeaveExternalReviewForMatomo": "Düşüncelerinizi bu sitelerden birinde paylaşın ve başkalarına da veri devrimimize katılmaları için ilham verin.",
         "RemindMeLater": "Daha sonra anımsat",
         "NeverAskMeAgain": "Bir daha sorma",
@@ -44,10 +44,11 @@
         "SearchHelpResources": "Matomo.org yardım kaynaklarında arayın",
         "PopularHelpTopics": "Sık başvurulan yardım konuları",
         "ReferMatomo": "Matomo uygulamasını önerin",
-        "ReferBannerTitle": "Arkadaşlarınızın verilerinin yanlış ellere geçmesine izin vermeyin!",
-        "ReferBannerLonger": "Verilerinin denetimini yeniden ele almaları için onlara Matomo kullanmalarını önerin!",
+        "ReferBannerTitle": "Matomo uygulamasına güveniyor musunuz?",
+        "ReferBannerLonger": "Lütfen daha fazla insanın kendi istatistiklerini kontrol edebilmesi için bizi anlatan bilgileri yaymamıza yardımcı olun.",
         "ReferBannerEmailShareSubject": "Verilerinin denetimini yeniden ele almaları için onlara Matomo kullanmalarını önerin!",
         "ReferBannerEmailShareBody": "Google Analytics uygulamasına etik bir alternatif olarak, verilerim üzerinde %%100 sahiplik sağlayan ve web sitesi ziyaretçilerimin verilerini koruyan Matomo uygulamasını kullanıyorum.\nSizin de Google üzerinden gücünüzü geri alarak kendi verilerinize ship olmanız umuduyla bu iletiyi paylaşıyorum.\n\nMatomo uygulamasını https:\/\/matomo.org adresinde bulabilirsiniz",
-        "ReferBannerSocialShareText": "Google Analytics kullanıyorsanız, Matomo gibi etik bir alternatife geçerek denetimi elinize alın!"
+        "ReferBannerSocialShareText": "Google Analytics kullanıyorsanız, Matomo gibi etik bir alternatife geçerek denetimi elinize alın!",
+        "WontShowAgain": "Bu iletiyi bir daha göstermeyeceğiz."
     }
 }

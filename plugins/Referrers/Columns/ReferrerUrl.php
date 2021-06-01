@@ -44,8 +44,8 @@ class ReferrerUrl extends Base
 
     private function trimUrl($url)
     {
-        if (!empty($url) && is_string($url) && Common::mb_strlen($url) > self::MAX_LEN) {
-            return Common::mb_substr($url, 0, self::MAX_LEN);
+        if (!empty($url) && is_string($url) && mb_strlen($url) > self::MAX_LEN) {
+            return mb_substr($url, 0, self::MAX_LEN);
         }
         return $url;
     }

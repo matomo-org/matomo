@@ -44,6 +44,13 @@
         "WrongPasswordEntered": "Bitte geben Sie das korrekte Passwort ein.",
         "ConfirmPasswordToContinue": "Bitte bestätigen Sie Ihr Passwort um fortzufahren",
         "PluginDescription": "Unterstützt Authentifizierung via Benutzername und Passwort sowie Password Reset Funktionalität. Die Authentifizierungsmethode kann durch ein anderes Login Plugin wie LoginLdap (verfügbar im Marketplace) geändert werden.",
-        "RememberMe": "Angemeldet bleiben"
+        "RememberMe": "Angemeldet bleiben",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Wir haben verdächtige Anmeldeversuche bei Ihrem Benutzerkonto festgestellt...",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Wir haben eine verdächtig hohe Anzahl von Anmeldeversuchen bei Ihrem Matomo Benutzerkonto in der letzten Stunde festgestellt, speziell %1$sAnmeldeversuche von %2$sunterschiedlichen IP-Adressen. Wir vermuten, dass jemand versucht, Ihr Benutzerkonto zu hacken.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Um Matomo abzusichern, empfehlen wir, folgende Vorsichtsmaßnahmen vorzunehmen:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Stellen Sie sicher, dass Sie ein sicheres Passwort verwenden, zufällig generiert und mit einer angemessenen Länge (zum Beispiel mindestens 30 Zeichen).",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Installieren und aktivieren Sie Zwei-Faktor-Authentifizierung, sodass Angreifer mehr Informationen als nur Ihr Passwort benötigen um sich einzuloggen.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Zusätzlich dazu, wenn Ihr Matomo eine limitierte Anzahl von Benutzern oder IP Adressen verwendet durch die Zugriff nötig ist, kann es sinnvoll sein, eine Liste mit erlaubten IP Adressen zu definieren. %1$sWeitere Informationen dazu in unserer Dokumentation%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "Die Login Funktionalität wurde temporär deaktiviert weil wir eine verdächtige hohe Anzahl fehlgeschlagener Anmeldeversuche in der letzten Stunde registriert haben."
     }
 }
