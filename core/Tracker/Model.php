@@ -367,7 +367,7 @@ class Model
         return $wasInserted;
     }
 
-    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
+    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead, $orderByIdVisit = false)
     {
         $selectFields = implode(', ', $fieldsToRead);
 
@@ -393,12 +393,12 @@ class Model
         $visitorIdbindSql = [$idSite, $timeLookAhead];
 
         if ($shouldMatchOneFieldOnly && $isVisitorIdToLookup) {
-            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql, $orderByIdVisit);
         } elseif ($shouldMatchOneFieldOnly) {
-            $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
+            $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql, $orderByIdVisit);
         } else {
             if (!empty($idVisitor)) {
-                $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+                $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql, $orderByIdVisit);
             } else {
                 $visitRow = false;
             }
@@ -408,7 +408,7 @@ class Model
                     $configIdWhere .= ' AND ( user_id IS NULL OR user_id = ? )';
                     $configIdbindSql[] = $userId;
                 }
-                $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
+                $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql, $orderByIdVisit);
             }
         }
 
@@ -425,7 +425,7 @@ class Model
         return $val == $idSite;
     }
 
-    private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
+    private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql, $orderByIdVisit = false)
     {
         $cache = Cache::getCacheGeneral();
 
@@ -437,22 +437,23 @@ class Model
         $where .= ' AND idvisitor = ?';
         $bindSql[] = $idVisitor;
 
-        return $this->fetchVisitor($select, $from, $where, $bindSql);
+        return $this->fetchVisitor($select, $from, $where, $bindSql, $orderByIdVisit);
     }
 
-    private function findVisitorByConfigId($configId, $select, $from, $where, $bindSql)
+    private function findVisitorByConfigId($configId, $select, $from, $where, $bindSql, $orderByIdVisit = false)
     {
         // will use INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time)
         $where .= ' AND config_id = ?';
         $bindSql[] = $configId;
 
-        return $this->fetchVisitor($select, $from, $where, $bindSql);
+        return $this->fetchVisitor($select, $from, $where, $bindSql, $orderByIdVisit);
     }
 
-    private function fetchVisitor($select, $from, $where, $bindSql)
+    private function fetchVisitor($select, $from, $where, $bindSql, $orderByIdVisit = false)
     {
+        $orderByColumn = $orderByIdVisit ? 'idvisit' : 'visit_last_action_time';
         $sql = "$select $from WHERE " . $where . "
-                ORDER BY visit_last_action_time DESC
+                ORDER BY $orderByColumn DESC
                 LIMIT 1";
 
         $visitRow = $this->getDb()->fetch($sql, $bindSql);

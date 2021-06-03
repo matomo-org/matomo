@@ -17,6 +17,7 @@ use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -31,6 +32,8 @@ use Piwik\Cache as PiwikCache;
  */
 class Request
 {
+    const HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME = 'Tracker.hasUsedCdtWhenTracking';
+
     private $cdtCache;
     private $idSiteCache;
     private $paramsCache = array();
@@ -544,7 +547,22 @@ class Request
             }
         }
 
+        $idSite = $this->getIdSite();
+        $this->markCdtUsedWithSite($idSite);
+
         return (int) $cdt;
+    }
+
+    private function markCdtUsedWithSite($idSite)
+    {
+        $cacheAttributes = Cache::getCacheWebsiteAttributes($idSite);
+        if (!empty($cacheAttributes['has_used_cdt_when_tracking'])) {
+            return;
+        }
+
+        Option::set(self::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME, 1);
+
+        Cache::deleteCacheWebsiteAttributes($idSite);
     }
 
     /**

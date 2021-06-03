@@ -106,7 +106,11 @@ class VisitorRecognizer
 
         $maxActions = TrackerConfig::getConfigValue('create_new_visit_after_x_actions', $request->getIdSiteIfExists());
 
-        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $cacheAttributes = Cache::getCacheWebsiteAttributes($idSite);
+        $orderByIdVisit = empty($cacheAttributes['has_used_cdt_when_tracking']);
+
+        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead,
+            $orderByIdVisit);
 
         if (!empty($maxActions) && $maxActions > 0
             && !empty($visitRow['visit_total_actions'])
