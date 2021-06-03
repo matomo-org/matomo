@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/stale@v3
         with:
-          debug-only: true
+          debug-only: false
           start-date: 2021-03-01T00:00:00Z
           days-before-pr-stale: 14
           days-before-pr-close: -1
