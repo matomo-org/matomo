@@ -139,6 +139,23 @@
         "TrackingFailuresEmail1": "Questo è solo per farti sapere che %s diversi tipi di errori di tracking si sono verificati negli ultimi giorni.",
         "TrackingFailuresEmail2": "Per visualizzare tutte le richieste di tracking fallite %1$sclicca qui%2$s.",
         "ImportFromGoogleAnalytics": "Importazione da Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "Se hai una proprietà Google Analytics e stai passando a Matomo, puoi importare i dati esistenti utilizzando il plugin %1$sGoogleAnalyticsImporter%2$s."
+        "ImportFromGoogleAnalyticsDescription": "Se hai una proprietà Google Analytics e stai passando a Matomo, puoi importare i dati esistenti utilizzando il plugin %1$sGoogleAnalyticsImporter%2$s.",
+        "SecurityNotificationEmailSubject": "Notifica di Sicurezza",
+        "SecurityNotificationRecoveryCodesShowedBody": "Qualcuno ha visualizzato i codici di ripristino dell'autenticazione a due-fattori del tuo account.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Qualcuno ha generato nuovi codici di ripristino dell'autenticazione a due-fattori per il tuo account.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Qualcuno ha abilitato l'autenticazione a due-fattori nel tuo account.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Qualcuno ha disabilitato l'autenticazione a due-fattori nel tuo account.",
+        "SecurityNotificationTokenAuthCreatedBody": "Qualcuno ha creato un token di autorizzazione (descrizione: %s) nel tuo account. Se non sei stato tu, cancella il token.",
+        "SecurityNotificationTokenAuthDeletedBody": "Qualcuno ha eliminato un token di autorizzazione (descrizione: %s) nel tuo account.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Qualcuno ha eliminato tutti i token di autorizzazione nel tuo account.",
+        "SecurityNotificationSettingsChangedByUserBody": "Qualcuno ha modificato le impostazioni del sistema. Impostazioni interessate: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Un altro super user (%1$s) ha modificato le impostazioni di sistema. Impostazioni interessate: %2$s. Se conosci questa attività, continua. Se non riconosci questa attività, contatta gli altri super user.",
+        "SecurityNotificationUserCreatedBody": "Qualcuno ha creato un nuovo utente (login: %s) nel tuo account.",
+        "SecurityNotificationUserDeletedBody": "Qualcuno ha eliminato un utente (login: %s) nel tuo account.",
+        "SecurityNotificationIfItWasYou": "Se sei stato tu, continua. Se non riconosci questa attività, reimposta la password.",
+        "SecurityNotificationCheckTwoFactor": "Controlla la tua app o il dispositivo di autenticazione a due-fattori.",
+        "BruteForce": "Forza Bruta",
+        "TwoFactorAuth": "Autorizzazione a due-fattori",
+        "Cors": "Cors"
     }
 }

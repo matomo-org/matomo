@@ -524,7 +524,8 @@
         "Custom": "Vetjake",
         "PreviousPeriod": "Periudhën e Kaluar",
         "PreviousYear": "Vitin e Kaluar",
-        "ViewAccessRequired": "token_auth i përdorur ka shumë fuqi hyrjeje për t’u përdorur në një URL kërkese jo API. Ju lutemi, përdorni një fjalëkalim specifik për aplikacionin për një përdorues që ka vetëm leje parjesh."
+        "ViewAccessRequired": "token_auth i përdorur ka shumë fuqi hyrjeje për t’u përdorur në një URL kërkese jo API. Ju lutemi, përdorni një fjalëkalim specifik për aplikacionin për një përdorues që ka vetëm leje parjesh.",
+        "Reasons": "Arsye"
     },
     "Mobile": {
         "AboutPiwikMobile": "Rreth Matomo-s për Celular",
