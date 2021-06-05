@@ -206,7 +206,7 @@ class SitesManager extends \Piwik\Plugin
         $array['timezone'] = $this->getTimezoneFromWebsite($website);
         $array['ts_created'] = $website['ts_created'];
         $array['type'] = $website['type'];
-        $array['has_used_cdt_when_tracking'] = Option::get(\Piwik\Tracker\Request::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME);
+        $array['has_used_cdt_when_tracking'] = Option::get(\Piwik\Tracker\Request::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX . $idSite);
 
         // we make sure to have the fingerprint salts for the last 3 days incl tmrw in the cache so we don't need to
         // query the DB directly for these days

@@ -32,7 +32,7 @@ use Piwik\Cache as PiwikCache;
  */
 class Request
 {
-    const HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME = 'Tracker.hasUsedCdtWhenTracking';
+    const HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX = 'Tracker.hasUsedCdtWhenTracking.';
 
     private $cdtCache;
     private $idSiteCache;
@@ -560,7 +560,7 @@ class Request
             return;
         }
 
-        Option::set(self::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME, 1);
+        Option::set(self::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX . $idSite, 1);
 
         Cache::deleteCacheWebsiteAttributes($idSite);
     }
