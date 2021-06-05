@@ -452,4 +452,26 @@ class RawLogDao
 
         return $columns;
     }
+
+    public function hasVisitDataOutOfOrder($idSite)
+    {
+        $logVisit = Common::prefixTable('log_visit');
+        $countOfVisitsForSite = Db::fetchOne('SELECT COUNT(*) FROM ' . $logVisit . ' WHERE idsite = ?', [$idSite]);
+
+        $middleVisit = Db::fetchRow('SELECT idvisit, visit_last_action_time FROM ' . $logVisit . ' WHERE idsite = ? LIMIT 1 OFFSET ' . ($countOfVisitsForSite / 2), [$idSite]);
+
+        $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
+        $visitWithGreaterIdVisitButLowerTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
+        if (!empty($visitWithGreaterIdVisitButLowerTime)) {
+            return true;
+        }
+
+        $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit < ? AND visit_last_action_time > ? AND idsite = ?';
+        $visitWithLowerIdVisitButGreaterTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
+        if (!empty($visitWithLowerIdVisitButGreaterTime)) {
+            return true;
+        }
+
+        return false;
+    }
 }
