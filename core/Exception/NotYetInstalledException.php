@@ -16,18 +16,6 @@ class NotYetInstalledException extends InvalidRequestParameterException
 {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
-        parent::__construct($message . ' [' . self::getErrorContext() . ']', $code, $previous);
-    }
-
-    private static function getErrorContext()
-    {
-        try {
-            $context = Url::getCurrentUrl();
-            $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
-            return $context;
-        } catch (\Exception $ex) {
-            $context = "cannot get url or cli mode: " . $ex->getMessage();
-            return $context;
-        }
+        parent::__construct($message, $code, $previous);
     }
 }
