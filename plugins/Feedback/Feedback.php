@@ -12,7 +12,7 @@ use Piwik\Date;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Feedback\FeedbackReminder;
 
 /**
@@ -74,6 +74,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
         $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
         $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
+        $translationKeys[] = 'Feedback_WontShowAgain';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }
@@ -108,6 +109,10 @@ class Feedback extends \Piwik\Plugin
 
     public function showReferBanner()
     {
+        if ($this->getShouldPromptForFeedback()) {
+            return false;
+        }
+
         if (Piwik::isUserIsAnonymous()) {
             return false;
         }
@@ -135,10 +140,18 @@ class Feedback extends \Piwik\Plugin
         $nextReminderDate = $referReminder->getUserOption();
 
         if ($nextReminderDate === false) {
-            return true;
+            $nextReminder = Date::now()->getStartOfDay()->addDay(135)->toString('Y-m-d');
+            $referReminder->setUserOption($nextReminder);
+
+            return false;
         }
 
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
+            return false;
+        }
+
+        $pluginManager = PluginManager::getInstance();
+        if ($pluginManager->hasPremiumFeatures()) {
             return false;
         }
 
@@ -167,17 +180,15 @@ class Feedback extends \Piwik\Plugin
         }
 
         if ($nextReminderDate === false) {
-            $model = new Model();
-            $user = $model->getUser(Piwik::getCurrentUserLogin());
-            if (empty($user['date_registered'])) {
-                return false;
-            }
-            $nextReminderDate = Date::factory($user['date_registered'])->addDay(90)->getStartOfDay();
-        } else {
-            $nextReminderDate = Date::factory($nextReminderDate);
+            $nextReminder = Date::now()->getStartOfDay()->addDay(90)->toString('Y-m-d');
+            $feedbackReminder->setUserOption($nextReminder);
+
+            return false;
         }
 
         $now = Date::now()->getTimestamp();
+        $nextReminderDate = Date::factory($nextReminderDate);
+
         return $nextReminderDate->getTimestamp() <= $now;
     }
 

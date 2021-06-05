@@ -24,6 +24,7 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\EventDispatcher;
 use Piwik\FrontController;
 use Matomo\Ini\IniReader;
 use Piwik\Log;
@@ -405,6 +406,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getLazyCache()->flushAll();
         ArchiveTableCreator::clear();
+        EventDispatcher::getInstance()->clearCache();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
         PluginsArchiver::$archivers = array();

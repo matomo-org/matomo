@@ -22,4 +22,20 @@
 
     </div>
 
+    <div class="confirm-password-modal modal">
+        <div class="modal-content">
+            <h2>{{:: 'UsersManager_ConfirmWithPassword'|translate }}</h2>
+
+            <div piwik-field uicontrol="password" name="currentUserPassword" autocomplete="off"
+                 ng-model="pluginSettings.passwordConfirmation"
+                 full-width="true"
+                 title="{{:: 'UsersManager_YourCurrentPassword'|translate }}"
+                 value="">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-disabled="!pluginSettings.passwordConfirmation" ng-click="pluginSettings.save()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
+        </div>
+    </div>
 </div>

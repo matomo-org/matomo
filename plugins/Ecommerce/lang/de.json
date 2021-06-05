@@ -18,7 +18,12 @@
         "VisitorProfileLTV": "Generierter Gesamtumsatz von %1$s.",
         "VisitorProfileItemsAndOrders": "%1$s Artikel in %2$s E-Commerce Bestellungen gekauft.",
         "VisitorProfileAbandonedCartSummary": "%1$s verwaiste Warenkörbe mit %2$s Artikeln und einem Gesamtwert von %3$s.",
+        "EcommerceOverviewSubcategoryHelp1": "Der E-Commerce Übersichtsbereich ist der beste Ort, um eine hochwertige Sicht über die Performance Ihres Shops zu erhalten. Auf einen Blick sehen Sie, wie viele Verkäufe Sie tätigen, wie viel Einnahmen Sie erzielen, und die Umsatzrate Ihrer Webseite.",
         "EcommerceOverviewSubcategoryHelp2": "Klicken Sie auf eine einzelne Metrik innerhalb des Sparkline-Diagramms, um sie im Entwicklungsdiagramm in voller Größe zu betrachten.",
-        "EcommerceLogSubcategoryHelp2": "Die Daten auf dieser Seite werden in Echtzeit aktualisiert"
+        "SalesSubcategoryHelp1": "Dieser Bereich enthält eine umfangreiche Sammlung von Berichten, um Ihnen bei der Analyse der unterschiedlichen Konditionen zu helfen, was am häufigsten zu Verkäufen führt, wie der Verkehr und Kampagnenursprung, Benutzerzeiten und Orte, sowie dafür verwendete Geräte.",
+        "SalesSubcategoryHelp2": "Sie können auch lernen wie genau mit welcher Dimension Einnahmen generiert wurden, wie spezifische Verkehrstypen oder Tracking Kampagnen.",
+        "EcommerceLogSubcategoryHelp1": "Das E-Commerce Log enthält detaillierte sessionbezogene Daten, sodass Sie die komplette Session jedes Benutzers nachverfolgen können, der einen Kauf getätigt oder abgebrochen hat. Dies kann helfen zu verstehen was Benutzer machen, bevor und nachdem Sie etwas kaufen, für die Verkaufsmöglichkeitenoptimierung.",
+        "EcommerceLogSubcategoryHelp2": "Die Daten auf dieser Seite werden in Echtzeit aktualisiert",
+        "ProductSubcategoryHelp": "Die Produkteansicht kann Ihnen dabei helfen Produkte und Kategorien zu identifizieren, die über- oder unterperformen, um Trends und Möglichkeiten im Bezug auf Ihre Produkteselektion und Verkaufsbereiche zu erkennen."
     }
 }

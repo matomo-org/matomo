@@ -1,44 +1,43 @@
 <div ng-controller="ReferBannerController">
-    <div class="refer-banner" ng-show="referBanner.show">
-        <div class="flex items-center justify-center h-full" id="default-text">
-            <div class="flex-none"></div>
-            <div class="flex items-center justify-center flex-grow">
-                <div>
-                    {{ 'Feedback_ReferBannerTitle'|translate }}
-                    <span class="hide-on-med-and-down">{{ 'Feedback_ReferBannerLonger'|translate }}</span>
-                </div>
+    <div class="refer-banner ui-confirm"
+         piwik-dialog="referBanner.show"
+         yes="referBanner.remindMeLater()"
+         no="referBanner.dontShowAgain()"
+         close=""
+    >
 
-                <div>
-                    <a ng-href="{{ referEmail() }}" ng-click="referBanner.share()" target="_blank" class="btn premiumDownloadPiwik" rel="noreferrer noopener" id="send-email" style="width: max-content;">
-                        {{ 'Feedback_ReferMatomo'|translate }}
-                    </a>
-                </div>
+        <div class="intro">
+            <h2>{{'Feedback_ReferBannerTitle'|translate }}</h2>
+        </div>
 
-                <div class="hide-on-med-and-down flex items-center">
-                    <div>or share us on</div>
-                    <div class="flex items-center">
-                        <a ng-href="{{ socialUrl('twitter') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
-                            <ng-include src="'plugins/Feedback/images/twitter_logo.svg'" />
-                        </a>
-                        <a ng-href="{{ socialUrl('facebook') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
-                            <ng-include src="'plugins/Feedback/images/facebook_logo.svg'" />
-                        </a>
-                        <a ng-href="{{ socialUrl('linkedin') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
-                            <ng-include src="'plugins/Feedback/images/linkedin_logo.svg'" />
-                        </a>
-                        <a ng-show="{{ false }}" href="{{ socialUrl('mastodon') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
-                            <ng-include src="'plugins/Feedback/images/mastodon_logo.svg'" />
-                        </a>
-                    </div>
-                </div>
+        <div class="text-center">
+            <p>{{'Feedback_ReferBannerLonger'|translate }}</p>
+
+            <div class="flex items-center justify-around">
+                <a ng-href="{{ socialUrl('twitter') }}" ng-click="referBanner.share()" class="share-button text-twitter-blue" target="_blank" rel="noreferrer noopener">
+                    <ng-include src="'plugins/Feedback/images/twitter_logo.svg'" />
+                </a>
+                <a ng-href="{{ socialUrl('facebook') }}" ng-click="referBanner.share()" class="share-button text-fb-blue" target="_blank" rel="noreferrer noopener">
+                    <ng-include src="'plugins/Feedback/images/facebook_logo.svg'" />
+                </a>
+                <a ng-href="{{ socialUrl('linkedin') }}" ng-click="referBanner.share()" class="share-button text-li-blue" target="_blank" rel="noreferrer noopener">
+                    <ng-include src="'plugins/Feedback/images/linkedin_logo.svg'" />
+                </a>
+                <a ng-show="{{ false }}" href="{{ socialUrl('mastodon') }}" ng-click="referBanner.share()" class="share-button" target="_blank" rel="noreferrer noopener">
+                    <ng-include src="'plugins/Feedback/images/mastodon_logo.svg'" />
+                </a>
             </div>
+        </div>
 
-            <div title="Close" class="icon-close flex-none" ng-click="referBanner.closeBanner()"></div>
+        <div class="footer">
+            <input type="button" value="{{ 'Feedback_RemindMeLater'|translate }}" role="yes"/>
+            <input type="button" value="{{ 'Feedback_NeverAskMeAgain'|translate }}" role="no"/>
         </div>
     </div>
 
-    <div class="ui-confirm ratefeatureDialog" piwik-dialog="referBanner.showThanks" yes="">
+    <div class="ui-confirm" piwik-dialog="referBanner.showThanks" yes="">
         <h2>{{ 'Feedback_ThankYouForSpreading'|translate }}</h2>
+        <p style="text-align: center">{{ 'Feedback_WontShowAgain'|translate }}</p>
 
         <input type="button" value="{{ 'General_Ok'|translate }}" role="yes"/>
     </div>

@@ -4,15 +4,39 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.4.0
+
+### Changes to events
+
+* It is now possible via the Mail.send event to abort sending emails. Set the `$mail` event parameter to null to do this.
+
+## Matomo 4.3.1
+
+### New commands
+
+* Added new command `core:create-security-files` which creates some web server security files if they haven't existed previously (useful when using for example Apache or IIS web server).
+
 ## Matomo 4.3.0
+
+### JavaScript Tracker
+
+#### Breaking changes in Matomo JS tracker
+
+* Before the JS tracker method, `enableLinkTracking` did not follow the DOM changes, from this version when the DOM updates, Matomo automatically adds event listeners for new links on the page. It makes it easier to track clicks on links in SPAs. From this version, if we use the `addListener` method to add event listener manually after the DOM has changed and the `enableLinkTracking` is turned on we will track the click event for that element twice.
 
 ### Breaking Changes
 
 * Before every JS error was tracked, from this version the same JS error will be only tracked once per page view. If the very same error is happening multiple times, then it will be tracked only once within the same page view. If another page view is tracked or when the page reloads, then the error will be tracked again.
+* It's no longer possible to store any class instances directly in the session object. Please use arrays or plain data instead.
+
+### Upcoming Breaking Changes
+
+* In Matomo 4.3.0 we have added a 'passwordConfirmation' parameter to the CorePluginsAdmin.setSystemSettings API method. It is currently optional, but will become mandatory in version 4.4.0. Plugin developers and users of the API should make sure to update their plugins and apps before this happens.
 
 ### New config.ini.php settings
 
 * The `password_hash_algorithm`, `password_hash_argon2_threads`, `password_hash_argon2_memory_cost` and `password_hash_argon2_time_cost` INI config options have been added to allow using specific `password_hash` algorithms and options if desired.
+* The `enable_php_profiler` INI config option was added. This must now be set to 1 before profiling is allowed in Matomo.
 
 ## Matomo 4.2.0
 

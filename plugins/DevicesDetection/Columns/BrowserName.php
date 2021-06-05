@@ -41,9 +41,9 @@ class BrowserName extends Base
         $segment->setSqlFilterValue(function ($val) {
             $browsers = Browser::getAvailableBrowsers();
             $browsers = array_map(function($val) {
-                return Common::mb_strtolower($val);
+                return mb_strtolower($val);
             }, $browsers);
-            $result   = array_search(Common::mb_strtolower($val), $browsers);
+            $result   = array_search(mb_strtolower($val), $browsers);
 
             if ($result === false) {
                 $result = 'UNK';

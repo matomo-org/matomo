@@ -83,8 +83,18 @@
         "VisitorsFromDirectEntry": "Besucher von Direktzugriffen",
         "VisitorsFromWebsites": "Besucher von Webseiten",
         "VisitorsFromCampaigns": "Besucher von Kampagnen",
+        "ReferrersOverviewSubcategoryHelp1": "Die Aquisitionsübersicht zeigt Ihnen den Prozentsatz Ihres Datenverkehrs von allen Quellen über einen ausgewählten Zeitbereich.",
+        "ReferrersOverviewSubcategoryHelp2": "Sie können auch auf einen spezifischen Kanal klicken um ihn mit dem Evolution Graph anzuzeigen. Das kann helfen zu entdecken welche Kanäle den meisten Datenverkehr auf Ihre Seite erzeugen wie auch potenzielle Muster über die Zeit hinweg aufzeigen. Zum Beispiel, dass ein bestimmter Kanal an Wochenenden besser funktioniert.",
+        "AllReferrersSubcategory1": "Dieser Bereich zeigt die Anzahl der Besuche welche von verschiedenen Kanaltypen und Referrers zu Ihnen kommen. Klicken Sie auf den Plus oder Minus Button um sich die Referrer pro Typ anzeigen zu lassen.",
+        "AllReferrersSubcategory2": "Sie können auch die Anzahl der ausgeführten Aktionen Ihrer Datenverkehrsquellen analysieren, in dem Sie die Tabelle mit der Ansicht der Besucherengagements aktivieren.",
+        "SearchEnginesSubcategoryHelp1": "Dieser Bereich hilft Ihnen beim Analysieren Ihrer Suchmaschinenoptimierung und -performance. Sie können Ihre beliebtesten Suchworte analysieren mit Hilfe des Suchwort-Berichts oder sehen welche Suchworte auf spezifischen Suchmaschinen wie gut funktionieren, um weitere zielgerichtete Analysen und Optimierungen vorzunehmen.",
+        "SearchEnginesSubcategoryHelp2": "%1$sMatomo Cloud%2$s und %3$sSearch Engine Keywords Performance%4$s Benutzer erhalten die besten Resultate mit diesem Bericht.",
         "WebsitesSubcategoryHelp1": "In dieser Tabelle können Sie sehen, welche Websites Besucher auf Ihre Website gelenkt haben.",
+        "WebsitesSubcategoryHelp2": "Wenn Sie auf eine Zeile in der Tabelle klicken, können Sie sehen bei welchen URLs die Links zu Ihrer Webseite aktiv sind.",
         "SocialsSubcategoryHelp": "In dieser Tabelle können Sie sehen, welche Websites Besucher auf Ihre Website gelenkt haben.",
-        "EcommerceLogSubcategoryHelp2": "Die Daten auf dieser Seite werden in Echtzeit aktualisiert"
+        "CampaignsSubcategoryHelp": "Der Kampagnen-Tracking Bereich erlaubt Ihnen zu analysieren, welche Besuche mit welchen unterschiedlichen Tracking Werten verknüpft sind, welche mit Ihren digitalen Kampagnen verlinkt sind. Damit kann man Dinge aufzeigen wie zum Beispiel wie viel Datenverkehr Ihre Kampagnen erzeugen, welche Werbemittel am besten funktionieren, wie engagiert Kampagnenbesucher sind, und ob die Kampagne zu Verkäufen führt oder nicht.",
+        "EcommerceLogSubcategoryHelp1": "Das Ecommerce Log enthält detaillierte sessionbezogene Daten, so dass Sie die komplette Session jedes Benutzers nachverfolgen können, der einen Kauf getätigt oder abgebrochen hat. Dies kann helfen zu verstehen was Benutzer machen, bevor und nachdem Sie etwas kaufen, für die Verkaufsmöglichkeitenoptimierung.",
+        "EcommerceLogSubcategoryHelp2": "Die Daten auf dieser Seite werden in Echtzeit aktualisiert",
+        "ProductSubcategoryHelp": "Die Produkteansicht kann Ihnen dabei helfen Produkte und Kategorien zu identifizieren, die über- oder unterperformen, um Trends und Möglichkeiten im Bezug auf Ihre Produkteselektion und Verkaufsbereiche zu erkennen."
     }
 }

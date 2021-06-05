@@ -179,7 +179,7 @@ class PageUrl
         }
 
         if (!empty($parsedUrl['host'])) {
-            $parsedUrl['host'] = Common::mb_strtolower($parsedUrl['host']);
+            $parsedUrl['host'] = mb_strtolower($parsedUrl['host']);
         }
 
         if (!empty($parsedUrl['fragment'])) {
@@ -365,7 +365,7 @@ class PageUrl
             $hostSiteCache = false;
 
             foreach ($siteUrlCache as $siteUrl) {
-                if (strpos(Common::mb_strtolower($siteUrl), Common::mb_strtolower('https://' . $host)) === 0) {
+                if (strpos(mb_strtolower($siteUrl), mb_strtolower('https://' . $host)) === 0) {
                     $hostSiteCache = true;
                     break;
                 }

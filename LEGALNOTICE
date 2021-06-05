@@ -217,7 +217,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: http://raphaeljs.com/
 	License: MIT (Expat)
 
-	Name: iFrame Resizer 
+	Name: iFrame Resizer
 	Link: https://github.com/davidjbradshaw/iframe-resizer
 	License: MIT
 
@@ -279,7 +279,7 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log", "icon-clock") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 
@@ -294,6 +294,6 @@ THIRD-PARTY CONTENT
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
-- icons for browsers, operating systems, browser plugins, brands, search engines, social media websites 
+- icons for browsers, operating systems, browser plugins, brands, search engines, social media websites
   and flags of countries are nominative use of third-party trademarks when
   referring to the corresponding product or entity

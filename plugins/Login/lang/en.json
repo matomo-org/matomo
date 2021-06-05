@@ -44,6 +44,13 @@
         "WrongPasswordEntered": "Please enter your correct password.",
         "ConfirmPasswordToContinue": "Confirm your password to continue",
         "PluginDescription": "Provides authentication via username and password as well as password reset functionality. Authentication method can be changed by using another Login plugin such as LoginLdap available on the Marketplace.",
-        "RememberMe": "Remember Me"
+        "RememberMe": "Remember Me",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "We've noticed some suspicious login attempts to your account...",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "We've noticed a suspiciously high number of login attempts to your Matomo account in the last hour, specifically %1$s login attempts from %2$s distinct IP addresses. We suspect someone may be trying to break into your account.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "In order to safeguard your Matomo, we recommend taking the following precautions:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Ensure your password is a secure, random password of an appropriate length (for example, at least 30 characters).",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Setup two-factor auth so attackers will need more information than just your password in order to login.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Additionally, if your Matomo has a limited set of users or IPs through which users will access it, it may be beneficial to setup a IP address allowlist. %1$sRead our docs for more information.%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "Login functionality is temporarily disabled since we've a suspicious amount of failed login attempts in the last hour."
     }
 }

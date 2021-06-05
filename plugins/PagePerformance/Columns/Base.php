@@ -37,6 +37,12 @@ abstract class Base extends ActionDimension
             throw new InvalidRequestParameterException(sprintf('Value for %1$s can\'t be negative.', $this->getRequestParam()));
         }
 
+        // ignore values that are too high to be stored in column (unsigned mediumint)
+        // refs https://github.com/matomo-org/matomo/issues/17035
+        if ($time > 16777215) {
+            return false;
+        }
+
         return $time;
     }
 }

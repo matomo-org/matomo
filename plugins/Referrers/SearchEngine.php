@@ -320,7 +320,7 @@ class SearchEngine extends Singleton
             if (!empty($definitions['charsets'])) {
                 $key = $this->convertCharset($key, $definitions['charsets']);
             }
-            $key = Common::mb_strtolower($key);
+            $key = mb_strtolower($key);
         }
 
         return array(
@@ -379,13 +379,9 @@ class SearchEngine extends Singleton
      */
     protected function convertCharset($string, $charsets)
     {
-        if (function_exists('iconv')
-            && !empty($charsets)
-        ) {
+        if (!empty($charsets)) {
             $charset = $charsets[0];
-            if (count($charsets) > 1
-                && function_exists('mb_detect_encoding')
-            ) {
+            if (count($charsets) > 1) {
                 $charset = mb_detect_encoding($string, $charsets);
                 if ($charset === false) {
                     $charset = $charsets[0];

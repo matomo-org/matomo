@@ -25,14 +25,24 @@ class TrackerConfig
         Config::getInstance()->Tracker = $section;
     }
 
-    public static function getConfigValue($name)
+    public static function getConfigValue($name, $idSite = null)
     {
         $config = self::getConfig();
+        if (!empty($idSite)) {
+            $siteSpecificConfig = self::getSiteSpecificConfig($idSite);
+            $config = array_merge($config, $siteSpecificConfig);
+        }
         return $config[$name];
     }
 
     private static function getConfig()
     {
         return Config::getInstance()->Tracker;
+    }
+
+    private static function getSiteSpecificConfig($idSite)
+    {
+        $key = 'Tracker_' . $idSite;
+        return Config::getInstance()->$key;
     }
 }

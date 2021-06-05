@@ -463,7 +463,7 @@ class GeoIP2AutoUpdater extends Task
         $schema = $parsedUrl['scheme'] ?? '';
         $host = $parsedUrl['host'] ?? '';
 
-        if (empty($schema) || empty($host) || !in_array(Common::mb_strtolower($schema), ['http', 'https'])) {
+        if (empty($schema) || empty($host) || !in_array(mb_strtolower($schema), ['http', 'https'])) {
             throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>'.Common::sanitizeInputValue($url).'</i>'));
         }
 

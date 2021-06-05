@@ -48,7 +48,7 @@
         "ExceptionEditAnonymous": "Der anonyme Benutzer kann nicht bearbeitet oder gelöscht werden. Er wird von Matomo benutzt, um einen Benutzer zu definieren, der sich noch nicht angemeldet hat. Zum Beispiel können Sie Ihre Statistiken öffentlich machen, indem Sie dem Benutzer 'anonymous' das Recht 'view' geben.",
         "ExceptionEmailExists": "Ein Benutzer mit der E-Mail-Adresse '%s' existiert bereits.",
         "ExceptionEmailExistsAsLogin": "Die E-Mail-Adresse '%s' wird bereits als Nutzername verwendet.",
-        "ExceptionLoginExistsAsEmail": "Der Nutername '%s' wird bereits als E-Mail-Adresse verwendet.",
+        "ExceptionLoginExistsAsEmail": "Der Nutzername '%s' wird bereits als E-Mail-Adresse verwendet.",
         "ExceptionInvalidEmail": "Die E-Mail-Adresse hat ein ungültiges Format.",
         "ExceptionInvalidLoginFormat": "Der Benutzername muss zwischen %1$s und %2$s Zeichen lang sein und darf nur Buchstaben, Zahlen oder die Zeichen '_', '-', '.', '@' oder '+' enthalten.",
         "ExceptionInvalidPassword": "Das Passwort muss mindestens %1$s Zeichen lang sein.",
@@ -185,6 +185,7 @@
         "NewsletterSignupTitle": "Newsletter-Anmeldung",
         "NewsletterSignupMessage": "Abonnieren Sie unseren Newsletter, um regelmäßig Informationen über Matomo zu erhalten. Deabonnieren ist jederzeit möglich. Dieser Dienst verwendet MadMimi. Erfahren Sie mehr in unserer %1$sDatenschutzerklärung%2$s.",
         "NewsletterSignupFailureMessage": "Hoppla, etwas ist schief gelaufen. Wir konnten Sie nicht für unseren Newsletter registrieren.",
-        "NewsletterSignupSuccessMessage": "Super, Sie wurden erfolgreich registriert! Wir werden in Kürze von uns hören lassen."
+        "NewsletterSignupSuccessMessage": "Super, Sie wurden erfolgreich registriert! Wir werden in Kürze von uns hören lassen.",
+        "FirstWebsitePermission": "Berechtigung erste Webseite"
     }
 }

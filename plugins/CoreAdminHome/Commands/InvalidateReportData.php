@@ -62,6 +62,10 @@ class InvalidateReportData extends ConsoleCommand
         $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For tests. Runs the command w/o actually '
             . 'invalidating anything.');
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'To invalidate data for a specific plugin only.');
+        $this->addOption('ignore-log-deletion-limit', null, InputOption::VALUE_NONE,
+            'Ignore the log purging limit when invalidating archives. If a date is older than the log purging threshold (which means '
+            . 'there should be no log data for it), we normally skip invalidating it in order to prevent losing any report data. In some cases, '
+            . 'however it is useful, if, for example, your site was imported from Google, and there is never any log data.');
         $this->setHelp('Invalidate archived report data by date range, site and period. Invalidated archive data will '
             . 'be re-archived during the next core:archive run. If your log data has changed for some reason, this '
             . 'command can be used to make sure reports are generated using the new, changed log data.');
@@ -74,11 +78,14 @@ class InvalidateReportData extends ConsoleCommand
         $cascade = $input->getOption('cascade');
         $dryRun = $input->getOption('dry-run');
         $plugin = $input->getOption('plugin');
+        $ignoreLogDeletionLimit = $input->getOption('ignore-log-deletion-limit');
 
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
         $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output);
+
+        $logger = StaticContainer::get(LoggerInterface::class);
 
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
@@ -88,7 +95,7 @@ class InvalidateReportData extends ConsoleCommand
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
 
-                    $output->writeln("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
+                    $logger->info("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
 
                     $dates = $this->getPeriodDates($periodType, $dateRange);
 
@@ -99,13 +106,13 @@ class InvalidateReportData extends ConsoleCommand
                         if (!empty($plugin)) {
                             $message .= ", plugin = [ $plugin ]";
                         }
-                        $output->writeln($message);
+                        $logger->info($message);
                     } else {
                         $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
-                            false, $plugin);
+                            false, $plugin, $ignoreLogDeletionLimit);
 
                         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                            $output->writeln($invalidationResult->makeOutputLogs());
+                            $logger->info($invalidationResult->makeOutputLogs());
                         }
                     }
                 }
@@ -129,7 +136,7 @@ class InvalidateReportData extends ConsoleCommand
                     $segmentStr = $segment ? $segment->getString() : '';
                     if ($dryRun) {
                         $dateRangeStr = implode(';', $dateRanges);
-                        $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                        $logger->info("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
                     } else {
                         $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
                     }

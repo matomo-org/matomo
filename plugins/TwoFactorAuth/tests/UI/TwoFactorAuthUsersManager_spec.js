@@ -48,6 +48,7 @@ describe("TwoFactorAuthUsersManager", function () {
     });
 
     it('should be possible to confirm the reset', async function () {
+        await page.type('.twofa-confirm-modal input[name=currentUserPassword]', 'superUserPass');
         await page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
         await page.waitFor(500); // wait for modal to close
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa_reset_confirmed');

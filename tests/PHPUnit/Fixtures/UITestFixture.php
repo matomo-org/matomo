@@ -43,6 +43,7 @@ use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Psr\Container\ContainerInterface;
+use Piwik\CronArchive\SegmentArchiving;
 
 /**
  * Fixture for UI tests.
@@ -508,6 +509,9 @@ class UITestFixture extends SqlDump
                 $previous[] = $c->get(WebNotificationHandler::class);
                 return $previous;
             }),
+
+            SegmentArchiving::class => \DI\object()
+                ->constructorParameter('beginningOfTimeLastNInYears', 15)
         ];
     }
 

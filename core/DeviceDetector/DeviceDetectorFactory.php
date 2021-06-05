@@ -39,7 +39,7 @@ class DeviceDetectorFactory
 
     public static function getNormalizedUserAgent($userAgent)
     {
-        return Common::mb_substr(trim($userAgent), 0, 500);
+        return mb_substr(trim($userAgent), 0, 500);
     }
 
     /**

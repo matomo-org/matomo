@@ -20,6 +20,12 @@
         "CronArchivingRunDetails": "Verifica di aver configurato un crontab per chiamare il comando di console %1$s, e di aver configurato un %2$s per ricevere gli errori via email se l'archiviazione fallisce. Puoi anche provare a eseguire il comando di console per archiviare manualmente i tuoi report: %3$s. %4$sPer saperne di più.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "Il processo di archiviazione è stato completato con successo %1$s fa.",
         "BrowserTriggeredArchivingEnabled": "Per delle prestazioni ottimali e un Matomo veloce, è altamente raccomandato di impostare un crontab per archiviare automaticamente i tuoi report, e di disabilitare l'attivazione dal browser nelle impostazioni di Matomo. %1$sLeggi altro.%2$s",
-        "NoDataForReportArchivingNotRun": "L'archiviazione dei tuoi report non è stata eseguita di recente, %1$sleggi di più su come generare i tuoi report.%2$s"
+        "NoDataForReportArchivingNotRun": "L'archiviazione dei tuoi report non è stata eseguita di recente, %1$sleggi di più su come generare i tuoi report.%2$s",
+        "RequiredPrivateDirectories": "Directory private richieste",
+        "PrivateDirectoryManualCheck": "Si prega di aprire manualmente gli URL in un browser per vedere se è possibile accedervi. Se possibile, potrebbe essere necessario modificare la configurazione del server poiché questi file\/directory non dovrebbero essere accessibili tramite un browser da Internet o Intranet.",
+        "PrivateDirectoryInternetDisabled": "Non è stato possibile verificare se i seguenti URL sono accessibili perché le funzionalità Internet sono disabilitate su questo Matomo.",
+        "PrivateDirectoryIsAccessible": "Abbiamo riscontrato che gli URL di cui sopra sono accessibili tramite il browser, ma NON dovrebbero esserlo. Consentire l'accesso può rappresentare un potenziale rischio per la sicurezza poiché i contenuti possono fornire informazioni sul tuo server e potenzialmente sui tuoi utenti. Si prega di limitare l'accesso a essi.",
+        "ConfigIniAccessible": "Abbiamo anche riscontrato che la directory di configurazione di Matomo è accessibile pubblicamente. Sebbene gli aggressori non possano leggere la configurazione ora, se il tuo server web interrompe l'esecuzione dei file PHP per qualche motivo, le tue credenziali MySQL e altre informazioni saranno disponibili a chiunque. Controlla la configurazione del tuo server web e nega l'accesso a questa directory.",
+        "AllPrivateDirectoriesAreInaccessible": "Tutte le directory private sono accessibili da Internet."
     }
 }

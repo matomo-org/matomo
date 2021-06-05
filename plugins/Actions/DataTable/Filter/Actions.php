@@ -72,7 +72,7 @@ class Actions extends BaseFilter
                             $host = parse_url($url, PHP_URL_HOST);
 
                             if ($host && PageUrl::shouldUseHttpsHost($site->getId(), $host)) {
-                                $row->setMetadata('url', 'https://' . Common::mb_substr($url, 7 /* = strlen('http://') */));
+                                $row->setMetadata('url', 'https://' . mb_substr($url, 7 /* = strlen('http://') */));
                             }
                         }
                     } else if ($folderUrlStart) {

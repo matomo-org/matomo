@@ -63,8 +63,8 @@ class Output
         $search = '#!/usr/bin/env php';
         if (!empty($content)
             && is_string($content)
-            && Common::mb_substr(trim($content), 0, strlen($search)) === $search) {
-            $content = trim(Common::mb_substr(trim($content), strlen($search)));
+            && mb_substr(trim($content), 0, strlen($search)) === $search) {
+            $content = trim(mb_substr(trim($content), strlen($search)));
         }
         return $content;
     }

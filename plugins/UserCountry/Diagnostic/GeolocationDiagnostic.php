@@ -71,6 +71,9 @@ class GeolocationDiagnostic implements Diagnostic
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $providerWarning)];
         }
 
-        return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK)];
+        $availableInfo = LocationProvider::getProviderById($currentProviderId)->getSupportedLocationInfo();
+        $message = sprintf("%s (%s)", $currentProviderId, implode(', ', array_keys(array_filter($availableInfo))));
+
+        return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $message)];
     }
 }

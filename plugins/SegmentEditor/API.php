@@ -280,7 +280,8 @@ class API extends \Piwik\Plugin\API
         $segmentDefinitionChanged = $segment['definition'] !== $definition;
 
         if ($segmentDefinitionChanged && $autoArchive && !Rules::isBrowserTriggerEnabled()) {
-            $this->segmentArchiving->reArchiveSegment($bind);
+            $updatedSegment = $this->getModel()->getSegment($idSegment);
+            $this->segmentArchiving->reArchiveSegment($updatedSegment);
         }
 
         Cache::getEagerCache()->flushAll();
@@ -327,7 +328,8 @@ class API extends \Piwik\Plugin\API
             && !Rules::isBrowserTriggerEnabled()
             && $this->processNewSegmentsFrom != SegmentArchiving::CREATION_TIME
         ) {
-            $this->segmentArchiving->reArchiveSegment($bind);
+            $addedSegment = $this->getModel()->getSegment($id);
+            $this->segmentArchiving->reArchiveSegment($addedSegment);
         }
 
         return $id;
@@ -398,18 +400,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $segments = $this->sortSegmentsCreatedByUserFirst($segments);
-
-        $model = new \Piwik\Plugins\SitesManager\Model();
-        $allIdSites = $model->getSitesId();
-        foreach ($segments as &$segmentInfo) {
-            $idSites = !empty($segmentInfo['enable_only_idsite']) ? [(int) $segmentInfo['enable_only_idsite']] : $allIdSites;
-            try {
-                $segmentObj = new Segment(urlencode($segmentInfo['definition']), $idSites);
-                $segmentInfo['hash'] = $segmentObj->getHash();
-            } catch (\Exception $ex) {
-                $segmentInfo['hash'] = 'INVALID SEGMENT';
-            }
-        }
 
         return $segments;
     }

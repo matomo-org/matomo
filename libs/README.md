@@ -13,10 +13,8 @@ third-party libraries:
    - in r3040, exception classes don't follow PEAR naming convention
  * Zend/
    - strip require_once (to support autoloading)
-   - in r3694, fix ZF-10888 and ZF-10835
-   - ZF-10871 - undefined variables when socket support disabled
    - fix #6980 ("Array to string conversion") in `Zend/Session/Exception.php`
-   - fix Zend/Validate using deprecated iconv_set_encoding()
+   - various adjustments to remove unused parts of Zend Framework
    - Make sure sessions work when storing notifications
  * materialize/
    - in materialize.min.css removed the loading of Roboto fonts as the paths do not match and couldn't be loaded. Also

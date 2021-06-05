@@ -105,6 +105,7 @@
         "CustomLimit": "Eigenes Limit",
         "ExportFormat": "Exportformat",
         "ExportTooltip": "Hinweis: Um die generierte Export-URL zu verwenden, müssen Sie einen Authentifizierungstoken angeben. Sie können diese Token unter Admin -> Sicherheit -> Authentifizierungstoken konfigurieren.",
+        "ExportTooltipWithLink": "Hinweis: Um die generierte Export URL zu verwenden, müssen Sie einen App Token Auth angeben. Sie können diese Token in %1$s[Admin -> Security -> Auths Tokens]%2$s konfigurieren. Ersetzen Sie %3$s in der Export URL durch Ihren Auth Token. Warnung: Niemals die URL mit dem effektiven Token jemandem weitergeben.",
         "ExpandSubtables": "Erweitere Untertabellen",
         "StandardReport": "Standard Bericht",
         "FlattenReport": "Flacher Bericht",
@@ -115,9 +116,13 @@
         "Profilable": "Profilierbar",
         "SearchOnMatomo": "Suche '%1$s' auf Matomo.org",
         "ReportingCategoryHelpPrefix": "Wie kann die \"%1$s > %2$s\" Berichtsseite mir helfen?",
+        "VisitorsCategoryHelp1": "Die Besucherseiten sagen Ihnen Dinge darüber wer Ihre Besucher sind. Dinge wie woher Ihre Besucher kommen, welche Geräte und Browser sie verwenden und wann sie Ihre Webseite generell besuchen. Verstehen Sie, wer Ihr Publikum im Allgemeinen ist, und achten Sie auf Sonderfälle um zu sehen wie Ihr Publikum wachsen könnte.",
         "VisitorsCategoryHelp2": "Zusätzlich zu generellen Informationen über Ihre Besucher können Sie das %1$sBesucher-Log%2$sauch verwenden um zu sehen, was bei jedem individuellen Besuch passiert ist.",
         "VisitorsOverviewHelp": "Die Besucherübersicht hilft Ihnen, die Popularität Ihrer Website zu verstehen. Dazu stellt sie Diagramme bereit, die zeigen, wie viele Besuche Ihre Website über einen ausgewählten Zeitraum erhält und wie hoch das durchschnittliche Engagement für wichtige Funktionen wie Suchen und Downloads ist.",
+        "DevicesSubcategoryHelp": "Der Gerätebereich hilft aufzuzeigen, welche Technologien Ihre Besucher verwenden, wenn Sie Ihre Seite besuchen. Sie werden Berichte der Gerätetypen und spezifische Modelle sehen, was Ihnen ermöglicht, Ihre Seite für die beliebtesten Geräte zu optimieren.",
+        "SoftwareSubcategoryHelp": "Der Softwarebereich zeigt das Betriebssystem, Browser und Plugins welche Ihre Besucher verwenden, um Ihre Seite zu besuchen, sodass Sie Ihre Seite so optimieren können, dass sie mit den meisten Konfigurationen vollständig kompatibel ist.",
         "EngagementSubcategoryHelp1": "Der Bereich \"Engagement\" bietet Berichte, die dabei helfen, zu quantifizieren, wie viele neue und wiederkehrende Besucher Sie haben. Sie können auch Berichte einsehen, die die durchschnittliche Zeit und Anzahl der Seiten pro Besuch aufschlüsseln, sowie die Anzahl der Besuche eines Besuchers auf Ihrer Website und die übliche Anzahl an Tagen zwischen den Besuchen.",
-        "EngagementSubcategoryHelp2": "Dies kann Ihnen helfen, neben der Maximierung Ihrer Reichweite auch die Häufigkeit und die Interaktionsrate zu optimieren."
+        "EngagementSubcategoryHelp2": "Dies kann Ihnen helfen, neben der Maximierung Ihrer Reichweite auch die Häufigkeit und die Interaktionsrate zu optimieren.",
+        "PeriodHasOnlyRawData": "Anscheinend wurden für diesen Zeitbereich noch keine Berichte generiert. Möchten Sie sehen was aktuell passiert? Schauen Sie im %1$sBesucher-Log%2$s oder wählen Sie einen anderen Zeitbereich, bis die Berichte generiert sind."
     }
 }

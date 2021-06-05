@@ -100,12 +100,18 @@ class Profiler
 
     private static function maxSumMsFirst($a, $b)
     {
-        return $a['sum_time_ms'] < $b['sum_time_ms'];
+        if ($a['sum_time_ms'] == $b['sum_time_ms']) {
+            return 0;
+        }
+        return ($a['sum_time_ms'] < $b['sum_time_ms']) ? -1 : 1;
     }
 
     private static function sortTimeDesc($a, $b)
     {
-        return $a['sumTimeMs'] < $b['sumTimeMs'];
+        if ($a['sumTimeMs'] == $b['sumTimeMs']) {
+            return 0;
+        }
+        return ($a['sumTimeMs'] < $b['sumTimeMs']) ? -1 : 1;
     }
 
     /**
@@ -302,6 +308,7 @@ class Profiler
                     $baseUrl = $baseUrlStored;
                 }
                 $baseUrl = $baseUrlStored . "vendor/lox/xhprof/xhprof_html/?source=$profilerNamespace&run=$runId";
+                $baseUrl = Common::sanitizeInputValue($baseUrl);
 
                 $out .= "Profiler report is available at:\n";
                 $out .= "<a href='$baseUrl'>$baseUrl</a>";

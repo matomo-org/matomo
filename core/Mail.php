@@ -8,10 +8,13 @@
  */
 namespace Piwik;
 
+use DI\NotFoundException;
+use DI\DependencyException;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for sending mails
@@ -267,7 +270,7 @@ class Mail
     /**
      * Sends the mail
      *
-     * @return bool
+     * @return bool|null returns null if sending the mail was aborted by the Mail.send event
      * @throws \DI\NotFoundException
      */
     public function send()
@@ -282,11 +285,33 @@ class Mail
          * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
          * the subject/body, changing the from address, etc.
          *
-         * @param Mail $mail The Mail instance that is about to be sent.
+         * @param Mail &$mail The Mail instance that is about to be sent. Set it to null to stop the email from
+         *                    being sent.
          */
-        Piwik::postEvent('Mail.send', [$mail]);
+        Piwik::postEvent('Mail.send', [&$mail]);
+
+        if (empty($mail)) {
+            return null;
+        }
 
         return StaticContainer::get('Piwik\Mail\Transport')->send($mail);
+    }
+
+    /**
+     * If the send email process throws an exception, we catch it and log it
+     *
+     * @return void
+     * @throws NotFoundException
+     * @throws DependencyException
+     */
+    public function safeSend()
+    {
+        try {
+            $this->send();
+        } catch (\Exception $e) {
+            // we do nothing but log if the email send was unsuccessful
+            StaticContainer::get(LoggerInterface::class)->warning('Could not send {class} email: {exception}', ['class' => get_class($this), 'exception' => $e]);
+        }
     }
 
     /**

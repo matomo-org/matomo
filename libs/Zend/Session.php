@@ -521,7 +521,9 @@ class Zend_Session extends Zend_Session_Abstract
         }
 
         if (isset($_SESSION['data']) && is_string($_SESSION['data'])) {
-            $_SESSION = unserialize(base64_decode($_SESSION['data']));
+            $_SESSION = \Piwik\Common::safe_unserialize(base64_decode($_SESSION['data']), [
+                \Piwik\Notification::class
+            ]);
         }
 
         // run validators if they exist

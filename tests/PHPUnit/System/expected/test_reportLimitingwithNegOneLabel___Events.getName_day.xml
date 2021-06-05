@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>-1</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_events>1</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>0</max_event_value>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventName==-1</segment>
+		<subtable>
+			<row>
+				<label>-1</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>event name 0</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_events>1</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>0</max_event_value>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventName==event+name+0</segment>
+		<subtable>
+			<row>
+				<label>event action 0</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>19</nb_uniq_visitors>
+		<nb_visits>19</nb_visits>
+		<nb_events>19</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>0</max_event_value>
+		<avg_event_value>0</avg_event_value>
+	</row>
+</result>

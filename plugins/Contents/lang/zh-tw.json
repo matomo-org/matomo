@@ -15,6 +15,7 @@
         "Contents": "內容",
         "InteractionsMetricDocumentation": "內容區塊的互動次數（例如「點擊」橫幅或廣告）。",
         "ImpressionsMetricDocumentation": "內容區塊（例如橫幅或廣告）的展示次數。",
-        "InteractionRateMetricDocumentation": "內容曝光及互動的比率。"
+        "InteractionRateMetricDocumentation": "內容曝光及互動的比率。",
+        "ContentsSubcategoryHelp2": "前往內容追蹤說明內了解更多"
     }
 }

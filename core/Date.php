@@ -800,7 +800,7 @@ class Date
         }
 
         if ($ucfirst) {
-          $out = Common::mb_strtoupper(Common::mb_substr($out, 0, 1)) . Common::mb_substr($out, 1);
+          $out = mb_strtoupper(mb_substr($out, 0, 1)) . mb_substr($out, 1);
         }
 
         return $out;

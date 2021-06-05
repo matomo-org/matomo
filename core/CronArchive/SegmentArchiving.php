@@ -90,7 +90,7 @@ class SegmentArchiving
             }
 
             try {
-                $segmentObj = new Segment(urlencode($segment['definition']), [$idSite]);
+                $segmentObj = new Segment($segment['definition'], [$idSite]);
             } catch (\Exception $ex) {
                 $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
                 continue;
@@ -110,20 +110,26 @@ class SegmentArchiving
          * @var Date $segmentLastEditedTime
          */
         list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($segmentInfo);
-        if (empty($segmentCreatedTime)) {
-            return null;
-        }
 
         if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME) {
+            if (empty($segmentCreatedTime)) {
+                return null;
+            }
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
         } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME) {
+            if (empty($segmentLastEditedTime)) {
+                return null;
+            }
             $this->logger->debug("process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
                 array('time' => $segmentLastEditedTime));
 
             return $segmentLastEditedTime;
         } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+            if (empty($segmentLastEditedTime)) {
+                return null;
+            }
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentLastEditedTime, 'day');
@@ -133,6 +139,9 @@ class SegmentArchiving
 
             return $result;
         } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+            if (empty($segmentCreatedTime)) {
+                return null;
+            }
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
@@ -236,7 +245,7 @@ class SegmentArchiving
             return;
         }
 
-        $definition = urlencode($segmentInfo['definition']);
+        $definition = $segmentInfo['definition'];
         $idSite = !empty($segmentInfo['enable_only_idsite']) ? $segmentInfo['enable_only_idsite'] : 'all';
 
         $idSites = Access::doAsSuperUser(function () use ($idSite) {

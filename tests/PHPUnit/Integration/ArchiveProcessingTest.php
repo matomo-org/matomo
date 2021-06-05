@@ -635,6 +635,79 @@ END;
         $this->assertEquals(ArchiveWriter::DONE_PARTIAL, $archiveDoneFlag);
     }
 
+    public function test_aggregateDataTableRecords_handlesNegativeOneLabels()
+    {
+        $table1 = new DataTable();
+        $table1->addRowsFromSimpleArray([
+            ['label' => 'a', 'nb_visits' => 5, 'nb_actions' => 1],
+            ['label' => '-1', 'nb_visits' => 3, 'nb_actions' => 1],
+        ]);
+        $table1->addSummaryRow(new DataTable\Row([
+            DataTable\Row::COLUMNS => ['label' => -1, 'nb_visits' => 10, 'nb_actions' => 15],
+        ]));
+        $table2 = new DataTable();
+        $table2->addRowsFromSimpleArray([
+            ['label' => 'a', 'nb_visits' => 2, 'nb_actions' => 2],
+            ['label' => -1, 'nb_visits' => 9, 'nb_actions' => 5],
+        ]);
+        $table2->addSummaryRow(new DataTable\Row([
+            DataTable\Row::COLUMNS => ['label' => -1, 'nb_visits' => 15, 'nb_actions' => 25],
+        ]));
+
+        $tables = [
+            '2015-02-03' => $table1,
+            '2015-02-04' => $table2,
+        ];
+
+        $site = $this->_createWebsite('UTC');
+
+        foreach ($tables as $date => $table) {
+            /** @var ArchiveWriter $archiveWriter */
+            list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            $archiveWriter->initNewArchive();
+
+            $tableSerialized = $table->getSerialized();
+            $archiveProcessor->insertBlobRecord('Actions_test_value', $tableSerialized);
+
+            $archiveWriter->finalizeArchive();
+        }
+
+        list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        $archiveWriter->initNewArchive();
+
+        $archiveProcessor->captureInserts();
+        $archiveProcessor->aggregateDataTableRecords('Actions_test_value');
+
+        $archiveWriter->finalizeArchive();
+
+        $capturedInserts = $archiveProcessor->getCapturedInserts();
+        $capturedInsertTable = DataTable::fromSerializedArray($capturedInserts[0][1][0]);
+        $capturedInsertTable = $this->getXml($capturedInsertTable);
+
+        $expectedXml = <<<END
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>a</label>
+		<nb_visits>7</nb_visits>
+		<nb_actions>3</nb_actions>
+	</row>
+	<row>
+		<label>-1</label>
+		<nb_visits>12</nb_visits>
+		<nb_actions>6</nb_actions>
+	</row>
+	<row>
+		<label>-1</label>
+		<nb_visits>25</nb_visits>
+		<nb_actions>40</nb_actions>
+	</row>
+</result>
+END;
+
+        $this->assertEquals($expectedXml, $capturedInsertTable);
+    }
+
     protected function _checkTableIsExpected($table, $data)
     {
         $fetched = Db::fetchAll('SELECT * FROM ' . $table);

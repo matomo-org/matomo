@@ -22,6 +22,9 @@ use Piwik\SettingsServer;
  */
 class Process
 {
+    const PS_COMMAND = 'ps x';
+    const AWK_COMMAND = 'awk \'! /defunct/ {print $1}\'';
+
     private $finished = null;
     private $pidFile = '';
     private $timeCreation = null;
@@ -188,42 +191,65 @@ class Process
 
     public static function isSupported()
     {
+        $reasons = self::isSupportedWithReason();
+        return empty($reasons);
+    }
+
+    public static function isSupportedWithReason()
+    {
+        $reasons = [];
+
         if (defined('PIWIK_TEST_MODE')
             && self::isForcingAsyncProcessMode()
         ) {
-            return false;
+            $reasons[] = 'forcing multicurl use for tests';
         }
 
         if (SettingsServer::isWindows()) {
-            return false;
+            $reasons[] = 'not supported on windows';
         }
 
         if (self::isMethodDisabled('shell_exec')) {
-            return false;
+            $reasons[] = 'shell_exec is disabled';
         }
 
         if (self::isMethodDisabled('getmypid')) {
-            return false;
+            $reasons[] = 'getmypid is disabled';
         }
 
         if (self::isSystemNotSupported()) {
-            return false;
+            $reasons[] = 'system returned by `uname -a` is not supported';
         }
 
-        if (!self::commandExists('ps') || !self::returnsSuccessCode('ps') || !self::commandExists('awk')) {
-            return false;
+        if (!self::psExistsAndRunsCorrectly()) {
+            $reasons[] = 'shell_exec(' . self::PS_COMMAND . '" 2> /dev/null") did not return a success code';
+        } else {
+            $pid = @getmypid();
+            if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
+                $reasons[] = 'could not find our pid (from getmypid()) in the output of `' . self::PS_COMMAND . '`';
+            }
         }
 
-        $pid = @getmypid();
-        if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
-            return false;
+        if (!self::awkExistsAndRunsCorrectly()) {
+            $reasons[] = 'awk is not available or did not run as we would expect it to';
         }
 
         if (!self::isProcFSMounted() && !SettingsServer::isMac()) {
-            return false;
+            $reasons[] = 'procfs is not mounted';
         }
 
-        return true;
+        return $reasons;
+    }
+
+    private static function psExistsAndRunsCorrectly()
+    {
+        return self::returnsSuccessCode(self::PS_COMMAND . ' 2>/dev/null');
+    }
+
+    private static function awkExistsAndRunsCorrectly()
+    {
+        $testResult = shell_exec('echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | ' . self::AWK_COMMAND . ' 2>/dev/null');
+        return trim($testResult) == '537';
     }
 
     private static function isSystemNotSupported()
@@ -259,13 +285,6 @@ class Process
         return 0 == (int) $returnCode;
     }
 
-    private static function commandExists($command)
-    {
-        $result = @shell_exec('which ' . escapeshellarg($command) . ' 2> /dev/null');
-
-        return !empty($result);
-    }
-
     /**
      * ps -e requires /proc
      * @return bool
@@ -283,7 +302,7 @@ class Process
 
     public static function getListOfRunningProcesses()
     {
-        $processes = `ps x 2>/dev/null`;
+        $processes = shell_exec(self::PS_COMMAND . ' 2>/dev/null');
         if (empty($processes)) {
             return array();
         }
@@ -295,7 +314,7 @@ class Process
      */
      public static function getRunningProcesses()
      {
-         $ids = explode("\n", trim(`ps x 2>/dev/null | awk '! /defunct/ {print $1}' 2>/dev/null`));
+         $ids = explode("\n", trim(shell_exec(self::PS_COMMAND . ' 2>/dev/null | ' . self::AWK_COMMAND . ' 2>/dev/null')));
 
          $ids = array_map('intval', $ids);
          $ids = array_filter($ids, function ($id) {

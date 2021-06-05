@@ -84,10 +84,16 @@
         "PagesSubcategoryHelp1": "Dieser Bericht enthält Informationen über die Seiten URLs, welche besucht wurden.",
         "PagesSubcategoryHelp2": "Die Tabelle ist hierarchisch organisiert, die URLs werden als Verzeichnisstruktur angezeigt.",
         "PagesSubcategoryHelp3": "Benutzen Sie zur Navigation die Symbole Plus und Minus auf der linken Seite.",
+        "EntryPagesSubcategoryHelp1": "Dieser Bericht enthält Informationen über die Einstiegsseiten im gewählten Zeitraum. Die Einstiegsseite ist die erste Seite, die während eines Besuches aufgerufen wird.",
         "EntryPagesSubcategoryHelp2": "Die Einstiegs-URLs werden als Verzeichnisstruktur angezeigt.",
+        "ExitPagesSubcategoryHelp1": "Dieser Bericht enthält Informationen über die Ausstiegsseiten im gewählten Zeitraum. Die Ausstiegsseite ist die letzte Seite, die während eines Besuches aufgerufen wird.",
         "ExitPagesSubcategoryHelp2": "Die Ausstiegs-URLs werden als Verzeichnisstruktur angezeigt.",
         "PageTitlesSubcategoryHelp1": "Dieser Bericht enthält Informationen über die Titel der Seiten, welche besucht wurden.",
+        "PageTitlesSubcategoryHelp2": "Der Seitentitel ist der HTML <title> Tag, welcher von den meisten Browsern in deren Fenstertitel angezeigt wird.",
+        "SiteSearchSubcategoryHelp1": "Der Bereich \"Interne Suche\" zeigt, welche Suchworte Besucher verwenden, wenn sie auf Ihrer Webseite suchen. Er zeigt auch auf welche Seiten Benutzer gehen, nachdem sie gesucht haben und welche Suchbegriffe gar keine Resultate erzeugt hatten.",
+        "SiteSearchSubcategoryHelp2": "Dieser Bericht kann Ihnen Hinweise darauf geben, welche Inhalte auf Ihrer Seite eventuell fehlen, in dem er aufzeigt, was Ihre Besucher suchen, aber nicht so einfach finden.",
         "SiteSearchSubcategoryHelp3": "Weitere Informationen finden Sie in der Anleitung zur internen Suche.",
+        "OutlinksSubcategoryHelp1": "Dieser Bericht zeigt eine hierarchisch angeordnete Liste von ausgehenden Links, die von ihren Besuchern angeklickt wurden. Ein ausgehender Link ist ein Link, der den Besucher von Ihrer Webseite wegführt (zu einer anderen Domain).",
         "DownloadsSubcategoryHelp1": "In diesem Bericht können Sie sehen, welche Dateien Ihre Besucher heruntergeladen haben.",
         "DownloadsSubcategoryHelp2": "Als Download zählt bei Matomo der Klick auf einen Download-Link. Ob der Download abgeschlossen wurde oder nicht, ist Matomo nicht bekannt."
     }

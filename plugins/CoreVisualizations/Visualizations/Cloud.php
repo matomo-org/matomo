@@ -182,8 +182,8 @@ class Cloud extends Visualization
     {
         $word = Common::unsanitizeInputValue($word);
 
-        if (Common::mb_strlen($word) > $this->truncatingLimit) {
-            return Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
+        if (mb_strlen($word) > $this->truncatingLimit) {
+            return mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
         }
 
         return $word;

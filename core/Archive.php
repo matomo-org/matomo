@@ -476,6 +476,8 @@ class Archive implements ArchiveQuery
             $archiveNames = array($archiveNames);
         }
 
+        $archiveNames = array_filter($archiveNames);
+
         // apply idSubtable
         if ($idSubtable !== null
             && $idSubtable !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
@@ -493,6 +495,9 @@ class Archive implements ArchiveQuery
 
         $result = new Archive\DataCollection(
             $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
+        if (empty($dataNames)) {
+            return $result; // NOTE: note posting Archive.noArchivedData here, because there might be archive data, someone just requested nothing
+        }
 
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
@@ -822,7 +827,7 @@ class Archive implements ArchiveQuery
             $this->initializeArchiveIdCache($doneFlag);
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
-                $site->getId(), $period->getLabel(), $periodDateStr, urlencode($this->params->getSegment()->getString()),
+                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getOriginalString(),
                 $plugin, $requestedReport);
 
             if (!empty($prepareResult)

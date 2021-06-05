@@ -575,7 +575,7 @@ class QueueConsumer
         $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
         $period = PeriodFactory::build($periodLabel, $dateStr);
 
-        $segment = new Segment(urlencode($invalidatedArchive['segment']), [$invalidatedArchive['idsite']]);
+        $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
 
         $params = new Parameters($site, $period, $segment);
 

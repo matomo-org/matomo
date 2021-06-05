@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\TransactionLevel;
 use Piwik\Log;
 use Piwik\LogDeleter;
 use Piwik\Piwik;
@@ -66,7 +67,13 @@ class LogDataPurger
     public function purgeData($deleteLogsOlderThan, $deleteUnusedLogActions)
     {
         $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
+
+        $transactionLevel = new TransactionLevel(Db::get());
+        $transactionLevel->setUncommitted();
+
         $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
+
+        $transactionLevel->restorePreviousStatus();
 
         $logTables = self::getDeleteTableLogTables();
 

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
@@ -42,7 +43,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         parent::__construct();
     }
-    
+
     public function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
@@ -156,8 +157,14 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function markNotificationAsRead()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        $this->checkTokenInUrl();
+
         $notificationId = Common::getRequestVar('notificationId');
         NotificationManager::cancel($notificationId);
+
+        Json::sendHeaderJSON();
+        return json_encode(true);
     }
 
     protected function getDefaultIndexView()

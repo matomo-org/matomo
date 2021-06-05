@@ -195,7 +195,7 @@ class Controller extends \Piwik\Plugin\Controller
             $item['letters'] = array();
             foreach ($item['entries'] as &$entry) {
                 $cleanEntryName = preg_replace('/["\']/', '', $entry['name']);
-                $entry['letter'] = Common::mb_strtoupper(substr($cleanEntryName, 0, 1));
+                $entry['letter'] = mb_strtoupper(substr($cleanEntryName, 0, 1));
                 $item['letters'][] = $entry['letter'];
             }
 

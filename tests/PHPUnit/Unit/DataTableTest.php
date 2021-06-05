@@ -453,6 +453,26 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $table->getSerialized();
     }
 
+    public function test_getSerialized_SerializesSubtablesOfSummaryRows()
+    {
+        $table = new DataTable;
+        $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'dimval1', 'visits' => 245)));
+
+        $summaryRow = new Row([Row::COLUMNS => ['label' => 'others', 'visits' => 500]]);
+
+        $summaryRowSubtable = new DataTable;
+        $summaryRowSubtable->addRow(new Row([Row::COLUMNS => ['label' => 'subtabledimension', 'visits' => 100]]));
+        $summaryRow->setSubtable($summaryRowSubtable);
+
+        $table->addSummaryRow($summaryRow);
+
+        $results = $table->getSerialized();
+
+        $this->assertCount(2, $results);
+        $this->assertStringContainsString('dimval1', $results[0]);
+        $this->assertStringContainsString('subtabledimension', $results[1]);
+    }
+
     /**
      * Test queing filters
      */
@@ -933,6 +953,85 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $tableExpected->addRowsFromArray($rowsExpected);
 
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
+    }
+
+    public function test_addDataTable_whenThereIsNoSummaryRowInOneTable_andASummaryRowInTheOtherTable()
+    {
+        $table1 = new DataTable();
+        $table1->addRowsFromSimpleArray([
+            ['label' => 'a', 'value' => 5],
+        ]);
+        $table1->addSummaryRow(new Row([
+            Row::COLUMNS => [
+                'label' => DataTable::LABEL_SUMMARY_ROW,
+                'value' => 15,
+            ],
+        ]));
+
+        $table2 = new DataTable();
+        $table2->addRowsFromSimpleArray([
+            ['label' => 'a', 'value' => 10],
+            ['label' => -1, 'value' => 30],
+        ]);
+        $table2->addSummaryRow(new Row([
+            Row::COLUMNS => [
+                'label' => DataTable::LABEL_SUMMARY_ROW,
+                'value' => 5,
+            ],
+        ]));
+
+        $table1->addDataTable($table2);
+
+        $expectedRows = [
+            0 => ['label' => 'a', 'value' => 15],
+            1 => ['label' => -1, 'value' => 30],
+            DataTable::ID_SUMMARY_ROW => ['label' => -1, 'value' => 20],
+        ];
+
+        $actualRows = $table1->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
+    }
+
+    public function test_addDataTable_whenThereIsASummaryRow_andRowWithNegativeOneLabel()
+    {
+        $table1 = new DataTable();
+        $table1->addRowsFromSimpleArray([
+            ['label' => 'a', 'value' => 5],
+            ['label' => '-1', 'value' => 20],
+        ]);
+        $table1->addSummaryRow(new Row([
+            Row::COLUMNS => [
+                'label' => DataTable::LABEL_SUMMARY_ROW,
+                'value' => 15,
+            ],
+        ]));
+
+        $table2 = new DataTable();
+        $table2->addRowsFromSimpleArray([
+            ['label' => 'a', 'value' => 10],
+            ['label' => -1, 'value' => 30],
+        ]);
+        $table2->addSummaryRow(new Row([
+            Row::COLUMNS => [
+                'label' => DataTable::LABEL_SUMMARY_ROW,
+                'value' => 5,
+            ],
+        ]));
+
+        $table1->addDataTable($table2);
+
+        $expectedRows = [
+            0 => ['label' => 'a', 'value' => 15],
+            1 => ['label' => -1, 'value' => 50],
+            DataTable::ID_SUMMARY_ROW => ['label' => -1, 'value' => 20],
+        ];
+
+        $actualRows = $table1->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
     }
 
     public function testUnrelatedDataTableNotDestructed()

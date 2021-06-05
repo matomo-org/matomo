@@ -110,7 +110,7 @@ class SegmentFormatter
             $translation = Piwik::translate($this->matchesMetric[$operator]);
         }
 
-        return Common::mb_strtolower($translation);
+        return mb_strtolower($translation);
     }
 
     private function getFormattedValue($operand)

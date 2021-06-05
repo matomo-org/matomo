@@ -36,6 +36,8 @@
         "HelpNote": "Einige dieser Metriken sind möglicherweise nicht immer verfügbar. Sie finden mehr Informationen darüber in unserem %1$sOnline Guide%2$s.",
         "RowActionTitle": "Leistungsbericht für Seite öffnen",
         "RowActionDescription": "Zeigt Seitenleistungsbericht für diese Zeile",
-        "PagePerformanceTitle": "Seitenleistung für Seite mit %1$s \"%2$s\""
+        "PagePerformanceTitle": "Seitenleistung für Seite mit %1$s \"%2$s\"",
+        "PerformanceSubcategoryHelp1": "Der Performance Bereich kann Ihnen helfen herauszufinden, wie schnell Ihre Webseite insgesamt ist und zeigt auf, ob spezifische Seiten signifikant vom Durchschnitt abweichen.",
+        "PerformanceSubcategoryHelp2": "Sie finden auch Berichte, welche exakt zeigen, wie lang welche Seite auf Ihrer Webseite braucht, um zu laden und was zur Ladezeit wie viel beisteuert."
     }
 }

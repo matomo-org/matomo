@@ -648,7 +648,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             // this takes a lot of time.
             $row = $tableToSum->getRowFromId(DataTable::ID_SUMMARY_ROW);
             if ($row) {
-                $this->aggregateRowWithLabel($row, $columnAggregationOps);
+                $this->aggregateRow($this->summaryRow, $row, $columnAggregationOps, true);
             }
         }
     }
@@ -700,17 +700,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->rebuildIndex();
         }
 
-        if ($label === self::LABEL_SUMMARY_ROW
-            && !is_null($this->summaryRow)
-        ) {
-            return self::ID_SUMMARY_ROW;
-        }
-
         $label = (string) $label;
 
         if (!isset($this->rowsIndexByLabel[$label])) {
+            // in case label is '-1' and there is no normal row w/ that label. Note: this is for BC since
+            // in the past, it was possible to get the summary row by searching for the label '-1'
+            if ($label == self::LABEL_SUMMARY_ROW
+                && !is_null($this->summaryRow)
+            ) {
+                return self::ID_SUMMARY_ROW;
+            }
+
             return false;
         }
+
         return $this->rowsIndexByLabel[$label];
     }
 
@@ -746,13 +749,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             }
         }
 
-        if ($this->summaryRow) {
-            $label = $this->summaryRow->getColumn('label');
-            if ($label !== false) {
-                $this->rowsIndexByLabel[$label] = DataTable::ID_SUMMARY_ROW;
-            }
-        }
-
         $this->indexNotUpToDate = false;
     }
 
@@ -764,12 +760,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowFromId($id)
     {
+        if ($id == self::ID_SUMMARY_ROW
+            && !is_null($this->summaryRow)
+        ) {
+            return $this->summaryRow;
+        }
+
         if (!isset($this->rows[$id])) {
-            if ($id == self::ID_SUMMARY_ROW
-                && !is_null($this->summaryRow)
-            ) {
-                return $this->summaryRow;
-            }
             return false;
         }
         return $this->rows[$id];
@@ -844,16 +841,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function addSummaryRow(Row $row)
     {
         $this->summaryRow = $row;
+        $row->setIsSummaryRow();
 
-        // add summary row to index
-        if (!$this->indexNotUpToDate
-            && $this->rebuildIndexContinuously
-        ) {
-            $label = $row->getColumn('label');
-            if ($label !== false) {
-                $this->rowsIndexByLabel[$label] = self::ID_SUMMARY_ROW;
-            }
-        }
+        // NOTE: the summary row does not go in the index, since it will overwrite rows w/ label == -1
 
         return $row;
     }
@@ -1327,10 +1317,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $consecutiveSubtableIds = array();
         $forcedId = $subtableId;
 
-        // For each row, get the serialized row
+        // For each row (including the summary row), get the serialized row
         // If it is associated to a sub table, get the serialized table recursively ;
         // but returns all serialized tables and subtable in an array of 1 dimension
-        foreach ($this->rows as $id => $row) {
+        foreach ($this->getRows() as $id => $row) {
             $subTable = $row->getSubtable();
             if ($subTable) {
                 $consecutiveSubtableIds[$id] = ++$subtableId;
@@ -1430,8 +1420,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
             if (is_array($rows[self::ID_SUMMARY_ROW])) {
                 $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]);
+                $this->summaryRow->setIsSummaryRow();
             } elseif (isset($rows[self::ID_SUMMARY_ROW]->c)) {
                 $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c); // Pre Piwik 2.13
+                $this->summaryRow->setIsSummaryRow();
             }
             unset($rows[self::ID_SUMMARY_ROW]);
         }
@@ -1478,6 +1470,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
             if ($id == self::ID_SUMMARY_ROW) {
                 $this->summaryRow = $row;
+                $this->summaryRow->setIsSummaryRow();
             } else {
                 $this->addRow($row);
             }
@@ -1901,23 +1894,35 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             throw new Exception($message);
         }
         $rowFound = $this->getRowFromLabel($labelToLookFor);
-        if ($rowFound === false) {
-            if ($labelToLookFor === self::LABEL_SUMMARY_ROW) {
-                $this->addSummaryRow($row);
+        // if we find the summary row in the other table, ignore it, since we're aggregating normal rows in this method.
+        // the summary row is aggregated explicitly after this method is called.
+        if (!empty($rowFound)
+            && $rowFound->isSummaryRow()
+        ) {
+            $rowFound = false;
+        }
+        $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow = false);
+    }
+
+    private function aggregateRow($thisRow, Row $otherRow, $columnAggregationOps, $isSummaryRow)
+    {
+        if (empty($thisRow)) {
+            if ($isSummaryRow) {
+                $this->addSummaryRow($otherRow);
             } else {
-                $this->addRow($row);
+                $this->addRow($otherRow);
             }
         } else {
-            $rowFound->sumRow($row, $copyMeta = true, $columnAggregationOps);
+            $thisRow->sumRow($otherRow, $copyMeta = true, $columnAggregationOps);
 
             // if the row to add has a subtable whereas the current row doesn't
             // we simply add it (cloning the subtable)
             // if the row has the subtable already
             // then we have to recursively sum the subtables
-            $subTable = $row->getSubtable();
+            $subTable = $otherRow->getSubtable();
             if ($subTable) {
                 $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOps;
-                $rowFound->sumSubtable($subTable);
+                $thisRow->sumSubtable($subTable);
             }
         }
     }

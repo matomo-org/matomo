@@ -14,12 +14,14 @@ use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
 use Piwik\SettingsServer;
+use Psr\Log\LoggerInterface;
 
 /**
  * Data Access object used to query archives
@@ -129,6 +131,7 @@ class ArchiveSelector
      * @param Segment $segment
      * @param string[] $plugins List of plugin names for which data is being requested.
      * @param bool $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK.
+     * @param bool $_skipSetGroupConcatMaxLen for tests
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -137,8 +140,17 @@ class ArchiveSelector
      *               )
      * @throws
      */
-    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $includeInvalidated = true)
+    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $includeInvalidated = true, $_skipSetGroupConcatMaxLen = false)
     {
+        $logger = StaticContainer::get(LoggerInterface::class);
+        if (!$_skipSetGroupConcatMaxLen) {
+            try {
+                Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+            } catch (\Exception $ex) {
+                $logger->info("Could not set group_concat_max_len MySQL session variable.");
+            }
+        }
+
         if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
         }
@@ -208,7 +220,15 @@ class ArchiveSelector
                 $archives = $row['archives'];
                 $pairs = explode(',', $archives);
                 foreach ($pairs as $pair) {
-                    list($idarchive, $doneFlag, $value) = explode('|', $pair);
+                    $parts = explode('|', $pair);
+                    if (count($parts) != 3) { // GROUP_CONCAT got cut off, have to ignore the rest
+                        // note: in this edge case, we end up not selecting the all plugins archive because it will be older than the partials.
+                        // not ideal, but it avoids an exception.
+                        $logger->info("GROUP_CONCAT got cut off in ArchiveSelector." . __FUNCTION__ . ' for idsite = ' . $row['idsite'] . ', period = ' . $dateStr);
+                        continue;
+                    }
+
+                    list($idarchive, $doneFlag, $value) = $parts;
 
                     $result[$doneFlag][$dateStr][] = $idarchive;
                     if (strpos($doneFlag, '.') === false // all plugins archive

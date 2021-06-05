@@ -76,12 +76,12 @@ class ReferBannerTest extends IntegrationTestCase
         $this->assertFalse($this->feedback->showReferBanner());
     }
 
-    public function test_shouldShowReferBannerTo_SuperUser()
+    public function test_shouldNotShowReferBannerTo_SuperUser_First()
     {
         FakeAccess::$identity = 'super';
         FakeAccess::$superUser = true;
 
-        $this->assertTrue($this->feedback->showReferBanner());
+        $this->assertFalse($this->feedback->showReferBanner());
     }
 
     public function test_shouldNotShowReferBanner_ifNeverRemindOn()

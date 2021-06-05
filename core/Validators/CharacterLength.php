@@ -44,7 +44,7 @@ class CharacterLength extends BaseValidator
             return;
         }
 
-        $lenValue = Common::mb_strlen($value);
+        $lenValue = mb_strlen($value);
 
         if (isset($this->min) && $this->min > $lenValue) {
             throw new Exception(Piwik::translate('General_ValidatorErrorCharacterTooShort', array($lenValue, $this->min)));

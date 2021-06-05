@@ -136,6 +136,55 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function test_hasInvalidationForPeriodAndName_returnsTrueIfExists()
+    {
+        $date = '2021-03-23';
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $periodObj = Factory::build('day', $date);
+        $result = $this->model->hasInvalidationForPeriodAndName(1, $periodObj, 'done');
+        $this->assertTrue($result);
+    }
+
+    public function test_hasInvalidationForPeriodAndName_returnsTrueIfExistsForReport()
+    {
+        $date = '2021-03-23';
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done', 'report' => 'myReport'],
+        ]);
+
+        $periodObj = Factory::build('day', $date);
+        $result = $this->model->hasInvalidationForPeriodAndName(1, $periodObj, 'done', 'myReport');
+        $this->assertTrue($result);
+    }
+
+    public function test_hasInvalidationForPeriodAndName_returnsFalseIfNotExistsForReport()
+    {
+        $date = '2021-03-23';
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done', 'report' => 'myReport'],
+        ]);
+
+        $periodObj = Factory::build('day', $date);
+        $result = $this->model->hasInvalidationForPeriodAndName(1, $periodObj, 'done', 'otherReport');
+        $this->assertFalse($result);
+    }
+
+    public function test_hasInvalidationForPeriodAndName_returnsFalseIfNotExists()
+    {
+        $date = '2021-03-23';
+        $date2 = '2021-03-22';
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $periodObj = Factory::build('day', $date2);
+        $result = $this->model->hasInvalidationForPeriodAndName(1, $periodObj, 'done');
+        $this->assertFalse($result);
+    }
+
     public function getTestDataForHasChildArchivesInPeriod()
     {
         return [
@@ -593,10 +642,10 @@ class ModelTest extends IntegrationTestCase
         $table = Common::prefixTable('archive_invalidations');
         $now = Date::now()->getDatetime();
         foreach ($invalidations as $invalidation) {
-            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started, report) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Db::query($sql, [
                 $invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name'],
-                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null,
+                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null, $invalidation['report'] ?? null,
             ]);
         }
     }

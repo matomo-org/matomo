@@ -58,7 +58,7 @@ class GenerateIntl extends ConsoleCommand
         }
 
         preg_match_all("~^(.)(.*)$~u", $str, $arr);
-        return Common::mb_strtoupper($arr[1][0]).$arr[2][0];
+        return mb_strtoupper($arr[1][0]).$arr[2][0];
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
