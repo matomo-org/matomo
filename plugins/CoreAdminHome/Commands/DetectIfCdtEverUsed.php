@@ -37,11 +37,12 @@ class DetectIfCdtEverUsed extends ConsoleCommand
         foreach ($sites as $idSite) {
             $output->writeln("Checking for whether site $idSite has out of order visit data...");
 
-            $hasLogDataOutOfOrder = $rawLogDao->hasVisitDataOutOfOrder($idSite);
+            list($hasLogDataOutOfOrder, $middleVisit, $outOfOrderVisit) = $rawLogDao->hasVisitDataOutOfOrder($idSite);
 
             $optionName = Request::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX . $idSite;
             if ($hasLogDataOutOfOrder) {
                 $output->writeln("log_visit data is currently out of order for $idSite. Setting $optionName to 1.");
+                $output->writeln('[middle visit ID = ' . $middleVisit . ', out of order visit = ' . $outOfOrderVisit . ']');
                 Option::set($optionName, 1);
             } else {
                 $output->writeln("log_visit is not out of order for $idSite. Setting $optionName to 0 to take advantage of optimizations.");
