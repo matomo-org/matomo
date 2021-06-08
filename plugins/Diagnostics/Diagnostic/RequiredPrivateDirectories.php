@@ -135,11 +135,11 @@ class RequiredPrivateDirectories implements Diagnostic
                     return true;
                 }
 
-                if (trim($response) === $publicIfResponseEquals) {
+                if (trim($response['data']) === $publicIfResponseEquals) {
                     // we assume it is publicly accessible because either the exact expected content is returned or because we don't check for content match
                     $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                     return true;
-                } elseif (strpos($response, $publicIfResponseContains) !== false) {
+                } elseif (strpos($response['data'], $publicIfResponseContains) !== false) {
                     // we assume it is publicly accessible because a unique content is included in the response or because we don't check for content contains
                     $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                     return true;
