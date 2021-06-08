@@ -40,7 +40,7 @@ class Updates_4_4_0_b1 extends PiwikUpdates
         $model = new Model();
         $siteIds = $model->getSitesId();
         foreach ($siteIds as $id) {
-            $migrations[] = $this->migration->db->boundSql("INSERT INTO `$table` (option_name, option_value) VALUES (?, ?)",
+            $migrations[] = $this->migration->db->boundSql("INSERT INTO `$table` (option_name, option_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE option_value = '1'",
                 [Request::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX . $id, '1']);
         }
 
