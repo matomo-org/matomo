@@ -5607,7 +5607,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setPageViewId = function (pageView) {
                 configIdPageView = pageView;
-            }
+            };
 
             /**
              * Set the URL of the Matomo API. It is used for Page Overlay.
