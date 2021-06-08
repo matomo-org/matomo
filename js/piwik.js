@@ -3894,7 +3894,9 @@ if (typeof window.Matomo !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
-                configIdPageView = generateUniqueId();
+                if (!configIdPageView) {
+                    configIdPageView = generateUniqueId();
+                }
 
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
@@ -5597,6 +5599,15 @@ if (typeof window.Matomo !== 'object') {
             this.setDocumentTitle = function (title) {
                 configTitle = title;
             };
+
+            /**
+             * Override PageView id
+             *
+             * @param string pageView
+             */
+            this.setPageViewId = function (pageView) {
+                configIdPageView = pageView;
+            }
 
             /**
              * Set the URL of the Matomo API. It is used for Page Overlay.
