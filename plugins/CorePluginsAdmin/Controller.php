@@ -13,7 +13,6 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\ErrorHandler;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -23,10 +22,9 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Plugins;
-use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
@@ -77,8 +75,8 @@ class Controller extends Plugin\ControllerAdmin
      * @param Plugins $marketplacePlugins
      * @param PasswordVerifier $passwordVerify
      */
-    public function __construct(Translator $translator, 
-                                Plugin\SettingsProvider $settingsProvider, 
+    public function __construct(Translator $translator,
+                                Plugin\SettingsProvider $settingsProvider,
                                 PluginInstaller $pluginInstaller,
                                 PasswordVerifier $passwordVerify,
                                 $marketplacePlugins = null
@@ -350,7 +348,7 @@ class Controller extends Plugin\ControllerAdmin
         if (ob_get_length()) {
             ob_clean();
         }
-        
+
         $this->tryToRepairPiwik();
 
         if (empty($lastError) && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
@@ -432,7 +430,7 @@ class Controller extends Plugin\ControllerAdmin
             'action' => 'activate',
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
-            'redirectTo' => Common::getRequestVar('redirectTo'),
+            'redirectTo' => Common::getRequestVar('redirectTo', '', 'string'),
             'referrer' => urlencode(Url::getReferrer()),
         ];
 
@@ -446,7 +444,7 @@ class Controller extends Plugin\ControllerAdmin
 
         if ($redirectAfter) {
             $message = $this->translator->translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
-            
+
             if ($this->settingsProvider->getSystemSettings($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings')),
@@ -545,7 +543,7 @@ class Controller extends Plugin\ControllerAdmin
     public function showLicense()
     {
         Piwik::checkUserHasSomeViewAccess();
-        
+
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
         if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
