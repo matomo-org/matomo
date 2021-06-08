@@ -9,29 +9,27 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Exception;
-use Piwik\Access;
-use Piwik\API\Request;
+use Piwik\API\ResponseBuilder;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
-use Piwik\Exception\MissingFilePermissionException;
-use Piwik\Filechecks;
-use Piwik\Filesystem;
-use Piwik\Nonce;
-use Piwik\Notification;
+use Piwik\Config;
+use Piwik\Mail;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
-use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
+use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
-use Piwik\Plugins\Marketplace\Plugins;
-use Piwik\SettingsPiwik;
-use Piwik\SettingsServer;
+use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
-use Piwik\Version;
 use Piwik\View;
-
+use Piwik\Widget\WidgetsList;
+use Piwik\SettingsPiwik;
 class Controller extends Plugin\ControllerAdmin
 {
     const ACTIVATE_NONCE = 'CorePluginsAdmin.activatePlugin';
