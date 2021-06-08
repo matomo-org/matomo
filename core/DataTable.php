@@ -432,6 +432,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return $this->totalsRow;
     }
 
+    public function getSummaryRow()
+    {
+        return $this->summaryRow;
+    }
+
     /**
      * Returns the name of the column this table was sorted by (if any).
      *
