@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result defaultKeyName="Page URLs">
+		<row>
+			<label>Others</label>
+			<nb_visits>501</nb_visits>
+			<growth_percent>149.3%</growth_percent>
+			<growth_percent_numeric>149.3</growth_percent_numeric>
+			<grown>1</grown>
+			<value_old>201</value_old>
+			<value_new>501</value_new>
+			<difference>300</difference>
+			<importance>300</importance>
+			<isDisappeared>0</isDisappeared>
+			<isNew>0</isNew>
+			<isMover>1</isMover>
+			<isMoverAndShaker>1</isMoverAndShaker>
+		</row>
+	</result>
+	<result defaultKeyName="Page titles">
+		<row>
+			<label>Others</label>
+			<nb_visits>501</nb_visits>
+			<growth_percent>149.3%</growth_percent>
+			<growth_percent_numeric>149.3</growth_percent_numeric>
+			<grown>1</grown>
+			<value_old>201</value_old>
+			<value_new>501</value_new>
+			<difference>300</difference>
+			<importance>300</importance>
+			<isDisappeared>0</isDisappeared>
+			<isNew>0</isNew>
+			<isMover>1</isMover>
+			<isMoverAndShaker>1</isMoverAndShaker>
+		</row>
+	</result>
+	<result defaultKeyName="Downloads" />
+	<result defaultKeyName="Websites" />
+	<result defaultKeyName="Campaigns" />
+	<result defaultKeyName="Social Networks" />
+	<result defaultKeyName="Search Engines" />
+	<result defaultKeyName="Country">
+		<row>
+			<label>France</label>
+			<nb_visits>1</nb_visits>
+			<growth_percent>-100%</growth_percent>
+			<growth_percent_numeric>-100</growth_percent_numeric>
+			<grown>0</grown>
+			<value_old>1</value_old>
+			<value_new>0</value_new>
+			<difference>-1</difference>
+			<importance>1</importance>
+			<isDisappeared>1</isDisappeared>
+			<isNew>0</isNew>
+			<isMover>0</isMover>
+			<isMoverAndShaker>0</isMoverAndShaker>
+		</row>
+	</result>
+</results>
