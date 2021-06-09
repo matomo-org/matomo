@@ -8,7 +8,6 @@
  */
 namespace Piwik\DataAccess;
 
-use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\Config;
@@ -1240,9 +1239,6 @@ class LogAggregator
 
     public function getDb()
     {
-        /** @var ArchivingStatus $archivingStatus */
-        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-        $archivingLock = $archivingStatus->getCurrentArchivingLock();
-        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
+        return new ArchivingDbAdapter(Db::getReader(), $this->logger);
     }
 }
