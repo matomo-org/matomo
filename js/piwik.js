@@ -2368,6 +2368,8 @@ if (typeof window.Matomo !== 'object') {
                 domainHash,
 
                 configIdPageView,
+                // Boolean indicating that a page view ID has been set manually
+                configIdPageViewSetManually = false,
 
                 // we measure how many pageviews have been tracked so plugins can use it to eg detect if a
                 // pageview was already tracked or not
@@ -3894,7 +3896,7 @@ if (typeof window.Matomo !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
-                if (!configIdPageView) {
+                if (!configIdPageViewSetManually) {
                     configIdPageView = generateUniqueId();
                 }
 
@@ -5607,6 +5609,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setPageViewId = function (pageView) {
                 configIdPageView = pageView;
+                configIdPageViewSetManually = true;
             };
 
             /**
