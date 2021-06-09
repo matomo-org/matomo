@@ -57,7 +57,7 @@ class ExceptionToTextProcessor
             $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
         }
 
-        $record['message'] .= '[' . $this->getErrorContext() . ']';
+        $record['message'] .= ' [' . $this->getErrorContext() . ']';
 
         return $record;
     }
@@ -152,7 +152,7 @@ class ExceptionToTextProcessor
     private function getErrorContext()
     {
         try {
-            $context = Url::getCurrentUrl();
+            $context = 'Query: ' . Url::getCurrentQueryString();
             $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
             return $context;
         } catch (\Exception $ex) {
