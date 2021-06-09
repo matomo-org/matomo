@@ -51,7 +51,7 @@ class ComparisonRowGenerator
             $isDatePeriod = $tables->getKeyName() == 'date';
 
             foreach ($childTablesArray as $index => $childTable) {
-                $compareChildTable = isset($compareTablesArray[$index]) ? $compareTablesArray[$index] : null;
+                $compareChildTable = !empty($compareTablesArray[$index]) ? $compareTablesArray[$index] : null;
                 $this->compareTables($compareMetadata, $childTable, $compareChildTable);
             }
 
@@ -82,7 +82,7 @@ class ComparisonRowGenerator
                     $tables->addTable($newTable, $periodLabel);
 
                     // compare with the empty table
-                    $compareTable = $compareTablesArray[$i];
+                    $compareTable = !empty($compareTablesArray[$i]) ? $compareTablesArray[$i] : null;
                     $this->compareTables($compareMetadata, $newTable, $compareTable);
                 }
             }
