@@ -40,6 +40,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->setMockLocationProvider();
         $this->trackVisits();
         $this->trackVisitsForNegativeOneRowAndSummary();
+        $this->trackVisitsForInsightsOverview();
 
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
@@ -271,5 +272,21 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
             self::makeLocation('Yokohama', '14', 'JP'),
         );
+    }
+
+    private function trackVisitsForInsightsOverview()
+    {
+        $t = Fixture::getTracker($this->idSite, '2015-03-03 06:00:00');
+        $t->enableBulkTracking();
+        $datesVisits = ['2015-03-03 06:00:00' => 700, '2015-03-04 06:00:00' => 1000];
+        foreach ($datesVisits as $dateTime => $visitCount) {
+            $t->setForceVisitDateTime($dateTime);
+            for ($i = 0; $i != $visitCount; ++$i) {
+                $t->setNewVisitorId();
+                $t->setUrl('http://somesite.com/' . $i);
+                $t->doTrackPageView('page title ' . $i);
+            }
+        }
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 }

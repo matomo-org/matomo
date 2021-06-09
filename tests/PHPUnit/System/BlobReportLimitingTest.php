@@ -130,6 +130,12 @@ class BlobReportLimitingTest extends SystemTestCase
                                                     'flat'               => 1,
                                                     'expanded'           => 0
                                                 ))),
+
+            ['Insights.getInsightsOverview', [
+                'idSite' => 1,
+                'date' => '2015-03-04',
+                'period' => ['day'],
+            ]],
         );
     }
 
