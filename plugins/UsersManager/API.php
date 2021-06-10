@@ -1448,8 +1448,13 @@ class API extends \Piwik\Plugin\API
             if ($this->roleProvider->isValidRole($entry)) {
                 $roles[] = $entry;
             } else {
-                $this->checkAccessType($entry);
-                $capabilities[] = $entry;
+                try {
+                    $this->checkAccessType($entry);
+                    $capabilities[] = $entry;
+                } catch (\Exception $e) {
+                    // if capability does not exist any longer (e.g. removed plugin) an exception might be thrown
+                    // we ignore that capability in that case
+                }
             }
         }
         return [$roles, $capabilities];
