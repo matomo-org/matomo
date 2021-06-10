@@ -161,6 +161,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
                 array (
                     'idarchive' => '1',
@@ -172,6 +174,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
                 array (
                     'idarchive' => '1',
@@ -183,6 +187,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -196,6 +202,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
                 array (
                     'idarchive' => '1',
@@ -207,6 +215,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
                 array (
                     'idarchive' => '1',
@@ -218,6 +228,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => 'testReport',
                     'plugin' => 'Actions',
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -231,6 +243,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
                 array (
                     'idarchive' => '1',
@@ -242,6 +256,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -255,6 +271,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -268,6 +286,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -281,6 +301,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => 'testReport',
                     'plugin' => 'Actions',
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -294,6 +316,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -307,6 +331,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -320,6 +346,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => 'testReport',
                     'plugin' => 'Actions',
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array (
@@ -333,6 +361,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => NULL,
                     'plugin' => NULL,
                     'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array ( // end of idsite=1
@@ -348,6 +378,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => 'testReport',
                     'plugin' => NULL,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
                 ),
             ),
             array ( // end of idsite=2
@@ -455,6 +487,8 @@ class QueueConsumerTest extends IntegrationTestCase
                         'report' => NULL,
                         'plugin' => NULL,
                         'segment' => '',
+                        'ts_started' => null,
+                        'status' => '0',
                     ),
                     array (
                         'idarchive' => '1',
@@ -466,6 +500,8 @@ class QueueConsumerTest extends IntegrationTestCase
                         'report' => NULL,
                         'plugin' => NULL,
                         'segment' => 'browserCode==IE',
+                        'ts_started' => null,
+                        'status' => '0',
                     ),
             ),
             array (
@@ -480,6 +516,8 @@ class QueueConsumerTest extends IntegrationTestCase
                         'report' => NULL,
                         'plugin' => NULL,
                         'segment' => 'browserCode==IE',
+                        'ts_started' => null,
+                        'status' => '0',
                     ),
             ),
             array (// end of idsite=1

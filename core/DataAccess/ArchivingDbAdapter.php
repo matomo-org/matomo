@@ -9,8 +9,6 @@
 
 namespace Piwik\DataAccess;
 
-use Piwik\ArchiveProcessor\ArchivingStatus;
-use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Db\AdapterInterface;
 use Piwik\DbHelper;
@@ -24,11 +22,6 @@ class ArchivingDbAdapter
     private $wrapped;
 
     /**
-     * @var Lock
-     */
-    private $archivingLock;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -38,10 +31,9 @@ class ArchivingDbAdapter
      */
     private $maxExecutionTime;
 
-    public function __construct($wrapped, Lock $archivingLock = null, LoggerInterface $logger = null)
+    public function __construct($wrapped, LoggerInterface $logger = null)
     {
         $this->wrapped = $wrapped;
-        $this->archivingLock = $archivingLock;
         $this->logger = $logger;
         $this->maxExecutionTime = (float) Config::getInstance()->General['archiving_query_max_execution_time'];
     }
@@ -53,7 +45,6 @@ class ArchivingDbAdapter
 
     public function exec($sql)
     {
-        $this->reexpireLock();
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
@@ -62,7 +53,6 @@ class ArchivingDbAdapter
 
     public function query($sql)
     {
-        $this->reexpireLock();
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
@@ -71,7 +61,6 @@ class ArchivingDbAdapter
 
     public function fetchAll($sql)
     {
-        $this->reexpireLock();
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
@@ -80,7 +69,6 @@ class ArchivingDbAdapter
 
     public function fetchRow($sql)
     {
-        $this->reexpireLock();
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
@@ -89,7 +77,6 @@ class ArchivingDbAdapter
 
     public function fetchOne($sql)
     {
-        $this->reexpireLock();
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
@@ -98,7 +85,6 @@ class ArchivingDbAdapter
 
     public function fetchAssoc($sql)
     {
-        $this->reexpireLock();
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
         $this->logSql($sql);
 
@@ -110,13 +96,6 @@ class ArchivingDbAdapter
         // Log on DEBUG level all SQL archiving queries
         if ($this->logger) {
             $this->logger->debug($sql);
-        }
-    }
-
-    private function reexpireLock()
-    {
-        if ($this->archivingLock) {
-            $this->archivingLock->reexpireLock();
         }
     }
 }

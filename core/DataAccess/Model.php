@@ -10,7 +10,6 @@ namespace Piwik\DataAccess;
 
 use Exception;
 use Piwik\Archive\ArchiveInvalidator;
-use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -35,15 +34,9 @@ class Model
      */
     private $logger;
 
-    /**
-     * @var ArchivingStatus
-     */
-    private $archivingStatus;
-
     public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
-        $this->archivingStatus = StaticContainer::get(ArchivingStatus::class);
     }
 
     /**
@@ -696,15 +689,19 @@ class Model
             return true;
         }
 
-        // if we didn't get anything, some process either got there first, OR
-        // the archive was started previously and failed in a way that kept it's done value
-        // set to DONE_IN_PROGRESS. try to acquire the lock and if acquired, archiving isn' in process
-        // so we can claim it.
-        $lock = $this->archivingStatus->acquireArchiveInProgressLock($invalidation['idsite'], $invalidation['date1'],
-            $invalidation['date2'], $invalidation['period'], $invalidation['name']);
-        if (!$lock->isLocked()) {
-            return false; // we couldn't claim the lock, archive is in progress
+        // archive was not originally started or was started within 24 hours, we assume it's ongoing and another process
+        // (on this machine or another) is actively archiving it.
+        if (empty($invalidation['ts_started'])
+            || $invalidation['ts_started'] > Date::now()->subDay(1)->getTimestamp()
+        ) {
+            return false;
         }
+
+        // archive was started over 24 hours ago, we assume it failed and take it over
+        Db::query("UPDATE `$table` SET `status` = ?, ts_started = NOW() WHERE idinvalidation = ?", [
+            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+            $invalidation['idinvalidation'],
+        ]);
 
         // remove similar invalidations w/ lesser idinvalidation values
         $bind = [
@@ -767,7 +764,7 @@ class Model
     public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "SELECT idinvalidation, idarchive, idsite, date1, date2, period, `name`, report, ts_invalidated
+        $sql = "SELECT *
                   FROM `$table`
                  WHERE idsite = ? AND status != ? AND ts_invalidated <= ?";
         $bind = [

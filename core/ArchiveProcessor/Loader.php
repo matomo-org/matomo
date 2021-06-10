@@ -154,18 +154,8 @@ class Loader
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
-        /** @var ArchivingStatus $archivingStatus */
-        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-        $locked = $archivingStatus->archiveStarted($this->params);
-
-        try {
-            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
-        } finally {
-            if ($locked) {
-                $archivingStatus->archiveFinished();
-            }
-        }
+        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
             return [[$idArchive], $visits];

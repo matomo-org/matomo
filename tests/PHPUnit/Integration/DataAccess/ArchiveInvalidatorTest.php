@@ -8,11 +8,9 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
-use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ReArchiveList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -21,7 +19,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Framework\Fixture;
@@ -81,7 +78,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class), new NullLogger());
+        $this->invalidator = new ArchiveInvalidator(new Model(), new NullLogger());
     }
 
     public function test_markArchivesAsInvalidated_doesNotInvalidatePartialArchives()
