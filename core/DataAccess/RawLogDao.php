@@ -460,6 +460,9 @@ class RawLogDao
 
         $offset = floor($countOfVisitsForSite / 2);
         $middleVisit = Db::fetchRow('SELECT idvisit, visit_last_action_time FROM ' . $logVisit . ' WHERE idsite = ? LIMIT 1 OFFSET ' . $offset, [$idSite]);
+        if (empty($middleVisit)) {
+            return false; // no visits
+        }
 
         $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
         $visitWithGreaterIdVisitButLowerTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);

@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
 use Piwik\Config;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -82,9 +83,24 @@ class RequestTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
 
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500), 'idsite' => 1));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
+    }
+
+    public function test_cdt_isMarkedAsUsedWhenFirstUsed()
+    {
+        Fixture::createSuperUser(false);
+        $token = Fixture::getTokenAuth();
+
+        $optionValue = Option::get(Request::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX . 1);
+        $this->assertEmpty($optionValue);
+
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500), 'idsite' => 1, 'token_auth' => $token));
+        $request->getCurrentTimestamp();
+
+        $optionValue = Option::get(Request::HAS_USED_CDT_WHEN_TRACKING_OPTION_NAME_PREFIX . 1);
+        $this->assertEquals(1, $optionValue);
     }
 
     private function setTrackerExcludedConfig($exclude)
@@ -97,7 +113,7 @@ class RequestTest extends IntegrationTestCase
 
     public function test_isRequestExcluded_nothingConfigured()
     {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500), 'idsite' => 1));
         $this->assertFalse($request->isRequestExcluded());
     }
 
@@ -254,7 +270,7 @@ class RequestTest extends IntegrationTestCase
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfNotAuthenticatedButTimestampIsRecent()
     {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5), 'idsite' => 1));
         $request->setCurrentTimestamp($this->time);
 
         $this->assertSame(($this->time - 5), $request->getCurrentTimestamp());
@@ -262,7 +278,7 @@ class RequestTest extends IntegrationTestCase
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
     {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500), 'idsite' => 1));
         $request->setCurrentTimestamp($this->time);
         $request->setIsAuthenticated();
         $this->assertSame(($this->time - 86500), $request->getCurrentTimestamp());
@@ -270,14 +286,14 @@ class RequestTest extends IntegrationTestCase
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()
     {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800), 'idsite' => 1));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
     {
-        $request = $this->buildRequest(array('cdt' => '10 years ago'));
+        $request = $this->buildRequest(array('cdt' => '10 years ago', 'idsite' => 1));
         $request->setCurrentTimestamp($this->time);
         $request->setIsAuthenticated();
         $this->assertNotSame($this->time, $request->getCurrentTimestamp());
