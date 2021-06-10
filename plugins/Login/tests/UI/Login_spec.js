@@ -34,6 +34,7 @@ describe("Login", function () {
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
+        delete testEnvironment.configOverride.General;
         testEnvironment.save();
 
         await page.clearCookies();
@@ -44,6 +45,7 @@ describe("Login", function () {
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
+        delete testEnvironment.configOverride.General;
         testEnvironment.save();
     });
 
@@ -254,5 +256,26 @@ describe("Login", function () {
         await page.goto(formlessLoginUrl);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_blockedlogme');
+    });
+
+    it("should show invalid host warning if redirect url is not trusted in logme", async function () {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url="+encodeURIComponent("https://www.matomo.org/security"));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_redirect_invalid');
+    });
+
+    it("should redirect if host is trusted in logme", async function () {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.configOverride.General = {
+            "trusted_hosts": ["matomo.org"]
+        };
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url="+encodeURIComponent("https://matomo.org/security/"));
+
+        expect(await page.getWholeCurrentUrl()).to.equal("https://matomo.org/security/");
     });
 });
