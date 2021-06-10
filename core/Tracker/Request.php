@@ -547,8 +547,10 @@ class Request
             }
         }
 
-        $idSite = $this->getIdSite();
-        $this->markCdtUsedWithSite($idSite);
+        $idSite = $this->getIdSiteIfExists();
+        if (!empty($idSite)) {
+            $this->markCdtUsedWithSite($idSite);
+        }
 
         return (int) $cdt;
     }
