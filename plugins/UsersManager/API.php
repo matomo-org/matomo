@@ -472,7 +472,7 @@ class API extends \Piwik\Plugin\API
 
         foreach ($access as $entry) {
             if (!in_array($entry, $list, true)) {
-                throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $list), $entry));
+                throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", [implode(", ", $list), $entry]));
             }
         }
     }
