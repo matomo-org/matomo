@@ -2368,6 +2368,7 @@ if (typeof window.Matomo !== 'object') {
                 domainHash,
 
                 configIdPageView,
+
                 // Boolean indicating that a page view ID has been set manually
                 configIdPageViewSetManually = false,
 
@@ -5603,7 +5604,8 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Override PageView id
+             * Override PageView id for every use of logPageView(). Do not use this if you call trackPageView()
+             * multiple times during tracking (if, for example, you are tracking a single page application).
              *
              * @param string pageView
              */
