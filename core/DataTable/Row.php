@@ -644,9 +644,9 @@ class Row extends \ArrayObject
             } else if (!is_numeric($thisColumnValue)) {
                 $label = $this->getColumn('label');
                 $thisColumnDescription = $this->getColumnValueDescriptionForError($thisColumnValue);
-                $columnToSumValue = $this->getColumnValueDescriptionForError($columnToSumValue);
+                $columnToSumValueDescription = $this->getColumnValueDescriptionForError($columnToSumValue);
                 throw new \Exception(sprintf('Trying to sum unsupported operands for column %s in row with label = %s: %s + %s',
-                    $columnName, $label, $thisColumnDescription, $columnToSumValue));
+                    $columnName, $label, $thisColumnDescription, $columnToSumValueDescription));
             }
 
             return $thisColumnValue + $columnToSumValue;
