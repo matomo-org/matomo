@@ -315,7 +315,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // only use redirect url if host is trusted
         if (!empty($parsedUrl['host']) && !Url::isValidHost($parsedUrl['host'])) {
-            $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "'.$parsedUrl['host'].'"</i> under <i>[General]</i>');
+            $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "'.Common::sanitizeInputValue($parsedUrl['host']).'"</i> under <i>[General]</i>');
             $e->setIsHtmlMessage();
             throw $e;
         }
