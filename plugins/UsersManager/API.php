@@ -462,19 +462,39 @@ class API extends \Piwik\Plugin\API
         return $userSites;
     }
 
+    /**
+     * Throws an exception if one of the given access types does not exists.
+     *
+     * @param string|array $access
+     * @throws Exception
+     */
     private function checkAccessType($access)
     {
         $access = (array) $access;
 
-        $roles = $this->roleProvider->getAllRoleIds();
-        $capabilities = $this->capabilityProvider->getAllCapabilityIds();
-        $list = array_merge($roles, $capabilities);
-
         foreach ($access as $entry) {
-            if (!in_array($entry, $list, true)) {
-                throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", [implode(", ", $list), $entry]));
+            if (!$this->isValidAccessType($entry)) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", [implode(", ", $this->getAllRolesAndCapabilities()), $entry]));
             }
         }
+    }
+
+    /**
+     * returns if the given access type exists
+     *
+     * @param string $access
+     * @return bool
+     */
+    private function isValidAccessType($access)
+    {
+        return in_array($access, $this->getAllRolesAndCapabilities(), true);
+    }
+
+    private function getAllRolesAndCapabilities()
+    {
+        $roles = $this->roleProvider->getAllRoleIds();
+        $capabilities = $this->capabilityProvider->getAllCapabilityIds();
+        return array_merge($roles, $capabilities);
     }
 
     /**
@@ -1448,12 +1468,8 @@ class API extends \Piwik\Plugin\API
             if ($this->roleProvider->isValidRole($entry)) {
                 $roles[] = $entry;
             } else {
-                try {
-                    $this->checkAccessType($entry);
+                if ($this->isValidAccessType($entry)) {
                     $capabilities[] = $entry;
-                } catch (\Exception $e) {
-                    // if capability does not exist any longer (e.g. removed plugin) an exception might be thrown
-                    // we ignore that capability in that case
                 }
             }
         }
