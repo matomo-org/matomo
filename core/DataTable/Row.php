@@ -643,8 +643,10 @@ class Row extends \ArrayObject
                 $thisColumnValue = 0;
             } else if (!is_numeric($thisColumnValue)) {
                 $label = $this->getColumn('label');
+                $thisColumnDescription = $this->getColumnValueDescriptionForError($thisColumnValue);
+                $columnToSumValue = $this->getColumnValueDescriptionForError($columnToSumValue);
                 throw new \Exception(sprintf('Trying to sum unsupported operands for column %s in row with label = %s: %s + %s',
-                    $columnName, $label, gettype($thisColumnValue), gettype($columnToSumValue)));
+                    $columnName, $label, $thisColumnDescription, $columnToSumValue));
             }
 
             return $thisColumnValue + $columnToSumValue;
@@ -778,5 +780,14 @@ class Row extends \ArrayObject
             ));
             StaticContainer::get(LoggerInterface::class)->warning("{exception}", ['exception' => $ex]);
         }
+    }
+
+    private function getColumnValueDescriptionForError($value)
+    {
+        $result = gettype($value);
+        if (is_array($result)) {
+            $result .= ' ' . json_encode($value);
+        }
+        return $result;
     }
 }
