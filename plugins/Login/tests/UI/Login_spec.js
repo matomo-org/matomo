@@ -189,9 +189,21 @@ describe("Login", function () {
         await page.waitForSelector('#dashboard');
     });
 
-    it("should login successfully when formless login used", async function() {
+    it("should show error when formless login used, but disabled", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '0')
+        testEnvironment.save();
         await page.click("nav .right .icon-sign-out");
         await page.waitForNetworkIdle();
+
+        await page.goto(formlessLoginUrl);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_disabled');
+    });
+
+    it("should login successfully when formless login used", async function() {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.save();
+        await page.goto("about:blank");
         await page.goto(formlessLoginUrl);
 
         // check dashboard is shown

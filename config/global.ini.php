@@ -482,6 +482,10 @@ login_allowlist_apply_to_reporting_api_requests = 1
 ; Uncomment the next line to set a URL to redirect the user to after they log out of Matomo.
 ; login_logout_url = http://...
 
+; By default the logme functionality to automatically log in users using url params is disabled
+; You can enable that by setting this to "1". See https://matomo.org/faq/how-to/faq_30/ for more details
+login_allow_logme = 0
+
 ; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on all non Widget pages such as Login, API, Widgets, Email reports, etc.).
 enable_framed_pages = 0
