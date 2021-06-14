@@ -467,13 +467,13 @@ class RawLogDao
         $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
         $visitWithGreaterIdVisitButLowerTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
         if (!empty($visitWithGreaterIdVisitButLowerTime)) {
-            return [true, $middleVisit, $visitWithGreaterIdVisitButLowerTime];
+            return [true, $middleVisit['idvisit'], $visitWithGreaterIdVisitButLowerTime];
         }
 
         $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit < ? AND visit_last_action_time > ? AND idsite = ?';
         $visitWithLowerIdVisitButGreaterTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
         if (!empty($visitWithLowerIdVisitButGreaterTime)) {
-            return [true, $middleVisit, $visitWithLowerIdVisitButGreaterTime];
+            return [true, $middleVisit['idvisit'], $visitWithLowerIdVisitButGreaterTime];
         }
 
         return false;
