@@ -456,22 +456,22 @@ class RawLogDao
     public function hasVisitDataOutOfOrder($idSite)
     {
         $logVisit = Common::prefixTable('log_visit');
-        $countOfVisitsForSite = Db::fetchOne('SELECT COUNT(*) FROM ' . $logVisit . ' WHERE idsite = ?', [$idSite]);
+        $countOfVisitsForSite = Db::getReader()->fetchOne('SELECT COUNT(*) FROM ' . $logVisit . ' WHERE idsite = ?', [$idSite]);
 
         $offset = floor($countOfVisitsForSite / 2);
-        $middleVisit = Db::fetchRow('SELECT idvisit, visit_last_action_time FROM ' . $logVisit . ' WHERE idsite = ? LIMIT 1 OFFSET ' . $offset, [$idSite]);
+        $middleVisit = Db::getReader()->fetchRow('SELECT idvisit, visit_last_action_time FROM ' . $logVisit . ' WHERE idsite = ? LIMIT 1 OFFSET ' . $offset, [$idSite]);
         if (empty($middleVisit)) {
             return false; // no visits
         }
 
         $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
-        $visitWithGreaterIdVisitButLowerTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
+        $visitWithGreaterIdVisitButLowerTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
         if (!empty($visitWithGreaterIdVisitButLowerTime)) {
             return [true, $middleVisit['idvisit'], $visitWithGreaterIdVisitButLowerTime];
         }
 
         $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit < ? AND visit_last_action_time > ? AND idsite = ?';
-        $visitWithLowerIdVisitButGreaterTime = Db::fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
+        $visitWithLowerIdVisitButGreaterTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
         if (!empty($visitWithLowerIdVisitButGreaterTime)) {
             return [true, $middleVisit['idvisit'], $visitWithLowerIdVisitButGreaterTime];
         }
