@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Composer\CaBundle\CaBundle;
 use Exception;
+use Piwik\Container\StaticContainer;
 
 /**
  * Contains HTTP client related helper methods that can retrieve content from remote servers
@@ -115,6 +116,30 @@ class Http
         return null;
     }
 
+    private static function convertWildcardToPattern($wildcardHost)
+    {
+        $flexibleStart = $flexibleEnd = false;
+        if (strpos($wildcardHost, '*.') === 0) {
+            $flexibleStart = true;
+            $wildcardHost = substr($wildcardHost, 2);
+        }
+        if (Common::stringEndsWith($wildcardHost, '.*')) {
+            $flexibleEnd = true;
+            $wildcardHost = substr($wildcardHost, 0, -2);
+        }
+        $pattern = preg_quote($wildcardHost);
+
+        if ($flexibleStart) {
+            $pattern = '.*\.' . $pattern;
+        }
+
+        if ($flexibleEnd) {
+            $pattern .= '\..*';
+        }
+
+        return '/^' . $pattern . '$/i';
+    }
+
     /**
      * Sends an HTTP request using the specified transport method.
      *
@@ -187,6 +212,23 @@ class Http
             ));
         }
 
+        $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
+        $isBlocked = false;
+
+        foreach ($disallowedHosts as $host) {
+            if (preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
+                $isBlocked = true;
+                break;
+            }
+        }
+
+        if ($isBlocked) {
+            throw new Exception(sprintf(
+                'Hostname %s is in list of disallowed hosts',
+                $parsedUrl['host']
+            ));
+        }
+
         $contentLength = 0;
         $fileLength = 0;
 
@@ -218,7 +260,7 @@ class Http
             $rangeHeader = 'Range: bytes=' . $rangeBytes . "\r\n";
         }
 
-        list($proxyHost, $proxyPort, $proxyUser, $proxyPassword) = self::getProxyConfiguration($aUrl);
+        [$proxyHost, $proxyPort, $proxyUser, $proxyPassword] = self::getProxyConfiguration($aUrl);
 
         // other result data
         $status  = null;
@@ -695,7 +737,7 @@ class Http
                     $split = explode("\r\n\r\n", $response, 2);
 
                     if(count($split) == 2) {
-                        list($header, $response) = $split;
+                        [$header, $response] = $split;
                     } else {
                         $response = '';
                         $header = $split;
@@ -972,7 +1014,7 @@ class Http
             return;
         }
 
-        list($name, $value) = $parts;
+        [$name, $value] = $parts;
         $name = trim($name);
         $headers[$name] = trim($value);
 
