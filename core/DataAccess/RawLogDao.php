@@ -464,14 +464,17 @@ class RawLogDao
             return false; // no visits
         }
 
-        $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
-        $visitWithGreaterIdVisitButLowerTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
+	// NOTE: we subtract and add a day to give a buffer since visit last action times can overlap. To query properly, we'd have to
+	// use visit_first_action_time as well, but there is no index on that column.
+
+	$sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
+        $visitWithGreaterIdVisitButLowerTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], Date::factory($middleVisit['visit_last_action_time'])->subDay(1), $idSite]);
         if (!empty($visitWithGreaterIdVisitButLowerTime)) {
             return [true, $middleVisit['idvisit'], $visitWithGreaterIdVisitButLowerTime];
         }
 
         $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit < ? AND visit_last_action_time > ? AND idsite = ?';
-        $visitWithLowerIdVisitButGreaterTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], $middleVisit['visit_last_action_time'], $idSite]);
+        $visitWithLowerIdVisitButGreaterTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], Date::factory($middleVisit['visit_last_action_time'])->addDay(1), $idSite]);
         if (!empty($visitWithLowerIdVisitButGreaterTime)) {
             return [true, $middleVisit['idvisit'], $visitWithLowerIdVisitButGreaterTime];
         }
