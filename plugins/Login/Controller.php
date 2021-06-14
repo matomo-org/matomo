@@ -237,6 +237,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     function logme()
     {
+        if (Config::getInstance()->General['login_allow_logme'] == 0) {
+            throw new Exception('This functionality has been disabled in config');
+        }
+
         $password = Common::getRequestVar('password', null, 'string');
 
         $login = Common::getRequestVar('login', null, 'string');
