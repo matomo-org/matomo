@@ -139,6 +139,19 @@
         "TrackingFailuresEmail1": "Esto es solo para hacerle saber que %s se han producido diferentes tipos de fallas de seguimiento en los últimos días.",
         "TrackingFailuresEmail2": "Para ver todas las peticiones de fallas de seguimiento haga %1$s clic aquí%2$s.",
         "ImportFromGoogleAnalytics": "Importar de Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "Si tiene una propiedad de Google Analytics y está migrando a Matomo, puede importar los datos existentes una el plugin %1$sGoogleAnalyticsImporter%2$s."
+        "ImportFromGoogleAnalyticsDescription": "Si tiene una propiedad de Google Analytics y está migrando a Matomo, puede importar los datos existentes una el plugin %1$sGoogleAnalyticsImporter%2$s.",
+        "SecurityNotificationEmailSubject": "Notificación de seguridad",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Alguien ha habilitado la autenticación de 2 pasos en tu cuenta.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Alguien ha deshabilitado la autenticación de 2 pasos en tu cuenta.",
+        "SecurityNotificationTokenAuthCreatedBody": "Alguien ha creado un token de autenticación (descripción: %s) en su cuenta. Si no fue usted elimine el token.",
+        "SecurityNotificationTokenAuthDeletedBody": "Alguien ha eliminado un token de autenticación (descripción: %s) de su cuenta.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Alguien ha eliminado todos los tokens de autenticación de su cuenta.",
+        "SecurityNotificationSettingsChangedByUserBody": "Alguien ha modificado la configuración del sistema. Los parámetros afectados son: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Otro super-usuario (%1$s) ha modificado la configuración del sistema. Los parámetros afectados son: %2$s. Si reconoce estos cambios ignore esto, si no contacte con el resto de super-usuarios.",
+        "SecurityNotificationUserCreatedBody": "Alguien ha creado un nuevo usuario (login: %s) en su cuenta.",
+        "SecurityNotificationUserDeletedBody": "Alguien ha eliminado un usuario (login: %s) de su cuenta.",
+        "SecurityNotificationIfItWasYou": "Si era usted, ignore este mensaje; de lo contrario, cambie la contraseña.",
+        "BruteForce": "Fuerza Bruta",
+        "TwoFactorAuth": "Autenticación de doble factor"
     }
 }

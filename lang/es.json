@@ -524,7 +524,8 @@
         "Custom": "Personalizado",
         "PreviousPeriod": "Periodo previo",
         "PreviousYear": "Año previo",
-        "ViewAccessRequired": "El token_auth utilizado tiene demasiado acceso como para ser utilizado en una URL de petición que no es de la API. Utilice una contraseña específica de la aplicación para un usuario que solo tenga acceso de visualización."
+        "ViewAccessRequired": "El token_auth utilizado tiene demasiado acceso como para ser utilizado en una URL de petición que no es de la API. Utilice una contraseña específica de la aplicación para un usuario que solo tenga acceso de visualización.",
+        "Reasons": "Motivos"
     },
     "Mobile": {
         "AboutPiwikMobile": "Acerca de Matomo Mobile",
