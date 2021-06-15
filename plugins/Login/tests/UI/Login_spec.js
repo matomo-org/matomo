@@ -30,6 +30,7 @@ describe("Login", function () {
     });
 
     after(async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '0')
         testEnvironment.testUseMockAuth = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;
@@ -281,7 +282,7 @@ describe("Login", function () {
     });
 
     it("should redirect if host is trusted in logme", async function () {
-        testEnvironment.overrideConfig('General', 'login_allow_logme', '0')
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.configOverride.General = {
             "trusted_hosts": ["matomo.org"]
