@@ -282,11 +282,9 @@ describe("Login", function () {
     });
 
     it("should redirect if host is trusted in logme", async function () {
-        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1');
+        testEnvironment.overrideConfig('General', 'trusted_hosts', ["matomo.org"]);
         testEnvironment.testUseMockAuth = 0;
-        testEnvironment.configOverride.General = {
-            "trusted_hosts": ["matomo.org"]
-        };
         testEnvironment.save();
 
         await page.goto(formlessLoginUrl + "&url="+encodeURIComponent("https://matomo.org/security/"));
