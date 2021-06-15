@@ -11,6 +11,7 @@ namespace Piwik\DataAccess;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Plugin\LogTablesProvider;
@@ -458,16 +459,16 @@ class RawLogDao
         $logVisit = Common::prefixTable('log_visit');
         $countOfVisitsForSite = Db::getReader()->fetchOne('SELECT COUNT(*) FROM ' . $logVisit . ' WHERE idsite = ?', [$idSite]);
 
-        $offset = floor($countOfVisitsForSite / 2);
-        $middleVisit = Db::getReader()->fetchRow('SELECT idvisit, visit_last_action_time FROM ' . $logVisit . ' WHERE idsite = ? LIMIT 1 OFFSET ' . $offset, [$idSite]);
+        $offset = max(0, floor($countOfVisitsForSite / 2) - 1);
+        $middleVisit = Db::getReader()->fetchRow('SELECT idvisit, visit_last_action_time FROM ' . $logVisit . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1 OFFSET ' . $offset, [$idSite]);
         if (empty($middleVisit)) {
-            return false; // no visits
+            return [false, null, null]; // no visits
         }
 
-	// NOTE: we subtract and add a day to give a buffer since visit last action times can overlap. To query properly, we'd have to
-	// use visit_first_action_time as well, but there is no index on that column.
+	    // NOTE: we subtract and add a day to give a buffer since visit last action times can overlap. To query properly, we'd have to
+	    // use visit_first_action_time as well, but there is no index on that column.
 
-	$sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
+        $sql = 'SELECT idvisit FROM ' . $logVisit . ' WHERE idvisit > ? AND visit_last_action_time < ? AND idsite = ?';
         $visitWithGreaterIdVisitButLowerTime = Db::getReader()->fetchOne($sql, [$middleVisit['idvisit'], Date::factory($middleVisit['visit_last_action_time'])->subDay(1)->getDatetime(), $idSite]);
         if (!empty($visitWithGreaterIdVisitButLowerTime)) {
             return [true, $middleVisit['idvisit'], $visitWithGreaterIdVisitButLowerTime];
@@ -479,6 +480,6 @@ class RawLogDao
             return [true, $middleVisit['idvisit'], $visitWithLowerIdVisitButGreaterTime];
         }
 
-        return false;
+        return [false, null, null];
     }
 }

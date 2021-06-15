@@ -38,62 +38,72 @@ class RawLogDaoTest extends IntegrationTestCase
 
     public function test_hasVisitDataOutOfOrder_returnsFalseWhenThereAreNoVisits()
     {
-        $result = $this->dao->hasVisitDataOutOfOrder($this->idSite);
+        list($result, $middleVisit, $outOfOrderVisit) = $this->dao->hasVisitDataOutOfOrder($this->idSite);
         $this->assertFalse($result);
+        $this->assertNull($middleVisit);
+        $this->assertNull($outOfOrderVisit);
     }
 
     public function test_hasVisitDataOutOfOrder_returnsFalseIfVisitDataIsNotOutOfOrder()
     {
         $table = Common::prefixTable('log_visit');
-        Db::query("INSERT INTO `$table` (visit_last_action_time) VALUES (?), (?), (?), (?), (?)", [
-            '2021-02-03 04:05:00',
-            '2021-02-03 06:05:00',
-            '2021-02-04 04:05:00',
-            '2021-02-04 04:05:00',
-            '2021-02-05 05:05:00',
+        Db::query("INSERT INTO `$table` (idsite, visit_last_action_time) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?)", [
+            $this->idSite, '2021-01-03 04:05:00',
+            $this->idSite, '2021-02-03 06:05:00',
+            $this->idSite, '2021-03-04 04:05:00',
+            $this->idSite, '2021-03-04 04:05:00',
+            $this->idSite, '2021-05-05 05:05:00',
         ]);
 
-        $result = $this->dao->hasVisitDataOutOfOrder($this->idSite);
+        list($result, $middleVisit, $outOfOrderVisit) = $this->dao->hasVisitDataOutOfOrder($this->idSite);
         $this->assertFalse($result);
+        $this->assertNull($middleVisit);
+        $this->assertNull($outOfOrderVisit);
     }
 
     public function test_hasVisitDataOutOfOrder_returnsTrueIfVisitDataIsOutOfOrder()
     {
         $table = Common::prefixTable('log_visit');
-        Db::query("INSERT INTO `$table` (visit_last_action_time) VALUES (?), (?), (?), (?), (?), (?)", [
-            '2021-02-03 04:05:00',
-            '2021-02-04 04:05:00',
-            '2021-02-04 04:05:00',
-            '2021-02-05 05:05:00',
-            '2021-02-03 06:05:00',
-            '2021-02-05 06:05:00',
+        Db::query("INSERT INTO `$table` (idsite, visit_last_action_time) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?), (?, ?)", [
+            $this->idSite, '2021-01-03 04:05:00',
+            $this->idSite, '2021-06-04 04:05:00',
+            $this->idSite, '2021-03-04 04:05:00',
+            $this->idSite, '2021-04-05 05:05:00',
+            $this->idSite, '2021-05-03 06:05:00',
+            $this->idSite, '2021-06-05 06:05:00',
         ]);
 
-        $result = $this->dao->hasVisitDataOutOfOrder($this->idSite);
-        $this->assertFalse($result);
+        list($result, $middleVisit, $outOfOrderVisit) = $this->dao->hasVisitDataOutOfOrder($this->idSite);
+        $this->assertTrue($result);
+        $this->assertEquals(3, $middleVisit);
+        $this->assertEquals(2, $outOfOrderVisit);
     }
 
     public function test_hasVisitDataOutOfOrder_returnsFalseIfVisitDataIsNotOutOfOrder_forASmallNumberOfVisits()
     {
         $table = Common::prefixTable('log_visit');
-        Db::query("INSERT INTO `$table` (visit_last_action_time) VALUES (?), (?)", [
-            '2021-02-03 04:05:00',
-            '2021-02-03 06:05:00',
+        Db::query("INSERT INTO `$table` (idsite, visit_last_action_time) VALUES (?, ?), (?, ?)", [
+            $this->idSite, '2021-02-03 04:05:00',
+            $this->idSite, '2021-02-05 06:05:00',
         ]);
 
-        $result = $this->dao->hasVisitDataOutOfOrder($this->idSite);
+        list($result, $middleVisit, $outOfOrderVisit) = $this->dao->hasVisitDataOutOfOrder($this->idSite);
         $this->assertFalse($result);
+        $this->assertNull($middleVisit);
+        $this->assertNull($outOfOrderVisit);
     }
 
     public function test_hasVisitDataOutOfOrder_returnsTrueIfVisitDataIsOutOfOrder_forASmallNumberOfVisits()
     {
         $table = Common::prefixTable('log_visit');
-        Db::query("INSERT INTO `$table` (visit_last_action_time) VALUES (?), (?)", [
-            '2021-02-03 06:05:00',
-            '2021-02-03 04:05:00',
+        Db::query("INSERT INTO `$table` (idsite, visit_last_action_time) VALUES (?, ?), (?, ?)", [
+            $this->idSite, '2021-02-05 04:05:00',
+            $this->idSite, '2021-02-03 06:05:00',
         ]);
 
-        $result = $this->dao->hasVisitDataOutOfOrder($this->idSite);
-        $this->assertFalse($result);
+        list($result, $middleVisit, $outOfOrderVisit) = $this->dao->hasVisitDataOutOfOrder($this->idSite);
+        $this->assertTrue($result);
+        $this->assertEquals(1, $middleVisit);
+        $this->assertEquals(2, $outOfOrderVisit);
     }
 }
