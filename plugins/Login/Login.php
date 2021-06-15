@@ -66,7 +66,7 @@ class Login extends \Piwik\Plugin
         $loginPlugin = Piwik::getLoginPluginName();
 
         if ($loginPlugin && $loginPlugin !== 'Login') {
-            $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
             $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForceForUserPwdLogin';
             $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
             $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForceForUserPwdLogin';

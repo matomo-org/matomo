@@ -138,9 +138,9 @@
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
-                var message = 'Website updated';
+                var message = _pk_translate('SitesManager_WebsiteUpdated');
                 if (isNewSite) {
-                    message = 'Website created';
+                    message = _pk_translate('SitesManager_WebsiteCreated');
                 }
 
                 notification.show(message, {context: 'success', id: 'websitecreated'});

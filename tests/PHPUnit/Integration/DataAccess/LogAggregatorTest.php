@@ -8,19 +8,15 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
-use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db as DbMigration;
 
@@ -290,40 +286,6 @@ class LogAggregatorTest extends IntegrationTestCase
             ],
         ];
         $this->assertEquals($expected, $result);
-    }
-
-    public function test_logAggregatorUpdatesArchiveStatusExpireTime()
-    {
-        $t = Fixture::getTracker(self::$fixture->idSite, '2010-03-06 14:22:33');
-        $t->setUrl('http://example.com/here/we/go');
-        $t->doTrackPageView('here we go');
-
-        Date::$now = strtotime('2015-03-04 00:08:04');
-
-        $params = new Parameters(new Site(self::$fixture->idSite), Period\Factory::build('day', self::$fixture->dateTime), new Segment('', [self::$fixture->idSite]));
-        $archiveStatus = StaticContainer::get(ArchivingStatus::class);
-        $archiveStatus->archiveStarted($params);
-
-        $locks = $this->getAllLocks();
-        $this->assertCount(1, $locks);
-        $expireTime = $locks[0]['expiry_time'];
-
-        sleep(1);
-
-        Date::$now = strtotime('2015-03-04 10:08:04');
-
-        $this->logAggregator->queryVisitsByDimension(['visit_total_time']);
-
-        $locks = $this->getAllLocks();
-        $this->assertCount(1, $locks);
-        $expireTimeNew = $locks[0]['expiry_time'];
-
-        $this->assertGreaterThan($expireTime, $expireTimeNew);
-    }
-
-    private function getAllLocks()
-    {
-        return Db::fetchAll("SELECT `key`, expiry_time FROM `" . Common::prefixTable('locks') . '`');
     }
 }
 

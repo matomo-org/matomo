@@ -9,10 +9,7 @@
 
 namespace Piwik\Archive;
 
-use Piwik\Access;
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
-use Piwik\ArchiveProcessor\ArchivingStatus;
-use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -74,11 +71,6 @@ class ArchiveInvalidator
     private $model;
 
     /**
-     * @var ArchivingStatus
-     */
-    private $archivingStatus;
-
-    /**
      * @var SegmentArchiving
      */
     private $segmentArchiving;
@@ -93,10 +85,9 @@ class ArchiveInvalidator
      */
     private $allIdSitesCache;
 
-    public function __construct(Model $model, ArchivingStatus $archivingStatus, LoggerInterface $logger)
+    public function __construct(Model $model, LoggerInterface $logger)
     {
         $this->model = $model;
-        $this->archivingStatus = $archivingStatus;
         $this->segmentArchiving = null;
         $this->logger = $logger;
     }

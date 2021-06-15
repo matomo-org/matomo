@@ -63,7 +63,7 @@
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs,
-    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getMatomoUrl, getCurrentUrl,
+    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -2369,6 +2369,9 @@ if (typeof window.Matomo !== 'object') {
 
                 configIdPageView,
 
+                // Boolean indicating that a page view ID has been set manually
+                configIdPageViewSetManually = false,
+
                 // we measure how many pageviews have been tracked so plugins can use it to eg detect if a
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
@@ -3894,7 +3897,9 @@ if (typeof window.Matomo !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
-                configIdPageView = generateUniqueId();
+                if (!configIdPageViewSetManually) {
+                    configIdPageView = generateUniqueId();
+                }
 
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
@@ -5596,6 +5601,17 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setDocumentTitle = function (title) {
                 configTitle = title;
+            };
+
+            /**
+             * Override PageView id for every use of logPageView(). Do not use this if you call trackPageView()
+             * multiple times during tracking (if, for example, you are tracking a single page application).
+             *
+             * @param string pageView
+             */
+            this.setPageViewId = function (pageView) {
+                configIdPageView = pageView;
+                configIdPageViewSetManually = true;
             };
 
             /**

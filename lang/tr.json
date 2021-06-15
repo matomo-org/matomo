@@ -524,7 +524,8 @@
         "Custom": "Özel",
         "PreviousPeriod": "Önceki Dönem",
         "PreviousYear": "Önceki Yıl",
-        "ViewAccessRequired": "Kullanılan kimlik doğrulama kodunun (token_auth) erişim izinleri, API dışı bir istek adresinde kullanılmak için çok fazla. Lütfen yalnız görüntüleme erişimi olan bir kullanıcı için uygulamaya özel bir parola kullanın."
+        "ViewAccessRequired": "Kullanılan kimlik doğrulama kodunun (token_auth) erişim izinleri, API dışı bir istek adresinde kullanılmak için çok fazla. Lütfen yalnız görüntüleme erişimi olan bir kullanıcı için uygulamaya özel bir parola kullanın.",
+        "Reasons": "Nedenler"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Concurrency;
 
-use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\Common;
 use Piwik\Date;
 

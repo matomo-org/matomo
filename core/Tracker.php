@@ -223,7 +223,9 @@ class Tracker
             try {
                 self::$db = TrackerDb::connectPiwikTrackerDb();
             } catch (Exception $e) {
-                throw new DbException($e->getMessage(), $e->getCode());
+                $code = $e->getCode();
+                // Note: PDOException might return a string as code, but we can't use this for DbException
+                throw new DbException($e->getMessage(), is_int($code) ? $code : 0);
             }
         }
 

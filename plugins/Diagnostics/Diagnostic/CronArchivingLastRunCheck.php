@@ -17,6 +17,7 @@ use Piwik\Option;
 use Piwik\Plugins\Intl\DateTimeFormatProvider;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 /**
  * Check if cron archiving has run in the last 24-48 hrs.
@@ -90,8 +91,13 @@ class CronArchivingLastRunCheck implements Diagnostic
 
     private function getArchivingCommand()
     {
-        $domain = Config::getHostname();
-        return PIWIK_INCLUDE_PATH . '/console --matomo-domain=' . $domain . ' core:archive';
+        if (Url::isValidHost()) {
+            $domain = Config::getHostname($checkIfTrusted = true);
+
+            return PIWIK_INCLUDE_PATH . '/console --matomo-domain=' . $domain . ' core:archive';
+        }
+
+        return PIWIK_INCLUDE_PATH . '/console core:archive';
     }
 
     public static function getTimeSinceLastSuccessfulRun($lastRunTime = null)
