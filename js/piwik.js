@@ -2052,7 +2052,7 @@ if (typeof window.Matomo !== 'object') {
 
             // check whether we were redirected from the matomo overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-                + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*?)?');
+                + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=[^&]*)?');
 
             var match = referrerRegExp.exec(documentAlias.referrer);
 
