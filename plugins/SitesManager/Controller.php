@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -25,6 +26,7 @@ use Piwik\View;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 use Matomo\Cache\Lazy;
+use Psr\Log\LoggerInterface;
 
 /**
  *
@@ -184,6 +186,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $response = Http::sendHttpRequest($mainUrl, 5, null, null, 0, false, false, true);
                 }
             } catch (Exception $e) {
+                StaticContainer::get(LoggerInterface::class)->info('Unable to fetch site type for host "{host}": {exception}', [
+                    'host' => $parsedUrl['host'] ?? 'unknown',
+                    'exception' => $e,
+                ]);
             }
 
             $guesser = new GtmSiteTypeGuesser();
