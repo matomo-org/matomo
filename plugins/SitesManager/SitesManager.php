@@ -39,6 +39,8 @@ class SitesManager extends \Piwik\Plugin
     const SITE_TYPE_SHAREPOINT = 'sharepoint';
     const SITE_TYPE_JOOMLA = 'joomla';
     const SITE_TYPE_SHOPIFY = 'shopify';
+    const SITE_TYPE_WEBFLOW = 'webflow';
+    const SITE_TYPE_DRUPAL = 'drupal';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -367,6 +369,8 @@ class SitesManager extends \Piwik\Plugin
             self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
             self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
             self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress',
+            self::SITE_TYPE_DRUPAL => 'https://matomo.org/faq/new-to-piwik/how-to-integrate-with-drupal/',
+            self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
         ];
 
         return $map[$siteType] ? $map[$siteType] : false;

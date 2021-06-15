@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -25,6 +26,7 @@ use Piwik\View;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 use Matomo\Cache\Lazy;
+use Psr\Log\LoggerInterface;
 
 /**
  *
@@ -167,17 +169,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     public function siteWithoutDataTabs() {
-        $typeCacheId = 'guessedtype_' . md5($this->site->getMainUrl());
-        $gtmCacheId = 'guessedgtm_' . md5($this->site->getMainUrl());
+        $mainUrl = $this->site->getMainUrl();
+        $typeCacheId = 'guessedtype_' . md5($mainUrl);
+        $gtmCacheId = 'guessedgtm_' . md5($mainUrl);
 
         $siteType = $this->cache->fetch($typeCacheId);
         $gtmUsed = $this->cache->fetch($gtmCacheId);
 
         if (!$siteType) {
             try {
-                $response = Http::sendHttpRequest($this->site->getMainUrl(), 5, null, null, 0, false, false, true);
-            } catch (Exception $e) {
                 $response = false;
+                $parsedUrl = parse_url($mainUrl);
+
+                // do not try to determine the site type for localhost or any IP
+                if (!empty($parsedUrl['host']) && $parsedUrl['host'] !== 'localhost' && !filter_var($parsedUrl['host'], FILTER_VALIDATE_IP)) {
+                    $response = Http::sendHttpRequest($mainUrl, 5, null, null, 0, false, false, true);
+                }
+            } catch (Exception $e) {
+                StaticContainer::get(LoggerInterface::class)->info('Unable to fetch site type for host "{host}": {exception}', [
+                    'host' => $parsedUrl['host'] ?? 'unknown',
+                    'exception' => $e,
+                ]);
             }
 
             $guesser = new GtmSiteTypeGuesser();

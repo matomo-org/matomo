@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
-use Piwik\Plugins\SitesManager\SitesManager;
-
 class GtmSiteTypeGuesser
 {
     public function guessSiteTypeFromResponse($response)
@@ -47,6 +45,22 @@ class GtmSiteTypeGuesser
         $needle = 'content="Microsoft SharePoint';
         if (strpos($response['data'], $needle) !== false) {
             return SitesManager::SITE_TYPE_SHAREPOINT;
+        }
+
+        $needle = '<meta name="Generator" content="Drupal';
+        if (strpos($response['data'], $needle) !== false) {
+            return SitesManager::SITE_TYPE_DRUPAL;
+        }
+
+        // https://github.com/drupal/drupal/blob/9.2.x/core/includes/install.core.inc#L1054
+        // Birthday of Dries Buytaert, the founder of Drupal is on 19 November 1978 - https://en.wikipedia.org/wiki/Drupal
+        if (isset($response['headers']['expires']) && $response['headers']['expires'] === 'Sun, 19 Nov 1978 05:00:00 GMT') {
+            return SitesManager::SITE_TYPE_DRUPAL;
+        }
+
+        $pattern = '/data-wf-(?:domain|page)=/i';
+        if (preg_match($pattern, $response['data']) === 1) {
+            return SitesManager::SITE_TYPE_WEBFLOW;
         }
 
         return SitesManager::SITE_TYPE_UNKNOWN;
