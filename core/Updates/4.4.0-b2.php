@@ -17,9 +17,9 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Common;
 
 /**
- * Update for version 4.4.0-b1.
+ * Update for version 4.4.0-b2.
  */
-class Updates_4_4_0_b1 extends PiwikUpdates
+class Updates_4_4_0_b2 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
