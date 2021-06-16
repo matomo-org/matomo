@@ -745,12 +745,12 @@ class API extends \Piwik\Plugin\API
         $this->model->addUser($userLogin, $passwordTransformed, $email, Date::now()->getDatetime());
 
         $container = StaticContainer::getContainer();
-        $email = $container->make(UserCreatedEmail::class, array(
+        $mail = $container->make(UserCreatedEmail::class, array(
             'login' => Piwik::getCurrentUserLogin(),
             'emailAddress' => Piwik::getCurrentUserEmail(),
             'userLogin' => $userLogin
         ));
-        $email->safeSend();
+        $mail->safeSend();
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
