@@ -805,6 +805,8 @@ class Db
 
     private static function logSql($functionName, $sql, $parameters = array())
     {
+        self::checkBoundParametersIfInDevMode($sql, $parameters);
+
         if (self::$logQueries === false
             || @Config::getInstance()->Debug['log_sql_queries'] != 1
         ) {
@@ -813,6 +815,19 @@ class Db
 
         // NOTE: at the moment we don't log parameters in order to avoid sensitive information leaks
         Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
+    }
+
+    private static function checkBoundParametersIfInDevMode($sql, $parameters = [])
+    {
+        if (!Development::isEnabled()) {
+            return;
+        }
+
+        foreach ($parameters as $index => $parameter) {
+            if ($parameter instanceof Date) {
+                throw new \Exception("Found bound parameter (index = $index) is Date instance which will not work correctly in following SQL: $sql");
+            }
+        }
     }
 
     /**
