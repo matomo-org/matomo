@@ -817,10 +817,14 @@ class Db
         Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
     }
 
-    private static function checkBoundParametersIfInDevMode($sql, $parameters = [])
+    private static function checkBoundParametersIfInDevMode($sql, $parameters)
     {
         if (!Development::isEnabled()) {
             return;
+        }
+
+        if (!is_array($parameters)) {
+            $parameters = [$parameters];
         }
 
         foreach ($parameters as $index => $parameter) {
