@@ -182,7 +182,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $parsedUrl = parse_url($mainUrl);
 
                 // do not try to determine the site type for localhost or any IP
-                if (!empty($parsedUrl['host']) && $parsedUrl['host'] !== 'localhost' && !filter_var($parsedUrl['host'], FILTER_VALIDATE_IP)) {
+                if (!empty($parsedUrl['host']) && !Url::isLocalHost($parsedUrl['host']) && !filter_var($parsedUrl['host'], FILTER_VALIDATE_IP)) {
                     $response = Http::sendHttpRequest($mainUrl, 5, null, null, 0, false, false, true);
                 }
             } catch (Exception $e) {

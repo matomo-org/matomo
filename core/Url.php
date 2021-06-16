@@ -723,7 +723,7 @@ class Url
      */
     public static function getLocalHostnames()
     {
-        return array('localhost', '127.0.0.1', '::1', '[::1]');
+        return array('localhost', '127.0.0.1', '::1', '[::1]', '[::]', '0000::1', '0177.0.0.1', '2130706433', '[0:0:0:0:0:ffff:127.0.0.1]');
     }
 
     /**
