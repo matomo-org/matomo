@@ -58,6 +58,7 @@ class PhpSettingsCheck implements Diagnostic
         $requiredSettings[] = new RequiredPhpSetting('session.auto_start', 0);
     
         $maxExecutionTime = new RequiredPhpSetting('max_execution_time', 0);
+        $maxExecutionTime->addRequiredValue(-1, '=');
         $maxExecutionTime->addRequiredValue(30, '>=');
         $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
         $requiredSettings[] = $maxExecutionTime;
