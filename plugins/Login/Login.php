@@ -221,11 +221,12 @@ class Login extends \Piwik\Plugin
         $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();
         if (empty($login) || $login == 'anonymous') {
             $login = Common::getRequestVar('form_login', false);
+            $action = Common::getRequestVar('action', false);
+            if ($action == 'logme') {
+                $login = Common::getRequestVar('login', $login);
+            }
         }
-        $action = Common::getRequestVar('action', false);
-        if ((empty($login) || $login == 'anonymous') && $action == 'logme') {
-            $login = Common::getRequestVar('login', false);
-        }
+
         return $login;
     }
 
