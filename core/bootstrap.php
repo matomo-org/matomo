@@ -37,6 +37,7 @@ define('PIWIK_DEFAULT_TIMEZONE', @date_default_timezone_get());
 @date_default_timezone_set('UTC');
 
 disableEaccelerator();
+printTestDoxHint();
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
@@ -61,4 +62,9 @@ function disableEaccelerator()
     if (!empty($isEacceleratorUsed)) {
         @ini_set('eaccelerator.enable', 0);
     }
+}
+
+function printTestDoxHint()
+{
+    print "\nIf these tests time out consistently, it can be helpful to temporarily set testdox=true in the phpunit.xml.dist in order to see which test is causing the issue.\n";
 }
