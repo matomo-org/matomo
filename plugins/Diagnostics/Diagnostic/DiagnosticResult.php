@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Common;
+
 /**
  * The result of a diagnostic.
  *
@@ -55,20 +57,23 @@ class DiagnosticResult
 
     /**
      * @param string $label
-     * @param string $status
      * @param string $comment
+     * @param bool $escapeComment
      * @return DiagnosticResult
      */
-    public static function informationalResult($label, $comment = '')
+    public static function informationalResult($label, $comment = '', $escapeComment = true)
     {
         if ($comment === true) {
             $comment = '1';
         } elseif ($comment === false) {
             $comment = '0';
         }
-        $result = new self($label);
-        $result->addItem(new DiagnosticResultItem(self::STATUS_INFORMATIONAL, $comment));
-        return $result;
+
+        if ($escapeComment) {
+            $comment = Common::sanitizeInputValue($comment);
+        }
+
+        return self::singleResult($label, self::STATUS_INFORMATIONAL, $comment);
     }
 
     /**

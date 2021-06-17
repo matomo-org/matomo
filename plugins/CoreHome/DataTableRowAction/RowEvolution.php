@@ -139,7 +139,8 @@ class RowEvolution
         $popoverTitle = '';
         if ($this->rowLabel) {
             $icon = $this->rowIcon ? '<img height="16px" src="' . $this->rowIcon . '" alt="">' : '';
-            $metricsText = sprintf(Piwik::translate('RowEvolution_MetricsFor'), $this->dimension . ': ' . $icon . ' ' . $this->rowLabel);
+            $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $this->rowLabel ));
+            $metricsText = sprintf(Piwik::translate('RowEvolution_MetricsFor'), $this->dimension . ': ' . $icon . ' ' . $rowLabel);
             $popoverTitle = $icon . ' ' . $this->rowLabel;
         }
 
@@ -401,7 +402,6 @@ class RowEvolution
     {
         // By default, use the specified label
         $rowLabel = Common::sanitizeInputValue($report['label']);
-        $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $rowLabel ));
 
         // If the dataTable specifies a label_html, use this instead
         /** @var $dataTableMap \Piwik\DataTable\Map */
