@@ -41,7 +41,7 @@ class Filesystem
         TrackerCache::deleteTrackerCache();
         PiwikCache::flushAll();
         self::clearPhpCaches();
-        
+
         $pluginManager = Plugin\Manager::getInstance();
         $plugins = $pluginManager->getLoadedPlugins();
         foreach ($plugins as $plugin) {
@@ -184,7 +184,7 @@ class Filesystem
      * @return array The list of paths that match the pattern.
      * @api
      */
-    public static function globr($sDir, $sPattern, $nFlags = null)
+    public static function globr($sDir, $sPattern, $nFlags = 0)
     {
         if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) == false) {
             $aFiles = array();

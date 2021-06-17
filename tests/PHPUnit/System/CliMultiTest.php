@@ -248,8 +248,8 @@ class CliMultiTest extends SystemTestCase
     {
         $dir = PIWIK_INCLUDE_PATH . '/tmp';
 
-        $files = \_glob($dir . "/*", null);
-        $subFiles = \_glob($dir . "/*/*", null);
+        $files = \_glob($dir . "/*");
+        $subFiles = \_glob($dir . "/*/*");
 
         $files = array_merge($files, $subFiles);
 
