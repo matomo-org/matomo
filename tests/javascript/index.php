@@ -22,7 +22,9 @@ if (!empty($_GET['plugin'])
 }
 
 try {
+    @ob_start();
     $mysql = include_once $root . "/tests/PHPUnit/bootstrap.php";
+    @ob_end_clean();
 } catch (Exception $e) {
     echo 'alert("ERROR, not all tests are running! --> ' . $e->getMessage() .  '")';
     $mysql = false;
@@ -1012,6 +1014,7 @@ function PiwikTest() {
         strictEqual(actual, _e('firstLink'), "findFirstNodeHavingAttributeWithValue, should find first link within body");
 
         actual = query.findFirstNodeHavingAttributeWithValue(document.body, 'src');
+
         strictEqual(actual, _e('image2'), "findFirstNodeHavingAttributeWithValue, should not return first image which has empty src attribute");
 
 
