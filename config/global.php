@@ -179,9 +179,9 @@ return array(
      * This defines a list of hostnames Matomo's Http class will deny requests to. Wildcards (*) can be used in the
      * beginning to match any subdomain level or in the end to match any tlds
      */
-    'http.blocklist.hosts' => DI\add([
-        '*.amazonaws.com'
-    ]),
+    'http.blocklist.hosts' => [
+        '*.amazonaws.com',
+    ],
 
     'Piwik\Tracker\VisitorRecognizer' => DI\autowire()
         ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))

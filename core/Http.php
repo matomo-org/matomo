@@ -68,6 +68,8 @@ class Http
      * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
      * @param string $httpUsername HTTP Auth username
      * @param string $httpPassword HTTP Auth password
+     * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
+     *                                 be set to false when using a hardcoded URL.
      *
      * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
      *                   if there are more than 5 redirects or if the request times out.
@@ -93,13 +95,16 @@ class Http
                                            $getExtendedInfo = false,
                                            $httpMethod = 'GET',
                                            $httpUsername = null,
-                                           $httpPassword = null)
+                                           $httpPassword = null,
+                                           $checkHostIsAllowed = true)
     {
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
-        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod, $httpUsername, $httpPassword);
+        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file,
+            $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod,
+            $httpUsername, $httpPassword, null, [], null, $checkHostIsAllowed);
     }
 
     public static function ensureDestinationDirectoryExists($destinationPath)
@@ -160,6 +165,8 @@ class Http
      * @param string $httpPassword HTTP Auth password
      * @param array|string $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      * @param array $additionalHeaders List of additional headers to set for the request
+     * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
+     *                                 be set to false when using a hardcoded URL.
      *
      * @return string|array  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
      *@throws Exception
@@ -181,7 +188,8 @@ class Http
         $httpPassword = null,
         $requestBody = null,
         $additionalHeaders = array(),
-        $forcePost = null
+        $forcePost = null,
+        $checkHostIsAllowed = true
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -212,21 +220,24 @@ class Http
             ));
         }
 
-        $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
-        $isBlocked = false;
+        if ($checkHostIsAllowed) {
+            $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
 
-        foreach ($disallowedHosts as $host) {
-            if (preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
-                $isBlocked = true;
-                break;
+            $isBlocked = false;
+
+            foreach ($disallowedHosts as $host) {
+                if (preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
+                    $isBlocked = true;
+                    break;
+                }
             }
-        }
 
-        if ($isBlocked) {
-            throw new Exception(sprintf(
-                'Hostname %s is in list of disallowed hosts',
-                $parsedUrl['host']
-            ));
+            if ($isBlocked) {
+                throw new Exception(sprintf(
+                    'Hostname %s is in list of disallowed hosts',
+                    $parsedUrl['host']
+                ));
+            }
         }
 
         $contentLength = 0;

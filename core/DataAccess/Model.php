@@ -327,8 +327,8 @@ class Model
 
                 /** @var Period $period */
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $period->getDateStart();
-                $bind[] = $period->getDateEnd();
+                $bind[] = $period->getDateStart()->getDatetime();
+                $bind[] = $period->getDateEnd()->getDatetime();
 
                 $dateConditionsSql = implode(" OR ", $dateConditions);
                 $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
