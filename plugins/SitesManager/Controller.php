@@ -128,16 +128,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function siteWithoutData()
     {
+        $this->checkSitePermission();
+
         $javascriptGenerator = new TrackerCodeGenerator();
         $javascriptGenerator->forceMatomoEndpoint();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
-
-        if (!$this->site && Piwik::hasUserSuperUserAccess()) {
-            throw new UnexpectedWebsiteFoundException('Invalid site ' . $this->idSite);
-        } elseif (!$this->site) {
-            // redirect to login form
-            Piwik::checkUserHasViewAccess($this->idSite);
-        }
 
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
 
@@ -169,6 +164,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     public function siteWithoutDataTabs() {
+        $this->checkSitePermission();
+
         $mainUrl = $this->site->getMainUrl();
         $typeCacheId = 'guessedtype_' . md5($mainUrl);
         $gtmCacheId = 'guessedgtm_' . md5($mainUrl);
