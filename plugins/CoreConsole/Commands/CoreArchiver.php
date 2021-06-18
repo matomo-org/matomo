@@ -56,8 +56,12 @@ class CoreArchiver extends ConsoleCommand
         $archiveFilter->setForceReport($input->getOption('force-report'));
 
         $segmentIds = $input->getOption('force-idsegments');
-        $segmentIds = explode(',', $segmentIds);
-        $segmentIds = array_map('trim', $segmentIds);
+        if (!empty($segmentIds)) {
+            $segmentIds = explode(',', $segmentIds);
+            $segmentIds = array_map('trim', $segmentIds);
+        } else {
+            $segmentIds = [];
+        }
         $archiveFilter->setSegmentsToForceFromSegmentIds($segmentIds);
 
         $archiver->setArchiveFilter($archiveFilter);
