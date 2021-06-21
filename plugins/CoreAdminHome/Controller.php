@@ -299,6 +299,7 @@ class Controller extends ControllerAdmin
         $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
         $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
+        $view->showSegmentArchiveTriggerInfo = !((bool) Config::getInstance()->General['browser_archiving_disabled_enforce']);
 
         $mail = Config::getInstance()->mail;
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
