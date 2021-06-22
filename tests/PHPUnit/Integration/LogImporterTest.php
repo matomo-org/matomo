@@ -94,6 +94,10 @@ class LogImporterTest extends IntegrationTestCase
                 '4 requests imported successfully',
             ],
             [
+                ['--log-hostname' => 'matomo.org',],
+                [[4, 4], [4, 4, 1], [0, 0, 2], [0, 0, 3]],
+            ],
+            [
                 ['--hostname' => '*matomo.org',],
                 [[2, 2], [1, 1, 1], [1, 1, 2], [0, 0, 3]],
             ],
@@ -148,6 +152,14 @@ class LogImporterTest extends IntegrationTestCase
             [
                 ['--enable-http-redirects' => false,],
                 [[4, 4], [2, 2, 1], [1, 1, 2], [1, 1, 3]],
+            ],
+            [
+                ['--exclude-path' => '*/guides/*',],
+                [[2, 2], [1, 1, 1], [1, 1, 2], [0, 0, 3]],
+            ],
+            [
+                ['--include-path' => '*/guides/*',],
+                [[1, 1], [0, 0, 1], [0, 0, 2], [1, 1, 3]],
             ],
         ];
     }
