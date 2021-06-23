@@ -16,5 +16,5 @@ jobs:
           days-before-issue-stale: -1
           days-before-issue-close: -1
           exempt-pr-labels: Do not close
-          stale-pr-message: This PR was last updated more than one month ago, maybe it's time to close it. Please check if there is anything we still can do or close this PR. ping @tsteur @sgiehl @diosmosis @flamisz
+          stale-pr-message: This PR was last updated more than one month ago, maybe it's time to close it. Please check if there is anything we still can do or close this PR. ping @tsteur @justinvelluppillai @sgiehl @diosmosis
           stale-pr-label: Stale for long
