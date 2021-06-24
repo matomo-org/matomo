@@ -16,5 +16,5 @@ jobs:
           only-pr-labels: Needs Review
           days-before-issue-stale: -1
           days-before-issue-close: -1
-          stale-pr-message: This issue is in "needs review" but there has been no activity for 7 days. ping @tsteur @justinvelluppillai @sgiehl @diosmosis
+          stale-pr-message: This issue is in "needs review" but there has been no activity for 7 days. ping @matomo-org/core-reviewers
           stale-pr-label: Stale
