@@ -10,7 +10,9 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Filesystem;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -162,6 +164,44 @@ class LogImporterTest extends IntegrationTestCase
                 [[1, 1], [0, 0, 1], [0, 0, 2], [1, 1, 3]],
             ],
         ];
+    }
+
+    public function testEncodingOption()
+    {
+        $options = [
+            '--encoding' => 'windows-1252',
+            '--enable-testmode' => false,
+        ];
+
+        $result = Fixture::executeLogImporter(PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/access-logs/windows-1252.log', $options, true);
+
+        $this->assertVisitCount(1, 1);
+        $this->assertActionCount(1, 1);
+
+        $name = Db::fetchOne('SELECT `name` FROM ' . Common::prefixTable('log_action'));
+        $this->assertEquals('matomo.org/äöüß§$%', $name);
+    }
+
+    /**
+     * @group bla
+     */
+    public function testOutputOption()
+    {
+        $file = StaticContainer::get('path.tmp') . '/logs/import_log.log';
+
+        Filesystem::deleteFileIfExists($file);
+
+        $options = [
+            '--output' => $file,
+            '--enable-testmode' => false,
+        ];
+
+        Fixture::executeLogImporter(PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/access-logs/different_hosts.log', $options, true);
+
+        $this->assertVisitCount(3);
+
+        $output = file_get_contents($file);
+        $this->assertStringContainsString('4 requests imported successfully', $output);
     }
 
     protected function assertVisitAndActionCount($visitCount, $actionCount, $idSite = null)
