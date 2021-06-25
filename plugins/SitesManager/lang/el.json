@@ -100,6 +100,8 @@
         "OnlyMatchedUrlsAllowedHelp": "Όταν είναι ενεργοποιημένο, το Matomo θα παρακολουθεί εσωτερικές ενέργειες όταν η διεύθυνση URL είναι μία από τις γνωστές διευθύνσεις URL για τον ιστοτόπο σας. Αυτό αποτρέπει τρίτους από ανεπιθύμητη κίνηση στα αναλυτικά σας με διευθύνσεις URL από τρίτους ιστοτόπους.",
         "OnlyMatchedUrlsAllowedHelpExamples": "Το όνομα χώρου και η διαδρομή πρέπει να ταιριάζουν ακριβώς και κάθε υποόνομα να ορίζεται ξεχωριστά. Για παράδειγμα, όταν οι γνωστές διευθύνσεις URL είναι 'http:\/\/example.com\/path' και 'http:\/\/good.example.com', οι αιτήσεις ιχνηλάτησης για το 'http:\/\/example.com\/otherpath' ή 'http:\/\/bad.example.com' αγνοούνται.",
         "WebsitesManagement": "Διαχείριση ιστοσελίδων",
+        "WebsiteUpdated": "Ο ιστοτόπος ενημερώθηκε",
+        "WebsiteCreated": "Ο ιστοτόπος δημιουργήθηκε",
         "XManagement": "Διαχείριση του %s",
         "ChooseMeasurableTypeHeadline": "Τι θέλετε να μετρήσετε;",
         "YouCurrentlyHaveAccessToNWebsites": "Έχετε πρόσβαση σε %s ιστοσελίδες.",

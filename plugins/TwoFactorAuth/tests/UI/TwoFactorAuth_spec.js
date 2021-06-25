@@ -45,6 +45,8 @@ describe("TwoFactorAuth", function () {
         }
         await page.waitFor(1000);
         await page.goto(logMeUrl);
+        await page.waitForNetworkIdle();
+        await page.waitFor(1000);
     }
 
     function requireTwoFa() {

@@ -1,3 +1,3 @@
 <?php
 
-echo $_GET['v'] . '.99.99';
+echo htmlentities($_GET['v']) . '.99.99';

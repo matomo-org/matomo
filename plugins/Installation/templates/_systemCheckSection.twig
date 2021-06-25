@@ -79,7 +79,7 @@
                     {% elseif item.status == warning %}
                         {{ warningIcon }} {{ item.comment|raw }}
                     {% elseif item.status == informational %}
-                        {{ infoIcon }} {{ item.comment }}
+                        {{ infoIcon }} {{ item.comment|raw }}
                     {% else %}
                         {{ okIcon }} {{ item.comment|raw }}
                     {% endif %}

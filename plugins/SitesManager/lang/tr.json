@@ -100,6 +100,8 @@
         "OnlyMatchedUrlsAllowedHelp": "Bu seçenek etkinleştirildiğinde, Matomo iç işlemleri yalnız sayfa adresi web sitesi için belirtilmiş adreslerden biri ise izler. Böylece kötü niyetli kişilerin istatistik verilerinizi başka web sitesi adresleri ile karıştırması engellenmiş olur.",
         "OnlyMatchedUrlsAllowedHelpExamples": "Etki alanı ve yol tam eşleşmeli ve her bir etki geçerli alt etki alanı ayrı ayrı belirtilmelidir. Örneğin bilinen adresler 'http:\/\/ornek.com\/yol' ve 'http:\/\/iyi.ornek.com' şeklinde ise, 'http:\/\/ornek.com\/baskayol' ya da 'http:\/\/kotu.ornek.com' izleme istekleri yok sayılır.",
         "WebsitesManagement": "Web Sitesi Yönetimi",
+        "WebsiteUpdated": "Web sitesi güncellendi",
+        "WebsiteCreated": "Web sitesi oluşturuldu",
         "XManagement": "%s Yönetimi",
         "ChooseMeasurableTypeHeadline": "Neyi ölçmek istiyorsunuz?",
         "YouCurrentlyHaveAccessToNWebsites": "%s web sitesine erişme izniniz var.",

@@ -100,6 +100,8 @@
         "OnlyMatchedUrlsAllowedHelp": "Në u aktivizoftë, Matomo do të ndjekë veprime të brendshme vetëm kur URL-ja e Faqes është një nga URL-të e njohura për sajtin tuaj. Kjo pengon shfrytëzimin e padëshiruar të analizave tuaja përmes URL-sh për sajte të tjerë.",
         "OnlyMatchedUrlsAllowedHelpExamples": "Përkatësia dhe shtegu duhet të përputhen saktësisht dhe çdo nënpërkatësi e vlefshme duhet të specifikohet veçmas. Për shembull, kur URL-të e ditura janë 'http:\/\/shembull.com\/shteg' dhe 'http:\/\/imirë.shembull.com', kërkesat për ndjekje të 'http:\/\/shembull.com\/shtegtjetër' ose 'http:\/\/ikeq.shembull.com' shpërfillen.",
         "WebsitesManagement": "Administrim Sajtesh",
+        "WebsiteUpdated": "Sajti u përditësua",
+        "WebsiteCreated": "Sajti u krijua",
         "XManagement": "Administroni %s",
         "ChooseMeasurableTypeHeadline": "Ç’do të donit të matnit?",
         "YouCurrentlyHaveAccessToNWebsites": "Deri tani keni hyrje te %s sajte.",

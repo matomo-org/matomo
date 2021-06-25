@@ -181,7 +181,7 @@ class Option
         }
 
         $value = Db::fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
-                              'WHERE option_name = ?', $name);
+                              'WHERE option_name = ?', [$name]);
 
         $this->all[$name] = $value;
         return $value;
