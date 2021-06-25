@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>&lt;!-- Matomo --&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;script&gt;
   var _paq = window._paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(['trackPageView']);
@@ -10,7 +10,7 @@
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
