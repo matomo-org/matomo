@@ -621,8 +621,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var self = this;
         if (typeof self.parentId != "undefined" && self.parentId != '') {
-            // no limit selector for subtables
-            $('.limitSelection', domElem).remove();
             return;
         }
 
