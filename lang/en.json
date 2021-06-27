@@ -16,6 +16,7 @@
         "Apply": "Apply",
         "ArchivingInlineHelp": "For medium to high traffic websites, it is recommended to disable Matomo archiving to trigger from the browser. Instead, we recommend that you setup a cron job to process Matomo reports every hour.",
         "ArchivingTriggerDescription": "Recommended for larger Matomo installs, you need to %1$ssetup a cron job%2$s to process the reports automatically.",
+        "ArchivingTriggerSegment": "Using Custom Segments will still trigger processing of archives.",
         "AuthenticationMethodSmtp": "Authentication method for SMTP",
         "AverageOrderValue": "Average Order Value",
         "AveragePrice": "Average Price",
