@@ -104,6 +104,7 @@
         "RowLimit": "Límite de fila",
         "CustomLimit": "Límite personalizado",
         "ExportFormat": "Formato de exportación",
+        "ExportTooltip": "Nota: para utilizar la URL generada necesitará especificar un token de autenticación de la aplicación. Puede configurar estos tokens yendo a Admin -> Security -> Token Auths",
         "ExpandSubtables": "Expandir subtablas",
         "StandardReport": "Informe estándar",
         "FlattenReport": "Aplanar informe",
@@ -114,6 +115,8 @@
         "Profilable": "Perfilable",
         "SearchOnMatomo": "Busca '%1$s' en Matomo.org",
         "ReportingCategoryHelpPrefix": "¿Cómo me ayuda la página de report \"%1$s > %2$s\"?",
-        "VisitorsCategoryHelp2": "Además de la información general respecto a los visitantes, también puede usar %1$s los registros de visitas %2$s para ver que ha ocurrido en cada visita individual."
+        "VisitorsCategoryHelp2": "Además de la información general respecto a los visitantes, también puede usar %1$s los registros de visitas %2$s para ver que ha ocurrido en cada visita individual.",
+        "EngagementSubcategoryHelp2": "Esto le puede ayudar a usted, además de a maximizar su alcance, a optimizar por frecuencia y visitas de gran interacción.",
+        "PeriodHasOnlyRawData": "Parece que los informes para este periodo aún no han sido procesados. ¿Quiere ver lo que está sucediendo ahora? Consulte aquí %1$s, registro de visitas %2$s o elija un periodo distinto hasta que los informes se hayan generado."
     }
 }

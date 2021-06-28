@@ -1,7 +1,8 @@
 {
     "CustomJsTracker": {
-        "PluginDescription": "Omogućuje bilo kom Matomo dodatku da proširi Matomo JavaScript datoteku za praćenje (piwik.js) i doda nove funkcionalnosti i mogućnosti za praćenje sajtova.",
-        "DiagnosticPiwikJsWritable": "JavaScript treker u koji je moguće pisati (\"\/piwik.js\")",
-        "DiagnosticPiwikJsMakeWritable": "Predlažemo da omogućite pisanje u piwik.js sledećom komandom: %s"
+        "PluginDescription": "Omogućuje bilo kom Piwik dodatku da proširi Matomo JavaScript datoteku za praćenje (matomo.js) i doda nove funkcionalnosti i mogućnosti za praćenje sajtova.",
+        "DiagnosticPiwikJsWritable": "JavaScript treker u koji je moguće pisati (%s)",
+        "DiagnosticPiwikJsNotWritable": "U Matomo JavaScript treker datoteku %s nije moguće pisati što znači da ostali dodaci ne mogu da prošire JavaScript treker. U budućnosti možda čak ni neke bazične funkcije neće raditi kako se očekuje.",
+        "DiagnosticPiwikJsMakeWritable": "Predlažemo da omogućite pisanje u %1$s sledećom komandom: %2$s"
     }
 }

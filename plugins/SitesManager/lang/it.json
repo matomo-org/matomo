@@ -100,6 +100,8 @@
         "OnlyMatchedUrlsAllowedHelp": "Quando abilitato, Matomo traccerà le azioni interne solo quando l'URL Pagina è una delle URL conosciute del sito. Questo evita che la gente spammi le tue statistiche con URL di altri siti web.",
         "OnlyMatchedUrlsAllowedHelpExamples": "Il dominio e il percorso devono essere una corrispondenza esatta e ogni sottodominio valido deve essere specificato separatamente. Ad esempio, quando gli URL conosciuti sono \"http:\/\/example.com\/path\" e \"http:\/\/good.example.com\", le richieste di tracciamento per \"http:\/\/example.com\/otherpath\" o \"http:\/\/bad.example.com 'sono ignorate.",
         "WebsitesManagement": "Gestisci siti web",
+        "WebsiteUpdated": "Sito web aggiornato",
+        "WebsiteCreated": "Sito web creato",
         "XManagement": "Gestione %s",
         "ChooseMeasurableTypeHeadline": "Cosa intendi misurare",
         "YouCurrentlyHaveAccessToNWebsites": "Al momento hai accesso a %s siti.",
