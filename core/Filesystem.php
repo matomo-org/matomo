@@ -152,6 +152,7 @@ class Filesystem
             // check if filesystem is NFS
             if ($returnCode == 0
                 && count($output) > 1
+                && preg_match('/\bnfs\d?\b/', implode("\n", $output))
             ) {
                 return true;
             }
@@ -161,9 +162,11 @@ class Filesystem
             $output = @shell_exec($command);
             if ($output) {
                 $commandFailed = (false !== strpos($output, "no file systems processed"));
-                $output = explode("\n", trim($output));
+                $output = trim($output);
+                $outputArray = explode("\n", $output);
                 if (!$commandFailed
-                    && count($output) > 1) {
+                    && count($outputArray) > 1
+                    && preg_match('/\bnfs\d?\b/', $output)) {
                     // check if filesystem is NFS
                     return true;
                 }
