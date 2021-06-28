@@ -8,12 +8,14 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
+use Piwik\Url;
 
 /**
  * Process a log record containing an exception to generate a textual message.
@@ -54,6 +56,8 @@ class ExceptionToTextProcessor
         } else {
             $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
         }
+
+        $record['message'] .= ' [' . $this->getErrorContext() . ']';
 
         return $record;
     }
@@ -143,5 +147,17 @@ class ExceptionToTextProcessor
         ];
 
         return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
+    }
+
+    private function getErrorContext()
+    {
+        try {
+            $context = 'Query: ' . Url::getCurrentQueryString();
+            $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
+            return $context;
+        } catch (\Exception $ex) {
+            $context = "cannot get url or cli mode: " . $ex->getMessage();
+            return $context;
+        }
     }
 }

@@ -28,11 +28,14 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] [%s] %s";
 
-    public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(112): dummy error message
-  dummy backtrace';
+    public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(130): dummy error message
+  dummy backtrace [Query: , CLI mode: 1]';
 
     public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): dummy error message
-  dummy backtrace';
+  dummy backtrace [Query: , CLI mode: 1]';
+
+    public static $expectedErrorOutputWithQuery = '[Monolog] [%s] dummyerrorfile.php(145): dummy error message
+  dummy backtrace [Query: ?a=b&d=f, CLI mode: 1]';
 
     public function setUp(): void
     {
@@ -100,6 +103,21 @@ class LogTest extends IntegrationTestCase
         Log::error($error);
 
         $this->checkBackend($backend, sprintf(self::$expectedErrorOutput, getmypid()), $formatMessage = false, $tag = 'Monolog');
+    }
+
+    /**
+     * @dataProvider getBackendsToTest
+     */
+    public function testLoggingContextWorks($backend)
+    {
+        $this->recreateLogSingleton($backend);
+
+        $_SERVER['QUERY_STRING'] = 'a=b&d=f';
+
+        $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
+        Log::error($error);
+
+        $this->checkBackend($backend, sprintf(self::$expectedErrorOutputWithQuery, getmypid()), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**

@@ -8,6 +8,14 @@
  */
 namespace Piwik\Exception;
 
+use Piwik\Common;
+use Piwik\Url;
+use Throwable;
+
 class NotYetInstalledException extends InvalidRequestParameterException
 {
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }
