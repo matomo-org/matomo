@@ -102,9 +102,15 @@
 
         var triggerAddSiteIfRequested = function() {
             var search = String(window.location.search);
+            var searchParams = piwik.helper.getArrayFromQueryString(search);
 
-            if(piwik.helper.getArrayFromQueryString(search).showaddsite == 1)
+
+            if(searchParams.showaddsite == 1) {
                 addNewEntity();
+            } else if(searchParams.editsiteid && $.isNumeric(searchParams.editsiteid)) {
+                adminSites.search = parseInt(searchParams.editsiteid, 10);
+                adminSites.searchSite(adminSites.search);
+            }
         };
 
         var initUtcTime = function() {

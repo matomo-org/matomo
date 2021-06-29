@@ -41,6 +41,12 @@
                 } else {
                     $scope.currentType = {name: $scope.site.type};
                 }
+                var search = String(window.location.search);
+                var searchParams = piwik.helper.getArrayFromQueryString(search);
+                if (searchParams.editsiteid
+                    && $scope.site.idsite == searchParams.editsiteid) {
+                    editSite();
+                }
             });
         };
 
