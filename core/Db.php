@@ -184,6 +184,10 @@ class Db
 
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
+        if (!empty($dbConfig['aurora_readonly_read_committed'])) {
+            $db->exec('set session aurora_read_replica_read_committed = ON;set session transaction isolation level read committed;');
+        }
+
         self::$readerConnection = $db;
     }
 
