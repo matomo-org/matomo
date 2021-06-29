@@ -13,6 +13,7 @@
 
         $scope.period = piwik.period;
         $scope.date   = piwik.broadcast.getValueFromUrl('date');
+        $scope.dashboardUrl = dashboardUrl;
         $scope.sparklineImage = sparklineImage;
         $scope.website.label  = piwik.helper.htmlDecode($scope.website.label);
 
@@ -20,13 +21,16 @@
             return $scope.website;
         };
 
-        function sparklineImage(website){
-            var append = '';
+        function tokenParam() {
             var token_auth = piwik.broadcast.getValueFromUrl('token_auth');
-            if (token_auth.length) {
-                append = '&token_auth=' + token_auth;
-            }
+            return token_auth.length ? '&token_auth=' + token_auth : '';
+        }
 
+        function dashboardUrl(website){
+            return piwik.piwik_url + 'index.php?module=CoreHome&action=index&date=' + $scope.date + '&period=' + $scope.period + '&idSite=' + website.idsite + tokenParam();
+        }
+
+        function sparklineImage(website){
             var metric = $scope.metric;
 
             switch ($scope.evolutionMetric) {
@@ -41,7 +45,7 @@
                     break;
             }
 
-            return piwik.piwik_url + 'index.php?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' + metric + '&columns=' + metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
+            return piwik.piwik_url + 'index.php?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' + metric + '&columns=' + metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + tokenParam() + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
         }
     }
 })();
