@@ -13,15 +13,7 @@ class CoreAngular extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'CronArchive.getArchivingAPIMethodForPlugin' => 'getArchivingAPIMethodForPlugin',
+            // TODO: empty
         ];
-    }
-
-    // support archiving just this plugin via core:archive
-    public function getArchivingAPIMethodForPlugin(&$method, $plugin)
-    {
-        if ($plugin == 'CoreAngular') {
-            $method = 'CoreAngular.getExampleArchivedMetric';
-        }
     }
 }

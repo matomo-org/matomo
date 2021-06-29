@@ -48,6 +48,21 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         $this->addThemeFiles();
 
         $this->mapBowerComponentFilesForBC($this->fileLocations);
+
+        $this->addPluginWebJsFiles();
+    }
+
+    private function addPluginWebJsFiles()
+    {
+        foreach ($this->plugins as $pluginName) {
+            $webJsFileLocal = 'plugins/' . $pluginName . '/web.js';
+            $webJsFile = PIWIK_INCLUDE_PATH . '/' . $webJsFileLocal;
+            if (!file_exists($webJsFile)) {
+                continue;
+            }
+
+            $this->fileLocations[] = $webJsFileLocal;
+        }
     }
 
     protected function addThemeFiles()
