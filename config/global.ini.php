@@ -57,6 +57,12 @@ password =
 dbname =
 port = 3306
 
+; If enabled, the reader will use an Aurora MySQL session-level configuration setting,
+; aurora_read_replica_read_committed, to use the READ COMMITTED isolation level on Aurora Replicas.
+; Using this setting can help reduce slowdowns and wasted space that can result from performing long-running
+; queries at the same time as transactions that modify your tables.
+aurora_readonly_read_committed =
+
 [database_tests]
 host = localhost
 username = "@USERNAME@"
