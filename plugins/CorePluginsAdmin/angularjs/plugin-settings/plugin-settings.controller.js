@@ -28,6 +28,8 @@
         piwikApi.fetch({method: apiMethod}).then(function (settings) {
             self.isLoading = false;
             self.settingsPerPlugin = settings;
+
+            window.anchorLinkFix.scrollToAnchorInUrl();
         }, function () {
             self.isLoading = false;
         });
