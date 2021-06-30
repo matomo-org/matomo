@@ -1,7 +1,0 @@
-/*
- * Public API Surface of library
- */
-export * from './lib/library.service';
-export * from './lib/library.component';
-export * from './lib/library.module';
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRXhhbXBsZUFuZ3VsYXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvRXhhbXBsZUFuZ3VsYXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0dBRUc7QUFFSCxjQUFjLHVCQUF1QixDQUFDO0FBQ3RDLGNBQWMseUJBQXlCLENBQUM7QUFDeEMsY0FBYyxzQkFBc0IsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBQdWJsaWMgQVBJIFN1cmZhY2Ugb2YgbGlicmFyeVxuICovXG5cbmV4cG9ydCAqIGZyb20gJy4vbGliL2xpYnJhcnkuc2VydmljZSc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi9saWJyYXJ5LmNvbXBvbmVudCc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi9saWJyYXJ5Lm1vZHVsZSc7XG4iXX0=

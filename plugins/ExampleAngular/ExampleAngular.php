@@ -13,15 +13,12 @@ class ExampleAngular extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'CronArchive.getArchivingAPIMethodForPlugin' => 'getArchivingAPIMethodForPlugin',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
         ];
     }
 
-    // support archiving just this plugin via core:archive
-    public function getArchivingAPIMethodForPlugin(&$method, $plugin)
+    public function getJsFiles(&$jsFiles)
     {
-        if ($plugin == 'ExampleAngular') {
-            $method = 'ExampleAngular.getExampleArchivedMetric';
-        }
+        $jsFiles[] = 'plugins/ExampleAngular/angular/dist/bundles/example-angular.umd.js';
     }
 }

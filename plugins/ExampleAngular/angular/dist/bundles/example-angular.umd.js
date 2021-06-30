@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
-    typeof define === 'function' && define.amd ? define('@plugins/example-angular', ['exports', '@angular/core'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.plugins = global.plugins || {}, global.plugins['example-angular'] = {}), global.ng.core));
+    typeof define === 'function' && define.amd ? define('example-angular', ['exports', '@angular/core'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['example-angular'] = {}, global.ng.core));
 }(this, (function (exports, i0) { 'use strict';
 
     function _interopNamespace(e) {
@@ -94,4 +94,4 @@
     Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=plugins-example-angular.umd.js.map
+//# sourceMappingURL=example-angular.umd.js.map
