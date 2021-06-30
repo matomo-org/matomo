@@ -104,11 +104,12 @@
             var search = String(window.location.search);
             var searchParams = piwik.helper.getArrayFromQueryString(search);
 
+            var forcedEditSiteId = sitesManagerTypeModel.getEditSiteIdParameter();
 
             if(searchParams.showaddsite == 1) {
                 addNewEntity();
-            } else if(searchParams.editsiteid && $.isNumeric(searchParams.editsiteid)) {
-                adminSites.search = parseInt(searchParams.editsiteid, 10);
+            } else if(forcedEditSiteId) {
+                adminSites.search = parseInt(forcedEditSiteId, 10);
                 adminSites.searchSite(adminSites.search);
             }
         };
@@ -238,6 +239,7 @@
                     siteElement[0].scrollIntoView();
                 }
             }
+            sitesManagerTypeModel.removeEditSiteIdParameterFromHash();
         };
 
         var lookupCurrentEditSite = function () {

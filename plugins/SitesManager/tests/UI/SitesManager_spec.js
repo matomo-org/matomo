@@ -90,7 +90,7 @@ describe("SitesManager", function () {
 
     it("should be able to open and edit a site directly based on url parameter", async function() {
         await assertScreenshotEquals("site_edit_url", async function () {
-            await page.goto(url + '&editsiteid=23');
+            await page.goto(url + '#/editsiteid=23');
         });
     });
 });
