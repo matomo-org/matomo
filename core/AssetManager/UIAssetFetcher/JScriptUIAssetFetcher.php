@@ -13,8 +13,38 @@ use Piwik\Piwik;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
 {
+    /**
+     * @var bool
+     */
+    private $deferAssets;
+
+    public function __construct($plugins, $theme, $deferAssets = false)
+    {
+        parent::__construct($plugins, $theme);
+
+        $this->deferAssets = $deferAssets;
+    }
 
     protected function retrieveFileLocations()
+    {
+        if ($this->deferAssets) {
+            $this->retrieveFileLocationsForDeferAssets();
+        } else {
+            $this->retrieveFileLocationsForNormalAssets();
+        }
+    }
+
+    protected function retrieveFileLocationsForDeferAssets()
+    {
+        if (!empty($this->plugins)) {
+            /**
+             * TODO
+             */
+            Piwik::postEvent('AssetManager.getDeferJavaScriptFiles', array(&$this->fileLocations), null, $this->plugins);
+        }
+    }
+
+    protected function retrieveFileLocationsForNormalAssets()
     {
         if (!empty($this->plugins)) {
 

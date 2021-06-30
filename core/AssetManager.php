@@ -41,12 +41,15 @@ class AssetManager extends Singleton
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";
     const MERGED_NON_CORE_JS_FILE = "asset_manager_non_core_js.js";
+    const MERGED_DEFER_JS_FILE = "asset_manager_defer_js.js";
 
     const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
     const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
+    const JS_IMPORT_DEFER_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\" defer></script>\n";
     const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
     const GET_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getCoreJs";
     const GET_NON_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getNonCoreJs";
+    const GET_DEFER_JS_MODULE_ACTION = "index.php?module=Proxy&action=getDeferJs";
 
     /**
      * @var UIAssetCacheBuster
@@ -144,11 +147,14 @@ class AssetManager extends Singleton
         if ($this->isMergedAssetsDisabled()) {
             $this->getMergedCoreJSAsset()->delete();
             $this->getMergedNonCoreJSAsset()->delete();
+            $this->getMergedDeferJavaScript()->delete();
 
             $result .= $this->getIndividualCoreAndNonCoreJsIncludes();
+            $result .= $this->getDeferJsIncludes();
         } else {
             $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
             $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
+            $result .= sprintf(self::JS_IMPORT_DEFER_DIRECTIVE, self::GET_DEFER_JS_MODULE_ACTION);
         }
 
         return $result;
@@ -211,11 +217,16 @@ class AssetManager extends Singleton
         return $this->getMergedJavascript($this->getNonCoreJScriptFetcher(), $this->getMergedNonCoreJSAsset());
     }
 
+    public function getMergedDeferJavaScript()
+    {
+        return $this->getMergedJavascript($this->getDeferJScriptFetcher(), $this->getMergedDeferJSAsset());
+    }
+
     /**
-     * @param boolean $core
+     * @param boolean|'all' $core
      * @return string[]
      */
-    public function getLoadedPlugins($core)
+    public function getLoadedPlugins($coreOrAll)
     {
         $loadedPlugins = array();
 
@@ -223,7 +234,7 @@ class AssetManager extends Singleton
             $pluginName = $plugin->getPluginName();
             $pluginIsCore = Manager::getInstance()->isPluginBundledWithCore($pluginName);
 
-            if (($pluginIsCore && $core) || (!$pluginIsCore && !$core)) {
+            if ($coreOrAll == 'all' || ($pluginIsCore && $coreOrAll) || (!$pluginIsCore && !$coreOrAll)) {
                 $loadedPlugins[] = $pluginName;
             }
         }
@@ -245,8 +256,10 @@ class AssetManager extends Singleton
                 } else {
                     $assetsToRemove[] = $this->getMergedNonCoreJSAsset();
                 }
+                $assetsToRemove[] = $this->getMergedDeferJSAsset(); // TODO: will this work?
             }
         } else {
+            $assetsToRemove[] = $this->getMergedDeferJSAsset();
             $assetsToRemove[] = $this->getMergedCoreJSAsset();
             $assetsToRemove[] = $this->getMergedNonCoreJSAsset();
         }
@@ -294,7 +307,7 @@ class AssetManager extends Singleton
     }
 
     /**
-     * @param UIAssetFetcher $assetFetcher
+     * @param JScriptUIAssetFetcher $assetFetcher
      * @param UIAsset $mergedAsset
      * @return UIAsset
      */
@@ -323,7 +336,7 @@ class AssetManager extends Singleton
      * @param UIAssetFetcher $assetFetcher
      * @return string
      */
-    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher)
+    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher, $defer = false)
     {
         $jsIncludeString = '';
 
@@ -331,7 +344,7 @@ class AssetManager extends Singleton
 
         foreach ($assets as $jsFile) {
             $jsFile->validateFile();
-            $jsIncludeString = $jsIncludeString . sprintf(self::JS_IMPORT_DIRECTIVE, $jsFile->getRelativeLocation());
+            $jsIncludeString = $jsIncludeString . sprintf($defer ? self::JS_IMPORT_DEFER_DIRECTIVE : self::JS_IMPORT_DIRECTIVE, $jsFile->getRelativeLocation());
         }
 
         return $jsIncludeString;
@@ -345,6 +358,11 @@ class AssetManager extends Singleton
     protected function getNonCoreJScriptFetcher()
     {
         return new JScriptUIAssetFetcher($this->getLoadedPlugins(false), $this->theme);
+    }
+
+    protected function getDeferJScriptFetcher()
+    {
+        return new JScriptUIAssetFetcher($this->getLoadedPlugins('all'), $this->theme, $defer = true);
     }
 
     /**
@@ -417,6 +435,14 @@ class AssetManager extends Singleton
     }
 
     /**
+     * @return UIAsset
+     */
+    protected function getMergedDeferJSAsset()
+    {
+        return $this->getMergedUIAsset(self::MERGED_DEFER_JS_FILE);
+    }
+
+    /**
      * @param string $fileName
      * @return UIAsset
      */
@@ -447,5 +473,10 @@ class AssetManager extends Singleton
         $assetMerger->generateFile();
         
         return $mergedAsset->getContent();
+    }
+
+    private function getDeferJsIncludes()
+    {
+        return $this->getIndividualJsIncludesFromAssetFetcher($this->getDeferJScriptFetcher(), $defer = true);
     }
 }

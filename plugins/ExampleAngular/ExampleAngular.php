@@ -13,11 +13,11 @@ class ExampleAngular extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AssetManager.getDeferJavaScriptFiles' => 'getDeferJsFiles',
         ];
     }
 
-    public function getJsFiles(&$jsFiles)
+    public function getDeferJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/ExampleAngular/angular/dist/bundles/example-angular.umd.js';
     }

@@ -67,6 +67,15 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
+     * TODO
+     */
+    public function getDeferJs()
+    {
+        $jsMergedFile = AssetManager::getInstance()->getMergedDeferJavaScript();
+        $this->serveJsFile($jsMergedFile);
+    }
+
+    /**
      * @param UIAsset $uiAsset
      */
     private function serveJsFile($uiAsset)

@@ -13,7 +13,21 @@ class CoreAngular extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            // TODO: empty
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getDeferJavaScriptFiles' => 'getDeferJsFiles',
         ];
+    }
+
+    public function getDeferJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = 'plugins/CoreAngular/angular/dist/runtime.js';
+        $jsFiles[] = 'plugins/CoreAngular/angular/dist/polyfills.js';
+        $jsFiles[] = 'plugins/CoreAngular/angular/dist/main.js';
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/CoreAngular/angular/dist/styles.css";
     }
 }

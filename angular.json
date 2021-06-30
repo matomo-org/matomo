@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "library": {
+    "ExampleAngular": {
       "projectType": "library",
       "root": "plugins/ExampleAngular/angular",
       "sourceRoot": "plugins/ExampleAngular/angular/src",
@@ -30,6 +30,112 @@
             "main": "plugins/ExampleAngular/angular/src/test.ts",
             "tsConfig": "plugins/ExampleAngular/angular/tsconfig.spec.json",
             "karmaConfig": "plugins/ExampleAngular/angular/karma.conf.js"
+          }
+        }
+      }
+    },
+    "CoreAngular": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "inlineTemplate": true,
+          "inlineStyle": true,
+          "style": "less",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "plugins/CoreAngular/angular",
+      "sourceRoot": "plugins/CoreAngular/angular/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "plugins/CoreAngular/angular/dist",
+            "index": "plugins/CoreAngular/angular/src/index.html",
+            "main": "plugins/CoreAngular/angular/src/main.ts",
+            "polyfills": "plugins/CoreAngular/angular/src/polyfills.ts",
+            "tsConfig": "plugins/CoreAngular/angular/tsconfig.app.json",
+            "inlineStyleLanguage": "less",
+            "assets": [
+              "plugins/CoreAngular/angular/src/favicon.ico",
+              "plugins/CoreAngular/angular/src/assets"
+            ],
+            "styles": [
+              "plugins/CoreAngular/angular/src/styles.less"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "plugins/CoreAngular/angular/src/environments/environment.ts",
+                  "with": "plugins/CoreAngular/angular/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "angular:build:production"
+            },
+            "development": {
+              "browserTarget": "angular:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "angular:build"
           }
         }
       }

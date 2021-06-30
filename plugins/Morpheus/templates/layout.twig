@@ -33,6 +33,8 @@
     <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
         {{ postEvent('Template.bodyTop' ) }}
 
+        <app-root></app-root>
+
     {% block body %}
 
         {% include "_iframeBuster.twig" %}
