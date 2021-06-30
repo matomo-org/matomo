@@ -672,6 +672,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('exampleui_treemap');
         });
+
+        it('should load sparklines view correctly even when there is no matching row', async function () {
+            await page.goto('?forceView=1&viewDataTable=sparklines&module=ExampleUI&action=getTemperaturesEvolution&label=example32323.matomo.org&'+generalParams+'&segment=&showtitle=1');
+            await page.waitForNetworkIdle();
+
+            pageWrap = await page.$('body');
+            expect(await pageWrap.screenshot()).to.matchImage('exampleui_sparklines_no_matching_row');
+        });
     });
 
     describe("WidgetizePages", function () {
