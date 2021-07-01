@@ -14,10 +14,23 @@
             typesById: {},
             fetchTypeById: fetchTypeById,
             fetchAvailableTypes: fetchAvailableTypes,
-            hasMultipleTypes: hasMultipleTypes
+            hasMultipleTypes: hasMultipleTypes,
+            removeEditSiteIdParameterFromHash: removeEditSiteIdParameterFromHash,
+            getEditSiteIdParameter: getEditSiteIdParameter
         };
 
         return model;
+
+        function getEditSiteIdParameter() {
+            var search = String(window.location.hash).substr('#/'.length);
+            var searchParams = piwik.helper.getArrayFromQueryString(search);
+            if (searchParams.editsiteid && $.isNumeric(searchParams.editsiteid)) {
+                return searchParams.editsiteid;
+            }
+        }
+        function removeEditSiteIdParameterFromHash() {
+            window.location.hash = window.location.hash.replace(/editsiteid=\d+/g, '');
+        }
 
         function hasMultipleTypes(typeId)
         {
