@@ -76,7 +76,8 @@ class DimensionSegmentFactory
             } elseif ($dimension->getDbTableName() && $dimension->getColumnName()) {
                 $segment->setSqlSegment($dimension->getDbTableName() . '.' . $dimension->getColumnName());
             } else {
-                throw new \Exception('Segment cannot be added because no sql segment is set');
+                throw new \Exception(sprintf('Segment cannot be added because no sql segment is set (for dimension %s, ID = %s)',
+                    $this->dimension->getName(), $dimension->getId()));
             }
         }
 
