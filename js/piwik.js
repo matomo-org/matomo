@@ -7018,6 +7018,8 @@ if (typeof window.Matomo !== 'object') {
                     if (swRegistration && swRegistration.sync) {
                         return swRegistration.sync.register('matomoSync');
                     }
+                }, function() {
+                    // handle (but ignore) failed promise, see https://github.com/matomo-org/matomo/issues/17454
                 });
             }
         }, false);
