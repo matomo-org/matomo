@@ -412,6 +412,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
         PluginsArchiver::$archivers = array();
+        \Piwik\Notification\Manager::cancelAllNotifications();
 
         Plugin\API::unsetAllInstances();
         $_GET = $_REQUEST = array();

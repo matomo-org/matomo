@@ -106,7 +106,7 @@ class Manager
             throw new \Exception('Notification ID is empty.');
         }
 
-        if (!preg_match('/^(\w)*$/', $id)) {
+        if (!preg_match('/^\w*$/', $id)) {
             throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
         }
     }
@@ -114,8 +114,8 @@ class Manager
     private static function addNotification($id, Notification $notification)
     {
         self::saveNotificationAcrossUiRequestsIfNeeded($id, $notification);
-        
-        if (count(self::$notifications) > self::MAX_NOTIFICATIONS_IN_SESSION) {
+
+        if (count(self::$notifications) >= self::MAX_NOTIFICATIONS_IN_SESSION) {
             return false;
         }
 
@@ -208,5 +208,16 @@ class Manager
         }
 
         return static::$session;
+    }
+
+    public static function cancelAllNotifications()
+    {
+        self::$notifications = [];
+    }
+
+    // for tests
+    public static function getPendingInMemoryNotifications()
+    {
+        return self::$notifications;
     }
 }
