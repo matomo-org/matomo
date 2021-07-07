@@ -112,4 +112,12 @@
     handleScrollToAnchorAfterPageLoad();
     $(handleScrollToAnchorIfPresentOnPageLoad);
 
+    window.anchorLinkFix = {
+        scrollToAnchorInUrl: function () {
+            // may be called when page is only fully loaded after some additional requests
+            // timeout needed to ensure angular rendered fully
+            var $timeout = piwikHelper.getAngularDependency('$timeout');
+            $timeout(handleScrollToAnchorIfPresentOnPageLoad);
+        }
+    };
 })();

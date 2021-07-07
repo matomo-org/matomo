@@ -7013,11 +7013,13 @@ if (typeof window.Matomo !== 'object') {
         // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
         addEventListener(windowAlias, 'online', function () {
-            if (isDefined(navigatorAlias.serviceWorker) && isDefined(navigatorAlias.serviceWorker.ready)) {
+            if (isDefined(navigatorAlias.serviceWorker)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
                     if (swRegistration && swRegistration.sync) {
                         return swRegistration.sync.register('matomoSync');
                     }
+                }, function() {
+                    // handle (but ignore) failed promise, see https://github.com/matomo-org/matomo/issues/17454
                 });
             }
         }, false);

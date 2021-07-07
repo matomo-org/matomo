@@ -57,6 +57,11 @@ password =
 dbname =
 port = 3306
 
+; If you are using Amazon Aurora you can enable aurora_read_only_read_committed to prevent purge lag which happens
+; when internal garbage collection is blocked by long-running archiving queries. The setting will be only applied
+; if you are using Amazon Aurora and have configured a reader database.
+aurora_readonly_read_committed =
+
 [database_tests]
 host = localhost
 username = "@USERNAME@"

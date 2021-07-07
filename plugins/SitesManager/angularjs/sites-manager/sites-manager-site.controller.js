@@ -41,6 +41,11 @@
                 } else {
                     $scope.currentType = {name: $scope.site.type};
                 }
+
+                var forcedEditSiteId = sitesManagerTypeModel.getEditSiteIdParameter();
+                if (forcedEditSiteId && $scope.site.idsite == forcedEditSiteId) {
+                    editSite();
+                }
             });
         };
 
@@ -159,6 +164,8 @@
                         }
                     });
                 });
+
+                sitesManagerTypeModel.removeEditSiteIdParameterFromHash();
             });
         };
 
