@@ -1,4 +1,7 @@
+declare var angular: angular.IAngularStatic;
+
 import { Component, OnInit } from '@angular/core';
+import { downgradeComponent } from '@angular/upgrade/static';
 
 @Component({
   selector: 'lib-library',
@@ -18,3 +21,5 @@ export class LibraryComponent implements OnInit {
   }
 
 }
+
+angular.module('piwikApp').directive('libLibrary', downgradeComponent({ component: LibraryComponent }));

@@ -1,6 +1,7 @@
 $(function () {
 
-    angular.element(document).injector().invoke(handleZenMode);
+    // TODO: fix
+//    angular.element(document).injector().invoke(handleZenMode);
 
     function handleZenMode ($rootElement, $cookies) {
         var zenMode = !!parseInt($cookies.get('zenMode'), 10);

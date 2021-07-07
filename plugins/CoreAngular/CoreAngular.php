@@ -15,7 +15,7 @@ class CoreAngular extends \Piwik\Plugin
         return [
             'AssetManager.getJavaScriptFiles' => 'getJavaScriptFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getDeferJavaScriptFiles' => 'getDeferJsFiles',
+            'AssetManager.getJavaScriptFiles' => 'getDeferJsFiles',
         ];
     }
 
@@ -24,13 +24,14 @@ class CoreAngular extends \Piwik\Plugin
         $jsFiles[] = "node_modules/rxjs/bundles/rxjs.umd.js";
         $jsFiles[] = "node_modules/@angular/core/bundles/core.umd.js";
         $jsFiles[] = "node_modules/@angular/compiler/bundles/compiler.umd.js";
+        $jsFiles[] = "node_modules/@angular/upgrade/bundles/upgrade-static.umd.js";
     }
 
     public function getDeferJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/CoreAngular/angular/dist/runtime.js';
         $jsFiles[] = 'plugins/CoreAngular/angular/dist/polyfills.js';
-// TODO: deal w/        $jsFiles[] = 'plugins/CoreAngular/angular/dist/main.js';
+        $jsFiles[] = 'plugins/CoreAngular/angular/dist/main.js';
     }
 
     public function getStylesheetFiles(&$stylesheets)

@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
-    typeof define === 'function' && define.amd ? define('example-angular', ['exports', '@angular/core'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['example-angular'] = {}, global.ng.core));
-}(this, (function (exports, i0) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/upgrade/static')) :
+    typeof define === 'function' && define.amd ? define('example-angular', ['exports', '@angular/core', '@angular/upgrade/static'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['example-angular'] = {}, global.ng.core, global.ng.upgrade.static));
+}(this, (function (exports, i0, _static) { 'use strict';
 
     function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -57,6 +57,7 @@
                         styles: []
                     }]
             }], ctorParameters: function () { return []; } });
+    angular.module('piwikApp').directive('libLibrary', _static.downgradeComponent({ component: LibraryComponent }));
 
     var LibraryModule = /** @class */ (function () {
         function LibraryModule() {

@@ -847,7 +847,8 @@ Segmentation = (function($) {
         };
 
         if (piwikHelper.isAngularRenderingThePage()) {
-            angular.element(document).injector().invoke(function ($rootScope, $location) {
+            // TODO double check this works
+            angular.module('piwikApp').run(function ($rootScope, $location) {
                 $rootScope.$on('$locationChangeSuccess', function () {
                     var $search = $location.search();
 
