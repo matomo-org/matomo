@@ -105,6 +105,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             "node_modules/jquery.browser/dist/jquery.browser.min.js",
+            "node_modules/rxjs/bundles/rxjs.umd.js",
+            "node_modules/@angular/",
             'node_modules/',
             'libs/',
             'js/',

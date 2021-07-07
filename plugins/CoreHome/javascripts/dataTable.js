@@ -57,7 +57,7 @@ DataTable.registerFooterIconHandler = function (id, handler) {
 
     if (handlers[id]) {
         setTimeout(function () { // fail gracefully
-            throw new Exception("DataTable footer icon handler '" + id + "' is already being used.")
+            throw new Error("DataTable footer icon handler '" + id + "' is already being used.")
         }, 1);
         return;
     }

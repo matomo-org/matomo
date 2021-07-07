@@ -51,8 +51,6 @@
                     }
                 }
 
-                applyAttributes(JSON.parse(attrs.piwikAttributes));
-
                 attrs.$observe('piwikAttributes', function (newVal) {
                     applyAttributes(JSON.parse(newVal));
                 });
