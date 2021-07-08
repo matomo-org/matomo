@@ -1,7 +1,8 @@
 $(function () {
 
-    // TODO: fix
-//    angular.element(document).injector().invoke(handleZenMode);
+    angular.module('piwikApp').run(handleZenMode);
+
+    handleZenMode.$inject = ['$rootElement', '$cookies'];
 
     function handleZenMode ($rootElement, $cookies) {
         var zenMode = !!parseInt($cookies.get('zenMode'), 10);

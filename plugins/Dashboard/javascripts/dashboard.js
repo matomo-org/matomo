@@ -28,7 +28,7 @@ function createDashboard() {
         ajaxRequest.setCallback(
             function (response) {
                 var id = response.value;
-                angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
+                angular.element(document.body).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
                     dashboardsModel.reloadAllDashboards().then(function () {
 
                         $('#dashboardWidgetsArea').dashboard('loadDashboard', id);

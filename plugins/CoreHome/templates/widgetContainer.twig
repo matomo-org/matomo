@@ -10,7 +10,7 @@
             var isExportedAsWidget = $('body > .widget').length;
 
             if (!isExportedAsWidget) {
-                angular.element(document).injector().invoke(function($compile) {
+                angular.element(document.body).injector().invoke(function($compile) {
                     var scope = angular.element(piwikWidget).scope();
                     $compile(piwikWidget)(scope.$new());
                 });

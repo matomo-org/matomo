@@ -180,13 +180,12 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/calendar.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/top_controls.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
@@ -229,6 +228,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/zen-mode.js";
+
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 

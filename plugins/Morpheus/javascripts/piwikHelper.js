@@ -110,7 +110,7 @@ var piwikHelper = {
 
     escape: function (value)
     {
-        var escape = angular.element(document).injector().get('$sanitize');
+        var escape = angular.element(document.body).injector().get('$sanitize');
 
         return escape(value);
     },
@@ -143,7 +143,7 @@ var piwikHelper = {
 	},
 
     getAngularDependency: function (dependency) {
-        return angular.element(document).injector().get(dependency);
+        return angular.element(document.body).injector().get(dependency);
     },
 
     /**
@@ -166,7 +166,7 @@ var piwikHelper = {
             return;
         }
 
-        angular.element(document).injector().invoke(function($compile, $rootScope) {
+        angular.element(document.body).injector().invoke(function($compile, $rootScope) {
             var scope = null;
             if (options.scope) {
                 scope = options.scope;

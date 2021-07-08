@@ -63,7 +63,7 @@ var broadcast = {
         }
         broadcast._isInit = true;
 
-        angular.element(document).injector().invoke(function (historyService) {
+        angular.element(document.body).injector().invoke(function (historyService) {
             historyService.init();
         });
 
@@ -255,7 +255,7 @@ var broadcast = {
         else {
             // Let history know about this new Hash and load it.
             broadcast.forceReload = true;
-            angular.element(document).injector().invoke(function (historyService) {
+            angular.element(document.body).injector().invoke(function (historyService) {
                 historyService.load(currentHashStr);
             });
         }
@@ -500,7 +500,7 @@ var broadcast = {
      *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
-        var $location = angular.element(document).injector().get('$location');
+        var $location = angular.element(document.body).injector().get('$location');
 
         var popover = '';
         if (handlerName && '' != value && 'undefined' != typeof value) {
@@ -527,7 +527,7 @@ var broadcast = {
         $location.search(urlStr);
 
         setTimeout(function () {
-            angular.element(document).injector().get('$rootScope').$apply();
+            angular.element(document.body).injector().get('$rootScope').$apply();
         }, 1);
     },
 

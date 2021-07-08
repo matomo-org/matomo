@@ -140,7 +140,7 @@
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);
 
-                angular.element(document).injector().invoke(['notifications', function (notifications) {
+                angular.element(document.body).injector().invoke(['notifications', function (notifications) {
                     notifications.parseNotificationDivs();
                 }]);
             }

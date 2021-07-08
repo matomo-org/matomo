@@ -90,7 +90,7 @@
             dashboardId = dashboardIdToLoad;
 
             if (!forceReload && piwikHelper.isAngularRenderingThePage()) {
-                angular.element(document).injector().invoke(function ($location) {
+                angular.element(document.body).injector().invoke(function ($location) {
                     $location.search('subcategory', '' + dashboardIdToLoad);
                 });
             } else {
@@ -535,7 +535,7 @@
 
         if (piwikHelper.isAngularRenderingThePage()) {
             // dashboard in reporting page (regular Piwik UI)
-            angular.element(document).injector().invoke(function (reportingMenuModel) {
+            angular.element(document.body).injector().invoke(function (reportingMenuModel) {
                 reportingMenuModel.reloadMenuItems();
             });
             return;

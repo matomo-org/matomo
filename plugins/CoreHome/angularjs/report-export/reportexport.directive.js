@@ -274,7 +274,7 @@
                                     $location.search('popover', popoverParamBackup);
 
                                     $timeout(function () {
-                                        angular.element(document).injector().get('$rootScope').$apply();
+                                        angular.element(document.body).injector().get('$rootScope').$apply();
                                     }, 10);
                                 }, 100);
                             });

@@ -33,8 +33,6 @@
     <body id="{{ bodyId|default('') }}" class="{{ bodyClass|default('') }}">
         {{ postEvent('Template.bodyTop' ) }}
 
-        <app-root></app-root>
-
     {% block body %}
 
         {% include "_iframeBuster.twig" %}

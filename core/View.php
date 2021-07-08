@@ -316,6 +316,8 @@ class View implements ViewInterface
     protected function renderTwigTemplate()
     {
         $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
+        $output = $this->makeScriptsDefer($output);
+        $output = $this->makeInlineScriptsDomContentLoaded($output);
 
         if ($this->enableCacheBuster) {
             $output = $this->applyFilter_cacheBuster($output);
@@ -323,6 +325,36 @@ class View implements ViewInterface
 
         $helper = new Theme;
         $output = $helper->rewriteAssetsPathToTheme($output);
+        return $output;
+    }
+
+    protected function makeScriptsDefer($output)
+    {
+        $output = preg_replace_callback('%<script(.*?)>%', function ($matches) {
+            if (strpos($matches[0], 'defer') !== false) {
+                return $matches[0];
+            }
+            return '<script' . $matches[1] . ' defer>';
+        }, $output);
+        return $output;
+    }
+
+    protected function makeInlineScriptsDomContentLoaded($output)
+    {
+        $output = preg_replace_callback('%<script(.*?)>(.*?)</script>%', function ($matches) {
+            if (strpos($matches[0], 'DOMContentLoaded') !== false
+                || strpos($matches[1], 'src=') !== false
+            ) {
+                return $matches[0];
+            }
+
+            $replacedOutput = '<script' . $matches[1] . '>';
+            $replacedOutput .= 'window.addEventListener(\'DOMContentLoaded\', function() {
+    ' . $matches[2] . '
+});';
+            $replacedOutput .= '</script>';
+            return $replacedOutput;
+        }, $output);
         return $output;
     }
 

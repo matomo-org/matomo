@@ -15,7 +15,7 @@ class CoreAngular extends \Piwik\Plugin
         return [
             'AssetManager.getJavaScriptFiles' => 'getJavaScriptFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles' => 'getDeferJsFiles',
+            'AssetManager.getDeferJavaScriptFiles' => 'getDeferJsFiles',
         ];
     }
 

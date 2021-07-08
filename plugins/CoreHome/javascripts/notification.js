@@ -145,7 +145,7 @@
     }
 
     function compileNotification($node) {
-        angular.element(document).injector().invoke(function ($compile, $rootScope) {
+        angular.element(document.body).injector().invoke(function ($compile, $rootScope) {
             $compile($node)($rootScope.$new(true));
         });
     }

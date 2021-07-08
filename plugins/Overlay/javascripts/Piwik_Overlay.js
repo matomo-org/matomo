@@ -240,7 +240,7 @@ var Piwik_Overlay = (function () {
                 return;
             }
 
-            angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
+            angular.element(document.body).injector().invoke(['piwikApi', function (piwikApi) {
                 piwikApi.withTokenInUrl();
                 piwikApi.fetch(params)
                     .then(function (response) {

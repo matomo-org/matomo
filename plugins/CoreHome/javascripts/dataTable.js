@@ -1705,7 +1705,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         var helpParagraph = $('p[ng-bind-html]', $doc);
 
                         if (helpParagraph.length) {
-                            var $parse = angular.element(document).injector().get('$parse');
+                            var $parse = angular.element(document.body).injector().get('$parse');
                             helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
                         }
 
