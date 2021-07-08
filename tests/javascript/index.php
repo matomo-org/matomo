@@ -4998,7 +4998,7 @@ if ($mysql) {
     });
 
     test("Test API - set cookie domain", function() {
-        expect(2);
+        expect(5);
 
         var tracker = Piwik.getTracker();
         var cookie_domain = tracker.getCookieDomain()
