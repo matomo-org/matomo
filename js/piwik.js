@@ -2431,6 +2431,11 @@ if (typeof window.Matomo !== 'object') {
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
                     ';SameSite=' + sameSite;
+
+                // check the cookie was actually set
+                if (getCookie(cookieName) != value) {
+                    logConsoleError('There was an error setting cookie `' + cookieName + '`. Please check domain and path.')
+                }
             }
 
             /*
@@ -5694,7 +5699,9 @@ if (typeof window.Matomo !== 'object') {
             this.setCookieDomain = function (domain) {
                 var domainFixed = domainFixup(domain);
 
-                if (isPossibleToSetCookieOnDomain(domainFixed)) {
+                if (!configCookiesDisabled && !isPossibleToSetCookieOnDomain(domainFixed)) {
+                    logConsoleError('Can\'t write cookie on domain ' + domain)
+                } else {
                     configCookieDomain = domainFixed;
                     updateDomainHash();
                 }
