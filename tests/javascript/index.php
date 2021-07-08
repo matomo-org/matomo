@@ -4997,6 +4997,21 @@ if ($mysql) {
         tracker.forgetCookieConsentGiven();
     });
 
+    test("Test API - set cookie domain", function() {
+        expect(2);
+
+        var tracker = Piwik.getTracker();
+        var cookie_domain = tracker.getCookieDomain()
+        var test_domain = '.' + cookie_domain;
+
+        tracker.setCookieDomain(cookie_domain + '.broken.tld')
+        equal(tracker.getCookieDomain(), cookie_domain, "can't set a bad cookie domain" );
+
+        tracker.requireCookieConsent();
+        tracker.setCookieDomain(test_domain);
+        equal(tracker.getCookieDomain(), test_domain, "can set cookie domain after requireCookieConsent disables cookies" );
+    });
+
     test("Test API - optOut (via consent feature)", function () {
         expect(9);
 
