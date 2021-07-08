@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { LibraryComponent } from './library.component';
 
-
-
 @NgModule({
   declarations: [
     LibraryComponent
@@ -11,6 +9,9 @@ import { LibraryComponent } from './library.component';
   ],
   exports: [
     LibraryComponent
-  ]
+  ],
+  entryComponents: [
+    LibraryComponent
+  ],
 })
 export class LibraryModule { }

@@ -76,7 +76,10 @@
                         imports: [],
                         exports: [
                             LibraryComponent
-                        ]
+                        ],
+                        entryComponents: [
+                            LibraryComponent
+                        ],
                     }]
             }] });
 
