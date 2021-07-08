@@ -22,13 +22,7 @@
     ],
     "types": [
       "angular"
-    ],
-    "paths": {
-      "@matomo/ExampleAngular": [
-        "./plugins/ExampleAngular/angular/dist/ExampleAngular",
-        "./plugins/ExampleAngular/angular/dist"
-      ]
-    }
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
