@@ -11,6 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugin\Manager;
 use Piwik\View\ViewInterface;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -263,6 +264,10 @@ class View implements ViewInterface
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
             $this->isInternetEnabled = SettingsPiwik::isInternetEnabled();
             $this->shouldPropagateTokenAuth = $this->shouldPropagateTokenAuthInAjaxRequests();
+
+            $pluginNames = Manager::getInstance()->getPluginsLoadedAndActivated();
+            $pluginNames = array_map(function (Plugin $p) { return $p->getPluginName(); }, $pluginNames);
+            $this->pluginsLoadedAndActivated = array_values($pluginNames);
 
             $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();

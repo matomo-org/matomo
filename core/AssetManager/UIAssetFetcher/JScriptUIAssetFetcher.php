@@ -118,7 +118,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',
             'plugins/CoreHome/javascripts/', // load CoreHome JS before other plugins
-            'plugins/',
+            'plugins/(?!CoreAngular/angular/dist/main.js)',
+            'plugins/CoreAngular/angular/dist/main.js', // load CoreAngular Angular files after all other plugins
             'tests/',
         );
     }

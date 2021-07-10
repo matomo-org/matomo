@@ -19,6 +19,6 @@ class ExampleAngular extends \Piwik\Plugin
 
     public function getDeferJsFiles(&$jsFiles)
     {
-        $jsFiles[] = 'plugins/ExampleAngular/angular/dist/bundles/example-angular.umd.js';
+        $jsFiles[] = 'plugins/ExampleAngular/angular/dist/bundles/matomo-example-angular.umd.js';
     }
 }

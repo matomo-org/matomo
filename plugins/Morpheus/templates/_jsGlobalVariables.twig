@@ -57,6 +57,7 @@
     piwik.config = {{ clientSideConfig|json_encode|raw }};
 {% endif %}
     piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
+    piwik.pluginsLoadedAndActivated = {{ pluginsLoadedAndActivated|json_encode|raw }};
     {{ postEvent("Template.jsGlobalVariables") }}
 </script>
 
