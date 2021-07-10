@@ -35,110 +35,32 @@
       }
     },
     "CoreAngular": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "inlineTemplate": true,
-          "inlineStyle": true,
-          "style": "less",
-          "skipTests": true
-        },
-        "@schematics/angular:class": {
-          "skipTests": true
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true
-        },
-        "@schematics/angular:guard": {
-          "skipTests": true
-        },
-        "@schematics/angular:interceptor": {
-          "skipTests": true
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": true
-        },
-        "@schematics/angular:service": {
-          "skipTests": true
-        },
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
+      "projectType": "library",
       "root": "plugins/CoreAngular/angular",
       "sourceRoot": "plugins/CoreAngular/angular/src",
-      "prefix": "app",
+      "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "outputPath": "plugins/CoreAngular/angular/dist",
-            "index": "plugins/CoreAngular/angular/src/index.html",
-            "main": "plugins/CoreAngular/angular/src/main.ts",
-            "polyfills": "plugins/CoreAngular/angular/src/polyfills.ts",
-            "tsConfig": "plugins/CoreAngular/angular/tsconfig.app.json",
-            "inlineStyleLanguage": "less",
-            "assets": [
-              "plugins/CoreAngular/angular/src/favicon.ico",
-              "plugins/CoreAngular/angular/src/assets"
-            ],
-            "styles": [
-              "plugins/CoreAngular/angular/src/styles.less"
-            ],
-            "scripts": []
+            "project": "plugins/CoreAngular/angular/ng-package.json"
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "10mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2mb",
-                  "maximumError": "4mb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "plugins/CoreAngular/angular/src/environments/environment.ts",
-                  "with": "plugins/CoreAngular/angular/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "none",
-              "optimization": false,
-              "aot": false,
-              "buildOptimizer": false
+              "tsConfig": "plugins/CoreAngular/angular/tsconfig.lib.prod.json"
             },
             "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "tsConfig": "plugins/CoreAngular/angular/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "angular:build:production"
-            },
-            "development": {
-              "browserTarget": "angular:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "browserTarget": "angular:build"
+            "main": "plugins/CoreAngular/angular/src/test.ts",
+            "tsConfig": "plugins/CoreAngular/angular/tsconfig.spec.json",
+            "karmaConfig": "plugins/CoreAngular/angular/karma.conf.js"
           }
         }
       }
