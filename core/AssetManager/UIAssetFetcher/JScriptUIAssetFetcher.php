@@ -119,9 +119,9 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',
             'plugins/CoreHome/javascripts/', // load CoreHome JS before other plugins
-            'plugins/[\w]*/angular/dist/bundles/.*?.umd.js',
+            'plugins/[\w]*/angular/dist/bundles/.*?.umd.js', // make sure angular modules exist before we define piwikApp
             'plugins/(?!CoreAngular/angular/dist)',
-            'plugins/CoreAngular/angular/dist', // load CoreAngular Angular files after all other plugins
+            'plugins/CoreAngular/angular/dist', // load CoreAngular Angular files after all other plugins, so angular will be bootstrapped
             'tests/',
         );
     }
