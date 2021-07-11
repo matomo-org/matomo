@@ -4,51 +4,44 @@ import {Component, NgModule, OnInit, StaticProvider} from '@angular/core';
 import {downgradeComponent, downgradeModule, UpgradeModule} from '@angular/upgrade/static';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import {BrowserModule} from "@angular/platform-browser";
-
 @Component({
-  selector: 'lib-library',
+  selector: 'test-component',
   template: `
     <p>
-      library works!
+      tc works!
     </p>
   `,
   styles: [
   ]
 })
-export class LibraryComponent implements OnInit {
-
+export class TestComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
   }
-
 }
 
 @NgModule({
   declarations: [
-    LibraryComponent
+    TestComponent,
+  ],
+  entryComponents: [
+    TestComponent
   ],
   imports: [
     UpgradeModule,
     BrowserModule,
   ],
-  entryComponents: [
-    LibraryComponent
-  ],
-  exports: [
-      LibraryComponent,
-  ],
 })
-export class LibraryModule {
+export class CoreHomeModule {
   ngDoBootstrap() {
 
   }
 }
 
 const ng2BootstrapFn = (extraProviders: StaticProvider[]) =>
-    platformBrowserDynamic(extraProviders).bootstrapModule(LibraryModule);
+    platformBrowserDynamic(extraProviders).bootstrapModule(CoreHomeModule);
 
 export const angularModuleName = downgradeModule(ng2BootstrapFn);
 
-angular.module(angularModuleName).directive('libLibrary', downgradeComponent({ component: LibraryComponent, downgradedModule: angularModuleName }));
+angular.module(angularModuleName).directive('testComponent', downgradeComponent({ component: TestComponent, downgradedModule: angularModuleName }));

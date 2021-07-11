@@ -106,6 +106,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             "plugins/CoreHome/javascripts/materialize-bc.js",
             "node_modules/jquery.browser/dist/jquery.browser.min.js",
             "node_modules/rxjs/bundles/rxjs.umd.js",
+            'node_modules/angular',
             "node_modules/@angular/",
             'node_modules/',
             'libs/',
@@ -118,8 +119,9 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',
             'plugins/CoreHome/javascripts/', // load CoreHome JS before other plugins
-            'plugins/(?!CoreAngular/angular/dist/main.js)',
-            'plugins/CoreAngular/angular/dist/main.js', // load CoreAngular Angular files after all other plugins
+            'plugins/[\w]*/angular/dist/bundles/.*?.umd.js',
+            'plugins/(?!CoreAngular/angular/dist)',
+            'plugins/CoreAngular/angular/dist', // load CoreAngular Angular files after all other plugins
             'tests/',
         );
     }

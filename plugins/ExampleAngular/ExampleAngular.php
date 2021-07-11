@@ -13,7 +13,7 @@ class ExampleAngular extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getDeferJavaScriptFiles' => 'getDeferJsFiles',
+            'AssetManager.getJavaScriptFiles' => 'getDeferJsFiles',
         ];
     }
 

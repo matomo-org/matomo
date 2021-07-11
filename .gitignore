@@ -75,12 +75,6 @@ php_errors.log
 /misc/vagrant
 /.vagrant
 /plugins/.gitignore
-/plugins/*/angular/dist
-!/plugins/*/angular/dist/bundles
-!/plugins/*/angular/dist/main.js
-!/plugins/*/angular/dist/polyfills.js
-!/plugins/*/angular/dist/runtime.js
-!/plugins/*/angular/dist/styles.css
 /js/container*.js
 /.docker
 docker-compose.yml

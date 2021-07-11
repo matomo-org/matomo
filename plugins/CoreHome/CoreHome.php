@@ -299,6 +299,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.js";
 
+        $jsFiles[] = "plugins/CoreHome/angular/dist/bundles/matomo-core-home.umd.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
