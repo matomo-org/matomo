@@ -2,7 +2,7 @@ import {Component, OnInit, Type} from '@angular/core';
 import {downgradeComponent, UpgradeModule} from '@angular/upgrade/static';
 
 @Component({
-    selector: 'example-angular-component',
+    selector: 'site-selector',
     template: `
     <p>
       this is a simple example angular component
@@ -11,7 +11,7 @@ import {downgradeComponent, UpgradeModule} from '@angular/upgrade/static';
     styles: [
     ]
 })
-export class ExampleAngularComponent implements OnInit {
+export class SiteSelectorComponent implements OnInit {
 
     constructor() { }
 
