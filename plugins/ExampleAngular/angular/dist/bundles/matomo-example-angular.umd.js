@@ -26,59 +26,59 @@
 
   var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
 
-  var LibraryComponent = /** @class */ (function () {
-      function LibraryComponent() {
+  var ExampleComponent = /** @class */ (function () {
+      function ExampleComponent() {
       }
-      LibraryComponent.prototype.ngOnInit = function () {
-          console.log('no?');
+      ExampleComponent.prototype.ngOnInit = function () {
       };
-      return LibraryComponent;
+      return ExampleComponent;
   }());
-  LibraryComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: LibraryComponent, deps: [], target: i0__namespace.ɵɵFactoryTarget.Component });
-  LibraryComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.1.0", type: LibraryComponent, selector: "lib-library", ngImport: i0__namespace, template: "\n    <p>\n      library works!\n    </p>\n  ", isInline: true });
-  i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: LibraryComponent, decorators: [{
+  ExampleComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleComponent, deps: [], target: i0__namespace.ɵɵFactoryTarget.Component });
+  ExampleComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.1.0", type: ExampleComponent, selector: "example-component", ngImport: i0__namespace, template: "\n    <p>\n      this is a simple example angular component\n    </p>\n  ", isInline: true });
+  i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleComponent, decorators: [{
               type: i0.Component,
               args: [{
-                      selector: 'lib-library',
-                      template: "\n    <p>\n      library works!\n    </p>\n  ",
+                      selector: 'example-component',
+                      template: "\n    <p>\n      this is a simple example angular component\n    </p>\n  ",
                       styles: []
                   }]
           }], ctorParameters: function () { return []; } });
-  var LibraryModule = /** @class */ (function () {
-      function LibraryModule() {
+
+  var ExampleAngularModule = /** @class */ (function () {
+      function ExampleAngularModule() {
       }
-      LibraryModule.prototype.ngDoBootstrap = function () {
+      ExampleAngularModule.prototype.ngDoBootstrap = function () {
       };
-      return LibraryModule;
+      return ExampleAngularModule;
   }());
-  LibraryModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: LibraryModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
-  LibraryModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: LibraryModule, declarations: [LibraryComponent], imports: [_static.UpgradeModule,
-          platformBrowser.BrowserModule], exports: [LibraryComponent] });
-  LibraryModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: LibraryModule, imports: [[
+  ExampleAngularModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
+  ExampleAngularModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, declarations: [ExampleComponent], imports: [_static.UpgradeModule,
+          platformBrowser.BrowserModule], exports: [ExampleComponent] });
+  ExampleAngularModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, imports: [[
               _static.UpgradeModule,
               platformBrowser.BrowserModule,
           ]] });
-  i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: LibraryModule, decorators: [{
+  i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, decorators: [{
               type: i0.NgModule,
               args: [{
                       declarations: [
-                          LibraryComponent
+                          ExampleComponent
                       ],
                       imports: [
                           _static.UpgradeModule,
                           platformBrowser.BrowserModule,
                       ],
                       entryComponents: [
-                          LibraryComponent
+                          ExampleComponent
                       ],
                       exports: [
-                          LibraryComponent,
+                          ExampleComponent,
                       ],
                   }]
           }] });
-  var ng2BootstrapFn = function (extraProviders) { return platformBrowserDynamic.platformBrowserDynamic(extraProviders).bootstrapModule(LibraryModule); };
+  var ng2BootstrapFn = function (extraProviders) { return platformBrowserDynamic.platformBrowserDynamic(extraProviders).bootstrapModule(ExampleAngularModule); };
   var angularModuleName = _static.downgradeModule(ng2BootstrapFn);
-  angular.module(angularModuleName).directive('libLibrary', _static.downgradeComponent({ component: LibraryComponent, downgradedModule: angularModuleName }));
+  angular.module(angularModuleName).directive('libLibrary', _static.downgradeComponent({ component: ExampleComponent, downgradedModule: angularModuleName }));
 
   /*
    * Public API Surface of library
@@ -88,8 +88,8 @@
    * Generated bundle index. Do not edit.
    */
 
-  exports.LibraryComponent = LibraryComponent;
-  exports.LibraryModule = LibraryModule;
+  exports.ExampleAngularModule = ExampleAngularModule;
+  exports.ExampleComponent = ExampleComponent;
   exports.angularModuleName = angularModuleName;
 
   Object.defineProperty(exports, '__esModule', { value: true });
