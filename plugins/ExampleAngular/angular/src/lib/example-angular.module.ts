@@ -4,21 +4,21 @@ import {NgModule, StaticProvider} from '@angular/core';
 import {downgradeComponent, downgradeModule, UpgradeModule} from '@angular/upgrade/static';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import {BrowserModule} from "@angular/platform-browser";
-import { ExampleComponent } from './example.component';
+import { ExampleAngularComponent } from './example.component';
 
 @NgModule({
   declarations: [
-    ExampleComponent
+    ExampleAngularComponent
   ],
   imports: [
     UpgradeModule,
     BrowserModule,
   ],
   entryComponents: [
-    ExampleComponent
+    ExampleAngularComponent
   ],
   exports: [
-      ExampleComponent,
+    ExampleAngularComponent,
   ],
 })
 export class ExampleAngularModule {
@@ -32,4 +32,4 @@ const ng2BootstrapFn = (extraProviders: StaticProvider[]) =>
 
 export const angularModuleName = downgradeModule(ng2BootstrapFn);
 
-angular.module(angularModuleName).directive('libLibrary', downgradeComponent({ component: ExampleComponent, downgradedModule: angularModuleName }));
+angular.module(angularModuleName).directive('exampleAngularComponent', downgradeComponent({ component: ExampleAngularComponent, downgradedModule: angularModuleName }));

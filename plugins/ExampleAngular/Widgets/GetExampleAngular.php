@@ -24,7 +24,7 @@ class GetExampleAngular extends Widget
 
     public function render()
     {
-        return '<lib-library></lib-library>';
+        return '<example-angular-component></example-angular-component>';
     }
 
 }
