@@ -17,6 +17,8 @@ return array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
+        'syslog' => 'Piwik\Plugins\Monolog\Handler\SyslogHandler',
+        'errorlog' => 'Piwik\Plugins\Monolog\Handler\ErrorLogHandler',
     ),
     'log.handlers' => DI\factory(function (\DI\Container $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -98,6 +100,14 @@ return array(
         ->constructor(DI\get('log.file.filename'), DI\get('log.level.file'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
+    'Piwik\Plugins\Monolog\Handler\SyslogHandler' => DI\create()
+        ->constructor('matomo', null, DI\get('log.level.syslog'))
+        ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
+
+    'Piwik\Plugins\Monolog\Handler\ErrorLogHandler' => DI\create()
+        ->constructor(null, DI\get('log.level.errorlog'))
+        ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
+
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\create()
         ->constructor(DI\get('log.level.database'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter')),
@@ -140,6 +150,26 @@ return array(
     'log.level.database' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.log_level_database')) {
             $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_database'));
+            if ($level !== null) {
+                return $level;
+            }
+        }
+        return $c->get('log.level');
+    }),
+
+    'log.level.syslog' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('ini.log.log_level_syslog')) {
+            $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_syslog'));
+            if ($level !== null) {
+                return $level;
+            }
+        }
+        return $c->get('log.level');
+    }),
+
+    'log.level.errorlog' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('ini.log.log_level_errorlog')) {
+            $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_errorlog'));
             if ($level !== null) {
                 return $level;
             }
