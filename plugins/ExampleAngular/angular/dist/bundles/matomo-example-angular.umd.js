@@ -26,19 +26,19 @@
 
   var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
 
-  var ExampleComponent = /** @class */ (function () {
-      function ExampleComponent() {
+  var ExampleAngularComponent = /** @class */ (function () {
+      function ExampleAngularComponent() {
       }
-      ExampleComponent.prototype.ngOnInit = function () {
+      ExampleAngularComponent.prototype.ngOnInit = function () {
       };
-      return ExampleComponent;
+      return ExampleAngularComponent;
   }());
-  ExampleComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleComponent, deps: [], target: i0__namespace.ɵɵFactoryTarget.Component });
-  ExampleComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.1.0", type: ExampleComponent, selector: "example-component", ngImport: i0__namespace, template: "\n    <p>\n      this is a simple example angular component\n    </p>\n  ", isInline: true });
-  i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleComponent, decorators: [{
+  ExampleAngularComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularComponent, deps: [], target: i0__namespace.ɵɵFactoryTarget.Component });
+  ExampleAngularComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.1.0", type: ExampleAngularComponent, selector: "example-angular-component", ngImport: i0__namespace, template: "\n    <p>\n      this is a simple example angular component\n    </p>\n  ", isInline: true });
+  i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularComponent, decorators: [{
               type: i0.Component,
               args: [{
-                      selector: 'example-component',
+                      selector: 'example-angular-component',
                       template: "\n    <p>\n      this is a simple example angular component\n    </p>\n  ",
                       styles: []
                   }]
@@ -52,8 +52,8 @@
       return ExampleAngularModule;
   }());
   ExampleAngularModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
-  ExampleAngularModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, declarations: [ExampleComponent], imports: [_static.UpgradeModule,
-          platformBrowser.BrowserModule], exports: [ExampleComponent] });
+  ExampleAngularModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, declarations: [ExampleAngularComponent], imports: [_static.UpgradeModule,
+          platformBrowser.BrowserModule], exports: [ExampleAngularComponent] });
   ExampleAngularModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: ExampleAngularModule, imports: [[
               _static.UpgradeModule,
               platformBrowser.BrowserModule,
@@ -62,23 +62,23 @@
               type: i0.NgModule,
               args: [{
                       declarations: [
-                          ExampleComponent
+                          ExampleAngularComponent
                       ],
                       imports: [
                           _static.UpgradeModule,
                           platformBrowser.BrowserModule,
                       ],
                       entryComponents: [
-                          ExampleComponent
+                          ExampleAngularComponent
                       ],
                       exports: [
-                          ExampleComponent,
+                          ExampleAngularComponent,
                       ],
                   }]
           }] });
   var ng2BootstrapFn = function (extraProviders) { return platformBrowserDynamic.platformBrowserDynamic(extraProviders).bootstrapModule(ExampleAngularModule); };
   var angularModuleName = _static.downgradeModule(ng2BootstrapFn);
-  angular.module(angularModuleName).directive('libLibrary', _static.downgradeComponent({ component: ExampleComponent, downgradedModule: angularModuleName }));
+  angular.module(angularModuleName).directive('exampleAngularComponent', _static.downgradeComponent({ component: ExampleAngularComponent, downgradedModule: angularModuleName }));
 
   /*
    * Public API Surface of library
@@ -88,8 +88,8 @@
    * Generated bundle index. Do not edit.
    */
 
+  exports.ExampleAngularComponent = ExampleAngularComponent;
   exports.ExampleAngularModule = ExampleAngularModule;
-  exports.ExampleComponent = ExampleComponent;
   exports.angularModuleName = angularModuleName;
 
   Object.defineProperty(exports, '__esModule', { value: true });

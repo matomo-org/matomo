@@ -8,48 +8,90 @@
 
 namespace Piwik\Plugins\CoreAngular\Commands;
 
-use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreConsole\Commands\GenerateAngularConstructBase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * This class lets you define a new command. To read more about commands have a look at our Piwik Console guide on
- * http://developer.piwik.org/guides/piwik-on-the-command-line
- *
- * As Piwik Console is based on the Symfony Console you might also want to have a look at
- * http://symfony.com/doc/current/components/console/index.html
- */
-class NgBuild extends ConsoleCommand
+// extending GenerateAngularConstructBase for convenience
+class NgBuild extends GenerateAngularConstructBase
 {
-    /**
-     * This methods allows you to configure your command. Here you can define the name and description of your command
-     * as well as all options and arguments you expect when executing it.
-     */
     protected function configure()
     {
-        $this->setName('coreangular:ng-build');
-        $this->setDescription('NgBuild');
-        $this->addOption('name', null, InputOption::VALUE_REQUIRED, 'Your name:');
+        $this->setName('coreangular:ng-build')
+            ->setDescription('Compile a plugin\'s Angular module.')
+            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin');
     }
 
-    /**
-     * The actual task is defined in this method. Here you can access any option or argument that was defined on the
-     * command line via $input and write anything to the console via $output argument.
-     * In case anything went wrong during the execution you should throw an exception to make sure the user will get a
-     * useful error message and to make sure the command does not exit with the status code 0.
-     *
-     * Ideally, the actual command is quite short as it acts like a controller. It should only receive the input values,
-     * execute the task by calling a method of another class and output any useful information.
-     *
-     * Execute the command like: ./console coreangular:ng-build --name="The Piwik Team"
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getOption('name');
+        $pluginName = $this->getPluginName($input, $output);
 
-        $message = sprintf('<info>NgBuild: %s</info>', $name);
+        $this->generateAngularJson();
 
-        $output->writeln($message);
+        $this->executeNgBuildCommand($pluginName);
+    }
+
+    private function generateAngularJson()
+    {
+        $angularJsonPath = PIWIK_INCLUDE_PATH . '/angular.json';
+
+        $angularJsonBase = PIWIK_INCLUDE_PATH . '/angular.base.json';
+        $angularJsonBase = file_get_contents($angularJsonBase);
+        $angularJsonBase = json_decode($angularJsonBase, $isAssoc = true);
+
+        $pluginAngularJsonSectionTemplate = <<<EOF
+{
+  "projectType": "library",
+  "root": "plugins/{pluginName}/angular",
+  "sourceRoot": "plugins/{pluginName}/angular/src",
+  "prefix": "lib",
+  "architect": {
+    "build": {
+      "builder": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "plugins/{pluginName}/angular/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "plugins/{pluginName}/angular/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "plugins/{pluginName}/angular/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "builder": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "plugins/{pluginName}/angular/src/test.ts",
+        "tsConfig": "plugins/{pluginName}/angular/tsconfig.spec.json",
+        "karmaConfig": "plugins/{pluginName}/angular/karma.conf.js"
+      }
+    }
+  }
+}
+EOF;
+
+        foreach (Manager::getInstance()->getActivatedPlugins() as $pluginName) {
+            $pluginAngularDir = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/angular';
+            if (!is_dir($pluginAngularDir)) {
+                continue;
+            }
+
+            $pluginJsonSection = str_replace('{pluginName}', $pluginName, $pluginAngularJsonSectionTemplate);
+
+            $angularJsonBase['projects'][$pluginName] = json_decode($pluginJsonSection, true);
+        }
+
+        file_put_contents($angularJsonPath, json_encode($angularJsonBase, JSON_PRETTY_PRINT));
+    }
+
+    private function executeNgBuildCommand($pluginName)
+    {
+        $command = 'ng build "' . $pluginName . '"';
+        passthru($command);
     }
 }

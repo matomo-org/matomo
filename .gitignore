@@ -2,6 +2,7 @@ php_errors.log
 *.tmp
 *.pyc
 .DS_Store
+angular.json
 /.idea/
 /bootstrap.php
 /build

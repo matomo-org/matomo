@@ -33,6 +33,6 @@
     }]);
 
     function toKebabCase(s) {
-        return s.substring(0, 1).toLowerCase() + s.substring(1).replace(/([A-Z])/, '-$1').toLowerCase();
+        return s.substring(0, 1).toLowerCase() + s.substring(1).replace(/([A-Z])/g, '-$1').toLowerCase();
     }
 })();

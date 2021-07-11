@@ -43,6 +43,7 @@ class GenerateAngularModule extends GenerateAngularConstructBase
             'example-angular'     => $pluginLower,
             'example-angular-component' => $pluginLower . '-component',
             'exampleAngularComponent' => lcfirst($pluginName) . 'Component',
+            'example.component' => $pluginLower . '.component',
         );
 
         $whitelistFiles = [
