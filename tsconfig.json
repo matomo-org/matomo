@@ -21,7 +21,8 @@
       "dom"
     ],
     "types": [
-      "angular"
+      "angular",
+      "rxjs"
     ]
   },
   "angularCompilerOptions": {

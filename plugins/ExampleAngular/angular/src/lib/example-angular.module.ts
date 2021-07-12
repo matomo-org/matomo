@@ -32,4 +32,5 @@ const ng2BootstrapFn = (extraProviders: StaticProvider[]) =>
 
 export const angularModuleName = downgradeModule(ng2BootstrapFn);
 
-angular.module(angularModuleName).directive('exampleAngularComponent', downgradeComponent({ component: ExampleAngularComponent, downgradedModule: angularModuleName }));
+angular.module(angularModuleName).directive('exampleAngularComponent', downgradeComponent(
+    { component: ExampleAngularComponent, downgradedModule: angularModuleName }));

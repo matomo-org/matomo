@@ -1,0 +1,6 @@
+<div #rootdiv
+     piwik-focus-anywhere-but-here="view.showSitesList=false"
+     class="siteSelector piwikSelector borderedControl"
+     [attr.class]="{expanded: showSitesList, disabled: (_hasOnlyOneSite$ | async) }"
+     ng-class="{'expanded': view.showSitesList, 'disabled': !model.hasMultipleSites()}">
+</div>
