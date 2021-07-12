@@ -98,3 +98,4 @@ docker-compose.yml
 !/node_modules/qrcodejs2
 !/node_modules/sprintf-js
 !/node_modules/visibilityjs
+!/node_modules/vue
