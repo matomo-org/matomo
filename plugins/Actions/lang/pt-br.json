@@ -32,6 +32,7 @@
         "ColumnUniqueOutlinks": "Outlinks únicos",
         "ColumnIdPageview": "ID da página",
         "ColumnInteractionPosition": "Posição de Interação",
+        "ColumnPageViewPosition": "Posição de exibição de página",
         "ActionsInVisit": "Ações em Visita",
         "DownloadsReportDocumentation": "Neste relatório, você pode ver quais arquivos seus visitantes baixaram. %s Matomo registra como download um click em um link de download. Se o download foi completado ou não o Matomo não consegue determinar.",
         "EntryPagesReportDocumentation": "Este relatório contém informações sobre as páginas de entrada que foram usadas durante o período especificado. Uma página de entrada é a primeira página que um usuário visualiza durante a visita. 1%s As URLs de entrada são exibidos como uma estrutura de pastas.",
@@ -40,6 +41,7 @@
         "ExitPagesReportDocumentation": "Este relatório contém informações sobre as páginas de saída que ocorreram durante o período especificado. Uma página de saída é a última página que um usuário visualiza durante a visita. 1%s As URLs de saída são exibidos como uma estrutura de pastas.",
         "ExitPageTitles": "Título de páginas de saída",
         "ExitPageTitlesReportDocumentation": "Este relatório contém informações sobre os títulos de páginas de saída que ocorreram durante o período especificado.",
+        "MainMetricsReportDocumentation": "Este relatório fornece uma visão geral muito básica de quais ações seus visitantes realizam em seu site.",
         "OneSearch": "1 pesquisa",
         "OutlinkDocumentation": "Um outlink é um link que leva o visitante para fora do seu site (para outro domínio)",
         "OutlinksReportDocumentation": "Este relatório mostra uma lista hierárquica de URLs de outlinks clicadas pelos seus visitantes.",
@@ -57,6 +59,8 @@
         "SiteSearchCategories": "Categorias (Pesquisa no Site)",
         "SiteSearchKeyword": "Palavra-Chave (Pesquisa no SIte)",
         "SiteSearchKeywords": "Palavras-chave (Pesquisa no site)",
+        "SiteSearchKeywordCount": "Contagem de palavra-chave (Procurar Site)",
+        "SiteSearchKeywordCounts": "Contagem de palavras-chave (Procurar Site)",
         "SiteSearchKeywordsDocumentation": "Este relatório lista as Pesquisas de Palavras-chave que os visitantes procuraram em seu Motor de Busca interno.",
         "SiteSearchKeywordsNoResultDocumentation": "Este relatório lista as Palavras Chave de Pesquisa que não retornaram nenhum resultado de pesquisa: talvez o algoritmo do motor de busca possa ser melhorado, ou talvez seus visitantes estão procurando por conteúdo que não estão (ainda) em seu site?",
         "SubmenuPagesEntry": "Páginas de entrada",
@@ -76,6 +80,15 @@
         "ActionType": "Tipo de Ação",
         "ActionTypes": "Tipo de Ação",
         "Behaviour": "Comportamento",
-        "PagesSubcategoryHelp3": "Use os ícones de mais e menos à esquerda para navegar."
+        "TimeSpentInReferringAction": "Tempo Gasto em Ação de Referência",
+        "PagesSubcategoryHelp1": "Este relatório contém informação sobre as URLs das páginas que foram visitadas.",
+        "PagesSubcategoryHelp2": "A tabela é hierarquicamente organizada, as URLs são exibidas como uma estrutura de pastas.",
+        "PagesSubcategoryHelp3": "Use os ícones de mais e menos à esquerda para navegar.",
+        "EntryPagesSubcategoryHelp1": "Este relatório contém informação sobre as páginas de entrada que foram usadas durante o período específico. Uma página de entrada é a primeira página que um usuário visualiza durante sua visita.",
+        "EntryPagesSubcategoryHelp2": "As URLs de entrada são exibidas como uma estrutura de pastas.",
+        "ExitPagesSubcategoryHelp1": "Este relatório contém informação sobre as páginas de saída que ocorrem durante o período específico, Uma pagina de saída é a última página que o usuário visualiza durante sua visita,",
+        "ExitPagesSubcategoryHelp2": "As URLs de saída são exibidas como uma estrutura de pastas.",
+        "PageTitlesSubcategoryHelp1": "Este relatório contém informação sobre os títulos das páginas que foram visitadas.",
+        "PageTitlesSubcategoryHelp2": "O título da página é a tag HTML <title> que a maioria dos navegadores mostram em seu título da janela."
     }
 }
