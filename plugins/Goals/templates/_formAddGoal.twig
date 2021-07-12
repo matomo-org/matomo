@@ -105,31 +105,31 @@
                 </div>
             </div>
 
-            <div id="examples_pattern" class="col s12" piwik-alert="info">
-                <span ng-show="manageGoals.goal.matchAttribute == 'url'">
+            <div id="examples_pattern" class="col s12">
+                <span ng-show="manageGoals.goal.matchAttribute == 'url'" piwik-alert="info">
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'checkout/confirmation'") }}
                     <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://example.com/thank-you.html'") }}
                     <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\/demo\\\/(.*)'") }}
                 </span>
-               <span ng-show="manageGoals.goal.matchAttribute == 'title'">
+               <span ng-show="manageGoals.goal.matchAttribute == 'title'" piwik-alert="info">
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'Order confirmation'") }}
                 </span>
-               <span ng-show="manageGoals.goal.matchAttribute == 'file'">
+               <span ng-show="manageGoals.goal.matchAttribute == 'file'" piwik-alert="info">
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'files/brochure.pdf'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://example.com/files/brochure.pdf'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\.zip'") }}
                 </span>
-               <span ng-show="manageGoals.goal.matchAttribute == 'external_website'">
+               <span ng-show="manageGoals.goal.matchAttribute == 'external_website'" piwik-alert="info">
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'amazon.com'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://mypartner.com/landing.html'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'") }}
                 </span>
-               <span ng-show="manageGoals.goal.matchAttribute == 'event'">
+               <span ng-show="manageGoals.goal.matchAttribute == 'event'" piwik-alert="info">
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'video'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'click'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
                 </span>
-                <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'">
+                <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'" piwik-alert="info">
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_AtLeastMinutes'|translate('5', '0.5') }}
                 </span>
             </div>

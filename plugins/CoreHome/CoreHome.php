@@ -164,6 +164,11 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";
+
+        $jsFiles[] = "node_modules/vue/dist/vue.global.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/matomoApp.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/alert.component.js";
+
         $jsFiles[] = 'node_modules/angular/angular.min.js';
         $jsFiles[] = "node_modules/angular-sanitize/angular-sanitize.min.js";
         $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";

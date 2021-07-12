@@ -12,15 +12,24 @@
 (function () {
     angular.module('piwikApp').directive('piwikAlert', piwikAlert);
 
-    piwikAlert.$inject = ['piwik'];
+    piwikAlert.$inject = ['piwik', '$timeout'];
 
-    function piwikAlert(piwik){
+    function piwikAlert(piwik, $timeout){
 
         return {
             restrict: 'A',
             transclude: true,
             scope: {severity: '@piwikAlert'},
-            templateUrl: 'plugins/CoreHome/angularjs/alert/alert.directive.html?cb=' + piwik.cacheBuster
+            template: '<alert severity="{{ severity }}" ng-transclude></alert>',
+            compile: function(element) {
+                return {
+                    post: function postLink( scope, element, attrs ) {
+                        $timeout(function(){
+                            matomo.createVue(element[0])
+                        });
+                    }
+                }
+            },
         };
     }
 })();
