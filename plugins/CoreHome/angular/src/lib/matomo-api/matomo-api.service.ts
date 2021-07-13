@@ -1,11 +1,10 @@
-import {CoreHomeModule} from "../core-home.module";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 
 const piwik: any = (window as any).piwik;
 
-@Injectable({ providedIn: CoreHomeModule })
+@Injectable()
 export class MatomoApiService {
     constructor(private http: HttpClient) {}
 

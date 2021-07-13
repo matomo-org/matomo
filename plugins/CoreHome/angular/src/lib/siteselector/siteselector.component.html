@@ -1,10 +1,10 @@
 <div #rootdiv
-     [focusAnywhereButHere]
+     focusAnywhereButHere
      (onLoseFocus)="showSitesList=false"
      class="siteSelector piwikSelector borderedControl"
      [attr.class]="{expanded: showSitesList, disabled: (_hasOnlyOneSite$ | async)}">
 
-    <input *ngIf="name" type="hidden" [attr.name]="name" [value]="selectedSite.id"/>
+    <input *ngIf="name" type="hidden" [attr.name]="name" [value]="selectedSite?.id"/>
 
     <a
         #selectedSiteDisplay
@@ -17,13 +17,13 @@
     >
         <span [attr.class]="{icon:true,'icon-arrow-bottom':true,iconHidden:isLoading,collapsed:!showSitesList}"></span>
         <span>
-            <span *ngIf="selectedSite.name || !placeholder">{{ selectedSite.name || (_firstSiteName$|async) }}</span>
-            <span *ngIf="!selectedSite.name && placeholder">{{ placeholder }}</span>
+            <span *ngIf="selectedSite?.name || !placeholder">{{ selectedSite?.name || (_firstSiteName$|async) }}</span>
+            <span *ngIf="!selectedSite?.name && placeholder">{{ placeholder }}</span>
         </span>
     </a>
 
     <div *ngIf="showSitesList" class="dropdown">
-        <div class="custom_select_search" *ngIf="(autocompleteMinSites$|async) <= (_sitesLength$|async) || searchTerm">
+        <div class="custom_select_search" *ngIf="((autocompleteMinSites$|async) || 0) <= ((_sitesLength$|async) || 0) || searchTerm">
             <input
                 #customSelectInput
                 type="text"

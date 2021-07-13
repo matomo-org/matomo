@@ -12,9 +12,14 @@ import {MatomoApiService} from "./matomo-api/matomo-api.service";
 import {HttpClientModule} from "@angular/common/http";
 import {FocusAnywhereButHereDirective} from "./common/focus-anywhere-but-here.directive";
 import {TranslatePipe} from "./common/translate.pipe";
+import {FormsModule} from "@angular/forms";
 
+export * from './matomo-api/matomo-api.service';
+export * from './common/focus-anywhere-but-here.directive';
+export * from './common/translate.pipe';
 export * from './site-store/sites.service';
 export * from './site-store/site';
+export * from './siteselector/siteselector.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,7 @@ export * from './site-store/site';
     BrowserModule,
     UpgradeModule,
     HttpClientModule,
+    FormsModule,
   ],
   exports: [
     SiteSelectorComponent,
@@ -34,6 +40,8 @@ export * from './site-store/site';
     TranslatePipe,
   ],
   providers: [
+    FocusAnywhereButHereDirective,
+    TranslatePipe,
     MatomoApiService,
     SitesService,
   ]

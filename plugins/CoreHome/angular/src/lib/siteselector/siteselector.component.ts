@@ -106,7 +106,7 @@ export class SiteSelectorComponent implements OnInit {
             return;
         }
 
-        this.loadInitialSites();
+        this._loadInitialSites();
     }
 
     ngOnInit() {
@@ -167,10 +167,10 @@ export class SiteSelectorComponent implements OnInit {
 
     clearSearchTerm() {
         this.searchTerm = '';
-        this.loadInitialSites();
+        this._loadInitialSites();
     }
 
-    private loadInitialSites() {
+    private _loadInitialSites() {
         this.sitesService.loadInitialSites().subscribe(sites => {
             if (this._firstLoad) {
                 this._selectInitialSite(sites);
@@ -192,7 +192,7 @@ export class SiteSelectorComponent implements OnInit {
         this.showSitesList = false;
     }
 
-    private switchSite(switchToSite: { idsite: string; name: string }, event: MouseEvent) {
+    switchSite(switchToSite: { idsite: string; name: string }, event: MouseEvent) {
         // for Mac OS cmd key needs to be pressed, ctrl key on other systems
         const controlKey = navigator.userAgent.indexOf("Mac OS X") !== -1 ? event.metaKey : event.ctrlKey;
 
@@ -212,7 +212,7 @@ export class SiteSelectorComponent implements OnInit {
         this.loadSite(switchToSite.idsite);
     }
 
-    private loadSite(idSite: string) {
+    loadSite(idSite: string) {
         if (idSite == 'all') {
             document.location.href = piwikHelper.getCurrentQueryStringWithParametersModified(piwikHelper.getQueryStringFromParameters({
                 module: 'MultiSites',
@@ -249,29 +249,3 @@ export class SiteSelectorComponent implements OnInit {
         });
     }
 }
-
-/*
-    if (ngModel) {
-        ngModel.$render = function() {
-            if (angular.isString(ngModel.$viewValue)) {
-                scope.selectedSite = JSON.parse(ngModel.$viewValue);
-            } else {
-                scope.selectedSite = ngModel.$viewValue;
-            }
-        };
-    }
-
-    scope.$watch('selectedSite', function (newValue) {
-        if (ngModel) {
-            ngModel.$setViewValue(newValue);
-        }
-    });
-
-    scope.$watch('view.showSitesList', function (newValue) {
-        element.toggleClass('expanded', !! newValue);
-    });
-
-    $timeout(function () {
-        initTopControls();
-    });
-*/

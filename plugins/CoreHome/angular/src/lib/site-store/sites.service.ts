@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CoreHomeModule } from '../core-home.module';
 import { Site } from './site';
 import {filter, map, shareReplay, switchMap} from "rxjs/operators";
 import {MatomoApiService} from "../matomo-api/matomo-api.service";
@@ -8,7 +7,7 @@ import {MatomoApiService} from "../matomo-api/matomo-api.service";
 // NOTE: all public methods return Observables. all functions used w/ map() are pure, they return new objects/arrays to avoid
 // side effects.
 
-@Injectable({ providedIn: CoreHomeModule })
+@Injectable()
 export class SitesService {
     constructor(private _matomoApi: MatomoApiService) {}
 
