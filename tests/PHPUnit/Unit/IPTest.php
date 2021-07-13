@@ -74,7 +74,7 @@ class IPTest extends \PHPUnit\Framework\TestCase
             array('localhost inside LAN', array('127.0.0.1', '', null, null, '127.0.0.1')),
             array('outside LAN, no proxy', array('128.252.135.4', '', null, null, '128.252.135.4')),
             array('outside LAN, no (trusted) proxy', array('128.252.135.4', '137.18.2.13, 128.252.135.4', '', null, '128.252.135.4')),
-            array('outside LAN, one trusted proxy', array('137.18.2.13', '137.18.2.13, 128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
+            array('outside LAN, one trusted proxy', array('137.18.2.13', '137.18.2.13, 128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '192.168.1.10')),
             array('outside LAN, proxy', array('192.168.1.10', '128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
             array('outside LAN, misconfigured proxy', array('192.168.1.10', '128.252.135.4, 192.168.1.10, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
             array('outside LAN, multiple proxies', array('192.168.1.10', '128.252.135.4, 192.168.1.20, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', '192.168.1.*', '128.252.135.4')),
@@ -140,11 +140,11 @@ class IPTest extends \PHPUnit\Framework\TestCase
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $ip;
         $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), 'case 1');
 
-        $_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4, ' . $ip;
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.2.3.4';
         $this->assertEquals('1.2.3.4', IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), 'case 2');
 
         // misconfiguration
-        $_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.1.1.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '1.1.1.1, ' . $ip;
         $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), 'case 3');
     }
 
@@ -195,5 +195,41 @@ class IPTest extends \PHPUnit\Framework\TestCase
     {
         // with excluded Ips
         $this->assertEquals('', IP::getFirstIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
+    }
+
+    /**
+     * Dataprovider for testGetLastIpFromList
+     */
+    public function getLastIpFromListTestData()
+    {
+        return array(
+            array('', ''),
+            array('127.0.0.1', '127.0.0.1'),
+            array(' 127.0.0.1 ', '127.0.0.1'),
+            array(' 192.168.1.1, 127.0.0.1', '127.0.0.1'),
+            array('192.168.1.1 ,127.0.0.1 ', '127.0.0.1'),
+            array('2001:db8:cafe::17 , 192.168.1.1', '192.168.1.1'),
+            array('192.168.1.1 , 2001:db8:cafe::17', '2001:db8:cafe::17'),
+            array('192.168.1.1,', '192.168.1.1'),
+            array(',192.168.1.1,', '192.168.1.1'),
+        );
+    }
+
+    /**
+     * @dataProvider getLastIpFromListTestData
+     */
+    public function testGetLastIpFromList($csv, $expected)
+    {
+        // without excluded IPs
+        $this->assertEquals($expected, IP::getLastIpFromList($csv));
+
+        // with excluded Ips
+        $this->assertEquals($expected, IP::getLastIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
+    }
+
+    public function testGetLastIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
+    {
+        // with excluded Ips
+        $this->assertEquals('', IP::getLastIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
     }
 }

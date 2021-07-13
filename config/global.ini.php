@@ -641,6 +641,9 @@ multi_server_environment = 0
 ; By enabling this flag the header HTTP_X_FORWARDED_URI will be considered for the current script name.
 proxy_uri_header = 0
 
+; If set to 1 we use the last IP in the list of proxy IPs when determining the client IP.
+proxy_ip_read_last_in_list = 1
+
 ; Whether to enable trusted host checking. This can be disabled if you're running Matomo
 ; on several URLs and do not wish to constantly edit the trusted host list.
 enable_trusted_host_check = 1
