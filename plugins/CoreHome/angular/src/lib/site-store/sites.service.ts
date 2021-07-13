@@ -23,9 +23,20 @@ export class SitesService {
 
     private initialSites$?: Observable<Site[]>;
 
+    getNumWebsitesToDisplayPerPage() {
+        return this._numWebsitesToDisplayPerPage$;
+    }
+
+    public loadInitialSites() {
+        if (!this.initialSites$) {
+            this.initialSites$ = this.searchSites('%').pipe(shareReplay(1));
+        }
+        return this.initialSites$;
+    }
+
     searchSites(term: string): Observable<Site[]> {
         if (!term) {
-            return this._loadInitialSites();
+            return this.loadInitialSites();
         }
 
         let methodToCall = 'SitesManager.getPatternMatchSites';
@@ -63,12 +74,5 @@ export class SitesService {
             return lhs > rhs ? 1 : 0;
         });
         return sites;
-    }
-
-    private _loadInitialSites() {
-        if (!this.initialSites$) {
-            this.initialSites$ = this.searchSites('%').pipe(shareReplay(1));
-        }
-        return this.initialSites$;
     }
 }

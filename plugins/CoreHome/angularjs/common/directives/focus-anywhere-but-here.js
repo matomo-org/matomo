@@ -17,7 +17,7 @@
 
     piwikFocusAnywhereButHere.$inject = ['$document'];
 
-    function piwikFocusAnywhereButHere($document){
+    function piwikFocusAnywhereButHere($document){ // TODO: remove and downgrade other
         return {
             restrict: 'A',
             link: function(scope, element, attr, ctrl) {
