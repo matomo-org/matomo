@@ -17,8 +17,8 @@ return array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
-        'syslog' => 'Piwik\Plugins\Monolog\Handler\SyslogHandler',
-        'errorlog' => 'Piwik\Plugins\Monolog\Handler\ErrorLogHandler',
+        'errorlog' => '\Monolog\Handler\ErrorLogHandler',
+        'syslog' => '\Monolog\Handler\SyslogHandler',
     ),
     'log.handlers' => DI\factory(function (\DI\Container $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -99,14 +99,13 @@ return array(
     'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\create()
         ->constructor(DI\get('log.file.filename'), DI\get('log.level.file'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
-
-    'Piwik\Plugins\Monolog\Handler\SyslogHandler' => DI\create()
-        ->constructor('matomo', null, DI\get('log.level.syslog'))
-        ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
-
-    'Piwik\Plugins\Monolog\Handler\ErrorLogHandler' => DI\create()
+    
+    '\Monolog\Handler\ErrorLogHandler' => DI\create()
         ->constructor(null, DI\get('log.level.errorlog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
+
+    '\Monolog\Handler\SyslogHandler' => DI\create()
+        ->constructor(DI\get('log.syslog.ident'), 'syslog', DI\get('log.level.syslog'))
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\create()
         ->constructor(DI\get('log.level.database'))
@@ -201,6 +200,14 @@ return array(
         }
 
         return $logPath;
+    }),
+    
+    'log.syslog.ident' => DI\factory(function (ContainerInterface $c) {
+        $ident = $c->get('ini.log.logger_syslog_ident');
+        if (empty($ident)) {
+            $ident = 'matomo';
+        }
+        return $ident;
     }),
 
     'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
