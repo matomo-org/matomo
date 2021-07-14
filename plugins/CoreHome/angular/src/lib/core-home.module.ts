@@ -44,7 +44,10 @@ export * from './siteselector/siteselector.component';
     TranslatePipe,
     MatomoApiService,
     SitesService,
-  ]
+  ],
+  entryComponents: [
+    SiteSelectorComponent,
+  ],
 })
 export class CoreHomeModule {
   ngDoBootstrap() {

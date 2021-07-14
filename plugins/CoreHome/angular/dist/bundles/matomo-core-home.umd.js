@@ -425,11 +425,13 @@
         };
         return MatomoApiService;
     }());
-    MatomoApiService.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: MatomoApiService, deps: [{ token: i1__namespace.HttpClient }], target: i0__namespace.ɵɵFactoryTarget.Injectable });
-    MatomoApiService.ɵprov = i0__namespace.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: MatomoApiService });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: MatomoApiService, decorators: [{
+    MatomoApiService.ɵfac = function MatomoApiService_Factory(t) { return new (t || MatomoApiService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient)); };
+    MatomoApiService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: MatomoApiService, factory: MatomoApiService.ɵfac });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(MatomoApiService, [{
                 type: i0.Injectable
-            }], ctorParameters: function () { return [{ type: i1__namespace.HttpClient }]; } });
+            }], function () { return [{ type: i1__namespace.HttpClient }]; }, null);
+    })();
 
     // NOTE: all public methods return Observables. all functions used w/ map() are pure, they return new objects/arrays to avoid
     // side effects.
@@ -484,11 +486,13 @@
         };
         return SitesService;
     }());
-    SitesService.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SitesService, deps: [{ token: MatomoApiService }], target: i0__namespace.ɵɵFactoryTarget.Injectable });
-    SitesService.ɵprov = i0__namespace.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SitesService });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SitesService, decorators: [{
+    SitesService.ɵfac = function SitesService_Factory(t) { return new (t || SitesService)(i0__namespace.ɵɵinject(MatomoApiService)); };
+    SitesService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: SitesService, factory: SitesService.ɵfac });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(SitesService, [{
                 type: i0.Injectable
-            }], ctorParameters: function () { return [{ type: MatomoApiService }]; } });
+            }], function () { return [{ type: MatomoApiService }]; }, null);
+    })();
 
     var FocusAnywhereButHereDirective = /** @class */ (function () {
         function FocusAnywhereButHereDirective(el) {
@@ -524,14 +528,19 @@
         };
         return FocusAnywhereButHereDirective;
     }());
-    FocusAnywhereButHereDirective.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: FocusAnywhereButHereDirective, deps: [{ token: i0__namespace.ElementRef }], target: i0__namespace.ɵɵFactoryTarget.Directive });
-    FocusAnywhereButHereDirective.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.1.0", type: FocusAnywhereButHereDirective, selector: "[focusAnywhereButHere]", outputs: { onLoseFocus: "onLoseFocus" }, host: { listeners: { "document:keyup": "onEscapeHandler()", "document:mouseup": "onClickOutsideElement()", "document:scroll": "onScroll()", "document:mousedown": "onMouseDown()" } }, ngImport: i0__namespace });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: FocusAnywhereButHereDirective, decorators: [{
+    FocusAnywhereButHereDirective.ɵfac = function FocusAnywhereButHereDirective_Factory(t) { return new (t || FocusAnywhereButHereDirective)(i0__namespace.ɵɵdirectiveInject(i0__namespace.ElementRef)); };
+    FocusAnywhereButHereDirective.ɵdir = /*@__PURE__*/ i0__namespace.ɵɵdefineDirective({ type: FocusAnywhereButHereDirective, selectors: [["", "focusAnywhereButHere", ""]], hostBindings: function FocusAnywhereButHereDirective_HostBindings(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵlistener("keyup", function FocusAnywhereButHereDirective_keyup_HostBindingHandler() { return ctx.onEscapeHandler(); }, false, i0__namespace.ɵɵresolveDocument)("mouseup", function FocusAnywhereButHereDirective_mouseup_HostBindingHandler() { return ctx.onClickOutsideElement(); }, false, i0__namespace.ɵɵresolveDocument)("scroll", function FocusAnywhereButHereDirective_scroll_HostBindingHandler() { return ctx.onScroll(); }, false, i0__namespace.ɵɵresolveDocument)("mousedown", function FocusAnywhereButHereDirective_mousedown_HostBindingHandler() { return ctx.onMouseDown(); }, false, i0__namespace.ɵɵresolveDocument);
+            }
+        }, outputs: { onLoseFocus: "onLoseFocus" } });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(FocusAnywhereButHereDirective, [{
                 type: i0.Directive,
                 args: [{
                         selector: '[focusAnywhereButHere]'
                     }]
-            }], ctorParameters: function () { return [{ type: i0__namespace.ElementRef }]; }, propDecorators: { onLoseFocus: [{
+            }], function () { return [{ type: i0__namespace.ElementRef }]; }, { onLoseFocus: [{
                     type: i0.Output
                 }], onEscapeHandler: [{
                     type: i0.HostListener,
@@ -545,7 +554,8 @@
                 }], onMouseDown: [{
                     type: i0.HostListener,
                     args: ['document:mousedown']
-                }] } });
+                }] });
+    })();
 
     var TranslatePipe = /** @class */ (function () {
         function TranslatePipe() {
@@ -559,13 +569,184 @@
         };
         return TranslatePipe;
     }());
-    TranslatePipe.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: TranslatePipe, deps: [], target: i0__namespace.ɵɵFactoryTarget.Pipe });
-    TranslatePipe.ɵpipe = i0__namespace.ɵɵngDeclarePipe({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: TranslatePipe, name: "translate" });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: TranslatePipe, decorators: [{
+    TranslatePipe.ɵfac = function TranslatePipe_Factory(t) { return new (t || TranslatePipe)(); };
+    TranslatePipe.ɵpipe = /*@__PURE__*/ i0__namespace.ɵɵdefinePipe({ name: "translate", type: TranslatePipe, pure: true });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(TranslatePipe, [{
                 type: i0.Pipe,
                 args: [{ name: 'translate' }]
-            }] });
+            }], null, null);
+    })();
 
+    var _c0 = ["customSelectInput"];
+    var _c1 = ["selectedSiteDisplay"];
+    var _c2 = ["listLink"];
+    function SiteSelectorComponent_input_3_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelement(0, "input", 7);
+        }
+        if (rf & 2) {
+            var ctx_r1 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵproperty("value", ctx_r1.selectedSite == null ? null : ctx_r1.selectedSite.id);
+            i0__namespace.ɵɵattribute("name", ctx_r1.name);
+        }
+    }
+    function SiteSelectorComponent_span_10_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "span");
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵpipe(2, "async");
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r3 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate((ctx_r3.selectedSite == null ? null : ctx_r3.selectedSite.name) || i0__namespace.ɵɵpipeBind1(2, 1, ctx_r3._firstSiteName$));
+        }
+    }
+    function SiteSelectorComponent_span_11_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "span");
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r4 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate(ctx_r4.placeholder);
+        }
+    }
+    function SiteSelectorComponent_div_12_div_1_img_4_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r14_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "img", 18);
+            i0__namespace.ɵɵlistener("click", function SiteSelectorComponent_div_12_div_1_img_4_Template_img_click_0_listener() { i0__namespace.ɵɵrestoreView(_r14_1); var ctx_r13 = i0__namespace.ɵɵnextContext(3); return ctx_r13.clearSearchTerm(); });
+            i0__namespace.ɵɵelementEnd();
+        }
+    }
+    function SiteSelectorComponent_div_12_div_1_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r16_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "div", 14);
+            i0__namespace.ɵɵelementStart(1, "input", 15, 16);
+            i0__namespace.ɵɵlistener("click", function SiteSelectorComponent_div_12_div_1_Template_input_click_1_listener() { i0__namespace.ɵɵrestoreView(_r16_1); var ctx_r15 = i0__namespace.ɵɵnextContext(2); return ctx_r15.searchTerm = ""; })("ngModelChange", function SiteSelectorComponent_div_12_div_1_Template_input_ngModelChange_1_listener($event) { i0__namespace.ɵɵrestoreView(_r16_1); var ctx_r17 = i0__namespace.ɵɵnextContext(2); return ctx_r17.searchTerm = $event; })("change", function SiteSelectorComponent_div_12_div_1_Template_input_change_1_listener() { i0__namespace.ɵɵrestoreView(_r16_1); var ctx_r18 = i0__namespace.ɵɵnextContext(2); return ctx_r18.searchSite(); });
+            i0__namespace.ɵɵpipe(3, "translate");
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵtemplate(4, SiteSelectorComponent_div_12_div_1_img_4_Template, 1, 0, "img", 17);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r6 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("ngModel", ctx_r6.searchTerm);
+            i0__namespace.ɵɵattribute("placeholder", i0__namespace.ɵɵpipeBind1(3, 3, "General_Search"));
+            i0__namespace.ɵɵadvance(3);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r6.searchTerm);
+        }
+    }
+    function SiteSelectorComponent_div_12_div_4_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r20_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "div");
+            i0__namespace.ɵɵelementStart(1, "site-selector-all-sites-link", 19);
+            i0__namespace.ɵɵlistener("onClickLink", function SiteSelectorComponent_div_12_div_4_Template_site_selector_all_sites_link_onClickLink_1_listener($event) { i0__namespace.ɵɵrestoreView(_r20_1); var ctx_r19 = i0__namespace.ɵɵnextContext(2); return ctx_r19.onClickAllSitesLink($event); });
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r7 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("allSitesText", ctx_r7.allSitesText);
+        }
+    }
+    function SiteSelectorComponent_div_12_li_7_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r24_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "li", 20);
+            i0__namespace.ɵɵlistener("click", function SiteSelectorComponent_div_12_li_7_Template_li_click_0_listener($event) { var restoredCtx = i0__namespace.ɵɵrestoreView(_r24_1); var site_r21 = restoredCtx.$implicit; var ctx_r23 = i0__namespace.ɵɵnextContext(2); return ctx_r23.switchSite(site_r21, $event); });
+            i0__namespace.ɵɵelementStart(1, "a", 21, 22);
+            i0__namespace.ɵɵlistener("click", function SiteSelectorComponent_div_12_li_7_Template_a_click_1_listener($event) { return $event.preventDefault(); });
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var site_r21 = ctx.$implicit;
+            var ctx_r8 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵproperty("hidden", !ctx_r8.showSelectedSite && ctx_r8.activeSiteId == site_r21.idsite);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("innerHTML", site_r21.name, i0__namespace.ɵɵsanitizeHtml);
+            i0__namespace.ɵɵattribute("href", ctx_r8.getUrlForSiteId(site_r21.idsite), i0__namespace.ɵɵsanitizeUrl)("title", site_r21.name);
+        }
+    }
+    function SiteSelectorComponent_div_12_ul_9_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "ul", 23);
+            i0__namespace.ɵɵelementStart(1, "li", 24);
+            i0__namespace.ɵɵelementStart(2, "a", 25);
+            i0__namespace.ɵɵtext(3);
+            i0__namespace.ɵɵpipe(4, "translate");
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r9 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵadvance(3);
+            i0__namespace.ɵɵtextInterpolate(i0__namespace.ɵɵpipeBind1(4, 1, "SitesManager_NotFound") + " " + ctx_r9.searchTerm);
+        }
+    }
+    function SiteSelectorComponent_div_12_div_11_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r27_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "div");
+            i0__namespace.ɵɵelementStart(1, "site-selector-all-sites-link", 19);
+            i0__namespace.ɵɵlistener("onClickLink", function SiteSelectorComponent_div_12_div_11_Template_site_selector_all_sites_link_onClickLink_1_listener($event) { i0__namespace.ɵɵrestoreView(_r27_1); var ctx_r26 = i0__namespace.ɵɵnextContext(2); return ctx_r26.onClickAllSitesLink($event); });
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r10 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("allSitesText", ctx_r10.allSitesText);
+        }
+    }
+    function SiteSelectorComponent_div_12_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r29_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "div", 8);
+            i0__namespace.ɵɵtemplate(1, SiteSelectorComponent_div_12_div_1_Template, 5, 5, "div", 9);
+            i0__namespace.ɵɵpipe(2, "async");
+            i0__namespace.ɵɵpipe(3, "async");
+            i0__namespace.ɵɵtemplate(4, SiteSelectorComponent_div_12_div_4_Template, 2, 1, "div", 5);
+            i0__namespace.ɵɵelementStart(5, "div", 10);
+            i0__namespace.ɵɵelementStart(6, "ul", 11);
+            i0__namespace.ɵɵlistener("click", function SiteSelectorComponent_div_12_Template_ul_click_6_listener() { i0__namespace.ɵɵrestoreView(_r29_1); var ctx_r28 = i0__namespace.ɵɵnextContext(); return ctx_r28.showSitesList = false; });
+            i0__namespace.ɵɵtemplate(7, SiteSelectorComponent_div_12_li_7_Template, 3, 4, "li", 12);
+            i0__namespace.ɵɵpipe(8, "async");
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵtemplate(9, SiteSelectorComponent_div_12_ul_9_Template, 5, 3, "ul", 13);
+            i0__namespace.ɵɵpipe(10, "async");
+            i0__namespace.ɵɵelementEnd();
+            i0__namespace.ɵɵtemplate(11, SiteSelectorComponent_div_12_div_11_Template, 2, 1, "div", 5);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r5 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("ngIf", (i0__namespace.ɵɵpipeBind1(2, 5, ctx_r5.autocompleteMinSites$) || 0) <= (i0__namespace.ɵɵpipeBind1(3, 7, ctx_r5._sitesLength$) || 0) || ctx_r5.searchTerm);
+            i0__namespace.ɵɵadvance(3);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r5.allSitesLocation == "top" && ctx_r5.showAllSitesItem);
+            i0__namespace.ɵɵadvance(3);
+            i0__namespace.ɵɵproperty("ngForOf", i0__namespace.ɵɵpipeBind1(8, 9, ctx_r5._sites$));
+            i0__namespace.ɵɵadvance(2);
+            i0__namespace.ɵɵproperty("ngIf", !i0__namespace.ɵɵpipeBind1(10, 11, ctx_r5._sitesLength$) && ctx_r5.searchTerm);
+            i0__namespace.ɵɵadvance(2);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r5.allSitesLocation == "bottom" && ctx_r5.showAllSitesItem);
+        }
+    }
+    var _c3 = function (a0, a1) { return { expanded: a0, disabled: a1 }; };
+    var _c4 = function (a0) { return { loading: a0, title: true }; };
+    var _c5 = function (a2, a3) { return { icon: true, "icon-arrow-bottom": true, iconHidden: a2, collapsed: a3 }; };
     var piwik = window.piwik;
     var piwikHelper = window.piwikHelper;
     var SiteSelectorAllSitesLink = /** @class */ (function () {
@@ -579,19 +760,35 @@
         };
         return SiteSelectorAllSitesLink;
     }());
-    SiteSelectorAllSitesLink.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SiteSelectorAllSitesLink, deps: [], target: i0__namespace.ɵɵFactoryTarget.Component });
-    SiteSelectorAllSitesLink.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.1.0", type: SiteSelectorAllSitesLink, selector: "site-selector-all-sites-link", inputs: { allSitesText: "allSitesText" }, outputs: { onClickLink: "onClickLink" }, ngImport: i0__namespace, template: "\n        <div\n            (click)=\"onClickLink.next($event)\"\n            class=\"custom_select_all\"\n        >\n            <a \n                [attr.href]=\"getUrlAllSites()\"\n                (click)=\"$event.preventDefault()\"\n                tabindex=\"4\"\n                [innerHTML]=\"allSitesText\"\n            >\n            </a>\n        </div>\n    ", isInline: true });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SiteSelectorAllSitesLink, decorators: [{
+    SiteSelectorAllSitesLink.ɵfac = function SiteSelectorAllSitesLink_Factory(t) { return new (t || SiteSelectorAllSitesLink)(); };
+    SiteSelectorAllSitesLink.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: SiteSelectorAllSitesLink, selectors: [["site-selector-all-sites-link"]], inputs: { allSitesText: "allSitesText" }, outputs: { onClickLink: "onClickLink" }, decls: 2, vars: 2, consts: [[1, "custom_select_all", 3, "click"], ["tabindex", "4", 3, "innerHTML", "click"]], template: function SiteSelectorAllSitesLink_Template(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵelementStart(0, "div", 0);
+                i0__namespace.ɵɵlistener("click", function SiteSelectorAllSitesLink_Template_div_click_0_listener($event) { return ctx.onClickLink.next($event); });
+                i0__namespace.ɵɵelementStart(1, "a", 1);
+                i0__namespace.ɵɵlistener("click", function SiteSelectorAllSitesLink_Template_a_click_1_listener($event) { return $event.preventDefault(); });
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+            }
+            if (rf & 2) {
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("innerHTML", ctx.allSitesText, i0__namespace.ɵɵsanitizeHtml);
+                i0__namespace.ɵɵattribute("href", ctx.getUrlAllSites(), i0__namespace.ɵɵsanitizeUrl);
+            }
+        }, encapsulation: 2 });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(SiteSelectorAllSitesLink, [{
                 type: i0.Component,
                 args: [{
                         selector: 'site-selector-all-sites-link',
                         template: "\n        <div\n            (click)=\"onClickLink.next($event)\"\n            class=\"custom_select_all\"\n        >\n            <a \n                [attr.href]=\"getUrlAllSites()\"\n                (click)=\"$event.preventDefault()\"\n                tabindex=\"4\"\n                [innerHTML]=\"allSitesText\"\n            >\n            </a>\n        </div>\n    ",
                     }]
-            }], propDecorators: { allSitesText: [{
+            }], null, { allSitesText: [{
                     type: i0.Input
                 }], onClickLink: [{
                     type: i0.Output
-                }] } });
+                }] });
+    })();
     var SiteSelectorComponent = /** @class */ (function () {
         function SiteSelectorComponent(sitesService, sanitizer) {
             this.sitesService = sitesService;
@@ -758,15 +955,62 @@
         };
         return SiteSelectorComponent;
     }());
-    SiteSelectorComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SiteSelectorComponent, deps: [{ token: SitesService }, { token: i2__namespace.DomSanitizer }], target: i0__namespace.ɵɵFactoryTarget.Component });
-    SiteSelectorComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.1.0", type: SiteSelectorComponent, selector: "piwik-siteselector", inputs: { showSelectedSite: "showSelectedSite", showAllSitesItem: "showAllSitesItem", switchSiteOnSelect: "switchSiteOnSelect", onlySitesWithAdminAccess: "onlySitesWithAdminAccess", name: "name", allSitesText: "allSitesText", allSitesLocation: "allSitesLocation", placeholder: "placeholder", siteid: "siteid", sitename: "sitename" }, outputs: { onSelectedSiteChange: "onSelectedSiteChange" }, viewQueries: [{ propertyName: "_customSelectInput", first: true, predicate: ["customSelectInput"], descendants: true }, { propertyName: "_selectedSiteDisplay", first: true, predicate: ["selectedSiteDisplay"], descendants: true }, { propertyName: "_siteLinks", predicate: ["listLink"], descendants: true }], usesOnChanges: true, ngImport: i0__namespace, template: "<div #rootdiv\n     focusAnywhereButHere\n     (onLoseFocus)=\"showSitesList=false\"\n     class=\"siteSelector piwikSelector borderedControl\"\n     [attr.class]=\"{expanded: showSitesList, disabled: (_hasOnlyOneSite$ | async)}\">\n\n    <input *ngIf=\"name\" type=\"hidden\" [attr.name]=\"name\" [value]=\"selectedSite?.id\"/>\n\n    <a\n        #selectedSiteDisplay\n        (click)=\"onClickSelector()\"\n        (keyup.enter)=\"onClickSelector()\"\n        href=\"javascript:void(0)\"\n        [attr.title]=\"(_hasMultipleWebsites$ | async) ? ('CoreHome_ChangeCurrentWebsite'|translate) : ''\"\n        [attr.class]=\"{loading:isLoading,title:true}\"\n        tabindex=\"4\"\n    >\n        <span [attr.class]=\"{icon:true,'icon-arrow-bottom':true,iconHidden:isLoading,collapsed:!showSitesList}\"></span>\n        <span>\n            <span *ngIf=\"selectedSite?.name || !placeholder\">{{ selectedSite?.name || (_firstSiteName$|async) }}</span>\n            <span *ngIf=\"!selectedSite?.name && placeholder\">{{ placeholder }}</span>\n        </span>\n    </a>\n\n    <div *ngIf=\"showSitesList\" class=\"dropdown\">\n        <div class=\"custom_select_search\" *ngIf=\"((autocompleteMinSites$|async) || 0) <= ((_sitesLength$|async) || 0) || searchTerm\">\n            <input\n                #customSelectInput\n                type=\"text\"\n                (click)=\"searchTerm=''\"\n                [(ngModel)]=\"searchTerm\"\n                (change)=\"searchSite()\"\n                [attr.placeholder]=\"'General_Search'|translate\"\n                tabindex=\"4\"\n                class=\"websiteSearch inp browser-default\"\n            />\n            <!-- TODO: translate Clear? -->\n            <img title=\"Clear\"\n                 *ngIf=\"searchTerm\"\n                 (click)=\"clearSearchTerm()\"\n                 class=\"reset\"\n                 src=\"plugins/CoreHome/images/reset_search.png\"\n             />\n        </div>\n\n        <div\n            *ngIf=\"allSitesLocation=='top' && showAllSitesItem\"\n        >\n            <site-selector-all-sites-link\n                [allSitesText]=\"allSitesText\"\n                (onClickLink)=\"onClickAllSitesLink($event)\"\n            >\n            </site-selector-all-sites-link>\n        </div>\n\n        <div class=\"custom_select_container\">\n            <ul class=\"custom_select_ul_list\" (click)=\"showSitesList=false\">\n                <!-- !showSelectedSite && activeSiteId==site.idsite -->\n                <li\n                    *ngFor=\"let site in (_sites$|async)\"\n                    (click)=\"switchSite(site, $event)\"\n                    [hidden]=\"!showSelectedSite && activeSiteId == site.idsite\"\n                >\n                    <a\n                        #listLink\n                        (click)=\"$event.preventDefault()\"\n                        [attr.href]=\"getUrlForSiteId(site.idsite)\"\n                        [attr.title]=\"site.name\"\n                        [innerHTML]=\"site.name\"\n                        tabindex=\"4\"\n                    >\n                    </a>\n                </li>\n            </ul>\n\n            <ul\n                *ngIf=\"!(_sitesLength$ | async) && searchTerm\"\n                class=\"ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect\"\n            >\n                <li class=\"ui-menu-item\">\n                    <a class=\"ui-corner-all\" tabindex=\"-1\">{{ ('SitesManager_NotFound'|translate) + ' ' + searchTerm }}</a>\n                </li>\n            </ul>\n        </div>\n\n        <div\n            *ngIf=\"allSitesLocation=='bottom' && showAllSitesItem\"\n        >\n            <site-selector-all-sites-link\n                [allSitesText]=\"allSitesText\"\n                (onClickLink)=\"onClickAllSitesLink($event)\"\n            >\n            </site-selector-all-sites-link>\n        </div>\n    </div>\n</div>\n", components: [{ type: SiteSelectorAllSitesLink, selector: "site-selector-all-sites-link", inputs: ["allSitesText"], outputs: ["onClickLink"] }], directives: [{ type: FocusAnywhereButHereDirective, selector: "[focusAnywhereButHere]", outputs: ["onLoseFocus"] }, { type: i4__namespace.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { type: i5__namespace.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { type: i5__namespace.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { type: i5__namespace.NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: ["name", "disabled", "ngModel", "ngModelOptions"], outputs: ["ngModelChange"], exportAs: ["ngModel"] }], pipes: { "async": i4__namespace.AsyncPipe, "translate": TranslatePipe } });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: SiteSelectorComponent, decorators: [{
+    SiteSelectorComponent.ɵfac = function SiteSelectorComponent_Factory(t) { return new (t || SiteSelectorComponent)(i0__namespace.ɵɵdirectiveInject(SitesService), i0__namespace.ɵɵdirectiveInject(i2__namespace.DomSanitizer)); };
+    SiteSelectorComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: SiteSelectorComponent, selectors: [["piwik-siteselector"]], viewQuery: function SiteSelectorComponent_Query(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵviewQuery(_c0, 5);
+                i0__namespace.ɵɵviewQuery(_c1, 5);
+                i0__namespace.ɵɵviewQuery(_c2, 5);
+            }
+            if (rf & 2) {
+                var _t = void 0;
+                i0__namespace.ɵɵqueryRefresh(_t = i0__namespace.ɵɵloadQuery()) && (ctx._customSelectInput = _t.first);
+                i0__namespace.ɵɵqueryRefresh(_t = i0__namespace.ɵɵloadQuery()) && (ctx._selectedSiteDisplay = _t.first);
+                i0__namespace.ɵɵqueryRefresh(_t = i0__namespace.ɵɵloadQuery()) && (ctx._siteLinks = _t);
+            }
+        }, inputs: { showSelectedSite: "showSelectedSite", showAllSitesItem: "showAllSitesItem", switchSiteOnSelect: "switchSiteOnSelect", onlySitesWithAdminAccess: "onlySitesWithAdminAccess", name: "name", allSitesText: "allSitesText", allSitesLocation: "allSitesLocation", placeholder: "placeholder", siteid: "siteid", sitename: "sitename" }, outputs: { onSelectedSiteChange: "onSelectedSiteChange" }, features: [i0__namespace.ɵɵNgOnChangesFeature], decls: 13, vars: 22, consts: [["focusAnywhereButHere", "", 1, "siteSelector", "piwikSelector", "borderedControl", 3, "onLoseFocus"], ["rootdiv", ""], ["type", "hidden", 3, "value", 4, "ngIf"], ["href", "javascript:void(0)", "tabindex", "4", 3, "click", "keyup.enter"], ["selectedSiteDisplay", ""], [4, "ngIf"], ["class", "dropdown", 4, "ngIf"], ["type", "hidden", 3, "value"], [1, "dropdown"], ["class", "custom_select_search", 4, "ngIf"], [1, "custom_select_container"], [1, "custom_select_ul_list", 3, "click"], [3, "hidden", "click", 4, "ngFor", "ngForOf"], ["class", "ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect", 4, "ngIf"], [1, "custom_select_search"], ["type", "text", "tabindex", "4", 1, "websiteSearch", "inp", "browser-default", 3, "ngModel", "click", "ngModelChange", "change"], ["customSelectInput", ""], ["title", "Clear", "class", "reset", "src", "plugins/CoreHome/images/reset_search.png", 3, "click", 4, "ngIf"], ["title", "Clear", "src", "plugins/CoreHome/images/reset_search.png", 1, "reset", 3, "click"], [3, "allSitesText", "onClickLink"], [3, "hidden", "click"], ["tabindex", "4", 3, "innerHTML", "click"], ["listLink", ""], [1, "ui-autocomplete", "ui-front", "ui-menu", "ui-widget", "ui-widget-content", "ui-corner-all", "siteSelect"], [1, "ui-menu-item"], ["tabindex", "-1", 1, "ui-corner-all"]], template: function SiteSelectorComponent_Template(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵelementStart(0, "div", 0, 1);
+                i0__namespace.ɵɵlistener("onLoseFocus", function SiteSelectorComponent_Template_div_onLoseFocus_0_listener() { return ctx.showSitesList = false; });
+                i0__namespace.ɵɵpipe(2, "async");
+                i0__namespace.ɵɵtemplate(3, SiteSelectorComponent_input_3_Template, 1, 2, "input", 2);
+                i0__namespace.ɵɵelementStart(4, "a", 3, 4);
+                i0__namespace.ɵɵlistener("click", function SiteSelectorComponent_Template_a_click_4_listener() { return ctx.onClickSelector(); })("keyup.enter", function SiteSelectorComponent_Template_a_keyup_enter_4_listener() { return ctx.onClickSelector(); });
+                i0__namespace.ɵɵpipe(6, "async");
+                i0__namespace.ɵɵpipe(7, "translate");
+                i0__namespace.ɵɵelement(8, "span");
+                i0__namespace.ɵɵelementStart(9, "span");
+                i0__namespace.ɵɵtemplate(10, SiteSelectorComponent_span_10_Template, 3, 3, "span", 5);
+                i0__namespace.ɵɵtemplate(11, SiteSelectorComponent_span_11_Template, 2, 1, "span", 5);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵtemplate(12, SiteSelectorComponent_div_12_Template, 12, 13, "div", 6);
+                i0__namespace.ɵɵelementEnd();
+            }
+            if (rf & 2) {
+                i0__namespace.ɵɵattribute("class", i0__namespace.ɵɵpureFunction2(14, _c3, ctx.showSitesList, i0__namespace.ɵɵpipeBind1(2, 8, ctx._hasOnlyOneSite$)));
+                i0__namespace.ɵɵadvance(3);
+                i0__namespace.ɵɵproperty("ngIf", ctx.name);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵattribute("title", i0__namespace.ɵɵpipeBind1(6, 10, ctx._hasMultipleWebsites$) ? i0__namespace.ɵɵpipeBind1(7, 12, "CoreHome_ChangeCurrentWebsite") : "")("class", i0__namespace.ɵɵpureFunction1(17, _c4, ctx.isLoading));
+                i0__namespace.ɵɵadvance(4);
+                i0__namespace.ɵɵattribute("class", i0__namespace.ɵɵpureFunction2(19, _c5, ctx.isLoading, !ctx.showSitesList));
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵproperty("ngIf", (ctx.selectedSite == null ? null : ctx.selectedSite.name) || !ctx.placeholder);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", !(ctx.selectedSite == null ? null : ctx.selectedSite.name) && ctx.placeholder);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.showSitesList);
+            }
+        }, directives: [FocusAnywhereButHereDirective, i4__namespace.NgIf, i4__namespace.NgForOf, i5__namespace.DefaultValueAccessor, i5__namespace.NgControlStatus, i5__namespace.NgModel, SiteSelectorAllSitesLink], pipes: [i4__namespace.AsyncPipe, TranslatePipe], encapsulation: 2 });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(SiteSelectorComponent, [{
                 type: i0.Component,
                 args: [{
                         selector: 'piwik-siteselector',
-                        templateUrl: './siteselector.component.html',
+                        template: "<div #rootdiv\n                    focusAnywhereButHere\n                    (onLoseFocus)=\"showSitesList=false\"\n                    class=\"siteSelector piwikSelector borderedControl\"\n                    [attr.class]=\"{expanded: showSitesList, disabled: (_hasOnlyOneSite$ | async)}\">\n\n        <input *ngIf=\"name\" type=\"hidden\" [attr.name]=\"name\" [value]=\"selectedSite?.id\"/>\n\n        <a\n                #selectedSiteDisplay\n                (click)=\"onClickSelector()\"\n                (keyup.enter)=\"onClickSelector()\"\n                href=\"javascript:void(0)\"\n                [attr.title]=\"(_hasMultipleWebsites$ | async) ? ('CoreHome_ChangeCurrentWebsite'|translate) : ''\"\n                [attr.class]=\"{loading:isLoading,title:true}\"\n                tabindex=\"4\"\n        >\n            <span [attr.class]=\"{icon:true,'icon-arrow-bottom':true,iconHidden:isLoading,collapsed:!showSitesList}\"></span>\n            <span>\n            <span *ngIf=\"selectedSite?.name || !placeholder\">{{ selectedSite?.name || (_firstSiteName$|async) }}</span>\n            <span *ngIf=\"!selectedSite?.name && placeholder\">{{ placeholder }}</span>\n        </span>\n        </a>\n\n        <div *ngIf=\"showSitesList\" class=\"dropdown\">\n            <div class=\"custom_select_search\" *ngIf=\"((autocompleteMinSites$|async) || 0) <= ((_sitesLength$|async) || 0) || searchTerm\">\n                <input\n                        #customSelectInput\n                        type=\"text\"\n                        (click)=\"searchTerm=''\"\n                        [(ngModel)]=\"searchTerm\"\n                        (change)=\"searchSite()\"\n                        [attr.placeholder]=\"'General_Search'|translate\"\n                        tabindex=\"4\"\n                        class=\"websiteSearch inp browser-default\"\n                />\n                <!-- TODO: translate Clear? -->\n                <img title=\"Clear\"\n                     *ngIf=\"searchTerm\"\n                     (click)=\"clearSearchTerm()\"\n                     class=\"reset\"\n                     src=\"plugins/CoreHome/images/reset_search.png\"\n                />\n            </div>\n\n            <div\n                    *ngIf=\"allSitesLocation=='top' && showAllSitesItem\"\n            >\n                <site-selector-all-sites-link\n                        [allSitesText]=\"allSitesText\"\n                        (onClickLink)=\"onClickAllSitesLink($event)\"\n                >\n                </site-selector-all-sites-link>\n            </div>\n\n            <div class=\"custom_select_container\">\n                <ul class=\"custom_select_ul_list\" (click)=\"showSitesList=false\">\n                    <!-- !showSelectedSite && activeSiteId==site.idsite -->\n                    <li\n                            *ngFor=\"let site of (_sites$|async)\"\n                            (click)=\"switchSite(site, $event)\"\n                            [hidden]=\"!showSelectedSite && activeSiteId == site.idsite\"\n                    >\n                        <a\n                                #listLink\n                                (click)=\"$event.preventDefault()\"\n                                [attr.href]=\"getUrlForSiteId(site.idsite)\"\n                                [attr.title]=\"site.name\"\n                                [innerHTML]=\"site.name\"\n                                tabindex=\"4\"\n                        >\n                        </a>\n                    </li>\n                </ul>\n\n                <ul\n                        *ngIf=\"!(_sitesLength$ | async) && searchTerm\"\n                        class=\"ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect\"\n                >\n                    <li class=\"ui-menu-item\">\n                        <a class=\"ui-corner-all\" tabindex=\"-1\">{{ ('SitesManager_NotFound'|translate) + ' ' + searchTerm }}</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div\n                    *ngIf=\"allSitesLocation=='bottom' && showAllSitesItem\"\n            >\n                <site-selector-all-sites-link\n                        [allSitesText]=\"allSitesText\"\n                        (onClickLink)=\"onClickAllSitesLink($event)\"\n                >\n                </site-selector-all-sites-link>\n            </div>\n        </div>\n    </div>\n    ",
                     }]
-            }], ctorParameters: function () { return [{ type: SitesService }, { type: i2__namespace.DomSanitizer }]; }, propDecorators: { showSelectedSite: [{
+            }], function () { return [{ type: SitesService }, { type: i2__namespace.DomSanitizer }]; }, { showSelectedSite: [{
                     type: i0.Input
                 }], showAllSitesItem: [{
                     type: i0.Input
@@ -797,7 +1041,8 @@
                 }], _siteLinks: [{
                     type: i0.ViewChildren,
                     args: ['listLink']
-                }] } });
+                }] });
+    })();
 
     var CoreHomeModule = /** @class */ (function () {
         function CoreHomeModule() {
@@ -807,17 +1052,9 @@
         };
         return CoreHomeModule;
     }());
-    CoreHomeModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: CoreHomeModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
-    CoreHomeModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: CoreHomeModule, declarations: [SiteSelectorComponent,
-            FocusAnywhereButHereDirective,
-            TranslatePipe,
-            SiteSelectorAllSitesLink], imports: [i2.BrowserModule,
-            _static.UpgradeModule,
-            i1.HttpClientModule,
-            i5.FormsModule], exports: [SiteSelectorComponent,
-            FocusAnywhereButHereDirective,
-            TranslatePipe] });
-    CoreHomeModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: CoreHomeModule, providers: [
+    CoreHomeModule.ɵfac = function CoreHomeModule_Factory(t) { return new (t || CoreHomeModule)(); };
+    CoreHomeModule.ɵmod = /*@__PURE__*/ i0__namespace.ɵɵdefineNgModule({ type: CoreHomeModule });
+    CoreHomeModule.ɵinj = /*@__PURE__*/ i0__namespace.ɵɵdefineInjector({ providers: [
             FocusAnywhereButHereDirective,
             TranslatePipe,
             MatomoApiService,
@@ -828,7 +1065,8 @@
                 i1.HttpClientModule,
                 i5.FormsModule,
             ]] });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: CoreHomeModule, decorators: [{
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(CoreHomeModule, [{
                 type: i0.NgModule,
                 args: [{
                         declarations: [
@@ -853,9 +1091,24 @@
                             TranslatePipe,
                             MatomoApiService,
                             SitesService,
-                        ]
+                        ],
+                        entryComponents: [
+                            SiteSelectorComponent,
+                        ],
                     }]
-            }] });
+            }], null, null);
+    })();
+    (function () {
+        (typeof ngJitMode === "undefined" || ngJitMode) && i0__namespace.ɵɵsetNgModuleScope(CoreHomeModule, { declarations: [SiteSelectorComponent,
+                FocusAnywhereButHereDirective,
+                TranslatePipe,
+                SiteSelectorAllSitesLink], imports: [i2.BrowserModule,
+                _static.UpgradeModule,
+                i1.HttpClientModule,
+                i5.FormsModule], exports: [SiteSelectorComponent,
+                FocusAnywhereButHereDirective,
+                TranslatePipe] });
+    })();
     var ng2BootstrapFn = function (extraProviders) { return platformBrowserDynamic.platformBrowserDynamic(extraProviders).bootstrapModule(CoreHomeModule); };
     var angularModuleName = _static.downgradeModule(ng2BootstrapFn);
     angular.module(angularModuleName).directive('piwikSiteselectorDowngrade', _static.downgradeComponent({ component: SiteSelectorComponent, downgradedModule: angularModuleName }));
