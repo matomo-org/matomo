@@ -9,12 +9,21 @@ export class MatomoApiService {
     constructor(private http: HttpClient) {}
 
     fetch<T>(params: { [name: string]: string|number }): Observable<T> {
-        const body = {
+        const body = new URLSearchParams({
             token_auth: piwik.token_auth,
-            force_api_session: piwik.broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1,
+            force_api_session: piwik.broadcast.isWidgetizeRequestWithoutSession() ? '0' : '1',
+        }).toString();
+
+        const apiParams = {
+            module: 'API',
+            action: 'index',
+            format: 'JSON',
         };
 
-        const mergedParams = Object.assign(this.getCurrentUrlParams(), this.getCurrentHashParams(), params);
+        const paramsThatCanOverride = ['idSite', 'period', 'date', 'segment', 'comparePeriods', 'compareDates'];
+
+        const mergedParams = Object.assign({}, this.getCurrentUrlParams(paramsThatCanOverride),
+            this.getCurrentHashParams(paramsThatCanOverride), apiParams, params);
         const query = new URLSearchParams(mergedParams).toString();
 
         const headers = {
@@ -28,11 +37,19 @@ export class MatomoApiService {
         }) as Observable<T>;
     }
 
-    private getCurrentUrlParams() {
-        return new URLSearchParams(window.location.search);
+    private getCurrentUrlParams(paramsThatCanOverride: string[]) {
+        return this.getSomeUrlParams(window.location.search, paramsThatCanOverride);
     }
 
-    private getCurrentHashParams() {
-        return new URLSearchParams(window.location.hash.replace(/^\//g, ''));
+    private getCurrentHashParams(paramsThatCanOverride: string[]) {
+        return this.getSomeUrlParams(window.location.hash.replace(/^[\/#?]/g, ''), paramsThatCanOverride);
+    }
+
+    // TODO: may not handle array params correctly
+    private getSomeUrlParams(search: string, paramsThatCanOverride: string[]) {
+        const params = new URLSearchParams(search);
+        const result: {[name: string]: string|null} = {};
+        paramsThatCanOverride.forEach(param => result[param] = params.get(param))
+        return result;
     }
 }

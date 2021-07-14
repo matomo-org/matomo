@@ -11,7 +11,7 @@ export class FocusAnywhereButHereDirective {
 
     constructor(private el: ElementRef) {}
 
-    @HostListener('document:keyup')
+    @HostListener('document:keyup', ['$event'])
     onEscapeHandler(event: KeyboardEvent) {
         if (event.key.charCodeAt(0) === 27) {// TODO: test
             this.isMouseDown = false;
@@ -20,7 +20,7 @@ export class FocusAnywhereButHereDirective {
         }
     }
 
-    @HostListener('document:mouseup')
+    @HostListener('document:mouseup', ['$event'])
     onClickOutsideElement(event: Event) {
         const hadUsedScrollbar = this.isMouseDown && this.hasScrolled;
         this.isMouseDown = false;
@@ -30,18 +30,17 @@ export class FocusAnywhereButHereDirective {
             return;
         }
 
-
         if (!this.el.nativeElement.contains(event.target)) {
             this.onLoseFocus.emit();
         }
     }
 
-    @HostListener('document:scroll')
+    @HostListener('document:scroll', ['$event'])
     onScroll() {
         this.hasScrolled = true;
     }
 
-    @HostListener('document:mousedown')
+    @HostListener('document:mousedown', ['$event'])
     onMouseDown() {
         this.isMouseDown = true;
         this.hasScrolled = false;

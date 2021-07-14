@@ -61,8 +61,9 @@ interface SiteRef {
                     focusAnywhereButHere
                     (onLoseFocus)="showSitesList=false"
                     class="siteSelector piwikSelector borderedControl"
-                    [attr.class]="{expanded: showSitesList, disabled: (_hasOnlyOneSite$ | async)}">
-
+                    [class.expanded]="showSitesList"
+                    [class.disabled]="_hasOnlyOneSite$ | async"
+>
         <input *ngIf="name" type="hidden" [attr.name]="name" [value]="selectedSite?.id"/>
 
         <a
@@ -71,14 +72,18 @@ interface SiteRef {
                 (keyup.enter)="onClickSelector()"
                 href="javascript:void(0)"
                 [attr.title]="(_hasMultipleWebsites$ | async) ? ('CoreHome_ChangeCurrentWebsite'|translate) : ''"
-                [attr.class]="{loading:isLoading,title:true}"
+                class="title"
+                [class.loading]="isLoading"
                 tabindex="4"
         >
-            <span [attr.class]="{icon:true,'icon-arrow-bottom':true,iconHidden:isLoading,collapsed:!showSitesList}"></span>
-            <span>
+            <span
+                class="icon icon-arrow-bottom"
+                [class.iconHidden]="isLoading"
+                [class.collapsed]="!showSitesList"
+            >
+            </span>
             <span *ngIf="selectedSite?.name || !placeholder">{{ selectedSite?.name || (_firstSiteName$|async) }}</span>
             <span *ngIf="!selectedSite?.name && placeholder">{{ placeholder }}</span>
-        </span>
         </a>
 
         <div *ngIf="showSitesList" class="dropdown">
@@ -102,9 +107,7 @@ interface SiteRef {
                 />
             </div>
 
-            <div
-                    *ngIf="allSitesLocation=='top' && showAllSitesItem"
-            >
+            <div *ngIf="allSitesLocation=='top' && showAllSitesItem">
                 <site-selector-all-sites-link
                         [allSitesText]="allSitesText"
                         (onClickLink)="onClickAllSitesLink($event)"
@@ -185,7 +188,7 @@ export class SiteSelectorComponent implements OnInit {
     readonly _sites$: Observable<Site[]> = this._sitesSubject.asObservable();
     readonly _hasMultipleWebsites$ = this._sites$.pipe(map(sites => sites.length > 1));
     readonly _hasOnlyOneSite$ = this._hasMultipleWebsites$.pipe(map(x => !x));
-    readonly _firstSiteName$ = this._sites$.pipe(map(x => x?.[0].name));
+    readonly _firstSiteName$ = this._sites$.pipe(map(x => x?.[0]?.name));
     readonly _sitesLength$ = this._sites$.pipe(map(x => x.length));
 
     @ViewChild('customSelectInput') _customSelectInput?: ElementRef;
@@ -210,6 +213,7 @@ export class SiteSelectorComponent implements OnInit {
         this._onShowingSiteListGrabFocus();
         this._onSearchTermChangeHighlightSiteList();
         this._registerShortcuts();
+        this._loadInitialSites();
     }
 
     _setInitialSelectedSite() {

@@ -9,7 +9,7 @@
     "inlineSources": true,
     "lib": [
       "dom",
-      "es2018"
+      "es2019"
     ]
   },
   "exclude": [

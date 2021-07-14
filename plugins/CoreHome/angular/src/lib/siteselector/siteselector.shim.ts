@@ -17,17 +17,18 @@ export function piwikSiteselectorShim($timeout: any) {
         },
         require: "?ngModel",
         template: `<piwik-siteselector-downgrade
-            show-selected-site="shim.showSelectedSite"
-            show-all-sites-item="shim.showAllSitesItem"
-            switch-site-on-select="shim.switchSiteOnSelect"
-            only-sites-with-admin-access="shim.onlySitesWithAdminAccess"
-            name="shim.inputName"
-            all-sites-text="shim.allSitesText"
-            all-sites-location="shim.allSitesLocation"
-            placeholder="shim.placeholder"
-            on-selected-site-change="shim.onSelectedSiteChange($event)"
+            [show-selected-site]="showSelectedSite"
+            [show-all-sites-item]="showAllSitesItem"
+            [switch-site-on-select]="switchSiteOnSelect"
+            [only-sites-with-admin-access]="onlySitesWithAdminAccess"
+            [name]="inputName"
+            [all-sites-text]="allSitesText"
+            [all-sites-location]="allSitesLocation"
+            [placeholder]="placeholder"
+            [siteid]="siteid"
+            [sitename]="sitename"
+            (on-selected-site-change)="onSelectedSiteChange($event)"
         ></piwik-siteselector-downgrade>`,
-        controllerAs: 'shim',
         link: function (scope: any, element: any, attrs: any, ngModel: any) {
             scope.inputName = attrs.inputName;
             scope.allSitesText = attrs.allSitesText;
