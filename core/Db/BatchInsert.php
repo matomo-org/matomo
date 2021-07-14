@@ -31,6 +31,7 @@ class BatchInsert
      */
     public static function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
     {
+        $tableName = preg_replace('/[^a-zA-Z\d_-]/', '', $tableName);
         $fieldList = '(' . join(',', $fields) . ')';
         $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
 
