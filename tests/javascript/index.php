@@ -5010,6 +5010,7 @@ if ($mysql) {
         tracker.requireCookieConsent();
         tracker.setCookieDomain(test_domain);
         equal(tracker.getCookieDomain(), test_domain, "can set cookie domain after requireCookieConsent disables cookies" );
+        tracker.setCookieDomain(cookie_domain);
     });
 
     test("Test API - optOut (via consent feature)", function () {
