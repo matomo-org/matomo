@@ -17,17 +17,17 @@ export function piwikSiteselectorShim($timeout: any) {
         },
         require: "?ngModel",
         template: `<piwik-siteselector-downgrade
-            [show-selected-site]="showSelectedSite"
-            [show-all-sites-item]="showAllSitesItem"
-            [switch-site-on-select]="switchSiteOnSelect"
-            [only-sites-with-admin-access]="onlySitesWithAdminAccess"
+            [showSelectedSite]="showSelectedSite"
+            [showAllSitesItem]="showAllSitesItem"
+            [switchSiteOnSelect]="switchSiteOnSelect"
+            [onlySitesWithAdminAccess]="onlySitesWithAdminAccess"
             [name]="inputName"
-            [all-sites-text]="allSitesText"
-            [all-sites-location]="allSitesLocation"
+            [allSitesText]="allSitesText"
+            [allSitesLocation]="allSitesLocation"
             [placeholder]="placeholder"
             [siteid]="siteid"
             [sitename]="sitename"
-            (on-selected-site-change)="onSelectedSiteChange($event)"
+            (onSelectedSiteChange)="onSelectedSiteChange($event)"
         ></piwik-siteselector-downgrade>`,
         link: function (scope: any, element: any, attrs: any, ngModel: any) {
             scope.inputName = attrs.inputName;
@@ -36,9 +36,15 @@ export function piwikSiteselectorShim($timeout: any) {
             scope.placeholder = attrs.placeholder;
             scope.siteid = attrs.siteid;
             scope.sitename = attrs.sitename;
+
+            // TODO: the default values logic from before still needs to be here...
+            scope.switchSiteOnSelect = typeof scope.switchSiteOnSelect === 'undefined' ? true : scope.switchSiteOnSelect;
+
             scope.onSelectedSiteChange = function ($event: any) {
                 scope.selectedSite = $event.data;
-                ngModel.$setViewValue($event.data); // TODO: does this work?
+                if (ngModel) {
+                    ngModel.$setViewValue($event.data); // TODO: does this work?
+                }
             };
 
             if (ngModel) {
