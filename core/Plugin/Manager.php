@@ -1184,6 +1184,11 @@ class Manager
         if (isset($this->loadedPlugins[$pluginName])) {
             return $this->loadedPlugins[$pluginName];
         }
+
+        if (!$this->isPluginInFilesystem($pluginName)) {
+            throw new \Exception("Plugin $pluginName does not exist.");
+        }
+
         $newPlugin = $this->makePluginClass($pluginName);
 
         $this->addLoadedPlugin($pluginName, $newPlugin);
