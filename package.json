@@ -25,13 +25,35 @@
     "url": "https://github.com/matomo-org/matomo/issues"
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      "ie>=11",
+      ">0.2%"
+    ],
+    "development": [
+      "ie11",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
     "angular": "^1.8.2",
     "angular-animate": "^1.8.2",
     "angular-cookies": "^1.8.2",
     "angular-mocks": "^1.8.2",
     "angular-sanitize": "^1.8.2",
     "chroma-js": "^0.6.3",
+    "fast-text-encoding": "^1.0.3",
     "iframe-resizer": "^4.2.11",
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
@@ -43,7 +65,12 @@
     "mousetrap": "^1.6.5",
     "ng-dialog": "^1.4.0",
     "qrcodejs2": "0.0.2",
+    "react": "^17.0.2",
+    "react-app-polyfill": "^2.0.0",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
     "sprintf-js": "^1.1.2",
-    "visibilityjs": "^2.0.2"
+    "visibilityjs": "^2.0.2",
+    "web-vitals": "^1.1.2"
   }
 }
