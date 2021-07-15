@@ -101,7 +101,7 @@ return array(
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
     
     '\Monolog\Handler\ErrorLogHandler' => DI\create()
-        ->constructor(null, DI\get('log.level.errorlog'))
+        ->constructorParameter('level', DI\get('log.level.errorlog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
     '\Monolog\Handler\SyslogHandler' => DI\create()
