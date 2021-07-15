@@ -169,6 +169,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/vuejs/matomoApp.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/common/methods/escape.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/common/methods/translate.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/activityIndicator.component.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/alert.component.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/contentIntro.component.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/dialog.component.js";

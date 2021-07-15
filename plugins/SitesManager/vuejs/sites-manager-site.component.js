@@ -195,7 +195,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
         updateView() {
             var $rootScope = piwikHelper.getAngularDependency('$rootScope');
             var $compile = piwikHelper.getAngularDependency('$compile');
-            $compile($('[piwik-form-field]:visible,[piwik-field]:visible,[piwik-activity-indicator]:visible').not('.ng-isolate-scope'))($rootScope);
+            $compile($('[piwik-form-field]:visible,[piwik-field]:visible').not('.ng-isolate-scope'))($rootScope);
 
             var $timeout = piwikHelper.getAngularDependency('$timeout');
             $timeout(function () {
@@ -358,7 +358,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                 <div class="col s12 m6"></div>
             </div>
     
-            <div piwik-activity-indicator v-bind:loading="site.isLoading"></div>
+            <matomoActivityIndicator :loading="site.isLoading"></matomoActivityIndicator>
     
             <div v-for="settingsPerPlugin in measurableSettings">
                 <div v-for="setting in settingsPerPlugin.settings" :piwik-form-field="JSON.stringify(setting)" :all-settings="JSON.stringify(settingsPerPlugin.settings)"></div>
