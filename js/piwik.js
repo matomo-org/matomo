@@ -2406,6 +2406,22 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Get cookie value
+             */
+            function getCookie(cookieName) {
+                if (configCookiesDisabled) {
+                    return 0;
+                }
+
+                var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
+                    cookieMatch = cookiePattern.exec(documentAlias.cookie);
+
+                return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
+            }
+
+            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
+
+            /*
              * Set cookie value
              */
             function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite) {
@@ -2438,22 +2454,6 @@ if (typeof window.Matomo !== 'object') {
                     logConsoleError(msg);
                 }
             }
-
-            /*
-             * Get cookie value
-             */
-            function getCookie(cookieName) {
-                if (configCookiesDisabled) {
-                    return 0;
-                }
-
-                var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
-                    cookieMatch = cookiePattern.exec(documentAlias.cookie);
-
-                return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
-            }
-
-            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
 
             /*
              * Removes hash tag from the URL
