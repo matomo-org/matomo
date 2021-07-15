@@ -5701,7 +5701,7 @@ if (typeof window.Matomo !== 'object') {
                 var domainFixed = domainFixup(domain);
 
                 if (!configCookiesDisabled && !isPossibleToSetCookieOnDomain(domainFixed)) {
-                    logConsoleError('Can\'t write cookie on domain ' + domain)
+                    logConsoleError('Can\'t write cookie on domain ' + domain);
                 } else {
                     configCookieDomain = domainFixed;
                     updateDomainHash();
