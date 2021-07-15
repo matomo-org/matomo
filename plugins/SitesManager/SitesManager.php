@@ -167,6 +167,10 @@ class SitesManager extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "plugins/SitesManager/vuejs/sites-manager.component.js";
+        $jsFiles[] = "plugins/SitesManager/vuejs/sites-manager-site.component.js";
+        $jsFiles[] = "plugins/SitesManager/vuejs/sites-manager-admin-sites-model.js";
+
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";

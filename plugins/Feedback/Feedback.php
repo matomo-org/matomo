@@ -52,6 +52,9 @@ class Feedback extends \Piwik\Plugin
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
+
+        $jsFiles[] = "plugins/Feedback/vuejs/rateFeature.component.js";
+        $jsFiles[] = "plugins/Feedback/vuejs/reviewLinks.component.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

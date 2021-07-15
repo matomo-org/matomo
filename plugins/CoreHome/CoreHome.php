@@ -167,7 +167,12 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "node_modules/vue/dist/vue.global.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/matomoApp.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/common/methods/escape.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/common/methods/translate.js";
         $jsFiles[] = "plugins/CoreHome/vuejs/alert.component.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/contentIntro.component.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/dialog.component.js";
+        $jsFiles[] = "plugins/CoreHome/vuejs/enrichedHeadline.component.js";
 
         $jsFiles[] = 'node_modules/angular/angular.min.js';
         $jsFiles[] = "node_modules/angular-sanitize/angular-sanitize.min.js";
