@@ -346,10 +346,17 @@ class View implements ViewInterface
 
     protected function makeInlineScriptsDomContentLoaded($output)
     {
-        $output = preg_replace_callback('%<script(.*?)>(.*?)</script>%', function ($matches) {
+        $output = preg_replace_callback('%<script(.*?)>(.*?)</script>%s', function ($matches) {
             if (strpos($matches[0], 'DOMContentLoaded') !== false
                 || strpos($matches[1], 'src=') !== false
             ) {
+                return $matches[0];
+            }
+
+            if (strpos($matches[0], 'function _pk_translate') !== false
+                || strpos($matches[0], 'var piwik = {}') !== false
+                || strpos($matches[0], 'var translations =') !== false
+            ) { // don't do it for the js globals script
                 return $matches[0];
             }
 
