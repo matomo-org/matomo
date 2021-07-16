@@ -45,14 +45,20 @@ class Adapter
             $infos[$key] = $val;
         }
 
-        $adapter   = new $className($infos);
+        $adapter = new $className($infos);
 
         if ($connect) {
-            $adapter->getConnection();
+            try {
+                $adapter->getConnection();
 
-            Zend_Db_Table::setDefaultAdapter($adapter);
-            // we don't want the connection information to appear in the logs
-            $adapter->resetConfig();
+                Zend_Db_Table::setDefaultAdapter($adapter);
+                // we don't want the connection information to appear in the logs
+                $adapter->resetConfig();
+            } catch(\Exception $e) {
+                // we don't want the exception to leak information
+                $msg = self::safeExceptionMessage($e->getMessage());
+                throw new \Exception($msg);
+            }
         }
 
         return $adapter;
@@ -128,5 +134,27 @@ class Adapter
     public static function isRecommendedAdapter($adapterName)
     {
         return strtolower($adapterName) === 'pdo/mysql';
+    }
+
+    /**
+     * Intercepts certain exception messages and replaces leaky ones with ones that don't reveal too much info
+     * @param string $message
+     * @return string
+     */
+    public static function safeExceptionMessage($message)
+    {
+        $safeMessageMap = array(
+            // add any exception search terms and their replacement message here
+            'MySQL server has gone away'    => 'Database server has gone away',
+            'Access denied'                 => 'Database access denied'
+        );
+
+        foreach ($safeMessageMap as $search_term => $safeMessage) {
+            if (strpos($message, $search_term) !== false) {
+                return $safeMessage;
+            }
+        }
+
+        return $message;
     }
 }
