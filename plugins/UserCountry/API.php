@@ -36,13 +36,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        $dataTables = [$dataTable];
-
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTables = $dataTable->getDataTables();
-        }
-
-        foreach ($dataTables as $dt) {
+        $dataTable->filter(function(DataTable $dt) {
             if ($dt->getRowFromLabel('ti')) {
                 $dt->filter('GroupBy', array(
                     'label',
@@ -54,7 +48,7 @@ class API extends \Piwik\Plugin\API
                     }
                 ));
             }
-        }
+        });
 
         // apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
         $dataTable->filter('AddSegmentValue');
