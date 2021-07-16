@@ -19,8 +19,23 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
         }
     },
     methods: {
-        log(event) {
-            console.log(event);
+        updateFormField(event) {
+            var elem = $(event.target).parents('[piwik-form-field]')
+
+            if (!elem.length) {
+                console.error('unable to handle change event for angular form field');
+                return;
+            }
+
+            console.log(elem.scope());
+
+            var value = elem.scope().field.value;
+            var name = elem.scope().field.name;
+
+            if (name) {
+                console.log(name, value);
+                this.site[name] = value;
+            }
         },
 
         formatDate(format, date) {
@@ -361,17 +376,20 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
             <matomoActivityIndicator :loading="site.isLoading"></matomoActivityIndicator>
     
             <div v-for="settingsPerPlugin in measurableSettings">
-                <div v-for="setting in settingsPerPlugin.settings" :piwik-form-field="JSON.stringify(setting)" :all-settings="JSON.stringify(settingsPerPlugin.settings)"></div>
+                <div v-for="setting in settingsPerPlugin.settings" 
+                     :piwik-form-field="JSON.stringify(setting)" 
+                     :all-settings="JSON.stringify(settingsPerPlugin.settings)" 
+                     @change="updateFormField"></div>
             </div>
     
-            <div piwik-field uicontrol="select" name="currency" @change="log"
+            <div piwik-field uicontrol="select" name="currency" @change="updateFormField"
                  :value="site.currency"
                  :title="translate('SitesManager_Currency')"
                  :inline-help="translate('SitesManager_CurrencySymbolWillBeUsedForGoals')"
                  :options="JSON.stringify($parent.$parent.currencies)">
             </div>
     
-            <div piwik-field uicontrol="select" name="timezone"
+            <div piwik-field uicontrol="select" name="timezone" @change="updateFormField"
                  :value="site.timezone"
                  :title="translate('SitesManager_Timezone')"
                  inline-help="#timezoneHelpText"
