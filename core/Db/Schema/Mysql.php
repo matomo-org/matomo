@@ -275,7 +275,7 @@ class Mysql implements SchemaInterface
                                 id VARCHAR( 191 ) NOT NULL,
                                 modified INTEGER,
                                 lifetime INTEGER,
-                                data TEXT,
+                                data MEDIUMTEXT,
                                   PRIMARY KEY ( id )
                                 ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",

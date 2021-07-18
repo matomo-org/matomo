@@ -34,16 +34,4 @@ class DbTableTest extends IntegrationTestCase
 
         $this->assertEquals('testdata', $result);
     }
-
-    public function test_read_noticesWhenSessionDataIsTooLarge()
-    {
-        $data = str_repeat('1', DbTable::SESSION_DATA_MAX_LEN + 10);
-
-        $this->testInstance->write('testid', $data);
-
-        $result = $this->testInstance->read('testid');
-
-        $this->assertTrue(DbTable::$wasSessionToLargeToRead);
-        $this->assertEquals(DbTable::SESSION_DATA_MAX_LEN, strlen($result));
-    }
 }
