@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta seleção widgets e layout de colunas do painel será usado quando qualquer usuário cria um novo painel, ou quando o recurso \"%s\" é usado.",
         "TopLinkTooltip": "Ver relatórios de Análise Web para %s.",
         "WidgetNotFound": "Widget não encontrado",
-        "WidgetPreview": "Visualização do Widget"
+        "WidgetPreview": "Visualização do Widget",
+        "DashboardCategoryHelp": "Essa é uma página de painel de controle. Paineis de controle são uma coleção de widgets da Matomo que você mesmo adiciona para adequar as necessidades específicas. Misture e combine quaisquer widgets da Matomo para obter os dados %1$s*você*%2$s precisa de uma olhada."
     }
 }

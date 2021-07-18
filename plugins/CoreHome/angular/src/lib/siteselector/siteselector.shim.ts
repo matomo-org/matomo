@@ -1,4 +1,5 @@
 declare var angular: angular.IAngularStatic;
+declare var piwik: any;
 
 piwikSiteselectorShim.$inject = ['$timeout'];
 
@@ -62,6 +63,10 @@ export function piwikSiteselectorShim($timeout: any) {
             }
 
             $timeout(function () {
+                if (attrs.siteid && attrs.sitename) {// TODO: this logic should be in the selector component
+                    scope.selectedSite = {id: attrs.siteid, name: piwik.helper.htmlDecode(attrs.sitename)};
+                }
+
                 (window as any).initTopControls();
             });
         },

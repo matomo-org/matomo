@@ -22,6 +22,7 @@
         "PluginDescription": "Informa métricas analíticas gerais: visitas, visitantes únicos, número de ações, taxa de rejeição, etc.",
         "VisitsSummary": "Resumo dos Visitantes",
         "VisitsSummaryDocumentation": "Esta é uma visão geral da evolução da visita.",
+        "VisitsSummaryReportDocumentation": "Este relatório fornece uma ampla visão geral de como seus visitantes se comportam.",
         "WidgetLastVisits": "Gráfico dos últimos visitantes",
         "WidgetOverviewGraph": "Visão Geral com Gráfico",
         "WidgetVisits": "Visão Geral dos Visitantes"
