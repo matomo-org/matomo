@@ -100,12 +100,13 @@ return array(
         ->constructor(DI\get('log.file.filename'), DI\get('log.level.file'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
     
-    '\Monolog\Handler\ErrorLogHandler' => DI\create()
+    '\Monolog\Handler\ErrorLogHandler' => DI\autowire()
         ->constructorParameter('level', DI\get('log.level.errorlog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
     '\Monolog\Handler\SyslogHandler' => DI\create()
-        ->constructor(DI\get('log.syslog.ident'), 'syslog', DI\get('log.level.syslog')),
+        ->constructor(DI\get('log.syslog.ident'), 'syslog', DI\get('log.level.syslog'))
+        ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\create()
         ->constructor(DI\get('log.level.database'))
