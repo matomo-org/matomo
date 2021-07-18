@@ -9,6 +9,7 @@
 namespace Piwik\Db;
 
 use Zend_Db_Table;
+use Piwik\Piwik;
 
 /**
  */
@@ -145,8 +146,8 @@ class Adapter
     {
         $safeMessageMap = array(
             // add any exception search terms and their replacement message here
-            'MySQL server has gone away'    => 'Database server has gone away',
-            'Access denied'                 => 'Database access denied'
+            'MySQL server has gone away'    => Piwik::translate('General_ExceptionDatabaseUnavailable'),
+            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess')
         );
 
         foreach ($safeMessageMap as $search_term => $safeMessage) {
