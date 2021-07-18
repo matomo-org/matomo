@@ -38,11 +38,6 @@ class DeactivatePlugin extends ConsoleCommand
                 continue;
             }
 
-            if (!$pluginManager->isPluginInFilesystem($plugin)) {
-                $output->writeln("<error>Cannot find plugin files for $plugin.</error>");
-                continue;
-            }
-
             $pluginManager->deactivatePlugin($plugin);
 
             $output->writeln("Deactivated plugin <info>$plugin</info>");
