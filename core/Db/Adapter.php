@@ -147,7 +147,9 @@ class Adapter
         $safeMessageMap = array(
             // add any exception search terms and their replacement message here
             'MySQL server has gone away'    => Piwik::translate('General_ExceptionDatabaseUnavailable'),
-            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess')
+            '[2006]'                        => Piwik::translate('General_ExceptionDatabaseUnavailable'),
+            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess'),
+            '[1698]'                        => Piwik::translate('General_ExceptionDatabaseAccess')
         );
 
         foreach ($safeMessageMap as $search_term => $safeMessage) {
