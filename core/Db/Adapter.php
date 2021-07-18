@@ -57,14 +57,12 @@ class Adapter
                 $adapter->resetConfig();
             } catch(\Exception $e) {
                 // we don't want certain exceptions to leak information
-                $msg = self::safeExceptionMessage($e->getMessage());
-
-                if ($msg !== $e->getMessage()) {
+                $msg = self::overriddenExceptionMessage($e->getMessage());
+                if ('' !== $msg) {
                     throw new \Exception($msg);
                 }
 
                 throw $e;
-
             }
         }
 
@@ -148,7 +146,7 @@ class Adapter
      * @param string $message
      * @return string
      */
-    public static function safeExceptionMessage($message)
+    public static function overriddenExceptionMessage($message)
     {
         $safeMessageMap = array(
             // add any exception search terms and their replacement message here
@@ -164,6 +162,6 @@ class Adapter
             }
         }
 
-        return $message;
+        return '';
     }
 }
