@@ -56,9 +56,15 @@ class Adapter
                 // we don't want the connection information to appear in the logs
                 $adapter->resetConfig();
             } catch(\Exception $e) {
-                // we don't want the exception to leak information
+                // we don't want certain exceptions to leak information
                 $msg = self::safeExceptionMessage($e->getMessage());
-                throw new \Exception($msg);
+
+                if ($msg !== $e->getMessage()) {
+                    throw new \Exception($msg);
+                }
+
+                throw $e;
+
             }
         }
 
@@ -146,10 +152,10 @@ class Adapter
     {
         $safeMessageMap = array(
             // add any exception search terms and their replacement message here
-            'MySQL server has gone away'    => Piwik::translate('General_ExceptionDatabaseUnavailable'),
             '[2006]'                        => Piwik::translate('General_ExceptionDatabaseUnavailable'),
-            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess'),
-            '[1698]'                        => Piwik::translate('General_ExceptionDatabaseAccess')
+            'MySQL server has gone away'    => Piwik::translate('General_ExceptionDatabaseUnavailable'),
+            '[1698]'                        => Piwik::translate('General_ExceptionDatabaseAccess'),
+            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess')
         );
 
         foreach ($safeMessageMap as $search_term => $safeMessage) {
