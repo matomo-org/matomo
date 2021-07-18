@@ -16,6 +16,7 @@
         "Apply": "Zbatoje",
         "ArchivingInlineHelp": "Për sajte me trafik mesatar ose të shumtë këshillohet të çaktivizohet vënia në punë e arkivimit nga Matomo prej shfletuesit. Në vend të kësaj këshillojmë të rregulloni një akt cron që të përpunoni raporte Matomo çdo orë.",
         "ArchivingTriggerDescription": "E këshilluar për instalime më të ngarkuara të Matomo-s, lypset të %1$s rregulloni një akt cron-i%2$s që të përpunohen raportet automatikisht.",
+        "ArchivingTriggerSegment": "Përdorimi i Segmenteve Vetjake prapë do të shkaktojë përpunimin e arkivave.",
         "AuthenticationMethodSmtp": "Metodë mirëfilltësimi për SMTP",
         "AverageOrderValue": "Vlerë Mesatare Porosie",
         "AveragePrice": "Çmim Mesatar",

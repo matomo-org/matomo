@@ -16,6 +16,7 @@
         "Apply": "Uygula",
         "ArchivingInlineHelp": "Orta ve yüksek yoğunluklu web siteleri için Matomo arşivlemesinin web tarayıcı üzerinden tetiklenme seçeneğinin kapatılması öneriilir. Bunun yerine saatlik olarak Matomo raporlarını oluşturacak zamanlanmış bir görevin tanımlanması önerilir.",
         "ArchivingTriggerDescription": "Daha büyük Matomo kurulumları için raporları otomatik olarak işleyen bir %1$szamanlanmış görev%2$s oluşturulması önerilir.",
+        "ArchivingTriggerSegment": "Özel dilimlerin kullanılması arşivlerin işlenmesini tetikler.",
         "AuthenticationMethodSmtp": "SMTP kimlik doğrulama yöntemi",
         "AverageOrderValue": "Ortalama Sipariş Değeri",
         "AveragePrice": "Ortalama Fiyat",

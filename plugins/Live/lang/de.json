@@ -32,7 +32,7 @@
         "SimpleRealTimeWidget_Message": "%1$s und %2$s in den letzten %3$s.",
         "ViewVisitorProfile": "Besucherprofil ansehen",
         "DisableVisitorProfile": "Nur Besucherprofil deaktivieren",
-        "DisableVisitorProfileDescription": "Hier können Sie das Besucherprofil-Feature deaktivieren. Alle Besuche-Logs, welche auf dieses Feautre verweisen, werden weiterhin funktionieren.",
+        "DisableVisitorProfileDescription": "Hier können Sie das Besucherprofil-Feature deaktivieren. Alle Besuche-Logs, welche auf dieses Feature verweisen, werden weiterhin funktionieren.",
         "VisitedPages": "Besuchte Seiten",
         "RevisitedPages": "Seiten die mehrmals angesehen wurden",
         "ToggleActions": "Sichtbarkeit aller Aktionen umschalten",

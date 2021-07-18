@@ -2406,6 +2406,22 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Get cookie value
+             */
+            function getCookie(cookieName) {
+                if (configCookiesDisabled) {
+                    return 0;
+                }
+
+                var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
+                    cookieMatch = cookiePattern.exec(documentAlias.cookie);
+
+                return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
+            }
+
+            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
+
+            /*
              * Set cookie value
              */
             function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite) {
@@ -2431,23 +2447,13 @@ if (typeof window.Matomo !== 'object') {
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
                     ';SameSite=' + sameSite;
-            }
 
-            /*
-             * Get cookie value
-             */
-            function getCookie(cookieName) {
-                if (configCookiesDisabled) {
-                    return 0;
+                // check the cookie was actually set
+                if (getCookie(cookieName) !== value) {
+                    var msg = 'There was an error setting cookie `' + cookieName + '`. Please check domain and path.';
+                    logConsoleError(msg);
                 }
-
-                var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
-                    cookieMatch = cookiePattern.exec(documentAlias.cookie);
-
-                return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
-
-            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
 
             /*
              * Removes hash tag from the URL
@@ -5694,7 +5700,9 @@ if (typeof window.Matomo !== 'object') {
             this.setCookieDomain = function (domain) {
                 var domainFixed = domainFixup(domain);
 
-                if (isPossibleToSetCookieOnDomain(domainFixed)) {
+                if (!configCookiesDisabled && !isPossibleToSetCookieOnDomain(domainFixed)) {
+                    logConsoleError('Can\'t write cookie on domain ' + domain);
+                } else {
                     configCookieDomain = domainFixed;
                     updateDomainHash();
                 }
@@ -7013,11 +7021,13 @@ if (typeof window.Matomo !== 'object') {
         // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
         addEventListener(windowAlias, 'online', function () {
-            if (isDefined(navigatorAlias.serviceWorker) && isDefined(navigatorAlias.serviceWorker.ready)) {
+            if (isDefined(navigatorAlias.serviceWorker)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
                     if (swRegistration && swRegistration.sync) {
                         return swRegistration.sync.register('matomoSync');
                     }
+                }, function() {
+                    // handle (but ignore) failed promise, see https://github.com/matomo-org/matomo/issues/17454
                 });
             }
         }, false);

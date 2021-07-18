@@ -409,7 +409,8 @@ class FrontController extends Singleton
                 && Piwik::isUserIsAnonymous()
                 && $authAdapter->getLogin() === 'anonymous' //double checking the login
                 && Piwik::isUserHasSomeViewAccess()
-                && Session::isSessionStarted()) { // only if session was started, don't do it eg for API
+                && Session::isSessionStarted()
+                && Session::isWritable()) { // only if session was started and writable, don't do it eg for API
                 // usually the session would be started when someone logs in using login controller. But in this
                 // case we need to init session here for anoynymous users
                 $init = StaticContainer::get(SessionInitializer::class);

@@ -31,12 +31,13 @@ class BatchInsert
      */
     public static function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
     {
+        $tableName = preg_replace('/[^a-zA-Z\d_-]/', '', $tableName);
         $fieldList = '(' . join(',', $fields) . ')';
         $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
 
         foreach ($values as $row) {
             $row = array_values($row);
-            $query = "INSERT $ignore INTO " . $tableName . "
+            $query = "INSERT $ignore INTO `" . $tableName . "`
 					  $fieldList
 					  VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
             Db::query($query, $row);
