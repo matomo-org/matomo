@@ -90,13 +90,7 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        $dataTables = [$dataTable];
-
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTables = $dataTable->getDataTables();
-        }
-
-        foreach ($dataTables as $dt) {
+        $dataTable->filter(function(DataTable $dt) use ($period, $date, $separator, $unk) {
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
@@ -134,7 +128,7 @@ class API extends \Piwik\Plugin\API
                     }
                 ));
             }
-        }
+        });
 
         $segments = array('regionCode', 'countryCode');
         $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::LOCATION_SEPARATOR));
@@ -181,13 +175,7 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        $dataTables = [$dataTable];
-
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTables = $dataTable->getDataTables();
-        }
-
-        foreach ($dataTables as $dt) {
+        $dataTable->filter(function(DataTable $dt) use ($period, $date, $separator, $unk) {
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
@@ -225,7 +213,7 @@ class API extends \Piwik\Plugin\API
                     }
                 ));
             }
-        }
+        });
 
         $segments = array('city', 'regionCode', 'countryCode');
         $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::LOCATION_SEPARATOR));
