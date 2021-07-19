@@ -1,7 +1,8 @@
-import {piwikSiteselectorShim} from "./siteselector/siteselector.shim";
+import {ContentBlockComponent} from "./content-block/content-block.component";
 
 declare var angular: angular.IAngularStatic;
 
+import {piwikSiteselectorAdapter} from "./siteselector/siteselector.adapter";
 import {NgModule, StaticProvider} from '@angular/core';
 import {downgradeComponent, downgradeModule, UpgradeModule} from '@angular/upgrade/static';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -27,6 +28,7 @@ export * from './siteselector/siteselector.component';
     FocusAnywhereButHereDirective,
     TranslatePipe,
     SiteSelectorAllSitesLink,
+    ContentBlockComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ export * from './siteselector/siteselector.component';
     SiteSelectorComponent,
     FocusAnywhereButHereDirective,
     TranslatePipe,
+    ContentBlockComponent,
   ],
   providers: [
     FocusAnywhereButHereDirective,
@@ -47,6 +50,7 @@ export * from './siteselector/siteselector.component';
   ],
   entryComponents: [
     SiteSelectorComponent,
+    ContentBlockComponent,
   ],
 })
 export class CoreHomeModule {
@@ -62,4 +66,4 @@ export const angularModuleName = downgradeModule(ng2BootstrapFn);
 
 angular.module(angularModuleName).directive('piwikSiteselectorDowngrade', downgradeComponent(
     { component: SiteSelectorComponent, downgradedModule: angularModuleName }));
-angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselectorShim);
+angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselectorAdapter);

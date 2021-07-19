@@ -1,9 +1,9 @@
 declare var angular: angular.IAngularStatic;
 declare var piwik: any;
 
-piwikSiteselectorShim.$inject = ['$timeout'];
+piwikSiteselectorAdapter.$inject = ['$timeout'];
 
-export function piwikSiteselectorShim($timeout: any) {
+export function piwikSiteselectorAdapter($timeout: any) {
     return {
         restrict: 'A',
         scope: {
