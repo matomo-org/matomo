@@ -54,7 +54,7 @@ class CacheTest extends UnitTestCase
     public function provideContainerConfig()
     {
         $mockLazyCache = $this->getMockBuilder(Lazy::class)
-            ->onlyMethods(['flushAll', 'delete'])
+            ->onlyMethods(['flushAll', 'fetch', 'save', 'delete'])
             ->disableOriginalConstructor()
             ->getMock();
         $mockLazyCache
@@ -64,6 +64,12 @@ class CacheTest extends UnitTestCase
         $mockLazyCache->method('delete')->willReturnCallback(function ($key) {
                 $this->methodsCalled[] = 'delete.' . $key;
             });
+        $mockLazyCache->method('save')->willReturnCallback(function ($id, $data) {
+            $this->methodsCalled[] = 'save.' . $id . $data;
+        });
+        $mockLazyCache->method('fetch')->willReturnCallback(function ($id) {
+            $this->methodsCalled[] = 'fetch.' . $id;
+        });
 
         return [
             Lazy::class => $mockLazyCache,
