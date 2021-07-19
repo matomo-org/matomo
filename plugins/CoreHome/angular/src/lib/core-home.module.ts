@@ -14,6 +14,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {FocusAnywhereButHereDirective} from "./common/focus-anywhere-but-here.directive";
 import {TranslatePipe} from "./common/translate.pipe";
 import {FormsModule} from "@angular/forms";
+import {EnrichedHeadlineComponent} from "./enriched-headline/enriched-headline.component";
+import {RateFeatureComponent, ReviewLinksComponent} from "./rate-feature/rate-feature.component";
+import {MatomoDialogDirective} from "./common/matomo-dialog.component";
 
 export * from './matomo-api/matomo-api.service';
 export * from './common/focus-anywhere-but-here.directive';
@@ -29,6 +32,10 @@ export * from './siteselector/siteselector.component';
     TranslatePipe,
     SiteSelectorAllSitesLink,
     ContentBlockComponent,
+    EnrichedHeadlineComponent,
+    RateFeatureComponent,
+    ReviewLinksComponent,
+    MatomoDialogDirective,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +48,8 @@ export * from './siteselector/siteselector.component';
     FocusAnywhereButHereDirective,
     TranslatePipe,
     ContentBlockComponent,
+    EnrichedHeadlineComponent,
+    RateFeatureComponent,
   ],
   providers: [
     FocusAnywhereButHereDirective,

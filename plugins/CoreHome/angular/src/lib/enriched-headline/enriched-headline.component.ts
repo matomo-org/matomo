@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 
-// TODO: enriched headline
-
 @Component({
     selector: 'enriched-headline',
     template: `
@@ -26,9 +24,36 @@ import {Component, EventEmitter, Input, Output} from "@angular/core";
                 title="{{ 'CoreHome_ExternalHelp'|translate }}"
                 class="helpIcon"
             >
-                
+                <span class="icon-help"></span>
             </a>
+            
+            <a
+                *ngIf="inlineHelp"
+                title="{{ 'General_Help'|translate }}"
+                (click)="showInlineHelp=!showInlineHelp"
+                class="helpIcon"
+                [class.active]="showInlineHelp"
+            >
+                <span class="icon-help"></span>
+            </a>
+            
+            <rate-feature class="ratingIcons" title="{{ featureName }}"></rate-feature>
         </span>
+
+        <div *ngIf="showReportGenerated" class="icon-clock report-generated"></div>
+
+        <div class="inlineHelp" *ngIf="showInlineHelp">
+            <div [innerHTML]="inlineHelp"></div>
+            <a
+                    *ngIf="helpUrl"
+                    rel="noreferrer noopener"
+                    target="_blank"
+                    [attr.href]="helpUrl"
+                    class="readMore"
+            >
+                {{ 'General_MoreDetails'|translate }}
+            </a>
+        </div>
     </div>
     `,
 })
@@ -43,30 +68,3 @@ export class EnrichedHeadlineComponent {
     showIcons: boolean = false;
     showInlineHelp: boolean = false;
 }
-
-/*
-        <a class="helpIcon"><span class="icon-help"></span></a>
-
-        <a ng-if="inlineHelp"
-           title="{{ 'General_Help'|translate }}"
-           ng-click="view.showInlineHelp=!view.showInlineHelp"
-           class="helpIcon" ng-class="{ 'active': view.showInlineHelp }"><span class="icon-help"></span></a>
-
-        <div class="ratingIcons"
-             piwik-rate-feature
-             title="{{ featureName }}"></div>
-    </span>
-
-    <div ng-show="showReportGenerated" class="icon-clock report-generated"></div>
-
-    <div class="inlineHelp" ng-show="view.showInlineHelp">
-        <div ng-bind-html="inlineHelp"></div>
-        <a ng-if="helpUrl"
-           rel="noreferrer noopener"
-           target="_blank"
-           href="{{ helpUrl }}"
-           class="readMore">{{ 'General_MoreDetails'|translate }}</a>
-    </div>
-</div>
-
- */
