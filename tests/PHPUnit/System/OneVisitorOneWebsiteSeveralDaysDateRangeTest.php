@@ -45,6 +45,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
                 // Testing without &pattern= so should return all sites
             )),
 
+            // range test
+            array('MultiSites.getAll', array('date'            => '2010-12-15,2011-01-15',
+                                             'periods'         => array('range'),
+                                             'testSuffix'      => '_Truncated',
+                // Testing with filter_truncate should return an `Others` row
+                                             'otherRequestParameters' => ['filter_truncate' => '0'],
+            )),
+
             // test several dates (tests use of IndexedByDate w/ 'date1,date2,etc.')
             array('MultiSites.getAll', array('date'                   => '2010-12-15',
                                              'periods'                => array('day'),
