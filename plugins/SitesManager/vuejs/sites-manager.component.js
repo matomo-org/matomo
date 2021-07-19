@@ -16,6 +16,7 @@ matomo.VueComponents['matomoSitesManager'] = {
             redirectParams: {showaddsite: false},
             hasSuperUserAccess: piwik.hasSuperUserAccess,
             cacheBuster: piwik.cacheBuster,
+            currentlyEditedSite: 0,
             period: piwik.broadcast.getValueFromUrl('period'),
             date: piwik.broadcast.getValueFromUrl('date'),
             adminSites: sitesManagerAdminSitesModel,
@@ -258,7 +259,7 @@ matomo.VueComponents['matomoSitesManager'] = {
       </div>
     </div>
     
-    <div class="sitesButtonBar clearfix">
+    <div class="sitesButtonBar clearfix" v-show="currentlyEditedSite == 0">
 
       <a v-show="hasSuperUserAccess && availableTypes"
          class="btn addSite"
@@ -295,7 +296,7 @@ matomo.VueComponents['matomoSitesManager'] = {
     <matomo-dialog :trigger="showAddSiteDialog" @close="showAddSiteDialog = false" class="ui-confirm">
 
       <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
-
+      <p />
       <div class="center">
         <button type="button"
                 v-for="type in availableTypes"
@@ -318,7 +319,10 @@ matomo.VueComponents['matomoSitesManager'] = {
       </p>
 
       <transition-group name="flip-list" tag="div">
-        <matomo-sites-manager-site v-for="(site, index) in adminSites.sites" :data-index="index" :key="site.idsite ?? 0" :matomoSite="site"></matomo-sites-manager-site>
+        <matomo-sites-manager-site v-show="currentlyEditedSite == site.idsite || currentlyEditedSite == 0" 
+                                   v-for="(site, index) in adminSites.sites" 
+                                   :data-index="index" :key="site.idsite ?? 0" :matomoSite="site" 
+                                   @edit="currentlyEditedSite = site.idsite" @cancel="currentlyEditedSite = 0"></matomo-sites-manager-site>
       </transition-group>
 
     </div>

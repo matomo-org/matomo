@@ -20,33 +20,39 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
     computed: {
         utcTime: function() {
             var currentDate = new Date();
+            var month = currentDate.getUTCMonth() <= 10 ? "0" + (currentDate.getUTCMonth()+1) : currentDate.getUTCMonth()+1;
 
-            return currentDate.getUTCFullYear() + '-' + currentDate.getUTCMonth() + '-' + currentDate.getUTCDate() +
+            return currentDate.getUTCFullYear() + '-' + month + '-' + currentDate.getUTCDate() +
                 ' ' + currentDate.getUTCHours() + ':' + currentDate.getUTCMinutes() + ':' + currentDate.getUTCSeconds();
         }
     },
     methods: {
         updateFormField(event) {
-            var elem = $(event.target).parents('[piwik-form-field]')
+            var elem = $(event.target);
 
             if (!elem.length) {
-                console.error('unable to handle change event for angular form field');
+                console.error('unable to handle change event for angular form field. field not found');
                 return;
             }
 
-            console.log(elem.scope());
+            var scope = elem.scope();
 
-            var value = elem.scope().field.value;
-            var name = elem.scope().field.name;
+            if (!scope || !scope.$parent || !scope.$parent.formField) {
+                console.error('unable to handle change event for angular form field. scope not found');
+                return;
+            }
+
+            var value = scope.$parent.formField.value;
+            var name = scope.$parent.formField.name;
 
             if (name) {
-                console.log(name, value);
                 this.site[name] = value;
             }
         },
 
         editSite() {
             var self = this;
+            self.$emit('edit');
             this.site.editMode = true;
 
             this.measurableSettings = [];
@@ -57,6 +63,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
             }).then(function (settings) {
                 self.measurableSettings = settings;
                 self.site.isLoading = false;
+                self.updateView();
             }, function () {
                 self.site.isLoading = false;
             });
@@ -154,6 +161,8 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                 // we do not want to manipulate initial type settings
                 this.measurableSettings = angular.copy(this.typeSettings);
             }
+
+            this.updateView();
         },
 
         openDeleteDialog() {
@@ -198,6 +207,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
         },
 
         cancelEditSite (site) {
+            this.$emit('cancel');
             site.editMode = false;
 
             var idSite = site.idsite;
@@ -212,19 +222,16 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
         },
 
         updateView() {
-            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-            var $compile = piwikHelper.getAngularDependency('$compile');
-            $compile($('[piwik-form-field]:visible,[piwik-field]:visible').not('.ng-isolate-scope'))($rootScope);
-
             var $timeout = piwikHelper.getAngularDependency('$timeout');
             $timeout(function () {
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                var $compile = piwikHelper.getAngularDependency('$compile');
+                $compile($('[piwik-form-field]:visible,[piwik-field]:visible').not('.ng-isolate-scope'))($rootScope);
+
                 $('.editingSite').find('select').material_select();
                 Materialize.updateTextFields();
-            });
+            }, 50);
         }
-    },
-    updated() {
-        this.updateView();
     },
     mounted() {
         var self = this;
