@@ -44,6 +44,8 @@
 (function () {
     angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
 
+    window.piwik.periods = piwikPeriods(); // for angular access TODO: should convert to angular, but not needed for this poc
+
     var periods = {}, periodOrder = [];
 
     piwik.addCustomPeriod = addCustomPeriod;

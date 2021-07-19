@@ -16,7 +16,8 @@ import {TranslatePipe} from "./common/translate.pipe";
 import {FormsModule} from "@angular/forms";
 import {EnrichedHeadlineComponent} from "./enriched-headline/enriched-headline.component";
 import {RateFeatureComponent, ReviewLinksComponent} from "./rate-feature/rate-feature.component";
-import {MatomoDialogDirective} from "./common/matomo-dialog.component";
+import {MatomoDialogDirective} from "./common/matomo-dialog.directive";
+import {piwikEnrichedHeadlineAdapter} from "./enriched-headline/enriched-headline.adapter";
 
 export * from './matomo-api/matomo-api.service';
 export * from './common/focus-anywhere-but-here.directive';
@@ -24,6 +25,9 @@ export * from './common/translate.pipe';
 export * from './site-store/sites.service';
 export * from './site-store/site';
 export * from './siteselector/siteselector.component';
+export * from './rate-feature/rate-feature.component';
+export * from './enriched-headline/enriched-headline.component';
+export * from './content-block/content-block.component';
 
 @NgModule({
   declarations: [
@@ -76,3 +80,7 @@ export const angularModuleName = downgradeModule(ng2BootstrapFn);
 angular.module(angularModuleName).directive('piwikSiteselectorDowngrade', downgradeComponent(
     { component: SiteSelectorComponent, downgradedModule: angularModuleName }));
 angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselectorAdapter);
+
+angular.module(angularModuleName).directive('piwikEnrichedHeadlineDowngrade', downgradeComponent(
+    { component: EnrichedHeadlineComponent, downgradedModule: angularModuleName }));
+angular.module(angularModuleName).directive('piwikEnrichedHeadline', piwikEnrichedHeadlineAdapter);

@@ -1,4 +1,16 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {
+    AfterContentInit,
+    Component,
+    ContentChild,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output
+} from "@angular/core";
+
+declare var piwik: any;
+declare var $: any;
 
 @Component({
     selector: 'enriched-headline',
@@ -57,7 +69,9 @@ import {Component, EventEmitter, Input, Output} from "@angular/core";
     </div>
     `,
 })
-export class EnrichedHeadlineComponent {
+export class EnrichedHeadlineComponent implements AfterContentInit {
+    constructor(private componentElement: ElementRef) {}
+
     @Input() helpUrl: string = '';
     @Input() editUrl: string = '';
     @Input() reportGenerated?: string;
@@ -67,4 +81,72 @@ export class EnrichedHeadlineComponent {
 
     showIcons: boolean = false;
     showInlineHelp: boolean = false;
+
+    ngAfterContentInit(): void {
+        this.findInlineHelpInContentIfRequired();
+        this.findFeatureNameInContentIfRequired();
+        this.addReportGeneratedTooltip();
+    }
+
+    private addReportGeneratedTooltip() {
+        if (!this.reportGenerated) {
+            return;
+        }
+
+        if (!piwik.periods.parse(piwik.period, piwik.currentDateString).coinsToday()) {
+            return;
+        }
+
+        const reportGeneratedElement = this.componentElement.nativeElement.querySelector('.report-generated');
+        $(reportGeneratedElement).tooltip({
+            track: true,
+            content: this.reportGenerated,
+            items: 'div',
+            show: false,
+            hide: false,
+        });
+
+        this.showReportGenerated = true;
+    }
+
+    private findFeatureNameInContentIfRequired() {
+        if (this.featureName) {
+            return;
+        }
+
+        this.featureName = $.trim($(this.componentElement.nativeElement).find('.title').first().text());
+    }
+
+    private findInlineHelpInContentIfRequired() {
+        if (this.inlineHelp) {
+            return;
+        }
+
+        // TODO: jquery should not be used in angular forever, it all must be replaced.
+        const element = $(this.componentElement.nativeElement);
+        let helpNode = $('.title .inlineHelp', this.componentElement.nativeElement);
+
+        if ((!helpNode || !helpNode.length) && element.next()) {
+            // hack for reports :(
+            helpNode = element.next().find('.reportDocumentation');
+        }
+
+        if (helpNode && helpNode.length) {
+            // hackish solution to get binded html of p tag within the help node
+            // at this point the ng-bind-html is not yet converted into html when report is not
+            // initially loaded. Using $compile doesn't work. So get and set it manually
+            const helpParagraph = $('p[ng-bind-html]', helpNode); // TODO: this will eventually not work as more components are converted
+            console.log(helpParagraph.html());
+/*
+            if (helpParagraph.length) {
+                helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+            }
+
+            if ($.trim(helpNode.text())) {
+                scope.inlineHelp = $.trim(helpNode.html());
+            }
+            helpNode.remove();
+            */
+        }
+    }
 }

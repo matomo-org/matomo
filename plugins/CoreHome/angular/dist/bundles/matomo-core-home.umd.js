@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/upgrade/static'), require('@angular/platform-browser-dynamic'), require('@angular/platform-browser'), require('rxjs'), require('rxjs/operators'), require('@angular/common/http'), require('@angular/common'), require('@angular/forms')) :
-    typeof define === 'function' && define.amd ? define('@matomo/core-home', ['exports', '@angular/core', '@angular/upgrade/static', '@angular/platform-browser-dynamic', '@angular/platform-browser', 'rxjs', 'rxjs/operators', '@angular/common/http', '@angular/common', '@angular/forms'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.matomo = global.matomo || {}, global.matomo['core-home'] = {}), global.ng.core, global.ng.upgrade.static, global.ng.platformBrowserDynamic, global.ng.platformBrowser, global.rxjs, global.rxjs.operators, global.ng.common.http, global.ng.common, global.ng.forms));
-}(this, (function (exports, i0, _static, platformBrowserDynamic, i2, rxjs, operators, i1, i4, i5) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/upgrade/static'), require('@angular/platform-browser-dynamic'), require('@angular/platform-browser'), require('rxjs'), require('rxjs/operators'), require('@angular/common/http'), require('@angular/forms')) :
+    typeof define === 'function' && define.amd ? define('@matomo/core-home', ['exports', '@angular/core', '@angular/common', '@angular/upgrade/static', '@angular/platform-browser-dynamic', '@angular/platform-browser', 'rxjs', 'rxjs/operators', '@angular/common/http', '@angular/forms'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.matomo = global.matomo || {}, global.matomo['core-home'] = {}), global.ng.core, global.ng.common, global.ng.upgrade.static, global.ng.platformBrowserDynamic, global.ng.platformBrowser, global.rxjs, global.rxjs.operators, global.ng.common.http, global.ng.forms));
+}(this, (function (exports, i0, i4, _static, platformBrowserDynamic, i2, rxjs, operators, i1, i5) { 'use strict';
 
     function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -25,13 +25,152 @@
     }
 
     var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
+    var i4__namespace = /*#__PURE__*/_interopNamespace(i4);
     var i2__namespace = /*#__PURE__*/_interopNamespace(i2);
     var i1__namespace = /*#__PURE__*/_interopNamespace(i1);
-    var i4__namespace = /*#__PURE__*/_interopNamespace(i4);
     var i5__namespace = /*#__PURE__*/_interopNamespace(i5);
 
-    piwikSiteselectorShim.$inject = ['$timeout'];
-    function piwikSiteselectorShim($timeout) {
+    var _c0$2 = ["contentContainer"];
+    function ContentBlockComponent_a_1_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelement(0, "a");
+        }
+        if (rf & 2) {
+            var ctx_r0 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵattribute("id", ctx_r0.anchor);
+        }
+    }
+    function ContentBlockComponent_h2_3_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "h2", 6);
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r1 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate(ctx_r1.contentTitle);
+        }
+    }
+    function ContentBlockComponent_h2_4_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "h2", 6);
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r2 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate1(" ", ctx_r2.contentTitle, " ");
+        }
+    }
+    var _c1$1 = ["*"];
+    var adminContent;
+    var ContentBlockComponent = /** @class */ (function () {
+        function ContentBlockComponent(componentElement) {
+            this.componentElement = componentElement;
+            this.contentTitle = '';
+            this.feature = false;
+            this.helpUrl = '';
+            this.helpText = '';
+        }
+        ContentBlockComponent.prototype.ngAfterContentInit = function () {
+            var _a;
+            var inlineHelp = (_a = this.contentContainer) === null || _a === void 0 ? void 0 : _a.nativeElement.querySelector('.contentHelp');
+            if (inlineHelp) {
+                this.helpText = inlineHelp.innerHTML;
+            }
+            if (!adminContent) {
+                // cache admin node for further content blocks
+                // TODO: it will effectively get cleaned up because we do a pageload in admin pages, but we shouldn't
+                // really be doing this.
+                adminContent = document.querySelector('#content.admin');
+            }
+            var contentTopPosition = null;
+            if (adminContent) {
+                contentTopPosition = $(adminContent).offset().top;
+            }
+            if (contentTopPosition || contentTopPosition === 0) {
+                var parents = $(this.componentElement.nativeElement).parentsUntil('.col', '[piwik-widget-loader]');
+                var topThis = void 0;
+                if (parents.length) {
+                    // when shown within the widget loader, we need to get the offset of that element
+                    // as the widget loader might be still shown. Would otherwise not position correctly
+                    // the widgets on the admin home page
+                    topThis = parents.offset().top;
+                }
+                else {
+                    topThis = $(this.componentElement.nativeElement).offset().top;
+                }
+                if ((topThis - contentTopPosition) < 17) {
+                    // we make sure to display the first card with no margin-top to have it on same as line as
+                    // navigation
+                    $(this.componentElement.nativeElement).css('marginTop', '0');
+                }
+            }
+        };
+        return ContentBlockComponent;
+    }());
+    ContentBlockComponent.ɵfac = function ContentBlockComponent_Factory(t) { return new (t || ContentBlockComponent)(i0__namespace.ɵɵdirectiveInject(i0__namespace.ElementRef)); };
+    ContentBlockComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: ContentBlockComponent, selectors: [["content-block"]], viewQuery: function ContentBlockComponent_Query(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵviewQuery(_c0$2, 5);
+            }
+            if (rf & 2) {
+                var _t = void 0;
+                i0__namespace.ɵɵqueryRefresh(_t = i0__namespace.ɵɵloadQuery()) && (ctx.contentContainer = _t.first);
+            }
+        }, inputs: { contentTitle: "contentTitle", feature: "feature", helpUrl: "helpUrl", helpText: "helpText", anchor: "anchor" }, ngContentSelectors: _c1$1, decls: 8, vars: 3, consts: [[1, "card"], [4, "ngIf"], [1, "card-content"], ["class", "card-title", 4, "ngIf"], [1, "contentContainer"], ["contentContainer", ""], [1, "card-title"]], template: function ContentBlockComponent_Template(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵprojectionDef();
+                i0__namespace.ɵɵelementStart(0, "div", 0);
+                i0__namespace.ɵɵtemplate(1, ContentBlockComponent_a_1_Template, 1, 1, "a", 1);
+                i0__namespace.ɵɵelementStart(2, "div", 2);
+                i0__namespace.ɵɵtemplate(3, ContentBlockComponent_h2_3_Template, 2, 1, "h2", 3);
+                i0__namespace.ɵɵtemplate(4, ContentBlockComponent_h2_4_Template, 2, 1, "h2", 3);
+                i0__namespace.ɵɵelementStart(5, "div", 4, 5);
+                i0__namespace.ɵɵprojection(7);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+            }
+            if (rf & 2) {
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.anchor);
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵproperty("ngIf", ctx.contentTitle && !ctx.feature && !ctx.helpUrl && !ctx.helpText);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.contentTitle && (ctx.feature || ctx.helpUrl || ctx.helpText));
+            }
+        }, directives: [i4__namespace.NgIf], styles: [".contentContainer[_ngcontent-%COMP%]   .contentHelp[_ngcontent-%COMP%] { display: none }"] });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(ContentBlockComponent, [{
+                type: i0.Component,
+                args: [{
+                        selector: 'content-block',
+                        template: "\n    <div class=\"card\">\n        <a *ngIf=\"anchor\" [attr.id]=\"anchor\"></a>\n        <div class=\"card-content\">\n            <h2 *ngIf=\"contentTitle && !feature && !helpUrl && !helpText\" class=\"card-title\">{{contentTitle}}</h2>\n            <h2\n                *ngIf=\"contentTitle && (feature || helpUrl || helpText)\" class=\"card-title\"\n            >\n                {{contentTitle}}\n            </h2>\n            <div class=\"contentContainer\" #contentContainer>\n                <ng-content></ng-content>\n            </div>\n        </div>\n    </div>\n    ",
+                        styles: [
+                            '.contentContainer .contentHelp { display: none }',
+                        ],
+                    }]
+            }], function () { return [{ type: i0__namespace.ElementRef }]; }, { contentTitle: [{
+                    type: i0.Input
+                }], feature: [{
+                    type: i0.Input
+                }], helpUrl: [{
+                    type: i0.Input
+                }], helpText: [{
+                    type: i0.Input
+                }], anchor: [{
+                    type: i0.Input
+                }], contentContainer: [{
+                    type: i0.ViewChild,
+                    args: ['contentContainer']
+                }] });
+    })();
+
+    piwikSiteselectorAdapter.$inject = ['$timeout'];
+    function piwikSiteselectorAdapter($timeout) {
         return {
             restrict: 'A',
             scope: {
@@ -53,6 +192,7 @@
                 scope.placeholder = attrs.placeholder;
                 scope.siteid = attrs.siteid;
                 scope.sitename = attrs.sitename;
+                // TODO: the default values logic from before still needs to be here...
                 scope.switchSiteOnSelect = typeof scope.switchSiteOnSelect === 'undefined' ? true : scope.switchSiteOnSelect;
                 scope.onSelectedSiteChange = function ($event) {
                     scope.selectedSite = $event.data;
@@ -74,6 +214,9 @@
                     };
                 }
                 $timeout(function () {
+                    if (attrs.siteid && attrs.sitename) { // TODO: this logic should be in the selector component
+                        scope.selectedSite = { id: attrs.siteid, name: piwik.helper.htmlDecode(attrs.sitename) };
+                    }
                     window.initTopControls();
                 });
             },
@@ -398,15 +541,15 @@
         return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
     }
 
-    var piwik$1 = window.piwik;
+    var piwik$2 = window.piwik;
     var MatomoApiService = /** @class */ (function () {
         function MatomoApiService(http) {
             this.http = http;
         }
         MatomoApiService.prototype.fetch = function (params) {
             var body = new URLSearchParams({
-                token_auth: piwik$1.token_auth,
-                force_api_session: piwik$1.broadcast.isWidgetizeRequestWithoutSession() ? '0' : '1',
+                token_auth: piwik$2.token_auth,
+                force_api_session: piwik$2.broadcast.isWidgetizeRequestWithoutSession() ? '0' : '1',
             }).toString();
             var apiParams = {
                 module: 'API',
@@ -593,7 +736,7 @@
             }], null, null);
     })();
 
-    var _c0 = ["customSelectInput"];
+    var _c0$1 = ["customSelectInput"];
     var _c1 = ["selectedSiteDisplay"];
     var _c2 = ["listLink"];
     function SiteSelectorComponent_input_3_Template(rf, ctx) {
@@ -759,7 +902,7 @@
             i0__namespace.ɵɵproperty("ngIf", ctx_r5.allSitesLocation == "bottom" && ctx_r5.showAllSitesItem);
         }
     }
-    var piwik = window.piwik;
+    var piwik$1 = window.piwik;
     var piwikHelper = window.piwikHelper;
     var SiteSelectorAllSitesLink = /** @class */ (function () {
         function SiteSelectorAllSitesLink() {
@@ -930,25 +1073,24 @@
             this.loadSite(switchToSite.idsite);
         };
         SiteSelectorComponent.prototype.loadSite = function (idSite) {
-            console.log('here?');
             if (idSite == 'all') {
                 document.location.href = piwikHelper.getCurrentQueryStringWithParametersModified(piwikHelper.getQueryStringFromParameters({
                     module: 'MultiSites',
                     action: 'index',
-                    date: piwik.currentDateString,
-                    period: piwik.period,
+                    date: piwik$1.currentDateString,
+                    period: piwik$1.period,
                 }));
             }
             else {
-                piwik.broadcast.propagateNewPage('segment=&idSite=' + idSite, false);
+                piwik$1.broadcast.propagateNewPage('segment=&idSite=' + idSite, false);
             }
         };
         SiteSelectorComponent.prototype.getUrlForSiteId = function (idSite) {
             var idSiteParam = 'idSite=' + idSite;
             var newParameters = 'segment=&' + idSiteParam;
-            var hash = piwik.broadcast.isHashExists() ? piwik.broadcast.getHashFromUrl() : "";
-            return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters) +
-                '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
+            var hash = piwik$1.broadcast.isHashExists() ? piwik$1.broadcast.getHashFromUrl() : "";
+            return piwik$1.helper.getCurrentQueryStringWithParametersModified(newParameters) +
+                '#' + piwik$1.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
         };
         SiteSelectorComponent.prototype._registerShortcuts = function () {
             var _this = this;
@@ -972,7 +1114,7 @@
     SiteSelectorComponent.ɵfac = function SiteSelectorComponent_Factory(t) { return new (t || SiteSelectorComponent)(i0__namespace.ɵɵdirectiveInject(SitesService), i0__namespace.ɵɵdirectiveInject(i2__namespace.DomSanitizer)); };
     SiteSelectorComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: SiteSelectorComponent, selectors: [["piwik-siteselector"]], viewQuery: function SiteSelectorComponent_Query(rf, ctx) {
             if (rf & 1) {
-                i0__namespace.ɵɵviewQuery(_c0, 5);
+                i0__namespace.ɵɵviewQuery(_c0$1, 5);
                 i0__namespace.ɵɵviewQuery(_c1, 5);
                 i0__namespace.ɵɵviewQuery(_c2, 5);
             }
@@ -1057,6 +1199,552 @@
                 }] });
     })();
 
+    var MatomoDialogDirective = /** @class */ (function () {
+        function MatomoDialogDirective(componentElement) {
+            this.componentElement = componentElement;
+            this.showModal = false; // TODO: better to handle showing/closing programmatically
+            this.onYesClick = new i0.EventEmitter();
+            this.onNoClick = new i0.EventEmitter();
+            this.onClose = new i0.EventEmitter();
+        }
+        MatomoDialogDirective.prototype.ngOnInit = function () {
+            this.componentElement.nativeElement.style.display = 'none';
+        };
+        MatomoDialogDirective.prototype.ngOnChanges = function () {
+            if (this.showModal) {
+                this.doShowModal();
+            }
+        };
+        MatomoDialogDirective.prototype.doShowModal = function () {
+            var _this = this;
+            piwik.helper.modalConfirm(this.componentElement.nativeElement, {
+                yes: function () {
+                    _this.onYesClick.emit();
+                },
+                no: function () {
+                    _this.onNoClick.emit();
+                },
+            }, {
+                onCloseEnd: function () {
+                    _this.onClose.emit();
+                },
+            });
+        };
+        return MatomoDialogDirective;
+    }());
+    MatomoDialogDirective.ɵfac = function MatomoDialogDirective_Factory(t) { return new (t || MatomoDialogDirective)(i0__namespace.ɵɵdirectiveInject(i0__namespace.ElementRef)); };
+    MatomoDialogDirective.ɵdir = /*@__PURE__*/ i0__namespace.ɵɵdefineDirective({ type: MatomoDialogDirective, selectors: [["", "matomoDialog", ""]], inputs: { showModal: "showModal" }, outputs: { onYesClick: "onYesClick", onNoClick: "onNoClick", onClose: "onClose" }, features: [i0__namespace.ɵɵNgOnChangesFeature] });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(MatomoDialogDirective, [{
+                type: i0.Directive,
+                args: [{
+                        selector: '[matomoDialog]',
+                    }]
+            }], function () { return [{ type: i0__namespace.ElementRef }]; }, { showModal: [{
+                    type: i0.Input
+                }], onYesClick: [{
+                    type: i0.Output
+                }], onNoClick: [{
+                    type: i0.Output
+                }], onClose: [{
+                    type: i0.Output
+                }] });
+    })();
+
+    function RateFeatureComponent_img_4_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r5_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "img", 14);
+            i0__namespace.ɵɵlistener("click", function RateFeatureComponent_img_4_Template_img_click_0_listener() { i0__namespace.ɵɵrestoreView(_r5_1); var ctx_r4 = i0__namespace.ɵɵnextContext(); return ctx_r4.dislikeFeature(); });
+            i0__namespace.ɵɵelementEnd();
+        }
+    }
+    function RateFeatureComponent_p_9_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "p");
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵpipe(2, "translate");
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate(i0__namespace.ɵɵpipeBind1(2, 1, "Feedback_RateFeatureLeaveMessageLike"));
+        }
+    }
+    function RateFeatureComponent_p_10_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "p");
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵpipe(2, "translate");
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate(i0__namespace.ɵɵpipeBind1(2, 1, "Feedback_RateFeatureLeaveMessageDislike"));
+        }
+    }
+    function RateFeatureComponent_review_links_23_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelement(0, "review-links", 15);
+        }
+    }
+    var ReviewLinksComponent = /** @class */ (function () {
+        function ReviewLinksComponent() {
+        }
+        return ReviewLinksComponent;
+    }());
+    ReviewLinksComponent.ɵfac = function ReviewLinksComponent_Factory(t) { return new (t || ReviewLinksComponent)(); };
+    ReviewLinksComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: ReviewLinksComponent, selectors: [["review-links"]], decls: 37, vars: 3, consts: [[1, "requestReview"], [1, "review-links"], [1, "review-link"], ["href", "https://www.capterra.com/p/182627/Matomo-Analytics/", "target", "_blank"], [1, "image"], ["loading", "lazy", "src", "plugins/Feedback/images/capterra.svg"], [1, "link"], ["href", "https://www.g2crowd.com/products/matomo-formerly-piwik/details", "target", "_blank"], ["loading", "lazy", "src", "plugins/Feedback/images/g2crowd.svg"], ["href", "https://www.producthunt.com/posts/matomo-2", "target", "_blank"], ["loading", "lazy", "src", "plugins/Feedback/images/producthunt.svg"], ["href", "https://www.saasworthy.com/product/matomo", "target", "_blank"], ["loading", "lazy", "src", "plugins/Feedback/images/saasworthy.png"], ["href", "https://www.trustradius.com/products/matomo/reviews", "target", "_blank"], ["loading", "lazy", "src", "plugins/Feedback/images/trustradius.svg"]], template: function ReviewLinksComponent_Template(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵelementStart(0, "div", 0);
+                i0__namespace.ɵɵelementStart(1, "p");
+                i0__namespace.ɵɵtext(2);
+                i0__namespace.ɵɵpipe(3, "translate");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelement(4, "br");
+                i0__namespace.ɵɵelement(5, "br");
+                i0__namespace.ɵɵelementStart(6, "div", 1);
+                i0__namespace.ɵɵelementStart(7, "div", 2);
+                i0__namespace.ɵɵelementStart(8, "a", 3);
+                i0__namespace.ɵɵelementStart(9, "div", 4);
+                i0__namespace.ɵɵelement(10, "img", 5);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(11, "div", 6);
+                i0__namespace.ɵɵtext(12, "Capterra");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(13, "div", 2);
+                i0__namespace.ɵɵelementStart(14, "a", 7);
+                i0__namespace.ɵɵelementStart(15, "div", 4);
+                i0__namespace.ɵɵelement(16, "img", 8);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(17, "div", 6);
+                i0__namespace.ɵɵtext(18, "G2 Crowd");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(19, "div", 2);
+                i0__namespace.ɵɵelementStart(20, "a", 9);
+                i0__namespace.ɵɵelementStart(21, "div", 4);
+                i0__namespace.ɵɵelement(22, "img", 10);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(23, "div", 6);
+                i0__namespace.ɵɵtext(24, "Product Hunt");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(25, "div", 2);
+                i0__namespace.ɵɵelementStart(26, "a", 11);
+                i0__namespace.ɵɵelementStart(27, "div", 4);
+                i0__namespace.ɵɵelement(28, "img", 12);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(29, "div", 6);
+                i0__namespace.ɵɵtext(30, "SaaSworthy");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(31, "div", 2);
+                i0__namespace.ɵɵelementStart(32, "a", 13);
+                i0__namespace.ɵɵelementStart(33, "div", 4);
+                i0__namespace.ɵɵelement(34, "img", 14);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(35, "div", 6);
+                i0__namespace.ɵɵtext(36, "TrustRadius");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+            }
+            if (rf & 2) {
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵtextInterpolate(i0__namespace.ɵɵpipeBind1(3, 1, "Feedback_PleaseLeaveExternalReviewForMatomo"));
+            }
+        }, pipes: [TranslatePipe], encapsulation: 2 });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(ReviewLinksComponent, [{
+                type: i0.Component,
+                args: [{
+                        selector: 'review-links',
+                        template: "\n        <div class=\"requestReview\">\n            <p>{{ 'Feedback_PleaseLeaveExternalReviewForMatomo'|translate }}</p><br/><br/>\n\n            <div class=\"review-links\">\n                <div class=\"review-link\">\n                    <a href=\"https://www.capterra.com/p/182627/Matomo-Analytics/\" target=\"_blank\">\n                        <div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/capterra.svg\"></div>\n                        <div class=\"link\">Capterra</div>\n                    </a>\n                </div>\n\n                <div class=\"review-link\">\n                    <a href=\"https://www.g2crowd.com/products/matomo-formerly-piwik/details\" target=\"_blank\">\n                        <div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/g2crowd.svg\"></div>\n                        <div class=\"link\">G2 Crowd</div>\n                    </a>\n                </div>\n\n                <div class=\"review-link\">\n                    <a href=\"https://www.producthunt.com/posts/matomo-2\" target=\"_blank\">\n                        <div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/producthunt.svg\"></div>\n                        <div class=\"link\">Product Hunt</div>\n                    </a>\n                </div>\n\n                <div class=\"review-link\">\n                    <a href=\"https://www.saasworthy.com/product/matomo\" target=\"_blank\">\n                        <div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/saasworthy.png\"></div>\n                        <div class=\"link\">SaaSworthy</div>\n                    </a>\n                </div>\n\n                <div class=\"review-link\">\n                    <a href=\"https://www.trustradius.com/products/matomo/reviews\" target=\"_blank\">\n                        <div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/trustradius.svg\"></div>\n                        <div class=\"link\">TrustRadius</div>\n                    </a>\n                </div>\n            </div>\n        </div>\n    ",
+                    }]
+            }], null, null);
+    })();
+    var RateFeatureComponent = /** @class */ (function () {
+        function RateFeatureComponent(matomoApi) {
+            this.matomoApi = matomoApi;
+            this.title = '';
+            this.expanded = false;
+            this.showFeedbackForm = false;
+            this.feedbackMessage = '';
+            this.like = false;
+            this.ratingDone = false;
+        }
+        RateFeatureComponent.prototype.likeFeature = function () {
+            this.like = true;
+            this.showFeedbackForm = true;
+        };
+        RateFeatureComponent.prototype.dislikeFeature = function () {
+            this.like = false;
+            this.showFeedbackForm = true;
+        };
+        RateFeatureComponent.prototype.sendFeedback = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.sendFeedbackForFeature(this.title, this.like, this.feedbackMessage)];
+                        case 1:
+                            _a.sent();
+                            this.ratingDone = true;
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        RateFeatureComponent.prototype.sendFeedbackForFeature = function (featureName, like, message) {
+            return this.matomoApi.fetch({
+                method: 'Feedback.sendFeedbackForFeature',
+                featureName: featureName,
+                like: like ? '1' : '0',
+                message: message + '',
+            }).toPromise();
+        };
+        return RateFeatureComponent;
+    }());
+    RateFeatureComponent.ɵfac = function RateFeatureComponent_Factory(t) { return new (t || RateFeatureComponent)(i0__namespace.ɵɵdirectiveInject(MatomoApiService)); };
+    RateFeatureComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: RateFeatureComponent, selectors: [["rate-feature"]], inputs: { title: "title" }, decls: 26, vars: 31, consts: [[1, "ratefeature", 3, "title"], [1, "iconContainer", 3, "mouseenter", "mouseleave"], ["src", "plugins/Feedback/angularjs/ratefeature/thumbs-up.png", 1, "like-icon", 3, "click"], ["class", "dislike-icon", "src", "plugins/Feedback/angularjs/ratefeature/thumbs-down.png", 3, "click", 4, "ngIf"], ["matomoDialog", "", 1, "ui-confirm", "ratefeatureDialog", 3, "showModal", "onYesClick", "onClose"], [4, "ngIf"], [4, "ngif"], [1, "messageContainer"], [3, "ngModel", "ngModelChange"], ["type", "button", "role", "yes", 3, "title", "value"], ["type", "button", "role", "cancel", 3, "value"], ["matomoDialog", "", 1, "ui-confirm", "ratefeatureDialog", 3, "showModal", "onClose"], ["src", "'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'", 4, "ngIf"], ["type", "button", "role", "yes", 3, "value"], ["src", "plugins/Feedback/angularjs/ratefeature/thumbs-down.png", 1, "dislike-icon", 3, "click"], ["src", "'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"]], template: function RateFeatureComponent_Template(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵelementStart(0, "div", 0);
+                i0__namespace.ɵɵpipe(1, "translate");
+                i0__namespace.ɵɵelementStart(2, "div", 1);
+                i0__namespace.ɵɵlistener("mouseenter", function RateFeatureComponent_Template_div_mouseenter_2_listener() { return ctx.expanded = true; })("mouseleave", function RateFeatureComponent_Template_div_mouseleave_2_listener() { return ctx.expanded = false; });
+                i0__namespace.ɵɵelementStart(3, "img", 2);
+                i0__namespace.ɵɵlistener("click", function RateFeatureComponent_Template_img_click_3_listener() { return ctx.likeFeature(); });
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵtemplate(4, RateFeatureComponent_img_4_Template, 1, 0, "img", 3);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(5, "div", 4);
+                i0__namespace.ɵɵlistener("onYesClick", function RateFeatureComponent_Template_div_onYesClick_5_listener() { return ctx.sendFeedback(); })("onClose", function RateFeatureComponent_Template_div_onClose_5_listener() { return ctx.showFeedbackForm = false; });
+                i0__namespace.ɵɵelementStart(6, "h2");
+                i0__namespace.ɵɵtext(7);
+                i0__namespace.ɵɵpipe(8, "translate");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵtemplate(9, RateFeatureComponent_p_9_Template, 3, 3, "p", 5);
+                i0__namespace.ɵɵtemplate(10, RateFeatureComponent_p_10_Template, 3, 3, "p", 6);
+                i0__namespace.ɵɵelement(11, "br");
+                i0__namespace.ɵɵelementStart(12, "div", 7);
+                i0__namespace.ɵɵelementStart(13, "textarea", 8);
+                i0__namespace.ɵɵlistener("ngModelChange", function RateFeatureComponent_Template_textarea_ngModelChange_13_listener($event) { return ctx.feedbackMessage = $event; });
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelement(14, "input", 9);
+                i0__namespace.ɵɵpipe(15, "translate");
+                i0__namespace.ɵɵpipe(16, "translate");
+                i0__namespace.ɵɵelement(17, "input", 10);
+                i0__namespace.ɵɵpipe(18, "translate");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementStart(19, "div", 11);
+                i0__namespace.ɵɵlistener("onClose", function RateFeatureComponent_Template_div_onClose_19_listener() { return ctx.showFeedbackForm = false; });
+                i0__namespace.ɵɵelementStart(20, "h2");
+                i0__namespace.ɵɵtext(21);
+                i0__namespace.ɵɵpipe(22, "translate");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵtemplate(23, RateFeatureComponent_review_links_23_Template, 1, 0, "review-links", 12);
+                i0__namespace.ɵɵelement(24, "input", 13);
+                i0__namespace.ɵɵpipe(25, "translate");
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵelementEnd();
+            }
+            if (rf & 2) {
+                i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind2(1, 14, "Feedback_RateFeatureTitle", ctx.title));
+                i0__namespace.ɵɵadvance(4);
+                i0__namespace.ɵɵproperty("ngIf", ctx.expanded);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("showModal", ctx.showFeedbackForm);
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵtextInterpolate(i0__namespace.ɵɵpipeBind2(8, 17, "Feedback_RateFeatureThankYouTitle", ctx.title));
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵproperty("ngIf", ctx.like);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngif", !ctx.like);
+                i0__namespace.ɵɵadvance(3);
+                i0__namespace.ɵɵproperty("ngModel", ctx.feedbackMessage);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(15, 20, "Feedback_RateFeatureSendFeedbackInformation"));
+                i0__namespace.ɵɵpropertyInterpolate("value", i0__namespace.ɵɵpipeBind1(16, 22, "Feedback_SendFeedback"));
+                i0__namespace.ɵɵadvance(3);
+                i0__namespace.ɵɵpropertyInterpolate("value", i0__namespace.ɵɵpipeBind1(18, 24, "General_Cancel"));
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵproperty("showModal", ctx.ratingDone);
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵtextInterpolate(i0__namespace.ɵɵpipeBind2(22, 26, "Feedback_ThankYou", ctx.title));
+                i0__namespace.ɵɵadvance(2);
+                i0__namespace.ɵɵproperty("ngIf", ctx.like);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵpropertyInterpolate("value", i0__namespace.ɵɵpipeBind1(25, 29, "General_Ok"));
+            }
+        }, directives: [i4__namespace.NgIf, MatomoDialogDirective, i5__namespace.DefaultValueAccessor, i5__namespace.NgControlStatus, i5__namespace.NgModel, ReviewLinksComponent], pipes: [TranslatePipe], encapsulation: 2 });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(RateFeatureComponent, [{
+                type: i0.Component,
+                args: [{
+                        selector: 'rate-feature',
+                        template: "\n        <div title=\"{{ 'Feedback_RateFeatureTitle'|translate:(title) }}\" class=\"ratefeature\">\n            <div\n                class=\"iconContainer\"\n                (mouseenter)=\"expanded = true\"\n                (mouseleave)=\"expanded = false\"\n            >\n                <img (click)=\"likeFeature()\" class=\"like-icon\" src=\"plugins/Feedback/angularjs/ratefeature/thumbs-up.png\"/>\n                <img *ngIf=\"expanded\" (click)=\"dislikeFeature()\" class=\"dislike-icon\"\n                     src=\"plugins/Feedback/angularjs/ratefeature/thumbs-down.png\"/>\n            </div>\n            \n            <div matomoDialog class=\"ui-confirm ratefeatureDialog\" [showModal]=\"showFeedbackForm\" (onYesClick)=\"sendFeedback()\" (onClose)=\"showFeedbackForm = false\">\n                <h2>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h2>\n                <p *ngIf=\"like\">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>\n                <p *ngif=\"!like\">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>\n                <br />\n\n                <div class=\"messageContainer\">\n                    <textarea [(ngModel)]=\"feedbackMessage\"></textarea>\n                </div>\n\n                <input\n                    type=\"button\"\n                    title=\"{{ 'Feedback_RateFeatureSendFeedbackInformation'|translate }}\"\n                    value=\"{{ 'Feedback_SendFeedback'|translate }}\"\n                    role=\"yes\"\n                />\n                <input type=\"button\" role=\"cancel\" value=\"{{ 'General_Cancel'|translate }}\"/>\n            </div>\n\n            <div matomoDialog class=\"ui-confirm ratefeatureDialog\" [showModal]=\"ratingDone\" (onClose)=\"showFeedbackForm = false\">\n                <h2>{{ 'Feedback_ThankYou'|translate:title }}</h2>\n\n                <review-links *ngIf=\"like\" src=\"'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'\"></review-links>\n\n                <input type=\"button\" value=\"{{ 'General_Ok'|translate }}\" role=\"yes\"/>\n            </div>\n        </div>\n    ",
+                    }]
+            }], function () { return [{ type: MatomoApiService }]; }, { title: [{
+                    type: i0.Input
+                }] });
+    })();
+
+    function EnrichedHeadlineComponent_div_1_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "div", 6);
+            i0__namespace.ɵɵprojection(1);
+            i0__namespace.ɵɵelementEnd();
+        }
+    }
+    function EnrichedHeadlineComponent_a_2_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "a", 7);
+            i0__namespace.ɵɵpipe(1, "translate");
+            i0__namespace.ɵɵprojection(2, 1);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r1 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind2(1, 2, "CoreHome_ClickToEditX", ctx_r1.featureName));
+            i0__namespace.ɵɵattribute("href", ctx_r1.editUrl, i0__namespace.ɵɵsanitizeUrl);
+        }
+    }
+    function EnrichedHeadlineComponent_span_3_a_1_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "a", 12);
+            i0__namespace.ɵɵpipe(1, "translate");
+            i0__namespace.ɵɵelement(2, "span", 13);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r5 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(1, 2, "CoreHome_ExternalHelp"));
+            i0__namespace.ɵɵattribute("href", ctx_r5.helpUrl, i0__namespace.ɵɵsanitizeUrl);
+        }
+    }
+    function EnrichedHeadlineComponent_span_3_a_2_Template(rf, ctx) {
+        if (rf & 1) {
+            var _r8_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "a", 14);
+            i0__namespace.ɵɵlistener("click", function EnrichedHeadlineComponent_span_3_a_2_Template_a_click_0_listener() { i0__namespace.ɵɵrestoreView(_r8_1); var ctx_r7 = i0__namespace.ɵɵnextContext(2); return ctx_r7.showInlineHelp = !ctx_r7.showInlineHelp; });
+            i0__namespace.ɵɵpipe(1, "translate");
+            i0__namespace.ɵɵelement(2, "span", 13);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r6 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵclassProp("active", ctx_r6.showInlineHelp);
+            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(1, 3, "General_Help"));
+        }
+    }
+    function EnrichedHeadlineComponent_span_3_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "span", 8);
+            i0__namespace.ɵɵtemplate(1, EnrichedHeadlineComponent_span_3_a_1_Template, 3, 4, "a", 9);
+            i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_span_3_a_2_Template, 3, 5, "a", 10);
+            i0__namespace.ɵɵelement(3, "rate-feature", 11);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r2 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r2.helpUrl && !ctx_r2.inlineHelp);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r2.inlineHelp);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵpropertyInterpolate("title", ctx_r2.featureName);
+        }
+    }
+    function EnrichedHeadlineComponent_div_4_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelement(0, "div", 15);
+        }
+    }
+    function EnrichedHeadlineComponent_div_5_a_2_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "a", 19);
+            i0__namespace.ɵɵtext(1);
+            i0__namespace.ɵɵpipe(2, "translate");
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r9 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵattribute("href", ctx_r9.helpUrl, i0__namespace.ɵɵsanitizeUrl);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵtextInterpolate1(" ", i0__namespace.ɵɵpipeBind1(2, 2, "General_MoreDetails"), " ");
+        }
+    }
+    function EnrichedHeadlineComponent_div_5_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "div", 16);
+            i0__namespace.ɵɵelement(1, "div", 17);
+            i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_div_5_a_2_Template, 3, 4, "a", 18);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r4 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("innerHTML", ctx_r4.inlineHelp, i0__namespace.ɵɵsanitizeHtml);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r4.helpUrl);
+        }
+    }
+    var _c0 = ["*", "*"];
+    var EnrichedHeadlineComponent = /** @class */ (function () {
+        function EnrichedHeadlineComponent(componentElement) {
+            this.componentElement = componentElement;
+            this.helpUrl = '';
+            this.editUrl = '';
+            this.featureName = '';
+            this.inlineHelp = '';
+            this.showReportGenerated = false;
+            this.showIcons = false;
+            this.showInlineHelp = false;
+        }
+        EnrichedHeadlineComponent.prototype.ngAfterContentInit = function () {
+            this.findInlineHelpInContentIfRequired();
+            this.findFeatureNameInContentIfRequired();
+            this.addReportGeneratedTooltip();
+        };
+        EnrichedHeadlineComponent.prototype.addReportGeneratedTooltip = function () {
+            if (!this.reportGenerated) {
+                return;
+            }
+            if (!piwik.periods.parse(piwik.period, piwik.currentDateString).coinsToday()) {
+                return;
+            }
+            var reportGeneratedElement = this.componentElement.nativeElement.querySelector('.report-generated');
+            $(reportGeneratedElement).tooltip({
+                track: true,
+                content: this.reportGenerated,
+                items: 'div',
+                show: false,
+                hide: false,
+            });
+            this.showReportGenerated = true;
+        };
+        EnrichedHeadlineComponent.prototype.findFeatureNameInContentIfRequired = function () {
+            if (this.featureName) {
+                return;
+            }
+            this.featureName = $.trim($(this.componentElement.nativeElement).find('.title').first().text());
+        };
+        EnrichedHeadlineComponent.prototype.findInlineHelpInContentIfRequired = function () {
+            if (this.inlineHelp) {
+                return;
+            }
+            // TODO: jquery should not be used in angular forever, it all must be replaced.
+            var element = $(this.componentElement.nativeElement);
+            var helpNode = $('.title .inlineHelp', this.componentElement.nativeElement);
+            if ((!helpNode || !helpNode.length) && element.next()) {
+                // hack for reports :(
+                helpNode = element.next().find('.reportDocumentation');
+            }
+            if (helpNode && helpNode.length) {
+                // hackish solution to get binded html of p tag within the help node
+                // at this point the ng-bind-html is not yet converted into html when report is not
+                // initially loaded. Using $compile doesn't work. So get and set it manually
+                var helpParagraph = $('p[ng-bind-html]', helpNode); // TODO: this will eventually not work as more components are converted
+                console.log(helpParagraph.html());
+                /*
+                            if (helpParagraph.length) {
+                                helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+                            }
+                
+                            if ($.trim(helpNode.text())) {
+                                scope.inlineHelp = $.trim(helpNode.html());
+                            }
+                            helpNode.remove();
+                            */
+            }
+        };
+        return EnrichedHeadlineComponent;
+    }());
+    EnrichedHeadlineComponent.ɵfac = function EnrichedHeadlineComponent_Factory(t) { return new (t || EnrichedHeadlineComponent)(i0__namespace.ɵɵdirectiveInject(i0__namespace.ElementRef)); };
+    EnrichedHeadlineComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: EnrichedHeadlineComponent, selectors: [["enriched-headline"]], inputs: { helpUrl: "helpUrl", editUrl: "editUrl", reportGenerated: "reportGenerated", featureName: "featureName", inlineHelp: "inlineHelp", showReportGenerated: "showReportGenerated" }, ngContentSelectors: _c0, decls: 6, vars: 5, consts: [[1, "enrichedHeadline", 3, "mouseenter", "mouseleave"], ["class", "title", "tabindex", "6", 4, "ngIf"], ["class", "title", 3, "title", 4, "ngIf"], ["class", "iconsBar", 4, "ngIf"], ["class", "icon-clock report-generated", 4, "ngIf"], ["class", "inlineHelp", 4, "ngIf"], ["tabindex", "6", 1, "title"], [1, "title", 3, "title"], [1, "iconsBar"], ["rel", "noreferrer noopener", "target", "_blank", "class", "helpIcon", 3, "title", 4, "ngIf"], ["class", "helpIcon", 3, "title", "active", "click", 4, "ngIf"], [1, "ratingIcons", 3, "title"], ["rel", "noreferrer noopener", "target", "_blank", 1, "helpIcon", 3, "title"], [1, "icon-help"], [1, "helpIcon", 3, "title", "click"], [1, "icon-clock", "report-generated"], [1, "inlineHelp"], [3, "innerHTML"], ["rel", "noreferrer noopener", "target", "_blank", "class", "readMore", 4, "ngIf"], ["rel", "noreferrer noopener", "target", "_blank", 1, "readMore"]], template: function EnrichedHeadlineComponent_Template(rf, ctx) {
+            if (rf & 1) {
+                i0__namespace.ɵɵprojectionDef(_c0);
+                i0__namespace.ɵɵelementStart(0, "div", 0);
+                i0__namespace.ɵɵlistener("mouseenter", function EnrichedHeadlineComponent_Template_div_mouseenter_0_listener() { return ctx.showIcons = true; })("mouseleave", function EnrichedHeadlineComponent_Template_div_mouseleave_0_listener() { return ctx.showIcons = false; });
+                i0__namespace.ɵɵtemplate(1, EnrichedHeadlineComponent_div_1_Template, 2, 0, "div", 1);
+                i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_a_2_Template, 3, 5, "a", 2);
+                i0__namespace.ɵɵtemplate(3, EnrichedHeadlineComponent_span_3_Template, 4, 3, "span", 3);
+                i0__namespace.ɵɵtemplate(4, EnrichedHeadlineComponent_div_4_Template, 1, 0, "div", 4);
+                i0__namespace.ɵɵtemplate(5, EnrichedHeadlineComponent_div_5_Template, 3, 2, "div", 5);
+                i0__namespace.ɵɵelementEnd();
+            }
+            if (rf & 2) {
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", !ctx.editUrl);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.editUrl);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.showIcons || ctx.showInlineHelp);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.showReportGenerated);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.showInlineHelp);
+            }
+        }, directives: [i4__namespace.NgIf, RateFeatureComponent], pipes: [TranslatePipe], encapsulation: 2 });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(EnrichedHeadlineComponent, [{
+                type: i0.Component,
+                args: [{
+                        selector: 'enriched-headline',
+                        template: "\n    <div\n        class=\"enrichedHeadline\"\n        (mouseenter)=\"showIcons = true\"\n        (mouseleave)=\"showIcons = false\"\n    >\n        <div *ngIf=\"!editUrl\" class=\"title\" tabindex=\"6\">\n            <ng-content></ng-content>\n        </div>\n        <a *ngIf=\"editUrl\" class=\"title\" [attr.href]=\"editUrl\" title=\"{{'CoreHome_ClickToEditX'|translate:featureName}}\">\n            <ng-content></ng-content>\n        </a>\n        \n        <span *ngIf=\"showIcons || showInlineHelp\" class=\"iconsBar\">\n            <a\n                *ngIf=\"helpUrl && !inlineHelp\"\n                rel=\"noreferrer noopener\"\n                target=\"_blank\"\n                [attr.href]=\"helpUrl\"\n                title=\"{{ 'CoreHome_ExternalHelp'|translate }}\"\n                class=\"helpIcon\"\n            >\n                <span class=\"icon-help\"></span>\n            </a>\n            \n            <a\n                *ngIf=\"inlineHelp\"\n                title=\"{{ 'General_Help'|translate }}\"\n                (click)=\"showInlineHelp=!showInlineHelp\"\n                class=\"helpIcon\"\n                [class.active]=\"showInlineHelp\"\n            >\n                <span class=\"icon-help\"></span>\n            </a>\n            \n            <rate-feature class=\"ratingIcons\" title=\"{{ featureName }}\"></rate-feature>\n        </span>\n\n        <div *ngIf=\"showReportGenerated\" class=\"icon-clock report-generated\"></div>\n\n        <div class=\"inlineHelp\" *ngIf=\"showInlineHelp\">\n            <div [innerHTML]=\"inlineHelp\"></div>\n            <a\n                    *ngIf=\"helpUrl\"\n                    rel=\"noreferrer noopener\"\n                    target=\"_blank\"\n                    [attr.href]=\"helpUrl\"\n                    class=\"readMore\"\n            >\n                {{ 'General_MoreDetails'|translate }}\n            </a>\n        </div>\n    </div>\n    ",
+                    }]
+            }], function () { return [{ type: i0__namespace.ElementRef }]; }, { helpUrl: [{
+                    type: i0.Input
+                }], editUrl: [{
+                    type: i0.Input
+                }], reportGenerated: [{
+                    type: i0.Input
+                }], featureName: [{
+                    type: i0.Input
+                }], inlineHelp: [{
+                    type: i0.Input
+                }], showReportGenerated: [{
+                    type: i0.Input
+                }] });
+    })();
+
+    piwikEnrichedHeadlineAdapter.$inject = Array();
+    function piwikEnrichedHeadlineAdapter() {
+        var defaults = {
+            helpUrl: '',
+            editUrl: '',
+            reportGenerated: '',
+            showReportGenerated: '',
+        };
+        return {
+            restrict: 'A',
+            scope: {
+                helpUrl: '@',
+                editUrl: '@',
+                reportGenerated: '@?',
+                featureName: '@',
+                inlineHelp: '@?',
+                showReportGenerated: '=?'
+            },
+            template: "<piwik-enriched-headline-downgrade\n            [helpUrl]=\"helpUrl\"\n            [editUrl]=\"editUrl\"\n            [reportGenerated]=\"reportGenerated\"\n            [featureName]=\"featureName\"\n            [inlineHelp]=\"inlineHelp\"\n            [showReportGenerated]=\"showReportGenerated == '1'\"\n></piwik-enriched-headline-downgrade>",
+            link: function (scope, element, attrs) {
+                for (var index in defaults) {
+                    if (!attrs[index]) {
+                        attrs[index] = defaults[index];
+                    }
+                }
+            },
+        };
+    }
+
     var CoreHomeModule = /** @class */ (function () {
         function CoreHomeModule() {
         }
@@ -1087,6 +1775,11 @@
                             FocusAnywhereButHereDirective,
                             TranslatePipe,
                             SiteSelectorAllSitesLink,
+                            ContentBlockComponent,
+                            EnrichedHeadlineComponent,
+                            RateFeatureComponent,
+                            ReviewLinksComponent,
+                            MatomoDialogDirective,
                         ],
                         imports: [
                             i2.BrowserModule,
@@ -1098,6 +1791,9 @@
                             SiteSelectorComponent,
                             FocusAnywhereButHereDirective,
                             TranslatePipe,
+                            ContentBlockComponent,
+                            EnrichedHeadlineComponent,
+                            RateFeatureComponent,
                         ],
                         providers: [
                             FocusAnywhereButHereDirective,
@@ -1107,6 +1803,7 @@
                         ],
                         entryComponents: [
                             SiteSelectorComponent,
+                            ContentBlockComponent,
                         ],
                     }]
             }], null, null);
@@ -1115,17 +1812,27 @@
         (typeof ngJitMode === "undefined" || ngJitMode) && i0__namespace.ɵɵsetNgModuleScope(CoreHomeModule, { declarations: [SiteSelectorComponent,
                 FocusAnywhereButHereDirective,
                 TranslatePipe,
-                SiteSelectorAllSitesLink], imports: [i2.BrowserModule,
+                SiteSelectorAllSitesLink,
+                ContentBlockComponent,
+                EnrichedHeadlineComponent,
+                RateFeatureComponent,
+                ReviewLinksComponent,
+                MatomoDialogDirective], imports: [i2.BrowserModule,
                 _static.UpgradeModule,
                 i1.HttpClientModule,
                 i5.FormsModule], exports: [SiteSelectorComponent,
                 FocusAnywhereButHereDirective,
-                TranslatePipe] });
+                TranslatePipe,
+                ContentBlockComponent,
+                EnrichedHeadlineComponent,
+                RateFeatureComponent] });
     })();
     var ng2BootstrapFn = function (extraProviders) { return platformBrowserDynamic.platformBrowserDynamic(extraProviders).bootstrapModule(CoreHomeModule); };
     var angularModuleName = _static.downgradeModule(ng2BootstrapFn);
     angular.module(angularModuleName).directive('piwikSiteselectorDowngrade', _static.downgradeComponent({ component: SiteSelectorComponent, downgradedModule: angularModuleName }));
-    angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselectorShim);
+    angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselectorAdapter);
+    angular.module(angularModuleName).directive('piwikEnrichedHeadlineDowngrade', _static.downgradeComponent({ component: EnrichedHeadlineComponent, downgradedModule: angularModuleName }));
+    angular.module(angularModuleName).directive('piwikEnrichedHeadline', piwikEnrichedHeadlineAdapter);
 
     /*
      * Public API Surface of library
@@ -1135,9 +1842,13 @@
      * Generated bundle index. Do not edit.
      */
 
+    exports.ContentBlockComponent = ContentBlockComponent;
     exports.CoreHomeModule = CoreHomeModule;
+    exports.EnrichedHeadlineComponent = EnrichedHeadlineComponent;
     exports.FocusAnywhereButHereDirective = FocusAnywhereButHereDirective;
     exports.MatomoApiService = MatomoApiService;
+    exports.RateFeatureComponent = RateFeatureComponent;
+    exports.ReviewLinksComponent = ReviewLinksComponent;
     exports.SiteSelectorAllSitesLink = SiteSelectorAllSitesLink;
     exports.SiteSelectorComponent = SiteSelectorComponent;
     exports.SitesService = SitesService;

@@ -7,6 +7,7 @@ import {
     OnInit,
     Output,
 } from "@angular/core";
+import {piwikSiteselectorAdapter} from "../siteselector/siteselector.adapter";
 
 declare var piwik: any;
 
