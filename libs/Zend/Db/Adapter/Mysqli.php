@@ -313,6 +313,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
                 if(array_key_exists($option, $ssl_options)) {
                     $ssl_options[$option] = $value;
                     $enable_ssl = true;
+                    continue; // these options are set below in mysqli_ssl_set
                 } elseif(is_string($option)) {
                     // Suppress warnings here
                     // Ignore it if it's not a valid constant

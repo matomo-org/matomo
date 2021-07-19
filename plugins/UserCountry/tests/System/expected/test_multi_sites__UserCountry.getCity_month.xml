@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<row>
+			<label>Unknown</label>
+			<nb_visits>8</nb_visits>
+			<nb_actions>23</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>6485</sum_visit_length>
+			<bounce_count>4</bounce_count>
+			<nb_visits_converted>8</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>8</nb_conversions>
+					<nb_visits_converted>8</nb_visits_converted>
+					<revenue>40</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+			</goals>
+			<nb_conversions>12</nb_conversions>
+			<revenue>60</revenue>
+			<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<city_name>Unknown</city_name>
+			<city>xx</city>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+		<row>
+			<label>Vancouver, British Columbia, Canada</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>16</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>4865</sum_visit_length>
+			<bounce_count>3</bounce_count>
+			<nb_visits_converted>6</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>6</nb_conversions>
+					<nb_visits_converted>6</nb_visits_converted>
+					<revenue>30</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>3</nb_conversions>
+					<nb_visits_converted>3</nb_visits_converted>
+					<revenue>15</revenue>
+				</row>
+			</goals>
+			<nb_conversions>9</nb_conversions>
+			<revenue>45</revenue>
+			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>49.25</lat>
+			<long>-123.133</long>
+			<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
+			<city_name>Vancouver</city_name>
+			<region>BC</region>
+			<country>ca</country>
+			<country_name>Canada</country_name>
+			<region_name>British Columbia</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>12</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>3242</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>124.456</lat>
+			<long>22.231</long>
+			<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Besançon, Bourgogne-Franche-Comté, France</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>47.249</lat>
+			<long>6.018</long>
+			<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
+			<city_name>Besançon</city_name>
+			<region>BFC</region>
+			<country>fr</country>
+			<country_name>France</country_name>
+			<region_name>Bourgogne-Franche-Comté</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		</row>
+		<row>
+			<label>Hluboká nad Vltavou, Sankt-Peterburg, Russia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Hlubok%C3%A1+nad+Vltavou;regionCode==SPE;countryCode==ru</segment>
+			<city_name>Hluboká nad Vltavou</city_name>
+			<region>SPE</region>
+			<country>ru</country>
+			<country_name>Russia</country_name>
+			<region_name>Sankt-Peterburg</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		</row>
+		<row>
+			<label>Lhasa, Xizang Zizhiqu, China</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>29.65</lat>
+			<long>91.1</long>
+			<segment>city==Lhasa;regionCode==XZ;countryCode==cn</segment>
+			<city_name>Lhasa</city_name>
+			<region>XZ</region>
+			<country>cn</country>
+			<country_name>China</country_name>
+			<region_name>Xizang Zizhiqu</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		</row>
+		<row>
+			<label>London, London, City of, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==London;regionCode==LND;countryCode==gb</segment>
+			<city_name>London</city_name>
+			<region>LND</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>London, City of</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Nuneaton+and+Bedworth;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Nuneaton and Bedworth</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Gevgelija, North Macedonia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Stratford-upon-Avon;regionCode==18;countryCode==mk</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>18</region>
+			<country>mk</country>
+			<country_name>North Macedonia</country_name>
+			<region_name>Gevgelija</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Kent, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Stratford-upon-Avon;regionCode==KEN;countryCode==gb</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>KEN</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Kent</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Sankt-Peterburg, Russia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Stratford-upon-Avon;regionCode==SPE;countryCode==ru</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>SPE</region>
+			<country>ru</country>
+			<country_name>Russia</country_name>
+			<region_name>Sankt-Peterburg</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		</row>
+		<row>
+			<label>not a city, California, United States</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<max_actions>1</max_actions>
+			<sum_visit_length>0</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>1</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>1</nb_conversions>
+			<revenue>5</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<lat>1</lat>
+			<long>2</long>
+			<segment>city==not+a+city;regionCode==CA;countryCode==us</segment>
+			<city_name>not a city</city_name>
+			<region>CA</region>
+			<country>us</country>
+			<country_name>United States</country_name>
+			<region_name>California</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		</row>
+	</result>
+	<result idSite="2">
+		<row>
+			<label>Unknown</label>
+			<nb_visits>10</nb_visits>
+			<nb_actions>28</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>8107</sum_visit_length>
+			<bounce_count>5</bounce_count>
+			<nb_visits_converted>10</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>10</nb_conversions>
+					<nb_visits_converted>10</nb_visits_converted>
+					<revenue>50</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>5</nb_conversions>
+					<nb_visits_converted>5</nb_visits_converted>
+					<revenue>25</revenue>
+				</row>
+			</goals>
+			<nb_conversions>15</nb_conversions>
+			<revenue>75</revenue>
+			<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<city_name>Unknown</city_name>
+			<city>xx</city>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>12</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>3242</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>124.456</lat>
+			<long>22.231</long>
+			<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Vancouver, British Columbia, Canada</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>11</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>3243</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>49.25</lat>
+			<long>-123.133</long>
+			<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
+			<city_name>Vancouver</city_name>
+			<region>BC</region>
+			<country>ca</country>
+			<country_name>Canada</country_name>
+			<region_name>British Columbia</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		</row>
+		<row>
+			<label>Hluboká nad Vltavou, Sankt-Peterburg, Russia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Hlubok%C3%A1+nad+Vltavou;regionCode==SPE;countryCode==ru</segment>
+			<city_name>Hluboká nad Vltavou</city_name>
+			<region>SPE</region>
+			<country>ru</country>
+			<country_name>Russia</country_name>
+			<region_name>Sankt-Peterburg</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		</row>
+		<row>
+			<label>Lhasa, Xizang Zizhiqu, China</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>29.65</lat>
+			<long>91.1</long>
+			<segment>city==Lhasa;regionCode==XZ;countryCode==cn</segment>
+			<city_name>Lhasa</city_name>
+			<region>XZ</region>
+			<country>cn</country>
+			<country_name>China</country_name>
+			<region_name>Xizang Zizhiqu</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		</row>
+		<row>
+			<label>London, London, City of, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==London;regionCode==LND;countryCode==gb</segment>
+			<city_name>London</city_name>
+			<region>LND</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>London, City of</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Nuneaton+and+Bedworth;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Nuneaton and Bedworth</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Rome, Lazio, Italy</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<lat>41.9</lat>
+			<long>12.483</long>
+			<segment>city==Rome;regionCode==62;countryCode==it</segment>
+			<city_name>Rome</city_name>
+			<region>62</region>
+			<country>it</country>
+			<country_name>Italy</country_name>
+			<region_name>Lazio</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Gevgelija, North Macedonia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Stratford-upon-Avon;regionCode==18;countryCode==mk</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>18</region>
+			<country>mk</country>
+			<country_name>North Macedonia</country_name>
+			<region_name>Gevgelija</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Kent, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Stratford-upon-Avon;regionCode==KEN;countryCode==gb</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>KEN</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Kent</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Sankt-Peterburg, Russia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>city==Stratford-upon-Avon;regionCode==SPE;countryCode==ru</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>SPE</region>
+			<country>ru</country>
+			<country_name>Russia</country_name>
+			<region_name>Sankt-Peterburg</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		</row>
+		<row>
+			<label>not a city, California, United States</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<max_actions>1</max_actions>
+			<sum_visit_length>0</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>1</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>1</nb_conversions>
+			<revenue>5</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<lat>1</lat>
+			<long>2</long>
+			<segment>city==not+a+city;regionCode==CA;countryCode==us</segment>
+			<city_name>not a city</city_name>
+			<region>CA</region>
+			<country>us</country>
+			<country_name>United States</country_name>
+			<region_name>California</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		</row>
+	</result>
+</results>
