@@ -9,13 +9,20 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
             isInternalSetupUrl: false,
             typeSettings: {},
             measurableSettings: [],
-            utcTime: null,
             period: piwik.broadcast.getValueFromUrl('period'),
             date: piwik.broadcast.getValueFromUrl('date'),
             sitesManagerTypeModel: piwikHelper.getAngularDependency('sitesManagerTypeModel'),
             sitesManagerApiHelper: piwikHelper.getAngularDependency('sitesManagerApiHelper'),
             piwikApi: piwikHelper.getAngularDependency('piwikApi'),
             adminSites: sitesManagerAdminSitesModel,
+        }
+    },
+    computed: {
+        utcTime: function() {
+            var currentDate = new Date();
+
+            return currentDate.getUTCFullYear() + '-' + currentDate.getUTCMonth() + '-' + currentDate.getUTCDate() +
+                ' ' + currentDate.getUTCHours() + ':' + currentDate.getUTCMinutes() + ':' + currentDate.getUTCSeconds();
         }
     },
     methods: {
@@ -38,9 +45,6 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
             }
         },
 
-        formatDate(format, date) {
-            return $.datepicker.formatDate(format, date);
-        },
         editSite() {
             var self = this;
             this.site.editMode = true;
@@ -231,7 +235,6 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
 
             initModel();
             initActions();
-            initUtcTime();
 
             self.site.isLoading = true;
             self.sitesManagerTypeModel.fetchTypeById(self.site.type).then(function (type) {
@@ -255,20 +258,6 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                     self.editSite();
                 }
             });
-        }
-
-        function initUtcTime() {
-
-            var currentDate = new Date();
-
-            self.utcTime = new Date(
-                currentDate.getUTCFullYear(),
-                currentDate.getUTCMonth(),
-                currentDate.getUTCDate(),
-                currentDate.getUTCHours(),
-                currentDate.getUTCMinutes(),
-                currentDate.getUTCSeconds()
-            );
         }
 
         function initActions() {
@@ -402,7 +391,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                   <br/>
                 </span>
 
-                {{ translate('SitesManager_UTCTimeIs', formatDate('yy-M-dd HH:mm:ss', utcTime)) }}
+                {{ translate('SitesManager_UTCTimeIs', utcTime) }}
                 <br/>
                 {{ translate('SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward') }}
             </div>
