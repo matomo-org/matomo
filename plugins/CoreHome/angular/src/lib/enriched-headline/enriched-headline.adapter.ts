@@ -48,7 +48,7 @@ export function piwikEnrichedHeadlineAdapter() {
             function getTranscludedContent(clone: any) {
                 let result = '';
                 for (let node of clone) {
-                    result += node.innerHTML || node.textContent || '';
+                    result += node.outerHTML || node.textContent || '';
                 }
                 return result;
             }
