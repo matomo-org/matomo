@@ -1,5 +1,5 @@
 {
-  "name": "@matomo/core-react",
+  "name": "@matomo/example-react",
   "version": "0.1.0",
   "private": true,
   "eslintConfig": {
