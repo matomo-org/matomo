@@ -1,4 +1,14 @@
-import {AfterContentInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
+import {
+    AfterContentChecked,
+    AfterContentInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild
+} from "@angular/core";
 
 let adminContent: Element|null;
 
@@ -26,7 +36,7 @@ declare var $: any;
         '.contentContainer .contentHelp { display: none }',
     ],
 })
-export class ContentBlockComponent implements AfterContentInit {
+export class ContentBlockComponent implements AfterContentInit, AfterContentChecked {
     constructor(private componentElement: ElementRef) {}
 
     @Input() contentTitle: string = '';
@@ -38,11 +48,6 @@ export class ContentBlockComponent implements AfterContentInit {
     @ViewChild('contentContainer') contentContainer?: ElementRef;
 
     ngAfterContentInit() {
-        const inlineHelp = this.contentContainer?.nativeElement.querySelector('.contentHelp');
-        if (inlineHelp) {
-            this.helpText = inlineHelp.innerHTML;
-        }
-
         if (!adminContent) {
             // cache admin node for further content blocks
             // TODO: it will effectively get cleaned up because we do a pageload in admin pages, but we shouldn't
@@ -72,6 +77,17 @@ export class ContentBlockComponent implements AfterContentInit {
                 // navigation
                 $(this.componentElement.nativeElement).css('marginTop', '0');
             }
+        }
+    }
+
+    ngAfterContentChecked(): void {
+        if (this.helpText) {
+            return;
+        }
+
+        const inlineHelp = this.contentContainer?.nativeElement.querySelector('.contentHelp');
+        if (inlineHelp) {
+            this.helpText = inlineHelp.innerHTML;
         }
     }
 }

@@ -19,10 +19,6 @@ export function piwikEnrichedHeadlineAdapter() {
             showReportGenerated: '=?'
         },
         transclude: true,
-        // NOTE: transcluding into an angularjs directive, that projects content into an angular component doesn't appear to work.
-        //       getting around this by getting the transcluded content programmatically, then using ng-bind-html to trigger
-        //       content projection.
-        //       Also note that the ng-bind-html has to be on a separate child element, or it will just replace the angular component.
         template: `<piwik-enriched-headline-downgrade
             [helpUrl]="helpUrl"
             [editUrl]="editUrl"
@@ -31,7 +27,7 @@ export function piwikEnrichedHeadlineAdapter() {
             [inlineHelp]="inlineHelp"
             [showReportGenerated]="showReportGenerated == '1'"
         >
-            <div ng-bind-html="transcludedContent"></div>
+            <div class="hackTranscludeTarget"></div>
         </piwik-enriched-headline-downgrade>`,
         link: function (scope: any, element: any, attrs: any, ctrl: any, transclude: any) {
             for (let index in defaults) {
@@ -40,18 +36,11 @@ export function piwikEnrichedHeadlineAdapter() {
                 }
             }
 
-            // TODO: everything below should be a a helper function
             transclude(scope, function (clone: any) {
-                scope.transcludedContent = getTranscludedContent(clone);
+                setTimeout(function () {
+                    element.find('.hackTranscludeTarget').append(clone);
+                });
             });
-
-            function getTranscludedContent(clone: any) {
-                let result = '';
-                for (let node of clone) {
-                    result += node.outerHTML || node.textContent || '';
-                }
-                return result;
-            }
         },
     };
 }

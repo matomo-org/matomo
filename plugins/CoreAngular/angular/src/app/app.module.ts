@@ -1,13 +1,6 @@
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-
-declare var angular: angular.IAngularStatic;
-
-import {Compiler, Component, Injector, NgModule, OnInit, StaticProvider} from '@angular/core';
+import {NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {downgradeComponent, downgradeModule, UpgradeModule} from '@angular/upgrade/static';
-
-const windowAny = window as any;
-const pluginList = windowAny.piwik.pluginsLoadedAndActivated as string[];
+import {UpgradeModule} from '@angular/upgrade/static';
 
 @NgModule({
   imports: [
@@ -16,9 +9,13 @@ const pluginList = windowAny.piwik.pluginsLoadedAndActivated as string[];
   ],
 })
 export class AppModule {
-  constructor(private upgrade: UpgradeModule, private compiler: Compiler, private parentInjector: Injector) { }
+  constructor(private upgrade: UpgradeModule) { }
 
   ngDoBootstrap() {
-    this.upgrade.bootstrap(document.body, ['piwikApp'], { strictDi: false });
+    try {
+      this.upgrade.bootstrap(document.body, ['piwikApp'], {strictDi: false});
+    } catch (e) {
+      console.log(`failed to bootstrap app: ${e.stack || e.message || e}`);
+    }
   }
 }

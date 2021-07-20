@@ -75,11 +75,6 @@
             this.helpText = '';
         }
         ContentBlockComponent.prototype.ngAfterContentInit = function () {
-            var _a;
-            var inlineHelp = (_a = this.contentContainer) === null || _a === void 0 ? void 0 : _a.nativeElement.querySelector('.contentHelp');
-            if (inlineHelp) {
-                this.helpText = inlineHelp.innerHTML;
-            }
             if (!adminContent) {
                 // cache admin node for further content blocks
                 // TODO: it will effectively get cleaned up because we do a pageload in admin pages, but we shouldn't
@@ -107,6 +102,16 @@
                     // navigation
                     $(this.componentElement.nativeElement).css('marginTop', '0');
                 }
+            }
+        };
+        ContentBlockComponent.prototype.ngAfterContentChecked = function () {
+            var _a;
+            if (this.helpText) {
+                return;
+            }
+            var inlineHelp = (_a = this.contentContainer) === null || _a === void 0 ? void 0 : _a.nativeElement.querySelector('.contentHelp');
+            if (inlineHelp) {
+                this.helpText = inlineHelp.innerHTML;
             }
         };
         return ContentBlockComponent;
@@ -1751,39 +1756,44 @@
                 showReportGenerated: '=?'
             },
             transclude: true,
-            // NOTE: transcluding into an angularjs directive, that projects content into an angular component doesn't appear to work.
-            //       getting around this by getting the transcluded content programmatically, then using ng-bind-html to trigger
-            //       content projection.
-            //       Also note that the ng-bind-html has to be on a separate child element, or it will just replace the angular component.
-            template: "<piwik-enriched-headline-downgrade\n            [helpUrl]=\"helpUrl\"\n            [editUrl]=\"editUrl\"\n            [reportGenerated]=\"reportGenerated\"\n            [featureName]=\"featureName\"\n            [inlineHelp]=\"inlineHelp\"\n            [showReportGenerated]=\"showReportGenerated == '1'\"\n        >\n            <div ng-bind-html=\"transcludedContent\"></div>\n        </piwik-enriched-headline-downgrade>",
+            template: "<piwik-enriched-headline-downgrade\n            [helpUrl]=\"helpUrl\"\n            [editUrl]=\"editUrl\"\n            [reportGenerated]=\"reportGenerated\"\n            [featureName]=\"featureName\"\n            [inlineHelp]=\"inlineHelp\"\n            [showReportGenerated]=\"showReportGenerated == '1'\"\n        >\n            <div class=\"hackTranscludeTarget\"></div>\n        </piwik-enriched-headline-downgrade>",
             link: function (scope, element, attrs, ctrl, transclude) {
                 for (var index in defaults) {
                     if (!attrs[index]) {
                         attrs[index] = defaults[index];
                     }
                 }
-                // TODO: everything below should be a a helper function
                 transclude(scope, function (clone) {
-                    scope.transcludedContent = getTranscludedContent(clone);
+                    setTimeout(function () {
+                        console.log(clone);
+                        console.log(element.find('.hackTranscludeTarget'));
+                        element.find('.hackTranscludeTarget').append(clone);
+                    });
                 });
-                function getTranscludedContent(clone) {
-                    var e_1, _a;
-                    var result = '';
-                    try {
-                        for (var clone_1 = __values(clone), clone_1_1 = clone_1.next(); !clone_1_1.done; clone_1_1 = clone_1.next()) {
-                            var node = clone_1_1.value;
-                            result += node.innerHTML || node.textContent || '';
-                        }
-                    }
-                    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                    finally {
-                        try {
-                            if (clone_1_1 && !clone_1_1.done && (_a = clone_1.return)) _a.call(clone_1);
-                        }
-                        finally { if (e_1) throw e_1.error; }
-                    }
-                    return result;
-                }
+            },
+        };
+    }
+
+    piwikContentBlockAdapter.$inject = ['$timeout'];
+    function piwikContentBlockAdapter($timeout) {
+        return {
+            restrict: 'A',
+            replace: true,
+            transclude: true,
+            scope: {
+                contentTitle: '@',
+                feature: '@',
+                helpUrl: '@',
+                helpText: '@',
+                anchor: '@?'
+            },
+            template: "<piwik-content-block-downgrade\n            [contentTitle]=\"contentTitle\"\n            [feature]=\"feature\"\n            [helpUrl]=\"helpUrl\"\n            [helpText]=\"helpText\"\n            [anchor]=\"anchor == 'true' || anchor == '1'\"\n        >\n            <div class=\"hackTranscludeTarget\"></div>\n        </piwik-content-block-downgrade>",
+            link: function (scope, element, attrs, ctrl, transclude) {
+                transclude(scope, function (clone) {
+                    setTimeout(function () {
+                        element.find('.hackTranscludeTarget').replaceWith(clone);
+                    });
+                });
             },
         };
     }
@@ -1880,6 +1890,8 @@
     angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselectorAdapter);
     angular.module(angularModuleName).directive('piwikEnrichedHeadlineDowngrade', _static.downgradeComponent({ component: EnrichedHeadlineComponent, downgradedModule: angularModuleName }));
     angular.module(angularModuleName).directive('piwikEnrichedHeadline', piwikEnrichedHeadlineAdapter);
+    angular.module(angularModuleName).directive('piwikContentBlockDowngrade', _static.downgradeComponent({ component: ContentBlockComponent, downgradedModule: angularModuleName }));
+    angular.module(angularModuleName).directive('piwikContentBlock', piwikContentBlockAdapter);
 
     /*
      * Public API Surface of library

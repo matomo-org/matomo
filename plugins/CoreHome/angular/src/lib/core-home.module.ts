@@ -19,6 +19,7 @@ import {RateFeatureComponent, ReviewLinksComponent} from "./rate-feature/rate-fe
 import {MatomoDialogDirective} from "./common/matomo-dialog.directive";
 import {piwikEnrichedHeadlineAdapter} from "./enriched-headline/enriched-headline.adapter";
 import {CommonModule} from "@angular/common";
+import {piwikContentBlockAdapter} from "./content-block/content-block.adapter";
 
 export * from './matomo-api/matomo-api.service';
 export * from './common/focus-anywhere-but-here.directive';
@@ -87,3 +88,7 @@ angular.module(angularModuleName).directive('piwikSiteselector', piwikSiteselect
 angular.module(angularModuleName).directive('piwikEnrichedHeadlineDowngrade', downgradeComponent(
     { component: EnrichedHeadlineComponent, downgradedModule: angularModuleName }));
 angular.module(angularModuleName).directive('piwikEnrichedHeadline', piwikEnrichedHeadlineAdapter);
+
+angular.module(angularModuleName).directive('piwikContentBlockDowngrade', downgradeComponent(
+    { component: ContentBlockComponent, downgradedModule: angularModuleName }));
+angular.module(angularModuleName).directive('piwikContentBlock', piwikContentBlockAdapter);

@@ -27,27 +27,28 @@
     var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
     var i1__namespace = /*#__PURE__*/_interopNamespace(i1);
 
-    var windowAny = window;
-    var pluginList = windowAny.piwik.pluginsLoadedAndActivated;
     var AppModule = /** @class */ (function () {
-        function AppModule(upgrade, compiler, parentInjector) {
+        function AppModule(upgrade) {
             this.upgrade = upgrade;
-            this.compiler = compiler;
-            this.parentInjector = parentInjector;
         }
         AppModule.prototype.ngDoBootstrap = function () {
-            this.upgrade.bootstrap(document.body, ['piwikApp'], { strictDi: false });
+            try {
+                this.upgrade.bootstrap(document.body, ['piwikApp'], { strictDi: false });
+            }
+            catch (e) {
+                console.log("failed to bootstrap app: " + (e.stack || e.message || e));
+            }
         };
         return AppModule;
     }());
-    AppModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: AppModule, deps: [{ token: i1__namespace.UpgradeModule }, { token: i0__namespace.Compiler }, { token: i0__namespace.Injector }], target: i0__namespace.ɵɵFactoryTarget.NgModule });
-    AppModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: AppModule, imports: [platformBrowser.BrowserModule,
-            i1.UpgradeModule] });
-    AppModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: AppModule, imports: [[
+    AppModule.ɵfac = function AppModule_Factory(t) { return new (t || AppModule)(i0__namespace.ɵɵinject(i1__namespace.UpgradeModule)); };
+    AppModule.ɵmod = /*@__PURE__*/ i0__namespace.ɵɵdefineNgModule({ type: AppModule });
+    AppModule.ɵinj = /*@__PURE__*/ i0__namespace.ɵɵdefineInjector({ imports: [[
                 platformBrowser.BrowserModule,
                 i1.UpgradeModule,
             ]] });
-    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.1.0", ngImport: i0__namespace, type: AppModule, decorators: [{
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(AppModule, [{
                 type: i0.NgModule,
                 args: [{
                         imports: [
@@ -55,7 +56,12 @@
                             i1.UpgradeModule,
                         ],
                     }]
-            }], ctorParameters: function () { return [{ type: i1__namespace.UpgradeModule }, { type: i0__namespace.Compiler }, { type: i0__namespace.Injector }]; } });
+            }], function () { return [{ type: i1__namespace.UpgradeModule }]; }, null);
+    })();
+    (function () {
+        (typeof ngJitMode === "undefined" || ngJitMode) && i0__namespace.ɵɵsetNgModuleScope(AppModule, { imports: [platformBrowser.BrowserModule,
+                i1.UpgradeModule] });
+    })();
 
     /*
      * Public API Surface of CoreAngular

@@ -45,9 +45,11 @@
         }
     }
 
-    angular.module('piwikApp').run(['notifications', function (notifications) {
+    angular.module('piwikApp').run(['notifications', '$timeout', function (notifications, $timeout) {
         $(function () {
-            notifications.parseNotificationDivs();
+            $timeout(function () { // the injector is not available at this point for some reason, so we use $timeout
+                notifications.parseNotificationDivs();
+            });
         });
     }]);
 })();
