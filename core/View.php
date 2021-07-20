@@ -12,6 +12,7 @@ use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
 use Piwik\View\ViewInterface;
+use Piwik\View\SecurityPolicy;
 use Twig\Environment;
 use Twig\Error\Error;
 
@@ -298,6 +299,8 @@ class View implements ViewInterface
                 // always send explicit default header
                 Common::sendHeader('Referrer-Policy: strict-origin-when-cross-origin');
             }
+
+            Common::sendHeader(StaticContainer::get(SecurityPolicy::class)->createHeaderString());
         }
 
         return $this->renderTwigTemplate();
