@@ -217,6 +217,8 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                     // todo move this into a directive
                     siteElement[0].scrollIntoView();
                 }
+            } else if(!sitesManagerAdminSitesModel.sites[0].idsite) {
+                this.adminSites.sites.shift();
             }
             this.sitesManagerTypeModel.removeEditSiteIdParameterFromHash();
         },
