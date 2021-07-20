@@ -12,15 +12,12 @@
 (function () {
     angular.module('piwikApp').directive('piwikContentBlock', piwikContentBlock);
 
-    piwikContentBlock.$inject = ['piwik'];
+    piwikContentBlock.$inject = ['$timeout'];
 
-    function piwikContentBlock(piwik){
-
-        var adminContent = null;
+    function piwikContentBlock($timeout){
 
         return {
             restrict: 'A',
-            replace: true,
             transclude: true,
             scope: {
                 contentTitle: '@',
@@ -29,61 +26,17 @@
                 helpText: '@',
                 anchor: '@?'
             },
-            templateUrl: 'plugins/CoreHome/angularjs/content-block/content-block.directive.html?cb=' + piwik.cacheBuster,
-            controllerAs: 'contentBlock',
-            compile: function (element, attrs) {
-
-                if (attrs.feature === 'true') {
-                    attrs.feature = true;
+            template: '<matomo-content-block content-title="{{ contentTitle }}" feature="{{ feature }}" ' +
+                'help-url="{{ helpUrl }}" help-text="{{ helpText }}" anchor="{{ anchor }}" ng-transclude></matomo-content-block>',
+            compile: function(element) {
+                return {
+                    post: function postLink( scope, element, attrs ) {
+                        $timeout(function(){
+                            matomo.createVue(element[0])
+                        });
+                    }
                 }
-
-                return function (scope, element, attrs) {
-                    if (scope.anchor) {
-                        var anchor = $('<a></a>').attr('id', scope.anchor);
-                        element.prepend(anchor);
-                    }
-
-                    var inlineHelp = element.find('[ng-transclude] > .contentHelp');
-                    if (inlineHelp.length) {
-                        scope.helpText = inlineHelp.html();
-                        inlineHelp.remove();
-                    }
-
-                    if (scope.feature && (scope.feature===true || scope.feature ==='true')) {
-                        scope.feature = scope.contentTitle;
-                    }
-
-                    if (adminContent === null) {
-                        // cache admin node for further content blocks
-                        adminContent = $('#content.admin');
-                    }
-
-                    var contentTopPosition = false;
-
-                    if (adminContent.length) {
-                        contentTopPosition = adminContent.offset().top;
-                    }
-
-                    if (contentTopPosition || contentTopPosition === 0) {
-                        var parents = element.parentsUntil('.col', '[piwik-widget-loader]');
-                        var topThis;
-                        if (parents.length) {
-                            // when shown within the widget loader, we need to get the offset of that element
-                            // as the widget loader might be still shown. Would otherwise not position correctly
-                            // the widgets on the admin home page
-                            topThis = parents.offset().top;
-                        } else {
-                            topThis = element.offset().top;
-                        }
-
-                        if ((topThis - contentTopPosition) < 17) {
-                            // we make sure to display the first card with no margin-top to have it on same as line as
-                            // navigation
-                            element.css('marginTop', '0');
-                        }
-                    }
-                };
-            }
+            },
         };
     }
 })();

@@ -18,10 +18,8 @@
 
         return {
             restrict: 'A',
-            transclude: true,
             controller: 'LocationProviderSelectionController',
             controllerAs: 'locationSelector',
-            template: '<div ng-transclude></div>',
             compile: function (element, attrs) {
 
                 return function (scope, element, attrs, controller) {
