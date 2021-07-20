@@ -18,6 +18,18 @@ use Piwik\IP;
  */
 class IPTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Config::getInstance()->General['proxy_ip_read_last_in_list'] = 0;
+    }
+
+    protected function tearDown(): void
+    {
+        Config::getInstance()->General['proxy_ip_read_last_in_list'] = 0;
+        parent::tearDown();
+    }
+
     /**
      * Dataprovider for long2ip test
      */
@@ -92,6 +104,16 @@ class IPTest extends \PHPUnit\Framework\TestCase
         Config::getInstance()->General['proxy_client_headers'] = array($test[2]);
         Config::getInstance()->General['proxy_ips'] = array($test[3]);
         $this->assertEquals($test[4], IP::getIpFromHeader(), $description);
+    }
+
+    public function testGetIpFromHeader_DoesNotIgnoreRemoteAddr_ifReadingFromLast()
+    {
+        $_SERVER['REMOTE_ADDR'] = '234.50.50.23';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.32.45.66,234.50.50.23,90.09.12.34';
+        Config::getInstance()->General['proxy_client_headers'] = array('HTTP_X_FORWARDED_FOR');
+        Config::getInstance()->General['proxy_ips'] = array('90.09.12.34');
+        Config::getInstance()->General['proxy_ip_read_last_in_list'] = 1;
+        $this->assertEquals('234.50.50.23', IP::getIpFromHeader());
     }
 
     /**
@@ -195,5 +217,41 @@ class IPTest extends \PHPUnit\Framework\TestCase
     {
         // with excluded Ips
         $this->assertEquals('', IP::getFirstIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
+    }
+
+    /**
+     * Dataprovider for testGetLastIpFromList
+     */
+    public function getLastIpFromListTestData()
+    {
+        return array(
+            array('', ''),
+            array('127.0.0.1', '127.0.0.1'),
+            array(' 127.0.0.1 ', '127.0.0.1'),
+            array(' 192.168.1.1, 127.0.0.1', '127.0.0.1'),
+            array('192.168.1.1 ,127.0.0.1 ', '127.0.0.1'),
+            array('2001:db8:cafe::17 , 192.168.1.1', '192.168.1.1'),
+            array('192.168.1.1 , 2001:db8:cafe::17', '2001:db8:cafe::17'),
+            array('192.168.1.1,', '192.168.1.1'),
+            array(',192.168.1.1,', '192.168.1.1'),
+        );
+    }
+
+    /**
+     * @dataProvider getLastIpFromListTestData
+     */
+    public function testGetLastIpFromList($csv, $expected)
+    {
+        // without excluded IPs
+        $this->assertEquals($expected, IP::getLastIpFromList($csv));
+
+        // with excluded Ips
+        $this->assertEquals($expected, IP::getLastIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
+    }
+
+    public function testGetLastIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
+    {
+        // with excluded Ips
+        $this->assertEquals('', IP::getLastIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
     }
 }

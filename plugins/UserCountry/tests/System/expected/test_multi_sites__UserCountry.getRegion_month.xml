@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<row>
+			<label>Unknown</label>
+			<nb_visits>8</nb_visits>
+			<nb_actions>23</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>6485</sum_visit_length>
+			<bounce_count>4</bounce_count>
+			<nb_visits_converted>8</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>8</nb_conversions>
+					<nb_visits_converted>8</nb_visits_converted>
+					<revenue>40</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+			</goals>
+			<nb_conversions>12</nb_conversions>
+			<revenue>60</revenue>
+			<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+		<row>
+			<label>British Columbia, Canada</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>16</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>4865</sum_visit_length>
+			<bounce_count>3</bounce_count>
+			<nb_visits_converted>6</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>6</nb_conversions>
+					<nb_visits_converted>6</nb_visits_converted>
+					<revenue>30</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>3</nb_conversions>
+					<nb_visits_converted>3</nb_visits_converted>
+					<revenue>15</revenue>
+				</row>
+			</goals>
+			<nb_conversions>9</nb_conversions>
+			<revenue>45</revenue>
+			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==BC;countryCode==ca</segment>
+			<region>BC</region>
+			<country>ca</country>
+			<country_name>Canada</country_name>
+			<region_name>British Columbia</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		</row>
+		<row>
+			<label>Warwickshire, United Kingdom</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>17</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>4864</sum_visit_length>
+			<bounce_count>3</bounce_count>
+			<nb_visits_converted>6</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>6</nb_conversions>
+					<nb_visits_converted>6</nb_visits_converted>
+					<revenue>30</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>3</nb_conversions>
+					<nb_visits_converted>3</nb_visits_converted>
+					<revenue>15</revenue>
+				</row>
+			</goals>
+			<nb_conversions>9</nb_conversions>
+			<revenue>45</revenue>
+			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==WAR;countryCode==gb</segment>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Sankt-Peterburg, Russia</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>11</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>3243</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==SPE;countryCode==ru</segment>
+			<region>SPE</region>
+			<country>ru</country>
+			<country_name>Russia</country_name>
+			<region_name>Sankt-Peterburg</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		</row>
+		<row>
+			<label>Bourgogne-Franche-Comté, France</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==BFC;countryCode==fr</segment>
+			<region>BFC</region>
+			<country>fr</country>
+			<country_name>France</country_name>
+			<region_name>Bourgogne-Franche-Comté</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		</row>
+		<row>
+			<label>Gevgelija, North Macedonia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==18;countryCode==mk</segment>
+			<region>18</region>
+			<country>mk</country>
+			<country_name>North Macedonia</country_name>
+			<region_name>Gevgelija</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+		</row>
+		<row>
+			<label>Kent, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==KEN;countryCode==gb</segment>
+			<region>KEN</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Kent</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>London, City of, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==LND;countryCode==gb</segment>
+			<region>LND</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>London, City of</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Xizang Zizhiqu, China</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==XZ;countryCode==cn</segment>
+			<region>XZ</region>
+			<country>cn</country>
+			<country_name>China</country_name>
+			<region_name>Xizang Zizhiqu</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		</row>
+		<row>
+			<label>California, United States</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<max_actions>1</max_actions>
+			<sum_visit_length>0</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>1</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>1</nb_conversions>
+			<revenue>5</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<segment>regionCode==CA;countryCode==us</segment>
+			<region>CA</region>
+			<country>us</country>
+			<country_name>United States</country_name>
+			<region_name>California</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		</row>
+	</result>
+	<result idSite="2">
+		<row>
+			<label>Unknown</label>
+			<nb_visits>10</nb_visits>
+			<nb_actions>28</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>8107</sum_visit_length>
+			<bounce_count>5</bounce_count>
+			<nb_visits_converted>10</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>10</nb_conversions>
+					<nb_visits_converted>10</nb_visits_converted>
+					<revenue>50</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>5</nb_conversions>
+					<nb_visits_converted>5</nb_visits_converted>
+					<revenue>25</revenue>
+				</row>
+			</goals>
+			<nb_conversions>15</nb_conversions>
+			<revenue>75</revenue>
+			<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+		<row>
+			<label>Warwickshire, United Kingdom</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>17</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>4864</sum_visit_length>
+			<bounce_count>3</bounce_count>
+			<nb_visits_converted>6</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>6</nb_conversions>
+					<nb_visits_converted>6</nb_visits_converted>
+					<revenue>30</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>3</nb_conversions>
+					<nb_visits_converted>3</nb_visits_converted>
+					<revenue>15</revenue>
+				</row>
+			</goals>
+			<nb_conversions>9</nb_conversions>
+			<revenue>45</revenue>
+			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==WAR;countryCode==gb</segment>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>British Columbia, Canada</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>11</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>3243</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==BC;countryCode==ca</segment>
+			<region>BC</region>
+			<country>ca</country>
+			<country_name>Canada</country_name>
+			<region_name>British Columbia</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		</row>
+		<row>
+			<label>Sankt-Peterburg, Russia</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>11</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>3243</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==SPE;countryCode==ru</segment>
+			<region>SPE</region>
+			<country>ru</country>
+			<country_name>Russia</country_name>
+			<region_name>Sankt-Peterburg</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		</row>
+		<row>
+			<label>Gevgelija, North Macedonia</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==18;countryCode==mk</segment>
+			<region>18</region>
+			<country>mk</country>
+			<country_name>North Macedonia</country_name>
+			<region_name>Gevgelija</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+		</row>
+		<row>
+			<label>Kent, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==KEN;countryCode==gb</segment>
+			<region>KEN</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Kent</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Lazio, Italy</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==62;countryCode==it</segment>
+			<region>62</region>
+			<country>it</country>
+			<country_name>Italy</country_name>
+			<region_name>Lazio</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+		</row>
+		<row>
+			<label>London, City of, United Kingdom</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==LND;countryCode==gb</segment>
+			<region>LND</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>London, City of</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Xizang Zizhiqu, China</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>regionCode==XZ;countryCode==cn</segment>
+			<region>XZ</region>
+			<country>cn</country>
+			<country_name>China</country_name>
+			<region_name>Xizang Zizhiqu</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		</row>
+		<row>
+			<label>California, United States</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<max_actions>1</max_actions>
+			<sum_visit_length>0</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>1</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>1</nb_conversions>
+			<revenue>5</revenue>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>1</sum_daily_nb_users>
+			<segment>regionCode==CA;countryCode==us</segment>
+			<region>CA</region>
+			<country>us</country>
+			<country_name>United States</country_name>
+			<region_name>California</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		</row>
+	</result>
+</results>

@@ -349,6 +349,10 @@ class PivotByDimension extends BaseFilter
             }
         }
 
+        if (empty($report)) {
+            throw new \Exception("This report does not support pivot.");
+        }
+
         $this->thisReport = $report;
 
         $this->subtableDimension = $this->thisReport->getSubtableDimension();
