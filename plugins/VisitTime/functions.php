@@ -16,7 +16,7 @@ use Piwik\Piwik;
 function getTimeLabel($label)
 {
     if (empty(mktime($label))) {
-        throw new \Exception("unable to parse date label: $label");
+        return $label;
     }
 
     $date             = Date::factory(mktime($label));
