@@ -18,6 +18,18 @@ use Piwik\IP;
  */
 class IPTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Config::getInstance()->General['proxy_ip_read_last_in_list'] = 0;
+    }
+
+    protected function tearDown(): void
+    {
+        Config::getInstance()->General['proxy_ip_read_last_in_list'] = 0;
+        parent::tearDown();
+    }
+
     /**
      * Dataprovider for long2ip test
      */
@@ -92,6 +104,16 @@ class IPTest extends \PHPUnit\Framework\TestCase
         Config::getInstance()->General['proxy_client_headers'] = array($test[2]);
         Config::getInstance()->General['proxy_ips'] = array($test[3]);
         $this->assertEquals($test[4], IP::getIpFromHeader(), $description);
+    }
+
+    public function testGetIpFromHeader_DoesNotIgnoreRemoteAddr_ifReadingFromLast()
+    {
+        $_SERVER['REMOTE_ADDR'] = '234.50.50.23';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.32.45.66,234.50.50.23,90.09.12.34';
+        Config::getInstance()->General['proxy_client_headers'] = array('HTTP_X_FORWARDED_FOR');
+        Config::getInstance()->General['proxy_ips'] = array('90.09.12.34');
+        Config::getInstance()->General['proxy_ip_read_last_in_list'] = 1;
+        $this->assertEquals('234.50.50.23', IP::getIpFromHeader());
     }
 
     /**
