@@ -1620,7 +1620,6 @@
         EnrichedHeadlineComponent.prototype.ngAfterContentChecked = function () {
             this.findFeatureNameInContentIfRequired();
             this.addReportGeneratedTooltip();
-            return;
             this.findInlineHelpInContentIfRequired();
         };
         EnrichedHeadlineComponent.prototype.addReportGeneratedTooltip = function () {
@@ -1656,27 +1655,20 @@
             }
             // TODO: jquery should not be used in angular forever, it all must be replaced.
             var element = $(this.componentElement.nativeElement);
-            var helpNode = $('.title .inlineHelp', this.componentElement.nativeElement);
+            var helpNode = $('.title .inlineHelp', element);
             if ((!helpNode || !helpNode.length) && element.next()) {
                 // hack for reports :(
                 helpNode = element.next().find('.reportDocumentation');
             }
+            if ((!helpNode || !helpNode.length) && element.parent().next()) { // executed when using the enriched-headline adapter
+                // hack for reports (2) :(
+                helpNode = element.parent().next().find('.reportDocumentation');
+            }
             if (helpNode && helpNode.length) {
-                // hackish solution to get binded html of p tag within the help node
-                // at this point the ng-bind-html is not yet converted into html when report is not
-                // initially loaded. Using $compile doesn't work. So get and set it manually
-                var helpParagraph = $('p[ng-bind-html]', helpNode); // TODO: this will eventually not work as more components are converted
-                console.log(helpParagraph.html());
-                /*
-                            if (helpParagraph.length) {
-                                helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
-                            }
-                
-                            if ($.trim(helpNode.text())) {
-                                scope.inlineHelp = $.trim(helpNode.html());
-                            }
-                            helpNode.remove();
-                            */
+                if ($.trim(helpNode.text())) {
+                    this.inlineHelp = $.trim(helpNode.html());
+                }
+                helpNode.remove();
             }
         };
         return EnrichedHeadlineComponent;

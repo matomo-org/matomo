@@ -92,7 +92,6 @@ export class EnrichedHeadlineComponent implements AfterContentChecked {
     ngAfterContentChecked() {
         this.findFeatureNameInContentIfRequired();
         this.addReportGeneratedTooltip();
-        return;
         this.findInlineHelpInContentIfRequired();
     }
 
@@ -137,29 +136,22 @@ export class EnrichedHeadlineComponent implements AfterContentChecked {
 
         // TODO: jquery should not be used in angular forever, it all must be replaced.
         const element = $(this.componentElement.nativeElement);
-        let helpNode = $('.title .inlineHelp', this.componentElement.nativeElement);
+        let helpNode = $('.title .inlineHelp', element);
 
         if ((!helpNode || !helpNode.length) && element.next()) {
             // hack for reports :(
             helpNode = element.next().find('.reportDocumentation');
         }
+        if ((!helpNode || !helpNode.length) && element.parent().next()) { // executed when using the enriched-headline adapter
+            // hack for reports (2) :(
+            helpNode = element.parent().next().find('.reportDocumentation');
+        }
 
         if (helpNode && helpNode.length) {
-            // hackish solution to get binded html of p tag within the help node
-            // at this point the ng-bind-html is not yet converted into html when report is not
-            // initially loaded. Using $compile doesn't work. So get and set it manually
-            const helpParagraph = $('p[ng-bind-html]', helpNode); // TODO: this will eventually not work as more components are converted
-            console.log(helpParagraph.html());
-/*
-            if (helpParagraph.length) {
-                helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
-            }
-
             if ($.trim(helpNode.text())) {
-                scope.inlineHelp = $.trim(helpNode.html());
+                this.inlineHelp = $.trim(helpNode.html());
             }
             helpNode.remove();
-            */
         }
     }
 }
