@@ -9,7 +9,7 @@ export function piwikSiteselectorAdapter($timeout: any) {
         scope: {
             showSelectedSite: '=',
             showAllSitesItem: '=',
-            switchSiteOnSelect: '=',
+            switchSiteOnSelect: '<',
             onlySitesWithAdminAccess: '=',
             inputName: '@name',
             allSitesText: '@',
@@ -39,7 +39,7 @@ export function piwikSiteselectorAdapter($timeout: any) {
             scope.sitename = attrs.sitename;
 
             // TODO: the default values logic from before still needs to be here...
-            scope.switchSiteOnSelect = typeof scope.switchSiteOnSelect === 'undefined' ? true : scope.switchSiteOnSelect;
+            scope.switchSiteOnSelect = typeof scope.switchSiteOnSelect === 'undefined' ? true : (scope.switchSiteOnSelect == 'true' || scope.switchSiteOnSelect == '1');
 
             scope.onSelectedSiteChange = function ($event: any) {
                 scope.selectedSite = $event.data;

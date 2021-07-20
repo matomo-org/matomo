@@ -18,6 +18,7 @@ import {EnrichedHeadlineComponent} from "./enriched-headline/enriched-headline.c
 import {RateFeatureComponent, ReviewLinksComponent} from "./rate-feature/rate-feature.component";
 import {MatomoDialogDirective} from "./common/matomo-dialog.directive";
 import {piwikEnrichedHeadlineAdapter} from "./enriched-headline/enriched-headline.adapter";
+import {CommonModule} from "@angular/common";
 
 export * from './matomo-api/matomo-api.service';
 export * from './common/focus-anywhere-but-here.directive';
@@ -42,6 +43,7 @@ export * from './content-block/content-block.component';
     MatomoDialogDirective,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     UpgradeModule,
     HttpClientModule,
@@ -64,6 +66,7 @@ export * from './content-block/content-block.component';
   entryComponents: [
     SiteSelectorComponent,
     ContentBlockComponent,
+    EnrichedHeadlineComponent,
   ],
 })
 export class CoreHomeModule {

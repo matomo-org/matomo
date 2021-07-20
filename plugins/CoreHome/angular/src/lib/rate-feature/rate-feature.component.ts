@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {MatomoApiService} from "../matomo-api/matomo-api.service";
 
 @Component({
@@ -53,7 +53,7 @@ export class ReviewLinksComponent {
 @Component({
     selector: 'rate-feature',
     template: `
-        <div title="{{ 'Feedback_RateFeatureTitle'|translate:(title) }}" class="ratefeature">
+        <div title="{{ 'Feedback_RateFeatureTitle'|translate:title }}" class="ratefeature">
             <div
                 class="iconContainer"
                 (mouseenter)="expanded = true"
@@ -67,7 +67,7 @@ export class ReviewLinksComponent {
             <div matomoDialog class="ui-confirm ratefeatureDialog" [showModal]="showFeedbackForm" (onYesClick)="sendFeedback()" (onClose)="showFeedbackForm = false">
                 <h2>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h2>
                 <p *ngIf="like">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>
-                <p *ngif="!like">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>
+                <p *ngIf="!like">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>
                 <br />
 
                 <div class="messageContainer">
@@ -96,7 +96,7 @@ export class ReviewLinksComponent {
 export class RateFeatureComponent {
     constructor(private matomoApi: MatomoApiService) {}
 
-    @Input() title: string = '';
+    @Input() title!: string;
 
     expanded: boolean = false;
     showFeedbackForm: boolean = false;

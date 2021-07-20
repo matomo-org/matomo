@@ -176,7 +176,7 @@
             scope: {
                 showSelectedSite: '=',
                 showAllSitesItem: '=',
-                switchSiteOnSelect: '=',
+                switchSiteOnSelect: '<',
                 onlySitesWithAdminAccess: '=',
                 inputName: '@name',
                 allSitesText: '@',
@@ -193,7 +193,7 @@
                 scope.siteid = attrs.siteid;
                 scope.sitename = attrs.sitename;
                 // TODO: the default values logic from before still needs to be here...
-                scope.switchSiteOnSelect = typeof scope.switchSiteOnSelect === 'undefined' ? true : scope.switchSiteOnSelect;
+                scope.switchSiteOnSelect = typeof scope.switchSiteOnSelect === 'undefined' ? true : (scope.switchSiteOnSelect == 'true' || scope.switchSiteOnSelect == '1');
                 scope.onSelectedSiteChange = function ($event) {
                     scope.selectedSite = $event.data;
                     if (ngModel) {
@@ -723,7 +723,7 @@
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            return _pk_translate.apply(void 0, __spreadArray([key], __read(args)));
+            return _pk_translate(key, args);
         };
         return TranslatePipe;
     }());
@@ -1254,7 +1254,7 @@
     function RateFeatureComponent_img_4_Template(rf, ctx) {
         if (rf & 1) {
             var _r5_1 = i0__namespace.ɵɵgetCurrentView();
-            i0__namespace.ɵɵelementStart(0, "img", 14);
+            i0__namespace.ɵɵelementStart(0, "img", 13);
             i0__namespace.ɵɵlistener("click", function RateFeatureComponent_img_4_Template_img_click_0_listener() { i0__namespace.ɵɵrestoreView(_r5_1); var ctx_r4 = i0__namespace.ɵɵnextContext(); return ctx_r4.dislikeFeature(); });
             i0__namespace.ɵɵelementEnd();
         }
@@ -1285,7 +1285,7 @@
     }
     function RateFeatureComponent_review_links_23_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelement(0, "review-links", 15);
+            i0__namespace.ɵɵelement(0, "review-links", 14);
         }
     }
     var ReviewLinksComponent = /** @class */ (function () {
@@ -1374,7 +1374,6 @@
     var RateFeatureComponent = /** @class */ (function () {
         function RateFeatureComponent(matomoApi) {
             this.matomoApi = matomoApi;
-            this.title = '';
             this.expanded = false;
             this.showFeedbackForm = false;
             this.feedbackMessage = '';
@@ -1413,7 +1412,7 @@
         return RateFeatureComponent;
     }());
     RateFeatureComponent.ɵfac = function RateFeatureComponent_Factory(t) { return new (t || RateFeatureComponent)(i0__namespace.ɵɵdirectiveInject(MatomoApiService)); };
-    RateFeatureComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: RateFeatureComponent, selectors: [["rate-feature"]], inputs: { title: "title" }, decls: 26, vars: 31, consts: [[1, "ratefeature", 3, "title"], [1, "iconContainer", 3, "mouseenter", "mouseleave"], ["src", "plugins/Feedback/angularjs/ratefeature/thumbs-up.png", 1, "like-icon", 3, "click"], ["class", "dislike-icon", "src", "plugins/Feedback/angularjs/ratefeature/thumbs-down.png", 3, "click", 4, "ngIf"], ["matomoDialog", "", 1, "ui-confirm", "ratefeatureDialog", 3, "showModal", "onYesClick", "onClose"], [4, "ngIf"], [4, "ngif"], [1, "messageContainer"], [3, "ngModel", "ngModelChange"], ["type", "button", "role", "yes", 3, "title", "value"], ["type", "button", "role", "cancel", 3, "value"], ["matomoDialog", "", 1, "ui-confirm", "ratefeatureDialog", 3, "showModal", "onClose"], ["src", "'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'", 4, "ngIf"], ["type", "button", "role", "yes", 3, "value"], ["src", "plugins/Feedback/angularjs/ratefeature/thumbs-down.png", 1, "dislike-icon", 3, "click"], ["src", "'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"]], template: function RateFeatureComponent_Template(rf, ctx) {
+    RateFeatureComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: RateFeatureComponent, selectors: [["rate-feature"]], inputs: { title: "title" }, decls: 26, vars: 31, consts: [[1, "ratefeature", 3, "title"], [1, "iconContainer", 3, "mouseenter", "mouseleave"], ["src", "plugins/Feedback/angularjs/ratefeature/thumbs-up.png", 1, "like-icon", 3, "click"], ["class", "dislike-icon", "src", "plugins/Feedback/angularjs/ratefeature/thumbs-down.png", 3, "click", 4, "ngIf"], ["matomoDialog", "", 1, "ui-confirm", "ratefeatureDialog", 3, "showModal", "onYesClick", "onClose"], [4, "ngIf"], [1, "messageContainer"], [3, "ngModel", "ngModelChange"], ["type", "button", "role", "yes", 3, "title", "value"], ["type", "button", "role", "cancel", 3, "value"], ["matomoDialog", "", 1, "ui-confirm", "ratefeatureDialog", 3, "showModal", "onClose"], ["src", "'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'", 4, "ngIf"], ["type", "button", "role", "yes", 3, "value"], ["src", "plugins/Feedback/angularjs/ratefeature/thumbs-down.png", 1, "dislike-icon", 3, "click"], ["src", "'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"]], template: function RateFeatureComponent_Template(rf, ctx) {
             if (rf & 1) {
                 i0__namespace.ɵɵelementStart(0, "div", 0);
                 i0__namespace.ɵɵpipe(1, "translate");
@@ -1431,27 +1430,27 @@
                 i0__namespace.ɵɵpipe(8, "translate");
                 i0__namespace.ɵɵelementEnd();
                 i0__namespace.ɵɵtemplate(9, RateFeatureComponent_p_9_Template, 3, 3, "p", 5);
-                i0__namespace.ɵɵtemplate(10, RateFeatureComponent_p_10_Template, 3, 3, "p", 6);
+                i0__namespace.ɵɵtemplate(10, RateFeatureComponent_p_10_Template, 3, 3, "p", 5);
                 i0__namespace.ɵɵelement(11, "br");
-                i0__namespace.ɵɵelementStart(12, "div", 7);
-                i0__namespace.ɵɵelementStart(13, "textarea", 8);
+                i0__namespace.ɵɵelementStart(12, "div", 6);
+                i0__namespace.ɵɵelementStart(13, "textarea", 7);
                 i0__namespace.ɵɵlistener("ngModelChange", function RateFeatureComponent_Template_textarea_ngModelChange_13_listener($event) { return ctx.feedbackMessage = $event; });
                 i0__namespace.ɵɵelementEnd();
                 i0__namespace.ɵɵelementEnd();
-                i0__namespace.ɵɵelement(14, "input", 9);
+                i0__namespace.ɵɵelement(14, "input", 8);
                 i0__namespace.ɵɵpipe(15, "translate");
                 i0__namespace.ɵɵpipe(16, "translate");
-                i0__namespace.ɵɵelement(17, "input", 10);
+                i0__namespace.ɵɵelement(17, "input", 9);
                 i0__namespace.ɵɵpipe(18, "translate");
                 i0__namespace.ɵɵelementEnd();
-                i0__namespace.ɵɵelementStart(19, "div", 11);
+                i0__namespace.ɵɵelementStart(19, "div", 10);
                 i0__namespace.ɵɵlistener("onClose", function RateFeatureComponent_Template_div_onClose_19_listener() { return ctx.showFeedbackForm = false; });
                 i0__namespace.ɵɵelementStart(20, "h2");
                 i0__namespace.ɵɵtext(21);
                 i0__namespace.ɵɵpipe(22, "translate");
                 i0__namespace.ɵɵelementEnd();
-                i0__namespace.ɵɵtemplate(23, RateFeatureComponent_review_links_23_Template, 1, 0, "review-links", 12);
-                i0__namespace.ɵɵelement(24, "input", 13);
+                i0__namespace.ɵɵtemplate(23, RateFeatureComponent_review_links_23_Template, 1, 0, "review-links", 11);
+                i0__namespace.ɵɵelement(24, "input", 12);
                 i0__namespace.ɵɵpipe(25, "translate");
                 i0__namespace.ɵɵelementEnd();
                 i0__namespace.ɵɵelementEnd();
@@ -1467,7 +1466,7 @@
                 i0__namespace.ɵɵadvance(2);
                 i0__namespace.ɵɵproperty("ngIf", ctx.like);
                 i0__namespace.ɵɵadvance(1);
-                i0__namespace.ɵɵproperty("ngif", !ctx.like);
+                i0__namespace.ɵɵproperty("ngIf", !ctx.like);
                 i0__namespace.ɵɵadvance(3);
                 i0__namespace.ɵɵproperty("ngModel", ctx.feedbackMessage);
                 i0__namespace.ɵɵadvance(1);
@@ -1490,114 +1489,122 @@
                 type: i0.Component,
                 args: [{
                         selector: 'rate-feature',
-                        template: "\n        <div title=\"{{ 'Feedback_RateFeatureTitle'|translate:(title) }}\" class=\"ratefeature\">\n            <div\n                class=\"iconContainer\"\n                (mouseenter)=\"expanded = true\"\n                (mouseleave)=\"expanded = false\"\n            >\n                <img (click)=\"likeFeature()\" class=\"like-icon\" src=\"plugins/Feedback/angularjs/ratefeature/thumbs-up.png\"/>\n                <img *ngIf=\"expanded\" (click)=\"dislikeFeature()\" class=\"dislike-icon\"\n                     src=\"plugins/Feedback/angularjs/ratefeature/thumbs-down.png\"/>\n            </div>\n            \n            <div matomoDialog class=\"ui-confirm ratefeatureDialog\" [showModal]=\"showFeedbackForm\" (onYesClick)=\"sendFeedback()\" (onClose)=\"showFeedbackForm = false\">\n                <h2>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h2>\n                <p *ngIf=\"like\">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>\n                <p *ngif=\"!like\">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>\n                <br />\n\n                <div class=\"messageContainer\">\n                    <textarea [(ngModel)]=\"feedbackMessage\"></textarea>\n                </div>\n\n                <input\n                    type=\"button\"\n                    title=\"{{ 'Feedback_RateFeatureSendFeedbackInformation'|translate }}\"\n                    value=\"{{ 'Feedback_SendFeedback'|translate }}\"\n                    role=\"yes\"\n                />\n                <input type=\"button\" role=\"cancel\" value=\"{{ 'General_Cancel'|translate }}\"/>\n            </div>\n\n            <div matomoDialog class=\"ui-confirm ratefeatureDialog\" [showModal]=\"ratingDone\" (onClose)=\"showFeedbackForm = false\">\n                <h2>{{ 'Feedback_ThankYou'|translate:title }}</h2>\n\n                <review-links *ngIf=\"like\" src=\"'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'\"></review-links>\n\n                <input type=\"button\" value=\"{{ 'General_Ok'|translate }}\" role=\"yes\"/>\n            </div>\n        </div>\n    ",
+                        template: "\n        <div title=\"{{ 'Feedback_RateFeatureTitle'|translate:title }}\" class=\"ratefeature\">\n            <div\n                class=\"iconContainer\"\n                (mouseenter)=\"expanded = true\"\n                (mouseleave)=\"expanded = false\"\n            >\n                <img (click)=\"likeFeature()\" class=\"like-icon\" src=\"plugins/Feedback/angularjs/ratefeature/thumbs-up.png\"/>\n                <img *ngIf=\"expanded\" (click)=\"dislikeFeature()\" class=\"dislike-icon\"\n                     src=\"plugins/Feedback/angularjs/ratefeature/thumbs-down.png\"/>\n            </div>\n            \n            <div matomoDialog class=\"ui-confirm ratefeatureDialog\" [showModal]=\"showFeedbackForm\" (onYesClick)=\"sendFeedback()\" (onClose)=\"showFeedbackForm = false\">\n                <h2>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h2>\n                <p *ngIf=\"like\">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>\n                <p *ngIf=\"!like\">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>\n                <br />\n\n                <div class=\"messageContainer\">\n                    <textarea [(ngModel)]=\"feedbackMessage\"></textarea>\n                </div>\n\n                <input\n                    type=\"button\"\n                    title=\"{{ 'Feedback_RateFeatureSendFeedbackInformation'|translate }}\"\n                    value=\"{{ 'Feedback_SendFeedback'|translate }}\"\n                    role=\"yes\"\n                />\n                <input type=\"button\" role=\"cancel\" value=\"{{ 'General_Cancel'|translate }}\"/>\n            </div>\n\n            <div matomoDialog class=\"ui-confirm ratefeatureDialog\" [showModal]=\"ratingDone\" (onClose)=\"showFeedbackForm = false\">\n                <h2>{{ 'Feedback_ThankYou'|translate:title }}</h2>\n\n                <review-links *ngIf=\"like\" src=\"'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'\"></review-links>\n\n                <input type=\"button\" value=\"{{ 'General_Ok'|translate }}\" role=\"yes\"/>\n            </div>\n        </div>\n    ",
                     }]
             }], function () { return [{ type: MatomoApiService }]; }, { title: [{
                     type: i0.Input
                 }] });
     })();
 
+    function EnrichedHeadlineComponent_div_1_ng_container_1_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementContainer(0);
+        }
+    }
     function EnrichedHeadlineComponent_div_1_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelementStart(0, "div", 6);
-            i0__namespace.ɵɵprojection(1);
+            i0__namespace.ɵɵelementStart(0, "div", 10);
+            i0__namespace.ɵɵtemplate(1, EnrichedHeadlineComponent_div_1_ng_container_1_Template, 1, 0, "ng-container", 11);
             i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            i0__namespace.ɵɵnextContext();
+            var _r6 = i0__namespace.ɵɵreference(10);
+            i0__namespace.ɵɵadvance(1);
+            i0__namespace.ɵɵproperty("ngTemplateOutlet", _r6);
+        }
+    }
+    function EnrichedHeadlineComponent_a_2_ng_container_2_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementContainer(0);
         }
     }
     function EnrichedHeadlineComponent_a_2_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelementStart(0, "a", 7);
+            i0__namespace.ɵɵelementStart(0, "a", 12);
             i0__namespace.ɵɵpipe(1, "translate");
-            i0__namespace.ɵɵprojection(2, 1);
+            i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_a_2_ng_container_2_Template, 1, 0, "ng-container", 11);
             i0__namespace.ɵɵelementEnd();
         }
         if (rf & 2) {
             var ctx_r1 = i0__namespace.ɵɵnextContext();
-            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind2(1, 2, "CoreHome_ClickToEditX", ctx_r1.featureName));
+            var _r6 = i0__namespace.ɵɵreference(10);
+            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind2(1, 3, "CoreHome_ClickToEditX", ctx_r1.featureName));
             i0__namespace.ɵɵattribute("href", ctx_r1.editUrl, i0__namespace.ɵɵsanitizeUrl);
+            i0__namespace.ɵɵadvance(2);
+            i0__namespace.ɵɵproperty("ngTemplateOutlet", _r6);
         }
     }
-    function EnrichedHeadlineComponent_span_3_a_1_Template(rf, ctx) {
+    function EnrichedHeadlineComponent_a_4_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelementStart(0, "a", 12);
+            i0__namespace.ɵɵelementStart(0, "a", 13);
             i0__namespace.ɵɵpipe(1, "translate");
-            i0__namespace.ɵɵelement(2, "span", 13);
-            i0__namespace.ɵɵelementEnd();
-        }
-        if (rf & 2) {
-            var ctx_r5 = i0__namespace.ɵɵnextContext(2);
-            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(1, 2, "CoreHome_ExternalHelp"));
-            i0__namespace.ɵɵattribute("href", ctx_r5.helpUrl, i0__namespace.ɵɵsanitizeUrl);
-        }
-    }
-    function EnrichedHeadlineComponent_span_3_a_2_Template(rf, ctx) {
-        if (rf & 1) {
-            var _r8_1 = i0__namespace.ɵɵgetCurrentView();
-            i0__namespace.ɵɵelementStart(0, "a", 14);
-            i0__namespace.ɵɵlistener("click", function EnrichedHeadlineComponent_span_3_a_2_Template_a_click_0_listener() { i0__namespace.ɵɵrestoreView(_r8_1); var ctx_r7 = i0__namespace.ɵɵnextContext(2); return ctx_r7.showInlineHelp = !ctx_r7.showInlineHelp; });
-            i0__namespace.ɵɵpipe(1, "translate");
-            i0__namespace.ɵɵelement(2, "span", 13);
-            i0__namespace.ɵɵelementEnd();
-        }
-        if (rf & 2) {
-            var ctx_r6 = i0__namespace.ɵɵnextContext(2);
-            i0__namespace.ɵɵclassProp("active", ctx_r6.showInlineHelp);
-            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(1, 3, "General_Help"));
-        }
-    }
-    function EnrichedHeadlineComponent_span_3_Template(rf, ctx) {
-        if (rf & 1) {
-            i0__namespace.ɵɵelementStart(0, "span", 8);
-            i0__namespace.ɵɵtemplate(1, EnrichedHeadlineComponent_span_3_a_1_Template, 3, 4, "a", 9);
-            i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_span_3_a_2_Template, 3, 5, "a", 10);
-            i0__namespace.ɵɵelement(3, "rate-feature", 11);
+            i0__namespace.ɵɵelement(2, "span", 14);
             i0__namespace.ɵɵelementEnd();
         }
         if (rf & 2) {
             var ctx_r2 = i0__namespace.ɵɵnextContext();
-            i0__namespace.ɵɵadvance(1);
-            i0__namespace.ɵɵproperty("ngIf", ctx_r2.helpUrl && !ctx_r2.inlineHelp);
-            i0__namespace.ɵɵadvance(1);
-            i0__namespace.ɵɵproperty("ngIf", ctx_r2.inlineHelp);
-            i0__namespace.ɵɵadvance(1);
-            i0__namespace.ɵɵpropertyInterpolate("title", ctx_r2.featureName);
+            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(1, 2, "CoreHome_ExternalHelp"));
+            i0__namespace.ɵɵattribute("href", ctx_r2.helpUrl, i0__namespace.ɵɵsanitizeUrl);
         }
     }
-    function EnrichedHeadlineComponent_div_4_Template(rf, ctx) {
+    function EnrichedHeadlineComponent_a_5_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelement(0, "div", 15);
+            var _r11_1 = i0__namespace.ɵɵgetCurrentView();
+            i0__namespace.ɵɵelementStart(0, "a", 15);
+            i0__namespace.ɵɵlistener("click", function EnrichedHeadlineComponent_a_5_Template_a_click_0_listener() { i0__namespace.ɵɵrestoreView(_r11_1); var ctx_r10 = i0__namespace.ɵɵnextContext(); return ctx_r10.showInlineHelp = !ctx_r10.showInlineHelp; });
+            i0__namespace.ɵɵpipe(1, "translate");
+            i0__namespace.ɵɵelement(2, "span", 14);
+            i0__namespace.ɵɵelementEnd();
+        }
+        if (rf & 2) {
+            var ctx_r3 = i0__namespace.ɵɵnextContext();
+            i0__namespace.ɵɵclassProp("active", ctx_r3.showInlineHelp);
+            i0__namespace.ɵɵpropertyInterpolate("title", i0__namespace.ɵɵpipeBind1(1, 3, "General_Help"));
         }
     }
-    function EnrichedHeadlineComponent_div_5_a_2_Template(rf, ctx) {
+    function EnrichedHeadlineComponent_div_7_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelementStart(0, "a", 19);
+            i0__namespace.ɵɵelement(0, "div", 16);
+        }
+    }
+    function EnrichedHeadlineComponent_div_8_a_2_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵelementStart(0, "a", 20);
             i0__namespace.ɵɵtext(1);
             i0__namespace.ɵɵpipe(2, "translate");
             i0__namespace.ɵɵelementEnd();
         }
         if (rf & 2) {
-            var ctx_r9 = i0__namespace.ɵɵnextContext(2);
-            i0__namespace.ɵɵattribute("href", ctx_r9.helpUrl, i0__namespace.ɵɵsanitizeUrl);
+            var ctx_r12 = i0__namespace.ɵɵnextContext(2);
+            i0__namespace.ɵɵattribute("href", ctx_r12.helpUrl, i0__namespace.ɵɵsanitizeUrl);
             i0__namespace.ɵɵadvance(1);
             i0__namespace.ɵɵtextInterpolate1(" ", i0__namespace.ɵɵpipeBind1(2, 2, "General_MoreDetails"), " ");
         }
     }
-    function EnrichedHeadlineComponent_div_5_Template(rf, ctx) {
+    function EnrichedHeadlineComponent_div_8_Template(rf, ctx) {
         if (rf & 1) {
-            i0__namespace.ɵɵelementStart(0, "div", 16);
-            i0__namespace.ɵɵelement(1, "div", 17);
-            i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_div_5_a_2_Template, 3, 4, "a", 18);
+            i0__namespace.ɵɵelementStart(0, "div", 17);
+            i0__namespace.ɵɵelement(1, "div", 18);
+            i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_div_8_a_2_Template, 3, 4, "a", 19);
             i0__namespace.ɵɵelementEnd();
         }
         if (rf & 2) {
-            var ctx_r4 = i0__namespace.ɵɵnextContext();
+            var ctx_r5 = i0__namespace.ɵɵnextContext();
             i0__namespace.ɵɵadvance(1);
-            i0__namespace.ɵɵproperty("innerHTML", ctx_r4.inlineHelp, i0__namespace.ɵɵsanitizeHtml);
+            i0__namespace.ɵɵproperty("innerHTML", ctx_r5.inlineHelp, i0__namespace.ɵɵsanitizeHtml);
             i0__namespace.ɵɵadvance(1);
-            i0__namespace.ɵɵproperty("ngIf", ctx_r4.helpUrl);
+            i0__namespace.ɵɵproperty("ngIf", ctx_r5.helpUrl);
         }
     }
-    var _c0 = ["*", "*"];
+    function EnrichedHeadlineComponent_ng_template_9_Template(rf, ctx) {
+        if (rf & 1) {
+            i0__namespace.ɵɵprojection(0);
+        }
+    }
+    var _c0 = ["*"];
+    // NOTE: here iconsBar uses [hidden] instead of *ngIf, because rate-feature needs to exist when the user clicks on the modal.
+    // using ngIf would destroy the component, and so remove the event handler that listens to the dialog button 'Yes'.
     var EnrichedHeadlineComponent = /** @class */ (function () {
         function EnrichedHeadlineComponent(componentElement) {
             this.componentElement = componentElement;
@@ -1606,15 +1613,20 @@
             this.featureName = '';
             this.inlineHelp = '';
             this.showReportGenerated = false;
+            this.tooltipAdded = false;
             this.showIcons = false;
             this.showInlineHelp = false;
         }
-        EnrichedHeadlineComponent.prototype.ngAfterContentInit = function () {
-            this.findInlineHelpInContentIfRequired();
+        EnrichedHeadlineComponent.prototype.ngAfterContentChecked = function () {
             this.findFeatureNameInContentIfRequired();
             this.addReportGeneratedTooltip();
+            return;
+            this.findInlineHelpInContentIfRequired();
         };
         EnrichedHeadlineComponent.prototype.addReportGeneratedTooltip = function () {
+            if (this.tooltipAdded) {
+                return;
+            }
             if (!this.reportGenerated) {
                 return;
             }
@@ -1630,6 +1642,7 @@
                 hide: false,
             });
             this.showReportGenerated = true;
+            this.tooltipAdded = true;
         };
         EnrichedHeadlineComponent.prototype.findFeatureNameInContentIfRequired = function () {
             if (this.featureName) {
@@ -1669,16 +1682,21 @@
         return EnrichedHeadlineComponent;
     }());
     EnrichedHeadlineComponent.ɵfac = function EnrichedHeadlineComponent_Factory(t) { return new (t || EnrichedHeadlineComponent)(i0__namespace.ɵɵdirectiveInject(i0__namespace.ElementRef)); };
-    EnrichedHeadlineComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: EnrichedHeadlineComponent, selectors: [["enriched-headline"]], inputs: { helpUrl: "helpUrl", editUrl: "editUrl", reportGenerated: "reportGenerated", featureName: "featureName", inlineHelp: "inlineHelp", showReportGenerated: "showReportGenerated" }, ngContentSelectors: _c0, decls: 6, vars: 5, consts: [[1, "enrichedHeadline", 3, "mouseenter", "mouseleave"], ["class", "title", "tabindex", "6", 4, "ngIf"], ["class", "title", 3, "title", 4, "ngIf"], ["class", "iconsBar", 4, "ngIf"], ["class", "icon-clock report-generated", 4, "ngIf"], ["class", "inlineHelp", 4, "ngIf"], ["tabindex", "6", 1, "title"], [1, "title", 3, "title"], [1, "iconsBar"], ["rel", "noreferrer noopener", "target", "_blank", "class", "helpIcon", 3, "title", 4, "ngIf"], ["class", "helpIcon", 3, "title", "active", "click", 4, "ngIf"], [1, "ratingIcons", 3, "title"], ["rel", "noreferrer noopener", "target", "_blank", 1, "helpIcon", 3, "title"], [1, "icon-help"], [1, "helpIcon", 3, "title", "click"], [1, "icon-clock", "report-generated"], [1, "inlineHelp"], [3, "innerHTML"], ["rel", "noreferrer noopener", "target", "_blank", "class", "readMore", 4, "ngIf"], ["rel", "noreferrer noopener", "target", "_blank", 1, "readMore"]], template: function EnrichedHeadlineComponent_Template(rf, ctx) {
+    EnrichedHeadlineComponent.ɵcmp = /*@__PURE__*/ i0__namespace.ɵɵdefineComponent({ type: EnrichedHeadlineComponent, selectors: [["enriched-headline"]], inputs: { helpUrl: "helpUrl", editUrl: "editUrl", reportGenerated: "reportGenerated", featureName: "featureName", inlineHelp: "inlineHelp", showReportGenerated: "showReportGenerated" }, ngContentSelectors: _c0, decls: 11, vars: 8, consts: [[1, "enrichedHeadline", 3, "mouseenter", "mouseleave"], ["class", "title", "tabindex", "6", 4, "ngIf"], ["class", "title", 3, "title", 4, "ngIf"], [1, "iconsBar", 3, "hidden"], ["rel", "noreferrer noopener", "target", "_blank", "class", "helpIcon", 3, "title", 4, "ngIf"], ["class", "helpIcon", 3, "title", "active", "click", 4, "ngIf"], [1, "ratingIcons", 3, "title"], ["class", "icon-clock report-generated", 4, "ngIf"], ["class", "inlineHelp", 4, "ngIf"], ["titleTemplate", ""], ["tabindex", "6", 1, "title"], [4, "ngTemplateOutlet"], [1, "title", 3, "title"], ["rel", "noreferrer noopener", "target", "_blank", 1, "helpIcon", 3, "title"], [1, "icon-help"], [1, "helpIcon", 3, "title", "click"], [1, "icon-clock", "report-generated"], [1, "inlineHelp"], [3, "innerHTML"], ["rel", "noreferrer noopener", "target", "_blank", "class", "readMore", 4, "ngIf"], ["rel", "noreferrer noopener", "target", "_blank", 1, "readMore"]], template: function EnrichedHeadlineComponent_Template(rf, ctx) {
             if (rf & 1) {
-                i0__namespace.ɵɵprojectionDef(_c0);
+                i0__namespace.ɵɵprojectionDef();
                 i0__namespace.ɵɵelementStart(0, "div", 0);
                 i0__namespace.ɵɵlistener("mouseenter", function EnrichedHeadlineComponent_Template_div_mouseenter_0_listener() { return ctx.showIcons = true; })("mouseleave", function EnrichedHeadlineComponent_Template_div_mouseleave_0_listener() { return ctx.showIcons = false; });
-                i0__namespace.ɵɵtemplate(1, EnrichedHeadlineComponent_div_1_Template, 2, 0, "div", 1);
-                i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_a_2_Template, 3, 5, "a", 2);
-                i0__namespace.ɵɵtemplate(3, EnrichedHeadlineComponent_span_3_Template, 4, 3, "span", 3);
-                i0__namespace.ɵɵtemplate(4, EnrichedHeadlineComponent_div_4_Template, 1, 0, "div", 4);
-                i0__namespace.ɵɵtemplate(5, EnrichedHeadlineComponent_div_5_Template, 3, 2, "div", 5);
+                i0__namespace.ɵɵtemplate(1, EnrichedHeadlineComponent_div_1_Template, 2, 1, "div", 1);
+                i0__namespace.ɵɵtemplate(2, EnrichedHeadlineComponent_a_2_Template, 3, 6, "a", 2);
+                i0__namespace.ɵɵelementStart(3, "span", 3);
+                i0__namespace.ɵɵtemplate(4, EnrichedHeadlineComponent_a_4_Template, 3, 4, "a", 4);
+                i0__namespace.ɵɵtemplate(5, EnrichedHeadlineComponent_a_5_Template, 3, 5, "a", 5);
+                i0__namespace.ɵɵelement(6, "rate-feature", 6);
+                i0__namespace.ɵɵelementEnd();
+                i0__namespace.ɵɵtemplate(7, EnrichedHeadlineComponent_div_7_Template, 1, 0, "div", 7);
+                i0__namespace.ɵɵtemplate(8, EnrichedHeadlineComponent_div_8_Template, 3, 2, "div", 8);
+                i0__namespace.ɵɵtemplate(9, EnrichedHeadlineComponent_ng_template_9_Template, 1, 0, "ng-template", null, 9, i0__namespace.ɵɵtemplateRefExtractor);
                 i0__namespace.ɵɵelementEnd();
             }
             if (rf & 2) {
@@ -1687,19 +1705,25 @@
                 i0__namespace.ɵɵadvance(1);
                 i0__namespace.ɵɵproperty("ngIf", ctx.editUrl);
                 i0__namespace.ɵɵadvance(1);
-                i0__namespace.ɵɵproperty("ngIf", ctx.showIcons || ctx.showInlineHelp);
+                i0__namespace.ɵɵproperty("hidden", !ctx.showIcons && !ctx.showInlineHelp);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.helpUrl && !ctx.inlineHelp);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("ngIf", ctx.inlineHelp);
+                i0__namespace.ɵɵadvance(1);
+                i0__namespace.ɵɵproperty("title", ctx.featureName);
                 i0__namespace.ɵɵadvance(1);
                 i0__namespace.ɵɵproperty("ngIf", ctx.showReportGenerated);
                 i0__namespace.ɵɵadvance(1);
                 i0__namespace.ɵɵproperty("ngIf", ctx.showInlineHelp);
             }
-        }, directives: [i4__namespace.NgIf, RateFeatureComponent], pipes: [TranslatePipe], encapsulation: 2 });
+        }, directives: [i4__namespace.NgIf, RateFeatureComponent, i4__namespace.NgTemplateOutlet], pipes: [TranslatePipe], encapsulation: 2 });
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(EnrichedHeadlineComponent, [{
                 type: i0.Component,
                 args: [{
                         selector: 'enriched-headline',
-                        template: "\n    <div\n        class=\"enrichedHeadline\"\n        (mouseenter)=\"showIcons = true\"\n        (mouseleave)=\"showIcons = false\"\n    >\n        <div *ngIf=\"!editUrl\" class=\"title\" tabindex=\"6\">\n            <ng-content></ng-content>\n        </div>\n        <a *ngIf=\"editUrl\" class=\"title\" [attr.href]=\"editUrl\" title=\"{{'CoreHome_ClickToEditX'|translate:featureName}}\">\n            <ng-content></ng-content>\n        </a>\n        \n        <span *ngIf=\"showIcons || showInlineHelp\" class=\"iconsBar\">\n            <a\n                *ngIf=\"helpUrl && !inlineHelp\"\n                rel=\"noreferrer noopener\"\n                target=\"_blank\"\n                [attr.href]=\"helpUrl\"\n                title=\"{{ 'CoreHome_ExternalHelp'|translate }}\"\n                class=\"helpIcon\"\n            >\n                <span class=\"icon-help\"></span>\n            </a>\n            \n            <a\n                *ngIf=\"inlineHelp\"\n                title=\"{{ 'General_Help'|translate }}\"\n                (click)=\"showInlineHelp=!showInlineHelp\"\n                class=\"helpIcon\"\n                [class.active]=\"showInlineHelp\"\n            >\n                <span class=\"icon-help\"></span>\n            </a>\n            \n            <rate-feature class=\"ratingIcons\" title=\"{{ featureName }}\"></rate-feature>\n        </span>\n\n        <div *ngIf=\"showReportGenerated\" class=\"icon-clock report-generated\"></div>\n\n        <div class=\"inlineHelp\" *ngIf=\"showInlineHelp\">\n            <div [innerHTML]=\"inlineHelp\"></div>\n            <a\n                    *ngIf=\"helpUrl\"\n                    rel=\"noreferrer noopener\"\n                    target=\"_blank\"\n                    [attr.href]=\"helpUrl\"\n                    class=\"readMore\"\n            >\n                {{ 'General_MoreDetails'|translate }}\n            </a>\n        </div>\n    </div>\n    ",
+                        template: "\n    <div\n        class=\"enrichedHeadline\"\n        (mouseenter)=\"showIcons = true\"\n        (mouseleave)=\"showIcons = false\"\n    >\n        <div *ngIf=\"!editUrl\" class=\"title\" tabindex=\"6\">\n            <ng-container *ngTemplateOutlet=\"titleTemplate\"></ng-container>\n        </div>\n        <a *ngIf=\"editUrl\" class=\"title\" [attr.href]=\"editUrl\" title=\"{{'CoreHome_ClickToEditX'|translate:featureName}}\">\n            <ng-container *ngTemplateOutlet=\"titleTemplate\"></ng-container>\n        </a>\n        \n        <span [hidden]=\"!showIcons && !showInlineHelp\" class=\"iconsBar\">\n            <a\n                *ngIf=\"helpUrl && !inlineHelp\"\n                rel=\"noreferrer noopener\"\n                target=\"_blank\"\n                [attr.href]=\"helpUrl\"\n                title=\"{{ 'CoreHome_ExternalHelp'|translate }}\"\n                class=\"helpIcon\"\n            >\n                <span class=\"icon-help\"></span>\n            </a>\n            \n            <a\n                *ngIf=\"inlineHelp\"\n                title=\"{{ 'General_Help'|translate }}\"\n                (click)=\"showInlineHelp=!showInlineHelp\"\n                class=\"helpIcon\"\n                [class.active]=\"showInlineHelp\"\n            >\n                <span class=\"icon-help\"></span>\n            </a>\n            \n            <rate-feature class=\"ratingIcons\" [title]=\"featureName\"></rate-feature>\n        </span>\n\n        <div *ngIf=\"showReportGenerated\" class=\"icon-clock report-generated\"></div>\n\n        <div class=\"inlineHelp\" *ngIf=\"showInlineHelp\">\n            <div [innerHTML]=\"inlineHelp\"></div>\n            <a\n                    *ngIf=\"helpUrl\"\n                    rel=\"noreferrer noopener\"\n                    target=\"_blank\"\n                    [attr.href]=\"helpUrl\"\n                    class=\"readMore\"\n            >\n                {{ 'General_MoreDetails'|translate }}\n            </a>\n        </div>\n\n        <ng-template #titleTemplate><ng-content></ng-content></ng-template>\n    </div>\n    ",
                     }]
             }], function () { return [{ type: i0__namespace.ElementRef }]; }, { helpUrl: [{
                     type: i0.Input
@@ -1734,12 +1758,39 @@
                 inlineHelp: '@?',
                 showReportGenerated: '=?'
             },
-            template: "<piwik-enriched-headline-downgrade\n            [helpUrl]=\"helpUrl\"\n            [editUrl]=\"editUrl\"\n            [reportGenerated]=\"reportGenerated\"\n            [featureName]=\"featureName\"\n            [inlineHelp]=\"inlineHelp\"\n            [showReportGenerated]=\"showReportGenerated == '1'\"\n></piwik-enriched-headline-downgrade>",
-            link: function (scope, element, attrs) {
+            transclude: true,
+            // NOTE: transcluding into an angularjs directive, that projects content into an angular component doesn't appear to work.
+            //       getting around this by getting the transcluded content programmatically, then using ng-bind-html to trigger
+            //       content projection.
+            //       Also note that the ng-bind-html has to be on a separate child element, or it will just replace the angular component.
+            template: "<piwik-enriched-headline-downgrade\n            [helpUrl]=\"helpUrl\"\n            [editUrl]=\"editUrl\"\n            [reportGenerated]=\"reportGenerated\"\n            [featureName]=\"featureName\"\n            [inlineHelp]=\"inlineHelp\"\n            [showReportGenerated]=\"showReportGenerated == '1'\"\n        >\n            <div ng-bind-html=\"transcludedContent\"></div>\n        </piwik-enriched-headline-downgrade>",
+            link: function (scope, element, attrs, ctrl, transclude) {
                 for (var index in defaults) {
                     if (!attrs[index]) {
                         attrs[index] = defaults[index];
                     }
+                }
+                // TODO: everything below should be a a helper function
+                transclude(scope, function (clone) {
+                    scope.transcludedContent = getTranscludedContent(clone);
+                });
+                function getTranscludedContent(clone) {
+                    var e_1, _a;
+                    var result = '';
+                    try {
+                        for (var clone_1 = __values(clone), clone_1_1 = clone_1.next(); !clone_1_1.done; clone_1_1 = clone_1.next()) {
+                            var node = clone_1_1.value;
+                            result += node.innerHTML || node.textContent || '';
+                        }
+                    }
+                    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                    finally {
+                        try {
+                            if (clone_1_1 && !clone_1_1.done && (_a = clone_1.return)) _a.call(clone_1);
+                        }
+                        finally { if (e_1) throw e_1.error; }
+                    }
+                    return result;
                 }
             },
         };
@@ -1761,6 +1812,7 @@
             MatomoApiService,
             SitesService,
         ], imports: [[
+                i4.CommonModule,
                 i2.BrowserModule,
                 _static.UpgradeModule,
                 i1.HttpClientModule,
@@ -1782,6 +1834,7 @@
                             MatomoDialogDirective,
                         ],
                         imports: [
+                            i4.CommonModule,
                             i2.BrowserModule,
                             _static.UpgradeModule,
                             i1.HttpClientModule,
@@ -1804,6 +1857,7 @@
                         entryComponents: [
                             SiteSelectorComponent,
                             ContentBlockComponent,
+                            EnrichedHeadlineComponent,
                         ],
                     }]
             }], null, null);
@@ -1817,7 +1871,8 @@
                 EnrichedHeadlineComponent,
                 RateFeatureComponent,
                 ReviewLinksComponent,
-                MatomoDialogDirective], imports: [i2.BrowserModule,
+                MatomoDialogDirective], imports: [i4.CommonModule,
+                i2.BrowserModule,
                 _static.UpgradeModule,
                 i1.HttpClientModule,
                 i5.FormsModule], exports: [SiteSelectorComponent,

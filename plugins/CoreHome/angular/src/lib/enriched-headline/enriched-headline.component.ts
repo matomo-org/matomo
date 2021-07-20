@@ -1,4 +1,5 @@
 import {
+    AfterContentChecked,
     AfterContentInit,
     Component,
     ContentChild,
@@ -12,6 +13,9 @@ import {
 declare var piwik: any;
 declare var $: any;
 
+// NOTE: here iconsBar uses [hidden] instead of *ngIf, because rate-feature needs to exist when the user clicks on the modal.
+// using ngIf would destroy the component, and so remove the event handler that listens to the dialog button 'Yes'.
+
 @Component({
     selector: 'enriched-headline',
     template: `
@@ -21,13 +25,13 @@ declare var $: any;
         (mouseleave)="showIcons = false"
     >
         <div *ngIf="!editUrl" class="title" tabindex="6">
-            <ng-content></ng-content>
+            <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
         </div>
         <a *ngIf="editUrl" class="title" [attr.href]="editUrl" title="{{'CoreHome_ClickToEditX'|translate:featureName}}">
-            <ng-content></ng-content>
+            <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
         </a>
         
-        <span *ngIf="showIcons || showInlineHelp" class="iconsBar">
+        <span [hidden]="!showIcons && !showInlineHelp" class="iconsBar">
             <a
                 *ngIf="helpUrl && !inlineHelp"
                 rel="noreferrer noopener"
@@ -49,7 +53,7 @@ declare var $: any;
                 <span class="icon-help"></span>
             </a>
             
-            <rate-feature class="ratingIcons" title="{{ featureName }}"></rate-feature>
+            <rate-feature class="ratingIcons" [title]="featureName"></rate-feature>
         </span>
 
         <div *ngIf="showReportGenerated" class="icon-clock report-generated"></div>
@@ -66,10 +70,12 @@ declare var $: any;
                 {{ 'General_MoreDetails'|translate }}
             </a>
         </div>
+
+        <ng-template #titleTemplate><ng-content></ng-content></ng-template>
     </div>
     `,
 })
-export class EnrichedHeadlineComponent implements AfterContentInit {
+export class EnrichedHeadlineComponent implements AfterContentChecked {
     constructor(private componentElement: ElementRef) {}
 
     @Input() helpUrl: string = '';
@@ -79,16 +85,22 @@ export class EnrichedHeadlineComponent implements AfterContentInit {
     @Input() inlineHelp?: string = '';
     @Input() showReportGenerated: boolean = false;
 
+    tooltipAdded: boolean = false;
     showIcons: boolean = false;
     showInlineHelp: boolean = false;
 
-    ngAfterContentInit(): void {
-        this.findInlineHelpInContentIfRequired();
+    ngAfterContentChecked() {
         this.findFeatureNameInContentIfRequired();
         this.addReportGeneratedTooltip();
+        return;
+        this.findInlineHelpInContentIfRequired();
     }
 
     private addReportGeneratedTooltip() {
+        if (this.tooltipAdded) {
+            return;
+        }
+
         if (!this.reportGenerated) {
             return;
         }
@@ -107,6 +119,7 @@ export class EnrichedHeadlineComponent implements AfterContentInit {
         });
 
         this.showReportGenerated = true;
+        this.tooltipAdded = true;
     }
 
     private findFeatureNameInContentIfRequired() {
