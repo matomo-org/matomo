@@ -162,6 +162,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                 this.measurableSettings = angular.copy(this.typeSettings);
             }
 
+            this.$emit('edit');
             this.updateView();
         },
 
