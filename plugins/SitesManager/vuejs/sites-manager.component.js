@@ -32,6 +32,7 @@ matomo.VueComponents['matomoSitesManager'] = {
         var $rootScope = piwikHelper.getAngularDependency('$rootScope');
         $rootScope.$on('$locationChangeSuccess', function () {
             if (piwik.hasSuperUserAccess) {
+                var $window = piwikHelper.getAngularDependency('$window');
                 // as we are not using a router yet...
                 if ($window.location.hash === '#globalSettings' || $window.location.hash === '#/globalSettings') {
                     broadcast.propagateNewPage('action=globalSettings');
@@ -324,6 +325,40 @@ matomo.VueComponents['matomoSitesManager'] = {
                                    :data-index="index" :key="site.idsite ?? 0" :matomoSite="site" 
                                    @edit="currentlyEditedSite = site.idsite" @cancel="currentlyEditedSite = 0"></matomo-sites-manager-site>
       </transition-group>
+
+    </div>
+
+    <div class="sitesButtonBar clearfix" v-show="currentlyEditedSite == 0">
+
+      <a v-show="hasSuperUserAccess && availableTypes"
+         class="btn addSite"
+         @click="addNewEntity()" tabindex="1">
+        {{ availableTypes.length > 1 ? translate('SitesManager_AddMeasurable') : translate('SitesManager_AddSite') }}
+      </a>
+
+      <div class="search" v-show="adminSites.hasPrev || adminSites.hasNext || adminSites.searchTerm">
+        <input v-model="adminSites.search" v-on:keyup.enter="adminSites.searchSite(adminSites.search)"
+               :placeholder="translate('Actions_SubmenuSitesearch')" type="text">
+        <img @click="adminSites.searchSite(adminSites.search)" :title="translate('General_ClickToSearch')"
+             class="search_ico" src="plugins/Morpheus/images/search_ico.png"/>
+      </div>
+
+      <div class="paging" v-show="adminSites.hasPrev || adminSites.hasNext">
+        <button class="btn prev" :disabled="!adminSites.hasPrev" @click.prevent="adminSites.previousPage()">
+          <span style="cursor:pointer;">&#171; {{ translate('General_Previous') }}</span>
+        </button>
+        <span class="counter" v-show="adminSites.hasPrev || adminSites.hasNext">
+            <span v-if="adminSites.searchTerm">
+                {{ translate('General_PaginationWithoutTotal', adminSites.offsetStart, adminSites.offsetEnd) }}
+            </span>
+            <span v-else>
+                {{ translate('General_Pagination', adminSites.offsetStart, adminSites.offsetEnd, totalNumberOfSites) }}
+            </span>
+        </span>
+        <button class="btn next" :disabled="!adminSites.hasNext" @click.prevent="adminSites.nextPage()">
+          <span style="cursor:pointer;" class="pointer">{{ translate('General_Next') }} &#187;</span>
+        </button>
+      </div>
 
     </div>
 </div>`

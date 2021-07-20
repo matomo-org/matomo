@@ -50,6 +50,24 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
             }
         },
 
+        getFormFieldValue(event) {
+            var elem = $(event.target);
+
+            if (!elem.length) {
+                console.error('unable to handle change event for angular form field. field not found');
+                return;
+            }
+
+            var scope = elem.scope();
+
+            if (!scope || !scope.$parent || !scope.$parent.formField) {
+                console.error('unable to handle change event for angular form field. scope not found');
+                return;
+            }
+
+            return scope.$parent.formField.value;
+        },
+
         editSite() {
             var self = this;
             self.$emit('edit');
@@ -147,6 +165,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                 });
 
                 self.sitesManagerTypeModel.removeEditSiteIdParameterFromHash();
+                self.$emit('cancel');
             });
         },
 
@@ -167,7 +186,6 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
         },
 
         openDeleteDialog() {
-
             this.site.removeDialog.title = translate('SitesManager_DeleteConfirm', '"' + this.site.name + '" (idSite = ' + this.site.idsite + ')');
             this.site.removeDialog.show = true;
         },
@@ -378,7 +396,7 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
                 <div v-for="setting in settingsPerPlugin.settings" 
                      :piwik-form-field="JSON.stringify(setting)" 
                      :all-settings="JSON.stringify(settingsPerPlugin.settings)" 
-                     @change="updateFormField"></div>
+                     @change="(event) => { setting.value = getFormFieldValue(event); }"></div>
             </div>
     
             <div piwik-field uicontrol="select" name="currency" @change="updateFormField"
