@@ -346,6 +346,13 @@ class View implements ViewInterface
 
     protected function makeInlineScriptsDomContentLoaded($output)
     {
+        // we only want to do this for the first render of the entire page. ajax requests shouldn't do this. for now
+        // detecting via the random query parameter
+        $isRandomPresent = Common::getRequestVar('random', false) !== false;
+        if ($isRandomPresent) {
+            return $output;
+        }
+
         $output = preg_replace_callback('%<script(.*?)>(.*?)</script>%s', function ($matches) {
             if (strpos($matches[0], 'DOMContentLoaded') !== false
                 || strpos($matches[1], 'src=') !== false
