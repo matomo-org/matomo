@@ -60,6 +60,9 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 // injected into the application via DefinePlugin in webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+// TODO: things disabled
+// - react refresh & webpack hot dev client (hard to put in since this one config is used for all bundles)
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
@@ -89,7 +92,7 @@ function getClientEnvironment(publicUrl) {
         // react-refresh is not 100% stable at this time,
         // which is why it's disabled by default.
         // It is defined here so it is available in the webpackHotDevClient.
-        FAST_REFRESH: process.env.FAST_REFRESH !== 'false' && process.env.NODE_ENV !== 'production',
+        FAST_REFRESH: false,
       }
     );
   // Stringify all values so we can feed into webpack DefinePlugin

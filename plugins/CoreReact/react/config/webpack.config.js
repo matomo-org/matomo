@@ -25,7 +25,6 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -33,13 +32,6 @@ const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-
-const webpackDevClientEntry = require.resolve(
-  'react-dev-utils/webpackHotDevClient'
-);
-const reactRefreshOverlayEntry = require.resolve(
-  'react-dev-utils/refreshOverlayInterop'
-);
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
@@ -93,8 +85,6 @@ module.exports = function (webpackEnv) {
   // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
   // Get environment variables to inject into our app.
   const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
-
-  const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -169,31 +159,7 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry:
-      isEnvDevelopment && !shouldUseReactRefresh
-        ? [
-            // Include an alternative client for WebpackDevServer. A client's job is to
-            // connect to WebpackDevServer by a socket and get notified about changes.
-            // When you save a file, the client will either apply hot updates (in case
-            // of CSS changes), or refresh the page (in case of JS changes). When you
-            // make a syntax error, this client will display a syntax error overlay.
-            // Note: instead of the default WebpackDevServer client, we use a custom one
-            // to bring better experience for Create React App users. You can replace
-            // the line below with these two lines if you prefer the stock client:
-            //
-            // require.resolve('webpack-dev-server/client') + '?/',
-            // require.resolve('webpack/hot/dev-server'),
-            //
-            // When using the experimental react-refresh integration,
-            // the webpack plugin takes care of injecting the dev client for us.
-            webpackDevClientEntry,
-            // Finally, this is your app's code:
-            paths.appIndexJs,
-            // We include the app code last so that if there is a runtime error during
-            // initialization, it doesn't blow up the WebpackDevServer client, and
-            // changing JS code would still trigger a refresh.
-          ]
-        : paths.appIndexJs,
+    entry: paths.appIndexJs,
     output: {
       // The build folder.
       path: paths.appBuild,
@@ -228,18 +194,29 @@ module.exports = function (webpackEnv) {
       library: appPackageJson.name,
     },
     // TODO: it should be possible for plugins to allowlist any dependencies they are packaged with.
-    externals: function (resolveFile, request, callback) {
-      if (appPackageJson.name === '@matomo/core-react') { // CoreReact will contain compiled dependencies
-        callback();
-        return;
-      }
+    // TODO: it would be great if we could configure webpack to build and define() anything it sees in node_modules using
+    //       the module name, and not a relative path, but i coudln't find an easy way to do that.
+    externals: [
+      {
+        'react': 'React',
+        'react-error-overlay': 'ReactErrorOverlay',
+      },
+      function (resolveFile, request, callback) {
+        if (appPackageJson.name === '@matomo/core-react') { // CoreReact will contain compiled dependencies
+          callback();
+          return;
+        }
 
-      if (resolveFile.indexOf('node_modules') !== -1) {
-        callback(null, 'commonjs ' + request);
-        return;
-      }
-      callback();
-    },
+        if (resolveFile.indexOf('node_modules') !== -1
+            && resolveFile.indexOf('@babel/runtime') === -1 // TODO: this means including babel runtime in every
+        ) {
+          callback(null, 'umd ' + request);
+          return;
+        }
+
+        callback();
+      },
+    ],
     optimization: {
       minimize: isEnvProduction,
       minimizer: [
@@ -344,7 +321,6 @@ module.exports = function (webpackEnv) {
         // Make sure your source files are compiled, as they will not be processed in any way.
         new ModuleScopePlugin(paths.appSrc, [
           paths.appPackageJson,
-          reactRefreshOverlayEntry,
         ]),
       ],
     },
@@ -418,10 +394,17 @@ module.exports = function (webpackEnv) {
                       },
                     },
                   ],
-                  isEnvDevelopment &&
-                    shouldUseReactRefresh &&
-                    require.resolve('react-refresh/babel'),
-                ].filter(Boolean),
+                  // TODO: doesn't seem to be working?
+                  [
+                    require.resolve('@babel/plugin-transform-runtime'),
+                    {
+                      "absoluteRuntime": false,
+                      "corejs": 3,
+                      "helpers": true,
+                      "regenerator": true,
+                    },
+                  ],
+                ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
                 // directory for faster rebuilds.
@@ -576,23 +559,6 @@ module.exports = function (webpackEnv) {
       // during a production build.
       // Otherwise React will be compiled in the very slow development mode.
       new webpack.DefinePlugin(env.stringified),
-      // This is necessary to emit hot updates (CSS and Fast Refresh):
-      isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
-      // Experimental hot reloading for React .
-      // https://github.com/facebook/react/tree/master/packages/react-refresh
-      isEnvDevelopment &&
-        shouldUseReactRefresh &&
-        new ReactRefreshWebpackPlugin({
-          overlay: {
-            entry: webpackDevClientEntry,
-            // The expected exports are slightly different from what the overlay exports,
-            // so an interop is included here to enable feedback on module-level errors.
-            module: reactRefreshOverlayEntry,
-            // Since we ship a custom dev client and overlay integration,
-            // the bundled socket handling logic can be eliminated.
-            sockIntegration: false,
-          },
-        }),
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.
       // See https://github.com/facebook/create-react-app/issues/240

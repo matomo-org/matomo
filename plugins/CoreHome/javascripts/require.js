@@ -21,7 +21,7 @@
      *                          '/', '.' or '\'.
      * @return {Object} The module object.
      */
-    window.require = function (moduleId) {
+    var matomoRequire = function (moduleId) {
         var parts = moduleId.split(MODULE_SPLIT_REGEX);
 
         // TODO: we use window objects for backwards compatibility. when rest of Piwik is rewritten to use
@@ -35,5 +35,20 @@
         }
         return currentModule;
     };
+
+    var require = matomoRequire;
+
+    var existingRequire = window.require;
+    if (existingRequire) {
+        require = function (moduleId) {// TODO: forward all arguments
+            var result = matomoRequire(moduleId);
+            if (result) {
+                return result;
+            }
+            return existingRequire(moduleId);
+        };
+    }
+
+    window.require = require;
 
 })(window);

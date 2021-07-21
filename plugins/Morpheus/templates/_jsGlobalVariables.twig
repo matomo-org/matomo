@@ -58,5 +58,8 @@
 {% endif %}
     piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
     {{ postEvent("Template.jsGlobalVariables") }}
+
+    // TODO: react-error-overlay hack
+    window.process = {env: {}};
 </script>
 
