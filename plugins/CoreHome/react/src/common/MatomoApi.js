@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const piwik = window.piwik;
+
 export class MatomoApi {
     fetch(params) {
         const body = new URLSearchParams({
@@ -35,7 +37,7 @@ export class MatomoApi {
     }
 
     getCurrentHashParams(paramsThatCanOverride) {
-        return this.getSomeUrlParams(window.location.hash.replace(/^[\/#?]/g, ''), paramsThatCanOverride);
+        return this.getSomeUrlParams(window.location.hash.replace(/^[/#?]/g, ''), paramsThatCanOverride);
     }
 
     // TODO: may not handle array params correctly

@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import {SiteSelectorService} from "./SiteSelectorService";
 import FocusAnywhereButHere from '../common/FocusAnywhereButHere';
 
+const { piwik, _pk_translate, piwikHelper, $ } = window;
+
 // TODO: note not using prop-types for validation
 // TODO: note not using immutable.js
 
@@ -39,10 +41,15 @@ export class SiteSelector extends React.Component {
             activeSiteId: piwik.idSite,
         }, props));
 
+        let selectedSite = { id: null, name: '' };
+        if (this.props.siteid && this.props.sitename) {
+            selectedSite = { id: this.props.siteid, name: piwik.helper.htmlDecode(this.props.sitename) };
+        }
+
         this.state = {
             showSitesList: false,
             sites: [],
-            selectedSite: {id: null, name: ''},
+            selectedSite,
             isLoading: false,
             searchTerm: '',
         };
@@ -59,7 +66,9 @@ export class SiteSelector extends React.Component {
         return this.sites.length > 1;
     }
 
-    onClickSelectorLink() {
+    onClickSelectorLink(event) {
+        event.preventDefault();
+
         if (!this.hasMultipleSites()) {
             return;
         }
@@ -96,6 +105,9 @@ export class SiteSelector extends React.Component {
     }
 
     componentDidMount() {
+        // for the initial selected site (only needed for ngmodel binding in site selector, otherwise we shouldn't use it)
+        this.props.onSiteSelected && this.props.onSiteSelected(this.state.selectedSite);
+
         this.loadInitialSites().then(() => {
             if (!this.props.initialSelectedSite && !this.hasMultipleSites() && this.state.sites[0]) {
                 this.setState({
@@ -180,9 +192,12 @@ export class SiteSelector extends React.Component {
             return;
         }
 
+        const selectedSite = {id: site.idsite, name: site.name};
         this.setState({
-            selectedSite: {id: site.idsite, name: site.name},
+            selectedSite,
         });
+
+        this.props.onSiteSelected && this.props.onSiteSelected(selectedSite);
 
         if (!this.props.switchSiteOnSelect || this.props.activeSiteId === site.idsite) {
             return;
@@ -220,10 +235,10 @@ export class SiteSelector extends React.Component {
                 <a
                     onClick={this.onClickSelectorLink.bind(this)}
                     onKeyUp={this.onKeyUpLink.bind(this)}
-                    href="javascript:void(0)"
                     title={this.getLinkTitle()}
                     className={classNames({title: true, loading: this.state.isLoading})}
                     tabIndex={4}
+                    href
                 >
                     <span className={classNames('icon', 'icon-arrow-bottom', {iconHidden: this.state.isLoading, collapsed: !this.state.showSitesList})}/>
                     <span>
@@ -263,6 +278,7 @@ export class SiteSelector extends React.Component {
                             }}
                             className={"reset"}
                             src={"plugins/CoreHome/images/reset_search.png"}
+                            alt={_pk_translate("General_Clear")}
                         />
                     </div>
 
@@ -278,7 +294,7 @@ export class SiteSelector extends React.Component {
                             className={"ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect"}
                         >
                             <li className="ui-menu-item">
-                                <a className="ui-corner-all" tabIndex={-1}>
+                                <a className="ui-corner-all" tabIndex={-1} href>
                                     {`${_pk_translate('SitesManager_NotFound')} ${this.state.searchTerm}`}
                                 </a>
                             </li>

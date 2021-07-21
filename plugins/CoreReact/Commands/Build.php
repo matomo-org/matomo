@@ -28,6 +28,11 @@ class Build extends ConsoleCommand
     {
         $env = $input->getOption('env');
         $plugins = $input->getArgument('plugin');
+
+        if (empty($plugins)) {
+            throw new \InvalidArgumentException("No plugins specified.");
+        }
+
         foreach ($plugins as $plugin) {
             $this->build($plugin, $env, $output);
         }

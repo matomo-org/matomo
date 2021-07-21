@@ -239,10 +239,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/alert/alert.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
-
         $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.js";
