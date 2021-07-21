@@ -25,6 +25,8 @@ class CoreReact extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = 'node_modules/react/umd/react.development.js';
+        $jsFiles[] = 'node_modules/react-dom/umd/react-dom.development.js';
         $jsFiles[] = 'plugins/CoreReact/react/build/main.js';
     }
 }
