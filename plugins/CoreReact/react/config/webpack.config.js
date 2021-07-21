@@ -201,6 +201,8 @@ module.exports = function (webpackEnv) {
         'react': 'React',
         'react-dom': 'ReactDOM',
         'react-error-overlay': 'ReactErrorOverlay',
+        'classnames': 'classNames',
+        'axios': 'axios',
       },
       function (resolveFile, request, callback) {
         if (appPackageJson.name === '@matomo/core-react') { // CoreReact will contain compiled dependencies
