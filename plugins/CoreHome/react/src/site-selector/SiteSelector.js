@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import {SiteSelectorService} from "./SiteSelectorService";
-import {FocusAnywhereButHere} from '../common/FocusAnywhereButHere';
+import FocusAnywhereButHere from '../common/FocusAnywhereButHere';
 
 // TODO: note not using prop-types for validation
 // TODO: note not using immutable.js
@@ -48,6 +48,8 @@ export class SiteSelector extends React.Component {
         };
 
         this.searchInput = React.createRef();
+        this.root = React.createRef();
+
         this.siteSelectorService = new SiteSelectorService({
             onlySitesWithAdminAccess: this.props.onlySitesWithAdminAccess,
         });
@@ -204,15 +206,16 @@ export class SiteSelector extends React.Component {
 
     render() {
         return (
-            <FocusAnywhereButHere onLoseFocus={() => this.setState({ showSitesList: false })}>
-                <div
-                    className={classNames("siteSelector", "piwikSelector", "borderedControl", {
-                        expanded: this.state.showSitesList,
-                        disabled: !this.hasMultipleSites()
-                    })}
-                >
-                    {this.renderSelectedSiteInput()}
-                </div>
+            <div
+                ref={this.root}
+                className={classNames("siteSelector", "piwikSelector", "borderedControl", {
+                    expanded: this.state.showSitesList,
+                    disabled: !this.hasMultipleSites()
+                })}
+            >
+                <FocusAnywhereButHere onLoseFocus={() => this.setState({ showSitesList: false })} element={this.root}/>
+
+                {this.renderSelectedSiteInput()}
 
                 <a
                     onClick={this.onClickSelectorLink.bind(this)}
@@ -285,7 +288,7 @@ export class SiteSelector extends React.Component {
                     {(this.props.allSitesLocation === 'bottom' && this.props.showAllSitesItem) &&
                         <AllSitesLink onClick={this.onClickAllSitesLink.bind(this)} allSitesText={this.props.allSitesText} />}
                 </div>
-            </FocusAnywhereButHere>
+            </div>
         );
     }
 
