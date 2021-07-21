@@ -285,14 +285,9 @@ class Mail
          * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
          * the subject/body, changing the from address, etc.
          *
-         * @param Mail &$mail The Mail instance that is about to be sent. Set it to null to stop the email from
-         *                    being sent.
+         * @param Mail $mail The Mail instance that is about to be sent.
          */
-        Piwik::postEvent('Mail.send', [&$mail]);
-
-        if (empty($mail)) {
-            return null;
-        }
+        Piwik::postEvent('Mail.send', [$mail]);
 
         return StaticContainer::get('Piwik\Mail\Transport')->send($mail);
     }
