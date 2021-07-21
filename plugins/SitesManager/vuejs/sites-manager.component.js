@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoSitesManager'] = {
+matomo.registerComponent('matomoSitesManager', {
     name: 'matomoSitesManager',
     data() {
         return {
@@ -362,4 +362,4 @@ matomo.VueComponents['matomoSitesManager'] = {
 
     </div>
 </div>`
-};
+});

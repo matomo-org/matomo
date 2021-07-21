@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoSitesManagerSite'] = {
+matomo.registerComponent('matomoSitesManagerSite', {
     props: ['matomoSite'],
     data() {
         return {
@@ -432,4 +432,4 @@ matomo.VueComponents['matomoSitesManagerSite'] = {
         </div>
     </div>
 </div>`
-};
+});

@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoActivityIndicator'] = {
+matomo.registerComponent('matomoActivityIndicator', {
     props: ['loading', 'loadingMessage'],
     computed: {
         message: function () {
@@ -13,4 +13,4 @@ matomo.VueComponents['matomoActivityIndicator'] = {
     template: `<div v-show="loading" class="loadingPiwik">
       <img src="plugins/Morpheus/images/loading-blue.gif" alt=""/> <span>{{ message }}</span>
     </div>`
-};
+});

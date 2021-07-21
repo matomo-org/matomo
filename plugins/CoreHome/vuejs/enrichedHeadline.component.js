@@ -26,7 +26,7 @@
  * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which activated by hover
  * -> the tooltip shows the value of the attribute
  */
-matomo.VueComponents['matomoEnrichedHeadline'] = {
+matomo.registerComponent('matomoEnrichedHeadline', {
     props: ['helpUrl', 'editUrl', 'reportGenerated', 'featureName', 'inlineHelp', 'showReportGenerated'],
     data: function () {
         return {
@@ -116,4 +116,4 @@ matomo.VueComponents['matomoEnrichedHeadline'] = {
         </div>
       </div></h2>
     `
-};
+});

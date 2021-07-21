@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoDialog'] = {
+matomo.registerComponent('matomoDialog', {
     props: ['trigger'],
     emits: ['yes', 'no', 'close'],
     watch: {
@@ -23,4 +23,4 @@ matomo.VueComponents['matomoDialog'] = {
         }
     },
     template: `<div><slot></slot></div>`
-};
+});

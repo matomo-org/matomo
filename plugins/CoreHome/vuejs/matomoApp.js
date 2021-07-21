@@ -1,22 +1,37 @@
 
-matomo = {
-    VueComponents: {},
-    VueMethods: {},
-    createVue: function (elem) {
-        var app = Vue.createApp({
-            methods: this.VueMethods
-        });
-        angular.forEach(this.VueComponents, function(component, name){
-            if (!component.methods) {
-                component.methods = {};
-            }
-            for (var method in matomo.VueMethods) {
-                component.methods[method] = matomo.VueMethods[method];
-            }
-            app.component(name, component);
-        });
+var matomo = (function() {
+    var VueComponents = {};
+    var VueMethods = {};
 
-        app.mount(elem);
-        return app;
-    }
-};
+    return {
+        registerComponent: function(name, component) {
+            VueComponents[name] = component
+        },
+        registerMethod: function(name, method) {
+            VueMethods[name] = method
+        },
+        getComponents: function() {
+            return VueComponents;
+        },
+        getMethods: function() {
+            return VueMethods;
+        },
+        createVue: function (elem) {
+            var app = Vue.createApp({
+                methods: VueMethods
+            });
+            angular.forEach(VueComponents, function (component, name) {
+                if (!component.methods) {
+                    component.methods = {};
+                }
+                for (var method in VueMethods) {
+                    component.methods[method] = VueMethods[method];
+                }
+                app.component(name, component);
+            });
+
+            app.mount(elem);
+            return app;
+        }
+    };
+})();

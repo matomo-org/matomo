@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoReviewLinks'] = {
+matomo.registerComponent('matomoReviewLinks', {
     template: `
 <div class="requestReview">
     <p>{{ translate('Feedback_PleaseLeaveExternalReviewForMatomo') }}</p><br/><br/>
@@ -41,4 +41,4 @@ matomo.VueComponents['matomoReviewLinks'] = {
         </div>
     </div>
 </div>`
-};
+});

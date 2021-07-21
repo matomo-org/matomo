@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoContentBlock'] = {
+matomo.registerComponent('matomoContentBlock', {
     props: ['contentTitle', 'feature', 'helpUrl', 'helpText', 'anchor'],
     mounted() {
         if (this.feature === 'true') {
@@ -61,4 +61,4 @@ matomo.VueComponents['matomoContentBlock'] = {
           <div class="card-content-content"><slot></slot></div>
     </div>
 </div>`
-};
+});

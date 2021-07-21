@@ -1,5 +1,5 @@
 
-matomo.VueComponents['matomoRateFeature'] = {
+matomo.registerComponent('matomoRateFeature', {
     props: ['title'],
     data: function () { return {
         expanded: false,
@@ -70,4 +70,4 @@ matomo.VueComponents['matomoRateFeature'] = {
           </matomo-dialog>
 
       </div>`
-};
+});
