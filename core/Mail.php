@@ -281,20 +281,13 @@ class Mail
 
         $mail = $this;
 
-        $shouldSend = true;
-
         /**
          * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
          * the subject/body, changing the from address, etc.
          *
          * @param Mail $mail The Mail instance that is about to be sent.
-         * @param bool &$shouldSend Whether we should send the mail or not. Set to false to stop the email from being sent.
          */
-        Piwik::postEvent('Mail.send', [$mail, &$shouldSend]);
-
-        if (!$shouldSend) {
-            return null;
-        }
+        Piwik::postEvent('Mail.send', [$mail]);
 
         return StaticContainer::get('Piwik\Mail\Transport')->send($mail);
     }
