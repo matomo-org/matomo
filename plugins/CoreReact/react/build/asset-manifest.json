@@ -1,8 +1,7 @@
 {
   "files": {
     "main.js": "/main.js",
-    "main.js.map": "/main.js.map",
-    "main.js.LICENSE.txt": "/main.js.LICENSE.txt"
+    "main.js.map": "/main.js.map"
   },
   "entrypoints": [
     "main.js"

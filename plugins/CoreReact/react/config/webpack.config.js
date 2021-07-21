@@ -226,9 +226,19 @@ module.exports = function (webpackEnv) {
       globalObject: 'this',
       libraryTarget: 'umd',
       library: appPackageJson.name,
-      externals: {
-        // TODO
-      },
+    },
+    // TODO: it should be possible for plugins to allowlist any dependencies they are packaged with.
+    externals: function (resolveFile, request, callback) {
+      if (appPackageJson.name === '@matomo/core-react') { // CoreReact will contain compiled dependencies
+        callback();
+        return;
+      }
+
+      if (resolveFile.indexOf('node_modules') !== -1) {
+        callback(null, 'commonjs ' + request);
+        return;
+      }
+      callback();
     },
     optimization: {
       minimize: isEnvProduction,
