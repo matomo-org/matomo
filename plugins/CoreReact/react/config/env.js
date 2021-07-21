@@ -62,6 +62,7 @@ const REACT_APP = /^REACT_APP_/i;
 
 // TODO: things disabled
 // - react refresh & webpack hot dev client (hard to put in since this one config is used for all bundles)
+// - in babel-preset-react-app config, purposely using classic runtime since automatic will try to include the runtime in all bundles (or we won't be able to externalize)
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)

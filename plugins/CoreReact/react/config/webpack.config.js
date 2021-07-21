@@ -199,6 +199,7 @@ module.exports = function (webpackEnv) {
     externals: [
       {
         'react': 'React',
+        'react-dom': 'ReactDOM',
         'react-error-overlay': 'ReactErrorOverlay',
       },
       function (resolveFile, request, callback) {
@@ -208,8 +209,10 @@ module.exports = function (webpackEnv) {
         }
 
         if (resolveFile.indexOf('node_modules') !== -1
-            && resolveFile.indexOf('@babel/runtime') === -1 // TODO: this means including babel runtime in every
+            && resolveFile.indexOf('@babel/runtime') === -1 // TODO: this means including babel runtime in every file
+            && resolveFile.indexOf('core-js-pure') === -1 // TODO: ditto
         ) {
+          console.log(resolveFile);
           callback(null, 'umd ' + request);
           return;
         }
@@ -377,7 +380,7 @@ module.exports = function (webpackEnv) {
                   [
                     require.resolve('babel-preset-react-app'),
                     {
-                      runtime: hasJsxRuntime ? 'automatic' : 'classic',
+                      runtime: 'classic',
                     },
                   ],
                 ],
