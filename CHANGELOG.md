@@ -15,10 +15,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * When determining the client IP address from proxy headers like X-Forwarded-For, Matomo will by default look at the first IP in the list. If you need to read the last IP instead, the new INI config option `[General] proxy_ip_read_last_in_list` be set to `1`. Using the last IP can be more secure when you are using proxy headers in combination with a load balancer.
 
-### Changes to events
-
-* It is now possible via the Mail.send event to abort sending emails. Set the `$mail` event parameter to null to do this.
-
 ## Matomo 4.3.1
 
 ### New commands
