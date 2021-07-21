@@ -1,15 +1,9 @@
 {
   "files": {
-    "main.js": "/main.chunk.js",
-    "main.js.map": "/main.chunk.js.map",
-    "runtime-main.js": "/bundle.js",
-    "runtime-main.js.map": "/bundle.js.map",
-    "vendors~main.js": "/vendors~main.chunk.js",
-    "vendors~main.js.map": "/vendors~main.chunk.js.map"
+    "main.js": "/main.js",
+    "main.js.map": "/main.js.map"
   },
   "entrypoints": [
-    "bundle.js",
-    "vendors~main.chunk.js",
-    "main.chunk.js"
+    "main.js"
   ]
 }

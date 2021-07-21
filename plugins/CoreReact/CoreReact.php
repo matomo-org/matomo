@@ -25,6 +25,6 @@ class CoreReact extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        // TODO
+        $jsFiles[] = 'plugins/CoreReact/react/build/main.js';
     }
 }

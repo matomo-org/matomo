@@ -13,15 +13,18 @@ class ExampleReact extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'CronArchive.getArchivingAPIMethodForPlugin' => 'getArchivingAPIMethodForPlugin',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
         ];
     }
 
-    // support archiving just this plugin via core:archive
-    public function getArchivingAPIMethodForPlugin(&$method, $plugin)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        if ($plugin == 'ExampleReact') {
-            $method = 'ExampleReact.getExampleArchivedMetric';
-        }
+        // TODO
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = 'plugins/ExampleReact/react/build/main.js';
     }
 }
