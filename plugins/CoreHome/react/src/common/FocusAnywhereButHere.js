@@ -11,7 +11,7 @@ class FocusAnywhereButHereComponent extends React.Component {
 
         this.onEscapeHandler = this.onEscapeHandler.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
-        this.onClickOutsideELement = this.onClickOutsideELement.bind(this);
+        this.onClickOutsideElement = this.onClickOutsideElement.bind(this);
         this.onScroll = this.onScroll.bind(this);
     }
 

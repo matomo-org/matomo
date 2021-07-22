@@ -41,12 +41,9 @@ function piwikSiteselector(piwik, $filter, $timeout){
             }
 
             return {
-                link: function (scope, element, attrs, ngModel) {
-
-
-                    if (ngModel) {
-                        ngModel.$setViewValue(scope.selectedSite);
-                    }
+                pre: function (scope, element, attrs, ngModel) {
+                    scope.siteid = attrs.siteid;
+                    scope.sitename = attrs.sitename;
 
                     scope.onSiteSelected = function (selectedSite) {
                         if (scope.selectedSite != selectedSite) {
@@ -55,7 +52,9 @@ function piwikSiteselector(piwik, $filter, $timeout){
                             element.attr('siteid', selectedSite.id);
                             element.trigger('change', scope.selectedSite);
 
-                            ngModel.$setViewValue(selectedSite);
+                            if (ngModel) {
+                                ngModel.$setViewValue(selectedSite);
+                            }
                         }
                     };
 

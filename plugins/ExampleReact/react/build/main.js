@@ -1336,12 +1336,12 @@ module.exports = g;
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: WelcomeComponent */
+/*! exports provided: ExampleReact */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WelcomeComponent", function() { return WelcomeComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExampleReact", function() { return ExampleReact; });
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
@@ -1360,18 +1360,18 @@ __webpack_require__.r(__webpack_exports__);
 var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/ExampleReact/react/src/index.js";
 
 
-var WelcomeComponent = /*#__PURE__*/function (_React$Component) {
-  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__["default"])(WelcomeComponent, _React$Component);
+var ExampleReact = /*#__PURE__*/function (_React$Component) {
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__["default"])(ExampleReact, _React$Component);
 
-  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__["default"])(WelcomeComponent);
+  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__["default"])(ExampleReact);
 
-  function WelcomeComponent() {
-    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, WelcomeComponent);
+  function ExampleReact() {
+    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, ExampleReact);
 
     return _super.apply(this, arguments);
   }
 
-  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(WelcomeComponent, [{
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(ExampleReact, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("h1", {
@@ -1386,15 +1386,11 @@ var WelcomeComponent = /*#__PURE__*/function (_React$Component) {
   }], [{
     key: "renderTo",
     value: function renderTo(element, props) {
-      console.log(props);
-      var p = {
-        name: 'example-name'
-      };
-      var jsx = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"](WelcomeComponent, _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, p, {
+      var jsx = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"](ExampleReact, _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 12,
+          lineNumber: 10,
           columnNumber: 21
         }
       })); // TODO: not sure if there might be memory leaks if the element just disappears
@@ -1403,7 +1399,7 @@ var WelcomeComponent = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 
-  return WelcomeComponent;
+  return ExampleReact;
 }(react__WEBPACK_IMPORTED_MODULE_5__["Component"]);
 
 /***/ }),

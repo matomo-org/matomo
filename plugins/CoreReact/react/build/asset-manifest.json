@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.js": "/main.min.js",
-    "main.js.map": "/main.min.js.map"
+    "main.js": "/main.js",
+    "main.js.map": "/main.js.map"
   },
   "entrypoints": [
-    "main.min.js"
+    "main.js"
   ]
 }

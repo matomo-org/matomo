@@ -214,7 +214,6 @@ module.exports = function (webpackEnv) {
             && resolveFile.indexOf('@babel/runtime') === -1 // TODO: this means including babel runtime in every file
             && resolveFile.indexOf('core-js-pure') === -1 // TODO: ditto
         ) {
-          console.log(resolveFile);
           callback(null, 'umd ' + request);
           return;
         }

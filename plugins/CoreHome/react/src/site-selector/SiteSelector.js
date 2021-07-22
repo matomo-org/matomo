@@ -21,7 +21,7 @@ class AllSitesLink extends React.PureComponent {
                 <a
                     onClick={event => event.preventDefault()}
                     href={this.getUrlAllSites()}
-                    tabindex="4"
+                    tabIndex="4"
                     dangerouslySetInnerHTML={{__html: this.props.allSitesText}}
                 />
             </div>
@@ -36,17 +36,16 @@ class AllSitesLink extends React.PureComponent {
 
 export class SiteSelector extends React.Component {
     constructor(props) {
-        super(Object.assign({}, {
-            autocompleteMinSites: piwik.config.autocomplete_min_sites,
-            activeSiteId: piwik.idSite,
-        }, props));
+        super(props);
 
         let selectedSite = { id: null, name: '' };
         if (this.props.siteid && this.props.sitename) {
             selectedSite = { id: this.props.siteid, name: piwik.helper.htmlDecode(this.props.sitename) };
+            this.initialSelectedSite = selectedSite;
         }
 
         this.state = {
+            hasMultipleSitesInitially: false,
             showSitesList: false,
             sites: [],
             selectedSite,
@@ -63,7 +62,7 @@ export class SiteSelector extends React.Component {
     }
 
     hasMultipleSites() {
-        return this.sites.length > 1;
+        return this.state.hasMultipleSitesInitially;
     }
 
     onClickSelectorLink(event) {
@@ -93,7 +92,7 @@ export class SiteSelector extends React.Component {
             return '';
         }
 
-        return _pk_translate('CoreHome_ChangeCurrentWebsite', this.state.selectedSite.name || this.getFirstSiteName());
+        return _pk_translate('CoreHome_ChangeCurrentWebsite', [this.state.selectedSite.name || this.getFirstSiteName()]);
     }
 
     getFirstSiteName() {
@@ -109,7 +108,7 @@ export class SiteSelector extends React.Component {
         this.props.onSiteSelected && this.props.onSiteSelected(this.state.selectedSite);
 
         this.loadInitialSites().then(() => {
-            if (!this.props.initialSelectedSite && !this.hasMultipleSites() && this.state.sites[0]) {
+            if (!this.initialSelectedSite && !this.hasMultipleSites() && this.state.sites[0]) {
                 this.setState({
                     selectedSite: {id: this.state.sites[0].idsite, name: this.state.sites[0].name},
                 });
@@ -145,14 +144,14 @@ export class SiteSelector extends React.Component {
     }
 
     focusInputIfNeeded() {
-        if (this.state.showSitesList && (this.props.auto <= this.sites.length || this.state.searchTerm)) {
+        if (this.state.showSitesList && (this.props.auto <= this.state.sites.length || this.state.searchTerm)) {
             this.searchInput.current.focus();
         }
     }
 
     onClickAllSitesLink(event) {
         this.switchSite({idsite: 'all', name: this.allSitesText}, event);
-        this.showSitesList = false;
+        this.setState({ showSitesList: false });
     }
 
     getUrlForSiteId(idSite) {
@@ -170,14 +169,16 @@ export class SiteSelector extends React.Component {
 
         this.setState({
             sites,
+            hasMultipleSitesInitially: sites.length > 1,
             isLoading: false,
         });
     }
 
-    async searchSite() {
+    async searchSite(newTerm) {
         this.setState({ isLoading: true });
 
-        const sites = await this.siteSelectorService.searchSite(this.state.searchTerm);
+        const sites = await this.siteSelectorService.searchSite(newTerm);
+
         this.setState({
             sites: sites,
             isLoading: false,
@@ -238,7 +239,7 @@ export class SiteSelector extends React.Component {
                     title={this.getLinkTitle()}
                     className={classNames({title: true, loading: this.state.isLoading})}
                     tabIndex={4}
-                    href
+                    href=""
                 >
                     <span className={classNames('icon', 'icon-arrow-bottom', {iconHidden: this.state.isLoading, collapsed: !this.state.showSitesList})}/>
                     <span>
@@ -255,23 +256,26 @@ export class SiteSelector extends React.Component {
                     </span>
                 </a>
 
-                <div hidden={this.props.showSitesList} className="dropdown">
-                    <div className={"custom_select_search"} hidden={this.props.autocompleteMinSites <= this.state.sites.length || this.state.searchTerm}>
+                <div style={{display: !this.state.showSitesList ? 'none' : undefined}} className="dropdown">
+                    <div className={"custom_select_search"} style={{display: this.props.autocompleteMinSites <= this.state.sites.length || this.state.searchTerm ? 'block' : undefined}}>
                         <input
                             type="text"
                             ref={this.searchInput}
-                            onClick={() => this.setState({searchTerm: ''})}
-                            onChange={(value) => {
-                                this.setState({searchTerm: value});
-                                this.searchSite();
+                            onClick={() => {
+                                this.setState({searchTerm: ''});
                             }}
+                            onChange={(event) => {
+                                this.setState({searchTerm: event.target.value});
+                                this.searchSite(event.target.value);
+                            }}
+                            value={this.state.searchTerm}
                             placeholder={_pk_translate('General_Search')}
                             tabIndex={4}
                             className={"websiteSearch inp browser-default"}
                         />
                         <img
                             title={_pk_translate("General_Clear")}
-                            hidden={!!this.state.searchTerm}
+                            style={{display: !this.state.searchTerm ? 'none' : undefined}}
                             onClick={() => {
                                 this.setState({ searchTerm: '' });
                                 this.loadInitialSites();
@@ -290,11 +294,11 @@ export class SiteSelector extends React.Component {
                             {this.state.sites.map(site => this.renderSiteRow(site))}
                         </ul>
                         <ul
-                            hidden={!this.state.sites.length && this.state.searchTerm}
+                            style={{display: this.state.sites.length || !this.state.searchTerm ? 'none' : undefined}}
                             className={"ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect"}
                         >
                             <li className="ui-menu-item">
-                                <a className="ui-corner-all" tabIndex={-1} href>
+                                <a onClick={e => e.preventDefault()} className="ui-corner-all" tabIndex={-1} href={"#"}>
                                     {`${_pk_translate('SitesManager_NotFound')} ${this.state.searchTerm}`}
                                 </a>
                             </li>
@@ -322,8 +326,8 @@ export class SiteSelector extends React.Component {
         return (
             <li
                 key={site.idsite}
-                onClick={(event) => this.props.switchSite(site, event)}
-                hidden={!this.state.showSelectedSite && this.props.activeSiteId === site.idsite}
+                onClick={(event) => this.switchSite(site, event)}
+                style={{display: !this.state.showSelectedSite && this.props.activeSiteId === site.idsite ? 'none' : undefined}}
             >
                 <a
                     onClick={event => event.preventDefault()}
@@ -350,3 +354,9 @@ export class SiteSelector extends React.Component {
         ReactDOM.render(<SiteSelector {...props}/>, element);
     }
 }
+
+SiteSelector.defaultProps = {
+    autocompleteMinSites: piwik.config.autocomplete_min_sites,
+    activeSiteId: piwik.idSite,
+};
+

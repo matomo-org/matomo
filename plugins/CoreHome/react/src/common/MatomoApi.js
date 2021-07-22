@@ -3,7 +3,7 @@ import axios from 'axios';
 const piwik = window.piwik;
 
 export class MatomoApi {
-    fetch(params) {
+    async fetch(params) {
         const body = new URLSearchParams({
             token_auth: piwik.token_auth,
             force_api_session: piwik.broadcast.isWidgetizeRequestWithoutSession() ? '0' : '1',
@@ -27,9 +27,10 @@ export class MatomoApi {
             'cache-control': 'no-cache'
         };
 
-        return axios.post('index.php?' + query, body, {
+        const response = await axios.post('index.php?' + query, body, {
             headers,
         });
+        return response.data;
     }
 
     getCurrentUrlParams(paramsThatCanOverride) {

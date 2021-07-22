@@ -30,6 +30,8 @@ class CoreReact extends \Piwik\Plugin
         $jsFiles[] = 'node_modules/core-js-bundle/index.js'; // TODO: not sure if needed, but just in case
         $jsFiles[] = 'node_modules/react/umd/react.development.js';
         $jsFiles[] = 'node_modules/react-dom/umd/react-dom.development.js';
+        $jsFiles[] = 'node_modules/classnames/index.js';
+        $jsFiles[] = 'node_modules/axios/dist/axios.js';
 
         if (Development::isEnabled()) {
             $jsFiles[] = 'node_modules/react-error-overlay/lib/index.js';

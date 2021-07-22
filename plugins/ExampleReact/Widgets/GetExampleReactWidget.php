@@ -32,7 +32,7 @@ class GetExampleReactWidget extends Widget
     }
 
     window['@matomo/example-react'].ExampleReact.renderTo(this, {name: 'example-name'});
-    
+
     $(this).data('react-inited', true);
 });</script>';
 WIDGET;
