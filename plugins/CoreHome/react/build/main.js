@@ -5286,6 +5286,337 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "./src/ContentBlock/ContentBlock.js":
+/*!******************************************!*\
+  !*** ./src/ContentBlock/ContentBlock.js ***!
+  \******************************************/
+/*! exports provided: ContentBlock */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return ContentBlock; });
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/find */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! classnames */ "classnames");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _rate_feature_RateFeature__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../rate-feature/RateFeature */ "./src/rate-feature/RateFeature.js");
+/* harmony import */ var _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../enriched-headline/EnrichedHeadline */ "./src/enriched-headline/EnrichedHeadline.js");
+
+
+
+
+
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/ContentBlock/ContentBlock.js";
+
+
+
+
+
+var _window = window,
+    piwik = _window.piwik,
+    _pk_translate = _window._pk_translate,
+    $ = _window.$;
+var adminContent = null;
+var ContentBlock = /*#__PURE__*/function (_React$Component) {
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__["default"])(ContentBlock, _React$Component);
+
+  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__["default"])(ContentBlock);
+
+  function ContentBlock(props) {
+    var _this;
+
+    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__["default"])(this, ContentBlock);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      helpText: _this.props.helpText,
+      feature: _this.props.feature
+    };
+    _this.childContainer = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createRef"]();
+    return _this;
+  }
+
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(ContentBlock, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var $root = $(this.childContainer.current);
+
+      var inlineHelp = _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_1___default()($root).call($root, '.contentHelp');
+
+      if (inlineHelp.length) {
+        this.setState({
+          helpText: inlineHelp.html()
+        });
+        inlineHelp.remove();
+      }
+
+      if (this.state.feature && (this.state.feature === true || this.state.feature === 'true')) {
+        this.state.feature = this.props.contentTitle;
+      }
+
+      if (adminContent === null) {
+        // cache admin node for further content blocks
+        adminContent = $('#content.admin');
+      }
+
+      var contentTopPosition = false;
+
+      if (adminContent.length) {
+        contentTopPosition = adminContent.offset().top;
+      }
+
+      if (contentTopPosition || contentTopPosition === 0) {
+        var parents = $root.parentsUntil('.col', '[piwik-widget-loader]');
+        var topThis;
+
+        if (parents.length) {
+          // when shown within the widget loader, we need to get the offset of that element
+          // as the widget loader might be still shown. Would otherwise not position correctly
+          // the widgets on the admin home page
+          topThis = parents.offset().top;
+        } else {
+          topThis = $root.offset().top;
+        }
+
+        if (topThis - contentTopPosition < 17) {
+          // we make sure to display the first card with no margin-top to have it on same as line as
+          // navigation
+          $root.css('marginTop', '0');
+        }
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return [this.props.anchor && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("a", {
+        key: 0,
+        id: this.props.anchor,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 69,
+          columnNumber: 34
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("div", {
+        key: 1,
+        className: "card",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 70,
+          columnNumber: 13
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("div", {
+        className: "card-content",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 71,
+          columnNumber: 17
+        }
+      }, this.props.contentTitle && !this.state.feature && !this.props.helpUrl && !this.state.helpText && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("h2", {
+        className: "card-title",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 73,
+          columnNumber: 25
+        }
+      }, this.props.contentTitle), this.props.contentTitle && (this.state.feature || this.props.helpUrl || this.state.helpText) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("h2", {
+        className: "card-title",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 76,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"](_enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_10__["EnrichedHeadline"], {
+        featureName: this.state.feature,
+        helpUrl: this.props.helpUrl,
+        inlineHelp: this.state.helpText,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 77,
+          columnNumber: 29
+        }
+      }, this.props.contentTitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("div", {
+        ref: this.childContainer,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 86,
+          columnNumber: 21
+        }
+      }, this.props.children)))];
+    }
+  }], [{
+    key: "renderTo",
+    value: function renderTo(element, props) {
+      react_dom__WEBPACK_IMPORTED_MODULE_7___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__["createElement"](ContentBlock, _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 95,
+          columnNumber: 25
+        }
+      })), element);
+    }
+  }]);
+
+  return ContentBlock;
+}(react__WEBPACK_IMPORTED_MODULE_6__["Component"]);
+
+/***/ }),
+
+/***/ "./src/ContentBlock/ContentBlockAdapter.js":
+/*!*************************************************!*\
+  !*** ./src/ContentBlock/ContentBlockAdapter.js ***!
+  \*************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ContentBlock__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContentBlock */ "./src/ContentBlock/ContentBlock.js");
+/* harmony import */ var _angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../angularjs/TranscludeTarget */ "./src/angularjs/TranscludeTarget.js");
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/ContentBlock/ContentBlockAdapter.js";
+
+
+var _window = window,
+    angular = _window.angular,
+    $ = _window.$;
+angular.module('piwikApp').directive('piwikContentBlock', piwikContentBlock);
+piwikContentBlock.$inject = ['$timeout'];
+
+function piwikContentBlock($timeout) {
+  return {
+    restrict: 'A',
+    replace: true,
+    transclude: true,
+    scope: {
+      contentTitle: '@',
+      feature: '@',
+      helpUrl: '@',
+      helpText: '@',
+      anchor: '@?'
+    },
+    controllerAs: 'contentBlock',
+    compile: function compile(element, attrs) {
+      if (attrs.feature === 'true') {
+        attrs.feature = true;
+      }
+
+      return {
+        post: function post(scope, element, attrs, ctrl, transclude) {
+          transclude(scope, function (clone) {
+            $timeout(function () {
+              // TODO: not sure if actually need this
+              var transcludeTarget = /*#__PURE__*/React.createElement(_angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__["TranscludeTarget"], {
+                transclude: clone,
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 34,
+                  columnNumber: 54
+                }
+              });
+              _ContentBlock__WEBPACK_IMPORTED_MODULE_1__["ContentBlock"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
+                children: transcludeTarget
+              }));
+            });
+          });
+        }
+      };
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "./src/angularjs/TranscludeTarget.js":
+/*!*******************************************!*\
+  !*** ./src/angularjs/TranscludeTarget.js ***!
+  \*******************************************/
+/*! exports provided: TranscludeTarget */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TranscludeTarget", function() { return TranscludeTarget; });
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/angularjs/TranscludeTarget.js";
+
+var _window = window,
+    $ = _window.$; // we can't just pass angular transclude elements to React's children property, because React expects
+// React wrapped elements (ie, object created with React.createElement()), and can't manage them.
+// This component will take those targets and add them manually. I'm not sure how well this will work
+// in the long run, but ideally it would be removed after the migration.
+
+var TranscludeTarget = /*#__PURE__*/function (_React$Component) {
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__["default"])(TranscludeTarget, _React$Component);
+
+  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__["default"])(TranscludeTarget);
+
+  function TranscludeTarget(props) {
+    var _this;
+
+    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, TranscludeTarget);
+
+    _this = _super.call(this, props);
+    _this.target = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4__["createRef"]();
+    return _this;
+  }
+
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(TranscludeTarget, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      $(this.target.current).append(this.props.transclude);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4__["createElement"]("div", {
+        ref: this.target,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 21,
+          columnNumber: 13
+        }
+      });
+    }
+  }]);
+
+  return TranscludeTarget;
+}(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
+
+/***/ }),
+
 /***/ "./src/common/FocusAnywhereButHere.js":
 /*!********************************************!*\
   !*** ./src/common/FocusAnywhereButHere.js ***!
@@ -5933,6 +6264,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _EnrichedHeadline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnrichedHeadline */ "./src/enriched-headline/EnrichedHeadline.js");
+/* harmony import */ var _angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../angularjs/TranscludeTarget */ "./src/angularjs/TranscludeTarget.js");
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/enriched-headline/EnrichedHeadlineAdapter.js";
 
 
 var _window = window,
@@ -5970,16 +6304,17 @@ function piwikEnrichedHeadline($document, piwik, $timeout) {
           transclude(scope, function (clone) {
             $timeout(function () {
               // TODO: not sure if actually need this
-              var elements = [];
-              clone.each(function () {
-                if (this.textContent) {
-                  elements.push(this.textContent);
-                } else {
-                  elements.push(this);
+              var transcludeTarget = /*#__PURE__*/React.createElement(_angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__["TranscludeTarget"], {
+                transclude: clone,
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 38,
+                  columnNumber: 54
                 }
               });
               _EnrichedHeadline__WEBPACK_IMPORTED_MODULE_1__["EnrichedHeadline"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
-                children: elements
+                children: transcludeTarget
               }));
             });
           });
@@ -5995,27 +6330,37 @@ function piwikEnrichedHeadline($document, piwik, $timeout) {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: MatomoApi, MatomoModal, SiteSelector, EnrichedHeadline */
+/*! exports provided: TranscludeTarget, MatomoApi, MatomoModal, SiteSelector, EnrichedHeadline, ContentBlock */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_MatomoApi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/MatomoApi */ "./src/common/MatomoApi.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatomoApi", function() { return _common_MatomoApi__WEBPACK_IMPORTED_MODULE_0__["MatomoApi"]; });
+/* harmony import */ var _angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./angularjs/TranscludeTarget */ "./src/angularjs/TranscludeTarget.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TranscludeTarget", function() { return _angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_0__["TranscludeTarget"]; });
 
-/* harmony import */ var _common_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/FocusAnywhereButHere */ "./src/common/FocusAnywhereButHere.js");
-/* empty/unused harmony star reexport *//* harmony import */ var _common_MatomoModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/MatomoModal */ "./src/common/MatomoModal.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatomoModal", function() { return _common_MatomoModal__WEBPACK_IMPORTED_MODULE_2__["MatomoModal"]; });
+/* harmony import */ var _common_MatomoApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/MatomoApi */ "./src/common/MatomoApi.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatomoApi", function() { return _common_MatomoApi__WEBPACK_IMPORTED_MODULE_1__["MatomoApi"]; });
 
-/* harmony import */ var _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./site-selector/SiteSelector */ "./src/site-selector/SiteSelector.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_3__["SiteSelector"]; });
+/* harmony import */ var _common_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/FocusAnywhereButHere */ "./src/common/FocusAnywhereButHere.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _common_MatomoModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/MatomoModal */ "./src/common/MatomoModal.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatomoModal", function() { return _common_MatomoModal__WEBPACK_IMPORTED_MODULE_3__["MatomoModal"]; });
 
-/* harmony import */ var _site_selector_SiteSelectorAdapter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./site-selector/SiteSelectorAdapter */ "./src/site-selector/SiteSelectorAdapter.js");
-/* empty/unused harmony star reexport *//* harmony import */ var _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./enriched-headline/EnrichedHeadline */ "./src/enriched-headline/EnrichedHeadline.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_5__["EnrichedHeadline"]; });
+/* harmony import */ var _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./site-selector/SiteSelector */ "./src/site-selector/SiteSelector.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_4__["SiteSelector"]; });
 
-/* harmony import */ var _enriched_headline_EnrichedHeadlineAdapter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./enriched-headline/EnrichedHeadlineAdapter */ "./src/enriched-headline/EnrichedHeadlineAdapter.js");
+/* harmony import */ var _site_selector_SiteSelectorAdapter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./site-selector/SiteSelectorAdapter */ "./src/site-selector/SiteSelectorAdapter.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./enriched-headline/EnrichedHeadline */ "./src/enriched-headline/EnrichedHeadline.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_6__["EnrichedHeadline"]; });
+
+/* harmony import */ var _enriched_headline_EnrichedHeadlineAdapter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./enriched-headline/EnrichedHeadlineAdapter */ "./src/enriched-headline/EnrichedHeadlineAdapter.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _ContentBlock_ContentBlock__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ContentBlock/ContentBlock */ "./src/ContentBlock/ContentBlock.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return _ContentBlock_ContentBlock__WEBPACK_IMPORTED_MODULE_8__["ContentBlock"]; });
+
+/* harmony import */ var _ContentBlock_ContentBlockAdapter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ContentBlock/ContentBlockAdapter */ "./src/ContentBlock/ContentBlockAdapter.js");
 /* empty/unused harmony star reexport */
+
+
+
 
 
 
