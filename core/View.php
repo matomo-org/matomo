@@ -300,7 +300,7 @@ class View implements ViewInterface
                 Common::sendHeader('Referrer-Policy: strict-origin-when-cross-origin');
             }
 
-            Common::sendHeader(StaticContainer::get(SecurityPolicy::class)->createHeaderString());
+            //Common::sendHeader(StaticContainer::get(SecurityPolicy::class)->createHeaderString());
         }
 
         return $this->renderTwigTemplate();
