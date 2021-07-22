@@ -357,33 +357,26 @@ class ArchiveProcessor
             // By default we shall aggregate all sub-tables.
             $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
-            $columnsRenamed = false;
+            // TODO: removed if, $dataTable should always be a map since we are aggregating child periods
 
-            if ($dataTable instanceof Map) {
-                $columnsRenamed = true;
-                // see https://github.com/piwik/piwik/issues/4377
-                $self = $this;
-                $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
+            // see https://github.com/piwik/piwik/issues/4377
+            $self = $this;
+            $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
 
-                    if ($self->areColumnsNotAlreadyRenamed($table)) {
-                        /**
-                         * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
-                         * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
-                         * week archive. When generating month archives, which uses mostly week archives, we do not have
-                         * to replace those columns for the week archives again since we can be sure they were already
-                         * replaced. Same when aggregating year and range archives. This can save up 10% or more when
-                         * aggregating Month, Year and Range archives.
-                         */
-                        $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
-                    }
-                });
-            }
+                if ($self->areColumnsNotAlreadyRenamed($table)) {
+                    /**
+                     * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
+                     * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
+                     * week archive. When generating month archives, which uses mostly week archives, we do not have
+                     * to replace those columns for the week archives again since we can be sure they were already
+                     * replaced. Same when aggregating year and range archives. This can save up 10% or more when
+                     * aggregating Month, Year and Range archives.
+                     */
+                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
+            });
 
             $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
-
-            if (!$columnsRenamed) {
-                $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
-            }
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }

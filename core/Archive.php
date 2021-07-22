@@ -181,7 +181,7 @@ class Archive implements ArchiveQuery
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
     public function __construct(Parameters $params, $forceIndexedBySite = false,
-                                   $forceIndexedByDate = false)
+                                $forceIndexedByDate = false)
     {
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
@@ -284,6 +284,18 @@ class Archive implements ArchiveQuery
         }
 
         return $result;
+    }
+
+    /**
+     * TODO
+     *
+     * @param $names
+     * @return Archive\DataCollection
+     */
+    public function getBlob($names)
+    {
+        $data = $this->get($names, 'blob');
+        return $data;
     }
 
     /**
