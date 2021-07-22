@@ -45,9 +45,6 @@ class Feedback extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-model.service.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.controller.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";

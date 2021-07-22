@@ -43,6 +43,7 @@
  */
 (function () {
     angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
+    piwik.periods = piwikPeriods();
 
     var periods = {}, periodOrder = [];
 

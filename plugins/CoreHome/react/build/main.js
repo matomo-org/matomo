@@ -118,6 +118,17 @@ module.exports = __webpack_require__(/*! core-js-pure/stable/instance/concat */ 
 
 /***/ }),
 
+/***/ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js":
+/*!*******************************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js-pure/stable/instance/find */ "../../../node_modules/core-js-pure/stable/instance/find.js");
+
+/***/ }),
+
 /***/ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/for-each.js":
 /*!***********************************************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/@babel/runtime-corejs3/core-js-stable/instance/for-each.js ***!
@@ -159,6 +170,17 @@ module.exports = __webpack_require__(/*! core-js-pure/stable/instance/map */ "..
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(/*! core-js-pure/stable/instance/sort */ "../../../node_modules/core-js-pure/stable/instance/sort.js");
+
+/***/ }),
+
+/***/ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/trim.js":
+/*!*******************************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/@babel/runtime-corejs3/core-js-stable/instance/trim.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js-pure/stable/instance/trim */ "../../../node_modules/core-js-pure/stable/instance/trim.js");
 
 /***/ }),
 
@@ -506,6 +528,21 @@ module.exports = entryVirtual('Array').concat;
 
 /***/ }),
 
+/***/ "../../../node_modules/core-js-pure/es/array/virtual/find.js":
+/*!**************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/array/virtual/find.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../../modules/es.array.find */ "../../../node_modules/core-js-pure/modules/es.array.find.js");
+
+var entryVirtual = __webpack_require__(/*! ../../../internals/entry-virtual */ "../../../node_modules/core-js-pure/internals/entry-virtual.js");
+
+module.exports = entryVirtual('Array').find;
+
+/***/ }),
+
 /***/ "../../../node_modules/core-js-pure/es/array/virtual/for-each.js":
 /*!******************************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/array/virtual/for-each.js ***!
@@ -617,6 +654,24 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "../../../node_modules/core-js-pure/es/instance/find.js":
+/*!*********************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/instance/find.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var find = __webpack_require__(/*! ../array/virtual/find */ "../../../node_modules/core-js-pure/es/array/virtual/find.js");
+
+var ArrayPrototype = Array.prototype;
+
+module.exports = function (it) {
+  var own = it.find;
+  return it === ArrayPrototype || it instanceof Array && own === ArrayPrototype.find ? find : own;
+};
+
+/***/ }),
+
 /***/ "../../../node_modules/core-js-pure/es/instance/index-of.js":
 /*!*************************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/instance/index-of.js ***!
@@ -671,6 +726,24 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "../../../node_modules/core-js-pure/es/instance/trim.js":
+/*!*********************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/instance/trim.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var trim = __webpack_require__(/*! ../string/virtual/trim */ "../../../node_modules/core-js-pure/es/string/virtual/trim.js");
+
+var StringPrototype = String.prototype;
+
+module.exports = function (it) {
+  var own = it.trim;
+  return typeof it === 'string' || it === StringPrototype || it instanceof String && own === StringPrototype.trim ? trim : own;
+};
+
+/***/ }),
+
 /***/ "../../../node_modules/core-js-pure/es/object/assign.js":
 /*!*********************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/object/assign.js ***!
@@ -683,6 +756,21 @@ __webpack_require__(/*! ../../modules/es.object.assign */ "../../../node_modules
 var path = __webpack_require__(/*! ../../internals/path */ "../../../node_modules/core-js-pure/internals/path.js");
 
 module.exports = path.Object.assign;
+
+/***/ }),
+
+/***/ "../../../node_modules/core-js-pure/es/string/virtual/trim.js":
+/*!***************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/es/string/virtual/trim.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../../modules/es.string.trim */ "../../../node_modules/core-js-pure/modules/es.string.trim.js");
+
+var entryVirtual = __webpack_require__(/*! ../../../internals/entry-virtual */ "../../../node_modules/core-js-pure/internals/entry-virtual.js");
+
+module.exports = entryVirtual('String').trim;
 
 /***/ }),
 
@@ -3004,6 +3092,66 @@ var store = __webpack_require__(/*! ../internals/shared-store */ "../../../node_
 
 /***/ }),
 
+/***/ "../../../node_modules/core-js-pure/internals/string-trim-forced.js":
+/*!*********************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/internals/string-trim-forced.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(/*! ../internals/fails */ "../../../node_modules/core-js-pure/internals/fails.js");
+
+var whitespaces = __webpack_require__(/*! ../internals/whitespaces */ "../../../node_modules/core-js-pure/internals/whitespaces.js");
+
+var non = "\u200B\x85\u180E"; // check that a method works with the correct list
+// of whitespaces and has a correct name
+
+module.exports = function (METHOD_NAME) {
+  return fails(function () {
+    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+  });
+};
+
+/***/ }),
+
+/***/ "../../../node_modules/core-js-pure/internals/string-trim.js":
+/*!**************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/internals/string-trim.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "../../../node_modules/core-js-pure/internals/require-object-coercible.js");
+
+var whitespaces = __webpack_require__(/*! ../internals/whitespaces */ "../../../node_modules/core-js-pure/internals/whitespaces.js");
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$'); // `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+
+var createMethod = function createMethod(TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.es/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.es/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.es/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+/***/ }),
+
 /***/ "../../../node_modules/core-js-pure/internals/to-absolute-index.js":
 /*!********************************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/internals/to-absolute-index.js ***!
@@ -3202,6 +3350,18 @@ module.exports = function (name) {
 
 /***/ }),
 
+/***/ "../../../node_modules/core-js-pure/internals/whitespaces.js":
+/*!**************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/internals/whitespaces.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// a string of all valid unicode whitespaces
+module.exports = "\t\n\x0B\f\r \xA0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF";
+
+/***/ }),
+
 /***/ "../../../node_modules/core-js-pure/modules/es.array.concat.js":
 /*!****************************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/modules/es.array.concat.js ***!
@@ -3289,6 +3449,46 @@ $({
     return A;
   }
 });
+
+/***/ }),
+
+/***/ "../../../node_modules/core-js-pure/modules/es.array.find.js":
+/*!**************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/modules/es.array.find.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(/*! ../internals/export */ "../../../node_modules/core-js-pure/internals/export.js");
+
+var $find = __webpack_require__(/*! ../internals/array-iteration */ "../../../node_modules/core-js-pure/internals/array-iteration.js").find;
+
+var addToUnscopables = __webpack_require__(/*! ../internals/add-to-unscopables */ "../../../node_modules/core-js-pure/internals/add-to-unscopables.js");
+
+var FIND = 'find';
+var SKIPS_HOLES = true; // Shouldn't skip holes
+
+if (FIND in []) Array(1)[FIND](function () {
+  SKIPS_HOLES = false;
+}); // `Array.prototype.find` method
+// https://tc39.es/ecma262/#sec-array.prototype.find
+
+$({
+  target: 'Array',
+  proto: true,
+  forced: SKIPS_HOLES
+}, {
+  find: function find(callbackfn
+  /* , that = undefined */
+  ) {
+    return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+}); // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+
+addToUnscopables(FIND);
 
 /***/ }),
 
@@ -3654,6 +3854,36 @@ $({
   forced: Object.assign !== assign
 }, {
   assign: assign
+});
+
+/***/ }),
+
+/***/ "../../../node_modules/core-js-pure/modules/es.string.trim.js":
+/*!***************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/modules/es.string.trim.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(/*! ../internals/export */ "../../../node_modules/core-js-pure/internals/export.js");
+
+var $trim = __webpack_require__(/*! ../internals/string-trim */ "../../../node_modules/core-js-pure/internals/string-trim.js").trim;
+
+var forcedStringTrimMethod = __webpack_require__(/*! ../internals/string-trim-forced */ "../../../node_modules/core-js-pure/internals/string-trim-forced.js"); // `String.prototype.trim` method
+// https://tc39.es/ecma262/#sec-string.prototype.trim
+
+
+$({
+  target: 'String',
+  proto: true,
+  forced: forcedStringTrimMethod('trim')
+}, {
+  trim: function trim() {
+    return $trim(this);
+  }
 });
 
 /***/ }),
@@ -4163,6 +4393,19 @@ module.exports = parent;
 
 /***/ }),
 
+/***/ "../../../node_modules/core-js-pure/stable/instance/find.js":
+/*!*************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/stable/instance/find.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parent = __webpack_require__(/*! ../../es/instance/find */ "../../../node_modules/core-js-pure/es/instance/find.js");
+
+module.exports = parent;
+
+/***/ }),
+
 /***/ "../../../node_modules/core-js-pure/stable/instance/for-each.js":
 /*!*****************************************************************************************!*\
   !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/stable/instance/for-each.js ***!
@@ -4224,6 +4467,19 @@ module.exports = parent;
 /***/ (function(module, exports, __webpack_require__) {
 
 var parent = __webpack_require__(/*! ../../es/instance/sort */ "../../../node_modules/core-js-pure/es/instance/sort.js");
+
+module.exports = parent;
+
+/***/ }),
+
+/***/ "../../../node_modules/core-js-pure/stable/instance/trim.js":
+/*!*************************************************************************************!*\
+  !*** /home/dizzy/Projects/matomo/node_modules/core-js-pure/stable/instance/trim.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parent = __webpack_require__(/*! ../../es/instance/trim */ "../../../node_modules/core-js-pure/es/instance/trim.js");
 
 module.exports = parent;
 
@@ -5289,11 +5545,457 @@ var matomoApiService = new MatomoApi();
 
 /***/ }),
 
+/***/ "./src/common/MatomoModal.js":
+/*!***********************************!*\
+  !*** ./src/common/MatomoModal.js ***!
+  \***********************************/
+/*! exports provided: MatomoModal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MatomoModal", function() { return MatomoModal; });
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/common/MatomoModal.js";
+
+var _window = window,
+    piwik = _window.piwik;
+var MatomoModal = /*#__PURE__*/function (_React$Component) {
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__["default"])(MatomoModal, _React$Component);
+
+  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__["default"])(MatomoModal);
+
+  function MatomoModal(props) {
+    var _this;
+
+    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, MatomoModal);
+
+    _this = _super.call(this, props);
+    _this.modalRoot = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4__["createRef"]();
+    return _this;
+  }
+
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(MatomoModal, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState, snapshot) {
+      var _this2 = this;
+
+      if (this.props.showModal && !prevProps.showModal && this.modalRoot.current) {
+        piwik.helper.modalConfirm(this.modalRoot.current, {
+          yes: function yes() {
+            return _this2.props.onYes && _this2.props.onYes();
+          },
+          no: function no() {
+            return _this2.props.onNo && _this2.props.onNo();
+          }
+        }, {
+          onCloseEnd: function onCloseEnd() {
+            return _this2.props.onCloseEnd && _this2.props.onCloseEnd();
+          }
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4__["createElement"]("div", {
+        ref: this.modalRoot,
+        style: {
+          display: 'none'
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 23,
+          columnNumber: 16
+        }
+      }, this.props.children);
+    }
+  }]);
+
+  return MatomoModal;
+}(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
+
+/***/ }),
+
+/***/ "./src/enriched-headline/EnrichedHeadline.js":
+/*!***************************************************!*\
+  !*** ./src/enriched-headline/EnrichedHeadline.js ***!
+  \***************************************************/
+/*! exports provided: EnrichedHeadline */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return EnrichedHeadline; });
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_trim__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/trim */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/trim.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_trim__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_trim__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/find */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! classnames */ "classnames");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _rate_feature_RateFeature__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../rate-feature/RateFeature */ "./src/rate-feature/RateFeature.js");
+
+
+
+
+
+
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/enriched-headline/EnrichedHeadline.js";
+
+
+
+
+var _window = window,
+    piwik = _window.piwik,
+    _pk_translate = _window._pk_translate,
+    $ = _window.$;
+var EnrichedHeadline = /*#__PURE__*/function (_React$Component) {
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__["default"])(EnrichedHeadline, _React$Component);
+
+  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_6__["default"])(EnrichedHeadline);
+
+  function EnrichedHeadline(props) {
+    var _this;
+
+    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_3__["default"])(this, EnrichedHeadline);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      showReportGenerated: false,
+      showInlineHelp: false,
+      showIcons: false,
+      inlineHelp: props.inlineHelp,
+      featureName: props.featureName
+    };
+    _this.root = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createRef"]();
+    _this.title = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createRef"]();
+    _this.titleLink = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createRef"]();
+    return _this;
+  }
+
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__["default"])(EnrichedHeadline, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      // TODO: bad,bad,using jquery.
+      var $root = $(this.root.current);
+
+      if (!this.state.inlineHelp && !this.inlineHelpDeduced) {
+        var $helpNode = $('.inlineHelp', this.title.current || this.titleLink.current);
+
+        if ((!$helpNode || !$helpNode.length) && $root.next()) {
+          var _context;
+
+          // hack for reports :(
+          $helpNode = _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_2___default()(_context = $root.next()).call(_context, '.reportDocumentation');
+        }
+
+        if ($helpNode && $helpNode.length) {
+          // hackish solution to get binded html of p tag within the help node
+          // at this point the ng-bind-html is not yet converted into html when report is not
+          // initially loaded. Using $compile doesn't work. So get and set it manually
+          if (_babel_runtime_corejs3_core_js_stable_instance_trim__WEBPACK_IMPORTED_MODULE_1___default()($).call($, $helpNode.text())) {
+            this.setState({
+              inlineHelp: _babel_runtime_corejs3_core_js_stable_instance_trim__WEBPACK_IMPORTED_MODULE_1___default()($).call($, $helpNode.html())
+            });
+          }
+
+          $helpNode.remove();
+        }
+      }
+
+      if (!this.state.featureName && !this.featureNameDeduced) {
+        var deducedFeatureName = _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_2___default()($root).call($root, '.title').first().text();
+
+        if (deducedFeatureName) {
+          this.setState({
+            featureName: _babel_runtime_corejs3_core_js_stable_instance_trim__WEBPACK_IMPORTED_MODULE_1___default()($).call($, deducedFeatureName)
+          });
+        }
+      }
+
+      if (this.props.reportGenerated && piwik.periods.parse(piwik.period, piwik.currentDateString).containsToday()) {
+        _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_2___default()($root).call($root, '.report-generated').first().tooltip({
+          track: true,
+          content: this.props.reportGenerated,
+          items: 'div',
+          show: false,
+          hide: false
+        });
+
+        this.setState({
+          showReportGenerated: 1
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+        ref: this.root,
+        className: "enrichedHeadline",
+        onMouseEnter: function onMouseEnter() {
+          return _this2.setState({
+            showIcons: true
+          });
+        },
+        onMouseLeave: function onMouseLeave() {
+          return _this2.setState({
+            showIcons: false
+          });
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 72,
+          columnNumber: 13
+        }
+      }, !this.props.editUrl && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+        ref: this.title,
+        className: "title",
+        tabIndex: "6",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 78,
+          columnNumber: 41
+        }
+      }, this.props.children), this.props.editUrl && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("a", {
+        ref: this.titleLink,
+        className: "title",
+        href: this.props.editUrl,
+        title: _pk_translate('CoreHome_ClickToEditX', [this.state.featureName]),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 82,
+          columnNumber: 40
+        }
+      }, this.props.children), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("span", {
+        hidden: !this.state.showIcons && !this.state.showInlineHelp,
+        className: "iconsBar",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 86,
+          columnNumber: 17
+        }
+      }, this.props.helpUrl && !this.state.inlineHelp && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("a", {
+        rel: "noreferrer noopener",
+        target: "_blank",
+        href: this.props.helpUrl,
+        title: _pk_translate('CoreHome_ExternalHelp'),
+        className: "helpIcon",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 87,
+          columnNumber: 70
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("span", {
+        className: "icon-help",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 94,
+          columnNumber: 25
+        }
+      })), this.state.inlineHelp && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("a", {
+        title: _pk_translate('General_Help'),
+        onClick: function onClick() {
+          return _this2.setState({
+            showInlineHelp: !_this2.state.showInlineHelp
+          });
+        },
+        className: classnames__WEBPACK_IMPORTED_MODULE_9___default()("helpIcon", {
+          active: this.state.showInlineHelp
+        }),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 97,
+          columnNumber: 47
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("span", {
+        className: "icon-help",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 102,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+        className: "ratingIcons",
+        title: this.state.featureName,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"](_rate_feature_RateFeature__WEBPACK_IMPORTED_MODULE_10__["RateFeature"], {
+        title: this.state.featureName,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 107,
+          columnNumber: 25
+        }
+      }))), this.state.showReportGenerated && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+        className: "icon-clock report-generated",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 111,
+          columnNumber: 52
+        }
+      }), this.state.showInlineHelp && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+        className: "inlineHelp",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 113,
+          columnNumber: 47
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+        dangerouslySetInnerHTML: {
+          __html: this.state.inlineHelp
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 114,
+          columnNumber: 21
+        }
+      }), this.props.helpUrl && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("a", {
+        rel: "noreferrer noopener",
+        target: "_blank",
+        href: this.props.helpUrl,
+        className: "readMore",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 115,
+          columnNumber: 44
+        }
+      }, _pk_translate('General_MoreDetails'))));
+    }
+  }], [{
+    key: "renderTo",
+    value: function renderTo(element, props) {
+      react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__["createElement"](EnrichedHeadline, _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 129,
+          columnNumber: 25
+        }
+      })), element);
+    }
+  }]);
+
+  return EnrichedHeadline;
+}(react__WEBPACK_IMPORTED_MODULE_7__["Component"]);
+
+/***/ }),
+
+/***/ "./src/enriched-headline/EnrichedHeadlineAdapter.js":
+/*!**********************************************************!*\
+  !*** ./src/enriched-headline/EnrichedHeadlineAdapter.js ***!
+  \**********************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _EnrichedHeadline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnrichedHeadline */ "./src/enriched-headline/EnrichedHeadline.js");
+
+
+var _window = window,
+    angular = _window.angular;
+angular.module('piwikApp').directive('piwikEnrichedHeadline', piwikEnrichedHeadline);
+piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$timeout'];
+
+function piwikEnrichedHeadline($document, piwik, $timeout) {
+  var defaults = {
+    helpUrl: '',
+    editUrl: '',
+    reportGenerated: '',
+    showReportGenerated: ''
+  };
+  return {
+    transclude: true,
+    restrict: 'A',
+    scope: {
+      helpUrl: '@',
+      editUrl: '@',
+      reportGenerated: '@?',
+      featureName: '@',
+      inlineHelp: '@?',
+      showReportGenerated: '=?'
+    },
+    compile: function compile(element, attrs) {
+      for (var index in defaults) {
+        if (!attrs[index]) {
+          attrs[index] = defaults[index];
+        }
+      }
+
+      return {
+        post: function postLink(scope, element, attrs, ctrl, transclude) {
+          transclude(scope, function (clone) {
+            $timeout(function () {
+              // TODO: not sure if actually need this
+              var elements = [];
+              clone.each(function () {
+                if (this.textContent) {
+                  elements.push(this.textContent);
+                } else {
+                  elements.push(this);
+                }
+              });
+              _EnrichedHeadline__WEBPACK_IMPORTED_MODULE_1__["EnrichedHeadline"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
+                children: elements
+              }));
+            });
+          });
+        }
+      };
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: MatomoApi, SiteSelector */
+/*! exports provided: MatomoApi, MatomoModal, SiteSelector, EnrichedHeadline */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5302,14 +6004,561 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatomoApi", function() { return _common_MatomoApi__WEBPACK_IMPORTED_MODULE_0__["MatomoApi"]; });
 
 /* harmony import */ var _common_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/FocusAnywhereButHere */ "./src/common/FocusAnywhereButHere.js");
-/* empty/unused harmony star reexport *//* harmony import */ var _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./site-selector/SiteSelector */ "./src/site-selector/SiteSelector.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_2__["SiteSelector"]; });
+/* empty/unused harmony star reexport *//* harmony import */ var _common_MatomoModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/MatomoModal */ "./src/common/MatomoModal.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatomoModal", function() { return _common_MatomoModal__WEBPACK_IMPORTED_MODULE_2__["MatomoModal"]; });
 
-/* harmony import */ var _site_selector_SiteSelectorAdapter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./site-selector/SiteSelectorAdapter */ "./src/site-selector/SiteSelectorAdapter.js");
+/* harmony import */ var _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./site-selector/SiteSelector */ "./src/site-selector/SiteSelector.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return _site_selector_SiteSelector__WEBPACK_IMPORTED_MODULE_3__["SiteSelector"]; });
+
+/* harmony import */ var _site_selector_SiteSelectorAdapter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./site-selector/SiteSelectorAdapter */ "./src/site-selector/SiteSelectorAdapter.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./enriched-headline/EnrichedHeadline */ "./src/enriched-headline/EnrichedHeadline.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return _enriched_headline_EnrichedHeadline__WEBPACK_IMPORTED_MODULE_5__["EnrichedHeadline"]; });
+
+/* harmony import */ var _enriched_headline_EnrichedHeadlineAdapter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./enriched-headline/EnrichedHeadlineAdapter */ "./src/enriched-headline/EnrichedHeadlineAdapter.js");
 /* empty/unused harmony star reexport */
 
 
 
+
+
+
+
+/***/ }),
+
+/***/ "./src/rate-feature/RateFeature.js":
+/*!*****************************************!*\
+  !*** ./src/rate-feature/RateFeature.js ***!
+  \*****************************************/
+/*! exports provided: RateFeature */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RateFeature", function() { return RateFeature; });
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/object/assign */ "../../../node_modules/@babel/runtime-corejs3/core-js-stable/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var _home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! /home/dizzy/Projects/matomo/node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper */ "../../../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _common_MatomoModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../common/MatomoModal */ "./src/common/MatomoModal.js");
+/* harmony import */ var _common_MatomoApi__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../common/MatomoApi */ "./src/common/MatomoApi.js");
+
+
+
+
+
+var _jsxFileName = "/home/dizzy/Projects/matomo/plugins/CoreHome/react/src/rate-feature/RateFeature.js";
+
+
+
+
+var _window = window,
+    _pk_translate = _window._pk_translate;
+var RateFeature = /*#__PURE__*/function (_React$Component) {
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__["default"])(RateFeature, _React$Component);
+
+  var _super = Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__["default"])(RateFeature);
+
+  function RateFeature(props) {
+    var _this;
+
+    Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, RateFeature);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      expanded: false,
+      showFeedbackForm: false,
+      feedbackMessage: '',
+      ratingDone: false
+    };
+    return _this;
+  }
+
+  Object(_home_dizzy_Projects_matomo_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(RateFeature, [{
+    key: "dislikeFeature",
+    value: function dislikeFeature() {
+      this.setState({
+        like: false,
+        showFeedbackForm: true
+      });
+    }
+  }, {
+    key: "likeFeature",
+    value: function likeFeature() {
+      this.setState({
+        like: true,
+        showFeedbackForm: true
+      });
+    }
+  }, {
+    key: "sendFeedback",
+    value: function sendFeedback(message) {
+      _common_MatomoApi__WEBPACK_IMPORTED_MODULE_8__["default"].fetch({
+        method: 'Feedback.sendFeedbackForFeature',
+        featureName: this.props.title,
+        like: this.state.like ? '1' : '0',
+        message: message + ''
+      });
+      this.setState({
+        ratingDone: true
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        title: _pk_translate('Feedback_RateFeatureTitle', [this.props.title]),
+        className: "ratefeature",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 47,
+          columnNumber: 13
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "iconContainer",
+        onMouseEnter: function onMouseEnter() {
+          return _this2.setState({
+            expanded: true
+          });
+        },
+        onMouseLeave: function onMouseLeave() {
+          return _this2.setState({
+            expanded: false
+          });
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 48,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        onClick: function onClick() {
+          return _this2.likeFeature();
+        },
+        className: "like-icon",
+        src: "plugins/Feedback/angularjs/ratefeature/thumbs-up.png",
+        alt: "thumbs up",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 53,
+          columnNumber: 21
+        }
+      }), this.state.expanded && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        onClick: function onClick() {
+          return _this2.dislikeFeature();
+        },
+        className: "dislike-icon",
+        src: "plugins/Feedback/angularjs/ratefeature/thumbs-down.png",
+        alt: "thumbs down",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 55,
+          columnNumber: 45
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"](_common_MatomoModal__WEBPACK_IMPORTED_MODULE_7__["MatomoModal"], {
+        showModal: this.state.showFeedbackForm,
+        className: "ui-confirm ratefeatureDialog",
+        onYes: function onYes() {
+          return _this2.sendFeedback();
+        },
+        onCloseEnd: function onCloseEnd() {
+          return _this2.setState({
+            showFeedbackForm: false
+          });
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 63,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("h2", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 69,
+          columnNumber: 21
+        }
+      }, _pk_translate('Feedback_RateFeatureThankYouTitle', [this.props.title])), this.props.like && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 70,
+          columnNumber: 41
+        }
+      }, _pk_translate('Feedback_RateFeatureLeaveMessageLike')), !this.props.like && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 71,
+          columnNumber: 42
+        }
+      }, _pk_translate('Feedback_RateFeatureLeaveMessageDislike')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("br", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 73,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "messageContainer",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 75,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("textarea", {
+        onChange: function onChange(v) {
+          return _this2.setState({
+            feedbackMessage: v
+          });
+        },
+        value: this.state.feedbackMessage,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 76,
+          columnNumber: 25
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("input", {
+        type: "button",
+        title: _pk_translate('Feedback_RateFeatureSendFeedbackInformation'),
+        value: _pk_translate('Feedback_SendFeedback'),
+        role: "yes",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 82,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("input", {
+        type: "button",
+        role: "cancel",
+        value: _pk_translate('General_Cancel'),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 88,
+          columnNumber: 21
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"](_common_MatomoModal__WEBPACK_IMPORTED_MODULE_7__["MatomoModal"], {
+        className: "ui-confirm ratefeatureDialog",
+        showModal: this.state.ratingDone,
+        onCloseEnd: function onCloseEnd() {
+          return _this2.setState({
+            ratingDone: false
+          });
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 91,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("h2", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 92,
+          columnNumber: 21
+        }
+      }, _pk_translate('Feedback_ThankYou', [this.props.title])), this.state.like && this.renderReviewLinks(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("input", {
+        type: "button",
+        value: _pk_translate('General_Ok'),
+        role: "yes",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 96,
+          columnNumber: 21
+        }
+      })));
+    }
+  }, {
+    key: "renderReviewLinks",
+    value: function renderReviewLinks() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "requestReview",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 104,
+          columnNumber: 13
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105,
+          columnNumber: 17
+        }
+      }, _pk_translate('Feedback_PleaseLeaveExternalReviewForMatomo')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("br", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105,
+          columnNumber: 86
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("br", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105,
+          columnNumber: 91
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "review-links",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 107,
+          columnNumber: 17
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "review-link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 108,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("a", {
+        href: "https://www.capterra.com/p/182627/Matomo-Analytics/",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 109,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "image",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 110,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        loading: "lazy",
+        src: "plugins/Feedback/images/capterra.svg",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 110,
+          columnNumber: 52
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 111,
+          columnNumber: 29
+        }
+      }, "Capterra"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "review-link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 115,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("a", {
+        href: "https://www.g2crowd.com/products/matomo-formerly-piwik/details",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 116,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "image",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 117,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        loading: "lazy",
+        src: "plugins/Feedback/images/g2crowd.svg",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 117,
+          columnNumber: 52
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 118,
+          columnNumber: 29
+        }
+      }, "G2 Crowd"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "review-link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 122,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("a", {
+        href: "https://www.producthunt.com/posts/matomo-2",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 123,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "image",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 124,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        loading: "lazy",
+        src: "plugins/Feedback/images/producthunt.svg",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 124,
+          columnNumber: 52
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 126,
+          columnNumber: 29
+        }
+      }, "Product Hunt"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "review-link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 130,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("a", {
+        href: "https://www.saasworthy.com/product/matomo",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 131,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "image",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 132,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        loading: "lazy",
+        src: "plugins/Feedback/images/saasworthy.png",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 132,
+          columnNumber: 52
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 134,
+          columnNumber: 29
+        }
+      }, "SaaSworthy"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "review-link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 138,
+          columnNumber: 21
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("a", {
+        href: "https://www.trustradius.com/products/matomo/reviews",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 139,
+          columnNumber: 25
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "image",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 140,
+          columnNumber: 29
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("img", {
+        loading: "lazy",
+        src: "plugins/Feedback/images/trustradius.svg",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 140,
+          columnNumber: 52
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
+        className: "link",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 142,
+          columnNumber: 29
+        }
+      }, "TrustRadius")))));
+    }
+  }], [{
+    key: "renderTo",
+    value: function renderTo(element, props) {
+      react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__["createElement"](RateFeature, _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 151,
+          columnNumber: 25
+        }
+      })), element);
+    }
+  }]);
+
+  return RateFeature;
+}(react__WEBPACK_IMPORTED_MODULE_5__["Component"]);
 
 /***/ }),
 
