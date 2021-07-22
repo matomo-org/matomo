@@ -1,11 +1,12 @@
 
 matomo.registerComponent('matomoContentBlock', {
     props: ['contentTitle', 'feature', 'helpUrl', 'helpText', 'anchor'],
-    mounted() {
-        if (this.feature === 'true') {
-            this.feature = true;
+    data: function () {
+        return {
+            featureName: '',
         }
-
+    },
+    mounted() {
         var element = $(this.$el);
 
         if (this.anchor) {
@@ -19,8 +20,10 @@ matomo.registerComponent('matomoContentBlock', {
             inlineHelp.remove();
         }
 
-        if (this.feature === true) {
-            this.feature = this.contentTitle;
+        if (this.feature === true || this.feature === 'true') {
+            this.featureName = this.contentTitle;
+        } else {
+            this.featureName = this.feature;
         }
 
         var adminContent = $('#content.admin');
@@ -54,9 +57,9 @@ matomo.registerComponent('matomoContentBlock', {
     },
     template: `<div class="card">
     <div class="card-content">
-        <h2 v-if="contentTitle && !feature && !helpUrl && !helpText" class="card-title">{{contentTitle}}</h2>
-        <matomo-enriched-headline v-if="contentTitle && (feature || helpUrl || helpText)" class="card-title"
-              :feature-name="feature" :help-url="helpUrl" :inline-help="helpText">
+        <h2 v-if="contentTitle && !featureName && !helpUrl && !helpText" class="card-title">{{contentTitle}}</h2>
+        <matomo-enriched-headline v-if="contentTitle && (featureName || helpUrl || helpText)" class="card-title"
+              :feature-name="featureName" :help-url="helpUrl" :inline-help="helpText">
             {{contentTitle}}</matomo-enriched-headline>
           <div class="card-content-content"><slot></slot></div>
     </div>
