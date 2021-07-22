@@ -30,10 +30,8 @@ function piwikContentBlock($timeout){
             return {
                 post: function (scope, element, attrs, ctrl, transclude) {
                     transclude(scope, function (clone) {
-                        $timeout(function () { // TODO: not sure if actually need this
-                            const transcludeTarget = <TranscludeTarget transclude={clone}/>;
-                            ContentBlock.renderTo(element[0], Object.assign({}, scope, {children: transcludeTarget}));
-                        });
+                        const transcludeTarget = <TranscludeTarget transclude={clone}/>;
+                        ContentBlock.renderTo(element[0], Object.assign({}, scope, {children: transcludeTarget}));
                     });
                 },
             };

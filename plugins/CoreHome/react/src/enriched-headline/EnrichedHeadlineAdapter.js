@@ -34,10 +34,8 @@ function piwikEnrichedHeadline($document, piwik, $timeout){
             return {
                 post: function postLink(scope, element, attrs, ctrl, transclude) {
                     transclude(scope, function (clone) {
-                        $timeout(function () { // TODO: not sure if actually need this
-                            const transcludeTarget = <TranscludeTarget transclude={clone}/>;
-                            EnrichedHeadline.renderTo(element[0], Object.assign({}, scope, {children: transcludeTarget}));
-                        });
+                        const transcludeTarget = <TranscludeTarget transclude={clone}/>;
+                        EnrichedHeadline.renderTo(element[0], Object.assign({}, scope, {children: transcludeTarget}));
                     });
                 },
             };

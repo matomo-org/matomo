@@ -5525,21 +5525,18 @@ function piwikContentBlock($timeout) {
       return {
         post: function post(scope, element, attrs, ctrl, transclude) {
           transclude(scope, function (clone) {
-            $timeout(function () {
-              // TODO: not sure if actually need this
-              var transcludeTarget = /*#__PURE__*/React.createElement(_angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__["TranscludeTarget"], {
-                transclude: clone,
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 34,
-                  columnNumber: 54
-                }
-              });
-              _ContentBlock__WEBPACK_IMPORTED_MODULE_1__["ContentBlock"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
-                children: transcludeTarget
-              }));
+            var transcludeTarget = /*#__PURE__*/React.createElement(_angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__["TranscludeTarget"], {
+              transclude: clone,
+              __self: this,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 33,
+                columnNumber: 50
+              }
             });
+            _ContentBlock__WEBPACK_IMPORTED_MODULE_1__["ContentBlock"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
+              children: transcludeTarget
+            }));
           });
         }
       };
@@ -6302,21 +6299,18 @@ function piwikEnrichedHeadline($document, piwik, $timeout) {
       return {
         post: function postLink(scope, element, attrs, ctrl, transclude) {
           transclude(scope, function (clone) {
-            $timeout(function () {
-              // TODO: not sure if actually need this
-              var transcludeTarget = /*#__PURE__*/React.createElement(_angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__["TranscludeTarget"], {
-                transclude: clone,
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 38,
-                  columnNumber: 54
-                }
-              });
-              _EnrichedHeadline__WEBPACK_IMPORTED_MODULE_1__["EnrichedHeadline"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
-                children: transcludeTarget
-              }));
+            var transcludeTarget = /*#__PURE__*/React.createElement(_angularjs_TranscludeTarget__WEBPACK_IMPORTED_MODULE_2__["TranscludeTarget"], {
+              transclude: clone,
+              __self: this,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 37,
+                columnNumber: 50
+              }
             });
+            _EnrichedHeadline__WEBPACK_IMPORTED_MODULE_1__["EnrichedHeadline"].renderTo(element[0], _babel_runtime_corejs3_core_js_stable_object_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, scope, {
+              children: transcludeTarget
+            }));
           });
         }
       };
