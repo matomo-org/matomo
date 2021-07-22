@@ -31,7 +31,9 @@ matomo.registerComponent('matomoEnrichedHeadline', {
     data: function () {
         return {
             showIcons: false,
-            showInlineHelp: false
+            showInlineHelp: false,
+            finalFeatureName: '',
+            forceShowReportGenerated: false
         }
     },
     mounted: function() {
@@ -62,9 +64,7 @@ matomo.registerComponent('matomoEnrichedHeadline', {
             }
         }
 
-        if (!this.featureName) {
-            this.featureName = $.trim($(this.$el).find('.title').first().text());
-        }
+        this.finalFeatureName = this.featureName || $.trim($(this.$el).find('.title').first().text());
 
         var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
 
@@ -77,7 +77,7 @@ matomo.registerComponent('matomoEnrichedHeadline', {
                 hide: false
             });
 
-            this.showReportGenerated = '1';
+            this.forceShowReportGenerated = true;
         }
     },
     template: `
@@ -85,7 +85,7 @@ matomo.registerComponent('matomoEnrichedHeadline', {
            @mouseenter="showIcons=true" @mouseleave="showIcons=false">
           <div v-show="!editUrl" class="title" tabindex="6"><slot></slot></div>
           <a v-show="editUrl" class="title" :href="editUrl"
-             :title="translate('CoreHome_ClickToEditX', escape(featureName))"
+             :title="translate('CoreHome_ClickToEditX', escape(finalFeatureName))"
              ><slot></slot></a>
     
           <span v-show="showIcons || showInlineHelp" class="iconsBar">
@@ -101,10 +101,10 @@ matomo.registerComponent('matomoEnrichedHeadline', {
                @click="showInlineHelp=!showInlineHelp"
                class="helpIcon" :class="{ 'active': showInlineHelp }"><span class="icon-help"></span></a>
     
-            <matomo-rate-feature class="ratingIcons" :title="featureName"></matomo-rate-feature>
+            <matomo-rate-feature class="ratingIcons" :title="finalFeatureName"></matomo-rate-feature>
         </span>
     
-        <div v-show="showReportGenerated" class="icon-clock report-generated"></div>
+        <div v-show="showReportGenerated || forceShowReportGenerated" class="icon-clock report-generated"></div>
         
         <div class="inlineHelp" v-show="showInlineHelp">
         <div v-html="inlineHelp"></div>

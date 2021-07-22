@@ -12,9 +12,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikAlert', piwikAlert);
 
-    piwikAlert.$inject = ['piwik', '$timeout'];
+    piwikAlert.$inject = ['$timeout'];
 
-    function piwikAlert(piwik, $timeout){
+    function piwikAlert($timeout){
 
         return {
             restrict: 'A',

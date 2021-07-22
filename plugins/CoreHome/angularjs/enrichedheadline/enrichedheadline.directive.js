@@ -36,18 +36,12 @@
 (function () {
     angular.module('piwikApp').directive('piwikEnrichedHeadline', piwikEnrichedHeadline);
 
-    piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$filter', '$parse', 'piwikPeriods'];
+    piwikEnrichedHeadline.$inject = ['$timeout'];
 
-    function piwikEnrichedHeadline($document, piwik, $filter, $parse, piwikPeriods){
-        var defaults = {
-            helpUrl: '',
-            editUrl: '',
-            reportGenerated: '',
-            showReportGenerated: '',
-        };
-
+    function piwikEnrichedHeadline($timeout){
         return {
             transclude: true,
+            replace: true,
             restrict: 'A',
             scope: {
                 helpUrl: '@',
@@ -57,58 +51,19 @@
                 inlineHelp: '@?',
                 showReportGenerated: '=?'
             },
-            templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
-            compile: function (element, attrs) {
-
-                for (var index in defaults) {
-                    if (!attrs[index]) { attrs[index] = defaults[index]; }
-                }
-
-                return function (scope, element, attrs) {
-                    if (!scope.inlineHelp) {
-
-                        var helpNode = $('[ng-transclude] .inlineHelp', element);
-
-                        if ((!helpNode || !helpNode.length) && element.next()) {
-                            // hack for reports :(
-                            helpNode = element.next().find('.reportDocumentation');
-                        }
-
-                        if (helpNode && helpNode.length) {
-
-                            // hackish solution to get binded html of p tag within the help node
-                            // at this point the ng-bind-html is not yet converted into html when report is not
-                            // initially loaded. Using $compile doesn't work. So get and set it manually
-                            var helpParagraph = $('p[ng-bind-html]', helpNode);
-
-                            if (helpParagraph.length) {
-                                helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
-                            }
-
-                            if ($.trim(helpNode.text())) {
-                                scope.inlineHelp = $.trim(helpNode.html());
-                            }
-                            helpNode.remove();
-                        }
-                    }
-
-                    if (!attrs.featureName) {
-                        attrs.featureName = $.trim(element.find('.title').first().text());
-                    }
-
-                    if (scope.reportGenerated && piwikPeriods.parse(piwik.period, piwik.currentDateString).containsToday()) {
-                        element.find('.report-generated').first().tooltip({
-                            track: true,
-                            content: scope.reportGenerated,
-                            items: 'div',
-                            show: false,
-                            hide: false
+            // Note: The surrounding div is there, so we can replace the element, which might be already a h2
+            template: '<div><matomo-enriched-headline help-url="{{ helpUrl }}" edit-url="{{ editUrl }}" ' +
+                        'report-generated="{{ reportGenerated }}" feature-name="{{ featureName }}" ' +
+                        'inline-help="{{ inlineHelp }}" show-report-generated="{{ showReportGenerated }}" ng-transclude></matomo-enriched-headline></div>',
+            compile: function(element) {
+                return {
+                    post: function postLink( scope, element, attrs ) {
+                        $timeout(function(){
+                            matomo.createVue(element[0])
                         });
-
-                        scope.showReportGenerated = '1';
                     }
-                };
-            }
+                }
+            },
         };
     }
 })();
