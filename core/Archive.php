@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Archive\ArchiveQuery;
 use Piwik\Archive\ArchiveQueryFactory;
+use Piwik\Archive\DataCollection;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
@@ -290,12 +291,11 @@ class Archive implements ArchiveQuery
      * TODO
      *
      * @param $names
-     * @return Archive\DataCollection
+     * @return DataCollection
      */
-    public function getBlob($names)
+    public function getBlobExpanded($names)
     {
-        $data = $this->get($names, 'blob');
-        return $data;
+        return $this->get($names, 'blob', self::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
     }
 
     /**
@@ -701,7 +701,7 @@ class Archive implements ArchiveQuery
      *
      * @return array
      */
-    private function getResultIndices()
+    public function getResultIndices()
     {
         $indices = array();
 

@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -355,15 +356,32 @@ class ArchiveProcessor
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
             // By default we shall aggregate all sub-tables.
-            $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+            $dataTableBlobs = $this->getArchive()->getBlobExpanded($name);//DataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
-            // TODO: removed if, $dataTable should always be a map since we are aggregating child periods
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation);
+        } finally {
+            ErrorHandler::popFatalErrorBreadcrumb();
+        }
+
+        return $dataTable;
+    }
+
+    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsToRenameAfterAggregation)
+    {
+        $result = new DataTable();
+
+        if (!empty($columnsAggregationOperation)) {
+            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+        }
+
+        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory) use ($result, $columnsToRenameAfterAggregation) {
+            $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+
+            $toSum = $factory->make($reportBlobs, $index = []);
 
             // see https://github.com/piwik/piwik/issues/4377
-            $self = $this;
-            $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-
-                if ($self->areColumnsNotAlreadyRenamed($table)) {
+            $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation) {
+                if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
                      * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
@@ -372,16 +390,19 @@ class ArchiveProcessor
                      * replaced. Same when aggregating year and range archives. This can save up 10% or more when
                      * aggregating Month, Year and Range archives.
                      */
-                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                    $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
                 }
             });
 
-            $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
-        } finally {
-            ErrorHandler::popFatalErrorBreadcrumb();
-        }
+            $result->addDataTable($toSum);
 
-        return $dataTable;
+            Common::destroy($toSum);
+            unset($toSum);
+
+            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId);
+        });
+
+        return $result;
     }
 
     /**
