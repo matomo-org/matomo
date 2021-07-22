@@ -4,12 +4,8 @@
 
 {% block content %}
 
-    <div><matomo-sites-manager></matomo-sites-manager></div>
-
-    <script>
-        window.setTimeout(function(){matomo.createVue($('matomo-sites-manager').parent()[0])}, 100);
-    </script>
-
-    <!--div ng-include="'plugins/SitesManager/templates/index.html?cb={{ cacheBuster }}'"></div-->
+    <div class="vue-app">
+        <matomo-sites-manager></matomo-sites-manager>
+    </div>
 
 {% endblock %}

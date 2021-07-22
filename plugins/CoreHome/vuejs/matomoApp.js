@@ -3,6 +3,8 @@ var matomo = (function() {
     var VueComponents = {};
     var VueMethods = {};
 
+    window.setTimeout(function(){ $('.vue-app').each(function(){ matomo.createVue(this); }); }, 100);
+
     return {
         registerComponent: function(name, component) {
             VueComponents[name] = component
