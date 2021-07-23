@@ -2,6 +2,18 @@ name: PHPCS check
 
 on: pull_request
 
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: read
+
 jobs:
   phpcs:
     name: PHPCS
