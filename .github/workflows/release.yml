@@ -1,6 +1,18 @@
 
 name: Build release
 
+permissions:
+  actions: read
+  checks: read
+  contents: write
+  deployments: none
+  issues: read
+  packages: write
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -32,6 +44,8 @@ jobs:
         lfs: false
     - name: Import GPG key
       id: import_gpg
+      permissions:
+        contents: none
       uses: crazy-max/ghaction-import-gpg@v3
       with:
         gpg-private-key: ${{ secrets.GPG_CERTIFICATE }}
