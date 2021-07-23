@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: composer install --dev --prefer-dist --no-progress --no-suggest
       - name: PHPCS check
-        uses: chekalsky/phpcs-action@v1
+        uses: chekalsky/phpcs-action@e269c2f264f400adcda7c6b24c8550302350d495
         with:
           phpcs_bin_path: './vendor/bin/phpcs'
           enable_warnings: true

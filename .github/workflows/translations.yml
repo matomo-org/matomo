@@ -34,7 +34,7 @@ jobs:
 
 
     steps:
-    - uses: shivammathur/setup-php@v2
+    - uses: shivammathur/setup-php@36cb9fb0fccf887130d6c5a3d40a3b3479310026
       permissions:
         contents: none
       with:
