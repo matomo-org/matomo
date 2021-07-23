@@ -35,6 +35,8 @@ jobs:
 
     steps:
     - uses: shivammathur/setup-php@v2
+      permissions:
+        contents: none
       with:
         php-version: '7.3'
     - uses: actions/checkout@v2
