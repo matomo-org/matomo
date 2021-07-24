@@ -177,6 +177,8 @@
         "ExceptionDatabaseVersion": "Η έκδοσή %1$s είναι %2$s αλλά το Matomo απαιτεί τουλάχιστον %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Ο κώδικας του Matomo εκτελεί την παλιότερη έκδοση %1$s και εντοπίστηκε ότι η βάση δεδομένων του Matomo έχει ήδη αναβαθμιστεί στην νεότερη έκδοση %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Είναι πιθανόν οι διαχειριστές του Matomo να τελειώνουν τη διαδικασία αναβάθμισης. Παρακαλούμε δοκιμάστε πάλι αργότερα σε λίγα λεπτά.",
+        "ExceptionDatabaseUnavailable": "Δεν ανταποκρίνεται ο διακομιστής MySQL",
+        "ExceptionDatabaseAccess": "Απορρίφθηκε η πρόσβαση στη βάση δεδομένων",
         "ExceptionFileIntegrity": "Ο έλεγχος ακεραιότητας απέτυχε: %s",
         "ExceptionFilesizeMismatch": "Αταίριαστο μέγεθος αρχείου: %1$s (αναμενόμενο: %2$s, βρέθηκε: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Η έκδοση πελάτη σας %1$s είναι %2$s η οποία είναι ασύμβατη με την έκδοση διακομιστή %3$s.",

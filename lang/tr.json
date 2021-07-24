@@ -177,6 +177,8 @@
         "ExceptionDatabaseVersion": "%1$s sürümünüz %2$s ancak Matomo için en az %3$s sürümü gerekli.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Matomo uygulamanız eski %1$s sürümü üzerinde çalışıyor ancak Matomo veritabanının daha yeni %2$s sürümüne güncellenmiş.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Matomo yöneticileriniz şu anda güncelleme işlemini tamamlıyor olabilir. Lütfen bir kaç dakika sonra yeniden deneyin.",
+        "ExceptionDatabaseUnavailable": "MySQL sunucusu erişilemez oldu",
+        "ExceptionDatabaseAccess": "Vertiabanı erişimi reddedildi",
         "ExceptionFileIntegrity": "Bütünlük sağlanamadı: %s",
         "ExceptionFilesizeMismatch": "Dosya boyutu uyumsuz: %1$s (Beklenen Boyut: %2$s, Bulunan: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "%1$s istemci sürümünüz %2$s. Ancak bu sürüm %3$s sunucu sürümü ile uyumsuz.",
