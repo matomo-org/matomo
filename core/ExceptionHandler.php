@@ -82,7 +82,10 @@ class ExceptionHandler
             http_response_code(500);
         }
 
-        self::logException($exception);
+        // Log the error, unless it is a NotSupportedBrowserException (which are a client-side problem).
+        if(!($exception instanceof NotSupportedBrowserException)) {
+            self::logException($exception);
+        }
 
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
