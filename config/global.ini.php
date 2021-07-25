@@ -437,6 +437,13 @@ password_hash_argon2_time_cost = default
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; If set to 1, Matomo will send a Content-Security-Policy header
+csp_enabled = 0
+
+; If set, Matomo will send a report-uri in the Content-Security-Policy header.
+; If set, but csp_enabled is set to 0, a Content-Security-Policy-Report-Only header will be sent
+csp_report_uri =
+
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
 ; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
 host_validation_use_server_name = 0

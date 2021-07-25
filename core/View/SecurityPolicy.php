@@ -8,10 +8,11 @@
  */
 namespace Piwik\View;
 
+use Piwik\Config;
+
 /**
  * Content Security Policy HTTP Header management class
  *
- * @api
  */
 class SecurityPolicy
 {
@@ -21,19 +22,28 @@ class SecurityPolicy
      *
      * @var array
      */
-    protected $policies = array();
+    private $policies = array();
+
+    private $cspEnabled = true;
+    private $reportUri = null;
 
     /**
      * Constructor.
      */
     public function __construct() {
+        $generalConfig = Config::getInstance()->General;
+        $this->cspEnabled = $generalConfig['csp_enabled'];
+        $this->reportUri = $generalConfig['csp_report_uri'] ?: null;
         $this->policies['default-src'] = "'self' 'unsafe-inline' 'unsafe-eval'";
+
+        if (!is_null($this->reportUri)) {
+            $this->policies['report-uri'] = $this->reportUri;
+        }
     }
 
     /**
      * Appends a policy to a directive.
      *
-     * @api
      */
     public function addPolicy($directive, $value) {
         if (isset($this->policies[$directive])) {
@@ -46,7 +56,6 @@ class SecurityPolicy
     /**
      * Removes a directive.
      *
-     * @api
      */
     public function removeDirective($directive) {
         if (isset($this->policies[$directive])) {
@@ -57,7 +66,6 @@ class SecurityPolicy
     /**
      * Overrides a directive.
      *
-     * @api
      */
     public function overridePolicy($directive, $value) {
         $this->policies[$directive] = $value;
@@ -69,12 +77,34 @@ class SecurityPolicy
      * @return string
      */
     public function createHeaderString() {
-        $headerString = 'Content-Security-Policy: ';
+        if ($this->isEnforced()) {
+            $headerString = 'Content-Security-Policy: ';
+        } elseif ($this->isReportingOnly()) {
+            $headerString = 'Content-Security-Policy-Report-Only: ';
+        } else {
+            return '';
+        }
 
         foreach ($this->policies as $directive => $values) {
             $headerString .= $directive . ' ' . $values . '; ';
         }
         return $headerString;
+    }
+
+    /**
+     * Reporting mode if CSP is disabled but a Report-URI is defined in config
+     */
+    protected function isReportingOnly() {
+        return (!$this->isEnforced() && !is_null($this->reportUri));
+    }
+
+    /**
+     * Normal CSP header is sent if CSP is enabled in config
+     *
+     * @return string
+     */
+    protected function isEnforced() {
+        return ($this->cspEnabled);
     }
 
 }

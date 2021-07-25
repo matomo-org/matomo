@@ -300,7 +300,11 @@ class View implements ViewInterface
                 Common::sendHeader('Referrer-Policy: strict-origin-when-cross-origin');
             }
 
-            Common::sendHeader(StaticContainer::get(SecurityPolicy::class)->createHeaderString());
+            // this will be an empty string if CSP is disabled
+            $cspHeader = StaticContainer::get(SecurityPolicy::class)->createHeaderString();
+            if ('' !== $cspHeader) {
+                Common::sendHeader($cspHeader);
+            }
         }
 
         return $this->renderTwigTemplate();
