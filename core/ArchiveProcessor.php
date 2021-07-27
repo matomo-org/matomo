@@ -356,9 +356,9 @@ class ArchiveProcessor
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
             // By default we shall aggregate all sub-tables.
-            $dataTableBlobs = $this->getArchive()->getBlobExpanded($name);//DataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+            $dataTableBlobs = $this->getArchive()->getBlobExpanded($name);
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsToRenameAfterAggregation);
 
-            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation);
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -379,6 +379,8 @@ class ArchiveProcessor
 
             $toSum = $factory->make($reportBlobs, $index = []);
 
+            $latestUsedAfterCreatingToSum = Manager::getInstance()->getMostRecentTableId();
+
             // see https://github.com/piwik/piwik/issues/4377
             $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation) {
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
@@ -396,10 +398,7 @@ class ArchiveProcessor
 
             $result->addDataTable($toSum);
 
-            Common::destroy($toSum);
-            unset($toSum);
-
-            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId);
+            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId, $latestUsedAfterCreatingToSum);
         });
 
         return $result;
