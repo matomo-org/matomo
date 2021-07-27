@@ -205,8 +205,8 @@ class Model
         $existingInvalidations = $this->getExistingInvalidations($idSites, $periodCondition, $nameCondition);
 
         $hashesOfAllSegmentsToArchiveInCoreArchive = Rules::getSegmentsToProcess($idSites);
-        $hashesOfAllSegmentsToArchiveInCoreArchive = array_map(function ($definition) use ($idSites) {
-            return (new Segment($definition, $idSites, Date::factory('yesterday'), Date::factory('today')))->getHash();
+        $hashesOfAllSegmentsToArchiveInCoreArchive = array_map(function ($definition) {
+            return Segment::getSegmentHash($definition);
         }, $hashesOfAllSegmentsToArchiveInCoreArchive);
 
         $dummyArchives = [];
