@@ -25,20 +25,17 @@ class SecurityPolicy
     private $policies = array();
 
     private $cspEnabled = true;
-    private $reportUri = null;
+    private $reportOnly = false;
 
     /**
      * Constructor.
      */
     public function __construct() {
-        $generalConfig = Config::getInstance()->General;
-        $this->cspEnabled = $generalConfig['csp_enabled'];
-        $this->reportUri = $generalConfig['csp_report_uri'] ?: null;
         $this->policies['default-src'] = "'self' 'unsafe-inline' 'unsafe-eval'";
 
-        if (!is_null($this->reportUri)) {
-            $this->policies['report-uri'] = $this->reportUri;
-        }
+        $generalConfig = Config::getInstance()->General;
+        $this->cspEnabled = $generalConfig['csp_enabled'];
+        $this->reportOnly = $generalConfig['csp_report_only'];
     }
 
     /**
@@ -77,34 +74,19 @@ class SecurityPolicy
      * @return string
      */
     public function createHeaderString() {
-        if ($this->isEnforced()) {
-            $headerString = 'Content-Security-Policy: ';
-        } elseif ($this->isReportingOnly()) {
-            $headerString = 'Content-Security-Policy-Report-Only: ';
-        } else {
+        if (!$this->cspEnabled) {
             return '';
         }
 
+        if ($this->reportOnly) {
+            $headerString = 'Content-Security-Policy-Report-Only: ';
+        } else {
+            $headerString = 'Content-Security-Policy: ';
+        }
         foreach ($this->policies as $directive => $values) {
             $headerString .= $directive . ' ' . $values . '; ';
         }
+
         return $headerString;
     }
-
-    /**
-     * Reporting mode if CSP is disabled but a Report-URI is defined in config
-     */
-    protected function isReportingOnly() {
-        return (!$this->isEnforced() && !is_null($this->reportUri));
-    }
-
-    /**
-     * Normal CSP header is sent if CSP is enabled in config
-     *
-     * @return string
-     */
-    protected function isEnforced() {
-        return ($this->cspEnabled);
-    }
-
 }
