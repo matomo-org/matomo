@@ -357,7 +357,7 @@ class ArchiveProcessor
 
             // By default we shall aggregate all sub-tables.
             $dataTableBlobs = $this->getArchive()->getBlobExpanded($name);
-            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsToRenameAfterAggregation);
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
@@ -366,7 +366,7 @@ class ArchiveProcessor
         return $dataTable;
     }
 
-    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsToRenameAfterAggregation)
+    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation)
     {
         $result = new DataTable();
 
