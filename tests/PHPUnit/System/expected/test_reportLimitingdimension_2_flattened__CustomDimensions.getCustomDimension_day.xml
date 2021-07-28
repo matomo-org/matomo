@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Others</label>
+		
 		<nb_visits>90</nb_visits>
 		<nb_uniq_visitors>90</nb_uniq_visitors>
 		<nb_hits>90</nb_hits>
@@ -34,18 +34,18 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>54</bounce_count>
-		<exit_nb_visits>44</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>60%</bounce_rate>
-		<exit_rate>49%</exit_rate>
-		<segment>dimension2==-1</segment>
+		
+		
+		
 		<is_summary>1</is_summary>
 		<CustomDimension_CustomDimension2>Others</CustomDimension_CustomDimension2>
 	</row>
 	<row>
-		<label>0 - Others</label>
+		
 		<nb_visits>4</nb_visits>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
@@ -78,18 +78,18 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>3</bounce_count>
-		<exit_nb_visits>2</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>75%</bounce_rate>
-		<exit_rate>50%</exit_rate>
-		<segment>dimension2==0</segment>
+		
+		
+		
 		<CustomDimension_CustomDimension2>Others</CustomDimension_CustomDimension2>
 		<is_summary>1</is_summary>
 	</row>
 	<row>
-		<label>1 - Others</label>
+		
 		<nb_visits>4</nb_visits>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
@@ -122,18 +122,18 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>3</bounce_count>
-		<exit_nb_visits>2</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>75%</bounce_rate>
-		<exit_rate>50%</exit_rate>
-		<segment>dimension2==1;actionUrl=$-1</segment>
+		
+		
+		
 		<CustomDimension_CustomDimension2>1 - Others</CustomDimension_CustomDimension2>
 		<is_summary>1</is_summary>
 	</row>
 	<row>
-		<label>0 - cloudsite5.com/20/download</label>
+		
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -166,17 +166,17 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>0</bounce_count>
-		<exit_nb_visits>0</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
-		<segment>dimension2==0</segment>
+		
+		
+		
 		<CustomDimension_CustomDimension2>cloudsite5.com/20/download</CustomDimension_CustomDimension2>
 	</row>
 	<row>
-		<label>1 - cloudsite5.com/21/download</label>
+		
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -209,14 +209,14 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>0</bounce_count>
-		<exit_nb_visits>0</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
-		<segment>dimension2==1;actionUrl=$cloudsite5.com%2F21%2Fdownload</segment>
-		<url>cloudsite5.com%2F21%2Fdownload</url>
+		
+		
+		
+		
 		<CustomDimension_CustomDimension2>1 - cloudsite5.com/21/download</CustomDimension_CustomDimension2>
 	</row>
 </result>
