@@ -7,14 +7,18 @@
         "ContentInteractions": "Interacciones de contenido",
         "InteractionRate": "Tasa de interacción",
         "ContentName": "Nombre del contenido",
+        "ContentNameReportDocumentation": "Este informe muestra los nombres del contenido que tus visitantes vieron e interactuaron.",
         "ContentNames": "Nombres del contenido",
         "ContentPiece": "Pieza del contenido",
+        "ContentPieceReportDocumentation": "Este informe muestra las piezas de contenido que tus visitantes vieron e interactuaron.",
         "ContentPieces": "Piezas del contenido",
         "ContentTarget": "Objetivo del contenido",
         "ContentTargets": "Objetivos del contenido",
         "Contents": "Contenidos",
         "InteractionsMetricDocumentation": "El número de veces con que un bloque de contenido interactuó (por ejemplo, un clic en un báner o publicidad).",
         "ImpressionsMetricDocumentation": "El número de veces que un bloque de contenido, como un báner o una publicidad, fue mostrado en una página.",
-        "InteractionRateMetricDocumentation": "La tasa entre las impresiones del contenido y las interacciones."
+        "InteractionRateMetricDocumentation": "La tasa entre las impresiones del contenido y las interacciones.",
+        "ContentsSubcategoryHelp1": "El rastreo de contenido te ayuda a determinar la popularidad de piezas específicas de contenido en cualquier página de tu sitio web o aplicación. Esta sección informa el número de impresiones e interacciones que las piezas de contenido de tu sitio web reciben.",
+        "ContentsSubcategoryHelp2": "Aprendé más en la guía de Rastreo de contenido."
     }
 }

@@ -139,6 +139,23 @@
         "TrackingFailuresEmail1": "Esto es sólo para hacerte saber que %s diferentes tipos de fallos de rastreo han ocurrido en los últimos días.",
         "TrackingFailuresEmail2": "Para ver todas las solicitudes de rastreo que fallaron, %1$shacé clic acá%2$s.",
         "ImportFromGoogleAnalytics": "Importar desde Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "Si tenés datos existentes en Google Analytics y te estás cambiando a Matomo, podés exportar esos datos usando el plugin %1$sGoogleAnalyticsImporter%2$s."
+        "ImportFromGoogleAnalyticsDescription": "Si tenés datos existentes en Google Analytics y te estás cambiando a Matomo, podés exportar esos datos usando el plugin %1$sGoogleAnalyticsImporter%2$s.",
+        "SecurityNotificationEmailSubject": "Notificación de seguridad",
+        "SecurityNotificationRecoveryCodesShowedBody": "Alguien vio los códigos de recuperación de la autenticación de dos factores de tu cuenta.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Alguien generó nuevos códigos de recuperación de la autenticación de dos factores para tu cuenta.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Alguien habilitó la autenticación de dos factores en tu cuenta.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Alguien deshabilitó la autenticación de dos factores en tu cuenta.",
+        "SecurityNotificationTokenAuthCreatedBody": "Alguien creó un token de autenticación (descripción: %s) en tu cuenta. Si no fuiste vos, eliminá el token.",
+        "SecurityNotificationTokenAuthDeletedBody": "Alguien eliminó un token de autenticación (descripción: %s) en tu cuenta.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Alguien eliminó todos los tokens de autenticación en tu cuenta.",
+        "SecurityNotificationSettingsChangedByUserBody": "Alguién modificó la configuración del sistema: Configuración afectada: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Otro súperusuario (%1$s) modificó la configuración del sistema. Configuración afectada: %2$s. Si estás al tanto de esta actividad, no pasa nada. Pero si no la reconocés, por favor, ponete en contacto con los demás súperusuarios.",
+        "SecurityNotificationUserCreatedBody": "Alguien creó un nuevo usuario (nombre de usuario: %s) en tu cuenta.",
+        "SecurityNotificationUserDeletedBody": "Alguien eliminó un usuario (nombre de usuario: %s) en tu cuenta.",
+        "SecurityNotificationIfItWasYou": "Si fuiste vos, no pasa nada. Si no reconoés esta actividad, por favor, cambiá tu contraseña.",
+        "SecurityNotificationCheckTwoFactor": "Por favor, revisá la aplicación o dispositivo de tu autenticación de dos factores.",
+        "BruteForce": "Fuerza bruta",
+        "TwoFactorAuth": "Autenticación de dos factores",
+        "Cors": "Cors"
     }
 }
