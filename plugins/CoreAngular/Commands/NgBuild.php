@@ -29,6 +29,7 @@ class NgBuild extends GenerateAngularConstructBase
         $pluginName = $this->getPluginName($input, $output);
 
         $this->generateAngularJson();
+        $this->generateTsConfigJson();
 
         $this->executeNgBuildCommand($pluginName);
     }
@@ -93,5 +94,29 @@ EOF;
     {
         $command = 'ng build "' . $pluginName . '"';
         passthru($command);
+    }
+
+    private function generateTsConfigJson()
+    {
+        $tsConfigJson = PIWIK_INCLUDE_PATH . '/tsconfig.json';
+
+        $tsConfigJsonBase = PIWIK_INCLUDE_PATH . '/tsconfig.base.json';
+        $tsConfigJsonBase = file_get_contents($tsConfigJsonBase);
+        $tsConfigJsonBase = json_decode($tsConfigJsonBase, $isAssoc = true);
+        if (empty($tsConfigJsonBase)) {
+            throw new \Exception('Invalid tsconfig.base.json file.');
+        }
+
+        foreach (Manager::getInstance()->getActivatedPlugins() as $pluginName) {
+            $pluginAngularDir = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/angular';
+            if (!is_dir($pluginAngularDir)) {
+                continue;
+            }
+
+            $packageName = '@matomo/' . $this->getSnakeCaseName($pluginName);
+            $tsConfigJsonBase['compilerOptions']['paths'][$packageName] = [$pluginAngularDir . '/dist'];
+        }
+
+        file_put_contents($tsConfigJson, json_encode($tsConfigJsonBase, JSON_PRETTY_PRINT));
     }
 }
