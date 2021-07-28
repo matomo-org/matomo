@@ -528,11 +528,14 @@ class ArchiveProcessor
     {
         $logAggregator = $this->getLogAggregator();
         $sitesBackup = $logAggregator->getSites();
-
+        $previous = $logAggregator->disallowUsageSegmentCache();
         $logAggregator->setSites($sites);
         try {
             $query = $logAggregator->queryVisitsByDimension(array(), false, array(), $metrics);
         } finally {
+            if ($previous) {
+                $logAggregator->allowUsageSegmentCache();
+            }
             $logAggregator->setSites($sitesBackup);
         }
         $data = $query->fetch();

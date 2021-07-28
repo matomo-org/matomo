@@ -262,7 +262,16 @@ class LogAggregator
 
     public function allowUsageSegmentCache()
     {
+        $previous = $this->allowUsageSegmentCache;
         $this->allowUsageSegmentCache = true;
+        return $previous;
+    }
+
+    public function disallowUsageSegmentCache()
+    {
+        $previous = $this->allowUsageSegmentCache;
+        $this->allowUsageSegmentCache = false;
+        return $previous;
     }
 
     private function getLogTableProvider()
