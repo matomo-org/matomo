@@ -14,6 +14,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New config.ini.php settings
 
 * When determining the client IP address from proxy headers like X-Forwarded-For, Matomo will by default look at the first IP in the list. If you need to read the last IP instead, the new INI config option `[General] proxy_ip_read_last_in_list` be set to `1`. Using the last IP can be more secure when you are using proxy headers in combination with a load balancer.
+* Matomo logs can now be written into "errorlog" (logs using the error_log() php function) and "syslog" (logs to the syslog service) (to complement existing log writers: "screen", "file", "database"). [Learn more.](https://matomo.org/faq/troubleshooting/faq_115/)
+
+### New commands
+
+* Added new command `core:version` which returns the Matomo version number.
 
 ## Matomo 4.3.1
 
