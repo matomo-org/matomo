@@ -40,6 +40,8 @@ jobs:
       with:
         php-version: '7.3'
     - uses: actions/checkout@v2
+      permissions:
+        contents: read
       with:
         ref: '4.x-dev'
         lfs: false

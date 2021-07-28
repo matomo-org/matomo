@@ -24,6 +24,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      permissions:
+        contents: read
       with:
         ref: '4.x-dev'
         lfs: false
