@@ -211,9 +211,11 @@ class Process
 
         if (self::isMethodDisabled('shell_exec')) {
             $reasons[] = 'shell_exec is disabled';
+            return $reasons; // shell_exec is used for almost every other check
         }
 
-        if (self::isMethodDisabled('getmypid')) {
+        $getMyPidDisabled = self::isMethodDisabled('getmypid');
+        if ($getMyPidDisabled) {
             $reasons[] = 'getmypid is disabled';
         }
 
@@ -223,7 +225,7 @@ class Process
 
         if (!self::psExistsAndRunsCorrectly()) {
             $reasons[] = 'shell_exec(' . self::PS_COMMAND . '" 2> /dev/null") did not return a success code';
-        } else {
+        } else if (!$getMyPidDisabled) {
             $pid = @getmypid();
             if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
                 $reasons[] = 'could not find our pid (from getmypid()) in the output of `' . self::PS_COMMAND . '`';
@@ -248,7 +250,7 @@ class Process
 
     private static function awkExistsAndRunsCorrectly()
     {
-        $testResult = shell_exec('echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | ' . self::AWK_COMMAND . ' 2>/dev/null');
+        $testResult = @shell_exec('echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | ' . self::AWK_COMMAND . ' 2>/dev/null');
         return trim($testResult) == '537';
     }
 
@@ -280,7 +282,7 @@ class Process
     private static function returnsSuccessCode($command)
     {
         $exec = $command . ' > /dev/null 2>&1; echo $?';
-        $returnCode = shell_exec($exec);
+        $returnCode = @shell_exec($exec);
         $returnCode = trim($returnCode);
         return 0 == (int) $returnCode;
     }
@@ -302,7 +304,7 @@ class Process
 
     public static function getListOfRunningProcesses()
     {
-        $processes = shell_exec(self::PS_COMMAND . ' 2>/dev/null');
+        $processes = @shell_exec(self::PS_COMMAND . ' 2>/dev/null');
         if (empty($processes)) {
             return array();
         }
