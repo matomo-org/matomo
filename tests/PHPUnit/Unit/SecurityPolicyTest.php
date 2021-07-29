@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\View\SecurityPolicy;
+use Piwik\Config;
 
 /**
  * @group Core
@@ -16,20 +17,41 @@ use Piwik\View\SecurityPolicy;
  */
 class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var TestSecurityPolicy
-     */
     private $securityPolicy;
+    private $defaultPolicy = "default-src 'self' 'unsafe-inline' 'unsafe-eval'; ";
+    private $generalConfig;
+
 
     public function setUp(): void
     {
         parent::setUp();
+
+        // set the default config explicitly so tests can change them without needing to reset them
+        $this->generalConfig =& Config::getInstance()->General;
+        $this->generalConfig['csp_enabled'] = 1;
+        $this->generalConfig['csp_report_only'] = 1;
+
         $this->securityPolicy = new SecurityPolicy();
     }
 
     public function testDefaultSecurityPolicy() {
-        $expectedDefault = "Content-Security-Policy-Report-Only: default-src 'self' 'unsafe-inline' 'unsafe-eval'; ";
+        $expectedDefault = "Content-Security-Policy-Report-Only: " . $this->defaultPolicy;
         $this->assertEquals($expectedDefault, $this->securityPolicy->createHeaderString());
+    }
+
+    public function testDefaultEnabledSecurityPolicy() {
+        $this->generalConfig['csp_report_only'] = 0;
+        $this->securityPolicy = new SecurityPolicy();
+
+        $expectedDefaultEnabled = "Content-Security-Policy: " . $this->defaultPolicy;
+        $this->assertEquals($expectedDefaultEnabled, $this->securityPolicy->createHeaderString());
+    }
+
+    public function testDisabledSecurityPolicy() {
+        $this->generalConfig['csp_enabled'] = 0;
+        $this->securityPolicy = new SecurityPolicy();
+
+        $this->assertSame('', $this->securityPolicy->createHeaderString());
     }
 
     public function testCanAddNewDirectivePolicy() {
