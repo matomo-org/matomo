@@ -1345,7 +1345,23 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         // we then serialize the rows and store them in the serialized dataTable
         $rows = array();
-        foreach ($this->getRows() as $id => $row) {
+        foreach ($this->rows as $id => $row) {
+            if (isset($consecutiveSubtableIds[$id])) {
+                $backup = $row->subtableId;
+                $row->subtableId = $consecutiveSubtableIds[$id];
+                $rows[$id] = $row->export();
+                $row->subtableId = $backup;
+            } else {
+                $rows[$id] = $row->export();
+            }
+        }
+
+        if (isset($this->summaryRow)) {
+            $id = self::ID_SUMMARY_ROW;
+            $row = $this->summaryRow;
+
+            // duplicating code above so we don't create a new array w/ getRows() above in this function which is
+            // used heavily in matomo.
             if (isset($consecutiveSubtableIds[$id])) {
                 $backup = $row->subtableId;
                 $row->subtableId = $consecutiveSubtableIds[$id];
