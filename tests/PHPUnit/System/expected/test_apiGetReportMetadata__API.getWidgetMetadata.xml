@@ -113,9 +113,8 @@
 				<uniqueId>widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
 				<isWide>0</isWide>
 				<viewDataTable>graphEvolution</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-			<row>
+				<isReport>1</isRepo
+
 				<name>Visits Overview</name>
 				<category>
 					<id>General_Visitors</id>
@@ -202,10 +201,8 @@
 		<uniqueId>widgetVisitsSummarygetforceView1viewDataTablesparklines</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>sparklines</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Visits Log</name>
+		<isReport>1</isRepor
+	        <name>Visits Log</name>
 		<category>
 			<id>General_Visitors</id>
 			<name>Visitors</name>
@@ -233,8 +230,8 @@
 		<isWide>0</isWide>
 		<viewDataTable>VisitorLog</viewDataTable>
 		<isReport>1</isReport>
-	</row>
-	<row>
+
+
 		<name>Visits in Real-time</name>
 		<category>
 			<id>General_Visitors</id>
@@ -258,8 +255,8 @@
 		</parameters>
 		<uniqueId>widgetLivewidget</uniqueId>
 		<isWide>1</isWide>
-	</row>
-	<row>
+	
+
 		<name>Real-time Map</name>
 		<category>
 			<id>General_Visitors</id>
@@ -283,8 +280,8 @@
 		</parameters>
 		<uniqueId>widgetUserCountryMaprealtimeMap</uniqueId>
 		<isWide>1</isWide>
-	</row>
-	<row>
+	
+
 		<name>Visitor Map</name>
 		<category>
 			<id>General_Visitors</id>
@@ -308,8 +305,8 @@
 		</parameters>
 		<uniqueId>widgetUserCountryMapvisitorMap</uniqueId>
 		<isWide>0</isWide>
-	</row>
-	<row>
+	
+
 		<name>City</name>
 		<category>
 			<id>General_Visitors</id>
