@@ -1,5 +1,5 @@
-{
-    "General": {
+
+    "General": 
         "12HourClock": "توقيت12 ساعة",
         "24HourClock": "توقيت 24 ساعة",
         "AbandonedCarts": "عربات متروكة",
@@ -493,5 +493,4 @@
         "MultiRowEvolutionTitle": "تطور صفوف متعددة",
         "PickAnotherRow": "انتق صفاً آخر للمقارنة",
         "PickARow": "إختر صفاً للمقارنة"
-    }
-}
+    
