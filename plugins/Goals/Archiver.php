@@ -102,18 +102,12 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     private $productReportsMaximumRows;
 
-    /**
-     * @var int
-     */
-    private $productReportsMaximumRowsForSubtables;
-
     public function __construct(ArchiveProcessor $processor)
     {
         parent::__construct($processor);
 
         $general = Config::getInstance()->General;
         $this->productReportsMaximumRows = $general['datatable_archiving_maximum_rows_products'];
-        $this->productReportsMaximumRowsForSubtables = $general['datatable_archiving_maximum_rows_subtable_products'];
     }
 
     public function aggregateDayReport()
@@ -306,7 +300,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                     $recordName = self::getItemRecordNameAbandonedCart($recordName);
                 }
                 $table = $itemAggregate->asDataTable();
-                $blobData = $table->getSerialized($this->productReportsMaximumRows, $this->productReportsMaximumRowsForSubtables,
+                $blobData = $table->getSerialized($this->productReportsMaximumRows, $this->productReportsMaximumRows,
                     Metrics::INDEX_ECOMMERCE_ITEM_REVENUE);
                 $this->getProcessor()->insertBlobRecord($recordName, $blobData);
 
