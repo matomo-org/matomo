@@ -41,6 +41,7 @@
         "ConversionsOverview": "Vista general de las conversiones",
         "ConversionsOverviewBy": "Vista general de las conversiones por tipo de visita",
         "DaysToConv": "Días para la conversión",
+        "DaysToConvReportDocumentation": "Este informe muestra cuántos días pasan antes de que tus visitantes conviertan una meta.",
         "Details": "Detalles de la meta",
         "DefaultGoalConvertedOncePerVisit": "(predeterminado) La meta sólo se puede convertir una vez por visita",
         "DefaultRevenueLabel": "Ganancia predeterminada de la meta",
@@ -108,6 +109,7 @@
         "GoalsAdjective": "Metas %s",
         "VisitPageTitle": "Visitar un título de página proporcionado",
         "VisitsUntilConv": "Visitas hasta la conversión",
+        "VisitsUntilConvReportDocumentation": "Este informe muestra el número de visitas hechas antes de que un visitante convierta una meta.",
         "VisitUrl": "Visita una dirección web proporcionada (página o grupo de páginas)",
         "VisitDurationMatchAttr": "Permanecer un cierto tiempo",
         "VisitDuration": "la duración de la visita es",
@@ -121,6 +123,11 @@
         "EventValueAsRevenueHelp2": "Nota: si se establecen tanto un ingreso predeterminado de meta como un valor de evento, se usará el valor del evento. Si esta opción está habilitada y no se envió un valor de evento en una solicitud, se usará el ingreso predeterminado (si está establecido).",
         "AtLeastMinutes": "al menos %1$s minutos. Usá decimales para coincidir con los segundos. Por ejemplo: %2$s para coincidir con 30 segundos.",
         "TimeInMinutes": "Tiempo en minutos",
-        "ClickToViewThisGoal": "Hacé clic para ver esta meta."
+        "ClickToViewThisGoal": "Hacé clic para ver esta meta.",
+        "OverviewReportDocumentation": "Este informe da un pantallazo de cuán bien tus visitantes convirtieron una meta específica.",
+        "GoalsOverviewSubcategoryHelp1": "La Vista general de metas informa sobre el rendimiento de las metas definidas por tu sitio web. Podés acceder a los porcentajes de conversión de tu meta, cantidad de ingreso generado e informes completos para cada uno de ellos.",
+        "GoalsOverviewSubcategoryHelp2": "Hacé clic en cada medición individual dentro del minigráfico para focalizarte dentro del gráfico de evolución a tamaño completo.",
+        "ManageGoalsSubcategoryHelp1": "Esta sección permite crear y editar metas para acciones específicas sobre las que tus visitantes hacen en tu sitio, como visitar determinada página o enviar un formulario específico. Los informes de metas varían pero te pueden ayudar a rastrear el rendimiento de tu sitio web contra objetivos de negocios como generación de liderazgo, ventas en línea y aumento de exposición de la marca.",
+        "ManageGoalsSubcategoryHelp2": "Aprendé más en nuestra guía de metas acá."
     }
 }
