@@ -45,7 +45,7 @@ class LocationProvider extends CountryLocationProvider
 
     public function getInfo()
     {
-        return array('id' => self::ID, 'title' => 'mock provider', 'description' => 'mock provider', 'order' => 10);
+        return array('id' => self::ID, 'title' => 'mock provider', 'description' => 'mock provider', 'order' => 2);
     }
 
     public function isAvailable()
