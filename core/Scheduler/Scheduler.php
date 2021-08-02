@@ -111,7 +111,8 @@ class Scheduler
                 if ($task->getPriority() != $priority) {
                     continue;
                 }
-
+                
+                // because other jobs might execute the scheduled tasks as well we have to read the up to date time table to not handle the same task twice
                 $this->timetable->readFromOption();
 
                 $taskName = $task->getName();
