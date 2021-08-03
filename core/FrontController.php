@@ -91,12 +91,18 @@ class FrontController extends Singleton
      */
     private static function generateSafeModeOutputFromError($lastError)
     {
+        print "gs 6\n";@ob_flush();
         Common::sendResponseCode(500);
 
+        print "gs 7\n";@ob_flush();
         $controller = FrontController::getInstance();
         try {
+            print "gs 8\n";@ob_flush();
+            $GLOBALS['safemode']=1;
             $controller->init();
+            print "gs 9\n";@ob_flush();
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+            print "gs 10\n";@ob_flush();
         } catch(Exception $e) {
             // may fail in safe mode (eg. global.ini.php not found)
             $message = sprintf("Matomo encountered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
@@ -111,10 +117,12 @@ class FrontController extends Singleton
      */
     public static function generateSafeModeOutputFromException($e)
     {
+        print "gs 0\n";@ob_flush();
         StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
             'exception' => $e,
             'ignoreInScreenWriter' => true,
         ]);
+        print "gs 1\n";@ob_flush();
 
         $error = array(
             'message' => $e->getMessage(),
@@ -122,20 +130,24 @@ class FrontController extends Singleton
             'line' => $e->getLine(),
         );
 
+        print "gs 2\n";@ob_flush();
         if (isset(self::$requestId)) {
             $error['request_id'] = self::$requestId;
         }
 
+        print "gs 3\n";@ob_flush();
         $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
         $error['backtrace'] .= $e->getTraceAsString();
 
         $exception = $e;
         while ($exception = $exception->getPrevious()) {
+            print "gs 4\n";@ob_flush();
             $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
             $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
             $error['backtrace'] .= $exception->getTraceAsString();
         }
 
+        print "gs 5\n";@ob_flush();
         return self::generateSafeModeOutputFromError($error);
     }
 
@@ -293,12 +305,15 @@ class FrontController extends Singleton
             return;
         }
 
+        if (@$GLOBALS['safemode']) { print "gs 11\n";@ob_flush(); }
         self::setRequestIdHeader();
+        if (@$GLOBALS['safemode']) { print "gs 12\n";@ob_flush(); }
 
         $this->initialized = true;
 
         $tmpPath = StaticContainer::get('path.tmp');
 
+        if (@$GLOBALS['safemode']) { print "gs 13\n";@ob_flush(); }
         $directoriesToCheck = array(
             $tmpPath,
             $tmpPath . '/assets/',
@@ -308,14 +323,22 @@ class FrontController extends Singleton
             $tmpPath . '/templates_c/',
         );
 
+        if (@$GLOBALS['safemode']) { print "gs 14\n";@ob_flush(); }
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
+        if (@$GLOBALS['safemode']) { print "gs 15\n";@ob_flush(); }
 
+        if (@$GLOBALS['safemode']) { print "gs 16\n";@ob_flush(); }
         $this->handleMaintenanceMode();
+        if (@$GLOBALS['safemode']) { print "gs 17\n";@ob_flush(); }
         $this->handleProfiler();
+        if (@$GLOBALS['safemode']) { print "gs 18\n";@ob_flush(); }
         $this->handleSSLRedirection();
+        if (@$GLOBALS['safemode']) { print "gs 19\n";@ob_flush(); }
 
         Plugin\Manager::getInstance()->loadPluginTranslations();
+        if (@$GLOBALS['safemode']) { print "gs 20\n";@ob_flush(); }
         Plugin\Manager::getInstance()->loadActivatedPlugins();
+        if (@$GLOBALS['safemode']) { print "gs 21n";@ob_flush(); }
 
         // try to connect to the database
         try {
@@ -342,6 +365,7 @@ class FrontController extends Singleton
             throw $exception;
         }
 
+        if (@$GLOBALS['safemode']) { print "gs 22\n";@ob_flush(); }
         // try to get an option (to check if data can be queried)
         try {
             Option::get('TestingIfDatabaseConnectionWorked');
@@ -365,6 +389,7 @@ class FrontController extends Singleton
             throw $exception;
         }
 
+        if (@$GLOBALS['safemode']) { print "gs 23\n";@ob_flush(); }
         // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
         Access::getInstance();
 
@@ -377,6 +402,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
+        if (@$GLOBALS['safemode']) { print "gs 24\n";@ob_flush(); }
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
         $module = Piwik::getModule();
@@ -393,6 +419,7 @@ class FrontController extends Singleton
         if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {
             SettingsPiwik::getPiwikUrl();
         }
+        if (@$GLOBALS['safemode']) { print "gs 25\n";@ob_flush(); }
 
         $loggedIn = false;
 
@@ -405,6 +432,7 @@ class FrontController extends Singleton
 
         // ... if session auth fails try normal auth (which will login the anonymous user)
         if (!$loggedIn) {
+            if (@$GLOBALS['safemode']) { print "gs 26\n";@ob_flush(); }
             $authAdapter = $this->makeAuthenticator();
             $success = Access::getInstance()->reloadAccess($authAdapter);
 
@@ -420,13 +448,16 @@ class FrontController extends Singleton
                 $init->initSession($authAdapter);
             }
         } else {
+            if (@$GLOBALS['safemode']) { print "gs 27\n";@ob_flush(); }
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
+        if (@$GLOBALS['safemode']) { print "gs 28\n";@ob_flush(); }
 
         if ($this->isSupportedBrowserCheckNeeded()) {
             SupportedBrowser::checkIfBrowserSupported();
         }
 
+        if (@$GLOBALS['safemode']) { print "gs 29\n";@ob_flush(); }
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
         if (Common::getRequestVar('token_auth', '', 'string') !== ''
@@ -436,10 +467,13 @@ class FrontController extends Singleton
             Request::checkTokenAuthIsNotLimited($module, $action);
         }
 
+        if (@$GLOBALS['safemode']) { print "gs 30\n";@ob_flush(); }
         SettingsServer::raiseMemoryLimitIfNecessary();
 
+        if (@$GLOBALS['safemode']) { print "gs 31\n";@ob_flush(); }
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
 
+        if (@$GLOBALS['safemode']) { print "gs 32\n";@ob_flush(); }
         /**
          * Triggered after the platform is initialized and after the user has been authenticated, but
          * before the platform has handled the request.
@@ -447,6 +481,7 @@ class FrontController extends Singleton
          * Piwik uses this event to check for updates to Piwik.
          */
         Piwik::postEvent('Platform.initialized');
+        if (@$GLOBALS['safemode']) { print "gs 33\n";@ob_flush(); }
     }
 
     protected function prepareDispatch($module, $action, $parameters)
