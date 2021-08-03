@@ -81,13 +81,19 @@ class Console extends Application
         try {
             return $this->doRunImpl($input, $output);
         } catch (\Exception $ex) {
+            print "in exception catch\n";
             try {
                 FrontController::generateSafeModeOutputFromException($ex);
             } catch (\Exception $ex) {
+                print "in second catch\n";
+                throw $ex;
                 // ignore, we re-throw the original exception, not a wrapped one
             }
+            print "outside exception catch\n";
 
             throw $ex;
+        } finally {
+            print "in finally\n";
         }
     }
 
