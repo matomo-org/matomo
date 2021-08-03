@@ -81,7 +81,6 @@ class Console extends Application
         try {
             return $this->doRunImpl($input, $output);
         } catch (\Exception $ex) {
-            print "exception: " . $ex->getMessage()."\n";
             try {
                 FrontController::generateSafeModeOutputFromException($ex);
             } catch (\Exception $ex) {
