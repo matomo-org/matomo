@@ -28,8 +28,11 @@ var Overlay_Helper = {
         }
 
         var token_auth = piwik.broadcast.getValueFromUrl("token_auth");
-        if (token_auth.length && piwik.shouldPropagateTokenAuth) {
-            url += '&force_api_session=1&token_auth='  + encodeURIComponent(token_auth);
+        if (token_auth.length && piwik.shouldPropagateTokenAuth) { // TODO: check this is required
+            url += '&token_auth='  + encodeURIComponent(token_auth);
+            if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                url += '&force_api_session=1';
+            }
         }
 
         if (link) {

@@ -338,7 +338,7 @@ var hasBlockedContent = false;
         }
 
         return {
-            withTokenInUrl: withTokenInUrl,
+            withTokenInUrl: withTokenInUrl, // technically should probably be called withTokenInPost
             bulkFetch: bulkFetch,
             post: post,
             fetch: fetch,
