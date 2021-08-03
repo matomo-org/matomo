@@ -448,9 +448,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $columnsAggregationOperation = null;
 
         $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
-            $maximumRowsInDataTableLevelZero = null,
-            $maximumRowsInSubDataTable = null,
-            $columnToSortByBeforeTruncation = null,
+            $maximumRowsInDataTableLevelZero = $this->productReportsMaximumRows,
+            $maximumRowsInSubDataTable = $this->productReportsMaximumRows,
+            $columnToSortByBeforeTruncation = Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
             $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array());
