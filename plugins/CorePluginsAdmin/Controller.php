@@ -351,8 +351,9 @@ class Controller extends Plugin\ControllerAdmin
             ob_clean();
         }
 
+        print "0\n";@ob_flush();
         $this->tryToRepairPiwik();
-
+print "1\n";@ob_flush();
         if (empty($lastError) && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $lastError = array(
                 'message' => Common::getRequestVar('error_message', null, 'string'),
@@ -363,9 +364,11 @@ class Controller extends Plugin\ControllerAdmin
             throw new Exception('Safemode not available');
         }
 
+        print "2\n";@ob_flush();
         $outputFormat = Common::getRequestVar('format', 'html', 'string');
         $outputFormat = strtolower($outputFormat);
 
+        print "3\n";@ob_flush();
         if (!empty($outputFormat) && 'html' !== $outputFormat) {
 
             $errorMessage = $lastError['message'];
@@ -376,6 +379,7 @@ class Controller extends Plugin\ControllerAdmin
                 $errorMessage .= $lastError['backtrace'];
             }
 
+            print "4\n";@ob_flush();
             if (Piwik::isUserIsAnonymous()) {
                 $errorMessage = 'A fatal error occurred.';
             }
@@ -386,14 +390,18 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
+        print "5\n";@ob_flush();
         if (Common::isPhpCliMode()) {
+            print "6\n";@ob_flush();
             throw new Exception("Error: " . var_export($lastError, true));
         }
 
+        print "7\n";@ob_flush();
         if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
             unset($lastError['backtrace']);
         }
 
+        print "8\n";@ob_flush();
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
         $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
@@ -401,6 +409,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
+        print "9\n";@ob_flush();
         $view->deactivateIAmSuperUserSalt = Common::getRequestVar('i_am_super_user', '', 'string');
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
@@ -408,10 +417,12 @@ class Controller extends Plugin\ControllerAdmin
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';
 
+        print "10\n";@ob_flush();
         // When the CSS merger in StylesheetUIAssetMerger throws an exception, safe mode is displayed.
         // This flag prevents an infinite loop where safemode would try to re-generate the cache buster which requires CSS merger..
         $view->disableCacheBuster();
 
+        print "11\n";@ob_flush();
         if (!empty($lastError['file'])) {
             preg_match('/piwik\/plugins\/(.*)\//', $lastError['file'], $matches);
 
@@ -420,6 +431,7 @@ class Controller extends Plugin\ControllerAdmin
             }
         }
 
+        print "12\n";@ob_flush();
         return $view->render();
     }
 
