@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Manager;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
@@ -253,6 +254,8 @@ class FrontController extends Singleton
 
     public static function triggerSafeModeWhenError()
     {
+        Manager::getInstance()->deleteAll();
+
         $lastError = error_get_last();
 
         if (!empty($lastError) && isset(self::$requestId)) {

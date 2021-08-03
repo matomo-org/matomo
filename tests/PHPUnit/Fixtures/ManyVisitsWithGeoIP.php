@@ -86,15 +86,15 @@ class ManyVisitsWithGeoIP extends Fixture
 
     private function setUpWebsitesAndGoals()
     {
-        if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime, 0, "Site 1");
+        if (!self::siteCreated($this->idSite)) {
+            self::createWebsite($this->dateTime, 0, "Site " . $this->idSite);
         }
 
-        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+        if (!self::goalExists($this->idSite, $idGoal = 1)) {
             $this->idGoal = API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         }
 
-        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+        if (!self::goalExists($this->idSite, $idGoal = 2)) {
             $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5, false, 'twodesc');
         }
     }

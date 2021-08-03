@@ -63,6 +63,7 @@
                 'period': ReportPlugin.defaultPeriod,
                 'hour': ReportPlugin.defaultHour,
                 'reports': [],
+                'idsegment': '',
                 'evolutionPeriodFor': 'prev',
                 'evolutionPeriodN': ReportPlugin.defaultEvolutionPeriodN,
                 'periodParam': ReportPlugin.defaultPeriod,
@@ -90,6 +91,10 @@
             });
 
             report['format' + report.type] = report.format;
+
+            if (!report.idsegment) {
+                report.idsegment = '';
+            }
 
             self.report = report;
             self.report.description = piwik.helper.htmlDecode(self.report.description);

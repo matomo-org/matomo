@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Others</label>
+		<nb_visits>8</nb_visits>
+		<nb_actions>11</nb_actions>
+		<nb_pageviews>11</nb_pageviews>
+		<revenue>0</revenue>
+		<visits_evolution>100%</visits_evolution>
+		<actions_evolution>100%</actions_evolution>
+		<pageviews_evolution>100%</pageviews_evolution>
+		<revenue_evolution>0%</revenue_evolution>
+	</row>
+</result>

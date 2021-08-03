@@ -7,15 +7,15 @@
         "IndexSize": "Dizin boyutu",
         "LearnMore": "Verilerin Matomo tarafından nasıl işlendiğini ile orta ve yüksek trafiğe sahip sitelerde nasıl iyi çalışacağını öğrenmek için şu belgeye bakın: %s.",
         "MainDescription": "Matomo tüm web istatistiklerinizi MySQL veritabanında saklar. Şu anda Matomo tabloları %s alan kullanıyor.",
-        "MetricDataByYear": "Yıla Göre Ölçün Tabloları",
-        "MetricTables": "Ölçüm Tabloları",
-        "OtherTables": "Diğer Tablolar",
-        "PluginDescription": "Ayrıntılı MySQL veritabanı kullanım raporu oluşturur. Süper Kullanıcılar Tanılama bölümünün altından ulaşabilir.",
-        "ReportDataByYear": "Yıla Göre Rapor Tabloları",
-        "ReportTables": "Rapor Tabloları",
+        "MetricDataByYear": "Yıla göre ölçüm tabloları",
+        "MetricTables": "Ölçüm tabloları",
+        "OtherTables": "Diğer tablolar",
+        "PluginDescription": "Ayrıntılı MySQL veritabanı kullanım raporu oluşturur. Süper kullanıcılar tanılama bölümünün altından ulaşabilir.",
+        "ReportDataByYear": "Yıla göre rapor tabloları",
+        "ReportTables": "Rapor tabloları",
         "RowCount": "Satır sayısı",
         "Table": "Tablo",
         "TotalSize": "Toplam boyut",
-        "TrackerTables": "İzleyici Tabloları"
+        "TrackerTables": "İzleyici tabloları"
     }
 }

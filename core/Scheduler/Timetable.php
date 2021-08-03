@@ -143,6 +143,7 @@ class Timetable
 
     public function readFromOption()
     {
+        Option::clearCachedOption(self::TIMETABLE_OPTION_STRING);
         $optionData = Option::get(self::TIMETABLE_OPTION_STRING);
         $unserializedTimetable = Common::safe_unserialize($optionData);
 

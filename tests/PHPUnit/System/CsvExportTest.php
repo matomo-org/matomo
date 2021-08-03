@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Date;
 use Piwik\Plugins\Contents\tests\Fixtures\TwoVisitsWithContents;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -51,6 +52,12 @@ class CsvExportTest extends SystemTestCase
                                     'otherRequestParameters' => $deExtraParam,
                                     'language'               => 'de',
                                     'testSuffix'             => '_xp1_inner1_trans-de')),
+
+            array($apiToCall, array('idSite'                 => $idSite,
+                                    'date'                   => Date::factory($dateTime)->toString() .','. Date::factory($dateTime)->addDay(21)->toString(),
+                                    'period'                 => 'week',
+                                    'format'                 => 'csv',
+                                    'testSuffix'             => '_multi')),
 
             array('Live.getLastVisitsDetails', array('idSite'                 => $idSite,
                                                      'date'                   => $dateTime,

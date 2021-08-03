@@ -75,6 +75,9 @@
         "VisitorsFromSocialNetworks": "Visitantes desde redes sociales",
         "VisitorsFromDirectEntry": "Visitantes directos",
         "VisitorsFromWebsites": "Visitantes desde sitios web",
-        "VisitorsFromCampaigns": "Visitantes desde campañas"
+        "VisitorsFromCampaigns": "Visitantes desde campañas",
+        "EcommerceLogSubcategoryHelp1": "El registro de comercio electrónico ofrece datos granulares a nivel de sesión, así podés mirar la sesión completa de cada usuario, ya sea que hizo una compra o abandonó su changuito. Esto te puede ayudar a entender a entender lo que hicieron los usuarios antes y después de comprar, para revelar oportunidades de optimización.",
+        "EcommerceLogSubcategoryHelp2": "Los datos en esta página se actualizan en tiempo real.",
+        "ProductSubcategoryHelp": "La vista de productos pueden ayudarte a identificar productos y categorías que están rindiendo por encima o por debajo de lo esperado, para revelar tendencias y oportunidades relacionadas a la selección de tu producto y a las páginas del local virtual."
     }
 }
