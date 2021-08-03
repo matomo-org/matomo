@@ -109,6 +109,7 @@ class LanguagesManager extends \Piwik\Plugin
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
+        if (@$GLOBALS['safemode']) { print "LanguagesManager 1\n"; @ob_flush(); }
         $language = Common::getRequestVar('language', '', 'string');
         if (empty($language)) {
             $userLanguage = self::getLanguageCodeForCurrentUser();
@@ -116,12 +117,15 @@ class LanguagesManager extends \Piwik\Plugin
                 $language = $userLanguage;
             }
         }
+        if (@$GLOBALS['safemode']) { print "LanguagesManager 2\n"; @ob_flush(); }
         if (!empty($language) && API::getInstance()->isLanguageAvailable($language)) {
             $translator->setCurrentLanguage($language);
         }
 
+        if (@$GLOBALS['safemode']) { print "LanguagesManager 3\n"; @ob_flush(); }
         $locale = $translator->translate('General_Locale');
         Locale::setLocale($locale);
+        if (@$GLOBALS['safemode']) { print "LanguagesManager 4\n"; @ob_flush(); }
     }
 
     public function deleteUserLanguage($userLogin)

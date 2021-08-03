@@ -37,10 +37,12 @@ class CoreUpdater extends \Piwik\Plugin
 
     public function dispatch()
     {
+        if (@$GLOBALS['safemode']) { print "CoreUpdater 1\n"; @ob_flush(); }
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             return;
         }
 
+        if (@$GLOBALS['safemode']) { print "CoreUpdater 2\n"; @ob_flush(); }
         $module = Common::getRequestVar('module', '', 'string');
         $action = Common::getRequestVar('action', '', 'string');
 
@@ -55,18 +57,24 @@ class CoreUpdater extends \Piwik\Plugin
             return;
         }
 
+        if (@$GLOBALS['safemode']) { print "CoreUpdater 3\n"; @ob_flush(); }
         $updater = new PiwikCoreUpdater();
         $updates = $updater->getComponentsWithNewVersion(array('core' => Version::VERSION));
 
+        if (@$GLOBALS['safemode']) { print "CoreUpdater 4\n"; @ob_flush(); }
         if (!empty($updates)) {
             Filesystem::deleteAllCacheOnUpdate();
         }
+        if (@$GLOBALS['safemode']) { print "CoreUpdater 5\n"; @ob_flush(); }
 
         if ($updater->getComponentUpdates() !== null) {
+            if (@$GLOBALS['safemode']) { print "CoreUpdater 6\n"; @ob_flush(); }
             if (FrontController::shouldRethrowException()) {
+                if (@$GLOBALS['safemode']) { print "CoreUpdater 7\n"; @ob_flush(); }
                 throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n" .
                     "--> Please run the update process first. See documentation: https://matomo.org/docs/update/ \n");
             } elseif ($module === 'API' && ('' == $action || 'index' == $action))  {
+                if (@$GLOBALS['safemode']) { print "CoreUpdater 8 ($module.$action)\n"; @ob_flush(); }
 
                 $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
                 $response = new ResponseBuilder($outputFormat);
@@ -76,9 +84,11 @@ class CoreUpdater extends \Piwik\Plugin
                 exit;
 
             } else {
+                if (@$GLOBALS['safemode']) { print "CoreUpdater 9 (redirect)\n"; @ob_flush(); }
                 Piwik::redirectToModule('CoreUpdater');
             }
         }
+        if (@$GLOBALS['safemode']) { print "CoreUpdater 10\n"; @ob_flush(); }
     }
 
     public function updateCheck()

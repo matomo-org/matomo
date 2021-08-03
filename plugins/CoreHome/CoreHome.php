@@ -75,6 +75,7 @@ class CoreHome extends \Piwik\Plugin
 
     public function checkAllowedIpsOnAuthentication()
     {
+        if (@$GLOBALS['safemode']) { print "Corehome 1\n"; @ob_flush(); }
         if (SettingsServer::isTrackerApiRequest()) {
             // authenticated tracking requests should always work
             return;
@@ -87,10 +88,15 @@ class CoreHome extends \Piwik\Plugin
             return;
         }
 
+        if (@$GLOBALS['safemode']) { print "Corehome 2\n"; @ob_flush(); }
         $list = new LoginAllowlist();
+        if (@$GLOBALS['safemode']) { print "Corehome 3\n"; @ob_flush(); }
         if ($list->shouldCheckAllowlist()) {
+            if (@$GLOBALS['safemode']) { print "Corehome 4\n"; @ob_flush(); }
             $ip = IP::getIpFromHeader();
+            if (@$GLOBALS['safemode']) { print "Corehome 5\n"; @ob_flush(); }
             $list->checkIsAllowed($ip);
+            if (@$GLOBALS['safemode']) { print "Corehome 6\n"; @ob_flush(); }
         }
     }
 

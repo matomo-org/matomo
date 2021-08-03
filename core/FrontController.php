@@ -393,6 +393,7 @@ class FrontController extends Singleton
         // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
         Access::getInstance();
 
+        if (@$GLOBALS['safemode']) { print "gs 23.5\n";@ob_flush(); }
         /**
          * Triggered just after the platform is initialized and plugins are loaded.
          *
