@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Goals;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -19,6 +20,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
+use Psr\Log\LoggerInterface;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
@@ -293,6 +295,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function insertItemReports()
     {
+        $logger = StaticContainer::get(LoggerInterface::class);
         foreach ($this->itemReports as $dimension => $itemAggregatesByType) {
             foreach ($itemAggregatesByType as $ecommerceType => $itemAggregate) {
                 $recordName = $this->dimensionRecord[$dimension];
@@ -300,8 +303,16 @@ class Archiver extends \Piwik\Plugin\Archiver
                     $recordName = self::getItemRecordNameAbandonedCart($recordName);
                 }
                 $table = $itemAggregate->asDataTable();
+                $logger->info("Cut off {limit}", ['limit' => $this->productReportsMaximumRows]);
                 $blobData = $table->getSerialized($this->productReportsMaximumRows, $this->productReportsMaximumRows,
                     Metrics::INDEX_ECOMMERCE_ITEM_REVENUE);
+
+                foreach ($blobData as $tableRowData) {
+                    $tempTable = DataTable::fromSerializedArray($tableRowData);
+                    $logger->info("Row count in table to insert: {count}", ['count' => $tempTable->getRowsCount()]);
+                    Common::destroy($tempTable);
+                }
+
                 $this->getProcessor()->insertBlobRecord($recordName, $blobData);
 
                 Common::destroy($table);
