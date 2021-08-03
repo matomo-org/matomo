@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\tests\Integration\Commands;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
@@ -102,6 +103,9 @@ class UpdateTest extends ConsoleCommandTestCase
 
     public function test_UpdateCommand_ReturnsCorrectExitCode_WhenErrorOccurs()
     {
+        print "PHP_SAPI: " . PHP_SAPI ."\n";
+        print "  " . var_export(Common::$isCliMode, true) . "\n";
+
         // create a blob table, then drop it manually so update 2.10.0-b10 will fail
         $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));
         Db::exec("DROP TABLE $tableName");
