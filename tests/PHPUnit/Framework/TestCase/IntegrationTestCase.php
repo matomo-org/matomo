@@ -57,16 +57,22 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public static function setUpBeforeClass(): void
     {
+        $timeStart = microtime(true);
         static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
         static::beforeTableDataCached();
 
         self::$tableData = self::getDbTablesWithData();
+        $elapsedTime = microtime(true) - $timeStart;
+        print get_called_class() . '::' . __FUNCTION__ . ': ' . $elapsedTime . "s\n";
     }
 
     public static function tearDownAfterClass(): void
     {
+        $timeStart = microtime(true);
         self::$tableData = array();
+        $elapsedTime = microtime(true) - $timeStart;
+        print get_called_class() . '::' . __FUNCTION__ . ': ' . $elapsedTime . "s\n";
     }
 
     /**
@@ -74,6 +80,7 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public function setUp(): void
     {
+        $timeStart = microtime(true);
         parent::setUp();
 
         static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
@@ -94,6 +101,8 @@ abstract class IntegrationTestCase extends SystemTestCase
         PiwikCache::getTransientCache()->flushAll();
         EventDispatcher::getInstance()->clearCache();
         Option::clearCache();
+        $elapsedTime = microtime(true) - $timeStart;
+        print get_called_class() . '::' . __FUNCTION__ . ': ' . $elapsedTime . "s\n";
     }
 
     /**
@@ -101,10 +110,13 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public function tearDown(): void
     {
+        $timeStart = microtime(true);
         Fixture::clearInMemoryCaches();
         static::$fixture->destroyEnvironment();
 
         parent::tearDown();
+        $elapsedTime = microtime(true) - $timeStart;
+        print get_called_class() . '::' . __FUNCTION__ . ': ' . $elapsedTime . "s\n";
     }
 
     /**
