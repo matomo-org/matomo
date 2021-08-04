@@ -50,14 +50,10 @@ jobs:
         echo ::set-output name=branch::$REF
       if: github.event.comment.body == 'build js'
     - uses: actions/setup-java@v1
-      permissions:
-        contents: none
       with:
         java-version: 9
       if: steps.vars.outputs.branch != ''
     - uses: actions/checkout@v2
-      permissions:
-        contents: read
       with:
         ref: ${{ steps.vars.outputs.branch }}
         lfs: false

@@ -35,13 +35,9 @@ jobs:
 
     steps:
     - uses: shivammathur/setup-php@36cb9fb0fccf887130d6c5a3d40a3b3479310026
-      permissions:
-        contents: none
       with:
         php-version: '7.3'
     - uses: actions/checkout@v2
-      permissions:
-        contents: read
       with:
         ref: '4.x-dev'
         lfs: false
