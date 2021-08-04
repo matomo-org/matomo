@@ -674,16 +674,16 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "3.12.0",
+            "version": "3.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "7d12431233cf4e87ce7bf4c887439b917d04ae27"
+                "reference": "49a3e558770852caa8ee777cc85522dda0c17e99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/7d12431233cf4e87ce7bf4c887439b917d04ae27",
-                "reference": "7d12431233cf4e87ce7bf4c887439b917d04ae27",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/49a3e558770852caa8ee777cc85522dda0c17e99",
+                "reference": "49a3e558770852caa8ee777cc85522dda0c17e99",
                 "shasum": ""
             },
             "replace": {
@@ -697,9 +697,9 @@
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
             "support": {
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
-                "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/3.12.0"
+                "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/3.13.0"
             },
-            "time": "2020-12-08T15:11:58+00:00"
+            "time": "2021-06-24T14:30:41+00:00"
         },
         {
             "name": "maxmind-db/reader",
