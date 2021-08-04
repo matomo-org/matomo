@@ -133,9 +133,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 `the '${comparisonCommand}' command output could not be parsed, should be` +
                 ` an integer, got: ${allOutput.replace(/\s+$/g, '')}`);
 
-            if (result.status !== 0) {
-                return false;
-            }
+            chai.assert(result.status === 0, `the '${comparisonCommand}' command returned a non-zero status: ${result.status}. Output was ${allOutput.replace(/\s+$/g, '')}`);
 
             if (pixelError === 0) {
                 return true;
