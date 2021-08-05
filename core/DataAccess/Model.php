@@ -102,12 +102,13 @@ class Model
             if (!empty($duplicateArchives)) {
                 foreach ($duplicateArchives as $pair) {
                     if ($this->isCutOffGroupConcatResult($pair)) {
-                        $this->logger->info("GROUP_CONCAT cut off the query result for [idSite = {idSite}, period = {period}, date1 = {date1}, date2 = {date2}, name = {name}], you may have to purge archives again.", [
+                        $this->logger->info("GROUP_CONCAT cut off the query result for [idSite = {idSite}, period = {period}, date1 = {date1}, date2 = {date2}, name = {name}] (pair = {pair}), you may have to purge archives again.", [
                             'idSite' => $row['idSite'],
                             'period' => $row['period'],
                             'date1' => $row['date1'],
                             'date2' => $row['date2'],
                             'name' => $row['name'],
+                            'pair' => $pair,
                         ]);
                         break;
                     }
