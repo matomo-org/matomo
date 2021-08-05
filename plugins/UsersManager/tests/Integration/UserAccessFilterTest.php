@@ -65,12 +65,14 @@ class UserAccessFilterTest extends IntegrationTestCase
         $this->access = new FakeAccess();
 
         FakeAccess::clearAccess();
+
         $this->filter = new TestUserAccessFilter($this->model, $this->access);
     }
 
     protected static function beforeTableDataCached()
     {
         parent::beforeTableDataCached();
+
         self::createManyWebsites();
         self::createManyUsers();
     }
@@ -288,6 +290,7 @@ class UserAccessFilterTest extends IntegrationTestCase
     private static function createManyUsers()
     {
         $model  = new Model();
+
         $model->addUser('login1', md5('pass'), 'email1@example.com', '2008-01-01 00:00:00');
         $model->addUser('login2', md5('pass'), 'email2@example.com', '2008-01-01 00:00:00');
         // login3 won't have access to any site
@@ -316,7 +319,7 @@ class UserAccessFilterTest extends IntegrationTestCase
 
         if ($login === 'login1') {
             $hasSuperUser = true;
-        } elseif (isset($this->users[$login])) {
+        } elseif (isset(self::$users[$login])) {
             $idSitesAdmin = self::$users[$login]['admin'];
             $idSitesView  = self::$users[$login]['view'];
         }
