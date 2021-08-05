@@ -68,11 +68,11 @@ class ApiTest extends IntegrationTestCase
         ];
 
         Piwik::addAction(APIScheduledReports::GET_REPORT_TYPES_EVENT, function (&$reportTypes) {
-            $reportTypes[] = 'dummyreporttype';
+            $reportTypes['dummyreporttype'] = 'dummyreporttype.png';
         });
 
         Piwik::addAction(APIScheduledReports::GET_REPORT_FORMATS_EVENT, function (&$reportFormats) {
-            $reportFormats[] = 'dummyreportformat';
+            $reportFormats['dummyreportformat'] = 'dummyreportformat.png';
         });
 
         Piwik::addAction(APIScheduledReports::GET_REPORT_METADATA_EVENT, function (&$availableReportData, $reportType, $idSite) {
