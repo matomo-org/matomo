@@ -129,7 +129,7 @@ describe("TwoFactorAuth", function () {
         await loginUser('with2FA');
         await page.goto(userSettings);
         await page.waitFor('.userSettings2FA', { visible: true });
-        await page.waitFor(500); // animation
+        await page.waitFor(750); // animation
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_enabled');
     });
