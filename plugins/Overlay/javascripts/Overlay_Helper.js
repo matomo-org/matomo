@@ -28,7 +28,7 @@ var Overlay_Helper = {
         }
 
         var token_auth = piwik.broadcast.getValueFromUrl("token_auth");
-        if (token_auth.length && piwik.shouldPropagateTokenAuth) { // TODO: check this is required
+        if (token_auth.length) { // this is required because the date range does not work otherwise
             url += '&token_auth='  + encodeURIComponent(token_auth);
             if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
                 url += '&force_api_session=1';
