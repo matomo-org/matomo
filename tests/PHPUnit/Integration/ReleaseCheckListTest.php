@@ -9,13 +9,12 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Matomo\Ini\IniReader;
 use PHPUnit\Framework\TestCase;
-use Piwik\Application\Kernel\PluginList;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
-use Matomo\Ini\IniReader;
 use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
@@ -735,7 +734,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         }
 
         // ignore downloaded geoip files
-        if(strpos($file, 'GeoIP') !== false && strpos($file, '.dat') !== false) {
+        if((strpos($file, 'GeoIP') !== false || strpos($file, 'DBIP') !== false) && strpos($file, '.mmdb') !== false) {
             return false;
         }
 
@@ -818,7 +817,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFilePathFoundInArray($file, $filesToMatchAgainst)
     {
         foreach ($filesToMatchAgainst as $devPackageName) {
-            if (strpos($file, $devPackageName) !== false) {
+            if (strpos($file, $devPackageName) !== false || fnmatch(PIWIK_INCLUDE_PATH.'/'.$devPackageName, $file)) {
                 return true;
             }
         }
@@ -831,17 +830,18 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isFileDeletedFromPackage($file)
     {
-        $filesDeletedFromPackage = array(
-            // Should stay synchronised with: https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh#L104-L116
+        $filesAndFoldersToDeleteFromPackage = [
+            # Should stay synchronised with: https://github.com/matomo/matomo-package/blob/master/scripts/build-package.sh#L104-L116
             'composer.phar',
+            'vendor/bin/',
             'vendor/twig/twig/test/',
             'vendor/twig/twig/doc/',
             'vendor/symfony/console/Symfony/Component/Console/Resources/bin',
-            'vendor/doctrine/cache/.git',
             'vendor/tecnickcom/tcpdf/examples',
             'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
-            'vendor/php-di/php-di/benchmarks/',
             'vendor/guzzle/guzzle/docs/',
+            'vendor/davaxi/sparkline/tests',
+            'vendor/php-di/php-di/benchmarks/',
             'vendor/geoip2/geoip2/.gitmodules',
             'vendor/geoip2/geoip2/.php_cs',
             'vendor/maxmind-db/reader/ext/',
@@ -849,35 +849,197 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/maxmind-db/reader/CHANGELOG.md',
             'vendor/maxmind/web-service-common/dev-bin/',
             'vendor/maxmind/web-service-common/CHANGELOG.md',
+            'vendor/php-di/invoker/doc/',
+            'vendor/szymach/c-pchart/doc',
+            'vendor/leafo/lessphp/docs',
+            'vendor/container-interop/container-interop/docs',
+            'vendor/pear/archive_tar/docs',
 
-            // deleted fonts folders
+            # Delete un-used files from the matomo-icons repository
+            'plugins/Morpheus/icons/src*',
+            'plugins/Morpheus/icons/tools*',
+            'plugins/Morpheus/icons/flag-icon-css*',
+            'plugins/Morpheus/icons/submodules*',
+            'plugins/Morpheus/icons/.git*',
+            'plugins/Morpheus/icons/.travis.yml',
+            'plugins/Morpheus/icons/*.py',
+            'plugins/Morpheus/icons/*.sh',
+            'plugins/Morpheus/icons/*.json',
+            'plugins/Morpheus/icons/*.lock',
+            'plugins/Morpheus/icons/*.svg',
+            'plugins/Morpheus/icons/*.txt',
+            'plugins/Morpheus/icons/*.php',
+            'plugins/Morpheus/icons/*.yml',
+
+            'plugins/Example*',
+
+            # Delete un-used fonts
             'vendor/tecnickcom/tcpdf/fonts/ae_fonts_2.0',
             'vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.33',
             'vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.34',
             'vendor/tecnickcom/tcpdf/fonts/freefont-20100919',
             'vendor/tecnickcom/tcpdf/fonts/freefont-20120503',
+            'vendor/tecnickcom/tcpdf/fonts/freemon*',
+            'vendor/tecnickcom/tcpdf/fonts/cid*',
+            'vendor/tecnickcom/tcpdf/fonts/courier*',
+            'vendor/tecnickcom/tcpdf/fonts/aefurat*',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansb*',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansi*',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansmono*',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusanscondensed*',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansextralight*',
+            'vendor/tecnickcom/tcpdf/fonts/dejavuserif*',
+            'vendor/tecnickcom/tcpdf/fonts/freesansi*',
+            'vendor/tecnickcom/tcpdf/fonts/freesansb*',
+            'vendor/tecnickcom/tcpdf/fonts/freeserifb*',
+            'vendor/tecnickcom/tcpdf/fonts/freeserifi*',
+            'vendor/tecnickcom/tcpdf/fonts/pdf*',
+            'vendor/tecnickcom/tcpdf/fonts/times*',
+            'vendor/tecnickcom/tcpdf/fonts/uni2cid*',
 
-            // In the package script, there is a trailing * so any font matching will be deleted
-            'vendor/tecnickcom/tcpdf/fonts/freemon',
-            'vendor/tecnickcom/tcpdf/fonts/cid',
-            'vendor/tecnickcom/tcpdf/fonts/courier',
-            'vendor/tecnickcom/tcpdf/fonts/aefurat',
-            'vendor/tecnickcom/tcpdf/fonts/dejavusansb',
-            'vendor/tecnickcom/tcpdf/fonts/dejavusansi',
-            'vendor/tecnickcom/tcpdf/fonts/dejavusansmono',
-            'vendor/tecnickcom/tcpdf/fonts/dejavusanscondensed',
-            'vendor/tecnickcom/tcpdf/fonts/dejavusansextralight',
-            'vendor/tecnickcom/tcpdf/fonts/dejavuserif',
-            'vendor/tecnickcom/tcpdf/fonts/freesansi',
-            'vendor/tecnickcom/tcpdf/fonts/freesansb',
-            'vendor/tecnickcom/tcpdf/fonts/freeserifb',
-            'vendor/tecnickcom/tcpdf/fonts/freeserifi',
-            'vendor/tecnickcom/tcpdf/fonts/pdf',
-            'vendor/tecnickcom/tcpdf/fonts/times',
-            'vendor/tecnickcom/tcpdf/fonts/uni2cid',
-        );
+            'vendor/szymach/c-pchart/src/Resources/fonts/advent_light*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/Bedizen*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/calibri*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/Forgotte*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/MankSans*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/pf_arma_five*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/Silkscreen*',
+            'vendor/szymach/c-pchart/src/Resources/fonts/verdana*',
 
-        return $this->isFilePathFoundInArray($file, $filesDeletedFromPackage);
+            # not needed js files
+            'node_modules/angular/angular.min.js.gzip',
+            'node_modules/angular/angular.js',
+            'node_modules/angular/bower.json',
+
+            'node_modules/angular-animate/angular-animate.min.js.gzip',
+            'node_modules/angular-animate/angular-animate.js',
+            'node_modules/angular-animate/bower.json',
+
+            'node_modules/angular-sanitize/angular-sanitize.min.js.gzip',
+            'node_modules/angular-sanitize/angular-sanitize.js',
+            'node_modules/angular-sanitize/bower.json',
+
+            'node_modules/angular-cookies/angular-cookies.min.js.gzip',
+            'node_modules/angular-cookies/angular-cookies.js',
+            'node_modules/angular-cookies/bower.json',
+
+            'node_modules/chroma-js/Makefile',
+            'node_modules/chroma-js/bower.json',
+            'node_modules/chroma-js/chroma.js',
+            'node_modules/chroma-js/doc',
+            'node_modules/chroma-js/readme.md',
+            'node_modules/chroma-js/src',
+            'node_modules/chroma-js/test',
+
+            'node_modules/iframe-resizer/js/iframeResizer.contentWindow.js',
+            'node_modules/iframe-resizer/js/iframeResizer.js',
+            'node_modules/iframe-resizer/src/ie8.polyfils.js',
+            'node_modules/iframe-resizer/src/iframeResizer.contentWindow.js',
+            'node_modules/iframe-resizer/src/iframeResizer.js',
+            'node_modules/iframe-resizer/test-main.js',
+            'node_modules/iframe-resizer/bower.json',
+            'node_modules/iframe-resizer/gruntfile.js',
+            'node_modules/iframe-resizer/karma-conf.js',
+
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/jquery/bower.json',
+            'node_modules/jquery/src',
+            'node_modules/jquery/external/sizzle/dist/sizzle.js',
+
+            'node_modules/jquery-ui-dist/component.json',
+            'node_modules/jquery-ui-dist/external',
+            'node_modules/jquery-ui-dist/images',
+            'node_modules/jquery-ui-dist/index.html',
+            'node_modules/jquery-ui-dist/jquery-ui.css',
+            'node_modules/jquery-ui-dist/jquery-ui.js',
+            'node_modules/jquery-ui-dist/jquery-ui.structure.css',
+            'node_modules/jquery-ui-dist/jquery-ui.theme.css',
+
+            'node_modules/jquery.browser/Gruntfile.js',
+            'node_modules/jquery.browser/bower.json',
+            'node_modules/jquery.browser/test',
+            'node_modules/jquery.browser/dist/jquery.browser.js',
+
+            'node_modules/jquery.dotdotdot/bower.json',
+            'node_modules/jquery.dotdotdot/gulpfile.js',
+            'node_modules/jquery.dotdotdot/index.html',
+            'node_modules/jquery.dotdotdot/dotdotdot.jquery.json',
+            'node_modules/jquery.dotdotdot/src/jquery.dotdotdot.js',
+            'node_modules/jquery.dotdotdot/src/jquery.dotdotdot.min.umd.js',
+
+            'node_modules/jquery.scrollto/jquery.scrollTo.js',
+            'node_modules/jquery.scrollto/scrollTo.jquery.json',
+            'node_modules/jquery.scrollto/bower.json',
+            'node_modules/jquery.scrollto/changes.txt',
+            'node_modules/jquery.scrollto/demo',
+            'node_modules/jquery.scrollto/tests',
+
+            'node_modules/materialize-css/Gruntfile.js',
+            'node_modules/materialize-css/extras',
+            'node_modules/materialize-css/js',
+            'node_modules/materialize-css/sass',
+            'node_modules/materialize-css/dist/js/materialize.js',
+            'node_modules/materialize-css/dist/css/materialize.css',
+
+            'node_modules/mousetrap/Gruntfile.js',
+            'node_modules/mousetrap/mousetrap.js',
+            'node_modules/mousetrap/tests',
+            'node_modules/mousetrap/plugins',
+
+            'node_modules/ng-dialog/CONTRIBUTING.md',
+            'node_modules/ng-dialog/Gruntfile.js',
+            'node_modules/ng-dialog/bower.json',
+            'node_modules/ng-dialog/css',
+            'node_modules/ng-dialog/example',
+            'node_modules/ng-dialog/karma.conf.js',
+            'node_modules/ng-dialog/protractor.conf.js',
+            'node_modules/ng-dialog/server.js',
+            'node_modules/ng-dialog/tests',
+
+            'node_modules/qrcodejs2/bower.json',
+            'node_modules/qrcodejs2/index-svg.html',
+            'node_modules/qrcodejs2/index.html',
+            'node_modules/qrcodejs2/index.svg',
+            'node_modules/qrcodejs2/jquery.min.js',
+            'node_modules/qrcodejs2/qrcode.js',
+
+            'node_modules/sprintf-js/CONTRIBUTORS.MD',
+            'node_modules/sprintf-js/README.md',
+            'node_modules/sprintf-js/src',
+
+            'node_modules/visibilityjs/ChangeLog.md',
+            'node_modules/visibilityjs/component.json',
+            'node_modules/visibilityjs/index.d.ts',
+            'node_modules/visibilityjs/index.js',
+            'node_modules/visibilityjs/README.md',
+
+            'libs/jqplot/jqplot.core.js',
+            'libs/jqplot/jqplot.lineRenderer.js',
+            'libs/jqplot/jqplot.linearAxisRenderer.js',
+            'libs/jqplot/jqplot.themeEngine.js',
+            'libs/jqplot/plugins/jqplot.barRenderer.js',
+            'libs/jqplot/plugins/jqplot.pieRenderer.js',
+
+            'config/config.php',
+
+            'libs/PhpDocumentor-1.3.2/',
+            'libs/FirePHPCore/',
+            'libs/open-flash-chart/php-ofc-library/ofc_upload_image.php',
+
+            'tmp/*',
+            'misc/updateLanguageFiles.sh',
+            'misc/others/db-schema*',
+            'misc/others/diagram_general_request*',
+            '.coveralls.yml',
+            '.scrutinizer.yml',
+            '.phpstorm.meta.php',
+            '.lfsconfig',
+            'HIRING.md',
+            '.github/',
+
+        ];
+
+        return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);
     }
 
     /**
@@ -956,7 +1118,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isFileBelongToTests($file)
     {
-        return stripos($file, "/tests/") !== false || stripos($file, "/phantomjs/") !== false || stripos($file, "/vendor/phpunit") !== false;
+        return stripos($file, "/tests/") !== false || stripos($file, "/phantomjs/") !== false;
     }
 
     /**
