@@ -72,11 +72,7 @@
             Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
 
             var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
-            if (piwik.shouldPropagateTokenAuth) {
-                iframeSrc += '&force_api_session=1&token_auth=' + piwik.token_auth;
-            } else if (piwik.broadcast.getParamValue('token_auth', document.location.href)) {
-                iframeSrc += '&token_auth=' + piwik.token_auth;
-            }
+            iframeSrc = piwik.broadcast.addTokenOrForceApiTo(iframeSrc);
 
             Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
 

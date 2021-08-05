@@ -113,9 +113,7 @@
                             url += '&showtitle=1';
                         }
 
-                        if (piwik.shouldPropagateTokenAuth && broadcast.getValueFromUrl('token_auth')) {
-                            url += '&force_api_session=1&token_auth=' + broadcast.getValueFromUrl('token_auth');
-                        }
+                        url = piwik.broadcast.addTokenOrForceApiTo(url);
 
                         url += '&random=' + parseInt(Math.random() * 10000);
 
