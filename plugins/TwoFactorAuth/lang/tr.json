@@ -1,7 +1,7 @@
 {
     "TwoFactorAuth": {
         "TwoFactorAuthentication": "İki aşamalı kimlik doğrulama",
-        "TwoFAShort": "İki Aşamalı Kimlik Doğrulama",
+        "TwoFAShort": "İki aşamalı kimlik doğrulama",
         "TwoFactorAuthenticationIntro": "%1$sİki aşamalı kimlik doğrulaması%2$s oturum açma işlemine bir ek doğrulama aşaması ekleyerek güvenliğinizi arttırır. Oturum açarken kullanıcı adı ve parolanın yanında düzenli olarak değişen ve örneğin mobil aygıtınız üzerinde üretilebilen bir kimlik doğrulama kodu yazmanız istenir. Böylece herhangi biri kullanıcı adı ve parolanızı öğrense bile kimlik doğrulama kodunu üretemiyorsa sizin hesabınızla oturum açamaz.",
         "TwoFactorAuthenticationIsEnabled": "İki aşamalı kimlik doğrulaması etkin.",
         "TwoFactorAuthenticationIsDisabled": "İki aşamalı kimlik doğrulaması devre dışı.",
@@ -25,7 +25,7 @@
         "WarningChangingConfiguredDevice": "Yapılandırılmış iki aşamalı kimlik doğrulama aygıtınızı değiştirmek üzeresiniz. Bu işlem daha önce yapılandırdığınız aygıtları geçersiz kılar.",
         "ShowRecoveryCodes": "Kurtarma kodlarını görüntüle",
         "ConfirmSetup": "Kurulumu onayla",
-        "NotPossibleToLogIn": "Matomo İstatistikleri oturumu açılamadı",
+        "NotPossibleToLogIn": "Matomo istatistikleri oturumu açılamadı",
         "LostAuthenticationDevice": "Merhaba,%1$sİki aşamalı kimlik doğrulaması kullanıyorum ve kimlik doğrulama kodunu üreten aygıtımı kaybettim. %5$skullanıcı hesabımın iki aşamalı kimlik doğrulamasını sıfırlar mısınız? Yapılacak işlemleri şurada bulabilirsiniz: %6$s.%2$sMatomo adresi: %3$s.%4$sTeşekkürler",
         "WrongAuthCodeTryAgain": "Yazdığınız kimlik doğrulama kodu hatalı. Lütfen yeniden deneyin.",
         "DisableTwoFA": "İki aşamalı kimlik doğrulama kodunu devre dışı bırakın",

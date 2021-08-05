@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>1</label>
+		
 		<nb_visits>2</nb_visits>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
@@ -34,16 +34,16 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>1</bounce_count>
-		<exit_nb_visits>1</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>50%</exit_rate>
-		<segment>dimension2==1</segment>
+		
+		
+		
 		<subtable>
 			<row>
-				<label>cloudsite5.com/21/download</label>
+				
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -76,16 +76,16 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<sum_time_spent>0</sum_time_spent>
-				<bounce_count>0</bounce_count>
-				<exit_nb_visits>0</exit_nb_visits>
+				
+				
 				<avg_time_on_dimension>0</avg_time_on_dimension>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<segment>dimension2==1;actionUrl=$cloudsite5.com%2F21%2Fdownload</segment>
-				<url>cloudsite5.com%2F21%2Fdownload</url>
+				
+				
+				
+				
 			</row>
 			<row>
-				<label>piwik.net/0/1</label>
+				
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -118,18 +118,18 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<sum_time_spent>0</sum_time_spent>
-				<bounce_count>1</bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
+				
+				
 				<avg_time_on_dimension>0</avg_time_on_dimension>
-				<bounce_rate>100%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension2==1;actionUrl=$piwik.net%2F0%2F1</segment>
-				<url>piwik.net%2F0%2F1</url>
+				
+				
+				
+				
 			</row>
 		</subtable>
 	</row>
 	<row>
-		<label>2</label>
+		
 		<nb_visits>2</nb_visits>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
@@ -162,16 +162,16 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>1</bounce_count>
-		<exit_nb_visits>1</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>50%</exit_rate>
-		<segment>dimension2==2</segment>
+		
+		
+		
 		<subtable>
 			<row>
-				<label>othersite10.com/42/</label>
+				
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -204,16 +204,16 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<sum_time_spent>0</sum_time_spent>
-				<bounce_count>0</bounce_count>
-				<exit_nb_visits>0</exit_nb_visits>
+				
+				
 				<avg_time_on_dimension>0</avg_time_on_dimension>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<segment>dimension2==2;actionUrl=$othersite10.com%2F42%2F</segment>
-				<url>othersite10.com%2F42%2F</url>
+				
+				
+				
+				
 			</row>
 			<row>
-				<label>piwik.net/15/62</label>
+				
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -246,18 +246,18 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<sum_time_spent>0</sum_time_spent>
-				<bounce_count>1</bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
+				
+				
 				<avg_time_on_dimension>0</avg_time_on_dimension>
-				<bounce_rate>100%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension2==2;actionUrl=$piwik.net%2F15%2F62</segment>
-				<url>piwik.net%2F15%2F62</url>
+				
+				
+				
+				
 			</row>
 		</subtable>
 	</row>
 	<row>
-		<label>Others</label>
+		
 		<nb_visits>96</nb_visits>
 		<nb_uniq_visitors>96</nb_uniq_visitors>
 		<nb_hits>96</nb_hits>
@@ -290,12 +290,12 @@
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
 		<sum_time_spent>0</sum_time_spent>
-		<bounce_count>58</bounce_count>
-		<exit_nb_visits>46</exit_nb_visits>
+		
+		
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
-		<bounce_rate>60%</bounce_rate>
-		<exit_rate>48%</exit_rate>
-		<segment>dimension2==-1</segment>
+		
+		
+		
 	</row>
 </result>

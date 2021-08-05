@@ -5,6 +5,18 @@ on:
   schedule:
   - cron: "0 2 * * 5"
 
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
 jobs:
   build:
 

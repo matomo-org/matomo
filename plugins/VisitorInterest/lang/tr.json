@@ -2,7 +2,7 @@
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s-%2$s dakika",
         "BetweenXYSeconds": "%1$s-%2$s saniye",
-        "ColumnPagesPerVisit": "Ziyaret başına sayfa sayısı",
+        "ColumnPagesPerVisit": "Ziyaret başına düşen sayfa sayısı",
         "ColumnVisitDuration": "Ziyaret süresi",
         "Engagement": "Bağlılık",
         "NPages": "%s sayfa",
@@ -10,14 +10,14 @@
         "PluginDescription": "Ziyaretçi ilgisi raporu: Açılan sayfa sayısı, web sitesinde geçirilen süre, son ziyaretten bu yana geçen zaman ve diğer bilgiler.",
         "VisitNum": "Ziyaret sayısı",
         "VisitsByDaysSinceLast": "Son ziyaretten bu yana geçen gün sayısı",
-        "visitsByVisitCount": "Ziyaret Sayısına Göre Ziyaretler",
-        "VisitsPerDuration": "Bir Ziyaret Süresindeki Ziyaret Sayısı",
+        "visitsByVisitCount": "Ziyaret sayısına göre ziyaretler",
+        "VisitsPerDuration": "Bir ziyaret süresindeki ziyaret sayısı",
         "VisitsPerNbOfPages": "Sayfa başına düşen ziyaret sayısı",
-        "WidgetLengths": "Ziyaret Süreleri",
+        "WidgetLengths": "Ziyaret süreleri",
         "WidgetLengthsDocumentation": "Bu raporda belirli bir sürede yapılan ziyaret sayısı görülebilir. Başlangıçta bu rapor bir etiket bulutu şeklindedir ve sayısı çok olan ziyaretler daha büyük görüntülenir.",
-        "WidgetPages": "Ziyaret Başına Sayfa Sayısı",
+        "WidgetPages": "Ziyaret başına düşen sayfa sayısı",
         "WidgetPagesDocumentation": "Bu raporda belirli sayıda gösterilen sayfalara yapılan ziyaret sayısı görülebilir. Başlangıçta bu rapor bir etiket bulutu şeklindedir ve sayfa sayısı çok olan ziyaretler daha büyük görüntülenir.",
-        "WidgetVisitsByDaysSinceLast": "Son Ziyaretten Bu Yana Geçen Gün Sayısı",
+        "WidgetVisitsByDaysSinceLast": "Son ziyaretten bu yana geçen gün sayısı",
         "WidgetVisitsByDaysSinceLastDocumentation": "Bu raporda ziyaretçilerin son ziyaretinden bu yana belirli sayıda gün geçmiş ziyaret sayısı görülebilir.",
         "WidgetVisitsByNumDocumentation": "Bu raporda web sitesini en az N kez ziyaret etmiş ziyaretçiler görülebilir."
     }

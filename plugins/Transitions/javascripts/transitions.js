@@ -603,7 +603,10 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
             } else {
                 onClick = (function (url) {
                     return function () {
-                        self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
+                        if (self.actionType == 'url') {
+                            url = url.replace(/^(?!http)/, 'http://');
+                        }
+                        self.reloadPopover(url);
                     };
                 })(label);
             }

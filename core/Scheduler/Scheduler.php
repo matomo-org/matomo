@@ -102,6 +102,7 @@ class Scheduler
 
         // for every priority level, starting with the highest and concluding with the lowest
         $executionResults = array();
+        $readFromOption = true;
         for ($priority = Task::HIGHEST_PRIORITY; $priority <= Task::LOWEST_PRIORITY; ++$priority) {
             $this->logger->debug("Executing tasks with priority {priority}:", array('priority' => $priority));
 
@@ -111,13 +112,21 @@ class Scheduler
                 if ($task->getPriority() != $priority) {
                     continue;
                 }
-
-                $this->timetable->readFromOption();
+                
+                if ($readFromOption) {
+                    // because other jobs might execute the scheduled tasks as well we have to read the up to date time table to not handle the same task twice
+                    // ideally we would read from option every time but using $readFromOption as a minor performance tweak. There can be easily 100 tasks 
+                    // of which we only execute very few and it's unlikely that the timetable changes too much in between while iterating over the loop and triggering the event.
+                    // this way we only read from option when we actually execute or reschedule a task as this can take a few seconds.
+                    $this->timetable->readFromOption();
+                    $readFromOption = false;
+                }
 
                 $taskName = $task->getName();
                 $shouldExecuteTask = $this->timetable->shouldExecuteTask($taskName);
 
                 if ($this->timetable->taskShouldBeRescheduled($taskName)) {
+                    $readFromOption = true;
                     $rescheduledDate = $this->timetable->rescheduleTask($task);
 
                     $this->logger->debug("Task {task} is scheduled to run again for {date}.", array('task' => $taskName, 'date' => $rescheduledDate));
@@ -135,6 +144,7 @@ class Scheduler
                 Piwik::postEvent('ScheduledTasks.shouldExecuteTask', array(&$shouldExecuteTask, $task));
 
                 if ($shouldExecuteTask) {
+                    $readFromOption = true;
                     $message = $this->executeTask($task);
 
                     $executionResults[] = array('task' => $taskName, 'output' => $message);

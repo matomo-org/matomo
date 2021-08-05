@@ -5,6 +5,10 @@
         "Order": "Orden",
         "OrderId": "Identificación de la orden",
         "Orders": "Órdenes",
+        "ViewedProductCategory": "Categorías de productos vistas",
+        "ViewedProductName": "Nombres de productos vistos",
+        "ViewedProductPrice": "Precios de productos vistos",
+        "ViewedProductSKU": "SKU de productos vistos",
         "SalesBy": "Ventas por %s",
         "SalesAdjective": "Ventas %s",
         "NumberOfItems": "Números de elementos en el changuito",
@@ -13,6 +17,13 @@
         "LifeTimeValueDescription": "Los ingresos totales de eCommerce atribuidos a este consumidor en todas sus visitas: la suma de todas las órdenes de eCommerce para el visitante con identificación %s.",
         "VisitorProfileLTV": "Generó un ingreso útil de %1$s.",
         "VisitorProfileItemsAndOrders": "Compró %1$s elementos en %2$s órdenes de eCommerce.",
-        "VisitorProfileAbandonedCartSummary": "Abandonó %1$s changuitos, incluyendo %2$s elementos con un valor total de %3$s."
+        "VisitorProfileAbandonedCartSummary": "Abandonó %1$s changuitos, incluyendo %2$s elementos con un valor total de %3$s.",
+        "EcommerceOverviewSubcategoryHelp1": "La sección de vista general de comercio electrónico es el mejor lugar para obtener un pantallazo del rendimiento de tu local virtual. De una vez, podés ver cuántas ventas tenés, cuánto ingreso estás generando y la tasa de conversión de tu sitio web.",
+        "EcommerceOverviewSubcategoryHelp2": "Hacé clic en cada medición individual dentro del minigráfico para focalizarte dentro del gráfico de evolución a tamaño completo.",
+        "SalesSubcategoryHelp1": "Esta sección contiene una colección extensa de informes para ayudarte a analizar las diferentes condiciones que más llevan a ventas, como fuentes de tráfico y campañas, horario, ubicación y dispositivos usados para acceder.",
+        "SalesSubcategoryHelp2": "También podés aprender exactamente cuánto ingreso está asociado a cada dimensión, como tipos específicos de tráfico o campañas monitoreadas.",
+        "EcommerceLogSubcategoryHelp1": "El registro de comercio electrónico ofrece datos granulares a nivel de sesión, así podés mirar la sesión completa de cada usuario, ya sea que hizo una compra o abandonó su changuito. Esto te puede ayudar a entender a entender lo que hicieron los usuarios antes y después de comprar, para revelar oportunidades de optimización.",
+        "EcommerceLogSubcategoryHelp2": "Los datos en esta página se actualizan en tiempo real.",
+        "ProductSubcategoryHelp": "La vista de productos pueden ayudarte a identificar productos y categorías que están rindiendo por encima o por debajo de lo esperado, para revelar tendencias y oportunidades relacionadas a la selección de tu producto y a las páginas del local virtual."
     }
 }

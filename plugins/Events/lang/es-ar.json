@@ -8,10 +8,13 @@
         "Event": "Evento",
         "EventAction": "Acción del evento",
         "EventActions": "Acciones del evento",
+        "EventActionsReportDocumentation": "Este informe muestra el número de veces que ocurrió cada evento. Podés ver las categorías del evento y los nombres que fueron rastreados junto a cada evento en la subtabla de la fila. Podés cambiar cuál es mostrada al cambiar la dimensión secundaria con el enlace en la parte inferior del informe.",
         "EventCategories": "Categorías del evento",
+        "EventCategoriesReportDocumentation": "Este informe muestra las categorías de cada evento rastreado y cuántas veces ocurrieron. Podés ver las acciones de los eventos y los nombres que fueron rastreados con cada categoría en cada subtabla de la fila. Podés cambiar cuál es mostrada al cambiar la dimensión secundaria con el enlace en la parte inferior del informe.",
         "EventCategory": "Categoría del evento",
         "EventName": "Nombre del evento",
         "EventNames": "Nombres del evento",
+        "EventNamesReportDocumentation": "Este informe muestra las nombres de cada evento rastreado y cuántas veces ocurrieron. Podés ver las acciones de los eventos y las categorías que fueron rastreados junto con cada nombre en cada subtabla de la fila. Podés cambiar cuál es mostrada al cambiar la dimensión secundaria con el enlace en la parte inferior del informe.",
         "EventUrl": "Dirección web del evento",
         "EventUrls": "Direcciones web del evento",
         "Events": "Eventos",
@@ -30,6 +33,8 @@
         "TotalEventsDocumentation": "Número total de eventos",
         "TotalValue": "Valor del evento",
         "TotalValueDocumentation": "La suma de los valores del evento",
-        "ViewEvents": "Ver eventos"
+        "ViewEvents": "Ver eventos",
+        "EventsSubcategoryHelp1": "La sección de eventos ofrece informes sobre los eventos personalizados asociados a tu sitio. Los eventos típicamente requieren una configuración personalizada. Una vez configurados, podés revisar informes divididos en categoría, acción y nombre.",
+        "EventsSubcategoryHelp2": "Aprendé más sobre rastreo de eventos acá."
     }
 }
