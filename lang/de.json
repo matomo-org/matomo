@@ -16,6 +16,7 @@
         "Apply": "Anwenden",
         "ArchivingInlineHelp": "Für Websites mit mittlerem bis hohem Verkehrsaufkommen wird empfohlen, die durch den Browser ausgelöste Archivierung zu deaktivieren. Stattdessen wird empfohlen, dass Sie einen Cronjob aufsetzen, der die Berichte einmal pro Stunde abarbeitet.",
         "ArchivingTriggerDescription": "Für größere Matomo-Installationen sollten Sie %1$seinen Cronjob erstellen%2$s, der die Berichte automatisch abarbeitet.",
+        "ArchivingTriggerSegment": "Die Verwendung benutzerspezifischer Segmente wird weiterhin die Aufbereitung der Archive auslösen.",
         "AuthenticationMethodSmtp": "Authentifizierungsmethode für SMTP",
         "AverageOrderValue": "Durchschnittlicher Bestellwert",
         "AveragePrice": "Durchschnittlicher Preis",
@@ -176,6 +177,8 @@
         "ExceptionDatabaseVersion": "Ihre %1$s-Version ist %2$s, aber Matomo benötigt mindestens %3$s",
         "ExceptionDatabaseVersionNewerThanCodebase": "Ihre Matomo Codebase läuft auf der alten Version %1$s und wir haben erkannt, dass Ihre Matomo Datenbank bereits auf die neuere Version %2$s aktualisiert wurde.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Möglicherweise sind die Matomo Administratoren gerade daran, den Aktualisierungsprozess abzuschließen. Bitte versuchen Sie es in ein paar Minuten noch einmal.",
+        "ExceptionDatabaseUnavailable": "Der MySQL Server ist nicht mehr erreichbar",
+        "ExceptionDatabaseAccess": "Datenbankzugriff verweigert",
         "ExceptionFileIntegrity": "Integritätsprüfung fehlgeschlagen: %s",
         "ExceptionFilesizeMismatch": "Unterschiedliche Dateigröße: %1$s (erwartete Größe: %2$s, gefunden: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Ihre %1$s-Client Version ist %2$s, die aber mit der Server-Version %3$s inkompatibel ist.",
@@ -524,7 +527,8 @@
         "Custom": "Benutzerdefiniert",
         "PreviousPeriod": "Vorheriger Zeitraum",
         "PreviousYear": "vorheriges Jahr",
-        "ViewAccessRequired": "Der verwendete token_auth hat zu viele Rechte, um für nicht-API URL Anfragen verwendet zu werden. Bitte verwenden Sie ein programmspezifisches Passwort für einen Benutzer, der ausschließlich über Ansichtszugriff verfügt."
+        "ViewAccessRequired": "Der verwendete token_auth hat zu viele Rechte, um für nicht-API URL Anfragen verwendet zu werden. Bitte verwenden Sie ein programmspezifisches Passwort für einen Benutzer, der ausschließlich über Ansichtszugriff verfügt.",
+        "Reasons": "Gründe"
     },
     "Mobile": {
         "AboutPiwikMobile": "Über Matomo Mobile",

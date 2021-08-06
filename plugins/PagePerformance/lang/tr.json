@@ -13,7 +13,7 @@
         "ColumnAverageTimeDomCompletion": "Ortalama DOM tamamlanma süresi",
         "ColumnAverageTimeDomCompletionDocumentation": "Tarayıcının ortamı yüklemesi ve DOMContentLoaded olayını dinleyen ve web sayfası yüklenmiş ve kullanıcı zaten etkileşim kurmuş olsa bile bir JavaScript kodunu çalıştırması için geçen ortalama süre (saniye).",
         "ColumnAverageTimeOnLoad": "Ortalama on load süresi",
-        "ColumnAverageTimeOnLoadDocumentation": "Tarayıcının window.load olayını beklerken Javascript kodunu çalıştırması için geçen ortalama süre (saniye). Bu olay, DOM tamamen oluşturulduktan sonra tetiklenir.",
+        "ColumnAverageTimeOnLoadDocumentation": "Tarayıcının window.load olayını beklerken JavaScript kodunu çalıştırması için geçen ortalama süre (saniye). Bu olay, DOM tamamen oluşturulduktan sonra tetiklenir.",
         "ColumnViewsWithTimeNetwork": "Ağ süresi ile sayfa gösterimleri",
         "ColumnViewsWithTimeServer": "Sunucu süresi ile sayfa gösterimleri",
         "ColumnViewsWithTimeTransfer": "Aktarım süresi ile sayfa gösterimleri",

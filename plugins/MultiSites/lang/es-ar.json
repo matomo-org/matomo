@@ -3,6 +3,8 @@
         "Evolution": "Evolución",
         "LoadingWebsites": "Cargando sitios web",
         "PluginDescription": "Mirá y compará todos tus sitios web y aplicaciones en este útil panel \"Todos los sitios web\".",
-        "TopLinkTooltip": "Compará estadísticas de análisis web para todos tus sitios."
+        "TopLinkTooltip": "Compará estadísticas de análisis web para todos tus sitios.",
+        "SingleWebsitesDashboardDocumentation": "Este informe te da un pantallazo de un sitio web específico, conteniendo las mediciones más generales sobre tus visitantes.",
+        "AllWebsitesDashboardDocumentation": "Este informe te da un pantallazo de tus sitios web, conteniendo las mediciones más generales sobre tus visitantes."
     }
 }

@@ -1,9 +1,9 @@
 {
     "UserId": {
-        "UserId": "Kullanıcı Kodu",
-        "UserReportTitle": "Kullanıcı Kodları",
+        "UserId": "Kullanıcı kodu",
+        "UserReportTitle": "Kullanıcı kodları",
         "UserReportDocumentation": "Bu rapor, her kullanıcı kodu için, ziyaretler, ve diğer genel ölçümleri içerir.",
         "PluginDescription": "Kullanıcı raporlarını görüntüler",
-        "VisitorsUserSubcategoryHelp": "Kullanıcı Kodları raporu, kayıtlı ve oturum açmış tüm kullanıcıların ziyaretlerini içerir. Bu bölüm, web sitesinin belirli kullanıcılar tarafından nasıl kullanıldığını anlamak ve en fazla ya da en az etkin kullanıcıların kimler olduğunu belirlemek için kullanılabilir."
+        "VisitorsUserSubcategoryHelp": "Kullanıcı kodları raporu, kayıtlı ve oturum açmış tüm kullanıcıların ziyaretlerini içerir. Bu bölüm, web sitesinin belirli kullanıcılar tarafından nasıl kullanıldığını anlamak ve en fazla ya da en az etkin kullanıcıların kimler olduğunu belirlemek için kullanılabilir."
     }
 }

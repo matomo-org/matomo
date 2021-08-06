@@ -100,6 +100,8 @@
         "OnlyMatchedUrlsAllowedHelp": "Wenn aktiviert zeichnet Matomo nur noch interne Aktionen auf bei denen die Seiten-URL eine der bekannten URLs der Website ist. Dies hindert andere daran Ihre Analyse mit URLs von anderen Websites zu verfälschen.",
         "OnlyMatchedUrlsAllowedHelpExamples": "Domain und Pfadangabe müssen exakt übereinstimmen und jede gültige Subdomain muss separat definiert werden. Sind die bekannten URLs beispielsweise 'http:\/\/example.com\/path' und 'http:\/\/good.example.com', werden Tracking-Anfragen von 'http:\/\/example.com\/otherpath' oder 'http:\/\/bad.example.com' ignoriert.",
         "WebsitesManagement": "Websiteverwaltung",
+        "WebsiteUpdated": "Webseite aktualisiert",
+        "WebsiteCreated": "Webseite erstellt",
         "XManagement": "%s verwalten",
         "ChooseMeasurableTypeHeadline": "Was möchten Sie messen?",
         "YouCurrentlyHaveAccessToNWebsites": "Sie haben derzeit Zugriff auf %s Websites.",

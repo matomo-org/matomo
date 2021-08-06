@@ -1357,7 +1357,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         if (isset($this->summaryRow)) {
-            $rows[self::ID_SUMMARY_ROW] = $this->summaryRow->export();
+            $id = self::ID_SUMMARY_ROW;
+            $row = $this->summaryRow;
+
+            // duplicating code above so we don't create a new array w/ getRows() above in this function which is
+            // used heavily in matomo.
+            if (isset($consecutiveSubtableIds[$id])) {
+                $backup = $row->subtableId;
+                $row->subtableId = $consecutiveSubtableIds[$id];
+                $rows[$id] = $row->export();
+                $row->subtableId = $backup;
+            } else {
+                $rows[$id] = $row->export();
+            }
         }
 
         if (!empty($metadata)) {

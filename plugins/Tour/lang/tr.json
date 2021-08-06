@@ -9,12 +9,12 @@
         "AddReport": "Zamanlanmış bir rapor ekleyin",
         "AddSegment": "Yeni bir dilim ekleyin",
         "AddAnnotation": "Yeni bir not ekleyin",
-        "BrowseMarketplace": "Mağazaya Göz At",
+        "BrowseMarketplace": "Mağazaya göz at",
         "PreviousChallenges": "Önceki eğitimler",
         "NextChallenges": "Sonraki eğitimler",
         "RowEvolution": "Satır gelişimi",
-        "ViewX": "%s Görüntüle",
-        "SetupX": "%s Kur",
+        "ViewX": "%s görüntüle",
+        "SetupX": "%s kur",
         "SelectDateRange": "Bir tarih aralığı seçin",
         "SelectDateRangeDescription": "Takvimden bir tarih aralığı seçin.",
         "ChangeVisualisation": "Bir görselleştirme seçin",
@@ -26,7 +26,7 @@
         "ViewVisitorProfileDescription": "Ziyaretçi günlükleri, ziyaretçilerin bireysel davranışlarını derleyip listeleyerek daha iyi anlamanıza yardımcı olur.",
         "ShareAllChallengesCompleted": "Tüm Matomo eğitimlerini tamamlayarak %1$s düzeyine ulaştınız.",
         "ChallengeCompleted": "Tebrikler bu eğitimi tamamladınız.",
-        "BecomeMatomoExpert": "Matomo Uzmanı Olun",
+        "BecomeMatomoExpert": "Matomo uzmanı olun",
         "YouCanCallYourselfExpert": "Artık kendinizi gerçek bir %1$sMatomo Uzmanı%2$s olarak adlandırabilirsiniz.",
         "StatusLevel": "Şu anda %1$s düzeyindesiniz. %2$s eğitim daha tamamlayarak bir %3$s olun.",
         "ConfigureGeolocationDescription": "Ziyaretçilerin konumunun doğru olarak algılandığından emin olun.",
@@ -42,7 +42,7 @@
         "CustomiseDashboard": "Panoyu özelleştir",
         "CustomiseDashboardDescription": "Panoya sizin için önemli ölçümleri görüntüleyecek yeni bileşenler ekleyebilirsiniz.",
         "DefineGoal": "Bir hedef ekleyin",
-        "DefineGoalDescription": "Hedef tutturma izleme özelliği iş hedeflerinize ulaşmak, yeni hedefler belirlemek, başarımı ölçmek ve değerlendirmek ile hedefleri, hedef tutturma oranlarını ve ziyaret başına kar değerlerini nasıl arttırabileceğinizi öğrenmenizi sağlar.",
+        "DefineGoalDescription": "Hedef tutturma izleme özelliği iş hedeflerinize ulaşmak, yeni hedefler belirlemek, başarımı ölçmek ve değerlendirmek ile hedefleri, hedef tutturma oranlarını ve ziyaret başına düşen gelir değerlerini nasıl arttırabileceğinizi öğrenmenizi sağlar.",
         "EmbedTrackingCode": "İzleme kodu ekleme",
         "CompletionTitle": "Tebrikler!",
         "CompletionMessage": "Tüm eğitimleri tamamladınız. Gurur duyabilirsiniz.",
@@ -50,6 +50,6 @@
         "Part2Title": "Ha gayret %1$s! Bir Matomo uzmanı olmaya az kaldı.",
         "Part3Title": "Harika %1$s! Böyle devam ederseniz yakında uzman olacaksınız!",
         "Part4Title": "Harika %1$s! Tamamlamanız gereken yalnız bir kaç eğitim daha kaldı.",
-        "OnlyVisibleToSuperUser": "Bir %1$sSüper Kullanıcı%2$s olarak bu bileşeni yalnız siz görebilirsiniz."
+        "OnlyVisibleToSuperUser": "Bir %1$ssüper kullanıcı%2$s olarak bu bileşeni yalnız siz görebilirsiniz."
     }
 }

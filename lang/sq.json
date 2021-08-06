@@ -177,6 +177,8 @@
         "ExceptionDatabaseVersion": "Versioni juaj për %1$s është %2$s por Matomo lyp të paktën %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Kodi bazë i Matomo-s tuaj xhiron versionin e vjetër %1$s dhe kemi gjetur se Baza juaj e të Dhënave Matomo është përmirësuar tashmë me versionin më të ri %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Ndoshta përgjegjësit e Matomo-s tuaj janë duke përfunduar procesin e përmirësimit. Ju lutemi, riprovoni pas pak minutash.",
+        "ExceptionDatabaseUnavailable": "Shërbyesi MySQL s’është në punë",
+        "ExceptionDatabaseAccess": "U mohua hyrje në bazë të dhënash",
         "ExceptionFileIntegrity": "Kontrolli i pacenueshmërisë dështoi: %s",
         "ExceptionFilesizeMismatch": "Mospërputhje madhësie kartelash: %1$s (pritej gjatësi: %2$s, u gjet: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Versioni i klientit tuaj për %1$s është %2$s çka është e papërputhshme me versionin e shërbyesit %3$s.",
