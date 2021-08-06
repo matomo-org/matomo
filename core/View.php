@@ -471,7 +471,7 @@ class View implements ViewInterface
      */
     private function validTokenAuthInUrl(bool $return = false)
     {
-        $tokenAuth = Common::getRequestVar('token_auth', '', string, $_GET);
+        $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_GET);
         if ($tokenAuth) {
             $sessionAuth = StaticContainer::get(SessionAuth::class);
             $sessionAuth->setTokenAuth($tokenAuth);
