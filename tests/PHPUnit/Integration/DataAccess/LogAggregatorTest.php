@@ -149,6 +149,7 @@ class LogAggregatorTest extends IntegrationTestCase
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
         try {
+            $GLOBALS['dotest'] = 1;
             $this->logAggregator->getDb()->query('SELECT SLEEP(5) FROM ' . Common::prefixTable('log_visit'));
             $this->fail('Query was not aborted by may execution limit');
         } catch (\Zend_Db_Statement_Exception $e) {
@@ -157,6 +158,8 @@ class LogAggregatorTest extends IntegrationTestCase
                 || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
 
             $this->assertTrue($isMaxExecutionTimeError);
+        } finally {
+            unset($GLOBALS['dotest']);
         }
     }
 

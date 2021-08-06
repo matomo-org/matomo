@@ -142,7 +142,7 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
 };
 
 PageRenderer.prototype.screenshotSelector = async function (selector) {
-    await this.waitFor(() => !! window.$);
+    await this.waitFor(() => !! window.jQuery, { timeout: 0 });
 
     const result = await this.webpage.evaluate(function (selector) {
         window.jQuery('html').addClass('uiTest');

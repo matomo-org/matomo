@@ -312,6 +312,9 @@ class DbHelper
             $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
 
             $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+            if (@$GLOBALS['dotest']) {
+                print "\nusing SQL: $sql\n"; @ob_flush();
+            }
         }
 
         return $sql;
