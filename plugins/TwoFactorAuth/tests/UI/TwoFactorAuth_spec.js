@@ -83,6 +83,7 @@ describe("TwoFactorAuth", function () {
     async function confirmPassword()
     {
         await page.waitFor('.confirmPasswordForm');
+        await page.waitFor(() => !!window.$);
         await page.evaluate(function(){
             $('.confirmPasswordForm #login_form_password').val('123abcDk3_l3');
             $('.confirmPasswordForm #login_form_submit').click();
@@ -116,6 +117,7 @@ describe("TwoFactorAuth", function () {
         testEnvironment.save();
 
         await page.type('.loginTwoFaForm #login_form_authcode', '123456');
+        await page.waitFor(() => !!window.$);
         await page.evaluate(function(){
             $('.loginTwoFaForm #login_form_submit').click();
         });
@@ -128,7 +130,7 @@ describe("TwoFactorAuth", function () {
     it('should show user settings when two-fa enabled', async function () {
         await loginUser('with2FA');
         await page.goto(userSettings);
-        await page.waitFor('.userSettings2FA', { visible: true });
+        await page.waitFor('.userSettings2FA', { visible: true, timeout: 0 });
         await page.waitFor(750); // animation
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_enabled');
