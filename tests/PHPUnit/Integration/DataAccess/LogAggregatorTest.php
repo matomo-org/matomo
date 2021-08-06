@@ -147,7 +147,6 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
-        Db::get()->exec('SET SESSION MAX_EXECUTION_TIME=1;'); // TODO: remove this
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
         try {

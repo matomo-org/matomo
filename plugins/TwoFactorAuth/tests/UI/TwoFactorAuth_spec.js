@@ -100,6 +100,7 @@ describe("TwoFactorAuth", function () {
 
     it('when logging in through logme and not providing auth code it should show auth code screen', async function () {
         await loginUser('with2FA', false);
+        await page.waitFor(1000);
         const section = await page.$('.loginSection');
         expect(await section.screenshot()).to.matchImage('logme_not_verified');
     });
@@ -143,7 +144,6 @@ describe("TwoFactorAuth", function () {
     it('should be possible to show recovery codes step1 authentication', async function () {
         await page.click('.showRecoveryCodesLink');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.loginSection')).to.matchImage('show_recovery_codes_step1');
         const element = await page.$('.loginSection');
         expect(await element.screenshot()).to.matchImage('show_recovery_codes_step1');
     });
@@ -192,6 +192,7 @@ describe("TwoFactorAuth", function () {
         await page.goto(userSettings);
         await page.click('.enable2FaLink');
         await confirmPassword();
+        await page.waitFor(1000);
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step1');
     });
@@ -213,6 +214,7 @@ describe("TwoFactorAuth", function () {
     it('should move to third step in setup - step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
         await page.waitForNetworkIdle();
+        await page.waitFor(1000);
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step3');
     });
