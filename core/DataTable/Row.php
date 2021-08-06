@@ -486,7 +486,11 @@ class Row extends \ArrayObject
                 throw new Exception("Unknown aggregation operation for column $columnToSumName.");
             }
 
-            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum, $columnToSumName);
+            if ($thisColumnValue === false) {
+                $newValue = $columnToSumValue;
+            } else {
+                $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum, $columnToSumName);
+            }
 
             $this->setColumn($columnToSumName, $newValue);
         }
