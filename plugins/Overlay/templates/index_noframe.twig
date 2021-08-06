@@ -6,7 +6,13 @@
 <div id="overlayNoFrame">
 
     <script type="text/javascript">
-        var newLocation = piwik.broadcast.addTokenOrForceApiTo('index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}&segment={{ segment }}');
+        var newLocation = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}&segment={{ segment }}';
+        if (piwik.shouldPropagateTokenAuth) {
+            if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                newLocation += '&force_api_session=1';
+            }
+            newLocation += 'token_auth=' + piwik.token_auth;
+        }
 
         var locationParts = window.location.href.split('#');
         if (locationParts.length > 1) {

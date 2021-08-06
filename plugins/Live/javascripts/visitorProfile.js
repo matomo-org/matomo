@@ -155,9 +155,11 @@
             // append token_auth dynamically to export link
             $element.on('mousedown', '.visitor-profile-export', function (e) {
                 var url = $(this).attr('href');
-                var augmentedUrl = piwik.broadcast.addTokenOrForceApiTo(url);
-                if (augmentedUrl !== url) {
-                    $(this).attr('href', augmentedUrl);
+                if (url.indexOf('&token_auth=') == -1) {
+                    if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                        url += '&force_api_session=1';
+                    }
+                    $(this).attr('href', url + '&token_auth=' + piwik.token_auth);
                 }
             });
 

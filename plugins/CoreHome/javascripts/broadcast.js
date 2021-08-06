@@ -176,24 +176,6 @@ var broadcast = {
             }
         }
     },
-
-    /**
-     * add token or force_api_session=1 to url if required for a GET request
-     * @param url the GET request, must be GET as we want to avoid adding
-     *        this if possible for security reasons
-     * @returns {*} augmented url
-     */
-    addTokenOrForceApiTo: function(url) {
-        var token_auth = this.getValueFromUrl("token_auth");
-        if (token_auth.length) { // this is required because the date range does not work otherwise
-            url += '&token_auth='  + encodeURIComponent(token_auth);
-            if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
-                url += '&force_api_session=1';
-            }
-        }
-        return url;
-    },
-
     isWidgetizedDashboard: function() {
         return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
     },

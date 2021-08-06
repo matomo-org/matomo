@@ -11,6 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
+use Piwik\Session\SessionAuth;
 use Piwik\View\ViewInterface;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -458,7 +459,27 @@ class View implements ViewInterface
     private function shouldPropagateTokenAuthInAjaxRequests()
     {
         $generalConfig = Config::getInstance()->General;
-        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
+        return Common::getRequestVar('module', false) == 'Widgetize' ||
+            $generalConfig['enable_framed_pages'] == '1' ||
+            $this->validTokenAuthInUrl();
+    }
+
+    /**
+     * @param bool $return the token_auth $_GET variable
+     * @return bool|string
+     * @throws Exception
+     */
+    private function validTokenAuthInUrl(bool $return = false)
+    {
+        $tokenAuth = Common::getRequestVar('token_auth', '', string, $_GET);
+        if ($tokenAuth) {
+            $sessionAuth = StaticContainer::get(SessionAuth::class);
+            $sessionAuth->setTokenAuth($tokenAuth);
+            if ($sessionAuth->authenticate()) {
+                return $return ? $tokenAuth : true;
+            }
+        }
+        return false;
     }
 
     /**

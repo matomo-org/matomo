@@ -28,7 +28,6 @@ class Overlay extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = 'plugins/Overlay/javascripts/rowaction.js';
         $jsFiles[] = 'plugins/Overlay/javascripts/Overlay_Helper.js';
     }
