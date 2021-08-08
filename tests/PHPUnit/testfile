@@ -1,0 +1,34 @@
+/* compile_me_once=first-cache-buster-stylesheet */
+/* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */
+#page #header {
+  color: #ffffff;
+}
+#footer {
+  color: #ff0000;
+}
+.box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+h1 {
+    color: orange;
+    text-align: center;
+    /* url relative to root: must not be rewritten*/
+    background: url(tests/PHPUnit/Unit/AssetManager/stylesheets/images/test-image.png);
+}
+
+p {
+    font-size: 20px;
+    /* url relative to file: must be rewritten*/
+    background: url(tests/PHPUnit/Unit/AssetManager/stylesheets/images/test-image.png);
+    height: calc(100% + 45px);
+}
+body {
+    background-color:#b0c4de;
+}
+/* customization via event */

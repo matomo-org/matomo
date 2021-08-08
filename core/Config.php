@@ -332,6 +332,26 @@ class Config
     }
 
     /**
+     * Returns a boolean variable setting for convenience
+     * when calling e.g.
+     * Config::getInstance()->getBool('General', 'force_ssl')
+     * This also documents that a boolean is only true iff
+     * it is equal to 1.
+     *
+     * @param string $section Configuration section
+     * @param string $name variable name
+     * @return bool whether it is considered set true (== 1)
+     *
+     * @api
+     */
+    public function getBool(string $section, string $name): bool
+    {
+        $section = $this->$section;
+        $value = $section[$name] ?? 0;
+        return $value == 1;
+    }
+
+    /**
      * @api
      */
     public function getFromGlobalConfig($name)

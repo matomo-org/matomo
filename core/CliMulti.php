@@ -353,7 +353,7 @@ class CliMulti
         }
 
         $url = $piwikUrl . $url;
-        if (Config::getInstance()->General['force_ssl'] == 1) {
+        if (Config::getInstance()->getBool('General', 'force_ssl')) {
             $url = str_replace("http://", "https://", $url);
         }
 
