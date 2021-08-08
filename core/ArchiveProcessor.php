@@ -117,7 +117,7 @@ class ArchiveProcessor
     {
         if (empty($this->archive)) {
             $subPeriods = $this->params->getSubPeriods();
-            $idSites    = $this->params->getIdSites();
+            $idSites = $this->params->getIdSites();
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
 
             /**
@@ -166,7 +166,7 @@ class ArchiveProcessor
      */
     protected static $columnsToRenameAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
-        Metrics::INDEX_NB_USERS         => Metrics::INDEX_SUM_DAILY_NB_USERS,
+        Metrics::INDEX_NB_USERS => Metrics::INDEX_SUM_DAILY_NB_USERS,
     );
 
     /**
@@ -395,6 +395,9 @@ class ArchiveProcessor
                 }
             });
 
+            $this->printWholeDataTable($toSum);
+            @ob_flush();
+
             $result->addDataTable($toSum);
 
             DataTable\Manager::getInstance()->deleteAll($latestUsedTableId, $latestUsedAfterCreatingToSum);
@@ -517,7 +520,7 @@ class ArchiveProcessor
          * @param array &$idSites An array with one idSite. This site is being archived currently. To cancel the query
          *                        you can change this value to an empty array. To include other sites in the query you
          *                        can add more idSites to this list of idSites.
-         * @param Period $period  The period that is being requested to be archived.
+         * @param Period $period The period that is being requested to be archived.
          * @param Segment $segment The segment that is request to be archived.
          */
         Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites, $params->getPeriod(), $params->getSegment()));
@@ -532,7 +535,7 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array $metrics Metrics Ids for which to aggregates count of values
-     * @param int[] $sites  A list of idSites that should be included
+     * @param int[] $sites A list of idSites that should be included
      * @return array|null An array of metrics, where the key is metricid and the value is the metric value or null if
      *                      the query was cancelled and not executed.
      */
@@ -695,5 +698,24 @@ class ArchiveProcessor
     public function getArchiveWriter()
     {
         return $this->archiveWriter;
+    }
+
+    private function printWholeDataTable($toSum)
+    {
+        $toSum->filter(function ($table) {
+            $this->printWholeDataTableWithSubtable($table);
+        });
+    }
+
+    private function printWholeDataTableWithSubtable($table)
+    {
+        print_r($table->getRows());
+        foreach ($table->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                print "ROW SUBTABLE: " . $row->getColumn . "\n";
+                $this->printWholeDataTableWithSubtable($subtable);
+            }
+        }
     }
 }
