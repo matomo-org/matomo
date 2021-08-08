@@ -108,7 +108,7 @@ describe("TwoFactorAuth", function () {
     it('when logging in and providing wrong code an error is shown', async function () {
         await page.type('.loginTwoFaForm #login_form_authcode', '555555');
         await page.evaluate(function(){
-            $('.loginTwoFaForm #login_form_submit').click();
+            document.querySelector('.loginTwoFaForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
         const element = await page.$('.loginSection');
@@ -122,7 +122,7 @@ describe("TwoFactorAuth", function () {
         await page.type('.loginTwoFaForm #login_form_authcode', '123456');
         await page.waitFor(() => !!window.$);
         await page.evaluate(function(){
-            $('.loginTwoFaForm #login_form_submit').click();
+            document.querySelector('.loginTwoFaForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
         await page.waitFor('.widget');
