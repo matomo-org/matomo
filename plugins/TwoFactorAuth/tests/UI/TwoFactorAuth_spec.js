@@ -215,6 +215,7 @@ describe("TwoFactorAuth", function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
         await page.waitForNetworkIdle();
         await page.waitFor(1000);
+
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step3');
     });
