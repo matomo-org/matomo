@@ -78,7 +78,7 @@ class ImportLogsTest extends SystemTestCase
             // Mysqli rounds latitude/longitude
 //            $apiMethods = array('Live.getLastVisitsDetails');
         }
-        $apiMethods[] = 'Actions';
+        $apiMethods[] = 'Actions.getPageUrls';
 //        $apiMethods[] = 'VisitorInterest';
 //        $apiMethods[] = 'VisitFrequency';
         $apis[] = array($apiMethods, array(
