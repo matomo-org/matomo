@@ -1929,6 +1929,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if ($otherRowLabel !== false) {
                 $thisRow->addColumn('label', $otherRowLabel);
             }
+            $thisRow->setAllMetadata($otherRow->getMetadata());
 
             if ($isSummaryRow) {
                 $this->addSummaryRow($thisRow);

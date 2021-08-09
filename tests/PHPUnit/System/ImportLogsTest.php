@@ -76,11 +76,11 @@ class ImportLogsTest extends SystemTestCase
         $apiMethods = array();
         if (getenv('MYSQL_ADAPTER') != 'MYSQLI') {
             // Mysqli rounds latitude/longitude
-//            $apiMethods = array('Live.getLastVisitsDetails');
+            $apiMethods = array('Live.getLastVisitsDetails');
         }
         $apiMethods[] = 'Actions.getPageUrls';
-//        $apiMethods[] = 'VisitorInterest';
-//        $apiMethods[] = 'VisitFrequency';
+        $apiMethods[] = 'VisitorInterest';
+        $apiMethods[] = 'VisitFrequency';
         $apis[] = array($apiMethods, array(
             'idSite'  => self::$fixture->idSite,
             'date'    => '2012-08-09,2014-04-01',
@@ -90,8 +90,6 @@ class ImportLogsTest extends SystemTestCase
             ),
             'xmlFieldsToRemove' => array('fingerprint')
         ));
-
-        return [end($apis)];
 
         // imported via --replay-tracking --idsite=3  should ignore idSite from logs and use fixed idSite instead
         $apis[] = array($apiMethods, array(

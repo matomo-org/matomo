@@ -395,11 +395,6 @@ class ArchiveProcessor
                 }
             });
 
-            if ($name == 'Actions_actions_url') {
-                $this->printWholeDataTable($toSum);
-                @ob_flush();
-            }
-
             $result->addDataTable($toSum);
 
             DataTable\Manager::getInstance()->deleteAll($latestUsedTableId, $latestUsedAfterCreatingToSum);
@@ -700,24 +695,5 @@ class ArchiveProcessor
     public function getArchiveWriter()
     {
         return $this->archiveWriter;
-    }
-
-    private function printWholeDataTable($toSum)
-    {
-        $toSum->filter(function ($table) {
-            $this->printWholeDataTableWithSubtable($table);
-        });
-    }
-
-    private function printWholeDataTableWithSubtable($table)
-    {
-        print_r($table->getRows());
-        foreach ($table->getRows() as $row) {
-            $subtable = $row->getSubtable();
-            if ($subtable) {
-                print "ROW SUBTABLE: " . $row->getColumn('label') . "\n";
-                $this->printWholeDataTableWithSubtable($subtable);
-            }
-        }
     }
 }
