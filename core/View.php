@@ -473,9 +473,7 @@ class View implements ViewInterface
     {
         $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_GET);
         if ($tokenAuth) {
-            $sessionAuth = StaticContainer::get(SessionAuth::class);
-            $sessionAuth->setTokenAuth($tokenAuth);
-            if ($sessionAuth->authenticate()) {
+            if ($tokenAuth == Piwik::getCurrentUserTokenAuth()) {
                 return $return ? $tokenAuth : true;
             }
         }
