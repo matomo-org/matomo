@@ -3,6 +3,18 @@ on:
   schedule:
     - cron: '30 1 * * *'
 
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: write
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
 jobs:
   stale:
     runs-on: ubuntu-latest

@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Goals;
 
+use Piwik\ArchiveProcessor;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -93,6 +96,19 @@ class Archiver extends \Piwik\Plugin\Archiver
      * @var DataArray[][]
      */
     protected $itemReports = [];
+
+    /**
+     * @var int
+     */
+    private $productReportsMaximumRows;
+
+    public function __construct(ArchiveProcessor $processor)
+    {
+        parent::__construct($processor);
+
+        $general = Config::getInstance()->General;
+        $this->productReportsMaximumRows = $general['datatable_archiving_maximum_rows_products'];
+    }
 
     public function aggregateDayReport()
     {
@@ -284,7 +300,11 @@ class Archiver extends \Piwik\Plugin\Archiver
                     $recordName = self::getItemRecordNameAbandonedCart($recordName);
                 }
                 $table = $itemAggregate->asDataTable();
-                $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized());
+                $blobData = $table->getSerialized($this->productReportsMaximumRows, $this->productReportsMaximumRows,
+                    Metrics::INDEX_ECOMMERCE_ITEM_REVENUE);
+                $this->getProcessor()->insertBlobRecord($recordName, $blobData);
+
+                Common::destroy($table);
             }
         }
     }
@@ -428,9 +448,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $columnsAggregationOperation = null;
 
         $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
-            $maximumRowsInDataTableLevelZero = null,
-            $maximumRowsInSubDataTable = null,
-            $columnToSortByBeforeTruncation = null,
+            $maximumRowsInDataTableLevelZero = $this->productReportsMaximumRows,
+            $maximumRowsInSubDataTable = $this->productReportsMaximumRows,
+            $columnToSortByBeforeTruncation = Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
             $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array());
