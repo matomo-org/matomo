@@ -105,8 +105,8 @@ return array(
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
     '\Monolog\Handler\SyslogHandler' => DI\create()
-        ->constructorParameter('ident' => DI\get('log.syslog.ident'))
-        ->constructorParameter('level' => DI\get('log.level.syslog'))
+        ->constructorParameter('ident', DI\get('log.syslog.ident'))
+        ->constructorParameter('level', DI\get('log.level.syslog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\create()
