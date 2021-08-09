@@ -357,7 +357,7 @@ class ArchiveProcessor
 
             // By default we shall aggregate all sub-tables.
             $dataTableBlobs = $this->getArchive()->getBlobExpanded($name);
-            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -365,7 +365,7 @@ class ArchiveProcessor
         return $dataTable;
     }
 
-    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation)
+    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
     {
         $result = new DataTable();
 
@@ -373,7 +373,7 @@ class ArchiveProcessor
             $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
 
-        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory) use ($result, $columnsToRenameAfterAggregation) {
+        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory) use ($name, $result, $columnsToRenameAfterAggregation) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
 
             $toSum = $factory->make($reportBlobs, $index = []);
@@ -395,8 +395,10 @@ class ArchiveProcessor
                 }
             });
 
-            $this->printWholeDataTable($toSum);
-            @ob_flush();
+            if ($name == 'Actions_actions_url') {
+                $this->printWholeDataTable($toSum);
+                @ob_flush();
+            }
 
             $result->addDataTable($toSum);
 
@@ -713,7 +715,7 @@ class ArchiveProcessor
         foreach ($table->getRows() as $row) {
             $subtable = $row->getSubtable();
             if ($subtable) {
-                print "ROW SUBTABLE: " . $row->getColumn . "\n";
+                print "ROW SUBTABLE: " . $row->getColumn('label') . "\n";
                 $this->printWholeDataTableWithSubtable($subtable);
             }
         }
