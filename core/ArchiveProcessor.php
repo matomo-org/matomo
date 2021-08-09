@@ -356,7 +356,7 @@ class ArchiveProcessor
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
             // By default we shall aggregate all sub-tables.
-            $dataTableBlobs = $this->getArchive()->getBlobExpanded($name);
+            $dataTableBlobs = $this->getArchive()->getBlob($name, Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
             $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();

@@ -288,14 +288,18 @@ class Archive implements ArchiveQuery
     }
 
     /**
-     * TODO
+     * Queries and returns blob records without turning them into DataTables.
      *
-     * @param $names
-     * @return DataCollection
+     * Unlike other methods, this returns a DataCollection instance directly. Use it to directly access
+     * and process blob data.
+     *
+     * @param string|string[] $names One or more archive names, eg, `'nb_visits'`, `'Referrers_distinctKeywords'`,
+     *                            etc.
+     * @return DataCollection the queried data.
      */
-    public function getBlobExpanded($names)
+    public function getBlob($names, $idSubtable = null)
     {
-        return $this->get($names, 'blob', self::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
+        return $this->get($names, 'blob', $idSubtable);
     }
 
     /**
