@@ -133,10 +133,6 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 `the '${comparisonCommand}' command output could not be parsed, should be` +
                 ` an integer, got: ${allOutput.replace(/\s+$/g, '')}`);
 
-            if (result.status !== 0) {
-                return false;
-            }
-
             if (pixelError === 0) {
                 return true;
             }
@@ -153,6 +149,9 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
             // allow a 10 pixel difference only
             chai.assert(pixelError <= 10, `images differ in ${pixelError} pixels (command output: ${allOutput.replace(/\s+$/g, '')})`);
+
+            // if pixel error passes, but status is non-zero for some reason
+            chai.assert(result.status === 0, `the '${comparisonCommand}' command returned a non-zero status: ${result.status}. Output was ${allOutput.replace(/\s+$/g, '')}`);
 
             return true;
         }

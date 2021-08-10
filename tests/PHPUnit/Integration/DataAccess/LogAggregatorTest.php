@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
