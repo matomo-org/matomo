@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountry\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class LocationsSubcategory extends Subcategory
 {
@@ -16,4 +17,8 @@ class LocationsSubcategory extends Subcategory
     protected $id = 'UserCountry_SubmenuLocations';
     protected $order = 10;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('UserCountry_LocationsSubcategoryHelp') . '</p>';
+    }
 }

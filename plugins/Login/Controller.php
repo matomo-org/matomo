@@ -237,6 +237,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     function logme()
     {
+        if (Config::getInstance()->General['login_allow_logme'] == 0) {
+            throw new Exception('This functionality has been disabled in config');
+        }
+
         $password = Common::getRequestVar('password', null, 'string');
 
         $login = Common::getRequestVar('login', null, 'string');
@@ -310,6 +314,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // remove password reset entry if it exists
         $this->passwordResetter->removePasswordResetInfo($login);
+
+        $parsedUrl = parse_url($urlToRedirect);
+
+        // only use redirect url if host is trusted
+        if (!empty($parsedUrl['host']) && !Url::isValidHost($parsedUrl['host'])) {
+            $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "'.Common::sanitizeInputValue($parsedUrl['host']).'"</i> under <i>[General]</i>');
+            $e->setIsHtmlMessage();
+            throw $e;
+        }
 
         if (empty($urlToRedirect)) {
             $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));

@@ -309,7 +309,7 @@ describe("UsersManager", function () {
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_bulk_access_set',
-            comparisonThreshold: 0.0008
+            comparisonThreshold: 0.025
         });
     });
 
@@ -442,7 +442,7 @@ describe("UsersManager", function () {
 
         await page.waitFor('.notification-error', { visible: true });
 
-        const notificationHtml = await page.evaluate(() => $('.notification-error>div').html());
+        const notificationHtml = await page.evaluate(() => $('.notification-error>div>div').html());
         expect(notificationHtml).to.equal('The current password you entered is not correct.');
     });
 

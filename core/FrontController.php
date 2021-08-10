@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Manager;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
@@ -22,6 +23,7 @@ use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionInitializer;
+use Piwik\SupportedBrowser;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -154,7 +156,7 @@ class FrontController extends Singleton
         if (self::$enableDispatch === false) {
             return;
         }
-        
+
         $filter = new Router();
         $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {
@@ -252,6 +254,8 @@ class FrontController extends Singleton
 
     public static function triggerSafeModeWhenError()
     {
+        Manager::getInstance()->deleteAll();
+
         $lastError = error_get_last();
 
         if (!empty($lastError) && isset(self::$requestId)) {
@@ -408,7 +412,8 @@ class FrontController extends Singleton
                 && Piwik::isUserIsAnonymous()
                 && $authAdapter->getLogin() === 'anonymous' //double checking the login
                 && Piwik::isUserHasSomeViewAccess()
-                && Session::isSessionStarted()) { // only if session was started, don't do it eg for API
+                && Session::isSessionStarted()
+                && Session::isWritable()) { // only if session was started and writable, don't do it eg for API
                 // usually the session would be started when someone logs in using login controller. But in this
                 // case we need to init session here for anoynymous users
                 $init = StaticContainer::get(SessionInitializer::class);
@@ -416,6 +421,10 @@ class FrontController extends Singleton
             }
         } else {
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
+        }
+
+        if ($this->isSupportedBrowserCheckNeeded()) {
+            SupportedBrowser::checkIfBrowserSupported();
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
@@ -556,6 +565,11 @@ class FrontController extends Singleton
 
     private function handleProfiler()
     {
+        $profilerEnabled = Config::getInstance()->Debug['enable_php_profiler'] == 1;
+        if (!$profilerEnabled) {
+            return;
+        }
+
         if (!empty($_GET['xhprof'])) {
             $mainRun = $_GET['xhprof'] == 1; // core:archive command sets xhprof=2
             Profiler::setupProfilerXHProf($mainRun);
@@ -669,6 +683,10 @@ class FrontController extends Singleton
             return null;
         }
 
+        if (Common::getRequestVar('token_auth', '', 'string') !== '' && !Common::getRequestVar('force_api_session', 0)) {
+             return null;
+         }
+
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);
 
@@ -742,5 +760,45 @@ class FrontController extends Singleton
     {
         $requestId = self::getUniqueRequestId();
         Common::sendHeader("X-Matomo-Request-Id: $requestId");
+    }
+
+    private function isSupportedBrowserCheckNeeded()
+    {
+        if (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) {
+            return false;
+        }
+
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if ($userAgent === '') {
+            return false;
+        }
+
+        $isTestMode = defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
+        if (!$isTestMode && Common::isPhpCliMode() === true) {
+            return false;
+        }
+
+        if (Piwik::getModule() === 'API' && (empty(Piwik::getAction()) || Piwik::getAction() === 'index' || Piwik::getAction() === 'glossary')) {
+            return false;
+        }
+
+        if (Piwik::getModule() === 'Widgetize') {
+            return true;
+        }
+
+        $generalConfig = Config::getInstance()->General;
+        if ($generalConfig['enable_framed_pages'] == '1' || $generalConfig['enable_framed_settings'] == '1') {
+            return true;
+        }
+
+        if (Common::getRequestVar('token_auth', '', 'string') !== '') {
+            return true;
+        }
+
+        if (Piwik::isUserIsAnonymous()) {
+            return true;
+        }
+
+        return false;
     }
 }

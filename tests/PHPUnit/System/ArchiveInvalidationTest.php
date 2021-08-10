@@ -8,8 +8,12 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -25,12 +29,28 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class ArchiveInvalidationTest extends SystemTestCase
 {
+    const TEST_SEGMENT = 'pageUrl=@category%252F';
+
     /**
      * @var VisitsTwoWebsitesWithAdditionalVisits
      */
     public static $fixture = null; // initialized below class definition
 
     protected $suffix = '_NewDataShouldNotAppear';
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        self::addSegments();
+    }
+
+    private static function addSegments()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('segment 1', urlencode(self::TEST_SEGMENT));
+        Rules::setBrowserTriggerArchiving(true);
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -52,10 +72,10 @@ class ArchiveInvalidationTest extends SystemTestCase
         return array(
 
             array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . "_NewDataShouldNotAppear_BecauseDayWasNotInvalidated",
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
                                     'periods'                => 'day',
-                                    'segment'                => 'pageUrl=@category/',
+                                    'segment'                => self::TEST_SEGMENT,
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))
             ),
@@ -71,7 +91,7 @@ class ArchiveInvalidationTest extends SystemTestCase
                                     'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
                                     'periods'                => 'month',
-                                    'segment'                => 'pageUrl=@category/',
+                                    'segment'                => self::TEST_SEGMENT,
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))
             )
@@ -79,33 +99,33 @@ class ArchiveInvalidationTest extends SystemTestCase
     }
 
     /**
+     * test same api w/o invalidating or tracking (which also invalidates), (NewDataShouldNotAppear)
+     *
      * @depends      testApi
      * @dataProvider getApiForTesting
      */
     public function testSameApi($api, $params)
     {
-        $this->setBrowserArchivingTriggering(0);
-        self::$fixture->trackMoreVisits($params['idSite']);
-
-        $this->invalidateTestArchives();
+        Rules::setBrowserTriggerArchiving(false);
         $this->runApiTests($api, $params);
     }
 
     /**
+     * test same api after invalidating (NewDataShouldAppear)
+     *
      * @depends      testApi
      * @depends      testSameApi
-     * @dataProvider getAnotherApiForTesting
      */
-    public function testAnotherApi($api, $params)
+    public function testAnotherApi()
     {
-        if ($params['periods'] === 'month') {
-            // we do now need to invalidate days as well since weeks are based on weeks
-            $this->invalidateTestArchive(self::$fixture->idSite2, 'week', self::$fixture->dateTimeFirstDateWebsite2, true);
+        self::$fixture->trackMoreVisits(self::$fixture->idSite1);
+        self::$fixture->trackMoreVisits(self::$fixture->idSite2);
+
+        Rules::setBrowserTriggerArchiving(true);
+
+        foreach ($this->getAnotherApiForTesting() as list($api, $params)) {
+            $this->runApiTests($api, $params);
         }
-
-        $this->setBrowserArchivingTriggering(1);
-
-        $this->runApiTests($api, $params);
     }
 
     /**
@@ -123,11 +143,6 @@ class ArchiveInvalidationTest extends SystemTestCase
         return 'Archive_Invalidation';
     }
 
-    protected function setBrowserArchivingTriggering($value)
-    {
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = $value;
-    }
-
     protected function invalidateTestArchives()
     {
         $dateToInvalidate1 = new \DateTime(self::$fixture->dateTimeFirstDateWebsite1);
@@ -135,7 +150,8 @@ class ArchiveInvalidationTest extends SystemTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
-        // week reports only are invalidated and we test our daily report will still show old data.
+        // week reports only are invalidated. we test our daily report will show new data, even though weekly reports only are invalidated,
+        // because when we track data, it invalidates day periods as well.
         $this->invalidateTestArchive(self::$fixture->idSite2, 'week', self::$fixture->dateTimeFirstDateWebsite2);
     }
 

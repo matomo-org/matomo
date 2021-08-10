@@ -7,6 +7,7 @@
         "Resolutions": "解析度",
         "WidgetGlobalVisitors": "訪客裝置配置",
         "WidgetGlobalVisitorsDocumentation": "此報表顯示訪客中最常見的裝置配置。裝置配置包含作業系統、瀏覽器以及螢幕解析度。",
-        "WidgetResolutions": "螢幕解析度"
+        "WidgetResolutions": "螢幕解析度",
+        "WidgetResolutionsDocumentation": "這份報表顯示訪客瀏覽你的網站時使用的螢幕解析度。"
     }
 }

@@ -8,8 +8,7 @@
 
 namespace Piwik\Plugins\GeoIp2\tests\Unit;
 
-use Piwik\DataTable;
-use Piwik\DataTable\Row;
+use Piwik\Config;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 
 class public_GeoIP2AutoUpdater extends GeoIP2AutoUpdater
@@ -22,6 +21,10 @@ class public_GeoIP2AutoUpdater extends GeoIP2AutoUpdater
     public function fetchPaidDbIpUrl($url)
     {
         return parent::fetchPaidDbIpUrl($url);
+    }
+
+    public static function checkGeoIPUpdateUrl($url) {
+        return parent::checkGeoIPUpdateUrl($url);
     }
 }
 
@@ -145,5 +148,43 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
         $determinedUrl = $mock->fetchPaidDbIpUrl($url);
 
         $this->assertEquals('https://download.db-ip.com/key/ad446bf4cb9a44e4fff3f215deabc710f12f3.mmdb', $determinedUrl);
+    }
+
+    /**
+     * @dataProvider getUpdaterUrlOptions
+     */
+    public function testInvalidUpdateOptions($url, $valid)
+    {
+        if (!$valid) {
+            $this->expectException(\Exception::class);
+        } else {
+            $this->expectNotToPerformAssertions();
+        }
+        public_GeoIP2AutoUpdater::checkGeoIPUpdateUrl($url);
+    }
+
+    public function getUpdaterUrlOptions()
+    {
+        return [
+            ['https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=YOUR_LICENSE_KEY&suffix=tar.gz', true],
+            ['https://download.db-ip.com/key/ad446bf4cb9a44e4fff3f215deabc710f12f3.mmdb', true],
+            ['https://download.db-ip.com/free/dbip-city-lite-2020-01.mmdb.gz', true],
+            ['https://db-ip.com/account/ad446bf4cb9a44e5ff3f215deabc710f12f3/db/ip-to-country/mmdb', true],
+            ['https://www.ip2location.com/download/?token={DOWNLOAD_TOKEN}&file={DATABASE_CODE}', true],
+            ['https://download.maxmind.com.fake.org/app/geoip_download?edition_id=GeoLite2-ASN&license_key=YOUR_LICENSE_KEY&suffix=tar.gz', false],
+            ['https://fakemaxmind.com/ad446bf4cb9a44e4fff3f215deabc710f12f3.mmdb', false],
+            ['https://fake-db-ip.com/account/ad446bf4cb9a44e5ff3f215deabc710f12f3/db/ip-to-country/mmdb', false],
+            ['http://my.custom.host/download.tar.gz', false],
+            ['phar://local/input.file', false],
+            ['ftp://db-ip.com/account/ad446bf4cb9a44e4fff3f215deabc710f12f3/db/ip-to-country/mmdb', false],
+            ['http://matomo.org/download/geoip.mmdb', false],
+        ];
+    }
+
+    public function testsAdditionalGeoIPHostConfig()
+    {
+        $this->expectNotToPerformAssertions();
+        Config::getInstance()->General['geolocation_download_from_trusted_hosts'][] = 'matomo.org';
+        public_GeoIP2AutoUpdater::checkGeoIPUpdateUrl('http://matomo.org/download/geoip.mmdb');
     }
 }

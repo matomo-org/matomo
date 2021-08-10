@@ -30,10 +30,12 @@ describe("Login", function () {
     });
 
     after(async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '0')
         testEnvironment.testUseMockAuth = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
+        delete testEnvironment.configOverride.General;
         testEnvironment.save();
 
         await page.clearCookies();
@@ -44,6 +46,7 @@ describe("Login", function () {
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
+        delete testEnvironment.configOverride.General;
         testEnvironment.save();
     });
 
@@ -187,9 +190,21 @@ describe("Login", function () {
         await page.waitForSelector('#dashboard');
     });
 
-    it("should login successfully when formless login used", async function() {
+    it("should show error when formless login used, but disabled", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '0')
+        testEnvironment.save();
         await page.click("nav .right .icon-sign-out");
         await page.waitForNetworkIdle();
+
+        await page.goto(formlessLoginUrl);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_disabled');
+    });
+
+    it("should login successfully when formless login used", async function() {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.save();
+        await page.goto("about:blank");
         await page.goto(formlessLoginUrl);
 
         // check dashboard is shown
@@ -254,5 +269,26 @@ describe("Login", function () {
         await page.goto(formlessLoginUrl);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_blockedlogme');
+    });
+
+    it("should show invalid host warning if redirect url is not trusted in logme", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url="+encodeURIComponent("https://www.matomo.org/security"));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_redirect_invalid');
+    });
+
+    it("should redirect if host is trusted in logme", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1');
+        testEnvironment.overrideConfig('General', 'trusted_hosts', ["matomo.org"]);
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url="+encodeURIComponent("https://matomo.org/security/"));
+
+        expect(await page.getWholeCurrentUrl()).to.equal("https://matomo.org/security/");
     });
 });

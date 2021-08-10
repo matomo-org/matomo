@@ -267,12 +267,27 @@ class API extends \Piwik\Plugin\API
         }
 
         // move the site id to a metadata column 
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'group', array('\Piwik\Site', 'getGroupFor'), array()));
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'main_url', array('\Piwik\Site', 'getMainUrlFor'), array()));
+        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'group', function($idSite) {
+            if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
+                return '';
+            }
+            return Site::getGroupFor($idSite);
+        }, array()));
+        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'main_url', function($idSite) {
+            if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
+                return '';
+            }
+            return Site::getMainUrlFor($idSite);
+        }, array()));
 
         // set the label of each row to the site name
         if ($multipleWebsitesRequested) {
-            $dataTable->queueFilter('ColumnCallbackReplace', array('label', '\Piwik\Site::getNameFor'));
+            $dataTable->queueFilter('ColumnCallbackReplace', array('label', function($idSite) {
+                if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
+                    return Piwik::translate('General_Others');
+                }
+                return Site::getNameFor($idSite);
+            }));
         } else {
             $dataTable->queueFilter('ColumnDelete', array('label'));
         }

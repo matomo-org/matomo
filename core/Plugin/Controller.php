@@ -751,7 +751,11 @@ abstract class Controller
 
         $pluginManager = Plugin\Manager::getInstance();
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
-        $view->isMultiSitesEnabled = Manager::getInstance()->isPluginActivated('MultiSites');
+        $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
+        $view->isSingleSite = Access::doAsSuperUser(function() {
+            $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
+            return count($allSites) === 1;
+        });
 
         if (isset($this->site) && is_object($this->site) && $this->site instanceof Site) {
             $view->siteName = $this->site->getName();

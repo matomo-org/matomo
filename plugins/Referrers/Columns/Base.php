@@ -106,7 +106,7 @@ abstract class Base extends VisitDimension
 
         if (!$referrerDetected && !empty($this->referrerHost)) {
             $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_WEBSITE;
-            $this->nameReferrerAnalyzed = Common::mb_strtolower($this->referrerHost);
+            $this->nameReferrerAnalyzed = mb_strtolower($this->referrerHost);
 
             $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
@@ -421,8 +421,8 @@ abstract class Base extends VisitDimension
         // fallback logic if the referrer domain is not known to any site to not break BC
         if (!$excludeUnknowns && isset($this->currentUrlParse['host'])) {
             // this might be actually buggy if first thing tracked is eg an outlink and referrer is from that site
-            $currentHost = Common::mb_strtolower($this->currentUrlParse['host']);
-            if ($currentHost == Common::mb_strtolower($this->referrerHost)) {
+            $currentHost = mb_strtolower($this->currentUrlParse['host']);
+            if ($currentHost == mb_strtolower($this->referrerHost)) {
                 $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                 return true;
             }
@@ -493,10 +493,10 @@ abstract class Base extends VisitDimension
 
         $this->detectCampaignKeywordFromReferrerUrl();
 
-        $referrerNameAnalayzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
+        $referrerNameAnalayzed = mb_strtolower($this->nameReferrerAnalyzed);
         $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);
 
-        $isCurrentVisitACampaignWithSameName = Common::mb_strtolower($visitor->getVisitorColumn('referer_name')) == $referrerNameAnalayzed;
+        $isCurrentVisitACampaignWithSameName = mb_strtolower($visitor->getVisitorColumn('referer_name')) == $referrerNameAnalayzed;
         $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
 
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
@@ -522,8 +522,8 @@ abstract class Base extends VisitDimension
             return false;
         }
 
-        $this->keywordReferrerAnalyzed = Common::mb_strtolower($this->keywordReferrerAnalyzed);
-        $this->nameReferrerAnalyzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
+        $this->keywordReferrerAnalyzed = mb_strtolower($this->keywordReferrerAnalyzed);
+        $this->nameReferrerAnalyzed = mb_strtolower($this->nameReferrerAnalyzed);
         return true;
     }
 
@@ -612,10 +612,10 @@ abstract class Base extends VisitDimension
     {
         if ($type === Common::REFERRER_TYPE_CAMPAIGN) {
             if (!empty($name)) {
-                $name = Common::mb_strtolower($name);
+                $name = mb_strtolower($name);
             }
             if (!empty($keyword)) {
-                $keyword = Common::mb_strtolower($keyword);
+                $keyword = mb_strtolower($keyword);
             }
         }
     }
@@ -632,8 +632,8 @@ abstract class Base extends VisitDimension
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName));
-        $new = Common::mb_strtolower($information[$infoName]);
+        $existing = mb_strtolower($visitor->getVisitorColumn($infoName));
+        $new = mb_strtolower($information[$infoName]);
 
         $result = $existing != $new;
         if ($result) {
@@ -655,12 +655,12 @@ abstract class Base extends VisitDimension
 
     private function truncateReferrerName($name)
     {
-        return Common::mb_substr($name, 0, 255);
+        return mb_substr($name, 0, 255);
     }
 
     private function truncateReferrerKeyword($refererKeyword)
     {
-        return Common::mb_substr($refererKeyword, 0, 255);
+        return mb_substr($refererKeyword, 0, 255);
     }
 
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)

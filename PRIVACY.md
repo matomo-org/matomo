@@ -7,7 +7,7 @@ In this section we document how to protect the privacy of visitors who are track
 
 ### Anonymise visitor IP addresses
 By default, Matomo stores the visitor IP address (IPv4 or IPv6 format) in the database for each new visitor. 
-If a visitor has a static IP address this means her browsing history can be easily identified across several days and
+If a visitor has a static IP address this means their browsing history can be easily identified across several days and
 even across several websites tracked within the same Matomo server. You can anonymize IP addresses to ensure visitors cannot
 be tracked this way: [How to anonymise IP addresses.](https://matomo.org/docs/privacy/#step-1-automatically-anonymize-visitor-ips)
 

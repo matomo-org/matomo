@@ -122,7 +122,11 @@ class Sparklines extends ViewDataTable
         }
 
         $firstRow = $data->getFirstRow();
-        $comparisons = $firstRow->getComparisons();
+        if ($firstRow) {
+            $comparisons = $firstRow->getComparisons();
+        } else {
+            $comparisons = null;
+        }
 
         $originalDate = Common::getRequestVar('date');
         $originalPeriod = Common::getRequestVar('period');
@@ -257,7 +261,7 @@ class Sparklines extends ViewDataTable
         $table->applyQueuedFilters();
     }
 
-    private function getValuesAndDescriptions(DataTable\Row $firstRow, $columns, $evolutionColumnNameSuffix = null)
+    private function getValuesAndDescriptions($firstRow, $columns, $evolutionColumnNameSuffix = null)
     {
         if (!is_array($columns)) {
             $columns = array($columns);
@@ -270,7 +274,10 @@ class Sparklines extends ViewDataTable
         $evolutions = [];
 
         foreach ($columns as $col) {
-            $value = $firstRow->getColumn($col);
+            $value = 0;
+            if ($firstRow) {
+                $value = $firstRow->getColumn($col);
+            }
 
             if ($value === false) {
                 $value = 0;

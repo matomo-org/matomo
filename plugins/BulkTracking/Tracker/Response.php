@@ -25,6 +25,11 @@ class Response extends Tracker\Response
     private $isAuthenticated = false;
 
     /**
+     * @var bool
+     */
+    private $shouldSendResponse = true;
+
+    /**
      * Echos an error message & other information, then exits.
      *
      * @param Tracker $tracker
@@ -45,6 +50,11 @@ class Response extends Tracker\Response
     public function outputResponse(Tracker $tracker)
     {
         if ($this->hasAlreadyPrintedOutput()) {
+            return;
+        }
+
+        if (!$this->shouldSendResponse()) {
+            Common::sendResponseCode(204);
             return;
         }
 
@@ -90,6 +100,16 @@ class Response extends Tracker\Response
         $this->addInvalidIndicesIfAuthenticated($result);
 
         return $result;
+    }
+
+    public function setShouldSendResponse(bool $shouldSendResponse)
+    {
+        $this->shouldSendResponse = $shouldSendResponse;
+    }
+
+    public function shouldSendResponse(): bool
+    {
+        return $this->shouldSendResponse;
     }
 
     public function setInvalidRequests($invalidRequests)

@@ -34,7 +34,6 @@
         "SelectDefaultTimezone": "يمكنك تحديد منطقة زمنية افتراضية للمواقع الجديدة",
         "ShowTrackingTag": "عرض وسم التتبع",
         "Sites": "المواقع",
-        "SiteWithoutDataDescription": "لم يتم تتبُّع بيانات إحصاء لموقع الوب هذا حتى الآن.",
         "Timezone": "المنطقة الزمنية",
         "TrackingSiteSearch": "تتبُّع البحث الداخلي للموقع",
         "TrackingTags": "وسم التتبع لموقع %s",

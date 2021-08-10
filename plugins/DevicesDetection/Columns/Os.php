@@ -43,9 +43,9 @@ class Os extends Base
         $segment->setSqlFilterValue(function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
             $oss = array_map(function($val) {
-                return Common::mb_strtolower($val);
+                return mb_strtolower($val);
             }, $oss);
-            $result   = array_search(Common::mb_strtolower($val), $oss);
+            $result   = array_search(mb_strtolower($val), $oss);
 
             if ($result === false) {
                 $result = 'UNK';

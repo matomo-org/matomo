@@ -6,7 +6,7 @@
         "ColumnActionURL": "活動網址",
         "ColumnClicks": "點擊數",
         "ColumnClicksDocumentation": "此連結被點擊的次數。",
-        "ColumnDownloadURL": "下載連結（URL）",
+        "ColumnDownloadURL": "下載網址",
         "ColumnDownloadURLs": "下載網址",
         "ColumnEntryPageTitle": "到達網頁標題",
         "ColumnEntryPageURL": "到達網頁網址",
@@ -23,7 +23,7 @@
         "ColumnSearches": "搜尋數",
         "ColumnSearchesDocumentation": "訪客在你網站搜尋引擎所搜尋的關鍵字次數。",
         "ColumnSearchExits": "%% 搜尋離站數",
-        "ColumnSearchExitsDocumentation": "訪客在你網站搜尋引擎搜尋後即離開網站的百分比。",
+        "ColumnSearchExitsDocumentation": "訪客在你的網站的搜尋引擎搜尋此關鍵字後即離開網站的百分比。",
         "ColumnSearchResultsCount": "搜尋結果筆數",
         "ColumnSiteSearchKeywords": "不重複關鍵字數",
         "ColumnUniqueClicks": "不重複點擊數",
@@ -41,6 +41,7 @@
         "ExitPagesReportDocumentation": "這份報表包含指定期間內之離開網頁的相關資訊。所謂的離開網頁，是訪客離開網頁前最後瀏覽的頁面。%s 離開網頁的網址以資料夾結構顯示。",
         "ExitPageTitles": "離站網頁標題",
         "ExitPageTitlesReportDocumentation": "此報表包含關於指定期間內離站網頁之標題等資訊",
+        "MainMetricsReportDocumentation": "這份報表提供了訪客在你的網站上的基本活動概觀。",
         "OneSearch": "1 搜尋數",
         "OutlinkDocumentation": "離開連結是將訪客帶出網站的連結（到其他域名）。",
         "OutlinksReportDocumentation": "這份報表以分層列表顯示訪客所點擊的離開連結網址。",
@@ -78,6 +79,7 @@
         "WidgetSearchNoResultKeywords": "查無資料的關鍵字",
         "ActionType": "活動類型",
         "ActionTypes": "活動類型",
-        "Behaviour": "行為"
+        "Behaviour": "行為",
+        "PagesSubcategoryHelp3": "使用左邊的 +、- 圖示來導航。"
     }
 }

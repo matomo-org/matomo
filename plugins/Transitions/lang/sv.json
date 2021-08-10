@@ -9,7 +9,9 @@
         "NumDownloads": "%s nerladdningar",
         "NumOutlinks": "%s utlänkar",
         "TopX": "%s främsta etiketterna",
+        "FeatureDescription": "Transitions ger dig en rapport som visar de saker som dina besökare gjorde direkt före och efter visning av en viss sida. Den här sidan kommer att förklara hur du får åtkomst till, förstår och använder den kraftfulla Transitions-rapporten.",
         "AvailableInOtherReports": "Visste du att övergångar även finns som en radåtgärd i följande rapporter?",
+        "AvailableInOtherReports2": "För bara muspekaren över en rad i någon av dessa rapporter och klicka på övergångsikonen %s för att starta den.",
         "FromCampaigns": "Från kampanjer",
         "FromPreviousPages": "Från interna sidor",
         "FromPreviousPagesInline": "%s från interna sidor",
@@ -30,6 +32,9 @@
         "ToFollowingSiteSearches": "Interna Sökningar",
         "ToFollowingSiteSearchesInline": "%s interna sökningar",
         "XOfAllPageviews": "%s av alla sidvisningar",
-        "XOutOfYVisits": "%1$s (av %2$s)"
+        "XOutOfYVisits": "%1$s (av %2$s)",
+        "PageURLTransitions": "Sidans URL-övergångar",
+        "TransitionsSubcategoryHelp1": "Transitions ger dig en rapport som visar de saker som dina besökare gjorde direkt före och efter visning av en viss sida. Den här sidan kommer att förklara hur du får åtkomst till, förstår och använder den kraftfulla Transitions-rapporten.",
+        "TransitionsSubcategoryHelp2": "Mer detaljer"
     }
 }

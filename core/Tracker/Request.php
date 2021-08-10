@@ -73,7 +73,6 @@ class Request
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
         $this->isEmptyRequest = empty($params);
-        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than');
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -90,6 +89,9 @@ class Request
 
         // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
+
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than',
+            $this->getIdSiteIfExists());
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
@@ -148,7 +150,7 @@ class Request
      */
     protected function authenticateTrackingApi($tokenAuth)
     {
-        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
+        $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication', $this->getIdSiteIfExists());
 
         if ($shouldAuthenticate) {
             try {
@@ -238,11 +240,10 @@ class Request
 
     public function isRequestExcluded()
     {
-        $config = Config::getInstance();
-        $tracker = $config->Tracker;
+        $excludedRequests = TrackerConfig::getConfigValue('exclude_requests', $this->getIdSiteIfExists());
 
-        if (!empty($tracker['exclude_requests'])) {
-            $excludedRequests = explode(',', $tracker['exclude_requests']);
+        if (!empty($excludedRequests)) {
+            $excludedRequests = explode(',', $excludedRequests);
             $pattern = '/^(.+?)('.SegmentExpression::MATCH_EQUAL.'|'
                 .SegmentExpression::MATCH_NOT_EQUAL.'|'
                 .SegmentExpression::MATCH_CONTAINS.'|'
@@ -262,8 +263,8 @@ class Request
                         $valueRightMember = urldecode($matches[3]);
                     }
                     $actual = Common::getRequestVar($leftMember, '', 'string', $this->params);
-                    $actual = Common::mb_strtolower($actual);
-                    $valueRightMember = Common::mb_strtolower($valueRightMember);
+                    $actual = mb_strtolower($actual);
+                    $valueRightMember = mb_strtolower($valueRightMember);
                     switch ($operation) {
                         case SegmentExpression::MATCH_EQUAL:
                             if ($actual === $valueRightMember) {
@@ -543,7 +544,7 @@ class Request
             }
         }
 
-        return $cdt;
+        return (int) $cdt;
     }
 
     /**
@@ -587,6 +588,15 @@ class Request
         return $idSite;
     }
 
+    public function getIdSiteIfExists()
+    {
+        try {
+            return $this->getIdSite();
+        } catch (UnexpectedWebsiteFoundException $ex) {
+            return null;
+        }
+    }
+
     public function getIdSite()
     {
         if (isset($this->idSiteCache)) {
@@ -625,7 +635,7 @@ class Request
 
     public function shouldUseThirdPartyCookie()
     {
-        return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
+        return TrackerConfig::getConfigValue('use_third_party_id_cookie', $this->getIdSiteIfExists());
     }
 
     public function getThirdPartyCookieVisitorId()
@@ -685,22 +695,22 @@ class Request
 
     protected function getCookieName()
     {
-        return TrackerConfig::getConfigValue('cookie_name');
+        return TrackerConfig::getConfigValue('cookie_name', $this->getIdSiteIfExists());
     }
 
     protected function getCookieExpire()
     {
-        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire');
+        return $this->getCurrentTimestamp() + TrackerConfig::getConfigValue('cookie_expire', $this->getIdSiteIfExists());
     }
 
     protected function getCookiePath()
     {
-        return TrackerConfig::getConfigValue('cookie_path');
+        return TrackerConfig::getConfigValue('cookie_path', $this->getIdSiteIfExists());
     }
 
     protected function getCookieDomain()
     {
-        return TrackerConfig::getConfigValue('cookie_domain');
+        return TrackerConfig::getConfigValue('cookie_domain', $this->getIdSiteIfExists());
     }
 
     /**
@@ -716,7 +726,7 @@ class Request
     {
         $found = false;
 
-        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid')) {
+        if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
             // If User ID is set it takes precedence
             $userId = $this->getForcedUserId();
             if ($userId) {

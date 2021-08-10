@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>matomo statistics - RSS</title>
+    <link>https://matomo.org</link>
+    <description>Matomo RSS feed</description>
+    <pubDate>Tue, 20 Oct 2020 20:10:20 +0000</pubDate>
+    <generator>matomo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 20 Oct 2020 20:10:20 +0000</lastBuildDate>
+	<item>
+		<pubDate>Tue, 21 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-21</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-21</link>
+		<title>Site AAAAAA on 2010-12-21</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Mon, 20 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-20</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-20</link>
+		<title>Site AAAAAA on 2010-12-20</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Sun, 19 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-19</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-19</link>
+		<title>Site AAAAAA on 2010-12-19</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Sat, 18 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-18</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-18</link>
+		<title>Site AAAAAA on 2010-12-18</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Fri, 17 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-17</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-17</link>
+		<title>Site AAAAAA on 2010-12-17</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Thu, 16 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-16</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-16</link>
+		<title>Site AAAAAA on 2010-12-16</title>
+		<author>https://matomo.org</author>
+		<description>&lt;strong&gt;&lt;em&gt;Empty table&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;</description>
+	</item>
+	<item>
+		<pubDate>Wed, 15 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-15</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-15</link>
+		<title>Site AAAAAA on 2010-12-15</title>
+		<author>https://matomo.org</author>
+		<description>&lt;table border=1 width=70%&gt;&lt;tr&gt;	&lt;td&gt;&lt;strong&gt;label&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_visits&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_uniq_visitors&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_hits&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;sum_time_spent&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;sum_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_hits_with_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;min_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;max_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_nb_uniq_visitors&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_nb_visits&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_nb_actions&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_sum_visit_length&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_bounce_count&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;avg_time_on_page&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;bounce_rate&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;exit_rate&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;avg_bandwidth&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;	&lt;td&gt;/homepage&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;360&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;	&lt;td&gt;-&lt;/td&gt;	&lt;td&gt;-&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;2&lt;/td&gt;	&lt;td&gt;361&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;	&lt;td&gt;360&lt;/td&gt;	&lt;td&gt;0%&lt;/td&gt;	&lt;td&gt;0%&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</description>
+	</item>
+	<item>
+		<pubDate>Tue, 14 Dec 2010 00:00:00 +0000</pubDate>
+		<guid>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-14</guid>
+		<link>http://example.com/piwik/tests/PHPUnit/proxy/?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=2010-12-14</link>
+		<title>Site AAAAAA on 2010-12-14</title>
+		<author>https://matomo.org</author>
+		<description>&lt;table border=1 width=70%&gt;&lt;tr&gt;	&lt;td&gt;&lt;strong&gt;label&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_visits&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_uniq_visitors&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_hits&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;sum_time_spent&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;sum_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;nb_hits_with_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;min_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;max_bandwidth&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_nb_uniq_visitors&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_nb_visits&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_nb_actions&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_sum_visit_length&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;entry_bounce_count&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;avg_time_on_page&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;bounce_rate&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;exit_rate&lt;/strong&gt;&lt;/td&gt;	&lt;td&gt;&lt;strong&gt;avg_bandwidth&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;	&lt;td&gt;/homepage&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;360&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;	&lt;td&gt;-&lt;/td&gt;	&lt;td&gt;-&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;1&lt;/td&gt;	&lt;td&gt;2&lt;/td&gt;	&lt;td&gt;361&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;	&lt;td&gt;360&lt;/td&gt;	&lt;td&gt;0%&lt;/td&gt;	&lt;td&gt;0%&lt;/td&gt;	&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</description>
+	</item>
+	</channel>
+</rss>

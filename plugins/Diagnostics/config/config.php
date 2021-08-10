@@ -1,6 +1,7 @@
 <?php
 
 use Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingLastRunCheck;
+use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
 
 return array(
     // Diagnostics for everything that is required for Piwik to run
@@ -15,6 +16,7 @@ return array(
     ),
     // Diagnostics for recommended features
     'diagnostics.optional' => array(
+        DI\get(RequiredPrivateDirectories::class),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\TrackerCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck'),
@@ -40,6 +42,7 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ServerInformational'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\ReportInformational'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\UserInformational'),
+        DI\get(\Piwik\Plugins\Diagnostics\Diagnostic\ArchiveInvalidationsInformational::class),
     ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),

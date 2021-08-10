@@ -15,6 +15,7 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 
 class Actions extends BaseFilter
 {
@@ -66,6 +67,14 @@ class Actions extends BaseFilter
                     $label = $row->getColumn('label');
                     if ($url) {
                         $row->setMetadata('segmentValue', urlencode($url));
+
+                        if ($site && strpos($url, 'http://') === 0) {
+                            $host = parse_url($url, PHP_URL_HOST);
+
+                            if ($host && PageUrl::shouldUseHttpsHost($site->getId(), $host)) {
+                                $row->setMetadata('url', 'https://' . mb_substr($url, 7 /* = strlen('http://') */));
+                            }
+                        }
                     } else if ($folderUrlStart) {
                         $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
                     } else if ($pageTitlePath) {

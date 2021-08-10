@@ -9,13 +9,11 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Access;
-use Piwik\Config;
+use Piwik\Cache as PiwikCache;
 use Piwik\Db;
-use Piwik\DbHelper;
-use Piwik\Menu\MenuAbstract;
+use Piwik\EventDispatcher;
 use Piwik\Option;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
@@ -85,13 +83,16 @@ abstract class IntegrationTestCase extends SystemTestCase
         Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
-        
+
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);
         }
 
+        // Note: we can't clear all in memory caches at this point
+        // Otherwise fixtures can't be used to e.g. manipulate static instances
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
+        EventDispatcher::getInstance()->clearCache();
         Option::clearCache();
     }
 
@@ -100,7 +101,7 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public function tearDown(): void
     {
-        static::$fixture->clearInMemoryCaches();
+        Fixture::clearInMemoryCaches();
         static::$fixture->destroyEnvironment();
 
         parent::tearDown();

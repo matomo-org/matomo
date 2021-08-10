@@ -892,6 +892,7 @@
 		<action>getUsers</action>
 		<dimension>UserId</dimension>
 		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/user-id/</onlineGuideUrl>
 		<metrics>
 			<label>Label</label>
 			<nb_visits>Visits</nb_visits>

@@ -11,22 +11,27 @@
 	<row>BlackBerry OS</row>
 	<row>BlackBerry Tablet OS</row>
 	<row>Brew</row>
+	<row>Caixa Mágica</row>
 	<row>CentOS</row>
 	<row>Chrome OS</row>
 	<row>CyanogenMod</row>
 	<row>Debian</row>
 	<row>Deepin</row>
 	<row>DragonFly</row>
+	<row>DVKBuntu</row>
 	<row>Fedora</row>
+	<row>Fenix</row>
 	<row>Firefox OS</row>
 	<row>Fire OS</row>
 	<row>Freebox</row>
 	<row>FreeBSD</row>
 	<row>FydeOS</row>
 	<row>Gentoo</row>
+	<row>GridOS</row>
 	<row>Google TV</row>
 	<row>HP-UX</row>
 	<row>Haiku OS</row>
+	<row>HasCodingOS</row>
 	<row>IRIX</row>
 	<row>Inferno</row>
 	<row>KaiOS</row>
@@ -34,9 +39,11 @@
 	<row>Kubuntu</row>
 	<row>GNU/Linux</row>
 	<row>Lubuntu</row>
+	<row>Lumin OS</row>
 	<row>VectorLinux</row>
 	<row>Mac</row>
 	<row>Maemo</row>
+	<row>Mageia</row>
 	<row>Mandriva</row>
 	<row>MeeGo</row>
 	<row>MocorDroid</row>
@@ -52,6 +59,7 @@
 	<row>OSF1</row>
 	<row>OpenBSD</row>
 	<row>Ordissimo</row>
+	<row>PCLinuxOS</row>
 	<row>PlayStation Portable</row>
 	<row>PlayStation</row>
 	<row>Red Hat</row>

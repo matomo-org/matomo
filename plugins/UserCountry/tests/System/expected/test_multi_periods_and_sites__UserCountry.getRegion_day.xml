@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<row>
+				<label>Bourgogne-Franche-Comté, France</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==BFC;countryCode==fr</segment>
+				<region>BFC</region>
+				<country>fr</country>
+				<country_name>France</country_name>
+				<region_name>Bourgogne-Franche-Comté</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+			</row>
+			<row>
+				<label>British Columbia, Canada</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==BC;countryCode==ca</segment>
+				<region>BC</region>
+				<country>ca</country>
+				<country_name>Canada</country_name>
+				<region_name>British Columbia</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+			</row>
+			<row>
+				<label>Unknown</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<region>xx</region>
+				<country>xx</country>
+				<country_name>Unknown</country_name>
+				<region_name>Unknown</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+			</row>
+			<row>
+				<label>Warwickshire, United Kingdom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==WAR;countryCode==gb</segment>
+				<region>WAR</region>
+				<country>gb</country>
+				<country_name>United Kingdom</country_name>
+				<region_name>Warwickshire</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			</row>
+		</result>
+		<result date="2010-01-04">
+			<row>
+				<label>British Columbia, Canada</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>4</nb_visits>
+				<nb_actions>10</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>3244</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>4</nb_conversions>
+						<nb_visits_converted>4</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>6</nb_conversions>
+				<revenue>30</revenue>
+				<segment>regionCode==BC;countryCode==ca</segment>
+				<region>BC</region>
+				<country>ca</country>
+				<country_name>Canada</country_name>
+				<region_name>British Columbia</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+			</row>
+			<row>
+				<label>Unknown</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<region>xx</region>
+				<country>xx</country>
+				<country_name>Unknown</country_name>
+				<region_name>Unknown</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+			</row>
+			<row>
+				<label>Warwickshire, United Kingdom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==WAR;countryCode==gb</segment>
+				<region>WAR</region>
+				<country>gb</country>
+				<country_name>United Kingdom</country_name>
+				<region_name>Warwickshire</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			</row>
+		</result>
+		<result date="2010-01-05">
+			<row>
+				<label>Unknown</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<region>xx</region>
+				<country>xx</country>
+				<country_name>Unknown</country_name>
+				<region_name>Unknown</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+			</row>
+			<row>
+				<label>Warwickshire, United Kingdom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==WAR;countryCode==gb</segment>
+				<region>WAR</region>
+				<country>gb</country>
+				<country_name>United Kingdom</country_name>
+				<region_name>Warwickshire</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			</row>
+		</result>
+	</result>
+	<result idSite="2">
+		<result date="2010-01-03">
+			<row>
+				<label>Unknown</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>4</nb_visits>
+				<nb_actions>12</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>3242</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>4</nb_conversions>
+						<nb_visits_converted>4</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>6</nb_conversions>
+				<revenue>30</revenue>
+				<region>xx</region>
+				<country>xx</country>
+				<country_name>Unknown</country_name>
+				<region_name>Unknown</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+			</row>
+			<row>
+				<label>Warwickshire, United Kingdom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==WAR;countryCode==gb</segment>
+				<region>WAR</region>
+				<country>gb</country>
+				<country_name>United Kingdom</country_name>
+				<region_name>Warwickshire</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			</row>
+			<row>
+				<label>Xizang Zizhiqu, China</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==XZ;countryCode==cn</segment>
+				<region>XZ</region>
+				<country>cn</country>
+				<country_name>China</country_name>
+				<region_name>Xizang Zizhiqu</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+			</row>
+		</result>
+		<result date="2010-01-04">
+			<row>
+				<label>Unknown</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>4</nb_visits>
+				<nb_actions>10</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>3244</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>4</nb_conversions>
+						<nb_visits_converted>4</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>6</nb_conversions>
+				<revenue>30</revenue>
+				<region>xx</region>
+				<country>xx</country>
+				<country_name>Unknown</country_name>
+				<region_name>Unknown</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+			</row>
+			<row>
+				<label>Lazio, Italy</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==62;countryCode==it</segment>
+				<region>62</region>
+				<country>it</country>
+				<country_name>Italy</country_name>
+				<region_name>Lazio</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+			</row>
+			<row>
+				<label>Warwickshire, United Kingdom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==WAR;countryCode==gb</segment>
+				<region>WAR</region>
+				<country>gb</country>
+				<country_name>United Kingdom</country_name>
+				<region_name>Warwickshire</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			</row>
+		</result>
+		<result date="2010-01-05">
+			<row>
+				<label>British Columbia, Canada</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==BC;countryCode==ca</segment>
+				<region>BC</region>
+				<country>ca</country>
+				<country_name>Canada</country_name>
+				<region_name>British Columbia</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+			</row>
+			<row>
+				<label>Warwickshire, United Kingdom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<segment>regionCode==WAR;countryCode==gb</segment>
+				<region>WAR</region>
+				<country>gb</country>
+				<country_name>United Kingdom</country_name>
+				<region_name>Warwickshire</region_name>
+				<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			</row>
+		</result>
+	</result>
+</results>

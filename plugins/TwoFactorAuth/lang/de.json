@@ -39,11 +39,13 @@
         "SetupAuthenticatorOnDeviceStep2": "Als nächstes öffnen Sie die App und scannen Sie den untenstehenden Barcode mit der Zwei-Faktor-Authentisierung App auf Ihrem Gerät. Wenn Sie den Barcode nicht scannen können, geben Sie stattdessen %1$sdiesen Code ein%2$s.",
         "SetupBackupRecoveryCodes": "Bitte sichern Sie Ihre Recovery Codes, in dem Sie eine der untenstehenden Methoden verwenden, bevor Sie mit der Installation für die Zwei-Faktor-Authentisierung fortfahren.",
         "RecoveryCodes": "Wiederherstellungscodes",
-        "RecoveryCodesExplanation": "Sie können Recovery Codes verwenden um auf Ihr Benutzerkonto zuzugreiffen wenn Sie die Zwei-Faktor-Authentisierung Codes nicht erhalten, zum Beispiel wenn Sie Ihr mobiles Gerät nicht dabei haben.",
+        "RecoveryCodesExplanation": "Sie können Recovery Codes verwenden um auf Ihr Benutzerkonto zuzugreifen wenn Sie die Zwei-Faktor-Authentisierung Codes nicht erhalten, zum Beispiel wenn Sie Ihr mobiles Gerät nicht dabei haben.",
         "RecoveryCodesSecurity": "Bitte behandeln Sie Ihre Recovery Codes mit derselben Sicherheitsintensität wie Sie Ihr Passwort behanden.",
         "RecoveryCodesAllUsed": "Alle Recovery Codes wurden verwendet, es wird wärmstens empfohlen Ihre Recovery Codes zu regenerieren.",
         "RecoveryCodesRegenerated": "Recovery Codes wurden regeneriert. Stellen Sie sicher, dass die neu generierten Codes heruntergeladen oder ausgedruckt werden.",
         "GenerateNewRecoveryCodes": "Einen neuen Wiederherstellungscode generieren",
-        "GenerateNewRecoveryCodesInfo": "Wenn Sie neue Recovery Codes generieren, werden Ihre alten nicht mehr funktionieren. Stellen Sie sicher dass Sie die neuen Codes herunterladen oder ausdrucken."
+        "GenerateNewRecoveryCodesInfo": "Wenn Sie neue Recovery Codes generieren, werden Ihre alten nicht mehr funktionieren. Stellen Sie sicher dass Sie die neuen Codes herunterladen oder ausdrucken.",
+        "RequireTwoFAForAll": "Zwei-Faktor Authentifizierung für alle benötigt",
+        "RequireTwoFAForAllInformation": "Wenn angewählt, muss jeder Benutzer sich per Zwei-Faktor Authentifizierung anmelden. 2FA zu erzwingen hat zur Folge, dass alle Benutzer Zugang zu einem Gerät haben müssen, auf welchem eine Authentifizierungs-App installierbar ist. Sie können diese Funktion nur aktivieren wenn Sie die Zwei-Faktor-Authentifizierung bereits bei sich aktiviert haben."
     }
 }

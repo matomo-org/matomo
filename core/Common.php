@@ -184,21 +184,13 @@ class Common
      *
      * @param string $string
      * @param int $start
-     * @param int ...      optional length
+     * @param int|null $length      optional length
      * @return string
-     * @api
+     * @deprecated since 4.4 - directly use mb_substr instead
      */
-    public static function mb_substr($string, $start)
+    public static function mb_substr($string, $start, $length = null)
     {
-        $length = func_num_args() > 2
-            ? func_get_arg(2)
-            : self::mb_strlen($string);
-
-        if (function_exists('mb_substr')) {
-            return mb_substr($string, $start, $length, 'UTF-8');
-        }
-
-        return substr($string, $start, $length);
+        return mb_substr($string, $start, $length, 'UTF-8');
     }
 
     /**
@@ -233,15 +225,11 @@ class Common
      *
      * @param string $string
      * @return int
-     * @api
+     * @deprecated since 4.4 - directly use mb_strlen instead
      */
     public static function mb_strlen($string)
     {
-        if (function_exists('mb_strlen')) {
-            return mb_strlen($string, 'UTF-8');
-        }
-
-        return strlen($string);
+        return mb_strlen($string, 'UTF-8');
     }
 
     /**
@@ -251,16 +239,11 @@ class Common
      *
      * @param string $string
      * @return string
-     * @api
+     * @deprecated since 4.4 - directly use mb_strtolower instead
      */
     public static function mb_strtolower($string)
     {
-        if (function_exists('mb_strtolower')) {
-            return mb_strtolower($string, 'UTF-8');
-        }
-
-        // return unchanged string as using `strtolower` might cause unicode problems
-        return $string;
+        return mb_strtolower($string, 'UTF-8');
     }
 
     /**
@@ -270,16 +253,11 @@ class Common
      *
      * @param string $string
      * @return string
-     * @api
+     * @deprecated since 4.4 - directly use mb_strtoupper instead
      */
     public static function mb_strtoupper($string)
     {
-        if (function_exists('mb_strtoupper')) {
-            return mb_strtoupper($string, 'UTF-8');
-        }
-
-        // return unchanged string as using `strtoupper` might cause unicode problems
-        return $string;
+        return mb_strtoupper($string, 'UTF-8');
     }
 
     /**

@@ -510,6 +510,7 @@ class QueueConsumer
         $hash = substr($flag, 4);
         $storedSegment = $this->segmentArchiving->findSegmentForHash($hash, $archive['idsite']);
         if (!isset($storedSegment['definition'])) {
+            $this->logger->debug("Could not find stored segment for done flag hash: $flag");
             $archive['segment'] = null;
             return false;
         }

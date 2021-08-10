@@ -82,7 +82,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         $translationWriter->addFilter(new EmptyTranslations());
         $translationWriter->addFilter(new ByParameterCount($baseTranslations));
         $translationWriter->addFilter(new UnnecassaryWhitespaces($baseTranslations));
-        $translationWriter->addFilter(new EncodedEntities());
+        $translationWriter->addFilter(new EncodedEntities($baseTranslations));
 
         $translations = $translationWriter->getTranslations($language);
 

@@ -7,14 +7,18 @@
         "ContentInteractions": "Inhaltsinteraktionen",
         "InteractionRate": "Interaktionsrate",
         "ContentName": "Inhaltsname",
+        "ContentNameReportDocumentation": "Dieser Bericht zeigt die Namen der Inhalte, welche Ihren Besuchern gezeigt wurden und mit denen sie interagiert haben.",
         "ContentNames": "Inhaltnamen",
         "ContentPiece": "Inhaltsteil",
+        "ContentPieceReportDocumentation": "Dieser Bericht zeigt die Inhaltsteile, welche Ihren Besuchern gezeigt wurden und mit denen sie interagiert haben.",
         "ContentPieces": "Inhaltteile",
         "ContentTarget": "Inhaltsziel",
         "ContentTargets": "Inhaltziele",
         "Contents": "Inhalte",
         "InteractionsMetricDocumentation": "Die Anzahl, wie häufig mit einem Inhalt interagiert wurde (z.B. durch einen Klick auf ein Banner oder eine Anzeige).",
         "ImpressionsMetricDocumentation": "Die Anzahl, wie häufig ein Inhalt, z.b. ein Banner oder eine Anzeige, auf der Seite angezeigt wurden.",
-        "InteractionRateMetricDocumentation": "Verhältnis zwischen Impressionen des Inhalts und Interaktionen."
+        "InteractionRateMetricDocumentation": "Verhältnis zwischen Impressionen des Inhalts und Interaktionen.",
+        "ContentsSubcategoryHelp1": "Content Tracking hilft Ihnen die Popularität spezifischer Inhalte ihrer einzelnen Seiten Ihrer Webseite oder App aufzuzeigen. Dieser Bereich zeigt die Anzahl der Impressionen und Interaktionen der verschiedenen Teile von Inhalten, die Ihre Seite enthält.",
+        "ContentsSubcategoryHelp2": "Weitere Informationen finden Sie in der Anleitung zur Erfassung von Inhalten."
     }
 }

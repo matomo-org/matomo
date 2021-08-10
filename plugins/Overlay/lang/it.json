@@ -3,8 +3,8 @@
         "Clicks": "%s clicks",
         "ClicksFromXLinks": "%1$s clicks per uno di %2$s links",
         "Domain": "Dominio",
-        "ErrorNotLoading": "La sessione di Overlay Pagina non può ancora essere lanciata.",
-        "ErrorNotLoadingDetails": "Forse la pagina caricata sulla destra non ha il codice di tracking di Matomo. In questo caso prova a lanciare Overlay per una pagina diversa dal report pagine.",
+        "ErrorNotLoading": "La sessione di Pagina Overlay non può ancora essere lanciata.",
+        "ErrorNotLoadingDetails": "Forse la pagina caricata sulla destra non ha il codice di tracking di Matomo. In questo caso prova a lanciare Overlay per una pagina diversa nel report pagine.",
         "ErrorNotLoadingDetailsSSL": "Dal momento che si sta utilizzando Matomo su HTTPS, la causa più probabile è che il vostro sito web non supporti SSL. Prova a utilizzare Matomo su HTTP.",
         "ErrorNotLoadingLink": "Ottieni altri suggerimenti sui problemi",
         "Link": "Link",
@@ -16,6 +16,7 @@
         "PluginDescription": "Vedi i tuoi dati statistici in sovrapposizione al tuo sito web. Guarda quante volte i tuoi utenti hanno cliccato su ciascun link. Nota: Richiede che sia abilitato il plugin Transitions.",
         "RedirectUrlError": "Stai tentando di aprire Overlay Pagina per l'URL \"%1$s\". %2$sNessuno dei domini delle impostazioni Matomo corrisponde al link.",
         "RedirectUrlErrorAdmin": "È possibile aggiungere il dominio come un ulteriore URL nelle %1$simpostazioni%2$s.",
-        "RedirectUrlErrorUser": "Chiedi all'amministratore di aggiungere il dominio come un URL aggiuntivo."
+        "RedirectUrlErrorUser": "Chiedi all'amministratore di aggiungere il dominio come un URL aggiuntivo.",
+        "ErrorNoSiteUrls": "ATTENZIONE: questo sito web non ha URL del sito definiti in Matomo. Ciò potrebbe causare l'interruzione o un comportamento strano di Overlay e di altre funzionalità. Per risolvere questo problema, aggiungi un URL nelle impostazioni di questo sito eeb nella sezione Amministrazione di Matomo."
     }
 }

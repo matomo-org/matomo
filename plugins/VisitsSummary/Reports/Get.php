@@ -43,13 +43,18 @@ class Get extends \Piwik\Plugin\Report
             new AverageTimeOnSite()
         );
         $this->metrics = array(
-            'nb_uniq_visitors',
             'nb_visits',
             $this->usersColumn,
             'nb_actions',
             'max_actions',
             'nb_profilable',
         );
+
+        $period = Common::getRequestVar('period', 'day');
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+            $this->metrics = array_merge(['nb_uniq_visitors'], $this->metrics);
+        }
+
         $this->subcategoryId = 'General_Overview';
         // Used to process metrics, not displayed/used directly
 //								'sum_visit_length',

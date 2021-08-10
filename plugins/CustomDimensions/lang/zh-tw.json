@@ -36,7 +36,7 @@
         "DimensionUpdated": "自訂維度已更新",
         "ColumnUniqueActions": "不重複活動數",
         "ColumnAvgTimeOnDimension": "維度上平均停留時間",
-        "CustomDimensionId": "自訂維度 (Id %d)",
+        "CustomDimensionId": "自訂維度（Id %d）",
         "NoValue": "無值",
         "EmptyValue": "空值"
     }

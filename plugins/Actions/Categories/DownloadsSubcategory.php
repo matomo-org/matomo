@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class DownloadsSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class DownloadsSubcategory extends Subcategory
     protected $id = 'General_Downloads';
     protected $order = 35;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('Actions_DownloadsSubcategoryHelp1') . '</p>'
+            . '<p>' . Piwik::translate('Actions_DownloadsSubcategoryHelp2') . '</p>';
+    }
 }

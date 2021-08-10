@@ -30,6 +30,7 @@
         "WidgetLocalTime": "Odwiedziny według lokalnego czasu",
         "WidgetLocalTimeDocumentation": "Ten wykres pokazuje godzinę w %1$s strefie czasowej odwiedzających %2$s podczas ich wizyty.",
         "WidgetServerTime": "Odwiedziny według czasu serwera",
-        "WidgetServerTimeDocumentation": "Ten wykres pokazuje godzinę w %1$s strefie czasowej serwera %2$s podczas odwiedzin."
+        "WidgetServerTimeDocumentation": "Ten wykres pokazuje godzinę w %1$s strefie czasowej serwera %2$s podczas odwiedzin.",
+        "TimesSubcategoryHelp": "Sekcja Czasy odwiedzin pokazuje Ci kiedy Internauci odwiedzają Twoją stronę. Możesz zobaczyć o jakich godzinach swojego czasu użytkownicy odwiedzają Cię, dzięki czemu możesz zrozumieć rolę strony w ich życiu. Dodatkowo zobaczysz tu najpopularniejsze godziny względem czasu serwera, dzięki czemu określisz wyzwania stojące przed Twoją infrastrukturą."
     }
 }

@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Webbläsarspråk",
         "LanguageCode": "Språkkod",
-        "PluginDescription": "Språk som används i besökarens webbläsare."
+        "PluginDescription": "Språk som används i besökarens webbläsare.",
+        "getLanguageDocumentation": "Denna rapport visar vilket språk besökarens webbläsare använder. (t.ex. \"engelska\")",
+        "getLanguageCodeDocumentation": "Denna rapport visar vilken exakt språkkod besökarens webbläsare är inställd på. (t.ex. \"tyska - Österrike (de-at)\")"
     }
 }

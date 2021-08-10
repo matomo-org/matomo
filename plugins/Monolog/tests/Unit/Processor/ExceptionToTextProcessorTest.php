@@ -60,7 +60,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
     public function it_should_replace_message_with_formatted_exception()
     {
         $processor = new ExceptionToTextProcessor();
-        Log::$debugBacktraceForTests = '[stack trace]';
+        Log::$debugBacktraceForTests = '[message and stack trace]';
 
         $exception = new \Exception('Hello world');
         $record = array(
@@ -72,7 +72,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(65): Hello world\n[stack trace]",
+            'message' => __FILE__ . "(65): [message and stack trace] [Query: , CLI mode: 1]",
             'context' => array(
                 'exception' => $exception,
             ),
@@ -87,7 +87,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
     public function it_should_add_severity_for_errors()
     {
         $processor = new ExceptionToTextProcessor();
-        Log::$debugBacktraceForTests = '[stack trace]';
+        Log::$debugBacktraceForTests = '[message and stack trace]';
 
         $exception = new \ErrorException('Hello world', 0, 1, 'file.php', 123);
         $record = array(
@@ -99,7 +99,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => "file.php(123): Error - Hello world\n[stack trace]",
+            'message' => "file.php(123): [message and stack trace] [Query: , CLI mode: 1]",
             'context' => array(
                 'exception' => $exception,
             ),
@@ -240,6 +240,7 @@ EOI;
         $wholeTrace = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exArray);
 
         $expected = <<<EOI
+themessage
 thestacktrace
 EOI;
 
@@ -255,7 +256,7 @@ EOI;
 
         $wholeTrace = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exArray);
 
-        $expected = '';
+        $expected = 'themessage';
 
         $this->assertEquals($expected, $wholeTrace);
     }

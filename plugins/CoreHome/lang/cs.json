@@ -16,6 +16,7 @@
         "DataTableHowToSearch": "Pro hledání stiskněte enter, nebo klikněte na ikonu vyhledávání",
         "DataTableShowDimensions": "Rozměry jsou kombinovány %s Zobrazit rozměry samostatně",
         "DataTableCombineDimensions": "Rozměry jsou zobrazeny samostatně %s Zobrazit rozměry dohromady",
+        "DateInvalid": "Uvedená kombinace data a období je neplatná. Vyberte prosím platné datum.",
         "Default": "výchozí",
         "DonateCall1": "Matomo lze používat zadarmo, to ale neznamená, že jeho vývoj nic nestojí.",
         "DonateCall2": "Matomo potřebuje Vaši podporu, aby mohl růst a prosperovat.",
@@ -23,6 +24,7 @@
         "EndShortcut": "Konec",
         "EnterZenMode": "Vstup do režimu Zen (skrýt nabídky)",
         "ExitZenMode": "Ukončit režim Zen (zobrazit nabídky)",
+        "ExceptionNotAllowlistedIP": "Nemůžete použít toto Matomo, protože vaše IP %s není povolena.",
         "ExcludeRowsWithLowPopulation": "Všechny řádky jsou zobrazeny %s Vyloučit nízkou populaci",
         "ExternalHelp": "Nápověda (otevře se v nové záložce)",
         "FlattenDataTable": "Hlášení je hierarchické %s Zploštit",
@@ -30,6 +32,7 @@
         "ShowExportUrl": "Zobrazit URL exportu",
         "HideExportUrl": "Skrýt URL exportu",
         "HomeShortcut": "Domů",
+        "SupportUsOn": "Podpořte nás na",
         "IncludeRowsWithLowPopulation": "Řádky s nízkou populací jsou skryty %s Zobrazit všechny řádky",
         "InjectedHostEmailBody": "Ahoj. Dnes jsem se snažil dostat do \\Matomou a dostal jsem varování o neznámém ménu hostitele.",
         "InjectedHostEmailSubject": "K Matomo bylo přistupováno s neznámým jménem hostitele %s",
@@ -42,6 +45,8 @@
         "VisitTypeReturning": "Návraty",
         "VisitTypeReturningCustomer": "Věrný zákazník",
         "MainNavigation": "Hlavní navigace",
+        "YourDonationWillHelp": "Váš dar přímo pomůže financovat nové funkce a vylepšení této analytické platformy s otevřeným zdrojovým kódem. To znamená, že komunita bude vždy těžit z nástroje, který chrání soukromí a umožní vám mít kontrolu nad svými daty.",
+        "ThanksFromAllOfUs": "Díky vám od nás všech na Matomo!",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jste přihlášen jako '%1$s' ale zdá se, že nemáte v Matomo žádná práva. %2$s Zeptejte se Vašeho Matomo administrátora (klikem na email)%3$s aby Vám dal 'view' přístup na stránku.",
         "OnlyForSuperUserAccess": "Tento widget je na výchozí nástěnce zobrazen pouze pro uživatele se super uživatelským přístupem",
@@ -78,6 +83,8 @@
         "PivotBySubtable": "Toto hlášení není zaměřené %1$s Zaměřit na %2$s",
         "SystemSummaryWidget": "Souhrn systému",
         "SystemSummaryNWebsites": "%d webových stránek",
+        "SystemSummaryNSegments": "%1$dsegmentů",
+        "SystemSummaryNSegmentsWithBreakdown": "%1$d segmentů (%2$s předzpracované, %3$s zpracované v reálném čase)",
         "SystemSummaryNActivatedPlugins": "%d aktivovaných zásuvných modulů",
         "SystemSummaryPiwikVersion": "Verze Matomou",
         "SystemSummaryMysqlVersion": "Verze MySQL",
@@ -97,7 +104,6 @@
         "RowLimit": "Limit řádků",
         "CustomLimit": "Vlastní limit",
         "ExportFormat": "Formát exportu",
-        "ExportTooltip": "Poznámka: Generovaná adresa URL exportu bude fungovat pouze v aktuální relaci prohlížeče. Pokud ji chcete použít někde jinde, musíte použít token specifický pro aplikaci. Tyto tokeny můžete nakonfigurovat v části Správce -> Zabezpečení -> Autentizace tokenů.",
         "ExpandSubtables": "Rozbalit dílčí tabulky",
         "StandardReport": "Standartní report",
         "FlattenReport": "Srovnat report",
@@ -105,6 +111,7 @@
         "ReadMoreOnlineGuide": "Další informace o tomto tématu naleznete v online příručce.",
         "SeeAvailableVersions": "Prohlédnout dostupné verze",
         "QuickLinks": "Rychlé odkazy",
-        "Profilable": "Profilovatelné"
+        "Profilable": "Profilovatelné",
+        "SearchOnMatomo": "Vyhledat '%1$s' na Matomo.org"
     }
 }

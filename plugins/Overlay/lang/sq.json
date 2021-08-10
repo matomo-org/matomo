@@ -16,6 +16,7 @@
         "PluginDescription": "Shihni të dhënat tuaja statistikore si një Përmbledhje te sajti juaj aktual. Shihni sa herë kanë klikuar përdoruesit tuaj në secilën lidhje. Shënim: Lyp të aktivizuar shtojcën Tranzicione.",
         "RedirectUrlError": "Po përpiqeni të hapni Përmbledhje Faqeje për URL-në \\\"%1$s\\\". %2$s Asnjë nga përkatësitë prej rregullimeve të Matomo-s nuk përputhet me këtë lidhje.",
         "RedirectUrlErrorAdmin": "Përkatësinë mund ta shtoni si URL shtesë %1$ste rregullimet%2$s.",
-        "RedirectUrlErrorUser": "Kërkojini përgjegjësit tuaj ta shtojë përkatësinë si URL shtesë."
+        "RedirectUrlErrorUser": "Kërkojini përgjegjësit tuaj ta shtojë përkatësinë si URL shtesë.",
+        "ErrorNoSiteUrls": "KUJDES: Ky sajt s’ka URL-ra Sajti të përkufizuara në Matomo. Kjo mund të prishë funksionimin e Overlay-it dhe veçorish të tjera, ose të prodhojë sjellje të çuditshme. Për ta ndrequr këtë, shtoni një URL te rregullimet për këtë sajt, te ndarja Administrim Matomo-je."
     }
 }

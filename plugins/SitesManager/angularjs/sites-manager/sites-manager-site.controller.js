@@ -41,6 +41,11 @@
                 } else {
                     $scope.currentType = {name: $scope.site.type};
                 }
+
+                var forcedEditSiteId = sitesManagerTypeModel.getEditSiteIdParameter();
+                if (forcedEditSiteId && $scope.site.idsite == forcedEditSiteId) {
+                    editSite();
+                }
             });
         };
 
@@ -138,9 +143,9 @@
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
-                var message = 'Website updated';
+                var message = _pk_translate('SitesManager_WebsiteUpdated');
                 if (isNewSite) {
-                    message = 'Website created';
+                    message = _pk_translate('SitesManager_WebsiteCreated');
                 }
 
                 notification.show(message, {context: 'success', id: 'websitecreated'});
@@ -159,6 +164,8 @@
                         }
                     });
                 });
+
+                sitesManagerTypeModel.removeEditSiteIdParameterFromHash();
             });
         };
 

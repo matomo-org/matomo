@@ -7,15 +7,17 @@
 (function () {
     angular.module('piwikApp').controller('PluginSettingsController', PluginSettingsController);
 
-    PluginSettingsController.$inject = ['$scope', 'piwikApi'];
+    PluginSettingsController.$inject = ['$scope', 'piwikApi', '$element'];
 
-    function PluginSettingsController($scope, piwikApi) {
+    function PluginSettingsController($scope, piwikApi, $element) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
 
         this.isLoading = true;
         this.isSaving = {};
+        this.passwordConfirmation = '';
+        this.settingsToSave = null;
 
         var apiMethod = 'CorePluginsAdmin.getUserSettings';
 
@@ -26,6 +28,8 @@
         piwikApi.fetch({method: apiMethod}).then(function (settings) {
             self.isLoading = false;
             self.settingsPerPlugin = settings;
+
+            window.anchorLinkFix.scrollToAnchorInUrl();
         }, function () {
             self.isLoading = false;
         });
@@ -34,6 +38,27 @@
             var apiMethod = 'CorePluginsAdmin.setUserSettings';
             if ($scope.mode === 'admin') {
                 apiMethod = 'CorePluginsAdmin.setSystemSettings';
+
+                if (!this.passwordConfirmation) {
+                    this.settingsToSave = settings;
+
+                    function onEnter(event){
+                        var keycode = (event.keyCode ? event.keyCode : event.which);
+                        if (keycode == '13'){
+                            $element.find('.confirm-password-modal').modal('close');
+                            self.save();
+                        }
+                    }
+
+                    $element.find('.confirm-password-modal').modal({ dismissible: false, onOpenEnd: function () {
+                        $('.modal.open #currentUserPassword').focus();
+                        $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
+                    }}).modal('open');
+
+                    return;
+                } else {
+                    settings = this.settingsToSave;
+                }
             }
 
             this.isSaving[settings.pluginName] = true;
@@ -56,7 +81,7 @@
                 });
             });
 
-            piwikApi.post({method: apiMethod}, {settingValues: values}).then(function (success) {
+            piwikApi.post({method: apiMethod}, {settingValues: values, passwordConfirmation: this.passwordConfirmation}).then(function (success) {
                 self.isSaving[settings.pluginName] = false;
 
                 var UI = require('piwik/UI');
@@ -69,6 +94,9 @@
             }, function () {
                 self.isSaving[settings.pluginName] = false;
             });
+
+            this.passwordConfirmation = '';
+            this.settingsToSave = null;
         };
     }
 })();

@@ -240,10 +240,10 @@ class Url
         }
         $trustedHosts = str_replace("/", "\\/", $trustedHosts);
 
-        $untrustedHost = Common::mb_strtolower($host);
+        $untrustedHost = mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
-        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('$|', $trustedHosts) . '$/');
+        $hostRegex = mb_strtolower('/(^|.)' . implode('$|', $trustedHosts) . '$/');
 
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;
@@ -666,7 +666,7 @@ class Url
             return;
         }
 
-        return Common::mb_strtolower($parsedUrl['host']);
+        return mb_strtolower($parsedUrl['host']);
     }
 
     /**
@@ -684,11 +684,11 @@ class Url
             return false;
         }
 
-        $host = Common::mb_strtolower($host);
+        $host = mb_strtolower($host);
 
         if (!empty($urls)) {
             foreach ($urls as $url) {
-                if (Common::mb_strtolower($url) === $host) {
+                if (mb_strtolower($url) === $host) {
                     return true;
                 }
 
@@ -723,7 +723,7 @@ class Url
      */
     public static function getLocalHostnames()
     {
-        return array('localhost', '127.0.0.1', '::1', '[::1]');
+        return array('localhost', '127.0.0.1', '::1', '[::1]', '[::]', '0000::1', '0177.0.0.1', '2130706433', '[0:0:0:0:0:ffff:127.0.0.1]');
     }
 
     /**

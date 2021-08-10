@@ -47,6 +47,8 @@
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Deleting user '%s' is not possible.",
         "ExceptionEditAnonymous": "The anonymous user cannot be edited or deleted. It is used by Matomo to define a user that has not logged in yet. For example, you can make your statistics public by granting the 'view' access to the 'anonymous' user.",
         "ExceptionEmailExists": "User with email '%s' already exists.",
+        "ExceptionEmailExistsAsLogin": "Email '%s' already used as a username.",
+        "ExceptionLoginExistsAsEmail": "Username '%s' already used as an email.",
         "ExceptionInvalidEmail": "The email doesn't have a valid format.",
         "ExceptionInvalidLoginFormat": "The username must be between %1$s and %2$s characters long and contain only letters, numbers, or the characters '_' or '-' or '.' or '@' or '+'",
         "ExceptionInvalidPassword": "The password length must be greater than %1$s characters.",
@@ -183,6 +185,7 @@
         "NewsletterSignupTitle": "Newsletter Signup",
         "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on our %1$sPrivacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
-        "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon."
+        "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
+        "FirstWebsitePermission": "First website permission"
     }
 }

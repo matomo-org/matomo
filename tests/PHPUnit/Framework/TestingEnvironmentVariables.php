@@ -84,6 +84,11 @@ class TestingEnvironmentVariables
         $this->configOverride = $config;
     }
 
+    public function removeOverriddenConfig($group, $name)
+    {
+        unset($this->configOverride[$group][$name]);
+    }
+
     public function save()
     {
         $includePath = __DIR__ . '/../../..';

@@ -274,7 +274,7 @@ class Php extends GeoIp2
         }
 
         foreach ($regionNames[$countryCode] as $isoCode => $name) {
-            if (Common::mb_strtolower($name) === Common::mb_strtolower($regionName)) {
+            if (mb_strtolower($name) === mb_strtolower($regionName)) {
                 return $isoCode;
             }
         }

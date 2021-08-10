@@ -24,6 +24,7 @@
         "GeolocationAnonymizeIpNote": "Notă: Geolocation va avea aproximativ aceleași rezultate cu un octet anonime. Cu 2 bytes sau mai multe, Geolocation vor fi inexacte.",
         "GetPurgeEstimate": "Estimare curatenie",
         "KeepBasicMetrics": "Păstrați metrici de bază (vizite, vizualizări de pagină, bounce rate, conversiile de obiectiv, conversii de comert electronic, etc.)",
+        "KeepDataFor": "Păstrează toate datele pentru",
         "KeepReportSegments": "Pentru datele păstrate de mai sus, se păstreaza, de asemenea, rapoarte segmentate",
         "LastDelete": "Ultima ștergere a fost pe",
         "LeastDaysInput": "Vă rugăm să specificați un număr de zile mai mare decât %s.",

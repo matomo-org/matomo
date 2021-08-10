@@ -26,6 +26,7 @@
  * - **getDateRange()**: returns an array w/ two elements, the first being the start
  *                       Date of the period, the second being the end Date. The dates
  *                       must be Date objects, not strings, and are inclusive.
+ * - **containsToday()**: returns true if the date period contains today. False if not.
  * - (_static_) **parse(strDate)**: creates a new instance of this period from the
  *                                  value of the 'date' query parameter.
  * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
@@ -64,6 +65,10 @@
 
         getDateRange: function () {
             return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -99,6 +104,10 @@
             endWeek.setDate(startWeek.getDate() + 6);
 
             return [startWeek, endWeek];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -126,10 +135,15 @@
             startMonth.setDate(1);
 
             var endMonth = new Date(this.dateInPeriod.getTime());
+            endMonth.setDate(1);
             endMonth.setMonth(endMonth.getMonth() + 1);
             endMonth.setDate(0);
 
             return [startMonth, endMonth];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -161,6 +175,10 @@
             endYear.setDate(0);
 
             return [startYear, endYear];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -209,6 +227,7 @@
         } else if (childPeriodType === 'week') {
             startDate.setDate(startDate.getDate() - (nAmount * 7));
         } else if (childPeriodType === 'month') {
+            startDate.setDate(1);
             startDate.setMonth(startDate.getMonth() - nAmount);
         } else if (childPeriodType === 'year') {
             startDate.setFullYear(startDate.getFullYear() - nAmount);
@@ -259,6 +278,10 @@
 
         getDateRange: function () {
             return [this.startDate, this.endDate];
+        },
+
+        containsToday: function () {
+            return todayIsInRange(this.getDateRange());
         }
     };
 
@@ -273,7 +296,8 @@
             parse: parse,
             parseDate: parseDate,
             format: format,
-            RangePeriod: RangePeriod
+            RangePeriod: RangePeriod,
+            todayIsInRange: todayIsInRange
         };
 
         function getAllLabels() {
@@ -346,6 +370,7 @@
 
         if (strDate.match(/last[ -]?month/i)) {
             var lastMonth = getToday();
+            lastMonth.setDate(1);
             lastMonth.setMonth(lastMonth.getMonth() - 1);
             return lastMonth;
         }
@@ -380,5 +405,17 @@
         date.setSeconds(0);
         date.setMilliseconds(0);
         return date;
+    }
+
+    function todayIsInRange(dateRange) {
+        if (!dateRange.isArray && dateRange.length !== 2) {
+            return false;
+        }
+
+        if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
+            return true;
+        }
+
+        return false;
     }
 })();

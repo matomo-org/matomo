@@ -120,7 +120,7 @@ abstract class ApiRenderer
      */
     public static function factory($format, $request)
     {
-        if (Common::mb_strtolower($format) === 'json2') {
+        if (mb_strtolower($format) === 'json2') {
             $format = 'json';
         }
         $formatToCheck = '\\' . ucfirst(strtolower($format));

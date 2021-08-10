@@ -9,6 +9,12 @@
 
 describe("ViewDataTableTest", function () { // TODO: should remove Test suffix from images instead of naming suites ...Test
     // TODO: rename screenshot files, remove numbers
+
+    before(function () {
+        const firefoxUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.2; rv:85.0) Gecko/20100101 Firefox/85.0";
+        page.setUserAgent(firefoxUserAgent);
+    });
+
     var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
@@ -196,8 +202,19 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.activateExportSelection');
         await page.waitFor('#reportExport .btn');
 
-        dialog = await page.$('.ui-dialog');
+        let dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_options');
+    });
+
+    it("should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url", async function () {
+        await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
+        await page.click('.activateExportSelection');
+        await page.waitFor('.toggle-export-url');
+        await page.click('.toggle-export-url');
+        await page.waitFor('.exportFullUrl');
+
+        let dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('export_options_2');
     });
 
     it("should show the totals row when the config link is clicked", async function () {

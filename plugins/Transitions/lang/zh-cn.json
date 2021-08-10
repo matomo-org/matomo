@@ -33,6 +33,8 @@
         "ToFollowingSiteSearchesInline": "%s 次站内搜索",
         "XOfAllPageviews": "%s 的本页浏览量",
         "XOutOfYVisits": "%1$s (共 %2$s)",
-        "PageURLTransitions": "页面URL转换"
+        "PageURLTransitions": "页面URL转换",
+        "TransitionsSubcategoryHelp1": "转换提供一个报告，显示访问者在查看某个页面之前和之后直接执行的操作。本页将解释如何访问、理解和使用功能强大的转换报表。",
+        "TransitionsSubcategoryHelp2": "详情"
     }
 }

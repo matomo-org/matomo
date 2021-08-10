@@ -20,6 +20,12 @@
         "CronArchivingRunDetails": "Ju lutemi, shihni të keni ujdisur një akt crontab për vënie në punë të urdhrit %1$s të konsolës, dhe se keni formësuar një %2$s për të marrë me email njoftime gabimesh, nëse arkivimi dështon. Mund të provoni edhe të xhironi urdhër konsole për arkivim dorazi të raporteve tuaja: %3$s. %4$sMësoni më tepër.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "Procesi i arkivimit u plotësua me sukses %1$s më parë.",
         "BrowserTriggeredArchivingEnabled": "Për funksionimin më të mirë dhe një Matomo të shpejtë, këshillohet me forcë të ujdisni një akt crontab për arkivim automatik të raporteve tuaja, dhe të çaktivizoni që nga rregullimet e Matomo-s ngacmimin e shfletuesit. %1$sMësoni më tepër.%2$s",
-        "NoDataForReportArchivingNotRun": "Arkivimi i raporteve tuaja nuk ka ngjarë tani së fundi, %1$smësoni më tepër se si të prodhoni raportet tuaja.%2$s"
+        "NoDataForReportArchivingNotRun": "Arkivimi i raporteve tuaja nuk ka ngjarë tani së fundi, %1$smësoni më tepër se si të prodhoni raportet tuaja.%2$s",
+        "RequiredPrivateDirectories": "Drejtori Private të Domosdoshme",
+        "PrivateDirectoryManualCheck": "Ju lutemi, hapini URL-të dorazi në një shfletues, që të shihni nëse mund t’i përdorni. Nëse mundeni, mund të duhet të ndryshoni formësimin e e shërbyesit tuaj, ngaqë këto kartela\/drejtori s’duhet të jenë të përdorshme që prej një shfletuesi nga Interneti ose Intraneti.",
+        "PrivateDirectoryInternetDisabled": "S’kontrolluam dot nëse URL-të vijuese janë të përdorshme, ngaqë veçoritë internet janë të çaktivizuara në këtë instancë Matomo.",
+        "PrivateDirectoryIsAccessible": "Na doli se URL-të më sipër janë të përdorshme që nga shfletuesi, por NUK ’duhet të jenë. Lënia e tyre të përdorshme mund të përbëjë një rrezik potencial sigurie, ngaqë lënda mund të furnizojë informacion mbi shërbyesin tuaj dhe, potencialisht, përdoruesit tuaj. Ju lutemi, kufizojeni hyrjen në to.",
+        "ConfigIniAccessible": "Pamë gjithashtu se drejtoria e formësimeve të Matomo-s është e përdorshme publikisht. Teksa agresorë s’mund të lexojnë formësimin tani, nëse shërbyesi juaj resht të ekzekutuara kartela PHP për ndonjë arsye, kredencialet tuaja MySQL dhe informacion tjetër do të jetë i passhëm për këdo. Ju lutemi, kontrolloni formësimin e shërbyesit tuaj dhe mos lejoni hyrje në këtë drejtori.",
+        "AllPrivateDirectoriesAreInaccessible": "Krejt drejtoritë private s’mund të hapen që nga interneti."
     }
 }

@@ -8,7 +8,6 @@
  */
 namespace Piwik\DataAccess;
 
-use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\Config;
@@ -19,6 +18,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
@@ -211,10 +211,10 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
         $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
 
-        $lengthPrefix = Common::mb_strlen(Common::prefixTable(''));
+        $lengthPrefix = mb_strlen(Common::prefixTable(''));
         $maxLength = Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH - $lengthPrefix;
 
-        return Common::mb_substr($tableName, 0, $maxLength);
+        return mb_substr($tableName, 0, $maxLength);
     }
 
     public function cleanup()
@@ -240,7 +240,7 @@ class LogAggregator
     {
         try {
             // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
-            $this->getDb()->fetchOne('SELECT 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $this->getDb()->fetchOne('SELECT /* WP IGNORE ERROR */ 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
             $tableExists = true;
         } catch (\Exception $e) {
             $tableExists = false;
@@ -277,7 +277,7 @@ class LogAggregator
         if ($this->doesSegmentTableExist($table)) {
             return; // no need to create the table, it was already created... better to have a select vs unneeded create table
         }
-	    
+
         $engine = '';
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $engine = 'ENGINE=MEMORY';
@@ -295,8 +295,8 @@ class LogAggregator
                 return;
             } elseif ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_REQUIRES_PRIMARY_KEY)
                 || $readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_UNABLE_CREATE_TABLE_WITHOUT_PRIMARY_KEY
-                || stripos($e->getMessage(), 'requires a primary key') !== false
-                || stripos($e->getMessage(), 'table without a primary key') !== false)
+                    || stripos($e->getMessage(), 'requires a primary key') !== false
+                    || stripos($e->getMessage(), 'table without a primary key') !== false)
             ) {
                 $createTableSql = str_replace($tempTableIdVisitColumn, $tempTableIdVisitColumn . ', PRIMARY KEY (`idvisit`)', $createTableSql);
 
@@ -317,15 +317,15 @@ class LogAggregator
         $transactionLevel = new Db\TransactionLevel($readerDb);
         $canSetTransactionLevel = $transactionLevel->canLikelySetTransactionLevel();
 
-	    if ($canSetTransactionLevel) {
-	        // i know this could be shortened to one if or one line but I want to make sure this line where we
+        if ($canSetTransactionLevel) {
+            // i know this could be shortened to one if or one line but I want to make sure this line where we
             // set uncommitted is easily noticeable in the code as it could be missed quite easily otherwise
             // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
             // eg the visits table
-	        if (!$transactionLevel->setUncommitted()) {
-	        	$canSetTransactionLevel = false;
-	        }
-	    }
+            if (!$transactionLevel->setUncommitted()) {
+                $canSetTransactionLevel = false;
+            }
+        }
 
         if (!$canSetTransactionLevel) {
             // transaction level doesn't work... we're instead executing the select individually and then insert the data
@@ -403,11 +403,21 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
+        if (0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' */' . substr($query['sql'], strlen($select));
+        }
+
+        if ($this->sites && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $this->sites)) . ' */' . substr($query['sql'], strlen($select));
+        }
+
         if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
             $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+            $query['sql'] = 'SELECT /* ' . 'segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
         }
- 
+
         return $query;
     }
 
@@ -545,10 +555,13 @@ class LogAggregator
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link \Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
+     * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
+     *                                   ranking query SQL will be immediately executed and the results returned.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
-                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1)
+                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1,
+                                           $rankingQueryGenerate = false)
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -584,7 +597,11 @@ class LogAggregator
                 $rankingQuery->addColumn(Metrics::INDEX_MAX_ACTIONS, 'max');
             }
 
-            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
+            if ($rankingQueryGenerate) {
+                $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+            } else {
+                return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
+            }
         }
 
         $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
@@ -800,7 +817,7 @@ class LogAggregator
     public function queryEcommerceItems($dimension)
     {
         $query = $this->generateQuery(
-            // SELECT ...
+        // SELECT ...
             implode(
                 ', ',
                 array(
@@ -971,7 +988,7 @@ class LogAggregator
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
-        if ($rankingQuery !== null) {
+        if ($rankingQuery) {
             $sumColumns = array_keys($availableMetrics);
             if ($metrics) {
                 $sumColumns = array_intersect($sumColumns, $metrics);
@@ -1050,9 +1067,13 @@ class LogAggregator
      * @param bool|string $where An optional SQL expression used in the SQL's **WHERE** clause.
      * @param array $additionalSelects Additional SELECT fields that are not included in the group by
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
-     * @return \Zend_Db_Statement
+     * @param RankingQuery|bool $rankingQuery
+     * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
+     *                                   ranking query SQL will be immediately executed and the results returned.
+     * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array(), $extraFrom = [])
+    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array(), $extraFrom = [],
+                                                $rankingQuery = false, $rankingQueryGenerate = false)
     {
         $dimensions = array_merge(array(self::IDGOAL_FIELD), $dimensions);
         $tableName  = self::LOG_CONVERSION_TABLE;
@@ -1065,6 +1086,17 @@ class LogAggregator
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
         $orderBy = false;
         $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        if (!empty($rankingQuery)) {
+            $sumColumns = array_keys($availableMetrics);
+            $rankingQuery->addColumn($sumColumns, 'sum');
+
+            if ($rankingQueryGenerate) {
+                $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+            } else {
+                return $rankingQuery->execute($query['sql'], $query['bind']);
+            }
+        }
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
@@ -1153,7 +1185,7 @@ class LogAggregator
             // when creating the 'days since last visit' report
             $extraCondition = 'and log_visit.visitor_returning = 1';
             $extraSelect    = "sum(case when log_visit.visitor_returning = 0 then 1 else 0 end) "
-                            . " as `" . $selectColumnPrefix . 'General_NewVisits' . "`";
+                . " as `" . $selectColumnPrefix . 'General_NewVisits' . "`";
             $selects[] = $extraSelect;
         }
 
@@ -1165,7 +1197,7 @@ class LogAggregator
                 $selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
 
                 $selects[] = "sum(case when $tableColumn between $lowerBound and $upperBound $extraCondition" .
-                             " then 1 else 0 end) as `$selectAs`";
+                    " then 1 else 0 end) as `$selectAs`";
             } else {
                 $lowerBound = $gap[0];
 
@@ -1208,9 +1240,6 @@ class LogAggregator
 
     public function getDb()
     {
-        /** @var ArchivingStatus $archivingStatus */
-        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-        $archivingLock = $archivingStatus->getCurrentArchivingLock();
-        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
+        return new ArchivingDbAdapter(Db::getReader(), $this->logger);
     }
 }

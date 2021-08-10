@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Live\tests\System;
 
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\Live\SystemSettings;
@@ -97,6 +98,33 @@ class ApiTest extends SystemTestCase
                 'testSuffix'             => 'actionSegment',
             ],
         ];
+
+        $apiToTest[] = [
+            ['Live.getLastVisitsDetails'],
+            [
+                'idSite'                 => '1',
+                'date'                   => self::$fixture->dateTime,
+                'periods'                => ['day'],
+                'otherRequestParameters' => [
+                    'filter_limit' => -1,
+                ],
+                'testSuffix'             => 'filterLimitDashOne',
+            ],
+        ];
+
+        $apiToTest[] = [
+            ['Live.getLastVisitsDetails'],
+            [
+                'idSite'                 => '1',
+                'date'                   => self::$fixture->dateTime,
+                'periods'                => ['day'],
+                'otherRequestParameters' => [
+                    'filter_limit' => 1,
+                ],
+                'testSuffix'             => 'filterLimitOne',
+            ],
+        ];
+
         $apiToTest[] = [
             ['Live.getLastVisitsDetails'],
             [
@@ -135,6 +163,20 @@ class ApiTest extends SystemTestCase
             'testSuffix' => 'maxVisitLimit',
         ]);
     }
+
+    public function testApiWithHttpsHost()
+    {
+        \Piwik\Plugins\SitesManager\API::getInstance()->updateSite(1, 'Piwik test', ['http://piwik.net', 'https://example.org', 'http://example.org']);
+        Cache::getTransientCache()->flushAll();
+
+        $this->runApiTests('Live.getLastVisitsDetails', [
+            'idSite'     => 1,
+            'date'       => self::$fixture->dateTime,
+            'periods'    => ['day'],
+            'testSuffix' => 'httpshost',
+        ]);
+    }
+
 
     /**
      * @dataProvider getApiForTestingDisabledFeatures

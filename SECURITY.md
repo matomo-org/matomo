@@ -2,7 +2,15 @@
 
 ## Security Bug Bounty Program
 
-The Matomo Security Bug Bounty Program is designed to encourage security research in Matomo software and to reward those who help us create the safest web analytics platform. The bounty for valid critical security bugs is a **$777** (US) cash reward. The bounty for non-critical bugs is **$333** (US), paid via Paypal.
+The Matomo Security Bug Bounty Program is designed to encourage security research in Matomo software and to reward those who help us create the safest web analytics platform. 
+
+Critical security issues will be rewarded up to 5,000 USD. Critical issue in Matomo means an issue in our latest official release at: https://builds.matomo.org/latest.zip as installed on a typical server (and possibly using any of our official plugins by Matomo or InnoCraft from the Marketplace). If you can gain remote code execution on the server (i.e. RCE), or if you're able to delete data with an HTTPS request (i.e. SQL Injection), this may qualify as a Critical issue.
+
+(Note: If a Remote Code Execution (RCE) is only available when logged in as a Super User, the issue will qualify as "High" and not "Critical".)
+
+High security issues that can cause a direct attack (CSRF, XSS, Auth bypass, etc.) will be rewarded with up to 777 USD.
+
+Other issues will typically be rewarded by 242 USD (or more or less depending on the impact.)
 
 
 ## Responsible disclosure by email

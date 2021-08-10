@@ -33,7 +33,10 @@
                                name="enableBrowserTriggerArchiving"
                                 {% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
                         <span>{{ 'General_No'|translate }}</span>
-                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}</span>
+                        <span class="form-description">
+                            {{ 'General_ArchivingTriggerDescription'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}
+                            {% if showSegmentArchiveTriggerInfo %}{{ 'General_ArchivingTriggerSegment'|translate }}{% endif %}
+                        </span>
                     </label>
                     </p>
                 </div><div class="col s12 m6">
@@ -182,6 +185,7 @@
             <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
                 {% if fileUploadEnabled %}
                     <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
+                    <input type="hidden" name="force_api_session" value="1"/>
 
                     {% if logosWriteable %}
                         <div class="alert alert-warning uploaderror" style="display:none;">

@@ -20,5 +20,9 @@ return [
         ->constructorParameter('attachedFileExtension', '.csv')
         ->constructorParameter('attachedFileMimeType', 'application/csv'),
 
+    ReportEmailGenerator::class . '.tsv' => DI\autowire(AttachedFileReportEmailGenerator::class)
+        ->constructorParameter('attachedFileExtension', '.tsv')
+        ->constructorParameter('attachedFileMimeType', 'application/tsv'),
+
     ReportEmailGenerator::class . '.html' => DI\create(HtmlReportEmailGenerator::class),
 ];

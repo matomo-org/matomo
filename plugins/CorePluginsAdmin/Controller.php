@@ -77,8 +77,8 @@ class Controller extends Plugin\ControllerAdmin
      * @param Plugins $marketplacePlugins
      * @param PasswordVerifier $passwordVerify
      */
-    public function __construct(Translator $translator, 
-                                Plugin\SettingsProvider $settingsProvider, 
+    public function __construct(Translator $translator,
+                                Plugin\SettingsProvider $settingsProvider,
                                 PluginInstaller $pluginInstaller,
                                 PasswordVerifier $passwordVerify,
                                 $marketplacePlugins = null
@@ -350,7 +350,7 @@ class Controller extends Plugin\ControllerAdmin
         if (ob_get_length()) {
             ob_clean();
         }
-        
+
         $this->tryToRepairPiwik();
 
         if (empty($lastError) && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
@@ -425,14 +425,28 @@ class Controller extends Plugin\ControllerAdmin
 
     public function activate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
         $this->dieIfPluginsAdminIsDisabled();
+
+        $params = [
+            'module' => 'CorePluginsAdmin',
+            'action' => 'activate',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce'),
+            'redirectTo' => Common::getRequestVar('redirectTo', '', 'string'),
+            'referrer' => urlencode(Url::getReferrer()),
+        ];
+
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
+        $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
 
         $this->pluginManager->activatePlugin($pluginName);
 
         if ($redirectAfter) {
             $message = $this->translator->translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
-            
+
             if ($this->settingsProvider->getSystemSettings($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings')),
@@ -469,6 +483,18 @@ class Controller extends Plugin\ControllerAdmin
 
     public function deactivate($redirectAfter = true)
     {
+        $params = [
+            'module' => 'CorePluginsAdmin',
+            'action' => 'deactivate',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce'),
+            'redirectTo' => Common::getRequestVar('redirectTo'),
+            'referrer' => urlencode(Url::getReferrer()),
+        ];
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
         if($this->isAllowedToTroubleshootAsSuperUser()) {
             Access::doAsSuperUser(function() use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
@@ -480,8 +506,20 @@ class Controller extends Plugin\ControllerAdmin
 
     public function uninstall($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
         $this->dieIfPluginsAdminIsDisabled();
+
+        $params = [
+            'module' => 'CorePluginsAdmin',
+            'action' => 'uninstall',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce'),
+            'referrer' => urlencode(Url::getReferrer()),
+        ];
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
+        $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
 
         $uninstalled = $this->pluginManager->uninstallPlugin($pluginName);
 
@@ -507,7 +545,7 @@ class Controller extends Plugin\ControllerAdmin
     public function showLicense()
     {
         Piwik::checkUserHasSomeViewAccess();
-        
+
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
         if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
@@ -552,7 +590,17 @@ class Controller extends Plugin\ControllerAdmin
 
     protected function redirectAfterModification($redirectAfter)
     {
-        if ($redirectAfter) {
+        if (!$redirectAfter) {
+            return;
+        }
+
+        $referrer = Common::getRequestVar('referrer', false);
+        $referrer = Common::unsanitizeInputValue($referrer);
+        if (!empty($referrer)
+            && Url::isLocalUrl($referrer)
+        ) {
+            Url::redirectToUrl($referrer);
+        } else {
             Url::redirectToReferrer();
         }
     }

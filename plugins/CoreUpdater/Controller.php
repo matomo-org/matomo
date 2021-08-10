@@ -120,6 +120,11 @@ class Controller extends \Piwik\Plugin\Controller
     public function newVersionAvailable()
     {
         Piwik::checkUserHasSuperUserAccess();
+        
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         $this->checkNewVersionIsAvailableOrDie();
 
         $newVersion = $this->updater->getLatestVersion();
@@ -154,6 +159,10 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSuperUserAccess();
 
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new Exception('Auto updater is disabled');
+        }
+
         Nonce::checkNonce('oneClickUpdate');
 
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
@@ -173,7 +182,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
-        return $view->render();
+        $result = $view->render();
+
+        Filesystem::deleteAllCacheOnUpdate();
+
+        return $result;
     }
 
     public function oneClickUpdatePartTwo()
@@ -220,8 +233,6 @@ class Controller extends \Piwik\Plugin\Controller
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
-
-        Filesystem::deleteAllCacheOnUpdate();
 
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
         $error = Common::getRequestVar('error', '', 'string', $_POST);

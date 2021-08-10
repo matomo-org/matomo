@@ -64,7 +64,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
-        if (!UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0) {
+        $hostname = parse_url($prefixUrls, PHP_URL_HOST);
+        if (empty($hostname) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($hostname)) {
             $prefixUrls = '';
         }
         return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
@@ -194,7 +195,7 @@ class Controller extends \Piwik\Plugin\Controller
             $item['letters'] = array();
             foreach ($item['entries'] as &$entry) {
                 $cleanEntryName = preg_replace('/["\']/', '', $entry['name']);
-                $entry['letter'] = Common::mb_strtoupper(substr($cleanEntryName, 0, 1));
+                $entry['letter'] = mb_strtoupper(substr($cleanEntryName, 0, 1));
                 $item['letters'][] = $entry['letter'];
             }
 

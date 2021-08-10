@@ -74,7 +74,6 @@
         "Sites": "Sites web",
         "SiteSearchUse": "Vous pouvez utiliser Matomo pour suivre et effectuer un rapport sur ce que vos visiteurs cherchent sur le moteur de recherche interne de votre site web.",
         "SiteWithoutDataTitle": "Aucune donnée enregistrée pour le moment, complétez la configuration ci-dessous",
-        "SiteWithoutDataDescription": "Aucune donnée d'analyse n'a été enregistrée pour ce site pour le moment.",
         "SiteWithoutDataSetupTracking": "Veuillez configurer le %1$scode de suivi%2$s ci-dessous sur votre site web ou application si vous ne l'avez pas déjà fait.",
         "SiteWithoutDataMessageDisappears": "Ce message disparaitra dès lors que certaines données auront été enregistrées pour ce site web.",
         "SiteWithoutDataIgnoreMessage": "Ne pas afficher ce message pendant une heure",

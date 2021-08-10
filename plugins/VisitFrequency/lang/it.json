@@ -33,6 +33,7 @@
         "ReturnVisits": "visite di ritorno",
         "SubmenuFrequency": "Frequenza",
         "WidgetGraphReturning": "Visite di Ritorno nel Tempo",
-        "WidgetOverview": "Riepilogo Frequenza"
+        "WidgetOverview": "Riepilogo Frequenza",
+        "VisitFrequencyReportDocumentation": "Questo report mostra metriche generali come le visite per i visitatori di ritorno accanto alle stesse metriche per i nuovi visitatori. Scopri il rendimento complessivo dei visitatori di ritorno rispetto ai nuovi visitatori."
     }
 }

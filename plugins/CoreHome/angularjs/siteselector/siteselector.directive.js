@@ -65,10 +65,6 @@
                 }
 
                 return function (scope, element, attrs, ngModel) {
-                    if (attrs.siteid && attrs.sitename) {
-                        scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
-                    }
-
                     scope.model.onlySitesWithAdminAccess = scope.onlySitesWithAdminAccess;
 
                     if (ngModel) {
@@ -103,6 +99,10 @@
                     });
 
                     $timeout(function () {
+                        if (attrs.siteid && attrs.sitename) {
+                            scope.selectedSite = {id: attrs.siteid, name: piwik.helper.htmlDecode(attrs.sitename)};
+                        }
+
                         initTopControls();
                     });
                 };

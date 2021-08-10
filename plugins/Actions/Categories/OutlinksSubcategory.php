@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class OutlinksSubcategory extends Subcategory
 {
@@ -16,4 +17,9 @@ class OutlinksSubcategory extends Subcategory
     protected $id = 'General_Outlinks';
     protected $order = 30;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('Actions_OutlinksSubcategoryHelp1') . '</p>'
+            . '<p>' . Piwik::translate('Actions_PagesSubcategoryHelp3') . '</p>';
+    }
 }

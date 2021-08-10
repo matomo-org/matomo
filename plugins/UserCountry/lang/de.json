@@ -21,6 +21,8 @@
         "GeoIPDocumentationSuffix": "Um Daten für diesen Bericht sehen zu können, müssen Sie GeoIP im Standorterkennung Administrations-Reiter konfigurieren. Die kommerziellen %1$sMaxmind%2$s GeoIP Datenbanken sind weit genauer als die kostenlosen. Um zu sehen, wie genau sie sind, klicken Sie %3$shier%4$s.",
         "Geolocation": "Standorterkennung",
         "GeolocationPageDesc": "Auf dieser Seite können Sie einstellen auf welche Weise Matomo die Herkunft eines Besuchers ermittelt.",
+        "GeolocationProviderBroken": "Der konfigurierte Geolocation Provider %1$s funktioniert nicht. Bitte korrigieren Sie die Einstellungen oder stellen Sie einen anderen Provider ein, damit Geolocation wieder funktioniert.",
+        "GeolocationProviderUnavailable": "Der konfigurierte Geolocation Provider %1$s ist nicht mehr verfügbar, bitte stellen Sie einen anderen ein.",
         "getCityDocumentation": "Dieser Bericht enthält die Städte, in denen sich Ihre Besucher befanden, als sie Ihre Website besuchten.",
         "getContinentDocumentation": "Dieser Bericht enthält die Kontinente, auf denen sich Ihre Besucher befanden, als sie Ihre Website besuchten.",
         "getCountryDocumentation": "Dieser Bericht enthält die Länder, in denen sich Ihre Besucher befanden, als sie Ihre Website besuchten.",
@@ -42,6 +44,7 @@
         "ToGeolocateOldVisits": "Für Standortdaten für vergangene Besuche verwenden Sie bitte das %1$shier beschriebene Skript%2$s.",
         "WidgetLocation": "Besucherstandort",
         "GeoIpDbIpAccuracyNote": "Bemerkung: Die DBIP Datenbanken sind frei und können automatisch heruntergeladen werden, aber Geolocation Resultate (insbesondere Städte-Resultate) sind nicht so akkurat wie die von MaxMind. Bei MaxMind hingegen benötigen Sie auch für die freie Geolocation Datenbank ein Benutzerkonto, Sie können den Prozess %1$shier%2$s starten",
-        "MaxMindLinkExplanation": "Wenn Sie die Geolocation Datenbanken von MaxMind verwenden und Sie nicht wissen wie Ihre Download URL zu generieren ist, %1$sklicken Sie hier um zu lernen wie%2$s."
+        "MaxMindLinkExplanation": "Wenn Sie die Geolocation Datenbanken von MaxMind verwenden und Sie nicht wissen wie Ihre Download URL zu generieren ist, %1$sklicken Sie hier um zu lernen wie%2$s.",
+        "LocationsSubcategoryHelp": "Der Orte Abschnitt ist der beste Weg herauszufinden wo Personen sind, wenn Sie Ihre Seite besuchen. Er zeigt Länder, Kontinente, Regionen und Städte auf, von denen Ihre Besucher kommen, in Tabellen- und Kartenform. Zusätzlich dazu können Sie sehen welche Browsersprachen eingestellt sind, was dabei hilft internationale Besucher aus alternativen Standorten zu identifizieren."
     }
 }

@@ -32,7 +32,7 @@
         "SimpleRealTimeWidget_Message": "%1$s und %2$s in den letzten %3$s.",
         "ViewVisitorProfile": "Besucherprofil ansehen",
         "DisableVisitorProfile": "Nur Besucherprofil deaktivieren",
-        "DisableVisitorProfileDescription": "Hier können Sie das Besucherprofil-Feature deaktivieren. Alle Besuche-Logs, welche auf dieses Feautre verweisen, werden weiterhin funktionieren.",
+        "DisableVisitorProfileDescription": "Hier können Sie das Besucherprofil-Feature deaktivieren. Alle Besuche-Logs, welche auf dieses Feature verweisen, werden weiterhin funktionieren.",
         "VisitedPages": "Besuchte Seiten",
         "RevisitedPages": "Seiten die mehrmals angesehen wurden",
         "ToggleActions": "Sichtbarkeit aller Aktionen umschalten",
@@ -59,6 +59,11 @@
         "SegmentedVisitorLogTitle": "Zeigt das Log, welches Besuche auflistet, bei denen %1$s\"%2$s\" ist",
         "OnClickPause": "%s ist gestartet. Klicken Sie um zu pausieren.",
         "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten.",
-        "ClickToSeeAllContents": "Klicken um sämtliche Inhaltsinteraktionen\/Impressionen zu sehen"
+        "ClickToSeeAllContents": "Klicken um sämtliche Inhaltsinteraktionen\/Impressionen zu sehen",
+        "VisitorLogSubcategoryHelp1": "Das Besuchsprotokoll zeigt Ihnen jeden Besuch, den Ihre Website erhält, im Detail an. Sie können sehen, welche Aktionen jeder Besucher durchgeführt hat, wie er auf Ihre Website gekommen ist, ein bisschen darüber, wer er ist, und mehr (unter Einhaltung Ihrer lokalen Datenschutzbestimmungen).",
+        "VisitorLogSubcategoryHelp2": "Während andere Berichte in Matomo zeigen, wie sich Ihre Besucher auf einer aggregierten Ebene verhalten, bietet das Besuchsprotokoll granulare Details. Sie können auch Segmente verwenden, um es auf bestimmte Arten von Besuchen einzugrenzen, um Ihre Besucher besser zu verstehen.",
+        "VisitorLogSubcategoryHelp3": "Weitere Informationen finden Sie in der Anleitung zum Besucherlog.",
+        "RealTimeHelp1": "Der Echtzeitbesuche-Bericht zeigen die Besucherströme Ihrer Webseite in Echtzeit. Er enthält einen Echtzeitzähler Ihrer Besuche und Seitenansichten in den letzten 24 Stunden und den letzten 30 Minuten.",
+        "RealTimeHelp2": "Dieser Bericht wird alle 5 Sekunden aktualisiert und zeigt neue Besuche (oder vorhandene Besucher, die eine neue Seite aufrufen) am Anfang der Liste mit einem Einblendeffekt an."
     }
 }

@@ -21,6 +21,8 @@
         "GeoIPDocumentationSuffix": "Per vedere i dati di questo report è necessario impostare GeoIP nella scheda Amministrazione Geolocation. I database GeoIP commerciali%1$sMaxmind%2$s sono più accurati di quelli gratuiti. Per vedere come sono precisi, clicca %3$squi%4$s.",
         "Geolocation": "Geolocalizzazione",
         "GeolocationPageDesc": "In questa pagina puoi cambiare le impostazioni di come Matomo determina la località dei visitatori.",
+        "GeolocationProviderBroken": "Il provider di geolocalizzazione configurato %1$s non funziona. Correggi il provider o configurane un altro per ripristinare il funzionamento della geolocalizzazione.",
+        "GeolocationProviderUnavailable": "Il provider di geolocalizzazione configurato %1$s non è più disponibile, configurane un altro.",
         "getCityDocumentation": "Questo report mostra le città in cui si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
         "getContinentDocumentation": "Questo report mostra in quale continente si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
         "getCountryDocumentation": "Questo report mostra in quale nazione si trovavano i tuoi visitatori quando sono entrati nel tuo sito.",
@@ -42,6 +44,7 @@
         "ToGeolocateOldVisits": "Per avere i dati di localizzazione delle tue vecchie visite, usa lo script descritto %1$squi%2$s.",
         "WidgetLocation": "Posizione Visitatore",
         "GeoIpDbIpAccuracyNote": "Nota: i database DBIP sono gratuiti e possono essere scaricati automaticamente, ma i risultati della geolocalizzazione (in particolare i risultati delle città) non sono accurati come quelli di MaxMind. MaxMind, tuttavia, richiede la creazione di un account anche per il database gratuito. Se si desidera utilizzare il database di geolocalizzazione di MaxMind, è possibile avviare il procedimento %1$squi%2$s",
-        "MaxMindLinkExplanation": "Se stai utilizzando i database di geolocalizzazione di MaxMind e non sai già come generare l'URL di download, %1$sclicca qui per sapere come%2$s."
+        "MaxMindLinkExplanation": "Se stai utilizzando i database di geolocalizzazione di MaxMind e non sai già come generare l'URL di download, %1$sclicca qui per sapere come%2$s.",
+        "LocationsSubcategoryHelp": "La sezione Località è il modo migliore per scoprire dove si trovano le persone quando visitano il tuo sito. Rivela i paesi, i continenti, le regioni, le città da cui provengono i visitatori, in tabelle e in forma di mappa. Inoltre, puoi vedere in quale lingua è impostato il loro browser, aiutando a identificare i visitatori internazionali che si trovano in località alternative."
     }
 }

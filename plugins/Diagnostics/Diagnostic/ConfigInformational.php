@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
@@ -37,8 +38,10 @@ class ConfigInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', Development::isEnabled());
             $results[] = DiagnosticResult::informationalResult('Internet Enabled',SettingsPiwik::isInternetEnabled());
             $results[] = DiagnosticResult::informationalResult('Multi Server Environment', SettingsPiwik::isMultiServerEnvironment());
+            $results[] = DiagnosticResult::informationalResult('Auto Update Enabled', SettingsPiwik::isAutoUpdateEnabled());
             $results[] = DiagnosticResult::informationalResult('Custom User Path', PIWIK_USER_PATH != PIWIK_DOCUMENT_ROOT);
             $results[] = DiagnosticResult::informationalResult('Custom Include Path', PIWIK_INCLUDE_PATH != PIWIK_DOCUMENT_ROOT);
+            $results[] = DiagnosticResult::informationalResult('Release Channel', Config::getInstance()->General['release_channel']);
 
             $pluginsActivated = array();
             $pluginsDeactivated = array();

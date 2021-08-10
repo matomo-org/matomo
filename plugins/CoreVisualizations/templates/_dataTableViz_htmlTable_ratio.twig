@@ -30,7 +30,7 @@
     {% endif %}
 
     {% if totalPercentage|default is not empty %}
-        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal|number(2,0), metricTitle, periodTitlePretty) %}
+        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal|number(2,0), column == 'nb_visits' ? 'General_ColumnNbVisits'|translate : metricTitle, periodTitlePretty) %}
     {% else %}
         {% set totalRatioTooltip = '' %}
     {% endif %}

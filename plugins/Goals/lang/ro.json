@@ -11,6 +11,7 @@
         "BestReferrers": "Siteurile care va trimit referinte si convertesc cel mai bine la dvs. sunt:",
         "CaseSensitive": "Caz sensibil potrivire",
         "ClickOutlink": "Click pe un Link catre un site extern",
+        "SendEvent": "Trimite un eveniment",
         "ColumnAverageOrderRevenueDocumentation": "Valoarea medie a comenzii (AOV) este venitul total din toate ordinele de comerț electronic împărțit la numărul de comenzi.",
         "ColumnAveragePriceDocumentation": "Venit mediu pentru acest %s.",
         "ColumnAverageQuantityDocumentation": "Media cantitativa a %s vandut in comenzile magazinului online",

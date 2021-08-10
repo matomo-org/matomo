@@ -43,11 +43,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private $daysFrom = '2016-07-08';
 
-    /**
-     * @var string
-     */
-    private $requestedReport = null;
-
     public function __construct(ArchiveProcessor $processor)
     {
         parent::__construct($processor);

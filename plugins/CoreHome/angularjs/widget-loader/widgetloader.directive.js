@@ -27,7 +27,8 @@
             transclude: true,
             scope: {
                 piwikWidgetLoader: '=',
-                widgetName: '@'
+                widgetName: '@',
+                loadingMessage: '@'
             },
             templateUrl: 'plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
@@ -170,7 +171,7 @@
                                     element: currentElement,
                                 });
                             });
-                        })['catch'](function () {
+                        })['catch'](function (response) {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
@@ -181,6 +182,11 @@
                             cleanupLastWidgetContent();
 
                             scope.loading = false;
+
+                            if (response.xhrStatus === 'abort') {
+                                return;
+                            };
+
                             scope.loadingFailed = true;
                         });
                     }

@@ -82,6 +82,17 @@ class Requests
         return array($requests, $tokenAuth);
     }
 
+    public function shouldSendResponse($rawData): bool
+    {
+        $rawData = trim($rawData);
+        $rawData = Common::sanitizeLineBreaks($rawData);
+
+        // POST data can be array of string URLs or array of arrays w/ visit info
+        $jsonData = json_decode($rawData, $assoc = true);
+
+        return !!Common::getRequestVar('send_image', true, 'string', $jsonData);
+    }
+
     public function initRequestsAndTokenAuth($rawData)
     {
         list($requests, $tokenAuth) = $this->getRequestsArrayFromBulkRequest($rawData);

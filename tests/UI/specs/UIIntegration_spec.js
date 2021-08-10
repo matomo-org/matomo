@@ -139,8 +139,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await modal.screenshot()).to.matchImage('shortcuts');
         });
 
+        it('should show category help correctly', async function () {
+            await page.goto('about:blank');
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
+            await page.waitFor('.dataTable');
+            await (await page.jQuery('#secondNavBar ul ul li[role=menuitem]:contains(Overview):eq(0)')).hover();
+            await (await page.jQuery('#secondNavBar ul ul li[role=menuitem]:contains(Overview):eq(0) .item-help-icon')).click();
+            expect(await page.screenshotSelector('#secondNavBar,#notificationContainer')).to.matchImage('category_help');
+        });
+
         // one page w/ segment
         it('should load the visitors > overview page correctly when a segment is specified', async function () {
+            await page.goto('about:blank');
             testEnvironment.overrideConfig('General', {
                 enable_segments_cache: 0
             });
@@ -661,6 +671,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('exampleui_treemap');
+        });
+
+        it('should load sparklines view correctly even when there is no matching row', async function () {
+            await page.goto('?forceView=1&viewDataTable=sparklines&module=ExampleUI&action=getTemperaturesEvolution&label=example32323.matomo.org&'+generalParams+'&segment=&showtitle=1');
+            await page.waitForNetworkIdle();
+
+            pageWrap = await page.$('body');
+            expect(await pageWrap.screenshot()).to.matchImage('exampleui_sparklines_no_matching_row');
         });
     });
 

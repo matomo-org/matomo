@@ -68,8 +68,11 @@ describe("OneClickUpdate", function () {
                 await page.waitForNetworkIdle();
                 await page.waitFor(250);
 
-                await page.click('.footer a');
-                await page.waitForNetworkIdle();
+                const continueButton = await page.$('.footer a');
+                if (continueButton) { // finish page might not be displayed if only one query is executed
+                    await continueButton.click();
+                    await page.waitForNetworkIdle();
+                }
             } else {
                 break;
             }

@@ -151,7 +151,7 @@ class Csv extends Renderer
             // when in xml we would output <result date="2008-01-15" />
             if (!empty($returned)) {
                 foreach ($returned as &$row) {
-                    $row = $currentLinePrefix . $this->separator . $row;
+                    $row = $this->formatValue($currentLinePrefix) . $this->separator . $row;
                 }
                 $str .= "\n" . implode("\n", $returned);
             }
@@ -318,7 +318,7 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"', true);
+        Common::sendHeader("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($fileName), true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 

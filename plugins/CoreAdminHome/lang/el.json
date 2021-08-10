@@ -139,6 +139,23 @@
         "TrackingFailuresEmail1": "Αυτό μόνο και μόνο για να γνωρίζετε ότι %s διαφορετικά είδη αποτυχιών παρακολούθησης έχουν συμβεί τις τελευταίες ημέρες.",
         "TrackingFailuresEmail2": "Για να δείτε όλες τις αποτυχημένες αιτήσεις παρακολούθησης %1$sκάντε κλικ εδώ%2$s.",
         "ImportFromGoogleAnalytics": "Εισαγωγή από το Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "Αν έχετε μια ιδιοκτησία του Google Analytics και αλλάζετε στο Matomo, μπορείτε να εισαγάγετε τα υπάρχοντα δεδομένα σας με χρήση του πρόσθετου %1$sGoogleAnalyticsImporter%2$s."
+        "ImportFromGoogleAnalyticsDescription": "Αν έχετε μια ιδιοκτησία του Google Analytics και αλλάζετε στο Matomo, μπορείτε να εισαγάγετε τα υπάρχοντα δεδομένα σας με χρήση του πρόσθετου %1$sGoogleAnalyticsImporter%2$s.",
+        "SecurityNotificationEmailSubject": "Ειδοποίηση Ασφάλειας",
+        "SecurityNotificationRecoveryCodesShowedBody": "Κάποιος είδε τους κωδικούς ανάκτησης αυθεντικοποίησης δύο παραγόντων του λογαριασμού σας.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Κάποιος δημιούργησε νέους κωδικούς ανάκτησης για την αυθεντικοποίηση δύο παραγόντων για το λογαριασμό σας.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Κάποιος ενεργοποίησε την αυθεντικοποίηση δύο παραγόντων στο λογαριασμό σας.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Κάποιος απενεργοποίησε την αυθεντικοποίηση δύο παραγόντων στο λογαριασμό σας.",
+        "SecurityNotificationTokenAuthCreatedBody": "Κάποιος δημιούργησε ένα τεκμήριο αυθεντικοποίησης (περιγραφή: %s) στο λογαριασμό σας. Αν δεν ήσασταν εσείς, διαγράψτε το τεκμήριο.",
+        "SecurityNotificationTokenAuthDeletedBody": "Κάποιος διέγραψε ένα τεκμήριο αυθεντικοποίησης (περιγραφή: %s) στο λογαριασμό σας.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Κάποιος διέγραψε όλα τα τεκμήρια αυθεντικοποίησης στο λογαριασμό σας.",
+        "SecurityNotificationSettingsChangedByUserBody": "Κάποιος τροποποίησε τις ρυθμίσεις συστήματος. Οι ρυθμίσεις που επηρεάστηκαν: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Κάποιος άλλος υπερ-χρήστης (%1$s) τροποποίησε τις ρυθμίσεις συστήματος. Οι ρυθμίσεις που επηρεάστηκαν: %2$s. Αν γνωρίζετε αυτή τη δραστηριότητα, συνεχίστε. Αν δεν την γνωρίζετε, παρακαλώ επικοινωνήστε με τους άλλους υπερ-χρήστες.",
+        "SecurityNotificationUserCreatedBody": "Κάποιος δημιούργησε ένα νέο χρήστη (όνομα εισόδου: %s) στο λογαριασμό σας.",
+        "SecurityNotificationUserDeletedBody": "Κάποιος διέγραψε ένα χρήστη (όνομα εισόδου: %s) στο λογαριασμό σας.",
+        "SecurityNotificationIfItWasYou": "Αν αυτός ήσασταν εσείς, συνεχίστε. Αν δεν αναγνωρίζετε αυτή τη δραστηριότητα, παρακαλώ αλλάξτε το συνθηματικό σας.",
+        "SecurityNotificationCheckTwoFactor": "Παρακαλώ ελέγξτε την εφαρμογή ή συσκευή σας αυθεντικοποίησης δύο παραγόντων.",
+        "BruteForce": "Brute Force",
+        "TwoFactorAuth": "Αυθεντικοποίηση δύο παραγόντων",
+        "Cors": "Cors"
     }
 }

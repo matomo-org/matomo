@@ -32,6 +32,15 @@ class SitesManager extends \Piwik\Plugin
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
     const KEEP_URL_FRAGMENT_YES = 1;
     const KEEP_URL_FRAGMENT_NO = 2;
+    const SITE_TYPE_UNKNOWN = 'unknown';
+    const SITE_TYPE_WORDPRESS = 'wordpress';
+    const SITE_TYPE_SQUARESPACE = 'squarespace';
+    const SITE_TYPE_WIX = 'wix';
+    const SITE_TYPE_SHAREPOINT = 'sharepoint';
+    const SITE_TYPE_JOOMLA = 'joomla';
+    const SITE_TYPE_SHOPIFY = 'shopify';
+    const SITE_TYPE_WEBFLOW = 'webflow';
+    const SITE_TYPE_DRUPAL = 'drupal';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -351,6 +360,22 @@ class SitesManager extends \Piwik\Plugin
         return $hosts;
     }
 
+    public static function getInstructionUrlBySiteType($siteType)
+    {
+        $map = [
+            self::SITE_TYPE_JOOMLA => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla',
+            self::SITE_TYPE_SHAREPOINT => 'https://matomo.org/faq/how-to-install/faq_19424',
+            self::SITE_TYPE_SHOPIFY => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store',
+            self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
+            self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
+            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress',
+            self::SITE_TYPE_DRUPAL => 'https://matomo.org/faq/new-to-piwik/how-to-integrate-with-drupal/',
+            self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
+        ];
+
+        return $map[$siteType] ? $map[$siteType] : false;
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "General_Save";
@@ -387,6 +412,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp2";
         $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp3";
         $translationKeys[] = "SitesManager_WebsitesManagement";
+        $translationKeys[] = "SitesManager_WebsiteUpdated";
+        $translationKeys[] = "SitesManager_WebsiteCreated";
         $translationKeys[] = "SitesManager_MainDescription";
         $translationKeys[] = "SitesManager_YouCurrentlyHaveAccessToNWebsites";
         $translationKeys[] = "SitesManager_SuperUserAccessCan";

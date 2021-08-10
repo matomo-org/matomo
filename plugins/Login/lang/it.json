@@ -16,10 +16,14 @@
         "SettingBruteForceEnableHelp": "Il Rilevamento Forza Bruta è un'importante funzione di sicurezza utilizzata per proteggere i tuoi dati da accessi non autorizzati. Invece di consentire a qualsiasi utente di provare migliaia o milioni di combinazioni di password in un tempo molto breve, consentirà solo una quantità specifica di accessi non riusciti entro un breve periodo di tempo. Se si verificano troppi accessi non riusciti in tale intervallo di tempo, l'utente non sarà in grado di accedere finché non è trascorso un certo tempo. Si noti che se un IP è bloccato, anche tutti gli utenti che utilizzano quell'IP verranno bloccati dal login.",
         "SettingBruteForceWhitelistIp": "Non bloccare mai l'accesso a questi IP",
         "SettingBruteForceBlacklistIp": "Blocca sempre l'accesso a questi IP",
+        "NotAllowListTakesPrecendence": "Se un IP corrisponde sia all'elenco di blocco che a quello di nessun blocco, l'elenco di blocco ha la precedenza e l'IP non sarebbe consentito.",
         "SettingBruteForceMaxFailedLogins": "Numero di tentativi di accesso permessi nell'intervallo di tempo",
         "SettingBruteForceMaxFailedLoginsHelp": "Se viene registrato più di questo numero di accessi non riusciti nell'intervallo di tempo configurato di seguito, bloccare l'IP.",
         "SettingBruteForceTimeRange": "Conta i tentativi di accesso entro questo intervallo di tempo in minuti",
         "SettingBruteForceTimeRangeHelp": "Inserisci un numero di minuti.",
+        "ConfirmPasswordReset": "Conferma la reimpostazione della password",
+        "ConfirmPasswordResetIntro": "Per confermare che sei davvero tu a richiedere la modifica della password, inserisci ancora la nuova password.",
+        "ConfirmPasswordResetWrongPassword": "La password inserita non corrisponde a quella nuova. Se non ricordi la password appena scelta, puoi reimpostarla di nuovo. Se non hai richiesto la modifica della password, non fare nulla e la tua password non verrà modificata.",
         "LoginNotAllowedBecauseBlocked": "Al momento non sei autorizzato ad accedere perché hai avuto troppi accessi non riusciti, riprova più tardi.",
         "CurrentlyBlockedIPs": "IP attualmente bloccati",
         "IPsAlwaysBlocked": "Questi IP sono sempre bloccati",
@@ -40,6 +44,13 @@
         "WrongPasswordEntered": "Si prega di inserire la tua password corretta.",
         "ConfirmPasswordToContinue": "Conferma la tua password per continuare",
         "PluginDescription": "Fornisce l'autenticazione tramite user name e password, e anche la funzione di reset della password. Il metodo di autenticazione può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap disponibile nel Marketplace.",
-        "RememberMe": "Ricordami"
+        "RememberMe": "Ricordami",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Abbiamo notato alcuni tentativi di accesso sospetti al tuo account ...",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Abbiamo notato un numero sospetto di tentativi di accesso al tuo account Matomo nell'ultima ora, in particolare %1$s tentativi di accesso da %2$s indirizzi IP distinti. Sospettiamo che qualcuno stia tentando di entrare nel tuo account.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Per salvaguardare il tuo Matomo, ti consigliamo di prendere le seguenti precauzioni:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Assicurati che la tua password sia sicura, casuale e di lunghezza appropriata (ad esempio, almeno 30 caratteri).",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Imposta l'autenticazione a due fattori in modo che gli intrusi abbiano bisogno di più informazioni, oltre alla tua password, per accedere.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Inoltre, se il tuo Matomo ha un numero limitato di utenti o di IP da cui gli utenti accedono, potrebbe essere utile impostare un elenco di indirizzi IP consentiti. %1$sLeggi la nostra documentazione per ulteriori informazioni.%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "La funzionalità di accesso è temporaneamente disabilitata poiché nell'ultima ora è stato rilevato un numero sospetto di tentativi di accesso non riusciti."
     }
 }

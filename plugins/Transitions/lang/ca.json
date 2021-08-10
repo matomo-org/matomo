@@ -22,6 +22,7 @@
         "ToFollowingSiteSearches": "Cerques internes",
         "ToFollowingSiteSearchesInline": "%s cerques internes",
         "XOfAllPageviews": "%s de totes les visualitzacions d'aquesta pàgina",
-        "XOutOfYVisits": "%1$s (de %2$s)"
+        "XOutOfYVisits": "%1$s (de %2$s)",
+        "TransitionsSubcategoryHelp2": "Més detalls"
     }
 }

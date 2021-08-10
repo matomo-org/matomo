@@ -44,6 +44,13 @@
         "WrongPasswordEntered": "Ju lutemi, jepni fjalëkalimin tuaj të saktë.",
         "ConfirmPasswordToContinue": "Që të vazhdohet, ripohoni fjalëkalimin tuaj",
         "PluginDescription": "Ofron mirëfilltësim përmes emri përdoruesi dhe fjalëkalimi, si dhe funksionin e ricaktimit të fjalëkalimeve. Metoda e mirëfilltësimit mund të ndryshohet duke përdorur një tjetër shtojcë Hyrjesh, të tillë si LoginLdap, të cilën e gjeni te Marketplace-i.",
-        "RememberMe": "Mbamë Mend"
+        "RememberMe": "Mbamë Mend",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Vumë re disa përpjekje të dyshimta hyrjeje në llogarinë tuaj…",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Vumë re një numër të madh përpjekjesh të dyshimta për hyjr në llogarinë tuaj Matomo orën e fundit, më hollësisht, %1$s përpjekje për hyrje nga %2$s adresa të ndryshme IP. Dyshojmë se dikush mund të jetë duke u përpjekur të hyjë në llogarinë tuaj.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Që të ruhet Matomo-ja juaj, rekomandojmë të merrni masat vijuese:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Sigurohuni se fjalëkalimi juaj është i sigurt, kuturu, me gjatësi të përshtatshme (për shembull, të paktën 30 shenja).",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Ujdisni mirëfilltësim dyfaktorësh, në mënyrë që agresorëve t’u duhet më tepër informacion se sa thjesht fjalëkalimi juaj, për të mundur të bëjnë hyrjen në llogari.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Më tej, nëse Matomo-ja juaj ka një grup të kufizuar përdoruesish, ose IP-sh përmes të cilave përdoruesit do të hyjnë në të, mund të jetë me leverdi të ujdiset një listë adresash IP të lejuara. %1$sPër më tepër të dhëna, lexoni dokumentimin tonë.%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "Hyrjet janë çaktivizuar përkohësisht, ngaqë kemi parë një numër të dyshimtë përpjekjesh të dështuara për hyrje gjatë orës së fundit."
     }
 }

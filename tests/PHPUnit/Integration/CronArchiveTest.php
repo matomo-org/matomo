@@ -362,7 +362,7 @@ class CronArchiveTest extends IntegrationTestCase
                         1,
                         '2020-02-03',
                         'day',
-                        'browserCode==IE',
+                        'visitCount>5',
                         false,
                         false,
                     ),
@@ -370,7 +370,7 @@ class CronArchiveTest extends IntegrationTestCase
                         1,
                         '2020-02-03',
                         'day',
-                        'visitCount>5',
+                        'browserCode==IE',
                         false,
                         false,
                     ),
@@ -392,7 +392,7 @@ class CronArchiveTest extends IntegrationTestCase
                         1,
                         '2020-02-02',
                         'day',
-                        'browserCode==IE',
+                        'visitCount>5',
                         false,
                         false,
                     ),
@@ -400,7 +400,7 @@ class CronArchiveTest extends IntegrationTestCase
                         1,
                         '2020-02-02',
                         'day',
-                        'visitCount>5',
+                        'browserCode==IE',
                         false,
                         false,
                     ),
@@ -427,7 +427,7 @@ class CronArchiveTest extends IntegrationTestCase
         return $mock;
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
     {
         Fixture::createWebsite('2019-04-04 03:45:45');
 
@@ -444,12 +444,14 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params);
+        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnoughAndInvalidated()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnoughAndInvalidated()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05');
@@ -465,12 +467,14 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfPeriodDoesNotHaveToday_AndExistingArchiveIsOk()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsIfPeriodDoesNotHaveToday_AndExistingArchiveIsOk()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05');
@@ -479,19 +483,21 @@ class CronArchiveTest extends IntegrationTestCase
 
         $params = new Parameters(new Site(1), Factory::build('day', '2020-03-05'), new Segment('', [1]));
 
-        $tsArchived = Date::now()->subDay(1)->getDatetime();
+        $tsArchived = Date::now()->subHour(0.1)->getDatetime();
 
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-05'));
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1, 1, '2020-03-05', '2020-03-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = false);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsFalseIfDayHasChangedAndDateIsYesterday()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsFalseIfDayHasChangedAndDateIsYesterday()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05');
@@ -507,12 +513,14 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->isThereExistingValidPeriod($params, $isYesterday = true);
+        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertFalse($actual);
     }
 
-    public function test_isThereExistingValidPeriod_returnsTrueIfDayHasNotChangedAndDateIsYesterday()
+    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfDayHasNotChangedAndDateIsYesterday()
     {
+        Rules::setBrowserTriggerArchiving(false);
+
         Fixture::createWebsite('2019-04-04 03:45:45');
 
         Date::$now = strtotime('2020-04-05 06:23:40');
@@ -528,7 +536,8 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual = $archiver->isThereExistingValidPeriod($params, $isYesterday = true);
+        // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck = true);
         $this->assertTrue($actual);
     }
 
@@ -544,7 +553,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $api = API::getInstance();
 
-        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $cronarchive = new TestCronArchive();
         $cronarchive->init();
         $cronarchive->setApiToInvalidateArchivedReport($api);
         $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
@@ -588,7 +597,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $allSegments = $segments->getSegmentsToAutoArchive(1);
 
-        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $cronarchive = new TestCronArchive();
         $this->assertTrue($cronarchive->wasSegmentChangedRecently('actions>=1', $allSegments));
 
         // created 30 hours ago...
@@ -615,7 +624,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
         $archiver->init();
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSkipSegmentsForToday(true);
@@ -626,7 +635,6 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->run();
 
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
-        self::assertStringContainsString('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
         self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
     }
 
@@ -660,7 +668,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSegmentsToForce(['actions>=2;browserCode=FF', 'actions>=2']);
@@ -695,34 +703,32 @@ Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-02 for following websites ids: 1
   Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
   Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
-  Segment "actions>=2" was created or changed recently and will therefore archive today (for site ID = 1)
-  Segment "actions>=4" was created or changed recently and will therefore archive today (for site ID = 1)
 Done invalidating
-Processing invalidation: [idinvalidation = 5, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 14, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 17, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 269, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 268, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 267, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = day, date = 2019-12-12, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-11, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-10, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 6, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 22, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 266, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 257, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-09, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 23, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 258, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 7, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 256, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 8, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = 65, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
@@ -777,7 +783,7 @@ LOG;
         $sequence = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory('2019-12-10')));
         $sequence->create();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiver->setArchiveFilter($archiveFilter);
@@ -867,7 +873,7 @@ LOG;
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(null, $logger);
+        $archiver = new CronArchive($logger);
         $archiver->shouldArchiveSpecifiedSites = array(99999, 1);
         $archiver->init();
         $archiver->run();

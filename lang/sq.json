@@ -16,6 +16,7 @@
         "Apply": "Zbatoje",
         "ArchivingInlineHelp": "Për sajte me trafik mesatar ose të shumtë këshillohet të çaktivizohet vënia në punë e arkivimit nga Matomo prej shfletuesit. Në vend të kësaj këshillojmë të rregulloni një akt cron që të përpunoni raporte Matomo çdo orë.",
         "ArchivingTriggerDescription": "E këshilluar për instalime më të ngarkuara të Matomo-s, lypset të %1$s rregulloni një akt cron-i%2$s që të përpunohen raportet automatikisht.",
+        "ArchivingTriggerSegment": "Përdorimi i Segmenteve Vetjake prapë do të shkaktojë përpunimin e arkivave.",
         "AuthenticationMethodSmtp": "Metodë mirëfilltësimi për SMTP",
         "AverageOrderValue": "Vlerë Mesatare Porosie",
         "AveragePrice": "Çmim Mesatar",
@@ -176,6 +177,8 @@
         "ExceptionDatabaseVersion": "Versioni juaj për %1$s është %2$s por Matomo lyp të paktën %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Kodi bazë i Matomo-s tuaj xhiron versionin e vjetër %1$s dhe kemi gjetur se Baza juaj e të Dhënave Matomo është përmirësuar tashmë me versionin më të ri %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Ndoshta përgjegjësit e Matomo-s tuaj janë duke përfunduar procesin e përmirësimit. Ju lutemi, riprovoni pas pak minutash.",
+        "ExceptionDatabaseUnavailable": "Shërbyesi MySQL s’është në punë",
+        "ExceptionDatabaseAccess": "U mohua hyrje në bazë të dhënash",
         "ExceptionFileIntegrity": "Kontrolli i pacenueshmërisë dështoi: %s",
         "ExceptionFilesizeMismatch": "Mospërputhje madhësie kartelash: %1$s (pritej gjatësi: %2$s, u gjet: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Versioni i klientit tuaj për %1$s është %2$s çka është e papërputhshme me versionin e shërbyesit %3$s.",
@@ -210,6 +213,8 @@
         "ExceptionWidgetNotFound": "Widget-i i kërkuar s’ekziston.",
         "ExceptionReportNotEnabled": "Raporti i kërkuar s’është i aktivizuar. Kjo zakonisht do të thotë se ose shtojca që përcakton raportin është e çaktivizuar, ose se s’keni leje të mjaftueshme të përdorni këtë raport.",
         "ExceptionWidgetNotEnabled": "Widget-i i domosdoshëm s’është i instaluar. Kjo do të thotë zakonisht se ose shtojca përcakton që widget-i të jetë i çaktivizuar, ose që ju s’keni leje të mjaftueshme për të përdorur këtë widget.",
+        "ExceptionNotSupportedBrowserTitle": "Shfletuesi juaj nuk mbulohet.",
+        "ExceptionNotSupportedBrowserText": "Shfletuesi juaj nuk mbulohet, për shkak arsyesh sigurie. Ju lutemi, përmirësojeni me një version të ri.",
         "ExpandDataTableFooter": "Ndryshoni vizualizimin ose formësoni raportin",
         "Export": "Eksporto",
         "ExportAsImage": "Eksportoje si Figurë",
@@ -487,6 +492,7 @@
         "WarningFileIntegrityNoMd5file": "Kontrolli i pacenueshmërisë së kartelës s’u plotësua dot për shkak të mungesës së funksionit md5_file().",
         "WarningPasswordStored": "%1$sKujdes:%2$s Ky fjalëkalim do të depozitohet te kartela e formësimit që është e dukshme karshi kujtdo që mund të mbërrijë deri te ajo.",
         "WarningDebugOnDemandEnabled": "Mënyra ndjekës %1$s është e aktivizuar. Për arsye sigurie, kjo do të duhej të aktivizohej vetëm për një kohë të shkurtër. Që ta çaktivizoni, caktojeni %2$s si %3$s te %4$s.",
+        "WarningDevelopmentModeOnButNotGitInstalled": "Jeni duke përdorur Matomo-n nën mënyrën zhvillim, por s’qe instaluar përmes git-i. Nuk rekomandohet të përdoret Matomo-ja nën mënyrën zhvillim në një mjedis funksionimi faktik.",
         "Website": "Sajt",
         "Weekly": "Përjavë",
         "WeeklyReport": "përjavë",
@@ -521,7 +527,8 @@
         "Custom": "Vetjake",
         "PreviousPeriod": "Periudhën e Kaluar",
         "PreviousYear": "Vitin e Kaluar",
-        "ViewAccessRequired": "token_auth i përdorur ka shumë fuqi hyrjeje për t’u përdorur në një URL kërkese jo API. Ju lutemi, përdorni një fjalëkalim specifik për aplikacionin për një përdorues që ka vetëm leje parjesh."
+        "ViewAccessRequired": "token_auth i përdorur ka shumë fuqi hyrjeje për t’u përdorur në një URL kërkese jo API. Ju lutemi, përdorni një fjalëkalim specifik për aplikacionin për një përdorues që ka vetëm leje parjesh.",
+        "Reasons": "Arsye"
     },
     "Mobile": {
         "AboutPiwikMobile": "Rreth Matomo-s për Celular",

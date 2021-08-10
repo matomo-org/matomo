@@ -8,16 +8,24 @@
         "ConfigFileIntroduction": "Hier können Sie die Matomo Konfiguration einsehen. Sollten Sie Matomo auf lastverteilten Systemen einsetzen, könnte diese Seite unterschiedlich sein, abhängig vom Server auf dem die Seite geladen wurde. Zeilen mit einer anderen Hintergrundfarbe sind geänderte Konfigurationswerte, die beispielsweise in der Datei %1$s definiert wurden.",
         "HideUnchanged": "Falls Sie nur die geänderten Werte einsehen möchten, können Sie %1$salle unveränderten Werte ausblenden%2$s.",
         "Sections": "Sektionen",
+        "BrowserAndAutoArchivingEnabledLabel": "Browser- und Autoarchivierung aktiviert",
+        "BrowserAndAutoArchivingEnabledComment": "Sowohl Browser als auch Autoarchivierung scheinen aktiviert zu sein. Autoarchivierung startete zuletzt vor %3$s. Wenn %1$sAutoarchvierung%2$s aktiviert ist, sollten Sie Browserarchivierung in \"Allgemeine Einstellungen\" deaktivieren.",
         "DatabaseReaderConnection": "Datenbankleserecht-Verbindung",
         "DatabaseUtf8Requirement": "Dies ist nötig, um 4-Byte UTF8 Zeichen speichern zu können. Wenn utf8mb4 nicht verfügbar ist, werden spezielle Zeichen wie Emojis, selten verwendete Zeichen asiatischer Sprachen, historische Schriftzeichen oder mathematische Symbole mit %1$s ersetzt. Sie können mehr über dieses Thema in %2$sdiesen FAQ%3$s lesen.",
         "DatabaseUtf8mb4CharsetRecommended": "Ihre Datenbank unterstützt den utf8mb4 Zeichensatz noch nicht.",
-        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "  Ihre Datenbank unterstützt den utf8mb4 Zeichensatz, aber Ihre Datenbanktabellen wurden noch nicht konvertiert. Sie können dies nachholen, indem Sie den Befehl %1$s ausführen oder die automatische Konvertierung in den generellen Einstellungen aktivieren.",
+        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Ihre Datenbank unterstützt den utf8mb4 Zeichensatz, aber Ihre Datenbanktabellen wurden noch nicht konvertiert. Sie können dies nachholen, indem Sie den Befehl %1$s ausführen oder die automatische Konvertierung in den generellen Einstellungen aktivieren.",
         "CronArchivingLastRunCheck": "Letzter erfolgreicher Abschluss der Archivierung",
         "CronArchivingHasNotRun": "Die Archivierung wurde noch nicht erfolgreich abgeschlossen.",
         "CronArchivingHasNotRunInAWhile": "Die Archivierung ist zuletzt am %1$s erfolgreich gelaufen, also vor %2$s.",
         "CronArchivingRunDetails": "Bitte überprüfen Sie, ob Sie einen Crontab eingerichtet haben, der den %1$s Konsolenbefehl aufruft, und ob Sie einen %2$s konfiguriert haben, um Fehler per E-Mail zu erhalten, wenn die Archivierung fehlschlägt. Sie können auch versuchen, den Konsolenbefehl auszuführen, um Ihre Berichte manuell zu archivieren: %3$s. %4$s Mehr erfahren.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "Der Archivierungsprozess wurde vor %1$s erfolgreich abgeschlossen.",
         "BrowserTriggeredArchivingEnabled": "Für eine optimale Leistung und ein schnelles Matomo wird dringend empfohlen, einen Crontab einzurichten, um Ihre Berichte automatisch zu archivieren und das Auslösen durch den Browser in den Matomo-Einstellungen zu deaktivieren. %1$sErfahren Sie mehr.%2$s",
-        "NoDataForReportArchivingNotRun": "Die Archivierung Ihrer Berichte wurde in letzter Zeit nicht durchgeführt, %1$serfahren Sie mehr darüber, wie Sie Ihre Berichte erzeugen können.%2$s"
+        "NoDataForReportArchivingNotRun": "Die Archivierung Ihrer Berichte wurde in letzter Zeit nicht durchgeführt, %1$serfahren Sie mehr darüber, wie Sie Ihre Berichte erzeugen können.%2$s",
+        "RequiredPrivateDirectories": "Verzeichnisse, welche privat sein müssen",
+        "PrivateDirectoryManualCheck": "Bitte öffnen Sie die URLs manuell in einem Browser um zu sehen, ob Sie Zugang dazu haben. Wenn Sie können, sollten Sie Ihre Serverkonfiguration so ändern, dass diese Dateien\/Verzeichnisse nicht via Browser aus dem Internet oder Intranet verfügbar sind.",
+        "PrivateDirectoryInternetDisabled": "Wir konnten bei den folgenden URLs nicht prüfen, ob sie erreichbar sind, weil Internet Features aktuell auf dieser Matomo Installation deaktiviert sind.",
+        "PrivateDirectoryIsAccessible": "Wir haben festgestellt, dass auf die oben aufgelisteten URLs über den Browser zugegriffen werden kann, was aber NICHT so sein sollte. Der Zugriff kann ein mögliches Sicherheitsrisiko darstellen, weil der Inhalt Informationen über Ihren Server und potenziell über Ihre Benutzer enthält. Bitte beschränken Sie den Zugriff auf diese URLs.",
+        "ConfigIniAccessible": "Wir haben auch herausgefunden, dass Matomos Konfigurationsverzeichnis öffentlich zugänglich ist. Zwar können Angreifer die Konfigurationsdatei nicht lesen, jedoch sind Ihre MySQL Anmeldeinformationen und andere Informationen für jeden zugänglich, wenn Ihr Webserver aus irgend einem Grund aufhört, PHP Dateien auszuführen. Bitte prüfen Sie Ihre Webserverkonfiguration und verwehren Sie den Zugriff zu diesem Verzeichnis.",
+        "AllPrivateDirectoriesAreInaccessible": "Alle privaten Verzeichnisse sind nicht aus dem Internet zugänglich."
     }
 }

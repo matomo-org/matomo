@@ -25,6 +25,9 @@ describe("TwoFactorAuth", function () {
 
     async function loginUser(username, doAuth)
     {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.save();
+
         // make sure to log out previous session
         await page.goto(logoutUrl);
 
@@ -42,6 +45,8 @@ describe("TwoFactorAuth", function () {
         }
         await page.waitFor(1000);
         await page.goto(logMeUrl);
+        await page.waitForNetworkIdle();
+        await page.waitFor(1000);
     }
 
     function requireTwoFa() {
@@ -70,6 +75,7 @@ describe("TwoFactorAuth", function () {
         delete testEnvironment.requireTwoFa;
         delete testEnvironment.restoreRecoveryCodes;
         delete testEnvironment.fakeCorrectAuthCode;
+        delete testEnvironment.configOverride;
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -106,6 +112,9 @@ describe("TwoFactorAuth", function () {
     });
 
     it('when logging in through logme and verifying screen it works to access ui', async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.save();
+
         await page.type('.loginTwoFaForm #login_form_authcode', '123456');
         await page.evaluate(function(){
             $('.loginTwoFaForm #login_form_submit').click();

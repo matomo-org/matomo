@@ -22,6 +22,7 @@
         "WithUnknownRegion": "%s mit unbekannter Region",
         "WithUnknownCity": "%s mit unbekannter Stadt",
         "NoVisitsInfo": "Es werden aktuell keine Besuche angezeigt, weil für diesen Zeitraum kein Besuch mit korrekten Geolocation Informationen (Längengrad & Breitengrad) existiert.",
-        "NoVisitsInfo2": "Um das Problem zu lösen, stellen Sie sicher, dass Sie einen GeoIP Geolocation Provider mit einer GeoIP Stadt Datenbank verwenden. Wenn dies Ihr Problem nicht löst, dann ist es möglich (wenn auch unwahrscheinlich) dass Ihre Besuche IP Adressen haben, die nicht geolokalisiert werden können."
+        "NoVisitsInfo2": "Um das Problem zu lösen, stellen Sie sicher, dass Sie einen GeoIP Geolocation Provider mit einer GeoIP Stadt Datenbank verwenden. Wenn dies Ihr Problem nicht löst, dann ist es möglich (wenn auch unwahrscheinlich) dass Ihre Besuche IP Adressen haben, die nicht geolokalisiert werden können.",
+        "RealTimeMapHelp": "Die Echtzeit-Karte zeigt den Ort der Besucher auf Ihrer Seite von den letzten 30 Minuten. Große orange Kreise repräsentieren kürzliche Besuche, während kleinere Kreise die älteren Besuche anzeigen. Diese Daten aktualisieren alle fünf Sekunden, und neue Besucher werden mit einem Flash-Effekt dargestellt."
     }
 }

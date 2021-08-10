@@ -16,6 +16,7 @@
         "Apply": "Aplicar",
         "ArchivingInlineHelp": "Para sites com tráfego de médio a alto, é recomendado desabilitar a trigger que salva do navegador. Em vez disso, nós recomendamos que instale um cron job para processar os relatorios Matomo a cada hora.",
         "ArchivingTriggerDescription": "Recomendado para instalações maiores do Matomo, você precisa %1$sconfigurar um trabalho cron%2$s para processar os relatórios automaticamente.",
+        "ArchivingTriggerSegment": "O uso de segmentos personalizados ainda acionará o processamento de arquivos.",
         "AuthenticationMethodSmtp": "Método de autenticação para SMTP",
         "AverageOrderValue": "Média de Pedidos",
         "AveragePrice": "Preço Médio",
@@ -32,6 +33,7 @@
         "ChooseLanguage": "Escolha o idioma.",
         "ChoosePeriod": "Escolha o período.",
         "ClickHere": "Clique aqui para mais informações.",
+        "CompareTo": "Comparado a:",
         "DoubleClickToChangePeriod": "Clique duplo para aplicar o período",
         "Close": "Fechar",
         "ClickToSearch": "Clique para pesquisar",
@@ -209,6 +211,8 @@
         "ExceptionWidgetNotFound": "O widget solicitado não existe.",
         "ExceptionReportNotEnabled": "O relatório solicitado não está habilitado. Geralmente isto significa que o plugin que define o relatório está desativado ou você não tem permissão suficiente para acessar o mesmo.",
         "ExceptionWidgetNotEnabled": "O widget solicitado não está habilitado. Geralmente isto significa que o plugin que define o widget está desativado ou você não tem permissão suficiente para acessar o mesmo.",
+        "ExceptionNotSupportedBrowserTitle": "Seu navegador não é compatível.",
+        "ExceptionNotSupportedBrowserText": "Devido a problemas de segurança, seu navegador não é compatível. Por favor, o atualize para uma versão mais recente.",
         "ExpandDataTableFooter": "Alterar a visualização ou configurar o relatório",
         "Export": "Exportar",
         "ExportAsImage": "Exportar como imagem",
@@ -486,6 +490,7 @@
         "WarningFileIntegrityNoMd5file": "O check de integridade do arquivo não pode ser completado enquanto estiver faltando a função md5_file().",
         "WarningPasswordStored": "%1$sWarning:%2$s Esta senha será armazenada no arquivo de configuração visível para todos que possam acessá-lo.",
         "WarningDebugOnDemandEnabled": "O modo Tracker %1$s está ativado. Por razões de segurança, este deve ser ativado apenas por um curto período de tempo. Para desativá-lo configure %2$s para %3$s em %4$s",
+        "WarningDevelopmentModeOnButNotGitInstalled": "Você está usando Matomo no modo desenvolvedor, mas não foi instalado através do git. Não é recomendado utilizar o Matomo no modo desenvolvedor em ambiente de produção.",
         "Website": "Website",
         "Weekly": "Semanalmente",
         "WeeklyReport": "semanal",
@@ -520,7 +525,8 @@
         "Custom": "Personalizado",
         "PreviousPeriod": "Período anterior",
         "PreviousYear": "Ano anterior",
-        "ViewAccessRequired": "O token_auth usado tem muito acesso para ser usado em um pedido URL não-API. Por favor use uma senha específica do aplicativo para um usuário que só tenha acesso para visualização."
+        "ViewAccessRequired": "O token_auth usado tem muito acesso para ser usado em um pedido URL não-API. Por favor use uma senha específica do aplicativo para um usuário que só tenha acesso para visualização.",
+        "Reasons": "Razões"
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",

@@ -48,6 +48,7 @@ class FeedbackTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
+        FakeAccess::$identity = 'user1';
         Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');
         Date::$now = $this->now;
@@ -75,13 +76,6 @@ class FeedbackTest extends IntegrationTestCase
         Date::$now = Date::factory('2019-05-31')->getTimestamp();   // 89 days
 
         $this->assertFalse($this->feedback->getShouldPromptForFeedback());
-    }
-
-    public function test_shouldPromptForFeedback_noFeedbackReminderOptionForUser_newUser()
-    {
-        Date::$now = Date::factory('2019-06-01')->getTimestamp();   // 90 days
-
-        $this->assertTrue($this->feedback->getShouldPromptForFeedback());
     }
 
     public function test_shouldPromptForFeedback_dontRemindUserAgain()

@@ -7,6 +7,7 @@
         "Resolutions": "Auflösungen",
         "WidgetGlobalVisitors": "Globale Besucherkonfiguration",
         "WidgetGlobalVisitorsDocumentation": "Dieser Bericht zeigt Ihnen die häufigsten Gesamtkonfigurationen der Besucher. Eine Konfiguration ist die Kombination aus Betriebssystem, Browsertyp und Bildschirmauflösung.",
-        "WidgetResolutions": "Bildschirmauflösungen"
+        "WidgetResolutions": "Bildschirmauflösungen",
+        "WidgetResolutionsDocumentation": "Dieser Bericht zeigt die Bildschirmauflösung, die Ihre Besucher verwendet haben, als sie Ihre Webseite besucht hatten."
     }
 }

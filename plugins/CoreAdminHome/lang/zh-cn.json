@@ -9,7 +9,6 @@
         "ClickHereToOptIn": "点这里主动加入。",
         "ClickHereToOptOut": "点这里主动退出。",
         "CorsDomains": "跨域资源共享（CROS）白名单域名",
-        "CorsDomainsHelp": "你可以在此处定义跨域访问的白名单域名（用于解决开发者工具中出现的CROS错误），填写的值应该形如： http:\/\/你的域名.com或 http:\/\/子域名.你的域名.com 你也可以使用“*”作为通配符来添加多个子域名，如：http:\/\/*.你的域名.com",
         "CustomLogoFeedbackInfo": "如果您定制了 Matomo 图标，那您可能也想在顶部菜单隐藏 %1$s 链接。在 %2$s管理插件%3$s 页面禁用反馈（Feedback）插件就可以了。",
         "CustomLogoHelpText": "您可以定制 Matomo 图标，它会显示在用户界面和报表邮件中。",
         "DevelopmentProcess": "虽然我们的开发过程包括数千个自动化测试，但Beta测试人员在实现Matomo中的“无错误策略”方面发挥着关键作用。",

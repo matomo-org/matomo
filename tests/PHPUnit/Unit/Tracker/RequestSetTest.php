@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit\Tracker;
 
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
 
@@ -15,7 +16,7 @@ use Piwik\Tracker\RequestSet;
  * @group RequestSetTest
  * @group Tracker
  */
-class RequestSetTest extends \PHPUnit\Framework\TestCase
+class RequestSetTest extends UnitTestCase
 {
     /**
      * @var TestRequestSet

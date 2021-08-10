@@ -17,6 +17,8 @@
         "Contents": "Contents",
         "InteractionsMetricDocumentation": "The number of times a content block was interacted with (eg, a 'click' on a banner or ad).",
         "ImpressionsMetricDocumentation": "The number of times a content block, such as a banner or an ad, was displayed on a page.",
-        "InteractionRateMetricDocumentation": "The ratio of content impressions to interactions."
+        "InteractionRateMetricDocumentation": "The ratio of content impressions to interactions.",
+        "ContentsSubcategoryHelp1": "Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.",
+        "ContentsSubcategoryHelp2": "Learn more in the Content Tracking guide."
     }
 }

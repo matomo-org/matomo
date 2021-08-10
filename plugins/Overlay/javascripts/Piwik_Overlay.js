@@ -149,10 +149,24 @@ var Piwik_Overlay = (function () {
         var m = location.match(ORIGIN_PARSE_REGEX);
         iframeOrigin = m ? m[0] : null;
 
+        var foundValidSiteUrl = false;
+
         // unset iframe origin if it is not one of the site URLs
         var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
-            return url.match(ORIGIN_PARSE_REGEX)[0].toLowerCase();
+            if (typeof url === 'string' && url !== "") {
+                foundValidSiteUrl = true;
+            }
+
+            var siteUrlMatch = url.match(ORIGIN_PARSE_REGEX);
+            if (!siteUrlMatch) {
+                return null;
+            }
+            return siteUrlMatch[0].toLowerCase();
         });
+
+        if (!foundValidSiteUrl) {
+            $('#overlayErrorNoSiteUrls').show();
+        }
 
         if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin.toLowerCase()) === -1) {
             try {
@@ -214,6 +228,10 @@ var Piwik_Overlay = (function () {
             params.module = 'API';
             params.action = 'index';
 
+            // these should be sent as post parameters
+            delete params.token_auth;
+            delete params.force_api_session;
+
             if (ALLOWED_API_REQUEST_WHITELIST.indexOf(params.method) === -1) {
                 sendResponse({
                     result: 'error',
@@ -223,13 +241,14 @@ var Piwik_Overlay = (function () {
             }
 
             angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
+                piwikApi.withTokenInUrl();
                 piwikApi.fetch(params)
                     .then(function (response) {
                         sendResponse(response);
                     }).catch(function (err) {
                         sendResponse({
                             result: 'error',
-                            message: err.message,
+                            message: err.message || err || 'unknown error',
                         });
                     });
             }]);

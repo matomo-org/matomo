@@ -422,6 +422,10 @@ class Site
      */
     public static function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
     {
+        if (empty($ids)) {
+            return [];
+        }
+
         if ($ids === 'all') {
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }

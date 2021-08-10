@@ -38,7 +38,7 @@ class RecoveryCodeDao
 
         for ($i = 0; $i < 10; $i++) {
             $code = $this->generator->generateCode();
-            $code = Common::mb_strtoupper($code);
+            $code = mb_strtoupper($code);
             $this->insertRecoveryCode($login, $code);
             $codes[] = $code;
         }

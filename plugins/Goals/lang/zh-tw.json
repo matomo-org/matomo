@@ -4,8 +4,8 @@
         "AddGoal": "新增目標",
         "AddNewGoal": "新增目標",
         "AddNewGoalOrEditExistingGoal": "%1$s新增目標%2$s或%3$s編輯%4$s現有目標",
-        "AllowGoalConvertedMoreThanOncePerVisit": "一次訪問允許轉換多個目標",
-        "AllowMultipleConversionsPerVisit": "允許多個轉換",
+        "AllowGoalConvertedMoreThanOncePerVisit": "單次訪問允許轉換多個目標",
+        "AllowMultipleConversionsPerVisit": "單次訪問允許多個轉換",
         "BestCountries": "你的最佳轉換國家為：",
         "BestKeywords": "你的最佳轉換關鍵字為：",
         "BestReferrers": "你的最佳轉換參照連結為：",
@@ -42,7 +42,7 @@
         "ConversionsOverviewBy": "訪問類型的轉換總覽",
         "DaysToConv": "訪問天數轉換",
         "Details": "目標詳情",
-        "DefaultGoalConvertedOncePerVisit": "一次訪問只轉換一個目標（預設）",
+        "DefaultGoalConvertedOncePerVisit": "單次訪問只轉換一個目標（預設）",
         "DefaultRevenueLabel": "目標預設收益",
         "DefaultRevenueHelp": "舉例來說，訪客送出聯絡表單可能平均價值為 $10。Matomo 將幫助你瞭解你訪客區隔的表現。",
         "DeleteGoalConfirm": "你確定要刪除目標 %s？",
@@ -54,7 +54,7 @@
         "EcommerceOrder": "電子商務訂單",
         "EcommerceOverview": "電子商務總覽",
         "EcommerceReports": "電子商務報表",
-        "ExceptionInvalidMatchingString": "如果你選擇「精準符合」，相符的字串必須包含一個 URL 網址的開頭 %1$s。例如「%2$s」。",
+        "ExceptionInvalidMatchingString": "如果你選擇「精準符合」，相符的字串必須為以 %1$s 開頭的網址。例如「%2$s」。",
         "ExternalWebsiteUrl": "外部網站連結",
         "Filename": "檔案名稱",
         "GoalConversion": "電子商務轉換",
@@ -95,8 +95,8 @@
         "ProductPrice": "產品價格",
         "ProductQuantity": "產品數量",
         "Products": "產品",
-        "ProductSKU": "產品庫存量單位",
-        "ProductSKUs": "產品庫存量單位",
+        "ProductSKU": "產品最小存貨單位",
+        "ProductSKUs": "產品最小存貨單位",
         "ReturningVisitorsConversionRateIs": "回訪訪客轉換率為 %s",
         "SingleGoalOverviewDocumentation": "這是單一目標的轉換總覽。%s 圖表下的迷你圖可以點擊放大。",
         "ThereIsNoGoalToManage": "網站 %s 還沒有目標可管理",
@@ -115,6 +115,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "所訪問的頁面必須包含呼叫 JavaScript 的「trackGoal」方法（%1$s了解更多%2$s）",
         "YouCanEnableEcommerceReports": "你可以在 %2$s 頁面為這個網站啟用 %1$s。",
         "GoalRevenue": "目標收益",
-        "TimeInMinutes": "以分鐘計時"
+        "TimeInMinutes": "時間（分）"
     }
 }

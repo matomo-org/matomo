@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Det här valet av widgets och kolumnlayout kommer att användas när användare skapar en ny instrumentpanel, eller när \"%s\" används.",
         "TopLinkTooltip": "Visa webbanalysrapport för %s.",
         "WidgetNotFound": "Widgeten hittades inte",
-        "WidgetPreview": "Widget förhandsgranskning"
+        "WidgetPreview": "Widget förhandsgranskning",
+        "DashboardCategoryHelp": "Det här är en instrumentpanel-sida. En instrumentpanel är en samling med Matomos widgets som du själv lägger till för att passa dina specifika behov. Blanda och matcha vilka som helst av Matomos widgets för att få den information som %1$s*du*%2$s vill få överblick av."
     }
 }

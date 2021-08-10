@@ -47,6 +47,8 @@
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "L'eliminazione dell'utente '%s' non è possibile.",
         "ExceptionEditAnonymous": "Gli utenti anonimi non possono essere modificati o cancellati. Questo profilo è utilizzato da Matomo per definire un utente che non ha effettuato l'accesso. Per esempio, se vuoi rendere pubbiche le tue statistiche, puoi dare il privilegio \\\"Visualizza\\\" al profilo degli utenti anonimi.",
         "ExceptionEmailExists": "Utente con l'e-mail '%s' è già esistente.",
+        "ExceptionEmailExistsAsLogin": "L'email '%s' è già in uso come nome utente.",
+        "ExceptionLoginExistsAsEmail": "Il nome utente '%s' è già in uso come email.",
         "ExceptionInvalidEmail": "L'e-mail inserita non è valida.",
         "ExceptionInvalidLoginFormat": "Il nome utente deve essere lungo tra %1$s e %2$s caratteri e contenere solo lettere, numeri o i caratteri '_' o '-' o '.' o '@' o '+'",
         "ExceptionInvalidPassword": "La lunghezza della password deve essere maggiore di %1$s caratteri.",
@@ -183,6 +185,7 @@
         "NewsletterSignupTitle": "Iscrizione alla Newsletter",
         "NewsletterSignupMessage": "Iscriviti alla nostra newsletter per ricevere regolarmente informazioni su Matomo. Puoi cancellare l'iscrizione in ogni momento. Qeusto servizio utilizza MadMimi. Leggi di più su di esso nella nostra pagina %1$sPolitiche sulla Privacy%2$s.",
         "NewsletterSignupFailureMessage": "Oooops, qualcosa è andata storta. Non abbiamo potuto iscriverti alla newsletter.",
-        "NewsletterSignupSuccessMessage": "Super, sei iscritto! Ci sentiremo presto."
+        "NewsletterSignupSuccessMessage": "Super, sei iscritto! Ci sentiremo presto.",
+        "FirstWebsitePermission": "Permessi primo sito web"
     }
 }

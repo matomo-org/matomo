@@ -38,6 +38,8 @@ class MatomoInformational implements Diagnostic
         if (SettingsPiwik::isMatomoInstalled()) {
             $results[] = DiagnosticResult::informationalResult('Matomo Update History', Option::get(Updater::OPTION_KEY_MATOMO_UPDATE_HISTORY));
             $results[] = DiagnosticResult::informationalResult('Matomo Install Version', $this->getInstallVersion());
+            $results[] = DiagnosticResult::informationalResult('Latest Available Version', Option::get(\Piwik\Plugins\CoreUpdater\Updater::OPTION_LATEST_VERSION));
+            $results[] = DiagnosticResult::informationalResult('Is Git Deployment', SettingsPiwik::isGitDeployment());
         }
 
         return $results;

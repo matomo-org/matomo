@@ -13,6 +13,7 @@
     {% if properties.title %}
         <h2 class="card-title"
             {% if properties.title_edit_entity_url %}edit-url="{{ properties.title_edit_entity_url }}"{% endif %}
+            {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}report-generated="{{ reportLastUpdatedMessage|raw }}"{% endif %}
               piwik-enriched-headline
         >{{ properties.title }}</h2>
     {% endif %}

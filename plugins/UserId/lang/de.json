@@ -2,6 +2,8 @@
     "UserId": {
         "UserId": "Benutzer-ID",
         "UserReportTitle": "Benutzer IDs",
-        "PluginDescription": "Zeigt Benutzer-Berichte"
+        "UserReportDocumentation": "Dieser Bericht zeigt Besuche und andere allgemeine Metriken für jede individuelle Benutzer-ID.",
+        "PluginDescription": "Zeigt Benutzer-Berichte",
+        "VisitorsUserSubcategoryHelp": "Der Benutzer-ID Bericht zeigt verknüpfte Besuche mit all Ihrer registrierten und angemeldete Benutzern. Sie können diesen Bereich verwenden um Aussagen für die Webseite über spezifische Benutzer und zur Identifikation Ihrer aktivsten und wenig aktiven Benutzer."
     }
 }

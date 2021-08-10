@@ -3,6 +3,8 @@
         "Evolution": "Utveckling",
         "LoadingWebsites": "Laddar webbplatser",
         "PluginDescription": "Visa och jämför alla dina webbplatser i panelen 'All Websites'.",
-        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser."
+        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser.",
+        "SingleWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för en specifik webbplats, som innehåller den mest allmänna statistiken om dina besökare.",
+        "AllWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för var och en av dina webbplatser, som innehåller den mest allmänna statistiken om dina besökare."
     }
 }

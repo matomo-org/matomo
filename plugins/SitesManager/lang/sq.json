@@ -76,10 +76,19 @@
         "Sites": "Sajte",
         "SiteSearchUse": "Mund ta përdorni Matomo-n për të ndjekur dhe raportuar se çfarë kërkojnë vizitorët me motorin e kërkimeve të brendshme në sajtin tuaj .",
         "SiteWithoutDataTitle": "Ende s’ka të dhëna të regjistruara, sistemohuni më poshtë",
-        "SiteWithoutDataDescription": "Për këtë sajt s’janë ndjekur ende të dhëna analitike.",
+        "SiteWithoutDataDescription": "Edhe një hap i vetëm për të ndjekur trafikun tuaj me Matomo-n dhe për të përfituar ide me vlerë. Duhet të shtoni ca kod ekstra te sajti juaj ose aplikacioni juaj për celular, nëse s’e keni bërë tashmë. Shihni mundësinë tuaj më poshtë, ose %1$sdërgojini krejt udhëzimet te dikush në ekip%2$s.",
         "SiteWithoutDataSetupTracking": "Ju lutemi, rregulloni më poshtë %1$skodin e ndjekjes%2$s për sajtin apo aplikacionin tuaj për celular, po qe se s’e keni bërë ende.",
         "SiteWithoutDataMessageDisappears": "Ky mesazh do të zhduket sapo të ketë ndoca të dhëna të ndjekura për këtë sajt.",
         "SiteWithoutDataIgnoreMessage": "Mos e shfaq këtë mesazh për orën pasuese",
+        "SiteWithoutDataChoosePreferredWay": "Zgjidhni mënyrën tuaj të parapëlqyer të ujdisjesh",
+        "SiteWithoutDataOtherWays": "Mënyra të tjera",
+        "SiteWithoutDataOtherIntegrations": "Integrime të tjera",
+        "SiteWithoutDataGoogleTagManager": "Përgjegjës Google Etiketash",
+        "SiteWithoutDataMatomoTagManager": "Përgjegjës Matomo Etiketash",
+        "SiteWithoutDataMatomoTagManagerNotActive": "S’e dini se ç’është Përgjegjësi i Etiketave? Hidhini një sy udhërrëfyesit tonë %1$sPërgjegjës Etiketash%2$s. Nëse po trupëzoni në sajtin tuaj shumë burime nga sajte palësh të treta, ndjekja e sajtit tuaj përmes Përgjegjësit të Etiketave mund të jetë zgjedhje më e mirë krahasuar me ndjekjen e zakonshme përmes JavaScript-it.",
+        "SiteWithoutDataGoogleTagManagerDescription": "Matomo-n mund ta përdorni me Përgjegjësin Google të Etiketa. Për të ujdisur Ndjekjen me Matomo te Përgjegjës Google Etiketash, ndiqni udhëzimet prej këtij %1$sudhërrëfyesi%2$s.",
+        "SiteWithoutDataDetectedSite": "Pikasëm se po përdorni një sajt %1$s. Thjesht ndiqni udhëzimet nga ky %2$sudhërrëfyes%3$s.",
+        "SiteWithoutDataDetectedGtm": "Pikasëm gjithashtu se përdorni një Përgjegjës Google Etiketash. Nëse parapëlqeni ta ujdisni Matomo-n duke përdorur PGE, ju lutemi, ndiqni këtë %2$sudhërrëfyes%3$s.",
         "SuperUserAccessCan": "Një përdorues me hyrje Superpërdoruesi mundet gjithashtu %1$s të caktojë rregullime të përgjithshme%2$s për sajte të rinj.",
         "Timezone": "Zonë kohore",
         "TrackingSiteSearch": "Ndjekje Kërkimesh Brenda Sajti",
@@ -91,6 +100,8 @@
         "OnlyMatchedUrlsAllowedHelp": "Në u aktivizoftë, Matomo do të ndjekë veprime të brendshme vetëm kur URL-ja e Faqes është një nga URL-të e njohura për sajtin tuaj. Kjo pengon shfrytëzimin e padëshiruar të analizave tuaja përmes URL-sh për sajte të tjerë.",
         "OnlyMatchedUrlsAllowedHelpExamples": "Përkatësia dhe shtegu duhet të përputhen saktësisht dhe çdo nënpërkatësi e vlefshme duhet të specifikohet veçmas. Për shembull, kur URL-të e ditura janë 'http:\/\/shembull.com\/shteg' dhe 'http:\/\/imirë.shembull.com', kërkesat për ndjekje të 'http:\/\/shembull.com\/shtegtjetër' ose 'http:\/\/ikeq.shembull.com' shpërfillen.",
         "WebsitesManagement": "Administrim Sajtesh",
+        "WebsiteUpdated": "Sajti u përditësua",
+        "WebsiteCreated": "Sajti u krijua",
         "XManagement": "Administroni %s",
         "ChooseMeasurableTypeHeadline": "Ç’do të donit të matnit?",
         "YouCurrentlyHaveAccessToNWebsites": "Deri tani keni hyrje te %s sajte.",
@@ -103,6 +114,7 @@
         "EmailInstructionsSiteDetailsHeading": "Hollësitë e Sajtit Tuaj",
         "EmailInstructionsSiteDetails": "Këto hollësi do t’ju duhen për të përdorur API-n ose SDK-ra për ndjekje vizitash nga Matomo.",
         "EmailInstructionsYourSiteId": "ID-ja e sajtit tuaj: %1$s",
-        "EmailInstructionsYourTrackingUrl": "URL-ja juaj e gjurmimit: %1$s"
+        "EmailInstructionsYourTrackingUrl": "URL-ja juaj e gjurmimit: %1$s",
+        "DetectingYourSite": "Po pikaset sajti juaj"
     }
 }

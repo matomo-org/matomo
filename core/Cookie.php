@@ -152,7 +152,7 @@ class Cookie
         }
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
-            . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', $Expires) . ' GMT')
+            . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', (int) $Expires) . ' GMT')
             . (empty($Path) ? '' : '; path=' . $Path)
             . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
@@ -176,7 +176,10 @@ class Cookie
     public function delete()
     {
         $this->setP3PHeader();
+
         $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
+        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, TRUE, FALSE, 'None');
+
         $this->clear();
     }
 
@@ -292,7 +295,7 @@ class Cookie
             } elseif (!is_numeric($value)) {
                 $value = base64_encode($value);
             }
-            $cookieStrArr[] = "$name=$value"; 
+            $cookieStrArr[] = "$name=$value";
         }
 
         return implode(self::VALUE_SEPARATOR, $cookieStrArr);

@@ -79,7 +79,7 @@ class Category
         $subcategoryId = $subcategory->getId();
 
         if ($this->hasSubcategory($subcategoryId)) {
-            throw new \Exception(sprintf('Subcategory %s already exists', $subcategoryId));
+            throw new \Exception(sprintf('Subcategory %s already exists for category %s', $subcategoryId, $this->getId()));
         }
 
         $this->subcategories[$subcategoryId] = $subcategory;
@@ -121,4 +121,12 @@ class Category
         return $this->icon;
     }
 
+    /**
+     * Get the help text (if any) for this category.
+     * @return null
+     */
+    public function getHelp()
+    {
+        return null;
+    }
 }

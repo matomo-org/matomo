@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2010-01-03">
+		<row>
+			<label>Besançon, Bourgogne-Franche-Comté, France</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<lat>47.249</lat>
+			<long>6.018</long>
+			<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
+			<city_name>Besançon</city_name>
+			<region>BFC</region>
+			<country>fr</country>
+			<country_name>France</country_name>
+			<region_name>Bourgogne-Franche-Comté</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		</row>
+		<row>
+			<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<lat>123.456</lat>
+			<long>21.321</long>
+			<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Unknown</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<city_name>Unknown</city_name>
+			<city>xx</city>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+		<row>
+			<label>Vancouver, British Columbia, Canada</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<lat>49.25</lat>
+			<long>-123.133</long>
+			<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
+			<city_name>Vancouver</city_name>
+			<region>BC</region>
+			<country>ca</country>
+			<country_name>Canada</country_name>
+			<region_name>British Columbia</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		</row>
+	</result>
+	<result date="2010-01-04">
+		<row>
+			<label>Vancouver, British Columbia, Canada</label>
+			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_visits>4</nb_visits>
+			<nb_actions>10</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>4</max_actions>
+			<sum_visit_length>3244</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<lat>49.25</lat>
+			<long>-123.133</long>
+			<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
+			<city_name>Vancouver</city_name>
+			<region>BC</region>
+			<country>ca</country>
+			<country_name>Canada</country_name>
+			<region_name>British Columbia</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		</row>
+		<row>
+			<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<segment>city==Nuneaton+and+Bedworth;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Nuneaton and Bedworth</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Unknown</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<city_name>Unknown</city_name>
+			<city>xx</city>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+	</result>
+	<result date="2010-01-05">
+		<row>
+			<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<lat>124.456</lat>
+			<long>22.231</long>
+			<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
+			<city_name>Stratford-upon-Avon</city_name>
+			<region>WAR</region>
+			<country>gb</country>
+			<country_name>United Kingdom</country_name>
+			<region_name>Warwickshire</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		</row>
+		<row>
+			<label>Unknown</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<city_name>Unknown</city_name>
+			<city>xx</city>
+			<region>xx</region>
+			<country>xx</country>
+			<country_name>Unknown</country_name>
+			<region_name>Unknown</region_name>
+			<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		</row>
+	</result>
+</results>

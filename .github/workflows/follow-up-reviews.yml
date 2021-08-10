@@ -1,0 +1,32 @@
+name: 'Follow up reviews'
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: write
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v3
+        with:
+          debug-only: false
+          start-date: 2021-03-01T00:00:00Z
+          days-before-pr-stale: 7
+          days-before-pr-close: -1
+          only-pr-labels: Needs Review
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          stale-pr-message: This issue is in "needs review" but there has been no activity for 7 days. ping @matomo-org/core-reviewers
+          stale-pr-label: Stale

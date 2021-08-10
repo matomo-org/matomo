@@ -56,7 +56,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
 
     public function test_generateSecret()
     {
-        $this->assertSame(16, Common::mb_strlen($this->twoFa->generateSecret()));
+        $this->assertSame(16, mb_strlen($this->twoFa->generateSecret()));
     }
 
     public function test_isUserRequiredToHaveTwoFactorEnabled_notByDefault()
@@ -74,15 +74,15 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
     {
         $this->dao->createRecoveryCodesForLogin('mylogin');
 
-        $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin'));
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin'));
         $this->twoFa->saveSecret('mylogin', '123456');
 
-        $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin'));
-        $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin2'));
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin'));
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
 
         $this->twoFa->disable2FAforUser('mylogin');
 
-        $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin'));
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin'));
     }
 
     public function test_disable2FAforUser_removesAllRecoveryCodes()
@@ -111,7 +111,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
 
     public function test_isUserUsingTwoFactorAuthentication_neverWorksForAnonymous()
     {
-        $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('anonymous'));
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('anonymous'));
     }
 
     public function test_validateAuthCodeDuringSetup()

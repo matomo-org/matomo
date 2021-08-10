@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').factory('siteSelectorModel', siteSelectorModel);
 
-    siteSelectorModel.$inject = ['piwikApi', '$filter', 'piwik'];
+    siteSelectorModel.$inject = ['piwikApi', '$filter', 'piwik', '$q'];
 
-    function siteSelectorModel(piwikApi, $filter, piwik) {
+    function siteSelectorModel(piwikApi, $filter, piwik, $q) {
 
         var initialSites = null;
         var limitPromise = null;
@@ -23,7 +23,8 @@
             updateWebsitesList: updateWebsitesList,
             searchSite: searchSite,
             loadSite: loadSite,
-            loadInitialSites: loadInitialSites
+            loadInitialSites: loadInitialSites,
+            hasMultipleSites: hasMultipleSites
         };
 
         return model;
@@ -118,12 +119,19 @@
         function loadInitialSites() {
             if (initialSites) {
                 model.sites = initialSites;
-                return;
+                var deferred = $q.defer();
+                deferred.resolve();
+                return deferred.promise;
             }
 
-            searchSite('%').then(function () {
-                initialSites = model.sites
+            return searchSite('%').then(function () {
+                initialSites = model.sites;
+                model.isInitialized = true
             });
+        }
+
+        function hasMultipleSites() {
+            return initialSites && initialSites.length > 1;
         }
     }
 })();

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2010-01-03">
+		<row>
+			<label>Canada</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>ca</code>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+			<segment>countryCode==ca</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+		<row>
+			<label>France</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>fr</code>
+			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+			<segment>countryCode==fr</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+		<row>
+			<label>Italy</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>it</code>
+			<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+			<segment>countryCode==it</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+		<row>
+			<label>United Kingdom</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>gb</code>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			<segment>countryCode==gb</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+	</result>
+	<result date="2010-01-04">
+		<row>
+			<label>Canada</label>
+			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_visits>4</nb_visits>
+			<nb_actions>10</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>4</max_actions>
+			<sum_visit_length>3244</sum_visit_length>
+			<bounce_count>2</bounce_count>
+			<nb_visits_converted>4</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>4</nb_conversions>
+					<nb_visits_converted>4</nb_visits_converted>
+					<revenue>20</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+			</goals>
+			<nb_conversions>6</nb_conversions>
+			<revenue>30</revenue>
+			<code>ca</code>
+			<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+			<segment>countryCode==ca</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+		<row>
+			<label>Indonesia</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>id</code>
+			<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
+			<segment>countryCode==id</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+		<row>
+			<label>United Kingdom</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>4</max_actions>
+			<sum_visit_length>1622</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>gb</code>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			<segment>countryCode==gb</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+	</result>
+	<result date="2010-01-05">
+		<row>
+			<label>United Kingdom</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>gb</code>
+			<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+			<segment>countryCode==gb</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+		<row>
+			<label>United States</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>6</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>5</max_actions>
+			<sum_visit_length>1621</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>2</nb_visits_converted>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>2</nb_conversions>
+					<nb_visits_converted>2</nb_visits_converted>
+					<revenue>10</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>1</nb_conversions>
+					<nb_visits_converted>1</nb_visits_converted>
+					<revenue>5</revenue>
+				</row>
+			</goals>
+			<nb_conversions>3</nb_conversions>
+			<revenue>15</revenue>
+			<code>us</code>
+			<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+			<segment>countryCode==us</segment>
+			<logoHeight>16</logoHeight>
+		</row>
+	</result>
+</results>

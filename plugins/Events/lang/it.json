@@ -8,10 +8,13 @@
         "Event": "Evento",
         "EventAction": "Azione Evento",
         "EventActions": "Azioni Evento",
+        "EventActionsReportDocumentation": "Questo report mostra il numero di volte in cui si è verificata ogni azione evento. È possibile visualizzare le categorie e i nomi degli eventi monitorati insieme a ciascuna azione evento nella sotto-tabella della riga. È possibile modificare la visualizzazione modificando la dimensione secondaria con il collegamento nella parte inferiore del report.",
         "EventCategories": "Categorie Evento",
+        "EventCategoriesReportDocumentation": "Questo report mostra le categorie di ogni evento monitorato e quante volte si sono verificati. È possibile visualizzare le azioni e i nomi degli eventi che sono stati tracciati insieme a ciascuna categoria di eventi nella sotto-tabella di ogni riga. È possibile modificare la visualizzazione modificando la dimensione secondaria con il collegamento nella parte inferiore del report.",
         "EventCategory": "Categoria Evento",
         "EventName": "Nome Evento",
         "EventNames": "Nomi Evento",
+        "EventNamesReportDocumentation": "Questo report mostra i nomi associati a ciascun evento monitorato e quante volte si sono verificati. È possibile visualizzare le azioni e le categorie degli eventi monitorati insieme al nome di ciascun evento nella sotto-tabella di ciascuna riga. È possibile modificare la visualizzazione modificando la dimensione secondaria con il collegamento nella parte inferiore del report.",
         "EventUrl": "URL Evento",
         "EventUrls": "URL Evento",
         "Events": "Eventi",
@@ -30,6 +33,8 @@
         "TotalEventsDocumentation": "Numero totale degli eventi",
         "TotalValue": "Valore Evento",
         "TotalValueDocumentation": "Somma dei valori degli eventi",
-        "ViewEvents": "Vedi Eventi"
+        "ViewEvents": "Vedi Eventi",
+        "EventsSubcategoryHelp1": "La sezione Eventi offre dei report sugli eventi personalizzati associati al tuo sito. Gli eventi in genere richiedono una configurazione personalizzata. Una volta configurato, puoi rivedere i report suddivisi per categoria, azione e nome.",
+        "EventsSubcategoryHelp2": "Ulteriori informazioni sul monitoraggio degli eventi qui."
     }
 }

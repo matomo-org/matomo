@@ -1,5 +1,5 @@
 <!-- Matomo -->
-<script type="text/javascript">
+<script>
   var _paq = window._paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
 {$options}  _paq.push(['trackPageView']);
@@ -9,11 +9,11 @@
     {$optionsBeforeTrackerUrl}_paq.push(['setTrackerUrl', u+'{$matomoPhpFilename}']);
     _paq.push(['setSiteId', '{$idSite}']);
     {% if loadAsync %}var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.src=u+'{$matomoJsFilename}'; s.parentNode.insertBefore(g,s);{% endif %}
+    g.async=true; g.src=u+'{$matomoJsFilename}'; s.parentNode.insertBefore(g,s);{% endif %}
 
   })();
 </script>
-{% if not loadAsync %}<script type='text/javascript' src="{$protocol}{$piwikUrl}/{$matomoJsFilename}"></script>
+{% if not loadAsync %}<script src="{$protocol}{$piwikUrl}/{$matomoJsFilename}"></script>
 {% endif %}
 {% if trackNoScript %}<noscript><p><img src="{$protocol}{$piwikUrl}/{$matomoPhpFilename}?idsite={$idSite}&amp;rec=1" style="border:0;" alt="" /></p></noscript>
 {% endif %}

@@ -12,12 +12,14 @@ use Exception;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
 use Piwik\Segment\SegmentExpression;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
@@ -116,6 +118,11 @@ class ArchiveProcessor
             $subPeriods = $this->params->getSubPeriods();
             $idSites    = $this->params->getIdSites();
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
+
+            /**
+             * @internal
+             */
+            Piwik::postEvent('ArchiveProcessor.getArchive', [$this->archive]);
         }
 
         return $this->archive;
@@ -197,13 +204,23 @@ class ArchiveProcessor
                                               $columnsToRenameAfterAggregation = null,
                                               $countRowsRecursive = true)
     {
+        /** @var LoggerInterface $logger */
+        $logger = StaticContainer::get(LoggerInterface::class);
+
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
         }
 
+        $archiveDescription = $this->params . '';
+
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+
+            $logger->debug("aggregating record {record} [archive = {archive}]", [
+                'record' => $recordName,
+                'archive' => $archiveDescription,
+            ]);
 
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
@@ -577,7 +594,7 @@ class ArchiveProcessor
         if (empty($columnsToRenameAfterAggregation)) {
             return;
         }
-        
+
         foreach ($table->getRows() as $row) {
             foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
                 $row->renameColumn($oldName, $newName);

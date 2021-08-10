@@ -221,7 +221,7 @@ class DataComparisonFilter
             $comparisonSeries[] = $compareMetadata['compareSeriesPretty'];
 
             $compareTable = $this->requestReport($method, $modifiedParams);
-            $this->comparisonRowGenerator->compareTables($compareMetadata, $table, $compareTable);
+            $this->comparisonRowGenerator->compareTables($compareMetadata, $table, empty($compareTable) ? null : $compareTable);
         }
 
         // calculate changes (including processed metric changes)

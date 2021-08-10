@@ -21,7 +21,7 @@
         "OverviewWidgetTitle": "Prezentare generală",
         "TitleConsideredInsightsChanges": "Liniile au crescut sau scăzut cu cel puțin %1$s vizite (%2$s%% din %3$s vizite totale).",
         "TitleConsideredInsightsGrowth": "Următoarele rânduri au o creștere de cel puțin %1$s%% comparativ cu %2$s.",
-        "TitleConsideredMoversAndShakersChanges": "Mutarile sunt luate în considerare numai în cazul în care acestea au crescut cu mai mult de%1$s%% vizite sau s-a redus cu mai puțin de%2$s%% vizite, intrări noi numai în cazul în care acestea au crescut cu mai mult de %3$s%% vizite (%4$s), și a dispărut rânduri, dacă acestea s-au redus cu mai puțin de %5$s%% vizite (%6$s).",
+        "TitleConsideredMoversAndShakersChanges": "Mutarile sunt luate în considerare numai în cazul în care acestea au crescut cu mai mult de %1$s%% vizite sau s-a redus cu mai puțin de %2$s%% vizite, intrări noi numai în cazul în care acestea au crescut cu mai mult de %3$s%% vizite (%4$s), și a dispărut rânduri, dacă acestea s-au redus cu mai puțin de %5$s%% vizite (%6$s).",
         "TitleConsideredMoversAndShakersGrowth": "%1$s-a schimbat de la %2$s la %3$s, comparativ cu %4$s. Bazat pe aceaste date o este de asteptat o evoluție a fiecărui rând de %5$s%% .",
         "TitleRowChangeDetails": "'%1$s' schimbat din %2$s (%3$s) la %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' a scăzut cu %2$s și a dispărut în %3$s, comparativ cu %4$s.",

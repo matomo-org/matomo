@@ -1,0 +1,14 @@
+{
+    "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Gem.pagina laadtijd",
+        "ColumnAverageTimeNetwork": "Gem. netwerk tijd",
+        "ColumnAverageTimeServer": "Gem. server tijd",
+        "ColumnAverageTimeTransfer": "Gem. overdrachtstijd",
+        "ColumnAverageTimeDomProcessing": "Gem. DOM verwerkingstijd",
+        "ColumnAverageTimeDomCompletion": "Gem. DOM doorlooptijd",
+        "ColumnTimeServer": "Servertijd",
+        "ColumnTimeTransfer": "Overdrachtstijd",
+        "ColumnTimeDomCompletion": "DOM doorlooptijd",
+        "Performance": "Performance"
+    }
+}

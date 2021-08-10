@@ -24,6 +24,7 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\EventDispatcher;
 use Piwik\FrontController;
 use Matomo\Ini\IniReader;
 use Piwik\Log;
@@ -48,6 +49,7 @@ use Piwik\Singleton;
 use Piwik\Site;
 use Piwik\Tests;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
@@ -381,17 +383,19 @@ class Fixture extends \PHPUnit\Framework\Assert
             $this->dropDatabase();
         }
 
-        $this->clearInMemoryCaches();
+        self::clearInMemoryCaches();
 
         Log::unsetInstance();
 
         $this->destroyEnvironment();
     }
 
-    public function clearInMemoryCaches()
+    public static function clearInMemoryCaches($resetTranslations = true)
     {
         Date::$now = null;
         FrontController::$requestId = null;
+        Cache::$cache = null;
+        MockFileMethods::reset();
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
@@ -402,13 +406,16 @@ class Fixture extends \PHPUnit\Framework\Assert
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getLazyCache()->flushAll();
         ArchiveTableCreator::clear();
+        EventDispatcher::getInstance()->clearCache();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
         PluginsArchiver::$archivers = array();
 
         Plugin\API::unsetAllInstances();
         $_GET = $_REQUEST = array();
-        self::resetTranslations();
+        if ($resetTranslations) {
+            self::resetTranslations();
+        }
 
         self::getConfig()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object

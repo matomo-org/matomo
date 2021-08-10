@@ -150,6 +150,13 @@ body .ui-tooltip.overlayTooltip {
     padding: 3px 5px 3px 6px;
 }
 
+#overlayErrorNoSiteUrls {
+    width: 190px;
+    margin: 20px 0 20px 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
 #overlayNoFrame {
     padding: 20px 0 40px 2px;
 }

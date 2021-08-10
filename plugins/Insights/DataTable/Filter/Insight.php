@@ -95,8 +95,19 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference, $isDisappeared, $isNew, $isMover);
     }
 
+    protected function getPastRowFromCurrent($row)
+    {
+        if ($row->isSummaryRow()) {
+            return $this->pastDataTable->getSummaryRow();
+        }
+        return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
+    }
+
     private function getRowFromTable(DataTable $table, DataTable\Row $row)
     {
+        if ($row->isSummaryRow()) {
+            return $table->getSummaryRow();
+        }
         return $table->getRowFromLabel($row->getColumn('label'));
     }
 

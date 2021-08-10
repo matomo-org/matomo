@@ -14,6 +14,7 @@
         "RateFeatureTitle": "Ti piace la funzione '%s'? Votala e lascia un commento.",
         "SendFeedback": "Invia",
         "ThankYou": "Grazie per il tuo aiuto per rendere Matomo migliore!",
+        "ThankYouForSpreading": "Grazie per aver diffuso il verbo e creato un Web più sicuro",
         "TopLinkTooltip": "Dicci cosa ne pensi, o richiedi supporto professionale.",
         "ViewAnswersToFAQ": "Guarda le risposte alle %1$sDomande frequenti%2$s",
         "FAQs": "FAQ",
@@ -31,7 +32,7 @@
         "ContactUs": "Contattaci",
         "VisitTheForums": "Visita il %1$s Forum%2$s e ottieni aiuto dalla comunità degli utenti Matomo",
         "Forums": "Forum",
-        "ReviewMatomoTitle": "Credi in Matomo?",
+        "ReviewMatomoTitle": "Ti piace Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Condividi ciò che pensi su uno di questi siti e ispira altri a unirsi alla nostra rivoluzione dei dati.",
         "RemindMeLater": "Ricordamelo più tardi",
         "NeverAskMeAgain": "Non chiedermelo di nuovo",
@@ -41,6 +42,13 @@
         "RemoveOtherLabel": "Voglio vedere gli \"Altri\" dati",
         "PurgeOldData": "Voglio eliminare alcuni dati vecchi",
         "SearchHelpResources": "Cerca nelle risorse di matomo.org per aiuto",
-        "PopularHelpTopics": "Argomenti di aiuto popolari"
+        "PopularHelpTopics": "Argomenti di aiuto popolari",
+        "ReferMatomo": "Parla di Matomo",
+        "ReferBannerTitle": "Credi in Matomo?",
+        "ReferBannerLonger": "Aiutaci a spargere la voce su di noi in modo che più persone abbiano il controllo sui propri dati analitici.",
+        "ReferBannerEmailShareSubject": "Indirizzali adesso verso Matomo Analytics per riprendere il controllo!",
+        "ReferBannerEmailShareBody": "Scelgo Matomo, un'alternativa etica a Google Analytics che mi dà al 100%% la proprietà dei dati e protegge i dati dei visitatori del mio sito web.\nCondivido questo messaggio nella speranza che anche tu riprenderai il potere da Google e acquisirai la completa proprietà dei tuoi dati.\n\nDai un'occhiata a Matomo su https:\/\/matomo.org",
+        "ReferBannerSocialShareText": "Se stai utilizzando Google Analytics, mantieni il controllo passando adesso a un'alternativa etica come Matomo!",
+        "WontShowAgain": "Non mostreremo più questo messaggio."
     }
 }

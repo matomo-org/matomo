@@ -12,7 +12,7 @@
         "DashboardOf": "Dashboard von %s",
         "DefaultDashboard": "Standard Dashboard - Verwendet Standardwidgets und Spaltenlayout",
         "DeleteWidgetConfirm": "Wollen Sie wirklich dieses Widget vom Dashboard entfernen?",
-        "EmptyDashboard": "Leeres Dashboard - Bitte Widgets auswählen",
+        "EmptyDashboard": "Leeres Dashboard - Wählen Sie Ihre bevorzugten Widgets",
         "LoadingWidget": "Lade Widget, bitte warten...",
         "ManageDashboard": "Dashboard verwalten",
         "Maximise": "Vergrößern",
@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirmHelp": "Diese Widgetauswahl und das aktuelle Spaltenlayout werden verwendet, wenn ein neues Dashboard erstellt wird oder wenn \"%s\" verwendet wird.",
         "TopLinkTooltip": "Zeige Webanalytik Berichte für %s.",
         "WidgetNotFound": "Widget nicht gefunden",
-        "WidgetPreview": "Widget-Vorschau"
+        "WidgetPreview": "Widget-Vorschau",
+        "DashboardCategoryHelp": "Dies ist eine Dashboard Seite. Dashboards sind Sammlungen von Matomo Widgets welche Sie für Ihre persönlichen Bedürfnisse anpassen können. Mixen und kombinieren Sie beliebig Matomo Widgets um die Daten zu erhalten, die %1$s*Sie*%2$s auf einen Blick benötigen."
     }
 }

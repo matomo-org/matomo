@@ -29,6 +29,10 @@ use Piwik\Sequence;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugins\SegmentEditor\API as SegmentApi;
+use Piwik\Option;
+use Piwik\ArchiveProcessor\Rules;
+use ReflectionClass;
 
 class LoaderTest extends IntegrationTestCase
 {
@@ -38,6 +42,268 @@ class LoaderTest extends IntegrationTestCase
 
         Fixture::createWebsite('2012-02-03 00:00:00');
         Fixture::createWebsite('2012-02-03 00:00:00');
+    }
+
+    public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives()
+    {
+        $_GET['pluginOnly'] = 1;
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $dateTime = '2020-01-20 02:03:04';
+        $date = '2020-01-20';
+        $period = 'week';
+        $segment = '';
+        $plugin = 'Actions';
+
+        $t = Fixture::getTracker($idSite, $dateTime);
+        $t->setUrl('http://slkdfj.com');
+        Fixture::checkResponse($t->doTrackPageView('alsdkjf'));
+
+        $periodObj = Factory::build($period, $date);
+        foreach ($periodObj->getSubperiods() as $day) {
+            // archive each day before hand
+            $params = new Parameters(new Site($idSite), $day, new Segment($segment, [$idSite]));
+            $loader = new Loader($params);
+            $loader->prepareArchive($plugin);
+        }
+
+        $existingArchives = $this->getExistingArchives($date);
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done.Actions',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+        ], $existingArchives);
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
+
+        $loader = new Loader($params);
+        $loader->prepareArchive($plugin);
+
+        $existingArchives = $this->getExistingArchives($date);
+
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done.Actions',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '3',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+            [
+                'idarchive' => '4',
+                'name' => 'done.Actions',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+        ], $existingArchives);
+    }
+
+    public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives_whenReusingAllPluginsArchives()
+    {
+        // not setting pluginOnly=1 to ensure all plugins archive is created for the day w/ visits
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $dateTime = '2020-01-20 02:03:04';
+        $anotherDayDateTime = '2020-01-22 08:00:00';
+        $date = '2020-01-20';
+        $period = 'week';
+        $segment = '';
+        $plugin = 'ExamplePlugin'; // NOTE: it's important to use ExamplePlugin here since it has an example of creating partial archives
+
+        $t = Fixture::getTracker($idSite, $dateTime);
+        $t->setUrl('http://slkdfj.com');
+        Fixture::checkResponse($t->doTrackPageView('alsdkjf'));
+
+        $periodObj = Factory::build($period, $date);
+        foreach ($periodObj->getSubperiods() as $day) {
+            // archive each day before hand
+            $params = new Parameters(new Site($idSite), $day, new Segment($segment, [$idSite]));
+            $loader = new Loader($params);
+            $loader->prepareArchive($plugin);
+        }
+
+        // add a visit to another day in the week, but no archive so it will get archived in pluginOnly request
+        $t = Fixture::getTracker($idSite, $anotherDayDateTime);
+        $t->setUrl('http://slkdfj.com');
+        Fixture::checkResponse($t->doTrackPageView('alsdkjf 2'));
+
+        $existingArchives = $this->getExistingArchives($date);
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '3',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '4',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '5',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+        ], $existingArchives);
+
+        // archiving w/ pluginOnly=1
+        $_GET['pluginOnly'] = 1;
+        $_GET['requestedReport'] = Archiver::EXAMPLEPLUGIN_METRIC_NAME; // so it will be set when the archiver recurses
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
+        $params->setRequestedPlugin($plugin);
+        $params->setArchiveOnlyReport(Archiver::EXAMPLEPLUGIN_METRIC_NAME);
+
+        $loader = new Loader($params);
+        $loader->prepareArchive($plugin);
+
+        $existingArchives = $this->getExistingArchives($date);
+
+        // expected result means:
+        // - we keep and reuse already existing all plugins archive for 2020-01-20
+        // - we create new single plugin (non-partial) archives for VisitsSummary
+        // - we create new single report (partial) archives for ExamplePlugin
+        $this->assertEquals([
+            [
+                'idarchive' => '1',
+                'name' => 'done',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '2',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '3',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '4',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '5',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+
+            // start of new archives
+            [
+                'idarchive' => '6',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+            [
+                'idarchive' => '7',
+                'name' => 'done.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-22',
+                'date2' => '2020-01-22',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '8',
+                'name' => 'done.ExamplePlugin',
+                'value' => '5',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-26',
+                'period' => '2',
+            ],
+            [
+                'idarchive' => '9',
+                'name' => 'done.ExamplePlugin',
+                'value' => '5',
+                'date1' => '2020-01-22',
+                'date2' => '2020-01-22',
+                'period' => '1',
+            ],
+        ], $existingArchives);
+    }
+
+    private function getExistingArchives($date)
+    {
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        return Db::fetchAll("SELECT idarchive, `name`, date1, date2, period, `value` FROM `$table` WHERE `name` LIKE 'done%' ORDER BY idarchive ASC");
     }
 
     /**
@@ -837,7 +1103,7 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertEquals([false, false, false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false, false, false], $archiveInfo);
     }
 
     /**
@@ -856,13 +1122,14 @@ class LoaderTest extends IntegrationTestCase
         $this->assertNotEmpty($archiveInfo[4]);
         $this->assertLessThanOrEqual(time(), strtotime($archiveInfo[4]));
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertNotEquals([false, false, false, false], $archiveInfo);
+        $this->assertNotEquals([false, false, false, false, false, false], $archiveInfo);
 
         Config::getInstance()->Debug[$configSetting] = 1;
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false, false], $archiveInfo);
+        $this->assertEquals([false, false, false, false, false, false], $archiveInfo);
     }
 
     public function getTestDataForLoadExistingArchiveIdFromDbDebugConfig()
@@ -887,8 +1154,9 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertEquals([['1'], '10', '0', true], $archiveInfo);
+        $this->assertEquals([['1'], '10', '0', true, '1'], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
@@ -902,8 +1170,9 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertEquals([['1'], '10', '0', true], $archiveInfo);
+        $this->assertEquals([['1'], '10', '0', true, '1'], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
@@ -917,8 +1186,9 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertNotEmpty($archiveInfo[4]);
         unset($archiveInfo[4]);
+        $archiveInfo = array_values($archiveInfo);
 
-        $this->assertEquals([false, '10', '0', true], $archiveInfo); // visits are still returned as this was the original behavior
+        $this->assertEquals([false, '10', '0', true, '1'], $archiveInfo); // visits are still returned as this was the original behavior
     }
 
     /**
@@ -1124,6 +1394,120 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
+    public function test_canSkipArchiveForSegment_returnsFalseIfNoSegments()
+    {
+        $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfPeriodEndLaterThanSegmentArchiveStartDate()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $definition = 'browserCode==ch';
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2021-04-23'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfPeriodEndEarlierThanSegmentArchiveStartDate()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('year', '2010-04-23'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForThePeriod()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfHasInvalidationForReportButWeDonSpecifyReport()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForReportWeAskedFor()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $params->setArchiveOnlyReport('myReport');
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnsTrueIfHasNoInvalidationForReportWeAskedFor()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $params->setArchiveOnlyReport('otherReport');
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
     public function test_forcePluginArchiving_createsPluginSpecificArchive()
     {
         $_GET['trigger'] = 'archivephp';
@@ -1195,5 +1579,18 @@ class LoaderTest extends IntegrationTestCase
             $results = array_merge($results, $queryResults);
         }
         return $results;
+    }
+
+    private function insertInvalidations(array $invalidations)
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $now = Date::now()->getDatetime();
+        foreach ($invalidations as $invalidation) {
+            $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started, report) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Db::query($sql, [
+                $invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name'],
+                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null, $invalidation['report'] ?? null
+            ]);
+        }
     }
 }

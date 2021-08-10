@@ -10,8 +10,7 @@
 namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
-use Piwik\ArchiveProcessor\ArchivingStatus;
-use Piwik\ArchiveProcessor\Loader;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ReArchiveList;
@@ -72,11 +71,6 @@ class ArchiveInvalidator
     private $model;
 
     /**
-     * @var ArchivingStatus
-     */
-    private $archivingStatus;
-
-    /**
      * @var SegmentArchiving
      */
     private $segmentArchiving;
@@ -91,10 +85,9 @@ class ArchiveInvalidator
      */
     private $allIdSitesCache;
 
-    public function __construct(Model $model, ArchivingStatus $archivingStatus, LoggerInterface $logger)
+    public function __construct(Model $model, LoggerInterface $logger)
     {
         $this->model = $model;
-        $this->archivingStatus = $archivingStatus;
         $this->segmentArchiving = null;
         $this->logger = $logger;
     }
@@ -263,18 +256,12 @@ class ArchiveInvalidator
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false, $name = null)
+                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false)
     {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
             list($plugin) = explode('.', $name);
         }
-
-        // remove sites w/ no visits
-        $trackerModel = new TrackerModel();
-        $idSites = array_filter($idSites, function ($idSite) use ($trackerModel) {
-            return !$trackerModel->isSiteEmpty($idSite);
-        });
 
         if ($plugin
             && !Manager::getInstance()->isPluginActivated($plugin)
@@ -322,17 +309,17 @@ class ArchiveInvalidator
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
         // idSite does not need to be added to $segment.
 
-        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $period, $invalidationInfo);
+        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $period, $invalidationInfo, $ignorePurgeLogDataDate);
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
         $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
 
-        foreach ($idSites as $idSite) {
-            Loader::invalidateMinVisitTimeCache($idSite);
-        }
-
-        if ($period != 'range') {
+        $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
+        $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
+        if ($isInvalidatingDays
+            && $isNotInvalidatingSegment
+        ) {
             foreach ($idSites as $idSite) {
                 foreach ($dates as $date) {
                     if (is_string($date)) {
@@ -468,12 +455,16 @@ class ArchiveInvalidator
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport($idSites, string $plugin, string $report = null, Date $startDate = null)
+    public function reArchiveReport($idSites, string $plugin = null, string $report = null, Date $startDate = null, Segment $segment = null)
     {
         $date2 = Date::yesterday();
 
         $earliestDateToRearchive = $this->getEarliestDateToRearchive();
         if (empty($startDate)) {
+            if (empty($earliestDateToRearchive)) {
+                return null; // INI setting set to 0 months so no rearchiving
+            }
+
             $startDate = $earliestDateToRearchive;
         } else if (!empty($earliestDateToRearchive)) {
             // don't allow archiving further back than the rearchive_reports_in_past_last_n_months date allows
@@ -500,23 +491,15 @@ class ArchiveInvalidator
             $name .= '.' . $report;
         }
 
-        $this->markArchivesAsInvalidated($idSites, $dates, 'day', null, $cascadeDown = false, $forceInvalidateRanges = false, $name);
-        foreach ($idSites as $idSite) {
-            $segmentDatesToInvalidate = $this->getSegmentArchiving()->getSegmentArchivesToInvalidate($idSite);
-            foreach ($segmentDatesToInvalidate as $info) {
-                $latestDate = Date::factory($info['date']);
-                $latestDate = $latestDate->isEarlier($startDate) ? $startDate : $latestDate;
-
-                $datesToInvalidateForSegment = [];
-
-                $date = $latestDate;
-                while ($date->isEarlier($date2)) {
-                    $datesToInvalidateForSegment[] = $date;
-                    $date = $date->addDay(1);
+        $this->markArchivesAsInvalidated($idSites, $dates, 'day', $segment, $cascadeDown = false, $forceInvalidateRanges = false, $name);
+        if (empty($segment)
+            && Rules::shouldProcessSegmentsWhenReArchivingReports()
+        ) {
+            foreach ($idSites as $idSite) {
+                foreach (Rules::getSegmentsToProcess([$idSite]) as $segment) {
+                    $this->markArchivesAsInvalidated($idSites, $dates, 'day', new Segment($segment, [$idSite]),
+                        $cascadeDown = false, $forceInvalidateRanges = false, $name);
                 }
-
-                $this->markArchivesAsInvalidated($idSites, $datesToInvalidateForSegment, 'day', new Segment($info['segment'], [$idSite]),
-                    $cascadeDown = false, $forceInvalidateRanges = false, $name);
             }
         }
     }
@@ -548,7 +531,8 @@ class ArchiveInvalidator
      * @param string|null $report
      * @param Date|null $startDate
      */
-    public function scheduleReArchiving($idSites, string $pluginName, $report = null, Date $startDate = null)
+    public function scheduleReArchiving($idSites, string $pluginName = null, $report = null, Date $startDate = null,
+                                        Segment $segment = null)
     {
         if (!empty($report)) {
             $this->removeInvalidationsSafely($idSites, $pluginName, $report);
@@ -560,6 +544,7 @@ class ArchiveInvalidator
                 'pluginName' => $pluginName,
                 'report' => $report,
                 'startDate' => $startDate ? $startDate->getTimestamp() : null,
+                'segment' => $segment ? $segment->getOriginalString() : null,
             ]));
         } catch (\Throwable $ex) {
             $this->logger->info("Failed to schedule rearchiving of past reports for $pluginName plugin.");
@@ -581,11 +566,14 @@ class ArchiveInvalidator
                     continue;
                 }
 
+                $idSites = Site::getIdSitesFromIdSitesString($entry['idSites']);
+
                 $this->reArchiveReport(
-                    $entry['idSites'],
+                    $idSites,
                     $entry['pluginName'],
                     $entry['report'],
-                    !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null
+                    !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null,
+                    !empty($entry['segment']) ? new Segment($entry['segment'], $idSites) : null
                 );
             } catch (\Throwable $ex) {
                 $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
@@ -702,7 +690,7 @@ class ArchiveInvalidator
      * @param InvalidationResult $invalidationInfo
      * @return \Piwik\Date[]
      */
-    private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo)
+    private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo, $ignorePurgeLogDataDate)
     {
         $this->findOlderDateWithLogs($invalidationInfo);
 
@@ -712,6 +700,7 @@ class ArchiveInvalidator
 
             // we should only delete reports for dates that are more recent than N days
             if ($invalidationInfo->minimumDateWithLogs
+                && !$ignorePurgeLogDataDate
                 && ($periodObj->getDateEnd()->isEarlier($invalidationInfo->minimumDateWithLogs)
                     || $periodObj->getDateStart()->isEarlier($invalidationInfo->minimumDateWithLogs))
             ) {
@@ -797,8 +786,14 @@ class ArchiveInvalidator
             return null;
         }
 
-        $lastNMonthsToInvalidate = (int) substr($lastNMonthsToInvalidate, 4);
-        if (empty($lastNMonthsToInvalidate)) {
+        if (!is_numeric($lastNMonthsToInvalidate)) {
+            $lastNMonthsToInvalidate = (int)str_replace('last', '', $lastNMonthsToInvalidate);
+            if (empty($lastNMonthsToInvalidate)) {
+                return null;
+            }
+        }
+
+        if ($lastNMonthsToInvalidate <= 0) {
             return null;
         }
 

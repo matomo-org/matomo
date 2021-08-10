@@ -3,6 +3,8 @@
     <div piwik-siteselector
          class="sites_autocomplete"
          ng-model="formField.value"
+         siteid="{{ formField.value.id }}"
+         sitename="{{ formField.value.name }}"
          id="{{ formField.name }}"
          show-all-sites-item="formField.uiControlAttributes.showAllSitesItem || false"
          switch-site-on-select="false"

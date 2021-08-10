@@ -66,7 +66,6 @@
         "ShowTrackingTag": "prikaži kod",
         "Sites": "Sajtovi",
         "SiteSearchUse": "Možete koristiti Matomo za praćenje i kreiranje izveštaja o tome šta posetioci traže na vašem sajtu koristeći polje za pretragu.",
-        "SiteWithoutDataDescription": "Još uvek nema analitičkih podataka za ova sajt.",
         "SiteWithoutDataSetupTracking": "Molimo vas da postavite sledeći %1$skod za praćenje%2$s na vaš sajt ili mobilnu aplikaciju ukoliko to već niste učinili.",
         "SiteWithoutDataMessageDisappears": "Ova poruka će nestati čim se zabeleži neki saobraćaj na sajtu.",
         "SuperUserAccessCan": "Korisnik sa superkorisničkim nivoom pristupa može i da %1$spostavi globalna podešavanja%2$s za nove sajtove.",

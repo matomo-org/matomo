@@ -168,6 +168,14 @@ class Archive implements ArchiveQuery
     private static $cache;
 
     /**
+     * If true, this Archive instance will not launch the archiving process, even if the current request
+     * is authorized to.
+     *
+     * @var bool
+     */
+    private $forceFetchingWithoutLaunchingArchiving;
+
+    /**
      * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
@@ -468,6 +476,8 @@ class Archive implements ArchiveQuery
             $archiveNames = array($archiveNames);
         }
 
+        $archiveNames = array_filter($archiveNames);
+
         // apply idSubtable
         if ($idSubtable !== null
             && $idSubtable !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
@@ -485,6 +495,9 @@ class Archive implements ArchiveQuery
 
         $result = new Archive\DataCollection(
             $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
+        if (empty($dataNames)) {
+            return $result; // NOTE: note posting Archive.noArchivedData here, because there might be archive data, someone just requested nothing
+        }
 
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
@@ -557,7 +570,9 @@ class Archive implements ArchiveQuery
 
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())) {
+            if (Rules::isArchivingEnabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
+                && !$this->forceFetchingWithoutLaunchingArchiving
+            ) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -746,7 +761,7 @@ class Archive implements ArchiveQuery
     {
         $periods = $this->params->getPeriods();
         $periodLabel = reset($periods)->getLabel();
-        
+
         if (Rules::shouldProcessReportsAllPlugins($this->params->getIdSites(), $this->params->getSegment(), $periodLabel)) {
             return self::ARCHIVE_ALL_PLUGINS_FLAG;
         }
@@ -812,7 +827,7 @@ class Archive implements ArchiveQuery
             $this->initializeArchiveIdCache($doneFlag);
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
-                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getString(),
+                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getOriginalString(),
                 $plugin, $requestedReport);
 
             if (!empty($prepareResult)
@@ -851,5 +866,10 @@ class Archive implements ArchiveQuery
     public static function clearStaticCache()
     {
         self::$cache = null;
+    }
+
+    public function forceFetchingWithoutLaunchingArchiving()
+    {
+        $this->forceFetchingWithoutLaunchingArchiving = true;
     }
 }

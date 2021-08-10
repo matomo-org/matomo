@@ -65,17 +65,17 @@
                                     <div class="alert alert-warning">{{ 'Marketplace_PluginLicenseExceededDescription'|translate }}</div>
                                 {% endif %}
 
-                                {{ latestVersion.readmeHtml.description|raw }}
+                                <div ng-non-bindable>{{ latestVersion.readmeHtml.description|raw }}</div>
                             </div>
 
                             {% if latestVersion.readmeHtml.faq %}
-                                <div id="tabs-faq" class="tab-content col s12">
+                                <div id="tabs-faq" class="tab-content col s12" ng-non-bindable>
                                     {{ latestVersion.readmeHtml.faq|raw }}
                                 </div>
                             {% endif %}
 
                             {% if latestVersion.readmeHtml.documentation %}
-                                <div id="tabs-documentation" class="tab-content col s12">
+                                <div id="tabs-documentation" class="tab-content col s12" ng-non-bindable>
                                     {{ latestVersion.readmeHtml.documentation|raw }}
                                 </div>
                             {% endif %}

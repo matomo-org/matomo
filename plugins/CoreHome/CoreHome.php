@@ -45,9 +45,9 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
-            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'Request.initAuthenticationObject' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'AssetManager.addStylesheets' => 'addStylesheets',
-            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
         );
     }
@@ -73,11 +73,16 @@ class CoreHome extends \Piwik\Plugin
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 
-    public function initAuthenticationObject()
+    public function checkAllowedIpsOnAuthentication()
     {
+        if (SettingsServer::isTrackerApiRequest()) {
+            // authenticated tracking requests should always work
+            return;
+        }
+
         $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
 
-        if (!SettingsServer::isTrackerApiRequest() && $isApi) {
+        if ($isApi) {
             // will be checked in API itself to make sure we return an API response in the proper format.
             return;
         }
@@ -354,6 +359,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_Menu';
         $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_PeriodHasOnlyRawData';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -469,6 +475,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_RowLimit';
         $translationKeys[] = 'CoreHome_ExportFormat';
         $translationKeys[] = 'CoreHome_ExportTooltip';
+        $translationKeys[] = 'CoreHome_ExportTooltipWithLink';
         $translationKeys[] = 'CoreHome_FlattenReport';
         $translationKeys[] = 'CoreHome_CustomLimit';
         $translationKeys[] = 'CoreHome_ExpandSubtables';
@@ -488,5 +495,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Custom';
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
+        $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
     }
 }

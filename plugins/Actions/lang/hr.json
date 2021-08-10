@@ -48,6 +48,7 @@
         "WidgetPageUrlsFollowingSearch": "Stranice kod pretraživanja",
         "WidgetSearchCategories": "Pretraži kategoije",
         "WidgetSearchKeywords": "Ključne riječi pretraživanja",
-        "WidgetSearchNoResultKeywords": "Ključne riječi pretraživanja bez rezultata"
+        "WidgetSearchNoResultKeywords": "Ključne riječi pretraživanja bez rezultata",
+        "PagesSubcategoryHelp3": "Koristite znakove plus i minus sa lijeve strane za navigaciju."
     }
 }

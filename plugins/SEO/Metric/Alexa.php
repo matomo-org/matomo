@@ -36,10 +36,15 @@ class Alexa implements MetricsProvider
         $value = null;
         try {
             $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
+            libxml_use_internal_errors(true); // suppress errors
             $dom = new \DomDocument();
             $dom->loadHTML($response);
-            $nodes = (new \DomXPath($dom))->query("//div[contains(@class, 'data')]");
+            libxml_clear_errors();
+            $nodes = (new \DomXPath($dom))->query("//div[contains(@class, 'ACard')]//section//a");
             if (isset($nodes[0]->nodeValue)) {
+                foreach( $nodes[0]->childNodes as $node) {
+                    $nodes[0]->removeChild($node); // remove the span tags with additional info
+                }
                 $globalRanking = (int) str_replace(array(',', '.'), '', $nodes[0]->nodeValue);
                 $value = NumberFormatter::getInstance()->formatNumber($globalRanking);
             }

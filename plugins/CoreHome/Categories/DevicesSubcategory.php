@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreHome\Categories;
 
 use Piwik\Category\Subcategory;
+use Piwik\Piwik;
 
 class DevicesSubcategory extends Subcategory
 {
@@ -16,4 +17,8 @@ class DevicesSubcategory extends Subcategory
     protected $id = 'DevicesDetection_Devices';
     protected $order = 15;
 
+    public function getHelp()
+    {
+        return '<p>' . Piwik::translate('CoreHome_DevicesSubcategoryHelp') . '</p>';
+    }
 }

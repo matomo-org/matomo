@@ -55,11 +55,6 @@ class ReplaceSummaryRowLabel extends BaseFilter
         $row = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
         if ($row) {
             $row->setColumn('label', $this->newLabel);
-        } else {
-            $row = $table->getRowFromLabel(DataTable::LABEL_SUMMARY_ROW);
-            if ($row) {
-                $row->setColumn('label', $this->newLabel);
-            }
         }
 
         // recurse

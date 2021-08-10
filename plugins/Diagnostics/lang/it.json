@@ -8,6 +8,8 @@
         "ConfigFileIntroduction": "Qui puoi vedere la configurazione di Matomo. Se si esegue Matomo in un ambiente con bilanciamento del carico, la pagina potrebbe essere diversa a seconda del server su cui viene caricata. Righe con un colore di sfondo diverso hanno valori di configurazione cambiati, specificati per esempio nel file %1$s.",
         "HideUnchanged": "Se vuoi vedere soltanto i valori cambiati, puoi %1$snascondere tutti quelli che non sono cambiati%2$s.",
         "Sections": "Sezioni",
+        "BrowserAndAutoArchivingEnabledLabel": "Browser e Auto-archiviazione abilitati",
+        "BrowserAndAutoArchivingEnabledComment": "Sembra che sia il browser che l'archiviazione automatica siano abilitati. L'archiviazione automatica è iniziata l'ultima volta %3$s fa. Se l'%1$sarchiviazione automatica%2$s è abilitata, è necessario disabilitarla nelle \"Impostazioni generali\" del browser.",
         "DatabaseReaderConnection": "Connessione al Lettore del Database",
         "DatabaseUtf8Requirement": "Ciò è richiesto per conservare i caratteri UTF8 a 4-byte. Se il charset utf8mb4 non è disponibile, caratteri speciali come le emoji, i caratteri meno comuni delle lingue asiatiche, vari glifi antichi o i simboli matematici verranno sostituiti con %1$s. Puoi leggere più dettagli su questo argomento in %2$squeste FAQ%3$s.",
         "DatabaseUtf8mb4CharsetRecommended": "Il tuo database non supporta ancora il charset UTF8mb4.",
@@ -18,6 +20,12 @@
         "CronArchivingRunDetails": "Verifica di aver configurato un crontab per chiamare il comando di console %1$s, e di aver configurato un %2$s per ricevere gli errori via email se l'archiviazione fallisce. Puoi anche provare a eseguire il comando di console per archiviare manualmente i tuoi report: %3$s. %4$sPer saperne di più.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "Il processo di archiviazione è stato completato con successo %1$s fa.",
         "BrowserTriggeredArchivingEnabled": "Per delle prestazioni ottimali e un Matomo veloce, è altamente raccomandato di impostare un crontab per archiviare automaticamente i tuoi report, e di disabilitare l'attivazione dal browser nelle impostazioni di Matomo. %1$sLeggi altro.%2$s",
-        "NoDataForReportArchivingNotRun": "L'archiviazione dei tuoi report non è stata eseguita di recente, %1$sleggi di più su come generare i tuoi report.%2$s"
+        "NoDataForReportArchivingNotRun": "L'archiviazione dei tuoi report non è stata eseguita di recente, %1$sleggi di più su come generare i tuoi report.%2$s",
+        "RequiredPrivateDirectories": "Directory private richieste",
+        "PrivateDirectoryManualCheck": "Si prega di aprire manualmente gli URL in un browser per vedere se è possibile accedervi. Se possibile, potrebbe essere necessario modificare la configurazione del server poiché questi file\/directory non dovrebbero essere accessibili tramite un browser da Internet o Intranet.",
+        "PrivateDirectoryInternetDisabled": "Non è stato possibile verificare se i seguenti URL sono accessibili perché le funzionalità Internet sono disabilitate su questo Matomo.",
+        "PrivateDirectoryIsAccessible": "Abbiamo riscontrato che gli URL di cui sopra sono accessibili tramite il browser, ma NON dovrebbero esserlo. Consentire l'accesso può rappresentare un potenziale rischio per la sicurezza poiché i contenuti possono fornire informazioni sul tuo server e potenzialmente sui tuoi utenti. Si prega di limitare l'accesso a essi.",
+        "ConfigIniAccessible": "Abbiamo anche riscontrato che la directory di configurazione di Matomo è accessibile pubblicamente. Sebbene gli aggressori non possano leggere la configurazione ora, se il tuo server web interrompe l'esecuzione dei file PHP per qualche motivo, le tue credenziali MySQL e altre informazioni saranno disponibili a chiunque. Controlla la configurazione del tuo server web e nega l'accesso a questa directory.",
+        "AllPrivateDirectoriesAreInaccessible": "Tutte le directory private sono accessibili da Internet."
     }
 }

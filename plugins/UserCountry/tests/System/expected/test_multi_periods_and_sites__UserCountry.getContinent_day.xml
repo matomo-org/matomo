@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<row>
+				<label>Europe</label>
+				<nb_uniq_visitors>3</nb_uniq_visitors>
+				<nb_visits>6</nb_visits>
+				<nb_actions>18</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>4863</sum_visit_length>
+				<bounce_count>3</bounce_count>
+				<nb_visits_converted>6</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>6</nb_conversions>
+						<nb_visits_converted>6</nb_visits_converted>
+						<revenue>30</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>3</nb_conversions>
+						<nb_visits_converted>3</nb_visits_converted>
+						<revenue>15</revenue>
+					</row>
+				</goals>
+				<nb_conversions>9</nb_conversions>
+				<revenue>45</revenue>
+				<code>Europe</code>
+			</row>
+			<row>
+				<label>North America</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>North America</code>
+			</row>
+		</result>
+		<result date="2010-01-04">
+			<row>
+				<label>North America</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>4</nb_visits>
+				<nb_actions>10</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>3244</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>4</nb_conversions>
+						<nb_visits_converted>4</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>6</nb_conversions>
+				<revenue>30</revenue>
+				<code>North America</code>
+			</row>
+			<row>
+				<label>Asia</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>Asia</code>
+			</row>
+			<row>
+				<label>Europe</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>Europe</code>
+			</row>
+		</result>
+		<result date="2010-01-05">
+			<row>
+				<label>Europe</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>Europe</code>
+			</row>
+			<row>
+				<label>North America</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>North America</code>
+			</row>
+		</result>
+	</result>
+	<result idSite="2">
+		<result date="2010-01-03">
+			<row>
+				<label>Asia</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>4</nb_visits>
+				<nb_actions>12</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>3242</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>4</nb_conversions>
+						<nb_visits_converted>4</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>6</nb_conversions>
+				<revenue>30</revenue>
+				<code>Asia</code>
+			</row>
+			<row>
+				<label>Europe</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>Europe</code>
+			</row>
+			<row>
+				<label>North America</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>North America</code>
+			</row>
+		</result>
+		<result date="2010-01-04">
+			<row>
+				<label>Europe</label>
+				<nb_uniq_visitors>3</nb_uniq_visitors>
+				<nb_visits>6</nb_visits>
+				<nb_actions>15</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>4866</sum_visit_length>
+				<bounce_count>3</bounce_count>
+				<nb_visits_converted>6</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>6</nb_conversions>
+						<nb_visits_converted>6</nb_visits_converted>
+						<revenue>30</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>3</nb_conversions>
+						<nb_visits_converted>3</nb_visits_converted>
+						<revenue>15</revenue>
+					</row>
+				</goals>
+				<nb_conversions>9</nb_conversions>
+				<revenue>45</revenue>
+				<code>Europe</code>
+			</row>
+			<row>
+				<label>North America</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1622</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>North America</code>
+			</row>
+		</result>
+		<result date="2010-01-05">
+			<row>
+				<label>Europe</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>Europe</code>
+			</row>
+			<row>
+				<label>North America</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_actions>6</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>5</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<code>North America</code>
+			</row>
+		</result>
+	</result>
+</results>

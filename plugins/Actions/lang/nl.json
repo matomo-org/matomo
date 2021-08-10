@@ -33,7 +33,7 @@
         "ActionsInVisit": "Acties tijdens bezoek",
         "DownloadsReportDocumentation": "Dit rapport laat zien welke bestanden door de bezoekers zijn gedownload. %s Matomo telt een klik op een downloadlink als een download. Matomo kan niet zien of de download succesvol is uitgevoerd en afgerond.",
         "EntryPagesReportDocumentation": "Dit rapport bevat informatie over de landingpagina's van een bezoeker welke bezocht zijn gedurende een specifieke periode. Een landingspagina is de eerste pagina die bekeken wordt tijdens een bezoek. %s. The landingspagina's URL's worden getoond in een folder structuur.",
-        "EntryPageTitles": "Inkomende paginatitels",
+        "EntryPageTitles": "Binnenkomende paginatitels",
         "EntryPageTitlesReportDocumentation": "Dit rapport bevat informatie over de titels van de inkomende pagina's in de opgegeven periode.",
         "ExitPagesReportDocumentation": "Dit rapport bevat informatie over de exit pagina's gedurende een geselecteerde periode. Een exit pagina is de laatste pagina die bekeken is gedurende een bezoek. %s De exit pagina's worden getoond in een folder structuur.",
         "ExitPageTitles": "Titels vertrekpagina's",
@@ -61,18 +61,19 @@
         "SubmenuPagesExit": "Vertrekpagina's",
         "SubmenuPageTitles": "Paginatitels",
         "SubmenuSitesearch": "Lokale zoekopdracht",
-        "WidgetEntryPageTitles": "Inkomende paginatitels.",
+        "WidgetEntryPageTitles": "Binnenkomende paginatitels",
         "WidgetExitPageTitles": "Uitgaande paginatitels",
         "WidgetPagesEntry": "Binnenkomstpagina's",
         "WidgetPagesExit": "Vertrekpagina's",
         "WidgetPageTitles": "Paginatitels",
         "WidgetPageTitlesFollowingSearch": "Paginatitels na zoekopdrachten",
-        "WidgetPageUrlsFollowingSearch": "Bestemmings pagina na lokale zoekopdracht",
+        "WidgetPageUrlsFollowingSearch": "Bestemmingspagina na zoekopdracht",
         "WidgetSearchCategories": "Zoekcategorieën",
-        "WidgetSearchKeywords": "Zoektermen lokale zoekopdracht",
+        "WidgetSearchKeywords": "Zoektermen",
         "WidgetSearchNoResultKeywords": "Zoekwoorden zonder resultaten",
         "ActionType": "Soort actie",
         "ActionTypes": "Soorten acties",
-        "Behaviour": "Gedrag"
+        "Behaviour": "Gedrag",
+        "PagesSubcategoryHelp3": "Gebruik de + en - icoontjes aan de linkerzijde om te navigeren."
     }
 }

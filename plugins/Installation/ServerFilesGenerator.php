@@ -16,12 +16,8 @@ class ServerFilesGenerator
 {
     public static function createFilesForSecurity()
     {
-        self::deleteHtAccessFiles();
         self::createHtAccessFiles();
-
-        self::deleteWebConfigFiles();
         self::createWebConfigFiles();
-
         self::createWebRootFiles();
     }
 
@@ -83,6 +79,11 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
             $file = call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
             $directoriesToProtect[dirname($file)] = $denyAll;
+        }
+
+        $gitDir = PIWIK_INCLUDE_PATH . '/.git';
+        if (is_dir($gitDir) && is_writable($gitDir)) {
+            $directoriesToProtect[$gitDir] = $denyAll;
         }
 
         foreach ($directoriesToProtect as $directoryToProtect => $content) {

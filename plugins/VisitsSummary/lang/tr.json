@@ -11,7 +11,7 @@
         "NbKeywordsDescription": "tekil anahtar sözcük",
         "NbOutlinksDescription": "giden bağlantı",
         "NbPageviewsDescription": "sayfa gösterimi",
-        "NbSearchesDescription": "web sitenizdeki toplam arama",
+        "NbSearchesDescription": "web sitesindeki toplam arama",
         "NbUniqueDownloadsDescription": "tekil indirme",
         "NbUniqueOutlinksDescription": "tekil giden bağlantı",
         "NbUniquePageviewsDescription": "tekil sayfa gösterimi",
@@ -20,10 +20,11 @@
         "NbVisitsDescription": "ziyaret",
         "NbVisitsBounced": "hemen çıkan ziyaretler (bir sayfadan sonra siteden ayrılan)",
         "PluginDescription": "Bu rapor, ziyaretler, tekil ziyaretçiler, işlem sayısı, hemen çıkma oranı gibi genel istatistik ölçümlerini içerir.",
-        "VisitsSummary": "Ziyaret Özeti",
+        "VisitsSummary": "Ziyaret özeti",
         "VisitsSummaryDocumentation": "Ziyaret sayılarının özetini görüntüler.",
-        "WidgetLastVisits": "Zamana Göre Ziyaretler",
-        "WidgetOverviewGraph": "Ziyaret Özeti (çizelge ile)",
-        "WidgetVisits": "Ziyaret Özeti"
+        "VisitsSummaryReportDocumentation": "Bu rapor, ziyaretçi davranışlarının genel bir özetini içerir.",
+        "WidgetLastVisits": "Zamana göre ziyaretler",
+        "WidgetOverviewGraph": "Ziyaret özeti (çizelge ile)",
+        "WidgetVisits": "Ziyaret özeti"
     }
 }

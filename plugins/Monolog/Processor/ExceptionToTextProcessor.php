@@ -8,18 +8,27 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
+use Piwik\Url;
 
 /**
  * Process a log record containing an exception to generate a textual message.
  */
 class ExceptionToTextProcessor
 {
+    private $forcePrintBacktrace = false;
+
+    public function __construct($forcePrintBacktrace = false)
+    {
+        $this->forcePrintBacktrace = $forcePrintBacktrace;
+    }
+
     public function __invoke(array $record)
     {
         if (! $this->contextContainsException($record)) {
@@ -34,10 +43,9 @@ class ExceptionToTextProcessor
         }
 
         $exceptionStr = sprintf(
-            "%s(%d): %s\n%s",
+            "%s(%d): %s",
             $exception instanceof \Exception ? $exception->getFile() : $exception['file'],
             $exception instanceof \Exception ? $exception->getLine() : $exception['line'],
-            $this->getMessage($exception),
             $this->getStackTrace($exception)
         );
 
@@ -48,6 +56,8 @@ class ExceptionToTextProcessor
         } else {
             $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
         }
+
+        $record['message'] .= ' [' . $this->getErrorContext() . ']';
 
         return $record;
     }
@@ -79,7 +89,7 @@ class ExceptionToTextProcessor
 
     private function getStackTrace($exception)
     {
-        return Log::$debugBacktraceForTests ?: self::getMessageAndWholeBacktrace($exception);
+        return Log::$debugBacktraceForTests ?: self::getMessageAndWholeBacktrace($exception, $this->forcePrintBacktrace ? true : null);
     }
 
     /**
@@ -94,12 +104,13 @@ class ExceptionToTextProcessor
         }
 
         if (is_array($exception)) {
+            $message = $exception['message'] ?? '';
             if ($shouldPrintBacktrace && isset($exception['backtrace'])) {
                 $trace = $exception['backtrace'];
                 $trace = self::replaceSensitiveValues($trace);
-                return $trace;
+                return $message . "\n" . $trace;
             } else {
-                return '';
+                return $message;
             }
         }
 
@@ -136,5 +147,17 @@ class ExceptionToTextProcessor
         ];
 
         return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
+    }
+
+    private function getErrorContext()
+    {
+        try {
+            $context = 'Query: ' . Url::getCurrentQueryString();
+            $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
+            return $context;
+        } catch (\Exception $ex) {
+            $context = "cannot get url or cli mode: " . $ex->getMessage();
+            return $context;
+        }
     }
 }

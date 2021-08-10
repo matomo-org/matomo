@@ -104,7 +104,8 @@
         "RowLimit": "Row limit",
         "CustomLimit": "Custom limit",
         "ExportFormat": "Export format",
-        "ExportTooltip": "Note: The generated export URL will only work in the current browser session. If you want to use it somewhere else you need to use an app specific token. You can configure these tokens in Admin -> Security -> Token Auths.",
+        "ExportTooltip": "Note: To use the generated export URL, you will need to specify an app token auth. You can configure these tokens in Admin -> Security -> Token Auths.",
+        "ExportTooltipWithLink": "Note: To use the generated export URL, you will need to specify an app token auth. You can configure these tokens in %1$s[Admin -> Security -> Auths Tokens]%2$s. Replace %3$s in the Export URL by your Auth token. Warning: Never share the URL with the real token with anyone else.",
         "ExpandSubtables": "Expand subtables",
         "StandardReport": "Standard report",
         "FlattenReport": "Flatten report",
@@ -113,6 +114,15 @@
         "SeeAvailableVersions": "See Available Versions",
         "QuickLinks": "Quick Links",
         "Profilable": "Profilable",
-        "SearchOnMatomo": "Search '%1$s' on Matomo.org"
+        "SearchOnMatomo": "Search '%1$s' on Matomo.org",
+        "ReportingCategoryHelpPrefix": "How does the \"%1$s > %2$s\" reporting page help me?",
+        "VisitorsCategoryHelp1": "The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.",
+        "VisitorsCategoryHelp2": "In addition to general information about your visitors, you can also use the %1$sVisits Log%2$s to see what occurred in every individual visit.",
+        "VisitorsOverviewHelp": "The Visitors Overview helps you understand the popularity of your site. It does this by providing charts that show how many visits your site is receiving over a selected period and the average level of engagement for key features, such as searches and downloads.",
+        "DevicesSubcategoryHelp": "The Devices section helps you understand the technology that your visitors are using to access your site. You will see reports on the type of device and specific models to enable you to optimise your site for the most popular devices.",
+        "SoftwareSubcategoryHelp": "The Software section shows the operating systems, browsers and plugins that your visitors are using to access the site so that you can optimise your site to ensure it is fully compatible with the most popular configurations.",
+        "EngagementSubcategoryHelp1": "The Engagement section provides reports that help to quantify how many new and returning visitors you get. You can also review reports that break down the average time and number of pages per visit, as well as the number of times a visitor has been to your site and the most common number of days between visits.",
+        "EngagementSubcategoryHelp2": "This can help you to optimise for frequency and high-interaction visits in addition to maximising your reach.",
+        "PeriodHasOnlyRawData": "It looks like reports for this period have not been processed yet. Do you want to see what's happening now? Check out the %1$sVisits log%2$s or choose a different date period until the reports are generated."
     }
 }

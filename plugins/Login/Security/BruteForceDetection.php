@@ -9,18 +9,26 @@
 namespace Piwik\Plugins\Login\Security;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
+use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
+use Piwik\Plugins\Login\Model;
 use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Updater;
 use Piwik\Version;
+use Psr\Log\LoggerInterface;
 
 class BruteForceDetection {
+
+    const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
+    const TABLE_NAME = 'brute_force_log';
 
     private $minutesTimeRange;
     private $maxLogAttempts;
 
-    private $table = 'brute_force_log';
+    private $table = self::TABLE_NAME;
     private $tablePrefixed = '';
 
     /**
@@ -33,13 +41,19 @@ class BruteForceDetection {
      */
     private $updater;
 
-    public function __construct(SystemSettings $systemSettings)
+    /**
+     * @var Model
+     */
+    private $model;
+
+    public function __construct(SystemSettings $systemSettings, Model $model)
     {
         $this->tablePrefixed = Common::prefixTable($this->table);
         $this->settings = $systemSettings;
         $this->minutesTimeRange = $systemSettings->loginAttemptsTimeRange->getValue();
         $this->maxLogAttempts = $systemSettings->maxFailedLoginsPerMinutes->getValue();
         $this->updater = new Updater();
+        $this->model = $model;
     }
 
     public function isEnabled()
@@ -52,11 +66,15 @@ class BruteForceDetection {
         return $this->settings->enableBruteForceDetection->getValue();
     }
 
-    public function addFailedAttempt($ipAddress)
+    public function addFailedAttempt($ipAddress, $login = null)
     {
         $now = $this->getNow()->getDatetime();
         $db = Db::get();
-        $db->query('INSERT INTO '.$this->tablePrefixed.' (ip_address, attempted_at) VALUES(?,?)', array($ipAddress, $now));
+        try {
+            $db->query('INSERT INTO ' . $this->tablePrefixed . ' (ip_address, attempted_at, login) VALUES(?,?,?)', array($ipAddress, $now, $login));
+        } catch (\Exception $ex) {
+            $this->ignoreExceptionIfThrownDuringOneClickUpdate($ex);
+        }
     }
 
     public function isAllowedToLogin($ipAddress)
@@ -143,5 +161,73 @@ class BruteForceDetection {
     private function getDateTimeSubMinutes($minutes)
     {
         return $this->getNow()->subPeriod($minutes, 'minute')->getDatetime();
+    }
+
+    public function isUserLoginBlocked($login)
+    {
+        $count = 0;
+        try {
+            $count = $this->model->getTotalLoginAttemptsInLastHourForLogin($login);
+        } catch (\Exception $ex) {
+            $this->ignoreExceptionIfThrownDuringOneClickUpdate($ex);
+        }
+
+        if (!$this->hasTooManyTriesOverallInlastHour($count)) {
+            return false;
+        }
+
+        if (!$this->model->hasNotifiedUserAboutSuspiciousLogins($login)) {
+            $this->sendSuspiciousLoginsEmailToUser($login, $count);
+        }
+
+        return true;
+    }
+
+    private function hasTooManyTriesOverallInLastHour($count)
+    {
+        return $count > $this->getOverallLoginLockoutThreshold();
+    }
+
+    private function sendSuspiciousLoginsEmailToUser($login, $countOverall)
+    {
+        $distinctIps = $this->model->getDistinctIpsAttemptingLoginsInLastHour($login);
+
+        try {
+            // create from DI container so plugins can modify email contents if they want
+            $email = StaticContainer::getContainer()->make(SuspiciousLoginAttemptsInLastHourEmail::class, [
+                'login' => $login,
+                'countOverall' => $countOverall,
+                'countDistinctIps' => $distinctIps
+            ]);
+            $email->send();
+
+            $this->model->markSuspiciousLoginsNotifiedEmailSent($login);
+        } catch (\Exception $ex) {
+            // log if error is not that we can't find a user
+            if (strpos($ex->getMessage(), 'unable to find user to send') === false) {
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}', [
+                    'exception' => $ex,
+                ]);
+            }
+        }
+    }
+
+    protected function getOverallLoginLockoutThreshold()
+    {
+        $settings = new SystemSettings();
+        $threshold = $settings->maxFailedLoginsPerMinutes->getValue() * 3;
+        return max(self::OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN, $threshold);
+    }
+
+    private function ignoreExceptionIfThrownDuringOneClickUpdate(\Exception $ex)
+    {
+        // ignore column not found errors during one click update since the db will not be up to date while new code is being used
+        $module = Common::getRequestVar('module', false);
+        if (strpos($ex->getMessage(), 'Unknown column') === false
+            || $module != 'CoreUpdater'
+        ) {
+            throw $ex;
+        }
     }
 }

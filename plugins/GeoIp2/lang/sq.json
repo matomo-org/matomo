@@ -44,6 +44,8 @@
         "LocationProviderDesc_Php_WithExtension": "Ky furnizues vendndodhjesh përshpejtohet nga zgjerimi %1$smaxminddb%2$s i instaluar.",
         "LocationProviderDesc_ServerModule": "Ky furnizues vendndodhjesh përdor modulin GeoIP 2 që është instaluar te shërbyesi juaj HTTP. Ky furnizues është i shpejtë dhe i përpiktë, por %1$smund të përdoret vetëm me ndjekje të zakonshme të shfletimit.%2$s",
         "LocationProviderDesc_ServerModule2": "Nëse ju duhet të importoni kartela regjistër ose të bëni diçka tjetër që lyp caktim adresash IP, përdorni %3$ssendërtimin PHP GeoIP 2%4$s dhe instaloni %1$szgjerimin maxminddb%2$s.",
+        "MalFormedUpdateUrl": "URL-ja %1$s duket e pavlefshme. Ju lutemi, sigurohuni të jepni një URL të vlefshme që fillon me http:\/\/ ose https:\/\/",
+        "InvalidGeoIPUpdateHost": "Streha e URL-së së përditësimit GeoIP %1$s s’është e besuar. Për të lejuar të shkarkohen përditësime GeoIP prej strehësh të tjera nga %2$s, ju lutemi, përimtoni rregullimin për %3$s te formësimet.",
         "NotManagingGeoIPDBs": "Matomo hëpërhë s’administron ndonjë bazë të dhënash DBIP ose MaxMind.",
         "UnsupportedArchiveType": "U has lloj i pambuluar arkivi %1$s.",
         "UpdaterHasNotBeenRun": "Përditësuesi s’është xhiruar ndonjëherë.",

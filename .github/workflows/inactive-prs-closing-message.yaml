@@ -1,0 +1,32 @@
+name: 'Handle inactive PRs - closing message'
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: write
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v3
+        with:
+          debug-only: false
+          start-date: 2021-03-01T00:00:00Z
+          days-before-pr-stale: 42
+          days-before-pr-close: -1
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          exempt-pr-labels: Do not close
+          stale-pr-message: This PR was last updated more than one month ago, maybe it's time to close it. Please check if there is anything we still can do or close this PR. ping @matomo-org/core-reviewers
+          stale-pr-label: Stale for long

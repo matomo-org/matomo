@@ -23,7 +23,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     public $idSite = 1;
     public $dateTime = '2010-01-03 01:22:33';
     public $nextDay = null;
-    public $customDimensionId;
+    public $customDimensionId = 1;
+    public $actionCustomDimensionId = 2;
 
     public function __construct()
     {
@@ -34,9 +35,12 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     {
         $this->setUpWebsitesAndGoals();
         $this->customDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim', 'visit', '1');
+        $this->actionCustomDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim2', 'action', '1');
 
         $this->setMockLocationProvider();
         $this->trackVisits();
+        $this->trackVisitsForNegativeOneRowAndSummary();
+        $this->trackVisitsForInsightsOverview();
 
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
@@ -51,6 +55,23 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime);
         }
+    }
+
+    private function trackVisitsForNegativeOneRowAndSummary()
+    {
+        $t = self::getTracker($this->idSite, '2015-02-03 00:00:00');
+        $t->enableBulkTracking();
+
+        $t->setUrl('http://piwik.net/page');
+        $t->doTrackEvent('-1', '-1', '-1');
+
+        for ($i = 0; $i != 20; ++$i) {
+            $t->setUrl('http://piwik.net/page');
+            $t->setIp('120.34.5.' . $i);
+            $t->doTrackEvent('event category ' . $i, 'event action ' . $i, 'event name ' . $i);
+        }
+
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
     private function trackVisits()
@@ -169,6 +190,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
                 $t->setUrl("http://piwik.net/$visitorCounter/$actionNum");
                 $t->setForceVisitDateTime($actionDate->getDatetime());
+                $t->setCustomDimension('' . $this->actionCustomDimensionId, $i * 5 + $j);
 
                 if (!is_null($referrers)) {
                     $t->setUrlReferrer($referrers[$actionIdx]);
@@ -250,5 +272,21 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
             self::makeLocation('Yokohama', '14', 'JP'),
         );
+    }
+
+    private function trackVisitsForInsightsOverview()
+    {
+        $t = Fixture::getTracker($this->idSite, '2015-03-03 06:00:00');
+        $t->enableBulkTracking();
+        $datesVisits = ['2015-03-03 06:00:00' => 700, '2015-03-04 06:00:00' => 1000];
+        foreach ($datesVisits as $dateTime => $visitCount) {
+            $t->setForceVisitDateTime($dateTime);
+            for ($i = 0; $i != $visitCount; ++$i) {
+                $t->setNewVisitorId();
+                $t->setUrl('http://somesite.com/' . $i);
+                $t->doTrackPageView('page title ' . $i);
+            }
+        }
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 }

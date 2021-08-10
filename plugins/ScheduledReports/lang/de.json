@@ -53,7 +53,7 @@
         "UnsubscribeReportConfirmation": "Sind Sie sicher, dass sie sich vom Bericht %1$s abmelden wollen?",
         "SuccessfullyUnsubscribed": "Sie wurden erfolgreich vom Bericht %1$s abgemeldet.",
         "UnsubscribeFooter": "Um sich von diesem Bericht abzumelden, klicken Sie bitte folgenden Link: %1$s",
-        "NoTokenProvided": "Die URL enthielt keinen Token",
+        "NoTokenProvided": "Die URL enthält keinen Token",
         "NoSubscriptionFound": "Kein Abonnement gefunden. Möglicherweise war der Bericht bereits abgemeldet oder er wurde entfernt.",
         "EvolutionGraphsShowForEachInPeriod": "Evolutionsgraphen zeigen die Entwicklung für %1$sjeden Tag%2$s in den letzten %3$s",
         "EvolutionGraphsShowForPreviousN": "Evolutionsgraphen zeigen die Entwicklung über die vorhergehenden N %s",

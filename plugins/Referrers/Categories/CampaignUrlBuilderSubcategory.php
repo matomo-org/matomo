@@ -15,5 +15,4 @@ class CampaignUrlBuilderSubcategory extends Subcategory
     protected $categoryId = 'Referrers_Referrers';
     protected $id = 'Referrers_URLCampaignBuilder';
     protected $order = 21;
-
 }
