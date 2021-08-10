@@ -139,6 +139,23 @@
         "TrackingFailuresEmail1": "Dies ist nur um Sie wissen zu lassen, dass in den letzten Tagen %s verschiedene Arten von Tracking Fehlschlägen aufgetreten sind.",
         "TrackingFailuresEmail2": "%1$sHier klicken%2$s, um alle Tracking Fehlschläge anzuzeigen.",
         "ImportFromGoogleAnalytics": "Von Google Analytics importieren",
-        "ImportFromGoogleAnalyticsDescription": "Wenn Sie über ein Google Analytics-Konto verfügen und zu Matomo wechseln, können Sie Ihre vorhandenen Daten mithilfe des %1$sGoogleAnalyticsImporter-Plugins%2$s importieren."
+        "ImportFromGoogleAnalyticsDescription": "Wenn Sie über ein Google Analytics-Konto verfügen und zu Matomo wechseln, können Sie Ihre vorhandenen Daten mithilfe des %1$sGoogleAnalyticsImporter-Plugins%2$s importieren.",
+        "SecurityNotificationEmailSubject": "Sicherheitsbenachrichtigung",
+        "SecurityNotificationRecoveryCodesShowedBody": "Jemand hat sich die Wiederherstellungscodes Ihres Benutzerkontos für Zwei-Faktor-Authentifikation angeschaut.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Jemand hat neue Wiederherstellungscodes für Zwei-Faktor-Authentifikation für Ihr Benutzerkonto generiert.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Jemand hat die Zwei-Faktor-Authentifikation in Ihrem Benutzerkonto aktiviert.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Jemand hat die Zwei-Faktor-Authentifikation in Ihrem Benutzerkonto deaktiviert.",
+        "SecurityNotificationTokenAuthCreatedBody": "Jemand hat einen Authentifizierungs-Token (Beschreibung: %s) in Ihrem Benutzerkonto erstellt. Wenn Sie das nicht waren, löschen Sie den Token.",
+        "SecurityNotificationTokenAuthDeletedBody": "Jemand hat einen Authentifizierungs-Token (Beschreibung: %s) in Ihrem Benutzerkonto gelöscht.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Jemand hat alle Authentifizierungs-Token Ihres Benutzerkontos gelöscht.",
+        "SecurityNotificationSettingsChangedByUserBody": "Jemand hat die Systemeinstellungen verändert. Betroffene Einstellungen: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Ein anderer Hauptadministrator (%1$s) hat die Systemeinstellungen verändert. Betroffene Einstellungen: %2$s. Wenn Sie die Aktivität nachvollziehen können, fahren Sie fort. Wenn nicht, kontaktieren Sie bitte den anderen Hauptadministrator.",
+        "SecurityNotificationUserCreatedBody": "Jemand hat einen neuen Benutzer (Login: %s) in Ihrem Benutzerkonto erstellt.",
+        "SecurityNotificationUserDeletedBody": "Jemand hat einen Benutzer (Login: %s) in Ihrem Benutzerkonto gelöscht.",
+        "SecurityNotificationIfItWasYou": "Wenn Sie das waren, fahren Sie fort. Wenn Sie sich über diese Aktivität nicht sicher sind, setzen Sie bitte Ihr Passwort zurück.",
+        "SecurityNotificationCheckTwoFactor": "Bitte prüfen Sie Ihre App oder Ihr Gerät zur Zwei-Faktor Authentifizierung.",
+        "BruteForce": "Brute Force",
+        "TwoFactorAuth": "Zwei-Faktor Authentifizierung",
+        "Cors": "CORS"
     }
 }

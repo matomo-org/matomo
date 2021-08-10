@@ -177,6 +177,8 @@
         "ExceptionDatabaseVersion": "Your %1$s version is %2$s but Matomo requires at least %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Your Matomo codebase is running the old version %1$s and we have detected that your Matomo Database has already been upgraded to the newer version %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Maybe your Matomo administrators are currently finishing the upgrade process. Please try again in a few minutes.",
+        "ExceptionDatabaseUnavailable": "MySQL server has gone away",
+        "ExceptionDatabaseAccess": "Database access denied",
         "ExceptionFileIntegrity": "Integrity check failed: %s",
         "ExceptionFilesizeMismatch": "File size mismatch: %1$s (expected length: %2$s, found: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Your %1$s client version is %2$s which is incompatible with server version %3$s.",

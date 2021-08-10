@@ -311,16 +311,17 @@ abstract class LocationProvider
             $info['isVisible'] = $provider->isVisible();
             $info['usageWarning'] = $provider->getUsageWarning();
 
-            $allInfo[$info['order']] = $info;
+            $allInfo[$info['id']] = $info;
         }
 
-        ksort($allInfo);
+        uasort($allInfo, function($a, $b) {
+            if ($a['order'] == $b['order']) {
+                return strcmp($a['id'], $b['id']);
+            }
+            return $a['order'] - $b['order'];
+        });
 
-        $result = array();
-        foreach ($allInfo as $info) {
-            $result[$info['id']] = $info;
-        }
-        return $result;
+        return $allInfo;
     }
 
     /**

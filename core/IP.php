@@ -78,9 +78,11 @@ class IP
             $proxyIps = array();
         }
 
-        $proxyIps[] = $default;
-
         $shouldReadLastProxyIp = Config::getInstance()->General['proxy_ip_read_last_in_list'] == 1;
+
+        if (!$shouldReadLastProxyIp) {
+            $proxyIps[] = $default;
+        }
 
         // examine proxy headers
         foreach ($proxyHeaders as $proxyHeader) {

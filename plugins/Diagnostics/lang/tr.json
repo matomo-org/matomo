@@ -1,31 +1,31 @@
 {
     "Diagnostics": {
-        "ConfigFileTitle": "Ayar Dosyası",
+        "ConfigFileTitle": "Yapılandırma dosyası",
         "MysqlTemporaryTablesWarning": "Matomo uygulamasının düzgün çalışabilmesi için CREATE TEMPORARY TABLES MySQL izninin verilmiş olması gereklidir.",
         "MysqlTransactionLevel": "İşlem yalıtma düzeyinin değiştirilmesi desteklenmiyor. Arşivleme çalışır ancak daha yavaş olabilir. Olabiliyorsa `binlog_format` seçeneğinin `row` olarak değiştirilmesi önerilir.",
-        "MysqlMaxPacketSize": "En Büyük Paket Boyutu",
+        "MysqlMaxPacketSize": "En büyük paket boyutu",
         "MysqlMaxPacketSizeWarning": "MySQL veritabanınız için 'max_allowed_packet' değerini en az %1$s olarak ayarlamanız önerilir. Şu anda %2$s olarak ayarlanmış.",
-        "ConfigFileIntroduction": "Matomo ayarları bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",
+        "ConfigFileIntroduction": "Matomo yapılandırması bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen yapılandırma değerlerine göre değiştirilmiş olan satırlar farklı arka plan renginde görüntülenir.",
         "HideUnchanged": "Yalnız değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "Sections": "Bölümler",
         "BrowserAndAutoArchivingEnabledLabel": "Tarayıcı ve otomatik arşivleme etkin",
         "BrowserAndAutoArchivingEnabledComment": "Hem tarayıcı hem de otomatik arşivleme etkinleştirilmiş gibi görünüyor. Otomatik arşivleme en son %3$s önce başlatılmış. %1$sOtomatik arşivleme%2$s etkin ise, \"Genel Ayarlar\" bölümünden tarayıcı arşivlemeyi devre dışı bırakmalısınız.",
-        "DatabaseReaderConnection": "Veritabanı Okuyucu Bağlantısı",
+        "DatabaseReaderConnection": "Veritabanı okuyucu bağlantısı",
         "DatabaseUtf8Requirement": "Bu özellik 4 baytlık UTF8 karakterlerini kaydedebilmek için gereklidir. utf8mb4 kullanılabilir olmadan, özel karakterler, duygu ifadeleri (emojiler), asya dillerinde az kullanılan karakterler, çeşitli tarihsel ya da matematiksel simgeler yerine %1$s kullanılır. Ayrıntılı bilgi almak için %2$ssık sorulan sorular bölümüne%3$s bakabilirsiniz.",
         "DatabaseUtf8mb4CharsetRecommended": "Veritabanınız henüz utf8mb4 karakter kümesini desteklemiyor.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Veritabanınız utf8mb4 karakter kümesini destekliyor ancak veritabanı tablolarınız henüz dönüştürülmemiş. Bu işlemi %1$s komutunu yürüterek ya da Genel Ayarlar bölümünden otomatik dönüşüm seçeneğini etkinleştirerek yapabilirsiniz.",
-        "CronArchivingLastRunCheck": "Son Tamamlanmış Arşivleme İşlemi",
+        "CronArchivingLastRunCheck": "Son tamamlanmış arşivleme işlemi",
         "CronArchivingHasNotRun": "Henüz tamamlanmış bir arşivleme işlemi yapılmamış.",
         "CronArchivingHasNotRunInAWhile": "Son tamamlanmış arşivleme işlemi %1$s tarihinde %2$s önce yapılmış.",
         "CronArchivingRunDetails": "Lütfen %1$s konsol komutunu çağıran bir zamanlanmış görev yapılandırdığınızdan ve arşivleme işleminde sorun çıkarsa hataların alınabilmesi için bir %2$s yapılandırdığınızdan emin olun. Ayrıca raporları el ile arşivlemek için şu konsol komutunu çalıştırmayı deneyebilirsiniz: %3$s. %4$sAyrıntılı bilgi alın.%5$s",
         "CronArchivingRanSuccessfullyXAgo": "Arşivleme işlemi %1$s önce tamamlanmış.",
         "BrowserTriggeredArchivingEnabled": "En iyi başarım ve daha hızlı bir Matomo kullanımı için raporlarınızı otomatik olarak arşivleyecek bir zamanlanmış görev yapılandırmanız ve Matomo ayarlarından web tarayıcı ile tetiklenen arşivleme özelliğini devre dışı bırakmanız önemle önerilir. %1$sAyrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s",
         "NoDataForReportArchivingNotRun": "Yakın zamanda raporlarınız arşivlenmemiş. %1$sRaporlarınızı üretmek hakkında ayrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s",
-        "RequiredPrivateDirectories": "Gerekli Özel Klasörler",
+        "RequiredPrivateDirectories": "Gerekli kişisel klasörler",
         "PrivateDirectoryManualCheck": "Lütfen erişilip erişilemediğini görmek için adresleri el ile bir web tarayıcıda açın. Yapabiliyorsanız sunucu yapılandırmasını değiştirerek, bu dosyalara\/klasörlere İnternet ya da İntranet üzerinden bir web tarayıcı ile erişilmesini engellemeniz gerekebilir.",
         "PrivateDirectoryInternetDisabled": "Bu Matomo kopyasında İnternet özellikleri devre dışı bırakılmış olduğundan aşağıdaki adreslerin erişilebilir olup olmadığı denetlenemedi.",
         "PrivateDirectoryIsAccessible": "Yukarıdaki adreslere web tarayıcı ile erişilememesi gerektiği halde erişilebiliyor. Bu adreslerdeki içerikler, sunucunuz ve potansiyel olarak kullanıcılarınız hakkında bilgiler sağlayabilir. Bu durum potansiyel bir güvenlik riski oluşturabilir. Lütfen bu adreslere erişimi kısıtlayın.",
         "ConfigIniAccessible": "Ayrıca Matomo yapılandırma klasörü de herkesin erişimine açık. Saldırganlar şu anda yapılandırma bilgilerini okuyamaz. Ancak web sunucusu herhangi bir nedenle PHP dosyalarını yürütmeyi durdurursa, herkes MySQL ve diğer yapılandırma bilgilerini görebilir. Lütfen web sunucu yapılandırmasını denetleyerek ve bu klasöre erişimi engelleyin.",
-        "AllPrivateDirectoriesAreInaccessible": "Hiç bir özel klasöre İnternet üzerinden erişilemiyor."
+        "AllPrivateDirectoriesAreInaccessible": "İnternet üzerinden hiç bir kişisel klasöre erişilemiyor."
     }
 }
