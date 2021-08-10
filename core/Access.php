@@ -170,14 +170,11 @@ class Access
             $auth = StaticContainer::get(SessionAuth::class);
             $auth->setTokenAuth($tokenAuth);
             $result = $auth->authenticate();
-            if (!$result->wasAuthenticationSuccessful()) {
-                /**
-                 * Ensures brute force logic to be executed
-                 * @ignore
-                 * @internal
-                 */
-                Piwik::postEvent('API.Request.authenticate.failed');
-            }
+            // Note: We do not post a failed login event at this point on purpose
+            // If using the SessionAuth doesn't work, the FrontController will try to reload the Auth using
+            // the token_auth only. If that works everything is "fine" and the `force_api_session` parameter was
+            // unneeded. If that fails as well it will trigger the failed login event
+            // See FrontController::init() or Request::reloadAuthUsingTokenAuth()
             Session::close();
             // if not successful, we will fallback to regular auth
         }
