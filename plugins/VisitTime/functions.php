@@ -15,7 +15,12 @@ use Piwik\Piwik;
 
 function getTimeLabel($label)
 {
-    $date             = Date::factory(mktime($label));
+    $time = mktime($label);
+    if (empty($time)) {
+        return Piwik::translate('General_Unknown');
+    }
+
+    $date             = Date::factory($time);
     $dateTimeProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
 
     if ($dateTimeProvider->uses12HourClock()) {
