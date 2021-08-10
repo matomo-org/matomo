@@ -161,7 +161,7 @@ class Access
         $forceApiSessionGet = Common::getRequestVar('force_api_session', 0, 'int', $_GET);
         $isApiRequest = Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction());
         $apiMethod = Request::getMethodIfApiRequest(null);
-        $isGetApiRequest = 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
+        $isGetApiRequest = !empty($apiMethod) && 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
 
         if (($forceApiSessionPost && $isApiRequest) || ($forceApiSessionGet && $isApiRequest && $isGetApiRequest)) {
             $request = ($forceApiSessionGet && $isApiRequest && $isGetApiRequest) ? $_GET : $_POST;
