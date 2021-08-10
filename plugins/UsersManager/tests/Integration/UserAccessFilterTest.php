@@ -46,7 +46,7 @@ class UserAccessFilterTest extends IntegrationTestCase
      */
     private $filter;
 
-    private $users = array(
+    private static $users = array(
         'login2' => array('view' => array(1,3,5),   'admin' => array(2,6)),
         'login3' => array('view' => array(),        'admin' => array()), // no access to any site
         'login4' => array('view' => array(6),       'admin' => array()), // only access to one with view
@@ -64,11 +64,17 @@ class UserAccessFilterTest extends IntegrationTestCase
         $this->model  = new Model();
         $this->access = new FakeAccess();
 
-        $this->createManyWebsites();
-        $this->createManyUsers();
         FakeAccess::clearAccess();
 
         $this->filter = new TestUserAccessFilter($this->model, $this->access);
+    }
+
+    protected static function beforeTableDataCached()
+    {
+        parent::beforeTableDataCached();
+
+        self::createManyWebsites();
+        self::createManyUsers();
     }
 
     public function test_filterUser_WithSuperUserAccess_ShouldAlwaysReturnTrue()
@@ -258,7 +264,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         $this->assertSame(array(), $this->buildLogins(array()));
     }
 
-    private function createManyWebsites()
+    private static function createManyWebsites()
     {
         for ($i = 0; $i < 10; $i++) {
             Fixture::createWebsite('2014-01-01 00:00:00');
@@ -281,24 +287,26 @@ class UserAccessFilterTest extends IntegrationTestCase
         return $logins;
     }
 
-    private function createManyUsers()
+    private static function createManyUsers()
     {
-        $this->model->addUser('login1', md5('pass'), 'email1@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('login2', md5('pass'), 'email2@example.com', '2008-01-01 00:00:00');
+        $model  = new Model();
+
+        $model->addUser('login1', md5('pass'), 'email1@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login2', md5('pass'), 'email2@example.com', '2008-01-01 00:00:00');
         // login3 won't have access to any site
-        $this->model->addUser('login3', md5('pass'), 'email3@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('login4', md5('pass'), 'email4@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('login5', md5('pass'), 'email5@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('login6', md5('pass'), 'email6@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('login7', md5('pass'), 'email7@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('login8', md5('pass'), 'email8@example.com', '2008-01-01 00:00:00');
-        $this->model->addUser('anonymous', '', 'ano@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login3', md5('pass'), 'email3@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login4', md5('pass'), 'email4@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login5', md5('pass'), 'email5@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login6', md5('pass'), 'email6@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login7', md5('pass'), 'email7@example.com', '2008-01-01 00:00:00');
+        $model->addUser('login8', md5('pass'), 'email8@example.com', '2008-01-01 00:00:00');
+        $model->addUser('anonymous', '', 'ano@example.com', '2008-01-01 00:00:00');
 
-        $this->model->setSuperUserAccess('login1', true); // we treat this one as our superuser
+        $model->setSuperUserAccess('login1', true); // we treat this one as our superuser
 
-        foreach ($this->users as $login => $permissions) {
+        foreach (self::$users as $login => $permissions) {
             foreach ($permissions as $access => $idSites) {
-                $this->model->addUserAccess($login, $access, $idSites);
+                $model->addUserAccess($login, $access, $idSites);
             }
         }
     }
@@ -311,9 +319,9 @@ class UserAccessFilterTest extends IntegrationTestCase
 
         if ($login === 'login1') {
             $hasSuperUser = true;
-        } elseif (isset($this->users[$login])) {
-            $idSitesAdmin = $this->users[$login]['admin'];
-            $idSitesView  = $this->users[$login]['view'];
+        } elseif (isset(self::$users[$login])) {
+            $idSitesAdmin = self::$users[$login]['admin'];
+            $idSitesView  = self::$users[$login]['view'];
         }
 
         FakeAccess::clearAccess($hasSuperUser, $idSitesAdmin, $idSitesView, $login);

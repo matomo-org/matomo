@@ -33,26 +33,21 @@ class UserIdTest extends IntegrationTestCase
 
     protected $date = '2014-04-04';
 
-    public function setUp(): void
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
-        $this->userId = new UserId();
-
-        $this->setSuperUser();
+        parent::beforeTableDataCached();
 
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    public function tearDown(): void
+    public function setUp(): void
     {
-        // clean up your test here if needed
-        $tables = ArchiveTableCreator::getTablesArchivesInstalled();
-        if (!empty($tables)) {
-            Db::dropTables($tables);
-        }
-        parent::tearDown();
+        parent::setUp();
+        $this->userId = new UserId();
+
+        $this->setSuperUser();
     }
 
     public function test_isUsedInAtLeastOneSite_shouldReturnFalseByDefault_WhenNothingIsTracked()
