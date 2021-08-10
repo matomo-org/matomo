@@ -776,7 +776,7 @@ class Url
      */
     protected static function isPiwikConfiguredToAssumeSecureConnection()
     {
-        $assume_secure_protocol = Config::getInstance()->General['assume_secure_protocol'];
+        $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
         return (bool) $assume_secure_protocol;
     }
 

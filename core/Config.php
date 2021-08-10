@@ -348,7 +348,9 @@ class Config
     {
         $section = $this->$section;
         $value = $section[$name] ?? 0;
-        return $value == 1;
+        // return $value === 1 || $value === 'true' || $value === true; // was suggested for future use by @sgiehl
+        // @see https://github.com/matomo-org/matomo/pull/17865
+        return $value == 1; // using this for BC documentation
     }
 
     /**

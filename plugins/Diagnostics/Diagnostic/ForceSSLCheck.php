@@ -45,7 +45,7 @@ class ForceSSLCheck implements Diagnostic
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $message)];
         }
 
-        $forceSSLEnabled = Config::getInstance()->getBool('General', 'force_ssl');
+        $forceSSLEnabled = (Config::getInstance()->General['force_ssl'] == 1);
 
         if ($forceSSLEnabled) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));

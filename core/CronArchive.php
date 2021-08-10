@@ -227,7 +227,7 @@ class CronArchive
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
-        $this->isArchiveProfilingEnabled = Config::getInstance()->getBool('Debug', 'archiving_profile');
+        $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
 
         $this->model = StaticContainer::get(Model::class);
 
@@ -243,7 +243,7 @@ class CronArchive
 
     private function isMaintenanceModeEnabled()
     {
-        return Config::getInstance()->getBool('General', 'maintenance_mode');
+        return Config::getInstance()->General['maintenance_mode'] == 1;
     }
 
     /**
