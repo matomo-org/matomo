@@ -395,6 +395,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         Date::$now = null;
         FrontController::$requestId = null;
         Cache::$cache = null;
+        Common::$isCliMode = null;
         MockFileMethods::reset();
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
