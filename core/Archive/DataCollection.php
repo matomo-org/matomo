@@ -378,7 +378,9 @@ class DataCollection
 
         foreach ($this->data as $idSite => $periods) {
             foreach ($periods as $periodRange => $data) {
-                $callable($data, $dataTableFactory);
+                $tableMetadata = $dataTableFactory->getTableMetadataFor($idSite, $this->periods[$periodRange]);
+
+                $callable($data, $dataTableFactory, $tableMetadata);
             }
         }
     }

@@ -373,15 +373,15 @@ class ArchiveProcessor
             $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
 
-        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory) use ($name, $result, $columnsToRenameAfterAggregation) {
+        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory, $tableMetadata) use ($name, $result, $columnsToRenameAfterAggregation) {
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
 
-            $toSum = $factory->make($reportBlobs, $index = []);
+            $toSum = $factory->make($reportBlobs, $index = [], $tableMetadata);
 
             $latestUsedAfterCreatingToSum = Manager::getInstance()->getMostRecentTableId();
 
             // see https://github.com/piwik/piwik/issues/4377
-            $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation) {
+            $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
