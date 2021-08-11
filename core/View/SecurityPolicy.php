@@ -30,10 +30,10 @@ class SecurityPolicy
     /**
      * Constructor.
      */
-    public function __construct() {
+    public function __construct(Config $config) {
         $this->policies['default-src'] = "'self' 'unsafe-inline' 'unsafe-eval'";
 
-        $generalConfig = Config::getInstance()->General;
+        $generalConfig = $config->General;
         $this->cspEnabled = $generalConfig['csp_enabled'];
         $this->reportOnly = $generalConfig['csp_report_only'];
     }
