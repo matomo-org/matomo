@@ -32,7 +32,7 @@ class UIAssetCacheBuster extends Singleton
         if (empty($cachedCacheBuster) || $pluginNames !== false) {
 
             $masterFile     = PIWIK_INCLUDE_PATH . '/.git/refs/heads/master';
-            $currentGitHash = file_exists($masterFile) ? @file_get_contents($masterFile) : null;
+            $currentGitHash = file_exists($masterFile) ? @file_get_contents($masterFile) : '';
             $manager = Manager::getInstance();
 
             $plugins = !$pluginNames ? $manager->getActivatedPlugins() : $pluginNames;

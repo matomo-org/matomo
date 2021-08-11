@@ -8,16 +8,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
-* The `logme` method for automatic logins is now disabled by default for new installations. For existing installations it will be enabled automatically on update. If you do not need it please consider disabling it again for security reasons by setting `login_allow_logme = 0` in `General` section of `config.ini.php`.
+* The `logme` method for [automatic logins](https://matomo.org/faq/how-to/faq_30/) is now disabled by default for new installations. For existing installations it will be enabled automatically on update. If you do not need it please consider disabling it again for security reasons by setting `login_allow_logme = 0` in `General` section of `config.ini.php`.
 * The redirect using the `url` param for the automatic login action `logme`, will no longer do redirects to untrusted hosts. If you need to do redirects to other URLs on purpose, please add the according hosts as `trusted_hosts` entry in `config.ini.php`
 
 ### New config.ini.php settings
 
 * When determining the client IP address from proxy headers like X-Forwarded-For, Matomo will by default look at the first IP in the list. If you need to read the last IP instead, the new INI config option `[General] proxy_ip_read_last_in_list` be set to `1`. Using the last IP can be more secure when you are using proxy headers in combination with a load balancer.
+* Matomo logs can now be written into "errorlog" (logs using the error_log() php function) and "syslog" (logs to the syslog service) (to complement existing log writers: "screen", "file", "database"). [Learn more.](https://matomo.org/faq/troubleshooting/faq_115/)
 
-### Changes to events
+### New commands
 
-* It is now possible via the Mail.send event to abort sending emails. Set the `$mail` event parameter to null to do this.
+* Added new command `core:version` which returns the Matomo version number.
 
 ## Matomo 4.3.1
 

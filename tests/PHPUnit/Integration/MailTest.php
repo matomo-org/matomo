@@ -56,12 +56,12 @@ class MailTest extends UnitTestCase
         $this->assertTrue($result);
         $this->assertCount(1, $this->sentMails);
 
-        Piwik::addAction('Mail.send', function (&$mail) { $mail = null; });
+        Piwik::addAction('Mail.shouldSend', function (&$shouldSend, $mail) { $shouldSend = false; });
 
         $mail2 = new Mail();
         $result = $mail2->send();
 
-        $this->assertNull($result);
+        $this->assertFalse($result);
         $this->assertCount(1, $this->sentMails);
     }
 

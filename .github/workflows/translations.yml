@@ -5,6 +5,18 @@ on:
   schedule:
   - cron: "0 2 * * 6"
 
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
 jobs:
   build:
 
@@ -22,7 +34,7 @@ jobs:
 
 
     steps:
-    - uses: shivammathur/setup-php@v2
+    - uses: shivammathur/setup-php@36cb9fb0fccf887130d6c5a3d40a3b3479310026
       with:
         php-version: '7.3'
     - uses: actions/checkout@v2

@@ -297,7 +297,7 @@ class View implements ViewInterface
                 Common::sendHeader('Referrer-Policy: same-origin');
             } else {
                 // always send explicit default header
-                Common::sendHeader('Referrer-Policy: strict-origin-when-cross-origin');
+                Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
             }
 
             // this will be an empty string if CSP is disabled

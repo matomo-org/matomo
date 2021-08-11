@@ -5,9 +5,9 @@
         "Configurations": "Yapılandırmalar",
         "PluginDescription": "Ziyaretçinin ekran çözünürlüklerini bildirir.",
         "Resolutions": "Çözünürlükler",
-        "WidgetGlobalVisitors": "Ziyaretçi Yapılandırması",
+        "WidgetGlobalVisitors": "Ziyaretçi yapılandırması",
         "WidgetGlobalVisitorsDocumentation": "Bu rapor ziyaretçilerin genel yapılandırma bilgilerini içerir. Yapılandırma bilgilerinde, işletim sistemi, web tarayıcı türü ve ekran çözünürlüğü bulunur.",
-        "WidgetResolutions": "Ekran Çözünürlüğü",
+        "WidgetResolutions": "Ekran çözünürlüğü",
         "WidgetResolutionsDocumentation": "Bu rapor, ziyaretçilerin web sitesini görüntülediği ekran çözünürlüklerini içerir."
     }
 }

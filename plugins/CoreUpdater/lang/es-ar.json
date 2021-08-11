@@ -7,6 +7,7 @@
         "DisablingIncompatiblePlugins": "Deshabilitando plugins incompatibles: %s",
         "DownloadingUpdateFromX": "Descargando actualización desde %s",
         "DownloadX": "Descargar %s",
+        "UpdateLog": "Registro de subida",
         "EmptyDatabaseError": "La base de datos %s está vacía. Tenés que editar o quitar tu archivo de configuración de Matomo.",
         "ErrorDIYHelp": "Si sos un usuario avanzado y encontrás un error en la actualización de la base de datos:",
         "ErrorDIYHelp_1": "identificá y corregí el origen del problema (por ejemplo, memory_limit o max_execution_time)",
@@ -91,6 +92,11 @@
         "YouMustDownloadPackageOrFixPermissions": "Matomo no puede sobreescribir tu instalación actual. Podés, o bien corregir los permisos del directorio o archivo, o bien descargar el paquete e instalar la versión %s manualmente:",
         "YourDatabaseIsOutOfDate": "Tu basde de datos de Matomo está desactualizada y debe ser actualizada antes de continuar.",
         "ViewVersionChangelog": "Ver el registro de cambios de esta versión:",
-        "ReceiveEmailBecauseIsSuperUser": "Recibís este correo electrónico porque sos un súperusuario en la instalación de Matomo en: %s"
+        "ReceiveEmailBecauseIsSuperUser": "Recibís este correo electrónico porque sos un súperusuario en la instalación de Matomo en: %s",
+        "ConvertToUtf8mb4": "Convertir base de datos a conjunto de caracteres UTF8mb4",
+        "TriggerDatabaseConversion": "Ejecutar conversión de base de datos en segundo plano",
+        "Utf8mb4ConversionHelp": "Tu base de datos actualmente no está usando un conjunto de caracteres UTF8mb4. Esto hace imposible almacenar caracteres de 4 bytes, como emojis, caracteres poco comunes de idiomas asiáticos, varios jeroglíficos históricos o símbolos matemáticos. Ellos actualmente son reemplazados con %1$s. <br \/><br \/>Tu base de datos soporta el conjunto de caracteres UTF8mb4 y sería posible convertirlo.<br \/><br \/>Si podés usar los comandos de consola, te recomendamos usar este comando: %2$s<br \/><br \/>Alternativamente, podés habilitar la conversión acá. Será ejecutada automáticamente como una tarea programada en segundo plano.<br \/><br \/>Atención: convertir la base de datos puede tardar un par de horas dependiendo en el tamaño de la misma. Ya que el rastreo podría no funcionar durante este proceso, no recomendamos usar el accionador para instancias más grandes.<br \/><br \/>Podés encontrar más información sobre este tema en nuestras %3$spreguntas frecuentes%4$s.",
+        "SkipCacheClearDesc": "Esquiva la limpieza de memoria caché durante una actualización. Esto sólo es útil si podés asegurarte que las instancias ejecutando este comando no crearon un archivo caché aún, y si limpiar la caché para varias cuentas de Matomo pueden generar un cuello de botella.",
+        "SkipCacheClear": "Esquivar la limpieza de memoria caché"
     }
 }

@@ -471,6 +471,15 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(2, $results);
         $this->assertStringContainsString('dimval1', $results[0]);
         $this->assertStringContainsString('subtabledimension', $results[1]);
+
+        $tableUnserialized = DataTable::fromSerializedArray($results[0]);
+        $this->assertEquals(1, $tableUnserialized->getSummaryRow()->getIdSubDataTable());
+
+        $expectedResults = [
+            'a:2:{i:0;a:3:{i:0;a:2:{s:5:"label";s:7:"dimval1";s:6:"visits";i:245;}i:1;a:0:{}i:3;N;}i:-1;a:3:{i:0;a:2:{s:5:"label";s:6:"others";s:6:"visits";i:500;}i:1;a:0:{}i:3;i:1;}}',
+            'a:1:{i:0;a:3:{i:0;a:2:{s:5:"label";s:17:"subtabledimension";s:6:"visits";i:100;}i:1;a:0:{}i:3;N;}}',
+        ];
+        $this->assertEquals($expectedResults, $results);
     }
 
     /**
