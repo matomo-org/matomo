@@ -31,7 +31,7 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
         $this->generalConfig['csp_enabled'] = 1;
         $this->generalConfig['csp_report_only'] = 1;
 
-        $this->securityPolicy = new SecurityPolicy();
+        $this->securityPolicy = new SecurityPolicy(Config::getInstance());
     }
 
     public function testDefaultSecurityPolicy() {
@@ -41,7 +41,7 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultEnabledSecurityPolicy() {
         $this->generalConfig['csp_report_only'] = 0;
-        $this->securityPolicy = new SecurityPolicy();
+        $this->securityPolicy = new SecurityPolicy(Config::getInstance());
 
         $expectedDefaultEnabled = "Content-Security-Policy: " . $this->defaultPolicy;
         $this->assertEquals($expectedDefaultEnabled, $this->securityPolicy->createHeaderString());
@@ -49,7 +49,7 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
 
     public function testDisabledSecurityPolicy() {
         $this->generalConfig['csp_enabled'] = 0;
-        $this->securityPolicy = new SecurityPolicy();
+        $this->securityPolicy = new SecurityPolicy(Config::getInstance());
 
         $this->assertSame('', $this->securityPolicy->createHeaderString());
     }
