@@ -33,15 +33,20 @@ class RequestTest extends IntegrationTestCase
 
     private $time;
 
-    public function setUp(): void
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
+        parent::beforeTableDataCached();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         foreach (range(3,14) as $idSite) {
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
 
         Cache::deleteTrackerCache();
 

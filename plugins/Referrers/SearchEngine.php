@@ -265,7 +265,7 @@ class SearchEngine extends Singleton
                     }
                 } else {
                     // search for keywords now &vname=keyword
-                    $key = UrlHelper::getParameterFromQueryString($query, $variableName);
+                    $key = UrlHelper::getParameterFromQueryString($query, $variableName) ?? '';
                     $key = trim(urldecode($key));
 
                     // Special cases: empty keywords

@@ -451,7 +451,7 @@ class Mysql implements SchemaInterface
              *     });
              * @param array $result
              */
-            if (count($allTables)) {
+            if (count($allTables) && empty($GLOBALS['DISABLE_GET_TABLES_INSTALLED_EVENTS_FOR_TEST'])) {
                 Manager::getInstance()->loadPlugins(Manager::getAllPluginsNames());
                 Piwik::postEvent('Db.getTablesInstalled', [&$allMyTables]);
                 Manager::getInstance()->unloadPlugins();
