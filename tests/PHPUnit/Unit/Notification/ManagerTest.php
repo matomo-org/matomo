@@ -7,7 +7,7 @@
  *
  */
 
-namespace PHPUnit\Unit\Notification;
+namespace Piwik\Tests\Unit\Notification;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Notification;

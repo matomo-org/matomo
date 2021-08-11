@@ -7,7 +7,7 @@
  *
  */
 
-namespace PHPUnit\Integration\Session\SaveHandler;
+namespace Piwik\Tests\Integration\Session\SaveHandler;
 
 use Piwik\Session;
 use Piwik\Session\SaveHandler\DbTable;
