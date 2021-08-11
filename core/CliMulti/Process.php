@@ -236,10 +236,6 @@ class Process
             $reasons[] = 'awk is not available or did not run as we would expect it to';
         }
 
-        if (!self::isProcFSMounted() && !SettingsServer::isMac()) {
-            $reasons[] = 'procfs is not mounted';
-        }
-
         return $reasons;
     }
 
@@ -285,21 +281,6 @@ class Process
         $returnCode = @shell_exec($exec);
         $returnCode = trim($returnCode);
         return 0 == (int) $returnCode;
-    }
-
-    /**
-     * ps -e requires /proc
-     * @return bool
-     */
-    private static function isProcFSMounted()
-    {
-        if (is_resource(@fopen('/proc', 'r'))) {
-            return true;
-        }
-        // Testing if /proc is a resource with @fopen fails on systems with open_basedir set.
-        // by using stat we not only test the existence of /proc but also confirm it's a 'proc' filesystem
-        $type = @shell_exec('stat -f -c "%T" /proc 2>/dev/null');
-        return strpos($type, 'proc') === 0;
     }
 
     public static function getListOfRunningProcesses()
