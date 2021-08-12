@@ -181,7 +181,7 @@ class Response
     private function outputCustomImage(string $customImage): bool
     {
 
-        if (strlen($customImage) > 2 && substr($customImage, strlen($customImage)-2, 2) == '==') {
+        if (strlen($customImage) > 2 && substr($customImage, -2) == '==') {
 
             $transGifBase64 = $customImage;
             Common::sendHeader('Content-Type: image/gif');
