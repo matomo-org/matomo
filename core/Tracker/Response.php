@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Profiler;
 use Piwik\Timer;
 use Piwik\Tracker;
@@ -150,15 +151,60 @@ class Response
             return;
         }
 
+        // Check for a custom tracking image
+        $customImage = Config::getInstance()->Tracker['custom_image'];
+        if (!empty($customImage)) {
+            if ($this->outputCustomImage($customImage))
+                return;
+        }
+
+        // No custom image defined, so output the default 1x1 base64 transparent gif
         $this->outputTransparentGif();
     }
 
+    /**
+     * Output a 1px x 1px transparent gif
+     */
     private function outputTransparentGif()
     {
         $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         Common::sendHeader('Content-Type: image/gif');
 
         echo base64_decode($transGifBase64);
+    }
+
+    /**
+     * Output a custom tracking image
+     *
+     * @param string $customImage The custom image setting specified in the config
+     * @return bool True if the custom image was successfully output, else false
+     */
+    private function outputCustomImage(string $customImage): bool
+    {
+
+        if (strlen($customImage) > 2 && substr($customImage, strlen($customImage)-2, 2) == '==') {
+
+            $transGifBase64 = $customImage;
+            Common::sendHeader('Content-Type: image/gif');
+
+            echo base64_decode($transGifBase64);
+            return true;
+        }
+
+        if (file_exists($customImage)) {
+
+            $fp = fopen($customImage, 'rb');
+            $size = getimagesize($customImage); // imagesize is used to get the mime type
+            if ($fp && $size && isset($size['mime']))
+            {
+                Common::sendHeader('Content-Type: '.$size['mime']);
+                fpassthru($fp);
+                return true;
+            }
+
+        }
+
+        return false;
     }
 
     /**

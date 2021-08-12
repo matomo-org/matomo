@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker;
@@ -165,6 +166,55 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->response->outputResponse($tracker);
 
         Fixture::checkResponse($this->response->getOutput());
+    }
+
+    public function test_outputResponse_shouldOuputCustomImage_IfCustomBase64ImageSet()
+    {
+        // Base64 sample image string (4x4px red PNG made in GIMP)
+        $base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5QgLFiABlwQnpwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAUSURBVAjXY/wjLMyABJgYUAGpfABbJQEsALGyNgAAAABJRU5ErkJggg==';
+        
+        // Initialise the custom_image setting
+        $config = Config::getInstance();
+        $trackerSettings = $config->Tracker;
+        //$trackerSettings['custom_image'] = '/var/www/matomo/plugins/Morpheus/images/logo.png';
+        $trackerSettings['custom_image'] = $base64Image; 
+        $config->Tracker = $trackerSettings;
+
+        // Get the response
+        $tracker = $this->getTracker();
+        $this->response->init($tracker);
+        $this->response->outputResponse($tracker);
+        $response = $this->response->getOutput();
+
+        // Encode the response back into base64 and compare with the original
+        $this->assertSame($base64Image,  base64_encode($response));
+
+    }
+
+    public function test_outputResponse_shouldOuputCustomImage_IfCustomImageFileSet()
+    {
+
+        // Using the Matomo logo file from the Morpheus theme plugin
+        $testImagePath = PIWIK_INCLUDE_PATH . '/plugins/Morpheus/images/logo.png';
+        $this->assertFileExists($testImagePath, "Unable to find the test image for custom image file test");
+        $md5File = md5_file($testImagePath);
+
+        // Initialise the custom_image setting
+        $config = Config::getInstance();
+        $trackerSettings = $config->Tracker;
+        $trackerSettings['custom_image'] = $testImagePath;
+        $config->Tracker = $trackerSettings;
+
+        // Get the response
+        $tracker = $this->getTracker();
+        $this->response->init($tracker);
+        $this->response->outputResponse($tracker);
+        $response = $this->response->getOutput();
+        $md5Response = md5($response);
+
+        // Compare the hash of the response with the file hash
+        $this->assertSame($md5Response,  $md5File);
+
     }
 
     private function getTracker()
