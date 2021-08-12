@@ -211,6 +211,11 @@ enable_processing_unique_visitors_multiple_sites = 0
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
 enabled_periods_UI = "day,week,month,year,range"
+
+; The list of periods that are available in through the API. This also controls the list of periods that are allowed
+; to be archived. You can disable some of them if you have a high traffic website and archiving is too compute heavy.
+; NOTE: if you disable a period in the API, it's parent periods are effectively disabled as well. For example, if
+; month periods are disabled, then year periods can no longer be computed, so they are effectively disabled as well.
 enabled_periods_API = "day,week,month,year,range"
 
 ; whether to enable segment archiving cache
