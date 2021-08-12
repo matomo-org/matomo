@@ -348,7 +348,7 @@ class QueueConsumer
 
             $periodLabel = $this->periodIdsToLabels[$nextArchive['period']];
             if (!PeriodFactory::isPeriodEnabledForAPI($periodLabel)
-                || $this->isAnyLowerPeriodDisabledForAPI($periodLabel)
+                || PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel)
             ) {
                 $this->logger->info("Found invalidation for period that is disabled in the API, skipping and removing: {$nextArchive['idinvalidation']}");
                 $this->model->deleteInvalidations([$nextArchive]);
@@ -611,30 +611,5 @@ class QueueConsumer
     public function getIdSite()
     {
         return $this->idSite;
-    }
-
-    private function isAnyLowerPeriodDisabledForAPI($periodLabel)
-    {
-        $parentPeriod = null;
-        switch ($periodLabel) {
-            case 'week':
-                $parentPeriod = 'day';
-                break;
-            case 'month':
-                $parentPeriod = 'week';
-                break;
-            case 'year':
-                $parentPeriod = 'month';
-                break;
-            default:
-                break;
-        }
-
-        if ($parentPeriod === null) {
-            return false;
-        }
-
-        return !PeriodFactory::isPeriodEnabledForAPI($parentPeriod)
-            || $this->isAnyLowerPeriodDisabledForAPI($parentPeriod);
     }
 }

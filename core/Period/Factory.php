@@ -195,4 +195,29 @@ abstract class Factory
         $periodValidator = new PeriodValidator();
         return $periodValidator->getPeriodsAllowedForAPI();
     }
+
+    public static function isAnyLowerPeriodDisabledForAPI($periodLabel)
+    {
+        $parentPeriod = null;
+        switch ($periodLabel) {
+            case 'week':
+                $parentPeriod = 'day';
+                break;
+            case 'month':
+                $parentPeriod = 'week';
+                break;
+            case 'year':
+                $parentPeriod = 'month';
+                break;
+            default:
+                break;
+        }
+
+        if ($parentPeriod === null) {
+            return false;
+        }
+
+        return !self::isPeriodEnabledForAPI($parentPeriod)
+            || self::isAnyLowerPeriodDisabledForAPI($parentPeriod);
+    }
 }
