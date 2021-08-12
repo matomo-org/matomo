@@ -176,7 +176,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         // Initialise the custom_image setting
         $config = Config::getInstance();
         $trackerSettings = $config->Tracker;
-        //$trackerSettings['custom_image'] = '/var/www/matomo/plugins/Morpheus/images/logo.png';
         $trackerSettings['custom_image'] = $base64Image; 
         $config->Tracker = $trackerSettings;
 
