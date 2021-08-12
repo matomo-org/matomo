@@ -9,7 +9,7 @@
 describe("Overlay", function () {
     this.timeout(0);
 
-    async function removeOptOutIframe() {
+    async function removeOptOutIframe(page) {
         const frame = page.frames().find(f => f.name() === 'overlayIframe');
         if (frame) {
             await frame.evaluate(function () {
@@ -59,7 +59,7 @@ describe("Overlay", function () {
             it("should load correctly" + descAppendix, async function () {
                 await page.goto(getUrl(useTokenAuth));
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('loaded');
             });
 
@@ -67,7 +67,7 @@ describe("Overlay", function () {
 
                 const frame = page.frames().find(f => f.name() === 'overlayIframe');
                 await (await frame.$('.btn.btn-large')).hover();
-                await page.waitFor(250);
+                await page.waitForTimeout(250);
 
                 await frame.evaluate(function () {
                     $('div#PIS_StatusBar').each(function () {
@@ -76,7 +76,7 @@ describe("Overlay", function () {
                         $(this).html(html);
                     });
                 });
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('page_link_clicks');
             });
 
@@ -87,7 +87,7 @@ describe("Overlay", function () {
 
                 await page.waitForTimeout(2000);
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('page_new_links');
             });
 
@@ -96,7 +96,7 @@ describe("Overlay", function () {
                 await (await frame.$('ul.nav>li:nth-child(2)>a')).click();
                 await page.waitForNetworkIdle();
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('page_change');
             });
 
@@ -109,7 +109,7 @@ describe("Overlay", function () {
                 await page.waitForSelector('.overlayMainMetrics,.overlayNoData');
                 await page.waitForNetworkIdle();
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('period_change');
             });
 
@@ -131,9 +131,9 @@ describe("Overlay", function () {
                         $(this).html(html);
                     });
                 });
-                await page.waitFor(500);
+                await page.waitForTimeout(500);
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('row_evolution');
             });
 
@@ -153,7 +153,7 @@ describe("Overlay", function () {
                     });
                 });
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('transitions');
             });
 
@@ -166,9 +166,35 @@ describe("Overlay", function () {
                 const frame = page.frames().find(f => f.name() === 'overlayIframe');
                 await frame.waitForSelector('.PIS_LinkTag');
 
-                await removeOptOutIframe();
+                await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('loaded_with_segment');
             });
         })(testCases[index]);
     }
+
+    it("should load overlay correctly when coming from an widgetized action report", async function () {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
+        testEnvironment.overrideConfig('General', 'enable_framed_allow_write_admin_token_auth', 1);
+        testEnvironment.save();
+
+        await page.goto('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&idSite=3&period=year&date=today&disableLink=1&widget=1&token_auth=a4ca4238a0b923820dcc509a6f75849f', {waitUntil: 'networkidle0'});
+        await page.waitForNetworkIdle();
+
+        const row = await page.jQuery('.dataTable tbody tr:contains(index)');
+        await row.hover();
+
+        const icon = await page.waitForSelector('.dataTable tbody tr a.actionOverlay');
+
+        const [popup] = await Promise.all([
+            new Promise(resolve => page.once('popup', resolve)),
+            await icon.click()
+        ]);
+
+        await popup.waitForTimeout(2500);
+
+        await removeOptOutIframe(popup);
+        expect(await popup.screenshot({fullPage: true})).to.matchImage('loaded_from_actions');
+    });
+
 });
