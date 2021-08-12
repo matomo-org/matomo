@@ -472,17 +472,13 @@ class View implements ViewInterface
     }
 
     /**
-     * @param bool $return the token_auth $_GET variable
-     * @return bool|string
+     * @return bool
      * @throws Exception
      */
     private function validTokenAuthInUrl()
     {
         $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_GET);
-        if ($tokenAuth && $tokenAuth === Piwik::getCurrentUserTokenAuth()) {
-            return $tokenAuth;
-        }
-        return false;
+        return ($tokenAuth && $tokenAuth === Piwik::getCurrentUserTokenAuth());
     }
 
     /**
