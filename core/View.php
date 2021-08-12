@@ -12,6 +12,7 @@ use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
 use Piwik\View\ViewInterface;
+use Piwik\View\SecurityPolicy;
 use Twig\Environment;
 use Twig\Error\Error;
 
@@ -297,6 +298,12 @@ class View implements ViewInterface
             } else {
                 // always send explicit default header
                 Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
+            }
+
+            // this will be an empty string if CSP is disabled
+            $cspHeader = StaticContainer::get(SecurityPolicy::class)->createHeaderString();
+            if ('' !== $cspHeader) {
+                Common::sendHeader($cspHeader);
             }
         }
 
