@@ -153,9 +153,8 @@ class Response
 
         // Check for a custom tracking image
         $customImage = Config::getInstance()->Tracker['custom_image'];
-        if (!empty($customImage)) {
-            if ($this->outputCustomImage($customImage))
-                return;
+        if (!empty($customImage) && $this->outputCustomImage($customImage)) {
+            return;
         }
 
         // No custom image defined, so output the default 1x1 base64 transparent gif
