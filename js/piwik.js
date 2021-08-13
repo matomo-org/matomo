@@ -2208,6 +2208,9 @@ if (typeof window.Matomo !== 'object') {
                 // HTML anchor element classes to not track
                 configIgnoreClasses = [],
 
+                // URL parameters to be ignored
+                configIgnoreURLParams = [],
+
                 // HTML anchor element classes to treat as downloads
                 configDownloadClasses = [],
 
@@ -2467,6 +2470,12 @@ if (typeof window.Matomo !== 'object') {
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
+
+                if (configIgnoreURLParams.length > 0) {
+                    for (var i = 0; i < configIgnoreURLParams.length; i++) {
+                        url = removeUrlParameter(url, configIgnoreURLParams[i]);
+                    }
+                }
 
                 if (configDiscardHashTag) {
                     targetPattern = new RegExp('#.*');
@@ -5807,6 +5816,15 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Set an array of URL parameters to be ignored if in the link
+             *
+             * @param string|array ignoreParams  'uid' or ['uid', 'sid']
+             */
+            this.setIgnoreURLParams = function (ignoreParams) {
+                configIgnoreURLParams = isString(ignoreParams) ? [ignoreParams] : ignoreParams;
+            };
+
+            /**
              * Set referral cookie timeout (in seconds).
              * Defaults to 6 months (15768000000)
              *
@@ -6988,7 +7006,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setIgnoreURLParams'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
