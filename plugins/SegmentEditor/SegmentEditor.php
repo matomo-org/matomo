@@ -321,7 +321,7 @@ class SegmentEditor extends \Piwik\Plugin
      *
      * @return bool
      */
-    public static function isCreateRealtimeSegmentsEnabled(): bool
+    public function isCreateRealtimeSegmentsEnabled()
     {
         return Config::getInstance()->General['enable_create_realtime_segments'] == 1;
     }
