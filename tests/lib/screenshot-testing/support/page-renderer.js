@@ -55,7 +55,6 @@ const PAGE_METHODS_TO_PROXY = [
     'type',
     'url',
     'viewport',
-    'waitFor',
     'waitForFunction',
     'waitForNavigation',
     'waitForSelector',
@@ -111,6 +110,21 @@ PageRenderer.prototype._reset = function () {
     });
 };
 
+/**
+ * For BC only. Puppeteer drop support for waitFor function in Version 10
+ * @param selectorOrTimeoutOrFunction
+ */
+PageRenderer.prototype.waitFor = function (selectorOrTimeoutOrFunction) {
+    console.log('Using page.waitFor is deprecated, please use one of this instead: waitForSelector, waitForFunction, waitForTimeout');
+    if (typeof selectorOrTimeoutOrFunction === 'function') {
+        this.webpage.waitForFunction(selectorOrTimeoutOrFunction)
+    } else if (typeof selectorOrTimeoutOrFunction === 'number') {
+        this.webpage.waitForTimeout(selectorOrTimeoutOrFunction)
+    } else if (typeof selectorOrTimeoutOrFunction === 'string') {
+        this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
+    }
+}
+
 PageRenderer.prototype.isVisible = function (selector) {
     return this.webpage.evaluate(() => {
         return jQuery(selector).is(':visible');
@@ -122,11 +136,11 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
 
     ++this.selectorMarkerClass;
 
-    await this.waitFor(() => !! window.jQuery);
+    await this.waitForFunction(() => !! window.jQuery);
 
     if (options.waitFor) {
         try {
-            await this.waitFor((selector) => {
+            await this.waitForFunction((selector) => {
                 return !!jQuery(selector).length;
             }, {}, selector);
         } catch (err) {
@@ -143,7 +157,7 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
 };
 
 PageRenderer.prototype.screenshotSelector = async function (selector) {
-    await this.waitFor(() => !! window.$, { timeout: 60000 });
+    await this.waitForFunction(() => !! window.$, { timeout: 60000 });
 
     const result = await this.webpage.evaluate(function (selector) {
         window.jQuery('html').addClass('uiTest');
@@ -251,7 +265,7 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         let result;
         if (methodName === 'screenshot') {
             // change viewport to entire page before screenshot
-            result = this.webpage.waitFor(() => !! document.documentElement)
+            result = this.webpage.waitForFunction(() => !! document.documentElement)
                 .then(() => {
                     return this.webpage.evaluate(() => JSON.stringify({
                         width: document.documentElement.scrollWidth,
@@ -399,7 +413,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             } else if (request.url().indexOf('&reload=1') === -1) {
                 console.log('Loading CSS failed (' + errorMessage + ')... Try adding it with another style tag.');
                 await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitFor(1000);
+                await this.webpage.waitForTimeout(1000);
             } else {
                 console.log('Reloading CSS failed (' + errorMessage + ').');
             }
@@ -411,7 +425,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             } else if (request.url().indexOf('&reload=1') === -1) {
                 console.log('Loading JS failed (' + errorMessage + ')... Try adding it with another script tag.');
                 await this.webpage.addScriptTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitFor(1000);
+                await this.webpage.waitForTimeout(1000);
             } else {
                 console.log('Reloading JS failed (' + errorMessage + ').');
             }
@@ -438,7 +452,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             if (request.url().indexOf('&reload=1') === -1) {
                 console.log('Loading CSS failed... Try adding it with another style tag.');
                 await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitFor(1000);
+                await this.webpage.waitForTimeout(1000);
             } else {
                 console.log('Reloading CSS failed.');
             }
