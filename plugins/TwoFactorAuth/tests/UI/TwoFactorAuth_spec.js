@@ -43,10 +43,10 @@ describe("TwoFactorAuth", function () {
         if (doAuth) {
             logMeUrl += '&authCode=123456'; // we make sure in test config this code always works
         }
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         await page.goto(logMeUrl);
         await page.waitForNetworkIdle();
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
     }
 
     function requireTwoFa() {
@@ -82,14 +82,14 @@ describe("TwoFactorAuth", function () {
 
     async function confirmPassword()
     {
-        await page.waitFor('.confirmPasswordForm');
+        await page.waitForSelector('.confirmPasswordForm');
         await page.waitFor(() => !!window.$);
         await page.evaluate(function(){
             $('.confirmPasswordForm #login_form_password').val('123abcDk3_l3');
             $('.confirmPasswordForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
     }
 
     it('a user with 2fa can open the widgetized view by token without needing to verify', async function () {
@@ -100,7 +100,7 @@ describe("TwoFactorAuth", function () {
 
     it('when logging in through logme and not providing auth code it should show auth code screen', async function () {
         await loginUser('with2FA', false);
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         const section = await page.$('.loginSection');
         expect(await section.screenshot()).to.matchImage('logme_not_verified');
     });
@@ -125,7 +125,7 @@ describe("TwoFactorAuth", function () {
             document.querySelector('.loginTwoFaForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         const element = await page.$('.pageWrap');
@@ -135,8 +135,8 @@ describe("TwoFactorAuth", function () {
     it('should show user settings when two-fa enabled', async function () {
         await loginUser('with2FA');
         await page.goto(userSettings);
-        await page.waitFor('.userSettings2FA', { visible: true, timeout: 0 });
-        await page.waitFor(750); // animation
+        await page.waitForSelector('.userSettings2FA', { visible: true, timeout: 0 });
+        await page.waitForTimeout(750); // animation
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_enabled');
     });
@@ -168,13 +168,13 @@ describe("TwoFactorAuth", function () {
         await page.click('.disable2FaLink');
 
         const modal = await page.$('.modal.open');
-        await page.waitFor(250); // animation
+        await page.waitForTimeout(250); // animation
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
     it('should be possible to disable two factor step 2 confirmed', async function () {
         await selectModalButton('Yes');
-        await page.waitFor(150);
+        await page.waitForTimeout(150);
 
         const element = await page.$('.loginSection');
         expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_step2');
@@ -182,7 +182,7 @@ describe("TwoFactorAuth", function () {
 
     it('should be possible to disable two factor step 3 verified', async function () {
         await confirmPassword();
-        await page.waitFor('.userSettings2FA');
+        await page.waitForSelector('.userSettings2FA');
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_disable_step3');
     });
@@ -192,7 +192,7 @@ describe("TwoFactorAuth", function () {
         await page.goto(userSettings);
         await page.click('.enable2FaLink');
         await confirmPassword();
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step1');
     });
@@ -214,7 +214,7 @@ describe("TwoFactorAuth", function () {
     it('should move to third step in setup - step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
         await page.waitForNetworkIdle();
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
 
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step3');
@@ -230,7 +230,7 @@ describe("TwoFactorAuth", function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor('#content', { visible: true });
+        await page.waitForSelector('#content', { visible: true });
         await page.waitForNetworkIdle();
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step4');
@@ -246,14 +246,14 @@ describe("TwoFactorAuth", function () {
         await (await page.jQuery('.setupTwoFactorAuthentication .backupRecoveryCode:first')).click();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
         await page.mouse.move(-10, -10);
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
         await page.mouse.move(-10, -10);
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step3');
     });
 

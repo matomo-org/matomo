@@ -19,7 +19,7 @@ describe("Transitions", function () {
         await page.webpage.evaluate((field) => {
             $(field + ' input.select-dropdown').click()
         }, field);
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.webpage.evaluate((field, title) => {
             $(field + ' .dropdown-content li:contains("' + title + '"):first').click()
         }, field, title);
@@ -33,7 +33,7 @@ describe("Transitions", function () {
         await (await page.jQuery('a.actionTransitions:visible')).click();
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.ui-dialog', { visible: true });
+        await page.waitForSelector('.ui-dialog', { visible: true });
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_titles');
     });
@@ -42,7 +42,7 @@ describe("Transitions", function () {
         await page.goto('about:blank');
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages&"
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
         await page.hover('.Transitions_CurveTextRight');
 

@@ -48,7 +48,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should show all available visualizations for this report", async function () {
         await page.click('.activateVisualizationSelection > span');
         await page.mouse.move(-10, -10);
-        await page.waitFor(1000); // wait for animation
+        await page.waitForTimeout(1000); // wait for animation
 
         const element = await page.$('.dataTableFooterIcons');
         expect(await element.screenshot()).to.matchImage('5_visualizations');
@@ -92,7 +92,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should show the limit selector when the limit selector is clicked", async function () {
         await page.click('.limitSelection input');
         await page.mouse.move(-10, -10);
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_selector_open');
     });
 
@@ -127,7 +127,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.searchAction .icon-search');
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
     });
 
@@ -144,7 +144,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.dataTableShowDimensions');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.evaluate(() => document.activeElement.blur());
         expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
     });
@@ -180,7 +180,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.mouse.move(-10, -10); // make sure no krow is highlighted
         await page.waitForNetworkIdle();
 
-        await page.waitFor(function () {
+        await page.waitForFunction(function () {
             return $('.cellSubDataTable > .dataTable').length === 2;
         });
 
@@ -194,13 +194,13 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.searchAction .icon-search');
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('15_search');
     });
 
     it("should display the export popover when clicking the export icon", async function () {
         await page.click('.activateExportSelection');
-        await page.waitFor('#reportExport .btn');
+        await page.waitForSelector('#reportExport .btn');
 
         let dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_options');
@@ -209,9 +209,9 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url", async function () {
         await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
         await page.click('.activateExportSelection');
-        await page.waitFor('.toggle-export-url');
+        await page.waitForSelector('.toggle-export-url');
         await page.click('.toggle-export-url');
-        await page.waitFor('.exportFullUrl');
+        await page.waitForSelector('.exportFullUrl');
 
         let dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_options_2');

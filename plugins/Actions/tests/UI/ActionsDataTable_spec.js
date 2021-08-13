@@ -32,7 +32,7 @@ describe("ActionsDataTable", function () {
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
-        await page.waitFor(250); // rendering
+        await page.waitForTimeout(250); // rendering
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });
@@ -41,7 +41,7 @@ describe("ActionsDataTable", function () {
         await page.click('.dropdownConfigureIcon');
         await page.mouse.move(-10, -10);
         const element = await page.$('.tableConfiguration');
-        await page.waitFor(250); // rendering
+        await page.waitForTimeout(250); // rendering
         expect(await element.screenshot()).to.matchImage('configuration_options');
     });
 
@@ -100,14 +100,14 @@ describe("ActionsDataTable", function () {
         await page.click('.ui-widget .ui-dialog-titlebar-close');
         const elem = await page.jQuery('tr:contains("thankyou") td.column:eq(2)');
         await elem.hover();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('unique_pageview_percentages');
     });
 
     it("should show the search when clicking on the search icon", async function() {
         await page.click('.dataTableAction.searchAction');
         await page.mouse.move(-10, -10);
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_visible');
     });
 

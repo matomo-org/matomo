@@ -28,7 +28,7 @@ describe("Marketplace", function () {
         const elem = await page.waitForSelector('.card-title [piwik-plugin-name="' + pluginName + '"]');
         await elem.click();
         await page.waitForNetworkIdle();
-        await page.waitFor('.ui-dialog .pluginDetails');
+        await page.waitForSelector('.ui-dialog .pluginDetails');
     }
 
     async function captureSelector(screenshotName, selector)
@@ -205,7 +205,7 @@ describe("Marketplace", function () {
         await page.click('.marketplace-paid-intro'); // click outside so change event is triggered
         await page.click('#submit_license_key input');
         await page.waitForNetworkIdle();
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
 
         await captureWithNotification(mode + '_invalid_license_key_entered');
     });

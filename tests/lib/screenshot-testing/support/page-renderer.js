@@ -59,6 +59,7 @@ const PAGE_METHODS_TO_PROXY = [
     'waitForFunction',
     'waitForNavigation',
     'waitForSelector',
+    'waitForTimeout',
     'waitForXPath',
 ];
 
