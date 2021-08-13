@@ -77,6 +77,7 @@ describe("ActionsDataTable", function () {
     });
 
     it("should generate a proper title for the visitor log segmented by the current row", async function() {
+        await page.mouse.move(-10, -10);
         const row = 'tr:contains("thankyou") ';
         const first = await page.jQuery(row + 'td.column:first');
         await first.hover();
