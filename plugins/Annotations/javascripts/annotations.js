@@ -112,6 +112,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setFormat('html');
             ajaxRequest.setCallback(callback);
             ajaxRequest.send();
