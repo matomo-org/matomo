@@ -999,6 +999,7 @@ exclude_requests = ""
 ; Custom image to return when tracker URL includes &image=1
 ; Overrides the default 1x1 transparent gif
 ; This should either be the full path to the image file or a base64 encoded image string wrapped in quotes
+; For both image files and base64 encoded strings supported image types are gif, jpg and png
 custom_image =
 
 [Segments]

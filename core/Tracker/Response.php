@@ -176,31 +176,49 @@ class Response
      * Output a custom tracking image
      *
      * @param string $customImage The custom image setting specified in the config
+     *
      * @return bool True if the custom image was successfully output, else false
      */
     private function outputCustomImage(string $customImage): bool
     {
+        $supportedMimeTypes = ['image/png', 'image/gif', 'image/jpeg'];
+
+        $img = null;
+        $size = null;
 
         if (strlen($customImage) > 2 && substr($customImage, -2) == '==') {
-
-            $transGifBase64 = $customImage;
-            Common::sendHeader('Content-Type: image/gif');
-
-            echo base64_decode($transGifBase64);
-            return true;
+            // Base64 image string
+            $img = base64_decode($customImage);
+            $size = getimagesizefromstring($img);
+        } else if (is_file($customImage) && is_readable($customImage)) {
+            // Image file
+            $img = file_get_contents($customImage);
+            $size = getimagesize($customImage); // imagesize is used to get the mime type
         }
 
-        if (file_exists($customImage)) {
+        // Must have valid image data and a valid mime type to proceed
+        if ($img && $size && isset($size['mime'])  && in_array($size['mime'], $supportedMimeTypes)) {
 
-            $fp = fopen($customImage, 'rb');
-            $size = getimagesize($customImage); // imagesize is used to get the mime type
-            if ($fp && $size && isset($size['mime']))
-            {
-                Common::sendHeader('Content-Type: '.$size['mime']);
-                fpassthru($fp);
-                return true;
+            // Recreate the image to improve security
+            $newImg = imagecreatefromstring($img);
+            if ($newImg === false) {
+                return false;
             }
 
+            Common::sendHeader('Content-Type: '.$size['mime']);
+            switch ($size['mime']) {
+                case 'image/png':
+                    imagepng($newImg);
+                    break;
+                case 'image/jpeg':
+                    imagejpeg($newImg);
+                    break;
+                case 'image/gif':
+                    imagegif($newImg);
+                    break;
+            }
+
+            return true;
         }
 
         return false;
