@@ -24,15 +24,16 @@ describe("CustomDimensions", function () {
     var popupSelector = '.ui-dialog:visible';
 
     async function capturePageWrap (screenName, test) {
-        await test();
-        var elem = await page.jQuery('.pageWrap');
-        expect(await elem.screenshot()).to.matchImage(screenName);
+        await captureSelector(screenName, '.pageWrap', test)
     }
 
     async function captureSelector (screenName, selector, test) {
+        await page.webpage.setViewport({
+            width: 1350,
+            height: 768,
+        });
         await test();
-        var elem = await page.jQuery(selector);
-        expect(await elem.screenshot()).to.matchImage(screenName);
+        expect(await page.screenshotSelector(selector)).to.matchImage(screenName);
     }
 
     async function closeOpenedPopover()
@@ -108,12 +109,13 @@ describe("CustomDimensions", function () {
 
     it('should offer only segmented visitor log and row action for first level entries', async function () {
         await capturePageWrap('report_actions_rowactions', async function () {
-            await (await page.jQuery('td.label:contains(en):first')).hover();
+            await page.hover('tr:first-child td.label');
         });
     });
 
     it('should be able to render insights', async function () {
         await capturePageWrap('report_action_insights', async function () {
+            await page.mouse.move(0, 0);
             await page.evaluate(function(){
                 $('[data-footer-icon-id="insightsVisualization"]').click();
             });

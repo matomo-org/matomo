@@ -83,7 +83,7 @@ describe("TwoFactorAuth", function () {
     async function confirmPassword()
     {
         await page.waitForSelector('.confirmPasswordForm');
-        await page.waitFor(() => !!window.$);
+        await page.waitForFunction(() => !!window.$);
         await page.evaluate(function(){
             $('.confirmPasswordForm #login_form_password').val('123abcDk3_l3');
             $('.confirmPasswordForm #login_form_submit').click();
@@ -102,6 +102,7 @@ describe("TwoFactorAuth", function () {
         await loginUser('with2FA', false);
         await page.waitForTimeout(1000);
         const section = await page.$('.loginSection');
+        await page.waitForTimeout(500);
         expect(await section.screenshot()).to.matchImage('logme_not_verified');
     });
 
@@ -112,6 +113,7 @@ describe("TwoFactorAuth", function () {
         });
         await page.waitForNetworkIdle();
         const element = await page.$('.loginSection');
+        await page.waitForTimeout(500);
         expect(await element.screenshot()).to.matchImage('logme_not_verified_wrong_code');
     });
 
@@ -120,10 +122,8 @@ describe("TwoFactorAuth", function () {
         testEnvironment.save();
 
         await page.type('.loginTwoFaForm #login_form_authcode', '123456');
-        await page.waitFor(() => !!window.$);
-        await page.evaluate(function(){
-            document.querySelector('.loginTwoFaForm #login_form_submit').click();
-        });
+        await page.waitForFunction(() => !!window.$);
+        page.click('.loginTwoFaForm #login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
@@ -145,6 +145,7 @@ describe("TwoFactorAuth", function () {
         await page.click('.showRecoveryCodesLink');
         await page.waitForNetworkIdle();
         const element = await page.$('.loginSection');
+        await page.waitForTimeout(500);
         expect(await element.screenshot()).to.matchImage('show_recovery_codes_step1');
     });
 
