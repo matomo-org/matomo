@@ -81,5 +81,13 @@ abstract class SecurityNotificationEmail extends Mail
         return $view;
     }
 
+    public function send()
+    {
+        if (!empty($this->emailAddress)) {
+            return parent::send();
+        }
+        return false;
+    }
+
     abstract protected function getBody();
 }
