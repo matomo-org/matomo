@@ -37,7 +37,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
             $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
             $doNotTrack = true, $disableCookies = false, $trackNoScript = true,
-            $crossDomain = true);
+            $crossDomain = true, $excludedQueryParams = array("uid", "aid"));
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -55,6 +55,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
+  _paq.push([\"setExcludedQueryParams\", [\"uid\",\"aid\"]]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -114,7 +115,8 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
             $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true);
+            $doNotTrack = true, $disableCookies = false, $trackNoScript = false,
+            $crossDomain = false, $excludedQueryParams = array("uid", "aid"));
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -129,6 +131,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
+  _paq.push([\"setExcludedQueryParams\", [\"uid\",\"aid\"]]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -161,7 +164,8 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
             $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true);
+            $doNotTrack = true, $disableCookies = false, $trackNoScript = false,
+            $crossDomain = false, $excludedQueryParams = array("uid", "aid"));
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -176,6 +180,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
+  _paq.push([\"setExcludedQueryParams\", [\"uid\",\"aid\"]]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -241,7 +246,12 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $visitorCustomVariables = array(array('abc"def', 'abc"def')),
             $pageCustomVariables = array(array('abc"def', 'abc"def')),
             $customCampaignNameQueryParam = 'abc"def',
-            $customCampaignKeywordParam = 'abc"def'
+            $customCampaignKeywordParam = 'abc"def',
+            $doNotTrack = false,
+            $disableCookies = false,
+            $trackNoScript = false,
+            $crossDomain = false,
+            $excludedQueryParams = array('u"id', 'a"id')
         );
 
         $expected = '&lt;!-- Matomo --&gt;
@@ -255,6 +265,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(["setCustomVariable", 1, "abc\"def", "abc\"def", "page"]);' : '') . '
   _paq.push(["setCampaignNameKey", "abc\"def"]);
   _paq.push(["setCampaignKeywordKey", "abc\"def"]);
+  _paq.push(["setExcludedQueryParams", ["u\"id","a\"id"]]);
   _paq.push([\'trackPageView\']);
   _paq.push([\'enableLinkTracking\']);
   (function() {

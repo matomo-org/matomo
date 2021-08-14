@@ -2208,8 +2208,8 @@ if (typeof window.Matomo !== 'object') {
                 // HTML anchor element classes to not track
                 configIgnoreClasses = [],
 
-                // URL parameters to be ignored
-                configIgnoreURLParams = [],
+                // Query parameters to be excluded
+                configExcludedQueryParams = [],
 
                 // HTML anchor element classes to treat as downloads
                 configDownloadClasses = [],
@@ -2471,9 +2471,9 @@ if (typeof window.Matomo !== 'object') {
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
-                if (configIgnoreURLParams.length > 0) {
-                    for (var i = 0; i < configIgnoreURLParams.length; i++) {
-                        url = removeUrlParameter(url, configIgnoreURLParams[i]);
+                if (configExcludedQueryParams.length > 0) {
+                    for (var i = 0; i < configExcludedQueryParams.length; i++) {
+                        url = removeUrlParameter(url, configExcludedQueryParams[i]);
                     }
                 }
 
@@ -5816,12 +5816,12 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Set an array of URL parameters to be ignored if in the link
+             * Set an array of quaery parameters to be excluded if in the url
              *
-             * @param string|array ignoreParams  'uid' or ['uid', 'sid']
+             * @param string|array excludedQueryParams  'uid' or ['uid', 'sid']
              */
-            this.setIgnoreURLParams = function (ignoreParams) {
-                configIgnoreURLParams = isString(ignoreParams) ? [ignoreParams] : ignoreParams;
+            this.setExcludedQueryParams = function (excludedQueryParams) {
+                configExcludedQueryParams = isString(excludedQueryParams) ? [excludedQueryParams] : excludedQueryParams;
             };
 
             /**
@@ -7006,7 +7006,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setIgnoreURLParams'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setExcludedQueryParams'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
