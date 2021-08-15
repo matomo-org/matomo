@@ -26,6 +26,7 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\GdExtensionCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\RecommendedExtensionsCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\RecommendedFunctionsCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\RecommendedPrivateDirectoriesCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\NfsDiskCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingCheck'),
         DI\get(CronArchivingLastRunCheck::class),
