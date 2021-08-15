@@ -41,25 +41,6 @@ class ConfigTest extends TestCase
         $this->assertFalse($this->getBool('BoolSettings', 'twoinstr'));
         $this->assertFalse($this->getBool('BoolSettings', 'isoff'));
         $this->assertFalse($this->getBool('BoolSettings', 'isno'));
-        $this->assertFalse($this->getBool('BoolSettings', 'truestr'));
-    }
-
-    public function testGetBool_section_Exception()
-    {
-        $this->expectException(ConfigNotFoundException::class);
-        $this->getBool('NonExistingSection', 'two');
-    }
-
-    public function testGetBool_name_Exception()
-    {
-        $this->expectException(ConfigNotFoundException::class);
-        $this->getBool('BoolSettings', 'somethingunexisting');
-    }
-
-    public function testGetBool_section_and_name_Exception()
-    {
-        $this->expectException(ConfigNotFoundException::class);
-        $this->getBool('NotExistingSection', 'somethingunexisting');
     }
 
     /**
@@ -80,14 +61,6 @@ class ConfigTest extends TestCase
      */
     private function getBool(string $section, string $name): bool
     {
-        $config = $this->config;
-        $iniSection = $config->$section;
-        if (!$iniSection) {
-            throw new ConfigNotFoundException("Section: $section does not exist");
-        }
-        if (!isset($config->$section[$name])) {
-            throw new ConfigNotFoundException("Key: $name does not exist");
-        }
-        return $config->$section[$name] == 1;
+        return $this->config->$section[$name] == 1;
     }
 }
