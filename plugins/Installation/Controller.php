@@ -559,6 +559,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/CoreHome/angularjs/piwikApp.config.js',
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
+            'plugins/Morpheus/javascripts/piwikHelper.js',
         );
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
