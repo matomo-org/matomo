@@ -18,7 +18,7 @@
         <div class="alert alert-danger">
 
             {% if emailSuperUser is defined and emailSuperUser %}
-                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}
+                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser|e('html_attr') ~ '">', '</a>')|raw }}
             {% else %}
                 {{ 'General_ErrorRequest'|translate('', '') }}
             {% endif %}
