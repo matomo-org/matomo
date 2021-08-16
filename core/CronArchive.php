@@ -986,6 +986,13 @@ class CronArchive
                 continue;
             }
 
+            // period is disabled in API
+            if (!PeriodFactory::isPeriodEnabledForAPI($label)
+                || PeriodFactory::isAnyLowerPeriodDisabledForAPI($label)
+            ) {
+                continue;
+            }
+
             // archive is for week that is over two months, we don't need to care about the month
             if ($label == 'month'
                 && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
