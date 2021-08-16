@@ -45,12 +45,11 @@ class ConfigTest extends TestCase
 
     /**
      * Returns a boolean variable setting for convenience
-     * when calling e.g.
-     * Config::getInstance()->getBool('General', 'force_ssl')
-     * This also documents that a boolean is only true iff
+     * when calling e.g. getBool('General', 'force_ssl')
+     * This also documents that a boolean is only true if
      * it is equal to 1.
      * @see https://github.com/matomo-org/matomo/pull/17865
-     * return $value === 1 || $value === 'true' || $value === true; // was suggested for future use by @sgiehl
+     * return 1 === $value || '1' === $value || true === $value; // was suggested for future use by @sgiehl
      *
      * @param string $section Configuration section
      * @param string $name variable name
