@@ -212,6 +212,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.waitForSelector('.toggle-export-url');
         await page.click('.toggle-export-url');
         await page.waitForSelector('.exportFullUrl');
+        await page.waitForTimeout(250);
 
         let dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_options_2');

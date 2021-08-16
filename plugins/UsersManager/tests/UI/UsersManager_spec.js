@@ -305,7 +305,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(500);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_bulk_access_set',
