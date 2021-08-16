@@ -43,17 +43,13 @@ class APITest extends IntegrationTestCase
      */
     public function test_addGoal_handlesAppropriatePatternTypesForNumericAttributes($matchAttribute, $patternType, $pattern, $expectException)
     {
-        try {
-            $this->api->addGoal($this->idSite, 'test goal', $matchAttribute, $pattern, $patternType);
-
-            if ($expectException) {
-                $this->fail('addGoal should have failed');
-            }
-        } catch (\Exception $ex) {
-            if (!$expectException) {
-                throw $ex;
-            }
+        if ($expectException) {
+            $this->expectException(\Exception::class);
+        } else {
+            $this->expectNotToPerformAssertions();
         }
+
+        $this->api->addGoal($this->idSite, 'test goal', $matchAttribute, $pattern, $patternType);
     }
 
     public function getTestDataForNumericMatchAttribute()

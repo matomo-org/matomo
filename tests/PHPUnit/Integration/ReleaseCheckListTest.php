@@ -72,9 +72,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
         $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
-        passthru($command);
+        $log = shell_exec($command);
 
-        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2");
+        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2", "woff2 file is out of date.\nCommand output:\n" . $log);
     }
 
     public function test_minimumPHPVersion_isEnforced()
@@ -165,6 +165,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         foreach ($submodules as $submodule) {
             $submodule = trim(trim($submodule), './');
+            if ($submodule === 'travis') {
+                continue; // avoid error output for travis submodule
+            }
             $pluginLfsFiles = shell_exec('cd ' . PIWIK_DOCUMENT_ROOT.'/'.$submodule . ' && git lfs ls-files');
             if (!empty($pluginLfsFiles)) {
                 $pluginLfsFiles = explode("\n", $pluginLfsFiles);
