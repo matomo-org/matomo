@@ -4,46 +4,52 @@
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Piwik;
-use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
-use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
-class RecommendedPrivateDirectoriesCheck implements Diagnostic
+abstract class PrivateDirectories implements Diagnostic
 {
+    protected $privatePaths = [];
+    protected $addError = true;
+    protected $labelKey = 'Diagnostics_RequiredPrivateDirectories';
+
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function execute()
     {
         if (!SettingsPiwik::isMatomoInstalled()) {
             return [];
         }
-        $tmpPath = StaticContainer::get('path.tmp');
-        $privatePaths = [];
+
+        $label = $this->translator->translate($this->labelKey);
+
+        $privatePaths = $this->privatePaths;
+
         // create test file to check if tmp/empty exists Note: This won't work in a load balanced environment!
-        Filesystem::mkdir($tmpPath);
-        file_put_contents($tmpPath . '/empty', 'test'); // do we want to move this line to THISLINE?
-        if (false !== strpos($tmpPath, PIWIK_INCLUDE_PATH)) {
-            // THISLINE
-            $privatePaths[] = ["tmp/empty"]; // tmp/empty is created by this diagnostic
-        }
-        $privatePaths[] = ['lang/en.json'];
+        Filesystem::mkdir(PIWIK_INCLUDE_PATH . '/tmp');
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/empty', 'test');
 
         $baseUrl = SettingsPiwik::getPiwikUrl();
         if (!Common::stringEndsWith($baseUrl, '/')) {
             $baseUrl .= '/';
         }
 
-        $label = Piwik::translate('Diagnostics_RecommendedPrivateDirectories');
-        $manualCheck = Piwik::translate('Diagnostics_PrivateDirectoryManualCheck');
+        $manualCheck = $this->translator->translate('Diagnostics_PrivateDirectoryManualCheck');
 
         $testUrls = [];
         foreach ($privatePaths as $checks) {
@@ -60,28 +66,34 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
         if (!$isInternetEnabled) {
             $testUrlsList = $this->getUrlList($testUrls);
 
-            $unknown = Piwik::translate('Diagnostics_PrivateDirectoryInternetDisabled') . ' ' . $manualCheck
+            $unknown = $this->translator->translate('Diagnostics_PrivateDirectoryInternetDisabled') . ' ' . $manualCheck
                 . $testUrlsList;
-            $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $unknown);
+            $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $unknown);
             return $results;
         }
 
-        $comment = Piwik::translate('Diagnostics_RecommendPrivateFiles') . ' ' .
-            Piwik::translate('General_ReadThisToLearnMore', [
-                '<a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">',
-                '</a>',
-            ]);
-        $result = DiagnosticResult::informationalResult($label, $comment, false);
+        $result = new DiagnosticResult($label);
 
-        $atLeastOneIsAccessible = false;
+        $isConfigIniAccessible = $this->isAccessible($result, $baseUrl . 'config/config.ini.php', ';', 'trusted_hosts[]');
+
+        $atLeastOneIsAccessible = $isConfigIniAccessible;
         foreach ($testUrls as $testUrl) {
             if ($this->isAccessible($result, $testUrl, '', '')) {
                 $atLeastOneIsAccessible = true;
             }
         }
 
-        if (!$atLeastOneIsAccessible) {
-            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, Piwik::translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
+        if ($atLeastOneIsAccessible) {
+            if ($this->addError) {
+                $pathIsAccessible = $this->translator->translate('Diagnostics_PrivateDirectoryIsAccessible');
+                if ($isConfigIniAccessible) {
+                    $pathIsAccessible .= '<br/><br/>' . $this->translator->translate('Diagnostics_ConfigIniAccessible');
+                }
+                $pathIsAccessible .= '<br/><br/><a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
+                $result->setLongErrorMessage($pathIsAccessible);
+            }
+        } else {
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
         }
 
         return [$result];
@@ -96,15 +108,6 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
         return $testUrlsList;
     }
 
-    /**
-     * copied from RequiredPrivateDirectoriesCheck for now
-     * TODO: refactor?
-     * @param \Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult $result
-     * @param $testUrl
-     * @param $publicIfResponseEquals
-     * @param $publicIfResponseContains
-     * @return bool
-     */
     private function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
     {
         try {
@@ -126,17 +129,17 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
                 if (!$publicIfResponseContains || !$publicIfResponseEquals) {
                     // it may or may not be an issue depending where they redirect to
                     // TODO ideally we make this more clear maybe?
-                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_INFORMATIONAL, $testUrl));
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $testUrl));
                     return true;
                 }
 
                 if (trim($response['data']) === $publicIfResponseEquals) {
                     // we assume it is publicly accessible because either the exact expected content is returned or because we don't check for content match
-                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $testUrl));
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                     return true;
                 } elseif (strpos($response['data'], $publicIfResponseContains) !== false) {
                     // we assume it is publicly accessible because a unique content is included in the response or because we don't check for content contains
-                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $testUrl));
+                    $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                     return true;
                 }
                 // in other cases we assume it's not publicly accessible because we didn't get any expected output in the response
@@ -144,12 +147,12 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
 
             } else {
                 // we assume the file is accessible publicly
-                $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $testUrl));
+                $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));
                 return true;
             }
         } catch (\Exception $e) {
             $error = $e->getMessage();
-            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_INFORMATIONAL, 'Unable to execute check for '
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'Unable to execute check for '
                 . Common::sanitizeInputValue($testUrl) . ': ' . Common::sanitizeInputValue($error)));
         }
         return false;
