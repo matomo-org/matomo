@@ -632,10 +632,10 @@ class Model
     private function getDeletedSegmentWhereClause(array $segment)
     {
         $idSite = (int)$segment['enable_only_idsite'];
-        $segmentHash = $segment['hash'];
+        $segmentHash = $segment['hash'] ?? '';
         // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
         if (!ctype_xdigit($segmentHash)) {
-            throw new Exception($segment . ' expected to be an md5 hash');
+            throw new Exception($segmentHash . ' expected to be an md5 hash');
         }
 
         $nameClause = 'name LIKE "done' . $segmentHash . '%"';
