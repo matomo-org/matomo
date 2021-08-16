@@ -422,6 +422,7 @@ class DataTableFactory
                 $subtable->setMetadata(self::TABLE_METADATA_SITE_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SITE_INDEX));
                 $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_INDEX));
                 $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX));
+                $subtable->setMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME, $dataTable->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME));
 
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
