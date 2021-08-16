@@ -19,6 +19,7 @@ use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**
@@ -147,6 +148,11 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
+        if (SystemTestCase::isMysqli()) {
+            // See https://github.com/matomo-org/matomo/issues/17871
+            $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
+        }
+
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
         try {
