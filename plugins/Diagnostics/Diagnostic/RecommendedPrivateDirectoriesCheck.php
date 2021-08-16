@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\SettingsPiwik;
@@ -19,15 +20,6 @@ use Piwik\Translation\Translator;
 
 class RecommendedPrivateDirectoriesCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    public function __construct(Translator $translator)
-    {
-        $this->translator = $translator;
-    }
 
     public function execute()
     {
@@ -50,9 +42,8 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
             $baseUrl .= '/';
         }
 
-//        $label = $this->translator->translate('Diagnostics_RequiredPrivateDirectories');
-        $label = 'Recommended Private Directories';
-        $manualCheck = $this->translator->translate('Diagnostics_PrivateDirectoryManualCheck');
+        $label = Piwik::translate('Diagnostics_RecommendedPrivateDirectories');
+        $manualCheck = Piwik::translate('Diagnostics_PrivateDirectoryManualCheck');
 
         $testUrls = [];
         foreach ($privatePaths as $checks) {
@@ -69,14 +60,17 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
         if (!$isInternetEnabled) {
             $testUrlsList = $this->getUrlList($testUrls);
 
-            $unknown = $this->translator->translate('Diagnostics_PrivateDirectoryInternetDisabled') . ' ' . $manualCheck
+            $unknown = Piwik::translate('Diagnostics_PrivateDirectoryInternetDisabled') . ' ' . $manualCheck
                 . $testUrlsList;
             $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $unknown);
             return $results;
         }
 
-        $comment = 'We recommend that some files and directories are private. ' .
-            '<a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
+        $comment = Piwik::translate('Diagnostics_RecommendPrivateFiles') . ' ' .
+            Piwik::translate('General_ReadThisToLearnMore', [
+                '<a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+            ]);
         $result = DiagnosticResult::informationalResult($label, $comment, false);
 
         $atLeastOneIsAccessible = false;
@@ -87,7 +81,7 @@ class RecommendedPrivateDirectoriesCheck implements Diagnostic
         }
 
         if (!$atLeastOneIsAccessible) {
-            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, Piwik::translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
         }
 
         return [$result];
