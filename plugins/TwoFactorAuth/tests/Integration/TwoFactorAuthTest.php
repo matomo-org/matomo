@@ -137,8 +137,9 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertEmpty($this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa));
     }
 
-    public function test_onDeleteUser_DoesNotFailToAddUserNotUsingTwoFa()
+    public function test_onDeleteUser_DoesNotFailToDeleteUserNotUsingTwoFa()
     {
+        $this->expectNotToPerformAssertions();
         Request::processRequest('UsersManager.deleteUser', array(
             'userLogin' => $this->userWithout2Fa
         ));

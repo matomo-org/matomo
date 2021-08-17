@@ -68,11 +68,11 @@ class ApiTest extends IntegrationTestCase
         ];
 
         Piwik::addAction(APIScheduledReports::GET_REPORT_TYPES_EVENT, function (&$reportTypes) {
-            $reportTypes[] = 'dummyreporttype';
+            $reportTypes['dummyreporttype'] = 'dummyreporttype.png';
         });
 
         Piwik::addAction(APIScheduledReports::GET_REPORT_FORMATS_EVENT, function (&$reportFormats) {
-            $reportFormats[] = 'dummyreportformat';
+            $reportFormats['dummyreportformat'] = 'dummyreportformat.png';
         });
 
         Piwik::addAction(APIScheduledReports::GET_REPORT_METADATA_EVENT, function (&$availableReportData, $reportType, $idSite) {
@@ -182,12 +182,8 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetReportsIdReportNotFound()
     {
-        try {
-            APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport = 1);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport = 1);
     }
 
     /**
@@ -195,17 +191,12 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetReportsInvalidPermission()
     {
-        try {
-            APIScheduledReports::getInstance()->getReports(
-                $idSite = 44,
-                $period = false,
-                self::addReport(self::getDailyPDFReportData($this->idSite))
-            );
-
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        APIScheduledReports::getInstance()->getReports(
+            $idSite = 44,
+            $period = false,
+            self::addReport(self::getDailyPDFReportData($this->idSite))
+        );
     }
 
     /**
@@ -213,12 +204,8 @@ class ApiTest extends IntegrationTestCase
      */
     public function testAddReportInvalidWebsite()
     {
-        try {
-            self::addReport(self::getDailyPDFReportData(33));
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        self::addReport(self::getDailyPDFReportData(33));
     }
 
     /**
@@ -226,14 +213,10 @@ class ApiTest extends IntegrationTestCase
      */
     public function testAddReportInvalidPeriod()
     {
-        try {
-            $data = self::getDailyPDFReportData($this->idSite);
-            $data['period'] = 'dx';
-            self::addReport($data);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->expectException(Exception::class);
+        $data = self::getDailyPDFReportData($this->idSite);
+        $data['period'] = 'dx';
+        self::addReport($data);
     }
 
     /**
