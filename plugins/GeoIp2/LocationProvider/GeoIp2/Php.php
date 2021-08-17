@@ -253,7 +253,7 @@ class Php extends GeoIp2
         if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
             $subdivisions = $lookupResult->subdivisions;
             $subdivision = $this->determinSubdivision($subdivisions, $result[self::COUNTRY_CODE_KEY]);
-            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode) ?: $this->determineRegionIsoCodeByNameAndCountryCode($subdivision->name, $result[self::COUNTRY_CODE_KEY]);
+            $result[self::REGION_CODE_KEY] = $subdivision->isoCode ? strtoupper($subdivision->isoCode) : $this->determineRegionIsoCodeByNameAndCountryCode($subdivision->name, $result[self::COUNTRY_CODE_KEY]);
             $result[self::REGION_NAME_KEY] = $subdivision->name;
         }
     }

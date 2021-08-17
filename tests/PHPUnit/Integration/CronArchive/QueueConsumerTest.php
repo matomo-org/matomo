@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\CronArchive;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\RequestParser;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CustomDimensions;
 use Piwik\Container\StaticContainer;
@@ -43,6 +44,100 @@ class MockCronArchive extends CronArchive
 
 class QueueConsumerTest extends IntegrationTestCase
 {
+    public function test_consumer_ignoresPeriodsThatHaveBeenDisabledInApi()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        // force archiving so we don't skip those without visits
+        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+        });
+
+        $cronArchive = new MockCronArchive();
+        $cronArchive->init();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $invalidations = [
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
+            ['idarchive' => 2, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+            ['idarchive' => 4, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-01-01', 'date2' => '2018-12-31', 'period' => 4, 'report' => null],
+        ];
+
+        shuffle($invalidations);
+
+        $this->insertInvalidations($invalidations);
+
+        Config::getInstance()->General['enabled_periods_API'] = 'day,week,range';
+
+        $iteratedInvalidations = [];
+        while (true) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                break;
+            }
+
+            foreach ($next as &$item) {
+                $this->simulateJobStart($item['idinvalidation']);
+
+                unset($item['periodObj']);
+                unset($item['idinvalidation']);
+                unset($item['ts_invalidated']);
+            }
+
+            $iteratedInvalidations[] = $next;
+        }
+
+        $expectedInvalidationsFound = [
+            [
+                [
+                    'idarchive' => '1',
+                    'name' => 'done',
+                    'idsite' => '1',
+                    'date1' => '2018-03-04',
+                    'date2' => '2018-03-04',
+                    'period' => '1',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '2',
+                    'name' => 'done',
+                    'idsite' => '1',
+                    'date1' => '2018-03-04',
+                    'date2' => '2018-03-11',
+                    'period' => '2',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                ],
+            ],
+            [],
+        ];
+
+        $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
+    }
+
     public function test_invalidateConsumeOrder()
     {
         Fixture::createWebsite('2015-02-03');

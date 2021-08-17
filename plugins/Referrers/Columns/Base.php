@@ -310,7 +310,7 @@ abstract class Base extends VisitDimension
     protected function detectCampaignFromString($string)
     {
         foreach ($this->campaignNames as $campaignNameParameter) {
-            $campaignName = trim(urldecode(UrlHelper::getParameterFromQueryString($string, $campaignNameParameter)));
+            $campaignName = trim(urldecode(UrlHelper::getParameterFromQueryString($string, $campaignNameParameter) ?? ''));
             if (!empty($campaignName)) {
                 break;
             }
@@ -496,7 +496,7 @@ abstract class Base extends VisitDimension
         $referrerNameAnalayzed = mb_strtolower($this->nameReferrerAnalyzed);
         $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);
 
-        $isCurrentVisitACampaignWithSameName = mb_strtolower($visitor->getVisitorColumn('referer_name')) == $referrerNameAnalayzed;
+        $isCurrentVisitACampaignWithSameName = mb_strtolower($visitor->getVisitorColumn('referer_name') ?? '') == $referrerNameAnalayzed;
         $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
 
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
@@ -632,7 +632,7 @@ abstract class Base extends VisitDimension
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        $existing = mb_strtolower($visitor->getVisitorColumn($infoName));
+        $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName]);
 
         $result = $existing != $new;
