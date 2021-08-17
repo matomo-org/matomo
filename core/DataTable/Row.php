@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Metrics;
+use Piwik\Period;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -759,7 +760,7 @@ class Row extends \ArrayObject
     private function warnIfSubtableAlreadyExists(DataTable $subTable)
     {
         if (!is_null($this->subtableId)) {
-            // we only print this warning out if the row isn't a summary row, and if the ts_archived timestamp of the
+            // we only print this warning out if the row isn't a summary row, and if the period start date of the
             // data is later than the deploy date to cloud for Matomo 4.4.1.
             //
             // In 4.4.1 two bugs surrounding the serialization of summary rows with subtables were fixed. Previously,
@@ -767,13 +768,13 @@ class Row extends \ArrayObject
             // get triggered. To properly fix this corrupt data, we'd want to invalidate and reporcess it, BUT, that would
             // require a lot of compute resources, just for the subtable of a row most people would not look at.
             //
-            // So instead, we simply ignore this issue for data that is older than the deploy date for 4.4.1. If a user
+            // So instead, we simply ignore this issue for data that is for periods older than the deploy date for 4.4.1. If a user
             // wants to see this subtable data, they can invalidate a specific date and reprocess it. For newer data,
             // since the bugs were fixed, we don't expect to see the issue. So if the warning gets triggered in this case,
             // we log the warning in order to be notified.
-            $subTableTsArchived = $subTable->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+            $period = $subTable->getMetadata('period');
             if (!$this->isSummaryRow()
-                || $this->isLaterThanCloud441DeployDate($subTableTsArchived)
+                || $this->isStartDateLaterThanCloud441DeployDate($period)
             ) {
                 $ex = new \Exception(sprintf(
                     "Row with label '%s' (columns = %s) has already a subtable id=%s but it was not loaded - overwriting the existing sub-table.",
@@ -809,19 +810,17 @@ class Row extends \ArrayObject
         return $result;
     }
 
-    private function isLaterThanCloud441DeployDate($subTableTsArchived)
+    private function isStartDateLaterThanCloud441DeployDate($period)
     {
-        if (empty($subTableTsArchived)) {
-            return true; // if no ts_archived trigger the warning
+        if (empty($period)
+            || !($period instanceof Period)
+        ) {
+            return true; // sanity check
         }
 
-        try {
-            $subTableTsArchived = Date::factory($subTableTsArchived);
-        } catch (\Exception $ex) {
-            return true; // if invalid ts_archived date, trigger the warning
-        }
+        $periodStartDate = $period->getDateStart();
 
         $cloudDeployDate = Date::factory('2021-08-11 12:00:00'); // 2021-08-12 00:00:00 NZST
-        return $subTableTsArchived->isLater($cloudDeployDate);
+        return $periodStartDate->isLater($cloudDeployDate);
     }
 }
