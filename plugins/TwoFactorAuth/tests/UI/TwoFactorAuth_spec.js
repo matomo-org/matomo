@@ -41,12 +41,21 @@ describe("TwoFactorAuth", function () {
             doAuth = true;
         }
         var logMeUrl = '?module=Login&action=logme&login=' + username + '&password=240161a241087c28d92d8d7ff3b6186b';
+
+        // avoid loading dashboard after login as it takes long
+        logMeUrl += '&url=' + encodeURIComponent('index.php?category=General_Visitors&subcategory=Live_VisitorLog&' + generalParams);
+
         if (doAuth) {
             logMeUrl += '&authCode=123456'; // we make sure in test config this code always works
         }
         await page.goto(logMeUrl);
         await page.waitForNetworkIdle();
         await page.waitForTimeout(1000);
+
+        await page.webpage.setViewport({
+            width: 1350,
+            height: 768,
+        });
     }
 
     function requireTwoFa() {
@@ -69,11 +78,6 @@ describe("TwoFactorAuth", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.restoreRecoveryCodes = 1;
         testEnvironment.save();
-
-        page.webpage.setViewport({
-            width: 1350,
-            height: 768,
-        });
     });
 
     afterEach(function () {
@@ -88,19 +92,19 @@ describe("TwoFactorAuth", function () {
     async function confirmPassword()
     {
         await page.waitForSelector('.confirmPasswordForm');
-        await page.waitForFunction(() => !!window.$);
-        await page.evaluate(function(){
-            $('.confirmPasswordForm #login_form_password').val('123abcDk3_l3');
-            $('.confirmPasswordForm #login_form_submit').click();
-        });
+        await page.waitForNetworkIdle();
+        await page.type('.confirmPasswordForm #login_form_password', '123abcDk3_l3');
+        await page.click('.confirmPasswordForm #login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(100);
     }
 
     it('a user with 2fa can open the widgetized view by token without needing to verify', async function () {
         await page.goto('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&date=2018-03-04&token_auth=a4ca4238a0b923820dcc509a6f75849b&' + generalParams);
-        const element = await page.$('.widget');
-        expect(await element.screenshot()).to.matchImage('widgetized_no_verify');
+
+        // check if widget element is present, if login wouldn't work the login screen would be shown instead
+        const widgetsCount = await page.evaluate(() => $('.widget').length);
+        expect(widgetsCount).to.equal(1);
     });
 
     it('when logging in through logme and not providing auth code it should show auth code screen', async function () {
@@ -124,14 +128,14 @@ describe("TwoFactorAuth", function () {
         testEnvironment.save();
 
         await page.type('.loginTwoFaForm #login_form_authcode', '123456');
-        await page.waitForFunction(() => !!window.$);
-        page.click('.loginTwoFaForm #login_form_submit');
+        await page.click('.loginTwoFaForm #login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
-        const element = await page.$('.pageWrap');
-        expect(await element.screenshot()).to.matchImage('logme_verified');
+        // do not take a screenshot, as it's not relevant. We only check if there is the right amount of widgets loaded
+        const widgetsCount = await page.evaluate(() => $('.widget').length);
+        expect(widgetsCount).to.equal(9);
     });
 
     it('should show user settings when two-fa enabled', async function () {
