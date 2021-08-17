@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Option;
@@ -104,6 +105,8 @@ class PasswordResetter
      */
     private $emailFromAddress;
 
+    private $logger;
+
     /**
      * Constructor.
      *
@@ -114,8 +117,15 @@ class PasswordResetter
      * @param string|null $emailFromAddress
      * @param Password $passwordHelper
      */
-    public function __construct($usersManagerApi = null, $confirmPasswordModule = null, $confirmPasswordAction = null,
-                                $emailFromName = null, $emailFromAddress = null, $passwordHelper = null)
+    public function __construct(
+        $usersManagerApi = null,
+        $confirmPasswordModule = null,
+        $confirmPasswordAction = null,
+        $emailFromName = null,
+        $emailFromAddress = null,
+        $passwordHelper = null,
+        $logger = null
+    )
     {
         if (empty($usersManagerApi)) {
             $usersManagerApi = UsersManagerAPI::getInstance();
@@ -137,6 +147,8 @@ class PasswordResetter
             $passwordHelper = new Password();
         }
         $this->passwordHelper = $passwordHelper;
+
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     /**
@@ -179,8 +191,8 @@ class PasswordResetter
         } catch (Exception $ex) {
             // remove password reset info
             $this->removePasswordResetInfo($login);
-
-            throw new Exception($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
+            $this->logger->error($ex); // log exception details to log
+            throw new Exception(Piwik::translate('Login_ContactAdmin')); // and do not reveal to user
         }
     }
 
