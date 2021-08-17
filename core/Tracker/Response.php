@@ -198,26 +198,8 @@ class Response
 
         // Must have valid image data and a valid mime type to proceed
         if ($img && $size && isset($size['mime'])  && in_array($size['mime'], $supportedMimeTypes)) {
-
-            // Recreate the image to improve security
-            $newImg = imagecreatefromstring($img);
-            if ($newImg === false) {
-                return false;
-            }
-
             Common::sendHeader('Content-Type: '.$size['mime']);
-            switch ($size['mime']) {
-                case 'image/png':
-                    imagepng($newImg);
-                    break;
-                case 'image/jpeg':
-                    imagejpeg($newImg);
-                    break;
-                case 'image/gif':
-                    imagegif($newImg);
-                    break;
-            }
-
+            echo $img;
             return true;
         }
 
