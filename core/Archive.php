@@ -705,7 +705,7 @@ class Archive implements ArchiveQuery
      *
      * @return array
      */
-    public function getResultIndices()
+    private function getResultIndices()
     {
         $indices = array();
 
