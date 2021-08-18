@@ -1,1 +1,9 @@
-{}
+{
+    "ExampleUI": {
+        "GetTemperaturesDataTable": "Veri tabloları",
+        "GetTemperaturesEvolution": "Sıcaklıkların zaman içinde gelişimi",
+        "TemperaturesEvolution": "Son birkaç gün içinde sunucu sıcaklıklarının gelişimi",
+        "UiFramework": "Kullanıcı Arayüzü Çerçevesi",
+        "UiNotifications": "Kullanıcı Arayüzü Bildirimleri"
+    }
+}
