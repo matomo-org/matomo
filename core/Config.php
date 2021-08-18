@@ -13,6 +13,8 @@ use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
+use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\ProfessionalServices\Advertising;
 
 /**
@@ -183,10 +185,12 @@ class Config
         return array(
             'action_url_category_delimiter' => $general['action_url_category_delimiter'],
             'action_title_category_delimiter' => $general['action_title_category_delimiter'],
+            'are_ads_enabled' => Advertising::isAdsEnabledInConfig($general),
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
             'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
             'datatable_row_limits' => $this->getDatatableRowLimits(),
-            'are_ads_enabled' => Advertising::isAdsEnabledInConfig($general)
+            'enable_general_settings_admin' => Controller::isGeneralSettingsAdminEnabled(),
+            'enable_plugins_admin' => CorePluginsAdmin::isPluginsAdminEnabled(),
         );
     }
 
