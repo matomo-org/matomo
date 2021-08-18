@@ -83,7 +83,7 @@
         "PersonalSettings": "Personal settings",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Note: You cannot change the settings in this section, because you do not have any website that can be accessed by the anonymous user.",
         "NoUsersExist": "There are no users yet.",
-        "PluginDescription": "Users Management lets you add new users, edit existing users and give them access to view or administrate websites. ",
+        "PluginDescription": "Users Management lets you add new users, edit existing users and give them access to view or administrate websites.",
         "PrivAdmin": "Admin",
         "PrivAdminDescription": "Users with this role can manage a website and give other users access to the website. They can also do everything the %s role can do.",
         "PrivWrite": "Write",

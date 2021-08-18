@@ -49,7 +49,7 @@
         "PageTitlesReportDocumentation": "This report contains information about the titles of the pages that have been visited. %1$s The page title is the HTML %2$s Tag that most browsers show in their window title.",
         "PageUrls": "Page URLs",
         "PageViewsByVisitor": "Number of times this page was viewed by this visitor across all visits",
-        "PluginDescription": "Reports about the page views and page titles. Lets you measure your internal website's search engine. Automatically tracks clicks on external links and file downloads. ",
+        "PluginDescription": "Reports about the page views and page titles. Lets you measure your internal website's search engine. Automatically tracks clicks on external links and file downloads.",
         "RevisitedPages": "Pages viewed more than once",
         "SiteSearchCategories1": "This report lists the Categories that visitors selected when they made a Search on your website.",
         "SiteSearchCategories2": "For example, Ecommerce websites typically have a \"Category\" selector so that visitors can restrict their searches to all products in a specific Category.",

@@ -27,7 +27,7 @@
 	<row>
 		<id>add_user</id>
 		<name>Add another user</name>
-		<description>Users Management lets you add new users, edit existing users and give them access to view or administrate websites. </description>
+		<description>Users Management lets you add new users, edit existing users and give them access to view or administrate websites.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>index.php?module=UsersManager&amp;action=index</url>
@@ -35,7 +35,7 @@
 	<row>
 		<id>add_website</id>
 		<name>Add another website</name>
-		<description>Websites management lets you add a new website and edit existing websites. </description>
+		<description>Websites management lets you add a new website and edit existing websites.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>index.php?module=SitesManager&amp;action=index</url>
