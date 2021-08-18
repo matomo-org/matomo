@@ -20,29 +20,6 @@ class ConfigTest extends TestCase
         $this->config = new Config($settingsProvider);
     }
 
-    public function testGetBool_true()
-    {
-        $config = $this->config;
-
-        $this->assertTrue($this->getBool('BoolSettings', 'one'));
-        $this->assertTrue($this->getBool('BoolSettings', 'onestr'));
-        $this->assertTrue($this->getBool('BoolSettings', 'truebool'));
-        $this->assertTrue($this->getBool('BoolSettings', 'isyes'));
-        $this->assertTrue($this->getBool('BoolSettings', 'ison'));
-    }
-
-    public function testGetBool_false()
-    {
-        $this->assertFalse($this->getBool('BoolSettings', 'truestr'));
-        $this->assertFalse($this->getBool('BoolSettings', 'two'));
-        $this->assertFalse($this->getBool('BoolSettings', 'twostr'));
-        $this->assertFalse($this->getBool('BoolSettings', 'invalid'));
-        $this->assertFalse($this->getBool('BoolSettings', 'oneinstr'));
-        $this->assertFalse($this->getBool('BoolSettings', 'twoinstr'));
-        $this->assertFalse($this->getBool('BoolSettings', 'isoff'));
-        $this->assertFalse($this->getBool('BoolSettings', 'isno'));
-    }
-
     /**
      * Returns a boolean variable setting for convenience
      * when calling e.g. getBool('General', 'force_ssl')
@@ -54,12 +31,36 @@ class ConfigTest extends TestCase
      * @param string $section Configuration section
      * @param string $name variable name
      * @return bool whether it is considered set true (== 1)
-     *
-     * @internal
-     * @throws ConfigNotFoundException
      */
     private function getBool(string $section, string $name): bool
     {
         return $this->config->$section[$name] == 1;
+    }
+
+    /**
+     * @dataProvider getTestCases
+     */
+    public function testGetBool($expected, $setting)
+    {
+        $this->assertSame($expected, $this->getBool('BoolSettings', $setting));
+    }
+
+    public function getTestCases(): array
+    {
+        return [
+            [true, 'one'],
+            [true, 'onestr'],
+            [true, 'truebool'],
+            [true, 'isyes'],
+            [true, 'ison'],
+            [false, 'truestr'],
+            [false, 'two'],
+            [false, 'twostr'],
+            [false, 'invalid'],
+            [false, 'oneinstr'],
+            [false, 'twoinstr'],
+            [false, 'isoff'],
+            [false, 'isno'],
+        ];
     }
 }
