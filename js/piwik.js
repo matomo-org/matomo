@@ -592,6 +592,12 @@ if (typeof window.Matomo !== 'object') {
 
             return matches ? matches[1] : url;
         }
+        function queryStringify(data) {
+            var queryString = Object.keys(data).reduce(function(a, k) {
+                return a + (undefined !== data[k] ? '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]) : '');
+            }, '');
+            return queryString;
+        }
 
         function stringStartsWith(str, prefix) {
             str = String(str);
@@ -5575,6 +5581,33 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Replace setGenerationTimeMs with this more generic function
+             * Use in SPA
+             * @param networkTimeInMs
+             * @param serverTimeInMs
+             * @param transferTimeInMs
+             * @param domProcessingTimeInMs
+             * @param domCompletionTimeInMs
+             * @param onloadTimeInMs
+             */
+            this.setPagePerformanceTiming = function(
+                networkTimeInMs, serverTimeInMs, transferTimeInMs,
+                domProcessingTimeInMs, domCompletionTimeInMs, onloadTimeInMs
+            ) {
+                var data = {
+                    pf_net: networkTimeInMs,
+                    pf_srv: serverTimeInMs,
+                    pf_tfr: transferTimeInMs,
+                    pf_dm1: domProcessingTimeInMs,
+                    pf_dm2: domCompletionTimeInMs,
+                    pf_onl: onloadTimeInMs
+                }
+                var queryString = queryStringify(data);
+                var request = getRequest(queryString);
+                sendRequest(request, 0);
+            }
+
+            /**
              * Override referrer
              *
              * @param string url
@@ -6988,7 +7021,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
