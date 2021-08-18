@@ -169,7 +169,7 @@
         "ErrorRequest": "Oops… there was a problem during the request. Maybe the server had a temporary issue, or maybe you requested a report with too much data. Please try again. If this error occurs repeatedly please %1$scontact your Matomo administrator%2$s for assistance.",
         "EvolutionOverPeriod": "Evolution over the period",
         "EvolutionSummaryGeneric": "%1$s in %2$s compared to %3$s in %4$s. Evolution: %5$s",
-        "ExceptionContactSupportGeneric": "If you still have this issue please %1$scontact your Matomo administrator%2$s for assistance. ",
+        "ExceptionContactSupportGeneric": "If you still have this issue please %1$scontact your Matomo administrator%2$s for assistance.",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "The user has to be either a Super User or the user '%s' itself.",
         "ExceptionConfigurationFileNotFound": "The configuration file {%s} has not been found or could not be read.",
         "ExceptionConfigurationFileExistsButNotReadable": "The config file %s seems to exist but Matomo could not read it.",
