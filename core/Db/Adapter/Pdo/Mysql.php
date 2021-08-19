@@ -367,7 +367,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         }
 
         if ($this->connectWaitTimeout > self::MAX_CONNECT_WAIT_TIMEOUT) {
-            StaticContainer::get(LoggerInterface::class)->info("MySQL server has gone away. Could no reestablish connection. "
+            StaticContainer::get(LoggerInterface::class)->info("MySQL server has gone away. Could not reestablish connection. "
                 . "[connection ID = {connectionId}, connection start time = {connectionStartTime}, total connections = {totalConnections}]", [
                 'connectionId' => $this->connectionLogId,
                 'connectionStartTime' => $this->lastSuccessfulConnectTime,
