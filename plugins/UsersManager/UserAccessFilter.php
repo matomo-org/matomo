@@ -112,7 +112,7 @@ class UserAccessFilter
     /**
      * Returns the given user only if the current user has permission to see the given user
      * @param array $user  An array containing a key 'login'
-     * @return bool
+     * @return array|null
      */
     public function filterUser($user)
     {

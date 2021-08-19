@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Archive\ArchiveQuery;
 use Piwik\Archive\ArchiveQueryFactory;
+use Piwik\Archive\DataCollection;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
@@ -181,7 +182,7 @@ class Archive implements ArchiveQuery
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
     public function __construct(Parameters $params, $forceIndexedBySite = false,
-                                   $forceIndexedByDate = false)
+                                $forceIndexedByDate = false)
     {
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
@@ -284,6 +285,21 @@ class Archive implements ArchiveQuery
         }
 
         return $result;
+    }
+
+    /**
+     * Queries and returns blob records without turning them into DataTables.
+     *
+     * Unlike other methods, this returns a DataCollection instance directly. Use it to directly access
+     * and process blob data.
+     *
+     * @param string|string[] $names One or more archive names, eg, `'nb_visits'`, `'Referrers_distinctKeywords'`,
+     *                            etc.
+     * @return DataCollection the queried data.
+     */
+    public function getBlob($names, $idSubtable = null)
+    {
+        return $this->get($names, 'blob', $idSubtable);
     }
 
     /**

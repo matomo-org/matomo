@@ -37,6 +37,7 @@ class DimensionTest extends IntegrationTestCase
 
     public function test_checkExists_shouldNotFailIfDimensionExists()
     {
+        $this->expectNotToPerformAssertions();
         $this->getDimension($this->id1, 1)->checkExists();
         $this->getDimension($this->id2, 1)->checkExists();
         $this->getDimension($this->id3, 1)->checkExists();
@@ -52,6 +53,7 @@ class DimensionTest extends IntegrationTestCase
 
     public function test_checkActive_shouldNotFailIfDimensionExistsAndIsActive()
     {
+        $this->expectNotToPerformAssertions();
         $this->getDimension($this->id1, 1)->checkActive();
         $this->getDimension($this->id2, 1)->checkActive();
     }

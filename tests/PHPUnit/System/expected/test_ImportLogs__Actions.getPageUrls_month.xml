@@ -92,8 +92,8 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
-								<url>http://www.notdatefiltered.com/blog/category/meta/</url>
-								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+								<url>http://www.included2.com/blog/category/meta/</url>
+								<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -637,8 +637,8 @@
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
 						<nb_hits_with_time_server>2</nb_hits_with_time_server>
-						<min_time_server>0.3590</min_time_server>
-						<max_time_server>0.3590</max_time_server>
+						<min_time_server>0.359</min_time_server>
+						<max_time_server>0.359</max_time_server>
 						<sum_bandwidth>0</sum_bandwidth>
 						<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 						<min_bandwidth />
@@ -731,8 +731,8 @@
 										<nb_hits>2</nb_hits>
 										<sum_time_spent>0</sum_time_spent>
 										<nb_hits_with_time_server>2</nb_hits_with_time_server>
-										<min_time_server>0.3590</min_time_server>
-										<max_time_server>0.3590</max_time_server>
+										<min_time_server>0.359</min_time_server>
+										<max_time_server>0.359</max_time_server>
 										<sum_bandwidth>0</sum_bandwidth>
 										<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 										<min_bandwidth />
@@ -1125,8 +1125,8 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>1</nb_hits_with_time_server>
-				<min_time_server>0.0090</min_time_server>
-				<max_time_server>0.0090</max_time_server>
+				<min_time_server>0.009</min_time_server>
+				<max_time_server>0.009</max_time_server>
 				<sum_bandwidth>267</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>267</min_bandwidth>
@@ -1414,8 +1414,8 @@
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
-				<min_time_server>0.1090</min_time_server>
-				<max_time_server>0.1090</max_time_server>
+				<min_time_server>0.109</min_time_server>
+				<max_time_server>0.109</max_time_server>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -1787,8 +1787,8 @@
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
 						<nb_hits_with_time_server>1</nb_hits_with_time_server>
-						<min_time_server>0.0010</min_time_server>
-						<max_time_server>0.0010</max_time_server>
+						<min_time_server>0.001</min_time_server>
+						<max_time_server>0.001</max_time_server>
 						<sum_bandwidth>182</sum_bandwidth>
 						<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 						<min_bandwidth>182</min_bandwidth>

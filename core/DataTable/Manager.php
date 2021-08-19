@@ -80,11 +80,16 @@ class Manager extends \ArrayObject
 
     /**
      * Delete all the registered DataTables from the manager
+     *
+     * @param int $deleteWhenIdTableGreaterThan if supplied, only deletes tables whose id is greater than this value.
+     * @param null|int $deleteUntil if not null, only deletes tables that are <= this value.
      */
-    public function deleteAll($deleteWhenIdTableGreaterThan = 0)
+    public function deleteAll($deleteWhenIdTableGreaterThan = 0, $deleteUntil = null)
     {
         foreach ($this as $id => $table) {
-            if ($id > $deleteWhenIdTableGreaterThan) {
+            if ($id > $deleteWhenIdTableGreaterThan
+                && ($deleteUntil === null || $id <= $deleteUntil)
+            ) {
                 $this->deleteTable($id);
             }
         }

@@ -19,6 +19,7 @@ use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**
@@ -147,11 +148,16 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
+        if (SystemTestCase::isMysqli()) {
+            // See https://github.com/matomo-org/matomo/issues/17871
+            $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
+        }
+
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
         try {
             $this->logAggregator->getDb()->query('SELECT SLEEP(5) FROM ' . Common::prefixTable('log_visit'));
-            $this->fail('Query was not aborted by may execution limit');
+            $this->fail('Query was not aborted by max execution limit');
         } catch (\Zend_Db_Statement_Exception $e) {
             $isMaxExecutionTimeError = $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
                 || $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
