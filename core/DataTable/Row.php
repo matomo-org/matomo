@@ -371,6 +371,16 @@ class Row extends \ArrayObject
     }
 
     /**
+     * Sets all metadata at once.
+     *
+     * @param array $metadata new metadata to set
+     */
+    public function setAllMetadata($metadata)
+    {
+        $this->metadata = $metadata;
+    }
+
+    /**
      * Deletes one metadata value or all metadata values.
      *
      * @param bool|string $name Metadata name (omit to delete entire metadata).

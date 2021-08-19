@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -116,7 +117,7 @@ class ArchiveProcessor
     {
         if (empty($this->archive)) {
             $subPeriods = $this->params->getSubPeriods();
-            $idSites    = $this->params->getIdSites();
+            $idSites = $this->params->getIdSites();
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
 
             /**
@@ -165,7 +166,7 @@ class ArchiveProcessor
      */
     protected static $columnsToRenameAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
-        Metrics::INDEX_NB_USERS         => Metrics::INDEX_SUM_DAILY_NB_USERS,
+        Metrics::INDEX_NB_USERS => Metrics::INDEX_SUM_DAILY_NB_USERS,
     );
 
     /**
@@ -355,40 +356,51 @@ class ArchiveProcessor
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
             // By default we shall aggregate all sub-tables.
-            $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
-
-            $columnsRenamed = false;
-
-            if ($dataTable instanceof Map) {
-                $columnsRenamed = true;
-                // see https://github.com/piwik/piwik/issues/4377
-                $self = $this;
-                $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-
-                    if ($self->areColumnsNotAlreadyRenamed($table)) {
-                        /**
-                         * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
-                         * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
-                         * week archive. When generating month archives, which uses mostly week archives, we do not have
-                         * to replace those columns for the week archives again since we can be sure they were already
-                         * replaced. Same when aggregating year and range archives. This can save up 10% or more when
-                         * aggregating Month, Year and Range archives.
-                         */
-                        $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
-                    }
-                });
-            }
-
-            $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
-
-            if (!$columnsRenamed) {
-                $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
-            }
+            $dataTableBlobs = $this->getArchive()->getBlob($name, Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
 
         return $dataTable;
+    }
+
+    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
+    {
+        $result = new DataTable();
+
+        if (!empty($columnsAggregationOperation)) {
+            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+        }
+
+        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory, $tableMetadata) use ($name, $result, $columnsToRenameAfterAggregation) {
+            $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+
+            $toSum = $factory->make($reportBlobs, $index = [], $tableMetadata);
+
+            $latestUsedAfterCreatingToSum = Manager::getInstance()->getMostRecentTableId();
+
+            // see https://github.com/piwik/piwik/issues/4377
+            $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
+                if ($this->areColumnsNotAlreadyRenamed($table)) {
+                    /**
+                     * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
+                     * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
+                     * week archive. When generating month archives, which uses mostly week archives, we do not have
+                     * to replace those columns for the week archives again since we can be sure they were already
+                     * replaced. Same when aggregating year and range archives. This can save up 10% or more when
+                     * aggregating Month, Year and Range archives.
+                     */
+                    $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
+            });
+
+            $result->addDataTable($toSum);
+
+            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId, $latestUsedAfterCreatingToSum);
+        });
+
+        return $result;
     }
 
     /**
@@ -505,7 +517,7 @@ class ArchiveProcessor
          * @param array &$idSites An array with one idSite. This site is being archived currently. To cancel the query
          *                        you can change this value to an empty array. To include other sites in the query you
          *                        can add more idSites to this list of idSites.
-         * @param Period $period  The period that is being requested to be archived.
+         * @param Period $period The period that is being requested to be archived.
          * @param Segment $segment The segment that is request to be archived.
          */
         Piwik::postEvent('ArchiveProcessor.ComputeNbUniques.getIdSites', array(&$sites, $params->getPeriod(), $params->getSegment()));
@@ -520,7 +532,7 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array $metrics Metrics Ids for which to aggregates count of values
-     * @param int[] $sites  A list of idSites that should be included
+     * @param int[] $sites A list of idSites that should be included
      * @return array|null An array of metrics, where the key is metricid and the value is the metric value or null if
      *                      the query was cancelled and not executed.
      */

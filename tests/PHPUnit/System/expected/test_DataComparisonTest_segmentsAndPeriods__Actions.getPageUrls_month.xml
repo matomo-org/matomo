@@ -717,7 +717,7 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
-								<url>http://www.notdatefiltered.com/blog/category/meta/</url>
+								<url>http://www.included2.com/blog/category/meta/</url>
 								<comparisons>
 									<row>
 										<nb_visits>9</nb_visits>
@@ -742,7 +742,7 @@
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<idsubdatatable>-1</idsubdatatable>
-										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+										<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
 									<row>
 										<nb_visits>2</nb_visits>
@@ -766,7 +766,7 @@
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<idsubdatatable>-1</idsubdatatable>
-										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+										<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
 									<row>
 										<nb_visits>1</nb_visits>
@@ -790,10 +790,10 @@
 										<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 										<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 										<idsubdatatable>-1</idsubdatatable>
-										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+										<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
 								</comparisons>
-								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -11654,8 +11654,8 @@
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
 						<nb_hits_with_time_server>1</nb_hits_with_time_server>
-						<min_time_server>0.0010</min_time_server>
-						<max_time_server>0.0010</max_time_server>
+						<min_time_server>0.001</min_time_server>
+						<max_time_server>0.001</max_time_server>
 						<sum_bandwidth>182</sum_bandwidth>
 						<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 						<min_bandwidth>182</min_bandwidth>
@@ -11678,8 +11678,8 @@
 								<nb_hits>1</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
 								<nb_hits_with_time_server>1</nb_hits_with_time_server>
-								<min_time_server>0.0010</min_time_server>
-								<max_time_server>0.0010</max_time_server>
+								<min_time_server>0.001</min_time_server>
+								<max_time_server>0.001</max_time_server>
 								<entry_nb_visits>1</entry_nb_visits>
 								<entry_nb_actions>1</entry_nb_actions>
 								<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -11705,8 +11705,8 @@
 								<nb_hits>1</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
 								<nb_hits_with_time_server>1</nb_hits_with_time_server>
-								<min_time_server>0.0010</min_time_server>
-								<max_time_server>0.0010</max_time_server>
+								<min_time_server>0.001</min_time_server>
+								<max_time_server>0.001</max_time_server>
 								<entry_nb_visits>1</entry_nb_visits>
 								<entry_nb_actions>1</entry_nb_actions>
 								<entry_sum_visit_length>0</entry_sum_visit_length>
