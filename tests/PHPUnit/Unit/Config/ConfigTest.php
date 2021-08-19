@@ -4,9 +4,7 @@ namespace Piwik\Tests\Unit\Config;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
-use Piwik\Config\ConfigNotFoundException;
 use PHPUnit\Framework\TestCase;
-use Piwik\Container\StaticContainer;
 
 class ConfigTest extends TestCase
 {
