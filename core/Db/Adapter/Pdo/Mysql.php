@@ -11,10 +11,13 @@ namespace Piwik\Db\Adapter\Pdo;
 use Exception;
 use PDO;
 use PDOException;
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
 use Piwik\Piwik;
+use Psr\Log\LoggerInterface;
 use Zend_Config;
 use Zend_Db_Adapter_Pdo_Mysql;
 use Zend_Db_Select;
@@ -24,6 +27,15 @@ use Zend_Db_Statement_Interface;
  */
 class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
+    const MAX_CONNECT_WAIT_TIMEOUT = 60;
+
+    private static $totalConnectCount = 0;
+
+    private $lastSuccessfulConnectTime = null;
+    private $connectionLogId = null;
+    private $connectWaitTimeout = 1;
+    private $disableGoneAwayCheck = false;
+
     /**
      * Constructor
      *
@@ -93,7 +105,15 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             return;
         }
 
-        parent::_connect();
+        try {
+            parent::_connect();
+
+            $this->connectionLogId = Common::generateUniqId();
+            $this->lastSuccessfulConnectTime = time();
+            ++self::$totalConnectCount;
+        } catch (\Exception $ex) {
+            $this->reconnectAndLogIfMysqlGoneAway($ex);
+        }
 
         // MYSQL_ATTR_USE_BUFFERED_QUERY will use more memory when enabled
         // $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
@@ -292,23 +312,27 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      */
     public function query($sql, $bind = array())
     {
-        if (!is_string($sql)) {
-            return parent::query($sql, $bind);
-        }
-
-        if (isset($this->cachePreparedStatement[$sql])) {
-            if (!is_array($bind)) {
-                $bind = array($bind);
+        try {
+            if (!is_string($sql)) {
+                return parent::query($sql, $bind);
             }
 
-            $stmt = $this->cachePreparedStatement[$sql];
-            $stmt->execute($bind);
-            return $stmt;
-        }
+            if (isset($this->cachePreparedStatement[$sql])) {
+                if (!is_array($bind)) {
+                    $bind = array($bind);
+                }
 
-        $stmt = parent::query($sql, $bind);
-        $this->cachePreparedStatement[$sql] = $stmt;
-        return $stmt;
+                $stmt = $this->cachePreparedStatement[$sql];
+                $stmt->execute($bind);
+                return $stmt;
+            }
+
+            $stmt = parent::query($sql, $bind);
+            $this->cachePreparedStatement[$sql] = $stmt;
+            return $stmt;
+        } catch (\Exception $ex) {
+            $this->reconnectAndLogIfMysqlGoneAway($ex);
+        }
     }
 
     /**
@@ -324,5 +348,62 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         }
 
         return parent::_dsn();
+    }
+
+    private function reconnectAndLogIfMysqlGoneAway(Exception $ex)
+    {
+        if ($this->disableGoneAwayCheck) {
+            throw $ex;
+        }
+
+        if (!Common::isPhpCliMode()) { // only try to reconnect in CLI mode, eg, in core:archive
+            throw $ex;
+        }
+
+        $isMysqlGoneAway = $ex->getCode() == 2006
+            || stripos($ex->getMessage(), 'MySQL server has gone away') !== false;
+        if (!$isMysqlGoneAway) {
+            throw $ex;
+        }
+
+        if ($this->connectWaitTimeout > self::MAX_CONNECT_WAIT_TIMEOUT) {
+            StaticContainer::get(LoggerInterface::class)->info("MySQL server has gone away. Could no reestablish connection. "
+                . "[connection ID = {connectionId}, connection start time = {connectionStartTime}, total connections = {totalConnections}]", [
+                'connectionId' => $this->connectionLogId,
+                'connectionStartTime' => $this->lastSuccessfulConnectTime,
+                'totalConnections' => self::$totalConnectCount,
+            ]);
+
+            throw $ex;
+        }
+
+        $this->closeConnection();
+
+        sleep($this->connectWaitTimeout);
+        $this->connectWaitTimeout *= 2;
+
+        $failedConnectionId = $this->connectionLogId;
+        $failedConnectionTime = $this->lastSuccessfulConnectTime;
+        $previousTotalConnectionCount = self::$totalConnectCount;
+
+        $this->_connect();
+
+        $mysqlConnectionInfo = 'Unable to query.';
+        $this->disableGoneAwayCheck = true;
+        try {
+            $mysqlConnectionInfo = $this->fetchRow('SHOW GLOBAL STATUS WHERE variable_name IN (?, ?, ?)', ['Threads_connected', 'Aborted_clients', 'Aborted_connects']);
+        } catch (\Exception $ex) {
+            $mysqlConnectionInfo .= ' Error: ' . $ex->getMessage();
+        } finally {
+            $this->disableGoneAwayCheck = false;
+        }
+
+        StaticContainer::get(LoggerInterface::class)->info("MySQL server has gone away. Connection reestablished. "
+            . "[connection ID = {connectionId}, connection start time = {connectionStartTime}, total connections = {totalConnections}, mysql connection info = {mysqlConnectionInfo}]", [
+            'connectionId' => $failedConnectionId,
+            'connectionStartTime' => $failedConnectionTime,
+            'totalConnections' => $previousTotalConnectionCount,
+            'mysqlConnectionInfo' => $mysqlConnectionInfo,
+        ]);
     }
 }
