@@ -170,6 +170,7 @@ class FileTest extends IntegrationTestCase
 
     public function test_checkWritable_shouldNotThrowException_IfDirectoryIsWritable()
     {
+        $this->expectNotToPerformAssertions();
         $this->makeNotReadableFile_inWritableDirectory()->checkWritable();
     }
 
