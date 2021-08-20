@@ -17,7 +17,7 @@ use Piwik\SettingsPiwik;
 
 class RecommendedPrivateDirectories extends PrivateDirectories
 {
-    protected $privatePaths = [['tmp/', 'tmp/empty']];
+    protected $privatePaths = [['tmp/', 'tmp/empty'], ['lang/en.json']];
     protected $addError = false;
     protected $labelKey = 'Diagnostics_RecommendedPrivateDirectories';
 }
