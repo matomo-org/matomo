@@ -16,10 +16,14 @@
         "SettingBruteForceEnableHelp": "La detección de fuerza bruta es una importante función de seguridad usada para proteger tus datos de accesos no autorizados. En lugar de permitirle a cualquier usuario probar miles o millones de combinaciones posibles en un muy corto período de tiempo, sólo se le permitirá una cantidad específica de inicios de sesión fallidos dentro de un corto período de tiempo. Si se dan muchos intentos fallidos de inicio de sesión en ese margen de tiempo, el usuario no podrá iniciar sesión pasado un tiempo. Por favor, tené en cuenta que si se bloquea una dirección IP, cada usuario que use esa misma dirección IP será también impedido de iniciar sesión.",
         "SettingBruteForceWhitelistIp": "Nunca bloquear estas direcciones IP para iniciar sesión",
         "SettingBruteForceBlacklistIp": "Siempre bloquear estas direcciones IP para iniciar sesión",
+        "NotAllowListTakesPrecendence": "Si una dirección IP coincide tanto la lista de direcciones bloqueadas como la lista de direcciones nunca bloqueadas, entonces la lista de direcciones bloqueadas toma prioridad y la dirección IP no sería permitida.",
         "SettingBruteForceMaxFailedLogins": "Número de intentos de inicio de sesión permitidos dentro del margen de tiempo",
         "SettingBruteForceMaxFailedLoginsHelp": "Si se registan más cantidades de inicios fallidos de sesión que estos, dentro del margen de tiempo configurado abajo, bloquear la dirección IP.",
         "SettingBruteForceTimeRange": "Número de intentos de inicio de sesión dentro del margen de tiempo en minutos",
         "SettingBruteForceTimeRangeHelp": "Ingresá los minútos en números",
+        "ConfirmPasswordReset": "Confirmar restablecimiento de contraseña",
+        "ConfirmPasswordResetIntro": "Para confirmar que realmente sos vos quién solicitó el cambio de la contraseña, por favor, ingresá tu nueva contraseña de nuevo.",
+        "ConfirmPasswordResetWrongPassword": "La contraseña ingresada no coincide con tu nueva contraseña. Si no estás seguro de la nueva contraseña recientemente elegida, podés restablecerla de nuevo. Si no solicitaste cambiarla, simplemente no hagás nada, y la contraseña no será cambiada.",
         "LoginNotAllowedBecauseBlocked": "Actualmente no se te permite iniciar sesión debido a demasiados intentos fallidos. Por favor, intentá más tarde.",
         "CurrentlyBlockedIPs": "Direcciones IP bloqueadas actualmente",
         "IPsAlwaysBlocked": "Estas direcciones IP están siempre bloqueadas",
@@ -40,6 +44,13 @@
         "WrongPasswordEntered": "Por favor, ingresá tu contraseña correcta.",
         "ConfirmPasswordToContinue": "Confirmá tu contraseña para seguir",
         "PluginDescription": "Ofrece autenticación vía nombre de usuario y contraseña, así como función de restablecimiento de contraseña. El método de autenticación se puede cambiar al usar otro plugin de inicio de sesión, como LoginLdap, disponible en el mercado.",
-        "RememberMe": "Recordarme"
+        "RememberMe": "Recordarme",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Notamos algunos intentos sospechosos de inicio de sesión a tu cuenta...",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Notamos un alto número sospechoso de intentos de inicio de sesión a tu cuenta de Matomo en la última hora, específicamente %1$sintentos de inicio desde %2$s direcciones IP diferentes. Sospechamos que alguien está intentando obtener acceso no autorizado a tu cuenta.",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Con el objetivo de salvaguardar tu cuenta de Matomo, te recomendamos tomar las siguientes precauciones:",
+        "SuspiciousLoginAttemptsInLastHourEmail3": "Asegurate de que tu contraseña es segura y de una longitud considerable (por ejemplo, al menos unos 30 caracteres).",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Establecé la autenticación de dos factores, así los atacantes necesitarán más información que sólo una contraseña para acceder.",
+        "SuspiciousLoginAttemptsInLastHourEmail5": "Adicionalmente, si tu cuenta de Matomo tiene establecida una cantidad de usuarios o direcciones IP a través de la cuales los usuarios pueden acceder, sería beneficioso configurar una lista de direcciones IP permitidas. %1$sLeé nuestra documentación para más información.%2$s",
+        "LoginNotAllowedBecauseUserLoginBlocked": "La funcionalidad de inicio de sesión está temporalmente deshabilitada debido a una cantidad sospechosa de intentos de inicio de sesión en la última hora."
     }
 }
