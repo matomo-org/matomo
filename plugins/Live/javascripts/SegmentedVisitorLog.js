@@ -135,6 +135,7 @@ var SegmentedVisitorLog = function() {
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams(requestParams, 'get');
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(callback);
         ajaxRequest.setFormat('html');
         ajaxRequest.send();

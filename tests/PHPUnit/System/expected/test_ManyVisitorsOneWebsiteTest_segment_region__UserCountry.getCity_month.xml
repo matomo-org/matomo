@@ -24,8 +24,8 @@
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>124.456</lat>
-		<long>22.231</long>
+		<lat>123.456</lat>
+		<long>21.321</long>
 		<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>WAR</region>
