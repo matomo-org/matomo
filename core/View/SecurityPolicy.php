@@ -16,6 +16,12 @@ use Piwik\Config;
  */
 class SecurityPolicy
 {
+    /*
+     * Commonly used rules
+     */
+    const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
+    const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https:";
+
     /**
      * The policies that will generate the CSP header.
      * These are keyed by the directive.
@@ -31,7 +37,7 @@ class SecurityPolicy
      * Constructor.
      */
     public function __construct(Config $config) {
-        $this->policies['default-src'] = "'self' 'unsafe-inline' 'unsafe-eval'";
+        $this->policies['default-src'] = self::RULE_DEFAULT;
 
         $generalConfig = $config->General;
         $this->cspEnabled = $generalConfig['csp_enabled'];
@@ -69,6 +75,14 @@ class SecurityPolicy
     }
 
     /**
+     * Disable CSP
+     *
+     */
+    public function disable() {
+        $this->cspEnabled = false;
+    }
+
+    /**
      * Creates the Header String that can be inserted in the Content-Security-Policy header.
      *
      * @return string
@@ -88,5 +102,16 @@ class SecurityPolicy
         }
 
         return $headerString;
+    }
+
+    /**
+     * A less restrictive CSP which will allow embedding other sites with iframes
+     * (useful for heatmaps and session recordings)
+     *
+     */
+    public function allowEmbedPage() {
+        $this->addPolicy('img-src', self::RULE_EMBEDDED_FRAME);
+        $this->addPolicy('style-src', self::RULE_EMBEDDED_FRAME);
+        $this->addPolicy('font-src', self::RULE_EMBEDDED_FRAME);
     }
 }
