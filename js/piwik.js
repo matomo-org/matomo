@@ -71,7 +71,7 @@
     discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon, isUsingAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
-    setConversionAttributionFirstReferrer, tracker, request,
+    setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
@@ -2465,14 +2465,14 @@ if (typeof window.Matomo !== 'object') {
              * or before being sent as GET parameters
              */
             function purify(url) {
-                var targetPattern;
+                var targetPattern, i;
 
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
                 if (configExcludedQueryParams.length > 0) {
-                    for (var i = 0; i < configExcludedQueryParams.length; i++) {
+                    for (i = 0; i < configExcludedQueryParams.length; i++) {
                         url = removeUrlParameter(url, configExcludedQueryParams[i]);
                     }
                 }

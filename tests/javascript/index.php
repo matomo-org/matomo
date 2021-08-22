@@ -2392,7 +2392,7 @@ function PiwikTest() {
     });
 
     test("Tracker getHostName(), *UrlParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
-        expect(81);
+        expect(85);
 
         var tracker = Piwik.getTracker();
 
@@ -2508,6 +2508,13 @@ function PiwikTest() {
         equal( tracker.hook.test._purify('http://example.com'), 'http://example.com', 'http://example.com');
         equal( tracker.hook.test._purify('http://example.com#hash'), 'http://example.com', 'http://example.com#hash');
         equal( tracker.hook.test._purify('http://example.com/?q=xyz#hash'), 'http://example.com/?q=xyz', 'http://example.com/?q=xyz#hash');
+
+        tracker.setExcludedQueryParams(['sid', 'test']);
+
+        equal( tracker.hook.test._purify('http://example.com/?sid=12345&test5=1'), 'http://example.com/?test5=1', 'http://example.com/?sid=12345&test5=1');
+        equal( tracker.hook.test._purify('http://example.com/?asid=12345&test=1'), 'http://example.com/?asid=12345', 'http://example.com/?asid=12345&test=1');
+        equal( tracker.hook.test._purify('http://example.com/?sid=test#hash'), 'http://example.com/', 'http://example.com/?sid=test#hash');
+        equal( tracker.hook.test._purify('http://example.com/?sid=test&sidtest=xyz#test'), 'http://example.com/?sidtest=xyz', 'http://example.com/?sid=test&sidtest=xyz#test');
     });
 
     // support for setCustomUrl( relativeURI )
