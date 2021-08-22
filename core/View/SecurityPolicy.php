@@ -19,8 +19,8 @@ class SecurityPolicy
     /*
      * Commonly used rules
      */
-    const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
-    const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https:";
+    const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval'";
+    const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' https:";
 
     /**
      * The policies that will generate the CSP header.
@@ -110,7 +110,7 @@ class SecurityPolicy
      *
      */
     public function allowEmbedPage() {
-        $this->addPolicy('img-src', self::RULE_EMBEDDED_FRAME);
+        $this->addPolicy('img-src', self::RULE_EMBEDDED_FRAME . ' data:');
         $this->addPolicy('style-src', self::RULE_EMBEDDED_FRAME);
         $this->addPolicy('font-src', self::RULE_EMBEDDED_FRAME);
     }
