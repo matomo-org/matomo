@@ -2190,6 +2190,9 @@ if (typeof window.Matomo !== 'object') {
                 // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existing setters/getters)
                 configAppendToTrackingUrl = '',
 
+                // setPagePerformanceTiming sets this manually for SPAs
+                configPagePerformanceTiming = '',
+
                 // Site ID
                 configTrackerSiteId = siteId || '',
 
@@ -3485,6 +3488,10 @@ if (typeof window.Matomo !== 'object') {
             function appendAvailablePerformanceMetrics(request) {
                 if (!performanceAlias) {
                     return request;
+                }
+
+                if (configPagePerformanceTiming !== '') {
+                    return request + configPagePerformanceTiming;
                 }
 
                 var performanceData = (typeof performanceAlias.timing === 'object') && performanceAlias.timing ? performanceAlias.timing : undefined;
@@ -5602,9 +5609,7 @@ if (typeof window.Matomo !== 'object') {
                     pf_dm2: domCompletionTimeInMs,
                     pf_onl: onloadTimeInMs
                 }
-                var queryString = queryStringify(data);
-                var request = getRequest(queryString);
-                sendRequest(request, 0);
+                configPagePerformanceTiming = queryStringify(data);
             }
 
             /**
