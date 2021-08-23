@@ -154,10 +154,10 @@ class View implements ViewInterface
         $this->userLogin = Piwik::getCurrentUserLogin();
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         // following is used in ajaxMacros called macro (showMoreHelp as passed in other templates) - requestErrorDiv
-        $this->isGeneralSettingsAdminEnabled = Controller::isGeneralSettingsAdminEnabled();
-        $this->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
+        $isGeneralSettingsAdminEnabled = Controller::isGeneralSettingsAdminEnabled();
+        $isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
         // simplify template usage
-        $this->showMoreFaqInfo = $this->isSuperUser && ($this->isGeneralSettingsAdminEnabled || $this->isPluginsAdminEnabled);
+        $this->showMoreFaqInfo = $this->isSuperUser && ($isGeneralSettingsAdminEnabled || $isPluginsAdminEnabled);
 
         try {
             $this->piwikUrl = SettingsPiwik::getPiwikUrl();
