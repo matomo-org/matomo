@@ -283,4 +283,13 @@ describe("SegmentSelectorEditorTest", function () {
 
         expect(await page.screenshot()).to.matchImage('complex_segment');
     });
+
+    it('should not show "AND segmented reports are pre-processed (faster, requires cron)" when enable_create_realtime_segments = 0', async () => {
+        testEnvironment.overrideConfig('General', 'enable_create_realtime_segments', 0);
+        testEnvironment.save();
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
+        await page.click('.add_new_segment');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments');
+    });
 });
