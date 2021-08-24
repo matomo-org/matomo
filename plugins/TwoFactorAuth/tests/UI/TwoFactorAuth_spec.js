@@ -77,6 +77,7 @@ describe("TwoFactorAuth", function () {
     beforeEach(function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.restoreRecoveryCodes = 1;
+        testEnvironment.configOverride = { Development: { disable_merged_assets: 1 }};
         testEnvironment.save();
     });
 
