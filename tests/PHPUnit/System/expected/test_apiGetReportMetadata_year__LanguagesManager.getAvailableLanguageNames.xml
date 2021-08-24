@@ -152,7 +152,7 @@
 	</row>
 	<row>
 		<code>ka</code>
-		<name>ქართული</name>
+		<name>Ქართული</name>
 		<english_name>Georgian</english_name>
 	</row>
 	<row>
@@ -182,7 +182,7 @@
 	</row>
 	<row>
 		<code>nn</code>
-		<name>Nynorsk</name>
+		<name>Norsk nynorsk</name>
 		<english_name>Norwegian Nynorsk</english_name>
 	</row>
 	<row>
@@ -281,3 +281,4 @@
 		<english_name>Traditional Chinese</english_name>
 	</row>
 </result>
+
