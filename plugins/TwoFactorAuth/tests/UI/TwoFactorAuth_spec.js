@@ -21,6 +21,8 @@ describe("TwoFactorAuth", function () {
     {
         await (await page.jQuery('.modal.open .modal-footer a:contains('+button+')')).click();
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
     }
 
     async function loginUser(username, doAuth)
@@ -30,6 +32,8 @@ describe("TwoFactorAuth", function () {
 
         // make sure to log out previous session
         await page.goto(logoutUrl);
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(100);
         await page.waitForNetworkIdle();
 
         var cookies = await page.cookies();
@@ -50,7 +54,8 @@ describe("TwoFactorAuth", function () {
         }
         await page.goto(logMeUrl);
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
 
         await page.webpage.setViewport({
             width: 1350,
@@ -98,6 +103,7 @@ describe("TwoFactorAuth", function () {
         await page.click('.confirmPasswordForm #login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
     }
 
     it('a user with 2fa can open the widgetized view by token without needing to verify', async function () {
@@ -131,7 +137,7 @@ describe("TwoFactorAuth", function () {
         await page.type('.loginTwoFaForm #login_form_authcode', '123456');
         await page.click('.loginTwoFaForm #login_form_submit');
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.widget');
+        await page.waitForSelector('.widget', { timeout: 60000 });
         await page.waitForNetworkIdle();
 
         // do not take a screenshot, as it's not relevant. We only check if there is the right amount of widgets loaded
@@ -152,13 +158,13 @@ describe("TwoFactorAuth", function () {
         await page.click('.showRecoveryCodesLink');
         await page.waitForNetworkIdle();
         const element = await page.$('.loginSection');
+        await page.waitForNetworkIdle();
         await page.waitForTimeout(1000);
         expect(await element.screenshot()).to.matchImage('show_recovery_codes_step1');
     });
 
     it('should be possible to show recovery codes step2 done', async function () {
         await confirmPassword();
-        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#content')).to.matchImage('show_recovery_codes_step2');
     });
 
@@ -172,11 +178,13 @@ describe("TwoFactorAuth", function () {
     it('should be possible to disable two factor', async function () {
         await loginUser('with2FADisable');
         await page.goto(userSettings);
-        await page.waitForSelector('.disable2FaLink');
+        await page.waitForSelector('.disable2FaLink', { timeout: 60000 });
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
         await page.click('.disable2FaLink');
 
         const modal = await page.$('.modal.open');
-        await page.waitForTimeout(250); // animation
+        await page.waitForTimeout(500); // animation
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
@@ -198,6 +206,8 @@ describe("TwoFactorAuth", function () {
     it('should show setup screen - step 1', async function () {
         await loginUser('without2FA');
         await page.goto(userSettings);
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
         await page.click('.enable2FaLink');
         await confirmPassword();
         await page.waitForTimeout(1000);
@@ -238,7 +248,7 @@ describe("TwoFactorAuth", function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#content', { visible: true });
+        await page.waitForSelector('#content', { visible: true, timeout: 60000 });
         await page.waitForNetworkIdle();
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step4');
@@ -253,6 +263,8 @@ describe("TwoFactorAuth", function () {
     it('should force user to setup 2fa when not set up yet but enforced step 2', async function () {
         await (await page.jQuery('.setupTwoFactorAuthentication .backupRecoveryCode:first')).click();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
@@ -260,8 +272,9 @@ describe("TwoFactorAuth", function () {
 
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
-        await page.mouse.move(-10, -10);
         await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step3');
     });
 
@@ -276,6 +289,7 @@ describe("TwoFactorAuth", function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
         await page.waitForNetworkIdle();
+        await page.waitForSelector('#content');
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step4');
     });
 
