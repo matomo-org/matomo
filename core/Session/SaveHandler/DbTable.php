@@ -23,6 +23,8 @@ use Zend_Session_SaveHandler_Interface;
  */
 class DbTable implements Zend_Session_SaveHandler_Interface
 {
+    public static $wasSessionToLargeToRead = false;
+
     protected $config;
     protected $maxLifetime;
 

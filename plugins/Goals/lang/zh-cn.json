@@ -6,9 +6,9 @@
         "AddNewGoalOrEditExistingGoal": "%1$s新增目标%2$s 或 %3$s编辑%4$s 已有目标",
         "AllowGoalConvertedMoreThanOncePerVisit": "允许目标在单次访问中被多次转化",
         "AllowMultipleConversionsPerVisit": "允许单次访问多次转化",
-        "BestCountries": "您的最佳转化国家为：",
+        "BestCountries": "您最高转化率的国家为：",
         "BestKeywords": "您的最佳转化关键字为：",
-        "BestReferrers": "您的最佳转化网站来源为：",
+        "BestReferrers": "您的最高转化网站来源为：",
         "CaseSensitive": "大小写敏感",
         "CancelAndReturnToGoals": "取消并%1$s返回目标列表%2$s",
         "CategoryTextGeneral_Visitors": "用户位置",
@@ -16,7 +16,7 @@
         "CategoryTextVisitsSummary_VisitsSummary": "用户属性",
         "CategoryTextDevicesDetection_DevicesDetection": "设备",
         "CategoryTextGeneral_Visit": "交互度",
-        "ClickOutlink": "点击链接转向外部网站",
+        "ClickOutlink": "点击链接打开外部网站",
         "SendEvent": "触发了一个事件<br>",
         "ColumnAverageOrderRevenueDocumentation": "评价订单价值 (AOV) 是所有订单的总金额除以订单数。",
         "ColumnAveragePriceDocumentation": "%s 的平均收入。",
@@ -108,6 +108,7 @@
         "GoalsAdjective": "目标%s",
         "VisitPageTitle": "访问一个特定的页面标题",
         "VisitsUntilConv": "访问转化",
+        "VisitsUntilConvReportDocumentation": "此报告显示访问者转换目标之前的访问次数。",
         "VisitUrl": "访问特定网址(页面或页面组)",
         "VisitDurationMatchAttr": "停留一定时间",
         "VisitDuration": "访问持续时间为",
@@ -121,6 +122,10 @@
         "EventValueAsRevenueHelp2": "注意：如果同时定义了默认目标收入和事件值，则将使用事件值。 如果启用此选项，并且请求中未发送任何事件值，则将使用默认收入（如果已定义）。",
         "AtLeastMinutes": "至少%1$s分钟。 使用小数来匹配秒，例如，使用%2$s来匹配30秒。",
         "TimeInMinutes": "时间（分钟）",
-        "ClickToViewThisGoal": "单击以查看此目标。"
+        "ClickToViewThisGoal": "单击以查看此目标。",
+        "OverviewReportDocumentation": "本报告概述了访问者对特定目标的转化情况。",
+        "GoalsOverviewSubcategoryHelp1": "目标概述报告为您的网站定义的目标的性能。您可以访问目标的转化率、产生的收入金额以及每个目标的完整报告。",
+        "ManageGoalsSubcategoryHelp1": "本节允许您为访问者在您的网站上采取的特定操作创建和编辑目标，例如访问特定页面或提交特定表单。目标报告各不相同，但可以帮助您根据业务目标（如潜在客户开发、在线销售和增加品牌曝光率）跟踪网站绩效。",
+        "ManageGoalsSubcategoryHelp2": "在我们的目标指南中了解更多信息。"
     }
 }

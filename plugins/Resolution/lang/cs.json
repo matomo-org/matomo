@@ -7,6 +7,7 @@
         "Resolutions": "Rozlišení",
         "WidgetGlobalVisitors": "Hlavní nastavení návštěvníků",
         "WidgetGlobalVisitorsDocumentation": "Toto hlášení zobrazuje nejčastější konfigurace, které vaši návštěvníci měli. Konfigurace je kombinace operačního systému, prohlížeče a rozlišení.",
-        "WidgetResolutions": "Rozlišení obrazovky"
+        "WidgetResolutions": "Rozlišení obrazovky",
+        "WidgetResolutionsDocumentation": "Tento report ukazuje rozlišení obrazovky, které vaši návštěvníci použili při prohlížení vašeho webu."
     }
 }

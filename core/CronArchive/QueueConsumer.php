@@ -347,6 +347,14 @@ class QueueConsumer
             $this->detectPluginForArchive($nextArchive);
 
             $periodLabel = $this->periodIdsToLabels[$nextArchive['period']];
+            if (!PeriodFactory::isPeriodEnabledForAPI($periodLabel)
+                || PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel)
+            ) {
+                $this->logger->info("Found invalidation for period that is disabled in the API, skipping and removing: {$nextArchive['idinvalidation']}");
+                $this->model->deleteInvalidations([$nextArchive]);
+                continue;
+            }
+
             $periodDate = $periodLabel == 'range' ? $nextArchive['date1'] . ',' . $nextArchive['date2'] : $nextArchive['date1'];
             $nextArchive['periodObj'] = PeriodFactory::build($periodLabel, $periodDate);
 

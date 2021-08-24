@@ -40,9 +40,9 @@ class RequestSetTest extends IntegrationTestCase
     private $post;
     private $time;
 
-    public function setUp(): void
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
+        parent::beforeTableDataCached();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00', 0, false, 'http://www.example.com');
@@ -50,6 +50,11 @@ class RequestSetTest extends IntegrationTestCase
         foreach (range(3,10) as $idSite) {
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
 
         $this->requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
         $this->requestSet->setRequests(array(array('idsite' => 1), array('idsite' => 2)));
