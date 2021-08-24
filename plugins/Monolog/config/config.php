@@ -104,7 +104,7 @@ return array(
         ->constructorParameter('level', DI\get('log.level.errorlog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\SyslogHandler' => DI\create()
+    '\Monolog\Handler\SyslogHandler' => DI\autowire()
         ->constructorParameter('ident', DI\get('log.syslog.ident'))
         ->constructorParameter('level', DI\get('log.level.syslog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
