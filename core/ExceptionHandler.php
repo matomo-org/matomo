@@ -13,8 +13,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
-use Piwik\Exception\NotYetInstalledException;
-use Piwik\Http\HttpCodeException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
@@ -72,17 +70,28 @@ class ExceptionHandler
      */
     public static function dieWithHtmlErrorPage($exception)
     {
-        if ($exception instanceof HttpCodeException
-            && $exception->getCode() > 0
-        ) {
-            http_response_code($exception->getCode());
-        } elseif ($exception instanceof NotYetInstalledException) {
-            http_response_code(404);
-        } else {
-            http_response_code(500);
+        // Set an appropriate HTTP response code.
+        switch (true) {
+            case ( ($exception instanceof \Piwik\Exception\HttpCodeException || $exception instanceof \Piwik\Exception\NotSupportedBrowserException) && $exception->getCode() > 0):
+                // For these exception types, use the exception-provided error code.
+                http_response_code($exception->getCode());
+                break;
+            case ($exception instanceof \Piwik\Exception\NotYetInstalledException):
+                http_response_code(404);
+                break;
+            default:
+                http_response_code(500);
         }
 
-        self::logException($exception);
+        // Log the error with an appropriate loglevel.
+        switch (true) {
+            case ($exception instanceof \Piwik\Exception\NotSupportedBrowserException):
+                // These unsupported browsers are really a client-side problem, so log only at DEBUG level.
+                self::logException($exception, Log::DEBUG);
+                break;
+            default:
+                self::logException($exception);
+        }
 
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
@@ -157,13 +166,23 @@ class ExceptionHandler
         return $result;
     }
 
-    private static function logException($exception)
+    private static function logException($exception, $loglevel=Log::ERROR)
     {
         try {
-            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
-                'exception' => $exception,
-                'ignoreInScreenWriter' => true,
-            ]);
+            switch ($loglevel) {
+                case(Log::DEBUG):
+                    StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception: {exception}', [
+                        'exception' => $exception,
+                        'ignoreInScreenWriter' => true,
+                    ]);
+                    break;
+                case(Log::ERROR):
+                default:
+                    StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+                        'exception' => $exception,
+                        'ignoreInScreenWriter' => true,
+                    ]);
+            }
         } catch (DependencyException $ex) {
             // ignore (occurs if exception is thrown when resolving DI entries)
         } catch (ContainerDoesNotExistException $ex) {
