@@ -2,11 +2,30 @@ const path = require('path')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const TerserPlugin = require("terser-webpack-plugin");
+const fs = require('fs');
 
 const cwd = process.cwd();
 const libPackageJson = require(path.join(cwd, 'package.json'));
 
 const isEnvDevelopment = process.env.NODE_ENV !== 'production';
+const pluginExternals = scanPluginExternals();
+
+function scanPluginExternals() {
+    const pluginExternals = {};
+
+    const pluginsDir = path.join(__dirname, '..', '..');
+    for (let pluginName of fs.readdirSync(pluginsDir)) {
+        const vuePackageJsonPath = path.join(pluginsDir, pluginName, 'vue', 'package.json');
+        if (!fs.existsSync(vuePackageJsonPath)) {
+            continue;
+        }
+
+        const vuePackageJson = require(vuePackageJsonPath);
+        pluginExternals[vuePackageJson.name] = vuePackageJson.name;
+    }
+
+    return pluginExternals;
+}
 
 module.exports = {
     entry: './src/index.ts',
@@ -22,7 +41,8 @@ module.exports = {
         library: libPackageJson.name,
     },
     externals: [
-        // TODO
+        { vue: 'Vue' },
+        pluginExternals,
     ],
     module: {
         rules: [
