@@ -5608,7 +5608,7 @@ if (typeof window.Matomo !== 'object') {
                     pf_dm1: domProcessingTimeInMs,
                     pf_dm2: domCompletionTimeInMs,
                     pf_onl: onloadTimeInMs
-                }
+                };
                 configPagePerformanceTiming = queryStringify(data);
             }
 
