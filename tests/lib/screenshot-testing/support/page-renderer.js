@@ -401,33 +401,25 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         --this.activeRequestCount;
 
         const failure = request.failure();
+        const response = request.response();
         const errorMessage = failure ? failure.errorText : 'Unknown error';
 
         if (!VERBOSE) {
             this._logMessage('Unable to load resource (URL:' + request.url() + '): ' + errorMessage);
         }
 
-        if (request.url().indexOf('action=getCss')) {
-            if (errorMessage === 'net::ERR_ABORTED') {
-                console.log('CSS request aborted.');
-            } else if (request.url().indexOf('&reload=1') === -1) {
-                console.log('Loading CSS failed (' + errorMessage + ')... Try adding it with another style tag.');
-                await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+        var type = '';
+        if (type = request.url().match(/action=get(Css|CoreJs|NonCoreJs)/)) {
+            if (errorMessage === 'net::ERR_ABORTED' && (!response || response.status() !== 500)) {
+                console.log(type[1]+' request aborted.');
+            } else if (request.url().indexOf('&reload=') === -1) {
+                console.log('Loading '+type[1]+' failed (' + errorMessage + ')... Try adding it with another tag.');
+                var method = type[1] == 'Css' ? 'addStyleTag' : 'addScriptTag';
+                await this.waitForNetworkIdle(); // wait for other requests to finish before trying to reload
+                await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
                 await this.webpage.waitForTimeout(1000);
             } else {
-                console.log('Reloading CSS failed (' + errorMessage + ').');
-            }
-        }
-
-        if (request.url().indexOf('action=getCoreJs')) {
-            if (errorMessage === 'net::ERR_ABORTED') {
-                console.log('JS request aborted.');
-            } else if (request.url().indexOf('&reload=1') === -1) {
-                console.log('Loading JS failed (' + errorMessage + ')... Try adding it with another script tag.');
-                await this.webpage.addScriptTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitForTimeout(1000);
-            } else {
-                console.log('Reloading JS failed (' + errorMessage + ').');
+                console.log('Reloading '+type[1]+' failed (' + errorMessage + ').');
             }
         }
     });
@@ -442,19 +434,22 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             this._logMessage(message);
         }
 
-        // if response of css request does not start with /*, we assume it had an error and try to load it again
+        // if response of css or js request does not start with /*, we assume it had an error and try to load it again
         // Note: We can't do that in requestfailed only, as the response code might be 200 even if it throws an exception
-        if (request.url().indexOf('action=getCss') !== -1) {
+        var type = '';
+        if (type = request.url().match(/action=get(Css|CoreJs|NonCoreJs)/)) {
             var body = await response.buffer();
             if (body.toString().substring(0, 2) === '/*') {
                 return;
             }
-            if (request.url().indexOf('&reload=1') === -1) {
-                console.log('Loading CSS failed... Try adding it with another style tag.');
-                await this.webpage.addStyleTag({url: request.url() + '&reload=1'}); // add another get parameter to ensure browser doesn't use cache
+            if (request.url().indexOf('&reload=') === -1) {
+                console.log('Loading '+type[1]+' failed... Try adding it with another tag.');
+                var method = type[1] == 'Css' ? 'addStyleTag' : 'addScriptTag';
+                await this.waitForNetworkIdle(); // wait for other requests to finish before trying to reload
+                await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
                 await this.webpage.waitForTimeout(1000);
             } else {
-                console.log('Reloading CSS failed.');
+                console.log('Reloading '+type[1]+' failed.');
             }
             console.log('Response (size "' + body.length + '", status "' + response.status() + ', headers "' + JSON.stringify(response.headers()) + '"): ' + request.url() + "\n" + body.toString());
         }
