@@ -726,6 +726,9 @@ abstract class Controller
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
         if (!Piwik::isUserIsAnonymous()) {
+            $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
+
+            // for BC only. Use contactEmail instead
             $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         }
 
@@ -748,7 +751,7 @@ abstract class Controller
         $view->logoLarge = $customLogo->getLogoUrl();
         $view->logoSVG = $customLogo->getSVGLogoUrl();
         $view->hasSVGLogo = $customLogo->hasSVGLogo();
-        $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
         $view->themeStyles = ThemeStyles::get();
 
         $general = PiwikConfig::getInstance()->General;
@@ -839,7 +842,7 @@ abstract class Controller
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));
-            $superUserEmail = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+            $superUserEmail = implode(',', Piwik::getContactEmailAddresses());
 
             $mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
             $mailLinkStart = "<a href=\"$mailToUrl\">";
@@ -972,7 +975,7 @@ abstract class Controller
 
         if (!Piwik::isUserIsAnonymous()) {
             $currentLogin = Piwik::getCurrentUserLogin();
-            $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+            $emails = implode(',', Piwik::getContactEmailAddresses());
             $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Matomo for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 

@@ -532,6 +532,10 @@ noreply_email_address = "noreply@{DOMAIN}"
 ; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
 
+; email address to use when an administrator should be contacted. If not set, email addresses of all super users will be used instead.
+; To use multiple addresses simply concatenate them with a ','
+contact_email_address = ""
+
 ; set to 0 to disable sending of all emails. useful for testing.
 emails_enabled = 1
 

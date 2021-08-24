@@ -15,6 +15,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * With the introduction of Vue 3 we are also dropping support for IE11. All new supported browsers are determined by the browserslist tool. Running `npx browserslist` will list the browsers currently supported.
 * When the Ecommerce feature is disabled for a site, then the Live API no longer returns the Ecommerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
 
+### New config.ini.php settings
+
+* The config setting `contact_email_address` in `General` has been added. It will be used as contact email address for users. If not defined (default) all email addresses of all super users will be used instead, which equals the behavior it used to be.
+
 ## Matomo 4.4.0
 
 ### Breaking Changes

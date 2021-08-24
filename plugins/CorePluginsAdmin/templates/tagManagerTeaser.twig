@@ -19,7 +19,7 @@
                     <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'nonce': nonce, 'pluginName': 'TagManager', 'redirectTo': 'tagmanager'}) }}"
                        class="btn activateTagManagerPlugin"><span class="icon-rocket"></span> {{ 'CorePluginsAdmin_ActivateTagManagerNow'|translate }} <span class="icon-rocket"></span></a>
                 {% else %}
-                    <a href="mailto:{{ superUserEmails|e('url') }}?subject={{ 'CorePluginsAdmin_TagManagerNowAvailableTitle'|translate|e('url') }}&body={{ 'CorePluginsAdmin_TagManagerTeaserEmailSuperUserBody'|translate("\n\n", "\n\n", piwikUrl, "\n\n")|e('url') }}"
+                    <a href="mailto:{{ contactEmail|e('url') }}?subject={{ 'CorePluginsAdmin_TagManagerNowAvailableTitle'|translate|e('url') }}&body={{ 'CorePluginsAdmin_TagManagerTeaserEmailSuperUserBody'|translate("\n\n", "\n\n", piwikUrl, "\n\n")|e('url') }}"
                        class="btn activateTagManagerPlugin"><span class="icon-rocket"></span> {{ 'CorePluginsAdmin_TagManagerEmailSuperUserToActivate'|translate }} <span class="icon-rocket"></span></a>
                 {% endif %}
 

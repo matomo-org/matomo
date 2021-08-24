@@ -168,12 +168,9 @@ class Controller extends Plugin\ControllerAdmin
             $nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         }
 
-        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', [], []);
-        $emails = implode(',', array_column($superUsers, 'email'));
-
         $view = new View('@CorePluginsAdmin/tagManagerTeaser');
         $this->setGeneralVariablesView($view);
-        $view->superUserEmails = $emails;
+        $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
         $view->nonce = $nonce;
         return $view->render();
     }
@@ -403,7 +400,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->deactivateIAmSuperUserSalt = Common::getRequestVar('i_am_super_user', '', 'string');
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
-        $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->contactEmail  = implode(',', Piwik::getContactEmailAddresses());
         $view->piwikVersion    = Version::VERSION;
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';

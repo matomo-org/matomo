@@ -180,6 +180,23 @@ class Piwik
     }
 
     /**
+     * Returns the email addresses configured as contact. If none is configured the mail addresses of all super users will be returned instead.
+     *
+     * @return array
+     */
+    public static function getContactEmailAddresses(): array
+    {
+        $contactAddresses = trim(Config::getInstance()->General['contact_email_address']);
+
+        if (empty($contactAddresses)) {
+            return self::getAllSuperUserAccessEmailAddresses();
+        }
+
+        $contactAddresses = explode(',', $contactAddresses);
+        return array_map('trim', $contactAddresses);
+    }
+
+    /**
      * Get a list of all email addresses having Super User access.
      *
      * @return array

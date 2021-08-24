@@ -13,12 +13,12 @@
 </div>
 {% endmacro %}
 
-{% macro requestErrorDiv(emailSuperUser, areAdsForProfessionalServicesEnabled = false, currentModule = '', showMoreHelp = false) %}
+{% macro requestErrorDiv(contactEmail, areAdsForProfessionalServicesEnabled = false, currentModule = '', showMoreHelp = false) %}
     <div id="loadingError">
         <div class="alert alert-danger">
 
-            {% if emailSuperUser is defined and emailSuperUser %}
-                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}
+            {% if contactEmail is defined and contactEmail %}
+                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ contactEmail ~ '">', '</a>')|raw }}
             {% else %}
                 {{ 'General_ErrorRequest'|translate('', '') }}
             {% endif %}
