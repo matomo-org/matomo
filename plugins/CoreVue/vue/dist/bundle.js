@@ -26,7 +26,7 @@ return /******/ (() => { // webpackBootstrap
   \**********************/
 /***/ (() => {
 
-eval("\nwindow.exampleloaded = true;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXgudHMuanMiLCJtYXBwaW5ncyI6IjtBQUFDLE1BQWMsQ0FBQyxhQUFhLEdBQUcsSUFBSSxDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vQG1hdG9tby9jb3JlLXZ1ZS8uL3NyYy9pbmRleC50cz9mZmI0Il0sInNvdXJjZXNDb250ZW50IjpbIih3aW5kb3cgYXMgYW55KS5leGFtcGxlbG9hZGVkID0gdHJ1ZTsiXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/index.ts\n");
+eval("\nwindow.exampleloaded = 10;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXgudHMuanMiLCJtYXBwaW5ncyI6IjtBQUFDLE1BQWMsQ0FBQyxhQUFhLEdBQUcsRUFBRSxDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vQG1hdG9tby9jb3JlLXZ1ZS8uL3NyYy9pbmRleC50cz9mZmI0Il0sInNvdXJjZXNDb250ZW50IjpbIih3aW5kb3cgYXMgYW55KS5leGFtcGxlbG9hZGVkID0gMTA7Il0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/index.ts\n");
 
 /***/ })
 

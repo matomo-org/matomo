@@ -1,1 +1,1 @@
-(window as any).exampleloaded = true;
+(window as any).exampleloaded = 10;
