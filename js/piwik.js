@@ -62,7 +62,7 @@
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs, setPagePerformanceTiming,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -593,9 +593,12 @@ if (typeof window.Matomo !== 'object') {
             return matches ? matches[1] : url;
         }
         function queryStringify(data) {
-            var queryString = Object.keys(data).reduce(function(a, k) {
-                return a + (undefined !== data[k] ? '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]) : '');
-            }, '');
+            var queryString = '', k;
+            for (k in data) {
+                if (data.hasOwnProperty(k)) {
+                    queryString += '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]);
+                }
+            }
             return queryString;
         }
 
@@ -5601,6 +5604,7 @@ if (typeof window.Matomo !== 'object') {
                 networkTimeInMs, serverTimeInMs, transferTimeInMs,
                 domProcessingTimeInMs, domCompletionTimeInMs, onloadTimeInMs
             ) {
+                /*property pf_net, pf_srv, pf_tfr, pf_dm1, pf_dm2, pf_onl */
                 var data = {
                     pf_net: networkTimeInMs,
                     pf_srv: serverTimeInMs,
@@ -5610,7 +5614,7 @@ if (typeof window.Matomo !== 'object') {
                     pf_onl: onloadTimeInMs
                 };
                 configPagePerformanceTiming = queryStringify(data);
-            }
+            };
 
             /**
              * Override referrer
