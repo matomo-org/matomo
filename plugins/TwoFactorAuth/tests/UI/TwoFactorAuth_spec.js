@@ -289,8 +289,12 @@ describe("TwoFactorAuth", function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#content');
-        expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step4');
+        await page.waitForSelector('.widget');
+        await page.waitForNetworkIdle();
+
+        // after setting up forced 2fa, the default page will be loaded (dashboard)
+        const widgetsCount = await page.evaluate(() => $('.widget').length);
+        expect(widgetsCount).to.equal(9);
     });
 
 });
