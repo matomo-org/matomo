@@ -22,6 +22,5 @@ class CoreVue extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = Development::isEnabled() ? "node_modules/vue/dist/vue.js" : "node_modules/vue/dist/vue.min.js";
-        $jsFiles[] = Development::isEnabled() ? "plugins/CoreVue/vue/dist/bundle.js" : "plugins/CoreVue/vue/dist/bundle.min.js";
     }
 }

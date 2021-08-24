@@ -9,6 +9,7 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\Development;
 use Piwik\Piwik;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
@@ -43,6 +44,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
              * @param string[] $jsFiles The JavaScript files to load.
              */
              Piwik::postEvent('AssetManager.getJavaScriptFiles', array(&$this->fileLocations), null, $this->plugins);
+
+             $this->addUmdFilesIfDetected($this->plugins);
         }
 
         $this->addThemeFiles();
@@ -89,5 +92,15 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/',
             'tests/',
         );
+    }
+
+    private function addUmdFilesIfDetected($plugins)
+    {
+        foreach ($plugins as $plugin) {
+            $bundlePath = Development::isEnabled() ? "plugins/$plugin/vue/dist/bundle.js" : "plugins/$plugin/vue/dist/bundle.min.js";
+            if (is_file($bundlePath)) {
+                $this->fileLocations[] = $bundlePath;
+            }
+        }
     }
 }
