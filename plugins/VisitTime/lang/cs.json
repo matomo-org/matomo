@@ -14,7 +14,7 @@
         "ColumnVisitEndServerDayOfWeek": "Čas na serveru - den v týdnu (Čas poslední akce)",
         "ColumnVisitEndServerDayOfYear": "Čas na serveru - den v roce (Čas poslední akce)",
         "ColumnVisitEndServerQuarter": "Čas na serveru - čtvrtletí (Čas poslední akce)",
-        "ColumnVisitEndServerSecond": "Čas na serveru - vteřin (Čas poslední akce)",
+        "ColumnVisitEndServerSecond": "Čas na serveru - vteřina (Čas poslední akce)",
         "ColumnVisitEndServerWeekOfYear": "Čas na serveru - týden v roce (Čas poslední akce)",
         "ColumnVisitEndServerMonth": "Čas na serveru - měsíc (Čas poslední akce)",
         "ColumnVisitEndServerYear": "Čas na serveru - rok (Čas poslední akce)",
@@ -22,14 +22,15 @@
         "DayOfWeek": "Dny v týdnu",
         "LocalTime": "Návštěvy podle lokálního času",
         "NHour": "%sh",
-        "PluginDescription": "Hlásí místní a serverový čas, kdy vaši návštěvníci zobrazují stránky nebo aplikaci.",
+        "PluginDescription": "Ukzauje místní a serverový čas, kdy vaši návštěvníci zobrazují stránky nebo aplikaci.",
         "ServerTime": "Návštěvy podle času na serveru",
         "SubmenuTimes": "Časy",
         "VisitsByDayOfWeek": "Návštěvy podle dnů v týdnu",
         "WidgetByDayOfWeekDocumentation": "Tento graf zobrazuje, kolik návštěv obdržela vaše stránka každý den v týdnu.",
         "WidgetLocalTime": "Návštěvy podle lokálního času",
-        "WidgetLocalTimeDocumentation": "Tento graf ukazuje čas v %1$s návštěvníkovo časové zóně %2$s během jěho návštěvy.",
+        "WidgetLocalTimeDocumentation": "Tento graf ukazuje čas v %1$s návštěvníkově časové zóně %2$s během jěho návštěvy.",
         "WidgetServerTime": "Návštěvy podle času na serveru",
-        "WidgetServerTimeDocumentation": "Tento graf ukazuje jaký čas byl na %1$s serveru časové zóny %2$s během návstěvy."
+        "WidgetServerTimeDocumentation": "Tento graf ukazuje jaký čas byl na %1$s serveru časové zóny %2$s během návstěvy.",
+        "TimesSubcategoryHelp": "Sekce Časy ukazuje, kdy lidé navštěvují váš web. Můžete vidět nejoblíbenější místní časy, kdy vaši uživatelé navštěvují, takže můžete pochopit, kde váš web zapadá do jejich života. Navíc zobrazuje nejoblíbenější časy serverů, které mohou odhalit nároky na vaše technologické vybavení."
     }
 }

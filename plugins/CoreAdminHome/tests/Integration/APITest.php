@@ -68,6 +68,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
 
     public function test_deleteAllTrackingFailures_WorksForAdminAndSuperuser()
     {
+        $this->expectNotToPerformAssertions();
         $this->setAdminUser();
         $this->api->deleteAllTrackingFailures();
         $this->setSuperUser();
@@ -94,6 +95,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
 
     public function test_deleteTrackingFailure_WorksForAdminAndSuperuser()
     {
+        $this->expectNotToPerformAssertions();
         $this->setAdminUser();
         $this->api->deleteTrackingFailure(1, 2);
         $this->setSuperUser();

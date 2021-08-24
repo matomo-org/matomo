@@ -65,9 +65,6 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         // the plugin will be possibly removed in an Update during 2.14.0
         $this->assertDeprecatedClassIsRemoved('Piwik\Plugins\UserSettings\UserSettings', $validTill);
 
-        $validTill = '2015-06-01';
-        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Archive', 'getBlob', $validTill);
-
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Archive', 'getDataTableFromArchive');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugins\API\API', 'getLastDate');

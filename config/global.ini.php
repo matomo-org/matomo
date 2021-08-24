@@ -211,6 +211,11 @@ enable_processing_unique_visitors_multiple_sites = 0
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
 enabled_periods_UI = "day,week,month,year,range"
+
+; The list of periods that are available in through the API. This also controls the list of periods that are allowed
+; to be archived. You can disable some of them if you have a high traffic website and archiving is too compute heavy.
+; NOTE: if you disable a period in the API, it's parent periods are effectively disabled as well. For example, if
+; month periods are disabled, then year periods can no longer be computed, so they are effectively disabled as well.
 enabled_periods_API = "day,week,month,year,range"
 
 ; whether to enable segment archiving cache
@@ -437,6 +442,13 @@ password_hash_argon2_time_cost = default
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
+; If set to 1, Matomo will send a Content-Security-Policy header
+csp_enabled = 1
+
+; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
+; instead of a Content-Security-Policy header.
+csp_report_only = 1
+
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
 ; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
 host_validation_use_server_name = 0
@@ -566,6 +578,9 @@ datatable_archiving_maximum_rows_site_search = 500
 datatable_archiving_maximum_rows_events = 500
 ; maximum number of rows for sub-tables of the Events tables (eg. for the subtables Categories>Actions or Categories>Names).
 datatable_archiving_maximum_rows_subtable_events = 500
+
+; maximum number of rows for the Products reports
+datatable_archiving_maximum_rows_products = 10000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500

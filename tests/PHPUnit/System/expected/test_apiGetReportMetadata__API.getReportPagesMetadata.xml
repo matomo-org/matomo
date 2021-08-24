@@ -823,7 +823,7 @@
 			<id>DevicesDetection_Software</id>
 			<name>Software</name>
 			<order>20</order>
-			<help>&lt;p&gt;The Software section shows the operating systems, browsers and plugins that your visitors are using to access the site so that you can optimise your site to ensure it is fully compatible with the most popular configurations..&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Software section shows the operating systems, browsers and plugins that your visitors are using to access the site so that you can optimise your site to ensure it is fully compatible with the most popular configurations.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>

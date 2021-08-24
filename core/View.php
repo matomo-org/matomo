@@ -11,7 +11,9 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
+use Piwik\Session\SessionAuth;
 use Piwik\View\ViewInterface;
+use Piwik\View\SecurityPolicy;
 use Twig\Environment;
 use Twig\Error\Error;
 
@@ -296,7 +298,13 @@ class View implements ViewInterface
                 Common::sendHeader('Referrer-Policy: same-origin');
             } else {
                 // always send explicit default header
-                Common::sendHeader('Referrer-Policy: strict-origin-when-cross-origin');
+                Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
+            }
+
+            // this will be an empty string if CSP is disabled
+            $cspHeader = StaticContainer::get(SecurityPolicy::class)->createHeaderString();
+            if ('' !== $cspHeader) {
+                Common::sendHeader($cspHeader);
             }
         }
 
@@ -458,7 +466,19 @@ class View implements ViewInterface
     private function shouldPropagateTokenAuthInAjaxRequests()
     {
         $generalConfig = Config::getInstance()->General;
-        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
+        return Common::getRequestVar('module', false) == 'Widgetize' ||
+            $generalConfig['enable_framed_pages'] == '1' ||
+            $this->validTokenAuthInUrl();
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    private function validTokenAuthInUrl()
+    {
+        $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_GET);
+        return ($tokenAuth && $tokenAuth === Piwik::getCurrentUserTokenAuth());
     }
 
     /**

@@ -176,7 +176,6 @@ var broadcast = {
             }
         }
     },
-
     isWidgetizedDashboard: function() {
         return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
     },

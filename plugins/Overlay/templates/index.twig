@@ -73,7 +73,10 @@
 
             var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
             if (piwik.shouldPropagateTokenAuth) {
-                iframeSrc += '&force_api_session=1&token_auth=' + piwik.token_auth;
+                if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                    iframeSrc += '&force_api_session=1';
+                }
+                iframeSrc += '&token_auth=' + piwik.token_auth;
             }
 
             Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');

@@ -14,6 +14,7 @@
         "RateFeatureTitle": "¿Te gusta la función \"%s\"? Por favor, puntuala y dejá un comentario.",
         "SendFeedback": "Enviar comentario",
         "ThankYou": "¡Gracias por ayudarnos a hacer un mejor Matomo!",
+        "ThankYouForSpreading": "Gracias por correr la voz y crear una web más segura",
         "TopLinkTooltip": "Decinos qué pensás, o solicitá soporte profesional.",
         "ViewAnswersToFAQ": "Leé las respuestas a las %1$spreguntas frecuentes%2$s",
         "FAQs": "Preguntas frecuentes",
@@ -31,6 +32,7 @@
         "ContactUs": "Contactanos",
         "VisitTheForums": "Visitá los %1$sforos%2$s y obtené ayuda de la comunidad de usuarios de Matomo",
         "Forums": "Foros",
+        "ReviewMatomoTitle": "¿Te gusta Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Compartí tus pensamientos en uno de estos sitios e inspirá a que otros se unan a nuestra revolución de los datos.",
         "RemindMeLater": "Recordarme después",
         "NeverAskMeAgain": "No volver a preguntarme",
@@ -41,6 +43,12 @@
         "PurgeOldData": "Quiero quitar datos viejos",
         "SearchHelpResources": "Buscá los recursos de ayuda de matomo.org",
         "PopularHelpTopics": "Temas populares de ayuda",
-        "ReferBannerTitle": "¿Creés en Matomo?"
+        "ReferMatomo": "Da a conocer a Matomo",
+        "ReferBannerTitle": "¿Creés en Matomo?",
+        "ReferBannerLonger": "Por favor, ayudanos a correr la voz sobre nosotros, así más gente toma control de sus datos analíticos.",
+        "ReferBannerEmailShareSubject": "¡Haceles conocer Matomo Analytics ahora para volver a tomar el control!",
+        "ReferBannerEmailShareBody": "Elijo Matomo, una alternativa ética a Google Analytics que me da 100%% propiedad de datos y protege los datos de los visitantes de mi sitio web\nComparto este mensaje con la esperanza de que vos también escapés del poder de Google y obtengás una propiedad total de tus propios datos.\n\nConocé Matomo en https:\/\/matomo.org\/",
+        "ReferBannerSocialShareText": "Si estás usando Google Analytics, ¡mantené el control al cambiarte ahora a una alternativa ética como Matomo!",
+        "WontShowAgain": "No volveremos a mostrar este mensaje de nuevo."
     }
 }

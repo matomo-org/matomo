@@ -101,6 +101,8 @@ class DataPurgingTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        $GLOBALS['DISABLE_GET_TABLES_INSTALLED_EVENTS_FOR_TEST'] = 1;
+
         LogDataPurger::$selectSegmentSize = 2;
         ReportsPurger::$selectSegmentSize = 2;
 
@@ -142,6 +144,8 @@ class DataPurgingTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
+        $GLOBALS['DISABLE_GET_TABLES_INSTALLED_EVENTS_FOR_TEST'] = 0;
+
         parent::tearDown();
 
         $tempTableName = Common::prefixTable(RawLogDao::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
