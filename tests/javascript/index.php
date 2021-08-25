@@ -3623,7 +3623,9 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(168);
+        // expect(168);
+        expect(170);
+        // expect(197);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3644,6 +3646,13 @@ if ($mysql) {
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
 
+        _paq.push(['setPagePerformanceTiming', 35, 103]);
+        _paq.push(['trackPageView', 'title', 'something', function(data) {
+            ok(data.request.indexOf('pf_net=35&pf_srv=103') !== -1, 'setPagePerformanceTiming sets "pf_net=35&pf_srv=103" in request');
+        }]);
+        _paq.push(['trackPageView', 'title', 'something', function(data) {
+            ok(data.request.indexOf('pf_net=35&pf_srv=103') === -1, 'setPagePerformanceTiming does not set "pf_net=35&pf_srv=103" in subsequent request');
+        }]);
         strictEqual(0, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, is zero by default');
 
         var piwikUrl = location.href;

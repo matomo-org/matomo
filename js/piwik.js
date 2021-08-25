@@ -592,10 +592,11 @@ if (typeof window.Matomo !== 'object') {
 
             return matches ? matches[1] : url;
         }
-        function queryStringify(data) {
+        function queryStringify(data, filterFn) {
             var queryString = '', k;
+            var filter = filterFn || function(value) { return value; };
             for (k in data) {
-                if (data.hasOwnProperty(k)) {
+                if (data.hasOwnProperty(k) && filter(data[k])) {
                     queryString += '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]);
                 }
             }
@@ -3489,12 +3490,14 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
-                if (!performanceAlias) {
+                if (configPagePerformanceTiming !== '') {
+                    request += configPagePerformanceTiming;
+                    configPagePerformanceTiming = ''; // ensure not logged more than once
                     return request;
                 }
 
-                if (configPagePerformanceTiming !== '') {
-                    return request + configPagePerformanceTiming;
+                if (!performanceAlias) {
+                    return request;
                 }
 
                 var performanceData = (typeof performanceAlias.timing === 'object') && performanceAlias.timing ? performanceAlias.timing : undefined;
@@ -5587,7 +5590,7 @@ if (typeof window.Matomo !== 'object') {
              * @param generationTime
              */
             this.setGenerationTimeMs = function(generationTime) {
-                logConsoleError('setGenerationTimeMs is no longer supported since Matomo 4. The call will be ignored. There is currently no replacement yet.');
+                logConsoleError('setGenerationTimeMs is no longer supported since Matomo 4. The call will be ignored. The replacement is setPagePerformanceTiming.');
             };
 
             /**
@@ -5613,7 +5616,7 @@ if (typeof window.Matomo !== 'object') {
                     pf_dm2: domCompletionTimeInMs,
                     pf_onl: onloadTimeInMs
                 };
-                configPagePerformanceTiming = queryStringify(data);
+                configPagePerformanceTiming = queryStringify(data, isNumber);
             };
 
             /**
