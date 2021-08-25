@@ -20,6 +20,7 @@ class SecurityPolicy
      * Commonly used rules
      */
     const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval'";
+    const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:"
     const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https: http:";
 
     /**
@@ -38,6 +39,7 @@ class SecurityPolicy
      */
     public function __construct(Config $config) {
         $this->policies['default-src'] = self::RULE_DEFAULT;
+        $this->policies['img-src'] = self::RULE_IMG_DEFAULT;
 
         $generalConfig = $config->General;
         $this->cspEnabled = $generalConfig['csp_enabled'];
