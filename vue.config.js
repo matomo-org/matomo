@@ -22,6 +22,6 @@ function scanPluginExternals() {
 
 module.exports = {
   chainWebpack: config => {
-    config.externals(pluginExternals);
+    return config.externals(pluginExternals);
   },
 };
