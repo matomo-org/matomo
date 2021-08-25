@@ -290,6 +290,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.goto(url);
         await page.click('.segmentationContainer .title');
         await page.click('.add_new_segment');
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments');
     });
 });
