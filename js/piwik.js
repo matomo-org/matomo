@@ -5616,6 +5616,10 @@ if (typeof window.Matomo !== 'object') {
                     pf_dm2: domCompletionTimeInMs,
                     pf_onl: onloadTimeInMs
                 };
+                performanceTracked = false; // to ensure the values are sent (again)
+                performanceAvailable = true; // so appendAvailablePerformanceMetrics will be called directly
+                // Otherwise performanceAvailable will be set when the pageload finished, but there is no need
+                // to wait for that, when the values are set manually.
                 configPagePerformanceTiming = queryStringify(data, isNumber);
             };
 
