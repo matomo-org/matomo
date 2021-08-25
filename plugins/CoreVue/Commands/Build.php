@@ -49,55 +49,46 @@ class Build extends ConsoleCommand
 
     private function build(OutputInterface $output, $plugins, $watch = false)
     {
-        $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
-
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            $pluginDirPath = $pluginsDir . '/' . $plugin;
-            $vueDir = $pluginDirPath . '/vue';
-
             if ($watch) {
-                $this->watch($output, $vueDir);
+                $this->watch($plugin);
             } else {
-                $failed += $this->buildDevAndProd($output, $plugin, $vueDir);
+                $failed += (int) $this->buildFiles($output, $plugin);
             }
         }
 
         return $failed;
     }
 
-    private function watch(OutputInterface $output, $vueDir)
+    private function watch($plugin)
     {
-        $command = "cd '$vueDir' && NODE_ENV=development " . $this->getWebpackBin() . ' --watch &';
+        $command = $this->getVueCliServiceBin() . ' build --mode=development --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
         passthru($command);
     }
 
-    private function buildDevAndProd(OutputInterface $output, $plugin, $vueDir)
+    private function buildFiles(OutputInterface $output, $plugin)
     {
-        $failed = 0;
+        $command = $this->getVueCliServiceBin() . ' build --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
 
-        foreach (['development', 'production'] as $env) {
-            $command = "cd '$vueDir' && NODE_ENV=$env " . $this->getWebpackBin();
-
-            $output->writeln("<comment>Building $plugin for $env...</comment>");
-            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                passthru($command, $returnCode);
-            } else {
-                exec($command, $cmdOutput, $returnCode);
-                if ($returnCode != 0) {
-                    $output->writeln("<error>Failed:</error>\n");
-                    $output->writeln($cmdOutput);
-                    $output->writeln("");
-                }
-            }
-
+        $output->writeln("<comment>Building $plugin...</comment>");
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+            passthru($command, $returnCode);
+        } else {
+            exec($command, $cmdOutput, $returnCode);
             if ($returnCode != 0) {
-                ++$failed;
+                $output->writeln("<error>Failed:</error>\n");
+                $output->writeln($cmdOutput);
+                $output->writeln("");
             }
         }
 
-        return $failed;
+        @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.js");
+        @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.js.map");
+        @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/demo.html");
+
+        return $returnCode != 0;
     }
 
     private function getAllPluginsWithVueLibrary()
@@ -121,10 +112,10 @@ class Build extends ConsoleCommand
                 continue;
             }
 
-            $webpackFile = $vueDir . '/webpack.config.js';
-            if (!is_file($webpackFile)) {
+            $vueIndexFile = $vueDir . '/src/index.ts';
+            if (!is_file($vueIndexFile)) {
                 $logger = StaticContainer::get(LoggerInterface::class);
-                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.");
+                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }
 
@@ -134,8 +125,8 @@ class Build extends ConsoleCommand
         return $pluginsWithVue;
     }
 
-    private function getWebpackBin()
+    private function getVueCliServiceBin()
     {
-        return PIWIK_INCLUDE_PATH . '/node_modules/.bin/webpack';
+        return PIWIK_INCLUDE_PATH . "/node_modules/.bin/vue-cli-service";
     }
 }
