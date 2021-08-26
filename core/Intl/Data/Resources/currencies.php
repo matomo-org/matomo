@@ -171,7 +171,7 @@ return array(
     'UYU' => array('$', 'Uruguayan peso'),
     'UZS' => array('лв', 'Uzbekistani som'),
     'VUV' => array('Vt', 'Vanuatu vatu'),
-    'VEF' => array('Bs F', 'Venezuelan bolívar'),
+    'VES' => array('Bs. S', 'Venezuelan bolívar'),
     'VND' => array('₫', 'Vietnamese đồng'),
     'XOF' => array('Fr', 'West African CFA franc'),
     'YER' => array('﷼', 'Yemeni rial'),
