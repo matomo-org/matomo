@@ -241,7 +241,7 @@ class QueueConsumer
                 if (is_null($invalidatedArchive['plugin'])) {
                     $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) skipping until archive is out of date: $invalidationDesc");
                 } else {
-                    $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) ignoring: $invalidationDesc");
+                    $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) ignoring and deleting: $invalidationDesc");
                     $this->model->deleteInvalidations([$invalidatedArchive]);
                 }
                 continue;
