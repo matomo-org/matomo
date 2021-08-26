@@ -54,14 +54,18 @@
                             {% if isAddingSegmentsForAllWebsitesEnabled %}<option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>{% endif %}
                         </select>
                     </strong></div>
-                {{ 'General_And'|translate }} <div class="auto_archive"><strong>
-                        <select class="auto_archive_select">
-                            {% if createRealTimeSegmentsIsEnabled %}
-                            <option {% if isBrowserArchivingEnabled %}selected="1"{% endif%} value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }}</option>
-                            {% endif %}
-                            <option {% if not isBrowserArchivingEnabled or not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
-                        </select>
-                    </strong></div>
+                {% if isCreateRealtimeSegmentsEnabled %}
+                    {{ 'General_And'|translate }}
+                    <div class="auto_archive"><strong>
+                            <select class="auto_archive_select">
+                                {% if createRealTimeSegmentsIsEnabled %}
+                                    <option {% if isBrowserArchivingEnabled %}selected="1"{% endif%} value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }}</option>
+                                {% endif %}
+                                <option {% if not isBrowserArchivingEnabled or not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
+                            </select>
+                        </strong>
+                    </div>
+                {% endif %}
 
             </div>
             <h3 style="margin: 12px 6px;">{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
