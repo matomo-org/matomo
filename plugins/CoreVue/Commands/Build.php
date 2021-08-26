@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\MobileMessaging\SMSProvider\Development;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,13 +27,14 @@ class Build extends ConsoleCommand
         $this->addOption('watch', null, InputOption::VALUE_NONE, 'If supplied, will watch for changes and automatically rebuild.');
     }
 
+    public function isEnabled()
+    {
+        return \Piwik\Development::isEnabled();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webpackBinPath = PIWIK_INCLUDE_PATH . '/node_modules/.bin/webpack';
-        if (!is_file($webpackBinPath)) {
-            $output->writeln("<comment>Cannot find webpack bin file, did you forget to run `npm install`?</comment>");
-            return -1;
-        }
+        self::checkVueCliServiceAvailable();
 
         $watch = $input->getOption('watch');
 
@@ -125,8 +127,16 @@ class Build extends ConsoleCommand
         return $pluginsWithVue;
     }
 
-    private function getVueCliServiceBin()
+    public static function getVueCliServiceBin()
     {
         return PIWIK_INCLUDE_PATH . "/node_modules/.bin/vue-cli-service";
+    }
+
+    public static function checkVueCliServiceAvailable()
+    {
+        $vueCliBin = self::getVueCliServiceBin();
+        if (!is_file($vueCliBin)) {
+            throw new \Exception("Cannot find vue cli bin file, did you forget to run `npm install`?");
+        }
     }
 }
