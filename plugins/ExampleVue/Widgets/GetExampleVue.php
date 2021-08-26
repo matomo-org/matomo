@@ -16,7 +16,7 @@ class GetExampleVue extends Widget
 {
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('ExampleVue_Example');
+        $config->setCategoryId('ExampleCategory');
         $config->setName('ExampleVue_ExampleVue');
         $config->setOrder(99);
         $config->setIsWidgetizable();
@@ -25,7 +25,7 @@ class GetExampleVue extends Widget
     public function render()
     {
         // using the AngularJS adapter until the Vue migration is complete.
-        return '<example-vue-component></example-vue-component>';
+        return '<div example-vue-component></div>';
     }
 
 }
