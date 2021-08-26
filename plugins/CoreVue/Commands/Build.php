@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\MobileMessaging\SMSProvider\Development;
 use Psr\Log\LoggerInterface;
@@ -25,6 +26,7 @@ class Build extends ConsoleCommand
         $this->setDescription('Builds vue modules for one or more plugins.');
         $this->addArgument('plugins', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Plugins whose vue modules to build. Defaults to all plugins.', []);
         $this->addOption('watch', null, InputOption::VALUE_NONE, 'If supplied, will watch for changes and automatically rebuild.');
+        $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
     }
 
     public function isEnabled()
@@ -35,6 +37,11 @@ class Build extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         self::checkVueCliServiceAvailable();
+
+        $clearWebpackCache = $input->getOption('clear-webpack-cache');
+        if ($clearWebpackCache) {
+            $this->clearWebpackCache();
+        }
 
         $watch = $input->getOption('watch');
 
@@ -138,5 +145,11 @@ class Build extends ConsoleCommand
         if (!is_file($vueCliBin)) {
             throw new \Exception("Cannot find vue cli bin file, did you forget to run `npm install`?");
         }
+    }
+
+    private function clearWebpackCache()
+    {
+        $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
+        Filesystem::unlinkRecursive($path, true);
     }
 }

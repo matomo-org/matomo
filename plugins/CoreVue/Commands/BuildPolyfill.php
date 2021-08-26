@@ -8,10 +8,8 @@
 
 namespace Piwik\Plugins\CoreVue\Commands;
 
-use Piwik\Container\StaticContainer;
+use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +20,7 @@ class BuildPolyfill extends ConsoleCommand
     {
         $this->setName('vue:build-polyfill');
         $this->setDescription('Builds the polyfill UMD.');
+        $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
     }
 
     public function isEnabled()
@@ -32,6 +31,11 @@ class BuildPolyfill extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         Build::checkVueCliServiceAvailable();
+
+        $clearWebpackCache = $input->getOption('clear-webpack-cache');
+        if ($clearWebpackCache) {
+            $this->clearWebpackCache();
+        }
 
         $this->createDummyPackageJson();
 
@@ -67,5 +71,11 @@ class BuildPolyfill extends ConsoleCommand
     private function deleteExtraFiles()
     {
         @unlink(PIWIK_INCLUDE_PATH . "/plugins/CoreVue/polyfills/dist/index.html");
+    }
+
+    private function clearWebpackCache()
+    {
+        $path = PIWIK_INCLUDE_PATH . '/plugins/CoreVue/polyfills/node_modules/.cache';
+        Filesystem::unlinkRecursive($path, true);
     }
 }
