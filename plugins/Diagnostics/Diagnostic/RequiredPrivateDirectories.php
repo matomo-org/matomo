@@ -8,13 +8,6 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Common;
-use Piwik\Filesystem;
-use Piwik\Http;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
-use Piwik\SettingsPiwik;
-use Piwik\Translation\Translator;
-
 /**
  * Checks whether certain directories in Matomo that should be private are accessible through the internet.
  */
