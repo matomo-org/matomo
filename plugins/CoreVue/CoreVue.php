@@ -15,7 +15,7 @@ class CoreVue extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
         ];
     }
 
@@ -23,5 +23,6 @@ class CoreVue extends \Piwik\Plugin
     {
         $jsFiles[] = Development::isEnabled() ? "plugins/CoreVue/polyfills/dist/MatomoPolyfills.js" : "plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js";
         $jsFiles[] = Development::isEnabled() ? "node_modules/vue/dist/vue.global.js" : "node_modules/vue/dist/vue.global.prod.js";
+        $jsFiles[] = Development::isEnabled() ? "node_modules/vue-class-component/dist/vue-class-component.global.js" : "node_modules/vue-class-component/dist/vue-class-component.global.prod.js";
     }
 }

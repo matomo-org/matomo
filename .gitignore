@@ -101,3 +101,5 @@ docker-compose.yml
 /node_modules/vue/*
 !/node_modules/vue
 !/node_modules/vue/dist
+/plugins/*/vue/dist/demo.html
+/plugins/*/vue/dist/*.common.js

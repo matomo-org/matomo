@@ -86,7 +86,9 @@ class Build extends ConsoleCommand
             passthru($command, $returnCode);
         } else {
             exec($command, $cmdOutput, $returnCode);
-            if ($returnCode != 0) {
+            if ($returnCode != 0
+                || stripos(implode("\n", $cmdOutput), 'warning') !== false
+            ) {
                 $output->writeln("<error>Failed:</error>\n");
                 $output->writeln($cmdOutput);
                 $output->writeln("");

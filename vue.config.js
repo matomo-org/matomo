@@ -22,6 +22,9 @@ function scanPluginExternals() {
 
 module.exports = {
   chainWebpack: config => {
-    return config.externals(pluginExternals);
+    config.externals({
+      'vue-class-component': 'VueClassComponent',
+      ...pluginExternals,
+    });
   },
 };

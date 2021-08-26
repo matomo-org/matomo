@@ -38,8 +38,8 @@
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
     "jquery-ui-dist": "^1.12.1",
-    "jquery.dotdotdot": "^3.2.3",
     "jquery.browser": "^0.1.0",
+    "jquery.dotdotdot": "^3.2.3",
     "jquery.scrollto": "^2.1.2",
     "materialize-css": "^1.0.0",
     "mousetrap": "^1.6.5",
@@ -51,6 +51,7 @@
     "vue-class-component": "^8.0.0-0"
   },
   "devDependencies": {
+    "@types/angular": "^1.8.2",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/cli-plugin-babel": "^4.5.13",
