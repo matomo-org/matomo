@@ -14,16 +14,17 @@ use Piwik\Http;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
-abstract class PrivateDirectories implements Diagnostic
+abstract class AbstractPrivateDirectories implements Diagnostic
 {
     protected $privatePaths = [];
-    protected $addError = true;
+    protected $accessiblePaths = []; // used like a set, but hashtable used underneath anyway, so map simpler php way
+
     protected $labelKey = 'Diagnostics_RequiredPrivateDirectories';
 
     /**
      * @var Translator
      */
-    private $translator;
+    protected $translator;
 
     public function __construct(Translator $translator)
     {
@@ -38,12 +39,6 @@ abstract class PrivateDirectories implements Diagnostic
 
         $label = $this->translator->translate($this->labelKey);
 
-        $privatePaths = $this->privatePaths;
-
-        // create test file to check if tmp/empty exists Note: This won't work in a load balanced environment!
-        Filesystem::mkdir(PIWIK_INCLUDE_PATH . '/tmp');
-        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/empty', 'test');
-
         $baseUrl = SettingsPiwik::getPiwikUrl();
         if (!Common::stringEndsWith($baseUrl, '/')) {
             $baseUrl .= '/';
@@ -52,14 +47,11 @@ abstract class PrivateDirectories implements Diagnostic
         $manualCheck = $this->translator->translate('Diagnostics_PrivateDirectoryManualCheck');
 
         $testUrls = [];
-        foreach ($privatePaths as $checks) {
-            foreach ($checks as $path) {
-                if (!file_exists($path)) {
-                    continue;
-                }
-
-                $testUrls[] = $baseUrl . $path;
+        foreach ($this->privatePaths as $path) {
+            if (!file_exists($path)) {
+                continue;
             }
+            $testUrls[$path] = $baseUrl . $path;
         }
 
         $isInternetEnabled = SettingsPiwik::isInternetEnabled();
@@ -74,24 +66,10 @@ abstract class PrivateDirectories implements Diagnostic
 
         $result = new DiagnosticResult($label);
 
-        $isConfigIniAccessible = $this->isAccessible($result, $baseUrl . 'config/config.ini.php', ';', 'trusted_hosts[]');
-
-        $atLeastOneIsAccessible = $isConfigIniAccessible;
-        foreach ($testUrls as $testUrl) {
-            if ($this->isAccessible($result, $testUrl, '', '')) {
-                $atLeastOneIsAccessible = true;
-            }
-        }
+        $atLeastOneIsAccessible = $this->computeAccessiblePaths($result, $baseUrl, $testUrls);
 
         if ($atLeastOneIsAccessible) {
-            if ($this->addError) {
-                $pathIsAccessible = $this->translator->translate('Diagnostics_PrivateDirectoryIsAccessible');
-                if ($isConfigIniAccessible) {
-                    $pathIsAccessible .= '<br/><br/>' . $this->translator->translate('Diagnostics_ConfigIniAccessible');
-                }
-                $pathIsAccessible .= '<br/><br/><a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
-                $result->setLongErrorMessage($pathIsAccessible);
-            }
+            $this->addError($result);
         } else {
             $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_AllPrivateDirectoriesAreInaccessible')));
         }
@@ -108,7 +86,7 @@ abstract class PrivateDirectories implements Diagnostic
         return $testUrlsList;
     }
 
-    private function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
+    protected function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
     {
         try {
             $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
@@ -157,4 +135,17 @@ abstract class PrivateDirectories implements Diagnostic
         }
         return false;
     }
+
+    protected function computeAccessiblePaths(DiagnosticResult &$result, $baseUrl, array $testUrls): bool
+    {
+        $atLeastOneIsAccessible = false;
+        foreach ($testUrls as $path => $testUrl) {
+            if ($this->isAccessible($result, $testUrl, '', '')) {
+                $atLeastOneIsAccessible = true;
+            }
+        }
+        return $atLeastOneIsAccessible;
+    }
+
+    protected abstract function addError(DiagnosticResult &$result);
 }

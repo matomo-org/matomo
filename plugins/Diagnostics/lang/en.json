@@ -27,6 +27,7 @@
         "PrivateDirectoryInternetDisabled": "We couldn't check if the following URLs are accessible because internet features are disabled on this Matomo.",
         "PrivateDirectoryIsAccessible": "We found that the above URLs are accessible via the browser, but they should NOT be. Allowing them to be accessed can pose a potential security risk since the contents can provide information about your server and potentially your users. Please restrict access to them.",
         "ConfigIniAccessible": "We also found that Matomo's config directory is publicly accessible. While attackers can't read the config now, if your webserver stops executing PHP files for some reason, your MySQL credentials and other information will be available to anyone. Please check your webserver config and deny access to this directory.",
-        "AllPrivateDirectoriesAreInaccessible": "All private directories are inaccessible from the internet."
+        "AllPrivateDirectoriesAreInaccessible": "All private directories are inaccessible from the internet.",
+        "UrlsAccessibleViaBrowser": "We found that the above URLs are accessible via the browser, but we recommend they should not be. If possible, please restrict access to them. %1$sRead this to learn more%2$s."
     }
 }
