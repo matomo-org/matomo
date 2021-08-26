@@ -1,14 +1,15 @@
-import { createApp } from 'vue';
-import ExampleComponent from './ExampleComponent.vue';
+import { createApp, defineAsyncComponent } from 'vue';
+
+const AsyncExampleComponent = defineAsyncComponent(() => import('./ExampleComponent.vue'));
 
 export default function exampleVueComponentAdapter(): ng.IDirective {
   return {
     restrict: 'A',
     scope: {
     },
-    template: '<div>am i herE?</div>',
+    template: '',
     link: function exampleVueComponentAdapterLink(scope: ng.IScope, element: ng.IAugmentedJQuery) {
-      const vueApp = createApp(ExampleComponent);
+      const vueApp = createApp(AsyncExampleComponent);
       vueApp.mount(element[0]);
     },
   };

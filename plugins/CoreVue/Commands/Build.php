@@ -99,6 +99,9 @@ class Build extends ConsoleCommand
         @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.js.map");
         @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/demo.html");
 
+        // delete cjs webpack chunks
+        shell_exec("rm " . PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.*.js*");
+
         return $returnCode != 0;
     }
 
