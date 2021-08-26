@@ -46,7 +46,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->checkDevelopmentModeDisabled();
         $this->ensureThirdPartyPluginsActivated();
 
-        $output->writeln("Building and printing sizes of built JS assets <comment>" . ($excludeAngular ? '(without angularjs)' : '(with angularjs)') . '</comment>...');
+        $output->writeln("Building and printing sizes of built JS assets...");
 
         if ($excludeAngular) {
             $this->excludeAngular($output);
@@ -56,7 +56,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->buildAssets();
 
         $output->writeln("");
-        $this->printCurrentGitHashAndBranch($output);
+        $this->printCurrentGitHashAndBranch($output, $excludeAngular);
 
         $output->writeln("");
         $this->printFilesizes($output);
@@ -242,11 +242,11 @@ class ComputeJsAssetSize extends ConsoleCommand
         return $this->getFileSize($compressedPath);
     }
 
-    private function printCurrentGitHashAndBranch(OutputInterface $output)
+    private function printCurrentGitHashAndBranch(OutputInterface $output, $excludeAngular)
     {
         $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
         $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
 
-        $output->writeln("<info>$branchName ($lastCommit)</info>");
+        $output->writeln("<info>$branchName ($lastCommit)</info> <comment>" . ($excludeAngular ? '(without angularjs)' : '') . "</comment>");
     }
 }
