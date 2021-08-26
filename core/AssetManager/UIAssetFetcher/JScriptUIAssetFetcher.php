@@ -81,6 +81,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'node_modules/',
             'libs/',
             'js/',
+            'plugins/CoreVue/polyfills/dist/MatomoPolyfills',
             'piwik.js',
             'matomo.js',
             'plugins/CoreHome/javascripts/require.js',
