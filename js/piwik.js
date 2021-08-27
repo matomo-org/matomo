@@ -4923,6 +4923,9 @@ if (typeof window.Matomo !== 'object') {
             this.getConfigCookieSameSite = function () {
                 return configCookieSameSite;
             };
+            this.getConfigPagePerformanceTiming = function () {
+                return configPagePerformanceTiming;
+            };
             this.removeAllAsyncTrackersButFirst = function () {
                 var firstTracker = asyncTrackers[0];
                 asyncTrackers = [firstTracker];
