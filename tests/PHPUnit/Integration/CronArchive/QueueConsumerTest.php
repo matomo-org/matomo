@@ -573,7 +573,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
 
-        // check that segment hash 2 is no longer in the invalidations table
+        // check that our plugin invalidation is no longer in the invalidations table
         $count = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE name = ?', [
             "done.Actions",
         ]);
