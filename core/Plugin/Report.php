@@ -1010,7 +1010,7 @@ class Report
      */
     public function isRequiresProfilableData()
     {
-        if ($this->dimension->isRequiresProfilableData()) {
+        if ($this->dimension && $this->dimension->isRequiresProfilableData()) {
             return true;
         }
 

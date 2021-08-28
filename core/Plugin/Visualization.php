@@ -11,7 +11,6 @@ namespace Piwik\Plugin;
 
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
-use Piwik\API\Request;
 use Piwik\API\Request as ApiRequest;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
@@ -155,7 +154,7 @@ class Visualization extends ViewDataTable
      * @api
      */
     const TEMPLATE_FILE = '';
-    const NO_PROFILABLE_DATA_NOTIFICATION_ID = 'no_profilable_data_reports_disabled';
+    const NO_PROFILABLE_DATA_FOR_SEGMENT_NOTIFICATION_ID = 'no_profilable_data_for_segment';
 
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;
@@ -216,7 +215,9 @@ class Visualization extends ViewDataTable
         $view = new View("@CoreHome/_dataTable");
         $view->assign($this->templateVars);
 
-        $this->showNotificationIfDataIsNotProfilable($view);
+        $view->notifications = [];
+
+        $this->showNotificationIfCurrentSegmentRequiresProfilableAndNoProfilableData($view);
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
@@ -251,7 +252,6 @@ class Visualization extends ViewDataTable
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
-        $view->notifications = [];
         $view->isComparing = $this->isComparing();
 
         if (!$this->supportsComparison()
@@ -333,7 +333,7 @@ class Visualization extends ViewDataTable
         $module = $this->requestConfig->getApiModuleToRequest();
         $method = $this->requestConfig->getApiMethodToRequest();
 
-        list($module, $method) = Request::getRenamedModuleAndAction($module, $method);
+        list($module, $method) = ApiRequest::getRenamedModuleAndAction($module, $method);
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
@@ -748,7 +748,7 @@ class Visualization extends ViewDataTable
             }
         }
 
-        $rawSegment = \Piwik\API\Request::getRawSegmentFromRequest();
+        $rawSegment = ApiRequest::getRawSegmentFromRequest();
         if (!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
@@ -912,36 +912,13 @@ class Visualization extends ViewDataTable
         return $request;
     }
 
-    private function showNotificationIfDataIsNotProfilable(View $dataTableView)
-    {
-        if (!$this->report->isRequiresProfilableData()) {
-            return;
-        }
-
-        $isProfilable = ApiRequest::isCurrentPeriodProfilable();
-        if ($isProfilable) {
-            return;
-        }
-
-        $view = new View("@CoreHome/_nonProfilableDataWarning.twig");
-
-        $notification = new Notification($view->render());
-        $notification->priority = Notification::PRIORITY_HIGH;
-        $notification->context = Notification::CONTEXT_INFO;
-        $notification->flags = Notification::FLAG_CLEAR;
-        $notification->type = Notification::TYPE_TRANSIENT;
-        $notification->raw = true;
-
-        $dataTableView->notifications[self::NO_PROFILABLE_DATA_NOTIFICATION_ID] = $notification;
-    }
-
     private function appendFooterMessageIfRequiresProfilableAndNotProfilablePeriod(View $view)
     {
         if (!$this->report || !$this->report->isRequiresProfilableData()) {
             return;
         }
 
-        if (Request::isCurrentPeriodProfilable()) {
+        if (ApiRequest::isCurrentPeriodProfilable()) {
             return;
         }
 
@@ -954,5 +931,42 @@ class Visualization extends ViewDataTable
             $view->properties['show_footer_message'] = '';
         }
         $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_NoProfilableDataFooterMessage', [$periodStr]);
+    }
+
+    private function showNotificationIfCurrentSegmentRequiresProfilableAndNoProfilableData(View $view)
+    {
+        $idSite = Common::getRequestVar('idSite', false, 'int');
+
+        $segment = ApiRequest::getRawSegmentFromRequest();
+        if (empty($segment)) {
+            return;
+        }
+
+        $segment = new \Piwik\Segment($segment, [$idSite]);
+        if (!$segment->isRequiresProfilableData()) {
+            return;
+        }
+
+        if (ApiRequest::isCurrentPeriodProfilable(null, null, null, '')) {
+            return;
+        }
+
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        $periodObj = Period\Factory::build($period, $date);
+        $periodStr = $periodObj->getPrettyString();
+
+        // segment requires profilable data and current period has none, so show a notification
+        $notificationView = new View("@CoreHome/_nonProfilableDataWarning.twig");
+        $notificationView->periodStr = $periodStr;
+
+        $notification = new Notification($notificationView->render());
+        $notification->priority = Notification::PRIORITY_HIGH;
+        $notification->context = Notification::CONTEXT_INFO;
+        $notification->flags = Notification::FLAG_CLEAR;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->raw = true;
+
+        $view->notifications[self::NO_PROFILABLE_DATA_FOR_SEGMENT_NOTIFICATION_ID] = $notification;
     }
 }

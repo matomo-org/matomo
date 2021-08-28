@@ -1,7 +1,7 @@
 <div class="dataTableFeatures">
     <div class="dataTableFooterNavigation">
 
-        {% if not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
+        {% if not  isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
             <div class="row dataTablePaginationControl">
                 {% if properties.show_pagination_control %}
                     <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
