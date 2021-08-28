@@ -33,6 +33,10 @@ class RequestSet
     {
         $this->requests = array();
 
+        if (empty($requests)|| !is_array($requests)) {
+            return;
+        }
+        
         foreach ($requests as $request) {
             if (empty($request) && !is_array($request)) {
                 continue;

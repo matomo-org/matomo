@@ -114,7 +114,10 @@
                         }
 
                         if (piwik.shouldPropagateTokenAuth && broadcast.getValueFromUrl('token_auth')) {
-                            url += '&force_api_session=1&token_auth=' + broadcast.getValueFromUrl('token_auth');
+                            if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                                url += '&force_api_session=1';
+                            }
+                            url += '&token_auth=' + encodeURIComponent(broadcast.getValueFromUrl('token_auth'));
                         }
 
                         url += '&random=' + parseInt(Math.random() * 10000);

@@ -170,9 +170,9 @@ class DataTableFactory
      *                             labels.
      * @return DataTable|DataTable\Map
      */
-    public function make($index, $resultIndices)
+    public function make($index, $resultIndices, $keyMetadata = null)
     {
-        $keyMetadata = $this->getDefaultMetadata();
+        $keyMetadata = $keyMetadata ?: $this->getDefaultMetadata();
 
         if (empty($resultIndices)) {
             // for numeric data, if there's no index (and thus only 1 site & period in the query),
@@ -422,6 +422,7 @@ class DataTableFactory
                 $subtable->setMetadata(self::TABLE_METADATA_SITE_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SITE_INDEX));
                 $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_INDEX));
                 $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX));
+                $subtable->setMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME, $dataTable->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME));
 
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
@@ -446,6 +447,16 @@ class DataTableFactory
             DataTableFactory::TABLE_METADATA_SEGMENT_INDEX => $this->segment->getString(),
             DataTableFactory::TABLE_METADATA_SEGMENT_PRETTY_INDEX => $this->segment->getString(),
         );
+    }
+
+    public function getTableMetadataFor($idSite, $period)
+    {
+        return [
+            DataTableFactory::TABLE_METADATA_SITE_INDEX => new Site($idSite),
+            DataTableFactory::TABLE_METADATA_PERIOD_INDEX => $period,
+            DataTableFactory::TABLE_METADATA_SEGMENT_INDEX => $this->segment->getString(),
+            DataTableFactory::TABLE_METADATA_SEGMENT_PRETTY_INDEX => $this->segment->getString(),
+        ];
     }
 
     /**

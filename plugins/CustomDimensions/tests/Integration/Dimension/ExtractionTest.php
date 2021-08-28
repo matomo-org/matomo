@@ -198,6 +198,7 @@ class ExtractionTest extends IntegrationTestCase
 
     public function test_check_shouldNotFailWhenValidCombinationsAreGiven()
     {
+        $this->expectNotToPerformAssertions();
         $this->buildExtraction('url', 'index_(+).html')->check();
         $this->buildExtraction('action_name', 'index_(+).html')->check();
         $this->buildExtraction('url', '')->check(); // empty value is allowed

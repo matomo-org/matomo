@@ -123,6 +123,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
 
     public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsWritable()
     {
+        $this->expectNotToPerformAssertions();
         $updater = $this->makeUpdater(null, $this->dir . 'MyNotExisIngFilessss.js');
         $updater->checkWillSucceed();
     }

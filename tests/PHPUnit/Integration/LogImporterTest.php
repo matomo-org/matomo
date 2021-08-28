@@ -25,9 +25,10 @@ class LogImporterTest extends IntegrationTestCase
 {
     public static $dateTime = '2012-08-09 11:22:33';
 
-    public function setUp(): void
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
+        parent::beforeTableDataCached();
+
         Fixture::createSuperUser(false);
         Fixture::createWebsite(self::$dateTime, 0, false, 'https://matomo.org/', 1, null, null, null, null, 0);
         Fixture::createWebsite(self::$dateTime, 1, false, 'https://shop.matomo.org/', 1, null, null, null, null, 0);

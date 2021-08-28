@@ -81,6 +81,53 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), new NullLogger());
     }
 
+    public function test_markArchivesAsInvalidated_skipsParentArchivesIfTheyAreDisabled()
+    {
+        $this->insertArchiveRow(1, '2020-03-13', 'day', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
+        $this->insertArchiveRow(1, '2020-03-13', 'week', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
+        $this->insertArchiveRow(1, '2020-03-13', 'month', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
+        $this->insertArchiveRow(1, '2020-03-13', 'year', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
+
+        Config::getInstance()->General['enabled_periods_UI'] = 'day,week,year,range';
+        Config::getInstance()->General['enabled_periods_API'] = 'day,week,year,range';
+
+        $this->invalidator->markArchivesAsInvalidated([1], ['2020-03-13'], 'day');
+
+        $expectedInvalidatedArchives = [
+            '2020_03' => [
+                '1.2020-03-13.2020-03-13.1.done',
+                '1.2020-03-09.2020-03-15.2.done',
+            ],
+        ];
+
+        $invalidatedArchives = $this->getInvalidatedArchives();
+        $this->assertEquals($expectedInvalidatedArchives, $invalidatedArchives);
+
+        $expectedInvalidations = [
+            [
+                'idarchive' => '1',
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-13',
+                'date2' => '2020-03-13',
+                'report' => null,
+            ],
+            [
+                'idarchive' => '2',
+                'idsite' => '1',
+                'period' => '2',
+                'name' => 'done',
+                'date1' => '2020-03-09',
+                'date2' => '2020-03-15',
+                'report' => null,
+            ],
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
     public function test_markArchivesAsInvalidated_doesNotInvalidatePartialArchives()
     {
         $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
