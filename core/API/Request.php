@@ -714,7 +714,7 @@ class Request
         $idSite = $idSite ?: Common::getRequestVar('idSite', $default = false);
         $period = $period ?: Common::getRequestVar('period', $default = false);
         $date = $date ?: Common::getRequestVar('date', $default = false);
-        $segment = $segment ?: Request::getRawSegmentFromRequest();
+        $segment = $segment === null ? Request::getRawSegmentFromRequest() : '';
 
         if ($idSite === false
             || $period === false

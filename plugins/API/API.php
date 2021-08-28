@@ -171,8 +171,7 @@ class API extends \Piwik\Plugin\API
         return $available;
     }
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false,
-                                        $_hideSegmentsIfDataNotProfilable = false)
+    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false)
     {
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
@@ -196,14 +195,6 @@ class API extends \Piwik\Plugin\API
         $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous, $_showAllSegments);
 
         $cache->save($cacheKey, $segments);
-
-        if ($_hideSegmentsIfDataNotProfilable
-            && !Request::isCurrentPeriodProfilable()
-        ) {
-            $segments = array_filter($segments, function ($data) {
-                return empty($data['requiresProfilableData']);
-            });
-        }
 
         return $segments;
     }
