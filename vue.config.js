@@ -21,6 +21,7 @@ function scanPluginExternals() {
 }
 
 module.exports = {
+  publicPath: "",
   chainWebpack: config => {
     config.externals({
       'tslib': 'tslib',

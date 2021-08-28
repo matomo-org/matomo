@@ -11,7 +11,7 @@ import { Vue, Options } from 'vue-class-component';
 
 @Options({})
 export default class ExampleComponent extends Vue {
-  count = 0;
+  count = 12;
 
   increment(): void {
     this.count += 1;
