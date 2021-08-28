@@ -890,7 +890,7 @@ class Visualization extends ViewDataTable
         if (empty($view->properties['show_footer_message'])) {
             $view->properties['show_footer_message'] = '';
         }
-        $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_NoProfilableDataFooterMessage', [$periodStr]);
+        $view->properties['show_footer_message'] .= '<br/><div piwik-alert="warning">' . Piwik::translate('General_NoProfilableDataFooterMessage', [$periodStr]) . '</div>';
     }
 
     private function showNotificationIfCurrentSegmentRequiresProfilableAndNoProfilableData(View $view)
