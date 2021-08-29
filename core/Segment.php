@@ -654,7 +654,6 @@ class Segment
         return $this->originalString;
     }
 
-    // TODO: test
     public function isRequiresProfilableData()
     {
         return $this->isRequiresProfilableData;
