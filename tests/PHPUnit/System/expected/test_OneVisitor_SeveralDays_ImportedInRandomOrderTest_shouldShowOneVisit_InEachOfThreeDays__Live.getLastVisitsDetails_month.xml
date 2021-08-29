@@ -5,6 +5,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>24.125.31.147</visitIp>
 		<fingerprint>05cd49ef59bf6620</fingerprint>
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -122,6 +123,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>24.125.31.147</visitIp>
 		<fingerprint>05cd49ef59bf6620</fingerprint>
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -239,6 +241,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>24.125.31.147</visitIp>
 		<fingerprint>05cd49ef59bf6620</fingerprint>
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>

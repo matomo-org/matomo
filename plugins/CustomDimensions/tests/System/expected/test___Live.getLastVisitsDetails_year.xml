@@ -6,6 +6,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -153,6 +154,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -300,6 +302,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -447,6 +450,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -636,6 +640,7 @@
 		<visitIp>56.11.55.79</visitIp>
 		
 		<fingerprint>10496c891e200d0e</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>

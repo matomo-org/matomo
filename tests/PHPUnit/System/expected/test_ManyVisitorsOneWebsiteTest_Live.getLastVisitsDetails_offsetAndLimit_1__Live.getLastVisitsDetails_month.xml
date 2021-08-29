@@ -6,6 +6,7 @@
 		<visitIp>1.2.4.8</visitIp>
 		
 		<fingerprint>a36244db4114afa7</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -250,6 +251,7 @@
 		<visitIp>1.2.4.8</visitIp>
 		
 		<fingerprint>a36244db4114afa7</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -408,6 +410,7 @@
 		<visitIp>1.2.4.7</visitIp>
 		
 		<fingerprint>28a7ee52024f3a89</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>

@@ -6,6 +6,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>5041e282fc23fef1</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -130,6 +131,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>5041e282fc23fef1</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -254,6 +256,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
