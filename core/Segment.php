@@ -243,7 +243,9 @@ class Segment
         $expressions = $this->getExpressionsWithUnionsResolved($expressions);
 
         // detect if requires profilable data before overwriting expressions w/ sql expressions
-        $this->isRequiresProfilableData = $segment->isRequiresProfilableData($this->getAvailableSegments());
+        if (!empty($expressions)) {
+            $this->isRequiresProfilableData = $segment->isRequiresProfilableData($this->getAvailableSegments());
+        }
 
         // convert segments name to sql segment
         // check that user is allowed to view this segment
