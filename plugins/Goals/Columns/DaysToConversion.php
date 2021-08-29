@@ -14,4 +14,9 @@ class DaysToConversion extends Dimension
 {
     protected $type = self::TYPE_NUMBER;
     protected $nameSingular = 'Goals_DaysToConv';
+
+    public function isRequiresProfilableData()
+    {
+        return true;
+    }
 }
