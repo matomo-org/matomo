@@ -8,7 +8,7 @@
         <span class="visitorLogIconWithDetails visitorTypeIcon">
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"/>
             <ul class="details">
-                <li>{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}</li>
+                <li>{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitCount') is not false %} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}{% endif %}</li>
             </ul>
         </span>
     {% endif %}

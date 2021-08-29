@@ -24,7 +24,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $visitor['visitConverted']              = $this->isVisitorGoalConverted();
         $visitor['visitConvertedIcon']          = $this->getVisitorGoalConvertedIcon();
-        $visitor['visitCount']                  = $this->getVisitCount();
+        if ($this->isDataProfilable) {
+            $visitor['visitCount'] = $this->getVisitCount();
+        }
         $visitor['visitEcommerceStatus']        = $this->getVisitEcommerceStatus();
         $visitor['visitEcommerceStatusIcon']    = $this->getVisitEcommerceStatusIcon();
 

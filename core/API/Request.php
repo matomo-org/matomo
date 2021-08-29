@@ -725,8 +725,17 @@ class Request
             return true;
         }
 
+        // if the current period is a day period, we want to check whether the entire week has profilable
+        // data rather than just the day. this way, if some days have profilable data, but not all, users
+        // will not consistently see the message appear and disappear as they change periods.
         if ($period == 'day') {
             $period = 'week';
+        }
+
+        // to make sure we don't have too many cache hits in case the date is not the same, even though
+        // the period date range stays the same.
+        if ($period != 'range') {
+            $date = Period\Factory::build($period, $date)->getDateStart()->toString();
         }
 
         $transientCache = StaticContainer::get(Transient::class);
