@@ -37,7 +37,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             'visitIp'             => $this->getIp(),
             'visitorId'           => $this->getVisitorId(),
             'fingerprint'         => $this->getFingerprint(),
-            'profilable'          => $visitor['profilable'] ?? '',
+            'profilable'          => $this->details['profilable'] ?? '',
 
             // => false are placeholders to be filled in API later
             'actionDetails'       => false,
