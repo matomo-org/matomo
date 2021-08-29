@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Tests\Framework\Fixture;
 
 class NonProfilableData extends Fixture
@@ -23,6 +24,7 @@ class NonProfilableData extends Fixture
     public function setUp(): void
     {
         $this->createTestWebsite();
+        $this->addNonProfilableStoredSegment();
         $this->trackNonProfilableVisits();
         $this->trackProfilableVisits();
     }
@@ -73,6 +75,12 @@ class NonProfilableData extends Fixture
         if (!self::siteCreated($idSite = 2)) {
             self::createWebsite('2020-03-04 03:00:00', $ecommerce = 1);
         }
+    }
+
+    private function addNonProfilableStoredSegment()
+    {
+        $segment = 'visitCount>=1';
+        APISegmentEditor::getInstance()->add('nonprofilable', $segment);
     }
 
     private function unsetVisitorId(\MatomoTracker $t)
