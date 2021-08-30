@@ -1079,7 +1079,6 @@ Languages[] = cs
 Languages[] = cy
 Languages[] = da
 Languages[] = de
-Languages[] = dev
 Languages[] = el
 Languages[] = en
 Languages[] = eo
