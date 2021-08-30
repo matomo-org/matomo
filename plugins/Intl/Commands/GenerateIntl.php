@@ -314,6 +314,10 @@ class GenerateIntl extends ConsoleCommand
             $territoryData = json_decode($territoryData, true);
             $territoryData = $territoryData['main'][$requestLangCode]['localeDisplayNames']['territories'];
 
+            if (empty($territoryData)) {
+                throw new \Exception();
+            }
+
             foreach ($countryCodes AS $code) {
                 if (!empty($territoryData[$code]) && $territoryData[$code] != $code) {
                     $translations['Intl']['Country_' . $code] = $this->transform($territoryData[$code]);
@@ -340,6 +344,10 @@ class GenerateIntl extends ConsoleCommand
             $calendarData = Http::fetchRemoteFile(sprintf($calendarDataUrl, $this->CLDRVersion, $requestLangCode));
             $calendarData = json_decode($calendarData, true);
             $calendarData = $calendarData['main'][$requestLangCode]['dates']['calendars']['gregorian'];
+
+            if (empty($calendarData)) {
+                throw new \Exception();
+            }
 
             for ($i = 1; $i <= 12; $i++) {
                 $translations['Intl']['Month_Short_' . $i] = $calendarData['months']['format']['abbreviated'][$i];
@@ -413,6 +421,10 @@ class GenerateIntl extends ConsoleCommand
             $dateFieldData = json_decode($dateFieldData, true);
             $dateFieldData = $dateFieldData['main'][$requestLangCode]['dates']['fields'];
 
+            if (empty($dateFieldData)) {
+                throw new \Exception();
+            }
+
             $translations['Intl']['PeriodWeek'] = $dateFieldData['week']['displayName'];
             $translations['Intl']['PeriodYear'] = $dateFieldData['year']['displayName'];
             $translations['Intl']['PeriodDay'] = $dateFieldData['day']['displayName'];
@@ -435,6 +447,10 @@ class GenerateIntl extends ConsoleCommand
             $timeZoneData = Http::fetchRemoteFile(sprintf($timeZoneDataUrl, $this->CLDRVersion, $requestLangCode));
             $timeZoneData = json_decode($timeZoneData, true);
             $timeZoneData = $timeZoneData['main'][$requestLangCode]['dates']['timeZoneNames'];
+
+            if (empty($timeZoneData)) {
+                throw new \Exception();
+            }
 
             $cities = array();
             foreach ($timeZoneData['zone'] as $key1 => $level1) {
@@ -495,6 +511,10 @@ class GenerateIntl extends ConsoleCommand
             $unitsData = json_decode($unitsData, true);
             $unitsData = $unitsData['main'][$requestLangCode]['numbers'];
 
+            if (empty($unitsData)) {
+                throw new \Exception();
+            }
+
             $numberingSystem = $unitsData['defaultNumberingSystem'];
 
             $translations['Intl']['NumberSymbolDecimal']  = $unitsData['symbols-numberSystem-' . $numberingSystem]['decimal'];
@@ -520,6 +540,10 @@ class GenerateIntl extends ConsoleCommand
             $unitsData = Http::fetchRemoteFile(sprintf($unitsUrl, $this->CLDRVersion, $requestLangCode));
             $unitsData = json_decode($unitsData, true);
             $unitsData = $unitsData['main'][$requestLangCode]['units'];
+
+            if (empty($unitsData)) {
+                throw new \Exception();
+            }
 
             $translations['Intl']['NSeconds']       = $this->replacePlaceHolder($unitsData['long']['duration-second']['unitPattern-count-other']);
             $translations['Intl']['NSecondsShort']  = $this->replacePlaceHolder($unitsData['narrow']['duration-second']['unitPattern-count-other']);
@@ -574,6 +598,10 @@ class GenerateIntl extends ConsoleCommand
             $currencyData = Http::fetchRemoteFile(sprintf($currenciesUrl, $this->CLDRVersion, $requestLangCode));
             $currencyData = json_decode($currencyData, true);
             $currencyData = $currencyData['main'][$requestLangCode]['numbers']['currencies'];
+
+            if (empty($currencyData)) {
+                throw new \Exception();
+            }
 
             $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
             foreach ($dataProvider->getCurrencyList() as $code => $currency) {
