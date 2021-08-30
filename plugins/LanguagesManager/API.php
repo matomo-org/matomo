@@ -9,13 +9,13 @@
  */
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Db;
+use Piwik\Cache as PiwikCache;
+use Piwik\Config;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Piwik;
-use Piwik\Cache as PiwikCache;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Manager;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Translation\Loader\DevelopmentLoader;
 
 /**
@@ -62,13 +62,16 @@ class API extends \Piwik\Plugin\API
         $languagesPath = _glob($path . "*.json");
 
         $pathLength = strlen($path);
-        $languages = array();
+        $filesystemLanguages = array();
         if ($languagesPath) {
             foreach ($languagesPath as $language) {
-                $languages[] = substr($language, $pathLength, -strlen('.json'));
+                $filesystemLanguages[] = substr($language, $pathLength, -strlen('.json'));
             }
         }
 
+        $configLanguages = Config::getInstance()->Languages["Languages"];
+
+        $languages = array_intersect($filesystemLanguages, $configLanguages);
         $this->enableDevelopmentLanguageInDevEnvironment($languages);
 
         /**
