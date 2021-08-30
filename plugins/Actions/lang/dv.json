@@ -1,0 +1,14 @@
+{
+    "Actions": {
+        "ColumnClicks": "ކްލިކްތައް",
+        "ColumnClicksDocumentation": "މި ލިންކަށް ކްލިކް ކުރެވުނު އަދަދު",
+        "ColumnDownloadURL": "ޑައުންލޯޑް ޔޫއާރްއެލް",
+        "ColumnEntryPageTitle": "ވަން ސަފުހާގެ ސުރުހީ",
+        "ColumnEntryPageURL": "ވަން ސަފުހާގެ ޔޫއާރްއެލް",
+        "ColumnExitPageTitle": "ބޭރުވި ސަފުހާގެ ސުރުހީ",
+        "ColumnExitPageURL": "ބޭރުވި ސަފުހާގެ ޔޫއާރްއެލް",
+        "ColumnNoResultKeyword": "ނަތީޖާއެއް ހޯދިފައިނުވާ ބަސްތައް",
+        "ColumnPageName": "ސަފުހާގެ ނަން",
+        "ColumnPagesPerSearch": "ނަތީޖާތައް ހޯދާ ސަފުހާތައް"
+    }
+}
