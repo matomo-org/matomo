@@ -54,7 +54,7 @@ function piwik_fix_lbrace($string)
         $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
     }
 
-    $replacedString = str_replace($search, $replace, $string);
+    $replacedString = is_null($string) ? $string : str_replace($search, $replace, $string);
 
     // try to replace characters until there are no changes
     if ($string !== $replacedString) {

@@ -85,6 +85,7 @@ class Translator
     public function translate($translationId, $args = array(), $language = null)
     {
         $args = is_array($args) ? $args : array($args);
+        $translationId = $translationId ?? '';
 
         if (strpos($translationId, "_") !== false) {
             list($plugin, $key) = explode("_", $translationId, 2);

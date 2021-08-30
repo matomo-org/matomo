@@ -420,7 +420,7 @@ class Common
      */
     public static function unsanitizeInputValue($value)
     {
-        return htmlspecialchars_decode($value, self::HTML_ENCODING_QUOTE_STYLE);
+        return htmlspecialchars_decode($value ?? '', self::HTML_ENCODING_QUOTE_STYLE);
     }
 
     /**
@@ -456,7 +456,7 @@ class Common
      */
     public static function sanitizeLineBreaks($value)
     {
-        return str_replace(array("\n", "\r"), '', $value);
+        return $value ? str_replace(array("\n", "\r"), '', $value) : '';
     }
 
     /**
