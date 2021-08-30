@@ -1,27 +1,27 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Este plugin fornece os widgets Mapa de Visitantes e o Mapa Tempo-Real. Nota: Requer o plugin UserCountry ativado.",
         "AndNOthers": "e %s outros",
         "Cities": "Cidades",
         "Countries": "Países",
         "DaysAgo": "%s dias atrás",
         "GoalConversions": "%s conversões de meta",
         "HoursAgo": "%s horas atrás",
-        "map": "mapa",
         "MinutesAgo": "%s minutos atrás",
-        "None": "Nenhum",
         "NoVisit": "Nenhuma visita",
+        "NoVisitsInfo": "Não há visitas exibidas atualmente, porque nenhuma visita para este período possui a informação de geolocalização correta (latitude e longitude).",
+        "NoVisitsInfo2": "Para resolver este problema, verifique se você está usando um provedor de geolocalização GeoIP com um banco de cidades GeoIP. Se isso não resolver o problema, é possível (embora improvável) que suas visitas tenham endereços IPs que não possam ser geolocalizados.",
+        "None": "Nenhum",
+        "PluginDescription": "Este plugin fornece os widgets Mapa de Visitantes e o Mapa Tempo-Real. Nota: Requer o plugin UserCountry ativado.",
         "RealTimeMap": "Mapa em tempo real",
         "Regions": "Regiões",
         "Searches": "%s buscas",
         "SecondsAgo": "%s segundos atrás",
         "ShowingVisits": "Geo-localização das últimas visitas",
-        "Unlocated": "<b>%s<\/b> %p das visitas de %c não puderam ser geo localizados.",
+        "Unlocated": "<b>%1$s</b> %2$p das visitas de %3$c não puderam ser geo localizados.",
         "VisitorMap": "Mapa de visitantes",
-        "WorldWide": "World-Wide",
-        "WithUnknownRegion": "%s com região desconhecida",
         "WithUnknownCity": "%s com cidade desconhecida",
-        "NoVisitsInfo": "Não há visitas exibidas atualmente, porque nenhuma visita para este período possui a informação de geolocalização correta (latitude e longitude).",
-        "NoVisitsInfo2": "Para resolver este problema, verifique se você está usando um provedor de geolocalização GeoIP com um banco de cidades GeoIP. Se isso não resolver o problema, é possível (embora improvável) que suas visitas tenham endereços IPs que não possam ser geolocalizados."
+        "WithUnknownRegion": "%s com região desconhecida",
+        "WorldWide": "World-Wide",
+        "map": "mapa"
     }
 }
