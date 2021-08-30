@@ -592,12 +592,13 @@ if (typeof window.Matomo !== 'object') {
 
             return matches ? matches[1] : url;
         }
-        function queryStringify(data, filterFn) {
-            var queryString = '', k;
-            var filter = filterFn || function(value) { return value; };
+        function queryStringify(data, filterFn, throwErrorIfNotFilterFn) {
+            var queryString = '', k, filter = filterFn || function(value) { return value; }, isOk;
             for (k in data) {
                 if (data.hasOwnProperty(k) && filter(data[k])) {
                     queryString += '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]);
+                } else if (throwErrorIfNotFilterFn && undefined !== data[k]) {
+                    throw Error('Parameter value not allowed');
                 }
             }
             return queryString;
@@ -5618,12 +5619,30 @@ if (typeof window.Matomo !== 'object') {
                     pf_dm1: domProcessingTimeInMs,
                     pf_dm2: domCompletionTimeInMs,
                     pf_onl: onloadTimeInMs
-                };
-                performanceTracked = false; // to ensure the values are sent (again)
-                performanceAvailable = true; // so appendAvailablePerformanceMetrics will be called directly
-                // Otherwise performanceAvailable will be set when the pageload finished, but there is no need
-                // to wait for that, when the values are set manually.
-                configPagePerformanceTiming = queryStringify(data, isNumber);
+                }, errorCaught = false, message;
+
+                try {
+                    configPagePerformanceTiming = queryStringify(data, isNumber, true);
+                } catch (error) {
+                    errorCaught = true;
+                    message = error.toString() + ' ';
+                }
+                if (configPagePerformanceTiming !== '' && !errorCaught) {
+                    performanceTracked = false; // to ensure the values are sent (again)
+                    performanceAvailable = true; // so appendAvailablePerformanceMetrics will be called directly
+                    // Otherwise performanceAvailable will be set when the pageload finished, but there is no need
+                    // to wait for that, when the values are set manually.
+                } else {
+                    if (errorCaught) {
+                        message = 'Please ensure to only supply numbers for each parameter to ' +
+                            'setPagePerformanceTiming().';
+                    } else {
+                        message = 'setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
+                            'this function with at least one performance parameter like networkTimeInMs. Also, ' +
+                            'please ensure to only supply numbers for each parameter.';
+                    }
+                    logConsoleError(message);
+                }
             };
 
             /**

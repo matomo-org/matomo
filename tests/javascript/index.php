@@ -4248,7 +4248,7 @@ if ($mysql) {
             ok( ! /ShouldNotHave_pf_12345.*pf_net=12345/.test(results), 'setPagePerformanceTiming does NOT set "pf_net=12345" in subsequent request');
             ok( /ShouldHave_pf_432_578_111.*pf_net=432&pf_srv=578&pf_tfr=111/.test(results), 'setPagePerformanceTiming sets "pf_net=432&pf_srv=578&pf_tfr=111" in request');
             ok( ! /ShouldNotHave_pf_432_578_111.*pf_net=432&pf_srv=578&pf_tfr=111/.test(results), 'setPagePerformanceTiming does NOT set "pf_net=432&pf_srv=578&pf_tfr=111" in subsequent request');
-            ok( /ShouldHave_pf_NO.*pf_net=/.test(results), 'setPagePerformanceTiming sets nothing in request, but default does');
+            ok( ! /ShouldHave_pf_NO.*pf_net=/.test(results), 'setPagePerformanceTiming sets nothing in request, but default does');
             ok( ! /ShouldNotHave_pf_NO.*pf_net=/.test(results), 'setPagePerformanceTiming sets nothing in subsequent request');
             ok( /ShouldHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming onle set 6 parameters in request');
             ok( ! /ShouldNotHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming onle set 6 parameters in request');
