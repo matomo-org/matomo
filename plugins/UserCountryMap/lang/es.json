@@ -1,27 +1,27 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Este complemento suministra los módulos Mapa de visitante y Mapa en tiempo real. Nota: Requiere el complemento UserCountry habilitado.",
         "AndNOthers": "y %s otros",
         "Cities": "Ciudades",
         "Countries": "Países",
         "DaysAgo": "%s días atrás",
         "GoalConversions": "%s conversiones de objetivo",
         "HoursAgo": "%s horas atrás",
-        "map": "mapa",
         "MinutesAgo": "Hace %s minutos",
-        "None": "Ninguno",
         "NoVisit": "Sin visitas",
+        "NoVisitsInfo": "No hay visitas mostradas actualmente, porque ninguna visita para este período tiene la información de geolocalización correcta (latitud y longitud).",
+        "NoVisitsInfo2": "Para resolver este problema, asegúrese de que está utilizando un proveedor de geolocalización GeoIP con una base de datos de la ciudad GeoIP. Si esto no resuelve su problema, entonces es posible (aunque improbable) que sus visitas tengan direcciones IP que simplemente no se puedan geolocalizar.",
+        "None": "Ninguno",
+        "PluginDescription": "Este complemento suministra los módulos Mapa de visitante y Mapa en tiempo real. Nota: Requiere el complemento UserCountry habilitado.",
         "RealTimeMap": "Mapa en Tiempo real",
         "Regions": "Regiones",
         "Searches": "%s búsquedas",
         "SecondsAgo": "Hace %s segundos",
         "ShowingVisits": "Visitas geolocalizadas desde la última vez",
-        "Unlocated": "<b>%s<\/b> %p de las visitas desde %c no pudieron ser geolocalizadas.",
+        "Unlocated": "<b>%1$s</b> %2$p de las visitas desde %3$c no pudieron ser geolocalizadas.",
         "VisitorMap": "Mapa de visitantes",
-        "WorldWide": "Global",
-        "WithUnknownRegion": "%s con región desconocida",
         "WithUnknownCity": "%s con ciudad desconocida",
-        "NoVisitsInfo": "No hay visitas mostradas actualmente, porque ninguna visita para este período tiene la información de geolocalización correcta (latitud y longitud).",
-        "NoVisitsInfo2": "Para resolver este problema, asegúrese de que está utilizando un proveedor de geolocalización GeoIP con una base de datos de la ciudad GeoIP. Si esto no resuelve su problema, entonces es posible (aunque improbable) que sus visitas tengan direcciones IP que simplemente no se puedan geolocalizar."
+        "WithUnknownRegion": "%s con región desconocida",
+        "WorldWide": "Global",
+        "map": "mapa"
     }
 }
