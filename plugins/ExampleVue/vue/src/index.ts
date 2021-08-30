@@ -1,3 +1,1 @@
-import exampleComponentAdapter from './ExampleComponent.adapter';
-
-export default exampleComponentAdapter();
+export * from './ExampleComponent.adapter';
