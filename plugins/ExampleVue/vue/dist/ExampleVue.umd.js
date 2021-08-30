@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("vue"), require("VueClassComponent"), require("tslib"));
+		module.exports = factory(require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define([, "VueClassComponent", "tslib"], factory);
+		define([], factory);
 	else if(typeof exports === 'object')
-		exports["ExampleVue"] = factory(require("vue"), require("VueClassComponent"), require("tslib"));
+		exports["ExampleVue"] = factory(require("vue"));
 	else
-		root["ExampleVue"] = factory(root["Vue"], root["VueClassComponent"], root["tslib"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__, __WEBPACK_EXTERNAL_MODULE_c93a__, __WEBPACK_EXTERNAL_MODULE_d7bc__) {
+		root["ExampleVue"] = factory(root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	function webpackJsonpCallback(data) {
@@ -206,7 +206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fb15");
+/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -218,26 +218,15 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 
 /***/ }),
 
-/***/ "c93a":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_c93a__;
-
-/***/ }),
-
-/***/ "d7bc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_d7bc__;
-
-/***/ }),
-
-/***/ "fb15":
+/***/ "fae3":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "exampleVueComponentAdapter", function() { return /* reexport */ exampleVueComponentAdapter; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -258,9 +247,9 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent.adapter.ts
+// CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts
 
-const AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "bac3")));
+const AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21")));
 function exampleVueComponentAdapter() {
   return {
     restrict: 'A',
@@ -276,11 +265,8 @@ exampleVueComponentAdapter.$inject = [];
 angular.module('piwikApp').directive('exampleVueComponent', exampleVueComponentAdapter);
 // CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/index.ts
 
-/* harmony default export */ var vue_src = (exampleVueComponentAdapter());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
-
-/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (vue_src);
 
 
 
