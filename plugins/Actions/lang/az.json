@@ -1,0 +1,14 @@
+{
+    "Actions": {
+        "ColumnClicks": "Tıklamalar",
+        "ColumnClicksDocumentation": "Tıklama sayısı",
+        "ColumnDownloadURL": "İndirme Sayfa Adresleri",
+        "ColumnEntryPageTitle": "Giriş səhifəsi Başlığı",
+        "ColumnEntryPageURL": "Giriş Sayfa Adresi",
+        "ColumnExitPageTitle": "Çıxış səhifəsi Başlığı",
+        "ColumnExitPageURL": "Çıxış Sayfa Adresi",
+        "ColumnPageName": "Səhifə Adı",
+        "ColumnPageURL": "Sayfa Adresi",
+        "ColumnSearchCategory": "Axtarış Kategorisi"
+    }
+}
