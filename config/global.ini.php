@@ -1076,6 +1076,7 @@ Languages[] = bn
 Languages[] = bs
 Languages[] = ca
 Languages[] = cs
+Languages[] = cu
 Languages[] = cy
 Languages[] = da
 Languages[] = de
