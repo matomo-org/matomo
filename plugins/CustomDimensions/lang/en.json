@@ -3,7 +3,7 @@
         "CustomDimensions": "Custom Dimensions",
         "CustomDimensionsIntro": "By creating %1$sCustom Dimensions%2$s you can collect any custom data for '%3$s'.",
         "CustomDimensionsIntroNext": "Matomo will create a report for each Custom Dimension (including the conversion rate for each of your Goals), as well as let you easily segment your users based on these values. Custom Dimensions are similar to %1$sCustom Variables%2$s but there are a few %3$sdifferences between Custom Dimensions and Custom Variables%4$s.",
-        "ScopeDescriptionVisit": "Custom Dimensions in scope 'Visit' can be sent along any tracking request and are stored in the visit. ",
+        "ScopeDescriptionVisit": "Custom Dimensions in scope 'Visit' can be sent along any tracking request and are stored in the visit.",
         "ScopeDescriptionVisitMoreInfo": "If you set different values for a given dimension during the lifetime of a visit, the last value set will be used.",
         "ScopeDescriptionAction": "Custom Dimensions in scope 'Action' can be sent along any action (page view, download, event, etc.).",
         "ScopeDescriptionActionMoreInfo": "Extractions may be defined so that the custom dimension value is extracted from the Page URL, Page Title or a Page URL query parameter.",
