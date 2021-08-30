@@ -1123,6 +1123,7 @@ Languages[] = tr
 Languages[] = uk
 Languages[] = vi
 Languages[] = zh-cn
+Languages[] = zh-tw
 
 [Plugins]
 ; list of plugins (in order they will be loaded) that are activated by default in the Matomo platform
