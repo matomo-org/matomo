@@ -66,6 +66,9 @@ class Rules
             return false;
         }
 
+        if ($periodLabel === 'range' && !Rules::isBrowserArchivingAvailableForSegments() && !SettingsServer::isArchivePhpTriggered()) {
+            return false;
+        }
         if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
         }
