@@ -215,7 +215,7 @@ class Visualization extends ViewDataTable
         $view = new View("@CoreHome/_dataTable");
         $view->assign($this->templateVars);
 
-        $view->notifications = [];
+        $view->notifications = $this->config->notifications;
 
         $this->showNotificationIfCurrentSegmentRequiresProfilableAndNoProfilableData($view);
 
@@ -885,7 +885,7 @@ class Visualization extends ViewDataTable
         $date = $this->requestConfig->getRequestParam('date');
         $period = $this->requestConfig->getRequestParam('period');
         $periodObj = Period\Factory::build($period, $date);
-        $periodStr = $periodObj->getPrettyString();
+        $periodStr = '"' . lcfirst($periodObj->getPrettyString()) . '"';
 
         if (empty($view->properties['show_footer_message'])) {
             $view->properties['show_footer_message'] = '';

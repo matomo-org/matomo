@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
+use Piwik\Notification;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -567,6 +568,13 @@ class   Config
      * @ignore
      */
     public $controllerAction;
+
+    /**
+     * Notifications at the top of the page to display when the visualization loads.
+     *
+     * @var Notification[]
+     */
+    public $notifications;
 
     /**
      * Constructor.

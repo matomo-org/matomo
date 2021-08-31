@@ -13,6 +13,7 @@ use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
@@ -26,6 +27,8 @@ use Piwik\Category\Subcategory;
  */
 class Goals extends \Piwik\Plugin
 {
+    const NO_PROFILABLE_DATA_CONVERSION_ATTR_NOTIFICATION_ID = 'no_profilable_data_conversion_attr_message';
+
     public static function getReportsWithGoalMetrics()
     {
         $dimensions = self::getAllReportsWithGoalMetrics();
@@ -86,6 +89,23 @@ class Goals extends \Piwik\Plugin
             $columns[] = 'items';
         }
         return $columns;
+    }
+
+    public static function addDataTableNotificationIfNotProfilable(\Piwik\Plugin\ViewDataTable $view)
+    {
+        if (Common::getRequestVar('widget', false) == 0
+            && !Request::isCurrentPeriodProfilable()
+        ) {
+            $message = '<strong>' . Piwik::translate('General_NonProfilableDataTitle') . '</strong><br/><br/>' . Piwik::translate('Goals_NoProfilableDataConversionAttribution');
+            $notification = new Notification($message);
+            $notification->priority = Notification::PRIORITY_HIGH;
+            $notification->context = Notification::CONTEXT_INFO;
+            $notification->flags = Notification::FLAG_CLEAR;
+            $notification->type = Notification::TYPE_TRANSIENT;
+            $notification->raw = true;
+
+            $view->config->notifications[self::NO_PROFILABLE_DATA_CONVERSION_ATTR_NOTIFICATION_ID] = $notification;
+        }
     }
 
     /**

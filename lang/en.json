@@ -529,7 +529,7 @@
         "PreviousYear": "Previous Year",
         "ViewAccessRequired": "The token_auth used has too much access to be used in a non-API request URL. Please use an app specific password for a user that only has view access.",
         "NoProfilableDataFooterMessage": "This report is inaccurate and should not be relied upon. This report requires profilable data (tracking cookies enabled), but none of the visits in the current period of %1$s are profilable.",
-        "NonProfilableDataTitle": "Data for this Segment is not Profilable",
+        "NonProfilableDataTitle": "Data for this period is not Profilable",
         "NonProfilableDataMessage1": "Most of the data recorded for the selected period and measurable is not profilable, meaning we cannot accurately track visitors across multiple visits. This is usually due to avoiding the use of cookies when tracking, and can be a good choice if you don't need the data and want to comply with privacy regulations without having to expend much effort.",
         "NonProfilableDataMessage2": "But, the current segment requires profilable data to be present, and without it, will be very inaccurate. So report data for this segment within %1$s should not be relied upon.",
         "NonProfilableDataMessage3": "Read more about this on our faq.",

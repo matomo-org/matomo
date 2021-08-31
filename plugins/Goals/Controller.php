@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Live\Live;
@@ -215,6 +216,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
         $view->config->documentation = $this->translator->translate($langString, '<br />');
+
+        Goals::addDataTableNotificationIfNotProfilable($view);
 
         return $this->renderView($view);
     }
