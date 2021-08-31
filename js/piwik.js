@@ -107,7 +107,7 @@
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigCookieSameSite, setCookieSameSite,
+    getConfigCookieSameSite, getConfigPagePerformanceTiming, setCookieSameSite,
     getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -595,10 +595,12 @@ if (typeof window.Matomo !== 'object') {
         function queryStringify(data, filterFn, throwErrorIfNotFilterFn) {
             var queryString = '', k, filter = filterFn || function(value) { return value; }, isOk;
             for (k in data) {
-                if (data.hasOwnProperty(k) && filter(data[k])) {
-                    queryString += '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]);
-                } else if (throwErrorIfNotFilterFn && undefined !== data[k]) {
-                    throw Error('Parameter value not allowed');
+                if (data.hasOwnProperty(k)) {
+                    if (filter(data[k])) {
+                        queryString += '&' + encodeWrapper(k) + '=' + encodeWrapper(data[k]);
+                    } else if (throwErrorIfNotFilterFn && undefined !== data[k]) {
+                        throw new Error('Parameter value not allowed');
+                    }
                 }
             }
             return queryString;
