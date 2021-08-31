@@ -14,7 +14,7 @@
         "Searches": "%s searches",
         "SecondsAgo": "segundo %s na ang nakalipas",
         "ShowingVisits": "Geo-located na pagbisita ng huling",
-        "Unlocated": "<b> %1$s <b> %2$p sa mga pagbisita mula sa %3$c ay hindi pwedeng i-geolocated.",
+        "Unlocated": "<b> %1$s </b> %2$p sa mga pagbisita mula sa %3$c ay hindi pwedeng i-geolocated.",
         "VisitorMap": "Mapa ng bumisita",
         "WithUnknownCity": "%s hindi kilalang lungsod",
         "WithUnknownRegion": "%s na may hindi kilalang rehiyon",
