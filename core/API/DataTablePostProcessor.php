@@ -159,7 +159,12 @@ class DataTablePostProcessor
                 return;
             }
 
-            if (Request::isCurrentPeriodProfilable($site->getId(), $period->getLabel(), $period->getDateStart()->toString(), $segment)) {
+            $dateString = $period->getDateStart()->toString();
+            if ($period->getLabel() == 'range') {
+                $dateString .= ',' . $period->getDateEnd()->toString();
+            }
+
+            if (Request::isCurrentPeriodProfilable($site->getId(), $period->getLabel(), $dateString, $segment)) {
                 return;
             }
 

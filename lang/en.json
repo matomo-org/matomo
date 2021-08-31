@@ -533,7 +533,6 @@
         "NonProfilableDataMessage1": "Most of the data recorded for the selected period and measurable is not profilable, meaning we cannot accurately track visitors across multiple visits. This is usually due to avoiding the use of cookies when tracking, and can be a good choice if you don't need the data and want to comply with privacy regulations without having to expend much effort.",
         "NonProfilableDataMessage2": "But, the current segment requires profilable data to be present, and without it, will be very inaccurate. So report data for this segment within %1$s should not be relied upon.",
         "NonProfilableDataMessage3": "Read more about this on our faq.",
-
         "Reasons": "Reasons"
     },
     "Mobile": {

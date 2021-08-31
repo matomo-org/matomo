@@ -41,6 +41,20 @@ class Controller extends \Piwik\Plugin\Controller
         return FrontController::getInstance()->fetchDispatch('VisitFrequency', 'get');
     }
 
+    public function getNonprofilableVisitsWarning()
+    {
+        $view = new View('@VisitFrequency\getNonprofilableReportWarning.twig');
+        $view->title = 'VisitFrequency_WidgetGraphReturning';
+        return $view->render();
+    }
+
+    public function getNonprofilableSparklinesWarning()
+    {
+        $view = new View('@VisitFrequency\getNonprofilableReportWarning.twig');
+        $view->title = 'VisitFrequency_WidgetOverview';
+        return $view->render();
+    }
+
     public function getEvolutionGraph()
     {
         $columns = Common::getRequestVar('columns', false);

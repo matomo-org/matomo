@@ -74,6 +74,22 @@ class Get extends \Piwik\Plugin\Report
                     ->setName('VisitFrequency_WidgetOverview')
                     ->setOrder(2)
             );
+        } else {
+            $widgetsList->addWidgetConfig(
+                $factory->createWidget()
+                    ->setName('VisitFrequency_WidgetGraphReturning')
+                    ->setAction('getNonprofilableVisitsWarning')
+                    ->setOrder(1)
+                    ->setIsNotWidgetizable()
+            );
+
+            $widgetsList->addWidgetConfig(
+                $factory->createWidget()
+                    ->setName('VisitFrequency_WidgetOverview')
+                    ->setAction('getNonprofilableSparklinesWarning')
+                    ->setOrder(2)
+                    ->setIsNotWidgetizable()
+            );
         }
     }
 
