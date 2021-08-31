@@ -5,7 +5,7 @@
         "CampaignsDocumentation": "Visitors that came to your website as the result of a campaign. %1$s See the %2$s report for more details.",
         "CampaignsReportDocumentation": "This report shows which campaigns led visitors to your website.",
         "ColumnCampaign": "Campaign",
-        "CampaignPageUrlHelp": "The URL of the page that this campaign goes to, for example 'http://example.org/offer.html'.",
+        "CampaignPageUrlHelp": "The URL of the page that this campaign goes to, for example 'http:\/\/example.org\/offer.html'.",
         "CampaignNameHelp": "Choose a name that describes what the campaign is created for and that distinguishes your campaign from your other campaigns. For example 'Email-SummerDeals' or 'PaidAds-SummerDeals'.",
         "CampaignKeywordHelp": "If you have multiple campaigns with the same name, you can distinguish these campaigns by specifying a keyword or a sub-category.",
         "CampaignSource": "Campaign Source",

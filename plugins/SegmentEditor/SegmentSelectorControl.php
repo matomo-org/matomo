@@ -47,6 +47,7 @@ class SegmentSelectorControl extends UIControl
         $this->segmentDescription = $formatter->getHumanReadable(Request::getRawSegmentFromRequest(), $this->idSite);
 
         $this->isAddingSegmentsForAllWebsitesEnabled = SegmentEditor::isAddingSegmentsForAllWebsitesEnabled();
+        $this->isCreateRealtimeSegmentsEnabled = SegmentEditor::isCreateRealtimeSegmentsEnabled();
 
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 

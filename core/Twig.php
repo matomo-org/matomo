@@ -116,7 +116,7 @@ class PiwikTwigFilterExtension extends \Twig\Extension\AbstractExtension
  */
 class Twig
 {
-    const SPARKLINE_TEMPLATE = '<img alt="" data-src="%s" width="%d" height="%d" />
+    const SPARKLINE_TEMPLATE = '<img loading="lazy" alt="" data-src="%s" width="%d" height="%d" />
     <script type="text/javascript">$(function() { piwik.initSparklines(); });</script>';
 
     /**
