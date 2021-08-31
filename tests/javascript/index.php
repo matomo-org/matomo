@@ -672,7 +672,7 @@ function PiwikTest() {
     });
 
     test("Piwik plugin methods", function() {
-        expect(38);
+        expect(33);
 
         // TESTS FOR retryMissedPluginCalls
 
