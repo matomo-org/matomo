@@ -24,9 +24,8 @@ class Validate extends TranslationBase
     {
         $this->setName('translations:validate')
             ->setDescription('Validates translation files')
-            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
-            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
-            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
+            ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
+            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Weblate project slug')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
@@ -127,12 +126,10 @@ class Validate extends TranslationBase
 
         $command = $this->getApplication()->find('translations:fetch');
         $arguments = array(
-            'command' => 'translations:fetch',
-            '--username' => $input->getOption('username'),
-            '--password' => $input->getOption('password'),
-            '--slug'     => $input->getOption('slug'),
-            '--plugin'   => $plugin,
-            '--lastupdate' => 1
+            'command'  => 'translations:fetch',
+            '--token'  => $input->getOption('token'),
+            '--slug'   => $input->getOption('slug'),
+            '--plugin' => $plugin
         );
 
         $inputObject = new ArrayInput($arguments);

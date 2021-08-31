@@ -22,14 +22,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FetchTranslations extends TranslationBase
 {
-    const DOWNLOAD_PATH = '/transifex';
+    const DOWNLOAD_PATH = '/weblate';
 
     protected function configure()
     {
         $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         $this->setName('translations:fetch')
-             ->setDescription('Fetches translations files from Transifex to ' . $path)
+             ->setDescription('Fetches translations files from Weblate to ' . $path)
              ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
              ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'project slug on weblate', 'matomo')
              ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');

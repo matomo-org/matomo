@@ -26,7 +26,7 @@ class API
     }
 
     /**
-     * Returns all resources available on Transifex project
+     * Returns all resources available on Weblate project
      *
      * @return array
      */
@@ -59,7 +59,7 @@ class API
     }
 
     /**
-     * Checks if the given resource exists in Transifex project
+     * Checks if the given resource exists in Weblate project
      *
      * @param string $resource
      * @return bool
@@ -76,7 +76,7 @@ class API
     }
 
     /**
-     * Returns all language codes the transifex project is available for
+     * Returns all language codes the Weblate project is available for
      *
      * @return array
      * @throws AuthenticationFailedException
@@ -130,7 +130,7 @@ class API
     {
         $apiUrl = $this->apiUrl . $apiPath;
 
-        $response = Http::sendHttpRequestBy(Http::getTransportMethod(), $apiUrl, 5, null, null, null, 5, false,
+        $response = Http::sendHttpRequestBy(Http::getTransportMethod(), $apiUrl, 60, null, null, null, 5, false,
             false, false, true, 'GET', null, null, null,
             ['Authorization: Token ' . $this->apiToken]);
 

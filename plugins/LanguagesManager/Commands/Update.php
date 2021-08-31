@@ -29,7 +29,7 @@ class Update extends TranslationBase
         $this->setName('translations:update')
             ->setDescription('Updates translation files')
             ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
-            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
+            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Weblate project slug')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
