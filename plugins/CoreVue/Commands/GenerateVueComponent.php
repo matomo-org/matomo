@@ -48,14 +48,14 @@ class GenerateVueComponent extends GenerateAngularConstructBase
             'exampleVueComponentAdapter' => $adapterFunctionName,
         );
 
-        $whitelistFiles = array(
+        $allowlistFiles = array(
             '/vue',
             '/vue/src',
             '/vue/src/ExampleComponent.vue',
             '/vue/src/ExampleComponent.adapter.ts',
         );
 
-        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
+        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowlistFiles);
 
         $indexFile = $pluginPath . '/vue/src/index.ts';
         if (!file_exists($indexFile)) {
