@@ -4827,7 +4827,6 @@ if (typeof window.Matomo !== 'object') {
              * initialize tracker
              */
             updateDomainHash();
-            setVisitorIdCookie();
 
             /*<DEBUG>*/
             /*
@@ -6936,6 +6935,7 @@ if (typeof window.Matomo !== 'object') {
             });
 
             Matomo.trigger('TrackerSetup', [this]);
+            setVisitorIdCookie();
         }
 
         function TrackerProxy() {
