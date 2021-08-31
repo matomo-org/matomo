@@ -1,28 +1,28 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Kjo shtojcë ofron widget-et Hartë Vizitorësh dhe Hartë Në Kohë Reale. Shënim: Lyp shtojcën UserCountry të aktivizuar.",
         "AndNOthers": "dhe %s të tjerë",
         "Cities": "Qytete",
         "Countries": "Vende",
         "DaysAgo": "%s ditë më parë",
         "GoalConversions": "%s shndërrime objektivash",
         "HoursAgo": "%s orë më parë",
-        "map": "hartë",
         "MinutesAgo": "%s minuta më parë",
-        "None": "Asnjë",
         "NoVisit": "Pa vizita",
+        "NoVisitsInfo": "Hëpërhë s’ka vizita të shfaqura, ngaqë për këtë periudhë asnjë vizitë nuk ka të dhëna të sakta gjeolokalizimi (gjerësi & gjatësi gjeografike).",
+        "NoVisitsInfo2": "Për ta zgjidhur këtë problem, sigurohuni që po përdorni një shërbim gjeolokalizimi GeoIP me një bazë të dhënash GeoIP qytetesh. Nëse kjo nuk e zgjidh problemin tuaj, atëherë ka mundësi (edhe pse zor) që vizitat tuaja të kenë adresa IP që nuk gjeolokalizohen dot.",
+        "None": "Asnjë",
+        "PluginDescription": "Kjo shtojcë ofron widget-et Hartë Vizitorësh dhe Hartë Në Kohë Reale. Shënim: Lyp shtojcën UserCountry të aktivizuar.",
         "RealTimeMap": "Hartë e Atypëratyshme",
+        "RealTimeMapHelp": "Harta Aty Për Aty shfaq vendndodhjen e vizitorëve tuaj në sajt brenda 30 minutave të fundit. Flluskat e mëdha portokalli përfaqësojnë vizitat më të freskëta, ndërsa flluskat më të vogla gri përfaqësojnë vizita më të vjetra. Këto të dhëna rifreskohen çdo pesë sekonda, dhe vizitorët e rinj shfaqen me një efekt xixëllimi.",
         "Regions": "Rajone",
         "Searches": "%s kërkime",
         "SecondsAgo": "%s sekonda më parë",
         "ShowingVisits": "Vizita të gjeovendëzuara, për pjesën e fundit të",
-        "Unlocated": "<b>%s<\/b> %p e vizitës prej %c s’u gjeovendëzua dot.",
+        "Unlocated": "<b>%1$s</b> %2$p e vizitës prej %3$c s’u gjeovendëzua dot.",
         "VisitorMap": "Hartë Vizitorësh",
-        "WorldWide": "Anembanë Botës",
-        "WithUnknownRegion": "%s me rajon të panjohur",
         "WithUnknownCity": "%s me qytet të panjohur",
-        "NoVisitsInfo": "Hëpërhë s’ka vizita të shfaqura, ngaqë për këtë periudhë asnjë vizitë nuk ka të dhëna të sakta gjeolokalizimi (gjerësi & gjatësi gjeografike).",
-        "NoVisitsInfo2": "Për ta zgjidhur këtë problem, sigurohuni që po përdorni një shërbim gjeolokalizimi GeoIP me një bazë të dhënash GeoIP qytetesh. Nëse kjo nuk e zgjidh problemin tuaj, atëherë ka mundësi (edhe pse zor) që vizitat tuaja të kenë adresa IP që nuk gjeolokalizohen dot.",
-        "RealTimeMapHelp": "Harta Aty Për Aty shfaq vendndodhjen e vizitorëve tuaj në sajt brenda 30 minutave të fundit. Flluskat e mëdha portokalli përfaqësojnë vizitat më të freskëta, ndërsa flluskat më të vogla gri përfaqësojnë vizita më të vjetra. Këto të dhëna rifreskohen çdo pesë sekonda, dhe vizitorët e rinj shfaqen me një efekt xixëllimi."
+        "WithUnknownRegion": "%s me rajon të panjohur",
+        "WorldWide": "Anembanë Botës",
+        "map": "hartë"
     }
 }
