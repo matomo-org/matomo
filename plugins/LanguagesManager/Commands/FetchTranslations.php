@@ -67,11 +67,11 @@ class FetchTranslations extends TranslationBase
 
             if (!empty($plugin)) {
                 $languages = array_filter($languages, function ($language) {
-                    return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
+                    return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)), true);
                 });
             }
         } catch (AuthenticationFailedException $e) {
-            $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames();
+            $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames(true);
 
             $languageCodes = array();
             foreach ($availableLanguages as $languageInfo) {
@@ -101,7 +101,7 @@ class FetchTranslations extends TranslationBase
         foreach ($languages as $language) {
             try {
                 // if we have modification date given from statistics api compare it with given last update time to ignore not update resources
-                if (LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language))) && isset($statistics->$language)) {
+                if (LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)), true) && isset($statistics->$language)) {
                     $lastupdated = strtotime($statistics->$language->last_update);
                     if ($lastUpdate > $lastupdated) {
                         $progress->advance();

@@ -45,7 +45,7 @@ class Update extends TranslationBase
         /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
-        $languages = API::getInstance()->getAvailableLanguageNames();
+        $languages = API::getInstance()->getAvailableLanguageNames(true);
 
         $languageCodes = array();
         foreach ($languages as $languageInfo) {

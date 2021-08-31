@@ -182,7 +182,7 @@ class CreatePull extends TranslationBase
 
     private function getLanguageInfoByIsoCode($isoCode)
     {
-        $languages = API::getInstance()->getAvailableLanguagesInfo();
+        $languages = API::getInstance()->getAvailableLanguagesInfo(true, true);
         foreach ($languages as $languageInfo) {
             if ($languageInfo['code'] == $isoCode) {
                 return $languageInfo;

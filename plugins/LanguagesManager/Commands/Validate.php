@@ -37,7 +37,7 @@ class Validate extends TranslationBase
 
         $start = microtime(true);
 
-        $languages = API::getInstance()->getAvailableLanguageNames();
+        $languages = API::getInstance()->getAvailableLanguageNames(true);
 
         $languageCodes = array();
         foreach ($languages as $languageInfo) {
