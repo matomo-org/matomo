@@ -1,6 +1,6 @@
 {
     "CustomJsTracker": {
-        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-tracker (\"\/piwik.js\")",
-        "DiagnosticPiwikJsMakeWritable": "Vi anbefaler å gjøre piwik.js skrivbar ved å kjøre denne kommandoen: %s"
+        "DiagnosticPiwikJsMakeWritable": "Vi anbefaler å gjøre %1$s skrivbar ved å kjøre denne kommandoen: %2$s",
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-tracker (%s)"
     }
 }

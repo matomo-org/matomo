@@ -1,28 +1,28 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Denna plugin ger dig widgetarna besökskarta och realtidskarta. Notera: Kräver aktiverad UserCountry-plugin.",
         "AndNOthers": "och %s andra",
         "Cities": "Städer",
         "Countries": "Länder",
         "DaysAgo": "%s dagar sedan",
         "GoalConversions": "%s målomvandlingar",
         "HoursAgo": "%s timmar sedan",
-        "map": "karta",
         "MinutesAgo": "%s minuter sedan",
-        "None": "Ingen",
         "NoVisit": "Inga besök",
+        "NoVisitsInfo": "Det finns inga besök som visas för tillfället, eftersom inget besök för denna period har rätt geografisk platsinformation (latitud och longitud).",
+        "NoVisitsInfo2": "För att lösa detta problem se till att du använder en GeoIP leverantör med en databas över städer. Om det inte löser problemet är det möjligt (men osannolikt) att dina besök har IP-adresser som inte kan geopositioneras.",
+        "None": "Ingen",
+        "PluginDescription": "Denna plugin ger dig widgetarna besökskarta och realtidskarta. Notera: Kräver aktiverad UserCountry-plugin.",
         "RealTimeMap": "Realtidskarta",
+        "RealTimeMapHelp": "Realtidskartan visar var besökarna befinner sig på din webbplats under de senaste 30 minuterna. Stora orange bubblor representerar nyare besök, medan mindre grå bubblor representerar äldre besök. Denna information uppdateras var femte sekund och nya besökare visas med en blinkande effekt.",
         "Regions": "Regioner",
         "Searches": "%s sökningar",
         "SecondsAgo": "%s sekunder sedan",
         "ShowingVisits": "Geolokaliserade besök de senaste",
-        "Unlocated": "<b>%s<\/b> %p av besöken från %c kunde inte geolokaliseras.",
+        "Unlocated": "<b>%1$s</b> %2$p av besöken från %3$c kunde inte geolokaliseras.",
         "VisitorMap": "Besökskarta",
-        "WorldWide": "Hela världen",
-        "WithUnknownRegion": "%s med okänd region",
         "WithUnknownCity": "%s med okänd stad",
-        "NoVisitsInfo": "Det finns inga besök som visas för tillfället, eftersom inget besök för denna period har rätt geografisk platsinformation (latitud och longitud).",
-        "NoVisitsInfo2": "För att lösa detta problem se till att du använder en GeoIP leverantör med en databas över städer. Om det inte löser problemet är det möjligt (men osannolikt) att dina besök har IP-adresser som inte kan geopositioneras.",
-        "RealTimeMapHelp": "Realtidskartan visar var besökarna befinner sig på din webbplats under de senaste 30 minuterna. Stora orange bubblor representerar nyare besök, medan mindre grå bubblor representerar äldre besök. Denna information uppdateras var femte sekund och nya besökare visas med en blinkande effekt."
+        "WithUnknownRegion": "%s med okänd region",
+        "WorldWide": "Hela världen",
+        "map": "karta"
     }
 }
