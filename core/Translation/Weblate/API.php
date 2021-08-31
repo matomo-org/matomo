@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Translation\Transifex;
+namespace Piwik\Translation\Weblate;
 
 use Exception;
 use Piwik\Cache;
@@ -15,15 +15,13 @@ use Piwik\Http;
 
 class API
 {
-    protected $apiUrl = 'https://www.transifex.com/api/2/';
-    protected $username = '';
-    protected $password = '';
+    protected $apiUrl = 'https://hosted.weblate.org/api/';
+    protected $apiToken = '';
     protected $projectSlug = '';
 
-    public function __construct($username, $password, $project = 'matomo')
+    public function __construct($apiToken, $project = 'matomo')
     {
-        $this->username = $username;
-        $this->password = $password;
+        $this->apiToken = $apiToken;
         $this->projectSlug = $project;
     }
 
@@ -35,16 +33,29 @@ class API
     public function getAvailableResources()
     {
         $cache = Cache::getTransientCache();
-        $cacheId = 'transifex_resources_' . $this->projectSlug;
-        $resources = $cache->fetch($cacheId);
+        $cacheId = 'weblate_resources_' . $this->projectSlug;
+        $result = $cache->fetch($cacheId);
 
-        if (empty($resources)) {
-            $apiPath = 'project/' . $this->projectSlug . '/resources';
+        if (empty($result)) {
+            $apiPath = 'projects/' . $this->projectSlug . '/components/';
             $resources = $this->getApiResults($apiPath);
-            $cache->save($cacheId, $resources);
+            $result = [];
+
+            while($resources->results) {
+                $result = array_merge($result, $resources->results);
+
+                if ($resources->next) {
+                    $apiPath = str_replace($this->apiUrl, '', $resources->next);
+                    $resources = $this->getApiResults($apiPath);
+                } else {
+                    break;
+                }
+            }
+
+            $cache->save($cacheId, $result);
         }
 
-        return $resources;
+        return $result;
     }
 
     /**
@@ -74,30 +85,17 @@ class API
     public function getAvailableLanguageCodes()
     {
         $cache = Cache::getTransientCache();
-        $cacheId = 'transifex_languagescodes_' . $this->projectSlug;
+        $cacheId = 'weblate_languagescodes_' . $this->projectSlug;
         $languageCodes = $cache->fetch($cacheId);
 
         if (empty($languageCodes)) {
-            $apiData = $this->getApiResults('project/' . $this->projectSlug . '/languages');
+            $apiData = $this->getApiResults('projects/' . $this->projectSlug . '/languages/');
             foreach ($apiData as $languageData) {
-                $languageCodes[] = $languageData->language_code;
+                $languageCodes[] = $languageData->code;
             }
             $cache->save($cacheId, $languageCodes);
         }
         return $languageCodes;
-    }
-
-    /**
-     * Returns statistic data for the given resource
-     *
-     * @param string $resource e.g. piwik-base, piwik-plugin-api,...
-     * @return array
-     * @throws AuthenticationFailedException
-     * @throws Exception
-     */
-    public function getStatistics($resource)
-    {
-        return $this->getApiResults('project/' . $this->projectSlug . '/resource/' . $resource . '/stats/');
     }
 
     /**
@@ -113,7 +111,7 @@ class API
     public function getTranslations($resource, $language, $raw = false)
     {
         if ($this->resourceExists($resource)) {
-            $apiPath = 'project/' . $this->projectSlug . '/resource/' . $resource . '/translation/' . $language . '/?mode=onlytranslated&file';
+            $apiPath = 'translations/' . $this->projectSlug . '/' . $resource . '/' . $language . '/file/';
             return $this->getApiResults($apiPath, $raw);
         }
         return null;
@@ -132,7 +130,9 @@ class API
     {
         $apiUrl = $this->apiUrl . $apiPath;
 
-        $response = Http::sendHttpRequest($apiUrl, 1000, null, null, 5, false, false, true, 'GET', $this->username, $this->password);
+        $response = Http::sendHttpRequestBy(Http::getTransportMethod(), $apiUrl, 5, null, null, null, 5, false,
+            false, false, true, 'GET', null, null, null,
+            ['Authorization: Token ' . $this->apiToken]);
 
         $httpStatus = $response['status'];
         $response = $response['data'];
