@@ -36,8 +36,8 @@ describe("MeasurableManager", function () {
     it("should show selection of available types when adding a type", async function () {
         const element = await page.jQuery('.SitesManager .addSite:first');
         await element.click();
-        await page.waitFor('.modal.open');
-        await page.waitFor(350); // wait for modal animation
+        await page.waitForSelector('.modal.open');
+        await page.waitForTimeout(350); // wait for modal animation
         await assertScreenshotEquals("add_new_dialog", '.modal.open');
     });
 
@@ -45,12 +45,12 @@ describe("MeasurableManager", function () {
         const element = await page.jQuery('.modal.open .btn:contains(Mobile App)');
         await element.click();
 
-        await page.waitFor('input.btn[value=Save]');
+        await page.waitForSelector('input.btn[value=Save]');
         await page.waitForNetworkIdle();
         await page.evaluate(function () {
             $('.form-help:contains(UTC time is)').hide();
         });
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         await assertScreenshotEquals("add_measurable_view", '#content.admin');
     });

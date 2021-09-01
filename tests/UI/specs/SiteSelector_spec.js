@@ -33,7 +33,7 @@ describe("SiteSelector", function () {
 
     it("should show no results when search returns no results", async function() {
         await page.type(".websiteSearch", "abc");
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_no_results');
@@ -43,7 +43,7 @@ describe("SiteSelector", function () {
         await page.click('.reset');
         await page.type(".websiteSearch", "s");
         await page.waitForNetworkIdle();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_one_char');
     });
@@ -51,7 +51,7 @@ describe("SiteSelector", function () {
     it("should search again when second character typed into search input", async function() {
         await page.type(".websiteSearch", "t");
         await page.waitForNetworkIdle();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_two_chars');
     });

@@ -21,7 +21,7 @@ describe("Menus", function () {
     // main menu tests
     it('should load the main reporting menu correctly', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
-        await page.waitFor('#secondNavBar', { visible: true });
+        await page.waitForSelector('#secondNavBar', { visible: true });
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('mainmenu_loaded');
@@ -44,7 +44,7 @@ describe("Menus", function () {
     // admin menu tests
     it('should load the admin reporting menu correctly', async function() {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
-        await page.waitFor('#secondNavBar');
+        await page.waitForSelector('#secondNavBar');
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('admin_loaded');
@@ -53,7 +53,7 @@ describe("Menus", function () {
     it('should toggle the submenu visibility when main item is clicked', async function() {
         await openMenuItem(page, 'Website');
         await page.mouse.move(0, 0);
-        await page.waitFor(500); // wait for animation
+        await page.waitForTimeout(500); // wait for animation
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('admin_websites');
@@ -62,7 +62,7 @@ describe("Menus", function () {
     it('should change the admin page correctly when an admin menu item is clicked', async function() {
         await openMenuItem(page, 'Manage');
         await page.waitForNetworkIdle();
-        await page.waitFor('#secondNavBar');
+        await page.waitForSelector('#secondNavBar');
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('admin_changed');
@@ -72,11 +72,11 @@ describe("Menus", function () {
     it('should load the admin reporting menu correctly on mobile', async function() {
         page.webpage.setViewport({ width: 768, height: 512 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
-        await page.waitFor('.pageWrap');
+        await page.waitForSelector('.pageWrap');
         await page.evaluate(function(){
             $('.activateTopMenu>span').click();
         });
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_top');
     });
