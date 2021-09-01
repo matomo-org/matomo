@@ -12,7 +12,7 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
-use Piwik\Translation\Transifex\API;
+use Piwik\Translation\Weblate\API;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,18 +22,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FetchTranslations extends TranslationBase
 {
-    const DOWNLOAD_PATH = '/transifex';
+    const DOWNLOAD_PATH = '/weblate';
 
     protected function configure()
     {
         $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         $this->setName('translations:fetch')
-             ->setDescription('Fetches translations files from Transifex to ' . $path)
-             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
-             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
-             ->addOption('lastupdate', 'l', InputOption::VALUE_OPTIONAL, 'Last time update ran', time()-30*24*3600)
-             ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'project slug on transifex', 'matomo')
+             ->setDescription('Fetches translations files from Weblate to ' . $path)
+             ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
+             ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'project slug on weblate', 'matomo')
              ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');
     }
 
@@ -41,37 +39,35 @@ class FetchTranslations extends TranslationBase
     {
         $output->setDecorated(true);
 
-        $username = $input->getOption('username');
-        $password = $input->getOption('password');
+        $apiToken = $input->getOption('token');
         $plugin = $input->getOption('plugin');
-        $lastUpdate = $input->getOption('lastupdate');
         $slug = $input->getOption('slug');
 
-        $resource = 'matomo-'. ($plugin ? 'plugin-'.strtolower($plugin) : 'base');
+        $resource = $plugin ? 'plugin-'.strtolower($plugin) : 'matomo-base';
 
-        $transifexApi = new API($username, $password, $slug);
+        $weblateApi = new API($apiToken, $slug);
 
         // remove all existing translation files in download path
         $files = glob($this->getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');
         array_map('unlink', $files);
 
-        if (!$transifexApi->resourceExists($resource)) {
-            $output->writeln("Skipping resource $resource as it doesn't exist on Transifex");
+        if (!$weblateApi->resourceExists($resource)) {
+            $output->writeln("Skipping resource $resource as it doesn't exist on Weblate");
             return;
         }
 
-        $output->writeln("Fetching translations from Transifex for resource $resource");
+        $output->writeln("Fetching translations from Weblate for resource $resource");
 
         try {
-            $languages = $transifexApi->getAvailableLanguageCodes();
+            $languages = $weblateApi->getAvailableLanguageCodes();
 
             if (!empty($plugin)) {
                 $languages = array_filter($languages, function ($language) {
-                    return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
+                    return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)), true);
                 });
             }
         } catch (AuthenticationFailedException $e) {
-            $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames();
+            $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames(true);
 
             $languageCodes = array();
             foreach ($availableLanguages as $languageInfo) {
@@ -96,20 +92,9 @@ class FetchTranslations extends TranslationBase
 
         $progress->start();
 
-        $statistics = $transifexApi->getStatistics($resource);
-
         foreach ($languages as $language) {
             try {
-                // if we have modification date given from statistics api compare it with given last update time to ignore not update resources
-                if (LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language))) && isset($statistics->$language)) {
-                    $lastupdated = strtotime($statistics->$language->last_update);
-                    if ($lastUpdate > $lastupdated) {
-                        $progress->advance();
-                        continue;
-                    }
-                }
-
-                $translations = $transifexApi->getTranslations($resource, $language, true);
+                $translations = $weblateApi->getTranslations($resource, $language, true);
                 file_put_contents($this->getDownloadPath() . DIRECTORY_SEPARATOR . str_replace('_', '-', strtolower($language)) . '.json', $translations);
             } catch (\Exception $e) {
                 $output->writeln("Error fetching language file $language: " . $e->getMessage());
