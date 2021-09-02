@@ -20,7 +20,7 @@ class SecurityPolicy
      * Commonly used rules
      */
     const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval'";
-    const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:"
+    const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
     const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https: http:";
 
     /**
