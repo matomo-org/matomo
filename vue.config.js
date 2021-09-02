@@ -24,7 +24,6 @@ module.exports = {
   chainWebpack: config => {
     config.externals({
       'tslib': 'tslib',
-      'vue-class-component': 'VueClassComponent',
       ...pluginExternals,
     });
   },
