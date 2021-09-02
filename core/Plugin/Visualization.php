@@ -330,6 +330,10 @@ class Visualization extends ViewDataTable
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
+        if(!isset($request['columns'])){
+            $request['columns'] = $this->config->columns_to_display;
+        }
+        
         $proxyRequestParams = $request;
         if ($this->isComparing()) {
             $proxyRequestParams = array_merge($proxyRequestParams, [
