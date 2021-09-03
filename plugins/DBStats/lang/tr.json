@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Veritabanı kullanımı",
-        "DataSize": "Veri boyutu",
         "DBSize": "Veritabanı boyutu",
+        "DataSize": "Veri boyutu",
+        "DatabaseUsage": "Veritabanı kullanımı",
         "EstimatedSize": "Öngörülen boyut",
         "IndexSize": "Dizin boyutu",
         "LearnMore": "Verilerin Matomo tarafından nasıl işlendiğini ile orta ve yüksek trafiğe sahip sitelerde nasıl iyi çalışacağını öğrenmek için şu belgeye bakın: %s.",

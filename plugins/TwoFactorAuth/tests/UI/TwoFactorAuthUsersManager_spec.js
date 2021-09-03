@@ -35,22 +35,22 @@ describe("TwoFactorAuthUsersManager", function () {
         await page.evaluate(function () {
             $('.userEditForm .menuUserTwoFa a').click();
         });
-        await page.waitFor(250);
-        await page.waitFor('.twofa-reset > p', { visible: true });
+        await page.waitForTimeout(250);
+        await page.waitForSelector('.twofa-reset > p', { visible: true });
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa');
     });
 
     it('should ask for confirmation before resetting 2fa', async function () {
         await page.click('.userEditForm .twofa-reset .resetTwoFa .btn');
-        const modal = await page.waitFor('.modal.open', { visible: true });
-        await page.waitFor(1000); // animation
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.waitForTimeout(1000); // animation
         expect(await modal.screenshot()).to.matchImage('edit_with_2fa_reset_confirm');
     });
 
     it('should be possible to confirm the reset', async function () {
         await page.type('.twofa-confirm-modal input[name=currentUserPassword]', 'superUserPass');
         await page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
-        await page.waitFor(500); // wait for modal to close
+        await page.waitForTimeout(500); // wait for modal to close
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa_reset_confirmed');
     });
 

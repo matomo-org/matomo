@@ -6,17 +6,17 @@
         "DaysAgo": "%s zile în urmă",
         "GoalConversions": "%s obiectivul conversiilor",
         "HoursAgo": "%s ore în urmă",
-        "map": "harta",
         "MinutesAgo": "%s acum cateva minute",
-        "None": "Nu sunt",
         "NoVisit": "Nici o vizita",
+        "None": "Nu sunt",
         "RealTimeMap": "Harta în timp real",
         "Regions": "Regiuni",
         "Searches": "%s cautari",
         "SecondsAgo": "%s acum o secunda",
         "ShowingVisits": "Ultimile vizite geo-localizate",
-        "Unlocated": "<b>%s<\/b> %p vizitelor de la %c nu au putut fi geolocalizate.",
+        "Unlocated": "<b>%1$s</b> %2$p vizitelor de la %3$c nu au putut fi geolocalizate.",
         "VisitorMap": "Harta vizitatori",
-        "WorldWide": "World-Wide"
+        "WorldWide": "World-Wide",
+        "map": "harta"
     }
 }

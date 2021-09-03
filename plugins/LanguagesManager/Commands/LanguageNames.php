@@ -11,6 +11,7 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -20,12 +21,13 @@ class LanguageNames extends TranslationBase
     protected function configure()
     {
         $this->setName('translations:languagenames')
+             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Displays all languages (ignores language configuration)')
              ->setDescription('Shows available language names');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $languages = API::getInstance()->getAvailableLanguageNames();
+        $languages = API::getInstance()->getAvailableLanguageNames($input->getOption('all'));
 
         $languageNames = array();
         foreach ($languages as $languageInfo) {

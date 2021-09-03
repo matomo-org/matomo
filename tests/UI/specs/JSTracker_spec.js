@@ -26,7 +26,7 @@ describe("JSTracker", function () {
         // view another page
         await page.evaluate(() => $('a:contains(Page 3)')[0].click());
         await page.waitForNetworkIdle();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
 
         // visit visitor log for correct date

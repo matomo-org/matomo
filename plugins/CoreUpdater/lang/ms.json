@@ -1,0 +1,10 @@
+{
+    "CoreUpdater": {
+        "ExceptionArchiveEmpty": "Arkib kosong.",
+        "MajorUpdateWarning2": "Pemberitahu yang berikut adalah amat penting untuk pemasangan yang besar.",
+        "ReadyToGo": "Sudah bersedia?",
+        "UpdateTitle": "Pengemaskinian",
+        "UpgradeComplete": "Peningkatan selesai!",
+        "WarningMessages": "Amaran:"
+    }
+}

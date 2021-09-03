@@ -24,7 +24,7 @@ describe("FeedbackPopup", function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        var modal = await page.waitFor('.modal.open', { visible: true });
+        var modal = await page.waitForSelector('.modal.open', { visible: true });
         expect(await modal.screenshot()).to.matchImage('feedback_popup');
 
         // Click on the "Remind me in 90 days" button = the popup shouldn't appear for the next test

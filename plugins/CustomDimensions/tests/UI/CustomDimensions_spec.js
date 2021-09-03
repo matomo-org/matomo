@@ -24,27 +24,28 @@ describe("CustomDimensions", function () {
     var popupSelector = '.ui-dialog:visible';
 
     async function capturePageWrap (screenName, test) {
-        await test();
-        var elem = await page.jQuery('.pageWrap');
-        expect(await elem.screenshot()).to.matchImage(screenName);
+        await captureSelector(screenName, '.pageWrap', test)
     }
 
     async function captureSelector (screenName, selector, test) {
+        await page.webpage.setViewport({
+            width: 1350,
+            height: 768,
+        });
         await test();
-        var elem = await page.jQuery(selector);
-        expect(await elem.screenshot()).to.matchImage(screenName);
+        expect(await page.screenshotSelector(selector)).to.matchImage(screenName);
     }
 
     async function closeOpenedPopover()
     {
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         const closeButton = await page.jQuery('.ui-dialog:visible .ui-icon-closethick:visible');
         if (!closeButton) {
             return;
         }
 
         await closeButton.click();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
     }
 
     async function triggerRowAction(labelToClick, nameOfRowActionToTrigger)
@@ -52,11 +53,11 @@ describe("CustomDimensions", function () {
         var rowToMatch = 'td.label:contains(' + labelToClick + '):first';
 
         await (await page.jQuery('table.dataTable tbody ' + rowToMatch)).hover();
-        await page.waitFor(50);
+        await page.waitForTimeout(50);
         await (await page.jQuery(rowToMatch + ' a.'+ nameOfRowActionToTrigger + ':visible')).hover(); // necessary to get popover to display
         await (await page.jQuery(rowToMatch + ' a.' + nameOfRowActionToTrigger + ':visible')).click();
         await page.mouse.move(-10, -10);
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
         await page.waitForNetworkIdle();
     }
 
@@ -86,7 +87,7 @@ describe("CustomDimensions", function () {
             await page.goto( "?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
             await (await page.jQuery('.reportsByDimensionView .dimension:contains(MyName1)')).click();
             await page.waitForNetworkIdle();
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
         });
     });
 
@@ -108,12 +109,13 @@ describe("CustomDimensions", function () {
 
     it('should offer only segmented visitor log and row action for first level entries', async function () {
         await capturePageWrap('report_actions_rowactions', async function () {
-            await (await page.jQuery('td.label:contains(en):first')).hover();
+            await page.hover('tr:first-child td.label');
         });
     });
 
     it('should be able to render insights', async function () {
         await capturePageWrap('report_action_insights', async function () {
+            await page.mouse.move(0, 0);
             await page.evaluate(function(){
                 $('[data-footer-icon-id="insightsVisualization"]').click();
             });
@@ -146,7 +148,7 @@ describe("CustomDimensions", function () {
             await (await page.jQuery('.dataTable .subDataTable .value:contains(en):first')).click();
             await page.waitForNetworkIdle();
             await (await page.jQuery('td.label:contains(en_US)')).hover();
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
         });
     });
 
@@ -169,9 +171,9 @@ describe("CustomDimensions", function () {
             await page.goto(reportUrlDimension3);
             await (await page.jQuery('.dataTable .subDataTable .value:contains(en):first')).click();
             await page.waitForNetworkIdle();
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
             await (await page.jQuery('td.label:contains(en_US)')).hover();
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
             await triggerRowAction('en_US', 'actionTransitions');
         });
     });

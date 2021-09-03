@@ -1008,6 +1008,12 @@ innodb_lock_wait_timeout = 0
 ; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
 exclude_requests = ""
 
+; Custom image to return when tracker URL includes &image=1
+; Overrides the default 1x1 transparent gif
+; This should either be the full path to the image file or a base64 encoded image string wrapped in quotes
+; For both image files and base64 encoded strings supported image types are gif, jpg and png
+custom_image =
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
@@ -1066,6 +1072,64 @@ host = ; Proxy host: the host name of your proxy server (mandatory)
 port = ; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
+
+[Languages]
+Languages[] = am
+Languages[] = ar
+Languages[] = be
+Languages[] = bg
+Languages[] = bn
+Languages[] = bs
+Languages[] = ca
+Languages[] = cs
+Languages[] = cy
+Languages[] = da
+Languages[] = de
+Languages[] = el
+Languages[] = en
+Languages[] = eo
+Languages[] = es
+Languages[] = es-ar
+Languages[] = et
+Languages[] = eu
+Languages[] = fa
+Languages[] = fi
+Languages[] = fr
+Languages[] = gl
+Languages[] = he
+Languages[] = hi
+Languages[] = hr
+Languages[] = hu
+Languages[] = id
+Languages[] = is
+Languages[] = it
+Languages[] = ja
+Languages[] = ka
+Languages[] = ko
+Languages[] = lt
+Languages[] = lv
+Languages[] = nb
+Languages[] = nl
+Languages[] = nn
+Languages[] = pl
+Languages[] = pt
+Languages[] = pt-br
+Languages[] = ro
+Languages[] = ru
+Languages[] = sk
+Languages[] = sl
+Languages[] = sq
+Languages[] = sr
+Languages[] = sv
+Languages[] = ta
+Languages[] = te
+Languages[] = th
+Languages[] = tl
+Languages[] = tr
+Languages[] = uk
+Languages[] = vi
+Languages[] = zh-cn
+Languages[] = zh-tw
 
 [Plugins]
 ; list of plugins (in order they will be loaded) that are activated by default in the Matomo platform

@@ -18,18 +18,18 @@ describe("OneClickUpdate", function () {
 
     it('should show the new version available button in the admin screen', async function () {
         await page.goto(latestStableUrl);
-        await page.waitFor('#login_form_login', { visible: true });
+        await page.waitForSelector('#login_form_login', { visible: true });
 
         await page.type('#login_form_login', 'superUserLogin');
         await page.type('#login_form_password', 'superUserPass');
         await page.click('#login_form_submit');
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.pageWrap');
+        await page.waitForSelector('.pageWrap');
 
         await page.goto(settingsUrl);
 
-        const element = await page.waitFor('#header_message', { visible: true });
+        const element = await page.waitForSelector('#header_message', { visible: true });
         expect(await element.screenshot()).to.matchImage('latest_version_available');
     });
 
@@ -37,7 +37,7 @@ describe("OneClickUpdate", function () {
         await page.click('#header_message');
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.content');
+        await page.waitForSelector('.content');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
     });
@@ -45,14 +45,14 @@ describe("OneClickUpdate", function () {
     it('should fail to automatically update when trying to update over https fails', async function () {
         await page.click('#updateAutomatically');
         await page.waitForNetworkIdle();
-        await page.waitFor('.content');
+        await page.waitForSelector('.content');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
     });
 
     it('should update successfully and show the finished update screen', async function () {
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
-        await page.waitFor('.content');
+        await page.waitForSelector('.content');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
     });
 
@@ -66,7 +66,7 @@ describe("OneClickUpdate", function () {
             if (submitButton) {
                 await submitButton.click();
                 await page.waitForNetworkIdle();
-                await page.waitFor(250);
+                await page.waitForTimeout(250);
 
                 const continueButton = await page.$('.footer a');
                 if (continueButton) { // finish page might not be displayed if only one query is executed
@@ -78,7 +78,7 @@ describe("OneClickUpdate", function () {
             }
         }
 
-        await page.waitFor('.site-without-data', { visible: true });
+        await page.waitForSelector('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
 
         const element  = await page.$('.site-without-data');

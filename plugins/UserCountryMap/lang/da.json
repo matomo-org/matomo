@@ -1,25 +1,25 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Denne udvidelse leverer de to widgets Besøgerkort og Realtidskort. Bemærk: Kræver at BrugerLand-udvidelsen er aktiveret.",
         "AndNOthers": "og %s andre",
         "Cities": "Byer",
         "Countries": "Lande",
         "DaysAgo": "%s dage siden",
         "GoalConversions": "%s målkonverteringer",
         "HoursAgo": "%s timer siden",
-        "map": "kort",
         "MinutesAgo": "%s minutter siden",
-        "None": "Ingen",
         "NoVisit": "Ingen besøg",
+        "None": "Ingen",
+        "PluginDescription": "Denne udvidelse leverer de to widgets Besøgerkort og Realtidskort. Bemærk: Kræver at BrugerLand-udvidelsen er aktiveret.",
         "RealTimeMap": "Realtidskort",
         "Regions": "Regioner",
         "Searches": "%s søgninger",
         "SecondsAgo": "%s sekunder siden",
         "ShowingVisits": "Geografisk placeret besøg af sidste",
-        "Unlocated": "<b>%s<\/b> besøg %p fra %c kunne ikke placeres geografisk.",
+        "Unlocated": "<b>%1$s</b> besøg %2$p fra %3$c kunne ikke placeres geografisk.",
         "VisitorMap": "Besøgerkort",
-        "WorldWide": "Hele verden",
+        "WithUnknownCity": "%s med ukendt by",
         "WithUnknownRegion": "%s med ukendt region",
-        "WithUnknownCity": "%s med ukendt by"
+        "WorldWide": "Hele verden",
+        "map": "kort"
     }
 }

@@ -21,7 +21,7 @@ describe("Live", function () {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.dataTableVizVisitorLog');
+        await page.waitForSelector('.dataTableVizVisitorLog');
 
         var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log');
