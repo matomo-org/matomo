@@ -1225,4 +1225,40 @@ class Common
         }
         return $validLanguages;
     }
+
+    /**
+     * compare 2 strings by strcmp but putting longer strings first
+     * @param string $a compare subject left
+     * @param string $b compare subject right
+     * @return int
+     */
+    public static function longerStrCmp(string $a, string $b)
+    {
+        $alen = strlen($a);
+        $blen = strlen($b);
+        $len = $alen - $blen;
+        if ($len === 0) {
+            return strcmp($a, $b);
+        }
+        if ($len < 0) {
+            $bshort = substr($b, 0, $alen);
+            $cmp = strcmp($a, $bshort);
+        } else {
+            $bshort = substr($b, 0, $alen);
+            $cmp = strcmp($a, $bshort);
+        }
+        if ($cmp === 0) {
+            return -$len;
+        }
+        return $cmp;
+    }
+
+    /**
+     * sort an array by strcmp but longer strings first
+     * @param array &$arr to sort (by ref)
+     */
+    public static function sortByLongerString(array &$arr)
+    {
+        usort($arr, [Common::class, 'longerStrCmp']);
+    }
 }

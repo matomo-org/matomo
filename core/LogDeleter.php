@@ -8,9 +8,12 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\SitesManager\Model;
+use Piwik\Tracker\LogTable;
 
 /**
  * Service that deletes log entries. Methods in this class cascade, so deleting visits will delete visit actions,
@@ -51,8 +54,12 @@ class LogDeleter
                 if ($logTable->getName() === 'log_visit') {
                     $numDeletedVisits = $numVisits;
                 }
+            } elseif ($ways = $logTable->getWaysToJoinToOtherLogTables()) {
+                // ...
+                $a = $ways;
             }
         }
+        $tables = StaticContainer::get(DataSubjects::class)->getLogTablesToDeleteFrom();
 
         return $numDeletedVisits;
     }
@@ -95,6 +102,33 @@ class LogDeleter
 
         $logsDeleted = 0;
         $logPurger = $this;
+        $logTables = StaticContainer::get(DataSubjects::class)->getLogTablesToDeleteFrom();
+        // @var LogTable[]
+        $logTablesMinusLogVisit = array_filter($logTables, function (LogTable $logTable) {
+            return $logTable->getName() !== 'log_visit';
+        });
+//        foreach ($logTablesMinusLogVisit as $logTable) {
+//            $table = $logTable->getName();
+//            $idColumn = $logTable->getIdColumn();
+//            $waysToJoin = $logTable->getWaysToJoinToOtherLogTables();
+//            $joinTable = key($waysToJoin);
+//            $joinColumn = $waysToJoin[$joinTable];
+//            $idVisitColumn = $logTable->getColumnToJoinOnIdVisit();
+//            $sql = "DELETE FROM `$table` WHERE `$idColumn` IN ?";
+//            $sql = "SELECT * " .
+//                "FROM matomo_log_form_field AS log_form_field JOIN matomo_log_form AS log_form " .
+//                "ON (log_form_field.idlogform=log_form.idlogform) JOIN matomo_log_visit AS log_visit " .
+//                "ON (log_form.idvisit=log_visit.idvisit) " .
+//                "WHERE log_visit.visit_last_action_time<='2021-12-12'";
+//            $logVisitTable = Common::prefixTable('log_visit');
+//            $sql = "DELETE FROM `$table` AS `table` JOIN `$joinTable` AS `join_table` " .
+//                "ON (`$table`.`$joinColumn`=`$joinTable`.`$joinColumn`) JOIN `$logVisitTable` AS `log_visit` " .
+//                "ON (`$joinTable`.`$idVisitColumn`=`log_visit`.`idvisit`) " .
+//                "WHERE `log_visit`.`visit_last_action_time` BETWEEN ? AND ?";
+////            Db::query($sql, [$startDatetime, $endDatetime]);
+////            getColumnToJoinOnIdVisit
+//
+//        }
         $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $iterationStep, function ($logs) use ($logPurger, &$logsDeleted, $afterChunkDeleted) {
             $ids = array_map(function ($row) { return (int) (reset($row)); }, $logs);
             sort($ids);

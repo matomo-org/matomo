@@ -498,4 +498,40 @@ class CommonTest extends TestCase
     {
         $this->assertEquals($expected, Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
     }
+
+    public function testSortByLongerString()
+    {
+        $arr = [
+            'matomo_log_action',
+            'matomo_log_conversion',
+            'matomo_log_conversion_item',
+            'matomo_log_hsr',
+            'matomo_log_hsr_blob',
+            'matomo_log_hsr_event',
+            'matomo_log_hsr_site',
+            'matomo_log_form',
+            'matomo_log_form_field',
+            'matomo_log_form_page',
+            'matomo_log_link_visit_action',
+            'matomo_log_profiling',
+            'matomo_log_visit',
+        ];
+        $expected = [
+            'matomo_log_action',
+            'matomo_log_conversion_item',
+            'matomo_log_conversion',
+            'matomo_log_form_field',
+            'matomo_log_form_page',
+            'matomo_log_form',
+            'matomo_log_hsr_blob',
+            'matomo_log_hsr_event',
+            'matomo_log_hsr_site',
+            'matomo_log_hsr',
+            'matomo_log_link_visit_action',
+            'matomo_log_profiling',
+            'matomo_log_visit',
+        ];
+        Common::sortByLongerString($arr);
+        $this->assertSame($expected, $arr);
+    }
 }
