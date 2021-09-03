@@ -456,7 +456,7 @@ class Common
      */
     public static function sanitizeLineBreaks($value)
     {
-        return $value ? str_replace(array("\n", "\r"), '', $value) : '';
+        return is_null($value) ? '' : str_replace(array("\n", "\r"), '', $value);
     }
 
     /**
