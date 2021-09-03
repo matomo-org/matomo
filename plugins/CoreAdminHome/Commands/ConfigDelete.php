@@ -17,58 +17,54 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
 
-class ConfigGet extends ConsoleCommand
+class ConfigDelete extends ConsoleCommand
 {
-    /*
-     * SystemConfigSetting throws an error if the setting name is empty, so use a fake one that is unlikely to actually exist, which we will check for later.
-     */
 
-    private const NO_SETTING_NAME_FOUND_PLACEHOLDER = 'ConfigGet_FAKE_SETTING_NAME';
-    public const OUTPUT_FORMATS = ['json', 'yaml', 'text'];
-    public const OUTPUT_FORMAT_DEFAULT = 'json';
+    // Message output if no matching setting is found.
+    private const MSG_NOTHING_FOUND = 'Nothing found';
+    // Message output on success.
+    private const MSG_SUCCESS = 'Success: The setting has been deleted';
 
     protected function configure()
     {
-        $this->setName('config:get');
-        $this->setDescription('Get a config value or section');
+        $this->setName('config:delete');
+        $this->setDescription('Delete a config setting');
         $this->addArgument(
             'argument',
             InputArgument::OPTIONAL,
-            "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled'"
+            "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled.PluginsInstalled[CustomDimensions]"
         );
         $this->addOption('section', 's', InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
         $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('format', 'f', InputOption::VALUE_OPTIONAL, 'Format the output as ' . json_encode(self::OUTPUT_FORMATS) . '; Default is ' . self::OUTPUT_FORMAT_DEFAULT, self::OUTPUT_FORMAT_DEFAULT);
+        $this->addOption('value', 'i', InputOption::VALUE_REQUIRED, 'For arrays, specify the array value to be deleted.');
 
-        $this->setHelp("This command can be used to get a INI config setting or a whole section of settings on a Piwik instance.
+        $this->setHelp("This command can be used to delete a INI config setting.
 
-You can get config values per the two sections below, where:
-- [Section] is the name of the section or array value, e.g. database or PluginsInstalled.
+You can delete config values per the two sections below, where:
+- [Section] is the name of the section, e.g. database or General.
 - [config_setting_name] the name of the setting, e.g. username.
+- [array_value] For arrays, the specific array value to delete.
 
-(1) By settings options --section=[Section] and --key=[config_setting_name].  The option --section is required. Examples:
-#Return all settings in this section.
-$ ./console %command.name% --section=database
-#Return only this setting.
+(1) By settings options --section=[Section] and --key=[config_setting_name], and optionally --value=[array_value].  Examples:
+#Delete this setting.
 $ ./console %command.name% --section=database --key=username
+#Delete one value in an array:
+$ ./console %command.name% --section=database --key=username --value=DevicesDetection
 
 OR
 
-(2) By using a command argument in the format [Section].[config_setting_name]. Examples:
-#Return all settings in this section.
-$ ./console %command.name% 'database'
-#Return all settings in this array value; square brackets are optional.
-$ ./console %command.name% 'PluginsInstalled'
-$ ./console %command.name% 'PluginsInstalled[]'
-#Return only this setting.
+(2) By using a command argument in the format [Section].[config_setting_name].[array_value]. Examples:
+#Delete this setting.
 $ ./console %command.name% 'database.username'
+#Delete one value in an array:
+$ ./console %command.name% 'PluginsInstalled.PluginsInstalled.DevicesDetection'
 
 NOTES:
-- Section and key names are case-sensitive; so --section=Database fails but --section=database works.  Look in global.ini.php for the proper case.
-- If no matching setting key is found, the string \"Nothing found\" shows.
-- Else the output will be shown JSON-encoded.  You can use something like https://stedolan.github.io/jq to parse it.
+- Settings may still appear to exist if they are set in global.ini.php or elsewhere.
+- Section names, key names, and array values are all case-sensitive; so e.g. --section=Database fails but --section=database works.  Look in config.ini.php and global.ini.php for the proper case.
+- If no matching section/setting is found, the string \"" . self::MSG_NOTHING_FOUND . "\" shows.
+- For safety, this tool cannot be used to delete a whole section of settings or an array of values in a single command.
 ");
     }
 
@@ -77,23 +73,16 @@ NOTES:
         //Optionally could set this at runtime with: $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE.
         $debug = false;
 
-        // Gather options, then discard ones with an empty value so we do not need to check for empty later.
+        // Gather options, then discard ones that are empty so we do not need to check for empty later.
         $options = array_filter([
             'section' => $input->getOption('section'),
             'key' => $input->getOption('key'),
-            'format' => $input->getOption('format'),
+            'value' => $input->getOption('value'),
         ]);
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::Started with $options=' . (empty($options) ? '' : serialize($options))));
-
-        // If none specified, set default format.
-        if ( ! isset($options['format']) || empty($format = $options['format']) || ! in_array($format, self::OUTPUT_FORMATS, true)) {
-            $format = self::OUTPUT_FORMAT_DEFAULT;
-        }
-        // Since it is config and not input data, remove format from the options so we can just work with the section and format.
-        unset($options['format']);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $options=' . (empty($options) ? '' : serialize($options)));
 
         $argument = trim($input->getArgument('argument'));
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::Started with $argument=' . (empty($argument) ? '' : serialize($argument))));
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $argument=' . (empty($argument) ? '' : serialize($argument)));
 
         // Sanity check inputs.
         switch (true) {
@@ -101,122 +90,201 @@ NOTES:
                 throw new \InvalidArgumentException('You must set either an argument or set options --section and optional --key');
             case ! empty($argument) && ! empty($options):
                 throw new \InvalidArgumentException('You cannot set both an argument (' . serialize($argument) . ') and options (' . serialize($argument) . ')');
-            case empty($argument) && ( ! isset($options['section']) || empty($options['section'])):
-                throw new \InvalidArgumentException('When using options, the --section value must be set');
+            case empty($argument) && ( ! isset($options['section']) || empty($options['section']) || ! isset($options['key']) || empty($options['key'])):
+                throw new \InvalidArgumentException('When using options, --section and --key must be set');
             case ! empty($argument):
-                $systemConfigSettingStr = $argument;
+                $settingStr = $argument;
                 break;
             case ! empty($options):
-                $systemConfigSettingStr = implode('.', $options);
+                $settingStr = implode('.', $options);
                 break;
             default:
                 // We should not get here, but just in case.
                 throw new Exception('Some unexpected error occurred parsing input values');
         }
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . "::Found \$systemConfigSettingStr=$systemConfigSettingStr"));
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Found \$settingStr=$settingStr");
 
-        // Parse the $systemConfigSettingStr into a SystemConfigSetting object.
-        $systemConfigSetting = self::make($systemConfigSettingStr);
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::Parsed \$systemConfigSetting=' . serialize($systemConfigSetting)));
+        // Convenience wrapper used to augment SystemConfigSetting without extending SystemConfigSetting or adding random properties to the instance.
+        $settingWrapped = (object) [
+                'setting' => null,
+                'isArray' => false,
+                'arrayVal' => '',
+        ];
 
-        $config = Config::getInstance();
+        // Parse the $settingStr into a $settingWrapped object.
+        $settingWrapped = self::parseSettingStr($settingStr, $settingWrapped);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After parseSettingStr() \$settingWrapped=' . serialize($settingWrapped));
 
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . "::About to get config for \$systemConfigSettingStr={$systemConfigSettingStr}"));
-        $result = $this->getConfigValue($config, $systemConfigSetting, $output);
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('comment', __FUNCTION__ . '::Got $result=' . serialize($result)));
+        // Check the setting exists and user has permissions, then populates the $settingWrapped properties.
+        $settingWrapped = $this->checkAndPopulate($settingWrapped);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After fileterSetting() \$settingWrapped=' . print_r($settingWrapped, true));
 
-        if (empty($result)) {
-            $output->writeln(self::wrapInTag('comment', 'Nothing found.'));
+        if ( ! isset($settingWrapped->setting) || empty($settingWrapped->setting)) {
+            $output->writeln(self::wrapInTag('comment', self::MSG_NOTHING_FOUND));
         } else {
-            $output->writeln($this->formatVariableForOutput($systemConfigSetting, $result, $format));
+            // Pass both static and array config items out to the delete logic.
+            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::About to delete config for \$settingStr={$settingStr}");
+            $result = $this->deleteConfigSetting($settingWrapped);
+            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got $result=' . serialize($result));
+
+            if ($result) {
+                $output->writeln($this->wrapInTag('info', self::MSG_SUCCESS));
+            }
         }
 
         //Many matomo script output Done when they're done.  IMO it's not needed: $output->writeln(self::wrapInTag('info', 'Done.'));
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::Done'));
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Done');
     }
 
     /**
-     * Get a config section or section.value.
+     * Check the setting exists and user has permissions, then return a new, populated SystemConfigSetting wrapper.
      *
-     * @param Config $config A Matomo Config instance.
-     * @param SystemConfigSetting $systemConfigSetting
-     * @param OutputInterface $output Used only for debug output.
-     * @return Mixed The config section or value.
+     * @param object $settingWrapped A wrapped SystemConfigSetting object e.g. what is returned from parseSettingStr().
+     * @return object A new wrapped SystemConfigSetting object.
      */
-    private function getConfigValue(Config $config, SystemConfigSetting $systemConfigSetting, OutputInterface $output)
-    {
-        $debug = true;
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::Started with $systemConfigSetting=' . serialize($systemConfigSetting)));
-
-        $configSectionName = $systemConfigSetting->getConfigSectionName();
-        if (empty($configSectionName)) {
-            throw new \InvalidArgumentException('A section name must be specified');
-        }
-        if (empty($systemConfigSection = $config->__get($configSectionName))) {
-            $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('error', __FUNCTION__ . "::No config section matches \$configSectionName={$configSectionName}"));
-            return null;
-        }
-
-        // Convert array to object since it is slightly cleaner/easier to work with.
-        $systemConfigSection = (object) $systemConfigSection;
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::Got $systemConfigSection=' . print_r($systemConfigSection, true)));
-
-        // Look for the specific setting.
-        $systemConfigSettingName = $systemConfigSetting->getName();
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . "::Looking for \$systemConfigSettingName={$systemConfigSettingName}"));
-
-        // Return the whole setting section if requested.
-        // The name=FAKE_SETTING_NAME is a placeholder for when no setting is specified.
-        if (empty($systemConfigSettingName) || $systemConfigSettingName === self::NO_SETTING_NAME_FOUND_PLACEHOLDER) {
-            $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . "::No specific setting was requested, so return the whole section"));
-            $systemConfigSectionContents = $systemConfigSection;
-            $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::About to return $systemConfigSectionContents=' . serialize($systemConfigSectionContents)));
-            return (array) $systemConfigSectionContents;
-        }
-
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . "::About to look for config setting with \$systemConfigSettingName={$systemConfigSettingName}"));
-
-        switch (true) {
-            case ! isset($systemConfigSection->$systemConfigSettingName):
-                $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('error', __FUNCTION__ . "::No config setting matches \$systemConfigSettingName={$systemConfigSettingName}"));
-                $systemConfigSettingValue = null;
-                break;
-            case is_array($systemConfigSettingValue = $systemConfigSection->$systemConfigSettingName):
-                $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('error', __FUNCTION__ . "::The config setting is an array value"));
-                break;
-            default:
-                $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('error', __FUNCTION__ . "::The config setting is a scalar value"));
-                $systemConfigSettingValue = $systemConfigSetting->getValue();
-        }
-
-        $debug && fwrite(STDERR, PHP_EOL . self::wrapInTag('info', __FUNCTION__ . '::About to return $systemConfigSettingValue=' . serialize($systemConfigSettingValue)));
-        return $systemConfigSettingValue;
-    }
-
-    /**
-     * Build a SystemConfigSetting object from a string like:
-     * `SectionName.setting_name`
-     * or
-     * `SectionName.setting_name[]`
-     *
-     * @param string $systemConfigSettingStr Config setting string to parse.
-     * @return SystemConfigSetting A SystemConfigSetting object.
-     */
-    public static function make(string $systemConfigSettingStr): SystemConfigSetting
+    private function checkAndPopulate(object $settingWrapped): object
     {
         $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$systemConfigSettingStr={$systemConfigSettingStr}");
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $settingWrapped=' . print_r($settingWrapped, true));
 
-        $matches = [];
-        if ( ! preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(\[\])?/', $systemConfigSettingStr, $matches) || empty($matches[1])) {
-            throw new \InvalidArgumentException("Invalid input string='{$systemConfigSettingStr}': expected section.name or section.name[]");
+        // Sanity check inputs.
+        if ( ! ($settingWrapped->setting instanceof SystemConfigSetting)) {
+            throw new \InvalidArgumentException('This function expects $settingWrapped->setting to be a SystemConfigSetting instance');
         }
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got regex $matches=' . serialize($matches));
+        $config = Config::getInstance();
 
-        return new SystemConfigSetting(
-            // Setting name. SystemConfigSetting throws an error if the setting name is empty, so use placeholder that flags that no setting was specified.
-            $matches[2] ?? self::NO_SETTING_NAME_FOUND_PLACEHOLDER,
+        // Check the setting exists and user has permissions. If so, put it in the wrapper.
+        switch (true) {
+            case ! $settingWrapped->setting->isWritableByCurrentUser():
+                throw new \Exception('No write permissions to this setting');
+            case empty($sectionName = $settingWrapped->setting->getConfigSectionName()):
+                throw new \InvalidArgumentException('A section name must be specified');
+            case empty($settingName = $settingWrapped->setting->getName()):
+                throw new \InvalidArgumentException('A setting name must be specified');
+            case empty($section = $config->__get($sectionName)):
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No config section matches \$sectionName={$sectionName}");
+                return new \stdClass();
+            case empty($section = (object) $section) || ! isset($section->$settingName):
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Section {$sectionName} has no setting matching \$settingName={$settingName}");
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Section=" . print_r($section, true));
+                return new \stdClass();
+            default:
+                // We have a valid scalar or array setting in a valid section, so just fall out of the switch statement.
+                break;
+        }
+
+        $settingWrappedNew = clone($settingWrapped);
+        $settingWrappedNew->isArray = is_array($section->$settingName);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "Set \$settingWrappedNew->isArray={$settingWrappedNew->isArray}");
+
+        if ( ! $settingWrappedNew->isArray && ! empty($settingWrappedNew->arrayVal)) {
+            throw new \InvalidArgumentException('This config setting is not an array');
+        }
+        if ($settingWrappedNew->isArray) {
+            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "This config setting is an array");
+            if (empty($settingWrappedNew->arrayVal)) {
+                throw new \InvalidArgumentException('This config setting an array, and no array value was specified for deletion');
+            }
+            if (false === array_search($settingWrappedNew->arrayVal, $section->$settingName)) {
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "This config setting is an array, but does not contain the requested value");
+                return new \stdClass();
+            }
+        }
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::About to return $settingWrappedNew=' . print_r($settingWrappedNew, true));
+        return $settingWrappedNew;
+    }
+
+    /**
+     * Delete a single config section.setting or section.setting[array_key].
+     *
+     * @param object $settingWrapped Wrapper around a setting object describing what to get e.g. from self::make().
+     * @return bool True on success.  If the delete fails, throws an exception.
+     */
+    private function deleteConfigSetting(object $settingWrapped): bool
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $settingWrapped=' . print_r($settingWrapped, true));
+
+        // Sanity check inputs.
+        if ( ! ($settingWrapped->setting instanceof SystemConfigSetting)) {
+            throw new \InvalidArgumentException('This function expects $settingWrapped->setting to be a SystemConfigSetting instance');
+        }
+
+        // Make easy shortcuts to some info.
+        $sectionName = $settingWrapped->setting->getConfigSectionName();
+        $settingName = $settingWrapped->setting->getName();
+
+        // Get the actual config section.
+        $config = Config::getInstance();
+        $section = $config->$sectionName;
+        $setting = $section[$settingName];
+
+        // Do the delete.
+        // This does not do the job with value=null or value='': $config->setSetting($sectionName, $settingName, $value).
+        switch (true) {
+            case $settingWrapped->isArray === true && empty($settingWrapped->arrayVal):
+                throw new \InvalidArgumentException('This function refuses to delete config arrays. See usage for how to delete config array values.');
+            case $settingWrapped->isArray === true:
+                // Array config values.
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::This config setting is an array');
+
+                $key = array_search($settingWrapped->arrayVal, $setting);
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Searched for \$settingWrapped->arrayVal=' . $settingWrapped->arrayVal . ' in array=' . print_r($settingWrapped->setting, true));
+                if ($key !== false) {
+                    unset($setting[$key]);
+                }
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After unset $setting=' . print_r($setting, true));
+
+                // Save the setting into the section.
+                $section[$settingName] = $setting;
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After Save the setting into the section $section=' . print_r($section, true));
+                break;
+            default:
+                // Scalar config values.
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::This config setting is a scalar');
+
+                // Remove the setting from the section.
+                unset($section[$settingName]);
+                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After unset $section=' . print_r($section, true));
+                break;
+        }
+
+        // Save the section into the config.
+        $config->$sectionName = $section;
+
+        // Save the config.
+        $config->forceSave();
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Done');
+        return true;
+    }
+
+    /**
+     * Build a SystemConfigSetting object from a string.
+     *
+     * @param string $settingStr Config setting string to parse.
+     * @return object A new wrapped SystemConfigSetting object.
+     */
+    public static function parseSettingStr(string $settingStr, object $settingWrapped): object
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$settingStr={$settingStr}");
+
+        $matches = [];
+        if ( ! preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(?:\[\])?(?:\.([a-zA-Z0-9_]+))?/', $settingStr, $matches) || empty($matches[1])) {
+            throw new \InvalidArgumentException("Invalid input string='{$settingStr}': expected section.name or section.name[]");
+        }
+
+        $debug && fwrite(STDERR, __FUNCTION__ . '::Got regex $matches=' . serialize($matches));
+
+        $settingName = $matches[2] ?? null;
+        $arrayVal = $matches[3] ?? null;
+
+        $systemConfigSetting = new SystemConfigSetting(
+            // Setting name.
+            $settingName,
             // Default value.
             '',
             // Type.
@@ -226,6 +294,14 @@ NOTES:
             // Section name.
             $matches[1]
         );
+
+        $settingWrappedNew = clone($settingWrapped);
+        $settingWrappedNew->setting = $systemConfigSetting;
+        if ($settingWrappedNew->isArray = ! empty($arrayVal)) {
+            $settingWrappedNew->arrayVal = $arrayVal;
+        }
+
+        return $settingWrappedNew;
     }
 
     /**
@@ -239,96 +315,5 @@ NOTES:
     public static function wrapInTag(string $tagname, string $str): string
     {
         return "<$tagname>$str</$tagname>";
-    }
-
-    /**
-     * Format the config setting to the specified output format.
-     *
-     * @param SystemConfigSetting $systemConfigSetting The found SystemConfigSetting.
-     * @param mixed $var The config setting value -- either scalar or an array of settings.
-     * @param string $format The output format: One of self::OUTPUT_FORMAT_DEFAULT.
-     * @return string The formatted output.
-     */
-    private function formatVariableForOutput(SystemConfigSetting $systemConfigSetting, $var, string $format = self::OUTPUT_FORMAT_DEFAULT): string
-    {
-        $debug = true;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$format={$format}; \$var=" . serialize($var));
-
-        switch ($format) {
-            case 'json':
-                return $this->toJson($var);
-            case 'yaml':
-                return $this->toYaml($var);
-            case 'text':
-                return $this->toText($systemConfigSetting, $var);
-            default:
-                throw new \InvalidArgumentException('Unsupported output format');
-        }
-    }
-
-    /**
-     * Convert $var to a JSON string.
-     * Throws an error on invalid types (a PHP resource or object).
-     *
-     * @param mixed $var The variable to convert.
-     * @return string The Yaml-formatted string.
-     */
-    private function toYaml($var): string
-    {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$var=" . serialize($var));
-
-        return trim(Yaml::dump($var, 2, 2, true));
-    }
-
-    /**
-     * Convert $var to a JSON string.
-     * Throws an error on json_encode failure.
-     *
-     * @param mixed $var The variable to convert.
-     * @return string The JSON-formatted string.
-     */
-    private function toJson($var): string
-    {
-        $result = json_encode($var, JSON_UNESCAPED_SLASHES);
-        if ($result === false) {
-            throw new Exception('Failed to json_encode');
-        }
-
-        return $result;
-    }
-
-    /**
-     * Convert $var to Symfony-colorized CLI output text.
-     *
-     * @param SystemConfigSetting $systemConfigSetting The found SystemConfigSetting.
-     * @param mixed $var The variable to format.
-     * @return string The formatted result.
-     */
-    private function toText(SystemConfigSetting $systemConfigSetting, $var): string
-    {
-        $debug = false;
-        $output = '';
-
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $var=' . serialize($var) . ' (' . getType($var) . ')');
-
-        switch (true) {
-            case is_array($var):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Found var is array');
-                foreach ($var as $key => &$val) {
-                    $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Looking at key={$key}; val=" . serialize($val));
-                    $output .= $this->wrapInTag('info', "{$key}: ");
-                    $output .= $this->wrapInTag('info', $this->wrapInTag('comment', $val)) . PHP_EOL;
-                }
-                break;
-            case is_scalar($output):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Found var is scalar');
-                $output .= $this->wrapInTag('info', $systemConfigSetting->getName() . ': ' . $this->wrapInTag('comment', $var));
-                break;
-            default:
-                throw \InvalidArgumentException('Cannot output unknown type');
-        }
-
-        return $output;
     }
 }
