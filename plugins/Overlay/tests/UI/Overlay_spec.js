@@ -74,7 +74,7 @@ describe("Overlay", function () {
         await page.evaluate(function(){
             $('.dropdown-toggle', $('iframe').contents())[0].click();
         });
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('page_new_links');
@@ -102,7 +102,7 @@ describe("Overlay", function () {
             $('#overlayDateRangeSelect').val('day;yesterday').trigger('change');
         });
 
-        await page.waitFor('.overlayMainMetrics,.overlayNoData');
+        await page.waitForSelector('.overlayMainMetrics,.overlayNoData');
         await page.waitForNetworkIdle();
 
         await removeOptOutIframe();
@@ -113,7 +113,7 @@ describe("Overlay", function () {
         await page.evaluate(function(){
             $('#overlayRowEvolution').click();
         });
-        await page.waitFor(500); // for modal to appear
+        await page.waitForTimeout(500); // for modal to appear
         await page.waitForNetworkIdle();
         await page.evaluate(function () {
             $('.jqplot-xaxis').hide(); // xaxis will change every day so hide it
@@ -125,10 +125,10 @@ describe("Overlay", function () {
 
     it("should open transitions popup when transitions link clicked", async function() {
         await page.click('button.ui-dialog-titlebar-close');
-        await page.waitFor('#overlayTransitions');
+        await page.waitForSelector('#overlayTransitions');
         await page.click('#overlayTransitions');
         await page.waitForNetworkIdle();
-        await page.waitFor(2000);
+        await page.waitForTimeout(2000);
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('transitions');
@@ -138,10 +138,10 @@ describe("Overlay", function () {
         await page.goto(urlWithSegment);
         await page.waitForNetworkIdle();
 
-        await page.waitFor(2000);
+        await page.waitForTimeout(2000);
 
         const frame = page.frames().find(f => f.name() === 'overlayIframe');
-        await frame.waitFor('.PIS_LinkTag');
+        await frame.waitForSelector('.PIS_LinkTag');
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_with_segment');
@@ -153,7 +153,7 @@ describe("Overlay", function () {
         testEnvironment.save();
 
         await page.goto(baseUrl + '&token_auth=a4ca4238a0b923820dcc509a6f75849f' + hash);
-        await page.waitFor('.overlayMainMetrics,.overlayNoData');
+        await page.waitForSelector('.overlayMainMetrics,.overlayNoData');
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('framed_loaded');

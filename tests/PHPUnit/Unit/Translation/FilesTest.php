@@ -24,7 +24,7 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     {
         $json = json_decode(file_get_contents($file), true);
 
-        $this->assertNotEmpty($json, "translation file $file seems to be corrupted or empty");
+        $this->assertIsArray($json, "translation file $file seems to be corrupted or empty");
     }
 
     public function getTranslationFiles()

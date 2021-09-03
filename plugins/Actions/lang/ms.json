@@ -1,0 +1,22 @@
+{
+    "Actions": {
+        "ColumnClicks": "Klik",
+        "ColumnClicksDocumentation": "Jumlah pautan ini diklik",
+        "ColumnDownloadURL": "URL Muat Turun",
+        "ColumnEntryPageTitle": "Tajuk Laman Masuk",
+        "ColumnEntryPageURL": "URL Laman Masuk",
+        "ColumnExitPageTitle": "Tajuk Laman Keluar",
+        "ColumnExitPageURL": "URL Laman Keluar",
+        "ColumnPageName": "Nama Laman",
+        "ColumnPageURL": "Laman URL",
+        "ColumnUniqueClicks": "Klik Unik",
+        "ColumnUniqueDownloads": "Muat Turun Unik",
+        "EntryPageTitles": "Tajuk laman masuk",
+        "ExitPageTitlesReportDocumentation": "Laporan ini mengandungi maklumat mengenai tajuk-tajuk laman keluar yang berlaku dalam tempoh yang ditetapkan.",
+        "SubmenuPagesEntry": "Laman masuk",
+        "SubmenuPagesExit": "Laman keluar",
+        "SubmenuPageTitles": "Tajuk laman",
+        "WidgetEntryPageTitles": "Tajuk Laman Masuk",
+        "WidgetExitPageTitles": "Tajuk laman keluar"
+    }
+}

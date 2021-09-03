@@ -34,7 +34,7 @@ describe("PagePerformance", function () {
         // hover first row
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');
         await row.hover();
-        await page.waitFor(50);
+        await page.waitForTimeout(50);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('rowactions');
@@ -45,7 +45,7 @@ describe("PagePerformance", function () {
         await subtablerow.click();
 
         await page.waitForNetworkIdle();
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
 
         // hover first row
         const row = await page.jQuery('tr.subDataTable:eq(1) + tr');
@@ -68,10 +68,10 @@ describe("PagePerformance", function () {
         const pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
-        await page.waitFor('.ui-tooltip', { visible: true });
+        await page.waitForSelector('.ui-tooltip', { visible: true });
 
         await ensureTooltipIsVisibleInScreenshot();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
 
         expect(await pageWrap.screenshot()).to.matchImage('pageurl_overlay');
     });
@@ -82,7 +82,7 @@ describe("PagePerformance", function () {
         // hover visualization selection
         const icon = await page.jQuery('.activateVisualizationSelection');
         await icon.click();
-        await page.waitFor(500); // animation
+        await page.waitForTimeout(500); // animation
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visualizations');
     });
@@ -114,10 +114,10 @@ describe("PagePerformance", function () {
         pageWrap = await page.waitForSelector('.ui-dialog');
 
         await page.hover('.piwik-graph');
-        await page.waitFor('.ui-tooltip', { visible: true });
+        await page.waitForSelector('.ui-tooltip', { visible: true });
 
         await ensureTooltipIsVisibleInScreenshot();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
     });

@@ -25,7 +25,7 @@
         "Device": "Device",
         "DeviceBrand": "Device brand",
         "DeviceBrands": "Device brands",
-        "DeviceBrandReportDocumentation": "This report shows the brands / manufacturers of the devices your visitors were using. In most cases this information is only available for non-desktop devices.",
+        "DeviceBrandReportDocumentation": "This report shows the brands \/ manufacturers of the devices your visitors were using. In most cases this information is only available for non-desktop devices.",
         "DeviceDetection": "Device detection",
         "DeviceModel": "Device model",
         "DeviceModels": "Device models",

@@ -74,7 +74,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it("should load dashboard2 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
-            await page.waitFor('.widget');
+            await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
 
             pageWrap = await page.$('.pageWrap');
@@ -83,7 +83,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it("should load dashboard3 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
-            await page.waitFor('.widget');
+            await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
 
             pageWrap = await page.$('.pageWrap');
@@ -93,7 +93,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it("should load dashboard4 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
             await page.waitForNetworkIdle();
-            await page.waitFor('.widget');
+            await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
 
             pageWrap = await page.$('.pageWrap');
@@ -133,7 +133,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
             await page.waitForNetworkIdle();
             await page.keyboard.press('?');
-            await page.waitFor(500); // wait for animation to end
+            await page.waitForTimeout(500); // wait for animation to end
 
             modal = await page.$('.modal.open');
             expect(await modal.screenshot()).to.matchImage('shortcuts');
@@ -142,7 +142,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should show category help correctly', async function () {
             await page.goto('about:blank');
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
-            await page.waitFor('.dataTable');
+            await page.waitForSelector('.dataTable');
             await (await page.jQuery('#secondNavBar ul ul li[role=menuitem]:contains(Overview):eq(0)')).hover();
             await (await page.jQuery('#secondNavBar ul ul li[role=menuitem]:contains(Overview):eq(0) .item-help-icon')).click();
             expect(await page.screenshotSelector('#secondNavBar,#notificationContainer')).to.matchImage('category_help');
@@ -316,15 +316,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 + "&removeOldVisits=0");
 
             await page.waitForSelector('circle');
-            await page.waitFor(250); // rendering
+            await page.waitForTimeout(250); // rendering
             await (await page.jQuery('circle:eq(0)')).hover();
-            await page.waitFor('.ui-tooltip', {visible: true}); // wait for tooltip
+            await page.waitForSelector('.ui-tooltip', {visible: true}); // wait for tooltip
             await page.evaluate(function () {
                 $('.ui-tooltip:visible .rel-time').data('actiontime', (Date.now() - (4 * 24 * 60 * 60 * 1000)) / 1000);
             });
 
             // updating the time might take up to one second
-            await page.waitFor(1000);
+            await page.waitForTimeout(1000);
 
             expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
         });
@@ -358,7 +358,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             elem = await page.$('[piwik-enriched-headline]');
             await elem.hover();
             await page.click('.helpIcon');
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
             await page.evaluate(function () {
                 $('.helpDate:visible').hide();
             });
@@ -507,7 +507,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('.columnDocumentation:visible').addClass('permadocs');
             });
 
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
 
             expect(await tip.screenshot()).to.matchImage('metric_tooltip');
         });
@@ -667,7 +667,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the example ui > treemap page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Treemap");
             await page.waitForNetworkIdle();
-            await page.waitFor(500);
+            await page.waitForTimeout(500);
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('exampleui_treemap');
@@ -809,7 +809,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(function () {
                 $('textarea:eq(0)').trigger('focus');
             });
-            await page.waitFor(750);
+            await page.waitForTimeout(750);
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_general');
@@ -924,14 +924,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
             await visitors.hover();
             await visitors.click();
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
 
             visitorsOT = await page.jQuery('.widgetpreview-widgetlist li:contains(Visits Over Time)');
             await visitorsOT.hover();
             await visitorsOT.click();
             await page.waitForNetworkIdle();
 
-            await page.waitFor('.widgetpreview-preview .widget', {visible: true});
+            await page.waitForSelector('.widgetpreview-preview .widget', {visible: true});
 
             await page.evaluate(function () {
                 $('.formEmbedCode').each(function () {
@@ -990,7 +990,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('#inputCalendarFrom').val('2012-08-02');
                 $('#inputCalendarTo').val('2012-08-12');
             });
-            await page.waitFor(500);
+            await page.waitForTimeout(500);
             await page.evaluate(() => $('#calendarApply').click());
 
             await page.mouse.move(-10, -10);
@@ -1010,7 +1010,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await (await page.waitForSelector('.visitor-profile-show-map')).click();
             await page.waitForNetworkIdle();
-            await page.waitFor(200);
+            await page.waitForTimeout(200);
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('visitor_profile_popup');
         });
@@ -1056,7 +1056,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(function () {
                 $('.segmentationTitle').click();
             });
-            await page.waitFor(100);
+            await page.waitForTimeout(100);
             await page.evaluate(function () {
                 $('.segname:contains(From Europe)').click();
             });
@@ -1105,7 +1105,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
 
             await page.goto(adminUrl);
-            await page.waitFor('#notificationContainer');
+            await page.waitForSelector('#notificationContainer');
 
             const pageWrap = await page.$('.pageWrap, #notificationContainer');
             expect(await pageWrap.screenshot()).to.matchImage('api_error');
@@ -1134,7 +1134,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
 
             const frame = page.frames().find(f => f.name() === 'embed');
-            await frame.waitFor('.widget');
+            await frame.waitForSelector('.widget');
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });

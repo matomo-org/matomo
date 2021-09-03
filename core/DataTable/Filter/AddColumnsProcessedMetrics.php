@@ -68,7 +68,7 @@ class AddColumnsProcessedMetrics extends BaseFilter
             $this->deleteRowsWithNoVisit($table);
         }
 
-        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
 
         $extraProcessedMetrics[] = new ConversionRate();
         $extraProcessedMetrics[] = new ActionsPerVisit();

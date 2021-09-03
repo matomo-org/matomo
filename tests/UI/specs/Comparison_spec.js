@@ -40,14 +40,14 @@ describe("Comparison", function () {
 
         await page.click('#periodString #date');
 
-        await page.waitFor('input#comparePeriodTo', { visible: true });
+        await page.waitForSelector('input#comparePeriodTo', { visible: true });
         await page.click('input#comparePeriodTo + span');
 
         await page.click('#calendarApply');
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
-        await page.waitFor('.piwik-graph');
+        await page.waitForSelector('.piwik-graph');
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('dashboard_last_period');
@@ -57,7 +57,7 @@ describe("Comparison", function () {
         await page.click('.segmentationContainer');
         await (await page.jQuery('li[data-idsegment=2] .compareSegment', { waitFor: true })).click();
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         const pageWrap = await page.$('.pageWrap');
@@ -66,7 +66,7 @@ describe("Comparison", function () {
 
     it('should not show comparisons for pages that do not support it', async () => {
         await (await page.jQuery('li.menuTab:contains(Behaviour)')).click();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         await (await page.jQuery('a.item:contains(Transitions)')).click();
         await page.waitForNetworkIdle();
 
@@ -76,10 +76,10 @@ describe("Comparison", function () {
 
     it('should show extra serieses when comparing in evolution graphs and sparklines', async () => {
         await (await page.jQuery('li.menuTab:contains(Visitors)')).click();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         await (await page.jQuery('li.menuTab:contains(Visitors) a.item:contains(Overview)')).click();
         await page.waitForNetworkIdle();
-        await page.waitFor('.piwik-graph');
+        await page.waitForSelector('.piwik-graph');
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
@@ -97,7 +97,7 @@ describe("Comparison", function () {
 
     it('should show the tooltip correctly in an evolution graph', async () => {
         await page.hover('.piwik-graph');
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         const element = await page.$('.ui-tooltip');
         expect(await element.screenshot()).to.matchImage('visitors_overview_tooltip');
@@ -115,7 +115,7 @@ describe("Comparison", function () {
 
     it('should remove period comparison if period is selected w/o compare set', async () => {
         await page.click('#periodString .periodSelector');
-        await page.waitFor('input#comparePeriodTo', { visible: true });
+        await page.waitForSelector('input#comparePeriodTo', { visible: true });
         await page.click('input#comparePeriodTo + span');
 
         await page.click('#calendarApply');
@@ -148,7 +148,7 @@ describe("Comparison", function () {
     it('should show the correct percentages and tooltip during comparison', async () => {
         const element = await page.jQuery('span.ratio:visible:eq(1)');
         await element.hover();
-        const tooltip = await page.waitFor('.ui-tooltip', { visible: true });
+        const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
         expect(await tooltip.screenshot()).to.matchImage('totals_tooltip');
     });
 
@@ -169,7 +169,7 @@ describe("Comparison", function () {
         (await page.$$('tr.subDataTable'))[0].click();
         await page.waitForNetworkIdle();
 
-        await page.waitFor(function () {
+        await page.waitForFunction(function () {
             return $('.cellSubDataTable > .dataTable').length === 1;
         });
 
@@ -205,7 +205,7 @@ describe("Comparison", function () {
 
     it('should show the multirow evolution popup for another comparison series', async () => {
         await page.click('.rowevolution-startmulti');
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         const row = await page.jQuery('tbody tr.comparisonRow:visible:eq(0)');
         await row.hover();

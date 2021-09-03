@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Dashboard zu Benutzer kopieren",
         "CreateNewDashboard": "Neues Dashboard erstellen",
         "Dashboard": "Dashboard",
+        "DashboardCategoryHelp": "Dies ist eine Dashboard Seite. Dashboards sind Sammlungen von Matomo Widgets welche Sie für Ihre persönlichen Bedürfnisse anpassen können. Mixen und kombinieren Sie beliebig Matomo Widgets um die Daten zu erhalten, die %1$s*Sie*%2$s auf einen Blick benötigen.",
         "DashboardCopied": "Aktuelles Dashboard wurde erfolgreich zum ausgewählten Benutzer kopiert.",
         "DashboardEmptyNotification": "Ihr Dashboard enthält keine Widgets. Sie können jetzt Widgets hinzufügen oder das Dashboard auf die Standard Widgetauswahl zurücksetzen.",
         "DashboardName": "Dashboard Name:",
@@ -18,7 +19,7 @@
         "Maximise": "Vergrößern",
         "Minimise": "Minimieren",
         "NotUndo": "Sie können diese Aktion nicht rückgängig machen.",
-        "PluginDescription": "Ihr Web Analyse Dashboard. Personalisieren Sie Ihr Dashboard, in dem Sie neue Widgets hinzufügen, per Drag und Drop herumschieben, und das Dashboard Spaltenlayout ändern. Jeder Benutzer kann sein eigenes personalisiertes Dashboard verwalten.",
+        "PluginDescription": "Ihr Web Analyse Dashboard. Personalisieren Sie Ihr Dashboard, in dem Sie neue Widgets hinzufügen, per Drag-and-drop herumschieben, und das Dashboard Spaltenlayout ändern. Jeder Benutzer kann sein eigenes personalisiertes Dashboard verwalten.",
         "RemoveDashboard": "Dashboard entfernen",
         "RemoveDashboardConfirm": "Sind Sie sicher, dass Sie das Dashboard \"%s\" löschen möchten?",
         "RemoveDefaultDashboardNotPossible": "Das Standard-Dashboard kann nicht entfernt werden.",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Diese Widgetauswahl und das aktuelle Spaltenlayout werden verwendet, wenn ein neues Dashboard erstellt wird oder wenn \"%s\" verwendet wird.",
         "TopLinkTooltip": "Zeige Webanalytik Berichte für %s.",
         "WidgetNotFound": "Widget nicht gefunden",
-        "WidgetPreview": "Widget-Vorschau",
-        "DashboardCategoryHelp": "Dies ist eine Dashboard Seite. Dashboards sind Sammlungen von Matomo Widgets welche Sie für Ihre persönlichen Bedürfnisse anpassen können. Mixen und kombinieren Sie beliebig Matomo Widgets um die Daten zu erhalten, die %1$s*Sie*%2$s auf einen Blick benötigen."
+        "WidgetPreview": "Widget-Vorschau"
     }
 }

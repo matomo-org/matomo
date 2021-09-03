@@ -1,0 +1,24 @@
+{
+    "Actions": {
+        "ColumnClicks": "ક્લિક્સ",
+        "ColumnClicksDocumentation": "આ લિંકને આટલી વાર ક્લિક કરવામાં આવી હતી.",
+        "ColumnDownloadURL": "યુ.આર.એલ ડાઉનલોડ કરો",
+        "ColumnEntryPageTitle": "પ્રવેશ પેજનું શીર્ષક",
+        "ColumnEntryPageURL": "પ્રવેશ પેજનું યુ.આર.એલ",
+        "ColumnExitPageTitle": "એક્ઝીટ પેજ નું શીર્ષક",
+        "ColumnExitPageURL": "એક્ઝીટ પેજ નું યુ.આર.એલ",
+        "ColumnNoResultKeyword": "શોધ પરિણામ વગર નો કીવર્ડ",
+        "ColumnPageName": "પેજनु નામ",
+        "ColumnPagesPerSearch": "શોધ પરિણામો ના પાના",
+        "ColumnPagesPerSearchDocumentation": "વિઝીટર્સ તમારી વેબસાઇટ પર સર્ચ કરશે અને ક્યારેક વધુ પરિણામો જોવા \"નેક્ષ્ટ\" પર ક્લિક કરશે. આ એ કીવર્ડ માટે જોવાયા પૃષ્ઠોની સરેરાશ નંબર છે",
+        "ColumnPageURL": "પેજનું યુ.આર.એલ",
+        "ColumnSearchCategory": "સર્ચ કેટેગરી",
+        "ColumnSearches": "શોધો",
+        "ColumnSearchesDocumentation": "તમારી વેબસાઇટ ના શોધ એન્જિન પર આ કીવર્ડ માટે શોધ કરેલ મુલાકાતો ની સંખ્યા",
+        "ColumnSearchExitsDocumentation": "તમારી સાઇટ સર્ચ એન્જિન પર આ કિવર્ડ માટે શોધ પછી વેબસાઇટ એક્ઝીટ કરી હોય તેવી મુલાકાતો ટકા માં",
+        "ColumnSearchResultsCount": "શોધ પરિણામોની ગણતરી",
+        "ColumnSiteSearchKeywords": "અનન્ય કીવર્ડ્સ",
+        "ColumnUniqueClicks": "વિશિષ્ટ ક્લિક્સ",
+        "ColumnUniqueDownloads": "અનન્ય ડાઉનલોડ"
+    }
+}
