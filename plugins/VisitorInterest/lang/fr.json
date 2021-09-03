@@ -7,10 +7,9 @@
         "Engagement": "Engagement",
         "NPages": "%s pages",
         "OnePage": "1 page",
-        "PluginDescription": "Fournit des détails sur les intérêts des visiteurs: nombre de pages vues, temps passé sur le site web, jours depuis la dernière visite et plus.",
+        "PluginDescription": "Fournit des détails sur les intérêts des visiteurs : nombre de pages vues, temps passé sur le site web, jours depuis la dernière visite et plus encore.",
         "VisitNum": "Nombre de visites",
         "VisitsByDaysSinceLast": "Visites par jours depuis la dernière visite",
-        "visitsByVisitCount": "Visites par nombre de visites",
         "VisitsPerDuration": "Visites par durée de la visite",
         "VisitsPerNbOfPages": "Visites par nombre de pages",
         "WidgetLengths": "Durée des visites",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "Dans ce rapport, vous pouvez voir combien de visites impliquaient l'affichage d'un certain nombre de pages. Initialement ce rapport est affiché comme un nuage de termes, les nombres de pages les plus fréquents sont affichés dans des polices plus grandes.",
         "WidgetVisitsByDaysSinceLast": "Visites par jour depuis la dernière visite",
         "WidgetVisitsByDaysSinceLastDocumentation": "Dans ce rapport, vous pouvez voir le nombre de visites par visiteur dont la dernière visite date de X jours.",
-        "WidgetVisitsByNumDocumentation": "Dans ce rapport, vous pouvez voir la répartition par nombre de visites. Par exemple quel proportion de visiteurs ont visité votre site au moins n fois."
+        "WidgetVisitsByNumDocumentation": "Dans ce rapport, vous pouvez voir la répartition par nombre de visites. Par exemple quel proportion de visiteurs ont visité votre site au moins n fois.",
+        "visitsByVisitCount": "Visites par nombre de visites"
     }
 }
