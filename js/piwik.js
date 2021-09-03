@@ -593,7 +593,7 @@ if (typeof window.Matomo !== 'object') {
             return matches ? matches[1] : url;
         }
         function queryStringify(data, filterFn, throwErrorIfNotFilterFn) {
-            var queryString = '', k, filter = filterFn || function(value) { return value; }, isOk;
+            var queryString = '', k, filter = filterFn || function(value) { return value; };
             for (k in data) {
                 if (data.hasOwnProperty(k)) {
                     if (filter(data[k])) {
