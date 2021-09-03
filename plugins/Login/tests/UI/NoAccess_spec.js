@@ -50,7 +50,7 @@ describe("NoAccess", function () {
             $('#login_form_submit').click();
         });
 
-        await page.waitFor(60500); // wait for session timeout
+        await page.waitForTimeout(60500); // wait for session timeout
 
         await page.click('#topmenu-corehome');
         await page.waitForNetworkIdle();

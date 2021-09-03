@@ -429,6 +429,7 @@
         "HelpUsToImprovePiwikMobile": "Želite omogočiti anonimno sledenje uporabe v Matomo Mobile?",
         "HowtoDeleteAnAccount": "Pritisnite in držite, da odstranite račun.",
         "HowtoDeleteAnAccountOniOS": "Povlecite od desne proti levi, da izbrišete račun",
+        "HowtoExitAndroid": "Ponovno klikni NAZAJ za izhod.",
         "HowtoLoginAnonymous": "Za anonimno prijavo pustite polji za uporabniško ime in geslo prazni",
         "HttpIsNotSecureWarning": "Če uporabljate HTTP protokol, je vaš Matomo overitveni žeton (token_auth) poslan po internetu v berljivi obliki. Za varen prenos podatkov po internetu priporočamo uporabo HTTPS protokola. Želite nadaljevati?",
         "HttpTimeout": "Pretek HTTP časovne omejitve",
@@ -479,7 +480,6 @@
         "VerifyLoginData": "Zagotovite, da je kombinacija uporabniškega imena in gesla pravilna.",
         "YouAreOffline": "Oprostite, trenutno ste offline",
         "ExceptionNoViewAccess": "Prosim preveri uporabniško ime in geslo, ter se prepričaj, da imaš %sdostop do vsaj ene spletne strani.",
-        "Mobile_HowtoExitAndroid": "Ponovno klikni NAZAJ za izhod.",
         "MatomoMarketplace": "Matomo Tržnica",
         "EnterAuthCode": "Vnesi avtentikacijsko geslo",
         "EnterCorrectAuthCode": "Vnesi pravilno avtentikacijsko geslo"

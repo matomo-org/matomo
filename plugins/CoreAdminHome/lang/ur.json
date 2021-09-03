@@ -1,0 +1,12 @@
+{
+    "CoreAdminHome": {
+        "Administration": "انتظامیہ",
+        "ClickHereToOptIn": "اشتراک کیلئے یہاں کلک کریں۔",
+        "EmailServerSettings": "ای میل سرور کی سیٹنگز",
+        "ForBetaTestersOnly": "صرف beta جانچ پڑتال کرنے والوں کیلئے",
+        "ImageTracking": "تصویر کی ٹریکنگ",
+        "ImageTrackingLink": "تصویر کی ٹریکنگ کا لنک",
+        "JavaScriptTracking": "جاوا سکرپٹ ٹریکنگ",
+        "JSTracking_CampaignKwdParam": "مطلوبہ الفاظ کی مہم کے پیرامیٹر"
+    }
+}

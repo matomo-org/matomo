@@ -1,25 +1,25 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Этот плагин предоставляет виджеты Visitor Map и Real-time Map. Внимание: требуется включенный плагин UserCountry.",
         "AndNOthers": "и %s других",
         "Cities": "Города",
         "Countries": "Страны",
         "DaysAgo": "%s дней назад",
         "GoalConversions": "%s целей достигнуто",
         "HoursAgo": "%s часов назад",
-        "map": "карта",
         "MinutesAgo": "%s минут назад",
-        "None": "Нет",
         "NoVisit": "Без посещений",
+        "None": "Нет",
+        "PluginDescription": "Этот плагин предоставляет виджеты Visitor Map и Real-time Map. Внимание: требуется включенный плагин UserCountry.",
         "RealTimeMap": "Карта в реальном времени",
         "Regions": "Регионы",
         "Searches": "%s поисковых запросов",
         "SecondsAgo": "%s секунд назад",
         "ShowingVisits": "Последние геолокационные посещения",
-        "Unlocated": "<b>%s<\/b> %p посещения из %c не могут быть геолокализованны.",
+        "Unlocated": "<b>%1$s</b> %2$p посещения из %3$c не могут быть геолокализованны.",
         "VisitorMap": "Карта посещений",
-        "WorldWide": "Весь мир",
+        "WithUnknownCity": "%s с неизвестным городом",
         "WithUnknownRegion": "%s с неизвестным регионом",
-        "WithUnknownCity": "%s с неизвестным городом"
+        "WorldWide": "Весь мир",
+        "map": "карта"
     }
 }

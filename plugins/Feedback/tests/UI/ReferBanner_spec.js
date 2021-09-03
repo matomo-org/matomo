@@ -24,7 +24,7 @@ describe("ReferBannerTest", function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        var banner = await page.waitFor('.refer-banner', { visible: true });
+        var banner = await page.waitForSelector('.refer-banner', { visible: true });
         expect(await banner.screenshot()).to.matchImage('feedback_popup');
     });
 });

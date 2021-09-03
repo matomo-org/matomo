@@ -316,6 +316,16 @@ class SegmentEditor extends \Piwik\Plugin
         return Config::getInstance()->General['allow_adding_segments_for_all_websites'] == 1;
     }
 
+    /**
+     * Returns whether create realtime segments is enabled or not.
+     *
+     * @return bool
+     */
+    public static function isCreateRealtimeSegmentsEnabled(): bool
+    {
+        return Config::getInstance()->General['enable_create_realtime_segments'] == 1;
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'SegmentEditor_CustomSegment';
