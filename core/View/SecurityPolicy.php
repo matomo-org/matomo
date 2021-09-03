@@ -113,6 +113,7 @@ class SecurityPolicy
      */
     public function allowEmbedPage() {
         $this->overridePolicy('default-src', self::RULE_EMBEDDED_FRAME);
+        $this->overridePolicy('img-src', self::RULE_EMBEDDED_FRAME);
         $this->addPolicy('script-src', self::RULE_DEFAULT);
     }
 }
