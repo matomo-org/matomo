@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Veritabanı kullanımı",
-        "DataSize": "Veri boyutu",
         "DBSize": "Veritabanı boyutu",
+        "DataSize": "Veri boyutu",
+        "DatabaseUsage": "Veritabanı kullanımı",
         "EstimatedSize": "Öngörülen boyut",
         "IndexSize": "Dizin boyutu",
         "LearnMore": "Verilerin Matomo tarafından nasıl işlendiğini ile orta ve yüksek trafiğe sahip sitelerde nasıl iyi çalışacağını öğrenmek için şu belgeye bakın: %s.",
@@ -10,7 +10,7 @@
         "MetricDataByYear": "Yıla göre ölçüm tabloları",
         "MetricTables": "Ölçüm tabloları",
         "OtherTables": "Diğer tablolar",
-        "PluginDescription": "Ayrıntılı MySQL veritabanı kullanım raporu oluşturur. Süper kullanıcılar tanılama bölümünün altından ulaşabilir.",
+        "PluginDescription": "Ayrıntılı MySQL veritabanı kullanım raporu oluşturur. Süper kullanıcılar tanılama bölümününden ulaşabilir.",
         "ReportDataByYear": "Yıla göre rapor tabloları",
         "ReportTables": "Rapor tabloları",
         "RowCount": "Satır sayısı",

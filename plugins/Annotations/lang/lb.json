@@ -1,0 +1,16 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Annotatioun fir %s bäifügen...",
+        "AnnotationOnDate": "Annotatioun iwwer %1$s: %2$s",
+        "Annotations": "Annotatiounen",
+        "ClickToDelete": "Klickt fir d'Annotatioun ze läschen.",
+        "ClickToEdit": "Klickt fir d'Annotatioun ze änneren.",
+        "ClickToEditOrAdd": "Klickt fir eng Annotatioun ze änneren oder bäizefügen.",
+        "ClickToStarOrUnstar": "Klickt fir d'Annotatioun bei är Favoriten bäizesetzen\/ze läschen.",
+        "CreateNewAnnotation": "Eng nei Annotatioun erstellen...",
+        "EnterAnnotationText": "Gëff deng Notiz an...",
+        "HideAnnotationsFor": "Annotatiounen fir %s net uweisen...",
+        "IconDesc": "Notizen fir dës Daten Sammlung uweisen.",
+        "IconDescHideNotes": "Notizen fir dës Daten Sammlung net uweisen."
+    }
+}

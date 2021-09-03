@@ -1,10 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht für all Ihre Webseiten, in der die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
         "Evolution": "Entwicklung",
         "LoadingWebsites": "Lade Websites",
-        "PluginDescription": "Zeige und vergleiche alle Websites und Apps im hilfreichen 'Alle Websites' Dashboard.",
-        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Websites.",
+        "PluginDescription": "Zeige und vergleiche alle Webseiten und Apps in diesem hilfreichen 'Alle Webseiten' Dashboard.",
         "SingleWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht über eine bestimmte Webseite, in dem die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
-        "AllWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht für all Ihre Webseiten, in der die allgemeinsten Metriken Ihrer Besucher ausgewertet werden."
+        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Websites."
     }
 }

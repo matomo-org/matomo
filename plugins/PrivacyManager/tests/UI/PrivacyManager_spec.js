@@ -23,7 +23,7 @@ describe("PrivacyManager", function () {
     async function setAnonymizeStartEndDate()
     {
         // make sure tests do not fail every day
-        await page.waitFor('input.anonymizeStartDate');
+        await page.waitForSelector('input.anonymizeStartDate');
         await page.evaluate(function () {
             $('input.anonymizeStartDate').val('2018-03-02').change();
             $('input.anonymizeEndDate').val('2018-03-02').change();
@@ -44,7 +44,7 @@ describe("PrivacyManager", function () {
     {
         var elem = await page.jQuery('.modal.open .modal-footer a:contains('+button+')');
         await elem.click();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
     }
 
@@ -52,19 +52,19 @@ describe("PrivacyManager", function () {
     {
         await page.click('.findDataSubjects .btn');
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
     }
 
     async function anonymizePastData()
     {
         await page.click('.anonymizePastData .btn');
-        await page.waitFor(1000); // wait for animation
+        await page.waitForTimeout(1000); // wait for animation
     }
 
     async function deleteDataSubjects()
     {
         await page.evaluate(() => $('.deleteDataSubjects input').click());
-        await page.waitFor(500); // wait for animation
+        await page.waitForTimeout(500); // wait for animation
     }
 
     async function enterSegmentMatchValue(value) {
@@ -84,7 +84,7 @@ describe("PrivacyManager", function () {
         await page.waitForFunction('$("'+selector+'").length > 0');
         var elem = await page.jQuery(selector);
         await elem.click();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
     }
 
     async function selectActionColumn(title)
@@ -182,7 +182,7 @@ describe("PrivacyManager", function () {
         await loadActionPage('privacySettings');
         await page.click('[name="anonymizeLocation"] label');
         await page.click('[name="anonymizeTheUserId"] label');
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await selectActionColumn('time_spent_ref_action');
         await selectActionColumn('idaction_content_name');
 
@@ -192,7 +192,7 @@ describe("PrivacyManager", function () {
     it('should confirm anonymize location and action column', async function() {
         await anonymizePastData();
         await selectModalButton('Yes');
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         await setAnonymizeStartEndDate();
 
         await captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_confirmed');
@@ -200,7 +200,7 @@ describe("PrivacyManager", function () {
 
     it('should anonymize only one site and different date pre filled', async function() {
         await page.click('.form-group #anonymizeSite .title');
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         await page.click(".form-group #anonymizeSite [title='Site 1']");
         await page.click('[name="anonymizeIp"] label');
         await page.evaluate(function () {
@@ -214,7 +214,7 @@ describe("PrivacyManager", function () {
     it('should anonymize only one site and different date confirmed', async function() {
         await anonymizePastData();
         await selectModalButton('Yes');
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         await setAnonymizeStartEndDate();
 
         await captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_confirmed');
@@ -229,7 +229,7 @@ describe("PrivacyManager", function () {
     it('should show no visitor found message', async function() {
         await enterSegmentMatchValue('userfoobar');
         await findDataSubjects();
-        await page.waitFor('.manageGdpr tr');
+        await page.waitForSelector('.manageGdpr tr');
         await page.mouse.move(-10, -10);
 
         await capturePage('gdpr_tools_no_visits_found');
@@ -267,19 +267,19 @@ describe("PrivacyManager", function () {
 
     it('should ask for confirmation before deleting any visit', async function() {
         await deleteDataSubjects();
-        const modal = await page.waitFor('.modal.open', { visible: true });
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
         expect(await modal.screenshot()).to.matchImage('gdpr_tools_delete_visit_unconfirmed');
     });
 
     it('should be able to cancel deletion and not delete any data', async function() {
         await selectModalButton('No');
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await capturePage('gdpr_tools_delete_visit_cancelled');
     });
 
     it('should verify really no data deleted', async function() {
         await loadActionPage('gdprTools');
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         await enterSegmentMatchValue('userId203');
         await findDataSubjects();
         await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');

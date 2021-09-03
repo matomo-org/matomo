@@ -269,15 +269,7 @@ class DataCollection
      */
     public function getExpandedDataTable($resultIndices, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
     {
-        if ($this->dataType != 'blob') {
-            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
-                . "{$this->dataType} data types. Only works with blob data.");
-        }
-
-        if (count($this->dataNames) !== 1) {
-            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
-                . "more than one record.");
-        }
+        $this->checkExpandedMethodPrerequisites();
 
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
@@ -373,5 +365,36 @@ class DataCollection
         }
 
         $currentLevel = $row;
+    }
+
+    public function forEachBlobExpanded($callable, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
+    {
+        $this->checkExpandedMethodPrerequisites();
+
+        $dataTableFactory = new DataTableFactory(
+            $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+        $dataTableFactory->expandDataTable($depth, $addMetadataSubTableId);
+        $dataTableFactory->useSubtable($idSubTable);
+
+        foreach ($this->data as $idSite => $periods) {
+            foreach ($periods as $periodRange => $data) {
+                $tableMetadata = $dataTableFactory->getTableMetadataFor($idSite, $this->periods[$periodRange]);
+
+                $callable($data, $dataTableFactory, $tableMetadata);
+            }
+        }
+    }
+
+    private function checkExpandedMethodPrerequisites()
+    {
+        if ($this->dataType != 'blob') {
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
+                . "{$this->dataType} data types. Only works with blob data.");
+        }
+
+        if (count($this->dataNames) !== 1) {
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
+                . "more than one record.");
+        }
     }
 }

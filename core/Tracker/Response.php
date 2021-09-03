@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Profiler;
 use Piwik\Timer;
 use Piwik\Tracker;
@@ -150,15 +151,59 @@ class Response
             return;
         }
 
+        // Check for a custom tracking image
+        $customImage = Config::getInstance()->Tracker['custom_image'];
+        if (!empty($customImage) && $this->outputCustomImage($customImage)) {
+            return;
+        }
+
+        // No custom image defined, so output the default 1x1 base64 transparent gif
         $this->outputTransparentGif();
     }
 
+    /**
+     * Output a 1px x 1px transparent gif
+     */
     private function outputTransparentGif()
     {
         $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         Common::sendHeader('Content-Type: image/gif');
 
         echo base64_decode($transGifBase64);
+    }
+
+    /**
+     * Output a custom tracking image
+     *
+     * @param string $customImage The custom image setting specified in the config
+     *
+     * @return bool True if the custom image was successfully output, else false
+     */
+    private function outputCustomImage(string $customImage): bool
+    {
+        $supportedMimeTypes = ['image/png', 'image/gif', 'image/jpeg'];
+
+        $img = null;
+        $size = null;
+
+        if (strlen($customImage) > 2 && substr($customImage, -2) == '==') {
+            // Base64 image string
+            $img = base64_decode($customImage);
+            $size = getimagesizefromstring($img);
+        } else if (is_file($customImage) && is_readable($customImage)) {
+            // Image file
+            $img = file_get_contents($customImage);
+            $size = getimagesize($customImage); // imagesize is used to get the mime type
+        }
+
+        // Must have valid image data and a valid mime type to proceed
+        if ($img && $size && isset($size['mime'])  && in_array($size['mime'], $supportedMimeTypes)) {
+            Common::sendHeader('Content-Type: '.$size['mime']);
+            echo $img;
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -1924,23 +1924,30 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private function aggregateRow($thisRow, Row $otherRow, $columnAggregationOps, $isSummaryRow)
     {
         if (empty($thisRow)) {
-            if ($isSummaryRow) {
-                $this->addSummaryRow($otherRow);
-            } else {
-                $this->addRow($otherRow);
+            $thisRow = new Row();
+            $otherRowLabel = $otherRow->getColumn('label');
+            if ($otherRowLabel !== false) {
+                $thisRow->addColumn('label', $otherRowLabel);
             }
-        } else {
-            $thisRow->sumRow($otherRow, $copyMeta = true, $columnAggregationOps);
+            $thisRow->setAllMetadata($otherRow->getMetadata());
 
-            // if the row to add has a subtable whereas the current row doesn't
-            // we simply add it (cloning the subtable)
-            // if the row has the subtable already
-            // then we have to recursively sum the subtables
-            $subTable = $otherRow->getSubtable();
-            if ($subTable) {
-                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOps;
-                $thisRow->sumSubtable($subTable);
+            if ($isSummaryRow) {
+                $this->addSummaryRow($thisRow);
+            } else {
+                $this->addRow($thisRow);
             }
+        }
+
+        $thisRow->sumRow($otherRow, $copyMeta = true, $columnAggregationOps);
+
+        // if the row to add has a subtable whereas the current row doesn't
+        // we simply add it (cloning the subtable)
+        // if the row has the subtable already
+        // then we have to recursively sum the subtables
+        $subTable = $otherRow->getSubtable();
+        if ($subTable) {
+            $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOps;
+            $thisRow->sumSubtable($subTable);
         }
     }
 

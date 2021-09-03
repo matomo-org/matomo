@@ -31,7 +31,7 @@ describe("EmptySite", function () {
         await page.reload();
 
         await page.click('.ignoreSitesWithoutData');
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         const pageElement = await page.$('.page');
