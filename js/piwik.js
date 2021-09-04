@@ -5613,7 +5613,6 @@ if (typeof window.Matomo !== 'object') {
                 networkTimeInMs, serverTimeInMs, transferTimeInMs,
                 domProcessingTimeInMs, domCompletionTimeInMs, onloadTimeInMs
             ) {
-                /*property pf_net, pf_srv, pf_tfr, pf_dm1, pf_dm2, pf_onl */
                 var data = {
                     pf_net: networkTimeInMs,
                     pf_srv: serverTimeInMs,
@@ -5621,29 +5620,24 @@ if (typeof window.Matomo !== 'object') {
                     pf_dm1: domProcessingTimeInMs,
                     pf_dm2: domCompletionTimeInMs,
                     pf_onl: onloadTimeInMs
-                }, errorCaught = false, message;
+                };
 
                 try {
                     configPagePerformanceTiming = queryStringify(data, isNumber, true);
-                } catch (error) {
-                    errorCaught = true;
-                    message = error.toString() + ' ';
-                }
-                if (configPagePerformanceTiming !== '' && !errorCaught) {
+                    if (configPagePerformanceTiming === '') {
+                        logConsoleError('setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
+                            'this function with at least one performance parameter like networkTimeInMs. Also, ' +
+                            'please ensure to only supply numbers for each parameter.');
+                        return;
+                    }
+
                     performanceTracked = false; // to ensure the values are sent (again)
                     performanceAvailable = true; // so appendAvailablePerformanceMetrics will be called directly
                     // Otherwise performanceAvailable will be set when the pageload finished, but there is no need
                     // to wait for that, when the values are set manually.
-                } else {
-                    if (errorCaught) {
-                        message = 'Please ensure to only supply numbers for each parameter to ' +
-                            'setPagePerformanceTiming().';
-                    } else {
-                        message = 'setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
-                            'this function with at least one performance parameter like networkTimeInMs. Also, ' +
-                            'please ensure to only supply numbers for each parameter.';
-                    }
-                    logConsoleError(message);
+                } catch (error) {
+                    logConsoleError(error.toString() + ' Please ensure to only supply numbers for each parameter to ' +
+                        'setPagePerformanceTiming().');
                 }
             };
 
