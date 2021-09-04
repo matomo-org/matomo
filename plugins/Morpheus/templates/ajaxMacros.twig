@@ -13,7 +13,7 @@
 </div>
 {% endmacro %}
 
-{% macro requestErrorDiv(emailSuperUser, areAdsForProfessionalServicesEnabled = false, currentModule = '') %}
+{% macro requestErrorDiv(emailSuperUser, areAdsForProfessionalServicesEnabled = false, currentModule = '', showMoreHelp = false) %}
     <div id="loadingError">
         <div class="alert alert-danger">
 
@@ -26,7 +26,9 @@
             <br /><br />
             {{ 'General_NeedMoreHelp'|translate }}
 
+            {% if showMoreHelp %}
             <a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
+            {% endif %}
             <a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
 
             {%- if areAdsForProfessionalServicesEnabled %}

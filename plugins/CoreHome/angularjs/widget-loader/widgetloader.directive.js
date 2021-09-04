@@ -22,6 +22,8 @@
     piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications', '$rootScope', '$timeout', 'piwikComparisonsService'];
 
     function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications, $rootScope, $timeout, piwikComparisonsService){
+        var isGeneralSettingsAdminEnabled = piwik.config['enable_general_settings_admin'];
+        var isPluginsAdminEnabled = piwik.config['enable_plugins_admin'];
         return {
             restrict: 'A',
             transclude: true,
@@ -35,6 +37,12 @@
 
                 return function (scope, element, attrs, ngModel) {
                     scope.widgetName = attrs.widgetName;
+                    if (piwik.hasSuperUserAccess && (isGeneralSettingsAdminEnabled || isPluginsAdminEnabled)) {
+                        scope.errorFaqLink = '<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">' +
+                            _pk_translate('General_ErrorRequestFaqLink') + '</a>';
+                    } else {
+                        scope.errorFaqLink = '';
+                    }
 
                     if (!attrs.widgetName) {
                         scope.loadingMessage = _pk_translate('General_LoadingData');
