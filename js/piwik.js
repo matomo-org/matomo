@@ -3495,7 +3495,7 @@ if (typeof window.Matomo !== 'object') {
             function appendAvailablePerformanceMetrics(request) {
                 if (configPagePerformanceTiming !== '') {
                     request += configPagePerformanceTiming;
-                    configPagePerformanceTiming = ''; // ensure not logged more than once
+                    performanceTracked = true;
                     return request;
                 }
 
