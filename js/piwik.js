@@ -5816,7 +5816,7 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Set an array of quaery parameters to be excluded if in the url
+             * Set an array of query parameters to be excluded if in the url
              *
              * @param string|array excludedQueryParams  'uid' or ['uid', 'sid']
              */
