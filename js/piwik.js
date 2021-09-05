@@ -2471,10 +2471,8 @@ if (typeof window.Matomo !== 'object') {
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
-                if (configExcludedQueryParams.length > 0) {
-                    for (i = 0; i < configExcludedQueryParams.length; i++) {
-                        url = removeUrlParameter(url, configExcludedQueryParams[i]);
-                    }
+                for (i = 0; i < configExcludedQueryParams.length; i++) {
+                    url = removeUrlParameter(url, configExcludedQueryParams[i]);
                 }
 
                 if (configDiscardHashTag) {
