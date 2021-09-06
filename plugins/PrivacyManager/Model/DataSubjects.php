@@ -109,10 +109,7 @@ class DataSubjects
 
         $datesToInvalidateByIdSite = $this->getDatesToInvalidate($visits);
 
-        $logTables = $this->getLogTablesToDeleteFrom();
-        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
-            return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
-        });
+        $deleteCounts = $this->deleteDataSubjectsWithoutInvalidatingArchives($visits);
 
         $this->invalidateArchives($datesToInvalidateByIdSite);
 
@@ -460,9 +457,14 @@ class DataSubjects
         $where = array();
         $bind = array();
         foreach ($visits as $visit) {
-            $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
-            $bind[] = $visit['idsite'];
-            $bind[] = $visit['idvisit'];
+            if (isset($visit['idsite']) && $visit['idsite'] != null) {
+                $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
+                $bind[] = $visit['idsite'];
+                $bind[] = $visit['idvisit'];
+            } else {
+                $where[] = '(' . $tableToSelect . '.idvisit = ?)';
+                $bind[] = $visit['idvisit'];
+            }
         }
         $where = implode(' OR ', $where);
 
@@ -510,6 +512,20 @@ class DataSubjects
             }
         }
 
+    }
+
+    /**
+     * @param $visits
+     * @return array
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function deleteDataSubjectsWithoutInvalidatingArchives($visits): array
+    {
+        $logTables = $this->getLogTablesToDeleteFrom();
+        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
+            return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
+        });
+        return $deleteCounts;
     }
 
 }

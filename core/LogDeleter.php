@@ -8,8 +8,10 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\SitesManager\Model;
 
 /**
@@ -98,8 +100,13 @@ class LogDeleter
         $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $iterationStep, function ($logs) use ($logPurger, &$logsDeleted, $afterChunkDeleted) {
             $ids = array_map(function ($row) { return (int) (reset($row)); }, $logs);
             sort($ids);
-            $logsDeleted += $logPurger->deleteVisits($ids);
+//            $logsDeleted += $logPurger->deleteVisits($ids);
 
+            $deleteCounts = StaticContainer::get(DataSubjects::class)->deleteDataSubjectsWithoutInvalidatingArchives(array_map(function($visitid) {
+                return ['idvisit' => $visitid];
+            }, $ids)); // [1,2] => [['idvisit'=>1],['idvisit'=>2]]
+            $currentCount = array_sum(array_values($deleteCounts)); // ['a' => 3, 'b' => 5] => 8
+            $logsDeleted += $currentCount;
             if (!empty($afterChunkDeleted)) {
                 $afterChunkDeleted($logsDeleted);
             }
