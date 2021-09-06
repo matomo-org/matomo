@@ -77,6 +77,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
 
+            // scroll down to trigger lazy load images
+            await page.evaluate(() => window.scrollTo(0, Number.MAX_SAFE_INTEGER));
+            await page.waitFor(200);
+            await page.waitForNetworkIdle();
+
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard2');
         });
