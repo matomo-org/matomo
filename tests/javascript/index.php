@@ -2096,7 +2096,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(120);
+        expect(121);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2164,6 +2164,7 @@ function PiwikTest() {
         equal( typeof tracker.disablePerformanceTracking, 'function', 'disablePerformanceTracking' );
         equal( typeof tracker.setCampaignKeywordKey, 'function', 'setCampaignKeywordKey' );
         equal( typeof tracker.discardHashTag, 'function', 'discardHashTag' );
+        equal( typeof tracker.setExcludedQueryParams, 'function', 'setExcludedQueryParams' );
         equal( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
         equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
