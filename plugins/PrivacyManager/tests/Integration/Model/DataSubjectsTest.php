@@ -66,6 +66,43 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->theFixture->trackingTime = $this->originalTrackingTime;
     }
 
+    public function test_deleteExport_deleteOneVisitWithoutIdsite()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        $this->assertNotEmpty($this->getVisit(1, 1));
+        $this->assertNotEmpty($this->getLinkAction(1, 1));
+        $this->assertNotEmpty($this->getConversion(1, 1));
+        $this->assertNotEmpty($this->getOneVisit(1, 1, TestLogFoo::TABLE));
+
+        $this->assertNotEmpty($this->getVisit(1, 2));
+        $this->assertNotEmpty($this->getLinkAction(1, 2));
+        $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+
+        $visits = array(array('idvisit' => 1));
+        $result = $this->dataSubjects->deleteDataSubjectsWithoutInvalidatingArchives($visits);
+
+        $this->assertEquals(array(
+            'log_conversion' => 1,
+            'log_conversion_item' => 0,
+            'log_link_visit_action' => 11,
+            'log_visit' => 1,
+            'log_foo_bar_baz' => 2,
+            'log_foo_bar' => 2,
+            'log_foo' => 2
+        ), $result);
+
+        $this->assertEmpty($this->getVisit(1, 1));
+        $this->assertEmpty($this->getLinkAction(1, 1));
+        $this->assertEmpty($this->getConversion(1, 1));
+        $this->assertEmpty($this->getOneVisit(1, 1, TestLogFoo::TABLE));
+
+        // idvisit 2 still exists
+        $this->assertNotEmpty($this->getVisit(1, 2));
+        $this->assertNotEmpty($this->getLinkAction(1, 2));
+        $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+    }
     public function test_deleteExport_deleteOneVisit()
     {
         $this->theFixture->setUpWebsites();
