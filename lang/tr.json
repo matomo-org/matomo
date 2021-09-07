@@ -171,6 +171,7 @@
         "EncryptedSmtpTransport": "SMTP sunucunuz için gerekli aktarım katmanı şifrelemesini belirtin.",
         "Error": "Hata",
         "ErrorRequest": "İstek sırasında bir sorun çıktı. Sunucuda geçici bir sorun ortaya çıkmış olabileceği gibi çok fazla veri içeren bir rapor istemiş olabilirsiniz. Lütfen yeniden deneyin. Sorun sürüyorsa yardım almak için lütfen %1$sMatomo yöneticiniz ile görüşün%2$s.",
+        "ErrorRequestFaqLink": "Bu sorunu gidermek için SSS bölümündeki adımlara bakın.",
         "Errors": "Hata",
         "EvolutionOverPeriod": "Zaman aralığındaki gelişim",
         "EvolutionSummaryGeneric": "%2$s içinde %1$s karşılığında %4$s içinde %3$s. Gelişim: %5$s",
