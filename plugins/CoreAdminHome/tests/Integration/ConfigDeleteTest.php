@@ -302,7 +302,7 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
     // Tests for nonexistent data.
     //*************************************************************************
     //
-    public function testNonExistentSectionShouldYieldEmpty()
+    public function testUsingOptsNonExistentSectionShouldYieldEmpty()
     {
         $debug = false;
 
@@ -319,12 +319,12 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testNonExistentSectionAndSettingShouldYieldEmpty()
+    public function testUsingArgsNonExistentSectionShouldYieldEmpty()
     {
         $debug = false;
 
         // Pass empty section name.
-        $resultObj = $this->runCommandWithOptions(self::CLASS_NAME_SHORT . '_Section_does_not_exist', self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
+        $resultObj = $this->runCommandWithArguments(self::CLASS_NAME_SHORT . '_Section_does_not_exist', self::TEST_SETTING_1_1_NAME);
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
 
         // The CLI error code should be 0 indicating success.
@@ -336,7 +336,24 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testNonExistentSettingShouldYieldEmpty()
+    public function testUsingArgsNonExistentSectionAndSettingShouldYieldEmpty()
+    {
+        $debug = false;
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithArguments(self::CLASS_NAME_SHORT . '_Section_does_not_exist', self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsNonExistentSettingShouldYieldEmpty()
     {
         $debug = false;
 
@@ -353,12 +370,46 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testArrayWithInvalidValShouldYieldEmpty()
+    public function testUsingArgsNonExistentSettingShouldYieldEmpty()
+    {
+        $debug = false;
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsArrayWithInvalidValShouldYieldEmpty()
     {
         $debug = false;
 
         // Pass empty section name.
         $resultObj = $this->runCommandWithOptions(self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME, self::CLASS_NAME_SHORT . '_Array_key_does_not_exist');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingArgsArrayWithInvalidValShouldYieldEmpty()
+    {
+        $debug = false;
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME, self::CLASS_NAME_SHORT . '_Array_key_does_not_exist');
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
 
         // The CLI error code should be 0 indicating success.
@@ -376,7 +427,7 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
     //*************************************************************************
     //
 
-    public function testDeleteSingleSetting()
+    public function testUsingOptsDeleteSingleSetting()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -396,12 +447,52 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $this->assertStringNotContainsString($needle, $configDump);
     }
 
-    public function testDeleteArraySetting()
+    public function testUsingArgsDeleteSingleSetting()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, self::TEST_SETTING_1_2_NAME);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $this->assertStringContainsString('Success:', $resultObj->output);
+
+        $config = $this->makeNewConfig();
+        $configDump = $config->dumpConfig();
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Dumped config=' . PHP_EOL . $configDump) . PHP_EOL;
+        $needle = self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE;
+        $this->assertStringNotContainsString($needle, $configDump);
+    }
+
+    public function testUsingOptsDeleteArraySetting()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
 
         $resultObj = $this->runCommandWithOptions(self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME, self::TEST_SETTING_2_1_VALUE_0);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $this->assertStringContainsString('Success:', $resultObj->output);
+
+        $config = $this->makeNewConfig();
+        $configDump = $config->dumpConfig();
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Dumped config=' . PHP_EOL . $configDump) . PHP_EOL;
+        $needle = self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE;
+        $this->assertStringNotContainsString($needle, $configDump);
+    }
+
+    public function testUsingArgsDeleteArraySetting()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME, self::TEST_SETTING_2_1_VALUE_2);
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
 
         // The CLI error code should be 0 indicating success.
