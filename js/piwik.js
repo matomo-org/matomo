@@ -598,6 +598,9 @@ if (typeof window.Matomo !== 'object') {
                 if (data.hasOwnProperty(k)) {
                     if (isNumber(data[k])) {
                         result[k] = data[k];
+                    } else {
+                        throw new Error('Parameter "' + k + '" provided value "' + data[k] +
+                            '" is not valid. Please provided a numeric value.');
                     }
                 }
             }
