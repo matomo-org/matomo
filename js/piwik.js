@@ -611,6 +611,15 @@ if (typeof window.Matomo !== 'object') {
             }
             return result;
         }
+        function roundNumbers(data) {
+            var result = {}, k;
+            for (k in data) {
+                if (data.hasOwnProperty(k)) {
+                    result[k] = Math.round(Number(data[k]));
+                }
+            }
+            return result;
+        }
         function queryStringify(data) {
             var queryString = '', k;
             for (k in data) {
@@ -5639,6 +5648,7 @@ if (typeof window.Matomo !== 'object') {
 
                 try {
                     data = onlyNumbers(data);
+                    data = roundNumbers(data);
                     configPagePerformanceTiming = queryStringify(data);
                     if (configPagePerformanceTiming === '') {
                         logConsoleError('setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
