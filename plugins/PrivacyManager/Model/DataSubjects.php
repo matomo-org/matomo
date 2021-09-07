@@ -457,12 +457,12 @@ class DataSubjects
         $where = array();
         $bind = array();
         foreach ($visits as $visit) {
-            if (isset($visit['idsite']) && $visit['idsite'] != null) {
-                $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
-                $bind[] = $visit['idsite'];
+            if (empty($visit['idsite'])) {
+                $where[] = '(' . $tableToSelect . '.idvisit = ?)';
                 $bind[] = $visit['idvisit'];
             } else {
-                $where[] = '(' . $tableToSelect . '.idvisit = ?)';
+                $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
+                $bind[] = $visit['idsite'];
                 $bind[] = $visit['idvisit'];
             }
         }

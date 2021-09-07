@@ -45,18 +45,10 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
-        $numDeletedVisits = 0;
-
-        foreach ($this->logTablesProvider->getAllLogTables() as $logTable) {
-            if ($logTable->getColumnToJoinOnIdVisit()) {
-                $numVisits = $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
-                if ($logTable->getName() === 'log_visit') {
-                    $numDeletedVisits = $numVisits;
-                }
-            }
-        }
-
-        return $numDeletedVisits;
+        $deleteCounts = StaticContainer::get(DataSubjects::class)->deleteDataSubjectsWithoutInvalidatingArchives(array_map(function($visitid) {
+            return ['idvisit' => $visitid];
+        }, $visitIds));
+        return array_sum($deleteCounts);
     }
 
     /**
@@ -100,13 +92,7 @@ class LogDeleter
         $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $iterationStep, function ($logs) use ($logPurger, &$logsDeleted, $afterChunkDeleted) {
             $ids = array_map(function ($row) { return (int) (reset($row)); }, $logs);
             sort($ids);
-//            $logsDeleted += $logPurger->deleteVisits($ids);
-
-            $deleteCounts = StaticContainer::get(DataSubjects::class)->deleteDataSubjectsWithoutInvalidatingArchives(array_map(function($visitid) {
-                return ['idvisit' => $visitid];
-            }, $ids)); // [1,2] => [['idvisit'=>1],['idvisit'=>2]]
-            $currentCount = array_sum(array_values($deleteCounts)); // ['a' => 3, 'b' => 5] => 8
-            $logsDeleted += $currentCount;
+            $logsDeleted += $logPurger->deleteVisits($ids);
             if (!empty($afterChunkDeleted)) {
                 $afterChunkDeleted($logsDeleted);
             }
