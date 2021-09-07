@@ -592,14 +592,16 @@ if (typeof window.Matomo !== 'object') {
 
             return matches ? matches[1] : url;
         }
-        function isNumberString(strOrNumber) {
-            return /^-?[1-9][0-9]*(\.[0-9]+)?$/.test(strOrNumber);
+        function isPositiveNumberString(str) {
+            // !isNaN(str) could be used but does not cover '03' (octal) and '0xA' (hex)
+            // nor negative numbers
+            return /^[1-9][0-9]*(\.[0-9]+)?$/.test(str);
         }
         function onlyNumbers(data) {
             var result = {}, k;
             for (k in data) {
                 if (data.hasOwnProperty(k)) {
-                    if (isNumber(data[k]) || isNumberString(data[k])) {
+                    if (isNumber(data[k]) || isPositiveNumberString(data[k])) {
                         result[k] = data[k];
                     } else {
                         throw new Error('Parameter "' + k + '" provided value "' + data[k] +
