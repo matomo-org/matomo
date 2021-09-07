@@ -603,9 +603,9 @@ if (typeof window.Matomo !== 'object') {
                 if (data.hasOwnProperty(k)) {
                     if (isNumber(data[k]) || isPositiveNumberString(data[k])) {
                         result[k] = data[k];
-                    } else {
+                    } else if (isDefined(data[k])) {
                         throw new Error('Parameter "' + k + '" provided value "' + data[k] +
-                            '" is not valid. Please provided a numeric value.');
+                            '" is not valid. Please provide a numeric value.');
                     }
                 }
             }
