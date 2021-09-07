@@ -48,7 +48,7 @@ class LogDeleter
         $deleteCounts = StaticContainer::get(DataSubjects::class)->deleteDataSubjectsWithoutInvalidatingArchives(array_map(function($visitid) {
             return ['idvisit' => $visitid];
         }, $visitIds));
-        return array_sum($deleteCounts);
+        return $deleteCounts['log_visit'];
     }
 
     /**

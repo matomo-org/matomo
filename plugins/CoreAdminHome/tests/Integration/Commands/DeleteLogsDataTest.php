@@ -128,7 +128,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ), $options);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-        self::assertStringContainsString("Successfully deleted 57 visits", $this->applicationTester->getDisplay());
+        self::assertStringContainsString("Successfully deleted 19 visits", $this->applicationTester->getDisplay());
     }
 
     private function setCommandInput($value)
