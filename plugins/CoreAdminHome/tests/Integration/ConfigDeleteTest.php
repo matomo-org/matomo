@@ -157,11 +157,9 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $inputArr = [
             'command' => self::COMMAND,
             '-vvv' => false,
-            'argument' => $sectionName . $settingName . (empty($value) ? '' : ".$value"),
+            'argument' => $sectionName . '.' . $settingName . (empty($value) ? '' : ".$value"),
         ];
-        if (!empty($value)) {
-            $inputArr['--value'] = $value;
-        }
+
         $exitCode = $this->applicationTester->run($inputArr);
 
         // Pass true to getDisplay(true) to normalize line endings, then trim() bc CLI adds an \ automatically.
