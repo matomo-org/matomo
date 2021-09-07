@@ -50,7 +50,7 @@ You can delete config values per the two sections below, where:
 #Delete this setting.
 $ ./console %command.name% --section=database --key=username
 #Delete one value in an array:
-$ ./console %command.name% --section=database --key=username --value=DevicesDetection
+$ ./console %command.name% --section=PluginsInstalled --key=PluginsInstalled --value=DevicesDetection
 
 OR
 
