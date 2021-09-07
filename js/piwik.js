@@ -107,7 +107,7 @@
     isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    getConfigCookieSameSite, getConfigPagePerformanceTiming, setCookieSameSite,
+    getConfigCookieSameSite, getCustomPagePerformanceTiming, setCookieSameSite,
     getConfigIdPageView, newVisitor, uuid, createTs, currentVisitTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -595,7 +595,7 @@ if (typeof window.Matomo !== 'object') {
         function isPositiveNumberString(str) {
             // !isNaN(str) could be used but does not cover '03' (octal) and '0xA' (hex)
             // nor negative numbers
-            return /^[1-9][0-9]*(\.[0-9]+)?$/.test(str);
+            return (/^[1-9][0-9]*(\.[0-9]+)?$/).test(str);
         }
         function onlyNumbers(data) {
             var result = {}, k;
@@ -2222,7 +2222,7 @@ if (typeof window.Matomo !== 'object') {
                 configAppendToTrackingUrl = '',
 
                 // setPagePerformanceTiming sets this manually for SPAs
-                configPagePerformanceTiming = '',
+                customPagePerformanceTiming = '',
 
                 // Site ID
                 configTrackerSiteId = siteId || '',
@@ -3517,8 +3517,8 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function appendAvailablePerformanceMetrics(request) {
-                if (configPagePerformanceTiming !== '') {
-                    request += configPagePerformanceTiming;
+                if (customPagePerformanceTiming !== '') {
+                    request += customPagePerformanceTiming;
                     performanceTracked = true;
                     return request;
                 }
@@ -4951,7 +4951,7 @@ if (typeof window.Matomo !== 'object') {
                 return configCookieSameSite;
             };
             this.getCustomPagePerformanceTiming = function () {
-                return configPagePerformanceTiming;
+                return customPagePerformanceTiming;
             };
             this.removeAllAsyncTrackersButFirst = function () {
                 var firstTracker = asyncTrackers[0];
@@ -5637,6 +5637,7 @@ if (typeof window.Matomo !== 'object') {
                 networkTimeInMs, serverTimeInMs, transferTimeInMs,
                 domProcessingTimeInMs, domCompletionTimeInMs, onloadTimeInMs
             ) {
+                /*members pf_net, pf_srv, pf_tfr, pf_dm1, pf_dm2, pf_onl */
                 var data = {
                     pf_net: networkTimeInMs,
                     pf_srv: serverTimeInMs,
@@ -5649,8 +5650,8 @@ if (typeof window.Matomo !== 'object') {
                 try {
                     data = onlyNumbers(data);
                     data = roundNumbers(data);
-                    configPagePerformanceTiming = queryStringify(data);
-                    if (configPagePerformanceTiming === '') {
+                    customPagePerformanceTiming = queryStringify(data);
+                    if (customPagePerformanceTiming === '') {
                         logConsoleError('setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
                             'this function with at least one performance parameter like networkTimeInMs. Also, ' +
                             'please ensure to only supply numbers for each parameter.');
