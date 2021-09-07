@@ -84,16 +84,13 @@ NOTES:
         $options = array_filter([
             'section' => $input->getOption('section'),
             'key' => $input->getOption('key'),
-            'format' => $input->getOption('format'),
         ]);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $options=' . (empty($options) ? '' : serialize($options)));
 
         // If none specified, set default format.
-        if ( ! isset($options['format']) || empty($format = $options['format']) || ! in_array($format, self::OUTPUT_FORMATS, true)) {
+        $format = $input->getOption('format');
+        if ( empty($format) || ! in_array($format, self::OUTPUT_FORMATS, true)) {
             $format = self::OUTPUT_FORMAT_DEFAULT;
         }
-        // Since it is config and not input data, remove format from the options so we can just work with the section and format.
-        unset($options['format']);
 
         $argument = trim($input->getArgument('argument'));
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $argument=' . (empty($argument) ? '' : serialize($argument)));
