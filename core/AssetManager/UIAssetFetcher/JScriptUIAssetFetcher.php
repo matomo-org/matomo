@@ -98,9 +98,13 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     private function addUmdFilesIfDetected($plugins)
     {
         foreach ($plugins as $plugin) {
-            $bundlePath = Development::isEnabled() ? "plugins/$plugin/vue/dist/$plugin.umd.js" : "plugins/$plugin/vue/dist/$plugin.umd.min.js";
-            if (is_file($bundlePath)) {
-                $this->fileLocations[] = $bundlePath;
+            $devUmd = "plugins/$plugin/vue/dist/$plugin.umd.js";
+            $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
+
+            if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
+                $this->fileLocations[] = $devUmd;
+            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+                $this->fileLocations[] = $minifiedUmd;
             }
         }
     }
