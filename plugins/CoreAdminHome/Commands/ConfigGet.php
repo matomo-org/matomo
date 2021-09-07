@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
+use Spyc;
 
 class ConfigGet extends ConsoleCommand
 {
@@ -261,7 +261,7 @@ NOTES:
     }
 
     /**
-     * Convert $var to a JSON string.
+     * Convert $var to a YAML string.
      * Throws an error on invalid types (a PHP resource or object).
      *
      * @param mixed $var The variable to convert.
@@ -272,7 +272,8 @@ NOTES:
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$var=" . serialize($var));
 
-        return trim(Yaml::dump($var, 2, 2, true));
+        // Remove leading dash and spaces Spyc adds so we just output the bare value.
+        return trim(ltrim(Spyc::YAMLDump($var, 2, 0, true), '-'));
     }
 
     /**
