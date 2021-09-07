@@ -155,8 +155,6 @@ NOTES:
 
         // Check the setting exists and user has permissions. If so, put it in the wrapper.
         switch (true) {
-            case ! $settingWrapped->setting->isWritableByCurrentUser():
-                throw new \Exception('No write permissions to this setting');
             case empty($sectionName = $settingWrapped->setting->getConfigSectionName()):
                 throw new \InvalidArgumentException('A section name must be specified');
             case empty($settingName = $settingWrapped->setting->getName()):
