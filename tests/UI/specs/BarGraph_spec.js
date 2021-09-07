@@ -38,7 +38,7 @@ describe("BarGraph", function () {
         var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('other_metric');
     });
 });

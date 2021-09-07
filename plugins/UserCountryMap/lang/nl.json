@@ -1,27 +1,27 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Deze plugin verzorgt de widgets Bezoekers landkaart en Real-time landkaart. Opmerking: Vereist dat de UserCountry plugin is ingeschakeld.",
         "AndNOthers": "en %s anderen",
         "Cities": "Steden",
         "Countries": "Landen",
         "DaysAgo": "%s dagen geleden",
         "GoalConversions": "%s doelconversies",
         "HoursAgo": "%s uur geleden",
-        "map": "kaart",
         "MinutesAgo": "%s minuten geleden",
-        "None": "Geen",
         "NoVisit": "Geen bezoek",
+        "NoVisitsInfo": "Er worden momenteel geen bezoeken getoond, omdat geen enkel bezoek in deze periode correcte geolocatie informatie (latitude & longitude) heeft.",
+        "NoVisitsInfo2": "Om dit probleem op te lossen, moet je ervoor zorgen dat je een GeoIP-geografische locatieprovider gebruikt met een GeoIP-stadsdatabase. Wanneer dit niet het probleem oplost, dan is het mogelijk (hoewel onwaarschijnlijk) dat je bezoekers ip-adressen hebben die niet gelokaliseerd kunnen worden.",
+        "None": "Geen",
+        "PluginDescription": "Deze plugin verzorgt de widgets Bezoekers landkaart en Real-time landkaart. Opmerking: Vereist dat de UserCountry plugin is ingeschakeld.",
         "RealTimeMap": "Realtime Kaart",
         "Regions": "Regio's",
         "Searches": "%s zoekopdrachten",
         "SecondsAgo": "%s seconden geleden",
         "ShowingVisits": "Gelokaliseerde bezoeken van laatste",
-        "Unlocated": "<b>%s<\/b> %p van de bezoeken vanaf %c konden niet worden gelokaliseerd.",
+        "Unlocated": "<b>%1$s</b> %2$p van de bezoeken vanaf %3$c konden niet worden gelokaliseerd.",
         "VisitorMap": "Bezoekersmap",
-        "WorldWide": "Wereldwijd",
-        "WithUnknownRegion": "%s met onbekende regio",
         "WithUnknownCity": "%s met onbekende stad",
-        "NoVisitsInfo": "Er worden momenteel geen bezoeken getoond, omdat geen enkel bezoek in deze periode correcte geolocatie informatie (latitude & longitude) heeft.",
-        "NoVisitsInfo2": "Om dit probleem op te lossen, moet je ervoor zorgen dat je een GeoIP-geografische locatieprovider gebruikt met een GeoIP-stadsdatabase. Wanneer dit niet het probleem oplost, dan is het mogelijk (hoewel onwaarschijnlijk) dat je bezoekers ip-adressen hebben die niet gelokaliseerd kunnen worden."
+        "WithUnknownRegion": "%s met onbekende regio",
+        "WorldWide": "Wereldwijd",
+        "map": "kaart"
     }
 }

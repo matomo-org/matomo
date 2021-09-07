@@ -437,6 +437,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_Error';
         $translationKeys[] = 'General_ErrorRequest';
+        $translationKeys[] = 'General_ErrorRequestFaqLink';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'General_ChooseDate';

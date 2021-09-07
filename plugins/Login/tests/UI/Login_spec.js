@@ -64,9 +64,9 @@ describe("Login", function () {
     it("should load correctly", async function() {
         await page.goto("");
         await page.waitForNetworkIdle();
-        await page.waitFor('input');
+        await page.waitForSelector('input');
         await page.mouse.click(0, 0);
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
@@ -78,9 +78,9 @@ describe("Login", function () {
             $('#login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor('.notification');
+        await page.waitForSelector('.notification');
         await page.mouse.click(0, 0);
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_fail');
     });
@@ -101,9 +101,9 @@ describe("Login", function () {
     it("should redirect to login when logout link clicked", async function() {
         await page.click("nav .right .icon-sign-out");
         await page.waitForNetworkIdle();
-        await page.waitFor('input');
+        await page.waitForSelector('input');
         await page.mouse.click(0, 0);
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form_logout');
     });
@@ -123,7 +123,7 @@ describe("Login", function () {
     it("should display password reset form when forgot password link clicked", async function() {
         await page.click("nav .right .icon-sign-out");
         await page.waitForNetworkIdle();
-        await page.waitFor("a#login_form_nav");
+        await page.waitForSelector("a#login_form_nav");
         await page.click("a#login_form_nav");
         await page.waitForNetworkIdle();
 
@@ -135,7 +135,7 @@ describe("Login", function () {
         await page.type("#reset_form_password", "superUserPass2");
         await page.click("#reset_form_submit");
         await page.waitForNetworkIdle();
-        await page.waitFor('.notification');
+        await page.waitForSelector('.notification');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_error');
     });
