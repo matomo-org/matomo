@@ -153,6 +153,7 @@ class ComputeJsAssetSize extends ConsoleCommand
             "VisitorGenerator",
             "WhiteLabel",
             "WooCommerceAnalytics",
+            "AdvertisingConversionExport",
         ];
 
         if (is_file(PIWIK_INCLUDE_PATH . '/plugins/CoreVue/plugin.json')) {
