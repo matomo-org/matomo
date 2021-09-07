@@ -279,7 +279,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
     // Tests for nonexistent data.
     //*************************************************************************
     //
-    public function testNonExistentSectionShouldYieldEmpty()
+    public function testUsingOptsNonExistentSectionShouldYieldEmpty()
     {
         $debug = false;
 
@@ -296,7 +296,24 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testNonExistentSectionAndSettingShouldYieldEmpty()
+    public function testUsingArgsNonExistentSectionShouldYieldEmpty()
+    {
+        $debug = false;
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithArguments(self::CLASS_NAME_SHORT . '_Section_does_not_exist');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsNonExistentSectionAndSettingShouldYieldEmpty()
     {
         $debug = false;
 
@@ -313,12 +330,46 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testNonExistentSettingShouldYieldEmpty()
+    public function testUsingArgsNonExistentSectionAndSettingShouldYieldEmpty()
+    {
+        $debug = false;
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithArguments(self::CLASS_NAME_SHORT . '_Section_does_not_exist', self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsNonExistentSettingShouldYieldEmpty()
     {
         $debug = false;
 
         // Pass empty section name.
         $resultObj = $this->runCommandWithOptions(self::TEST_SECTION_1_NAME, self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingArgsNonExistentSettingShouldYieldEmpty()
+    {
+        $debug = false;
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
 
         // The CLI error code should be 0 indicating success.
@@ -338,7 +389,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
     /**
      * Assumes default --format=json.
      */
-    public function testGetSingleSettingFormatDefault()
+    public function testUsingOptsGetSingleSettingFormatDefault()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -355,7 +406,24 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testGetSingleSettingFormatYaml()
+    public function testUsingArgsGetSingleSettingFormatDefault()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        // Specifically set format='' (empty string) so we use the CLI default --format=json.
+        $resultObj = $this->runCommandWithOptions(self::TEST_SECTION_1_NAME, self::TEST_SETTING_1_1_NAME, '');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // With the default --format=json, the result should be JSON-encoded, meaning value=MyString gets wrapped in quotes like this: "MyString".
+        $expectedValue = json_encode(self::TEST_SETTING_1_1_VALUE);
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsGetSingleSettingFormatYaml()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -371,7 +439,23 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testGetSingleSettingFormatText()
+    public function testUsingArgsGetSingleSettingFormatYaml()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, self::TEST_SETTING_1_1_NAME, 'yaml');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // With --format=yaml, a single value=MyString comes back with no quoting or brackets, e.g.: MyString.
+        $expectedValue = self::TEST_SETTING_1_1_VALUE;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsGetSingleSettingFormatText()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -389,10 +473,28 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultArr[$resultArrLineCounter++]);
     }
 
+    public function testUsingArgsGetSingleSettingFormatText()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, self::TEST_SETTING_1_1_NAME, 'text');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $resultArr = explode(PHP_EOL, $resultObj->output);
+        $resultArrLineCounter = 0;
+
+        $expectedValue = self::TEST_SECTION_1_NAME . '.' . self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE;
+        $this->assertEquals($expectedValue, $resultArr[$resultArrLineCounter++]);
+    }
+
     /**
      * Assumes default --format=json.
      */
-    public function testGetSectionFormatDefault()
+    public function testUsingOptsGetSectionFormatDefault()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -408,7 +510,26 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testGetSectionFormatYaml()
+    /**
+     * Assumes default --format=json.
+     */
+    public function testUsingArgsGetSectionFormatDefault()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        // Specifically set format='' (empty string) so we use the CLI default --format=json.
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, false, '');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedValue = json_encode((object) self::TEST_SETTING_1_SUMMARIZED);
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsGetSectionFormatYaml()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -423,7 +544,22 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testGetSectionNoArrayFormatText()
+    public function testUsingArgsGetSectionFormatYaml()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, false, 'yaml');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedValue = trim(Yaml::dump(self::TEST_SETTING_1_SUMMARIZED, 2, 2, true));
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsGetSectionNoArrayFormatText()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -442,7 +578,26 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter++]);
     }
 
-    public function testGetSectionWithArrayFormatText()
+    public function testUsingArgsGetSectionNoArrayFormatText()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, false, 'text');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $resultArr = explode(PHP_EOL, $resultObj->output);
+        $resultArrLineCounter = 0;
+        $this->assertStringContainsString('[' . self::TEST_SECTION_1_NAME . ']', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString('--', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE, $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter++]);
+    }
+
+    public function testUsingOptsGetSectionWithArrayFormatText()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -461,7 +616,26 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter++]);
     }
 
-    public function testGetSectionWithArray()
+    public function testUsingArgsGetSectionWithArrayFormatText()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, false, 'text');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $resultArr = explode(PHP_EOL, $resultObj->output);
+        $resultArrLineCounter = 0;
+        $this->assertStringContainsString('[' . self::TEST_SECTION_1_NAME . ']', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString('--', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE, $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter++]);
+    }
+
+    public function testUsingOptsGetSectionWithArray()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -477,7 +651,23 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testGetArraySettingFromSection()
+    public function testUsingArgsGetSectionWithArray()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_2_NAME);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $settingName = self::TEST_SETTING_2_1_NAME;
+        $expectedValue = json_encode((object) [$settingName => self::TEST_SETTING_2_1_VALUES]);
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsGetArraySettingFromSection()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -492,7 +682,22 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testGetArraySettingWithBrackets()
+    public function testUsingArgsGetArraySettingFromSection()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME);
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedValue = json_encode(self::TEST_SETTING_2_1_VALUES);
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsGetArraySettingWithBrackets()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -507,7 +712,22 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    public function testCallWithMultipleSectionsReturnsLastSectionOnly()
+    public function testUsingArgsGetArraySettingWithBrackets()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME . '[]');
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $resultObj->output) . PHP_EOL;
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedValue = json_encode(self::TEST_SETTING_2_1_VALUES);
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsCallWithMultipleSectionsReturnsLastSectionOnly()
     {
         $debug = false;
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
@@ -517,6 +737,29 @@ class ConfigGetTest extends ConsoleCommandTestCase
             '--section' => self::TEST_SECTION_2_NAME,
             '--section' => self::TEST_SECTION_1_NAME,
             '-vvv' => false,
+        ];
+        $exitCode = $this->applicationTester->run($inputArr);
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $exitCode);
+
+        // Pass true to getDisplay(true) to normalize line endings, then trim() bc CLI adds an \ automatically.
+        $output = trim($this->applicationTester->getDisplay(true));
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got command output=' . $output) . PHP_EOL;
+
+        $expectedValue = json_encode((object) self::TEST_SETTING_1_SUMMARIZED);
+        $this->assertEquals($expectedValue, $output);
+    }
+
+    public function testUsingArgsCallWithMultipleSectionsReturnsLastSectionOnly()
+    {
+        $debug = false;
+        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started') . PHP_EOL;
+
+        $inputArr = [
+            'command' => self::COMMAND,
+            '-vvv' => false,
+            'argument' => self::TEST_SECTION_2_NAME . '  ' . self::TEST_SECTION_1_NAME,
         ];
         $exitCode = $this->applicationTester->run($inputArr);
 
