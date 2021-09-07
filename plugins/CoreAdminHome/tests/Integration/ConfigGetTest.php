@@ -20,7 +20,7 @@ use Symfony\Component\Yaml\Yaml;
  * @group CoreAdminHome_Integration
  * @usage
  *   All tests: ./console tests:run /opt/bitnami/matomo/plugins/CoreAdminHome/tests/Integration/ConfigGetTest.php
- *   One test: cd tests/PHPUnit && vendor/bin/phpunit --filter testGetSectionWithArray plugins/CoreAdminHome/tests/Integration/ConfigGetTest.php; cd ../..
+ *   One test: cd /path/to/matomo/tests/PHPUnit &&  /path/to/matomo/vendor/bin/phpunit --filter testGetSectionWithArray /path/to/matomo/plugins/CoreAdminHome/tests/Integration/ConfigGetTest.php; cd ../..
  */
 class ConfigGetTest extends ConsoleCommandTestCase
 {
