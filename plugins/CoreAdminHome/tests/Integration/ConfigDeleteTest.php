@@ -47,7 +47,7 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
     private const TEST_SETTING_2_1_VALUE_0 = self::CLASS_NAME_SHORT . '_arr_val_1';
     private const TEST_SETTING_2_1_VALUE_1 = self::CLASS_NAME_SHORT . '_arr_val_2';
     private const TEST_SETTING_2_1_VALUE_2 = self::CLASS_NAME_SHORT . '_arr_val_3';
-    private const TEST_SETTING_2_1_VALUES = [SELF::TEST_SETTING_2_1_VALUE_0, self::TEST_SETTING_2_1_VALUE_1, self::TEST_SETTING_2_1_VALUE_2];
+    private const TEST_SETTING_2_1_VALUES = [self::TEST_SETTING_2_1_VALUE_0, self::TEST_SETTING_2_1_VALUE_1, self::TEST_SETTING_2_1_VALUE_2];
 
     public static function setUpBeforeClass(): void
     {
@@ -136,7 +136,7 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
             '--key' => $settingName,
             '-vvv' => false,
         ];
-        if ( ! empty($value)) {
+        if (!empty($value)) {
             $inputArr['--value'] = $value;
         }
         $exitCode = $this->applicationTester->run($inputArr);
@@ -159,7 +159,7 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
             '-vvv' => false,
             'argument' => $sectionName . $settingName . (empty($value) ? '' : ".$value"),
         ];
-        if ( ! empty($value)) {
+        if (!empty($value)) {
             $inputArr['--value'] = $value;
         }
         $exitCode = $this->applicationTester->run($inputArr);

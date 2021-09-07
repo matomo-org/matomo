@@ -99,14 +99,14 @@ NOTES:
         switch (true) {
             case empty($argument) && empty($options):
                 throw new \InvalidArgumentException('You must set either an argument or set options --section and optional --key');
-            case ! empty($argument) && ! empty($options):
+            case (!empty($argument) && !empty($options)):
                 throw new \InvalidArgumentException('You cannot set both an argument (' . serialize($argument) . ') and options (' . serialize($argument) . ')');
-            case empty($argument) && ( ! isset($options['section']) || empty($options['section'])):
+            case empty($argument) && (!isset($options['section']) || empty($options['section'])):
                 throw new \InvalidArgumentException('When using options, the --section value must be set');
-            case ! empty($argument):
+            case (!empty($argument)):
                 $settingStr = $argument;
                 break;
-            case ! empty($options):
+            case (!empty($options)):
                 $settingStr = implode('.', $options);
                 break;
             default:
@@ -174,7 +174,7 @@ NOTES:
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::About to look for config setting with \$settingName={$settingName}");
 
         switch (true) {
-            case ! isset($section->$settingName):
+            case (!isset($section->$settingName)):
                 $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No config setting matches \$settingName={$settingName}");
                 $settingValue = null;
                 break;
@@ -202,7 +202,7 @@ NOTES:
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$settingStr={$settingStr}");
 
         $matches = [];
-        if ( ! preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(\[\])?/', $settingStr, $matches) || empty($matches[1])) {
+        if (!preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(\[\])?/', $settingStr, $matches) || empty($matches[1])) {
             throw new \InvalidArgumentException("Invalid input string='{$settingStr}' =expected section.name or section.name[]");
         }
 

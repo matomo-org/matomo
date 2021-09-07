@@ -52,7 +52,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
     private const TEST_SETTING_2_1_VALUE_0 = self::CLASS_NAME_SHORT . '_arr_val_1';
     private const TEST_SETTING_2_1_VALUE_1 = self::CLASS_NAME_SHORT . '_arr_val_2';
     private const TEST_SETTING_2_1_VALUE_2 = self::CLASS_NAME_SHORT . '_arr_val_3';
-    private const TEST_SETTING_2_1_VALUES = [SELF::TEST_SETTING_2_1_VALUE_0, self::TEST_SETTING_2_1_VALUE_1, self::TEST_SETTING_2_1_VALUE_2];
+    private const TEST_SETTING_2_1_VALUES = [self::TEST_SETTING_2_1_VALUE_0, self::TEST_SETTING_2_1_VALUE_1, self::TEST_SETTING_2_1_VALUE_2];
 
     public static function setUpBeforeClass(): void
     {
@@ -141,7 +141,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
             '-vvv' => false,
         ];
         // To allow using default format, only add the format option if specified.
-        if ( ! empty($format)) {
+        if (!empty($format)) {
             $inputArr['--format'] = $format;
         }
         $exitCode = $this->applicationTester->run($inputArr);
@@ -165,7 +165,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
             'argument' => $sectionName . (empty($settingName) ? '' : ".$settingName"),
         ];
         // To allow using default format, only add the format option if specified.
-        if ( ! empty($format)) {
+        if (!empty($format)) {
             $inputArr['--format'] = $format;
         }
         $exitCode = $this->applicationTester->run($inputArr);
@@ -386,7 +386,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $resultArrLineCounter = 0;
 
         $expectedValue = self::TEST_SECTION_1_NAME . '.' . self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE;
-        $this->assertEquals($expectedValue, $resultArr[$resultArrLineCounter ++]);
+        $this->assertEquals($expectedValue, $resultArr[$resultArrLineCounter++]);
     }
 
     /**
@@ -436,10 +436,10 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         $resultArr = explode(PHP_EOL, $resultObj->output);
         $resultArrLineCounter = 0;
-        $this->assertStringContainsString('[' . self::TEST_SECTION_1_NAME . ']', $resultArr[$resultArrLineCounter ++]);
-        $this->assertStringContainsString('--', $resultArr[$resultArrLineCounter ++]);
-        $this->assertStringContainsString(self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE, $resultArr[$resultArrLineCounter ++]);
-        $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter ++]);
+        $this->assertStringContainsString('[' . self::TEST_SECTION_1_NAME . ']', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString('--', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE, $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter++]);
     }
 
     public function testGetSectionWithArrayFormatText()
@@ -455,10 +455,10 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         $resultArr = explode(PHP_EOL, $resultObj->output);
         $resultArrLineCounter = 0;
-        $this->assertStringContainsString('[' . self::TEST_SECTION_1_NAME . ']', $resultArr[$resultArrLineCounter ++]);
-        $this->assertStringContainsString('--', $resultArr[$resultArrLineCounter ++]);
-        $this->assertStringContainsString(self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE, $resultArr[$resultArrLineCounter ++]);
-        $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter ++]);
+        $this->assertStringContainsString('[' . self::TEST_SECTION_1_NAME . ']', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString('--', $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_1_NAME . ' = ' . self::TEST_SETTING_1_1_VALUE, $resultArr[$resultArrLineCounter++]);
+        $this->assertStringContainsString(self::TEST_SETTING_1_2_NAME . ' = ' . self::TEST_SETTING_1_2_VALUE, $resultArr[$resultArrLineCounter++]);
     }
 
     public function testGetSectionWithArray()

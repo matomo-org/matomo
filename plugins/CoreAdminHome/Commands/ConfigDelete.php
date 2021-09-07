@@ -88,14 +88,14 @@ NOTES:
         switch (true) {
             case empty($argument) && empty($options):
                 throw new \InvalidArgumentException('You must set either an argument or set options --section and optional --key');
-            case ! empty($argument) && ! empty($options):
+            case (!empty($argument) && !empty($options)):
                 throw new \InvalidArgumentException('You cannot set both an argument (' . serialize($argument) . ') and options (' . serialize($argument) . ')');
-            case empty($argument) && ( ! isset($options['section']) || empty($options['section']) || ! isset($options['key']) || empty($options['key'])):
+            case empty($argument) && (!isset($options['section']) || empty($options['section']) || !isset($options['key']) || empty($options['key'])):
                 throw new \InvalidArgumentException('When using options, --section and --key must be set');
-            case ! empty($argument):
+            case (!empty($argument)):
                 $settingStr = $argument;
                 break;
-            case ! empty($options):
+            case (!empty($options)):
                 $settingStr = implode('.', $options);
                 break;
             default:
@@ -119,7 +119,7 @@ NOTES:
         $settingWrapped = $this->checkAndPopulate($settingWrapped);
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After fileterSetting() \$settingWrapped=' . print_r($settingWrapped, true));
 
-        if ( ! isset($settingWrapped->setting) || empty($settingWrapped->setting)) {
+        if (!isset($settingWrapped->setting) || empty($settingWrapped->setting)) {
             $output->writeln(self::wrapInTag('comment', self::MSG_NOTHING_FOUND));
         } else {
             // Pass both static and array config items out to the delete logic.
@@ -147,7 +147,7 @@ NOTES:
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $settingWrapped=' . print_r($settingWrapped, true));
 
         // Sanity check inputs.
-        if ( ! ($settingWrapped->setting instanceof SystemConfigSetting)) {
+        if (!($settingWrapped->setting instanceof SystemConfigSetting)) {
             throw new \InvalidArgumentException('This function expects $settingWrapped->setting to be a SystemConfigSetting instance');
         }
 
@@ -162,7 +162,7 @@ NOTES:
             case empty($section = $config->__get($sectionName)):
                 $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No config section matches \$sectionName={$sectionName}");
                 return new \stdClass();
-            case empty($section = (object) $section) || ! isset($section->$settingName):
+            case empty($section = (object) $section) || !isset($section->$settingName):
                 $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Section {$sectionName} has no setting matching \$settingName={$settingName}");
                 $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Section=" . print_r($section, true));
                 return new \stdClass();
@@ -175,7 +175,7 @@ NOTES:
         $settingWrappedNew->isArray = is_array($section->$settingName);
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "Set \$settingWrappedNew->isArray={$settingWrappedNew->isArray}");
 
-        if ( ! $settingWrappedNew->isArray && ! empty($settingWrappedNew->arrayVal)) {
+        if (!$settingWrappedNew->isArray && !empty($settingWrappedNew->arrayVal)) {
             throw new \InvalidArgumentException('This config setting is not an array');
         }
         if ($settingWrappedNew->isArray) {
@@ -205,7 +205,7 @@ NOTES:
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $settingWrapped=' . print_r($settingWrapped, true));
 
         // Sanity check inputs.
-        if ( ! ($settingWrapped->setting instanceof SystemConfigSetting)) {
+        if (!($settingWrapped->setting instanceof SystemConfigSetting)) {
             throw new \InvalidArgumentException('This function expects $settingWrapped->setting to be a SystemConfigSetting instance');
         }
 
@@ -270,7 +270,7 @@ NOTES:
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$settingStr={$settingStr}");
 
         $matches = [];
-        if ( ! preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(?:\[\])?(?:\.([a-zA-Z0-9_]+))?/', $settingStr, $matches) || empty($matches[1])) {
+        if (!preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(?:\[\])?(?:\.([a-zA-Z0-9_]+))?/', $settingStr, $matches) || empty($matches[1])) {
             throw new \InvalidArgumentException("Invalid input string='{$settingStr}': expected section.name or section.name[]");
         }
 
@@ -294,7 +294,7 @@ NOTES:
 
         $settingWrappedNew = clone($settingWrapped);
         $settingWrappedNew->setting = $systemConfigSetting;
-        if ($settingWrappedNew->isArray = ! empty($arrayVal)) {
+        if ($settingWrappedNew->isArray = !empty($arrayVal)) {
             $settingWrappedNew->arrayVal = $arrayVal;
         }
 
