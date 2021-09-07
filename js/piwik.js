@@ -592,11 +592,14 @@ if (typeof window.Matomo !== 'object') {
 
             return matches ? matches[1] : url;
         }
+        function isNumberString(strOrNumber) {
+            return /^-?[1-9][0-9]*(\.[0-9]+)?$/.test(strOrNumber);
+        }
         function onlyNumbers(data) {
             var result = {}, k;
             for (k in data) {
                 if (data.hasOwnProperty(k)) {
-                    if (isNumber(data[k])) {
+                    if (isNumber(data[k]) || isNumberString(data[k])) {
                         result[k] = data[k];
                     } else {
                         throw new Error('Parameter "' + k + '" provided value "' + data[k] +
