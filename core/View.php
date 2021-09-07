@@ -11,11 +11,11 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
-use Piwik\Session\SessionAuth;
+use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\View\ViewInterface;
 use Piwik\View\SecurityPolicy;
 use Twig\Environment;
-use Twig\Error\Error;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -153,6 +153,11 @@ class View implements ViewInterface
         $this->piwik_version = Version::VERSION;
         $this->userLogin = Piwik::getCurrentUserLogin();
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        // following is used in ajaxMacros called macro (showMoreHelp as passed in other templates) - requestErrorDiv
+        $isGeneralSettingsAdminEnabled = Controller::isGeneralSettingsAdminEnabled();
+        $isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
+        // simplify template usage
+        $this->showMoreFaqInfo = $this->isSuperUser && ($isGeneralSettingsAdminEnabled || $isPluginsAdminEnabled);
 
         try {
             $this->piwikUrl = SettingsPiwik::getPiwikUrl();

@@ -2465,7 +2465,7 @@ if (typeof window.Matomo !== 'object') {
                     ';SameSite=' + sameSite;
 
                 // check the cookie was actually set
-                if ((!msToExpire || msToExpire >= 0) && getCookie(cookieName) !== value) {
+                if ((!msToExpire || msToExpire >= 0) && getCookie(cookieName) !== String(value)) {
                     var msg = 'There was an error setting cookie `' + cookieName + '`. Please check domain and path.';
                     logConsoleError(msg);
                 }
