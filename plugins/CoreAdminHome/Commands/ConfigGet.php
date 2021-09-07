@@ -88,7 +88,7 @@ NOTES:
 
         // If none specified, set default format.
         $format = $input->getOption('format');
-        if ( empty($format) || ! in_array($format, self::OUTPUT_FORMATS, true)) {
+        if (empty($format) || !in_array($format, self::OUTPUT_FORMATS, true)) {
             $format = self::OUTPUT_FORMAT_DEFAULT;
         }
 
