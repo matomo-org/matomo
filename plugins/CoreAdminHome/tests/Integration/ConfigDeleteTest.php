@@ -300,6 +300,18 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
 
+        $expectedValue = self::MSG_NOTHING_FOUND;
+        $this->assertEquals($expectedValue, $resultObj->output);
+    }
+
+    public function testUsingOptsNonExistentSectionAndSettingShouldYieldEmpty()
+    {
+
+        // Pass empty section name.
+        $resultObj = $this->runCommandWithOptions(self::CLASS_NAME_SHORT . '_Section_does_not_exist', self::CLASS_NAME_SHORT . '_Setting_does_not_exist');
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
 
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
