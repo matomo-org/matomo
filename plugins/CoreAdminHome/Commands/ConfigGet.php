@@ -95,6 +95,9 @@ NOTES:
         $argument = trim($input->getArgument('argument'));
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $argument=' . (empty($argument) ? '' : serialize($argument)));
 
+        // If there are multiple arguments, just use the last one.
+        $argument = array_slice(explode(' ', $argument), -1)[0];
+
         // Sanity check inputs.
         switch (true) {
             case empty($argument) && empty($options):
