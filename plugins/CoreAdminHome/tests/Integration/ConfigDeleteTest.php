@@ -61,11 +61,6 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         parent::setUp();
     }
 
-    public function tearDown(): void
-    {
-        parent::tearDown();
-    }
-
     private static function getTestConfigFilePath()
     {
         return PIWIK_INCLUDE_PATH . self::TEST_CONFIG_PATH;
