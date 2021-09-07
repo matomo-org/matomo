@@ -77,8 +77,6 @@ NOTES:
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //Optionally could set this at runtime with: $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE.
-
         // Gather options, then discard ones with an empty value so we do not need to check for empty later.
         $options = array_filter([
             'section' => $input->getOption('section'),

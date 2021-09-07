@@ -205,7 +205,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
         // The CLI error code should be >0 indicating failure.
         $this->assertGreaterThan(0, $resultObj->exitCode);
 
-
         $this->assertStringContainsString('InvalidArgumentException', $resultObj->output);
     }
 
@@ -217,7 +216,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         // The CLI error code should be >0 indicating failure.
         $this->assertGreaterThan(0, $resultObj->exitCode);
-
 
         $this->assertStringContainsString('InvalidArgumentException', $resultObj->output);
     }
@@ -251,7 +249,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
         // The CLI error code should be >0 indicating failure.
         $this->assertGreaterThan(0, $resultObj->exitCode);
 
-
         $this->assertStringContainsString('InvalidArgumentException', $resultObj->output);
     }
 
@@ -269,7 +266,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
 
-
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
     }
@@ -282,7 +278,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
-
 
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
@@ -297,7 +292,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
 
-
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
     }
@@ -310,7 +304,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
-
 
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
@@ -325,7 +318,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
 
-
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
     }
@@ -338,7 +330,6 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
-
 
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);

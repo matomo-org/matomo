@@ -70,8 +70,6 @@ NOTES:
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //Optionally could set this at runtime with: $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE.
-
         // Gather options, then discard ones that are empty so we do not need to check for empty later.
         $options = array_filter([
             'section' => $input->getOption('section'),
@@ -123,7 +121,6 @@ NOTES:
                 $output->writeln($this->wrapInTag('info', self::MSG_SUCCESS));
             }
         }
-
     }
 
     /**
@@ -216,7 +213,6 @@ NOTES:
                 break;
             default:
                 // Scalar config values.
-
                 // Remove the setting from the section.
                 unset($section[$settingName]);
                 break;
