@@ -151,6 +151,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should show aggregate rows when the aggregate rows option is clicked", async function () {
         await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
+        await page.waitForNetworkIdle();
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableIncludeAggregateRows');
         await page.mouse.move(-10, -10);
