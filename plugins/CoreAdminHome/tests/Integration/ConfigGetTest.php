@@ -361,7 +361,7 @@ class ConfigGetTest extends ConsoleCommandTestCase
     {
 
         // Specifically set format='' (empty string) so we use the CLI default --format=json.
-        $resultObj = $this->runCommandWithOptions(self::TEST_SECTION_1_NAME, self::TEST_SETTING_1_1_NAME, '');
+        $resultObj = $this->runCommandWithArguments(self::TEST_SECTION_1_NAME, self::TEST_SETTING_1_1_NAME, '');
 
         // The CLI error code should be 0 indicating success.
         $this->assertEquals(0, $resultObj->exitCode, $this->getCommandDisplayOutputErrorMessage());
