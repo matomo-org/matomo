@@ -78,7 +78,6 @@ NOTES:
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         //Optionally could set this at runtime with: $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE.
-        $debug = false;
 
         // Gather options, then discard ones with an empty value so we do not need to check for empty later.
         $options = array_filter([
@@ -93,7 +92,6 @@ NOTES:
         }
 
         $argument = trim($input->getArgument('argument'));
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $argument=' . (empty($argument) ? '' : serialize($argument)));
 
         // If there are multiple arguments, just use the last one.
         $argument = array_slice(explode(' ', $argument), -1)[0];
@@ -116,15 +114,11 @@ NOTES:
                 // We should not get here, but just in case.
                 throw new \Exception('Some unexpected error occurred in ' . __FUNCTION__ . ' at line ' . __LINE__);
         }
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Found \$settingStr=$settingStr");
 
         // Parse the $settingStr into a SystemConfigSetting object.
         $setting = self::parseSettingStr($settingStr);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Parsed \$setting=' . serialize($setting));
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::About to get config for \$settingStr={$settingStr}");
         $result = $this->getConfigValue(Config::getInstance(), $setting);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got $result=' . serialize($result));
 
         if (empty($result)) {
             $output->writeln(self::wrapInTag('comment', self::MSG_NOTHING_FOUND));
@@ -133,7 +127,6 @@ NOTES:
         }
 
         //Many matomo script output Done when they're done.  IMO it's not needed: $output->writeln(self::wrapInTag('info', 'Done.'));
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Done');
     }
 
     /**
@@ -145,51 +138,39 @@ NOTES:
      */
     private function getConfigValue(Config $config, SystemConfigSetting $setting)
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $setting=' . serialize($setting));
 
         // This should have been caught in the calling function, so assume a bad implementation and throw an error.
         if (empty($sectionName = $setting->getConfigSectionName())) {
             throw new \InvalidArgumentException('A section name must be specified');
         }
         if (empty($section = $config->__get($sectionName))) {
-            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No config section matches \$configSectionName={$sectionName}");
             return null;
         }
 
         // Convert array to object since it is slightly cleaner/easier to work with.
         $section = (object) $section;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got $section=' . print_r($section, true));
 
         // Look for the specific setting.
         $settingName = $setting->getName();
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Looking for \$settingName={$settingName}");
 
         // Return the whole setting section if requested.
         // The name=FAKE_SETTING_NAME is a placeholder for when no setting is specified.
         if (empty($settingName) || $settingName === self::NO_SETTING_NAME_FOUND_PLACEHOLDER) {
-            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No specific setting was requested, so return the whole section");
             $sectionContents = $section;
-            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::About to return $sectionContents=' . serialize($sectionContents));
             return (array) $sectionContents;
         }
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::About to look for config setting with \$settingName={$settingName}");
 
         switch (true) {
             case (!isset($section->$settingName)):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No config setting matches \$settingName={$settingName}");
                 $settingValue = null;
                 break;
             case is_array($settingValue = $section->$settingName):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::The config setting is an array value");
                 break;
             default:
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::The config setting is a scalar value");
                 $settingValue = $setting->getValue();
         }
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::About to return $settingValue=' . serialize($settingValue));
         return $settingValue;
     }
 
@@ -201,15 +182,12 @@ NOTES:
      */
     public static function parseSettingStr(string $settingStr): SystemConfigSetting
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$settingStr={$settingStr}");
 
         $matches = [];
         if (!preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(\[\])?/', $settingStr, $matches) || empty($matches[1])) {
             throw new \InvalidArgumentException("Invalid input string='{$settingStr}' =expected section.name or section.name[]");
         }
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got regex $matches=' . print_r($matches, true));
 
         return new SystemConfigSetting(
             // Setting name. SystemConfigSetting throws an error if the setting name is empty, so use placeholder that flags that no setting was specified.
@@ -248,8 +226,6 @@ NOTES:
      */
     private function formatVariableForOutput(SystemConfigSetting $setting, $var, string $format = self::OUTPUT_FORMAT_DEFAULT): string
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$format={$format}; \$var=" . serialize($var));
 
         switch ($format) {
             case 'json':
@@ -272,8 +248,6 @@ NOTES:
      */
     private function toYaml($var): string
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$var=" . serialize($var));
 
         // Remove leading dash and spaces Spyc adds so we just output the bare value.
         return trim(ltrim(Spyc::YAMLDump($var, 2, 0, true), '-'));
@@ -305,8 +279,6 @@ NOTES:
      */
     private function toText(SystemConfigSetting $setting, $var): string
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $var=' . serialize($var) . ' (' . getType($var) . ')');
 
         // Strip off the NO_SETTING_NAME_FOUND_PLACEHOLDER.
         $settingName = $setting->getName() === self::NO_SETTING_NAME_FOUND_PLACEHOLDER ? '' : $setting->getName();
@@ -316,7 +288,6 @@ NOTES:
 
         switch (true) {
             case is_array($var):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Found var is array');
                 $output .= $this->wrapInTag('info', ($settingName ? $sectionAndSettingName : "[{$sectionAndSettingName}]") . PHP_EOL);
                 $output .= $this->wrapInTag('info', '--' . PHP_EOL);
                 foreach ($var as $thisSettingName => &$val) {
@@ -325,14 +296,12 @@ NOTES:
                             $output .= $this->wrapInTag('info', "{$thisSettingName}[] = " . $this->wrapInTag('comment', $arrayVal)) . PHP_EOL;
                         }
                     } else {
-                        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Looking at \$settingName={$settingName}; val=" . serialize($val));
                         $output .= $this->wrapInTag('info', $thisSettingName . ' = ' . $this->wrapInTag('comment', $val)) . PHP_EOL;
                     }
                 }
                 $output .= $this->wrapInTag('info', '--' . PHP_EOL);
                 break;
             case is_scalar($var):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Found var is scalar');
                 $output .= $this->wrapInTag('info', $sectionAndSettingName . ' = ' . $this->wrapInTag('comment', $var));
                 break;
             default:

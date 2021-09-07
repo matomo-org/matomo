@@ -71,7 +71,6 @@ NOTES:
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         //Optionally could set this at runtime with: $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE.
-        $debug = false;
 
         // Gather options, then discard ones that are empty so we do not need to check for empty later.
         $options = array_filter([
@@ -79,10 +78,8 @@ NOTES:
             'key' => $input->getOption('key'),
             'value' => $input->getOption('value'),
         ]);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $options=' . (empty($options) ? '' : serialize($options)));
 
         $argument = trim($input->getArgument('argument'));
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $argument=' . (empty($argument) ? '' : serialize($argument)));
 
         // Sanity check inputs.
         switch (true) {
@@ -102,7 +99,6 @@ NOTES:
                 // We should not get here, but just in case.
                 throw new \Exception('Some unexpected error occurred parsing input values');
         }
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Found \$settingStr=$settingStr");
 
         // Convenience wrapper used to augment SystemConfigSetting without extending SystemConfigSetting or adding random properties to the instance.
         $settingWrapped = (object) [
@@ -113,26 +109,21 @@ NOTES:
 
         // Parse the $settingStr into a $settingWrapped object.
         $settingWrapped = self::parseSettingStr($settingStr, $settingWrapped);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After parseSettingStr() \$settingWrapped=' . serialize($settingWrapped));
 
         // Check the setting exists and user has permissions, then populates the $settingWrapped properties.
         $settingWrapped = $this->checkAndPopulate($settingWrapped);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After fileterSetting() \$settingWrapped=' . print_r($settingWrapped, true));
 
         if (!isset($settingWrapped->setting) || empty($settingWrapped->setting)) {
             $output->writeln(self::wrapInTag('comment', self::MSG_NOTHING_FOUND));
         } else {
             // Pass both static and array config items out to the delete logic.
-            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::About to delete config for \$settingStr={$settingStr}");
             $result = $this->deleteConfigSetting($settingWrapped);
-            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Got $result=' . serialize($result));
 
             if ($result) {
                 $output->writeln($this->wrapInTag('info', self::MSG_SUCCESS));
             }
         }
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Done');
     }
 
     /**
@@ -143,8 +134,6 @@ NOTES:
      */
     private function checkAndPopulate(object $settingWrapped): object
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $settingWrapped=' . print_r($settingWrapped, true));
 
         // Sanity check inputs.
         if (!($settingWrapped->setting instanceof SystemConfigSetting)) {
@@ -160,11 +149,8 @@ NOTES:
             case empty($settingName = $settingWrapped->setting->getName()):
                 throw new \InvalidArgumentException('A setting name must be specified');
             case empty($section = $config->__get($sectionName)):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::No config section matches \$sectionName={$sectionName}");
                 return new \stdClass();
             case empty($section = (object) $section) || !isset($section->$settingName):
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Section {$sectionName} has no setting matching \$settingName={$settingName}");
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Section=" . print_r($section, true));
                 return new \stdClass();
             default:
                 // We have a valid scalar or array setting in a valid section, so just fall out of the switch statement.
@@ -173,23 +159,19 @@ NOTES:
 
         $settingWrappedNew = clone($settingWrapped);
         $settingWrappedNew->isArray = is_array($section->$settingName);
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "Set \$settingWrappedNew->isArray={$settingWrappedNew->isArray}");
 
         if (!$settingWrappedNew->isArray && !empty($settingWrappedNew->arrayVal)) {
             throw new \InvalidArgumentException('This config setting is not an array');
         }
         if ($settingWrappedNew->isArray) {
-            $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "This config setting is an array");
             if (empty($settingWrappedNew->arrayVal)) {
                 throw new \InvalidArgumentException('This config setting an array, and no array value was specified for deletion');
             }
             if (false === array_search($settingWrappedNew->arrayVal, $section->$settingName)) {
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "This config setting is an array, but does not contain the requested value");
                 return new \stdClass();
             }
         }
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::About to return $settingWrappedNew=' . print_r($settingWrappedNew, true));
         return $settingWrappedNew;
     }
 
@@ -201,8 +183,6 @@ NOTES:
      */
     private function deleteConfigSetting(object $settingWrapped): bool
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Started with $settingWrapped=' . print_r($settingWrapped, true));
 
         // Sanity check inputs.
         if (!($settingWrapped->setting instanceof SystemConfigSetting)) {
@@ -225,26 +205,20 @@ NOTES:
                 throw new \InvalidArgumentException('This function refuses to delete config arrays. See usage for how to delete config array values.');
             case $settingWrapped->isArray === true:
                 // Array config values.
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::This config setting is an array');
 
                 $key = array_search($settingWrapped->arrayVal, $setting);
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Searched for \$settingWrapped->arrayVal=' . $settingWrapped->arrayVal . ' in array=' . print_r($settingWrapped->setting, true));
                 if ($key !== false) {
                     unset($setting[$key]);
                 }
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After unset $setting=' . print_r($setting, true));
 
                 // Save the setting into the section.
                 $section[$settingName] = $setting;
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After Save the setting into the section $section=' . print_r($section, true));
                 break;
             default:
                 // Scalar config values.
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::This config setting is a scalar');
 
                 // Remove the setting from the section.
                 unset($section[$settingName]);
-                $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::After unset $section=' . print_r($section, true));
                 break;
         }
 
@@ -254,7 +228,6 @@ NOTES:
         // Save the config.
         $config->forceSave();
 
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . '::Done');
         return true;
     }
 
@@ -266,15 +239,12 @@ NOTES:
      */
     public static function parseSettingStr(string $settingStr, object $settingWrapped): object
     {
-        $debug = false;
-        $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Started with \$settingStr={$settingStr}");
 
         $matches = [];
         if (!preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(?:\[\])?(?:\.([a-zA-Z0-9_]+))?/', $settingStr, $matches) || empty($matches[1])) {
             throw new \InvalidArgumentException("Invalid input string='{$settingStr}': expected section.name or section.name[]");
         }
 
-        $debug && fwrite(STDERR, __FUNCTION__ . '::Got regex $matches=' . serialize($matches));
 
         $settingName = $matches[2] ?? null;
         $arrayVal = $matches[3] ?? null;
