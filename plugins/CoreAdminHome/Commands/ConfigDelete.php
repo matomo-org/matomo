@@ -100,7 +100,7 @@ NOTES:
                 break;
             default:
                 // We should not get here, but just in case.
-                throw new Exception('Some unexpected error occurred parsing input values');
+                throw new \Exception('Some unexpected error occurred parsing input values');
         }
         $debug && fwrite(STDERR, PHP_EOL . __FUNCTION__ . "::Found \$settingStr=$settingStr");
 
