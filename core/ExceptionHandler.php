@@ -72,7 +72,7 @@ class ExceptionHandler
     {
         // Set an appropriate HTTP response code.
         switch (true) {
-            case ( ($exception instanceof \Piwik\Exception\HttpCodeException || $exception instanceof \Piwik\Exception\NotSupportedBrowserException) && $exception->getCode() > 0):
+            case ( ($exception instanceof \Piwik\Http\HttpCodeException || $exception instanceof \Piwik\Exception\NotSupportedBrowserException) && $exception->getCode() > 0):
                 // For these exception types, use the exception-provided error code.
                 http_response_code($exception->getCode());
                 break;
