@@ -10,7 +10,7 @@
         "MetricDataByYear": "Yıla göre ölçüm tabloları",
         "MetricTables": "Ölçüm tabloları",
         "OtherTables": "Diğer tablolar",
-        "PluginDescription": "Ayrıntılı MySQL veritabanı kullanım raporu oluşturur. Süper kullanıcılar tanılama bölümününden ulaşabilir.",
+        "PluginDescription": "Ayrıntılı MySQL veritabanı kullanım raporu oluşturur. Süper kullanıcılar tanılama bölümünün altından ulaşabilir.",
         "ReportDataByYear": "Yıla göre rapor tabloları",
         "ReportTables": "Rapor tabloları",
         "RowCount": "Satır sayısı",
