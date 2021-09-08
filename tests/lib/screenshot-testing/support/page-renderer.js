@@ -296,17 +296,31 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
     while (this.activeRequestCount > 0) {
         await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
     }
+
+    await this.waitForLazyImages()
 };
 
 PageRenderer.prototype.waitForLazyImages = async function () {
     // remove loading attribute from images
-    await this.webpage.evaluate(function(){
-        $('img[loading]').removeAttr('loading');
+    const hasImages = await this.webpage.evaluate(function(){
+        if (!window.jQuery) {
+            return false; // skip if no jquery is available
+        }
+
+        var $ = window.jQuery;
+
+        var images = $('img[loading]');
+        if (images.length > 0) {
+            images.removeAttr('loading');
+            return true;
+        }
+        return false;
     });
-    // wait for the browser to request the images
-    await this.webpage.waitForTimeout(200);
-    // wait till all requests are finished
-    await this.waitForNetworkIdle();
+
+    if (hasImages) {
+        await this.webpage.waitForTimeout(200); // wait for the browser to request the images
+        await this.waitForNetworkIdle(); // wait till all requests are finished
+    }
 };
 
 PageRenderer.prototype.downloadUrl = async function (url) {
