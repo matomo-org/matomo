@@ -156,7 +156,7 @@ describe("Login", function () {
         var expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
             fileContents = require("fs").readFileSync(expectedMailOutputFile),
             mailSent = JSON.parse(fileContents),
-            resetUrl = mailSent.contents.match(/http:\/\/[^\s]+resetToken[^\s]+<\/p>/);
+            resetUrl = mailSent.contents.match(/http:\/\/[^\s]+resetToken[^<]+<\/p>/);
 
         if (!resetUrl || !resetUrl[0]) {
             throw new Error(`Could not find reset URL in email, captured mail info: ${fileContents}`)
