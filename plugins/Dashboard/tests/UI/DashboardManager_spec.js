@@ -85,6 +85,10 @@ describe("DashboardManager", function () {
         }
 
         button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
+        // ensure tour widget always shows the same state
+        testEnvironment.completeAllChallenges = 1;
+        testEnvironment.save();
+
         await button.click();
 
         await page.mouse.move(-10, -10);

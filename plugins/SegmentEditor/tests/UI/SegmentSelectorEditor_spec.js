@@ -188,7 +188,7 @@ describe("SegmentSelectorEditorTest", function () {
         var elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible');
         await elem.click();
         await page.waitForNetworkIdle();
-        await page.click('.segmentationContainer');
+        await (await page.waitForSelector('.segmentationContainer')).click();
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated');
     });

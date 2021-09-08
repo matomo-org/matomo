@@ -298,6 +298,17 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
     }
 };
 
+PageRenderer.prototype.waitForLazyImages = async function () {
+    // remove loading attribute from images
+    await this.webpage.evaluate(function(){
+        $('img[loading]').removeAttr('loading');
+    });
+    // wait for the browser to request the images
+    await this.webpage.waitForTimeout(200);
+    // wait till all requests are finished
+    await this.waitForNetworkIdle();
+};
+
 PageRenderer.prototype.downloadUrl = async function (url) {
     return await this.webpage.evaluate(function (url) {
         var $ = window.jQuery;

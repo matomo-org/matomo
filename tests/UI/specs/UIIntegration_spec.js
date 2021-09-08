@@ -67,6 +67,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 // Prevent random sizing error eg. http://builds-artifacts.matomo.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
                 $("[widgetid=widgetActionsgetOutlinks] .widgetContent").text('Displays different at random -> hidden');
             });
+            await page.waitForLazyImages();
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard1');
@@ -76,6 +77,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
+            await page.waitForLazyImages();
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard2');
@@ -85,6 +87,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
+            await page.waitForLazyImages();
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
@@ -95,6 +98,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
+            await page.waitForLazyImages();
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard4');
@@ -107,6 +111,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             });
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5");
             await page.waitForNetworkIdle();
+            await page.waitForLazyImages();
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('dashboard5_mobile');
 
