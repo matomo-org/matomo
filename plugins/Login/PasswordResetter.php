@@ -347,7 +347,7 @@ class PasswordResetter
      */
     protected function hashData($data)
     {
-        return $this->passwordHelper->hash($data);
+        return Common::hash($data);
     }
 
     /**
