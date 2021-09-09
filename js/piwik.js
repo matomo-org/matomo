@@ -601,7 +601,7 @@ if (typeof window.Matomo !== 'object') {
             var result = {}, k;
             for (k in data) {
                 if (data.hasOwnProperty(k)) {
-                    if (isNumber(data[k]) || isPositiveNumberString(data[k])) {
+                    if (isPositiveNumberString(data[k])) {
                         result[k] = data[k];
                     } else if (isDefined(data[k])) {
                         throw new Error('Parameter "' + k + '" provided value "' + data[k] +
