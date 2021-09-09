@@ -456,10 +456,10 @@ class DataSubjects
     {
         $where = array();
         $bind = array();
+        $in = array();
         foreach ($visits as $visit) {
             if (empty($visit['idsite'])) {
-                $where[] = '(' . $tableToSelect . '.idvisit = ?)';
-                $bind[] = $visit['idvisit'];
+                $in[] = (int) $visit['idvisit'];
             } else {
                 $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
                 $bind[] = $visit['idsite'];
@@ -467,6 +467,12 @@ class DataSubjects
             }
         }
         $where = implode(' OR ', $where);
+        if (!empty($in)) {
+            if (!empty($where)) {
+                $where .= ' OR ';
+            }
+            $where .= $tableToSelect . '.idvisit in (' . implode(',',$in) . ')';
+        }
 
         return array($where, $bind);
     }
