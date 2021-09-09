@@ -595,7 +595,16 @@ if (typeof window.Matomo !== 'object') {
         function isPositiveNumberString(str) {
             // !isNaN(str) could be used but does not cover '03' (octal) and '0xA' (hex)
             // nor negative numbers
-            return (/^[1-9][0-9]*(\.[0-9]+)?$/).test(str);
+            return (/^[0-9][0-9]*(\.[0-9]+)?$/).test(str);
+        }
+        function filter(data, fn) {
+            var result = {}, k;
+            for (k in data) {
+                if (data.hasOwnProperty(k) && fn(data[k])) {
+                    result[k] = data[k];
+                }
+            }
+            return result;
         }
         function onlyPositiveIntegers(data) {
             var result = {}, k;
@@ -603,7 +612,7 @@ if (typeof window.Matomo !== 'object') {
                 if (data.hasOwnProperty(k)) {
                     if (isPositiveNumberString(data[k])) {
                         result[k] = Math.round(data[k]);
-                    } else if (isDefined(data[k])) {
+                    } else {
                         throw new Error('Parameter "' + k + '" provided value "' + data[k] +
                             '" is not valid. Please provide a numeric value.');
                     }
@@ -5639,6 +5648,7 @@ if (typeof window.Matomo !== 'object') {
                 };
 
                 try {
+                    data = filter(data, isDefined);
                     data = onlyPositiveIntegers(data);
                     customPagePerformanceTiming = queryStringify(data);
                     if (customPagePerformanceTiming === '') {
