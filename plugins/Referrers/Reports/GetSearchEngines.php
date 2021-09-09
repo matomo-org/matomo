@@ -46,7 +46,7 @@ class GetSearchEngines extends Base
     private function configureFooterMessage(ViewDataTable $view)
     {
         $out = '';
-        EventDispatcher::getInstance()->postEvent('Template.afterSeoWebVitals', array(&$out));
+        EventDispatcher::getInstance()->postEvent('Template.afterSearchEngines', array(&$out));
         $view->config->show_footer_message = $out;
     }
 }

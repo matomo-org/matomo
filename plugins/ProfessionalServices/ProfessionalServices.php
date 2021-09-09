@@ -31,7 +31,8 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterCustomVariablesReport' => 'getCustomVariablesPromo',
             'Template.afterOverlaySidebar' => 'getHeatmapPromo',
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
-            'Template.afterSeoWebVitals' => 'getSeoWebVitalsPromo',
+            'Template.afterPagePerformanceReport' => 'getSeoWebVitalsPromo',
+            'Template.afterSearchEngines' => 'getSeoWebVitalsPromo',
         );
     }
 
