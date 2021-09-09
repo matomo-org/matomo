@@ -597,25 +597,16 @@ if (typeof window.Matomo !== 'object') {
             // nor negative numbers
             return (/^[1-9][0-9]*(\.[0-9]+)?$/).test(str);
         }
-        function onlyNumbers(data) {
+        function onlyPositiveIntegers(data) {
             var result = {}, k;
             for (k in data) {
                 if (data.hasOwnProperty(k)) {
                     if (isPositiveNumberString(data[k])) {
-                        result[k] = data[k];
+                        result[k] = Math.round(data[k]);
                     } else if (isDefined(data[k])) {
                         throw new Error('Parameter "' + k + '" provided value "' + data[k] +
                             '" is not valid. Please provide a numeric value.');
                     }
-                }
-            }
-            return result;
-        }
-        function roundNumbers(data) {
-            var result = {}, k;
-            for (k in data) {
-                if (data.hasOwnProperty(k)) {
-                    result[k] = Math.round(Number(data[k]));
                 }
             }
             return result;
@@ -5648,8 +5639,7 @@ if (typeof window.Matomo !== 'object') {
                 };
 
                 try {
-                    data = onlyNumbers(data);
-                    data = roundNumbers(data);
+                    data = onlyPositiveIntegers(data);
                     customPagePerformanceTiming = queryStringify(data);
                     if (customPagePerformanceTiming === '') {
                         logConsoleError('setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
