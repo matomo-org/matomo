@@ -50,7 +50,7 @@
             }
 
             self.goal.matchAttribute = matchAttribute;
-            self.goal.allowMultiple = allowMultiple;
+            self.goal.allowMultiple = allowMultiple == true ? "1" : "0";
             self.goal.patternType = patternType;
             self.goal.pattern = pattern;
             self.goal.caseSensitive = caseSensitive;

@@ -1,16 +1,18 @@
 {
     "API": {
         "ChangeTokenHint": "このトークンを変更する場合は、%1$s個人設定%2$s ページに移動してください。",
+        "EvolutionMetricName": "%s 推移",
         "GenerateVisits": "今日のデータがない場合は、%1$s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%2$s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
+        "Glossary": "用語集",
         "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%1$s絶対に共有しないでください%2$s！",
+        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics を最大限に活用するためによく使われる用語について説明します。",
         "LoadedAPIs": "%s API が正常に読み込まれました",
+        "MainMetricsReportDocumentation": "このレポートは、すべてのカテゴリとプラグインにわたる最も重要なメトリックの概要を示します。",
         "MoreInformation": "Matomo API の詳細については、%1$sMatomo API 入門%2$sと%3$s Matomo API リファレンス%4$sをご覧ください。",
         "PluginDescription": "Matomo のすべてのデータは、シンプルな API を介して利用できます。 このプラグインは、xml、json、php、csv などで Web Analytics データを取得するために呼び出すことのできる Web サービスのエントリポイントです。",
         "ReportingApiReference": "API リファレンスレポート",
         "TopLinkTooltip": "jsopn、xml 等シンプルな API を介して、プログラムで Web Analytics データにアクセスできます。",
         "UserAuthentication": "ユーザー認証",
-        "Glossary": "用語集",
-        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics を最大限に活用するためによく使われる用語について説明します。",
-        "EvolutionMetricName": "%s 推移"
+        "UsingTokenAuth": "%1$sスクリプト、crontabなどでデータを要求する場合。%2$s認証が必要なAPI呼び出しURLにURLパラメーター%3$sを追加する必要があります。"
     }
 }

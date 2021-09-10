@@ -318,7 +318,7 @@ class ArchiveProcessor
      */
     public function insertNumericRecord($name, $value)
     {
-        $value = round($value, 2);
+        $value = round($value ?? 0, 2);
         $value = Common::forceDotAsSeparatorForDecimalPoint($value);
 
         $this->archiveWriter->insertRecord($name, $value);

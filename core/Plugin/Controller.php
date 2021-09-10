@@ -113,7 +113,7 @@ abstract class Controller
     /**
      * The SecurityPolicy object.
      *
-     * @var SecurityPolicy
+     * @var \Piwik\View\SecurityPolicy
      * @api
      */
     protected $securityPolicy = null;
