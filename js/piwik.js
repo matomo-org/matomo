@@ -597,11 +597,11 @@ if (typeof window.Matomo !== 'object') {
             // nor negative numbers
             return (/^[0-9][0-9]*(\.[0-9]+)?$/).test(str);
         }
-        function filter(data, fn) {
+        function filterIn(object, byFunction) {
             var result = {}, k;
-            for (k in data) {
-                if (data.hasOwnProperty(k) && fn(data[k])) {
-                    result[k] = data[k];
+            for (k in object) {
+                if (object.hasOwnProperty(k) && byFunction(object[k])) {
+                    result[k] = object[k];
                 }
             }
             return result;
@@ -5648,7 +5648,7 @@ if (typeof window.Matomo !== 'object') {
                 };
 
                 try {
-                    data = filter(data, isDefined);
+                    data = filterIn(data, isDefined);
                     data = onlyPositiveIntegers(data);
                     customPagePerformanceTiming = queryStringify(data);
                     if (customPagePerformanceTiming === '') {
