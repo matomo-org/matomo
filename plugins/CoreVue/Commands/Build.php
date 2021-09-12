@@ -73,13 +73,13 @@ class Build extends ConsoleCommand
 
     private function watch($plugin)
     {
-        $command = $this->getVueCliServiceBin() . ' build --mode=development --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
+        $command = self::getVueCliServiceBin() . ' build --mode=development --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
         passthru($command);
     }
 
     private function buildFiles(OutputInterface $output, $plugin)
     {
-        $command = $this->getVueCliServiceBin() . ' build --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
+        $command = self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
 
         $output->writeln("<comment>Building $plugin...</comment>");
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
@@ -141,7 +141,7 @@ class Build extends ConsoleCommand
 
     public static function getVueCliServiceBin()
     {
-        return PIWIK_INCLUDE_PATH . "/node_modules/.bin/vue-cli-service";
+        return PIWIK_INCLUDE_PATH . "/node_modules/@vue/cli-service/bin/vue-cli-service.js";
     }
 
     public static function checkVueCliServiceAvailable()
