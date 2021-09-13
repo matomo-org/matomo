@@ -195,8 +195,7 @@ class PasswordResetterTest extends IntegrationTestCase
                 ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
                     $body = preg_replace("/=[\r\n]+/", '', $body);
-                    // This regex should include the range of characters Piwik\Auth\Password->hash() might return.
-                    preg_match('/resetToken=[\s]*3D([^<]+)<\/p>/', $body, $matches);
+                    preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
                     if (!empty($matches[1])) {
                         $capturedToken = $matches[1];
                         $capturedToken = preg_replace('/=\s*/', '', $capturedToken);
