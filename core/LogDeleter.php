@@ -45,9 +45,11 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
-        $deleteCounts = StaticContainer::get(DataSubjects::class)->deleteDataSubjectsWithoutInvalidatingArchives(array_map(function($visitid) {
+        $visitIds = array_map(function($visitid) {
             return ['idvisit' => $visitid];
-        }, $visitIds));
+        }, $visitIds);
+        $dataSubjects = StaticContainer::get(DataSubjects::class);
+        $deleteCounts = $dataSubjects->deleteDataSubjectsWithoutInvalidatingArchives($visitIds);
         return $deleteCounts['log_visit'];
     }
 

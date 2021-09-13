@@ -461,9 +461,8 @@ class DataSubjects
             if (empty($visit['idsite'])) {
                 $in[] = (int) $visit['idvisit'];
             } else {
-                $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
-                $bind[] = $visit['idsite'];
-                $bind[] = $visit['idvisit'];
+                $where[] = sprintf('(%s.idsite = %d AND %s.idvisit = %d)',
+                    $tableToSelect, (int) $visit['idsite'], $tableToSelect, (int) $visit['idvisit']);
             }
         }
         $where = implode(' OR ', $where);
