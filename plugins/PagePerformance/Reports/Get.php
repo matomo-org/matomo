@@ -87,8 +87,8 @@ class Get extends \Piwik\Plugin\Report
 
             $view->config->columns_to_display = array_keys(Metrics::getAllPagePerformanceMetrics());
             $view->config->setNotLinkableWithAnyEvolutionGraph();
+            $this->configureFooterMessage($view);
         }
-        $this->configureFooterMessage($view);
     }
 
     private function addSparklineColumns(Sparklines $view)
