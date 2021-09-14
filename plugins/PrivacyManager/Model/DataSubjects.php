@@ -109,10 +109,7 @@ class DataSubjects
 
         $datesToInvalidateByIdSite = $this->getDatesToInvalidate($visits);
 
-        $logTables = $this->getLogTablesToDeleteFrom();
-        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
-            return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
-        });
+        $deleteCounts = $this->deleteDataSubjectsWithoutInvalidatingArchives($visits);
 
         $this->invalidateArchives($datesToInvalidateByIdSite);
 
@@ -459,12 +456,22 @@ class DataSubjects
     {
         $where = array();
         $bind = array();
+        $in = array();
         foreach ($visits as $visit) {
-            $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
-            $bind[] = $visit['idsite'];
-            $bind[] = $visit['idvisit'];
+            if (empty($visit['idsite'])) {
+                $in[] = (int) $visit['idvisit'];
+            } else {
+                $where[] = sprintf('(%s.idsite = %d AND %s.idvisit = %d)',
+                    $tableToSelect, (int) $visit['idsite'], $tableToSelect, (int) $visit['idvisit']);
+            }
         }
         $where = implode(' OR ', $where);
+        if (!empty($in)) {
+            if (!empty($where)) {
+                $where .= ' OR ';
+            }
+            $where .= $tableToSelect . '.idvisit in (' . implode(',',$in) . ')';
+        }
 
         return array($where, $bind);
     }
@@ -510,6 +517,20 @@ class DataSubjects
             }
         }
 
+    }
+
+    /**
+     * @param $visits
+     * @return array
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function deleteDataSubjectsWithoutInvalidatingArchives($visits): array
+    {
+        $logTables = $this->getLogTablesToDeleteFrom();
+        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
+            return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
+        });
+        return $deleteCounts;
     }
 
 }

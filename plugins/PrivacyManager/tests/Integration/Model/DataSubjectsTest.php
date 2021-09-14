@@ -66,6 +66,99 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->theFixture->trackingTime = $this->originalTrackingTime;
     }
 
+    public function test_deleteDataSubjectsWithoutInvalidatingArchives_deleteVisitsWithoutIdsite()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        $this->assertNotEmpty($this->getVisit(1, 1));
+        $this->assertNotEmpty($this->getLinkAction(1, 1));
+        $this->assertNotEmpty($this->getConversion(1, 1));
+        $this->assertNotEmpty($this->getOneVisit(1, 1, TestLogFoo::TABLE));
+
+        $this->assertNotEmpty($this->getVisit(1, 3));
+        $this->assertNotEmpty($this->getLinkAction(1, 3));
+        $this->assertNotEmpty($this->getConversion(1, 3));
+
+        $this->assertNotEmpty($this->getVisit(1, 2));
+        $this->assertNotEmpty($this->getLinkAction(1, 2));
+        $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+
+        $visits = array(array('idvisit' => 1),array('idvisit' => 3),array('idvisit' => 999));
+        $result = $this->dataSubjects->deleteDataSubjectsWithoutInvalidatingArchives($visits);
+
+        $this->assertEquals(array(
+            'log_conversion' => 2,
+            'log_conversion_item' => 0,
+            'log_link_visit_action' => 12,
+            'log_visit' => 2,
+            'log_foo_bar_baz' => 2,
+            'log_foo_bar' => 2,
+            'log_foo' => 2
+        ), $result);
+
+        $this->assertEmpty($this->getVisit(1, 1));
+        $this->assertEmpty($this->getLinkAction(1, 1));
+        $this->assertEmpty($this->getConversion(1, 1));
+        $this->assertEmpty($this->getOneVisit(1, 1, TestLogFoo::TABLE));
+
+        $this->assertEmpty($this->getVisit(1, 3));
+        $this->assertEmpty($this->getLinkAction(1, 3));
+        $this->assertEmpty($this->getConversion(1, 3));
+        $this->assertEmpty($this->getOneVisit(1, 3, TestLogFoo::TABLE));
+
+        // idvisit 2 still exists
+        $this->assertNotEmpty($this->getVisit(1, 2));
+        $this->assertNotEmpty($this->getLinkAction(1, 2));
+        $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+    }
+
+    public function test_deleteDataSubjectsWithoutInvalidatingArchives_deleteVisitWithAndWithoutIdSite()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        $this->assertNotEmpty($this->getVisit(1, 1));
+        $this->assertNotEmpty($this->getLinkAction(1, 1));
+        $this->assertNotEmpty($this->getConversion(1, 1));
+        $this->assertNotEmpty($this->getOneVisit(1, 1, TestLogFoo::TABLE));
+
+        $this->assertNotEmpty($this->getVisit(1, 3));
+        $this->assertNotEmpty($this->getLinkAction(1, 3));
+        $this->assertNotEmpty($this->getConversion(1, 3));
+
+        $this->assertNotEmpty($this->getVisit(1, 2));
+        $this->assertNotEmpty($this->getLinkAction(1, 2));
+        $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+
+        $visits = array(array('idvisit' => 1),array('idvisit' => 3, 'idsite' => 1),array('idvisit' => 999),array('idvisit' => 999, 'idsite' => 999));
+        $result = $this->dataSubjects->deleteDataSubjectsWithoutInvalidatingArchives($visits);
+
+        $this->assertEquals(array(
+            'log_conversion' => 2,
+            'log_conversion_item' => 0,
+            'log_link_visit_action' => 12,
+            'log_visit' => 2,
+            'log_foo_bar_baz' => 2,
+            'log_foo_bar' => 2,
+            'log_foo' => 2
+        ), $result);
+
+        $this->assertEmpty($this->getVisit(1, 1));
+        $this->assertEmpty($this->getLinkAction(1, 1));
+        $this->assertEmpty($this->getConversion(1, 1));
+        $this->assertEmpty($this->getOneVisit(1, 1, TestLogFoo::TABLE));
+
+        $this->assertEmpty($this->getVisit(1, 3));
+        $this->assertEmpty($this->getLinkAction(1, 3));
+        $this->assertEmpty($this->getConversion(1, 3));
+
+        // idvisit 2 still exists
+        $this->assertNotEmpty($this->getVisit(1, 2));
+        $this->assertNotEmpty($this->getLinkAction(1, 2));
+        $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+    }
+
     public function test_deleteExport_deleteOneVisit()
     {
         $this->theFixture->setUpWebsites();
