@@ -15,11 +15,9 @@ use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
 /**
+ * @group Core
  * @group CoreAdminHome
- * @group CoreAdminHome_Integration
- * @usage
- *   All tests: ./console tests:run /opt/bitnami/matomo/plugins/CoreAdminHome/tests/Integration/ConfigDeleteTest.php
- *   One test: cd /path/to/matomo/tests/PHPUnit &&  /path/to/matomo/vendor/bin/phpunit --filter testUsingArgsNonExistentSectionShouldYieldEmpty /path/to/matomo/plugins/CoreAdminHome/tests/Integration/ConfigDeleteTest.php; cd ../..
+ * @group Integration
  */
 class ConfigDeleteTest extends ConsoleCommandTestCase
 {
