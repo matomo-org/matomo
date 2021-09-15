@@ -1,5 +1,8 @@
 # Matomo Platform Changelog
 
+
+
+
 This is the Developer Changelog for Matomo platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
