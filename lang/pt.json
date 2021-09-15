@@ -171,6 +171,7 @@
         "EncryptedSmtpTransport": "Especifique a encriptação da camada de transporte requerida pelo seu servidor SMTP.",
         "Error": "Erro",
         "ErrorRequest": "Ops… ocorreu um problema durante o pedido. Talvez o servidor tenha tido um problema temporário ou talvez tenha solicitado um relatório com demasiada informação. Por favor tente novamente. Se este erro ocorre repetidamente, por favor %1$scontacte o seu administrador Matomo%2$s para assistência.",
+        "ErrorRequestFaqLink": "Consulte os passos para resolver este problema nas perguntas frequentes.",
         "Errors": "Erros",
         "EvolutionOverPeriod": "Evolução ao longo do período",
         "EvolutionSummaryGeneric": "%1$s em %2$s comparado com %3$s em %4$s. Evolução: %5$s",
