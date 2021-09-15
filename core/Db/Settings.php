@@ -40,6 +40,6 @@ class Settings
     private function getDbSetting($key)
     {
         $dbInfos = Db::getDatabaseConfig();
-        return $dbInfos[$key];
+        return $dbInfos[$key] ?? null;
     }
 }
