@@ -33,7 +33,7 @@ class ConfigDelete extends ConsoleCommand
         $this->addArgument(
             'argument',
             InputArgument::OPTIONAL,
-            "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled.PluginsInstalled[CustomDimensions]"
+            "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled.PluginsInstalled.CustomDimensions'"
         );
         $this->addOption('section', 's', InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
         $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
@@ -82,7 +82,7 @@ NOTES:
         // Sanity check inputs.
         switch (true) {
             case empty($argument) && empty($options):
-                throw new \InvalidArgumentException('You must set either an argument or set options --section and optional --key');
+                throw new \InvalidArgumentException('You must set either an argument or set options --section, --key and optional --value');
             case (!empty($argument) && !empty($options)):
                 throw new \InvalidArgumentException('You cannot set both an argument (' . serialize($argument) . ') and options (' . serialize($argument) . ')');
             case empty($argument) && (!isset($options['section']) || empty($options['section']) || !isset($options['key']) || empty($options['key'])):
@@ -162,7 +162,7 @@ NOTES:
         }
         if ($settingWrappedNew->isArray) {
             if (empty($settingWrappedNew->arrayVal)) {
-                throw new \InvalidArgumentException('This config setting an array, and no array value was specified for deletion');
+                throw new \InvalidArgumentException('This config setting is an array, but no array value was specified for deletion');
             }
             if (false === array_search($settingWrappedNew->arrayVal, $section->$settingName)) {
                 return new \stdClass();

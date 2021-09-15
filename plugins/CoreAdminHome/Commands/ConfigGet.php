@@ -262,7 +262,7 @@ NOTES:
     {
         $result = json_encode($var, JSON_UNESCAPED_SLASHES);
         if ($result === false) {
-            throw new Exception('Failed to json_encode');
+            throw new \Exception('Failed to json_encode');
         }
 
         return $result;
