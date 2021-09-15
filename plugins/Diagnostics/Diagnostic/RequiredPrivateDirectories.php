@@ -9,9 +9,9 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -112,7 +112,22 @@ class RequiredPrivateDirectories implements Diagnostic
 
     private function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
     {
+        static $addedDisableHttpDiagnosticsWarning = false;
         try {
+            if (Config::getInstance()->General['disable_http_diagnostics'] == 1) {
+                if (!$addedDisableHttpDiagnosticsWarning) {
+                    $addedDisableHttpDiagnosticsWarning = true;
+                    $result->addItem(
+                        new DiagnosticResultItem(
+                            DiagnosticResult::STATUS_WARNING,
+                            // TODO: translate
+                            'HTTP requests disabled with disable_http_diagnostics in [General], ' .
+                            'so this passing does not say much!'
+                        )
+                    );
+                }
+                return false;
+            }
             $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
             $status = $response['status'];
 
