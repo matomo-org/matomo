@@ -103,6 +103,12 @@ class Promo
                 'url' => 'https://matomo.org/recommends/enterprise/',
                 'text' => 'Discover the power of open-source combined with enterprise-grade support and premium functionalities.'
             ),
+            array(
+                'campaignContent' => 'heatmapsAndSessionRecordings',
+                'title' => 'Heatmaps and for Session Recordings',
+                'url' => 'https://matomo.org/recommends/heatmap-session-recording-learn-more/',
+                'text' => 'Truly understand your visitors by seeing where they click, hover, type and scroll. Replay their actions in a video and ultimately increase conversions.'
+            ),
         );
     }
 
