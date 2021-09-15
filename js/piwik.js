@@ -5652,9 +5652,7 @@ if (typeof window.Matomo !== 'object') {
                     data = onlyPositiveIntegers(data);
                     customPagePerformanceTiming = queryStringify(data);
                     if (customPagePerformanceTiming === '') {
-                        logConsoleError('setPagePerformanceTiming() called without parameters. It only makes sense to call ' +
-                            'this function with at least one performance parameter like networkTimeInMs. Also, ' +
-                            'please ensure to only supply numbers for each parameter.');
+                        logConsoleError('setPagePerformanceTiming() called without parameters. This function needs to be called with at least one performance parameter.');
                         return;
                     }
 
@@ -5663,8 +5661,7 @@ if (typeof window.Matomo !== 'object') {
                     // Otherwise performanceAvailable will be set when the pageload finished, but there is no need
                     // to wait for that, when the values are set manually.
                 } catch (error) {
-                    logConsoleError(error.toString() + ' Please ensure to only supply numbers for each parameter to ' +
-                        'setPagePerformanceTiming().');
+                    logConsoleError('setPagePerformanceTiming: ' + error.toString());
                 }
             };
 
