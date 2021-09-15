@@ -15,8 +15,9 @@ use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Url;
 
 /**
+ * @group Core
  * @group CoreAdminHome
- * @group CoreAdminHome_Integration
+ * @group Integration
  */
 class SetConfigTest extends ConsoleCommandTestCase
 {
