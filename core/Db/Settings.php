@@ -35,7 +35,7 @@ class Settings
 
     public function getRowFormat()
     {
-        return $this->getDbSetting('disable_dynamic_row_format') ? '' : 'ROW_FORMAT=DYNAMIC';
+        return $this->getDbSetting('enable_dynamic_row_format') ? 'ROW_FORMAT=DYNAMIC' : '';
     }
 
     private function getDbSetting($key)
