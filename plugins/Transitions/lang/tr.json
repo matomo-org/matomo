@@ -20,7 +20,7 @@
         "NoDataForAction": "%s için henüz bir veri yok",
         "NoDataForActionDetails": "%s zaman aralığından işlem için hiç bir sayfa gösterilmemiş ya da geçersiz.",
         "NumDownloads": "%s indirme",
-        "NumOutlinks": "%s giden bağlantı",
+        "NumOutlinks": "%s dış bağlantı",
         "NumPageviews": "%s sayfa gösterimi",
         "OutgoingTraffic": "Giden trafik",
         "PageURLTransitions": "Sayfa adresi dönüşümleri",

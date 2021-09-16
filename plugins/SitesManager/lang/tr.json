@@ -70,7 +70,7 @@
         "NotFound": "Şunun için herhangi bir web sitesi bulunamadı",
         "OnlyMatchedUrlsAllowed": "İşlem adresi yalnız yukarıdaki adreslerden birisi ile başlıyorsa ziyaret ve işlemler izlensin.",
         "OnlyMatchedUrlsAllowedHelp": "Bu seçenek etkinleştirildiğinde, Matomo iç işlemleri yalnız sayfa adresi web sitesi için belirtilmiş adreslerden biri ise izler. Böylece kötü niyetli kişilerin istatistik verilerinizi başka web sitesi adresleri ile karıştırması engellenmiş olur.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "Etki alanı ve yol tam eşleşmeli ve her bir geçerli alt etki alanı ayrı ayrı belirtilmelidir. Örneğin bilinen adresler 'http://ornek.com/yol' ve 'http://iyi.ornek.com' şeklinde ise, 'http://ornek.com/baskayol' ya da 'http://kotu.ornek.com' izleme istekleri yok sayılır.",
+        "OnlyMatchedUrlsAllowedHelpExamples": "Etki alanı ve yol tam eşleşmeli ve her bir geçerli alt etki alanı ayrı ayrı belirtilmelidir. Örneğin bilinen adresler 'http://websitesi.com/yol' ve 'http://iyi.websitesi.com' şeklinde ise, 'http://websitesi.com/baskayol' ya da 'http://kotu.websitesi.com' izleme istekleri yok sayılır.",
         "OnlyOneSiteAtTime": "Bir kerede yalnız bir web sitesi düzenlenebilir. Lütfen %s web sitesinde yaptığınız değişiklikleri kaydedin ya da iptal edin.",
         "PiwikOffersEcommerceAnalytics": "Matomo gelişmiş e-ticaret izleme, istatistik ve raporlama işlemleri yapabilir. %1$sE-ticaret istatistikleri%2$s hakkında ayrıntılı bilgi alın.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Matomo genel oturum parametrelerini otomatik olarak algılar ve hesaba katmaz (%s).",
