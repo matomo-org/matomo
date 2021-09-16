@@ -410,14 +410,11 @@ class Config
                 throw $this->getConfigNotWritableException();
             }
 
-            $this->settings->getIniFileChain()->deleteConfigCache();
+            if ($this->sanityCheck($localPath)) {
+                $this->settings->getIniFileChain()->deleteConfigCache();
 
-            /**
-             * Triggered when a INI config file is changed on disk.
-             *
-             * @param string $localPath Absolute path to the changed file on the server.
-             */
-            Piwik::postEvent('Core.configFileChanged', [$localPath]);
+                Piwik::postEvent('Core.configFileChanged', [$localPath]);
+            }
         }
     }
 
@@ -454,5 +451,25 @@ class Config
         $section = self::getInstance()->$sectionName;
         $section[$name] = $value;
         self::getInstance()->$sectionName = $section;
+    }
+
+    /**
+     * Sanity check a config file by checking its size and content
+     *
+     * @param string $localPath
+     * @return bool
+     */
+    public function sanityCheck(string $localPath): bool
+    {
+        $content = @file_get_contents($localPath);
+        $filesize = filesize($localPath);
+
+        if ($filesize < 1500 || strpos($content, '[database]') === false) {
+            Piwik::postEvent('Core.configFileSanityCheckFailed', [$localPath]);
+
+            return false;
+        }
+
+        return true;
     }
 }
