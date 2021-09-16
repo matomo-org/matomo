@@ -1106,6 +1106,7 @@ Languages[] = it
 Languages[] = ja
 Languages[] = ka
 Languages[] = ko
+Languages[] = ku
 Languages[] = lt
 Languages[] = lv
 Languages[] = nb
