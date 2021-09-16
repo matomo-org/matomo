@@ -120,7 +120,11 @@ class DbHelper
      */
     public static function getInstallVersion(): string
     {
-        return Schema::getInstance()->getInstallVersion() ?? '1';
+        return Schema::getInstance()->getInstallVersion() ?? '0';
+        // need string as usage is usually
+        // version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<') or similar
+        // and PHP 8.1 throws a deprecation warning otherwise
+        // @see https://github.com/matomo-org/matomo/pull/17989#issuecomment-921298360
     }
 
     public static function wasMatomoInstalledBeforeVersion($version)
