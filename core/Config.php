@@ -16,6 +16,7 @@ use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\ProfessionalServices\Advertising;
+use Psr\Log\LoggerInterface;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -394,9 +395,8 @@ class Config
     protected function writeConfig()
     {
         $output = $this->dumpConfig();
-        if ($output !== null
-            && $output !== false
-        ) {
+
+        if ($output !== null && $output !== false) {
             $localPath = $this->getLocalPath();
 
             if ($this->doNotWriteConfigInTests) {
@@ -410,11 +410,13 @@ class Config
                 throw $this->getConfigNotWritableException();
             }
 
-            if ($this->sanityCheck($localPath)) {
-                $this->settings->getIniFileChain()->deleteConfigCache();
-
-                Piwik::postEvent('Core.configFileChanged', [$localPath]);
+            if (!$this->sanityCheck($localPath)) {
+                StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
             }
+
+            $this->settings->getIniFileChain()->deleteConfigCache();
+
+            Piwik::postEvent('Core.configFileChanged', [$localPath]);
         }
     }
 
