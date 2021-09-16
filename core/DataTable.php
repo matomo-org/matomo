@@ -1995,7 +1995,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return false !== $row;
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): Row
     {
         return $this->getRowFromId($offset);
     }
