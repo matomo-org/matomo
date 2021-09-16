@@ -270,20 +270,20 @@
         },
         {
             "name": "matomo/cache",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "f43f5abe1ce65a5981b328c83fb15613bfd7cfd9"
+                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/f43f5abe1ce65a5981b328c83fb15613bfd7cfd9",
-                "reference": "f43f5abe1ce65a5981b328c83fb15613bfd7cfd9",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/a54c3ae324ba1297121aea78dec7724ddaaefb56",
+                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56",
                 "shasum": ""
             },
             "require": {
-                "matomo/doctrine-cache-fork": "1.10.3",
+                "matomo/doctrine-cache-fork": "1.10.4",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -315,9 +315,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-cache/issues",
-                "source": "https://github.com/matomo-org/component-cache/tree/2.0.4"
+                "source": "https://github.com/matomo-org/component-cache/tree/2.0.5"
             },
-            "time": "2021-08-20T00:41:05+00:00"
+            "time": "2021-09-13T22:17:50+00:00"
         },
         {
             "name": "matomo/decompress",
@@ -430,38 +430,43 @@
         },
         {
             "name": "matomo/doctrine-cache-fork",
-            "version": "1.10.3",
+            "version": "1.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/cache.git",
-                "reference": "99f03884f4458d4e4bf63cfd9ef810b8d13da9e8"
+                "reference": "a3f6b7e86061a2f3c68122ee58e9d8aa815baff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/cache/zipball/99f03884f4458d4e4bf63cfd9ef810b8d13da9e8",
-                "reference": "99f03884f4458d4e4bf63cfd9ef810b8d13da9e8",
+                "url": "https://api.github.com/repos/matomo-org/cache/zipball/a3f6b7e86061a2f3c68122ee58e9d8aa815baff6",
+                "reference": "a3f6b7e86061a2f3c68122ee58e9d8aa815baff6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": "~7.1 || ^8.0"
             },
             "conflict": {
                 "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7",
-                "predis/predis": "~1.0",
-                "satooshi/php-coveralls": "~0.6"
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^6.0",
+                "mongodb/mongodb": "^1.1",
+                "phpunit/phpunit": "^7.0",
+                "predis/predis": "~1.0"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Cache\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -490,16 +495,37 @@
                     "email": "schmittjoh@gmail.com"
                 }
             ],
-            "description": "Caching library offering an object-oriented API for many cache backends",
-            "homepage": "http://www.doctrine-project.org",
+            "description": "PHP Doctrine Cache library is a popular cache implementation that supports many different drivers such as redis, memcache, apc, mongodb and others.",
+            "homepage": "https://www.doctrine-project.org/projects/cache.html",
             "keywords": [
+                "abstraction",
+                "apcu",
                 "cache",
-                "caching"
+                "caching",
+                "couchdb",
+                "memcached",
+                "php",
+                "redis",
+                "xcache"
             ],
             "support": {
-                "source": "https://github.com/matomo-org/cache/tree/1.10.3"
+                "source": "https://github.com/matomo-org/cache/tree/1.10.4"
             },
-            "time": "2021-08-19T23:54:50+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-13T22:06:08+00:00"
         },
         {
             "name": "matomo/ini",
