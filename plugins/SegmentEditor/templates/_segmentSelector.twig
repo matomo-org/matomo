@@ -36,11 +36,7 @@
 
         <div class="segment-content">
             <div class="segment-top" {% if not isSuperUser %}style="display:none"{% endif %}>
-                <div style="display: none">
-                <span class="icon-segment"></span><span class="available_segments"><strong>
-                <select type="hidden" class="available_segments_select browser-default"></select>
-            </strong></span>
-                </div>
+                <input type="hidden" class="available_segments_select"/>
                <div class="segment-top-item">
                 {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <div class="enable_all_users"><strong>
                         <select class="enable_all_users_select">

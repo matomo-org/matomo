@@ -19,6 +19,11 @@
 
 .segment-row-inputs {
     margin-bottom: 5px;
+
+    @media screen and (max-width: 749px) {
+        width: 100%;
+        display: block;
+    }
 }
 
 .hovered {
@@ -126,14 +131,23 @@ div.scrollable {
     text-align: right;
     padding: 3px 7px 0 0;
     display: grid;
+    display: -ms-grid;
+    -ms-grid-columns: 28% 28% 44%;
     grid-template-columns: 28% 28% 44%;
+
     > * {
         vertical-align: top;
+    }
+
+    @media screen and (max-width: 749px) {
+        display: block;
     }
 }
 
 .segment-element .segment-top .segment-top-item {
     display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
 }
 
 .segment-element .segment-top a {
@@ -207,7 +221,6 @@ div.scrollable {
 }
 
 
-
 .segmentationContainer .submenu ul li {
     padding: 2px 0 1px 0;
     margin: 3px 0 0 0;
@@ -278,6 +291,7 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 .segmentEditorPanel.expanded .segmentationContainer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+
     .dropdown-body {
         width: 240px;
     }
@@ -418,6 +432,11 @@ a.metric_category {
 .segment-element {
     z-index: 999;
     width: 908px;
+
+    @media screen and (max-width: 749px) {
+        width: 100%;
+        padding: 1em;
+    }
 }
 
 .segmentationSelectorContainer {
@@ -439,7 +458,7 @@ a.metric_category {
 }
 
 .ui-autocomplete.ui-menu.ui-widget {
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     padding: 6px !important;
 }
 

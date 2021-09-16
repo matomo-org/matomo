@@ -1,6 +1,6 @@
 /*!
  * Matomo - free/libre analytics platform
- * 
+ *
  * SegmentEditor screenshot tests.
  *
  * @link https://matomo.org
@@ -9,7 +9,7 @@
 
 describe("SegmentSelectorEditorTest", function () {
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
-    
+
     this.timeout(0);
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
@@ -64,11 +64,6 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('6_segment_editor_droplist');
     });
 
-    it("should change segment when another available segment clicked in segment editor's available segments dropdown", async function() {
-        await (await page.jQuery('.ui-menu-item div:contains(Add new segment)')).click();
-        await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('6_segment_editor_different');
-    });
 
     it("should close the segment editor when the close link is clicked", async function() {
         await page.evaluate(function () {
