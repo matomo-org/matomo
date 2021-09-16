@@ -74,7 +74,7 @@ class GetPageTitles extends Base
         $view->config->columns_to_display = array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
                                                   'avg_time_on_page', 'exit_rate');
 
-        if (version_compare(DbHelper::getInstallVersion() ?? '1','4.0.0-b1', '<')) { // changed for php 8.1, may cause regression
+        if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
             $view->config->columns_to_display[] = 'avg_time_generation';
         }
 
