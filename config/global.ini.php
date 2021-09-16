@@ -47,7 +47,7 @@ charset = utf8
 
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
-; * live queries that hit a log table
+; * live queries that hit a log table.
 ; You only want to enable a reader if you can ensure there is minimal replication lag / delay on the reader.
 ; Otherwise you might get corrupt data in the reports.
 [database_reader]
