@@ -33,8 +33,8 @@ class CreateTable extends Sql
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
 
-        $sql = sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=utf8 %s',
-                       $table, implode(', ' , $columns), $dbSettings->getEngine(),$dbSettings->getRowFormat());
+        $sql = rtrim(sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=utf8 %s',
+                       $table, implode(', ' , $columns), $dbSettings->getEngine(), $dbSettings->getRowFormat()));
 
         parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
     }
