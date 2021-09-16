@@ -105,6 +105,11 @@ class PasswordResetter
     private $emailFromAddress;
 
     /**
+     * Hash algorithm used to create the password reset token.
+     */
+    const TOKEN_HASH_ALGO = 'sha3-512';
+
+    /**
      * Constructor.
      *
      * @param UsersManagerAPI|null $usersManagerApi
@@ -338,16 +343,19 @@ class PasswordResetter
     }
 
     /**
-     * Hashes a string.
+     * Hashes a pre-salted string using self::TOKEN_HASH_ALGO.  We want this function to:
+     * - Produce the same results every time it runs;
+     * - Secure the data hashed;
+     * - Not take overly long to hash the data.
      *
      * Derived classes can override this to provide a different hashing implementation.
      *
-     * @param string $data The data to hash.
+     * @param string $salted_data The pre-salted data to hash.
      * @return string
      */
-    protected function hashData($data)
+    protected function hashData($salted_data)
     {
-        return Common::hash($data);
+        return hash(self::TOKEN_HASH_ALGO, $salted_data);
     }
 
     /**
