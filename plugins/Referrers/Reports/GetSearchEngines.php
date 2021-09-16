@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Reports;
 
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -39,6 +40,13 @@ class GetSearchEngines extends Base
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
         }
+        $this->configureFooterMessage($view);
     }
 
+    private function configureFooterMessage(ViewDataTable $view)
+    {
+        $out = '';
+        EventDispatcher::getInstance()->postEvent('Template.afterSearchEngines', array(&$out));
+        $view->config->show_footer_message = $out;
+    }
 }
