@@ -46,7 +46,7 @@ ssl_no_verify =
 charset = utf8
 
 ; Matomo recommend enabling this setting if the default charset is set to utf8mb4
-; it avoids large size row errors
+; it avoids large size row on mysql errors
 enable_dynamic_row_format = 0
 
 ; If configured, the following queries will be executed on the reader instead of the writer.
