@@ -118,9 +118,9 @@ class DbHelper
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
      */
-    public static function getInstallVersion()
+    public static function getInstallVersion(): string
     {
-        return Schema::getInstance()->getInstallVersion();
+        return Schema::getInstance()->getInstallVersion() ?? '1';
     }
 
     public static function wasMatomoInstalledBeforeVersion($version)
