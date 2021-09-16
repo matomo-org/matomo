@@ -45,6 +45,9 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; disable dynamic row by default
+disable_dynamic_row_format = true
+
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table

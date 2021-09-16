@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Db;
 
 use Piwik\Db;
@@ -34,7 +35,7 @@ class Settings
 
     public function getRowFormat()
     {
-       return $this->getDbSetting('disable_dynamic_row_format')?'':'ROW_FORMAT=DYNAMIC';
+        return $this->getDbSetting('disable_dynamic_row_format') ? '' : 'ROW_FORMAT=DYNAMIC';
     }
 
     private function getDbSetting($key)

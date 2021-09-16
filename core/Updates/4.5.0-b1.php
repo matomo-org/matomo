@@ -9,9 +9,9 @@
 
 namespace Piwik\Updates;
 
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
-use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_4_5_0_b1 extends PiwikUpdates
@@ -29,11 +29,16 @@ class Updates_4_5_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $migration1 = $this->migration->db->changeColumnType('session', 'data', 'MEDIUMTEXT');
+        $migrations = [];
+        $migrations[] = $this->migration->db->changeColumnType('session', 'data', 'MEDIUMTEXT');
 
-        return [
-            $migration1,
-        ];
+        //database using utf8mb4 set row format dynamic
+        if (DbHelper::getDefaultCharset() == "utf8mb4") {
+            $migrations[] = $this->migration->config->set('disable_dynamic_row_format', false);
+        }
+
+        return $migrations;
+
     }
 
     public function doUpdate(Updater $updater)
