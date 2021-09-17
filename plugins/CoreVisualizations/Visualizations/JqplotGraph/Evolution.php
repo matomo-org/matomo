@@ -48,10 +48,6 @@ class Evolution extends JqplotGraph
     {
         if (!$this->isComparing()) {
             $this->calculateEvolutionDateRange();
-            if (Common::getRequestVar('module') === 'Referrers') {
-                // only show under Acquisition/Overview
-                $this->config->show_limit_control = true;
-            }
         }
 
         parent::beforeLoadDataTable();
