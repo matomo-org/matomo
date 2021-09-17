@@ -120,7 +120,7 @@ class DbHelper
      */
     public static function getInstallVersion(): string
     {
-        return Schema::getInstance()->getInstallVersion() ?? '1';
+        return Schema::getInstance()->getInstallVersion() ?? '0';
     }
 
     public static function wasMatomoInstalledBeforeVersion($version)
