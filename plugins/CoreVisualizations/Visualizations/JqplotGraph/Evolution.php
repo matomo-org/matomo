@@ -48,7 +48,6 @@ class Evolution extends JqplotGraph
     {
         if (!$this->isComparing()) {
             $this->calculateEvolutionDateRange();
-            $this->config->show_limit_control = true;
         }
 
         parent::beforeLoadDataTable();
