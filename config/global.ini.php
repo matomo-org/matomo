@@ -380,8 +380,9 @@ archiving_range_force_on_browser_request = 1
 archiving_custom_ranges[] =
 
 ; If configured, archiving queries will be aborted after the configured amount of seconds. Set it to -1 if the query time
-; should not be limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB
-; might not support this feature which uses the MAX_EXECUTION_TIME hint.
+; should not be limited. Note: This feature requires a recent MySQL version (5.7 or newer) and the PDO\MYSQL extension
+; must be used. Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint.
+; This feature will not work with the MYSQLI extension.
 archiving_query_max_execution_time = 7200
 
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
@@ -608,8 +609,9 @@ live_visitor_profile_max_visits_to_aggregate = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
-; limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB might not
-; support this feature which uses the MAX_EXECUTION_TIME hint.
+; limited. Note: This feature requires a recent MySQL version (5.7 or newer) and the PDO\MYSQL extension must be used.
+; Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint. This feature will
+; not work with the MYSQLI extension.
 live_query_max_execution_time = -1
 
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
@@ -1106,6 +1108,7 @@ Languages[] = it
 Languages[] = ja
 Languages[] = ka
 Languages[] = ko
+Languages[] = ku
 Languages[] = lt
 Languages[] = lv
 Languages[] = nb

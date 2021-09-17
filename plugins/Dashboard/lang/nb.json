@@ -26,7 +26,7 @@
         "ResetDashboard": "Nullstill oversikt",
         "ResetDashboardConfirm": "Er du sikker på at du vil gjenopprette oversiktlayouten til standardwidgetene?",
         "SelectDashboardLayout": "Vennligst veld ny oversiktslayout",
-        "SelectWidget": "Velg hvilket element som du vil legge til oversiktspanelet.",
+        "SelectWidget": "Velg hvilket element som du vil legge til oversiktspanelet",
         "SetAsDefaultWidgets": "Bruk som standardwidgeter",
         "SetAsDefaultWidgetsConfirm": "Er du sikker på at du vil sette dette widgetutvalget og kolonnelayouten som standardmal?",
         "SetAsDefaultWidgetsConfirmHelp": "Dette widgetutvalget og kolonnelayouten vil bli brukt når brukere lager nye oversikter, eller når funksjonen \"%s\" brukes.",
