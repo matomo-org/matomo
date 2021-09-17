@@ -67,6 +67,18 @@ abstract class AbstractPrivateDirectories implements Diagnostic
         }
 
         $result = new DiagnosticResult($label);
+        if (Config::getInstance()->General['enable_required_directories_diagnostic'] == 0) {
+            if (!$this->addedDisableHttpDiagnosticsWarning) {
+                $this->addedDisableHttpDiagnosticsWarning = true;
+                $result->addItem(
+                    new DiagnosticResultItem(
+                        DiagnosticResult::STATUS_WARNING,
+                        $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
+                    )
+                );
+            }
+            return [$result];
+        }
 
         $atLeastOneIsAccessible = $this->computeAccessiblePaths($result, $baseUrl, $testUrls);
 
@@ -91,18 +103,6 @@ abstract class AbstractPrivateDirectories implements Diagnostic
     protected function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
     {
         try {
-            if (Config::getInstance()->General['enable_required_directories_diagnostic'] == 0) {
-                if (!$this->addedDisableHttpDiagnosticsWarning) {
-                    $this->addedDisableHttpDiagnosticsWarning = true;
-                    $result->addItem(
-                        new DiagnosticResultItem(
-                            DiagnosticResult::STATUS_WARNING,
-                            $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
-                        )
-                    );
-                }
-                return false;
-            }
             $response = Http::sendHttpRequest($testUrl, $timeout = 2, null, null, null, false, false, true);
             $status = $response['status'];
 
