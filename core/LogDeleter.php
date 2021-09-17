@@ -8,8 +8,10 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\SitesManager\Model;
 
 /**
@@ -43,18 +45,12 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
-        $numDeletedVisits = 0;
-
-        foreach ($this->logTablesProvider->getAllLogTables() as $logTable) {
-            if ($logTable->getColumnToJoinOnIdVisit()) {
-                $numVisits = $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
-                if ($logTable->getName() === 'log_visit') {
-                    $numDeletedVisits = $numVisits;
-                }
-            }
-        }
-
-        return $numDeletedVisits;
+        $visitIds = array_map(function($visitid) {
+            return ['idvisit' => $visitid];
+        }, $visitIds);
+        $dataSubjects = StaticContainer::get(DataSubjects::class);
+        $deleteCounts = $dataSubjects->deleteDataSubjectsWithoutInvalidatingArchives($visitIds);
+        return $deleteCounts['log_visit'];
     }
 
     /**
@@ -99,7 +95,6 @@ class LogDeleter
             $ids = array_map(function ($row) { return (int) (reset($row)); }, $logs);
             sort($ids);
             $logsDeleted += $logPurger->deleteVisits($ids);
-
             if (!empty($afterChunkDeleted)) {
                 $afterChunkDeleted($logsDeleted);
             }

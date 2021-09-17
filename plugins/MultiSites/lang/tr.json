@@ -1,10 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Bu rapor, web sitelerinin her biri için ziyaretçilerle ilgili genel ölçümlerden oluşan bilgilendirici bir özet içerir.",
         "Evolution": "Gelişme",
         "LoadingWebsites": "Web siteleri yükleniyor",
         "PluginDescription": "Tüm web sitesi ve uygulamalarınızı kullanışlı 'Tüm web siteleri' panosu ile görüp karşılaştırabilirsiniz.",
-        "TopLinkTooltip": "Tüm web sitelerinizin istatistiklerini karşılaştırın.",
         "SingleWebsitesDashboardDocumentation": "Bu rapor, belirli bir web sitesi için, ziyaretçilerle ilgili genel ölçümlerden oluşan bilgilendirici bir özet içerir.",
-        "AllWebsitesDashboardDocumentation": "Bu rapor, web sitelerinin her biri için ziyaretçilerle ilgili genel ölçümlerden oluşan bilgilendirici bir özet içerir."
+        "TopLinkTooltip": "Tüm web sitelerinizin istatistiklerini karşılaştırın."
     }
 }

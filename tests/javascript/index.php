@@ -3631,7 +3631,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(168);
+        expect(178);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4093,6 +4093,25 @@ if ($mysql) {
         window.onerror('Uncaught Error: The message', 'http://piwik.org/path/to/file.js?cb=34343', 44, 12, new Error('The message'));
         equal(tracker.getJavascriptErrors().length, 1, "Same error ignored second time");
 
+        //  check setPagePerformanceTiming function
+        tracker.setPagePerformanceTiming(35, 103);
+        tracker.trackPageView('ShouldHave_pf_35_103');
+        tracker.trackPageView('ShouldNotHave_pf_35_103');
+        tracker.setPagePerformanceTiming(12345);
+        tracker.trackPageView('ShouldHave_pf_12345');
+        tracker.trackPageView('ShouldNotHave_pf_12345');
+        tracker.setPagePerformanceTiming(432, 578, 111);
+        tracker.trackPageView('ShouldHave_pf_432_578_111');
+        tracker.trackPageView('ShouldNotHave_pf_432_578_111');
+        tracker.setPagePerformanceTiming();
+        tracker.trackPageView('ShouldHave_pf_NO');
+        tracker.trackPageView('ShouldNotHave_pf_NO');
+        tracker.setPagePerformanceTiming(1, 2, 3, 4, 5, 6, 7, 8);
+        tracker.trackPageView('ShouldHave_pf_1_2_3_4_5_6_7_8');
+        tracker.trackPageView('ShouldNotHave_pf_1_2_3_4_5_6_7_8');
+        //  /check setPagePerformanceTiming function
+
+
         // delete existing onerror handler and setup tracking again
         window.onerror = customOnErrorInvoked = false;
         tracker2.enableJSErrorTracking();
@@ -4124,7 +4143,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "44", "count tracking events" );
+                equal( countTrackingEvents[1], "54", "count tracking events" );
             }
 
             // firing callback
@@ -4223,6 +4242,25 @@ if ($mysql) {
 
             ok( /matomo.php\?action_name=twoTrackers&idsite=1&/.test( results ), "addTracker() trackPageView() sends request to both Piwik instances");
             ok( /matomo.php\?action_name=twoTrackers&idsite=13&/.test( results ), "addTracker() trackPageView() sends request to both Piwik instances");
+
+            //  check setPagePerformanceTiming function
+            // pf_net: networkTimeInMs,
+            // pf_srv: serverTimeInMs,
+            // pf_tfr: transferTimeInMs,
+            // pf_dm1: domProcessingTimeInMs,
+            // pf_dm2: domCompletionTimeInMs,
+            // pf_onl: onloadTimeInMs
+            ok( /ShouldHave_pf_35_103.*pf_net=35&pf_srv=103/.test(results), 'setPagePerformanceTiming sets "pf_net=35&pf_srv=103" in request');
+            ok( ! /ShouldNotHave_pf_35_103.*pf_net=35&pf_srv=103/.test(results), 'setPagePerformanceTiming does NOT set "pf_net=35&pf_srv=103" in subsequent request');
+            ok( /ShouldHave_pf_12345.*pf_net=12345/.test(results), 'setPagePerformanceTiming sets "pf_net=12345" in request');
+            ok( ! /ShouldNotHave_pf_12345.*pf_net=12345/.test(results), 'setPagePerformanceTiming does NOT set "pf_net=12345" in subsequent request');
+            ok( /ShouldHave_pf_432_578_111.*pf_net=432&pf_srv=578&pf_tfr=111/.test(results), 'setPagePerformanceTiming sets "pf_net=432&pf_srv=578&pf_tfr=111" in request');
+            ok( ! /ShouldNotHave_pf_432_578_111.*pf_net=432&pf_srv=578&pf_tfr=111/.test(results), 'setPagePerformanceTiming does NOT set "pf_net=432&pf_srv=578&pf_tfr=111" in subsequent request');
+            ok( ! /ShouldHave_pf_NO.*pf_net=/.test(results), 'setPagePerformanceTiming sets nothing in request, but default does');
+            ok( ! /ShouldNotHave_pf_NO.*pf_net=/.test(results), 'setPagePerformanceTiming sets nothing in subsequent request');
+            ok( /ShouldHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming only sets 6 parameters in request');
+            ok( ! /ShouldNotHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming only sets 6 parameters in request');
+            //  /check setPagePerformanceTiming function
 
             start();
         }, 5000);

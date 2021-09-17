@@ -1,0 +1,25 @@
+{
+    "Actions": {
+        "ColumnClicks": "Կտտոցներ",
+        "ColumnClicksDocumentation": "Կտտոցների քանակը այս հղման համար",
+        "ColumnDownloadURL": "Բեռնել URL-ն",
+        "ColumnEntryPageTitle": "Մուտքային էջի վերնագիր",
+        "ColumnEntryPageURL": "Մուտքային էջի URL",
+        "ColumnExitPageTitle": "Ելքային էջի վերնագիր",
+        "ColumnExitPageURL": "Ելքային էջի URL",
+        "ColumnPageName": "Էջի վերնագիր",
+        "ColumnPagesPerSearch": "Որոնման արդյունքների էջ",
+        "ColumnPageURL": "Էջի URL",
+        "ColumnSearchCategory": "Որոնման կատեգորիաները",
+        "ColumnSearches": "Որոնումներ",
+        "ColumnSiteSearchKeywords": "Ունիկալ որոնվող բառ",
+        "ColumnUniqueClicks": "Ունիկալ կտտոցներ",
+        "ColumnUniqueDownloads": "ՈՒնիկալ բեռնումներ",
+        "EntryPageTitles": "Սկզբնական էջի վերնագիր",
+        "ExitPageTitles": "Ելքային էջի վերնագիր",
+        "PageUrls": "Էջի URL հասցեները",
+        "SubmenuPagesExit": "ելքի էջերից",
+        "SubmenuPageTitles": "Էջի որոնում",
+        "WidgetPageTitles": "Էջի Վերնագրեր"
+    }
+}

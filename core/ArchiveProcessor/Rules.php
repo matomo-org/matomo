@@ -69,7 +69,11 @@ class Rules
         if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
         }
-
+        
+        if ($periodLabel === 'range' && !SettingsServer::isArchivePhpTriggered()) {
+            return false;
+        }
+        
         return self::isSegmentPreProcessed($idSites, $segment);
     }
 

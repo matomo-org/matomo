@@ -152,13 +152,18 @@
 	</row>
 	<row>
 		<code>ka</code>
-		<name>ქართული</name>
+		<name>Ქართული</name>
 		<english_name>Georgian</english_name>
 	</row>
 	<row>
 		<code>ko</code>
 		<name>한국어</name>
 		<english_name>Korean</english_name>
+	</row>
+	<row>
+		<code>ku</code>
+		<name>Kurdî</name>
+		<english_name>Kurdish</english_name>
 	</row>
 	<row>
 		<code>lt</code>
@@ -182,7 +187,7 @@
 	</row>
 	<row>
 		<code>nn</code>
-		<name>Nynorsk</name>
+		<name>Norsk nynorsk</name>
 		<english_name>Norwegian Nynorsk</english_name>
 	</row>
 	<row>

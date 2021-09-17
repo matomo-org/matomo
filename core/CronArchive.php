@@ -610,6 +610,11 @@ class CronArchive
 
         $this->disconnectDb();
 
+        Piwik::addAction('ScheduledTasks.execute.end', function () {
+            // check if we need to reconnect after each task executes
+            $this->disconnectDb();
+        });
+
         // TODO: this is a HACK to get the purgeOutdatedArchives task to work when run below. without
         //       it, the task will not run because we no longer run the tasks through CliMulti.
         //       harder to implement alternatives include:
@@ -983,6 +988,13 @@ class CronArchive
             }
 
             if (in_array($id, $higherPeriods)) { // period exists in table
+                continue;
+            }
+
+            // period is disabled in API
+            if (!PeriodFactory::isPeriodEnabledForAPI($label)
+                || PeriodFactory::isAnyLowerPeriodDisabledForAPI($label)
+            ) {
                 continue;
             }
 

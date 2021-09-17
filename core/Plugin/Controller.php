@@ -111,6 +111,14 @@ abstract class Controller
     protected $site = null;
 
     /**
+     * The SecurityPolicy object.
+     *
+     * @var \Piwik\View\SecurityPolicy
+     * @api
+     */
+    protected $securityPolicy = null;
+
+    /**
      * Constructor.
      *
      * @api
@@ -124,6 +132,8 @@ abstract class Controller
     {
         $aPluginName = explode('\\', get_class($this));
         $this->pluginName = $aPluginName[2];
+
+        $this->securityPolicy = StaticContainer::get(View\SecurityPolicy::class);
 
         $date = Common::getRequestVar('date', 'yesterday', 'string');
         try {

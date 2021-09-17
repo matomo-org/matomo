@@ -139,7 +139,7 @@ class Model
     public function getSegmentsDeletedSince(Date $date)
     {
         $dateStr = $date->getDatetime();
-        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+        $sql = "SELECT DISTINCT `definition`, `enable_only_idsite`, `hash` FROM " . Common::prefixTable('segment')
             . " WHERE deleted = 1 AND ts_last_edit >= ?";
         $deletedSegments = Db::fetchAll($sql, array($dateStr));
 

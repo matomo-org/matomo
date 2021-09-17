@@ -69,6 +69,12 @@ For the list of all tickets closed in the current and past releases, see [matomo
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Matomo was built by dozens of people like you,
 and we need your help to make Matomo better… Why not participate in a useful project today? [Learn how you can contribute to Matomo](https://matomo.org/get-involved).
 
+## Translations
+
+Our translations are managed on [Weblate](https://hosted.weblate.org/engage/matomo/).
+
+[![Translation Status](https://hosted.weblate.org/widgets/matomo/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/matomo/)
+
 ## Quality Assurance
 
 The Matomo project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://developer.matomo.org/guides/tests).

@@ -269,15 +269,7 @@ class DataCollection
      */
     public function getExpandedDataTable($resultIndices, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
     {
-        if ($this->dataType != 'blob') {
-            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
-                . "{$this->dataType} data types. Only works with blob data.");
-        }
-
-        if (count($this->dataNames) !== 1) {
-            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
-                . "more than one record.");
-        }
+        $this->checkExpandedMethodPrerequisites();
 
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
@@ -373,5 +365,47 @@ class DataCollection
         }
 
         $currentLevel = $row;
+    }
+
+    public function forEachBlobExpanded($callable, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
+    {
+        $this->checkExpandedMethodPrerequisites();
+
+        $dataTableFactory = new DataTableFactory(
+            $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+        $dataTableFactory->expandDataTable($depth, $addMetadataSubTableId);
+        $dataTableFactory->useSubtable($idSubTable);
+
+        foreach ($this->data as $idSite => $periods) {
+            foreach ($periods as $periodRange => $data) {
+                // FIXME: This hack works around a strange bug that occurs when getting
+                //         archive IDs through ArchiveProcessing instances. When a table
+                //         does not already exist, for some reason the archive ID for
+                //         today (or from two days ago) will be added to the Archive
+                //         instances list. The Archive instance will then select data
+                //         for periods outside of the requested set.
+                //         working around the bug here, but ideally, we need to figure
+                //         out why incorrect idarchives are being selected.
+                if (empty($this->periods[$periodRange])) {
+                    continue;
+                }
+                $tableMetadata = $dataTableFactory->getTableMetadataFor($idSite, $this->periods[$periodRange]);
+
+                $callable($data, $dataTableFactory, $tableMetadata);
+            }
+        }
+    }
+
+    private function checkExpandedMethodPrerequisites()
+    {
+        if ($this->dataType != 'blob') {
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
+                . "{$this->dataType} data types. Only works with blob data.");
+        }
+
+        if (count($this->dataNames) !== 1) {
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
+                . "more than one record.");
+        }
     }
 }

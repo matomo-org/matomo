@@ -392,6 +392,7 @@ class ArchiveInvalidator
     {
         if ($period->getLabel() == 'year'
             || $period->getLabel() == 'range'
+            || !Period\Factory::isPeriodEnabledForAPI($period->getParentPeriodLabel())
         ) {
             return;
         }

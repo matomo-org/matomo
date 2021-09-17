@@ -28,7 +28,7 @@ describe('SingleMetricView', function () {
 
         var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await elem.screenshot()).to.matchImage('loaded');
     });
@@ -41,7 +41,7 @@ describe('SingleMetricView', function () {
             $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(Revenue)').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         var elem = await page.waitForSelector('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
         expect(await elem.screenshot()).to.matchImage('formatted_metric');
@@ -51,12 +51,12 @@ describe('SingleMetricView', function () {
         await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').last().trigger('mouseenter');
         });
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
         await page.evaluate(function(){
             $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x)').click()
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         var elem = await page.$('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
         expect(await elem.screenshot()).to.matchImage('goal_metric');
@@ -67,12 +67,12 @@ describe('SingleMetricView', function () {
         await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
         });
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
         await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue)').click()
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         var elem = await page.$('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
         expect(await elem.screenshot()).to.matchImage('range');

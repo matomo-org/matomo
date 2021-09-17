@@ -237,8 +237,13 @@ class QueueConsumer
             list($isUsableExists, $archivedTime) = $this->usableArchiveExists($invalidatedArchive);
             if ($isUsableExists) {
                 $now = Date::now()->getDatetime();
-                $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) skipping until archive is out of date: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
+                if (empty($invalidatedArchive['plugin'])) {
+                    $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) skipping until archive is out of date: $invalidationDesc");
+                } else {
+                    $this->logger->debug("Found invalidation with usable archive (not yet outdated, ts_archived of existing = $archivedTime, now = $now) ignoring and deleting: $invalidationDesc");
+                    $this->model->deleteInvalidations([$invalidatedArchive]);
+                }
                 continue;
             } else {
                 $now = Date::now()->getDatetime();
@@ -347,6 +352,14 @@ class QueueConsumer
             $this->detectPluginForArchive($nextArchive);
 
             $periodLabel = $this->periodIdsToLabels[$nextArchive['period']];
+            if (!PeriodFactory::isPeriodEnabledForAPI($periodLabel)
+                || PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel)
+            ) {
+                $this->logger->info("Found invalidation for period that is disabled in the API, skipping and removing: {$nextArchive['idinvalidation']}");
+                $this->model->deleteInvalidations([$nextArchive]);
+                continue;
+            }
+
             $periodDate = $periodLabel == 'range' ? $nextArchive['date1'] . ',' . $nextArchive['date2'] : $nextArchive['date1'];
             $nextArchive['periodObj'] = PeriodFactory::build($periodLabel, $periodDate);
 

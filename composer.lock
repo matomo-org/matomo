@@ -270,20 +270,20 @@
         },
         {
             "name": "matomo/cache",
-            "version": "2.0.3",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "f058d5340fa427cac2b674e1ad41f1a8620c580b"
+                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/f058d5340fa427cac2b674e1ad41f1a8620c580b",
-                "reference": "f058d5340fa427cac2b674e1ad41f1a8620c580b",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/a54c3ae324ba1297121aea78dec7724ddaaefb56",
+                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56",
                 "shasum": ""
             },
             "require": {
-                "matomo/doctrine-cache-fork": "1.10.2",
+                "matomo/doctrine-cache-fork": "1.10.4",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -315,9 +315,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-cache/issues",
-                "source": "https://github.com/matomo-org/component-cache/tree/2.0.3"
+                "source": "https://github.com/matomo-org/component-cache/tree/2.0.5"
             },
-            "time": "2021-05-26T00:13:13+00:00"
+            "time": "2021-09-13T22:17:50+00:00"
         },
         {
             "name": "matomo/decompress",
@@ -430,16 +430,16 @@
         },
         {
             "name": "matomo/doctrine-cache-fork",
-            "version": "1.10.2",
+            "version": "1.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/cache.git",
-                "reference": "021cfa412520c110b096bd49d93ccb482f7b6eef"
+                "reference": "a3f6b7e86061a2f3c68122ee58e9d8aa815baff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/cache/zipball/021cfa412520c110b096bd49d93ccb482f7b6eef",
-                "reference": "021cfa412520c110b096bd49d93ccb482f7b6eef",
+                "url": "https://api.github.com/repos/matomo-org/cache/zipball/a3f6b7e86061a2f3c68122ee58e9d8aa815baff6",
+                "reference": "a3f6b7e86061a2f3c68122ee58e9d8aa815baff6",
                 "shasum": ""
             },
             "require": {
@@ -509,9 +509,23 @@
                 "xcache"
             ],
             "support": {
-                "source": "https://github.com/matomo-org/cache/tree/1.10.2"
+                "source": "https://github.com/matomo-org/cache/tree/1.10.4"
             },
-            "time": "2021-05-22T18:13:54+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-13T22:06:08+00:00"
         },
         {
             "name": "matomo/ini",
@@ -4581,5 +4595,5 @@
     "platform-overrides": {
         "php": "7.2.9"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

@@ -211,6 +211,11 @@ enable_processing_unique_visitors_multiple_sites = 0
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
 enabled_periods_UI = "day,week,month,year,range"
+
+; The list of periods that are available in through the API. This also controls the list of periods that are allowed
+; to be archived. You can disable some of them if you have a high traffic website and archiving is too compute heavy.
+; NOTE: if you disable a period in the API, it's parent periods are effectively disabled as well. For example, if
+; month periods are disabled, then year periods can no longer be computed, so they are effectively disabled as well.
 enabled_periods_API = "day,week,month,year,range"
 
 ; whether to enable segment archiving cache
@@ -436,6 +441,13 @@ password_hash_argon2_time_cost = default
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
+
+; If set to 1, Matomo will send a Content-Security-Policy header
+csp_enabled = 1
+
+; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
+; instead of a Content-Security-Policy header.
+csp_report_only = 1
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
 ; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
@@ -996,6 +1008,12 @@ innodb_lock_wait_timeout = 0
 ; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
 exclude_requests = ""
 
+; Custom image to return when tracker URL includes &image=1
+; Overrides the default 1x1 transparent gif
+; This should either be the full path to the image file or a base64 encoded image string wrapped in quotes
+; For both image files and base64 encoded strings supported image types are gif, jpg and png
+custom_image =
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
@@ -1054,6 +1072,65 @@ host = ; Proxy host: the host name of your proxy server (mandatory)
 port = ; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
+
+[Languages]
+Languages[] = am
+Languages[] = ar
+Languages[] = be
+Languages[] = bg
+Languages[] = bn
+Languages[] = bs
+Languages[] = ca
+Languages[] = cs
+Languages[] = cy
+Languages[] = da
+Languages[] = de
+Languages[] = el
+Languages[] = en
+Languages[] = eo
+Languages[] = es
+Languages[] = es-ar
+Languages[] = et
+Languages[] = eu
+Languages[] = fa
+Languages[] = fi
+Languages[] = fr
+Languages[] = gl
+Languages[] = he
+Languages[] = hi
+Languages[] = hr
+Languages[] = hu
+Languages[] = id
+Languages[] = is
+Languages[] = it
+Languages[] = ja
+Languages[] = ka
+Languages[] = ko
+Languages[] = ku
+Languages[] = lt
+Languages[] = lv
+Languages[] = nb
+Languages[] = nl
+Languages[] = nn
+Languages[] = pl
+Languages[] = pt
+Languages[] = pt-br
+Languages[] = ro
+Languages[] = ru
+Languages[] = sk
+Languages[] = sl
+Languages[] = sq
+Languages[] = sr
+Languages[] = sv
+Languages[] = ta
+Languages[] = te
+Languages[] = th
+Languages[] = tl
+Languages[] = tr
+Languages[] = uk
+Languages[] = vi
+Languages[] = zh-cn
+Languages[] = zh-tw
 
 [Plugins]
 ; list of plugins (in order they will be loaded) that are activated by default in the Matomo platform

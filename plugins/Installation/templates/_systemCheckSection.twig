@@ -5,7 +5,7 @@
        onclick="var textarea = document.getElementById('matomo_system_check_info');textarea.select();document.execCommand('copy');jQuery(textarea).effect('highlight', {}, 600)"
        class='btn'>{{ 'Installation_CopySystemCheck'|translate }}</a>
     <a href="javascript:void(0);"
-       onclick="var textarea = document.getElementById('matomo_system_check_info');piwik.helper.sendContentAsDownload('matomo_system_check.txt', textarea.innerHTML);"
+       onclick="var textarea = document.getElementById('matomo_system_check_info');piwikHelper.sendContentAsDownload('matomo_system_check.txt', textarea.innerHTML);"
        class='btn'>{{ 'Installation_DownloadSystemCheck'|translate }}</a>
 
 </p>

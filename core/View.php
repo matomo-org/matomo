@@ -11,9 +11,11 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\View\ViewInterface;
+use Piwik\View\SecurityPolicy;
 use Twig\Environment;
-use Twig\Error\Error;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -151,6 +153,11 @@ class View implements ViewInterface
         $this->piwik_version = Version::VERSION;
         $this->userLogin = Piwik::getCurrentUserLogin();
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        // following is used in ajaxMacros called macro (showMoreHelp as passed in other templates) - requestErrorDiv
+        $isGeneralSettingsAdminEnabled = Controller::isGeneralSettingsAdminEnabled();
+        $isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
+        // simplify template usage
+        $this->showMoreFaqInfo = $this->isSuperUser && ($isGeneralSettingsAdminEnabled || $isPluginsAdminEnabled);
 
         try {
             $this->piwikUrl = SettingsPiwik::getPiwikUrl();
@@ -297,6 +304,12 @@ class View implements ViewInterface
             } else {
                 // always send explicit default header
                 Common::sendHeader('Referrer-Policy: no-referrer-when-downgrade');
+            }
+
+            // this will be an empty string if CSP is disabled
+            $cspHeader = StaticContainer::get(SecurityPolicy::class)->createHeaderString();
+            if ('' !== $cspHeader) {
+                Common::sendHeader($cspHeader);
             }
         }
 
@@ -458,7 +471,19 @@ class View implements ViewInterface
     private function shouldPropagateTokenAuthInAjaxRequests()
     {
         $generalConfig = Config::getInstance()->General;
-        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
+        return Common::getRequestVar('module', false) == 'Widgetize' ||
+            $generalConfig['enable_framed_pages'] == '1' ||
+            $this->validTokenAuthInUrl();
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    private function validTokenAuthInUrl()
+    {
+        $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_GET);
+        return ($tokenAuth && $tokenAuth === Piwik::getCurrentUserTokenAuth());
     }
 
     /**

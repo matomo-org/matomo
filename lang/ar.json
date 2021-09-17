@@ -435,6 +435,7 @@
         "HelpUsToImprovePiwikMobile": "هل ترغب في تفعيل تتبع الاستخدام المجهول في Matomo Mobile ؟",
         "HowtoDeleteAnAccount": "إضغط باستمرار لحذف حسابٍ ما",
         "HowtoDeleteAnAccountOniOS": "مرّر من اليمين لليسار لتحذف حساباً",
+        "HowtoExitAndroid": "اضغط الخلف مجدداً للخروج",
         "HowtoLoginAnonymous": "أترك اسم المسخدم وكلمة المرور فارغين للدخول المجهول",
         "HttpTimeout": "مهلة HTTP",
         "LastUpdated": "آخر تحديث: %s",
@@ -475,7 +476,6 @@
         "ValidateSslCertificate": "تاكيد شهادة SSL",
         "VerifyLoginData": "تأكد من أن اسم المستخدم وكلمة المرور صحيحين.",
         "YouAreOffline": "نعتذر، لست مشتركاً حالياً",
-        "Mobile_HowtoExitAndroid": "اضغط الخلف مجدداً للخروج",
         "MatomoMarketplace": "متجر Matomo",
         "EnterAuthCode": "أدخل رمز المصادقة",
         "EnterCorrectAuthCode": "أدخل رمز المصادقة الصحيح"
