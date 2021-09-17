@@ -31,6 +31,7 @@ class TestsRun extends ConsoleCommand
         $this->setDescription('Run Piwik PHPUnit tests one testsuite after the other');
         $this->addArgument('variables', InputArgument::IS_ARRAY, 'Eg a path to a file or directory, the name of a testsuite, the name of a plugin, ... We will try to detect what you meant. You can define multiple values', array());
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
+        $this->addOption('filter', null, InputOption::VALUE_OPTIONAL, 'Adds the phpunit filter option to run only specific tests that start with the given name', '');
         $this->addOption('xhprof', null, InputOption::VALUE_NONE, 'Profile using xhprof.');
         $this->addOption('group', null, InputOption::VALUE_REQUIRED, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
         $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
@@ -45,6 +46,11 @@ class TestsRun extends ConsoleCommand
         $magics  = $input->getArgument('variables');
         $matomoDomain = $input->getOption('matomo-domain');
         $enableLogging = $input->getOption('enable-logging');
+        $filter = $input->getOption('filter');
+
+        if (!empty($filter)) {
+            $options .= ' --filter=' . escapeshellarg($filter);
+        }
 
         $groups = $this->getGroupsFromString($groups);
 
