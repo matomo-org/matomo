@@ -252,6 +252,26 @@ class UsersManagerTest extends IntegrationTestCase
 
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash($password), $user['password']));
     }
+    
+    public function testAddUserEmailSpecialChars()
+    {
+        $domain = '@somefaketestdomain.com';
+        $password = 'mypassword';
+        $testusers = [
+            'singlequote'=>'singlequote\'s.email'.$domain,
+            'manysymbols'=>'!#$%&\'*+-/=?^_{|}~'.$domain,
+            'doublequotedscript'=>'"<script>alert(1)</script>"'.$domain,
+            'doublequotedscriptdotpost'=>'"<script>alert(1)</script>".blah'.$domain,
+            'predotdoublequotedscript'=>'bloo."<script>_x(fakething)</script>"'.$domain,
+        ];
+
+        foreach($testusers as $login=>$email) {
+            $this->api->addUser($login, $password, $email);
+            $user = $this->model->getUser($login);
+
+            $this->assertEquals($email, $user['email']);
+        }
+    }
 
     public function test_addUser_shouldAllowAdminUsersToCreateUsers()
     {
