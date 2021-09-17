@@ -19,6 +19,7 @@ abstract class AbstractPrivateDirectories implements Diagnostic
 {
     protected $privatePaths = [];
     protected $accessiblePaths = []; // used like a set, but hashtable used underneath anyway, so map simpler php way
+    protected $addedDisableHttpDiagnosticsWarning = false;
 
     protected $labelKey = 'Diagnostics_RequiredPrivateDirectories';
 
@@ -89,17 +90,14 @@ abstract class AbstractPrivateDirectories implements Diagnostic
 
     protected function isAccessible(DiagnosticResult $result, $testUrl, $publicIfResponseEquals, $publicIfResponseContains)
     {
-        static $addedDisableHttpDiagnosticsWarning = false;
         try {
-            if (Config::getInstance()->General['disable_http_diagnostics'] == 1) {
-                if (!$addedDisableHttpDiagnosticsWarning) {
-                    $addedDisableHttpDiagnosticsWarning = true;
+            if (Config::getInstance()->General['enable_required_directories_diagnostic'] == 0) {
+                if (!$this->addedDisableHttpDiagnosticsWarning) {
+                    $this->addedDisableHttpDiagnosticsWarning = true;
                     $result->addItem(
                         new DiagnosticResultItem(
                             DiagnosticResult::STATUS_WARNING,
-                            // TODO: translate
-                            'HTTP requests disabled with disable_http_diagnostics in [General], ' .
-                            'so this passing does not say much!'
+                            $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
                         )
                     );
                 }
