@@ -90,26 +90,30 @@ class API extends \Piwik\Plugin\API
      * Returns the javascript tag for the given idSite.
      * This tag must be included on every page to be tracked by Matomo
      *
-     * @param int $idSite
+     * @param int    $idSite
      * @param string $piwikUrl
-     * @param bool $mergeSubdomains
-     * @param bool $groupPageTitlesByDomain
-     * @param bool $mergeAliasUrls
-     * @param bool $visitorCustomVariables
-     * @param bool $pageCustomVariables
-     * @param bool $customCampaignNameQueryParam
-     * @param bool $customCampaignKeywordParam
-     * @param bool $doNotTrack
-     * @param bool $disableCookies
-     * @param bool $trackNoScript
-     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
+     * @param bool   $mergeSubdomains
+     * @param bool   $groupPageTitlesByDomain
+     * @param bool   $mergeAliasUrls
+     * @param bool   $visitorCustomVariables
+     * @param bool   $pageCustomVariables
+     * @param bool   $customCampaignNameQueryParam
+     * @param bool   $customCampaignKeywordParam
+     * @param bool   $doNotTrack
+     * @param bool   $disableCookies
+     * @param bool   $trackNoScript
+     * @param bool   $crossDomain
+     * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
+     * @param bool   $excludedQueryParams
+     *
      * @return string The Javascript tag ready to be included on the HTML pages
+     * @throws Exception
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
                                      $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
-                                     $crossDomain = false, $forceMatomoEndpoint = false)
+                                     $crossDomain = false, $forceMatomoEndpoint = false, $excludedQueryParams = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -124,6 +128,7 @@ class API extends \Piwik\Plugin\API
         $pageCustomVariables = Common::unsanitizeInputValues($pageCustomVariables);
         $customCampaignNameQueryParam = Common::unsanitizeInputValue($customCampaignNameQueryParam);
         $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
+        $excludedQueryParams = Common::unsanitizeInputValue($excludedQueryParams);
 
         $generator = new TrackerCodeGenerator();
         if ($forceMatomoEndpoint) {
@@ -133,7 +138,8 @@ class API extends \Piwik\Plugin\API
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
-                                     $doNotTrack, $disableCookies, $trackNoScript, $crossDomain);
+                                     $doNotTrack, $disableCookies, $trackNoScript, $crossDomain,
+                                     $excludedQueryParams);
         $code = str_replace(array('<br>', '<br />', '<br/>'), '', $code);
         return $code;
     }

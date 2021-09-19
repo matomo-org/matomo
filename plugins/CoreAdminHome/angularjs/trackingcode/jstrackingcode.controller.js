@@ -38,6 +38,7 @@
         this.isLoading = false;
         this.customVars = [];
         this.siteUrls = {};
+        this.excludedQueryParams = [];
         this.hasManySiteUrls = false;
         this.maxCustomVariables = parseInt(angular.element('[name=numMaxCustomVariables]').val(), 10);
         this.canAddMoreCustomVariables = this.maxCustomVariables && this.maxCustomVariables > 0;
@@ -46,6 +47,22 @@
         var piwikHost = window.location.host,
             piwikPath = location.pathname.substring(0, location.pathname.lastIndexOf('/')),
             self = this;
+
+        // disable section
+        self.isLoading = true;
+
+        // Load global excludedQueryParams
+        piwikApi.fetch({
+            module: 'API',
+            method: 'SitesManager.getExcludedQueryParametersGlobal',
+            filter_limit: '-1'
+        }).then(function (data) {
+
+            self.excludedQueryParams = data.value || [];
+
+            // re-enable controls
+            self.isLoading = false;
+        });
 
         // queries Piwik for needed site info for one site
         var getSiteData = function (idSite, sectionSelect, callback) {
@@ -93,6 +110,10 @@
                 trackNoScript: self.trackNoScript ? 1: 0,
                 forceMatomoEndpoint: 1
             };
+
+            if (self.excludedQueryParams) {
+                params.excludedQueryParams = self.excludedQueryParams;
+            }
 
             if (self.useCustomCampaignParams) {
                 params.customCampaignNameQueryParam = self.customCampaignName;
