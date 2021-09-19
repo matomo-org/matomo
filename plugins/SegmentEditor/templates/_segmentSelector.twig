@@ -37,7 +37,7 @@
         <div class="segment-content">
             <div class="segment-top" {% if not isSuperUser %}style="display:none"{% endif %}>
                <input type="hidden" class="available_segments_select"/>
-               <div class="segment-top-item">
+               <div class="segment-top-item grid-1">
                 {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <div class="enable_all_users"><strong>
                         <select class="enable_all_users_select">
                             <option {% if not isSuperUser %}selected="1"{% endif %} value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
@@ -45,7 +45,7 @@
                         </select>
                     </strong></div>
                 </div>
-                <div class="segment-top-item">
+                <div class="segment-top-item grid-2">
                 {{ 'SegmentEditor_SegmentIsDisplayedForWebsite'|translate }}<div class="visible_to_website"><strong>
                         <select class="visible_to_website_select">
                             <option selected="" value="{{ idSite }}">{{ 'SegmentEditor_SegmentDisplayedThisWebsiteOnly'|translate }}</option>
@@ -54,7 +54,7 @@
                     </strong></div>
                 </div>
                 {% if isCreateRealtimeSegmentsEnabled %}
-                   <div class="segment-top-item">
+                   <div class="segment-top-item grid-3">
                     {{ 'General_And'|translate }}
                     <div class="auto_archive"><strong>
                             <select class="auto_archive_select">
