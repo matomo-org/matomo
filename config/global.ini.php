@@ -835,10 +835,7 @@ rearchive_reports_in_past_last_n_months = 6
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
 
-; Enable HTTP checks on install or Diagnostics for required and recommended private directories.
-; Set this to 0 if you need to skip it because your hosting provider makes your site inaccessible
-; for some times if it is run, e.g. on install or when running diagnostics.
-; Default is 1.
+; Enable HTTP checks in the diagnostic system check
 enable_required_directories_diagnostic = 1
 
 [Tracker]

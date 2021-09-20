@@ -19,7 +19,6 @@ abstract class AbstractPrivateDirectories implements Diagnostic
 {
     protected $privatePaths = [];
     protected $accessiblePaths = []; // used like a set, but hashtable used underneath anyway, so map simpler php way
-    protected $addedDisableHttpDiagnosticsWarning = false;
 
     protected $labelKey = 'Diagnostics_RequiredPrivateDirectories';
 
