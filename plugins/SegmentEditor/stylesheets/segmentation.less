@@ -128,41 +128,38 @@ div.scrollable {
 .segment-element .segment-top {
     font-size: 11px;
     color: #505050;
-    text-align: right;
+    text-align: left;
     padding: 3px 7px 0 0;
-    display: grid;
-    display: -ms-grid;
-    -ms-grid-columns: 28% 28% 44%;
-    grid-template-columns: 28% 28% 44%;
 
     > * {
         vertical-align: top;
     }
 
-    @media screen and (max-width: 749px) {
-        display: block;
-    }
 }
 .segment-element .segment-top .segment-hidden{
     display:none;
 }
 .segment-element .segment-top .segment-top-item {
-    display: flex;
-    display: -ms-flexbox;
-    display: -webkit-flex;
+    display: inline-block;
+
+    @media screen and (max-width: 749px) {
+        display: block;
+    }
 }
-.grid-1
+.grid-1, .grid-2
 {
-    -ms-grid-column: 1;
+     width: 28%;
 }
-.grid-2
-{
-    -ms-grid-column: 2;
-}
+
 .grid-3
 {
-    -ms-grid-column: 3;
+    width: 42%;
 }
+
+@media screen and (max-width: 749px) {
+
+}
+
 .segment-element .segment-top a {
     text-decoration: none;
 }
@@ -479,6 +476,9 @@ a.metric_category {
     span.segmentationTitle,
     .segmentEditorPanel.expanded .segmentationContainer {
         width: auto;
+    }
+    .grid-1, .grid-2, .grid-3{
+        width:100%;
     }
 }
 
