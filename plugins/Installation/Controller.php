@@ -149,6 +149,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 DbHelper::checkDatabaseVersion();
 
+                // check if database is UTF8MB4 
+                $dbInfos['enable_dynamic_row_format'] = Db::get()->isConnectionUTF8MB4() ? 1 : 0;
+
                 Db::get()->checkClientVersion();
 
                 $this->createConfigFile($dbInfos);
@@ -569,7 +572,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return AssetManager::compileCustomJs($files);
     }
-    
+
     private function getParam($name)
     {
         return Common::getRequestVar($name, false, 'string');

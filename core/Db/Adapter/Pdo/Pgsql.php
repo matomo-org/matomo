@@ -162,6 +162,18 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
     }
 
     /**
+     * Is the connection character set equal to utf8mb4?
+     *
+     * @return bool
+     */
+    public function isConnectionUTF8MB4()
+    {
+        $charset = $this->fetchOne('SHOW client_encoding');
+        return strpos(strtolower($charset), 'utf8mb4') === 0;
+    }
+
+
+    /**
      * Retrieve client version in PHP style
      *
      * @return string

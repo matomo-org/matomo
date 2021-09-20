@@ -247,6 +247,24 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
+     * Is the connection character set equal to utf8mb4?
+     *
+     * @return bool
+     */
+    public function isConnectionUTF8MB4()
+    {
+        $charsetInfo = $this->fetchAll('SHOW VARIABLES LIKE ?', array('character_set_connection'));
+
+        if (empty($charsetInfo)) {
+            return false;
+        }
+
+        $charset = $charsetInfo[0]['Value'];
+        return strpos($charset, 'utf8mb4') === 0;
+    }
+
+
+    /**
      * Return number of affected rows in last query
      *
      * @param mixed $queryResult Result from query()

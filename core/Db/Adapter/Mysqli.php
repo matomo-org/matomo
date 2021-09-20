@@ -238,6 +238,18 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     }
 
     /**
+     * Is the connection character set equal to utf8mb4?
+     *
+     * @return bool
+     */
+    public function isConnectionUTF8MB4()
+    {
+        $charset = mysqli_character_set_name($this->_connection);
+        return strpos($charset, 'utf8mb4') === 0;
+    }
+
+
+    /**
      * Get client version
      *
      * @return string
