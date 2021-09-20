@@ -420,7 +420,7 @@ class Db
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
-     * @return bool|\Zend_Db_Statement
+     * @return bool
      */
     public static function optimizeTables($tables, $force = false)
     {
