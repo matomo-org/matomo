@@ -150,27 +150,6 @@ class DbHelper
         }
     }
 
-    /**
-     * Check database connection character set is utf8.
-     *
-     * @return bool  True if it is (or doesn't matter); false otherwise
-     */
-    public static function isDatabaseConnectionUTF8()
-    {
-        return Db::get()->isConnectionUTF8();
-    }
-
-    /**
-     * Check database connection character set is utf8.
-     *
-     * @return bool  True if it is (or doesn't matter); false otherwise
-     */
-    public static function isDatabaseConnectionUTF8MB()
-    {
-        return Db::get()->isConnectionUTF8MB4();
-    }
-
-
 
     /**
      * Checks the database server version against the required minimum

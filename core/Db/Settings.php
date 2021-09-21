@@ -33,6 +33,11 @@ class Settings
         return strtolower($this->getDbSetting('charset'));
     }
 
+    public function getRowFormat()
+    {
+        return $this->getUsedCharset() === 'utf8mb4' ? 'ROW_FORMAT=DYNAMIC' : '';
+    }
+
     private function getDbSetting($key)
     {
         $dbInfos = Db::getDatabaseConfig();

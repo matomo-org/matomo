@@ -34,10 +34,9 @@ class CreateTable extends Sql
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
 
-        $dynamic = $dbSettings->getUsedCharset() === 'utf8mb4' ? 'ROW_FORMAT=DYNAMIC' : '';
 
         $sql = rtrim(sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=%s %s',
-          $table, implode(', ', $columns), $dbSettings->getEngine(), $dbSettings->getUsedCharset(), $dynamic));
+          $table, implode(', ', $columns), $dbSettings->getEngine(), $dbSettings->getUsedCharset(), $dbSettings->getRowFormat()));
 
         parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
     }

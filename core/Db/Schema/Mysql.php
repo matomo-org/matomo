@@ -514,14 +514,13 @@ class Mysql implements SchemaInterface
     {
         $dbSettings   = new Db\Settings();
         $charset      = $dbSettings->getUsedCharset();
-        $dynamic = $charset==='utf8mb4' ? 'ROW_FORMAT=DYNAMIC' : '';
 
         $statement = rtrim(sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s %s;",
                              Common::prefixTable($nameWithoutPrefix),
                              $createDefinition,
                              $this->getTableEngine(),
                              $charset,
-          $dynamic));
+          $dbSettings->getRowFormat()));
 
         try {
             Db::exec($statement);

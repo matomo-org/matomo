@@ -69,11 +69,4 @@ interface AdapterInterface
      *
      * @return bool
      */
-    public function isConnectionUTF8();
-
-    /**
-     * Is the connection character set equal to utf8mb4?
-     *
-     * @return bool
-     */
 }
