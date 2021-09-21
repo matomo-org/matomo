@@ -39,7 +39,7 @@ class ForceSSLCheck implements Diagnostic
             }
 
             $message = $this->translator->translate('General_UseSSLInstall', [
-                '<a href="https://'. Url::getCurrentHost() . Url::getCurrentScriptName(false) . Url::getCurrentQueryString() .'">',
+                '<a href="' . htmlspecialchars('https://' . Url::getCurrentHost() . Url::getCurrentScriptName(false) . Url::getCurrentQueryString()) .'">',
                 '</a>'
             ]);
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $message)];
