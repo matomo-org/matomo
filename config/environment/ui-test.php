@@ -12,6 +12,7 @@ return array(
 
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
+        $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
         $config->General['trusted_hosts'][] = $config->tests['http_host'] . ':' . $config->tests['port'];
         return $config;
