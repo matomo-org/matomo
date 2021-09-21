@@ -96,7 +96,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8;", '' . $migration);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", '' . $migration);
     }
 
     public function test_createTable_rowFormatDynamic()
@@ -108,7 +108,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;", ''. $migration);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", ''. $migration);
     }
 
 
@@ -117,7 +117,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable('column2');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8;", '' . $migration);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", '' . $migration);
     }
 
     public function test_dropTable_returnsDropTableInstance()
