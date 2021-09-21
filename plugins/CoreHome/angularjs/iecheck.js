@@ -8,7 +8,7 @@
     angular.module('piwikApp').run(['$timeout', function($timeout) {
         $timeout(function () {
             var isIe = detectIfIeIsBeingUsed();
-            if (isIe && piwik.hasSuperUserAccess) {
+            if (isIe) {
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
