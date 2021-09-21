@@ -67,15 +67,12 @@ abstract class AbstractPrivateDirectories implements Diagnostic
 
         $result = new DiagnosticResult($label);
         if (Config::getInstance()->General['enable_required_directories_diagnostic'] == 0) {
-            if (!$this->addedDisableHttpDiagnosticsWarning) {
-                $this->addedDisableHttpDiagnosticsWarning = true;
-                $result->addItem(
-                    new DiagnosticResultItem(
-                        DiagnosticResult::STATUS_WARNING,
-                        $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
-                    )
-                );
-            }
+            $result->addItem(
+                new DiagnosticResultItem(
+                    DiagnosticResult::STATUS_WARNING,
+                    $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
+                )
+            );
             return [$result];
         }
 
