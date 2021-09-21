@@ -500,6 +500,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
-        $translationKeys[] = 'CoreHome_InternetExplorer11Warning';
+        $translationKeys[] = 'CoreHome_TechDeprecationWarning';
     }
 }

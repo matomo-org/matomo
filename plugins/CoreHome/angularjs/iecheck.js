@@ -12,7 +12,9 @@
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
-                var message = _pk_translate('CoreHome_InternetExplorer11Warning', [
+                var message = _pk_translate('CoreHome_TechDeprecationWarning', [
+                    '4.6',
+                    'Internet Explorer',
                     '<a target="_blank" href="https://matomo.org/blog/2021/09/matomo-to-end-support-for-internet-explorer-11/" rel="noreferrer noopener">',
                     '</a>',
                 ]);
