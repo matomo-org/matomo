@@ -22,8 +22,7 @@
                     context: 'warning',
                     noclear: true,
                     type: 'persistent',
-                    style: {display: 'inline-block', marginTop: '10px'},
-                    id: 'scheduledReportSuccess'
+                    id: 'ieEndingSupportCheck'
                 });
             });
         }
