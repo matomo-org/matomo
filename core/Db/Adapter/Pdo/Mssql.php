@@ -240,16 +240,6 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
         return true;
     }
 
-    /**
-     * Is the connection character set equal to utf8mb4?
-     *
-     * @return bool
-     */
-    public function isConnectionUTF8MB4()
-    {
-        //check the getconnection, it's specified on the connection string.
-        return false;
-    }
 
     /**
      * Retrieve client version in PHP style

@@ -32,9 +32,6 @@ class Updates_4_5_0_b2 extends PiwikUpdates
         $migrations = [];
 
         //database using utf8mb4 set row format dynamic
-        if (DbHelper::getDefaultCharset() == "utf8mb4") {
-          $migrations[] = $this->migration->config->set('General','enable_dynamic_row_format', 1);
-        }
 
       return $migrations;
 

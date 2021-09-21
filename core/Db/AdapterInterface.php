@@ -76,5 +76,4 @@ interface AdapterInterface
      *
      * @return bool
      */
-    public function isConnectionUTF8MB4();
 }
