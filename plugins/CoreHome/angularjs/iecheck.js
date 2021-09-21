@@ -6,9 +6,9 @@
  */
 (function () {
     angular.module('piwikApp').run(['$timeout', function($timeout) {
-        $timeout(function () {
-            var isIe = detectIfIeIsBeingUsed();
-            if (isIe) {
+        var isIe = detectIfIeIsBeingUsed();
+        if (isIe) {
+            $timeout(function () {
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
 
@@ -25,8 +25,8 @@
                     style: {display: 'inline-block', marginTop: '10px'},
                     id: 'scheduledReportSuccess'
                 });
-            }
-        });
+            });
+        }
 
         function detectIfIeIsBeingUsed() {
             var ua = window.navigator.userAgent;
