@@ -84,8 +84,11 @@
         "UseCustomLogo": "Bruk din egen logo",
         "ValidPiwikHostname": "Gyldig Matomo-vertsnavn",
         "WithOptionalRevenue": "med valgfri inntjening",
+        "YouAreNotOptedOut": "Du har ikke meldt deg ut.",
         "YouAreOptedOut": "Du deltar ikke i analysegrunnlaget.",
         "YouMayOptOut": "Du kan velge å ikke få tildelt en unik ID for nettanalyse på din datamaskin, slik at din aktivitet ikke spores på dette nettstedet.",
+        "YouMayOptOut2": "Du kan velge å forhindre at dette nettstedet samler og analyserer handlingene du gjør her.",
+        "YouMayOptOut3": "Dette vil beskytte personvernet ditt, men vil også forhindre at eieren lærer av handlingene dine og skaper en bedre opplevelse for deg og andre brukere.",
         "YouMayOptOutBis": "Hvis du ønsker at din aktivitet ikke lagres, klikk under for å motta en blank informasjonskapsel, så vil du unngå å bli registrert."
     }
 }

@@ -838,6 +838,10 @@ rearchive_reports_in_past_exclude_segments = 0
 ; Enable HTTP checks in the diagnostic system check
 enable_required_directories_diagnostic = 1
 
+; If set to 1, then social and search engine definitions files will be synchronised using the internet if "enable_internet_features" is enabled.
+; When set to 0, the definitions will be loaded from the local definitions (updated with core).
+enable_referrer_definition_syncs = 1
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
