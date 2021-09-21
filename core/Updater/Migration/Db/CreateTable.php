@@ -5,6 +5,7 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Updater\Migration\Db;
 
 use Piwik\Db;
@@ -32,9 +33,8 @@ class CreateTable extends Sql
         if (!empty($primaryKey)) {
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
-
-        $sql = rtrim(sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=utf8 %s',
-                       $table, implode(', ' , $columns), $dbSettings->getEngine(), $dbSettings->getRowFormat()));
+        $sql = rtrim(sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=%s %s',
+          $table, implode(', ', $columns), $dbSettings->getEngine(), $dbSettings->getUsedCharset(), $dbSettings->getRowFormat()));
 
         parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
     }
