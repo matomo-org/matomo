@@ -297,6 +297,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/iecheck.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -439,6 +441,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Error';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_ErrorRequestFaqLink';
+        $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'General_ChooseDate';
@@ -497,5 +500,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
+        $translationKeys[] = 'CoreHome_InternetExplorer11Warning';
     }
 }
