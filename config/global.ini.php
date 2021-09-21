@@ -835,8 +835,8 @@ rearchive_reports_in_past_last_n_months = 6
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
 
-; If set to 1, then social and search engine definitions files will be will be synchronised using the internet.
-; When set to 0 the definitions will be loaded from the local definitions (updated with core).
+; If set to 1, then social and search engine definitions files will be synchronised using the internet if "enable_internet_features" is enabled.
+; When set to 0, the definitions will be loaded from the local definitions (updated with core).
 enable_referrer_definition_syncs = 1
 
 [Tracker]
