@@ -40,6 +40,7 @@ use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Psr\Container\ContainerInterface;
@@ -311,7 +312,11 @@ class UITestFixture extends SqlDump
 
     public static function getLocalTestSiteUrl()
     {
-        return self::getRootUrl() . "tests/resources/overlay-test-site-real/";
+        $url = self::getRootUrl() . "tests/resources/overlay-test-site-real/";
+
+        // when running tests on localhost we use 127.0.0.1 as url instead, so we have a different host in the iframe
+        // otherwise we would only test on the same host, which causes a lot less issues
+        return str_replace('localhost', '127.0.0.1', $url);
     }
 
     private function addNewSitesForSiteSelector()
