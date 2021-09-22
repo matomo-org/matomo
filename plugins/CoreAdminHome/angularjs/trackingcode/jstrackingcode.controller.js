@@ -38,7 +38,7 @@
         this.isLoading = false;
         this.customVars = [];
         this.siteUrls = {};
-        this.excludedQueryParams = [];
+        this.siteExcludedQueryParams = {};
         this.hasManySiteUrls = false;
         this.maxCustomVariables = parseInt(angular.element('[name=numMaxCustomVariables]').val(), 10);
         this.canAddMoreCustomVariables = this.maxCustomVariables && this.maxCustomVariables > 0;
@@ -48,26 +48,10 @@
             piwikPath = location.pathname.substring(0, location.pathname.lastIndexOf('/')),
             self = this;
 
-        // disable section
-        self.isLoading = true;
-
-        // Load global excludedQueryParams
-        piwikApi.fetch({
-            module: 'API',
-            method: 'SitesManager.getExcludedQueryParametersGlobal',
-            filter_limit: '-1'
-        }).then(function (data) {
-
-            self.excludedQueryParams = data.value || [];
-
-            // re-enable controls
-            self.isLoading = false;
-        });
-
         // queries Piwik for needed site info for one site
         var getSiteData = function (idSite, sectionSelect, callback) {
             // if data is already loaded, don't do an AJAX request
-            if (self.siteUrls[idSite]) {
+            if (self.siteUrls[idSite] && self.siteExcludedQueryParams[idSite]) {
 
                 callback();
                 return;
@@ -83,12 +67,24 @@
                 filter_limit: '-1'
             }).then(function (data) {
                 self.siteUrls[idSite] = data || [];
-
-                // re-enable controls
+                //console.log(data);
                 self.isLoading = false;
-
                 callback();
             });
+
+            self.isLoading = true;
+            // Load site excludedQueryParams
+            piwikApi.fetch({
+                module: 'API',
+                method: 'Overlay.getExcludedQueryParameters',
+                idSite: idSite,
+                filter_limit: '-1'
+            }).then(function (data) {
+                self.siteExcludedQueryParams[idSite] = data || [];
+                self.isLoading = false;
+                callback();
+            }); //*/
+
         };
 
 
@@ -111,8 +107,8 @@
                 forceMatomoEndpoint: 1
             };
 
-            if (self.excludedQueryParams) {
-                params.excludedQueryParams = self.excludedQueryParams;
+            if (self.siteExcludedQueryParams[self.site.id]) {
+                params.excludedQueryParams = self.siteExcludedQueryParams[self.site.id];
             }
 
             if (self.useCustomCampaignParams) {

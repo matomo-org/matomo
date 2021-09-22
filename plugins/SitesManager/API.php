@@ -128,6 +128,10 @@ class API extends \Piwik\Plugin\API
         $pageCustomVariables = Common::unsanitizeInputValues($pageCustomVariables);
         $customCampaignNameQueryParam = Common::unsanitizeInputValue($customCampaignNameQueryParam);
         $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
+
+        if (is_array($excludedQueryParams)) {
+            $excludedQueryParams = implode(',', $excludedQueryParams);
+        }
         $excludedQueryParams = Common::unsanitizeInputValue($excludedQueryParams);
 
         $generator = new TrackerCodeGenerator();
