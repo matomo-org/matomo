@@ -411,7 +411,10 @@ class Config
             }
 
             if (!$this->sanityCheck($localPath)) {
-                StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
+                // If sanity check fails, try to write the contents once more before logging the issue.
+                if (@file_put_contents($localPath, $output, LOCK_EX === false)) {
+                    StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
+                }
             }
 
             $this->settings->getIniFileChain()->deleteConfigCache();
@@ -456,17 +459,18 @@ class Config
     }
 
     /**
-     * Sanity check a config file by checking its size and content
+     * Sanity check a config file by checking contents
      *
      * @param string $localPath
      * @return bool
      */
-    public function sanityCheck(string $localPath): bool
+    public function sanityCheck(string $localPath, $expectedContent): bool
     {
-        $content = @file_get_contents($localPath);
-        $filesize = filesize($localPath);
+        clearstatcache();
 
-        if ($filesize < 1500 || strpos($content, '[database]') === false) {
+        $content = @file_get_contents($localPath);
+
+        if (trim($content) !== trim($expectedContent)) {
             Piwik::postEvent('Core.configFileSanityCheckFailed', [$localPath]);
 
             return false;
