@@ -437,6 +437,8 @@ class ConfigTest extends TestCase
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
 
         $expectedPath = '';
+        $correctContent = file_get_contents($userFile);
+        $incorrectContent = 'incorrrect content';
 
         \Piwik\Piwik::addAction('Core.configFileSanityCheckFailed', function ($path) use (&$expectedPath) {
             $expectedPath = $path;
@@ -444,7 +446,8 @@ class ConfigTest extends TestCase
 
         $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
 
-        $this->assertFalse($config->sanityCheck($userFile));
+        $this->assertFalse($config->sanityCheck($userFile, $incorrectContent));
+        $this->assertTrue($config->sanityCheck($userFile, $correctContent));
         $this->assertSame($userFile, $expectedPath);
     }
 }

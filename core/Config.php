@@ -410,7 +410,7 @@ class Config
                 throw $this->getConfigNotWritableException();
             }
 
-            if (!$this->sanityCheck($localPath)) {
+            if (!$this->sanityCheck($localPath, $output)) {
                 // If sanity check fails, try to write the contents once more before logging the issue.
                 if (@file_put_contents($localPath, $output, LOCK_EX === false)) {
                     StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
