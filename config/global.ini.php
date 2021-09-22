@@ -835,7 +835,9 @@ rearchive_reports_in_past_last_n_months = 6
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
 
-; Enable HTTP checks in the diagnostic system check
+; Enable HTTP checks for required and recommended private directories in the diagnostic system check.
+; Set this to 0 if you need to skip it because your hosting provider makes your site inaccessible.
+; Default is 1.
 enable_required_directories_diagnostic = 1
 
 ; If set to 1, then social and search engine definitions files will be synchronised using the internet if "enable_internet_features" is enabled.
