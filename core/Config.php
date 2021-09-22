@@ -466,7 +466,7 @@ class Config
      */
     public function sanityCheck(string $localPath, $expectedContent): bool
     {
-        clearstatcache();
+        clearstatcache(true, $localPath);
 
         $content = @file_get_contents($localPath);
 
