@@ -480,7 +480,7 @@ class Config
         if (trim($content) !== trim($expectedContent)) {
             if ($notify) {
                 /**
-                 * Triggered when a INI config file write has not produced the expected result
+                 * Triggered when the INI config file was not written correctly with the expected content.
                  *
                  * @param string $localPath Absolute path to the changed file on the server.
                  */
