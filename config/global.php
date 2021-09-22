@@ -169,7 +169,9 @@ return array(
                 if (!empty($ipFromHost)
                     && filter_var($ipFromHost, FILTER_VALIDATE_IP)) {
                     $ipsResolved[] = $ipFromHost;
-                } elseif (function_exists('dns_get_record')) {
+                } 
+                
+                if (function_exists('dns_get_record')) {
                     $entry = @dns_get_record($ip, DNS_AAAA);
                     if (!empty($entry['0']['ipv6'])
                         && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
