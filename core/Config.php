@@ -419,6 +419,11 @@ class Config
 
             $this->settings->getIniFileChain()->deleteConfigCache();
 
+            /**
+             * Triggered when a INI config file is changed on disk.
+             *
+             * @param string $localPath Absolute path to the changed file on the server.
+             */
             Piwik::postEvent('Core.configFileChanged', [$localPath]);
         }
     }
