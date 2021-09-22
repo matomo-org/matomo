@@ -399,8 +399,6 @@ purge_date_range_archives_after_X_days = 1
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1
 
-; PostgreSQL minimum required version
-minimum_pgsql_version = 8.3
 
 ; Minimum advised memory limit in Mb in php.ini file (see memory_limit value)
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
