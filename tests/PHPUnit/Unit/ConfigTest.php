@@ -446,7 +446,7 @@ class ConfigTest extends TestCase
 
         $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
 
-        $this->assertFalse($config->sanityCheck($userFile, $incorrectContent));
+        $this->assertFalse($config->sanityCheck($userFile, $incorrectContent, true));
         $this->assertTrue($config->sanityCheck($userFile, $correctContent));
         $this->assertSame($userFile, $expectedPath);
     }
