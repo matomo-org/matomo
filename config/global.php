@@ -162,12 +162,15 @@ return array(
         $ipsResolved = array();
 
         foreach ($ips as $ip) {
+            $ip = trim($ip);
             if (filter_var($ip, FILTER_VALIDATE_IP)) {
                 $ipsResolved[] = $ip;
             } else {
                 $ipFromHost = @gethostbyname($ip);
-                if (!empty($ipFromHost)
-                    && filter_var($ipFromHost, FILTER_VALIDATE_IP)) {
+                if (!empty($ipFromHost)) {
+                    // we don't check using filter_var if it's an IP as "gethostbyname" will return the $ip if it's not a hostname
+                    // and we then assume it is an IP range. Otherwise IP ranges would not be added. Ideally would above check if it is an
+                    // IP range before trying to get host by name.
                     $ipsResolved[] = $ipFromHost;
                 } 
                 
