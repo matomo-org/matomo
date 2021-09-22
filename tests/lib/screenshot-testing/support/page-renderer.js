@@ -40,6 +40,8 @@ const PAGE_METHODS_TO_PROXY = [
     'hover',
     'mainFrame',
     'metrics',
+    'on',
+    'once',
     'queryObjects',
     'reload',
     'screenshot',
