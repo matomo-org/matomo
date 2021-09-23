@@ -881,7 +881,7 @@ class API extends \Piwik\Plugin\API
 
         if($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login']))
         {
-            $user['date_last_seen'] = $lastSeen;
+            $user['date_last_seen'] =  gmdate("Y-m-d\TH:i:s\Z", $lastSeen);
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
