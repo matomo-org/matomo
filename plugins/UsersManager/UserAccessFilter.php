@@ -91,9 +91,14 @@ class UserAccessFilter
         }
 
         if (!$this->access->isUserHasSomeAdminAccess()) {
-           return array_values(array_filter($users, function ($user) {
-                return $this->isOwnLogin($user['login']);
-            }));
+            // keep only own user if it is in the list
+            foreach ($users as $user) {
+                if ($this->isOwnLogin($user['login'])) {
+                    return array($user);
+                }
+            }
+
+            return array();
         }
 
         return array_values(array_filter($users, function ($user) {
