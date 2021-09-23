@@ -91,14 +91,14 @@ class UserAccessFilter
         }
 
         if (!$this->access->isUserHasSomeAdminAccess()) {
-           return array_filter($users, function ($user) {
+           return array_values(array_filter($users, function ($user) {
                 return $this->isOwnLogin($user['login']);
-            });
+            }));
         }
 
-        return array_filter($users, function ($user) {
+        return array_values(array_filter($users, function ($user) {
             return $this->isNonSuperUserAllowedToSeeThisLogin($user['login']);
-        });
+        }));
 
     }
 
