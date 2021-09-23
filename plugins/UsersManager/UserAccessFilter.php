@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Access;
@@ -61,7 +62,7 @@ class UserAccessFilter
 
     /**
      * Removes all array values where the current user has no permission to see the existence of a given login index/key.
-     * @param array $arrayIndexedByLogin  An array that is indexed by login / usernames. Eg:
+     * @param array $arrayIndexedByLogin An array that is indexed by login / usernames. Eg:
      *                                    array('username1' => 5, 'username2' => array(...), ...)
      * @return array
      */
@@ -79,7 +80,7 @@ class UserAccessFilter
     /**
      * Removes all users from the list of the given users where the current user has no permission to see the existence
      * of that other user.
-     * @param array $users  An array of arrays. Each inner array must have a key 'login'. Eg:
+     * @param array $users An array of arrays. Each inner array must have a key 'login'. Eg:
      *                      array(array('login' => 'username1'), array('login' => 'username2'), ...)
      * @return array
      */
@@ -90,34 +91,26 @@ class UserAccessFilter
         }
 
         if (!$this->access->isUserHasSomeAdminAccess()) {
-            // keep only own user if it is in the list
-            foreach ($users as $user) {
-                if ($this->isOwnLogin($user['login'])) {
-                    return array($user);
-                }
-            }
-
-            return array();
+           return array_filter($users, function ($user) {
+                return $this->isOwnLogin($user['login']);
+            });
         }
 
-        foreach ($users as $index => $user) {
-            if (!$this->isNonSuperUserAllowedToSeeThisLogin($user['login'])) {
-                unset($users[$index]);
-            }
-        }
+        return array_filter($users, function ($user) {
+            return $this->isNonSuperUserAllowedToSeeThisLogin($user['login']);
+        });
 
-        return array_values($users);
     }
 
     /**
      * Returns the given user only if the current user has permission to see the given user
-     * @param array $user  An array containing a key 'login'
+     * @param array $user An array containing a key 'login'
      * @return array|null
      */
     public function filterUser($user)
     {
         if ($this->access->hasSuperUserAccess()
-            || (!empty($user['login']) && $this->isNonSuperUserAllowedToSeeThisLogin($user['login']))
+          || (!empty($user['login']) && $this->isNonSuperUserAllowedToSeeThisLogin($user['login']))
         ) {
             return $user;
         }
@@ -177,9 +170,9 @@ class UserAccessFilter
         }
 
         return (
-            (isset($this->usersWithViewAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithViewAccess[$login]))
-           ||
-            (isset($this->usersWithAdminAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithAdminAccess[$login]))
+          (isset($this->usersWithViewAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithViewAccess[$login]))
+          ||
+          (isset($this->usersWithAdminAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithAdminAccess[$login]))
         );
     }
 }
