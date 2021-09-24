@@ -1,14 +1,15 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonymiser data",
         "AnonymizeIpMaskLength": "%1$s byte(s) – f.eks. %2$s",
         "ClickHereSettings": "Klikk her for å få tilgang til %s-innstillingene.",
         "CurrentDBSize": "Nåværende databasestørrelse",
         "DeleteDataInterval": "Slett gammel data hver",
-        "DeleteOldVisitorLogs": "Slett gamle besøkslogger",
+        "DeleteDataSettings": "Slett gamle besøkslogger og -rapporter",
         "DeleteLogsOlderThan": "Slett logger eldre enn",
         "DeleteMaxRowsNoLimit": "ingen grense",
+        "DeleteOldVisitorLogs": "Slett gamle besøkslogger",
         "DeleteReportsOlderThan": "Slett rapporter eldre enn",
-        "DeleteDataSettings": "Slett gamle besøkslogger og -rapporter",
         "DoNotTrack_Disable": "Deaktiver Do Not Track-støtte",
         "DoNotTrack_Enable": "Aktiver Do Not Track-støtte",
         "EstimatedSpaceSaved": "Estimert plassbesparelse",
