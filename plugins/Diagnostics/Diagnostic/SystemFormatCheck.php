@@ -34,10 +34,10 @@ class SystemFormatCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckProcessorFormat');
 
-        if(PHP_INT_SIZE===8) {
+        if (PHP_INT_SIZE === 8) {
             $status = DiagnosticResult::STATUS_OK;
             $comment = $this->translator->translate('Installation_SystemCheckProcessorFormat64');
-        } else{
+        } else {
             $status = DiagnosticResult::STATUS_WARNING;
             $comment = $this->translator->translate('Installation_SystemCheckProcessorFormat32');
         }
