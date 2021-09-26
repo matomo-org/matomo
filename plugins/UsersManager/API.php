@@ -879,8 +879,7 @@ class API extends \Piwik\Plugin\API
         unset($user['password']);
         unset($user['ts_password_modified']);
 
-        if($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login']))
-        {
+        if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['date_last_seen'] =  gmdate("Y-m-d\TH:i:s\Z", $lastSeen);
         }
 
