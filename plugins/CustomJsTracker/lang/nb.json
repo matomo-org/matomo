@@ -1,6 +1,7 @@
 {
     "CustomJsTracker": {
         "DiagnosticPiwikJsMakeWritable": "Vi anbefaler å gjøre %1$s skrivbar ved å kjøre denne kommandoen: %2$s",
-        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-tracker (%s)"
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-tracker (%s)",
+        "PluginDescription": "Tillater enhver plugin å utvide Matomo JavaScript Tracking -filen (matomo.js) og legge til ny funksjonalitet og flere muligheter for nettstedsmåling."
     }
 }

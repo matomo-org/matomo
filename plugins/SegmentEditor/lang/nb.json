@@ -6,12 +6,13 @@
         "DefaultAllVisits": "Alle besøk",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
+        "PluginDescription": "Et segment er et sett med kriterier som brukes til å velge bare en del av hele settet med besøk. Ved å bruke segmenter kan du injisere vilkårlig kontekst tilbake i rapportene dine.",
         "SegmentDisplayedAllWebsites": "alle nettsteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette nettstedet",
+        "SharedWithYou": "Delt med deg",
+        "Test": "Test",
         "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
         "VisibleToAllUsers": "alle brukere",
-        "VisibleToMe": "meg",
-        "SharedWithYou": "Delt med deg",
-        "Test": "Test"
+        "VisibleToMe": "meg"
     }
 }
