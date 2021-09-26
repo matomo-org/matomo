@@ -880,7 +880,7 @@ class API extends \Piwik\Plugin\API
         unset($user['ts_password_modified']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
-            $user['date_last_seen'] =  gmdate("Y-m-d\TH:i:s\Z", $lastSeen);
+            $user['last_seen'] = date("Y-m-d H:i:s", $lastSeen);
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
@@ -906,8 +906,8 @@ class API extends \Piwik\Plugin\API
             $newUser['superuser_access'] = $user['superuser_access'];
         }
 
-        if (isset($user['date_last_seen'])) {
-            $newUser['date_last_seen'] = $user['date_last_seen'];
+        if (isset($user['last_seen'])) {
+            $newUser['last_seen'] = $user['last_seen'];
         }
 
         return $newUser;

@@ -425,7 +425,6 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
-     * @todo
      * normal case
      * as well as selecting specific user names, comma separated
      */
@@ -439,7 +438,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $users = $this->api->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
-        $user1 = array('login' => "gegg4564eqgeqag", 'email' => "tegst@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false, 'date_last_seen' =>  gmdate("Y-m-d\TH:i:s\Z", $now));
+        $user1 = array('login' => "gegg4564eqgeqag", 'email' => "tegst@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false, 'last_seen' =>  date("Y-m-d H:i:s", $now));
         $user2 = array('login' => "geggeqge632ge56a4qag", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
         $user3 = array('login' => "geggeqgeqagqegg", 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
         $expectedUsers = array($user1, $user2, $user3);
