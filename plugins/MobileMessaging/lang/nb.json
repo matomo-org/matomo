@@ -1,9 +1,11 @@
 {
     "MobileMessaging": {
+        "Exception_UnknownProvider": "Tilbydernavnet '%1$s' er ukjent. Prøv ett av følgende i stedet: %2$s.",
         "PhoneNumbers": "Telefonnumre",
+        "SMS_Content_Too_Long": "[for lang]",
+        "SettingsMenu": "Meldingstjenester",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
-        "Settings_SelectCountry": "Velg land",
         "Settings_DeleteAccountConfirm": "Er du sikker på at du vil slette denne SMS-kontoen?",
         "Settings_EnterActivationCode": "Skriv aktiveringskode",
         "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
@@ -13,11 +15,10 @@
         "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
         "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
+        "Settings_SelectCountry": "Velg land",
         "Settings_SuperAdmin": "Superbruker-instillinger",
         "Settings_UpdateOrDeleteAccount": "Du kan også %1$soppdatere%2$s eller %3$sslette%4$s denne kontoen.",
         "Settings_ValidatePhoneNumber": "Valider",
-        "SettingsMenu": "Meldingstjenester",
-        "SMS_Content_Too_Long": "[for lang]",
         "TopMenu": "E-post- og SMS-rapporter"
     }
 }

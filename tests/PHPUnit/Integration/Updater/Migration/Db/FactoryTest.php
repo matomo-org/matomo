@@ -9,7 +9,10 @@
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Updater\Migration\Config\Set;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
 use Piwik\Updater\Migration\Db\AddIndex;
@@ -46,7 +49,7 @@ class FactoryTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
-        
+
         $this->testTablePrefixed = Common::prefixTable($this->testTable);
         $this->factory = new Factory();
     }
@@ -93,15 +96,16 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8;", ''. $migration);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
     }
+
 
     public function test_createTable_withPrimaryKey()
     {
         $migration = $this->createTable('column2');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8;", ''. $migration);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
     }
 
     public function test_dropTable_returnsDropTableInstance()
@@ -116,7 +120,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->factory->dropTable($this->testTable);
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("DROP TABLE IF EXISTS `$table`;", ''. $migration);
+        $this->assertSame("DROP TABLE IF EXISTS `$table`;", '' . $migration);
     }
 
     public function test_dropColumn_returnsDropColumnInstance()
@@ -313,7 +317,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->insert();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("INSERT INTO `$table` (`column1`, `column3`) VALUES ('val1',5);", ''. $migration);
+        $this->assertSame("INSERT INTO `$table` (`column1`, `column3`) VALUES ('val1',5);", '' . $migration);
     }
 
     public function test_batchInsert_returnsBatchInsertInstance()
