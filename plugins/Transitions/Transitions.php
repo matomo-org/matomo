@@ -40,6 +40,7 @@ class Transitions extends \Piwik\Plugin
     {
         $jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
         $jsFiles[] = 'plugins/Transitions/angularjs/transitionswitcher/transitionswitcher.controller.js';
+        $jsFiles[] = 'plugins/Transitions/angularjs/transitionexporter/transitionexporter.directive.js';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -49,6 +50,7 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Actions_PageUrls';
         $translationKeys[] = 'Actions_WidgetPageTitles';
         $translationKeys[] = 'Transitions_NumPageviews';
+        $translationKeys[] = 'Transitions_Transitions';
         $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
         $translationKeys[] = 'General_Others';
     }
