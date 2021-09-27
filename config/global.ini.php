@@ -399,8 +399,6 @@ purge_date_range_archives_after_X_days = 1
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1
 
-; PostgreSQL minimum required version
-minimum_pgsql_version = 8.3
 
 ; Minimum advised memory limit in Mb in php.ini file (see memory_limit value)
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
@@ -834,6 +832,15 @@ rearchive_reports_in_past_last_n_months = 6
 
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
+
+; Enable HTTP checks for required and recommended private directories in the diagnostic system check.
+; Set this to 0 if you need to skip it because your hosting provider makes your site inaccessible.
+; Default is 1.
+enable_required_directories_diagnostic = 1
+
+; If set to 1, then social and search engine definitions files will be synchronised using the internet if "enable_internet_features" is enabled.
+; When set to 0, the definitions will be loaded from the local definitions (updated with core).
+enable_referrer_definition_syncs = 1
 
 [Tracker]
 

@@ -109,6 +109,7 @@
         "SystemSummaryPiwikVersion": "Matomo バージョン",
         "SystemSummaryWidget": "システム概要",
         "TableNoData": "このテーブルにはデータがありません",
+        "TechDeprecationWarning": "Matomoのバージョン%1$sより、Matomoは%2$sのサポートを終了します。詳しくは%3$sブログ記事をご覧ください。%4$s。",
         "ThanksFromAllOfUs": "Matomoの皆さん、ありがとうございました！",
         "ThereIsNoDataForThisReport": "このリポートのデータがありません。",
         "UnFlattenDataTable": "リポートはフラット表示です %s 階層表示にする",
