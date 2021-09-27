@@ -32,13 +32,17 @@ class ModSecurityCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckModSecurity');
 
-        $modSecurity = in_array('mod_rewrite', get_loaded_extensions()) !== false;
+        if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())) {
+            $comment = sprintf($this->translator->translate('Installation_SystemCheckModSecurityHelp'),
+              $this->translator->translate('Installation_SystemCheckModSecurityOn'),
+              "<a href='https://matomo.org/faq/troubleshooting/faq_100/' target='_blank'>FAQ</a>");
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $comment));
+        }
 
-        $status = $modSecurity ? DiagnosticResult::STATUS_WARNING : DiagnosticResult::STATUS_OK;
         $comment = sprintf($this->translator->translate('Installation_SystemCheckModSecurityHelp'),
-          $modSecurity ? "On" : "Off / (Not Detected)",
+          $this->translator->translate('Installation_SystemCheckModSecurityOff'),
           "<a href='https://matomo.org/faq/troubleshooting/faq_100/' target='_blank'>FAQ</a>");
 
-        return array(DiagnosticResult::singleResult($label, $status, $comment));
+        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }
 }

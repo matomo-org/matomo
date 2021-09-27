@@ -99,6 +99,8 @@
         "SystemCheckMailHelp": "Feedback and Lost Password messages will not be sent without mail().",
         "SystemCheckMemoryLimit": "Memory limit",
         "SystemCheckModSecurity": "ModSecurity",
+        "SystemCheckModSecurityOn": "On",
+        "SystemCheckModSecurityOff": "Off / (Not Detected)",
         "SystemCheckModSecurityHelp": "%1$s<p>Some mod_security rules will cause Matomo app errors, for more information please see %2$s</p>",
         "SystemCheckMemoryLimitHelp": "On a high traffic website, the archiving process may require more memory than currently allowed. If necessary, change the memory_limit directive in your php.ini file.",
         "SystemCheckMemoryNoMemoryLimitSet": "There is no memory limit set",
