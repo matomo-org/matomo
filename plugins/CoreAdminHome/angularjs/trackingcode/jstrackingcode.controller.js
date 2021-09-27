@@ -67,21 +67,17 @@
                 filter_limit: '-1'
             }).then(function (data) {
                 self.siteUrls[idSite] = data || [];
-                self.isLoading = false;
-                callback();
-            });
-
-            self.isLoading = true;
-            // Load site excludedQueryParams
-            piwikApi.fetch({
-                module: 'API',
-                method: 'Overlay.getExcludedQueryParameters',
-                idSite: idSite,
-                filter_limit: '-1'
-            }).then(function (data) {
-                self.siteExcludedQueryParams[idSite] = data || [];
-                self.isLoading = false;
-                callback();
+                // Load site excludedQueryParams
+                piwikApi.fetch({
+                    module: 'API',
+                    method: 'Overlay.getExcludedQueryParameters',
+                    idSite: idSite,
+                    filter_limit: '-1'
+                }).then(function (data) {
+                    self.siteExcludedQueryParams[idSite] = data || [];
+                    self.isLoading = false;
+                    callback();
+                });
             });
 
         };
