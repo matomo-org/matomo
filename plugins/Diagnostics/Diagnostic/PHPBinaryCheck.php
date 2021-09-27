@@ -7,14 +7,12 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Config;
-use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 
 /**
- * Check that the memory limit is enough.
+ * Check the PHP Binary is set to 64 bit
  */
-class SystemFormatCheck implements Diagnostic
+class PHPBinaryCheck implements Diagnostic
 {
     /**
      * @var Translator
@@ -36,9 +34,10 @@ class SystemFormatCheck implements Diagnostic
 
         if (PHP_INT_SIZE === 8) {
             $status = DiagnosticResult::STATUS_OK;
+            $comment = "";
         } else {
             $status = DiagnosticResult::STATUS_WARNING;
-            $comment = $this->translator->translate('Installation_SystemCheckProcessorFormat32');
+            $comment = $this->translator->translate('Installation_SystemCheckProcessorFormatHelp');
         }
 
         return array(DiagnosticResult::singleResult($label, $status, $comment));
