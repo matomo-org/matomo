@@ -37,7 +37,7 @@ class Menu extends \Piwik\Plugin\Menu
                 $order = 12);
         }
 
-        if (Piwik::isUserHasSomeAdminAccess()) {
+        if (!Piwik::isUserIsAnonymous()) {
             $menu->addDiagnosticItem('CoreAdminHome_TrackingFailures',
                 $this->urlForAction('trackingFailures'),
                 $order = 2);
@@ -47,9 +47,11 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureTopMenu(MenuTop $menu)
     {
         $url = $this->urlForModuleAction('CoreAdminHome', 'home');
-
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
+        if (!Piwik::isUserIsAnonymous()) {
+             $menu->addHtml(Piwik::translate('CoreAdminHome_WhatIsNew'),'<a matomo-what-is-new href="#" title="'.Piwik::translate('CoreAdminHome_WhatIsNewTooltip').'"><span class="icon-new_releases"></span></a>', true, 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'));
+        }
     }
 
 }

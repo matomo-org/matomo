@@ -1,0 +1,22 @@
+<div piwik-content-intro>
+    <h2>{{ 'CoreAdminHome_WhatIsNewTitle'|translate|e('html_attr') }}</h2>
+</div>
+<div class="whatisnew">
+
+    {% for newThing in newThings %}
+
+        {% embed '@CoreAdminHome/whatisnewblock.twig' with {'title': newThing.title} %}
+        {% block content %}
+            {{ newThing.description | raw }}
+            {% if not newThing.link is empty %}
+            <p>
+                <br>
+                <a href="{{ newThing.link }}" target="_blank">{{ newThing.linkName }}</a>
+            </p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+
+    {% endfor %}
+
+</div>

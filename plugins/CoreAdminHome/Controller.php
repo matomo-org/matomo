@@ -24,6 +24,7 @@ use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugin\Manager;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
@@ -305,6 +306,52 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $view->mail = $mail;
+    }
+
+    public function whatIsNew() {
+
+        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserIsNotAnonymous();
+
+        /**
+         * Triggered when assembling a list of new things to show on the "What's new in Matomo" screen
+         * This should be used by plugins to define significant new features that have been added.
+         *
+         * **Example**
+         *
+         * In the plugin main file:
+         * public function registerEvents()
+         * {
+         *     return array(
+         *         'CoreAdminHome.getWhatIsNew' => 'getWhatIsNew',
+         *     );
+         * }
+         *
+         * public function getWhatIsNew(&$newItems)
+         * {
+         *     $newItems[] = ['title' => 'New feature x added',
+         *                               'description' => 'Now you can do y with z like this',
+         *                               'linkName' => 'For more information go here',
+         *                               'link' => 'https://www.matomo.org'];
+         * }
+         *
+         */
+        $newThings = [];
+        Piwik::postEvent('CoreAdminHome.getWhatIsNew', [&$newThings]);
+
+        if (count($newThings) == 0) {
+
+            $newThings[] = [
+                'title' => Piwik::translate('CoreAdminHome_WhatIsNewNoChangesTitle'),
+                'description' => '<br>'.Piwik::translate('CoreAdminHome_WhatIsNewNoChanges'),
+                'linkName' => '',
+                'link' => ''
+                ];
+
+        }
+
+        return $this->renderTemplate('whatisnew', ['newThings' => $newThings]);
+
     }
 
 }
