@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "データベースの使用量",
-        "DataSize": "データサイズ",
         "DBSize": "DB サイズ",
+        "DataSize": "データサイズ",
+        "DatabaseUsage": "データベースの使用量",
         "EstimatedSize": "推定サイズ",
         "IndexSize": "インデックスサイズ",
         "LearnMore": "Matomo のデータ処理方法やトラフィックの比較的高いウェブサイトで Matomo をうまく機能させる方法についての詳細は、次のドキュメント を参照してください：%s",

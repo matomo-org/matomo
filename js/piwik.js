@@ -112,7 +112,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState
  */
 /*global _paq:true */
 /*members push */
@@ -2894,6 +2894,14 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
+            function heartBeatOnVisible() {
+                if (documentAlias.visibilityState === 'hidden' && hadWindowMinimalFocusToConsiderViewed()) {
+                    heartBeatPingIfActivityAlias();
+                } else if (documentAlias.visibilityState === 'visible') {
+                    timeWindowLastFocused = new Date().getTime();
+                }
+            }
+
             /*
              * Setup event handlers and timeout for initial heart beat.
              */
@@ -2908,6 +2916,7 @@ if (typeof window.Matomo !== 'object') {
 
                 addEventListener(windowAlias, 'focus', heartBeatOnFocus);
                 addEventListener(windowAlias, 'blur', heartBeatOnBlur);
+                addEventListener(windowAlias, 'visibilitychange', heartBeatOnVisible);
 
                 // when using multiple trackers then we need to add this event for each tracker
                 coreHeartBeatCounter++;
@@ -6267,9 +6276,11 @@ if (typeof window.Matomo !== 'object') {
                     if (windowAlias.removeEventListener) {
                         windowAlias.removeEventListener('focus', heartBeatOnFocus);
                         windowAlias.removeEventListener('blur', heartBeatOnBlur);
+                        windowAlias.removeEventListener('visibilitychange', heartBeatOnVisible);
                     } else if  (windowAlias.detachEvent) {
                         windowAlias.detachEvent('onfocus', heartBeatOnFocus);
                         windowAlias.detachEvent('onblur', heartBeatOnBlur);
+                        windowAlias.removeEventListener('visibilitychange', heartBeatOnVisible);
                     }
                 }
 

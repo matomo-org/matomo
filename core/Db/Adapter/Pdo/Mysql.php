@@ -246,6 +246,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         return strpos($charset, 'utf8') === 0;
     }
 
+
     /**
      * Return number of affected rows in last query
      *

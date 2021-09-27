@@ -16,6 +16,7 @@ use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\ProfessionalServices\Advertising;
+use Psr\Log\LoggerInterface;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -394,9 +395,8 @@ class Config
     protected function writeConfig()
     {
         $output = $this->dumpConfig();
-        if ($output !== null
-            && $output !== false
-        ) {
+
+        if ($output !== null && $output !== false) {
             $localPath = $this->getLocalPath();
 
             if ($this->doNotWriteConfigInTests) {
@@ -408,6 +408,13 @@ class Config
 
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
+            }
+
+            if (!$this->sanityCheck($localPath, $output)) {
+                // If sanity check fails, try to write the contents once more before logging the issue.
+                if (@file_put_contents($localPath, $output, LOCK_EX) === false || !$this->sanityCheck($localPath, $output, true)) {
+                    StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
+                }
             }
 
             $this->settings->getIniFileChain()->deleteConfigCache();
@@ -454,5 +461,35 @@ class Config
         $section = self::getInstance()->$sectionName;
         $section[$name] = $value;
         self::getInstance()->$sectionName = $section;
+    }
+
+    /**
+     * Sanity check a config file by checking contents
+     *
+     * @param string $localPath
+     * @param string $expectedContent
+     * @param bool $notify
+     * @return bool
+     */
+    public function sanityCheck(string $localPath, string $expectedContent, bool $notify = false): bool
+    {
+        clearstatcache(true, $localPath);
+
+        $content = @file_get_contents($localPath);
+
+        if (trim($content) !== trim($expectedContent)) {
+            if ($notify) {
+                /**
+                 * Triggered when the INI config file was not written correctly with the expected content.
+                 *
+                 * @param string $localPath Absolute path to the changed file on the server.
+                 */
+                Piwik::postEvent('Core.configFileSanityCheckFailed', [$localPath]);
+            }
+
+            return false;
+        }
+
+        return true;
     }
 }
