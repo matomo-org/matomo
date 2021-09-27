@@ -67,7 +67,6 @@
                 filter_limit: '-1'
             }).then(function (data) {
                 self.siteUrls[idSite] = data || [];
-                //console.log(data);
                 self.isLoading = false;
                 callback();
             });
@@ -83,7 +82,7 @@
                 self.siteExcludedQueryParams[idSite] = data || [];
                 self.isLoading = false;
                 callback();
-            }); //*/
+            });
 
         };
 
