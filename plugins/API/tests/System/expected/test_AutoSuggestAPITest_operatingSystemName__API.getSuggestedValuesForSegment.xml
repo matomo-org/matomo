@@ -3,7 +3,7 @@
 	<row>AIX</row>
 	<row>Android</row>
 	<row>AmigaOS</row>
-	<row>Apple TV</row>
+	<row>tvOS</row>
 	<row>Arch Linux</row>
 	<row>BackTrack</row>
 	<row>Bada</row>
@@ -31,6 +31,8 @@
 	<row>Google TV</row>
 	<row>HP-UX</row>
 	<row>Haiku OS</row>
+	<row>iPadOS</row>
+	<row>HarmonyOS</row>
 	<row>HasCodingOS</row>
 	<row>IRIX</row>
 	<row>Inferno</row>
