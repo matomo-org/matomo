@@ -50,7 +50,9 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
         if (!Piwik::isUserIsAnonymous()) {
-             $menu->addHtml(Piwik::translate('CoreAdminHome_WhatIsNew'),'<a matomo-what-is-new href="#" title="'.Piwik::translate('CoreAdminHome_WhatIsNewTooltip').'"><span class="icon-new_releases"></span></a>', true, 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'));
+            $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', 'icon-new_releases');
+            $menu->addItem('CoreAdminHome_WhatIsNew', null, '', 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
+                      'icon-new_releases',false, 'matomo-what-is-new');
         }
     }
 
