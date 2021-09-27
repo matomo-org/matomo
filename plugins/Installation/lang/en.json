@@ -138,7 +138,7 @@
         "SystemCheckUpdateHttps": "Update over HTTPS",
         "SystemCheckUpdateHttpsNotSupported": "Matomo cannot use HTTPS to update, it will fall back to the insecure HTTP update. Check that CURL or allow_url_fopen is supported and that the openssl PHP extension is installed: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/.",
         "PhpBinaryCheck" : "64-bit PHP Binary",
-        "PhpBinaryCheckHelp": "32-bit <p> We highly recommend upgrading to a 64-bit PHP binary to prevent various issues that may cause inconvenience in the future.</p>",
+        "PhpBinaryCheckHelp": "32-bit <p> We recommend upgrading to a 64-bit PHP binary at the latest by January 2026 to prevent bugs in the future.</p>",
         "NotSupported": "not supported",
         "Tables": "Creating the Tables",
         "TablesCreatedSuccess": "Tables created with success!",
