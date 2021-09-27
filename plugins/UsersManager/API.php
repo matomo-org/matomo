@@ -880,7 +880,7 @@ class API extends \Piwik\Plugin\API
         unset($user['ts_password_modified']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
-            $user['last_seen'] = date("Y-m-d H:i:s", $lastSeen);
+            $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
         }
 
         if (Piwik::hasUserSuperUserAccess()) {

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
@@ -438,7 +439,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $users = $this->api->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
-        $user1 = array('login' => "gegg4564eqgeqag", 'email' => "tegst@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false, 'last_seen' =>  date("Y-m-d H:i:s", $now));
+        $user1 = array('login' => "gegg4564eqgeqag", 'email' => "tegst@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false, 'last_seen' => Date::getDatetimeFromTimestamp($now));
         $user2 = array('login' => "geggeqge632ge56a4qag", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
         $user3 = array('login' => "geggeqgeqagqegg", 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
         $expectedUsers = array($user1, $user2, $user3);
