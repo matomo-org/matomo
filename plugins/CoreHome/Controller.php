@@ -319,4 +319,40 @@ class Controller extends \Piwik\Plugin\Controller
 
         ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters, $containerId);
     }
+
+    /**
+     * Return an array of new features provided by plugins and other event listeners
+     *
+     * @return array
+     */
+    public static function getNewFeatures()
+    {
+        /**
+         * Triggered when assembling a list of new things to show on the "What's new in Matomo" screen
+         * This should be used by plugins to define significant new features that have been added.
+         *
+         * **Example**
+         *
+         * In the plugin main file:
+         * public function registerEvents()
+         * {
+         *     return array(
+         *         'CoreHome.getWhatIsNew' => 'getWhatIsNew',
+         *     );
+         * }
+         *
+         * public function getWhatIsNew(&$newItems)
+         * {
+         *     $newItems[] = ['title' => 'New feature x added',
+         *                               'description' => 'Now you can do y with z like this',
+         *                               'linkName' => 'For more information go here',
+         *                               'link' => 'https://www.matomo.org'];
+         * }
+         *
+         */
+        $newFeatures = [];
+        Piwik::postEvent('CoreHome.getWhatIsNew', [&$newFeatures]);
+
+        return $newFeatures;
+    }
 }

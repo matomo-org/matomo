@@ -18,6 +18,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\CoreHome\CoreHome;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -313,44 +314,9 @@ class Controller extends ControllerAdmin
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();
 
-        /**
-         * Triggered when assembling a list of new things to show on the "What's new in Matomo" screen
-         * This should be used by plugins to define significant new features that have been added.
-         *
-         * **Example**
-         *
-         * In the plugin main file:
-         * public function registerEvents()
-         * {
-         *     return array(
-         *         'CoreAdminHome.getWhatIsNew' => 'getWhatIsNew',
-         *     );
-         * }
-         *
-         * public function getWhatIsNew(&$newItems)
-         * {
-         *     $newItems[] = ['title' => 'New feature x added',
-         *                               'description' => 'Now you can do y with z like this',
-         *                               'linkName' => 'For more information go here',
-         *                               'link' => 'https://www.matomo.org'];
-         * }
-         *
-         */
-        $newThings = [];
-        Piwik::postEvent('CoreAdminHome.getWhatIsNew', [&$newThings]);
+        $newFeatures = \Piwik\Plugins\CoreHome\Controller::getNewFeatures();
 
-        if (count($newThings) == 0) {
-
-            $newThings[] = [
-                'title' => Piwik::translate('CoreAdminHome_WhatIsNewNoChangesTitle'),
-                'description' => '<br>'.Piwik::translate('CoreAdminHome_WhatIsNewNoChanges'),
-                'linkName' => '',
-                'link' => ''
-                ];
-
-        }
-
-        return $this->renderTemplate('whatisnew', ['newThings' => $newThings]);
+        return $this->renderTemplate('whatisnew', ['newFeatures' => $newFeatures]);
 
     }
 

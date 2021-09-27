@@ -3,15 +3,15 @@
 </div>
 <div class="whatisnew">
 
-    {% for newThing in newThings %}
+    {% for newFeature in newFeatures %}
 
-        {% embed '@CoreAdminHome/whatisnewblock.twig' with {'title': newThing.title} %}
+        {% embed '@CoreAdminHome/whatisnewblock.twig' with {'title': newFeature.title} %}
         {% block content %}
-            {{ newThing.description | raw }}
-            {% if not newThing.link is empty %}
+            {{ newFeature.description | raw }}
+            {% if not newFeature.link is empty %}
             <p>
                 <br>
-                <a href="{{ newThing.link }}" target="_blank">{{ newThing.linkName }}</a>
+                <a href="{{ newFeature.link }}" target="_blank">{{ newFeature.linkName }}</a>
             </p>
             {% endif %}
         {% endblock %}

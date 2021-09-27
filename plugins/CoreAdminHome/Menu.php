@@ -13,6 +13,7 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CoreHome;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -49,7 +50,7 @@ class Menu extends \Piwik\Plugin\Menu
         $url = $this->urlForModuleAction('CoreAdminHome', 'home');
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
-        if (!Piwik::isUserIsAnonymous()) {
+        if (!Piwik::isUserIsAnonymous() && count(\Piwik\Plugins\CoreHome\Controller::getNewFeatures()) > 0) {
             $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', 'icon-new_releases');
             $menu->addItem('CoreAdminHome_WhatIsNew', null, '', 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
                       'icon-new_releases',false, 'matomo-what-is-new');
