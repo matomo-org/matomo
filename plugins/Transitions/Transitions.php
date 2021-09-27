@@ -22,17 +22,8 @@ class Transitions extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
-            'CoreAdminHome.getWhatIsNew'             => 'getWhatIsNew',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor'
         );
-    }
-
-    public function getWhatIsNew(&$newItems)
-    {
-        $newItems[] = ['title' => 'New feature x added',
-                       'description' => 'Now you can do y with z like this',
-                       'linkName' => 'For more information go here',
-                       'link' => 'https://www.matomo.org'];
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)
