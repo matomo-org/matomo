@@ -30,14 +30,14 @@ class PHPBinaryCheck implements Diagnostic
 
     public function execute()
     {
-        $label = $this->translator->translate('Installation_SystemCheckProcessorFormat');
+        $label = $this->translator->translate('Installation_PhpBinaryCheck');
 
         if (PHP_INT_SIZE === 8) {
             $status = DiagnosticResult::STATUS_OK;
             $comment = "";
         } else {
             $status = DiagnosticResult::STATUS_WARNING;
-            $comment = $this->translator->translate('Installation_SystemCheckProcessorFormatHelp');
+            $comment = $this->translator->translate('Installation_PhpBinaryCheckHelp');
         }
 
         return array(DiagnosticResult::singleResult($label, $status, $comment));
