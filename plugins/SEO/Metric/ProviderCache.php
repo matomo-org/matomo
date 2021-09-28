@@ -34,7 +34,7 @@ class ProviderCache implements MetricsProvider
 
     public function getMetrics($domain)
     {
-        $cacheId = 'SEO_getRank_' . md5($domain);
+        $cacheId = 'SEO_getRank_' . md5($domain ?? '');
 
         $metrics = $this->cache->fetch($cacheId);
 
