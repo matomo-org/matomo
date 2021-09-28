@@ -32,7 +32,7 @@ class Bing implements MetricsProvider
 
     public function getMetrics($domain)
     {
-        $url = self::URL . urlencode($domain);
+        $url = self::URL . urlencode($domain ?? '');
 
         try {
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
