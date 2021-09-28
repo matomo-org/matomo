@@ -34,6 +34,7 @@ class Transitions extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = 'plugins/Transitions/stylesheets/transitions.less';
+        $stylesheets[] = 'plugins/Transitions/angularjs/transitionexporter/transitionexporter.popover.less';
     }
 
     public function getJsFiles(&$jsFiles)

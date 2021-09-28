@@ -57,6 +57,10 @@
                         {key: 'XML', value: 'XML'}
                     ];
 
+                    if (!$rootScope.transitionExportParams) {
+                        return;
+                    }
+
                     scope.reportTitle = $rootScope.transitionExportParams['actionName'] + ' ' + _pk_translate('Transitions_Transitions');
 
                     this.popover = Piwik_Popover.showLoading(_pk_translate('General_Export'), self.actionName, 200);
