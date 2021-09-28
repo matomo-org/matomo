@@ -86,10 +86,12 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should add an OR condition when clicking on add OR", async function() {
-        await page.click('.segmentEditorPanel .segment-add-or');
+        await page.evaluate(function() {
+            $('.segmentEditorPanel .segment-add-or').click();
+        });
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_or_condition');
+        expect(await page.screenshotSelector('.segment-element')).to.matchImage('add_new_or_condition');
     });
 
     it("should add an OR condition when a segment dimension is selected in the OR placeholder section", async function() {
