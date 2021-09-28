@@ -322,7 +322,11 @@ class UITestFixture extends SqlDump
     private function addNewSitesForSiteSelector()
     {
         for ($i = 0; $i != 8; ++$i) {
-            self::createWebsite("2011-01-01 00:00:00", $ecommerce = 1, $siteName = "Site #$i", $siteUrl = "http://site$i.com");
+            self::createWebsite("2011-01-01 00:00:00", $ecommerce = 1, $siteName = "Site #$i",
+                $siteUrl = "http://site$i.com", 1, null, null,
+                null, null, 0,
+                implode(',', [$this->xssTesting->forTwig('excludedParameter'),
+                              $this->xssTesting->forAngular('excludedParameter'),'sid']));
         }
     }
 
