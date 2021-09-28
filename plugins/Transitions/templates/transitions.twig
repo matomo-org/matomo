@@ -40,7 +40,7 @@
 
     </div>
 
-    <div class="dataTableWrapper">
+    <div class="dataTableWrapper" ng-show="transitionSwitcher.isEnabled">
         <div class="dataTableFeatures">
             <div class="dataTableFooterNavigation">
                 <div class="dataTableControls">
@@ -65,3 +65,4 @@
 </div>
 
 {% if not isWidget %}</div>{% endif %}
+
