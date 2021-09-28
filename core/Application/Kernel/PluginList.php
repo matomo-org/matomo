@@ -43,6 +43,7 @@ class PluginList
         'ExampleLogTables',
         'ExampleReport',
         'ExampleAPI',
+        'ExampleVue',
         'MobileAppMeasurable',
         'TagManager'
     );
