@@ -1143,6 +1143,7 @@ Languages[] = zh-tw
 
 [Plugins]
 ; list of plugins (in order they will be loaded) that are activated by default in the Matomo platform
+Plugins[] = CoreVue
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
