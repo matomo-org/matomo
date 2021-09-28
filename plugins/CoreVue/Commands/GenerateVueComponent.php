@@ -51,8 +51,9 @@ class GenerateVueComponent extends GenerateAngularConstructBase
         $allowlistFiles = array(
             '/vue',
             '/vue/src',
-            '/vue/src/ExampleComponent.vue',
-            '/vue/src/ExampleComponent.adapter.ts',
+            '/vue/src/ExampleComponent',
+            '/vue/src/ExampleComponent/ExampleComponent.vue',
+            '/vue/src/ExampleComponent/ExampleComponent.adapter.ts',
         );
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowlistFiles);
@@ -61,7 +62,7 @@ class GenerateVueComponent extends GenerateAngularConstructBase
         if (!file_exists($indexFile)) {
             file_put_contents($indexFile, '');
         }
-        file_put_contents($indexFile, "export { default as $adapterFunctionName } from './$component.adapter';\n", FILE_APPEND);
+        file_put_contents($indexFile, "export { default as $adapterFunctionName } from './$component/$component.adapter';\n", FILE_APPEND);
 
         // TODO: generate a less file as well?
 
