@@ -79,7 +79,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should show suggested segment values when a segment value input is focused", async function() {
-        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
+        await page.click('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('suggested_values');
@@ -144,7 +144,8 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should correctly should show a confirmation when changing segment definition", async function() {
-        await page.click('.segmentEditorPanel .editSegmentName');
+      await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
+      await page.click('.segmentEditorPanel .editSegmentName');
         await page.evaluate(function () {
             $('input.edit_segment_name').val('').change();
         });
