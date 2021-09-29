@@ -41,6 +41,30 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
     }
 
+    public function test_umdModulesAreProductionBuilds()
+    {
+        $strToLookFor = 'eval("__webpack_require__';
+
+        $umdModulesWithDevelopmentBuilds = [];
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', 'vue/dist/*.umd*.js');
+        foreach ($files as $filePath) {
+            $content = file_get_contents($filePath);
+
+            $plugin = substr($filePath, strlen(PIWIK_INCLUDE_PATH . '/plugins/'));
+            $plugin = substr($plugin, 0, strpos($plugin, '/'));
+
+            if (strpos($content, $strToLookFor) !== false) {
+                $umdModulesWithDevelopmentBuilds[] = $plugin;
+            }
+        }
+
+        $umdModulesWithDevelopmentBuilds = array_unique($umdModulesWithDevelopmentBuilds);
+
+        $this->assertEmpty($umdModulesWithDevelopmentBuilds, "Found plugins with development UMD builds: " . implode(', ', $umdModulesWithDevelopmentBuilds)
+            . ". Please run './console vue:build " . implode(' ', $umdModulesWithDevelopmentBuilds) . "'.");
+    }
+
     public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
     {
         $pluginsToTest = ['CustomVariables', 'Provider'];
