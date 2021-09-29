@@ -18,6 +18,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreConsole\Commands\ComputeJsAssetSize;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use RecursiveDirectoryIterator;
@@ -43,23 +44,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     public function test_umdModulesAreProductionBuilds()
     {
-        $strToLookFor = 'eval("__webpack_require__';
-
-        $umdModulesWithDevelopmentBuilds = [];
-
-        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', 'vue/dist/*.umd*.js');
-        foreach ($files as $filePath) {
-            $content = file_get_contents($filePath);
-
-            $plugin = substr($filePath, strlen(PIWIK_INCLUDE_PATH . '/plugins/'));
-            $plugin = substr($plugin, 0, strpos($plugin, '/'));
-
-            if (strpos($content, $strToLookFor) !== false) {
-                $umdModulesWithDevelopmentBuilds[] = $plugin;
-            }
-        }
-
-        $umdModulesWithDevelopmentBuilds = array_unique($umdModulesWithDevelopmentBuilds);
+        $umdModulesWithDevelopmentBuilds = ComputeJsAssetSize::findAnyUmdModulesWithDevelopmentBuilds();
 
         $this->assertEmpty($umdModulesWithDevelopmentBuilds, "Found plugins with development UMD builds: " . implode(', ', $umdModulesWithDevelopmentBuilds)
             . ". Please run './console vue:build " . implode(' ', $umdModulesWithDevelopmentBuilds) . "'.");

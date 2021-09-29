@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Development;
+use Piwik\Filesystem;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -45,6 +46,9 @@ class ComputeJsAssetSize extends ConsoleCommand
 
         $this->checkDevelopmentModeDisabled();
         $this->ensureThirdPartyPluginsActivated();
+        if (!$this->checkUmdModulesAreProductionBuilds()) {
+            return 1;
+        }
 
         $output->writeln("Building and printing sizes of built JS assets...");
 
@@ -249,5 +253,39 @@ class ComputeJsAssetSize extends ConsoleCommand
         $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
 
         $output->writeln("<info>$branchName ($lastCommit)</info> <comment>" . ($excludeAngular ? '(without angularjs)' : '') . "</comment>");
+    }
+
+    private function checkUmdModulesAreProductionBuilds(OutputInterface $output)
+    {
+        $umdModulesWithDevelopmentBuilds = self::findAnyUmdModulesWithDevelopmentBuilds();
+        if (!empty($umdModulesWithDevelopmentBuilds)) {
+            $command = './console vue:build ' . implode(' ', $umdModulesWithDevelopmentBuilds);
+            $output->writeln("Found some UMD modules built for development, please run '$command' and before running this command.");
+            return false;
+        }
+        return true;
+    }
+
+    public static function findAnyUmdModulesWithDevelopmentBuilds()
+    {
+        $strToLookFor = 'eval("__webpack_require__';
+
+        $umdModulesWithDevelopmentBuilds = [];
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', 'vue/dist/*.umd*.js');
+        foreach ($files as $filePath) {
+            $content = file_get_contents($filePath);
+
+            $plugin = substr($filePath, strlen(PIWIK_INCLUDE_PATH . '/plugins/'));
+            $plugin = substr($plugin, 0, strpos($plugin, '/'));
+
+            if (strpos($content, $strToLookFor) !== false) {
+                $umdModulesWithDevelopmentBuilds[] = $plugin;
+            }
+        }
+
+        $umdModulesWithDevelopmentBuilds = array_unique($umdModulesWithDevelopmentBuilds);
+
+        return $umdModulesWithDevelopmentBuilds;
     }
 }
