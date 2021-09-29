@@ -394,3 +394,6 @@
 .icon-new_releases:before {
   content: "\e902";
 }
+.icon-notifications_on:before {
+  content: "\e903";
+}

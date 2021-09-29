@@ -456,6 +456,7 @@ class Model
             'date_registered'  => $dateRegistered,
             'superuser_access' => 0,
             'ts_password_modified' => Date::now()->getDatetime(),
+            'ts_changes_viewed' => null
         );
 
         $db = $this->getDb();

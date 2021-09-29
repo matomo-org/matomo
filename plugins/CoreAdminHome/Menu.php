@@ -14,6 +14,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreHome;
+use Piwik\Plugins\UsersManager\Model AS UsersModel;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -50,10 +51,19 @@ class Menu extends \Piwik\Plugin\Menu
         $url = $this->urlForModuleAction('CoreAdminHome', 'home');
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
-        if (!Piwik::isUserIsAnonymous() && count(\Piwik\Plugins\CoreHome\Controller::getNewFeatures()) > 0) {
-            $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', 'icon-new_releases');
+
+        $changes = \Piwik\Plugins\CoreHome\Controller::getChanges();
+        if (!Piwik::isUserIsAnonymous() && count($changes['changes']) > 0) {
+
+            $model = new UsersModel();
+            $user = $model->getUser(Piwik::getCurrentUserLogin());
+
+            $icon = (isset($user['ts_changes_viewed']) && $user['ts_changes_viewed'] > $changes['latestDate'].' 00:00:00'
+                     ? 'icon-reporting-actions' : 'icon-notifications_on');
+
+            $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', $icon);
             $menu->addItem('CoreAdminHome_WhatIsNew', null, '', 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
-                      'icon-new_releases',false, 'matomo-what-is-new');
+                      $icon,false, 'matomo-what-is-new');
         }
     }
 

@@ -314,9 +314,9 @@ class Controller extends ControllerAdmin
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();
 
-        $newFeatures = \Piwik\Plugins\CoreHome\Controller::getNewFeatures();
+        $changes = \Piwik\Plugins\CoreHome\Controller::getChanges();
 
-        return $this->renderTemplate('whatisnew', ['newFeatures' => $newFeatures]);
+        return $this->renderTemplate('whatisnew', ['changes' => $changes['changes']]);
 
     }
 
