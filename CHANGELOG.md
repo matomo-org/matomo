@@ -4,6 +4,16 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.6.0
+
+### New Framework
+
+* We have begun introducing Vue 3 as the frontend framework to replace AngularJS. You can learn more about it in [our developer guide.](https://developer.matomo.org/guides/working-with-piwiks-ui)
+
+### Breaking Changes
+
+* With the introduction of Vue 3 we are also dropping support for IE11. All new supported browsers are determined by the browserslist tool. Running `npx browserslist` will list the browsers currently supported.
+
 ## Matomo 4.4.0
 
 ### Breaking Changes
