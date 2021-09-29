@@ -79,14 +79,14 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should show suggested segment values when a segment value input is focused", async function() {
-        await page.click('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input');
+        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('suggested_values');
     });
 
     it("should add an OR condition when clicking on add OR", async function() {
-        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
+        await page.click('.segmentEditorPanel .segment-add-or');
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_or_condition');
