@@ -61,6 +61,7 @@ class GetUsers extends Base
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;
+        $view->config->no_data_message = Piwik::translate('UserId_ThereIsNoDataForThisReport');
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_row_evolution = false;
