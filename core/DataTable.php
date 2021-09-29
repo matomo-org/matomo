@@ -1983,29 +1983,29 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * @return \ArrayIterator|Row[]
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->getRows());
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         $row = $this->getRowFromId($offset);
 
         return false !== $row;
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): Row
     {
         return $this->getRowFromId($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->rows[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->deleteRow($offset);
     }
