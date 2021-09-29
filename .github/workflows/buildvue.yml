@@ -1,0 +1,103 @@
+name: Build Vue files
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Detect branch for PR
+      id: vars
+      run: |
+        PR=$( echo "${{ github.event.comment.issue_url }}" | grep -oE 'issues/([0-9]+)$' | cut -d'/' -f 2 )
+
+        PR_INFO=$( curl \
+                 --request GET \
+                 --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+                 --header 'content-type: application/json' \
+                 --url https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR )
+        REF=$(echo "${PR_INFO}" | jq -r .head.ref)
+        BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
+        STATE=$(echo "${PR_INFO}" | jq -r .state)
+
+        if [[ $STATE == "closed" ]]
+        then
+          echo "Pull Request already closed."
+          exit 0;
+        fi
+
+        if [[ $BASE != $GITHUB_REPOSITORY ]]
+        then
+          echo "It's only possible to update local branches"
+          exit 0;
+        fi
+
+        echo ::set-output name=branch::$REF
+      if: github.event.comment.body == 'build vue'
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0'
+    - name: Setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'npm'
+    - run: npm install
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: Install dependencies
+      run: composer install --prefer-dist
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ steps.vars.outputs.branch }}
+        lfs: false
+      if: steps.vars.outputs.branch != ''
+    - name: Prepare git config
+      run: |
+        cat <<- EOF > $HOME/.netrc
+          machine github.com
+          login $GITHUB_ACTOR
+          password $GITHUB_TOKEN
+          machine api.github.com
+          login $GITHUB_ACTOR
+          password $GITHUB_TOKEN
+        EOF
+        chmod 600 $HOME/.netrc
+        git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config --global user.name "$GITHUB_ACTOR"
+      if: steps.vars.outputs.branch != ''
+    - name: Build Vue Modules
+      run: php ./console vue:build
+      if: steps.vars.outputs.branch != ''
+    - name: Push changes
+      run: |
+        if [[ $( git diff --numstat ) ]]
+        then
+          cd $GITHUB_WORKSPACE
+          git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.map
+          git commit -m "built vue files"
+          git push
+        fi
+      if: steps.vars.outputs.branch != ''
