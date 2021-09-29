@@ -61,7 +61,7 @@ class ApiTest extends SystemTestCase
         // login1 = super user, login2 = some admin access, login4 = only view access
         foreach ($logins as $login => $appendix) {
             $params['token_auth'] = self::$fixture->users[$login]['token'];
-            $xmlFieldsToRemove    = array('date_registered', 'password', 'token_auth', 'ts_password_modified');
+            $xmlFieldsToRemove    = array('date_registered', 'password', 'token_auth', 'ts_password_modified', 'ts_changes_viewed');
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));
         }

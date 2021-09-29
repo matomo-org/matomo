@@ -878,6 +878,7 @@ class API extends \Piwik\Plugin\API
         unset($user['token_auth']);
         unset($user['password']);
         unset($user['ts_password_modified']);
+        unset($user['ts_changes_viewed']);
 
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
