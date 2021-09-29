@@ -123,6 +123,7 @@
         "AtLeastView": "At least view",
         "ManageUsers": "Manage Users",
         "ManageUsersDesc": "Create new users or update the existing users. You can then set their permissions here too.",
+        "ManageUsersAdminDesc": "Create new users or update the existing users. You can then set their permissions here too. Please note that you are logged in as an administrator. This means you only see and manage users that have access to the specific websites where you have \"admin\" permissions. Only a user with super user access can see and manage all users across all websites.",
         "NoAccessWarning": "This user has not been granted access to a website. When they login, they will see an error message. To prevent this, add access to a website below.",
         "BulkActions": "Bulk Actions",
         "SetPermission": "Set Permission",
