@@ -353,6 +353,7 @@ class API extends \Piwik\Plugin\API
                                       ? "Piwik\\Plugins\\MultiSites\\Columns\\Metrics\\EcommerceOnlyEvolutionMetric"
                                       : "Piwik\\Plugins\\CoreHome\\Columns\\Metrics\\EvolutionMetric";
 
+                $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
                     $metricSettings[self::METRIC_RECORD_NAME_KEY],
                     $pastData,

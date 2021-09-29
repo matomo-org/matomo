@@ -46,7 +46,7 @@ class Google implements MetricsProvider
 
     public function fetchIndexedPagesCount($domain)
     {
-        $url = self::SEARCH_URL . urlencode($domain);
+        $url = self::SEARCH_URL . urlencode($domain ?? '');
 
         try {
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
