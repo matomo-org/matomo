@@ -86,6 +86,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should add an OR condition when clicking on add OR", async function() {
+        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
         await page.click('.segmentEditorPanel .segment-add-or');
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
         await page.waitForNetworkIdle();
@@ -144,8 +145,9 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should correctly should show a confirmation when changing segment definition", async function() {
-      await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
-      await page.click('.segmentEditorPanel .editSegmentName');
+        await page.click('.segmentEditorPanel .editSegmentName');
+
+        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
         await page.evaluate(function () {
             $('input.edit_segment_name').val('').change();
         });
