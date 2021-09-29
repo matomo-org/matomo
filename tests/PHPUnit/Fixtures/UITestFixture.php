@@ -325,8 +325,8 @@ class UITestFixture extends SqlDump
             self::createWebsite("2011-01-01 00:00:00", $ecommerce = 1, $siteName = "Site #$i",
                 $siteUrl = "http://site$i.com", 1, null, null,
                 null, null, 0,
-                implode(',', [$this->xssTesting->forTwig('excludedParameter'),
-                              $this->xssTesting->forAngular('excludedParameter'),'sid']));
+                implode(',', [$this->xssTesting->forTwig('excludedparameter'),
+                              $this->xssTesting->forAngular('excludedparameter'),'sid']));
         }
     }
 
