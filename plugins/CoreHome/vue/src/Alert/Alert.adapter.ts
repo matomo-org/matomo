@@ -1,7 +1,7 @@
 import { createApp, ref } from 'vue';
 import Alert from './Alert.vue';
 
-interface ActivityIndicatorAdapterScope extends ng.IScope {
+interface AlertAdapterScope extends ng.IScope {
   severity: string;
 }
 
@@ -16,7 +16,7 @@ export default function alertAdapter(): ng.IDirective {
     compile: function alertAdapterCompile() {
       return {
         post: function alertAdapterPostLink(
-          scope: ActivityIndicatorAdapterScope,
+          scope: AlertAdapterScope,
           element: ng.IAugmentedJQuery,
         ) {
           const clone = element.find('[ng-transclude]');
