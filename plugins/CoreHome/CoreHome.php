@@ -426,7 +426,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_MoreDetails';
-        $translationKeys[] = 'General_Help';
+        $translationKeys[] = 'General_HelpReport';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Name';
         $translationKeys[] = 'General_JsTrackingTag';

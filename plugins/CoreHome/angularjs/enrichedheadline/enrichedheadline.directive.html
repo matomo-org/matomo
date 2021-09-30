@@ -13,7 +13,12 @@
            title="{{ 'CoreHome_ExternalHelp'|translate }}"
            class="helpIcon"><span class="icon-help"></span></a>
 
-        <a ng-if="inlineHelp"
+        <a ng-if="inlineHelp && reportGenerated"
+           title="{{ 'General_HelpReport'|translate }}"
+           ng-click="view.showInlineHelp=!view.showInlineHelp"
+           class="helpIcon" ng-class="{ 'active': view.showInlineHelp }"><span class="icon-info"></span></a>
+
+        <a ng-if="inlineHelp && !reportGenerated"
            title="{{ 'General_Help'|translate }}"
            ng-click="view.showInlineHelp=!view.showInlineHelp"
            class="helpIcon" ng-class="{ 'active': view.showInlineHelp }"><span class="icon-info"></span></a>
@@ -22,7 +27,6 @@
              piwik-rate-feature
              title="{{ featureName }}"></div>
     </span>
-
 
     <div class="inlineHelp" ng-show="view.showInlineHelp">
         <div ng-bind-html="inlineHelp"></div>

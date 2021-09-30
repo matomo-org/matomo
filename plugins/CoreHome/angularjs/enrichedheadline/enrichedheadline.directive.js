@@ -93,7 +93,17 @@
                         attrs.featureName = $.trim(element.find('.title').first().text());
                     }
 
+                    if (scope.reportGenerated && piwikPeriods.parse(piwik.period, piwik.currentDateString).containsToday()) {
+                        element.find('.report-generated').first().tooltip({
+                            track: true,
+                            content: scope.reportGenerated,
+                            items: 'div',
+                            show: false,
+                            hide: false
+                        });
 
+
+                    }
                 };
             }
         };
