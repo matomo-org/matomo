@@ -42,8 +42,6 @@
         var defaults = {
             helpUrl: '',
             editUrl: '',
-            reportGenerated: '',
-            showReportGenerated: '',
         };
 
         return {
@@ -55,7 +53,6 @@
                 reportGenerated: '@?',
                 featureName: '@',
                 inlineHelp: '@?',
-                showReportGenerated: '=?'
             },
             templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
@@ -96,17 +93,7 @@
                         attrs.featureName = $.trim(element.find('.title').first().text());
                     }
 
-                    if (scope.reportGenerated && piwikPeriods.parse(piwik.period, piwik.currentDateString).containsToday()) {
-                        element.find('.report-generated').first().tooltip({
-                            track: true,
-                            content: scope.reportGenerated,
-                            items: 'div',
-                            show: false,
-                            hide: false
-                        });
 
-                        scope.showReportGenerated = '1';
-                    }
                 };
             }
         };
