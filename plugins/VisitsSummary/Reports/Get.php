@@ -90,6 +90,10 @@ class Get extends \Piwik\Plugin\Report
             $view->config->filters[] = function (DataTable $table) use ($view) {
                 $firstRow = $table->getFirstRow();
 
+                if (!$firstRow->getColumn('avg_time_generation')) {
+                    $view->config->removeSparklineMetric(array('avg_time_generation'));
+                }
+
                 if (($firstRow->getColumn('nb_pageviews')
                     + $firstRow->getColumn('nb_downloads')
                     + $firstRow->getColumn('nb_outlinks')) == 0
