@@ -1,0 +1,82 @@
+export function format(date) {
+  return $.datepicker.formatDate('yy-mm-dd', date);
+}
+
+export function parseDate(strDate) {
+  if (strDate instanceof Date) {
+    return strDate;
+  }
+
+  strDate = decodeURIComponent(strDate);
+
+  if (strDate === 'today'
+    || strDate === 'now'
+  ) {
+    return getToday();
+  }
+
+  if (strDate === 'yesterday'
+    // note: ignoring the 'same time' part since the frontend doesn't care about the time
+    || strDate === 'yesterdaySameTime'
+  ) {
+    const yesterday = getToday();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return yesterday;
+  }
+
+  if (strDate.match(/last[ -]?week/i)) {
+    const lastWeek = getToday();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    return lastWeek;
+  }
+
+  if (strDate.match(/last[ -]?month/i)) {
+    const lastMonth = getToday();
+    lastMonth.setDate(1);
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    return lastMonth;
+  }
+
+  if (strDate.match(/last[ -]?year/i)) {
+    const lastYear = getToday();
+    lastYear.setFullYear(lastYear.getFullYear() - 1);
+    return lastYear;
+  }
+
+  try {
+    return $.datepicker.parseDate('yy-mm-dd', strDate);
+  } catch (err) {
+    // angular swallows this error, so manual console log here
+    console.error(err.message || err);
+    throw err;
+  }
+}
+
+export function getToday() {
+  const date = new Date(Date.now());
+
+  // undo browser timezone
+  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+  // apply piwik site timezone (if it exists)
+  date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
+
+  // get rid of hours/minutes/seconds/etc.
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
+}
+
+export function todayIsInRange(dateRange) {
+  if (!dateRange.isArray && dateRange.length !== 2) {
+    return false;
+  }
+
+  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
+    return true;
+  }
+
+  return false;
+}
