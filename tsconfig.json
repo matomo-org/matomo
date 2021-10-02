@@ -18,7 +18,9 @@
     ],
     "types": [
       "webpack-env",
-      "angular"
+      "angular",
+      "jquery",
+      "jqueryui",
     ],
     "paths": {
       "@/*": [
@@ -33,7 +35,6 @@
     ]
   },
   "include": [
-    "../../CoreVue/types/index.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

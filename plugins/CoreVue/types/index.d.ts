@@ -5,4 +5,6 @@ declare global {
   }
 
   let piwik: PiwikGlobal;
+
+  function _pk_translate(translationStringId: string, values: string[]): string;
 }

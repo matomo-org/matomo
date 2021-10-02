@@ -135,7 +135,7 @@ if (typeof window !== 'undefined') {
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
 function translate(translationStringId, values = []) {
-  return window._pk_translate(translationStringId, values); // eslint-disable-line
+  return _pk_translate(translationStringId, values);
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -200,7 +200,7 @@ class Periods {
   }
 
   getAllLabels() {
-    return [].concat(this.periodOrder);
+    return Array().concat(this.periodOrder);
   }
 
   get(strPeriod) {

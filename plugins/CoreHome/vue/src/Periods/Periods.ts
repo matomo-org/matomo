@@ -42,7 +42,7 @@
  *       custom UI for a custom period.
  */
 class Periods {
-  periods = {};
+  periods: {[name: string]: any} = {};
 
   periodOrder: string[] = [];
 
@@ -55,11 +55,11 @@ class Periods {
     this.periodOrder.push(name);
   }
 
-  getAllLabels() {
-    return [].concat(this.periodOrder);
+  getAllLabels(): string[] {
+    return Array<string>().concat(this.periodOrder);
   }
 
-  get(strPeriod: string) {
+  get(strPeriod: string): any {
     const periodClass = this.periods[strPeriod];
     if (!periodClass) {
       throw new Error(`Invalid period label: ${strPeriod}`);
@@ -71,7 +71,7 @@ class Periods {
     return this.get(strPeriod).parse(strDate);
   }
 
-  isRecognizedPeriod(strPeriod) {
+  isRecognizedPeriod(strPeriod: string) {
     return !!this.periods[strPeriod];
   }
 }
