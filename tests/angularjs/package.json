@@ -19,7 +19,6 @@
     "karma-phantomjs-launcher": ">= 0.1.2",
     "karma-spec-reporter": ">= 0.0.12",
     "mocha": "1.18.2",
-    "phantomjs": ">= 1.9.7-1",
     "puppeteer": "^10.4.0"
   },
   "engines": {
