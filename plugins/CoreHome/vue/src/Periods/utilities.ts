@@ -70,7 +70,7 @@ export function parseDate(date: string|Date): Date {
 }
 
 export function todayIsInRange(dateRange: Date[]): boolean {
-  if (!dateRange['isArray'] && dateRange.length !== 2) { // eslint-disable-line
+  if (dateRange.length !== 2) {
     return false;
   }
 

@@ -10,9 +10,24 @@ import './Week';
 import './Month';
 import './Year';
 
-test('CoreHome/Periods', () => {
+describe('CoreHome/Periods', () => {
+  function clearDate(strDate: Date|string):Date {
+    const date = new Date(strDate);
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+
+    return date;
+  }
+
   it('should get daterange for day', () => {
-    expect(true).toBe(true);
+    const day = '2021-03-10';
+
+    const result = Periods.parse('day', day).getDateRange();
+    const expected = [clearDate(day), clearDate(day)];
+
+    expect(result).toEqual(expected);
   })
 
   // TODO
@@ -21,30 +36,11 @@ test('CoreHome/Periods', () => {
 /*
         var piwikPeriods;
 
-        function clearDate(date)
-        {
-            var date = new Date(date);
-            date.setHours(0);
-            date.setMinutes(0);
-            date.setSeconds(0);
-            date.setMilliseconds(0);
-
-            return date;
-        }
 
         beforeEach(module('piwikApp.service'));
         beforeEach(inject(function($injector) {
             piwikPeriods = $injector.get('piwikPeriods');
         }));
-
-        it('should get daterange for day', function() {
-            var day = '2021-03-10';
-
-            var result = piwikPeriods.parse('day', day).getDateRange();
-            var expected = [clearDate(day), clearDate(day)];
-
-            expect(result).to.eql(expected);
-        });
 
         it('should get daterange for week', function() {
             var day = '2021-03-10';
