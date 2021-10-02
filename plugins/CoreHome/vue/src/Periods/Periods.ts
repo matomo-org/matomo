@@ -41,14 +41,14 @@
  *       view/edit aren't, since there is currently no way to use a
  *       custom UI for a custom period.
  */
-class Periods
-{
+class Periods {
   periods = {};
-  periodOrder = [];
+
+  periodOrder: string[] = [];
 
   addCustomPeriod<T>(name: string, periodClass: T) {
     if (this.periods[name]) {
-      throw new Error('The "' + name + '" period already exists! It cannot be overridden.');
+      throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
     }
 
     this.periods[name] = periodClass;
@@ -62,7 +62,7 @@ class Periods
   get(strPeriod: string) {
     const periodClass = this.periods[strPeriod];
     if (!periodClass) {
-      throw new Error('Invalid period label: ' + strPeriod);
+      throw new Error(`Invalid period label: ${strPeriod}`);
     }
     return periodClass;
   }
@@ -72,7 +72,7 @@ class Periods
   }
 
   isRecognizedPeriod(strPeriod) {
-    return !! this.periods[strPeriod];
+    return !!this.periods[strPeriod];
   }
 }
 

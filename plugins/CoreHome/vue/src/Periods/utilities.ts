@@ -1,13 +1,30 @@
-export function format(date) {
+export function format(date: Date): string {
   return $.datepicker.formatDate('yy-mm-dd', date);
 }
 
-export function parseDate(strDate) {
-  if (strDate instanceof Date) {
-    return strDate;
+export function getToday(): Date {
+  const date = new Date(Date.now());
+
+  // undo browser timezone
+  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+  // apply piwik site timezone (if it exists)
+  date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
+
+  // get rid of hours/minutes/seconds/etc.
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
+}
+
+export function parseDate(date: string|Date): Date {
+  if (date instanceof Date) {
+    return date;
   }
 
-  strDate = decodeURIComponent(strDate);
+  const strDate = decodeURIComponent(date);
 
   if (strDate === 'today'
     || strDate === 'now'
@@ -52,25 +69,8 @@ export function parseDate(strDate) {
   }
 }
 
-export function getToday() {
-  const date = new Date(Date.now());
-
-  // undo browser timezone
-  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
-
-  // apply piwik site timezone (if it exists)
-  date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
-
-  // get rid of hours/minutes/seconds/etc.
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  return date;
-}
-
-export function todayIsInRange(dateRange) {
-  if (!dateRange.isArray && dateRange.length !== 2) {
+export function todayIsInRange(dateRange: Date[]): boolean {
+  if (!dateRange['isArray'] && dateRange.length !== 2) { // eslint-disable-line
     return false;
   }
 

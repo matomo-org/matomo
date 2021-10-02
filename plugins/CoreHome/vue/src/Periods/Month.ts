@@ -1,5 +1,5 @@
-import translate from "../translate";
-import Periods from "./Periods";
+import translate from '../translate';
+import Periods from './Periods';
 import { parseDate, todayIsInRange } from './utilities';
 
 export default class MonthPeriod {
@@ -9,16 +9,15 @@ export default class MonthPeriod {
     return new MonthPeriod(parseDate(strDate));
   }
 
-  static getDisplayText() {
+  static getDisplayText(): string {
     return translate('Intl_PeriodMonth');
   }
 
-  getPrettyString() {
-    return translate('Intl_Month_Long_StandAlone_' + (this.dateInPeriod.getMonth() + 1)) + ' ' +
-      this.dateInPeriod.getFullYear();
+  getPrettyString(): string {
+    return translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1} ${this.dateInPeriod.getFullYear()}`);
   }
 
-  getDateRange() {
+  getDateRange(): Date[] {
     const startMonth = new Date(this.dateInPeriod.getTime());
     startMonth.setDate(1);
 
@@ -30,7 +29,7 @@ export default class MonthPeriod {
     return [startMonth, endMonth];
   }
 
-  containsToday() {
+  containsToday(): boolean {
     return todayIsInRange(this.getDateRange());
   }
 }

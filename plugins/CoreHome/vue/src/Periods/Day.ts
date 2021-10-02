@@ -1,5 +1,5 @@
-import translate from "../translate";
-import Periods from "./Periods";
+import translate from '../translate';
+import Periods from './Periods';
 import { parseDate, format, todayIsInRange } from './utilities';
 
 export default class DayPeriod {
@@ -9,19 +9,19 @@ export default class DayPeriod {
     return new DayPeriod(parseDate(strDate));
   }
 
-  static getDisplayText() {
+  static getDisplayText(): string {
     return translate('Intl_PeriodDay');
   }
 
-  getPrettyString() {
+  getPrettyString(): string {
     return format(this.dateInPeriod);
   }
 
-  getDateRange() {
+  getDateRange(): Date[] {
     return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
   }
 
-  containsToday() {
+  containsToday(): boolean {
     return todayIsInRange(this.getDateRange());
   }
 }

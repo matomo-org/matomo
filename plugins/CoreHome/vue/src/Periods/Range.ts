@@ -1,34 +1,26 @@
-import translate from "../translate";
-import Periods from "./Periods";
-import { parseDate, format, getToday, todayIsInRange } from './utilities';
+import translate from '../translate';
+import Periods from './Periods';
+import {
+  parseDate,
+  format,
+  getToday,
+  todayIsInRange,
+} from './utilities';
 
-export default class RangePeriod
-{
-  constructor(private startDate: Date, private endDate: Date, childPeriodType: string) {}
+export default class RangePeriod {
+  constructor(private startDate: Date, private endDate: Date, private childPeriodType: string) {}
 
-  parse(strDate, childPeriodType) {
-    childPeriodType = childPeriodType || 'day';
-
-    if (/^previous/.test(strDate)) {
-      const endDate = getLastNRange(childPeriodType, '2').startDate;
-      return getLastNRange(childPeriodType, strDate.substring(8), endDate);
-    } else if (/^last/.test(strDate)) {
-      return getLastNRange(childPeriodType, strDate.substring(4));
-    } else {
-      const parts = decodeURIComponent(strDate).split(',');
-      return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType)
-    }
-
+  static parse(strDate: string, childPeriodType = 'day'): RangePeriod {
     /**
      * Returns a range representing the last N childPeriodType periods, including the current one.
      */
-    function getLastNRange(childPeriodType: string, strAmount: string, endDate?: Date): RangePeriod {
-      const nAmount = Math.max(parseInt(strAmount) - 1, 0);
-      if (isNaN(nAmount)) {
-        throw new Error('Invalid range date: ' + strDate);
+    function getLastNRange(strAmount: string, strEndDate?: Date|string): RangePeriod {
+      const nAmount = Math.max(parseInt(strAmount, 10) - 1, 0);
+      if (Number.isNaN(nAmount)) {
+        throw new Error(`Invalid range date: ${strDate}`);
       }
 
-      endDate = endDate ? parseDate(endDate) : getToday();
+      let endDate = strEndDate ? parseDate(strEndDate) : getToday();
 
       let startDate = new Date(endDate.getTime());
       if (childPeriodType === 'day') {
@@ -41,15 +33,15 @@ export default class RangePeriod
       } else if (childPeriodType === 'year') {
         startDate.setFullYear(startDate.getFullYear() - nAmount);
       } else {
-        throw new Error("Unknown period type '" + childPeriodType + "'.");
+        throw new Error(`Unknown period type '${childPeriodType}'.`);
       }
 
       if (childPeriodType !== 'day') {
         const startPeriod = Periods.periods[childPeriodType].parse(startDate);
         const endPeriod = Periods.periods[childPeriodType].parse(endDate);
 
-        startDate = startPeriod.getDateRange()[0];
-        endDate = endPeriod.getDateRange()[1];
+        [startDate] = startPeriod.getDateRange();
+        [, endDate] = endPeriod.getDateRange();
       }
 
       const firstWebsiteDate = new Date(1991, 7, 6);
@@ -73,23 +65,35 @@ export default class RangePeriod
 
       return new RangePeriod(startDate, endDate, childPeriodType);
     }
+
+    if (/^previous/.test(strDate)) {
+      const endDate = getLastNRange('2').startDate;
+      return getLastNRange(strDate.substring(8), endDate);
+    }
+
+    if (/^last/.test(strDate)) {
+      return getLastNRange(strDate.substring(4));
+    }
+
+    const parts = decodeURIComponent(strDate).split(',');
+    return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
   }
 
-  static getDisplayText() {
+  static getDisplayText(): string {
     return translate('General_DateRangeInPeriodList');
   }
 
-  getPrettyString() {
-    var start = format(this.startDate);
-    var end = format(this.endDate);
+  getPrettyString(): string {
+    const start = format(this.startDate);
+    const end = format(this.endDate);
     return translate('General_DateRangeFromTo', [start, end]);
   }
 
-  getDateRange() {
+  getDateRange(): Date[] {
     return [this.startDate, this.endDate];
   }
 
-  containsToday() {
+  containsToday(): boolean {
     return todayIsInRange(this.getDateRange());
   }
 }

@@ -12,6 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./plugins/CoreVue/types/index.d.ts",
+    ],
     "types": [
       "webpack-env",
       "angular"

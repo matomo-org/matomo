@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
   "dependencies": {
+    "@types/jquery": "^3.5.6",
+    "@types/jqueryui": "^1.12.16",
     "angular": "^1.8.2",
     "angular-animate": "^1.8.2",
     "angular-cookies": "^1.8.2",

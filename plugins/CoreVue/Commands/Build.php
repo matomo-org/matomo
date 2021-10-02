@@ -52,6 +52,9 @@ class Build extends ConsoleCommand
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
         }
 
+        // remove webpack cache since it can result in strange builds if present
+        Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
+
         $failed = $this->build($output, $plugins, $watch);
         return $failed;
     }
