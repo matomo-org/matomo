@@ -10,69 +10,73 @@ import {
 export default class RangePeriod {
   constructor(private startDate: Date, private endDate: Date, private childPeriodType: string) {}
 
-  static parse(strDate: string, childPeriodType = 'day'): RangePeriod {
-    /**
-     * Returns a range representing the last N childPeriodType periods, including the current one.
-     */
-    function getLastNRange(strAmount: string, strEndDate?: Date|string): RangePeriod {
-      const nAmount = Math.max(parseInt(strAmount, 10) - 1, 0);
-      if (Number.isNaN(nAmount)) {
-        throw new Error(`Invalid range date: ${strDate}`);
-      }
-
-      let endDate = strEndDate ? parseDate(strEndDate) : getToday();
-
-      let startDate = new Date(endDate.getTime());
-      if (childPeriodType === 'day') {
-        startDate.setDate(startDate.getDate() - nAmount);
-      } else if (childPeriodType === 'week') {
-        startDate.setDate(startDate.getDate() - (nAmount * 7));
-      } else if (childPeriodType === 'month') {
-        startDate.setDate(1);
-        startDate.setMonth(startDate.getMonth() - nAmount);
-      } else if (childPeriodType === 'year') {
-        startDate.setFullYear(startDate.getFullYear() - nAmount);
-      } else {
-        throw new Error(`Unknown period type '${childPeriodType}'.`);
-      }
-
-      if (childPeriodType !== 'day') {
-        const startPeriod = Periods.periods[childPeriodType].parse(startDate);
-        const endPeriod = Periods.periods[childPeriodType].parse(endDate);
-
-        [startDate] = startPeriod.getDateRange();
-        [, endDate] = endPeriod.getDateRange();
-      }
-
-      const firstWebsiteDate = new Date(1991, 7, 6);
-      if (startDate - firstWebsiteDate < 0) {
-        switch (childPeriodType) {
-          case 'year':
-            startDate = new Date(1992, 0, 1);
-            break;
-          case 'month':
-            startDate = new Date(1991, 8, 1);
-            break;
-          case 'week':
-            startDate = new Date(1991, 8, 12);
-            break;
-          case 'day':
-          default:
-            startDate = firstWebsiteDate;
-            break;
-        }
-      }
-
-      return new RangePeriod(startDate, endDate, childPeriodType);
+  /**
+   * Returns a range representing the last N childPeriodType periods, including the current one.
+   */
+  static getLastNRange(
+    childPeriodType: string,
+    strAmount: string,
+    strEndDate?: Date|string,
+  ): RangePeriod {
+    const nAmount = Math.max(parseInt(strAmount, 10) - 1, 0);
+    if (Number.isNaN(nAmount)) {
+      throw new Error('Invalid range strAmount');
     }
 
+    let endDate = strEndDate ? parseDate(strEndDate) : getToday();
+
+    let startDate = new Date(endDate.getTime());
+    if (childPeriodType === 'day') {
+      startDate.setDate(startDate.getDate() - nAmount);
+    } else if (childPeriodType === 'week') {
+      startDate.setDate(startDate.getDate() - (nAmount * 7));
+    } else if (childPeriodType === 'month') {
+      startDate.setDate(1);
+      startDate.setMonth(startDate.getMonth() - nAmount);
+    } else if (childPeriodType === 'year') {
+      startDate.setFullYear(startDate.getFullYear() - nAmount);
+    } else {
+      throw new Error(`Unknown period type '${childPeriodType}'.`);
+    }
+
+    if (childPeriodType !== 'day') {
+      const startPeriod = Periods.periods[childPeriodType].parse(startDate);
+      const endPeriod = Periods.periods[childPeriodType].parse(endDate);
+
+      [startDate] = startPeriod.getDateRange();
+      [, endDate] = endPeriod.getDateRange();
+    }
+
+    const firstWebsiteDate = new Date(1991, 7, 6);
+    if (startDate - firstWebsiteDate < 0) {
+      switch (childPeriodType) {
+        case 'year':
+          startDate = new Date(1992, 0, 1);
+          break;
+        case 'month':
+          startDate = new Date(1991, 8, 1);
+          break;
+        case 'week':
+          startDate = new Date(1991, 8, 12);
+          break;
+        case 'day':
+        default:
+          startDate = firstWebsiteDate;
+          break;
+      }
+    }
+
+    return new RangePeriod(startDate, endDate, childPeriodType);
+  }
+
+  static parse(strDate: string, childPeriodType = 'day'): RangePeriod {
     if (/^previous/.test(strDate)) {
-      const endDate = getLastNRange('2').startDate;
-      return getLastNRange(strDate.substring(8), endDate);
+      const endDate = RangePeriod.getLastNRange(childPeriodType, '2').startDate;
+      return RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
     }
 
     if (/^last/.test(strDate)) {
-      return getLastNRange(strDate.substring(4));
+      return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
     }
 
     const parts = decodeURIComponent(strDate).split(',');
