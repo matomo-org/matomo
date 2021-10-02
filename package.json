@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "vue-cli-service test:unit",
+    "test": "TZ=UTC vue-cli-service test:unit",
     "eslint": "eslint"
   },
   "repository": {

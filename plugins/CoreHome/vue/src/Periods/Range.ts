@@ -8,17 +8,17 @@ import {
 } from './utilities';
 
 export default class RangePeriod {
-  constructor(private startDate: Date, private endDate: Date, private childPeriodType: string) {}
+  constructor(public readonly startDate: Date, public readonly endDate: Date, public readonly childPeriodType: string) {}
 
   /**
    * Returns a range representing the last N childPeriodType periods, including the current one.
    */
   static getLastNRange(
     childPeriodType: string,
-    strAmount: string,
+    strAmount: string|number,
     strEndDate?: Date|string,
   ): RangePeriod {
-    const nAmount = Math.max(parseInt(strAmount, 10) - 1, 0);
+    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
     if (Number.isNaN(nAmount)) {
       throw new Error('Invalid range strAmount');
     }
@@ -48,7 +48,7 @@ export default class RangePeriod {
     }
 
     const firstWebsiteDate = new Date(1991, 7, 6);
-    if (startDate - firstWebsiteDate < 0) {
+    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
       switch (childPeriodType) {
         case 'year':
           startDate = new Date(1992, 0, 1);
