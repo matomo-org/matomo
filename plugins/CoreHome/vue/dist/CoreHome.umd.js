@@ -398,7 +398,8 @@ class Month_MonthPeriod {
   }
 
   getPrettyString() {
-    return translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1} ${this.dateInPeriod.getFullYear()}`);
+    const month = translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);
+    return `${month} ${this.dateInPeriod.getFullYear()}`;
   }
 
   getDateRange() {
