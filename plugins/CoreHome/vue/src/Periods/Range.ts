@@ -8,7 +8,11 @@ import {
 } from './utilities';
 
 export default class RangePeriod {
-  constructor(public readonly startDate: Date, public readonly endDate: Date, public readonly childPeriodType: string) {}
+  constructor(
+    public readonly startDate: Date,
+    public readonly endDate: Date,
+    public readonly childPeriodType: string,
+  ) {}
 
   /**
    * Returns a range representing the last N childPeriodType periods, including the current one.

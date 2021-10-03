@@ -5,6 +5,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+interface Period {
+  getPrettyString(): string;
+  getDateRange(): Date[];
+  containsToday(): boolean;
+}
+
+interface PeriodClass {
+  parse(strDate: string|Date): Period;
+  getDisplayText(): string;
+}
+
 /**
  * Piwik period management service for the frontend.
  *
@@ -42,11 +53,11 @@
  *       custom UI for a custom period.
  */
 class Periods {
-  periods: {[name: string]: any} = {};
+  periods: {[name: string]: PeriodClass} = {};
 
   periodOrder: string[] = [];
 
-  addCustomPeriod<T>(name: string, periodClass: T) {
+  addCustomPeriod(name: string, periodClass: PeriodClass) {
     if (this.periods[name]) {
       throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
     }
@@ -59,7 +70,7 @@ class Periods {
     return Array<string>().concat(this.periodOrder);
   }
 
-  get(strPeriod: string): any {
+  get(strPeriod: string): PeriodClass {
     const periodClass = this.periods[strPeriod];
     if (!periodClass) {
       throw new Error(`Invalid period label: ${strPeriod}`);
@@ -67,11 +78,11 @@ class Periods {
     return periodClass;
   }
 
-  parse(strPeriod: string, strDate: string) {
+  parse(strPeriod: string, strDate: string): Period {
     return this.get(strPeriod).parse(strDate);
   }
 
-  isRecognizedPeriod(strPeriod: string) {
+  isRecognizedPeriod(strPeriod: string): boolean {
     return !!this.periods[strPeriod];
   }
 }

@@ -287,8 +287,7 @@ function parseDate(date) {
   }
 }
 function todayIsInRange(dateRange) {
-  if (!dateRange['isArray'] && dateRange.length !== 2) {
-    // eslint-disable-line
+  if (dateRange.length !== 2) {
     return false;
   }
 
@@ -483,7 +482,7 @@ class Range_RangePeriod {
 
 
   static getLastNRange(childPeriodType, strAmount, strEndDate) {
-    const nAmount = Math.max(parseInt(strAmount, 10) - 1, 0);
+    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
 
     if (Number.isNaN(nAmount)) {
       throw new Error('Invalid range strAmount');
@@ -514,7 +513,7 @@ class Range_RangePeriod {
 
     const firstWebsiteDate = new Date(1991, 7, 6);
 
-    if (startDate - firstWebsiteDate < 0) {
+    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
       switch (childPeriodType) {
         case 'year':
           startDate = new Date(1992, 0, 1);
