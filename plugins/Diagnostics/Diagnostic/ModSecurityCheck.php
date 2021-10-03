@@ -37,9 +37,9 @@ class ModSecurityCheck implements Diagnostic
         $comment = sprintf($this->translator->translate('Installation_SystemCheckModSecurityHelp'),
           $this->translator->translate('Installation_SystemCheckModSecurityOff'),
           "<a href='https://matomo.org/faq/troubleshooting/faq_100/' target='_blank'>FAQ</a>");
-
         // mod security is detected
-        if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
+
+        if ($this->checkModSecurity()) {
             $comment = sprintf($this->translator->translate('Installation_SystemCheckModSecurityHelp'),
               $this->translator->translate('Installation_SystemCheckModSecurityOn'),
               "<a href='https://matomo.org/faq/troubleshooting/faq_100/' target='_blank'>FAQ</a>");
@@ -49,5 +49,35 @@ class ModSecurityCheck implements Diagnostic
 
 
         return array(DiagnosticResult::singleResult($label, $status, $comment));
+    }
+
+    private function checkModSecurity()
+    {
+        // check sql injection
+        $url = $_SERVER['SERVER_NAME'] . "/matomo.php?q=\'1%20OR%201=1";
+        $ch = curl_init();
+        // set some cURL options
+        $ret = curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_setopt($ch, CURLOPT_HEADER, 1);
+        $ret = curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        $ret = curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $ret = curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+// execute
+        $ret = curl_exec($ch);
+
+        if (empty($ret)) {
+            // some kind of an error happened
+            curl_close($ch); // close cURL handler
+        } else {
+            $info = curl_getinfo($ch);
+            curl_close($ch); // close cURL handler
+
+            if ($info['http_code'] == 403) {
+                return true;
+            }
+        }
+        return false;
+
     }
 }
