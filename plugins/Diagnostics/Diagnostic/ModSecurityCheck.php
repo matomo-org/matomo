@@ -7,10 +7,7 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Config;
-use Piwik\Filechecks;
-use Piwik\Http;
-use Piwik\SettingsServer;
+use Piwik\Plugins\CoreUpdater;
 use Piwik\Translation\Translator;
 
 /**
@@ -54,28 +51,20 @@ class ModSecurityCheck implements Diagnostic
     private function checkModSecurity()
     {
         // check sql injection
-        $url = $_SERVER['SERVER_NAME'] . "/matomo.php?q=\'1%20OR%201=1";
-        $ch = curl_init();
+        $protocol = CoreUpdater\Controller::isUpdatingOverHttps() ? 'https://' : 'http://';
+        $url = $protocol . $_SERVER['SERVER_NAME'] . "/matomo.php?q=\'1%20OR%201=1";
+
+        $ch = curl_init($url);
         // set some cURL options
-        $ret = curl_setopt($ch, CURLOPT_URL, $url);
-        $ret = curl_setopt($ch, CURLOPT_HEADER, 1);
-        $ret = curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        $ret = curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        $ret = curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
-// execute
-        $ret = curl_exec($ch);
+        curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch); // close cURL handler
 
-        if (empty($ret)) {
-            // some kind of an error happened
-            curl_close($ch); // close cURL handler
-        } else {
-            $info = curl_getinfo($ch);
-            curl_close($ch); // close cURL handler
-
-            if ($info['http_code'] == 403) {
-                return true;
-            }
+        if ($info['http_code'] === 403) {
+            return true;
         }
         return false;
 
