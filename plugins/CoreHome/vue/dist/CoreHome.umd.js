@@ -114,6 +114,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ activityIndicatorAdapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
+__webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ alertAdapter; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -217,7 +218,83 @@ function activityIndicatorAdapter() {
 }
 activityIndicatorAdapter.$inject = [];
 angular.module('piwikApp').directive('piwikActivityIndicator', activityIndicatorAdapter);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c4d43d96
+
+function Alertvue_type_template_id_c4d43d96_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", {
+      [`alert-${_ctx.severity}`]: true
+    }])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c4d43d96
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    severity: {
+      type: String,
+      required: true
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
+
+
+
+Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c4d43d96_render
+
+/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
+
+
+function alertAdapter() {
+  return {
+    restrict: 'A',
+    transclude: true,
+    scope: {
+      severity: '@piwikAlert'
+    },
+    template: '<div ng-transclude/>',
+    compile: function alertAdapterCompile() {
+      return {
+        post: function alertAdapterPostLink(scope, element) {
+          const clone = element.find('[ng-transclude]');
+          const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
+            template: '<alert :severity="severity"><div ref="transcludeTarget"/></alert>',
+
+            data() {
+              return {
+                severity: scope.severity
+              };
+            },
+
+            setup() {
+              const transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+              return {
+                transcludeTarget
+              };
+            }
+
+          });
+          app.component('alert', Alert);
+          const vm = app.mount(element[0]);
+          scope.$watch('severity', newValue => {
+            vm.severity = newValue;
+          });
+          $(vm.transcludeTarget).append(clone);
+        }
+      };
+    }
+  };
+}
+alertAdapter.$inject = [];
+angular.module('piwikApp').directive('piwikAlert', alertAdapter);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
+
 
 
 
