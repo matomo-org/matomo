@@ -14,4 +14,7 @@ echo "Running vue tests"
 echo ""
 
 cd ../..
+ls node_modules
+ls node_modules/.bin
+ls node_modules/@vue/cli-service
 npm test
