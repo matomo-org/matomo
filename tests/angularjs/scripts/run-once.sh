@@ -13,5 +13,5 @@ echo ""
 echo "Running vue tests"
 echo ""
 
-cd ../../..
+cd ../..
 npm test
