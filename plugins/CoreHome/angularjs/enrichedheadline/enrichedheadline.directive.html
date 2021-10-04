@@ -18,11 +18,6 @@
            ng-click="view.showInlineHelp=!view.showInlineHelp"
            class="helpIcon" ng-class="{ 'active': view.showInlineHelp }"><span class="icon-info"></span></a>
 
-        <a ng-if="inlineHelp && !reportGenerated"
-           title="{{ 'General_Help'|translate }}"
-           ng-click="view.showInlineHelp=!view.showInlineHelp"
-           class="helpIcon" ng-class="{ 'active': view.showInlineHelp }"><span class="icon-info"></span></a>
-
         <div class="ratingIcons"
              piwik-rate-feature
              title="{{ featureName }}"></div>
