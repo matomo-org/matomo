@@ -26,6 +26,10 @@ use Piwik\View;
 class VisitorDetails extends VisitorDetailsAbstract
 {
     const CATEGORY_COUNT = 5;
+    const DEFAULT_LIFETIME_STAT = array(
+            'lifeTimeRevenue' => 0,
+            'lifeTimeConversions' => 0,
+            'lifeTimeEcommerceItems' => 0);
 
     public function extendVisitorDetails(&$visitor)
     {
@@ -131,12 +135,15 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
         $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
-        $lifeTimeStats = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
-        $lifeTimeStatsByGoal = array_reduce($lifeTimeStats, function ($carry, $statRow){
-            $carry[$statRow['idgoal']] = $statRow;
+        $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
+
+        $lifeTimeStatsByGoal = array_reduce($lifeTimeStats, function ($carry, $statRow) use ($defaultStats) {
+            $idgoal = $statRow['idgoal'];
+            $carry[$idgoal] = array_merge($carry[$idgoal], $statRow);
             return $carry;
-        },[]);
+        },$defaultStats);
 
         $ecommerceOrders = $lifeTimeStatsByGoal[GoalManager::IDGOAL_ORDER];
         $abandonedCarts = $lifeTimeStatsByGoal[GoalManager::IDGOAL_CART];
