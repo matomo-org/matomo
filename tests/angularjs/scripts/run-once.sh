@@ -14,4 +14,8 @@ echo "Running vue tests"
 echo ""
 
 cd ../..
+npm install
+ls node_modules
+ls node_modules/@vue
+ls node_modules/.bin
 npm test
