@@ -36,6 +36,7 @@
     ]
   },
   "include": [
+    "./plugins/CoreVue/types/index.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
