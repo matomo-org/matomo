@@ -13,8 +13,8 @@
            title="{{ 'CoreHome_ExternalHelp'|translate }}"
            class="helpIcon"><span class="icon-help"></span></a>
 
-        <a ng-if="inlineHelp && reportGenerated"
-           title="{{ 'General_HelpReport'|translate }}"
+        <a ng-if="inlineHelp"
+           title="{{ (reportGenerated ? 'General_HelpReport' : 'General_Help' )|translate }}"
            ng-click="view.showInlineHelp=!view.showInlineHelp"
            class="helpIcon" ng-class="{ 'active': view.showInlineHelp }"><span class="icon-info"></span></a>
 
