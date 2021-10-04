@@ -21,8 +21,7 @@
       "angular",
       "jquery",
       "jqueryui",
-      "jest",
-      "./plugins/CoreVue/types/index.d.ts"
+      "jest"
     ],
     "paths": {
       "@/*": [
@@ -37,11 +36,10 @@
     ]
   },
   "include": [
+    "./plugins/CoreVue/types/index.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules"
