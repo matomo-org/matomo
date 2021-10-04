@@ -13,6 +13,8 @@ echo ""
 echo "Running vue tests"
 echo ""
 
+cd ../..
+
 if ! [[ -z "$TRAVIS_BUILD_ID" ]]; then
   source ~/.nvm/nvm.sh
   nvm use 14
@@ -22,5 +24,4 @@ if ! [[ -z "$TRAVIS_BUILD_ID" ]]; then
   ./node_modules/.bin/tsc -v
 fi
 
-cd ../..
 npm test
