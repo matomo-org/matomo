@@ -130,11 +130,16 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
+        $lifeTimeStats = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
-        $sql            = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $lifeTimeStatsByGoal = array_reduce($lifeTimeStats, function ($carry, $statRow){
+            $carry[$statRow['idgoal']] = $statRow;
+            return $carry;
+        },[]);
+
+        $ecommerceOrders = $lifeTimeStatsByGoal[GoalManager::IDGOAL_ORDER];
+        $abandonedCarts = $lifeTimeStatsByGoal[GoalManager::IDGOAL_CART];
 
         return array(
             'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
@@ -148,12 +153,14 @@ class VisitorDetails extends VisitorDetailsAbstract
 
 
     /**
-     * @param $ecommerceIdGoal
+     * Returns and SQL string that queries for `lifeTimeRevenue`, `lifeTimeConversions`, and `lifeTimeEcommerceItems` grouped by
+     * `idgoal` for abandoned carts and orders.
      * @return string
      */
-    protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal($ecommerceIdGoal)
+    protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
     {
         $sql = "SELECT
+                    idgoal,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
                     COUNT(*) as lifeTimeConversions,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
@@ -163,7 +170,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 					WHERE
 					        log_visit.idsite = ?
 					    AND log_visit.idvisitor = ?
-						AND log_conversion.idgoal = " . $ecommerceIdGoal . "
+						AND log_conversion.idgoal IN ( " . GoalManager::IDGOAL_CART . ", " . GoalManager::IDGOAL_ORDER . " )
+                    GROUP BY idgoal
         ";
         return $sql;
     }
