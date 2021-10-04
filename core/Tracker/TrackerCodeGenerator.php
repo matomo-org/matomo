@@ -46,6 +46,8 @@ class TrackerCodeGenerator
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @param bool $trackNoScript
+     * @param bool $crossDomain
+     * @param bool $excludedQueryParams
      * @return string Javascript code.
      */
     public function generate(
@@ -61,7 +63,8 @@ class TrackerCodeGenerator
         $doNotTrack = false,
         $disableCookies = false,
         $trackNoScript = false,
-        $crossDomain = false
+        $crossDomain = false,
+        $excludedQueryParams = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
 
@@ -138,6 +141,16 @@ class TrackerCodeGenerator
         if ($doNotTrack) {
             $options .= '  _paq.push(["setDoNotTrack", true]);' . "\n";
         }
+
+        // Add any excluded query parameters to the tracker options
+        if ($excludedQueryParams) {
+
+            if (!is_array($excludedQueryParams)) {
+                $excludedQueryParams = explode(',',$excludedQueryParams);
+            }
+            $options .= '  _paq.push(["setExcludedQueryParams", '.json_encode($excludedQueryParams).']);'."\n";
+        }
+
         if ($disableCookies) {
             $options .= '  _paq.push(["disableCookies"]);' . "\n";
         }
