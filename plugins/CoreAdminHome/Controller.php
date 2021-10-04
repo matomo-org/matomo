@@ -18,6 +18,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\CoreHome\ChangesHelper;
 use Piwik\Plugins\CoreHome\CoreHome;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
@@ -314,7 +315,7 @@ class Controller extends ControllerAdmin
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();
 
-        $changes = \Piwik\Plugins\CoreHome\Controller::getChanges();
+        $changes = ChangesHelper::getChanges();
 
         return $this->renderTemplate('whatisnew', ['changes' => $changes['changes']]);
 

@@ -14,6 +14,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreHome;
+use Piwik\Plugins\CoreHome\ChangesHelper;
 use Piwik\Plugins\UsersManager\Model AS UsersModel;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -52,8 +53,8 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
 
-        $changes = \Piwik\Plugins\CoreHome\Controller::getChanges();
-        if (!Piwik::isUserIsAnonymous() && count($changes['changes']) > 0) {
+        $changes = ChangesHelper::getChanges();
+        if (!Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess() && count($changes['changes']) > 0) {
 
             $model = new UsersModel();
             $user = $model->getUser(Piwik::getCurrentUserLogin());
