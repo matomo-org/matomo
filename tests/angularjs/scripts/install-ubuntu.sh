@@ -2,9 +2,11 @@
 DIR=`dirname $0`
 source $DIR/../../travis/travis-helper.sh
 
-source ~/.nvm/nvm.sh
-nvm install 14 && nvm alias default 14 && nvm use default
-node --version
+if [! [ -z "$TRAVIS_BUILD_ID" ] ]; then
+  source ~/.nvm/nvm.sh
+  nvm install 14 && nvm alias default 14 && nvm use default
+  node --version
+fi
 
 cd ..
 npm config set loglevel error

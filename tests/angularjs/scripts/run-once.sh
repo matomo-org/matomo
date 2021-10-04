@@ -13,5 +13,11 @@ echo ""
 echo "Running vue tests"
 echo ""
 
+if [! [ -z "$TRAVIS_BUILD_ID" ] ]; then
+  source ~/.nvm/nvm.sh
+  nvm use 14
+  node --version
+fi
+
 cd ../..
 npm test
