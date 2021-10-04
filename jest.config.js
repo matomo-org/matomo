@@ -1,9 +1,3 @@
-function getTsConfigJson() {
-  const config = require('./tsconfig.json').compilerOptions;
-  config.types.push("jest");
-  return config;
-}
-
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
   transform: {
@@ -15,7 +9,7 @@ module.exports = {
   ],
   globals: {
     'ts-jest': {
-      tsconfig: getTsConfigJson(),
+      tsconfig: require('./tsconfig.json').compilerOptions,
     },
   },
   setupFilesAfterEnv: ['./tests/angularjs/bootstrap.jest.js'],

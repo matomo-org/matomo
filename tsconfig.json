@@ -20,7 +20,9 @@
       "webpack-env",
       "angular",
       "jquery",
-      "jqueryui"
+      "jqueryui",
+      "jest",
+      "./plugins/CoreVue/types/index.d.ts"
     ],
     "paths": {
       "@/*": [
@@ -35,6 +37,7 @@
     ]
   },
   "include": [
+    "./plugins/CoreVue/types/index.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
