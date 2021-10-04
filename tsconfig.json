@@ -20,8 +20,7 @@
       "webpack-env",
       "angular",
       "jquery",
-      "jqueryui",
-      "jest"
+      "jqueryui"
     ],
     "paths": {
       "@/*": [
