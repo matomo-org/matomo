@@ -9,7 +9,7 @@ module.exports = {
   ],
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.spec.json',
+      tsconfig: 'tsconfig.spec.json',
     },
   },
   setupFilesAfterEnv: ['./tests/angularjs/bootstrap.jest.js'],
