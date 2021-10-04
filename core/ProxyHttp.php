@@ -283,7 +283,7 @@ class ProxyHttp
         if ($compressionEncoding == 'deflate') {
             $data = gzdeflate($data, 9);
         } elseif ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
-            $data = gzencode($data, 9);
+            $data = self::gzencode($data);
         }
 
         if (false === $data) {
@@ -291,5 +291,10 @@ class ProxyHttp
         }
 
         file_put_contents($compressedFilePath, $data);
+    }
+
+    public static function gzencode($data)
+    {
+        return gzencode($data, 9);
     }
 }

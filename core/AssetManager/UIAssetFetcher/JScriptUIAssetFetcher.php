@@ -9,6 +9,7 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\Development;
 use Piwik\Piwik;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
@@ -43,6 +44,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
              * @param string[] $jsFiles The JavaScript files to load.
              */
              Piwik::postEvent('AssetManager.getJavaScriptFiles', array(&$this->fileLocations), null, $this->plugins);
+
+             $this->addUmdFilesIfDetected($this->plugins);
         }
 
         $this->addThemeFiles();
@@ -78,6 +81,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'node_modules/',
             'libs/',
             'js/',
+            'plugins/CoreVue/polyfills/dist/MatomoPolyfills',
             'piwik.js',
             'matomo.js',
             'plugins/CoreHome/javascripts/require.js',
@@ -89,5 +93,19 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/',
             'tests/',
         );
+    }
+
+    private function addUmdFilesIfDetected($plugins)
+    {
+        foreach ($plugins as $plugin) {
+            $devUmd = "plugins/$plugin/vue/dist/$plugin.umd.js";
+            $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
+
+            if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
+                $this->fileLocations[] = $devUmd;
+            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+                $this->fileLocations[] = $minifiedUmd;
+            }
+        }
     }
 }

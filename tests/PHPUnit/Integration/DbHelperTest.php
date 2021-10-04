@@ -40,7 +40,8 @@ class DbHelperTest extends IntegrationTestCase
     public function test_recordInstallVersion_setsCurrentVersion()
     {
         Option::delete(Db\Schema\Mysql::OPTION_NAME_MATOMO_INSTALL_VERSION);
-        $this->assertNull(DbHelper::getInstallVersion());
+        $this->assertEmpty(DbHelper::getInstallVersion());
+        $this->assertEquals('0', DbHelper::getInstallVersion()); // since php 8.1 this is required
 
         DbHelper::recordInstallVersion();
         $this->assertSame(Version::VERSION, DbHelper::getInstallVersion());
