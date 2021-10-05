@@ -138,6 +138,8 @@ JS;
             'angular-(useragent)',
             'twig-(annotation)',
             'angular-(Annotation note 3)',
+            'twig-(excludedparameter)',
+            'angular-(excludedparameter)',
             'twig-(scheduledreport)',
             'twig-(dimensionname)',
             'twig-(category)',
