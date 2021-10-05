@@ -67,7 +67,8 @@
 
                     var elem = $document.find('#transitionExport').eq(0);
                     if (!elem.length) {
-                        elem = angular.element('<span ng-include="\'plugins/Transitions/angularjs/transitionexporter/transitionexporter.popover.html?cb=' + piwik.cacheBuster + '\'" id="transitionExport"></span>');
+                        elem = angular.element('<span id="transitionExport"></span>');
+                        elem.attr('ng-include', "'plugins/Transitions/angularjs/transitionexporter/transitionexporter.popover.html?cb=' + encodeURIComponent(piwik.cacheBuster) + '\'");
                     }
 
                     $compile(elem)(scope, function (compiled){
