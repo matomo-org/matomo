@@ -47,6 +47,11 @@ class EvolutionMetric extends ProcessedMetric
     private $pastData;
 
     /**
+     * @var DataTable
+     */
+    private $currentData;
+
+    /**
      * The list of labels leading to the current subtable being processed. Used to get the proper subtable in
      * $pastData.
      *
@@ -63,10 +68,11 @@ class EvolutionMetric extends ProcessedMetric
      *                                          $wrapped's name with `'_evolution'` appended.
      * @param int $quotientPrecision The percent's quotient precision.
      */
-    public function __construct($wrapped, DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0)
+    public function __construct($wrapped, DataTable $currentData = null, DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0)
     {
         $this->wrapped = $wrapped;
         $this->pastData = $pastData;
+        $this->currentData = $currentData;
 
         if (empty($evolutionMetricName)) {
             $wrappedName = $this->getWrappedName();
@@ -100,6 +106,9 @@ class EvolutionMetric extends ProcessedMetric
 
         $currentValue = $this->getMetric($row, $columnName);
         $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
+
+        // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
+        $pastValue = ($pastValue * $this->getRatio($this->currentData, $this->pastData));
 
         $dividend = $currentValue - $pastValue;
         $divisor = $pastValue;
@@ -169,5 +178,41 @@ class EvolutionMetric extends ProcessedMetric
             $result = $subtable;
         }
         return $result;
+    }
+
+    /**
+     * Calculate the ratio of time between a past period and current incomplete period
+     *
+     * eg. if today is Thursday at 12:00pm and the past period is a week then the ratio is 0.5, exactly half of the
+     * current incomplete period has passed
+     *
+     * If the current period end is in the past then the ratio will always be 1, since the current period is complete.
+     *
+     * @param DataTable $currentData
+     * @param DataTable $pastData
+     * @return float|int
+     * @throws \Exception
+     */
+    public static function getRatio(DataTable $currentData, DataTable $pastData)
+    {
+        $ratio = 1;
+
+        $p = $pastData->getMetadata('period');
+        $pStart = new \DateTime($p->getDateStart().' 00:00:00');
+        $pEnd = new \DateTime($p->getDateEnd().' 23:59:59');
+
+        $c = $currentData->getMetadata('period');
+        $cStart = new \DateTime($c->getDateStart().' 00:00:00');
+        $cEnd = new \DateTime($c->getDateEnd().' 23:59:59');
+
+        $now = new \DateTime("now");
+        if ($cStart->getTimestamp() <= $now->getTimestamp() && $cEnd->getTimestamp() >= $now->getTimestamp()) {
+            $secsInPastPeriod = $pEnd->getTimestamp() - $pStart->getTimestamp();
+            $secsInCurrentPeriod = $now->getTimestamp() - $cStart->getTimestamp();
+            $ratio = $secsInCurrentPeriod / $secsInPastPeriod;
+        }
+
+        return $ratio;
+
     }
 }
