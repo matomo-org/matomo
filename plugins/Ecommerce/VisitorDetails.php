@@ -172,7 +172,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                     COUNT(*) as lifeTimeConversions,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
 					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
-					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
+					    STRAIGHT_JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
 					    ON log_visit.idvisit = log_conversion.idvisit
 					WHERE
 					        log_visit.idsite = ?
