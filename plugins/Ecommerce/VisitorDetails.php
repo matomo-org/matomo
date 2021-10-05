@@ -33,15 +33,18 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function extendVisitorDetails(&$visitor)
     {
-        $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
-            $visitor['visitorId']);
-        $visitor['totalEcommerceRevenue']     = $ecommerceMetrics['totalEcommerceRevenue'];
-        $visitor['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
-        $visitor['totalEcommerceItems']       = $ecommerceMetrics['totalEcommerceItems'];
+        if(Site::isEcommerceEnabledFor($visitor['idSite']))
+        {
+            $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
+                $visitor['visitorId']);
+            $visitor['totalEcommerceRevenue']     = $ecommerceMetrics['totalEcommerceRevenue'];
+            $visitor['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
+            $visitor['totalEcommerceItems']       = $ecommerceMetrics['totalEcommerceItems'];
 
-        $visitor['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
-        $visitor['totalAbandonedCarts']        = $ecommerceMetrics['totalAbandonedCarts'];
-        $visitor['totalAbandonedCartsItems']   = $ecommerceMetrics['totalAbandonedCartsItems'];
+            $visitor['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
+            $visitor['totalAbandonedCarts']        = $ecommerceMetrics['totalAbandonedCarts'];
+            $visitor['totalAbandonedCartsItems']   = $ecommerceMetrics['totalAbandonedCartsItems'];
+        }
     }
 
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
