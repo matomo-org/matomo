@@ -139,7 +139,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
 
-        $lifeTimeStatsByGoal = array_reduce($lifeTimeStats, function ($carry, $statRow) use ($defaultStats) {
+        $lifeTimeStatsByGoal = array_reduce($lifeTimeStats, function ($carry, $statRow) {
             $idgoal = $statRow['idgoal'];
             $carry[$idgoal] = array_merge($carry[$idgoal], $statRow);
             return $carry;
