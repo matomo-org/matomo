@@ -235,7 +235,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/alert/alert.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
@@ -427,7 +426,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_MoreDetails';
-        $translationKeys[] = 'General_Help';
+        $translationKeys[] = 'General_HelpReport';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Name';
         $translationKeys[] = 'General_JsTrackingTag';
