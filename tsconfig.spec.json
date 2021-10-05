@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "webpack-env",
+      "angular",
+      "jquery",
+      "jqueryui",
+      "jest"
+    ]
+  },
+  "include": [
+    "./plugins/CoreVue/types/index.d.ts"
+  ]
+}
