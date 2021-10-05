@@ -5,6 +5,7 @@
         "UserReportDocumentation": "This report shows visits and other general metrics for every individual User ID.",
         "PluginDescription": "Shows user reports",
         "VisitorsUserSubcategoryHelp": "The User IDs report shows visits associated with all of your registered and logged in users. You can use this section to understand website usage by specific users and identify who your most and least active users are.",
-        "ThereIsNoDataForThisReport": "There is no data for this report.<br/><br/>To generate this report %1$s Read more about this topic in the online guide. %2$s "
+        "ThereIsNoDataForThisReport": "There is no data for this report.",
+        "ThereIsNoDataForThisReportHelp" : "To generate this report %1$s Read more about this topic in the online guide. %2$s "
     }
 }
