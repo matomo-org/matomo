@@ -54,6 +54,7 @@ class Nonce
         return $nonce;
     }
 
+    //todo spilt function into different error log messages, return false with message
     /**
      * Returns if a nonce is valid and comes from a valid request.
      *
@@ -67,6 +68,7 @@ class Nonce
      * @param string $cnonce Nonce sent from client.
      * @param string $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
      * @return bool `true` if valid; `false` otherwise.
+     * @throws \Exception
      */
     public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null)
     {
@@ -75,7 +77,7 @@ class Nonce
 
         // validate token
         if (empty($cnonce) || $cnonce !== $nonce) {
-            return false;
+          return false;
         }
 
         // validate referrer
