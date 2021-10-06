@@ -20,6 +20,7 @@ return array(
         DI\get(RequiredPrivateDirectories::class),
         DI\get(RecommendedPrivateDirectories::class),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PHPBinaryCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\TrackerCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\TimezoneCheck'),

@@ -530,12 +530,13 @@ class Fixture extends \PHPUnit\Framework\Assert
      * @param null|string $type eg 'website' or 'mobileapp'
      * @param null|string $settings eg 'website' or 'mobileapp'
      * @param int $excludeUnknownUrls
+     * @param null|string $excludedParameters
      * @return int    idSite of website created
      */
     public static function createWebsite($dateTime, $ecommerce = 0, $siteName = false, $siteUrl = false,
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null, $timezone = null, $type = null,
-                                         $excludeUnknownUrls = 0)
+                                         $excludeUnknownUrls = 0, $excludedParameters = null)
     {
         if($siteName === false) {
             $siteName = self::DEFAULT_SITE_NAME;
@@ -546,7 +547,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $ecommerce,
             $siteSearch, $searchKeywordParameters, $searchCategoryParameters,
             $ips = null,
-            $excludedQueryParameters = null,
+            $excludedQueryParameters = $excludedParameters,
             $timezone,
             $currency = null,
             $group = null,
