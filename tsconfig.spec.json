@@ -8,8 +8,5 @@
       "jqueryui",
       "jest"
     ]
-  },
-  "include": [
-    "./plugins/CoreVue/types/index.d.ts"
-  ]
+  }
 }

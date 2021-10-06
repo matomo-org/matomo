@@ -248,6 +248,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
 const AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21")));
 function exampleVueComponentAdapter() {
@@ -264,6 +270,12 @@ function exampleVueComponentAdapter() {
 exampleVueComponentAdapter.$inject = [];
 angular.module('piwikApp').directive('exampleVueComponent', exampleVueComponentAdapter);
 // CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
