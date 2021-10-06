@@ -57,7 +57,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 exportText: _pk_translate('General_SaveImageOnYourComputer'),
                 metricsToPlot: _pk_translate('General_MetricsToPlot'),
                 metricToPlot: _pk_translate('General_MetricToPlot'),
-                recordsToPlot: _pk_translate('General_RecordsToPlot')
+                recordsToPlot: _pk_translate('General_RecordsToPlot'),
+                incompletePeriod: _pk_translate('General_IncompletePeriod')
             };
 
             // set a unique ID for the graph element (required by jqPlot)
@@ -380,18 +381,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
                 // Work out incomplete data points
                 this.jqplotParams['incompleteDataPoints'] = 0;
-                if (this.param.date && this.param.period) {
 
-                    var endDate = null;
-                    if (this.param.date.indexOf(',')) {
-                        var s = this.param.date.split(',')
-                        endDate = s[s.length-1];
-                    } else {
-                        endDate = this.param.date;
-                    }
-                    if (endDate >= new Date().toISOString().slice(0, 10)) {
-                        this.jqplotParams['incompleteDataPoints'] = 1;
-                    }
+                var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                if (piwikPeriods.parse(this.param.period, this.param.date).containsToday()) {
+                    this.jqplotParams['incompleteDataPoints'] = 1;
                 }
 
                 var plot = self._plot = $.jqplot(targetDivId, this.data, this.jqplotParams);
