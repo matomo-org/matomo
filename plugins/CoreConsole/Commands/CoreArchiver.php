@@ -66,6 +66,8 @@ class CoreArchiver extends ConsoleCommand
 
         $archiver->setArchiveFilter($archiveFilter);
 
+        $archiver->setIsCLI(true);
+
         return $archiver;
     }
 

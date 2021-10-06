@@ -216,6 +216,11 @@ class CronArchive
     private $supportsAsync;
 
     /**
+     * @var bool
+     */
+    private $isCliCommand = false;
+
+    /**
      * Constructor.
      *
      * @param LoggerInterface|null $logger
@@ -622,7 +627,11 @@ class CronArchive
         //         runs
         //       - setting a new DI environment for core:archive which CoreAdminHome can use to conditionally
         //         enable/disable the task
-        $_GET['trigger'] = 'archivephp';
+        if(self::isCli() || Rules::isBrowserTriggerEnabled())
+        {
+            $_GET['trigger'] = 'archivephp';
+        }
+
         CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");
@@ -1371,5 +1380,18 @@ class CronArchive
         } catch (\UnexpectedValueException $ex) {
             return false;
         }
+    }
+
+    /*
+     *  pass true if the request is from CLI
+     */
+    public function setIsCLI($check)
+    {
+        $this->isCliCommand = $check;
+    }
+
+    public function isCli()
+    {
+        return $this->isCliCommand;
     }
 }
