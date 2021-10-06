@@ -35,7 +35,7 @@ class Alexa implements MetricsProvider
     {
         $value = null;
         try {
-            $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
+            $response = Http::sendHttpRequest(self::URL . urlencode($domain ?? ''), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
             libxml_use_internal_errors(true); // suppress errors
             $dom = new \DomDocument();
             $dom->loadHTML($response);
@@ -54,7 +54,7 @@ class Alexa implements MetricsProvider
         }
 
         $logo = "plugins/Morpheus/icons/dist/SEO/alexa.com.png";
-        $link = self::LINK . urlencode($domain);
+        $link = self::LINK . urlencode($domain ?? '');
 
         return array(
             new Metric('alexa', 'SEO_AlexaRank', $value, $logo, $link)

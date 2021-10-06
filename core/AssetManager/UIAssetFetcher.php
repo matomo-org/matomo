@@ -160,7 +160,7 @@ abstract class UIAssetFetcher
         "libs/bower_components/angular-animate/angular-animate.min.js" => "node_modules/angular-animate/angular-animate.min.js",
         "libs/bower_components/angular-cookies/angular-cookies.min.js" => "node_modules/angular-cookies/angular-cookies.min.js",
         "libs/bower_components/ngDialog/js/ngDialog.min.js" => "node_modules/ng-dialog/js/ngDialog.min.js",
-        "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js" => "node_modules/jquery.dotdotdot/src/jquery.dotdotdot.min.js",
+        "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js" => "node_modules/jquery.dotdotdot/dist/jquery.dotdotdot.js",
         "libs/bower_components/visibilityjs/lib/visibility.core.js" => "node_modules/visibilityjs/lib/visibility.core.js",
         "libs/bower_components/iframe-resizer/js/iframeResizer.min.js" => "node_modules/iframe-resizer/js/iframeResizer.min.js",
         "libs/bower_components/qrcode.js/qrcode.js" => "node_modules/qrcodejs2/qrcode.min.js",
