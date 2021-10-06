@@ -216,11 +216,6 @@ class CronArchive
     private $supportsAsync;
 
     /**
-     * @var bool
-     */
-    private $isCliCommand = false;
-
-    /**
      * Constructor.
      *
      * @param LoggerInterface|null $logger
@@ -619,18 +614,6 @@ class CronArchive
             // check if we need to reconnect after each task executes
             $this->disconnectDb();
         });
-
-        // TODO: this is a HACK to get the purgeOutdatedArchives task to work when run below. without
-        //       it, the task will not run because we no longer run the tasks through CliMulti.
-        //       harder to implement alternatives include:
-        //       - moving CronArchive logic to DI and setting a flag in the class when the whole process
-        //         runs
-        //       - setting a new DI environment for core:archive which CoreAdminHome can use to conditionally
-        //         enable/disable the task
-        if(self::isCli() || Rules::isBrowserTriggerEnabled())
-        {
-            $_GET['trigger'] = 'archivephp';
-        }
 
         CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
@@ -1380,18 +1363,5 @@ class CronArchive
         } catch (\UnexpectedValueException $ex) {
             return false;
         }
-    }
-
-    /*
-     *  pass true if the request is from CLI
-     */
-    public function setIsCLI($check)
-    {
-        $this->isCliCommand = $check;
-    }
-
-    public function isCli()
-    {
-        return $this->isCliCommand;
     }
 }
