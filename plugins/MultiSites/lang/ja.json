@@ -1,8 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、各Webサイトの情報の概要を提供します。",
         "Evolution": "推移",
         "LoadingWebsites": "ウェブサイトをロード中",
         "PluginDescription": "この便利な「すべてのウェブサイト」ダッシュボードで、すべてのウェブサイトとアプリケーションを見て、比較してください。",
+        "SingleWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、特定のWebサイトの情報の概要を提供します。",
         "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。"
     }
 }

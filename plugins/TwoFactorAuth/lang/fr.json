@@ -20,6 +20,8 @@
         "RecoveryCodesExplanation": "Vous pouvez utiliser des codes de récupération pour accéder à votre comptre quand vous ne pouvez pas recevoir de codes d'authentification, par exemple quand vous n'avez pas votre périphérique mobile avec vous.",
         "RecoveryCodesRegenerated": "Les cods de récupération ont été généré. Assurez-vous de télécharger et d'imprimer les nouveaux codes générés.",
         "RecoveryCodesSecurity": "Veuillez traiter les codes de récupération avec le même niveau de sécurité que vous le feriez pour un mot de passe s'il-vous-plait !",
+        "RequireTwoFAForAll": "Exiger une authentification à deux facteurs pour tout le monde",
+        "RequireTwoFAForAllInformation": "Lorsqu'elle est activée, chaque utilisateur doit activer l'authentification à deux facteurs. L'application de la 2FA exigera que tous les utilisateurs aient accès à un appareil sur lequel ils peuvent installer une application d'authentification. Vous ne pouvez l'activer que si vous avez déjà configuré vous-même l'authentification à deux facteurs.",
         "RequiredAuthCodeNotConfiguredAPI": "Vous devez configurer l'authentification à deux facteurs. Veuillez vous connectez avec votre compte.",
         "RequiredToSetUpTwoFactorAuthentication": "Vous devez configurer l'authentification deux facteurs avant de pouvoir vous identifier",
         "SetUpTwoFactorAuthentication": "Configurer l'authentification à deux facteurs (2FA)",

@@ -43,6 +43,8 @@
         "SettingBruteForceTimeRange": "Compter les tentatives d'ouverture de session dans cette intervalle de temps en minute",
         "SettingBruteForceTimeRangeHelp": "Entrez un chiffre en minutes.",
         "SettingBruteForceWhitelistIp": "Ne jamais empêcher ces IP d'ouvrir une session",
+        "SuspiciousLoginAttemptsInLastHourEmail1": "Nous avons remarqué un nombre étrangement élevé de tentatives de connexion à votre compte Matomo au cours de la dernière heure, en particulier %1$s tentatives de connexion à partir de %2$s adresses IP distinctes. Nous soupçonnons que quelqu'un essaie de s'introduire dans votre compte.",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Nous avons remarqué des tentatives de connexion suspectes à votre compte...",
         "UnblockAllIPs": "Débloquer toutes les adresses IP actuellement bloquées",
         "WrongPasswordEntered": "Veuillez entrer votre mot de passe correctement."
     }

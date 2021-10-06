@@ -13,6 +13,7 @@
         "None": "Nenhum",
         "PluginDescription": "Este plugin fornece os widgets Mapa de Visitantes e o Mapa Tempo-Real. Nota: Requer o plugin UserCountry ativado.",
         "RealTimeMap": "Mapa em tempo real",
+        "RealTimeMapHelp": "O mapa em tempo real mostra a localização dos visitantes em seu site nos últimos 30 minutos. As bolhas laranjas grandes representam as visitas mais recentes, enquanto as bolhas cinzentas mais pequenas representam as visitas mais antigas. Esses dados são atualizados a cada cinco segundos e novos visitantes aparecem com um efeito intermitente.",
         "Regions": "Regiões",
         "Searches": "%s buscas",
         "SecondsAgo": "%s segundos atrás",
@@ -21,7 +22,7 @@
         "VisitorMap": "Mapa de visitantes",
         "WithUnknownCity": "%s com cidade desconhecida",
         "WithUnknownRegion": "%s com região desconhecida",
-        "WorldWide": "World-Wide",
+        "WorldWide": "Mundial",
         "map": "mapa"
     }
 }
