@@ -66,6 +66,11 @@
                 site.visits_evolution    = parseInt(site.visits_evolution, 10);
                 site.pageviews_evolution = parseInt(site.pageviews_evolution, 10);
                 site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
+
+                if (site.hasOwnProperty('ratio') && site.ratio != 1) {
+                    var percent = ((Math.round((site.ratio * 100))/100)*100)+'%';
+                    site.tooltip = _pk_translate("MultiSites_EvolutionComparisonProportional", [percent]);
+                }
             });
 
             model.totalVisits   = report.totals.nb_visits;
@@ -110,7 +115,7 @@
 
             model.sortColumn = metric;
             fetchAllSites();
-        };
+        }
 
         function previousPage() {
             model.currentPage = model.currentPage - 1;

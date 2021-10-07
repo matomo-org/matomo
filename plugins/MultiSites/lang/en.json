@@ -5,6 +5,7 @@
         "PluginDescription": "View and compare all your websites and apps in this useful 'All Websites' dashboard.",
         "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
         "SingleWebsitesDashboardDocumentation": "This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.",
-        "AllWebsitesDashboardDocumentation": "This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors."
+        "AllWebsitesDashboardDocumentation": "This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors.",
+        "EvolutionComparisonProportional": "The currently selected time period is incomplete (%1$s). \nEvolution comparisions to the previous period are proportional."
     }
 }

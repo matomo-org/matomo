@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -108,7 +109,9 @@ class EvolutionMetric extends ProcessedMetric
         $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
 
         // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
-        $pastValue = ($pastValue * $this->getRatio($this->currentData, $this->pastData));
+        $ratio = $this->getRatio($this->currentData, $this->pastData);
+        $row->setMetadata('ratio', $ratio);
+        $pastValue = ($pastValue * $ratio);
 
         $dividend = $currentValue - $pastValue;
         $divisor = $pastValue;
@@ -198,17 +201,26 @@ class EvolutionMetric extends ProcessedMetric
         $ratio = 1;
 
         $p = $pastData->getMetadata('period');
-        $pStart = new \DateTime($p->getDateStart().' 00:00:00');
-        $pEnd = new \DateTime($p->getDateEnd().' 23:59:59');
+
+        $pStart = $p->getDateStart()->setTime('00:00:00');
+        $pEnd = $p->getDateEnd()->setTime('00:00:00');
 
         $c = $currentData->getMetadata('period');
-        $cStart = new \DateTime($c->getDateStart().' 00:00:00');
-        $cEnd = new \DateTime($c->getDateEnd().' 23:59:59');
+        $cStart = $c->getDateStart()->setTime('00:00:00');
+        $cEnd = $c->getDateEnd()->setTime('00:00:00');
 
-        $now = new \DateTime("now");
-        if ($cStart->getTimestamp() <= $now->getTimestamp() && $cEnd->getTimestamp() >= $now->getTimestamp()) {
+        $nowTS = Date::getNowTimestamp();
+
+        $metadata = $currentData->getAllTableMetadata();
+
+        // If we know the date the the datatable data was generated then use that instead of now
+        if (isset($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+            $nowTS = $metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
+        }
+
+        if ($cStart->getTimestamp() <= $nowTS && $cEnd->getTimestamp() >= $nowTS) {
             $secsInPastPeriod = $pEnd->getTimestamp() - $pStart->getTimestamp();
-            $secsInCurrentPeriod = $now->getTimestamp() - $cStart->getTimestamp();
+            $secsInCurrentPeriod = $nowTS - $cStart->getTimestamp();
             $ratio = $secsInCurrentPeriod / $secsInPastPeriod;
         }
 

@@ -20,7 +20,7 @@
         <span class="value">{{ website.revenue }}</span>
     </td>
 
-    <td ng-if="period != 'range'" class="multisites-evolution">
+    <td ng-if="period != 'range'" class="multisites-evolution" title="{{ website.tooltip }}">
         <div class="visits value" ng-if="!website.isGroup">
             <span ng-show="website[evolutionMetric] > 0"><img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <span style="color: green;">{{ website[evolutionMetric] }}%</span></span>
             <span ng-show="website[evolutionMetric] == 0"><img src="plugins/MultiSites/images/stop.png" alt="" /> <span>{{ website[evolutionMetric] }}%</span></span>
@@ -37,3 +37,4 @@
         </div>
     </td>
 </tr>
+
