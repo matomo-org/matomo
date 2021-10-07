@@ -103,14 +103,14 @@ class TasksTest extends IntegrationTestCase
     public function test_purgeOutdatedArchives_SkipsPurging_WhenBrowserArchivingDisabled_AndCronArchiveTriggerNotPresent()
     {
         Rules::setBrowserTriggerArchiving(false);
-
         $wasPurged = $this->tasks->purgeOutdatedArchives();
         $this->assertFalse($wasPurged);
     }
 
     public function test_purgeOutdatedArchives_Purges_WhenBrowserArchivingEnabled_AndCronArchiveTriggerPresent()
     {
-        Rules::setBrowserTriggerArchiving(true);
+        Rules::setBrowserTriggerArchiving(false);
+        Rules::$disablePureOutdatedArchive = true;
 
         $wasPurged = $this->tasks->purgeOutdatedArchives();
         $this->assertTrue($wasPurged);
