@@ -60,7 +60,7 @@ let broadcast: BroadcastGlobal;
 
 interface PiwikGlobal {
   timezoneOffset: number;
-  addCustomPeriod: <T>(name: string, periodClass: T) => void;
+  addCustomPeriod: (name: string, periodClass: any) => void;
   shouldPropagateTokenAuth: boolean;
   token_auth: string;
   idSite: string|number;

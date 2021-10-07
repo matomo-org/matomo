@@ -5,15 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 import Piwik from './Piwik';
+import '../Periods/Day';
+import '../Periods/Week';
+import '../Periods/Month';
+import '../Periods/Year';
+import '../Periods/Range';
 
 describe('PiwikService', () => {
-
-  describe('#piwik_url', () => {
-    it('should contain the piwik url', () => {
-      expect(Piwik.piwik_url).toEqual('http://localhost/');
-    });
-  });
-
   describe('#updatePeriodParamsFromUrl()', () => {
     const DATE_PERIODS_TO_TEST = [
       {
