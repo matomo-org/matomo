@@ -54,7 +54,6 @@ class Nonce
         return $nonce;
     }
 
-    //todo spilt function into different error log messages, return false with message
     /**
      * Returns if a nonce is valid and comes from a valid request.
      *
@@ -66,27 +65,27 @@ class Nonce
      *
      * @param string $id The nonce's unique ID. See {@link getNonce()}.
      * @param string $cnonce Nonce sent from client.
-     * @param string $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
+     * @param null $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
+     * @param bool $withErrorMessage The expected true of false to return with error message
      * @return bool `true` if valid; `false` otherwise.
-     * @throws \Exception
      */
-    public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null)
+    public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null, bool $withErrorMessage = false)
     {
         $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
 
         // validate token
         if (empty($cnonce) || $cnonce !== $nonce) {
-          return false;
+            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceToken') : false;
         }
 
         // validate referrer
         $referrer = Url::getReferrer();
         if (empty($expectedReferrerHost) && !empty($referrer) && !Url::isLocalUrl($referrer)) {
-            return false;
+            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceReferrer') : false;
         }
         if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
-            return false;
+            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceReferrer') : false;
         }
 
         // validate origin
@@ -95,7 +94,7 @@ class Nonce
             ($origin == 'null'
                 || !in_array($origin, self::getAcceptableOrigins()))
         ) {
-            return false;
+            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceOrigin') : false;
         }
 
         return true;
