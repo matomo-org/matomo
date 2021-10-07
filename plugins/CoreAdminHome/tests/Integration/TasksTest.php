@@ -79,7 +79,7 @@ class TasksTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        unset($_GET['trigger']);
+        Rules::$disablePureOutdatedArchive = false;
 
         parent::tearDown();
     }
