@@ -25,11 +25,11 @@ class GetUsers extends Base
     {
         parent::init();
 
-        $this->name            = Piwik::translate('UserId_UserReportTitle');
-        $this->subcategoryId   = 'UserId_UserReportTitle';
-        $this->documentation   = Piwik::translate('UserId_UserReportDocumentation');
-        $this->dimension       = new UserId();
-        $this->metrics         = array('label', 'nb_visits', 'nb_actions', 'nb_visits_converted');
+        $this->name = Piwik::translate('UserId_UserReportTitle');
+        $this->subcategoryId = 'UserId_UserReportTitle';
+        $this->documentation = Piwik::translate('UserId_UserReportDocumentation');
+        $this->dimension = new UserId();
+        $this->metrics = array('label', 'nb_visits', 'nb_actions', 'nb_visits_converted');
         $this->supportsFlatten = false;
 
         // This defines in which order your report appears in the mobile app, in the menu and in the list of widgets
@@ -61,6 +61,9 @@ class GetUsers extends Base
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;
+        $view->config->no_data_message = Piwik::translate('UserId_ThereIsNoDataForThisReport') . '<br><br>'
+          . sprintf(Piwik::translate('UserId_ThereIsNoDataForThisReportHelp'),
+            "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/user-id/'>", "</a>");
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_row_evolution = false;

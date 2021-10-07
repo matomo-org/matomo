@@ -5,64 +5,30 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-/**
- * global ajax queue
- *
- * @type {Array} array holding XhrRequests with automatic cleanup
- */
-interface GlobalAjaxQueue extends Array<XMLHttpRequest|null> {
-  active:number;
-
-  /**
-   * Removes all finished requests from the queue.
-   *
-   * @return {void}
-   */
-  clean();
-
-  /**
-   * Extend Array.push with automatic cleanup for finished requests
-   *
-   * @return {Object}
-   */
-  push();
-
-  /**
-   * Extend with abort function to abort all queued requests
-   *
-   * @return {void}
-   */
-  abort();
-}
-
-declare global {
-  interface Window {
-    globalAjaxQueue: GlobalAjaxQueue;
-  }
-}
+import PiwikUrl from '../PiwikUrl/PiwikUrl';
 
 window.globalAjaxQueue = [] as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
 
-window.globalAjaxQueue.clean = function clean() {
-  const removed = this.filter(x => !x || x.readyState === 4);
+window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
+  const filtered = this.filter((x) => !x || x.readyState === 4);
   this.splice(0, this.length);
-  this.push(...removed);
+  Array.prototype.push(...filtered);
 };
 
-window.globalAjaxQueue.push = function push(...args: (XMLHttpRequest|null)[]) {
+window.globalAjaxQueue.push = function globalAjaxQueuePush(...args: (XMLHttpRequest|null)[]) {
   this.active += args.length;
 
   // cleanup ajax queue
   this.clean();
 
   // call original array push
-  return Array<XMLHttpRequest|null>.prototype.push.call(this, ...args);
+  return Array.prototype.push.call(this, ...args);
 };
 
-window.globalAjaxQueue.abort = function () {
+window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
   // abort all queued requests if possible
-  this.forEach(x => x && x.abort && x.abort());
+  this.forEach((x) => x && x.abort && x.abort());
 
   // remove all elements from array
   this.splice(0, this.length);
@@ -72,6 +38,7 @@ window.globalAjaxQueue.abort = function () {
 
 type ParameterValue = string | number | null | undefined | ParameterValue[];
 type Parameters = {[name: string]: ParameterValue | Parameters};
+type AnyFunction = (...params:any[]) => any; // eslint-disable-line
 
 /**
  * Global ajax helper to handle requests within piwik
@@ -90,7 +57,7 @@ export default class AjaxHelper {
   /**
    * Callback function to be executed on success
    */
-  callback: Function = function () {};
+  callback: AnyFunction = null;
 
   /**
    * Use this.callback if an error is returned
@@ -100,18 +67,18 @@ export default class AjaxHelper {
   /**
    * Callback function to be executed on error
    */
-  errorCallback: Function;
+  errorCallback: AnyFunction;
 
   withToken = false;
 
   /**
    * Callback function to be executed on complete (after error or success)
    */
-  completeCallback: Function = function () {};
+  completeCallback: AnyFunction;
 
   /**
    * Params to be passed as GET params
-   * @see ajaxHelper._mixinDefaultGetParams
+   * @see ajaxHelper.mixinDefaultGetParams
    */
   getParams: Parameters = {};
 
@@ -125,84 +92,89 @@ export default class AjaxHelper {
    *
    * @see ajaxHelper.setUrl
    */
-  getUrl: string = '?';
+  getUrl = '?';
 
   /**
    * Params to be passed as GET params
-   * @see ajaxHelper._mixinDefaultPostParams
+   * @see ajaxHelper.mixinDefaultPostParams
    */
   postParams: Parameters = {};
 
   /**
    * Element to be displayed while loading
    */
-  loadingElement: HTMLElement|null|JQuery|JQLite = null;
+  loadingElement: HTMLElement|null|JQuery|JQLite|string = null;
 
   /**
    * Element to be displayed on error
    */
-  errorElement: string = '#ajaxError';
+  errorElement: HTMLElement|JQuery|JQLite|string = '#ajaxError';
 
   /**
    * Handle for current request
    */
-  requestHandle: XMLHttpRequest|null =  null;
+  requestHandle: XMLHttpRequest|JQuery.jqXHR|null = null;
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
+
+  constructor() {
+    this.errorCallback = this.defaultErrorCallback.bind(this);
+  }
 
   /**
    * Adds params to the request.
    * If params are given more then once, the latest given value is used for the request
    *
-   * @param {object}  params
-   * @param {string}  type  type of given parameters (POST or GET)
+   * @param  params
+   * @param  type  type of given parameters (POST or GET)
    * @return {void}
    */
-  addParams(params: Parameters|string, type: string) {
-    if (typeof params == 'string') {
+  addParams(params: Parameters|string, type: string): void {
+    if (typeof params === 'string') {
       // TODO: add global types for broadcast (multiple uses below)
       params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
     }
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
-    for (let key, value of params) {
+    Object.keys(params).forEach((key) => {
+      const value = params[key];
       if (arrayParams.indexOf(key) !== -1
         && !value
       ) {
-        continue;
+        return;
       }
 
-      if(type.toLowerCase() == 'get') {
+      if (type.toLowerCase() === 'get') {
         this.getParams[key] = value;
-      } else if(type.toLowerCase() == 'post') {
+      } else if (type.toLowerCase() === 'post') {
         this.postParams[key] = value;
       }
-    }
+    });
   }
 
-  withTokenInUrl() {
+  withTokenInUrl(): void {
     this.withToken = true;
   }
 
   /**
    * Sets the base URL to use in the AJAX request.
    */
-  setUrl(url: string) {
-    this.addParams(window['broadcast'].getValuesFromUrl(url), 'GET');
+  setUrl(url: string): void {
+    this.addParams(broadcast.getValuesFromUrl(url), 'GET');
   }
 
   /**
    * Gets this helper instance ready to send a bulk request. Each argument to this
    * function is a single request to use.
    */
-  setBulkRequests(...urls: string[]) {
-    const urlsProcessed = urls.map(u => $.param(u));
+  setBulkRequests(...urls: string[]): void {
+    const urlsProcessed = urls.map((u) => $.param(u));
 
     this.addParams({
       module: 'API',
       method: 'API.getBulkRequest',
       urls: urlsProcessed,
-      format: 'json'
+      format: 'json',
     }, 'post');
   }
 
@@ -211,7 +183,7 @@ export default class AjaxHelper {
    *
    * @param timeout  Timeout in milliseconds
    */
-  setTimeout(timeout: number) {
+  setTimeout(timeout: number): void {
     this.timeout = timeout;
   }
 
@@ -220,7 +192,7 @@ export default class AjaxHelper {
    *
    * @param callback  Callback function
    */
-  setCallback(callback) {
+  setCallback(callback: AnyFunction): void {
     this.callback = callback;
   }
 
@@ -228,7 +200,7 @@ export default class AjaxHelper {
    * Set that the callback passed to setCallback() should be used if an application error (i.e. an
    * Exception in PHP) is returned.
    */
-  useCallbackInCaseOfError() {
+  useCallbackInCaseOfError(): void {
     this.useRegularCallbackInCaseOfError = true;
   }
 
@@ -239,47 +211,37 @@ export default class AjaxHelper {
    * @param [params] to modify in redirect url
    * @return {void}
    */
-  redirectOnSuccess(params: Parameters) {
-    this.setCallback(function() {
+  redirectOnSuccess(params: Parameters): void {
+    this.setCallback(() => {
       // TODO: piwik helper
       window['piwikHelper'].redirect(params); // eslint-disable-line
     });
-  };
+  }
 
   /**
    * Sets the callback called in case of an error within the request
-   *
-   * @param {function} callback  Callback function
-   * @return {void}
    */
-  this.setErrorCallback = function (callback) {
+  setErrorCallback(callback: AnyFunction): void {
     this.errorCallback = callback;
-  };
+  }
 
   /**
    * Sets the complete callback which is called after an error or success callback.
-   *
-   * @param {function} callback  Callback function
-   * @return {void}
    */
-  this.setCompleteCallback = function (callback) {
+  setCompleteCallback(callback: AnyFunction): void {
     this.completeCallback = callback;
-  };
+  }
 
   /**
    * error callback to use by default
-   *
-   * @param deferred
-   * @param status
    */
-  this.defaultErrorCallback = function(deferred, status)
-  {
+  defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
     // do not display error message if request was aborted
-    if(status == 'abort') {
+    if (status === 'abort') {
       return;
     }
 
-    var loadingError = $('#loadingError');
+    const loadingError = $('#loadingError');
     if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
       if (deferred && deferred.status === 500) {
         $(document.body).html(piwikHelper.escape(deferred.responseText));
@@ -289,52 +251,42 @@ export default class AjaxHelper {
     }
   }
 
-  this.errorCallback =  this.defaultErrorCallback;
-
   /**
    * Sets the response format for the request
    *
-   * @param {string} format  response format (e.g. json, html, ...)
-   * @return {void}
+   * @param format  response format (e.g. json, html, ...)
    */
-  this.setFormat = function (format) {
+  setFormat(format: string): void {
     this.format = format;
-  };
+  }
 
   /**
    * Set the div element to show while request is loading
    *
-   * @param {String} [element]  selector for the loading element
+   * @param [element]  selector for the loading element
    */
-  this.setLoadingElement = function (element) {
-    if (!element) {
-      element = '#ajaxLoadingDiv';
-    }
-    this.loadingElement = element;
-  };
+  setLoadingElement(element: string|HTMLElement|JQuery): void {
+    this.loadingElement = element || '#ajaxLoadingDiv';
+  }
 
   /**
    * Set the div element to show on error
    *
-   * @param {String} element  selector for the error element
+   * @param element  selector for the error element
    */
-  this.setErrorElement = function (element) {
+  setErrorElement(element: HTMLElement|JQuery|string): void {
     if (!element) {
       return;
     }
     this.errorElement = element;
-  };
+  }
 
   /**
    * Detect whether are allowed to use the given default parameter or not
-   * @param string parameter
-   * @returns {boolean}
-   * @private
    */
-  this._useGETDefaultParameter = function (parameter) {
+  private useGETDefaultParameter(parameter: string): boolean {
     if (parameter && this.defaultParams) {
-      var i;
-      for (i = 0; i < this.defaultParams.length; i++) {
+      for (let i = 0; i < this.defaultParams.length; i += 1) {
         if (this.defaultParams[i] === parameter) {
           return true;
         }
@@ -347,13 +299,11 @@ export default class AjaxHelper {
   /**
    * Removes a default parameter that is usually send automatically along the request.
    *
-   * @param {String} parameter  A name such as "period", "date", "segment".
+   * @param parameter  A name such as "period", "date", "segment".
    */
-  this.removeDefaultParameter = function (parameter) {
+  removeDefaultParameter(parameter: string): void {
     if (parameter && this.defaultParams) {
-
-      var i;
-      for (i = 0; i < this.defaultParams.length; i++) {
+      for (let i = 0; i < this.defaultParams.length; i += 1) {
         if (this.defaultParams[i] === parameter) {
           this.defaultParams.splice(i, 1);
         }
@@ -363,9 +313,8 @@ export default class AjaxHelper {
 
   /**
    * Send the request
-   * @return {void}
    */
-  this.send = function () {
+  send(): void {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -374,169 +323,153 @@ export default class AjaxHelper {
       $(this.loadingElement).fadeIn();
     }
 
-    this.requestHandle = this._buildAjaxCall();
+    this.requestHandle = this.buildAjaxCall();
     globalAjaxQueue.push(this.requestHandle);
-  };
+  }
 
   /**
    * Aborts the current request if it is (still) running
-   * @return {void}
    */
-  this.abort = function () {
-    if (this.requestHandle && typeof this.requestHandle.abort == 'function') {
+  abort(): void {
+    if (this.requestHandle && typeof this.requestHandle.abort === 'function') {
       this.requestHandle.abort();
       this.requestHandle = null;
     }
-  };
+  }
 
   /**
    * Builds and sends the ajax requests
-   * @return {XMLHttpRequest}
-   * @private
    */
-  this._buildAjaxCall = function () {
-    var that = this;
+  private buildAjaxCall(): JQuery.jqXHR {
+    const self = this;
+    const parameters = this.mixinDefaultGetParams(this.getParams);
 
-    var parameters = this._mixinDefaultGetParams(this.getParams);
-
-    var url = this.getUrl;
-    if (url[url.length - 1] != '?') {
+    let url = this.getUrl;
+    if (url[url.length - 1] !== '?') {
       url += '&';
     }
 
-    // we took care of encoding &segment properly already, so we don't use $.param for it ($.param URL encodes the values)
-    if(parameters['segment']) {
-      url += 'segment=' + parameters['segment'] + '&';
-      delete parameters['segment'];
+    // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
+    // URL encodes the values)
+    if (parameters.segment) {
+      url = `${url}segment=${parameters.segment}&`;
+      delete parameters.segment;
     }
-    if(parameters['date']) {
-      url += 'date=' + decodeURIComponent(parameters['date']) + '&';
-      delete parameters['date'];
+    if (parameters.date) {
+      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      delete parameters.date;
     }
     url += $.param(parameters);
-    var ajaxCall = {
-      type:     'POST',
-      async:    true,
-      url:      url,
+    const ajaxCall = {
+      type: 'POST',
+      async: true,
+      url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
-      error:    function () {
-        --globalAjaxQueue.active;
+      error: function errorCallback(...params: any[]) { // eslint-disable-line
+        globalAjaxQueue.active -= 1;
 
-        if (that.errorCallback) {
-          that.errorCallback.apply(this, arguments);
+        if (self.errorCallback) {
+          self.errorCallback.apply(this, params);
         }
       },
-      success:  function (response, status, request) {
-        if (that.loadingElement) {
-          $(that.loadingElement).hide();
+      success: (response, status, request) => {
+        if (this.loadingElement) {
+          $(this.loadingElement).hide();
         }
 
-        if (response && response.result == 'error' && !that.useRegularCallbackInCaseOfError) {
-
-          var placeAt = null;
-          var type    = 'toast';
-          if ($(that.errorElement).length && response.message) {
-            $(that.errorElement).show();
-            placeAt = that.errorElement;
-            type    = null;
+        if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {
+          let placeAt = null;
+          let type = 'toast';
+          if ($(this.errorElement).length && response.message) {
+            $(this.errorElement).show();
+            placeAt = this.errorElement;
+            type = null;
           }
 
           if (response.message) {
-
-            var UI = require('piwik/UI');
-            var notification = new UI.Notification();
+            const UI = window['require']('piwik/UI'); // eslint-disable-line
+            const notification = new UI.Notification();
             notification.show(response.message, {
               placeat: placeAt,
               context: 'error',
-              type: type,
-              id: 'ajaxHelper'
+              type,
+              id: 'ajaxHelper',
             });
             notification.scrollToNotification();
           }
-
-        } else {
-          that.callback(response, status, request);
+        } else if (this.callback) {
+          this.callback(response, status, request);
         }
 
-        --globalAjaxQueue.active;
-        var piwik = window.piwik;
+        globalAjaxQueue.active -= 1;
+        const { piwik } = window;
         if (piwik
           && piwik.ajaxRequestFinished
         ) {
           piwik.ajaxRequestFinished();
         }
       },
-      data:     this._mixinDefaultPostParams(this.postParams)
+      data: this.mixinDefaultPostParams(this.postParams),
+      timeout: this.timeout !== null ? this.timeout : undefined,
     };
 
-    if (this.timeout !== null) {
-      ajaxCall.timeout = this.timeout;
-    }
-
     return $.ajax(ajaxCall);
-  };
+  }
 
-  this._isRequestToApiMethod = function () {
-    return (this.getParams && this.getParams['module'] === 'API' && this.getParams['method']) ||
-      (this.postParams && this.postParams['module'] === 'API' && this.postParams['method']);
-  };
+  private isRequestToApiMethod() {
+    return (this.getParams && this.getParams.module === 'API' && this.getParams.method)
+      || (this.postParams && this.postParams.module === 'API' && this.postParams.method);
+  }
 
-  this._isWidgetizedRequest = function () {
-    return (broadcast.getValueFromUrl('module') == 'Widgetize');
-  };
+  isWidgetizedRequest(): boolean {
+    return (broadcast.getValueFromUrl('module') === 'Widgetize');
+  }
 
-  this._getDefaultPostParams = function () {
-    if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
+  private getDefaultPostParams() {
+    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
       return {
         token_auth: piwik.token_auth,
-        // When viewing a widgetized report there won't be any session that can be used, so don't force session usage
-        force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
+        // When viewing a widgetized report there won't be any session that can be used, so don't
+        // force session usage
+        force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1,
       };
     }
 
     return {};
-  };
+  }
 
   /**
    * Mixin the default parameters to send as POST
    *
-   * @param {object}   params   parameter object
-   * @return {object}
-   * @private
+   * @param params   parameter object
    */
-  this._mixinDefaultPostParams = function (params) {
+  private mixinDefaultPostParams(params): Parameters {
+    const defaultParams = this.getDefaultPostParams();
 
-    var defaultParams = this._getDefaultPostParams();
+    const mergedParams = {
+      ...defaultParams,
+      ...params,
+    };
 
-    for (var index in defaultParams) {
-
-      if (!params[index]) {
-
-        params[index] = defaultParams[index];
-      }
-    }
-
-    return params;
-  };
+    return mergedParams;
+  }
 
   /**
    * Mixin the default parameters to send as GET
    *
-   * @param {object}   params   parameter object
-   * @return {object}
-   * @private
+   * @param   params   parameter object
    */
-  this._mixinDefaultGetParams = function (params) {
-    var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
+  private mixinDefaultGetParams(originalParams): Parameters {
+    const segment = PiwikUrl.getSearchParam('segment');
 
-    var segment = piwikUrl.getSearchParam('segment');
-
-    var defaultParams = {
-      idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
-      period:  piwik.period || broadcast.getValueFromUrl('period'),
-      segment: segment
+    const defaultParams = {
+      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),
+      period: piwik.period || broadcast.getValueFromUrl('period'),
+      segment,
     };
+
+    const params = originalParams;
 
     // never append token_auth to url
     if (params.token_auth) {
@@ -544,17 +477,21 @@ export default class AjaxHelper {
       delete params.token_auth;
     }
 
-    for (var key in defaultParams) {
-      if (this._useGETDefaultParameter(key) && !params[key] && !this.postParams[key] && defaultParams[key]) {
+    Object.keys(defaultParams).forEach((key) => {
+      if (this.useGETDefaultParameter(key)
+        && !params[key]
+        && !this.postParams[key]
+        && defaultParams[key]
+      ) {
         params[key] = defaultParams[key];
       }
-    }
+    });
 
     // handle default date & period if not already set
-    if (this._useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
+    if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
       params.date = piwik.currentDateString;
     }
 
     return params;
-  };
+  }
 }

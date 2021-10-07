@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "TZ=UTC vue-cli-service test:unit",
     "eslint": "eslint"
   },
   "repository": {
@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
   "dependencies": {
+    "@types/jquery": "^3.5.6",
+    "@types/jqueryui": "^1.12.16",
     "angular": "^1.8.2",
     "angular-animate": "^1.8.2",
     "angular-cookies": "^1.8.2",
@@ -52,11 +54,13 @@
   },
   "devDependencies": {
     "@types/angular": "^1.8.2",
+    "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-eslint": "^4.5.13",
     "@vue/cli-plugin-typescript": "^4.5.13",
+    "@vue/cli-plugin-unit-jest": "^4.5.13",
     "@vue/cli-service": "^4.5.13",
     "@vue/compiler-sfc": "^3.2.6",
     "@vue/eslint-config-airbnb": "^5.3.0",
@@ -65,6 +69,8 @@
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-vue": "^7.16.0",
-    "typescript": "^4.3.5"
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.3.5",
+    "vue-jest": "^5.0.0-0"
   }
 }

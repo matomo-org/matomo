@@ -247,6 +247,7 @@
         "GraphHelp": "More information about displaying graphs in Matomo.",
         "HelloUser": "Hello, %s!",
         "Help": "Help",
+        "HelpReport": "Click to display help info about this report",
         "HelpResources": "Help resources",
         "HelpTranslatePiwik": "Maybe you would like to %1$shelp us improve the Matomo translations%2$s?",
         "Hide": "hide",

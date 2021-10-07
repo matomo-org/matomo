@@ -170,7 +170,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
         $jsFiles[] = "node_modules/ng-dialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
@@ -195,10 +194,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/global-ajax-queue.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-url.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/report-metadata-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/periods.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
@@ -426,7 +423,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_MoreDetails';
-        $translationKeys[] = 'General_Help';
+        $translationKeys[] = 'General_HelpReport';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Name';
         $translationKeys[] = 'General_JsTrackingTag';
