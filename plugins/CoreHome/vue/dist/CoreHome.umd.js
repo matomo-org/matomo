@@ -1190,6 +1190,12 @@ class AjaxHelper_AjaxHelper {
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
 window.ajaxHelper = AjaxHelper_AjaxHelper;
+
+function ajaxQueue() {
+  return globalAjaxQueue;
+}
+
+angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
 /*!
  * Matomo - free/libre analytics platform

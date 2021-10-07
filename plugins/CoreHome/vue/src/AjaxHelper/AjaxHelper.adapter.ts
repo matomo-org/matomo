@@ -7,3 +7,9 @@ declare global {
 }
 
 window.ajaxHelper = AjaxHelper;
+
+function ajaxQueue() {
+  return globalAjaxQueue;
+}
+
+angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
