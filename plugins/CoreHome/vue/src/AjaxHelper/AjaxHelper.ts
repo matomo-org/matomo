@@ -11,9 +11,11 @@ window.globalAjaxQueue = [] as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
 
 window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
-  const filtered = this.filter((x) => !x || x.readyState === 4);
-  this.splice(0, this.length);
-  Array.prototype.push(...filtered);
+  for (let i = this.length; i >= 0; i -= 1) {
+    if (!this[i] || this[i].readyState === 4) {
+      this.splice(i, 1);
+    }
+  }
 };
 
 window.globalAjaxQueue.push = function globalAjaxQueuePush(...args: (XMLHttpRequest|null)[]) {
@@ -39,6 +41,25 @@ window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
 type ParameterValue = string | number | null | undefined | ParameterValue[];
 type Parameters = {[name: string]: ParameterValue | Parameters};
 type AnyFunction = (...params:any[]) => any; // eslint-disable-line
+
+/**
+ * error callback to use by default
+ */
+function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
+  // do not display error message if request was aborted
+  if (status === 'abort') {
+    return;
+  }
+
+  const loadingError = $('#loadingError');
+  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
+    if (deferred && deferred.status === 500) {
+      $(document.body).html(piwikHelper.escape(deferred.responseText));
+    }
+  } else {
+    loadingError.show();
+  }
+}
 
 /**
  * Global ajax helper to handle requests within piwik
@@ -118,7 +139,7 @@ export default class AjaxHelper {
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   constructor() {
-    this.errorCallback = this.defaultErrorCallback.bind(this);
+    this.errorCallback = defaultErrorCallback;
   }
 
   /**
@@ -213,8 +234,7 @@ export default class AjaxHelper {
    */
   redirectOnSuccess(params: Parameters): void {
     this.setCallback(() => {
-      // TODO: piwik helper
-      window['piwikHelper'].redirect(params); // eslint-disable-line
+      piwikHelper.redirect(params);
     });
   }
 
@@ -230,25 +250,6 @@ export default class AjaxHelper {
    */
   setCompleteCallback(callback: AnyFunction): void {
     this.completeCallback = callback;
-  }
-
-  /**
-   * error callback to use by default
-   */
-  defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
-    // do not display error message if request was aborted
-    if (status === 'abort') {
-      return;
-    }
-
-    const loadingError = $('#loadingError');
-    if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
-      if (deferred && deferred.status === 500) {
-        $(document.body).html(piwikHelper.escape(deferred.responseText));
-      }
-    } else {
-      loadingError.show();
-    }
   }
 
   /**
@@ -366,11 +367,11 @@ export default class AjaxHelper {
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
-      error: function errorCallback(...params: any[]) { // eslint-disable-line
+      error: function errorCallback() {
         globalAjaxQueue.active -= 1;
 
         if (self.errorCallback) {
-          self.errorCallback.apply(this, params);
+          self.errorCallback.apply(this, arguments); // eslint-disable-line
         }
       },
       success: (response, status, request) => {

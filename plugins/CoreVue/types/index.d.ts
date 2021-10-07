@@ -54,6 +54,7 @@ let Piwik_Popover: PiwikPopoverGlobal;
 
 interface PiwikHelperGlobal {
   escape(text: string): string;
+  redirect(params: any);
 }
 
 let piwikHelper: PiwikHelperGlobal;
