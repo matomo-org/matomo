@@ -118,6 +118,11 @@ class ContainerFactory
 
         // add plugin environment configs
         $plugins = $this->pluginList->getActivatedPlugins();
+
+        if ($this->shouldSortPlugins()) {
+            $plugins = $this->sortPlugins($plugins);
+        }
+
         foreach ($plugins as $plugin) {
             $baseDir = Manager::getPluginDirectory($plugin);
 
@@ -132,6 +137,10 @@ class ContainerFactory
     {
         $plugins = $this->pluginList->getActivatedPlugins();
 
+        if ($this->shouldSortPlugins()) {
+            $plugins = $this->sortPlugins($plugins);
+        }
+
         foreach ($plugins as $plugin) {
             $baseDir = Manager::getPluginDirectory($plugin);
 
@@ -140,6 +149,25 @@ class ContainerFactory
                 $builder->addDefinitions($file);
             }
         }
+    }
+
+    /**
+     * This method is required for Matomo Cloud to allow for custom sorting of plugin order
+     *
+     * @return bool
+     */
+    private function shouldSortPlugins()
+    {
+        return isset($GLOBALS['MATOMO_SORT_PLUGINS']) && is_callable($GLOBALS['MATOMO_SORT_PLUGINS']);
+    }
+
+    /**
+     * @param array $plugins
+     * @return array
+     */
+    private function sortPlugins(array $plugins)
+    {
+        return call_user_func($GLOBALS['MATOMO_SORT_PLUGINS'], $plugins);
     }
 
     private function isDevelopmentModeEnabled()
