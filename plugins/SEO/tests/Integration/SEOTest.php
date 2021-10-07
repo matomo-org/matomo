@@ -42,29 +42,41 @@ class SEOTest extends IntegrationTestCase
     public function test_API()
     {
         $ranks = $this->apiFunction();
+        $this->assertNotEmpty($ranks, 'Exceed 3 times, maximum tried');
         foreach ($ranks as $rank) {
-
+            if ($rank['rank'] == Piwik::translate('General_Error')) {
+                $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
+                continue;
+            }
             $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
         }
     }
 
-    private function apiFunction($counter = 0)
-    {
-        $dataTable = API::getInstance()->getRank('http://matomo.org/');
-        $renderer = Renderer::factory('json');
-        $renderer->setTable($dataTable);
-        $ranks = json_decode($renderer->render(), true);
-        foreach ($ranks as $rank) {
-            if (!$rank['rank'] && $counter <= 3) {
-                $this->apiFunction($counter++);
-            }
-        }
-        return $ranks;
-    }
     public function provideContainerConfig()
     {
         return array(
             'Piwik\Access' => new FakeAccess()
         );
     }
+
+    /**
+     * this function rerun the API 3 times, to reduce the chance of failing.
+     */
+    private function apiFunction($counter = 0)
+    {
+        if ($counter > 3) {
+            return [];
+        }
+        $dataTable = API::getInstance()->getRank('http://matomo.org/');
+        $renderer = Renderer::factory('json');
+        $renderer->setTable($dataTable);
+        $ranks = json_decode($renderer->render(), true);
+        foreach ($ranks as $rank) {
+            if ($rank['rank'] == 0 && $counter <= 3) {
+                $this->apiFunction($counter++);
+            }
+        }
+        return $ranks;
+    }
+
 }
