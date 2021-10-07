@@ -331,7 +331,7 @@ var broadcast = {
         // available in global scope
         var currentSearchStr = $window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
-        
+
         if (!currentSearchStr) {
             currentSearchStr = '?';
         }
@@ -846,3 +846,5 @@ var broadcast = {
         return searchString;
     }
 };
+
+window.broadcast = broadcast; // hack to get broadcast to work in vue (jest) tests

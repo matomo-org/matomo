@@ -118,6 +118,7 @@ __webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /
 __webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
 __webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
 __webpack_require__.d(__webpack_exports__, "PiwikUrl", function() { return /* reexport */ PiwikUrl_PiwikUrl; });
+__webpack_require__.d(__webpack_exports__, "Piwik", function() { return /* reexport */ Piwik_Piwik; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -143,7 +144,7 @@ if (typeof window !== 'undefined') {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 function translate(translationStringId, values = []) {
-  return _pk_translate(translationStringId, values);
+  return window._pk_translate(translationStringId, values); // eslint-disable-line
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -247,7 +248,7 @@ function getToday() {
 
   date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply piwik site timezone (if it exists)
 
-  date.setHours(date.getHours() + (piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
+  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
 
   date.setHours(0);
   date.setMinutes(0);
@@ -659,14 +660,14 @@ const PiwikUrl = {
     const regex = new RegExp(`${paramName}(\\[]|=)`);
 
     if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-      const valueFromHash = broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
+      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
 
       if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
         return valueFromHash;
       }
     }
 
-    return broadcast.getValueFromUrl(paramName, window.location.search);
+    return window.broadcast.getValueFromUrl(paramName, window.location.search);
   }
 
 };
@@ -1214,6 +1215,103 @@ function piwikUrl() {
 
 piwikUrl.$inject = [];
 angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+let originalTitle;
+const {
+  piwik: Piwik_piwik,
+  broadcast: Piwik_broadcast,
+  piwikHelper: Piwik_piwikHelper
+} = window;
+Piwik_piwik.helper = Piwik_piwikHelper;
+Piwik_piwik.broadcast = Piwik_broadcast;
+
+function isValidPeriod(periodStr, dateStr) {
+  try {
+    Periods_Periods.parse(periodStr, dateStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
+  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
+  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
+
+  if (!isValidPeriod(period, date)) {
+    // invalid data in URL
+    return;
+  }
+
+  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
+    // this period / date is already loaded
+    return;
+  }
+
+  Piwik_piwik.period = period;
+  const dateRange = Periods_Periods.parse(period, date).getDateRange();
+  Piwik_piwik.startDateString = format(dateRange[0]);
+  Piwik_piwik.endDateString = format(dateRange[1]);
+  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+  // to have the dates than previousN/lastN.
+
+  if (Piwik_piwik.period === 'range') {
+    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
+  }
+
+  Piwik_piwik.currentDateString = date;
+};
+
+Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+  if (!$('.top_controls #periodString').length) {
+    return;
+  } // Cache server-rendered page title
+
+
+  originalTitle = originalTitle || document.title;
+
+  if (originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
+    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+    document.title = `${Piwik_piwik.siteName}${dateString}${originalTitle.substr(Piwik_piwik.siteName.length)}`;
+  }
+};
+
+Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
+  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+const Piwik = Piwik_piwik;
+/* harmony default export */ var Piwik_Piwik = (Piwik);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function piwikService() {
+  return Piwik_Piwik;
+}
+
+angular.module('piwikApp.service').service('piwik', piwikService);
+
+function initPiwikService(piwik, $rootScope) {
+  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
+}
+
+initPiwikService.$inject = ['piwik', '$rootScope'];
+angular.module('piwikApp.service').run(initPiwikService);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -1390,6 +1488,8 @@ angular.module('piwikApp').directive('piwikAlert', alertAdapter);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 
