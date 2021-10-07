@@ -110,7 +110,11 @@ class EvolutionMetric extends ProcessedMetric
 
         // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
         $ratio = $this->getRatio($this->currentData, $this->pastData);
+        $period = $this->pastData->getMetadata('period');
         $row->setMetadata('ratio', $ratio);
+        $row->setMetadata('previous_'.$columnName, $pastValue);
+        $row->setMetadata('periodName', $period->getLabel());
+        $row->setMetadata('previousRange', $period->getDateStart()->setTime('00:00:00').' - '.$period->getDateEnd()->setTime('00:00:00'));
         $pastValue = ($pastValue * $ratio);
 
         $dividend = $currentValue - $pastValue;
