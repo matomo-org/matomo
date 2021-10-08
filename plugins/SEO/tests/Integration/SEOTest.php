@@ -42,7 +42,6 @@ class SEOTest extends IntegrationTestCase
     public function test_API()
     {
         $ranks = $this->apiFunction();
-        $this->assertNotEmpty($ranks, 'Exceed 3 times, maximum tried');
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
@@ -62,10 +61,10 @@ class SEOTest extends IntegrationTestCase
     /**
      * this function rerun the API 3 times, to reduce the chance of failing.
      */
-    private function apiFunction($counter = 0)
+    private function apiFunction($counter = 0, $ranks = [])
     {
         if ($counter > 3) {
-            return [];
+            return $ranks;
         }
         $dataTable = API::getInstance()->getRank('http://matomo.org/');
         $renderer = Renderer::factory('json');
@@ -73,7 +72,7 @@ class SEOTest extends IntegrationTestCase
         $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
             if ($rank['rank'] === 0 ) {
-                $this->apiFunction($counter++);
+                $this->apiFunction($counter++, $ranks);
             }
         }
         return $ranks;
