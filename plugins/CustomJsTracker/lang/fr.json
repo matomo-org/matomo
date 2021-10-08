@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
-        "PluginDescription": "Autorise n'importe quel composant à mettre à jour le fichier de suivi Matomo (matomo.js) et à ajouter de nouvelles fonctionnalités ainsi que des capacités de suivi de site web.",
+        "DiagnosticPiwikJsMakeWritable": "Nous recommandons de rendre %1$s inscriptible en exécutant la commande suivante : %2$s",
+        "DiagnosticPiwikJsNotWritable": "Le fichier de suivi JavaScript Matomo %s n'est pas accessible en écriture, ce qui signifie que les autres plugins ne peuvent pas étendre le suivi JavaScript. À l'avenir, même certaines fonctionnalités de base pourraient ne pas fonctionner comme prévu.",
         "DiagnosticPiwikJsWritable": "Traceur JavaScript inscriptible (%s)",
-        "DiagnosticPiwikJsNotWritable": "Le fichier traceur JavaScript Matomo %sinscriptible ce qui veut dit que d'autres composants ne peuvent pas le modifier. Dans le futur il se pourrait même que certaines fonctionnalités principales ne fonctionnent pas comme prévu.",
-        "DiagnosticPiwikJsMakeWritable": "Nous recommandons de rendre %1$s inscriptible en exécutant la commande suivante : %2$s"
+        "PluginDescription": "Autorise n'importe quel composant à mettre à jour le fichier de suivi Matomo (matomo.js) et à ajouter de nouvelles fonctionnalités ainsi que des capacités de suivi de site web."
     }
 }
