@@ -72,7 +72,7 @@ class SEOTest extends IntegrationTestCase
         $renderer->setTable($dataTable);
         $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
-            if ($rank['rank'] == 0 && $counter <= 3) {
+            if ($rank['rank'] === 0 ) {
                 $this->apiFunction($counter++);
             }
         }
