@@ -314,6 +314,8 @@ export default class AjaxHelper {
 
   /**
    * Send the request
+   *
+   * @deprecated use sendAsync() instead
    */
   send(): void {
     if ($(this.errorElement).length) {
@@ -326,6 +328,10 @@ export default class AjaxHelper {
 
     this.requestHandle = this.buildAjaxCall();
     globalAjaxQueue.push(this.requestHandle);
+  }
+
+  sendAsync<T>(): Promise<AjaxHelperResponse<T>> {
+    // TODO
   }
 
   /**
