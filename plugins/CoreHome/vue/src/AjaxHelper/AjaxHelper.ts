@@ -6,6 +6,7 @@
  */
 
 import PiwikUrl from '../PiwikUrl/PiwikUrl';
+import jqXHR = JQuery.jqXHR;
 
 window.globalAjaxQueue = [] as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
@@ -87,6 +88,8 @@ export default class AjaxHelper {
 
   /**
    * Callback function to be executed on error
+   *
+   * @deprecated use the jquery promise API
    */
   errorCallback: AnyFunction;
 
@@ -94,6 +97,8 @@ export default class AjaxHelper {
 
   /**
    * Callback function to be executed on complete (after error or success)
+   *
+   * @deprecated use the jquery promise API
    */
   completeCallback: AnyFunction;
 
@@ -212,6 +217,7 @@ export default class AjaxHelper {
    * Sets the callback called after the request finishes
    *
    * @param callback  Callback function
+   * @deprecated use the jquery promise API
    */
   setCallback(callback: AnyFunction): void {
     this.callback = callback;
@@ -240,6 +246,7 @@ export default class AjaxHelper {
 
   /**
    * Sets the callback called in case of an error within the request
+   * @deprecated use the jquery promise API
    */
   setErrorCallback(callback: AnyFunction): void {
     this.errorCallback = callback;
@@ -247,6 +254,7 @@ export default class AjaxHelper {
 
   /**
    * Sets the complete callback which is called after an error or success callback.
+   * @deprecated use the jquery promise API
    */
   setCompleteCallback(callback: AnyFunction): void {
     this.completeCallback = callback;
@@ -314,10 +322,8 @@ export default class AjaxHelper {
 
   /**
    * Send the request
-   *
-   * @deprecated use sendAsync() instead
    */
-  send(): void {
+  send(): JQuery.jqXHR {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -328,10 +334,8 @@ export default class AjaxHelper {
 
     this.requestHandle = this.buildAjaxCall();
     globalAjaxQueue.push(this.requestHandle);
-  }
 
-  sendAsync<T>(): Promise<AjaxHelperResponse<T>> {
-    // TODO
+    return this.requestHandle;
   }
 
   /**
