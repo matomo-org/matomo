@@ -8,6 +8,7 @@
 import './AjaxHelper/AjaxHelper.adapter';
 import './PiwikUrl/PiwikUrl.adapter';
 import './Piwik/Piwik.adapter';
+import './noAdblockFlag';
 
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';

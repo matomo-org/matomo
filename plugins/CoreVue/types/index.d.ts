@@ -89,6 +89,7 @@ declare global {
     piwik: PiwikGlobal;
     piwikHelper: PiwikHelperGlobal;
     broadcast: BroadcastGlobal;
+    hasBlockedContent: boolean;
 
     _pk_translate(translationStringId: string, values: string[]): string;
   }
