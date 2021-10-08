@@ -23,6 +23,7 @@
         "ColumnNoResultKeyword": "Mots-clés sans résultats de recherche",
         "ColumnPageName": "Titre de la page",
         "ColumnPageURL": "URL de la page",
+        "ColumnPageViewPosition": "Position de la page vue",
         "ColumnPagesPerSearch": "Pages des résultats de la recherche",
         "ColumnPagesPerSearchDocumentation": "Les visiteurs vont effectuer des recherches sur votre site web et parfois cliquer sur \"suivant\" pour afficher plus de résultats. Ceci est le nombre moyen de pages de résultats vues pour ce mot-clé.",
         "ColumnSearchCategory": "Catégorie de recherche",
