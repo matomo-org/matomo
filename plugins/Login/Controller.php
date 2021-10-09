@@ -133,10 +133,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormLogin();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            $messageNoAccess = Nonce::verifyNonce('Login.login', $nonce, null, true);
+            $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
 
             // validate if there is error message
-            if ($messageNoAccess===true) {
+            if ($messageNoAccess === "") {
                 $loginOrEmail = $form->getSubmitValue('form_login');
                 $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
 
@@ -213,9 +213,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($password) {
                 $password = Common::unsanitizeInputValue($password);
             }
-            $checkNonce = Nonce::verifyNonce($nonceKey, $nonce, null, true);
-            if (!$checkNonce === true) {
-                $messageNoAccess = $checkNonce;
+            $errorMessage = Nonce::verifyNonceWithErrorMessage($nonceKey, $nonce);
+            if ($errorMessage !== "") {
+                $messageNoAccess = $errorMessage;
             } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
                 $this->passwordVerify->setPasswordVerifiedCorrectly();
                 return;
@@ -396,14 +396,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormResetPassword();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            $checkNonce = Nonce::verifyNonce('Login.login', $nonce);
-            if ($checkNonce === true) {
+            $errorMessage = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce);
+            if ($errorMessage === "") {
                 $formErrors = $this->resetPasswordFirstStep($form);
                 if (empty($formErrors)) {
                     $infoMessage = Piwik::translate('Login_ConfirmationLinkSent');
                 }
             } else {
-                $formErrors = array($checkNonce);
+                $formErrors = array($errorMessage);
             }
         } else {
             // if invalid, display error

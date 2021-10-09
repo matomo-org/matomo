@@ -66,38 +66,58 @@ class Nonce
      * @param string $id The nonce's unique ID. See {@link getNonce()}.
      * @param string $cnonce Nonce sent from client.
      * @param null $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
-     * @param bool $withErrorMessage The expected true of false to return with error message
      * @return bool `true` if valid; `false` otherwise.
      */
-    public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null, bool $withErrorMessage = false)
+    public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null)
+    {
+        // load error with message function. 
+        $error = self::verifyNonceWithErrorMessage($id, $cnonce, $expectedReferrerHost);
+        return $error === "";
+    }
+
+    /**
+     * Returns error message
+     *
+     * A nonce is valid if it matches the current nonce and if the current nonce
+     * has not expired.
+     *
+     * The request is valid if the referrer is a local URL (see {@link Url::isLocalUrl()})
+     * and if the HTTP origin is valid (see {@link getAcceptableOrigins()}).
+     *
+     * @param string $id The nonce's unique ID. See {@link getNonce()}.
+     * @param string $cnonce Nonce sent from client.
+     * @param null $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
+     * @return string if empty is valid otherwise return error message
+     */
+    public static function verifyNonceWithErrorMessage($id, $cnonce, $expectedReferrerHost = null)
     {
         $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
 
         // validate token
         if (empty($cnonce) || $cnonce !== $nonce) {
-            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceToken') : false;
+            return Piwik::translate('Login_InvalidNonceToken');
         }
 
         // validate referrer
         $referrer = Url::getReferrer();
         if (empty($expectedReferrerHost) && !empty($referrer) && !Url::isLocalUrl($referrer)) {
-            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceReferrer') : false;
+            return Piwik::translate('Login_InvalidNonceReferrer');
         }
         if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
-            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceReferrer') : false;
+            return Piwik::translate('Login_InvalidNonceReferrer');
         }
 
         // validate origin
         $origin = self::getOrigin();
         if (!empty($origin) &&
-            ($origin == 'null'
-                || !in_array($origin, self::getAcceptableOrigins()))
+          ($origin == 'null'
+            || !in_array($origin, self::getAcceptableOrigins()))
         ) {
-            return $withErrorMessage ?  Piwik::translate('Login_InvalidNonceOrigin') : false;
+            return Piwik::translate('Login_InvalidNonceOrigin');
         }
 
-        return true;
+        return '';
     }
 
     // public for tests
