@@ -27,6 +27,7 @@ class Build extends ConsoleCommand
         $this->addArgument('plugins', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Plugins whose vue modules to build. Defaults to all plugins.', []);
         $this->addOption('watch', null, InputOption::VALUE_NONE, 'If supplied, will watch for changes and automatically rebuild.');
         $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
+        $this->addOption('print-build-command', null, InputOption::VALUE_NONE);
     }
 
     public function isEnabled()
@@ -43,6 +44,7 @@ class Build extends ConsoleCommand
             $this->clearWebpackCache();
         }
 
+        $printBuildCommand = $input->getOption('print-build-command');
         $watch = $input->getOption('watch');
 
         $plugins = $input->getArgument('plugins');
@@ -55,34 +57,45 @@ class Build extends ConsoleCommand
         // remove webpack cache since it can result in strange builds if present
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
 
-        $failed = $this->build($output, $plugins, $watch);
+        $failed = $this->build($output, $plugins, $printBuildCommand, $watch);
         return $failed;
     }
 
-    private function build(OutputInterface $output, $plugins, $watch = false)
+    private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)
     {
         $failed = 0;
 
         foreach ($plugins as $plugin) {
             if ($watch) {
-                $this->watch($plugin);
+                $this->watch($plugin, $printBuildCommand, $output);
             } else {
-                $failed += (int) $this->buildFiles($output, $plugin);
+                $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
             }
         }
 
         return $failed;
     }
 
-    private function watch($plugin)
+    private function watch($plugin, $printBuildCommand, OutputInterface $output)
     {
-        $command = self::getVueCliServiceBin() . ' build --mode=development --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
+        $command = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
+            . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
+        if ($printBuildCommand) {
+            $output->writeln("<comment>$command</comment>");
+            return;
+        }
         passthru($command);
     }
 
-    private function buildFiles(OutputInterface $output, $plugin)
+    private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
     {
-        $command = self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
+        $command = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
+            . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
+
+        if ($printBuildCommand) {
+            $output->writeln("<comment>$command</comment>");
+            return 0;
+        }
 
         $output->writeln("<comment>Building $plugin...</comment>");
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {

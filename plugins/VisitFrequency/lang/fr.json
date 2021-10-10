@@ -32,6 +32,7 @@
         "ReturningVisitDocumentation": "Une visite de retour (par opposition à une nouvelle visite) est effectuée par quelqu'un qui a déjà visité le site web au moins une fois auparavant.",
         "ReturningVisitsDocumentation": "Ceci est un aperçu des visites de retour.",
         "SubmenuFrequency": "Fréquence",
+        "VisitFrequencyReportDocumentation": "Ce rapport affiche des métriques générales telles que les visites pour les visiteurs connus, côte à côte avec les mêmes métriques pour les nouveaux visiteurs. Découvrez les performances globales des visiteurs connus par rapport aux nouveaux visiteurs.",
         "WidgetGraphReturning": "Graphique de visites de visiteurs connus",
         "WidgetOverview": "Récapitulatif de la Fréquence"
     }

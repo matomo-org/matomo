@@ -56,6 +56,8 @@
         "PercentDone": "%s %% tamamlandı",
         "PerformanceSettingsDesc1": "Başarım ile ilgili son bir not: Matomo kuruldu ve web sitesinin trafiğini izlemeye ve raporlamaya hazır. Ancak Matomo üzerindeki işlemleri yavaş bulursanız, %1$sCLI arşivlemeyi%2$s kurmak isteyebilirsiniz. Böylece raporlarınız çağrıldığı anda değil, düzenli aralıklarla arka planda oluşturulur.",
         "PerformanceSettingsDesc2": "Bunun için, kurucu tarafından otomatik olarak yapılamayan bir Matomo komutunun zamanlanmış göreve eklenmesi gerekir. %1$sBunu nasıl yapabileceğinizi öğrenmek için sık sorulan sorular bölümüne bakabilirsiniz.%2$s",
+        "PhpBinaryCheck": "64 bit PHP binary",
+        "PhpBinaryCheckHelp": "32 bit <p> Gelecekteki sorunları önlemek için en geç 2026 Ocak tarihine kadar 64 bit PHP binary dosyasına yükseltmenizi öneririz.</p>",
         "PiwikOrgNewsletter": "Matomo topluluğundaki gelişmeler e-posta ile bana bildirilsin",
         "PleaseFixTheFollowingErrors": "Lütfen şu sorunları çözün",
         "ProfessionalServicesAdTitle": "Gelişmiş istatistikler ve hizmetler",
