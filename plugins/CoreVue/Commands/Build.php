@@ -129,10 +129,10 @@ class Build extends ConsoleCommand
         $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
 
         $plugins = scandir($pluginsDir);
-        return $this->filterPluginsWithoutVueLibrary($plugins);
+        return $this->filterPluginsWithoutVueLibrary($plugins, $isAll = true);
     }
 
-    private function filterPluginsWithoutVueLibrary($plugins)
+    private function filterPluginsWithoutVueLibrary($plugins, $isAll = false)
     {
         $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
 
@@ -144,7 +144,9 @@ class Build extends ConsoleCommand
             $pluginDirPath = $pluginsDir . '/' . $plugin;
             $vueDir = $pluginDirPath . '/vue';
             if (!is_dir($vueDir)) {
-                $logger->error("Cannot find vue library for plugin {plugin}, nothing to build.", ['plugin' => $plugin]);
+                if (!$isAll) {
+                    $logger->error("Cannot find vue library for plugin {plugin}, nothing to build.", ['plugin' => $plugin]);
+                }
                 continue;
             }
 

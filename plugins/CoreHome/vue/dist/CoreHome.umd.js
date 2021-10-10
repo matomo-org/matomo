@@ -898,20 +898,14 @@ class AjaxHelper_AjaxHelper {
 
   /**
    * Callback function to be executed on error
-  <<<<<<< HEAD
    *
    * @deprecated use the jquery promise API
-  =======
-  >>>>>>> 4.x-dev
    */
 
   /**
    * Callback function to be executed on complete (after error or success)
-  <<<<<<< HEAD
    *
    * @deprecated use the jquery promise API
-  =======
-  >>>>>>> 4.x-dev
    */
 
   /**
@@ -1049,10 +1043,7 @@ class AjaxHelper_AjaxHelper {
    * Sets the callback called after the request finishes
    *
    * @param callback  Callback function
-  <<<<<<< HEAD
    * @deprecated use the jquery promise API
-  =======
-  >>>>>>> 4.x-dev
    */
 
 
@@ -1084,10 +1075,8 @@ class AjaxHelper_AjaxHelper {
   }
   /**
    * Sets the callback called in case of an error within the request
-  <<<<<<< HEAD
+   *
    * @deprecated use the jquery promise API
-  =======
-  >>>>>>> 4.x-dev
    */
 
 
@@ -1096,10 +1085,8 @@ class AjaxHelper_AjaxHelper {
   }
   /**
    * Sets the complete callback which is called after an error or success callback.
-  <<<<<<< HEAD
+   *
    * @deprecated use the jquery promise API
-  =======
-  >>>>>>> 4.x-dev
    */
 
 
