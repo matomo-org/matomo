@@ -88,8 +88,11 @@ export default class AjaxHelper {
 
   /**
    * Callback function to be executed on error
+<<<<<<< HEAD
    *
    * @deprecated use the jquery promise API
+=======
+>>>>>>> 4.x-dev
    */
   errorCallback: AnyFunction;
 
@@ -97,8 +100,11 @@ export default class AjaxHelper {
 
   /**
    * Callback function to be executed on complete (after error or success)
+<<<<<<< HEAD
    *
    * @deprecated use the jquery promise API
+=======
+>>>>>>> 4.x-dev
    */
   completeCallback: AnyFunction;
 
@@ -217,7 +223,10 @@ export default class AjaxHelper {
    * Sets the callback called after the request finishes
    *
    * @param callback  Callback function
+<<<<<<< HEAD
    * @deprecated use the jquery promise API
+=======
+>>>>>>> 4.x-dev
    */
   setCallback(callback: AnyFunction): void {
     this.callback = callback;
@@ -246,7 +255,10 @@ export default class AjaxHelper {
 
   /**
    * Sets the callback called in case of an error within the request
+<<<<<<< HEAD
    * @deprecated use the jquery promise API
+=======
+>>>>>>> 4.x-dev
    */
   setErrorCallback(callback: AnyFunction): void {
     this.errorCallback = callback;
@@ -254,7 +266,10 @@ export default class AjaxHelper {
 
   /**
    * Sets the complete callback which is called after an error or success callback.
+<<<<<<< HEAD
    * @deprecated use the jquery promise API
+=======
+>>>>>>> 4.x-dev
    */
   setCompleteCallback(callback: AnyFunction): void {
     this.completeCallback = callback;

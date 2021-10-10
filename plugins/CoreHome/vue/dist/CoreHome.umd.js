@@ -192,6 +192,24 @@ const MatomoUrl = {
 
 };
 /* harmony default export */ var MatomoUrl_MatomoUrl = (MatomoUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function piwikUrl() {
+  const model = {
+    getSearchParam: MatomoUrl_MatomoUrl.getSearchParam.bind(MatomoUrl_MatomoUrl)
+  };
+  return model;
+}
+
+piwikUrl.$inject = [];
+angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -434,6 +452,370 @@ piwik.hasUserCapability = function hasUserCapability(capability) {
 
 const Matomo = piwik;
 /* harmony default export */ var Matomo_Matomo = (Matomo);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function piwikService() {
+  return Matomo_Matomo;
+}
+
+angular.module('piwikApp.service').service('piwik', piwikService);
+
+function initPiwikService(piwik, $rootScope) {
+  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
+}
+
+initPiwikService.$inject = ['piwik', '$rootScope'];
+angular.module('piwikApp.service').run(initPiwikService);
+// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
+var noAdblockFlag = __webpack_require__("2342");
+
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function translate(translationStringId, values = []) {
+  return window._pk_translate(translationStringId, values); // eslint-disable-line
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
+function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Day_DayPeriod {
+  constructor(dateInPeriod) {
+    Day_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Day_DayPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodDay');
+  }
+
+  getPrettyString() {
+    return format(this.dateInPeriod);
+  }
+
+  getDateRange() {
+    return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
+function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Week_WeekPeriod {
+  constructor(dateInPeriod) {
+    Week_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Week_WeekPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodWeek');
+  }
+
+  getPrettyString() {
+    const weekDates = this.getDateRange();
+    const startWeek = format(weekDates[0]);
+    const endWeek = format(weekDates[1]);
+    return translate('General_DateRangeFromTo', [startWeek, endWeek]);
+  }
+
+  getDateRange() {
+    const daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;
+    const startWeek = new Date(this.dateInPeriod.getTime());
+    startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);
+    const endWeek = new Date(startWeek.getTime());
+    endWeek.setDate(startWeek.getDate() + 6);
+    return [startWeek, endWeek];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
+function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Month_MonthPeriod {
+  constructor(dateInPeriod) {
+    Month_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Month_MonthPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodMonth');
+  }
+
+  getPrettyString() {
+    const month = translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);
+    return `${month} ${this.dateInPeriod.getFullYear()}`;
+  }
+
+  getDateRange() {
+    const startMonth = new Date(this.dateInPeriod.getTime());
+    startMonth.setDate(1);
+    const endMonth = new Date(this.dateInPeriod.getTime());
+    endMonth.setDate(1);
+    endMonth.setMonth(endMonth.getMonth() + 1);
+    endMonth.setDate(0);
+    return [startMonth, endMonth];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
+function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Year_YearPeriod {
+  constructor(dateInPeriod) {
+    Year_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Year_YearPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodYear');
+  }
+
+  getPrettyString() {
+    return this.dateInPeriod.getFullYear().toString();
+  }
+
+  getDateRange() {
+    const startYear = new Date(this.dateInPeriod.getTime());
+    startYear.setMonth(0);
+    startYear.setDate(1);
+    const endYear = new Date(this.dateInPeriod.getTime());
+    endYear.setMonth(12);
+    endYear.setDate(0);
+    return [startYear, endYear];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
+function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Range_RangePeriod {
+  constructor(startDate, endDate, childPeriodType) {
+    Range_defineProperty(this, "startDate", void 0);
+
+    Range_defineProperty(this, "endDate", void 0);
+
+    Range_defineProperty(this, "childPeriodType", void 0);
+
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.childPeriodType = childPeriodType;
+  }
+  /**
+   * Returns a range representing the last N childPeriodType periods, including the current one.
+   */
+
+
+  static getLastNRange(childPeriodType, strAmount, strEndDate) {
+    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
+
+    if (Number.isNaN(nAmount)) {
+      throw new Error('Invalid range strAmount');
+    }
+
+    let endDate = strEndDate ? parseDate(strEndDate) : getToday();
+    let startDate = new Date(endDate.getTime());
+
+    if (childPeriodType === 'day') {
+      startDate.setDate(startDate.getDate() - nAmount);
+    } else if (childPeriodType === 'week') {
+      startDate.setDate(startDate.getDate() - nAmount * 7);
+    } else if (childPeriodType === 'month') {
+      startDate.setDate(1);
+      startDate.setMonth(startDate.getMonth() - nAmount);
+    } else if (childPeriodType === 'year') {
+      startDate.setFullYear(startDate.getFullYear() - nAmount);
+    } else {
+      throw new Error(`Unknown period type '${childPeriodType}'.`);
+    }
+
+    if (childPeriodType !== 'day') {
+      const startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
+      const endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
+      [startDate] = startPeriod.getDateRange();
+      [, endDate] = endPeriod.getDateRange();
+    }
+
+    const firstWebsiteDate = new Date(1991, 7, 6);
+
+    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
+      switch (childPeriodType) {
+        case 'year':
+          startDate = new Date(1992, 0, 1);
+          break;
+
+        case 'month':
+          startDate = new Date(1991, 8, 1);
+          break;
+
+        case 'week':
+          startDate = new Date(1991, 8, 12);
+          break;
+
+        case 'day':
+        default:
+          startDate = firstWebsiteDate;
+          break;
+      }
+    }
+
+    return new Range_RangePeriod(startDate, endDate, childPeriodType);
+  }
+
+  static parse(strDate, childPeriodType = 'day') {
+    if (/^previous/.test(strDate)) {
+      const endDate = Range_RangePeriod.getLastNRange(childPeriodType, '2').startDate;
+      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
+    }
+
+    if (/^last/.test(strDate)) {
+      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
+    }
+
+    const parts = decodeURIComponent(strDate).split(',');
+    return new Range_RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
+  }
+
+  static getDisplayText() {
+    return translate('General_DateRangeInPeriodList');
+  }
+
+  getPrettyString() {
+    const start = format(this.startDate);
+    const end = format(this.endDate);
+    return translate('General_DateRangeFromTo', [start, end]);
+  }
+
+  getDateRange() {
+    return [this.startDate, this.endDate];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+window.piwik.addCustomPeriod = Periods_Periods.addCustomPeriod.bind(Periods_Periods);
+
+function piwikPeriods() {
+  return {
+    getAllLabels: Periods_Periods.getAllLabels.bind(Periods_Periods),
+    isRecognizedPeriod: Periods_Periods.isRecognizedPeriod.bind(Periods_Periods),
+    get: Periods_Periods.get.bind(Periods_Periods),
+    parse: Periods_Periods.parse.bind(Periods_Periods),
+    parseDate: parseDate,
+    format: format,
+    RangePeriod: Range_RangePeriod,
+    todayIsInRange: todayIsInRange
+  };
+}
+
+angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
 function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -516,14 +898,20 @@ class AjaxHelper_AjaxHelper {
 
   /**
    * Callback function to be executed on error
+  <<<<<<< HEAD
    *
    * @deprecated use the jquery promise API
+  =======
+  >>>>>>> 4.x-dev
    */
 
   /**
    * Callback function to be executed on complete (after error or success)
+  <<<<<<< HEAD
    *
    * @deprecated use the jquery promise API
+  =======
+  >>>>>>> 4.x-dev
    */
 
   /**
@@ -661,7 +1049,10 @@ class AjaxHelper_AjaxHelper {
    * Sets the callback called after the request finishes
    *
    * @param callback  Callback function
+  <<<<<<< HEAD
    * @deprecated use the jquery promise API
+  =======
+  >>>>>>> 4.x-dev
    */
 
 
@@ -693,7 +1084,10 @@ class AjaxHelper_AjaxHelper {
   }
   /**
    * Sets the callback called in case of an error within the request
+  <<<<<<< HEAD
    * @deprecated use the jquery promise API
+  =======
+  >>>>>>> 4.x-dev
    */
 
 
@@ -702,7 +1096,10 @@ class AjaxHelper_AjaxHelper {
   }
   /**
    * Sets the complete callback which is called after an error or success callback.
+  <<<<<<< HEAD
    * @deprecated use the jquery promise API
+  =======
+  >>>>>>> 4.x-dev
    */
 
 
@@ -965,48 +1362,6 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikUrl() {
-  const model = {
-    getSearchParam: MatomoUrl_MatomoUrl.getSearchParam.bind(MatomoUrl_MatomoUrl)
-  };
-  return model;
-}
-
-piwikUrl.$inject = [];
-angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikService() {
-  return Matomo_Matomo;
-}
-
-angular.module('piwikApp.service').service('piwik', piwikService);
-
-function initPiwikService(piwik, $rootScope) {
-  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
-}
-
-initPiwikService.$inject = ['piwik', '$rootScope'];
-angular.module('piwikApp.service').run(initPiwikService);
-// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
-var noAdblockFlag = __webpack_require__("2342");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -1026,16 +1381,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function translate(translationStringId, values = []) {
-  return window._pk_translate(translationStringId, values); // eslint-disable-line
-}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
 
 
@@ -1186,336 +1531,6 @@ function alertAdapter() {
 }
 alertAdapter.$inject = [];
 angular.module('piwikApp').directive('piwikAlert', alertAdapter);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
-function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Range_RangePeriod {
-  constructor(startDate, endDate, childPeriodType) {
-    Range_defineProperty(this, "startDate", void 0);
-
-    Range_defineProperty(this, "endDate", void 0);
-
-    Range_defineProperty(this, "childPeriodType", void 0);
-
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.childPeriodType = childPeriodType;
-  }
-  /**
-   * Returns a range representing the last N childPeriodType periods, including the current one.
-   */
-
-
-  static getLastNRange(childPeriodType, strAmount, strEndDate) {
-    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
-
-    if (Number.isNaN(nAmount)) {
-      throw new Error('Invalid range strAmount');
-    }
-
-    let endDate = strEndDate ? parseDate(strEndDate) : getToday();
-    let startDate = new Date(endDate.getTime());
-
-    if (childPeriodType === 'day') {
-      startDate.setDate(startDate.getDate() - nAmount);
-    } else if (childPeriodType === 'week') {
-      startDate.setDate(startDate.getDate() - nAmount * 7);
-    } else if (childPeriodType === 'month') {
-      startDate.setDate(1);
-      startDate.setMonth(startDate.getMonth() - nAmount);
-    } else if (childPeriodType === 'year') {
-      startDate.setFullYear(startDate.getFullYear() - nAmount);
-    } else {
-      throw new Error(`Unknown period type '${childPeriodType}'.`);
-    }
-
-    if (childPeriodType !== 'day') {
-      const startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
-      const endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-      [startDate] = startPeriod.getDateRange();
-      [, endDate] = endPeriod.getDateRange();
-    }
-
-    const firstWebsiteDate = new Date(1991, 7, 6);
-
-    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
-      switch (childPeriodType) {
-        case 'year':
-          startDate = new Date(1992, 0, 1);
-          break;
-
-        case 'month':
-          startDate = new Date(1991, 8, 1);
-          break;
-
-        case 'week':
-          startDate = new Date(1991, 8, 12);
-          break;
-
-        case 'day':
-        default:
-          startDate = firstWebsiteDate;
-          break;
-      }
-    }
-
-    return new Range_RangePeriod(startDate, endDate, childPeriodType);
-  }
-
-  static parse(strDate, childPeriodType = 'day') {
-    if (/^previous/.test(strDate)) {
-      const endDate = Range_RangePeriod.getLastNRange(childPeriodType, '2').startDate;
-      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
-    }
-
-    if (/^last/.test(strDate)) {
-      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
-    }
-
-    const parts = decodeURIComponent(strDate).split(',');
-    return new Range_RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
-  }
-
-  static getDisplayText() {
-    return translate('General_DateRangeInPeriodList');
-  }
-
-  getPrettyString() {
-    const start = format(this.startDate);
-    const end = format(this.endDate);
-    return translate('General_DateRangeFromTo', [start, end]);
-  }
-
-  getDateRange() {
-    return [this.startDate, this.endDate];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-window.piwik.addCustomPeriod = Periods_Periods.addCustomPeriod.bind(Periods_Periods);
-
-function piwikPeriods() {
-  return {
-    getAllLabels: Periods_Periods.getAllLabels.bind(Periods_Periods),
-    isRecognizedPeriod: Periods_Periods.isRecognizedPeriod.bind(Periods_Periods),
-    get: Periods_Periods.get.bind(Periods_Periods),
-    parse: Periods_Periods.parse.bind(Periods_Periods),
-    parseDate: parseDate,
-    format: format,
-    RangePeriod: Range_RangePeriod,
-    todayIsInRange: todayIsInRange
-  };
-}
-
-angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
-function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Day_DayPeriod {
-  constructor(dateInPeriod) {
-    Day_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Day_DayPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodDay');
-  }
-
-  getPrettyString() {
-    return format(this.dateInPeriod);
-  }
-
-  getDateRange() {
-    return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
-function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Week_WeekPeriod {
-  constructor(dateInPeriod) {
-    Week_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Week_WeekPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodWeek');
-  }
-
-  getPrettyString() {
-    const weekDates = this.getDateRange();
-    const startWeek = format(weekDates[0]);
-    const endWeek = format(weekDates[1]);
-    return translate('General_DateRangeFromTo', [startWeek, endWeek]);
-  }
-
-  getDateRange() {
-    const daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;
-    const startWeek = new Date(this.dateInPeriod.getTime());
-    startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);
-    const endWeek = new Date(startWeek.getTime());
-    endWeek.setDate(startWeek.getDate() + 6);
-    return [startWeek, endWeek];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
-function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Month_MonthPeriod {
-  constructor(dateInPeriod) {
-    Month_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Month_MonthPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodMonth');
-  }
-
-  getPrettyString() {
-    const month = translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);
-    return `${month} ${this.dateInPeriod.getFullYear()}`;
-  }
-
-  getDateRange() {
-    const startMonth = new Date(this.dateInPeriod.getTime());
-    startMonth.setDate(1);
-    const endMonth = new Date(this.dateInPeriod.getTime());
-    endMonth.setDate(1);
-    endMonth.setMonth(endMonth.getMonth() + 1);
-    endMonth.setDate(0);
-    return [startMonth, endMonth];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
-function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Year_YearPeriod {
-  constructor(dateInPeriod) {
-    Year_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Year_YearPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodYear');
-  }
-
-  getPrettyString() {
-    return this.dateInPeriod.getFullYear().toString();
-  }
-
-  getDateRange() {
-    const startYear = new Date(this.dateInPeriod.getTime());
-    startYear.setMonth(0);
-    startYear.setDate(1);
-    const endYear = new Date(this.dateInPeriod.getTime());
-    endYear.setMonth(12);
-    endYear.setDate(0);
-    return [startYear, endYear];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1538,6 +1553,12 @@ Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
+
+
 
 
 

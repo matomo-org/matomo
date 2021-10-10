@@ -41,10 +41,7 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
-        $renderer = Renderer::factory('json');
-        $renderer->setTable($dataTable);
-        $ranks = json_decode($renderer->render(), true);
+        $ranks = $this->apiFunction();
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
@@ -60,4 +57,25 @@ class SEOTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess()
         );
     }
+
+    /**
+     * this function rerun the API 3 times, to reduce the chance of failing.
+     */
+    private function apiFunction($counter = 0, $ranks = [])
+    {
+        if ($counter > 3) {
+            return $ranks;
+        }
+        $dataTable = API::getInstance()->getRank('http://matomo.org/');
+        $renderer = Renderer::factory('json');
+        $renderer->setTable($dataTable);
+        $ranks = json_decode($renderer->render(), true);
+        foreach ($ranks as $rank) {
+            if ($rank['rank'] === 0 ) {
+                $this->apiFunction($counter++, $ranks);
+            }
+        }
+        return $ranks;
+    }
+
 }

@@ -5,10 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import './AjaxHelper/AjaxHelper.adapter';
 import './MatomoUrl/MatomoUrl.adapter';
 import './Matomo/Matomo.adapter';
 import './noAdblockFlag';
+import './Periods/Day';
+import './Periods/Week';
+import './Periods/Month';
+import './Periods/Year';
+import './Periods/Range';
+import './Periods/Periods.adapter';
+import './AjaxHelper/AjaxHelper.adapter';
 
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
