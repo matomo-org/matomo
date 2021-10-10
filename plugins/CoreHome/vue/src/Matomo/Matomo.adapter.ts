@@ -5,10 +5,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import Piwik from './Piwik';
+import Matomo from './Matomo';
 
 function piwikService() {
-  return Piwik;
+  return Matomo;
 }
 
 angular.module('piwikApp.service').service('piwik', piwikService);

@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import PiwikUrl from '../PiwikUrl/PiwikUrl';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Periods from '../Periods/Periods';
 import { format } from '../Periods/utilities';
 
@@ -26,8 +26,8 @@ function isValidPeriod(periodStr: string, dateStr: string) {
 }
 
 piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
-  let date = PiwikUrl.getSearchParam('date');
-  const period = PiwikUrl.getSearchParam('period');
+  let date = MatomoUrl.getSearchParam('date');
+  const period = MatomoUrl.getSearchParam('period');
   if (!isValidPeriod(period, date)) {
     // invalid data in URL
     return;
@@ -74,5 +74,5 @@ piwik.hasUserCapability = function hasUserCapability(capability: string) {
     && piwik.userCapabilities.indexOf(capability) !== -1;
 };
 
-const Piwik = piwik;
-export default Piwik;
+const Matomo = piwik;
+export default Matomo;

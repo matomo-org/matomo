@@ -9,7 +9,7 @@
  * Similar to angulars $location but works around some limitation. Use it if you need to access
  * search params
  */
-const PiwikUrl = {
+const MatomoUrl = {
   getSearchParam(paramName: string): string {
     const hash = window.location.href.split('#');
 
@@ -29,4 +29,4 @@ const PiwikUrl = {
   },
 };
 
-export default PiwikUrl;
+export default MatomoUrl;

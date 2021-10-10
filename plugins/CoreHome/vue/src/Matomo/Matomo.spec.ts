@@ -4,14 +4,14 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-import Piwik from './Piwik';
+import Matomo from './Matomo';
 import '../Periods/Day';
 import '../Periods/Week';
 import '../Periods/Month';
 import '../Periods/Year';
 import '../Periods/Range';
 
-describe('CoreHome/Piwik', () => {
+describe('CoreHome/Matomo', () => {
   describe('#updatePeriodParamsFromUrl()', () => {
     const DATE_PERIODS_TO_TEST = [
       {
@@ -103,50 +103,50 @@ describe('CoreHome/Piwik', () => {
         expected = test.expected;
 
       it(`should parse the period in the URL correctly when date=${date} and period=${period}`, () => {
-        delete Piwik.currentDateString;
-        delete Piwik.period;
-        delete Piwik.startDateString;
-        delete Piwik.endDateString;
+        delete Matomo.currentDateString;
+        delete Matomo.period;
+        delete Matomo.startDateString;
+        delete Matomo.endDateString;
 
         history.pushState(null, '', '?date=' + date + '&period=' + period);
 
-        Piwik.updatePeriodParamsFromUrl();
+        Matomo.updatePeriodParamsFromUrl();
 
-        expect(Piwik.currentDateString).toEqual(expected.currentDateString);
-        expect(Piwik.period).toEqual(expected.period);
-        expect(Piwik.startDateString).toEqual(expected.startDateString);
-        expect(Piwik.endDateString).toEqual(expected.endDateString);
+        expect(Matomo.currentDateString).toEqual(expected.currentDateString);
+        expect(Matomo.period).toEqual(expected.period);
+        expect(Matomo.startDateString).toEqual(expected.startDateString);
+        expect(Matomo.endDateString).toEqual(expected.endDateString);
       });
 
       it('should parse the period in the URL hash correctly when date=' + date + ' and period=' + period, () => {
-        delete Piwik.currentDateString;
-        delete Piwik.period;
-        delete Piwik.startDateString;
-        delete Piwik.endDateString;
+        delete Matomo.currentDateString;
+        delete Matomo.period;
+        delete Matomo.startDateString;
+        delete Matomo.endDateString;
 
         history.pushState(null, '', '?someparam=somevalue#?date=' + date + '&period=' + period);
 
-        Piwik.updatePeriodParamsFromUrl();
+        Matomo.updatePeriodParamsFromUrl();
 
-        expect(Piwik.currentDateString).toEqual(expected.currentDateString);
-        expect(Piwik.period).toEqual(expected.period);
-        expect(Piwik.startDateString).toEqual(expected.startDateString);
-        expect(Piwik.endDateString).toEqual(expected.endDateString);
+        expect(Matomo.currentDateString).toEqual(expected.currentDateString);
+        expect(Matomo.period).toEqual(expected.period);
+        expect(Matomo.startDateString).toEqual(expected.startDateString);
+        expect(Matomo.endDateString).toEqual(expected.endDateString);
       });
     });
 
     it('should not change object values if the current date/period is the same as the URL date/period', () => {
-      Piwik.period = 'range';
-      Piwik.currentDateString = '2012-01-01,2012-01-02';
-      Piwik.startDateString = 'shouldnotchange';
-      Piwik.endDateString = 'shouldnotchangeeither';
+      Matomo.period = 'range';
+      Matomo.currentDateString = '2012-01-01,2012-01-02';
+      Matomo.startDateString = 'shouldnotchange';
+      Matomo.endDateString = 'shouldnotchangeeither';
 
-      history.pushState(null, '', '?someparam=somevalue#?date=' + Piwik.currentDateString + '&period=' + Piwik.period);
+      history.pushState(null, '', '?someparam=somevalue#?date=' + Matomo.currentDateString + '&period=' + Matomo.period);
 
-      Piwik.updatePeriodParamsFromUrl();
+      Matomo.updatePeriodParamsFromUrl();
 
-      expect(Piwik.startDateString).toEqual('shouldnotchange');
-      expect(Piwik.endDateString).toEqual('shouldnotchangeeither');
+      expect(Matomo.startDateString).toEqual('shouldnotchange');
+      expect(Matomo.endDateString).toEqual('shouldnotchangeeither');
     });
   });
 });

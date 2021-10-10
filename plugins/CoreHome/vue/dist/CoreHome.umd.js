@@ -96,6 +96,23 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "2342":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// see https://github.com/matomo-org/matomo/issues/5094 used to detect an ad blocker
+
+window.hasBlockedContent = false;
+
+/***/ }),
+
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -116,14 +133,18 @@ __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { ret
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
 __webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ alertAdapter; });
 __webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
-__webpack_require__.d(__webpack_exports__, "PiwikUrl", function() { return /* reexport */ PiwikUrl_PiwikUrl; });
-__webpack_require__.d(__webpack_exports__, "Piwik", function() { return /* reexport */ Piwik_Piwik; });
+__webpack_require__.d(__webpack_exports__, "MatomoUrl", function() { return /* reexport */ MatomoUrl_MatomoUrl; });
+__webpack_require__.d(__webpack_exports__, "Matomo", function() { return /* reexport */ Matomo_Matomo; });
 __webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
 __webpack_require__.d(__webpack_exports__, "Day", function() { return /* reexport */ Day_DayPeriod; });
 __webpack_require__.d(__webpack_exports__, "Week", function() { return /* reexport */ Week_WeekPeriod; });
 __webpack_require__.d(__webpack_exports__, "Month", function() { return /* reexport */ Month_MonthPeriod; });
 __webpack_require__.d(__webpack_exports__, "Year", function() { return /* reexport */ Year_YearPeriod; });
 __webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range_RangePeriod; });
+__webpack_require__.d(__webpack_exports__, "format", function() { return /* reexport */ format; });
+__webpack_require__.d(__webpack_exports__, "getToday", function() { return /* reexport */ getToday; });
+__webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
+__webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -141,7 +162,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -153,7 +174,7 @@ if (typeof window !== 'undefined') {
  * Similar to angulars $location but works around some limitation. Use it if you need to access
  * search params
  */
-const PiwikUrl = {
+const MatomoUrl = {
   getSearchParam(paramName) {
     const hash = window.location.href.split('#');
     const regex = new RegExp(`${paramName}(\\[]|=)`);
@@ -170,8 +191,8 @@ const PiwikUrl = {
   }
 
 };
-/* harmony default export */ var PiwikUrl_PiwikUrl = (PiwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
+/* harmony default export */ var MatomoUrl_MatomoUrl = (MatomoUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /*!
@@ -180,6 +201,249 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+/**
+ * Matomo period management service for the frontend.
+ *
+ * Usage:
+ *
+ *     var DayPeriod = matomoPeriods.get('day');
+ *     var day = new DayPeriod(new Date());
+ *
+ * or
+ *
+ *     var day = matomoPeriods.parse('day', '2013-04-05');
+ *
+ * Adding custom periods:
+ *
+ * To add your own period to the frontend, create a period class for it
+ * w/ the following methods:
+ *
+ * - **getPrettyString()**: returns a human readable display string for the period.
+ * - **getDateRange()**: returns an array w/ two elements, the first being the start
+ *                       Date of the period, the second being the end Date. The dates
+ *                       must be Date objects, not strings, and are inclusive.
+ * - **containsToday()**: returns true if the date period contains today. False if not.
+ * - (_static_) **parse(strDate)**: creates a new instance of this period from the
+ *                                  value of the 'date' query parameter.
+ * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
+ *                                  'week', etc.
+ *
+ * Then call Periods.addCustomPeriod w/ your period class:
+ *
+ *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);
+ *
+ * NOTE: currently only single date periods like day, week, month year can
+ *       be extended. Other types of periods that require a special UI to
+ *       view/edit aren't, since there is currently no way to use a
+ *       custom UI for a custom period.
+ */
+class Periods {
+  constructor() {
+    _defineProperty(this, "periods", {});
+
+    _defineProperty(this, "periodOrder", []);
+  }
+
+  addCustomPeriod(name, periodClass) {
+    if (this.periods[name]) {
+      throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
+    }
+
+    this.periods[name] = periodClass;
+    this.periodOrder.push(name);
+  }
+
+  getAllLabels() {
+    return Array().concat(this.periodOrder);
+  }
+
+  get(strPeriod) {
+    const periodClass = this.periods[strPeriod];
+
+    if (!periodClass) {
+      throw new Error(`Invalid period label: ${strPeriod}`);
+    }
+
+    return periodClass;
+  }
+
+  parse(strPeriod, strDate) {
+    return this.get(strPeriod).parse(strDate);
+  }
+
+  isRecognizedPeriod(strPeriod) {
+    return !!this.periods[strPeriod];
+  }
+
+}
+
+/* harmony default export */ var Periods_Periods = (new Periods());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function format(date) {
+  return $.datepicker.formatDate('yy-mm-dd', date);
+}
+function getToday() {
+  const date = new Date(Date.now()); // undo browser timezone
+
+  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply Matomo site timezone (if it exists)
+
+  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
+
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
+}
+function parseDate(date) {
+  if (date instanceof Date) {
+    return date;
+  }
+
+  const strDate = decodeURIComponent(date);
+
+  if (strDate === 'today' || strDate === 'now') {
+    return getToday();
+  }
+
+  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time
+  || strDate === 'yesterdaySameTime') {
+    const yesterday = getToday();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return yesterday;
+  }
+
+  if (strDate.match(/last[ -]?week/i)) {
+    const lastWeek = getToday();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    return lastWeek;
+  }
+
+  if (strDate.match(/last[ -]?month/i)) {
+    const lastMonth = getToday();
+    lastMonth.setDate(1);
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    return lastMonth;
+  }
+
+  if (strDate.match(/last[ -]?year/i)) {
+    const lastYear = getToday();
+    lastYear.setFullYear(lastYear.getFullYear() - 1);
+    return lastYear;
+  }
+
+  try {
+    return $.datepicker.parseDate('yy-mm-dd', strDate);
+  } catch (err) {
+    // angular swallows this error, so manual console log here
+    console.error(err.message || err);
+    throw err;
+  }
+}
+function todayIsInRange(dateRange) {
+  if (dateRange.length !== 2) {
+    return false;
+  }
+
+  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
+    return true;
+  }
+
+  return false;
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+let originalTitle;
+const {
+  piwik,
+  broadcast: Matomo_broadcast,
+  piwikHelper: Matomo_piwikHelper
+} = window;
+piwik.helper = Matomo_piwikHelper;
+piwik.broadcast = Matomo_broadcast;
+
+function isValidPeriod(periodStr, dateStr) {
+  try {
+    Periods_Periods.parse(periodStr, dateStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
+  let date = MatomoUrl_MatomoUrl.getSearchParam('date');
+  const period = MatomoUrl_MatomoUrl.getSearchParam('period');
+
+  if (!isValidPeriod(period, date)) {
+    // invalid data in URL
+    return;
+  }
+
+  if (piwik.period === period && piwik.currentDateString === date) {
+    // this period / date is already loaded
+    return;
+  }
+
+  piwik.period = period;
+  const dateRange = Periods_Periods.parse(period, date).getDateRange();
+  piwik.startDateString = format(dateRange[0]);
+  piwik.endDateString = format(dateRange[1]);
+  piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+  // to have the dates than previousN/lastN.
+
+  if (piwik.period === 'range') {
+    date = `${piwik.startDateString},${piwik.endDateString}`;
+  }
+
+  piwik.currentDateString = date;
+};
+
+piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+  if (!$('.top_controls #periodString').length) {
+    return;
+  } // Cache server-rendered page title
+
+
+  originalTitle = originalTitle || document.title;
+
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
+    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+    document.title = `${piwik.siteName}${dateString}${originalTitle.substr(piwik.siteName.length)}`;
+  }
+};
+
+piwik.hasUserCapability = function hasUserCapability(capability) {
+  return window.angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+const Matomo = piwik;
+/* harmony default export */ var Matomo_Matomo = (Matomo);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
+function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 
 window.globalAjaxQueue = [];
 window.globalAjaxQueue.active = 0;
@@ -229,7 +493,7 @@ function defaultErrorCallback(deferred, status) {
   }
 }
 /**
- * Global ajax helper to handle requests within piwik
+ * Global ajax helper to handle requests within Matomo
  */
 
 
@@ -252,10 +516,14 @@ class AjaxHelper_AjaxHelper {
 
   /**
    * Callback function to be executed on error
+   *
+   * @deprecated use the jquery promise API
    */
 
   /**
    * Callback function to be executed on complete (after error or success)
+   *
+   * @deprecated use the jquery promise API
    */
 
   /**
@@ -291,33 +559,33 @@ class AjaxHelper_AjaxHelper {
    * Handle for current request
    */
   constructor() {
-    _defineProperty(this, "format", 'json');
+    AjaxHelper_defineProperty(this, "format", 'json');
 
-    _defineProperty(this, "timeout", null);
+    AjaxHelper_defineProperty(this, "timeout", null);
 
-    _defineProperty(this, "callback", null);
+    AjaxHelper_defineProperty(this, "callback", null);
 
-    _defineProperty(this, "useRegularCallbackInCaseOfError", false);
+    AjaxHelper_defineProperty(this, "useRegularCallbackInCaseOfError", false);
 
-    _defineProperty(this, "errorCallback", void 0);
+    AjaxHelper_defineProperty(this, "errorCallback", void 0);
 
-    _defineProperty(this, "withToken", false);
+    AjaxHelper_defineProperty(this, "withToken", false);
 
-    _defineProperty(this, "completeCallback", void 0);
+    AjaxHelper_defineProperty(this, "completeCallback", void 0);
 
-    _defineProperty(this, "getParams", {});
+    AjaxHelper_defineProperty(this, "getParams", {});
 
-    _defineProperty(this, "getUrl", '?');
+    AjaxHelper_defineProperty(this, "getUrl", '?');
 
-    _defineProperty(this, "postParams", {});
+    AjaxHelper_defineProperty(this, "postParams", {});
 
-    _defineProperty(this, "loadingElement", null);
+    AjaxHelper_defineProperty(this, "loadingElement", null);
 
-    _defineProperty(this, "errorElement", '#ajaxError');
+    AjaxHelper_defineProperty(this, "errorElement", '#ajaxError');
 
-    _defineProperty(this, "requestHandle", null);
+    AjaxHelper_defineProperty(this, "requestHandle", null);
 
-    _defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
+    AjaxHelper_defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
 
     this.errorCallback = defaultErrorCallback;
   }
@@ -393,6 +661,7 @@ class AjaxHelper_AjaxHelper {
    * Sets the callback called after the request finishes
    *
    * @param callback  Callback function
+   * @deprecated use the jquery promise API
    */
 
 
@@ -424,6 +693,7 @@ class AjaxHelper_AjaxHelper {
   }
   /**
    * Sets the callback called in case of an error within the request
+   * @deprecated use the jquery promise API
    */
 
 
@@ -432,6 +702,7 @@ class AjaxHelper_AjaxHelper {
   }
   /**
    * Sets the complete callback which is called after an error or success callback.
+   * @deprecated use the jquery promise API
    */
 
 
@@ -520,6 +791,7 @@ class AjaxHelper_AjaxHelper {
 
     this.requestHandle = this.buildAjaxCall();
     globalAjaxQueue.push(this.requestHandle);
+    return this.requestHandle;
   }
   /**
    * Aborts the current request if it is (still) running
@@ -604,12 +876,9 @@ class AjaxHelper_AjaxHelper {
         }
 
         globalAjaxQueue.active -= 1;
-        const {
-          piwik
-        } = window;
 
-        if (piwik && piwik.ajaxRequestFinished) {
-          piwik.ajaxRequestFinished();
+        if (Matomo_Matomo.ajaxRequestFinished) {
+          Matomo_Matomo.ajaxRequestFinished();
         }
       },
       data: this.mixinDefaultPostParams(this.postParams),
@@ -627,9 +896,9 @@ class AjaxHelper_AjaxHelper {
   }
 
   getDefaultPostParams() {
-    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
+    if (this.withToken || this.isRequestToApiMethod() || Matomo_Matomo.shouldPropagateTokenAuth) {
       return {
-        token_auth: piwik.token_auth,
+        token_auth: Matomo_Matomo.token_auth,
         // When viewing a widgetized report there won't be any session that can be used, so don't
         // force session usage
         force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
@@ -660,10 +929,10 @@ class AjaxHelper_AjaxHelper {
 
 
   mixinDefaultGetParams(originalParams) {
-    const segment = PiwikUrl_PiwikUrl.getSearchParam('segment');
+    const segment = MatomoUrl_MatomoUrl.getSearchParam('segment');
     const defaultParams = {
-      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),
-      period: piwik.period || broadcast.getValueFromUrl('period'),
+      idSite: Matomo_Matomo.idSite || broadcast.getValueFromUrl('idSite'),
+      period: Matomo_Matomo.period || broadcast.getValueFromUrl('period'),
       segment
     };
     const params = originalParams; // never append token_auth to url
@@ -680,7 +949,7 @@ class AjaxHelper_AjaxHelper {
     }); // handle default date & period if not already set
 
     if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-      params.date = piwik.currentDateString;
+      params.date = Matomo_Matomo.currentDateString;
     }
 
     return params;
@@ -696,7 +965,7 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -707,256 +976,14 @@ angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
 
 function piwikUrl() {
   const model = {
-    getSearchParam: PiwikUrl_PiwikUrl.getSearchParam.bind(PiwikUrl_PiwikUrl)
+    getSearchParam: MatomoUrl_MatomoUrl.getSearchParam.bind(MatomoUrl_MatomoUrl)
   };
   return model;
 }
 
 piwikUrl.$inject = [];
 angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
-function Periods_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * Piwik period management service for the frontend.
- *
- * Usage:
- *
- *     var DayPeriod = piwikPeriods.get('day');
- *     var day = new DayPeriod(new Date());
- *
- * or
- *
- *     var day = piwikPeriods.parse('day', '2013-04-05');
- *
- * Adding custom periods:
- *
- * To add your own period to the frontend, create a period class for it
- * w/ the following methods:
- *
- * - **getPrettyString()**: returns a human readable display string for the period.
- * - **getDateRange()**: returns an array w/ two elements, the first being the start
- *                       Date of the period, the second being the end Date. The dates
- *                       must be Date objects, not strings, and are inclusive.
- * - **containsToday()**: returns true if the date period contains today. False if not.
- * - (_static_) **parse(strDate)**: creates a new instance of this period from the
- *                                  value of the 'date' query parameter.
- * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
- *                                  'week', etc.
- *
- * Then call piwik.addCustomPeriod w/ your period class:
- *
- *     piwik.addCustomPeriod('mycustomperiod', MyCustomPeriod);
- *
- * NOTE: currently only single date periods like day, week, month year can
- *       be extended. Other types of periods that require a special UI to
- *       view/edit aren't, since there is currently no way to use a
- *       custom UI for a custom period.
- */
-class Periods {
-  constructor() {
-    Periods_defineProperty(this, "periods", {});
-
-    Periods_defineProperty(this, "periodOrder", []);
-  }
-
-  addCustomPeriod(name, periodClass) {
-    if (this.periods[name]) {
-      throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
-    }
-
-    this.periods[name] = periodClass;
-    this.periodOrder.push(name);
-  }
-
-  getAllLabels() {
-    return Array().concat(this.periodOrder);
-  }
-
-  get(strPeriod) {
-    const periodClass = this.periods[strPeriod];
-
-    if (!periodClass) {
-      throw new Error(`Invalid period label: ${strPeriod}`);
-    }
-
-    return periodClass;
-  }
-
-  parse(strPeriod, strDate) {
-    return this.get(strPeriod).parse(strDate);
-  }
-
-  isRecognizedPeriod(strPeriod) {
-    return !!this.periods[strPeriod];
-  }
-
-}
-
-/* harmony default export */ var Periods_Periods = (new Periods());
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function format(date) {
-  return $.datepicker.formatDate('yy-mm-dd', date);
-}
-function getToday() {
-  const date = new Date(Date.now()); // undo browser timezone
-
-  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply piwik site timezone (if it exists)
-
-  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
-
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  return date;
-}
-function parseDate(date) {
-  if (date instanceof Date) {
-    return date;
-  }
-
-  const strDate = decodeURIComponent(date);
-
-  if (strDate === 'today' || strDate === 'now') {
-    return getToday();
-  }
-
-  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time
-  || strDate === 'yesterdaySameTime') {
-    const yesterday = getToday();
-    yesterday.setDate(yesterday.getDate() - 1);
-    return yesterday;
-  }
-
-  if (strDate.match(/last[ -]?week/i)) {
-    const lastWeek = getToday();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    return lastWeek;
-  }
-
-  if (strDate.match(/last[ -]?month/i)) {
-    const lastMonth = getToday();
-    lastMonth.setDate(1);
-    lastMonth.setMonth(lastMonth.getMonth() - 1);
-    return lastMonth;
-  }
-
-  if (strDate.match(/last[ -]?year/i)) {
-    const lastYear = getToday();
-    lastYear.setFullYear(lastYear.getFullYear() - 1);
-    return lastYear;
-  }
-
-  try {
-    return $.datepicker.parseDate('yy-mm-dd', strDate);
-  } catch (err) {
-    // angular swallows this error, so manual console log here
-    console.error(err.message || err);
-    throw err;
-  }
-}
-function todayIsInRange(dateRange) {
-  if (dateRange.length !== 2) {
-    return false;
-  }
-
-  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
-    return true;
-  }
-
-  return false;
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-let originalTitle;
-const {
-  piwik: Piwik_piwik,
-  broadcast: Piwik_broadcast,
-  piwikHelper: Piwik_piwikHelper
-} = window;
-Piwik_piwik.helper = Piwik_piwikHelper;
-Piwik_piwik.broadcast = Piwik_broadcast;
-
-function isValidPeriod(periodStr, dateStr) {
-  try {
-    Periods_Periods.parse(periodStr, dateStr);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
-  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
-  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
-
-  if (!isValidPeriod(period, date)) {
-    // invalid data in URL
-    return;
-  }
-
-  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
-    // this period / date is already loaded
-    return;
-  }
-
-  Piwik_piwik.period = period;
-  const dateRange = Periods_Periods.parse(period, date).getDateRange();
-  Piwik_piwik.startDateString = format(dateRange[0]);
-  Piwik_piwik.endDateString = format(dateRange[1]);
-  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
-  // to have the dates than previousN/lastN.
-
-  if (Piwik_piwik.period === 'range') {
-    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
-  }
-
-  Piwik_piwik.currentDateString = date;
-};
-
-Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  } // Cache server-rendered page title
-
-
-  originalTitle = originalTitle || document.title;
-
-  if (originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
-    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${Piwik_piwik.siteName}${dateString}${originalTitle.substr(Piwik_piwik.siteName.length)}`;
-  }
-};
-
-Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
-  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
-};
-
-const Piwik = Piwik_piwik;
-/* harmony default export */ var Piwik_Piwik = (Piwik);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -966,7 +993,7 @@ const Piwik = Piwik_piwik;
 
 
 function piwikService() {
-  return Piwik_Piwik;
+  return Matomo_Matomo;
 }
 
 angular.module('piwikApp.service').service('piwik', piwikService);
@@ -977,6 +1004,9 @@ function initPiwikService(piwik, $rootScope) {
 
 initPiwikService.$inject = ['piwik', '$rootScope'];
 angular.module('piwikApp.service').run(initPiwikService);
+// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
+var noAdblockFlag = __webpack_require__("2342");
+
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -1500,6 +1530,7 @@ Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
 
 
 
+
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1507,6 +1538,7 @@ Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

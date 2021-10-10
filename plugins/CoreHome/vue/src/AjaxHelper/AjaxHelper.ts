@@ -5,8 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import PiwikUrl from '../PiwikUrl/PiwikUrl';
-import jqXHR = JQuery.jqXHR;
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import Matomo from '../Matomo/Matomo';
 
 window.globalAjaxQueue = [] as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
@@ -63,7 +63,7 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
 }
 
 /**
- * Global ajax helper to handle requests within piwik
+ * Global ajax helper to handle requests within Matomo
  */
 export default class AjaxHelper {
   /**
@@ -414,11 +414,8 @@ export default class AjaxHelper {
         }
 
         globalAjaxQueue.active -= 1;
-        const { piwik } = window;
-        if (piwik
-          && piwik.ajaxRequestFinished
-        ) {
-          piwik.ajaxRequestFinished();
+        if (Matomo.ajaxRequestFinished) {
+          Matomo.ajaxRequestFinished();
         }
       },
       data: this.mixinDefaultPostParams(this.postParams),
@@ -438,9 +435,9 @@ export default class AjaxHelper {
   }
 
   private getDefaultPostParams() {
-    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
+    if (this.withToken || this.isRequestToApiMethod() || Matomo.shouldPropagateTokenAuth) {
       return {
-        token_auth: piwik.token_auth,
+        token_auth: Matomo.token_auth,
         // When viewing a widgetized report there won't be any session that can be used, so don't
         // force session usage
         force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1,
@@ -472,11 +469,11 @@ export default class AjaxHelper {
    * @param   params   parameter object
    */
   private mixinDefaultGetParams(originalParams): Parameters {
-    const segment = PiwikUrl.getSearchParam('segment');
+    const segment = MatomoUrl.getSearchParam('segment');
 
     const defaultParams = {
-      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),
-      period: piwik.period || broadcast.getValueFromUrl('period'),
+      idSite: Matomo.idSite || broadcast.getValueFromUrl('idSite'),
+      period: Matomo.period || broadcast.getValueFromUrl('period'),
       segment,
     };
 
@@ -500,7 +497,7 @@ export default class AjaxHelper {
 
     // handle default date & period if not already set
     if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-      params.date = piwik.currentDateString;
+      params.date = Matomo.currentDateString;
     }
 
     return params;

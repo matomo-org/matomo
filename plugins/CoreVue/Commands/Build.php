@@ -52,6 +52,9 @@ class Build extends ConsoleCommand
             $plugins = $this->getAllPluginsWithVueLibrary();
         } else {
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
+            if (empty($plugins)) {
+                return 1;
+            }
         }
 
         // remove webpack cache since it can result in strange builds if present
@@ -135,16 +138,18 @@ class Build extends ConsoleCommand
 
         $pluginsWithVue = [];
 
+        $logger = StaticContainer::get(LoggerInterface::class);
+
         foreach ($plugins as $plugin) {
             $pluginDirPath = $pluginsDir . '/' . $plugin;
             $vueDir = $pluginDirPath . '/vue';
             if (!is_dir($vueDir)) {
+                $logger->error("Cannot find vue library for plugin {plugin}, nothing to build.", ['plugin' => $plugin]);
                 continue;
             }
 
             $vueIndexFile = $vueDir . '/src/index.ts';
             if (!is_file($vueIndexFile)) {
-                $logger = StaticContainer::get(LoggerInterface::class);
                 $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }

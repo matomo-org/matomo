@@ -6,8 +6,8 @@
  */
 
 import './AjaxHelper/AjaxHelper.adapter';
-import './PiwikUrl/PiwikUrl.adapter';
-import './Piwik/Piwik.adapter';
+import './MatomoUrl/MatomoUrl.adapter';
+import './Matomo/Matomo.adapter';
 import './noAdblockFlag';
 
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
@@ -15,6 +15,6 @@ export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndica
 export { default as translate } from './translate';
 export { default as alertAdapter } from './Alert/Alert.adapter';
 export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
-export { default as PiwikUrl } from './PiwikUrl/PiwikUrl';
-export { default as Piwik } from './Piwik/Piwik';
+export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
+export { default as Matomo } from './Matomo/Matomo';
 export * from './Periods';
