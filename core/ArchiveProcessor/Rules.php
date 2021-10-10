@@ -214,10 +214,10 @@ class Rules
             if (isset($generalConfig['archiving_range_force_on_browser_request'])
                 && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
+                Log::debug("Not forcing archiving for range period.");
                 return false;
             }
 
-            Log::debug("Not forcing archiving for range period.");
             return true;
         }
 
@@ -231,7 +231,7 @@ class Rules
             && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
             && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
         ) {
-            Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
+            Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1 or because the segment is selected to be pre-processed.");
             return false;
         }
 
