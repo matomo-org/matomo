@@ -11,7 +11,7 @@ import '../Periods/Month';
 import '../Periods/Year';
 import '../Periods/Range';
 
-describe('PiwikService', () => {
+describe('CoreHome/Piwik', () => {
   describe('#updatePeriodParamsFromUrl()', () => {
     const DATE_PERIODS_TO_TEST = [
       {

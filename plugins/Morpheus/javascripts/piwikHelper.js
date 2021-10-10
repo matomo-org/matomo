@@ -20,7 +20,7 @@ function _pk_translate(translationStringId, values) {
     return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";
 }
 
-var piwikHelper = {
+window.piwikHelper = {
 
     htmlDecode: function(value)
     {
@@ -290,7 +290,7 @@ var piwikHelper = {
                     window.location.href = $button.data('href');
                 })
             }
-            
+
 
             $footer.append(button);
         });
