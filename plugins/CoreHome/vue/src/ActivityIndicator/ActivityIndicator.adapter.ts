@@ -35,6 +35,7 @@ export default function activityIndicatorAdapter(): ng.IDirective {
           };
         },
       });
+      app.config.globalProperties.$sanitize = window.vueSanitize;
       app.component('activity-indicator', ActivityIndicator);
       const vm = app.mount(element[0]);
 

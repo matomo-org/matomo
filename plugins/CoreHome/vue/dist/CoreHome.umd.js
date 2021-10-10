@@ -1424,6 +1424,7 @@ function activityIndicatorAdapter() {
         }
 
       });
+      app.config.globalProperties.$sanitize = window.vueSanitize;
       app.component('activity-indicator', ActivityIndicator);
       const vm = app.mount(element[0]);
       scope.$watch('loading', newValue => {
@@ -1505,6 +1506,7 @@ function alertAdapter() {
             }
 
           });
+          app.config.globalProperties.$sanitize = window.vueSanitize;
           app.component('alert', Alert);
           const vm = app.mount(element[0]);
           scope.$watch('severity', newValue => {
