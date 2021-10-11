@@ -15,6 +15,7 @@ import './Periods/Year';
 import './Periods/Range';
 import './Periods/Periods.adapter';
 import './AjaxHelper/AjaxHelper.adapter';
+import './MatomoDialog/MatomoDialog.adapter';
 
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
@@ -24,3 +25,4 @@ export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { default as Matomo } from './Matomo/Matomo';
 export * from './Periods';
+export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';

@@ -6,7 +6,7 @@ const pluginExternals = scanPluginExternals();
 function scanPluginExternals() {
   const pluginExternals = {};
 
-  const pluginsDir = path.join(__dirname, '..', '..');
+  const pluginsDir = path.join(__dirname, 'plugins');
   for (let pluginName of fs.readdirSync(pluginsDir)) {
     const vuePackageFolder = path.join(pluginsDir, pluginName, 'vue', 'src');
     if (!fs.existsSync(vuePackageFolder)) {

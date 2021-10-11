@@ -66,23 +66,30 @@ class Build extends ConsoleCommand
 
     private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)
     {
+        if ($watch) {
+            $this->watch($plugins, $printBuildCommand, $output);
+            return;
+        }
+
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            if ($watch) {
-                $this->watch($plugin, $printBuildCommand, $output);
-            } else {
-                $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
-            }
+            $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
         }
 
         return $failed;
     }
 
-    private function watch($plugin, $printBuildCommand, OutputInterface $output)
+    private function watch($plugins, $printBuildCommand, OutputInterface $output)
     {
-        $command = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
-            . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
+        $commandSingle = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
+            . "%1\$s ./plugins/%1\$s/vue/src/index.ts --dest ./plugins/%1\$s/vue/dist --watch &";
+
+        $command = '';
+        foreach ($plugins as $plugin) {
+            $command .= sprintf($commandSingle, $plugin) . ' ';
+        }
+
         if ($printBuildCommand) {
             $output->writeln("<comment>$command</comment>");
             return;
