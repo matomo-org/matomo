@@ -6,11 +6,22 @@
 		<nb_actions>51</nb_actions>
 		<nb_pageviews>45</nb_pageviews>
 		<revenue>195</revenue>
+		<_metadata>
+      		<ts_archived>today-date-removed-in-tests</ts_archived>
+		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>100%</revenue_evolution>
+		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>1</idsite>
+		<ratio>1</ratio>
+	    <previous_nb_visits>0</previous_nb_visits>
+		<periodName>month</periodName>
+		<previousRange>2012-07-01 - 2012-07-31</previousRange>
+		<previous_nb_actions>0</previous_nb_actions>
+		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+		<previous_Goal_revenue>0</previous_Goal_revenue>
 		<group />
 		<main_url>http://piwik.net</main_url>
 	</row>
@@ -20,11 +31,22 @@
 		<nb_actions>5</nb_actions>
 		<nb_pageviews>5</nb_pageviews>
 		<revenue>0</revenue>
+		<_metadata>
+			<ts_archived>today-date-removed-in-tests</ts_archived>
+		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
+		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>3</idsite>
+		<ratio>1</ratio>
+		<previous_nb_visits>0</previous_nb_visits>
+		<periodName>month</periodName>
+		<previousRange>2012-07-01 - 2012-07-31</previousRange>
+		<previous_nb_actions>0</previous_nb_actions>
+		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+		<previous_Goal_revenue>0</previous_Goal_revenue>
 		<group />
 		<main_url>http://example-site-three.com</main_url>
 	</row>
@@ -34,11 +56,22 @@
 		<nb_actions>1</nb_actions>
 		<nb_pageviews>1</nb_pageviews>
 		<revenue>0</revenue>
+		<_metadata>
+			<ts_archived>today-date-removed-in-tests</ts_archived>
+		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
+		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>2</idsite>
+		<ratio>1</ratio>
+		<previous_nb_visits>0</previous_nb_visits>
+		<periodName>month</periodName>
+		<previousRange>2012-07-01 - 2012-07-31</previousRange>
+		<previous_nb_actions>0</previous_nb_actions>
+		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+		<previous_Goal_revenue>0</previous_Goal_revenue>
 		<group />
 		<main_url>http://example-site-two.com</main_url>
 	</row>

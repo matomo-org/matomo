@@ -209,6 +209,13 @@
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<idsite>1</idsite>
+				<ratio>1</ratio>
+        		<previous_nb_visits>0</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-02 - 2010-01-02</previousRange>
+        		<previous_nb_actions>0</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>0</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -216,11 +223,25 @@
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<idsite>1</idsite>
+				<ratio>1</ratio>
+        		<previous_nb_visits>2</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-03 - 2010-01-03</previousRange>
+        		<previous_nb_actions>2</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>2</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>10</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
 			<row>
 				<idsite>2</idsite>
+				<ratio>1</ratio>
+        		<previous_nb_visits>0</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-03 - 2010-01-03</previousRange>
+        		<previous_nb_actions>0</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>0</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -228,6 +249,13 @@
 		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				<idsite>1</idsite>
+				<ratio>1</ratio>
+        		<previous_nb_visits>1</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-04 - 2010-01-04</previousRange>
+        		<previous_nb_actions>1</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>1</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>0</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -235,6 +263,13 @@
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				<idsite>1</idsite>
+ 				<ratio>1</ratio>
+        		<previous_nb_visits>1</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-05 - 2010-01-05</previousRange>
+        		<previous_nb_actions>5</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -242,6 +277,13 @@
 		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				<idsite>1</idsite>
+				<ratio>1</ratio>
+        		<previous_nb_visits>1</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-06 - 2010-01-06</previousRange>
+        		<previous_nb_actions>5</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -249,6 +291,13 @@
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				<idsite>1</idsite>
+ 				<ratio>1</ratio>
+        		<previous_nb_visits>1</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-07 - 2010-01-07</previousRange>
+        		<previous_nb_actions>5</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -256,6 +305,13 @@
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				<idsite>1</idsite>
+				<ratio>1</ratio>
+        		<previous_nb_visits>1</previous_nb_visits>
+        		<periodName>day</periodName>
+        		<previousRange>2010-01-08 - 2010-01-08</previousRange>
+        		<previous_nb_actions>5</previous_nb_actions>
+        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+        		<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -266,5 +322,8 @@
 		<nb_actions>31</nb_actions>
 		<nb_pageviews>31</nb_pageviews>
 		<revenue>35</revenue>
+		<_metadata>
+			<ts_archived>today-date-removed-in-tests</ts_archived>
+		</_metadata>
 	</reportTotal>
 </result>

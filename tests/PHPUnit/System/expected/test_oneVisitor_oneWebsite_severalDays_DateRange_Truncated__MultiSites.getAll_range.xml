@@ -6,9 +6,19 @@
 		<nb_actions>11</nb_actions>
 		<nb_pageviews>11</nb_pageviews>
 		<revenue>0</revenue>
+		<_metadata>
+      		<ts_archived>0</ts_archived>
+		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
+		<ratio>1</ratio>
+	    <previous_nb_visits>0</previous_nb_visits>
+	    <periodName>range</periodName>
+	    <previousRange>2010-11-13 - 2010-12-14</previousRange>
+	    <previous_nb_actions>0</previous_nb_actions>
+	    <previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+	    <previous_Goal_revenue>0</previous_Goal_revenue>
 	</row>
 </result>

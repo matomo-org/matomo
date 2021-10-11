@@ -6,11 +6,22 @@
 		<nb_actions>9</nb_actions>
 		<nb_pageviews>9</nb_pageviews>
 		<revenue>0</revenue>
+		<_metadata>
+      		<ts_archived>today-date-removed-in-tests</ts_archived>
+    	</_metadata>
 		<visits_evolution>200%</visits_evolution>
 		<actions_evolution>200%</actions_evolution>
 		<pageviews_evolution>200%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
+		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>1</idsite>
+		<ratio>1</ratio>
+    	<previous_nb_visits>2</previous_nb_visits>
+    	<periodName>range</periodName>
+    	<previousRange>2010-11-13 - 2010-12-14</previousRange>
+    	<previous_nb_actions>3</previous_nb_actions>
+    	<previous_Actions_nb_pageviews>3</previous_Actions_nb_pageviews>
+    	<previous_Goal_revenue>0</previous_Goal_revenue>
 		<group />
 		<main_url>http://piwik.net</main_url>
 	</row>
@@ -20,11 +31,22 @@
 		<nb_actions>2</nb_actions>
 		<nb_pageviews>2</nb_pageviews>
 		<revenue>0</revenue>
+		<_metadata>
+      		<ts_archived>today-date-removed-in-tests</ts_archived>
+    	</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
+		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>2</idsite>
+		<ratio>1</ratio>
+    	<previous_nb_visits>1</previous_nb_visits>
+    	<periodName>range</periodName>
+    	<previousRange>2010-11-13 - 2010-12-14</previousRange>
+    	<previous_nb_actions>1</previous_nb_actions>
+    	<previous_Actions_nb_pageviews>1</previous_Actions_nb_pageviews>
+    	<previous_Goal_revenue>0</previous_Goal_revenue>
 		<group />
 		<main_url>http://piwik.net</main_url>
 	</row>

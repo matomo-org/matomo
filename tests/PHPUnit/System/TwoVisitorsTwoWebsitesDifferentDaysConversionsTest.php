@@ -135,7 +135,10 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $this->assertEquals(
             array(
                 'nb_visits' => 5,
-                'Goal_nb_conversions' => 6
+                'Goal_nb_conversions' => 6,
+                '_metadata' => Array (
+                    'ts_archived' => '2021-10-11 03:24:57'
+                )
             ),
             $result
         );
