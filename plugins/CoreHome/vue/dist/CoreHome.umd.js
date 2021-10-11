@@ -7,7 +7,7 @@
 		exports["CoreHome"] = factory(require("vue"));
 	else
 		root["CoreHome"] = factory(root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,1440 +91,393 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ activityIndicatorAdapter; });
-__webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
-__webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
-__webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ alertAdapter; });
-__webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
-__webpack_require__.d(__webpack_exports__, "PiwikUrl", function() { return /* reexport */ PiwikUrl_PiwikUrl; });
-__webpack_require__.d(__webpack_exports__, "Piwik", function() { return /* reexport */ Piwik_Piwik; });
-__webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
-__webpack_require__.d(__webpack_exports__, "Day", function() { return /* reexport */ Day_DayPeriod; });
-__webpack_require__.d(__webpack_exports__, "Week", function() { return /* reexport */ Week_WeekPeriod; });
-__webpack_require__.d(__webpack_exports__, "Month", function() { return /* reexport */ Month_MonthPeriod; });
-__webpack_require__.d(__webpack_exports__, "Year", function() { return /* reexport */ Year_YearPeriod; });
-__webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range_RangePeriod; });
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * Similar to angulars $location but works around some limitation. Use it if you need to access
- * search params
- */
-const PiwikUrl = {
-  getSearchParam(paramName) {
-    const hash = window.location.href.split('#');
-    const regex = new RegExp(`${paramName}(\\[]|=)`);
-
-    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
-
-      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
-        return valueFromHash;
-      }
-    }
-
-    return window.broadcast.getValueFromUrl(paramName, window.location.search);
-  }
-
-};
-/* harmony default export */ var PiwikUrl_PiwikUrl = (PiwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-window.globalAjaxQueue = [];
-window.globalAjaxQueue.active = 0;
-
-window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
-  for (let i = this.length; i >= 0; i -= 1) {
-    if (!this[i] || this[i].readyState === 4) {
-      this.splice(i, 1);
-    }
-  }
-};
-
-window.globalAjaxQueue.push = function globalAjaxQueuePush(...args) {
-  this.active += args.length; // cleanup ajax queue
-
-  this.clean(); // call original array push
-
-  return Array.prototype.push.call(this, ...args);
-};
-
-window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
-  // abort all queued requests if possible
-  this.forEach(x => x && x.abort && x.abort()); // remove all elements from array
-
-  this.splice(0, this.length);
-  this.active = 0;
-};
-/**
- * error callback to use by default
- */
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nconst _hoisted_1 = {\n  class: \"loadingPiwik\"\n};\n\nconst _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n  src: \"plugins/Morpheus/images/loading-blue.gif\",\n  alt: \"\"\n}, null, -1\n/* HOISTED */\n);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [_hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.loadingMessage), 1\n  /* TEXT */\n  )], 512\n  /* NEED_PATCH */\n  )), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.loading]]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
-function defaultErrorCallback(deferred, status) {
-  // do not display error message if request was aborted
-  if (status === 'abort') {
-    return;
-  }
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  const loadingError = $('#loadingError');
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"alert\", {\n      [`alert-${_ctx.severity}`]: true\n    }])\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")], 2\n  /* CLASS */\n  );\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
-    if (deferred && deferred.status === 500) {
-      $(document.body).html(piwikHelper.escape(deferred.responseText));
-    }
-  } else {
-    loadingError.show();
-  }
-}
-/**
- * Global ajax helper to handle requests within piwik
- */
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-class AjaxHelper_AjaxHelper {
-  /**
-   * Format of response
-   */
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    loading: {\n      type: Boolean,\n      required: true,\n      default: false\n    },\n    loadingMessage: {\n      type: String,\n      required: false,\n      default: Object(_translate__WEBPACK_IMPORTED_MODULE_1__[\"default\"])('General_LoadingData')\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  /**
-   * A timeout for the request which will override any global timeout
-   */
+/***/ }),
 
-  /**
-   * Callback function to be executed on success
-   */
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  /**
-   * Use this.callback if an error is returned
-   */
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    severity: {\n      type: String,\n      required: true\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  /**
-   * Callback function to be executed on error
-   */
+/***/ }),
 
-  /**
-   * Callback function to be executed on complete (after error or success)
-   */
-
-  /**
-   * Params to be passed as GET params
-   * @see ajaxHelper.mixinDefaultGetParams
-   */
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: activityIndicatorAdapter, ActivityIndicator, translate, alertAdapter, AjaxHelper, PiwikUrl, Piwik, Periods, Day, Week, Month, Year, Range */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  /**
-   * Base URL used in the AJAX request. Can be set by setUrl.
-   *
-   * It is set to '?' rather than 'index.php?' to increase chances that it works
-   * including for users who have an automatic 301 redirection from index.php? to ?
-   * POST values are missing when there is such 301 redirection. So by by-passing
-   * this 301 redirection, we avoid this issue.
-   *
-   * @see ajaxHelper.setUrl
-   */
-
-  /**
-   * Params to be passed as GET params
-   * @see ajaxHelper.mixinDefaultPostParams
-   */
-
-  /**
-   * Element to be displayed while loading
-   */
-
-  /**
-   * Element to be displayed on error
-   */
-
-  /**
-   * Handle for current request
-   */
-  constructor() {
-    _defineProperty(this, "format", 'json');
-
-    _defineProperty(this, "timeout", null);
-
-    _defineProperty(this, "callback", null);
-
-    _defineProperty(this, "useRegularCallbackInCaseOfError", false);
-
-    _defineProperty(this, "errorCallback", void 0);
-
-    _defineProperty(this, "withToken", false);
-
-    _defineProperty(this, "completeCallback", void 0);
-
-    _defineProperty(this, "getParams", {});
-
-    _defineProperty(this, "getUrl", '?');
-
-    _defineProperty(this, "postParams", {});
-
-    _defineProperty(this, "loadingElement", null);
-
-    _defineProperty(this, "errorElement", '#ajaxError');
-
-    _defineProperty(this, "requestHandle", null);
-
-    _defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
-
-    this.errorCallback = defaultErrorCallback;
-  }
-  /**
-   * Adds params to the request.
-   * If params are given more then once, the latest given value is used for the request
-   *
-   * @param  params
-   * @param  type  type of given parameters (POST or GET)
-   * @return {void}
-   */
-
-
-  addParams(params, type) {
-    if (typeof params === 'string') {
-      // TODO: add global types for broadcast (multiple uses below)
-      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
-    }
-
-    const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
-    Object.keys(params).forEach(key => {
-      const value = params[key];
-
-      if (arrayParams.indexOf(key) !== -1 && !value) {
-        return;
-      }
-
-      if (type.toLowerCase() === 'get') {
-        this.getParams[key] = value;
-      } else if (type.toLowerCase() === 'post') {
-        this.postParams[key] = value;
-      }
-    });
-  }
-
-  withTokenInUrl() {
-    this.withToken = true;
-  }
-  /**
-   * Sets the base URL to use in the AJAX request.
-   */
-
-
-  setUrl(url) {
-    this.addParams(broadcast.getValuesFromUrl(url), 'GET');
-  }
-  /**
-   * Gets this helper instance ready to send a bulk request. Each argument to this
-   * function is a single request to use.
-   */
-
-
-  setBulkRequests(...urls) {
-    const urlsProcessed = urls.map(u => $.param(u));
-    this.addParams({
-      module: 'API',
-      method: 'API.getBulkRequest',
-      urls: urlsProcessed,
-      format: 'json'
-    }, 'post');
-  }
-  /**
-   * Set a timeout (in milliseconds) for the request. This will override any global timeout.
-   *
-   * @param timeout  Timeout in milliseconds
-   */
-
-
-  setTimeout(timeout) {
-    this.timeout = timeout;
-  }
-  /**
-   * Sets the callback called after the request finishes
-   *
-   * @param callback  Callback function
-   */
-
-
-  setCallback(callback) {
-    this.callback = callback;
-  }
-  /**
-   * Set that the callback passed to setCallback() should be used if an application error (i.e. an
-   * Exception in PHP) is returned.
-   */
-
-
-  useCallbackInCaseOfError() {
-    this.useRegularCallbackInCaseOfError = true;
-  }
-  /**
-   * Set callback to redirect on success handler
-   * &update=1(+x) will be appended to the current url
-   *
-   * @param [params] to modify in redirect url
-   * @return {void}
-   */
-
-
-  redirectOnSuccess(params) {
-    this.setCallback(() => {
-      piwikHelper.redirect(params);
-    });
-  }
-  /**
-   * Sets the callback called in case of an error within the request
-   */
-
-
-  setErrorCallback(callback) {
-    this.errorCallback = callback;
-  }
-  /**
-   * Sets the complete callback which is called after an error or success callback.
-   */
-
-
-  setCompleteCallback(callback) {
-    this.completeCallback = callback;
-  }
-  /**
-   * Sets the response format for the request
-   *
-   * @param format  response format (e.g. json, html, ...)
-   */
-
-
-  setFormat(format) {
-    this.format = format;
-  }
-  /**
-   * Set the div element to show while request is loading
-   *
-   * @param [element]  selector for the loading element
-   */
-
-
-  setLoadingElement(element) {
-    this.loadingElement = element || '#ajaxLoadingDiv';
-  }
-  /**
-   * Set the div element to show on error
-   *
-   * @param element  selector for the error element
-   */
-
-
-  setErrorElement(element) {
-    if (!element) {
-      return;
-    }
-
-    this.errorElement = element;
-  }
-  /**
-   * Detect whether are allowed to use the given default parameter or not
-   */
-
-
-  useGETDefaultParameter(parameter) {
-    if (parameter && this.defaultParams) {
-      for (let i = 0; i < this.defaultParams.length; i += 1) {
-        if (this.defaultParams[i] === parameter) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-  /**
-   * Removes a default parameter that is usually send automatically along the request.
-   *
-   * @param parameter  A name such as "period", "date", "segment".
-   */
-
-
-  removeDefaultParameter(parameter) {
-    if (parameter && this.defaultParams) {
-      for (let i = 0; i < this.defaultParams.length; i += 1) {
-        if (this.defaultParams[i] === parameter) {
-          this.defaultParams.splice(i, 1);
-        }
-      }
-    }
-  }
-  /**
-   * Send the request
-   */
-
-
-  send() {
-    if ($(this.errorElement).length) {
-      $(this.errorElement).hide();
-    }
-
-    if (this.loadingElement) {
-      $(this.loadingElement).fadeIn();
-    }
-
-    this.requestHandle = this.buildAjaxCall();
-    globalAjaxQueue.push(this.requestHandle);
-  }
-  /**
-   * Aborts the current request if it is (still) running
-   */
-
-
-  abort() {
-    if (this.requestHandle && typeof this.requestHandle.abort === 'function') {
-      this.requestHandle.abort();
-      this.requestHandle = null;
-    }
-  }
-  /**
-   * Builds and sends the ajax requests
-   */
-
-
-  buildAjaxCall() {
-    const self = this;
-    const parameters = this.mixinDefaultGetParams(this.getParams);
-    let url = this.getUrl;
-
-    if (url[url.length - 1] !== '?') {
-      url += '&';
-    } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
-    // URL encodes the values)
-
-
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
-      delete parameters.segment;
-    }
-
-    if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
-      delete parameters.date;
-    }
-
-    url += $.param(parameters);
-    const ajaxCall = {
-      type: 'POST',
-      async: true,
-      url,
-      dataType: this.format || 'json',
-      complete: this.completeCallback,
-      error: function errorCallback() {
-        globalAjaxQueue.active -= 1;
-
-        if (self.errorCallback) {
-          self.errorCallback.apply(this, arguments); // eslint-disable-line
-        }
-      },
-      success: (response, status, request) => {
-        if (this.loadingElement) {
-          $(this.loadingElement).hide();
-        }
-
-        if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {
-          let placeAt = null;
-          let type = 'toast';
-
-          if ($(this.errorElement).length && response.message) {
-            $(this.errorElement).show();
-            placeAt = this.errorElement;
-            type = null;
-          }
-
-          if (response.message) {
-            const UI = window['require']('piwik/UI'); // eslint-disable-line
-
-            const notification = new UI.Notification();
-            notification.show(response.message, {
-              placeat: placeAt,
-              context: 'error',
-              type,
-              id: 'ajaxHelper'
-            });
-            notification.scrollToNotification();
-          }
-        } else if (this.callback) {
-          this.callback(response, status, request);
-        }
-
-        globalAjaxQueue.active -= 1;
-        const {
-          piwik
-        } = window;
-
-        if (piwik && piwik.ajaxRequestFinished) {
-          piwik.ajaxRequestFinished();
-        }
-      },
-      data: this.mixinDefaultPostParams(this.postParams),
-      timeout: this.timeout !== null ? this.timeout : undefined
-    };
-    return $.ajax(ajaxCall);
-  }
-
-  isRequestToApiMethod() {
-    return this.getParams && this.getParams.module === 'API' && this.getParams.method || this.postParams && this.postParams.module === 'API' && this.postParams.method;
-  }
-
-  isWidgetizedRequest() {
-    return broadcast.getValueFromUrl('module') === 'Widgetize';
-  }
-
-  getDefaultPostParams() {
-    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
-      return {
-        token_auth: piwik.token_auth,
-        // When viewing a widgetized report there won't be any session that can be used, so don't
-        // force session usage
-        force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
-      };
-    }
-
-    return {};
-  }
-  /**
-   * Mixin the default parameters to send as POST
-   *
-   * @param params   parameter object
-   */
-
-
-  mixinDefaultPostParams(params) {
-    const defaultParams = this.getDefaultPostParams();
-    const mergedParams = { ...defaultParams,
-      ...params
-    };
-    return mergedParams;
-  }
-  /**
-   * Mixin the default parameters to send as GET
-   *
-   * @param   params   parameter object
-   */
-
-
-  mixinDefaultGetParams(originalParams) {
-    const segment = PiwikUrl_PiwikUrl.getSearchParam('segment');
-    const defaultParams = {
-      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),
-      period: piwik.period || broadcast.getValueFromUrl('period'),
-      segment
-    };
-    const params = originalParams; // never append token_auth to url
-
-    if (params.token_auth) {
-      params.token_auth = null;
-      delete params.token_auth;
-    }
-
-    Object.keys(defaultParams).forEach(key => {
-      if (this.useGETDefaultParameter(key) && !params[key] && !this.postParams[key] && defaultParams[key]) {
-        params[key] = defaultParams[key];
-      }
-    }); // handle default date & period if not already set
-
-    if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-      params.date = piwik.currentDateString;
-    }
-
-    return params;
-  }
-
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
-
-window.ajaxHelper = AjaxHelper_AjaxHelper;
-
-function ajaxQueue() {
-  return globalAjaxQueue;
-}
-
-angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikUrl() {
-  const model = {
-    getSearchParam: PiwikUrl_PiwikUrl.getSearchParam.bind(PiwikUrl_PiwikUrl)
-  };
-  return model;
-}
-
-piwikUrl.$inject = [];
-angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
-function Periods_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * Piwik period management service for the frontend.
- *
- * Usage:
- *
- *     var DayPeriod = piwikPeriods.get('day');
- *     var day = new DayPeriod(new Date());
- *
- * or
- *
- *     var day = piwikPeriods.parse('day', '2013-04-05');
- *
- * Adding custom periods:
- *
- * To add your own period to the frontend, create a period class for it
- * w/ the following methods:
- *
- * - **getPrettyString()**: returns a human readable display string for the period.
- * - **getDateRange()**: returns an array w/ two elements, the first being the start
- *                       Date of the period, the second being the end Date. The dates
- *                       must be Date objects, not strings, and are inclusive.
- * - **containsToday()**: returns true if the date period contains today. False if not.
- * - (_static_) **parse(strDate)**: creates a new instance of this period from the
- *                                  value of the 'date' query parameter.
- * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
- *                                  'week', etc.
- *
- * Then call piwik.addCustomPeriod w/ your period class:
- *
- *     piwik.addCustomPeriod('mycustomperiod', MyCustomPeriod);
- *
- * NOTE: currently only single date periods like day, week, month year can
- *       be extended. Other types of periods that require a special UI to
- *       view/edit aren't, since there is currently no way to use a
- *       custom UI for a custom period.
- */
-class Periods {
-  constructor() {
-    Periods_defineProperty(this, "periods", {});
-
-    Periods_defineProperty(this, "periodOrder", []);
-  }
-
-  addCustomPeriod(name, periodClass) {
-    if (this.periods[name]) {
-      throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
-    }
-
-    this.periods[name] = periodClass;
-    this.periodOrder.push(name);
-  }
-
-  getAllLabels() {
-    return Array().concat(this.periodOrder);
-  }
-
-  get(strPeriod) {
-    const periodClass = this.periods[strPeriod];
-
-    if (!periodClass) {
-      throw new Error(`Invalid period label: ${strPeriod}`);
-    }
-
-    return periodClass;
-  }
-
-  parse(strPeriod, strDate) {
-    return this.get(strPeriod).parse(strDate);
-  }
-
-  isRecognizedPeriod(strPeriod) {
-    return !!this.periods[strPeriod];
-  }
-
-}
-
-/* harmony default export */ var Periods_Periods = (new Periods());
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function format(date) {
-  return $.datepicker.formatDate('yy-mm-dd', date);
-}
-function getToday() {
-  const date = new Date(Date.now()); // undo browser timezone
-
-  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply piwik site timezone (if it exists)
-
-  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
-
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  return date;
-}
-function parseDate(date) {
-  if (date instanceof Date) {
-    return date;
-  }
-
-  const strDate = decodeURIComponent(date);
-
-  if (strDate === 'today' || strDate === 'now') {
-    return getToday();
-  }
-
-  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time
-  || strDate === 'yesterdaySameTime') {
-    const yesterday = getToday();
-    yesterday.setDate(yesterday.getDate() - 1);
-    return yesterday;
-  }
-
-  if (strDate.match(/last[ -]?week/i)) {
-    const lastWeek = getToday();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    return lastWeek;
-  }
-
-  if (strDate.match(/last[ -]?month/i)) {
-    const lastMonth = getToday();
-    lastMonth.setDate(1);
-    lastMonth.setMonth(lastMonth.getMonth() - 1);
-    return lastMonth;
-  }
-
-  if (strDate.match(/last[ -]?year/i)) {
-    const lastYear = getToday();
-    lastYear.setFullYear(lastYear.getFullYear() - 1);
-    return lastYear;
-  }
-
-  try {
-    return $.datepicker.parseDate('yy-mm-dd', strDate);
-  } catch (err) {
-    // angular swallows this error, so manual console log here
-    console.error(err.message || err);
-    throw err;
-  }
-}
-function todayIsInRange(dateRange) {
-  if (dateRange.length !== 2) {
-    return false;
-  }
-
-  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
-    return true;
-  }
-
-  return false;
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-let originalTitle;
-const {
-  piwik: Piwik_piwik,
-  broadcast: Piwik_broadcast,
-  piwikHelper: Piwik_piwikHelper
-} = window;
-Piwik_piwik.helper = Piwik_piwikHelper;
-Piwik_piwik.broadcast = Piwik_broadcast;
-
-function isValidPeriod(periodStr, dateStr) {
-  try {
-    Periods_Periods.parse(periodStr, dateStr);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
-  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
-  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
-
-  if (!isValidPeriod(period, date)) {
-    // invalid data in URL
-    return;
-  }
-
-  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
-    // this period / date is already loaded
-    return;
-  }
-
-  Piwik_piwik.period = period;
-  const dateRange = Periods_Periods.parse(period, date).getDateRange();
-  Piwik_piwik.startDateString = format(dateRange[0]);
-  Piwik_piwik.endDateString = format(dateRange[1]);
-  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
-  // to have the dates than previousN/lastN.
-
-  if (Piwik_piwik.period === 'range') {
-    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
-  }
-
-  Piwik_piwik.currentDateString = date;
-};
-
-Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  } // Cache server-rendered page title
-
-
-  originalTitle = originalTitle || document.title;
-
-  if (originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
-    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${Piwik_piwik.siteName}${dateString}${originalTitle.substr(Piwik_piwik.siteName.length)}`;
-  }
-};
-
-Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
-  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
-};
-
-const Piwik = Piwik_piwik;
-/* harmony default export */ var Piwik_Piwik = (Piwik);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikService() {
-  return Piwik_Piwik;
-}
-
-angular.module('piwikApp.service').service('piwik', piwikService);
-
-function initPiwikService(piwik, $rootScope) {
-  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
-}
-
-initPiwikService.$inject = ['piwik', '$rootScope'];
-angular.module('piwikApp.service').run(initPiwikService);
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
-
-const _hoisted_1 = {
-  class: "loadingPiwik"
-};
-
-const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-  src: "plugins/Morpheus/images/loading-blue.gif",
-  alt: ""
-}, null, -1);
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function translate(translationStringId, values = []) {
-  return window._pk_translate(translationStringId, values); // eslint-disable-line
-}
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var ActivityIndicatorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    loading: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    loadingMessage: {
-      type: String,
-      required: false,
-      default: translate('General_LoadingData')
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue
-
-
-
-ActivityIndicatorvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-function activityIndicatorAdapter() {
-  return {
-    restrict: 'A',
-    scope: {
-      loading: '<',
-      loadingMessage: '<'
-    },
-    template: '',
-    link: function activityIndicatorAdapterLink(scope, element) {
-      const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<activity-indicator :loading="loading" :loadingMessage="loadingMessage"/>',
-
-        data() {
-          return {
-            loading: scope.loading,
-            loadingMessage: scope.loadingMessage
-          };
-        }
-
-      });
-      app.component('activity-indicator', ActivityIndicator);
-      const vm = app.mount(element[0]);
-      scope.$watch('loading', newValue => {
-        vm.loading = newValue;
-      });
-      scope.$watch('loadingMessage', newValue => {
-        vm.loadingMessage = newValue || translate('General_LoadingData');
-      });
-    }
-  };
-}
-activityIndicatorAdapter.$inject = [];
-angular.module('piwikApp').directive('piwikActivityIndicator', activityIndicatorAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-
-function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", {
-      [`alert-${_ctx.severity}`]: true
-    }])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    severity: {
-      type: String,
-      required: true
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
-
-
-
-Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
-
-/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function alertAdapter() {
-  return {
-    restrict: 'A',
-    transclude: true,
-    scope: {
-      severity: '@piwikAlert'
-    },
-    template: '<div ng-transclude/>',
-    compile: function alertAdapterCompile() {
-      return {
-        post: function alertAdapterPostLink(scope, element) {
-          const clone = element.find('[ng-transclude]');
-          const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-            template: '<alert :severity="severity"><div ref="transcludeTarget"/></alert>',
-
-            data() {
-              return {
-                severity: scope.severity
-              };
-            },
-
-            setup() {
-              const transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-              return {
-                transcludeTarget
-              };
-            }
-
-          });
-          app.component('alert', Alert);
-          const vm = app.mount(element[0]);
-          scope.$watch('severity', newValue => {
-            vm.severity = newValue;
-          });
-          $(vm.transcludeTarget).append(clone);
-        }
-      };
-    }
-  };
-}
-alertAdapter.$inject = [];
-angular.module('piwikApp').directive('piwikAlert', alertAdapter);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
-function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Range_RangePeriod {
-  constructor(startDate, endDate, childPeriodType) {
-    Range_defineProperty(this, "startDate", void 0);
-
-    Range_defineProperty(this, "endDate", void 0);
-
-    Range_defineProperty(this, "childPeriodType", void 0);
-
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.childPeriodType = childPeriodType;
-  }
-  /**
-   * Returns a range representing the last N childPeriodType periods, including the current one.
-   */
-
-
-  static getLastNRange(childPeriodType, strAmount, strEndDate) {
-    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
-
-    if (Number.isNaN(nAmount)) {
-      throw new Error('Invalid range strAmount');
-    }
-
-    let endDate = strEndDate ? parseDate(strEndDate) : getToday();
-    let startDate = new Date(endDate.getTime());
-
-    if (childPeriodType === 'day') {
-      startDate.setDate(startDate.getDate() - nAmount);
-    } else if (childPeriodType === 'week') {
-      startDate.setDate(startDate.getDate() - nAmount * 7);
-    } else if (childPeriodType === 'month') {
-      startDate.setDate(1);
-      startDate.setMonth(startDate.getMonth() - nAmount);
-    } else if (childPeriodType === 'year') {
-      startDate.setFullYear(startDate.getFullYear() - nAmount);
-    } else {
-      throw new Error(`Unknown period type '${childPeriodType}'.`);
-    }
-
-    if (childPeriodType !== 'day') {
-      const startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
-      const endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-      [startDate] = startPeriod.getDateRange();
-      [, endDate] = endPeriod.getDateRange();
-    }
-
-    const firstWebsiteDate = new Date(1991, 7, 6);
-
-    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
-      switch (childPeriodType) {
-        case 'year':
-          startDate = new Date(1992, 0, 1);
-          break;
-
-        case 'month':
-          startDate = new Date(1991, 8, 1);
-          break;
-
-        case 'week':
-          startDate = new Date(1991, 8, 12);
-          break;
-
-        case 'day':
-        default:
-          startDate = firstWebsiteDate;
-          break;
-      }
-    }
-
-    return new Range_RangePeriod(startDate, endDate, childPeriodType);
-  }
-
-  static parse(strDate, childPeriodType = 'day') {
-    if (/^previous/.test(strDate)) {
-      const endDate = Range_RangePeriod.getLastNRange(childPeriodType, '2').startDate;
-      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
-    }
-
-    if (/^last/.test(strDate)) {
-      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
-    }
-
-    const parts = decodeURIComponent(strDate).split(',');
-    return new Range_RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
-  }
-
-  static getDisplayText() {
-    return translate('General_DateRangeInPeriodList');
-  }
-
-  getPrettyString() {
-    const start = format(this.startDate);
-    const end = format(this.endDate);
-    return translate('General_DateRangeFromTo', [start, end]);
-  }
-
-  getDateRange() {
-    return [this.startDate, this.endDate];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-window.piwik.addCustomPeriod = Periods_Periods.addCustomPeriod.bind(Periods_Periods);
-
-function piwikPeriods() {
-  return {
-    getAllLabels: Periods_Periods.getAllLabels.bind(Periods_Periods),
-    isRecognizedPeriod: Periods_Periods.isRecognizedPeriod.bind(Periods_Periods),
-    get: Periods_Periods.get.bind(Periods_Periods),
-    parse: Periods_Periods.parse.bind(Periods_Periods),
-    parseDate: parseDate,
-    format: format,
-    RangePeriod: Range_RangePeriod,
-    todayIsInRange: todayIsInRange
-  };
-}
-
-angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
-function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Day_DayPeriod {
-  constructor(dateInPeriod) {
-    Day_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Day_DayPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodDay');
-  }
-
-  getPrettyString() {
-    return format(this.dateInPeriod);
-  }
-
-  getDateRange() {
-    return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
-function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Week_WeekPeriod {
-  constructor(dateInPeriod) {
-    Week_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Week_WeekPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodWeek');
-  }
-
-  getPrettyString() {
-    const weekDates = this.getDateRange();
-    const startWeek = format(weekDates[0]);
-    const endWeek = format(weekDates[1]);
-    return translate('General_DateRangeFromTo', [startWeek, endWeek]);
-  }
-
-  getDateRange() {
-    const daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;
-    const startWeek = new Date(this.dateInPeriod.getTime());
-    startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);
-    const endWeek = new Date(startWeek.getTime());
-    endWeek.setDate(startWeek.getDate() + 6);
-    return [startWeek, endWeek];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
-function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Month_MonthPeriod {
-  constructor(dateInPeriod) {
-    Month_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Month_MonthPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodMonth');
-  }
-
-  getPrettyString() {
-    const month = translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);
-    return `${month} ${this.dateInPeriod.getFullYear()}`;
-  }
-
-  getDateRange() {
-    const startMonth = new Date(this.dateInPeriod.getTime());
-    startMonth.setDate(1);
-    const endMonth = new Date(this.dateInPeriod.getTime());
-    endMonth.setDate(1);
-    endMonth.setMonth(endMonth.getMonth() + 1);
-    endMonth.setDate(0);
-    return [startMonth, endMonth];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
-function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Year_YearPeriod {
-  constructor(dateInPeriod) {
-    Year_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Year_YearPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodYear');
-  }
-
-  getPrettyString() {
-    return this.dateInPeriod.getFullYear().toString();
-  }
-
-  getDateRange() {
-    const startYear = new Date(this.dateInPeriod.getTime());
-    startYear.setMonth(0);
-    startYear.setDate(1);
-    const endYear = new Date(this.dateInPeriod.getTime());
-    endYear.setMonth(12);
-    endYear.setDate(0);
-    return [startYear, endYear];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/CoreHome/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"activityIndicatorAdapter\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"activityIndicatorAdapter\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ActivityIndicator\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ActivityIndicator\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"translate\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"translate\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"alertAdapter\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"alertAdapter\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"AjaxHelper\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"PiwikUrl\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"PiwikUrl\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Piwik\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Piwik\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Periods\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Periods\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Day\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Day\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Week\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Week\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Month\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Month\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Year\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Year\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Range\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Range\"]; });\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://CoreHome/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts":
+/*!*********************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return activityIndicatorAdapter; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ActivityIndicator.vue */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nfunction activityIndicatorAdapter() {\n  return {\n    restrict: 'A',\n    scope: {\n      loading: '<',\n      loadingMessage: '<'\n    },\n    template: '',\n    link: function activityIndicatorAdapterLink(scope, element) {\n      const app = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createApp\"])({\n        template: '<activity-indicator :loading=\"loading\" :loadingMessage=\"loadingMessage\"/>',\n\n        data() {\n          return {\n            loading: scope.loading,\n            loadingMessage: scope.loadingMessage\n          };\n        }\n\n      });\n      app.component('activity-indicator', _ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n      const vm = app.mount(element[0]);\n      scope.$watch('loading', newValue => {\n        vm.loading = newValue;\n      });\n      scope.$watch('loadingMessage', newValue => {\n        vm.loadingMessage = newValue || Object(_translate__WEBPACK_IMPORTED_MODULE_2__[\"default\"])('General_LoadingData');\n      });\n    }\n  };\n}\nactivityIndicatorAdapter.$inject = [];\nangular.module('piwikApp').directive('piwikActivityIndicator', activityIndicatorAdapter);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue":
+/*!**************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActivityIndicator.vue?vue&type=template&id=44c7b189 */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189\");\n/* harmony import */ var _ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ActivityIndicator.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts":
+/*!**************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ActivityIndicator.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189":
+/*!********************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189 ***!
+  \********************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ActivityIndicator.vue?vue&type=template&id=44c7b189 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts":
+/*!*******************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts ***!
+  \*******************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _AjaxHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n\nwindow.ajaxHelper = _AjaxHelper__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n\nfunction ajaxQueue() {\n  return globalAjaxQueue;\n}\n\nangular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts":
+/*!***********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return AjaxHelper; });\n/* harmony import */ var _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../PiwikUrl/PiwikUrl */ \"./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts\");\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nwindow.globalAjaxQueue = [];\nwindow.globalAjaxQueue.active = 0;\n\nwindow.globalAjaxQueue.clean = function globalAjaxQueueClean() {\n  for (let i = this.length; i >= 0; i -= 1) {\n    if (!this[i] || this[i].readyState === 4) {\n      this.splice(i, 1);\n    }\n  }\n};\n\nwindow.globalAjaxQueue.push = function globalAjaxQueuePush(...args) {\n  this.active += args.length; // cleanup ajax queue\n\n  this.clean(); // call original array push\n\n  return Array.prototype.push.call(this, ...args);\n};\n\nwindow.globalAjaxQueue.abort = function globalAjaxQueueAbort() {\n  // abort all queued requests if possible\n  this.forEach(x => x && x.abort && x.abort()); // remove all elements from array\n\n  this.splice(0, this.length);\n  this.active = 0;\n};\n/**\n * error callback to use by default\n */\n\n\nfunction defaultErrorCallback(deferred, status) {\n  // do not display error message if request was aborted\n  if (status === 'abort') {\n    return;\n  }\n\n  const loadingError = $('#loadingError');\n\n  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {\n    if (deferred && deferred.status === 500) {\n      $(document.body).html(piwikHelper.escape(deferred.responseText));\n    }\n  } else {\n    loadingError.show();\n  }\n}\n/**\n * Global ajax helper to handle requests within piwik\n */\n\n\nclass AjaxHelper {\n  /**\n   * Format of response\n   */\n\n  /**\n   * A timeout for the request which will override any global timeout\n   */\n\n  /**\n   * Callback function to be executed on success\n   */\n\n  /**\n   * Use this.callback if an error is returned\n   */\n\n  /**\n   * Callback function to be executed on error\n   */\n\n  /**\n   * Callback function to be executed on complete (after error or success)\n   */\n\n  /**\n   * Params to be passed as GET params\n   * @see ajaxHelper.mixinDefaultGetParams\n   */\n\n  /**\n   * Base URL used in the AJAX request. Can be set by setUrl.\n   *\n   * It is set to '?' rather than 'index.php?' to increase chances that it works\n   * including for users who have an automatic 301 redirection from index.php? to ?\n   * POST values are missing when there is such 301 redirection. So by by-passing\n   * this 301 redirection, we avoid this issue.\n   *\n   * @see ajaxHelper.setUrl\n   */\n\n  /**\n   * Params to be passed as GET params\n   * @see ajaxHelper.mixinDefaultPostParams\n   */\n\n  /**\n   * Element to be displayed while loading\n   */\n\n  /**\n   * Element to be displayed on error\n   */\n\n  /**\n   * Handle for current request\n   */\n  constructor() {\n    _defineProperty(this, \"format\", 'json');\n\n    _defineProperty(this, \"timeout\", null);\n\n    _defineProperty(this, \"callback\", null);\n\n    _defineProperty(this, \"useRegularCallbackInCaseOfError\", false);\n\n    _defineProperty(this, \"errorCallback\", void 0);\n\n    _defineProperty(this, \"withToken\", false);\n\n    _defineProperty(this, \"completeCallback\", void 0);\n\n    _defineProperty(this, \"getParams\", {});\n\n    _defineProperty(this, \"getUrl\", '?');\n\n    _defineProperty(this, \"postParams\", {});\n\n    _defineProperty(this, \"loadingElement\", null);\n\n    _defineProperty(this, \"errorElement\", '#ajaxError');\n\n    _defineProperty(this, \"requestHandle\", null);\n\n    _defineProperty(this, \"defaultParams\", ['idSite', 'period', 'date', 'segment']);\n\n    this.errorCallback = defaultErrorCallback;\n  }\n  /**\n   * Adds params to the request.\n   * If params are given more then once, the latest given value is used for the request\n   *\n   * @param  params\n   * @param  type  type of given parameters (POST or GET)\n   * @return {void}\n   */\n\n\n  addParams(params, type) {\n    if (typeof params === 'string') {\n      // TODO: add global types for broadcast (multiple uses below)\n      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line\n    }\n\n    const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];\n    Object.keys(params).forEach(key => {\n      const value = params[key];\n\n      if (arrayParams.indexOf(key) !== -1 && !value) {\n        return;\n      }\n\n      if (type.toLowerCase() === 'get') {\n        this.getParams[key] = value;\n      } else if (type.toLowerCase() === 'post') {\n        this.postParams[key] = value;\n      }\n    });\n  }\n\n  withTokenInUrl() {\n    this.withToken = true;\n  }\n  /**\n   * Sets the base URL to use in the AJAX request.\n   */\n\n\n  setUrl(url) {\n    this.addParams(broadcast.getValuesFromUrl(url), 'GET');\n  }\n  /**\n   * Gets this helper instance ready to send a bulk request. Each argument to this\n   * function is a single request to use.\n   */\n\n\n  setBulkRequests(...urls) {\n    const urlsProcessed = urls.map(u => $.param(u));\n    this.addParams({\n      module: 'API',\n      method: 'API.getBulkRequest',\n      urls: urlsProcessed,\n      format: 'json'\n    }, 'post');\n  }\n  /**\n   * Set a timeout (in milliseconds) for the request. This will override any global timeout.\n   *\n   * @param timeout  Timeout in milliseconds\n   */\n\n\n  setTimeout(timeout) {\n    this.timeout = timeout;\n  }\n  /**\n   * Sets the callback called after the request finishes\n   *\n   * @param callback  Callback function\n   */\n\n\n  setCallback(callback) {\n    this.callback = callback;\n  }\n  /**\n   * Set that the callback passed to setCallback() should be used if an application error (i.e. an\n   * Exception in PHP) is returned.\n   */\n\n\n  useCallbackInCaseOfError() {\n    this.useRegularCallbackInCaseOfError = true;\n  }\n  /**\n   * Set callback to redirect on success handler\n   * &update=1(+x) will be appended to the current url\n   *\n   * @param [params] to modify in redirect url\n   * @return {void}\n   */\n\n\n  redirectOnSuccess(params) {\n    this.setCallback(() => {\n      piwikHelper.redirect(params);\n    });\n  }\n  /**\n   * Sets the callback called in case of an error within the request\n   */\n\n\n  setErrorCallback(callback) {\n    this.errorCallback = callback;\n  }\n  /**\n   * Sets the complete callback which is called after an error or success callback.\n   */\n\n\n  setCompleteCallback(callback) {\n    this.completeCallback = callback;\n  }\n  /**\n   * Sets the response format for the request\n   *\n   * @param format  response format (e.g. json, html, ...)\n   */\n\n\n  setFormat(format) {\n    this.format = format;\n  }\n  /**\n   * Set the div element to show while request is loading\n   *\n   * @param [element]  selector for the loading element\n   */\n\n\n  setLoadingElement(element) {\n    this.loadingElement = element || '#ajaxLoadingDiv';\n  }\n  /**\n   * Set the div element to show on error\n   *\n   * @param element  selector for the error element\n   */\n\n\n  setErrorElement(element) {\n    if (!element) {\n      return;\n    }\n\n    this.errorElement = element;\n  }\n  /**\n   * Detect whether are allowed to use the given default parameter or not\n   */\n\n\n  useGETDefaultParameter(parameter) {\n    if (parameter && this.defaultParams) {\n      for (let i = 0; i < this.defaultParams.length; i += 1) {\n        if (this.defaultParams[i] === parameter) {\n          return true;\n        }\n      }\n    }\n\n    return false;\n  }\n  /**\n   * Removes a default parameter that is usually send automatically along the request.\n   *\n   * @param parameter  A name such as \"period\", \"date\", \"segment\".\n   */\n\n\n  removeDefaultParameter(parameter) {\n    if (parameter && this.defaultParams) {\n      for (let i = 0; i < this.defaultParams.length; i += 1) {\n        if (this.defaultParams[i] === parameter) {\n          this.defaultParams.splice(i, 1);\n        }\n      }\n    }\n  }\n  /**\n   * Send the request\n   */\n\n\n  send() {\n    if ($(this.errorElement).length) {\n      $(this.errorElement).hide();\n    }\n\n    if (this.loadingElement) {\n      $(this.loadingElement).fadeIn();\n    }\n\n    this.requestHandle = this.buildAjaxCall();\n    globalAjaxQueue.push(this.requestHandle);\n  }\n  /**\n   * Aborts the current request if it is (still) running\n   */\n\n\n  abort() {\n    if (this.requestHandle && typeof this.requestHandle.abort === 'function') {\n      this.requestHandle.abort();\n      this.requestHandle = null;\n    }\n  }\n  /**\n   * Builds and sends the ajax requests\n   */\n\n\n  buildAjaxCall() {\n    const self = this;\n    const parameters = this.mixinDefaultGetParams(this.getParams);\n    let url = this.getUrl;\n\n    if (url[url.length - 1] !== '?') {\n      url += '&';\n    } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param\n    // URL encodes the values)\n\n\n    if (parameters.segment) {\n      url = `${url}segment=${parameters.segment}&`;\n      delete parameters.segment;\n    }\n\n    if (parameters.date) {\n      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;\n      delete parameters.date;\n    }\n\n    url += $.param(parameters);\n    const ajaxCall = {\n      type: 'POST',\n      async: true,\n      url,\n      dataType: this.format || 'json',\n      complete: this.completeCallback,\n      error: function errorCallback() {\n        globalAjaxQueue.active -= 1;\n\n        if (self.errorCallback) {\n          self.errorCallback.apply(this, arguments); // eslint-disable-line\n        }\n      },\n      success: (response, status, request) => {\n        if (this.loadingElement) {\n          $(this.loadingElement).hide();\n        }\n\n        if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {\n          let placeAt = null;\n          let type = 'toast';\n\n          if ($(this.errorElement).length && response.message) {\n            $(this.errorElement).show();\n            placeAt = this.errorElement;\n            type = null;\n          }\n\n          if (response.message) {\n            const UI = window['require']('piwik/UI'); // eslint-disable-line\n\n            const notification = new UI.Notification();\n            notification.show(response.message, {\n              placeat: placeAt,\n              context: 'error',\n              type,\n              id: 'ajaxHelper'\n            });\n            notification.scrollToNotification();\n          }\n        } else if (this.callback) {\n          this.callback(response, status, request);\n        }\n\n        globalAjaxQueue.active -= 1;\n        const {\n          piwik\n        } = window;\n\n        if (piwik && piwik.ajaxRequestFinished) {\n          piwik.ajaxRequestFinished();\n        }\n      },\n      data: this.mixinDefaultPostParams(this.postParams),\n      timeout: this.timeout !== null ? this.timeout : undefined\n    };\n    return $.ajax(ajaxCall);\n  }\n\n  isRequestToApiMethod() {\n    return this.getParams && this.getParams.module === 'API' && this.getParams.method || this.postParams && this.postParams.module === 'API' && this.postParams.method;\n  }\n\n  isWidgetizedRequest() {\n    return broadcast.getValueFromUrl('module') === 'Widgetize';\n  }\n\n  getDefaultPostParams() {\n    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {\n      return {\n        token_auth: piwik.token_auth,\n        // When viewing a widgetized report there won't be any session that can be used, so don't\n        // force session usage\n        force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1\n      };\n    }\n\n    return {};\n  }\n  /**\n   * Mixin the default parameters to send as POST\n   *\n   * @param params   parameter object\n   */\n\n\n  mixinDefaultPostParams(params) {\n    const defaultParams = this.getDefaultPostParams();\n    const mergedParams = { ...defaultParams,\n      ...params\n    };\n    return mergedParams;\n  }\n  /**\n   * Mixin the default parameters to send as GET\n   *\n   * @param   params   parameter object\n   */\n\n\n  mixinDefaultGetParams(originalParams) {\n    const segment = _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getSearchParam('segment');\n    const defaultParams = {\n      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),\n      period: piwik.period || broadcast.getValueFromUrl('period'),\n      segment\n    };\n    const params = originalParams; // never append token_auth to url\n\n    if (params.token_auth) {\n      params.token_auth = null;\n      delete params.token_auth;\n    }\n\n    Object.keys(defaultParams).forEach(key => {\n      if (this.useGETDefaultParameter(key) && !params[key] && !this.postParams[key] && defaultParams[key]) {\n        params[key] = defaultParams[key];\n      }\n    }); // handle default date & period if not already set\n\n    if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {\n      params.date = piwik.currentDateString;\n    }\n\n    return params;\n  }\n\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts":
+/*!*********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return alertAdapter; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Alert_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Alert.vue */ \"./plugins/CoreHome/vue/src/Alert/Alert.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction alertAdapter() {\n  return {\n    restrict: 'A',\n    transclude: true,\n    scope: {\n      severity: '@piwikAlert'\n    },\n    template: '<div ng-transclude/>',\n    compile: function alertAdapterCompile() {\n      return {\n        post: function alertAdapterPostLink(scope, element) {\n          const clone = element.find('[ng-transclude]');\n          const app = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createApp\"])({\n            template: '<alert :severity=\"severity\"><div ref=\"transcludeTarget\"/></alert>',\n\n            data() {\n              return {\n                severity: scope.severity\n              };\n            },\n\n            setup() {\n              const transcludeTarget = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(null);\n              return {\n                transcludeTarget\n              };\n            }\n\n          });\n          app.component('alert', _Alert_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n          const vm = app.mount(element[0]);\n          scope.$watch('severity', newValue => {\n            vm.severity = newValue;\n          });\n          $(vm.transcludeTarget).append(clone);\n        }\n      };\n    }\n  };\n}\nalertAdapter.$inject = [];\nangular.module('piwikApp').directive('piwikAlert', alertAdapter);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.vue":
+/*!**************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Alert.vue?vue&type=template&id=52d77d41 */ \"./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41\");\n/* harmony import */ var _Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Alert.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/Alert/Alert.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts":
+/*!**************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Alert.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41":
+/*!********************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41 ***!
+  \********************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Alert.vue?vue&type=template&id=52d77d41 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Day.ts":
+/*!*************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Day.ts ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return DayPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nclass DayPeriod {\n  constructor(dateInPeriod) {\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  static parse(strDate) {\n    return new DayPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n  }\n\n  static getDisplayText() {\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodDay');\n  }\n\n  getPrettyString() {\n    return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.dateInPeriod);\n  }\n\n  getDateRange() {\n    return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];\n  }\n\n  containsToday() {\n    return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n  }\n\n}\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('day', DayPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Day.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Month.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Month.ts ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return MonthPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nclass MonthPeriod {\n  constructor(dateInPeriod) {\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  static parse(strDate) {\n    return new MonthPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n  }\n\n  static getDisplayText() {\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodMonth');\n  }\n\n  getPrettyString() {\n    const month = Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);\n    return `${month} ${this.dateInPeriod.getFullYear()}`;\n  }\n\n  getDateRange() {\n    const startMonth = new Date(this.dateInPeriod.getTime());\n    startMonth.setDate(1);\n    const endMonth = new Date(this.dateInPeriod.getTime());\n    endMonth.setDate(1);\n    endMonth.setMonth(endMonth.getMonth() + 1);\n    endMonth.setDate(0);\n    return [startMonth, endMonth];\n  }\n\n  containsToday() {\n    return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n  }\n\n}\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('month', MonthPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Month.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts":
+/*!*************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts ***!
+  \*************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _Range__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Range */ \"./plugins/CoreHome/vue/src/Periods/Range.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nwindow.piwik.addCustomPeriod = _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addCustomPeriod.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n\nfunction piwikPeriods() {\n  return {\n    getAllLabels: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getAllLabels.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    isRecognizedPeriod: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].isRecognizedPeriod.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    get: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].get.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    parse: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].parse.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    parseDate: _utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"],\n    format: _utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"],\n    RangePeriod: _Range__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    todayIsInRange: _utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"]\n  };\n}\n\nangular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Periods.ts":
+/*!*****************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Periods.ts ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n/**\n * Piwik period management service for the frontend.\n *\n * Usage:\n *\n *     var DayPeriod = piwikPeriods.get('day');\n *     var day = new DayPeriod(new Date());\n *\n * or\n *\n *     var day = piwikPeriods.parse('day', '2013-04-05');\n *\n * Adding custom periods:\n *\n * To add your own period to the frontend, create a period class for it\n * w/ the following methods:\n *\n * - **getPrettyString()**: returns a human readable display string for the period.\n * - **getDateRange()**: returns an array w/ two elements, the first being the start\n *                       Date of the period, the second being the end Date. The dates\n *                       must be Date objects, not strings, and are inclusive.\n * - **containsToday()**: returns true if the date period contains today. False if not.\n * - (_static_) **parse(strDate)**: creates a new instance of this period from the\n *                                  value of the 'date' query parameter.\n * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',\n *                                  'week', etc.\n *\n * Then call piwik.addCustomPeriod w/ your period class:\n *\n *     piwik.addCustomPeriod('mycustomperiod', MyCustomPeriod);\n *\n * NOTE: currently only single date periods like day, week, month year can\n *       be extended. Other types of periods that require a special UI to\n *       view/edit aren't, since there is currently no way to use a\n *       custom UI for a custom period.\n */\nclass Periods {\n  constructor() {\n    _defineProperty(this, \"periods\", {});\n\n    _defineProperty(this, \"periodOrder\", []);\n  }\n\n  addCustomPeriod(name, periodClass) {\n    if (this.periods[name]) {\n      throw new Error(`The \"${name}\" period already exists! It cannot be overridden.`);\n    }\n\n    this.periods[name] = periodClass;\n    this.periodOrder.push(name);\n  }\n\n  getAllLabels() {\n    return Array().concat(this.periodOrder);\n  }\n\n  get(strPeriod) {\n    const periodClass = this.periods[strPeriod];\n\n    if (!periodClass) {\n      throw new Error(`Invalid period label: ${strPeriod}`);\n    }\n\n    return periodClass;\n  }\n\n  parse(strPeriod, strDate) {\n    return this.get(strPeriod).parse(strDate);\n  }\n\n  isRecognizedPeriod(strPeriod) {\n    return !!this.periods[strPeriod];\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new Periods());\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Periods.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Range.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Range.ts ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return RangePeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nclass RangePeriod {\n  constructor(startDate, endDate, childPeriodType) {\n    _defineProperty(this, \"startDate\", void 0);\n\n    _defineProperty(this, \"endDate\", void 0);\n\n    _defineProperty(this, \"childPeriodType\", void 0);\n\n    this.startDate = startDate;\n    this.endDate = endDate;\n    this.childPeriodType = childPeriodType;\n  }\n  /**\n   * Returns a range representing the last N childPeriodType periods, including the current one.\n   */\n\n\n  static getLastNRange(childPeriodType, strAmount, strEndDate) {\n    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);\n\n    if (Number.isNaN(nAmount)) {\n      throw new Error('Invalid range strAmount');\n    }\n\n    let endDate = strEndDate ? Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strEndDate) : Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"getToday\"])();\n    let startDate = new Date(endDate.getTime());\n\n    if (childPeriodType === 'day') {\n      startDate.setDate(startDate.getDate() - nAmount);\n    } else if (childPeriodType === 'week') {\n      startDate.setDate(startDate.getDate() - nAmount * 7);\n    } else if (childPeriodType === 'month') {\n      startDate.setDate(1);\n      startDate.setMonth(startDate.getMonth() - nAmount);\n    } else if (childPeriodType === 'year') {\n      startDate.setFullYear(startDate.getFullYear() - nAmount);\n    } else {\n      throw new Error(`Unknown period type '${childPeriodType}'.`);\n    }\n\n    if (childPeriodType !== 'day') {\n      const startPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(startDate);\n      const endPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(endDate);\n      [startDate] = startPeriod.getDateRange();\n      [, endDate] = endPeriod.getDateRange();\n    }\n\n    const firstWebsiteDate = new Date(1991, 7, 6);\n\n    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {\n      switch (childPeriodType) {\n        case 'year':\n          startDate = new Date(1992, 0, 1);\n          break;\n\n        case 'month':\n          startDate = new Date(1991, 8, 1);\n          break;\n\n        case 'week':\n          startDate = new Date(1991, 8, 12);\n          break;\n\n        case 'day':\n        default:\n          startDate = firstWebsiteDate;\n          break;\n      }\n    }\n\n    return new RangePeriod(startDate, endDate, childPeriodType);\n  }\n  /**\n   * Returns a range representing a specific child date range counted back from the end date\n   *\n   * @param childPeriodType Type of the period, eg. day, week, year\n   * @param rangeEndDate\n   * @param countBack Return only the child date range for this specific period number\n   * @returns {RangePeriod}\n   */\n\n\n  static getLastNRangeChild(childPeriodType, rangeEndDate, countBack) {\n    const ed = rangeEndDate ? Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(rangeEndDate) : Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"getToday\"])();\n    let startDate = new Date(ed.getTime());\n    let endDate = new Date(ed.getTime());\n\n    if (childPeriodType === 'day') {\n      startDate.setDate(startDate.getDate() - countBack);\n      endDate.setDate(endDate.getDate() - countBack);\n    } else if (childPeriodType === 'week') {\n      startDate.setDate(startDate.getDate() - countBack * 7);\n      endDate.setDate(endDate.getDate() - countBack * 7);\n    } else if (childPeriodType === 'month') {\n      startDate.setDate(1);\n      startDate.setMonth(startDate.getMonth() - countBack);\n      endDate.setDate(1);\n      endDate.setMonth(endDate.getMonth() - countBack);\n    } else if (childPeriodType === 'year') {\n      startDate.setFullYear(startDate.getFullYear() - countBack);\n      endDate.setFullYear(endDate.getFullYear() - countBack);\n    } else {\n      throw new Error(`Unknown period type '${childPeriodType}'.`);\n    }\n\n    if (childPeriodType !== 'day') {\n      const startPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(startDate);\n      const endPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(endDate);\n      [startDate] = startPeriod.getDateRange();\n      [, endDate] = endPeriod.getDateRange();\n    }\n\n    const firstWebsiteDate = new Date(1991, 7, 6);\n\n    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {\n      switch (childPeriodType) {\n        case 'year':\n          startDate = new Date(1992, 0, 1);\n          break;\n\n        case 'month':\n          startDate = new Date(1991, 8, 1);\n          break;\n\n        case 'week':\n          startDate = new Date(1991, 8, 12);\n          break;\n\n        case 'day':\n        default:\n          startDate = firstWebsiteDate;\n          break;\n      }\n    }\n\n    return new RangePeriod(startDate, endDate, childPeriodType);\n  }\n\n  static parse(strDate, childPeriodType = 'day') {\n    if (/^previous/.test(strDate)) {\n      const endDate = RangePeriod.getLastNRange(childPeriodType, '2').startDate;\n      return RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);\n    }\n\n    if (/^last/.test(strDate)) {\n      return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));\n    }\n\n    const parts = decodeURIComponent(strDate).split(',');\n    return new RangePeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(parts[0]), Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(parts[1]), childPeriodType);\n  }\n\n  static getDisplayText() {\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('General_DateRangeInPeriodList');\n  }\n\n  getPrettyString() {\n    const start = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.startDate);\n    const end = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.endDate);\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('General_DateRangeFromTo', [start, end]);\n  }\n\n  getDateRange() {\n    return [this.startDate, this.endDate];\n  }\n\n  containsToday() {\n    return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n  }\n\n}\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('range', RangePeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Range.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Week.ts":
+/*!**************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Week.ts ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return WeekPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nclass WeekPeriod {\n  constructor(dateInPeriod) {\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  static parse(strDate) {\n    return new WeekPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n  }\n\n  static getDisplayText() {\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodWeek');\n  }\n\n  getPrettyString() {\n    const weekDates = this.getDateRange();\n    const startWeek = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(weekDates[0]);\n    const endWeek = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(weekDates[1]);\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('General_DateRangeFromTo', [startWeek, endWeek]);\n  }\n\n  getDateRange() {\n    const daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;\n    const startWeek = new Date(this.dateInPeriod.getTime());\n    startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);\n    const endWeek = new Date(startWeek.getTime());\n    endWeek.setDate(startWeek.getDate() + 6);\n    return [startWeek, endWeek];\n  }\n\n  containsToday() {\n    return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n  }\n\n}\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('week', WeekPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Week.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Year.ts":
+/*!**************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Year.ts ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return YearPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nclass YearPeriod {\n  constructor(dateInPeriod) {\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  static parse(strDate) {\n    return new YearPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n  }\n\n  static getDisplayText() {\n    return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodYear');\n  }\n\n  getPrettyString() {\n    return this.dateInPeriod.getFullYear().toString();\n  }\n\n  getDateRange() {\n    const startYear = new Date(this.dateInPeriod.getTime());\n    startYear.setMonth(0);\n    startYear.setDate(1);\n    const endYear = new Date(this.dateInPeriod.getTime());\n    endYear.setMonth(12);\n    endYear.setDate(0);\n    return [startYear, endYear];\n  }\n\n  containsToday() {\n    return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n  }\n\n}\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('year', YearPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Year.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/index.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/index.ts ***!
+  \***************************************************/
+/*! exports provided: Periods, Day, Week, Month, Year, Range */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Periods_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Periods.adapter */ \"./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Periods\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/* harmony import */ var _Day__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day */ \"./plugins/CoreHome/vue/src/Periods/Day.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Day\", function() { return _Day__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/* harmony import */ var _Week__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Week */ \"./plugins/CoreHome/vue/src/Periods/Week.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Week\", function() { return _Week__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/* harmony import */ var _Month__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Month */ \"./plugins/CoreHome/vue/src/Periods/Month.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Month\", function() { return _Month__WEBPACK_IMPORTED_MODULE_4__[\"default\"]; });\n\n/* harmony import */ var _Year__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Year */ \"./plugins/CoreHome/vue/src/Periods/Year.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Year\", function() { return _Year__WEBPACK_IMPORTED_MODULE_5__[\"default\"]; });\n\n/* harmony import */ var _Range__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Range */ \"./plugins/CoreHome/vue/src/Periods/Range.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Range\", function() { return _Range__WEBPACK_IMPORTED_MODULE_6__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/index.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/utilities.ts":
+/*!*******************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/utilities.ts ***!
+  \*******************************************************/
+/*! exports provided: format, getToday, parseDate, todayIsInRange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"format\", function() { return format; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getToday\", function() { return getToday; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseDate\", function() { return parseDate; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"todayIsInRange\", function() { return todayIsInRange; });\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction format(date) {\n  return $.datepicker.formatDate('yy-mm-dd', date);\n}\nfunction getToday() {\n  const date = new Date(Date.now()); // undo browser timezone\n\n  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply piwik site timezone (if it exists)\n\n  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.\n\n  date.setHours(0);\n  date.setMinutes(0);\n  date.setSeconds(0);\n  date.setMilliseconds(0);\n  return date;\n}\nfunction parseDate(date) {\n  if (date instanceof Date) {\n    return date;\n  }\n\n  const strDate = decodeURIComponent(date);\n\n  if (strDate === 'today' || strDate === 'now') {\n    return getToday();\n  }\n\n  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time\n  || strDate === 'yesterdaySameTime') {\n    const yesterday = getToday();\n    yesterday.setDate(yesterday.getDate() - 1);\n    return yesterday;\n  }\n\n  if (strDate.match(/last[ -]?week/i)) {\n    const lastWeek = getToday();\n    lastWeek.setDate(lastWeek.getDate() - 7);\n    return lastWeek;\n  }\n\n  if (strDate.match(/last[ -]?month/i)) {\n    const lastMonth = getToday();\n    lastMonth.setDate(1);\n    lastMonth.setMonth(lastMonth.getMonth() - 1);\n    return lastMonth;\n  }\n\n  if (strDate.match(/last[ -]?year/i)) {\n    const lastYear = getToday();\n    lastYear.setFullYear(lastYear.getFullYear() - 1);\n    return lastYear;\n  }\n\n  try {\n    return $.datepicker.parseDate('yy-mm-dd', strDate);\n  } catch (err) {\n    // angular swallows this error, so manual console log here\n    console.error(err.message || err);\n    throw err;\n  }\n}\nfunction todayIsInRange(dateRange) {\n  if (dateRange.length !== 2) {\n    return false;\n  }\n\n  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {\n    return true;\n  }\n\n  return false;\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/utilities.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts":
+/*!*********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts ***!
+  \*********************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piwik__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piwik */ \"./plugins/CoreHome/vue/src/Piwik/Piwik.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikService() {\n  return _Piwik__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n}\n\nangular.module('piwikApp.service').service('piwik', piwikService);\n\nfunction initPiwikService(piwik, $rootScope) {\n  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);\n}\n\ninitPiwikService.$inject = ['piwik', '$rootScope'];\nangular.module('piwikApp.service').run(initPiwikService);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Piwik/Piwik.ts":
+/*!*************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Piwik/Piwik.ts ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../PiwikUrl/PiwikUrl */ \"./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts\");\n/* harmony import */ var _Periods_Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Periods/Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _Periods_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Periods/utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nlet originalTitle;\nconst {\n  piwik,\n  broadcast,\n  piwikHelper\n} = window;\npiwik.helper = piwikHelper;\npiwik.broadcast = broadcast;\n\nfunction isValidPeriod(periodStr, dateStr) {\n  try {\n    _Periods_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parse(periodStr, dateStr);\n    return true;\n  } catch (e) {\n    return false;\n  }\n}\n\npiwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {\n  let date = _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getSearchParam('date');\n  const period = _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getSearchParam('period');\n\n  if (!isValidPeriod(period, date)) {\n    // invalid data in URL\n    return;\n  }\n\n  if (piwik.period === period && piwik.currentDateString === date) {\n    // this period / date is already loaded\n    return;\n  }\n\n  piwik.period = period;\n  const dateRange = _Periods_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parse(period, date).getDateRange();\n  piwik.startDateString = Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(dateRange[0]);\n  piwik.endDateString = Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(dateRange[1]);\n  piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins\n  // to have the dates than previousN/lastN.\n\n  if (piwik.period === 'range') {\n    date = `${piwik.startDateString},${piwik.endDateString}`;\n  }\n\n  piwik.currentDateString = date;\n};\n\npiwik.updateDateInTitle = function updateDateInTitle(date, period) {\n  if (!$('.top_controls #periodString').length) {\n    return;\n  } // Cache server-rendered page title\n\n\n  originalTitle = originalTitle || document.title;\n\n  if (originalTitle.indexOf(piwik.siteName) === 0) {\n    const dateString = ` - ${_Periods_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parse(period, date).getPrettyString()} `;\n    document.title = `${piwik.siteName}${dateString}${originalTitle.substr(piwik.siteName.length)}`;\n  }\n};\n\npiwik.hasUserCapability = function hasUserCapability(capability) {\n  return window.angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;\n};\n\nconst Piwik = piwik;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Piwik);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Piwik/Piwik.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts":
+/*!***************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts ***!
+  \***************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _PiwikUrl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PiwikUrl */ \"./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikUrl() {\n  const model = {\n    getSearchParam: _PiwikUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getSearchParam.bind(_PiwikUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"])\n  };\n  return model;\n}\n\npiwikUrl.$inject = [];\nangular.module('piwikApp.service').service('piwikUrl', piwikUrl);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts":
+/*!*******************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n/**\n * Similar to angulars $location but works around some limitation. Use it if you need to access\n * search params\n */\nconst PiwikUrl = {\n  getSearchParam(paramName) {\n    const hash = window.location.href.split('#');\n    const regex = new RegExp(`${paramName}(\\\\[]|=)`);\n\n    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {\n      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided\n\n      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {\n        return valueFromHash;\n      }\n    }\n\n    return window.broadcast.getValueFromUrl(paramName, window.location.search);\n  }\n\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (PiwikUrl);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/index.ts":
+/*!*******************************************!*\
+  !*** ./plugins/CoreHome/vue/src/index.ts ***!
+  \*******************************************/
+/*! exports provided: activityIndicatorAdapter, ActivityIndicator, translate, alertAdapter, AjaxHelper, PiwikUrl, Piwik, Periods, Day, Week, Month, Year, Range */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _AjaxHelper_AjaxHelper_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AjaxHelper/AjaxHelper.adapter */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts\");\n/* harmony import */ var _PiwikUrl_PiwikUrl_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PiwikUrl/PiwikUrl.adapter */ \"./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts\");\n/* harmony import */ var _Piwik_Piwik_adapter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Piwik/Piwik.adapter */ \"./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts\");\n/* harmony import */ var _ActivityIndicator_ActivityIndicator_adapter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ActivityIndicator/ActivityIndicator.adapter */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"activityIndicatorAdapter\", function() { return _ActivityIndicator_ActivityIndicator_adapter__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/* harmony import */ var _ActivityIndicator_ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ActivityIndicator/ActivityIndicator.vue */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ActivityIndicator\", function() { return _ActivityIndicator_ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_4__[\"default\"]; });\n\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"translate\", function() { return _translate__WEBPACK_IMPORTED_MODULE_5__[\"default\"]; });\n\n/* harmony import */ var _Alert_Alert_adapter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Alert/Alert.adapter */ \"./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"alertAdapter\", function() { return _Alert_Alert_adapter__WEBPACK_IMPORTED_MODULE_6__[\"default\"]; });\n\n/* harmony import */ var _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AjaxHelper/AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"AjaxHelper\", function() { return _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_7__[\"default\"]; });\n\n/* harmony import */ var _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PiwikUrl/PiwikUrl */ \"./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"PiwikUrl\", function() { return _PiwikUrl_PiwikUrl__WEBPACK_IMPORTED_MODULE_8__[\"default\"]; });\n\n/* harmony import */ var _Piwik_Piwik__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Piwik/Piwik */ \"./plugins/CoreHome/vue/src/Piwik/Piwik.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Piwik\", function() { return _Piwik_Piwik__WEBPACK_IMPORTED_MODULE_9__[\"default\"]; });\n\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Periods\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_10__[\"Periods\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Day\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_10__[\"Day\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Week\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_10__[\"Week\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Month\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_10__[\"Month\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Year\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_10__[\"Year\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Range\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_10__[\"Range\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/index.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/translate.ts":
+/*!***********************************************!*\
+  !*** ./plugins/CoreHome/vue/src/translate.ts ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return translate; });\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction translate(translationStringId, values = []) {\n  return window._pk_translate(translationStringId, values); // eslint-disable-line\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/translate.ts?");
+
+/***/ }),
+
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://CoreHome/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=CoreHome.umd.js.map
