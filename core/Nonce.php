@@ -70,7 +70,7 @@ class Nonce
      */
     public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null)
     {
-        // load error with message function. 
+        // load error with message function.
         $error = self::verifyNonceWithErrorMessage($id, $cnonce, $expectedReferrerHost);
         return $error === "";
     }
@@ -104,8 +104,10 @@ class Nonce
         if (empty($expectedReferrerHost) && !empty($referrer) && !Url::isLocalUrl($referrer)) {
             return Piwik::translate('Login_InvalidNonceReferrer');
         }
+
+        //referrer is different expected host
         if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
-            return Piwik::translate('Login_InvalidNonceReferrer');
+            return Piwik::translate('Login_InvalidNonceUnexpectedReferrer');
         }
 
         // validate origin
