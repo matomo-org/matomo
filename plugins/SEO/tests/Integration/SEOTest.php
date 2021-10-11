@@ -47,7 +47,8 @@ class SEOTest extends IntegrationTestCase
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
-            $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
+            $this->assertNotEmpty($rank['rank'],
+              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '' . ']');
         }
     }
 
