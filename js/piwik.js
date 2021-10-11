@@ -6296,7 +6296,7 @@ if (typeof window.Matomo !== 'object') {
                     } else if  (windowAlias.detachEvent) {
                         windowAlias.detachEvent('onfocus', heartBeatOnFocus);
                         windowAlias.detachEvent('onblur', heartBeatOnBlur);
-                        windowAlias.removeEventListener('visibilitychange', heartBeatOnVisible);
+                        windowAlias.detachEvent('visibilitychange', heartBeatOnVisible);
                     }
                 }
 
