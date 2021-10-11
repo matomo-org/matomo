@@ -208,6 +208,8 @@ class Rules
 
     public static function isArchivingEnabledFor(array $idSites, Segment $segment, $periodLabel)
     {
+        $isArchivingEnabled = self::isRequestAuthorizedToArchive() && !self::$archivingDisabledByTests;
+
         $generalConfig = Config::getInstance()->General;
 
         if ($periodLabel === 'range') {
@@ -215,13 +217,12 @@ class Rules
                 && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
                 Log::debug("Not forcing archiving for range period.");
-                return false;
+                return $isArchivingEnabled;
             }
 
             return true;
         }
 
-        $isArchivingEnabled = self::isRequestAuthorizedToArchive() && !self::$archivingDisabledByTests;
         if ($segment->isEmpty()) {
             // viewing "All Visits"
             return $isArchivingEnabled;
