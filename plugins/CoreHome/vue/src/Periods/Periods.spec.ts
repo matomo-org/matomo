@@ -27,7 +27,7 @@ describe('CoreHome/Periods', () => {
 
   beforeEach(() => {
     originalDateNow = null;
-    piwik.timezoneOffset = 0;
+    window.piwik.timezoneOffset = 0;
   });
 
   afterEach(() => {

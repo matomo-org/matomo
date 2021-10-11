@@ -1,16 +1,11 @@
-interface PiwikGlobal {
-  timezoneOffset: number;
-  addCustomPeriod: <T>(name: string, periodClass: T) => void;
-  shouldPropagateTokenAuth: boolean;
-  token_auth: string;
-  idSite: string|number;
-  period: string;
-  currentDateString: string;
-}
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
-let piwik: PiwikGlobal;
-
-function _pk_translate(translationStringId: string, values: string[]): string;
+import { IAngularStatic } from 'angular';
 
 /**
  * global ajax queue
@@ -42,10 +37,6 @@ interface GlobalAjaxQueue extends Array<XMLHttpRequest|null> {
   abort();
 }
 
-interface Window {
-  globalAjaxQueue: GlobalAjaxQueue;
-}
-
 interface PiwikPopoverGlobal {
   isOpen();
 }
@@ -66,3 +57,39 @@ interface BroadcastGlobal {
 }
 
 let broadcast: BroadcastGlobal;
+
+interface PiwikGlobal {
+  timezoneOffset: number;
+  addCustomPeriod: (name: string, periodClass: any) => void;
+  shouldPropagateTokenAuth: boolean;
+  token_auth: string;
+  idSite: string|number;
+  siteName: string;
+  period?: string;
+  currentDateString?: string;
+  startDateString?: string;
+  endDateString?: string;
+  userCapabilities: string[];
+  piwik_url: string;
+  helper: PiwikHelperGlobal;
+  broadcast: BroadcastGlobal;
+
+  updatePeriodParamsFromUrl(): void;
+  updateDateInTitle(date: string, period: string): void;
+  hasUserCapability(capability: string): boolean;
+}
+
+let piwik: PiwikGlobal;
+
+// add the objects to Window so we can access them through window if needed
+declare global {
+  interface Window {
+    angular: IAngularStatic;
+    globalAjaxQueue: GlobalAjaxQueue;
+    piwik: PiwikGlobal;
+    piwikHelper: PiwikHelperGlobal;
+    broadcast: BroadcastGlobal;
+
+    _pk_translate(translationStringId: string, values: string[]): string;
+  }
+}

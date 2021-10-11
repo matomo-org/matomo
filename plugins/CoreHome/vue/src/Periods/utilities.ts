@@ -16,7 +16,7 @@ export function getToday(): Date {
   date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
   // apply piwik site timezone (if it exists)
-  date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
+  date.setHours(date.getHours() + ((window.piwik.timezoneOffset || 0) / 3600));
 
   // get rid of hours/minutes/seconds/etc.
   date.setHours(0);
