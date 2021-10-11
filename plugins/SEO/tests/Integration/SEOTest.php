@@ -41,6 +41,7 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
         $ranks = $this->apiFunction();
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
@@ -48,7 +49,7 @@ class SEOTest extends IntegrationTestCase
                 continue;
             }
             $this->assertNotEmpty($rank['rank'],
-              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '' . ']');
+              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' .$ip . ']');
         }
     }
 
