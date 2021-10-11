@@ -7,11 +7,21 @@
 			<nb_actions>43</nb_actions>
 			<nb_pageviews>43</nb_pageviews>
 			<revenue>50</revenue>
+			<_metadata>
+			<ts_archived>today-date-removed-in-tests</ts_archived>
+			</_metadata>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<previous_nb_visits>0</previous_nb_visits>
+			<periodName>year</periodName>
+			<previousRange>2009-01-01 - 2009-12-31</previousRange>
+			<previous_nb_actions>0</previous_nb_actions>
+			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -21,11 +31,21 @@
 			<nb_actions>3</nb_actions>
 			<nb_pageviews>3</nb_pageviews>
 			<revenue>0</revenue>
+			<_metadata>
+			<ts_archived>today-date-removed-in-tests</ts_archived>
+			</_metadata>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<idsite>2</idsite>
+			<ratio>1</ratio>
+			<previous_nb_visits>0</previous_nb_visits>
+			<periodName>year</periodName>
+			<previousRange>2009-01-01 - 2009-12-31</previousRange>
+			<previous_nb_actions>0</previous_nb_actions>
+			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
