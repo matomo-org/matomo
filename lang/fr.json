@@ -180,7 +180,7 @@
         "ExceptionConfigurationFileExistsButNotReadable": "Le fichier de configuration %s semble exister mais Matomo n'arrive pas à le lire.",
         "ExceptionConfigurationFileNotFound": "Le fichier de configuration {%s} n'a pas été trouvé ou n'a pas pu être lu.",
         "ExceptionConfigurationFilePleaseCheckReadableByUser": "Merci de vérifier que %1$s est lisible par l'utilisateur '%2$s'.",
-        "ExceptionContactSupportGeneric": "Si vous avez toujours ce problème veuillez %1$scontacter votre administrateur Matomo%2$s pour obtenir de l'aide.",
+        "ExceptionContactSupportGeneric": "Si vous rencontrez toujours ce problème, veuillez %1$s contacter votre administrateur Matomo%2$s pour obtenir de l'aide.",
         "ExceptionDatabaseAccess": "Accès à la base de données refusé",
         "ExceptionDatabaseUnavailable": "Le serveur MySQL n'est pas accessible",
         "ExceptionDatabaseVersion": "Votre version de %1$s est %2$s mais Matomo a besoin au minimum de la version %3$s.",

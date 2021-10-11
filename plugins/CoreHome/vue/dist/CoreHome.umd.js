@@ -1350,6 +1350,151 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * Similar to angulars $location but works around some limitation. Use it if you need to access
+ * search params
+ */
+const PiwikUrl = {
+  getSearchParam(paramName) {
+    const hash = window.location.href.split('#');
+    const regex = new RegExp(`${paramName}(\\[]|=)`);
+
+    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
+      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
+
+      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
+        return valueFromHash;
+      }
+    }
+
+    return window.broadcast.getValueFromUrl(paramName, window.location.search);
+  }
+
+};
+/* harmony default export */ var PiwikUrl_PiwikUrl = (PiwikUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function PiwikUrl_adapter_piwikUrl() {
+  const model = {
+    getSearchParam: PiwikUrl_PiwikUrl.getSearchParam.bind(PiwikUrl_PiwikUrl)
+  };
+  return model;
+}
+
+PiwikUrl_adapter_piwikUrl.$inject = [];
+angular.module('piwikApp.service').service('piwikUrl', PiwikUrl_adapter_piwikUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+let Piwik_originalTitle;
+const {
+  piwik: Piwik_piwik,
+  broadcast: Piwik_broadcast,
+  piwikHelper: Piwik_piwikHelper
+} = window;
+Piwik_piwik.helper = Piwik_piwikHelper;
+Piwik_piwik.broadcast = Piwik_broadcast;
+
+function Piwik_isValidPeriod(periodStr, dateStr) {
+  try {
+    Periods_Periods.parse(periodStr, dateStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
+  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
+  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
+
+  if (!Piwik_isValidPeriod(period, date)) {
+    // invalid data in URL
+    return;
+  }
+
+  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
+    // this period / date is already loaded
+    return;
+  }
+
+  Piwik_piwik.period = period;
+  const dateRange = Periods_Periods.parse(period, date).getDateRange();
+  Piwik_piwik.startDateString = format(dateRange[0]);
+  Piwik_piwik.endDateString = format(dateRange[1]);
+  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+  // to have the dates than previousN/lastN.
+
+  if (Piwik_piwik.period === 'range') {
+    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
+  }
+
+  Piwik_piwik.currentDateString = date;
+};
+
+Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+  if (!$('.top_controls #periodString').length) {
+    return;
+  } // Cache server-rendered page title
+
+
+  Piwik_originalTitle = Piwik_originalTitle || document.title;
+
+  if (Piwik_originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
+    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+    document.title = `${Piwik_piwik.siteName}${dateString}${Piwik_originalTitle.substr(Piwik_piwik.siteName.length)}`;
+  }
+};
+
+Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
+  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+const Piwik = Piwik_piwik;
+/* harmony default export */ var Piwik_Piwik = (Piwik);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function Piwik_adapter_piwikService() {
+  return Piwik_Piwik;
+}
+
+angular.module('piwikApp.service').service('piwik', Piwik_adapter_piwikService);
+
+function Piwik_adapter_initPiwikService(piwik, $rootScope) {
+  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
+}
+
+Piwik_adapter_initPiwikService.$inject = ['piwik', '$rootScope'];
+angular.module('piwikApp.service').run(Piwik_adapter_initPiwikService);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -1689,6 +1834,8 @@ angular.module('piwikApp').directive('piwikAlert', alertAdapter);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 
