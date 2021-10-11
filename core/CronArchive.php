@@ -622,7 +622,8 @@ class CronArchive
         //         runs
         //       - setting a new DI environment for core:archive which CoreAdminHome can use to conditionally
         //         enable/disable the task
-        $_GET['trigger'] = 'archivephp';
+        Rules::$disablePureOutdatedArchive = true;
+
         CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");

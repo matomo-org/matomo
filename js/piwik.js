@@ -71,7 +71,7 @@
     discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon, isUsingAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
-    setConversionAttributionFirstReferrer, tracker, request,
+    setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
@@ -2248,6 +2248,9 @@ if (typeof window.Matomo !== 'object') {
                 // HTML anchor element classes to not track
                 configIgnoreClasses = [],
 
+                // Query parameters to be excluded
+                configExcludedQueryParams = [],
+
                 // HTML anchor element classes to treat as downloads
                 configDownloadClasses = [],
 
@@ -2502,11 +2505,15 @@ if (typeof window.Matomo !== 'object') {
              * or before being sent as GET parameters
              */
             function purify(url) {
-                var targetPattern;
+                var targetPattern, i;
 
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
+
+                for (i = 0; i < configExcludedQueryParams.length; i++) {
+                    url = removeUrlParameter(url, configExcludedQueryParams[i]);
+                }
 
                 if (configDiscardHashTag) {
                     targetPattern = new RegExp('#.*');
@@ -5809,6 +5816,15 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Set an array of query parameters to be excluded if in the url
+             *
+             * @param string|array excludedQueryParams  'uid' or ['uid', 'sid']
+             */
+            this.setExcludedQueryParams = function (excludedQueryParams) {
+                configExcludedQueryParams = isString(excludedQueryParams) ? [excludedQueryParams] : excludedQueryParams;
+            };
+
+            /**
              * Get first-party cookie domain
              */
             this.getCookieDomain = function () {
@@ -6280,7 +6296,7 @@ if (typeof window.Matomo !== 'object') {
                     } else if  (windowAlias.detachEvent) {
                         windowAlias.detachEvent('onfocus', heartBeatOnFocus);
                         windowAlias.detachEvent('onblur', heartBeatOnBlur);
-                        windowAlias.removeEventListener('visibilitychange', heartBeatOnVisible);
+                        windowAlias.detachEvent('visibilitychange', heartBeatOnVisible);
                     }
                 }
 
@@ -7090,7 +7106,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

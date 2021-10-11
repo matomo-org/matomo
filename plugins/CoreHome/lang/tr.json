@@ -109,6 +109,7 @@
         "SystemSummaryPiwikVersion": "Matomo sürümü",
         "SystemSummaryWidget": "Sistem özeti",
         "TableNoData": "Bu tablo için henüz bir veri yok.",
+        "TechDeprecationWarning": "Matomo %1$s sürümünden başlayarak, Matomo %2$s desteği vermeyecek. Ayrıntılı bilgi almak için %3$sblog yazımıza bakabilirsiniz.%4$s",
         "ThanksFromAllOfUs": "Matomo topluluğu olarak teşekkür ederiz!",
         "ThereIsNoDataForThisReport": "Bu rapor için henüz bir veri yok.",
         "UnFlattenDataTable": "Rapor düz yapıda %s Hiyerarşik yap",
