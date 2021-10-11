@@ -112,6 +112,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.bindEventsAndApplyStyle(domElem);
         this._init(domElem);
         this.initialized = true;
+        this.enableStickHead(domElem);
+
+    },
+
+    enableStickHead: function (domElem) {
+
+      var tableScrollerWidth = $(domElem).find('.dataTableScroller').width();
+      var tableWidth = $(domElem).find('table').width();
+      var screenHeight = $(window).height();
+      var tableHeight = domElem.height();
+
+      if (tableHeight > screenHeight && tableScrollerWidth === tableWidth) {
+        $('.dataTableScroller').css('overflow','inherit');
+      }
     },
 
     //function triggered when user click on column sort

@@ -6,6 +6,7 @@
   border-spacing: 0;
   border-collapse: separate;
   margin: 0;
+  position: relative;
 
   td {
     border-radius: 1px;
@@ -20,6 +21,13 @@
     font-weight: normal;
     .font-default(13px, 18px);
     vertical-align: text-bottom;
+  }
+
+  thead {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 10;
   }
 
   td.highlight > .ratio {
