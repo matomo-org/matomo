@@ -15,7 +15,7 @@ const PiwikUrl = {
 
     const regex = new RegExp(`${paramName}(\\[]|=)`);
     if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-      const valueFromHash = broadcast.getValueFromHash(paramName, window.location.href);
+      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href);
 
       // for date, period and idsite fall back to parameter from url, if non in hash was provided
       if (valueFromHash
@@ -25,7 +25,7 @@ const PiwikUrl = {
       }
     }
 
-    return broadcast.getValueFromUrl(paramName, window.location.search);
+    return window.broadcast.getValueFromUrl(paramName, window.location.search);
   },
 };
 
