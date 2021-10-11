@@ -15,6 +15,8 @@ import './Periods/Year';
 import './Periods/Range';
 import './Periods/Periods.adapter';
 import './AjaxHelper/AjaxHelper.adapter';
+import './PiwikUrl/PiwikUrl.adapter';
+import './Piwik/Piwik.adapter';
 
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';

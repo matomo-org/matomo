@@ -61,7 +61,7 @@ class GetUsers extends Base
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;
-        $view->config->no_data_message = Piwik::translate('UserId_ThereIsNoDataForThisReport') . '<br><br>'
+        $view->config->no_data_message = Piwik::translate('CoreHome_ThereIsNoDataForThisReport') . '<br><br>'
           . sprintf(Piwik::translate('UserId_ThereIsNoDataForThisReportHelp'),
             "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/user-id/'>", "</a>");
 

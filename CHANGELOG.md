@@ -13,6 +13,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 
 * With the introduction of Vue 3 we are also dropping support for IE11. All new supported browsers are determined by the browserslist tool. Running `npx browserslist` will list the browsers currently supported.
+* When the Ecommerce feature is disabled for a site, then the Live API no longer returns the Ecommerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
 
 ## Matomo 4.4.0
 
