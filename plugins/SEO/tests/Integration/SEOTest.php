@@ -41,13 +41,15 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         $ranks = $this->apiFunction();
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
-            $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
+            $this->assertNotEmpty($rank['rank'],
+              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' .$ip . ']');
         }
     }
 
