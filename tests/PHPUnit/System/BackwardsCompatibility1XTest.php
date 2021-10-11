@@ -148,6 +148,13 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                 'nb_visits_converted',
                 'interactionPosition',
                 'pageviewPosition',
+                'ratio',
+                'previous_nb_visits',
+                'periodName',
+                'previousRange',
+                'previous_nb_actions',
+                'previous_Actions_nb_pageviews',
+                'previous_Goal_revenue'
             ], $performanceMetrics),
         );
 

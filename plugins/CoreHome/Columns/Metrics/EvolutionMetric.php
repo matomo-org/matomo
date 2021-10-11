@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
 use Piwik\DataTable;
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Metrics;
@@ -109,8 +110,8 @@ class EvolutionMetric extends ProcessedMetric
         $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
 
         // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
-        $ratio = $this->getRatio($this->currentData, $this->pastData);
-        $period = $this->pastData->getMetadata('period');
+        $ratio = $this->getRatio($this->currentData, $this->pastData, $row);
+        $period = $this->pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         $row->setMetadata('ratio', $ratio);
         $row->setMetadata('previous_'.$columnName, $pastValue);
         $row->setMetadata('periodName', $period->getLabel());
@@ -197,29 +198,33 @@ class EvolutionMetric extends ProcessedMetric
      *
      * @param DataTable $currentData
      * @param DataTable $pastData
+     * @param Row $row
      * @return float|int
      * @throws \Exception
      */
-    public static function getRatio(DataTable $currentData, DataTable $pastData)
+    public static function getRatio(DataTable $currentData, DataTable $pastData, Row $row)
     {
         $ratio = 1;
 
-        $p = $pastData->getMetadata('period');
+        $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
         $pStart = $p->getDateStart()->setTime('00:00:00');
         $pEnd = $p->getDateEnd()->setTime('00:00:00');
 
-        $c = $currentData->getMetadata('period');
+        $c = $currentData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         $cStart = $c->getDateStart()->setTime('00:00:00');
         $cEnd = $c->getDateEnd()->setTime('00:00:00');
 
         $nowTS = Date::getNowTimestamp();
 
-        $metadata = $currentData->getAllTableMetadata();
-
         // If we know the date the the datatable data was generated then use that instead of now
-        if (isset($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-            $nowTS = $metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
+        $archivedDateStr = $row->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+
+        if ($archivedDateStr) {
+            $archivedDate = Date::factory($archivedDateStr);
+            if ($archivedDate) {
+                $nowTS = Date::factory($archivedDate)->getTimestamp();
+            }
         }
 
         if ($cStart->getTimestamp() <= $nowTS && $cEnd->getTimestamp() >= $nowTS) {

@@ -147,11 +147,17 @@ class DataCollection
      * @param string $period eg, '2012-01-01,2012-01-31'
      * @param string $name eg 'nb_visits'
      * @param string $value eg 5
+     * @param array  $meta Optional metadata to add to the row
      */
-    public function set($idSite, $period, $name, $value)
+    public function set($idSite, $period, $name, $value, $meta = null)
     {
         $row = & $this->get($idSite, $period);
         $row[$name] = $value;
+        if ($meta) {
+            foreach ($meta as $k => $v) {
+                $row[self::METADATA_CONTAINER_ROW_KEY][$k] = $v;
+            }
+        }
     }
 
     /**

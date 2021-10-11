@@ -80,6 +80,14 @@ class DashboardTest extends IntegrationTestCase
                 'main_url' => 'http://piwik.net',
                 'nb_conversions' => 0,
                 'nb_conversions_evolution' => '0%',
+                'ratio' => 1,
+                'previous_nb_visits' => 0,
+                'periodName' => 'day',
+                'previousRange' => '2012-12-12 - 2012-12-12',
+                'previous_nb_actions' => 0,
+                'previous_Actions_nb_pageviews' => 0,
+                'previous_Goal_revenue' => 0,
+                'previous_Goal_nb_conversions' => 0,
             ),
             array (
                 'label' => 'Site 2',
@@ -96,6 +104,14 @@ class DashboardTest extends IntegrationTestCase
                 'main_url' => 'http://piwik.net',
                 'nb_conversions' => 0,
                 'nb_conversions_evolution' => '0%',
+                'ratio' => 1,
+                'previous_nb_visits' => 0,
+                'periodName' => 'day',
+                'previousRange' => '2012-12-12 - 2012-12-12',
+                'previous_nb_actions' => 0,
+                'previous_Actions_nb_pageviews' => 0,
+                'previous_Goal_revenue' => 0,
+                'previous_Goal_nb_conversions' => 0
             ),
             array (
                 'label' => 'Site 3',
@@ -112,6 +128,14 @@ class DashboardTest extends IntegrationTestCase
                 'main_url' => 'http://piwik.net',
                 'nb_conversions' => 0,
                 'nb_conversions_evolution' => '0%',
+                'ratio' => 1,
+                'previous_nb_visits' => 0,
+                'periodName' => 'day',
+                'previousRange' => '2012-12-12 - 2012-12-12',
+                'previous_nb_actions' => 0,
+                'previous_Actions_nb_pageviews' => 0,
+                'previous_Goal_revenue' => 0,
+                'previous_Goal_nb_conversions' => 0
             ),
         );
         $this->assertEquals($expectedSites, $dashboard->getSites(array(), $limit = 10));
@@ -138,6 +162,14 @@ class DashboardTest extends IntegrationTestCase
                 'main_url' => 'http://piwik.net',
                 'nb_conversions' => 0,
                 'nb_conversions_evolution' => '0%',
+                'ratio' => 1,
+                'previous_nb_visits' => 0,
+                'periodName' => 'day',
+                'previousRange' => '2012-12-12 - 2012-12-12',
+                'previous_nb_actions' => 0,
+                'previous_Actions_nb_pageviews' => 0,
+                'previous_Goal_revenue' => 0,
+                'previous_Goal_nb_conversions' => 0
             ),
         );
         $dashboard->search('site 2');

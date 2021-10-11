@@ -53,6 +53,16 @@ class ControllerTest extends SystemTestCase
             'nb_conversions_evolution' => '100%',
             'orders_evolution' => '100%',
             'ecommerce_revenue_evolution' => '100%',
+            'ratio' => 1,
+            'previous_nb_visits' => 0,
+            'periodName' => 'day',
+            'previousRange' => '2013-01-22 - 2013-01-22',
+            'previous_nb_actions' => 0,
+            'previous_Actions_nb_pageviews' => 0,
+            'previous_Goal_revenue' => 0,
+            'previous_Goal_nb_conversions' => 0,
+            'previous_Goal_0_nb_conversions' => 0,
+            'previous_Goal_0_revenue' => 0,
         ), $sites['sites'][0]);
 
         unset($sites['sites']);
