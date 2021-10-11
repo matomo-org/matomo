@@ -4889,7 +4889,6 @@ if (typeof window.Matomo !== 'object') {
              * initialize tracker
              */
             updateDomainHash();
-            setVisitorIdCookie();
 
             /*<DEBUG>*/
             /*
@@ -5115,6 +5114,7 @@ if (typeof window.Matomo !== 'object') {
                 asyncTrackers.push(tracker);
 
                 Matomo.trigger('TrackerAdded', [this]);
+                setVisitorIdCookie();
 
                 return tracker;
             };
