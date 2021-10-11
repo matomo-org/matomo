@@ -124,7 +124,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
       var tableHeight = domElem.height();
 
       if (tableHeight > screenHeight && tableScrollerWidth === tableWidth) {
-        $('.dataTableScroller').css('overflow','inherit');
+        $('.dataTableScroller').css('overflow', 'inherit');
+      } else {
+        $(domElem).find('table tbody').css({'display': 'block', 'height': '50vh', 'overflow-y': 'scroll'});
+        $(domElem).find('table thead').css({'display': 'table', 'width': 'calc(100% - 15px)'});
       }
     },
 
