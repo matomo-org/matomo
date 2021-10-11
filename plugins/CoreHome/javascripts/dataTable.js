@@ -129,11 +129,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // if table is not overflow on width sticky header on top
         // else make the body to scroll
         if (tableScrollerWidth === tableWidth) {
-          $('.dataTableScroller')
-          .css('overflow', 'inherit');
+          $('.dataTableScroller').css('overflow', 'inherit');
         } else {
-          $(domElem).find('table tbody').css({'display': 'block', 'height': '50vh', 'overflow-y': 'scroll'});
-          $(domElem).find('table thead').css({'display': 'table', 'width': 'calc(100% - 15px)'});
+          // $(domElem).find('table tbody').css({'display': 'block', 'height': '50vh', 'overflow-y': 'scroll'});
+          // $(domElem).find('table thead').css({'display': 'table', 'width': 'calc(100% - 15px)'});
         }
       }
     },
