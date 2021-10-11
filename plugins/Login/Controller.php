@@ -351,38 +351,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Url::redirectToUrl($urlToRedirect);
     }
 
-    protected function getMessageExceptionNoAccess()
-    {
-        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));
-
-        $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
-
-        return $message;
-    }
-
-    /**
-     * The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
-     * Indicate to user how to solve this particular use case by forcing secure connections.
-     *
-     * @return string
-     */
-    protected function getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed()
-    {
-        $message = '';
-        if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
-            $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
-                    array(
-                        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_91/">',
-                        '</a>',
-                        'config/config.ini.php',
-                        '<pre>force_ssl=1</pre>',
-                        '<pre>[General]</pre>',
-                    )
-                );
-        }
-        return $message;
-    }
-
     /**
      * Reset password action. Stores new password as hash and sends email
      * to confirm use.
