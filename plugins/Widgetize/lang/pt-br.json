@@ -2,6 +2,8 @@
     "Widgetize": {
         "OpenInNewWindow": "Abrir em uma nova janela",
         "PluginDescription": "Exiba qualquer relatório Matomo no seu site ou aplicativo com uma simples tag HTML Embed.",
-        "TopLinkTooltip": "Exporte relatórios Matomo como widgets e incorpore o Painel em seu aplicativo como um iframe."
+        "TooHighAccessLevel": "Este usuário tem acesso de superusuário. Para a incorporação de widgets, as autorizações de token de superusuário não são permitidas. %1$sConsulte nosso faq para mais informações.%2$s",
+        "TopLinkTooltip": "Exporte relatórios Matomo como widgets e incorpore o Painel em seu aplicativo como um iframe.",
+        "ViewAccessRequired": "Este usuário tem pelo menos algum acesso de gravação. Apenas tokens de usuários que têm apenas acesso de visualização podem ser usados. Veja %1$s para mais informações."
     }
 }

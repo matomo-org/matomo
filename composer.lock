@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.2.10",
+            "version": "1.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8"
+                "reference": "0b072d51c5a9c6f3412f7ea3ab043d6603cb2582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9fdb22c2e97a614657716178093cd1da90a64aa8",
-                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/0b072d51c5a9c6f3412f7ea3ab043d6603cb2582",
+                "reference": "0b072d51c5a9c6f3412f7ea3ab043d6603cb2582",
                 "shasum": ""
             },
             "require": {
@@ -29,7 +29,7 @@
                 "phpstan/phpstan": "^0.12.55",
                 "psr/log": "^1.0",
                 "symfony/phpunit-bridge": "^4.2 || ^5",
-                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0"
+                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "type": "library",
             "extra": {
@@ -64,7 +64,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.2.10"
+                "source": "https://github.com/composer/ca-bundle/tree/1.2.11"
             },
             "funding": [
                 {
@@ -80,7 +80,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-07T13:58:28+00:00"
+            "time": "2021-09-25T20:32:43+00:00"
         },
         {
             "name": "composer/semver",
@@ -270,20 +270,20 @@
         },
         {
             "name": "matomo/cache",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "f43f5abe1ce65a5981b328c83fb15613bfd7cfd9"
+                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/f43f5abe1ce65a5981b328c83fb15613bfd7cfd9",
-                "reference": "f43f5abe1ce65a5981b328c83fb15613bfd7cfd9",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/a54c3ae324ba1297121aea78dec7724ddaaefb56",
+                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56",
                 "shasum": ""
             },
             "require": {
-                "matomo/doctrine-cache-fork": "1.10.3",
+                "matomo/doctrine-cache-fork": "1.10.4",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -315,9 +315,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-cache/issues",
-                "source": "https://github.com/matomo-org/component-cache/tree/2.0.4"
+                "source": "https://github.com/matomo-org/component-cache/tree/2.0.5"
             },
-            "time": "2021-08-20T00:41:05+00:00"
+            "time": "2021-09-13T22:17:50+00:00"
         },
         {
             "name": "matomo/decompress",
@@ -361,16 +361,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "3fcceafc601444412ce65297ba4ce878ee77e450"
+                "reference": "88e5419ee1448ccb9537e287dd09836ff9d2de3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/3fcceafc601444412ce65297ba4ce878ee77e450",
-                "reference": "3fcceafc601444412ce65297ba4ce878ee77e450",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/88e5419ee1448ccb9537e287dd09836ff9d2de3b",
+                "reference": "88e5419ee1448ccb9537e287dd09836ff9d2de3b",
                 "shasum": ""
             },
             "require": {
@@ -426,42 +426,47 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2021-07-19T08:24:00+00:00"
+            "time": "2021-09-20T12:34:12+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
-            "version": "1.10.3",
+            "version": "1.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/cache.git",
-                "reference": "99f03884f4458d4e4bf63cfd9ef810b8d13da9e8"
+                "reference": "a3f6b7e86061a2f3c68122ee58e9d8aa815baff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/cache/zipball/99f03884f4458d4e4bf63cfd9ef810b8d13da9e8",
-                "reference": "99f03884f4458d4e4bf63cfd9ef810b8d13da9e8",
+                "url": "https://api.github.com/repos/matomo-org/cache/zipball/a3f6b7e86061a2f3c68122ee58e9d8aa815baff6",
+                "reference": "a3f6b7e86061a2f3c68122ee58e9d8aa815baff6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": "~7.1 || ^8.0"
             },
             "conflict": {
                 "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7",
-                "predis/predis": "~1.0",
-                "satooshi/php-coveralls": "~0.6"
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^6.0",
+                "mongodb/mongodb": "^1.1",
+                "phpunit/phpunit": "^7.0",
+                "predis/predis": "~1.0"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Cache\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -490,16 +495,37 @@
                     "email": "schmittjoh@gmail.com"
                 }
             ],
-            "description": "Caching library offering an object-oriented API for many cache backends",
-            "homepage": "http://www.doctrine-project.org",
+            "description": "PHP Doctrine Cache library is a popular cache implementation that supports many different drivers such as redis, memcache, apc, mongodb and others.",
+            "homepage": "https://www.doctrine-project.org/projects/cache.html",
             "keywords": [
+                "abstraction",
+                "apcu",
                 "cache",
-                "caching"
+                "caching",
+                "couchdb",
+                "memcached",
+                "php",
+                "redis",
+                "xcache"
             ],
             "support": {
-                "source": "https://github.com/matomo-org/cache/tree/1.10.3"
+                "source": "https://github.com/matomo-org/cache/tree/1.10.4"
             },
-            "time": "2021-08-19T23:54:50+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-13T22:06:08+00:00"
         },
         {
             "name": "matomo/ini",
@@ -1410,16 +1436,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.5.0",
+            "version": "v6.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c"
+                "reference": "dd803df5ad7492e1b40637f7ebd258fee5ca7355"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a5b5c43e50b7fba655f793ad27303cd74c57363c",
-                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/dd803df5ad7492e1b40637f7ebd258fee5ca7355",
+                "reference": "dd803df5ad7492e1b40637f7ebd258fee5ca7355",
                 "shasum": ""
             },
             "require": {
@@ -1431,10 +1457,12 @@
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "doctrine/annotations": "^1.2",
+                "php-parallel-lint/php-console-highlighter": "^0.5.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.5.6",
-                "yoast/phpunit-polyfills": "^0.2.0"
+                "squizlabs/php_codesniffer": "^3.6.0",
+                "yoast/phpunit-polyfills": "^1.0.0"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
@@ -1474,7 +1502,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.1"
             },
             "funding": [
                 {
@@ -1482,7 +1510,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-16T14:33:43+00:00"
+            "time": "2021-08-18T09:14:16+00:00"
         },
         {
             "name": "psr/container",

@@ -909,6 +909,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/szymach/c-pchart/src/Resources/fonts/Silkscreen*',
             'vendor/szymach/c-pchart/src/Resources/fonts/verdana*',
 
+            'package-lock.json',
+
             # not needed js files
             'node_modules/angular/angular.min.js.gzip',
             'node_modules/angular/angular.js',
@@ -1039,7 +1041,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '.lfsconfig',
             'HIRING.md',
             '.github/',
-
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);

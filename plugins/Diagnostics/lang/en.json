@@ -6,6 +6,7 @@
         "MysqlMaxPacketSize": "Max Packet Size",
         "MysqlMaxPacketSizeWarning": "It is recommended to configure a 'max_allowed_packet' size in your MySQL database of at least %1$s. Configured is currently %2$s.",
         "ConfigFileIntroduction": "Here you can view the Matomo configuration. If you are running Matomo in a load balanced environment, the page might be different depending on from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",
+        "EnableRequiredDirectoriesDiagnostic": "This check was skipped as this check is disabled in the config. To enable this check set [General] enable_required_directories_diagnostic = 1 in the \"config/config.ini.php\" file.",
         "HideUnchanged": "If you want to see only changed values you can %1$shide all unchanged values%2$s.",
         "Sections": "Sections",
         "BrowserAndAutoArchivingEnabledLabel": "Browser and Auto-archiving enabled",
@@ -21,11 +22,13 @@
         "CronArchivingRanSuccessfullyXAgo": "The archiving process completed successfully %1$s ago.",
         "BrowserTriggeredArchivingEnabled": "For optimal performance and a speedy Matomo, it is highly recommended to set up a crontab to automatically archive your reports, and to disable browser triggering in the Matomo settings. %1$sLearn more.%2$s",
         "NoDataForReportArchivingNotRun": "The archiving of your reports hasn't been executed recently, %1$slearn more about how to generate your reports.%2$s",
+        "RecommendedPrivateDirectories": "Recommended Private Directories",
         "RequiredPrivateDirectories": "Required Private Directories",
         "PrivateDirectoryManualCheck": "Please open the URLs manually in a browser to see if you can access it. If you can, you might need to modify your server configuration as these files\/directories should not be accessible via a browser from the Internet or Intranet.",
         "PrivateDirectoryInternetDisabled": "We couldn't check if the following URLs are accessible because internet features are disabled on this Matomo.",
         "PrivateDirectoryIsAccessible": "We found that the above URLs are accessible via the browser, but they should NOT be. Allowing them to be accessed can pose a potential security risk since the contents can provide information about your server and potentially your users. Please restrict access to them.",
         "ConfigIniAccessible": "We also found that Matomo's config directory is publicly accessible. While attackers can't read the config now, if your webserver stops executing PHP files for some reason, your MySQL credentials and other information will be available to anyone. Please check your webserver config and deny access to this directory.",
-        "AllPrivateDirectoriesAreInaccessible": "All private directories are inaccessible from the internet."
+        "AllPrivateDirectoriesAreInaccessible": "All private directories are inaccessible from the internet.",
+        "UrlsAccessibleViaBrowser": "We found that the above URLs are accessible via the browser, but we recommend they should not be. If possible, please restrict access to them."
     }
 }

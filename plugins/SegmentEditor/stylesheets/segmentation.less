@@ -19,6 +19,11 @@
 
 .segment-row-inputs {
     margin-bottom: 5px;
+
+    @media screen and (max-width: 749px) {
+        width: 100%;
+        display: block;
+    }
 }
 
 .hovered {
@@ -45,7 +50,7 @@
 }
 
 .metricValueBlock {
-    width: 500px;
+    width: 60%;
 }
 
 div.scrollable {
@@ -123,12 +128,34 @@ div.scrollable {
 .segment-element .segment-top {
     font-size: 11px;
     color: #505050;
-    text-align: right;
+    text-align: left;
     padding: 3px 7px 0 0;
 
     > * {
         vertical-align: top;
     }
+
+}
+
+.segment-element .segment-top .segment-hidden {
+    display: none;
+}
+
+.segment-element .segment-top .segment-top-item {
+    display: inline;
+    white-space: nowrap;
+
+    @media screen and (max-width: 749px) {
+        display: block;
+    }
+}
+
+.grid-1, .grid-2 {
+    width: 26%;
+}
+
+.grid-3 {
+    width: 46%;
 }
 
 .segment-element .segment-top a {
@@ -202,7 +229,6 @@ div.scrollable {
 }
 
 
-
 .segmentationContainer .submenu ul li {
     padding: 2px 0 1px 0;
     margin: 3px 0 0 0;
@@ -255,7 +281,7 @@ div.scrollable {
             margin-right: 24px;
         }
     }
-    
+
     li.segmentSelected, li.comparedSegment {
         span.compareSegment {
             pointer-events: none;
@@ -273,6 +299,7 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 .segmentEditorPanel.expanded .segmentationContainer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+
     .dropdown-body {
         width: 240px;
     }
@@ -412,7 +439,12 @@ a.metric_category {
 
 .segment-element {
     z-index: 999;
-    width: 908px;
+    width: 940px;
+
+    @media screen and (max-width: 940px) {
+        width: 95vw;
+        padding: 1em;
+    }
 }
 
 .segmentationSelectorContainer {
@@ -434,7 +466,7 @@ a.metric_category {
 }
 
 .ui-autocomplete.ui-menu.ui-widget {
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     padding: 6px !important;
 }
 
@@ -442,6 +474,10 @@ a.metric_category {
     span.segmentationTitle,
     .segmentEditorPanel.expanded .segmentationContainer {
         width: auto;
+    }
+
+    .grid-1, .grid-2, .grid-3 {
+        width: 100%;
     }
 }
 
@@ -516,7 +552,7 @@ a.metric_category {
 
 .segment-element .segment-nav a.dropdown,
 .segment-element .segment-top a.dropdown {
-    padding: 0 17px 0 0;
+    padding: 0;
     background: none !important;
 }
 
@@ -558,7 +594,6 @@ a.metric_category {
 }
 
 .auto_archive {
-    max-width: 190px;
     a.dropList {
         display: inline-block;
         width: calc(100% - 15px);

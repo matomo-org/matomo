@@ -610,6 +610,11 @@ class CronArchive
 
         $this->disconnectDb();
 
+        Piwik::addAction('ScheduledTasks.execute.end', function () {
+            // check if we need to reconnect after each task executes
+            $this->disconnectDb();
+        });
+
         // TODO: this is a HACK to get the purgeOutdatedArchives task to work when run below. without
         //       it, the task will not run because we no longer run the tasks through CliMulti.
         //       harder to implement alternatives include:
@@ -617,7 +622,8 @@ class CronArchive
         //         runs
         //       - setting a new DI environment for core:archive which CoreAdminHome can use to conditionally
         //         enable/disable the task
-        $_GET['trigger'] = 'archivephp';
+        Rules::$disablePureOutdatedArchive = true;
+
         CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");

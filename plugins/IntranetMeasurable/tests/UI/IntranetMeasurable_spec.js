@@ -26,7 +26,7 @@ describe("IntranetMeasurable", function () {
     it("should show intranet selection", async function () {
         await page.goto(url);
         await (await page.jQuery('.SitesManager .addSite:first')).click();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
 
         const elem = await page.$('.modal.open');
         expect(await elem.screenshot()).to.matchImage('add_new_dialog');
@@ -35,7 +35,7 @@ describe("IntranetMeasurable", function () {
     it("should load intranet specific fields", async function () {
         await (await page.jQuery('.modal.open .btn:contains(Intranet)')).click();
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         await page.evaluate(function () {
             $('.form-help:contains(UTC time is)').hide();

@@ -25,6 +25,10 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
+    require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
+}
+
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'

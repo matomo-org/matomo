@@ -33,13 +33,7 @@ class SEOTest extends IntegrationTestCase
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
 
-        $user_agents = array(
-            'Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15',
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
-        );
-
-        $_SERVER['HTTP_USER_AGENT'] = $user_agents[mt_rand(0, count($user_agents) - 1)];
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36';
     }
 
     /**
@@ -47,16 +41,15 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
-        $renderer = Renderer::factory('json');
-        $renderer->setTable($dataTable);
-        $ranks = json_decode($renderer->render(), true);
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        $ranks = $this->apiFunction();
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
-            $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
+            $this->assertNotEmpty($rank['rank'],
+              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' .$ip . ']');
         }
     }
 
@@ -66,4 +59,25 @@ class SEOTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess()
         );
     }
+
+    /**
+     * this function rerun the API 3 times, to reduce the chance of failing.
+     */
+    private function apiFunction($counter = 0, $ranks = [])
+    {
+        if ($counter > 3) {
+            return $ranks;
+        }
+        $dataTable = API::getInstance()->getRank('http://matomo.org/');
+        $renderer = Renderer::factory('json');
+        $renderer->setTable($dataTable);
+        $ranks = json_decode($renderer->render(), true);
+        foreach ($ranks as $rank) {
+            if ($rank['rank'] === 0 ) {
+                $this->apiFunction($counter++, $ranks);
+            }
+        }
+        return $ranks;
+    }
+
 }

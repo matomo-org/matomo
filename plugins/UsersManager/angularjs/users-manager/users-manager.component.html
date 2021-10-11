@@ -9,8 +9,11 @@
                 {{:: 'UsersManager_ManageUsers'|translate }}
             </h2>
 
-            <p>
+            <p ng-if="$ctrl.currentUserRole==='superuser'">
                 {{:: 'UsersManager_ManageUsersDesc'|translate }}
+            </p>
+            <p ng-if="$ctrl.currentUserRole==='admin'">
+                {{:: 'UsersManager_ManageUsersAdminDesc'|translate }}
             </p>
 
             <div class="row add-user-container">

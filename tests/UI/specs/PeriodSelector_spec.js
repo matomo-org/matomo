@@ -63,7 +63,7 @@ describe("PeriodSelector", function () {
 
     it("should change the date when a date is clicked in week-period mode", async function() {
         await page.click('#period_id_week');
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
         await element.click();
@@ -73,7 +73,7 @@ describe("PeriodSelector", function () {
 
     it("should change the date when a date is clicked in month-period mode", async function() {
         await page.click('#period_id_month');
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(14)');
         await element.click();
@@ -83,7 +83,7 @@ describe("PeriodSelector", function () {
 
     it("should change the date when a date is clicked in year-period mode", async function() {
         await page.click('#period_id_year');
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
         await element.click();
@@ -93,7 +93,7 @@ describe("PeriodSelector", function () {
 
     it("should display the range picker when the range radio button is clicked", async function() {
         await page.click('#period_id_range');
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('range_picker_displayed');
     });
@@ -106,14 +106,14 @@ describe("PeriodSelector", function () {
         await element.click();
 
         await page.hover('#calendarApply');
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector(selector)).to.matchImage('date_range_selected');
     });
 
     it("should enable the comparison dropdown when 'compare' is checked", async function () {
         await page.click('#comparePeriodTo + span');
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('comparison_checked');
     });
@@ -122,7 +122,7 @@ describe("PeriodSelector", function () {
         await page.evaluate(function () {
             $('#comparePeriodToDropdown select').val('string:custom').trigger('change');
         });
-        await page.waitFor(250); // wait for animation
+        await page.waitForTimeout(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison');
     });
@@ -130,7 +130,7 @@ describe("PeriodSelector", function () {
     it('should show an error when invalid date/period combination is given', async function () {
         await page.goto('about:blank');
         await page.goto(url.replace(/date=[^&#]+&/, 'date=2020-08-08,2020-08-09&'));
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector(selector + ',#notificationContainer')).to.matchImage('invalid');
     });

@@ -1,7 +1,9 @@
 {
     "UserId": {
+        "PluginDescription": "ユーザーレポートを表示します",
         "UserId": "ユーザー ID",
+        "UserReportDocumentation": "このレポートには、個々のユーザーIDごとの訪問数とその他の一般的な指標が表示されます。",
         "UserReportTitle": "ユーザーID",
-        "PluginDescription": "ユーザーレポートを表示します"
+        "VisitorsUserSubcategoryHelp": "ユーザーIDレポートは、登録済みおよびログイン済みのすべてのユーザーに関連する訪問を表示します。このセクションは、特定のユーザーによるウェブサイトの利用状況を把握し、最もアクティブなユーザーと最も少ないユーザーを特定するために使用できます。"
     }
 }

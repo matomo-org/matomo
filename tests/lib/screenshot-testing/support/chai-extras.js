@@ -150,8 +150,8 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             // allow a 10 pixel difference only
             chai.assert(pixelError <= 10, `images differ in ${pixelError} pixels (command output: ${allOutput.replace(/\s+$/g, '')})`);
 
-            // if pixel error passes, but status is non-zero for some reason
-            chai.assert(result.status === 0, `the '${comparisonCommand}' command returned a non-zero status: ${result.status}. Output was ${allOutput.replace(/\s+$/g, '')}`);
+            // if pixel error passes, but status is unexpected for some reason
+            chai.assert(result.status === 0 || result.status === 1, `the '${comparisonCommand}' command returned a unexpected status: ${result.status}. Output was ${allOutput.replace(/\s+$/g, '')}`);
 
             return true;
         }

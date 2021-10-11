@@ -1,27 +1,27 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "這個外掛提供訪客地圖和即時地圖外掛。注意：需要啟用 UserCountry 外掛。",
         "AndNOthers": "和其他 %s 人",
         "Cities": "城市",
         "Countries": "國家",
         "DaysAgo": "%s 天前",
         "GoalConversions": "%s 個目標轉換",
         "HoursAgo": "%s 小時前",
-        "map": "地圖",
         "MinutesAgo": "%s 分前",
-        "None": "無",
         "NoVisit": "沒有資料",
+        "NoVisitsInfo": "由於這段期間內沒有任何包含正確地理位置資訊（經度、緯度）的訪問，因此目前沒有顯示任何訪問。",
+        "NoVisitsInfo2": "要解決這個問題，確定你正在使用包含 GeoIP 程式資料庫的 GeoIP 地理位置供應商。如果這沒有解決你的問題，那麼有可能（雖然不太可能）是你的訪客使用了無法被定位的 IP 位址。",
+        "None": "無",
+        "PluginDescription": "這個外掛提供訪客地圖和即時地圖外掛。注意：需要啟用 UserCountry 外掛。",
         "RealTimeMap": "即時地圖",
         "Regions": "地區",
         "Searches": "%s 個搜尋次數",
         "SecondsAgo": "%s 秒前",
         "ShowingVisits": "訪客地理位置從過去的",
-        "Unlocated": "來自 %c 的訪客 <b>%s<\/b> %p 無法定位地理位置。",
+        "Unlocated": "<b>%1$s</b> %2$p 的访问来自 %3$c 无法定位地理位置。",
         "VisitorMap": "訪客分佈地圖",
-        "WorldWide": "全球",
-        "WithUnknownRegion": "%s 個未知地區",
         "WithUnknownCity": "%s 個未知城市",
-        "NoVisitsInfo": "由於這段期間內沒有任何包含正確地理位置資訊（經度、緯度）的訪問，因此目前沒有顯示任何訪問。",
-        "NoVisitsInfo2": "要解決這個問題，確定你正在使用包含 GeoIP 程式資料庫的 GeoIP 地理位置供應商。如果這沒有解決你的問題，那麼有可能（雖然不太可能）是你的訪客使用了無法被定位的 IP 位址。"
+        "WithUnknownRegion": "%s 個未知地區",
+        "WorldWide": "全球",
+        "map": "地圖"
     }
 }

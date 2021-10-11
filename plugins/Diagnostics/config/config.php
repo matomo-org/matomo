@@ -2,6 +2,7 @@
 
 use Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingLastRunCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
+use Piwik\Plugins\Diagnostics\Diagnostic\RecommendedPrivateDirectories;
 
 return array(
     // Diagnostics for everything that is required for Piwik to run
@@ -17,7 +18,9 @@ return array(
     // Diagnostics for recommended features
     'diagnostics.optional' => array(
         DI\get(RequiredPrivateDirectories::class),
+        DI\get(RecommendedPrivateDirectories::class),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PHPBinaryCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\TrackerCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\TimezoneCheck'),

@@ -1,27 +1,27 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "这个插件提供了访客地图和实时地图的小工具。注意：需要激活UserCountry插件。",
         "AndNOthers": "和 %s 其它",
         "Cities": "城市",
         "Countries": "国家",
         "DaysAgo": "%s 天前",
         "GoalConversions": "%s 目标转化",
         "HoursAgo": "%s 小时前",
-        "map": "地图",
         "MinutesAgo": "%s 分钟前",
-        "None": "无",
         "NoVisit": "没有访问",
+        "NoVisitsInfo": "当前没有显示访问，因为此期间没有访问具有正确的地理位置信息（纬度和经度）。",
+        "NoVisitsInfo2": "要解决此问题，请确保将GeoIP地理位置提供程序与GeoIP城市数据库配合使用。 如果这不能解决您的问题，则您的访问很可能（尽管不太可能）具有无法进行地理位置定位的IP地址。",
+        "None": "无",
+        "PluginDescription": "这个插件提供了访客地图和实时地图的小工具。注意：需要激活UserCountry插件。",
         "RealTimeMap": "实时地图",
         "Regions": "地区",
         "Searches": "%s 次搜索",
         "SecondsAgo": "%s 秒前",
         "ShowingVisits": "最后访客地理位置",
-        "Unlocated": "<b>%s<\/b> %p 的访问来自 %c 无法定位地理位置。",
+        "Unlocated": "來自 %3$c 的訪客 <b>%1$s</b> %2$p 無法定位地理位置。",
         "VisitorMap": "访客地图",
-        "WorldWide": "全世界",
-        "WithUnknownRegion": "%s未知区域",
         "WithUnknownCity": "%s未知城市",
-        "NoVisitsInfo": "当前没有显示访问，因为此期间没有访问具有正确的地理位置信息（纬度和经度）。",
-        "NoVisitsInfo2": "要解决此问题，请确保将GeoIP地理位置提供程序与GeoIP城市数据库配合使用。 如果这不能解决您的问题，则您的访问很可能（尽管不太可能）具有无法进行地理位置定位的IP地址。"
+        "WithUnknownRegion": "%s未知区域",
+        "WorldWide": "全世界",
+        "map": "地图"
     }
 }

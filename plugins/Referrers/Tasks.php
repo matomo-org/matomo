@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Referrers;
 
 
+use Piwik\Config;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\SettingsPiwik;
@@ -17,7 +18,8 @@ class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        if(SettingsPiwik::isInternetEnabled() === true){
+        if(SettingsPiwik::isInternetEnabled() === true &&
+            Config::getInstance()->General['enable_referrer_definition_syncs'] == 1){
             $this->weekly('updateSearchEngines');
             $this->weekly('updateSocials');
         }

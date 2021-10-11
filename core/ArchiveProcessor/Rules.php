@@ -19,6 +19,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Scheduler\Task;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -39,6 +40,10 @@ class Rules
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
+
+    /** To disable the Pure Outdated Archive set this to true will skip this task */
+    public static $disablePureOutdatedArchive = false;
+
 
     /**
      * Returns the name of the archive field used to tell the status of an archive, (ie,
@@ -68,6 +73,10 @@ class Rules
 
         if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
+        }
+
+        if ($periodLabel === 'range' && !SettingsServer::isArchivePhpTriggered()) {
+            return false;
         }
 
         return self::isSegmentPreProcessed($idSites, $segment);
