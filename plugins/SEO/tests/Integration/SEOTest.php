@@ -41,7 +41,7 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         $ranks = $this->apiFunction();
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
