@@ -121,9 +121,9 @@ class Glossary
         }
 
         usort($metrics, function ($a, $b) {
-            $value = strcmp($a['name'], $b['name']);
+            $key = ($a['name'] === $b['name'] ? 'id' : 'name');
 
-            return $value > 0 ? 1 : -1;
+            return strcmp($a[$key], $b[$key]);
         });
         return $metrics;
     }
