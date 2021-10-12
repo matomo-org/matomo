@@ -110,7 +110,7 @@ jobs:
         if: steps.vars.outputs.branch != ''
       - name: Push changes
         run: |
-          if [[ $( git diff --numstat ) ]]
+          if [[ $( git diff --numstat plugins/*/vue/dist/*.js plugins/*/vue/dist/*.map ) ]]
           then
             cd $GITHUB_WORKSPACE
             git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.map
