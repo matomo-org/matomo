@@ -65,7 +65,7 @@ class Nonce
      *
      * @param string $id The nonce's unique ID. See {@link getNonce()}.
      * @param string $cnonce Nonce sent from client.
-     * @param null $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
+     * @param null|string $expectedReferrerHost The expected referrer host for the HTTP referrer URL.
      * @return bool `true` if valid; `false` otherwise.
      */
     public static function verifyNonce($id, $cnonce, $expectedReferrerHost = null)
