@@ -68,6 +68,7 @@ class Json extends ApiRenderer
         if (!empty($array)
             && Piwik::isAssociativeArray($array)
             && !Piwik::isMultiDimensionalArray($array)
+            && !$this->isJsonp()
         ) {
             $result = substr($result, 1, strlen($result) - 2);
         }
