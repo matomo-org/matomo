@@ -20,6 +20,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\ReportRenderer;
 use Piwik\Site;
@@ -58,6 +59,34 @@ abstract class SystemTestCase extends TestCase
      * @var Fixture
      */
     public static $fixture;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        if (!empty(static::$allowedCategoryForMetadataReport)) {
+            Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
+                $this->filterReportsCallback($reports, $info, static::$allowedCategoryForMetadataReport);
+            });
+        }
+
+        if (!empty(static::$allowedCategoryForSegmentsReport)) {
+            Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
+                $this->filterReportsCallback($reports, $info, static::$allowedCategoryForSegmentsReport);
+            });
+        }
+    }
+
+    private function filterReportsCallback(&$reports, $info, $category)
+    {
+        if (!empty($reports)) {
+            foreach ($reports as $key => $row) {
+                if (!isset($row['category']) || $row['category'] != $category) {
+                    unset($reports[$key]);
+                }
+            }
+            $reports = array_values($reports);
+        }
+    }
 
     public function setGroups(array $groups): void
     {
