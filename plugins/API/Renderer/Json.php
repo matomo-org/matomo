@@ -67,7 +67,6 @@ class Json extends ApiRenderer
         // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
         if (!empty($array)
             && Piwik::isAssociativeArray($array)
-            && !Piwik::isMultiDimensionalArray($array)
             && !$this->isJsonp()
         ) {
             $result = substr($result, 1, strlen($result) - 2);
