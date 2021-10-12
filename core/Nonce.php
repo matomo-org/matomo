@@ -94,10 +94,12 @@ class Nonce
         $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
 
+        $additionalErrors = '';
+
         //  The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
         //  Indicate to user how to solve this particular use case by forcing secure connections.
         if (Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
-            return '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
+            $additionalErrors =  '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
                 array(
                   '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_91/">',
                   '</a>',
@@ -119,12 +121,12 @@ class Nonce
             return Piwik::translate('Login_InvalidNonceReferrer', array(
               '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">',
               '</a>'
-            ));
+              )) . $additionalErrors;
         }
 
         //referrer is different expected host
         if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
-            return Piwik::translate('Login_InvalidNonceUnexpectedReferrer');
+            return Piwik::translate('Login_InvalidNonceUnexpectedReferrer') . $additionalErrors;
         }
 
         // validate origin
@@ -133,7 +135,7 @@ class Nonce
           ($origin == 'null'
             || !in_array($origin, self::getAcceptableOrigins()))
         ) {
-            return Piwik::translate('Login_InvalidNonceOrigin');
+            return Piwik::translate('Login_InvalidNonceOrigin') . $additionalErrors;
         }
 
         return '';
