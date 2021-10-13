@@ -111,6 +111,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public $testEnvironment = null;
 
+    private $allowedCategoryApiWise = array();
     /**
      * Extra DI configuration to use when creating the test environment. This will override configuration
      * returned by the `provideContainerConfig()` method.
@@ -1069,5 +1070,13 @@ class Fixture extends \PHPUnit\Framework\Assert
     private function initFromEnvVars()
     {
         $this->persistFixtureData = $this->persistFixtureData || (bool)getenv(self::PERSIST_FIXTURE_DATA_ENV);
+    }
+
+    public function setAllowedCategoryToFilterApiResponse($api, $category){
+        $this->allowedCategoryApiWise[$api] = $category;
+    }
+
+    public function getAllowedCategoryToFilterApiResponse($api) {
+        return ($this->allowedCategoryApiWise[$api] ?? NULL);
     }
 }

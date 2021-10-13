@@ -60,18 +60,20 @@ abstract class SystemTestCase extends TestCase
      */
     public static $fixture;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        if (!empty(static::$allowedCategoryForMetadataReport)) {
-            Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
-                $this->filterReportsCallback($reports, $info, static::$allowedCategoryForMetadataReport);
+        $allowedCategoryForApiMetadataReport = static::$fixture->getAllowedCategoryToFilterApiResponse('API.getReportMetadata');
+        $allowedCategoryForApiSegmentsReport = static::$fixture->getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
+        if (!empty($allowedCategoryForApiMetadataReport)) {
+            Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) use ($allowedCategoryForApiMetadataReport) {
+                $this->filterReportsCallback($reports, $info, $allowedCategoryForApiMetadataReport);
             });
         }
 
-        if (!empty(static::$allowedCategoryForSegmentsReport)) {
-            Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
-                $this->filterReportsCallback($reports, $info, static::$allowedCategoryForSegmentsReport);
+        if (!empty($allowedCategoryForApiSegmentsReport)) {
+            Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) use ($allowedCategoryForApiSegmentsReport) {
+                $this->filterReportsCallback($reports, $info, $allowedCategoryForApiSegmentsReport);
             });
         }
     }
