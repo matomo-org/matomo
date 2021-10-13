@@ -12,7 +12,6 @@
         "ExceptionPasswordMD5HashExpected": "Salasanaparametrin kuuluu olla MD5-tiiviste salasanasta.",
         "HelpIpRange": "Syötä yksi IP-osoite tai IP-osoiteväli riville. Voit käyttää CIDR-notaatiota, esim. %1$s, tai jokerimerkkejä, esim. %2$s tai %3$s",
         "IPsAlwaysBlocked": "Nämä IP:t on estetty aina",
-        "InvalidNonceOrHeadersOrReferrer": "Lomakkeen turvatarkastus epäonnistui. Lataa lomake uudelleen, ja tarkista että evästeet on sallittu. Jos käytät välityspalvelinta, sinun täytyy %1$s säätää Matomo sallimaan välityspalvelimen otsake %2$s joka välittää Host-otsakkeen. Tarkista, että \\\"Referer\\\"-otsake lähetetään oikein.",
         "InvalidOrExpiredToken": "Virheellinen tai vanhentunut tunnistautuminen",
         "InvalidUsernameEmail": "Virheellinen käyttäjätunnus ja/tai sähköpostiosoite",
         "LogIn": "Kirjaudu sisään",
