@@ -120,21 +120,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
       var tableScrollerWidth = $(domElem).find('.dataTableScroller').width();
       var tableWidth = $(domElem).find('table').width();
-      var screenHeight = $(window).height();
-      var tableHeight = domElem.height();
 
-      //check if table is longer than screen height
-      if (tableHeight > screenHeight) {
-
-        // if table is not overflow on width sticky header on top
-        // else make the body to scroll
-        if (tableScrollerWidth === tableWidth) {
-          $('.dataTableScroller').css('overflow', 'inherit');
-        } else {
-          // $(domElem).find('table tbody').css({'display': 'block', 'height': '50vh', 'overflow-y': 'scroll'});
-          // $(domElem).find('table thead').css({'display': 'table', 'width': 'calc(100% - 15px)'});
+      if (tableScrollerWidth !== tableWidth) {
+          $('.dataTableScroller').css('overflow-x', 'scroll');
         }
-      }
     },
 
     //function triggered when user click on column sort
