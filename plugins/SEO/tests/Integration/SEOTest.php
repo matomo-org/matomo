@@ -73,9 +73,15 @@ class SEOTest extends IntegrationTestCase
         if ($rank['rank'] === 0) {
             if ($rank['id'] === 'bing-index') {
                 $url = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3Ahttp://matomo.org/';
-                $response = Http::sendHttpRequest($url, 20, @$_SERVER['HTTP_USER_AGENT']);
-                $this->assertTrue(preg_match('#([0-9,\.]+) results#i', $response, $p),$rank['id'] .'error content'. $response);
-            }else {
+                $response = Http::sendHttpRequest($url, 20);
+                if (preg_match('#There are no results#i')) {
+                    $this->markTestSkipped('Bing search anti crawler engaged');
+                }else{
+                    $this->assertTrue(preg_match('#([0-9,\.]+) results#i', $response, $p),
+                      $rank['id'] . ' ip ['.$ip.'] error content ' . $response);
+                }
+
+            } else {
                 $this->assertNotEmpty($rank['rank'],
                   $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . $ip . ']');
             }
