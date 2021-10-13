@@ -43,21 +43,16 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        // get ip from external source
-        $ip = file_get_contents('https://api.ipify.org');
-
         $dataTable = API::getInstance()->getRank('http://matomo.org/');
         $renderer = Renderer::factory('json');
         $renderer->setTable($dataTable);
         $ranks = json_decode($renderer->render(), true);
-
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
-            $this->ranking($rank, $ip);
-
+            $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
         }
     }
 
@@ -66,25 +61,6 @@ class SEOTest extends IntegrationTestCase
         return array(
           'Piwik\Access' => new FakeAccess()
         );
-    }
-
-    private function ranking($rank, $ip)
-    {
-        if ($rank['rank'] === 0 && $rank['id'] === 'bing-index') {
-            $url = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3Ahttp://matomo.org/';
-            $response = Http::sendHttpRequest($url, 20);
-            if (preg_match('#There are no results#i', $response, $p)) {
-                $this->markTestSkipped('Bing search anti crawler engaged');
-            } else {
-                $this->assertTrue(preg_match('#([0-9,\.]+) results#i', $response, $p),
-                  $rank['id'] . ' ip [' . $ip . '] error content ' . $response);
-            }
-
-        } else {
-            $this->assertNotEmpty($rank['rank'],
-              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . $ip . ']');
-        }
-
     }
 
 }

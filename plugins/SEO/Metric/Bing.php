@@ -40,6 +40,8 @@ class Bing implements MetricsProvider
 
             if (preg_match('#([0-9,\.]+) results#i', $response, $p)) {
                 $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace(array(',', '.'), '', $p[1]));
+            } elseif (preg_match('#There are no results#i', $response, $p)) {
+                $pageCount = Piwik::translate('General_Error');
             } else {
                 $pageCount = 0;
             }
