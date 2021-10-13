@@ -46,6 +46,7 @@ let Piwik_Popover: PiwikPopoverGlobal;
 interface PiwikHelperGlobal {
   escape(text: string): string;
   redirect(params: any);
+  htmlDecode(encoded: string): string;
 }
 
 let piwikHelper: PiwikHelperGlobal;
@@ -89,6 +90,7 @@ declare global {
     piwik: PiwikGlobal;
     piwikHelper: PiwikHelperGlobal;
     broadcast: BroadcastGlobal;
+    hasBlockedContent: boolean;
 
     _pk_translate(translationStringId: string, values: string[]): string;
   }
