@@ -128,8 +128,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
-__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
+__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ activityIndicatorAdapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
 __webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ alertAdapter; });
@@ -146,7 +145,6 @@ __webpack_require__.d(__webpack_exports__, "format", function() { return /* reex
 __webpack_require__.d(__webpack_exports__, "getToday", function() { return /* reexport */ getToday; });
 __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
-__webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1499,215 +1497,6 @@ angular.module('piwikApp.service').run(Piwik_adapter_initPiwikService);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=42c028e0
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default");
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=42c028e0
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var MatomoDialogvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    /**
-     * Whether the modal is displayed or not;
-     */
-    show: {
-      type: Boolean,
-      required: true
-    },
-
-    /**
-     * Only here for backwards compatibility w/ AngularJS. If supplied, we use this
-     * element to launch the modal instead of the element in the slot. This should not
-     * be used for new Vue code.
-     *
-     * @deprecated
-     */
-    element: {
-      type: HTMLElement,
-      required: false
-    }
-  },
-  emits: ['yes', 'no', 'closeEnd', 'close'],
-
-  activated() {
-    const slotElement = this.element || this.$slots.default()[0].el;
-    slotElement.style.display = 'none';
-  },
-
-  watch: {
-    show(newValue, oldValue) {
-      if (newValue) {
-        const slotElement = this.element || this.$slots.default()[0].el;
-        Matomo_Matomo.helper.modalConfirm(slotElement, {
-          yes: () => {
-            this.$emit('yes');
-          },
-          no: () => {
-            this.$emit('no');
-          }
-        }, {
-          onCloseEnd: () => {
-            this.$emit('closeEnd');
-          }
-        });
-      } else if (newValue === false && oldValue === true) {
-        // the user closed the dialog, e.g. by pressing Esc or clicking away from it
-        this.$emit('close');
-      }
-    }
-
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue
-
-
-
-MatomoDialogvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function matomoDialogAdapter($parse) {
-  return {
-    restrict: 'A',
-    link: function matomoDialogAdapterLink(scope, element, attrs) {
-      const vueRootPlaceholder = $('<div class="vue-placeholder"/>');
-      vueRootPlaceholder.appendTo(element);
-      const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<matomo-dialog :show="show" :element="element" @yes="onYes()" @no="onNo()" @close="onClose()" @close-end="onCloseEnd()"/>',
-
-        data() {
-          return {
-            show: false,
-            element: null
-          };
-        },
-
-        methods: {
-          onYes() {
-            if (attrs.yes) {
-              scope.$eval(attrs.yes);
-              setTimeout(() => {
-                scope.$apply();
-              }, 0);
-            }
-          },
-
-          onNo() {
-            if (attrs.no) {
-              scope.$eval(attrs.no);
-              setTimeout(() => {
-                scope.$apply();
-              }, 0);
-            }
-          },
-
-          onClose() {
-            if (attrs.close) {
-              scope.$eval(attrs.close);
-              setTimeout(() => {
-                scope.$apply();
-              }, 0);
-            }
-          },
-
-          onCloseEnd() {
-            setTimeout(() => {
-              scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
-            }, 0);
-          }
-
-        }
-      });
-      app.config.globalProperties.$sanitize = window.vueSanitize;
-      app.component('matomo-dialog', MatomoDialog);
-      const vm = app.mount(vueRootPlaceholder[0]);
-      vm.element = element[0]; // eslint-disable-line
-
-      scope.$watch(attrs.piwikDialog, newValue => {
-        vm.show = newValue || false;
-      });
-    }
-  };
-}
-matomoDialogAdapter.$inject = ['$parse'];
-angular.module('piwikApp').directive('piwikDialog', matomoDialogAdapter);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function createAngularJsAdapter(options) {
-  const {
-    component,
-    element,
-    scope,
-    $inject,
-    directiveName
-  } = options;
-  const angularJsScope = {};
-  Object.entries(scope).forEach(([scopeVarName, info]) => {
-    angularJsScope[scopeVarName] = info.angularJsBind;
-  });
-
-  function angularJsAdapter() {
-    return {
-      restrict: 'A',
-      scope: angularJsScope,
-      link: function activityIndicatorAdapterLink(ngScope, ngElement) {
-        let rootVueTemplate = '<root-component';
-        Object.entries(scope).forEach(([, info]) => {
-          rootVueTemplate += ` :${info.vue}="${info.vue}"`;
-        });
-        rootVueTemplate += '/>';
-        const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-          template: rootVueTemplate,
-
-          data() {
-            const initialData = {};
-            Object.entries(scope).forEach(([scopeVarName, info]) => {
-              initialData[info.vue] = ngScope[scopeVarName];
-            });
-            return initialData;
-          }
-
-        });
-        app.config.globalProperties.$sanitize = window.vueSanitize;
-        app.component('root-component', component);
-        const vm = app.mount(element && element[0] || ngElement[0]);
-        Object.entries(scope).forEach(([scopeVarName, info]) => {
-          ngScope.$watch(scopeVarName, newValue => {
-            if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
-              vm[scopeVarName] = info.default instanceof Function ? info.default(scope, element) : info.default;
-            } else {
-              vm[scopeVarName] = newValue;
-            }
-          });
-        });
-      }
-    };
-  }
-
-  angularJsAdapter.$inject = $inject || [];
-  angular.module('piwikApp').directive(directiveName, angularJsAdapter);
-  return angularJsAdapter;
-}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
 const _hoisted_1 = {
@@ -1719,7 +1508,7 @@ const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_
   alt: ""
 }, null, -1);
 
-function ActivityIndicatorvue_type_template_id_6af4d064_render(_ctx, _cache, $props, $setup, $data, $options) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
@@ -1747,7 +1536,7 @@ function ActivityIndicatorvue_type_template_id_6af4d064_render(_ctx, _cache, $pr
 
 
 
-ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_template_id_6af4d064_render
+ActivityIndicatorvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
@@ -1760,22 +1549,40 @@ ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_temp
 
 
 
-/* harmony default export */ var ActivityIndicator_adapter = (createAngularJsAdapter({
-  component: ActivityIndicator,
-  scope: {
-    loading: {
-      vue: 'loading',
-      angularJsBind: '<'
+function activityIndicatorAdapter() {
+  return {
+    restrict: 'A',
+    scope: {
+      loading: '<',
+      loadingMessage: '<'
     },
-    loadingMessage: {
-      vue: 'loadingMessage',
-      angularJsBind: '<',
-      default: () => translate('General_LoadingData')
+    template: '',
+    link: function activityIndicatorAdapterLink(scope, element) {
+      const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
+        template: '<activity-indicator :loading="loading" :loadingMessage="loadingMessage"/>',
+
+        data() {
+          return {
+            loading: scope.loading,
+            loadingMessage: scope.loadingMessage
+          };
+        }
+
+      });
+      app.config.globalProperties.$sanitize = window.vueSanitize;
+      app.component('activity-indicator', ActivityIndicator);
+      const vm = app.mount(element[0]);
+      scope.$watch('loading', newValue => {
+        vm.loading = newValue;
+      });
+      scope.$watch('loadingMessage', newValue => {
+        vm.loadingMessage = newValue || translate('General_LoadingData');
+      });
     }
-  },
-  $inject: [],
-  directiveName: 'piwikActivityIndicator'
-}));
+  };
+}
+activityIndicatorAdapter.$inject = [];
+angular.module('piwikApp').directive('piwikActivityIndicator', activityIndicatorAdapter);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
 
 function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1880,9 +1687,6 @@ angular.module('piwikApp').directive('piwikAlert', alertAdapter);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
-
 
 
 

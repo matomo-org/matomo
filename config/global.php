@@ -29,6 +29,8 @@ return array(
         return $root . $tmp . $instanceId;
     },
 
+    'path.tmp.templates' => DI\string('{path.tmp}/templates_c'),
+
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
 
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
