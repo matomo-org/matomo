@@ -74,9 +74,12 @@
                     $rootElement.find('nav .sidenav li > a').each(function (index, element) {
                         var $element = $(element);
 
-                        var text = trim($element.text());
+                        var text = '';
+                        if ($element.text()) {
+                          text = trim($element.text());
+                        }
 
-                        if (!text) {
+                        if (!text && $element.attr('title')) {
                             text = trim($element.attr('title')); // possibly a icon, use title instead
                         }
 
@@ -106,8 +109,10 @@
 
                         $element.find('li .item').each(function (i, element) {
                             var $element = angular.element(element);
-                            var text = trim($element.text());
-
+                            var text = '';
+                            if ($element.text()) {
+                                text = trim($element.text());
+                            }
                             if (text) {
                                 leftMenuItems.push({name: text, category: category, index: ++menuIndex});
                                 $element.attr('quick_access', menuIndex);
