@@ -63,8 +63,13 @@ abstract class SystemTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $allowedCategoryForApiMetadataReport = static::$fixture->getAllowedCategoryToFilterApiResponse('API.getReportMetadata');
-        $allowedCategoryForApiSegmentsReport = static::$fixture->getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
+        if (!isset(static::$fixture)) {
+            $fixture = new Fixture();
+        } else {
+            $fixture = static::$fixture;
+        }
+        $allowedCategoryForApiMetadataReport = $fixture->getAllowedCategoryToFilterApiResponse('API.getReportMetadata');
+        $allowedCategoryForApiSegmentsReport = $fixture->getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
         if (!empty($allowedCategoryForApiMetadataReport)) {
             Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) use ($allowedCategoryForApiMetadataReport) {
                 $this->filterReportsCallback($reports, $info, $allowedCategoryForApiMetadataReport);
