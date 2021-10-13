@@ -58,9 +58,12 @@
                 }
 
                 scope.quickAccessTitle = translate('CoreHome_QuickAccessTitle', searchAreasTitle);
-
+              
                 function trim(str) {
-                    return str.replace(/^\s+|\s+$/g,'');
+                    if (str) {
+                      return str.replace(/^\s+|\s+$/g,'');
+                    }
+                    return str;
                 }
 
                 scope.getTopMenuItems = function()
@@ -74,12 +77,9 @@
                     $rootElement.find('nav .sidenav li > a').each(function (index, element) {
                         var $element = $(element);
 
-                        var text = '';
-                        if ($element.text()) {
-                          text = trim($element.text());
-                        }
+                        var text = trim($element.text());
 
-                        if (!text && $element.attr('title')) {
+                        if (!text) {
                             text = trim($element.attr('title')); // possibly a icon, use title instead
                         }
 
@@ -109,10 +109,7 @@
 
                         $element.find('li .item').each(function (i, element) {
                             var $element = angular.element(element);
-                            var text = '';
-                            if ($element.text()) {
-                                text = trim($element.text());
-                            }
+                            var text = trim($element.text());
                             if (text) {
                                 leftMenuItems.push({name: text, category: category, index: ++menuIndex});
                                 $element.attr('quick_access', menuIndex);
