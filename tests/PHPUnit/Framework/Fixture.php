@@ -206,7 +206,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             return $id;
         }
 
-        return self::getConfig()->database_tests['dbname'];
+        return self::getConfig()->database_tests['dbname'] ?? self::getConfig()->database['dbname'];
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -217,7 +217,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $this->initFromEnvVars();
 
         $this->dbName = $this->getDbName();
-
+        $configTests = self::getConfig()->database_tests;
+        $config = self::getConfig()->database;
         if ($this->persistFixtureData) {
             $this->dropDatabaseInSetUp = getenv('DROP') == 1;
             $this->dropDatabaseInTearDown = false;
@@ -247,7 +248,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         if ($this->dbName === false) { // must be after test config is created
             $this->dbName = self::getConfig()->database['dbname'];
         }
-
         try {
             static::connectWithoutDatabase();
 
@@ -974,9 +974,8 @@ class Fixture extends \PHPUnit\Framework\Assert
      */
     public static function connectWithoutDatabase()
     {
-        $dbConfig = self::getConfig()->database;
-        $oldDbName = $dbConfig['dbname'];
-        $dbConfig['dbname'] = null;
+        $dbConfig = self::getConfig()->database_tests;
+//        $dbConfig['dbname'] = null;
 
         Db::createDatabaseObject($dbConfig);
 
