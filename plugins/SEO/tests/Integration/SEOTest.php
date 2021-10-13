@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SEO\tests\Integration;
 
 use Piwik\DataTable\Renderer;
+use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\SEO\API;
 use Exception;
@@ -41,49 +42,39 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'] ?? '';
-        }
-        $ranks = $this->apiFunction();
+        // get ip from external source
+        $ip = file_get_contents('https://api.ipify.org');
+
+        $dataTable = API::getInstance()->getRank('http://matomo.org/');
+        $renderer = Renderer::factory('json');
+        $renderer->setTable($dataTable);
+        $ranks = json_decode($renderer->render(), true);
+
         foreach ($ranks as $rank) {
             if ($rank['rank'] == Piwik::translate('General_Error')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
             $this->assertNotEmpty($rank['rank'],
-              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' .$ip . ']');
+              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . $ip . '], content ' . $this->debugFails($rank['id']));
         }
     }
 
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess()
         );
     }
 
-    /**
-     * this function rerun the API 3 times, to reduce the chance of failing.
-     */
-    private function apiFunction($counter = 0, $ranks = [])
+    private function debugFails($rankId)
     {
-        if ($counter > 3) {
-            return $ranks;
+        if ($rankId == 'bing-index') {
+            $url = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3Ahttp://matomo.org/';
+
+            return '<pre>' . Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']) . '</pre>';
         }
-        $dataTable = API::getInstance()->getRank('http://matomo.org/');
-        $renderer = Renderer::factory('json');
-        $renderer->setTable($dataTable);
-        $ranks = json_decode($renderer->render(), true);
-        foreach ($ranks as $rank) {
-            if ($rank['rank'] === 0 ) {
-                $this->apiFunction($counter++, $ranks);
-            }
-        }
-        return $ranks;
+        return '';
     }
 
 }
