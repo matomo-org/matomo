@@ -15,7 +15,6 @@
         "ExceptionPasswordMD5HashExpected": "É esperado que o parâmetro da senha seja um hash MD5 da senha.",
         "HelpIpRange": "Digite um endereço IP ou um intervalo de IPs por linha. Você pode usar notação CIDR ex. %1$s ou você pode usar caracteres curinga, ex. %2$s ou %3$s",
         "IPsAlwaysBlocked": "Estes IPs estão sempre bloqueados",
-        "InvalidNonceOrHeadersOrReferrer": "O formulário de segurança falhou. Por favor recarregue o formulário e verifique se seus cookies estão habilitados. Se você usa um servidor proxy, você deve %1$s configurar o Matomo para aceitar o cabeçalho do proxy%2$s que encaminha o cabeçalho do host. Além disso, verifique se o cabeçalho do Referenciador está sendo enviado corretamente.",
         "InvalidNonceSSLMisconfigured": "Além disso, você pode %1$s forçar o Matomo a usar uma conexão segura%2$s: em seu arquivo de configuração %3$s configure %4$s abaixo da seção %5$s",
         "InvalidOrExpiredToken": "O token é inválido ou expirou.",
         "InvalidUsernameEmail": "Nome de usuário ou e-mail inválido.",

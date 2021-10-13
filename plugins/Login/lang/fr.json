@@ -15,7 +15,6 @@
         "ExceptionPasswordMD5HashExpected": "Le paramètre mot de passe doit être le hash MD5 du mot de passe.",
         "HelpIpRange": "Saisir une adresse IP ou une plage d'adresses IP par ligne. Vous pouvez utiliser la notation CIDR ex. %1$s ou utiliser les caractères de remplacement, ex. %2$s ou %3$s",
         "IPsAlwaysBlocked": "Ces adresses IP sont toujours bloquées",
-        "InvalidNonceOrHeadersOrReferrer": "La sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que vos cookies sont activés. Si vous utilisez un serveur proxy, vous devez %1$s configurer Matomo pour accepter les en-têtes du proxy %2$s qui relaient les en-têtes de l'hôte. Vérifiez aussi que l'en-tête de votre référent est correctement transmis.",
         "InvalidNonceSSLMisconfigured": "Aussi, vous devriez %1$s forcer Matomo à utiliser une connexion sécurisée%2$s : dans votre fichier de configuration %3$s définissez %4$s la section ci-dessous %5$s",
         "InvalidOrExpiredToken": "Le jeton est invalide ou a expiré",
         "InvalidUsernameEmail": "Nom d'utilisateur et/ou courriel invalide.",
