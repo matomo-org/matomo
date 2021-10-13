@@ -41,26 +41,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
     }
 
-    public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
-    {
-        $pluginsToTest = ['CustomVariables', 'Provider'];
-
-        $pluginManager = Plugin\Manager::getInstance();
-
-        $package = Http::sendHttpRequest('https://raw.githubusercontent.com/matomo-org/matomo-package/master/scripts/build-package.sh', 20);
-
-        foreach ($pluginsToTest as $pluginToTest) {
-            $isPluginBundledWithCore = $pluginManager->isPluginBundledWithCore($pluginToTest);
-            $isPluginIncludedInBuildZip = strpos($package, 'plugins/' . $pluginToTest) !== false;
-
-            if ($isPluginBundledWithCore xor $isPluginIncludedInBuildZip) {
-                throw new Exception('Expected that when plugin can be uninstalled (is not included in core), then the plugin is also included in the build-package.sh so it is included in the release zip. Once we no longer include this plugin in build.zip then we need to allow uninstalling these plugins by changing isPluginBundledWithCore method. Plugin is ' . $pluginToTest);
-            }
-        }
-
-        $this->assertNotEmpty($isPluginBundledWithCore, 'We expect at least one plugin to be checked in this test, otherwise we can remove this test once they are no longer included in core');
-    }
-
     public function test_TestCaseHasSetGroupsMethod()
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
