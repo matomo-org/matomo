@@ -59,10 +59,10 @@
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "~v1.4.0",
         "twig/twig": "^3.0",
-        "wikimedia/less.php": "^3.0"
+        "wikimedia/less.php": "^3.0",
+        "lox/xhprof": "dev-master"
     },
     "require-dev": {
-        "lox/xhprof": "dev-master",
         "mayflower/mo4-coding-standard": "~6.0",
         "phpunit/phpunit": "~8.5",
         "squizlabs/php_codesniffer": "^3.5",
