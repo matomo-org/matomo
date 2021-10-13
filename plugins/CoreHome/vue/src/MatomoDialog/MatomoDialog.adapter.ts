@@ -5,68 +5,60 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { createApp } from 'vue';
 import { IParseService } from 'angular';
+import { ComponentPublicInstance } from 'vue';
 import MatomoDialog from './MatomoDialog.vue';
+import createAngularJsAdapter from '../createAngularJsAdapter';
 
-export default function matomoDialogAdapter($parse: IParseService): ng.IDirective {
-  return {
-    restrict: 'A',
-    link: function matomoDialogAdapterLink(
-      scope: ng.IScope,
-      element: ng.IAugmentedJQuery,
-      attrs: ng.IAttributes,
-    ) {
-      const vueRootPlaceholder = $('<div class="vue-placeholder"/>');
-      vueRootPlaceholder.appendTo(element);
-
-      const app = createApp({
-        template: '<matomo-dialog :show="show" :element="element" @yes="onYes()" @no="onNo()" @close="onClose()" @close-end="onCloseEnd()"/>',
-        data() {
-          return {
-            show: false,
-            element: null,
-          };
-        },
-        methods: {
-          onYes() {
-            if (attrs.yes) {
-              scope.$eval(attrs.yes);
-              setTimeout(() => { scope.$apply(); }, 0);
-            }
-          },
-          onNo() {
-            if (attrs.no) {
-              scope.$eval(attrs.no);
-              setTimeout(() => { scope.$apply(); }, 0);
-            }
-          },
-          onClose() {
-            if (attrs.close) {
-              scope.$eval(attrs.close);
-              setTimeout(() => { scope.$apply(); }, 0);
-            }
-          },
-          onCloseEnd() {
-            setTimeout(() => {
-              scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
-            }, 0);
-          },
-        },
-      });
-      app.config.globalProperties.$sanitize = window.vueSanitize;
-      app.component('matomo-dialog', MatomoDialog);
-      const vm = app.mount(vueRootPlaceholder[0]);
-
-      vm.element = element[0]; // eslint-disable-line
-
-      scope.$watch(attrs.piwikDialog, (newValue: boolean) => {
-        vm.show = newValue || false;
-      });
+export default createAngularJsAdapter<[IParseService]>({
+  component: MatomoDialog,
+  scope: {
+    show: {
+      vue: 'show',
+      default: false,
     },
-  };
-}
-
-matomoDialogAdapter.$inject = ['$parse'];
-
-angular.module('piwikApp').directive('piwikDialog', matomoDialogAdapter);
+    element: {
+      vue: 'element',
+      default: (scope, element) => element[0],
+    },
+  },
+  events: {
+    yes: (scope, element, attrs) => {
+      if (attrs.yes) {
+        scope.$eval(attrs.yes);
+        setTimeout(() => { scope.$apply(); }, 0);
+      }
+    },
+    no: (scope, element, attrs) => {
+      if (attrs.no) {
+        scope.$eval(attrs.no);
+        setTimeout(() => { scope.$apply(); }, 0);
+      }
+    },
+    close: (scope, element, attrs) => {
+      if (attrs.close) {
+        scope.$eval(attrs.close);
+        setTimeout(() => { scope.$apply(); }, 0);
+      }
+    },
+    closeEnd: (scope, element, attrs, $parse: IParseService) => {
+      setTimeout(() => {
+        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+      }, 0);
+    },
+  },
+  $inject: ['$parse'],
+  directiveName: 'piwikDialog',
+  transclude: true,
+  mountPointFactory: (scope, element) => {
+    const vueRootPlaceholder = $('<div class="vue-placeholder"/>');
+    vueRootPlaceholder.appendTo(element);
+    return vueRootPlaceholder[0];
+  },
+  postCreate: (vm: ComponentPublicInstance, scope, element, attrs) => {
+    scope.$watch(attrs.piwikDialog, (newValue: boolean) => {
+      vm.show = newValue || false;
+    });
+  },
+  noScope: true,
+});

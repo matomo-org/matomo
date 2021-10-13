@@ -1571,80 +1571,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 MatomoDialogvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function matomoDialogAdapter($parse) {
-  return {
-    restrict: 'A',
-    link: function matomoDialogAdapterLink(scope, element, attrs) {
-      const vueRootPlaceholder = $('<div class="vue-placeholder"/>');
-      vueRootPlaceholder.appendTo(element);
-      const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<matomo-dialog :show="show" :element="element" @yes="onYes()" @no="onNo()" @close="onClose()" @close-end="onCloseEnd()"/>',
-
-        data() {
-          return {
-            show: false,
-            element: null
-          };
-        },
-
-        methods: {
-          onYes() {
-            if (attrs.yes) {
-              scope.$eval(attrs.yes);
-              setTimeout(() => {
-                scope.$apply();
-              }, 0);
-            }
-          },
-
-          onNo() {
-            if (attrs.no) {
-              scope.$eval(attrs.no);
-              setTimeout(() => {
-                scope.$apply();
-              }, 0);
-            }
-          },
-
-          onClose() {
-            if (attrs.close) {
-              scope.$eval(attrs.close);
-              setTimeout(() => {
-                scope.$apply();
-              }, 0);
-            }
-          },
-
-          onCloseEnd() {
-            setTimeout(() => {
-              scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
-            }, 0);
-          }
-
-        }
-      });
-      app.config.globalProperties.$sanitize = window.vueSanitize;
-      app.component('matomo-dialog', MatomoDialog);
-      const vm = app.mount(vueRootPlaceholder[0]);
-      vm.element = element[0]; // eslint-disable-line
-
-      scope.$watch(attrs.piwikDialog, newValue => {
-        vm.show = newValue || false;
-      });
-    }
-  };
-}
-matomoDialogAdapter.$inject = ['$parse'];
-angular.module('piwikApp').directive('piwikDialog', matomoDialogAdapter);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1656,28 +1582,37 @@ angular.module('piwikApp').directive('piwikDialog', matomoDialogAdapter);
 function createAngularJsAdapter(options) {
   const {
     component,
-    element,
-    scope,
+    scope = {},
+    events = {},
     $inject,
     directiveName,
-    transclude
+    transclude,
+    mountPointFactory,
+    postCreate,
+    noScope
   } = options;
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
-    angularJsScope[scopeVarName] = info.angularJsBind;
+    if (info.angularJsBind) {
+      angularJsScope[scopeVarName] = info.angularJsBind;
+    }
   });
 
-  function angularJsAdapter() {
+  function angularJsAdapter(...injectedServices) {
     const adapter = {
       restrict: 'A',
-      scope: angularJsScope,
+      scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
-          post: function angularJsAdapterLink(ngScope, ngElement) {
+          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs) {
             const clone = ngElement.find('[ng-transclude]');
             let rootVueTemplate = '<root-component';
             Object.entries(scope).forEach(([, info]) => {
               rootVueTemplate += ` :${info.vue}="${info.vue}"`;
+            });
+            Object.entries(events).forEach(info => {
+              const [eventName] = info;
+              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}')"`;
             });
             rootVueTemplate += '>';
 
@@ -1692,7 +1627,13 @@ function createAngularJsAdapter(options) {
               data() {
                 const initialData = {};
                 Object.entries(scope).forEach(([scopeVarName, info]) => {
-                  initialData[info.vue] = ngScope[scopeVarName];
+                  let value = ngScope[scopeVarName];
+
+                  if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
+                    value = info.default instanceof Function ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices) : info.default;
+                  }
+
+                  initialData[info.vue] = value;
                 });
                 return initialData;
               },
@@ -1706,16 +1647,29 @@ function createAngularJsAdapter(options) {
                 }
 
                 return undefined;
-              }
+              },
 
+              methods: {
+                onEventHandler(name) {
+                  if (events[name]) {
+                    events[name](ngScope, ngElement, ngAttrs, ...injectedServices);
+                  }
+                }
+
+              }
             });
             app.config.globalProperties.$sanitize = window.vueSanitize;
             app.component('root-component', component);
-            const vm = app.mount(element && element[0] || ngElement[0]);
+            const mountPoint = mountPointFactory ? mountPointFactory(ngScope, ngElement, ngAttrs, ...injectedServices) : ngElement[0];
+            const vm = app.mount(mountPoint);
             Object.entries(scope).forEach(([scopeVarName, info]) => {
+              if (!info.angularJsBind) {
+                return;
+              }
+
               ngScope.$watch(scopeVarName, newValue => {
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
-                  vm[scopeVarName] = info.default instanceof Function ? info.default(scope, element) : info.default;
+                  vm[scopeVarName] = info.default instanceof Function ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices) : info.default;
                 } else {
                   vm[scopeVarName] = newValue;
                 }
@@ -1724,6 +1678,10 @@ function createAngularJsAdapter(options) {
 
             if (transclude) {
               $(vm.transcludeTarget).append(clone);
+            }
+
+            if (postCreate) {
+              postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
             }
           }
         };
@@ -1742,6 +1700,73 @@ function createAngularJsAdapter(options) {
   angular.module('piwikApp').directive(directiveName, angularJsAdapter);
   return angularJsAdapter;
 }
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var MatomoDialog_adapter = (createAngularJsAdapter({
+  component: MatomoDialog,
+  scope: {
+    show: {
+      vue: 'show',
+      default: false
+    },
+    element: {
+      vue: 'element',
+      default: (scope, element) => element[0]
+    }
+  },
+  events: {
+    yes: (scope, element, attrs) => {
+      if (attrs.yes) {
+        scope.$eval(attrs.yes);
+        setTimeout(() => {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    no: (scope, element, attrs) => {
+      if (attrs.no) {
+        scope.$eval(attrs.no);
+        setTimeout(() => {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    close: (scope, element, attrs) => {
+      if (attrs.close) {
+        scope.$eval(attrs.close);
+        setTimeout(() => {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    closeEnd: (scope, element, attrs, $parse) => {
+      setTimeout(() => {
+        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+      }, 0);
+    }
+  },
+  $inject: ['$parse'],
+  directiveName: 'piwikDialog',
+  transclude: true,
+  mountPointFactory: (scope, element) => {
+    const vueRootPlaceholder = $('<div class="vue-placeholder"/>');
+    vueRootPlaceholder.appendTo(element);
+    return vueRootPlaceholder[0];
+  },
+  postCreate: (vm, scope, element, attrs) => {
+    scope.$watch(attrs.piwikDialog, newValue => {
+      vm.show = newValue || false;
+    });
+  },
+  noScope: true
+}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
 const _hoisted_1 = {
@@ -1857,7 +1882,6 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
       angularJsBind: '@piwikAlert'
     }
   },
-  $inject: [],
   directiveName: 'piwikAlert',
   transclude: true
 }));

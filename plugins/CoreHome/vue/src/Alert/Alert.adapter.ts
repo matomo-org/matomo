@@ -16,7 +16,6 @@ export default createAngularJsAdapter({
       angularJsBind: '@piwikAlert',
     },
   },
-  $inject: [],
   directiveName: 'piwikAlert',
   transclude: true,
 });
