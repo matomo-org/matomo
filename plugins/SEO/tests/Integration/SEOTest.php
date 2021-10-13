@@ -48,7 +48,7 @@ class SEOTest extends IntegrationTestCase
         $renderer->setTable($dataTable);
         $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
-            if ($rank['rank'] == Piwik::translate('General_Error')) {
+            if ($rank['rank'] == Piwik::translate('General_ErrorTryAgain')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
