@@ -128,7 +128,8 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ activityIndicatorAdapter; });
+__webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
+__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
 __webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ alertAdapter; });
@@ -1644,6 +1645,69 @@ function matomoDialogAdapter($parse) {
 }
 matomoDialogAdapter.$inject = ['$parse'];
 angular.module('piwikApp').directive('piwikDialog', matomoDialogAdapter);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function createAngularJsAdapter(options) {
+  const {
+    component,
+    element,
+    scope,
+    $inject,
+    directiveName
+  } = options;
+  const angularJsScope = {};
+  Object.entries(scope).forEach(([scopeVarName, info]) => {
+    angularJsScope[scopeVarName] = info.angularJsBind;
+  });
+
+  function angularJsAdapter() {
+    return {
+      restrict: 'A',
+      scope: angularJsScope,
+      link: function activityIndicatorAdapterLink(ngScope, ngElement) {
+        let rootVueTemplate = '<root-component';
+        Object.entries(scope).forEach(([, info]) => {
+          rootVueTemplate += ` :${info.vue}="${info.vue}"`;
+        });
+        rootVueTemplate += '/>';
+        const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
+          template: rootVueTemplate,
+
+          data() {
+            const initialData = {};
+            Object.entries(scope).forEach(([scopeVarName, info]) => {
+              initialData[info.vue] = ngScope[scopeVarName];
+            });
+            return initialData;
+          }
+
+        });
+        app.config.globalProperties.$sanitize = window.vueSanitize;
+        app.component('root-component', component);
+        const vm = app.mount(element && element[0] || ngElement[0]);
+        Object.entries(scope).forEach(([scopeVarName, info]) => {
+          ngScope.$watch(scopeVarName, newValue => {
+            if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
+              vm[scopeVarName] = info.default instanceof Function ? info.default(scope, element) : info.default;
+            } else {
+              vm[scopeVarName] = newValue;
+            }
+          });
+        });
+      }
+    };
+  }
+
+  angularJsAdapter.$inject = $inject || [];
+  angular.module('piwikApp').directive(directiveName, angularJsAdapter);
+  return angularJsAdapter;
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
 const _hoisted_1 = {
@@ -1696,40 +1760,22 @@ ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_temp
 
 
 
-function activityIndicatorAdapter() {
-  return {
-    restrict: 'A',
-    scope: {
-      loading: '<',
-      loadingMessage: '<'
+/* harmony default export */ var ActivityIndicator_adapter = (createAngularJsAdapter({
+  component: ActivityIndicator,
+  scope: {
+    loading: {
+      vue: 'loading',
+      angularJsBind: '<'
     },
-    template: '',
-    link: function activityIndicatorAdapterLink(scope, element) {
-      const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<activity-indicator :loading="loading" :loadingMessage="loadingMessage"/>',
-
-        data() {
-          return {
-            loading: scope.loading,
-            loadingMessage: scope.loadingMessage
-          };
-        }
-
-      });
-      app.config.globalProperties.$sanitize = window.vueSanitize;
-      app.component('activity-indicator', ActivityIndicator);
-      const vm = app.mount(element[0]);
-      scope.$watch('loading', newValue => {
-        vm.loading = newValue;
-      });
-      scope.$watch('loadingMessage', newValue => {
-        vm.loadingMessage = newValue || translate('General_LoadingData');
-      });
+    loadingMessage: {
+      vue: 'loadingMessage',
+      angularJsBind: '<',
+      default: () => translate('General_LoadingData')
     }
-  };
-}
-activityIndicatorAdapter.$inject = [];
-angular.module('piwikApp').directive('piwikActivityIndicator', activityIndicatorAdapter);
+  },
+  $inject: [],
+  directiveName: 'piwikActivityIndicator'
+}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
 
 function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1834,6 +1880,7 @@ angular.module('piwikApp').directive('piwikAlert', alertAdapter);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

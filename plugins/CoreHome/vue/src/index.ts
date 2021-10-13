@@ -19,6 +19,7 @@ import './PiwikUrl/PiwikUrl.adapter';
 import './Piwik/Piwik.adapter';
 import './MatomoDialog/MatomoDialog.adapter';
 
+export { default as createAngularJsAdapter } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
