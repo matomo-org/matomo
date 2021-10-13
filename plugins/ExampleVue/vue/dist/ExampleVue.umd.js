@@ -263,6 +263,7 @@ function exampleVueComponentAdapter() {
     template: '',
     link: function exampleVueComponentAdapterLink(scope, element) {
       const vueApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(AsyncExampleComponent);
+      vueApp.config.globalProperties.$sanitize = window.vueSanitize;
       vueApp.mount(element[0]);
     }
   };

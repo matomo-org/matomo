@@ -40,6 +40,7 @@ export default function alertAdapter(): ng.IDirective {
               };
             },
           });
+          app.config.globalProperties.$sanitize = window.vueSanitize;
           app.component('alert', Alert);
           const vm = app.mount(element[0]);
 
