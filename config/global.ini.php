@@ -63,10 +63,10 @@ port = 3306
 aurora_readonly_read_committed =
 
 [database_tests]
-host = localhost
+host =
 username = "@USERNAME@"
 password =
-dbname = matomo_tests
+dbname =
 tables_prefix =
 port = 3306
 adapter = PDO\MYSQL

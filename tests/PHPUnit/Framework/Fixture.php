@@ -992,14 +992,16 @@ class Fixture extends \PHPUnit\Framework\Assert
         $iniReader = new IniReader();
         $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
         $originalDbName = $config['database']['dbname'];
-        if ($dbName == $originalDbName
-            && $dbName != 'piwik_tests'
-        ) { // santity check
-            throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
-        }
+//        if ($dbName == $originalDbName
+//            && $dbName != 'piwik_tests'
+//        ) { // santity check
+//            throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
+//        }
 
         try {
-            DbHelper::dropDatabase($dbName);
+            if($dbName !==$originalDbName) {
+                DbHelper::dropDatabase($dbName);
+            }
         } catch (Exception $e) {
             printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
         }
