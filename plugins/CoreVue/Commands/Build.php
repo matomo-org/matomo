@@ -82,7 +82,7 @@ class Build extends ConsoleCommand
 
     private function watch($plugins, $printBuildCommand, OutputInterface $output)
     {
-        $commandSingle = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
+        $commandSingle = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
             . "%1\$s ./plugins/%1\$s/vue/src/index.ts --dest ./plugins/%1\$s/vue/dist --watch &";
 
         $command = '';
@@ -99,7 +99,7 @@ class Build extends ConsoleCommand
 
     private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
     {
-        $command = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
+        $command = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
             . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
 
         if ($printBuildCommand) {

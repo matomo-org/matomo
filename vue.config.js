@@ -19,9 +19,36 @@ function scanPluginExternals() {
   return pluginExternals;
 }
 
+if (!process.env.MATOMO_CURRENT_PLUGIN) {
+  throw new Error("The MATOMO_CURRENT_PLUGIN environment variable is not set!");
+}
+
+const publicPath = `plugins/${process.env.MATOMO_CURRENT_PLUGIN}/vue/dist/`;
+
+// hack to get publicPath working for lib build target (see https://github.com/vuejs/vue-cli/issues/4896#issuecomment-569001811)
+function PublicPathWebpackPlugin () {}
+
+PublicPathWebpackPlugin.prototype.apply = function (compiler) {
+  compiler.hooks.entryOption.tap('PublicPathWebpackPlugin', (context, entry) => {
+    if (entry['module.common']) {
+      entry['module.common'] = path.resolve(__dirname, './src/main.js');
+    }
+    if (entry['module.umd']) {
+      entry['module.umd'] = path.resolve(__dirname, './src/main.js');
+    }
+    if  (entry['module.umd.min']) {
+      entry['module.umd.min'] = path.resolve(__dirname, './src/main.js');
+    }
+  });
+  compiler.hooks.beforeRun.tap('PublicPathWebpackPlugin', (compiler) => {
+    compiler.options.output.publicPath = publicPath;
+  });
+};
+
 module.exports = {
-  publicPath: "",
+  publicPath,
   chainWebpack: config => {
+    config.plugin().use(PublicPathWebpackPlugin);
     config.externals({
       'tslib': 'tslib',
       ...pluginExternals,
