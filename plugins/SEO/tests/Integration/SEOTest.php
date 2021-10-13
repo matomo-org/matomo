@@ -70,22 +70,21 @@ class SEOTest extends IntegrationTestCase
 
     private function ranking($rank, $ip)
     {
-        if ($rank['rank'] === 0) {
-            if ($rank['id'] === 'bing-index') {
-                $url = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3Ahttp://matomo.org/';
-                $response = Http::sendHttpRequest($url, 20);
-                if (preg_match('#There are no results#i',$response,$p)) {
-                    $this->markTestSkipped('Bing search anti crawler engaged');
-                }else{
-                    $this->assertTrue(preg_match('#([0-9,\.]+) results#i', $response, $p),
-                      $rank['id'] . ' ip ['.$ip.'] error content ' . $response);
-                }
-
+        if ($rank['rank'] === 0 && $rank['id'] === 'bing-index') {
+            $url = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3Ahttp://matomo.org/';
+            $response = Http::sendHttpRequest($url, 20);
+            if (preg_match('#There are no results#i', $response, $p)) {
+                $this->markTestSkipped('Bing search anti crawler engaged');
             } else {
-                $this->assertNotEmpty($rank['rank'],
-                  $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . $ip . ']');
+                $this->assertTrue(preg_match('#([0-9,\.]+) results#i', $response, $p),
+                  $rank['id'] . ' ip [' . $ip . '] error content ' . $response);
             }
+
+        } else {
+            $this->assertNotEmpty($rank['rank'],
+              $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . '], ip [' . $ip . ']');
         }
+
     }
 
 }
