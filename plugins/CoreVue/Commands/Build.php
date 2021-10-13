@@ -53,6 +53,7 @@ class Build extends ConsoleCommand
         } else {
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
             if (empty($plugins)) {
+                $output->writeln("<error>No plugins to build!</error>");
                 return 1;
             }
         }
