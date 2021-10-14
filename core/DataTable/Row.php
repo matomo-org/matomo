@@ -652,6 +652,10 @@ class Row extends \ArrayObject
      */
     protected function sumRowArray($thisColumnValue, $columnToSumValue, $columnName = null)
     {
+
+        // can we return `null` here if $columnToSumValue is `null` ?
+        // If $columnToSumValue could in fact be null it could be a pretty significant optimisation.
+
         if ($columnToSumValue === false) {
             return $thisColumnValue;
         }
