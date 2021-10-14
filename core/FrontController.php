@@ -305,7 +305,7 @@ class FrontController extends Singleton
             $tmpPath . '/cache/',
             $tmpPath . '/logs/',
             $tmpPath . '/tcpdf/',
-            $tmpPath . '/templates_c/',
+            StaticContainer::get('path.tmp.templates'),
         );
 
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
