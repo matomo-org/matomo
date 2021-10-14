@@ -993,7 +993,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 //        }
 
         try {
-            if($dbName !==$originalDbName) {
+            if($dbName !==$originalDbName || $dbName=='piwik_tests') {
                 DbHelper::dropDatabase($dbName);
             }
         } catch (Exception $e) {
