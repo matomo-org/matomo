@@ -993,7 +993,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
         $originalDbName = $config['database']['dbname'];
         if ($dbName == $originalDbName
-            && $dbName != 'piwik_tests'
+            && $dbName != 'piwik_tests' && $dbName !='matomo_tests'
         ) { // santity check
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }
