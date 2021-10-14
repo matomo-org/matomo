@@ -153,7 +153,7 @@ class Process
     {
         $size = Common::mb_strlen($content);
 
-        return $size !== null && $size < 500;
+        return $size < 500;
     }
 
     public function finishProcess()
