@@ -452,7 +452,7 @@ class CliMulti
             $elapsed = time() - $startTime;
             $timeToWait = $this->getTimeToWaitBeforeNextCheck($elapsed);
 
-            if (!count($this->processes)) {
+            if (count($this->processes)) {
                 usleep($timeToWait);
             }
         } while (!$this->hasFinished());
