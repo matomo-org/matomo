@@ -974,8 +974,7 @@ class Fixture extends \PHPUnit\Framework\Assert
      */
     public static function connectWithoutDatabase()
     {
-        $dbConfig = self::getConfig()->database_tests;
-        Db::createDatabaseObject($dbConfig);
+        Db::createDatabaseObject(self::getConfig()->database);
     }
 
     public function dropDatabase($dbName = null)
