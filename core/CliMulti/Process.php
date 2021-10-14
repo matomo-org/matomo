@@ -153,7 +153,7 @@ class Process
     {
         $size = Common::mb_strlen($content);
 
-        return $size !== null && $size < 500;
+        return $size < 500;
     }
 
     public function finishProcess()
@@ -184,7 +184,12 @@ class Process
         return @file_get_contents($this->pidFile);
     }
 
-    private function writePidFileContent($content)
+    /**
+     * Tests only
+     * @internal
+     * @param $content
+     */
+    public function writePidFileContent($content)
     {
         file_put_contents($this->pidFile, $content);
     }
