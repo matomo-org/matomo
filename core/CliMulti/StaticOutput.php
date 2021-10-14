@@ -11,18 +11,13 @@ use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Filesystem;
 
-class StaticOutput extends Output
+class StaticOutput implements OutputInterface
 {
-
-    private $content  = '';
+    private $content  = false;
     private $outputId = null;
 
     public function __construct($outputId)
     {
-        if (!Filesystem::isValidFilename($outputId)) {
-            throw new \Exception('The given output id has an invalid format');
-        }
-
         $this->outputId = $outputId;
     }
 
@@ -33,7 +28,7 @@ class StaticOutput extends Output
 
     public function write($content)
     {
-        $this->content = $content;
+        $this->content = (string) $content;
     }
 
     public function getPathToFile()
@@ -41,16 +36,17 @@ class StaticOutput extends Output
         return '';
     }
 
-    public function isAbnormal()
+    public function isAbnormal(): bool
     {
-        $size = Common::mb_strlen($this->content) / 1024 / 1024;
+        $size = Common::mb_strlen($this->content);
+        $hundredMb = 100 * 1024 * 1024;
 
-        return $size !== null && $size >= 100;
+        return $size >= $hundredMb;
     }
 
-    public function exists()
+    public function exists(): bool
     {
-        return !empty($this->content);
+        return $this->content !== false;
     }
 
     public function get()
@@ -60,6 +56,6 @@ class StaticOutput extends Output
 
     public function destroy()
     {
-        $this->content = '';
+        $this->content = false;
     }
 }
