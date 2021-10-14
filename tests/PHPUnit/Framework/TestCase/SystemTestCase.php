@@ -60,16 +60,14 @@ abstract class SystemTestCase extends TestCase
      */
     public static $fixture;
 
+    private static $allowedCategoryApiWise = array();
+
     protected function setUp(): void
     {
         parent::setUp();
-        if (!isset(static::$fixture)) {
-            $fixture = new Fixture();
-        } else {
-            $fixture = static::$fixture;
-        }
-        $allowedCategoryForApiMetadataReport = $fixture->getAllowedCategoryToFilterApiResponse('API.getReportMetadata');
-        $allowedCategoryForApiSegmentsReport = $fixture->getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
+
+        $allowedCategoryForApiMetadataReport = self::getAllowedCategoryToFilterApiResponse('API.getReportMetadata');
+        $allowedCategoryForApiSegmentsReport = self::getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
         if (!empty($allowedCategoryForApiMetadataReport)) {
             Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) use ($allowedCategoryForApiMetadataReport) {
                 $this->filterReportsCallback($reports, $info, $allowedCategoryForApiMetadataReport);
@@ -884,6 +882,14 @@ abstract class SystemTestCase extends TestCase
         }
 
         return parent::hasDependencies();
+    }
+
+    public static function setAllowedCategoryToFilterApiResponse($api, $category){
+        self::$allowedCategoryApiWise[$api] = $category;
+    }
+
+    public static function getAllowedCategoryToFilterApiResponse($api) {
+        return (self::$allowedCategoryApiWise[$api] ?? NULL);
     }
 }
 
