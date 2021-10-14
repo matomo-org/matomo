@@ -638,9 +638,22 @@ td.cellSubDataTable .loadingPiwik {
     padding-left:8px;
   }
 }
+.widgetContent {
+  div.dataTableScroller {
+    overflow-x: scroll;
+  }
+}
 
-div.dataTableScroller {
-  overflow-x: inherit;
+.card-content{
+  div.dataTableScroller {
+    overflow-x: inherit;
+  }
+
+  @media only screen and (max-width: 700px) {
+    div.dataTableScroller {
+      overflow-x: scroll;
+    }
+  }
 }
 
 .theWidgetContent .card .card-content, table.dataTable {
