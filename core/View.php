@@ -446,7 +446,7 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
+        $templatesCompiledPath = StaticContainer::get('path.tmp.templates');
         Filesystem::unlinkRecursive($templatesCompiledPath, false);
     }
 
