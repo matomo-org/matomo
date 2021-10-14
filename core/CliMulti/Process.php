@@ -184,7 +184,12 @@ class Process
         return @file_get_contents($this->pidFile);
     }
 
-    private function writePidFileContent($content)
+    /**
+     * Tests only
+     * @internal
+     * @param $content
+     */
+    public function writePidFileContent($content)
     {
         file_put_contents($this->pidFile, $content);
     }
