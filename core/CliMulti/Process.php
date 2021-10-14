@@ -28,7 +28,7 @@ class Process
     private $finished = null;
     private $pidFile = '';
     private $timeCreation = null;
-    private $isSupported = null;
+    private static $isSupported = null;
     private $pid = null;
     private $started = null;
 
@@ -41,7 +41,6 @@ class Process
         $pidDir = CliMulti::getTmpPath();
         Filesystem::mkdir($pidDir);
 
-        $this->isSupported  = self::isSupported();
         $this->pidFile      = $pidDir . '/' . $pid . '.pid';
         $this->timeCreation = time();
         $this->pid = $pid;
@@ -169,7 +168,7 @@ class Process
 
     private function isProcessStillRunning($content)
     {
-        if (!$this->isSupported) {
+        if (!self::isSupported()) {
             return true;
         }
 
@@ -191,8 +190,11 @@ class Process
 
     public static function isSupported()
     {
-        $reasons = self::isSupportedWithReason();
-        return empty($reasons);
+        if (!isset(self::$isSupported)) {
+            $reasons = self::isSupportedWithReason();
+            self::$isSupported = empty($reasons);
+        }
+        return self::$isSupported;
     }
 
     public static function isSupportedWithReason()
