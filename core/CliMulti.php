@@ -197,7 +197,7 @@ class CliMulti
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
 
-        $append = '';
+        $append = '2>&1';
         if ($outputFileIfAsync) {
             $append = sprintf(' > %s 2>&1 &', $outputFileIfAsync);
         }
