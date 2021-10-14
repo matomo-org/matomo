@@ -33,6 +33,8 @@ return array(
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
 
+    'view.clearcompiledtemplates.enable' => true,
+
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Matomo\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id');
