@@ -8,6 +8,7 @@
 namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
@@ -132,7 +133,7 @@ class Process
             return false;
         }
 
-        if (!$this->pidFileSizeIsNormal()) {
+        if (!$this->pidFileSizeIsNormal($content)) {
             $this->finishProcess();
             return false;
         }
@@ -148,9 +149,9 @@ class Process
         return false;
     }
 
-    private function pidFileSizeIsNormal()
+    private function pidFileSizeIsNormal($content)
     {
-        $size = Filesystem::getFileSize($this->pidFile);
+        $size = Common::mb_strlen($content);
 
         return $size !== null && $size < 500;
     }
