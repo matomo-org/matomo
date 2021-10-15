@@ -10,13 +10,33 @@
     <button v-on:click="decrement">-</button>
     {{ count }}
     <button v-on:click="increment">+</button>
+
+    <MatomoDialog :show="showDialog">
+      <div class="ui-confirm exampleDialog">
+        <h2>Alert</h2>
+        <p>
+          The count is greater than 1 right now!
+        </p>
+
+        <input type="button" value="OK" role="yes"/>
+      </div>
+    </MatomoDialog>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { MatomoDialog } from 'CoreHome';
 
 export default defineComponent({
+  components: {
+    MatomoDialog,
+  },
+  computed: {
+    showDialog() {
+      return this.count > 15;
+    },
+  },
   data() {
     return {
       count: 12,
