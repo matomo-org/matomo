@@ -20,7 +20,7 @@ function scanPluginExternals() {
 }
 
 if (!process.env.MATOMO_CURRENT_PLUGIN) {
-  throw new Error("The MATOMO_CURRENT_PLUGIN environment variable is not set!");
+  console.log("The MATOMO_CURRENT_PLUGIN environment variable is not set!");
 }
 
 const publicPath = `plugins/${process.env.MATOMO_CURRENT_PLUGIN}/vue/dist/`;
