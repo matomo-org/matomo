@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dimension;
 
+use Piwik\Piwik;
 use Piwik\Plugins\CustomDimensions\Dimension\Extraction;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -187,9 +188,10 @@ class ExtractionTest extends IntegrationTestCase
 
     public function test_check_shouldFailWhenInvalidRegGiven()
     {
+        $check = '/foo(*)/';
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('The pattern /foo(*)/ has an invalid format');
-        $this->buildExtraction('url', '/foo(*)/')->check();
+        $this->expectExceptionMessage(Piwik::translate('General_ValidatorErrorNoValidRegex', array($check)));
+        $this->buildExtraction('url', $check)->check();
     }
 
     /**

@@ -16,6 +16,7 @@ use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\Piwik;
 use Exception;
+use Piwik\Validators\Regex;
 
 class Extraction
 {
@@ -52,14 +53,8 @@ class Extraction
         }
 
         //validate pattern
-        try {
-            // for unit test purpose, need a try catch there.
-            if (preg_match($this->formatPattern(), '') === false) {
-                throw new Exception();
-            }
-        } catch (Exception $ex) {
-            throw new Exception("The pattern " . $this->pattern . " has an invalid format");
-        }
+        $validator = new Regex();
+        $validator->validate($this->formatPattern());
     }
 
     public static function getSupportedDimensions()
