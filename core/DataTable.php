@@ -1002,6 +1002,31 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Delete row metadata by name in every row.
+     *
+     * @param       $name
+     * @param false $deleteRecursiveInSubtables
+     */
+    public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false)
+    {
+        foreach ($this->rows as $row) {
+            $row->deleteMetadata($name);
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->deleteRowsMetadata($name, $deleteRecursiveInSubtables);
+            }
+        }
+        if (!is_null($this->summaryRow)) {
+                $this->summaryRow->deleteMetadata($name);
+        }
+        if (!is_null($this->totalsRow)) {
+                $this->totalsRow->deleteMetadata($name);
+        }
+
+    }
+
+    /**
      * Returns the number of rows in the table including the summary row.
      *
      * @return int
