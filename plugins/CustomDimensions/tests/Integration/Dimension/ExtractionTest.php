@@ -185,6 +185,13 @@ class ExtractionTest extends IntegrationTestCase
         $this->buildExtraction('anyInvalid', '/ref(.+)')->check();
     }
 
+    public function test_check_shouldFailWhenInvalidRegGiven()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The pattern /foo(*)/ has an invalid format');
+        $this->buildExtraction('url', '/foo(*)/')->check();
+    }
+
     /**
      * @dataProvider getInvalidPatterns
      */
