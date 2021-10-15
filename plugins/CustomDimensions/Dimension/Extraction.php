@@ -52,7 +52,7 @@ class Extraction
             }
         }
 
-        //validate pattern
+        //validate regex pattern
         $validator = new Regex();
         $validator->validate($this->formatPattern());
     }
