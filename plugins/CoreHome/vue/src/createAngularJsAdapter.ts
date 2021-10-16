@@ -11,6 +11,7 @@ import {
   ref,
   ComponentPublicInstance,
 } from 'vue';
+import translate from './translate';
 
 interface SingleScopeVarInfo {
   vue: string;
@@ -129,6 +130,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               },
             });
             app.config.globalProperties.$sanitize = window.vueSanitize;
+            app.config.globalProperties.translate = translate;
             app.component('root-component', component);
 
             const mountPoint = mountPointFactory

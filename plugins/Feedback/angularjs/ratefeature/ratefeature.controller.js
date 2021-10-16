@@ -12,6 +12,8 @@
     function RateFeatureController($scope, model){
 
         var vm = this;
+        vm.like = false;
+        vm.ratingDone = false;
         vm.title          = $scope.title;
         vm.dislikeFeature = dislikeFeature;
         vm.likeFeature    = likeFeature;

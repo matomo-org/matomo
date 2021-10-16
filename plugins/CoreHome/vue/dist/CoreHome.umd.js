@@ -1007,6 +1007,14 @@ class AjaxHelper_AjaxHelper {
   /**
    * Handle for current request
    */
+  // helper method entry point
+  static fetch(params) {
+    const helper = new AjaxHelper_AjaxHelper();
+    helper.setFormat('json');
+    helper.addParams(params, 'get');
+    return helper.send();
+  }
+
   constructor() {
     AjaxHelper_defineProperty(this, "format", 'json');
 
@@ -1644,6 +1652,7 @@ MatomoDialogvue_type_script_lang_ts.render = render
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
 function createAngularJsAdapter(options) {
   const {
     component,
@@ -1724,6 +1733,7 @@ function createAngularJsAdapter(options) {
               }
             });
             app.config.globalProperties.$sanitize = window.vueSanitize;
+            app.config.globalProperties.translate = translate;
             app.component('root-component', component);
             const mountPoint = mountPointFactory ? mountPointFactory(ngScope, ngElement, ngAttrs, ...injectedServices) : ngElement[0];
             const vm = app.mount(mountPoint);
