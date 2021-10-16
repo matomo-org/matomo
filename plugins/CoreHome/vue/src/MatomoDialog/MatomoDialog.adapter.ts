@@ -18,7 +18,6 @@ export default createAngularJsAdapter<[IParseService]>({
       default: false,
     },
     element: {
-      vue: 'element',
       default: (scope, element) => element[0],
     },
   },

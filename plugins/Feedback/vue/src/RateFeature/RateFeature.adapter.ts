@@ -12,9 +12,8 @@ export default createAngularJsAdapter({
   component: RateFeature,
   scope: {
     title: {
-      vue: 'title', // TODO: Default to same name as title
       angularJsBind: '@',
     },
   },
-  directiveName: 'piwikRateFeature', // TODO: default to piwik + component name
+  directiveName: 'piwikRateFeature',
 });

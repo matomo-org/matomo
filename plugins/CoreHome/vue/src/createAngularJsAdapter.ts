@@ -14,7 +14,7 @@ import {
 import translate from './translate';
 
 interface SingleScopeVarInfo {
-  vue: string;
+  vue?: string;
   default?: any; // eslint-disable-line
   angularJsBind?: string;
 }
@@ -73,6 +73,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
+    if (!info.vue) {
+      info.vue = scopeVarName;
+    }
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
