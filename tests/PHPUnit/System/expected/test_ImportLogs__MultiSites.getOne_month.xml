@@ -2,11 +2,6 @@
 <result>
 	<nb_visits>43</nb_visits>
 	<nb_actions>51</nb_actions>
-	<_metadata>
-    	<row>
-    		<ts_archived>today-date-removed-in-tests</ts_archived>
-    	</row>
-    </_metadata>
 	<visits_evolution>100%</visits_evolution>
 	<actions_evolution>100%</actions_evolution>
 	<pageviews_evolution>100%</pageviews_evolution>

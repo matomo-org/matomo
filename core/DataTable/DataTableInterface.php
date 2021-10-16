@@ -27,4 +27,5 @@ interface DataTableInterface
     public function deleteColumn($name);
     public function getColumn($name);
     public function getColumns();
+    public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false);
 }

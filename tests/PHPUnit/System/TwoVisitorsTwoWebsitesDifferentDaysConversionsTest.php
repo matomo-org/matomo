@@ -132,9 +132,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
         $archive = Archive::build($idSite1, 'range', $dateTimeRange);
         $result = $archive->getNumeric($columns);
-        if (isset($result['_metadata'])) {
-            unset($result['_metadata']);
-        }
         $this->assertEquals(
             array(
                 'nb_visits' => 5,

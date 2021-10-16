@@ -4,7 +4,6 @@
 		<label>Site AAAAAA</label>
 		<nb_visits>2</nb_visits>
 		<visits_evolution>0%</visits_evolution>
-		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>1</idsite>
 		<ratio>1</ratio>
     	<previous_nb_visits>2</previous_nb_visits>
@@ -17,7 +16,6 @@
 		<label>SITE BBbbBB</label>
 		<nb_visits>1</nb_visits>
 		<visits_evolution>0%</visits_evolution>
-		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>2</idsite>
 		<ratio>1</ratio>
     	<previous_nb_visits>1</previous_nb_visits>

@@ -6,9 +6,6 @@
 		<nb_actions>51</nb_actions>
 		<nb_pageviews>45</nb_pageviews>
 		<revenue>195</revenue>
-		<_metadata>
-      		<ts_archived>today-date-removed-in-tests</ts_archived>
-		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
@@ -31,14 +28,10 @@
 		<nb_actions>5</nb_actions>
 		<nb_pageviews>5</nb_pageviews>
 		<revenue>0</revenue>
-		<_metadata>
-			<ts_archived>today-date-removed-in-tests</ts_archived>
-		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
-		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>3</idsite>
 		<ratio>1</ratio>
 		<previous_nb_visits>0</previous_nb_visits>
@@ -56,14 +49,10 @@
 		<nb_actions>1</nb_actions>
 		<nb_pageviews>1</nb_pageviews>
 		<revenue>0</revenue>
-		<_metadata>
-			<ts_archived>today-date-removed-in-tests</ts_archived>
-		</_metadata>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
-		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>2</idsite>
 		<ratio>1</ratio>
 		<previous_nb_visits>0</previous_nb_visits>

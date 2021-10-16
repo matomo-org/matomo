@@ -315,6 +315,7 @@ class API extends \Piwik\Plugin\API
 
         // Remove <ts_archived> row metadata, it's already been used by any filters that needed it
         $dataTable->deleteRowsMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+        $dataTable->deleteColumn('_metadata');
 
         if ($multipleWebsitesRequested && $dataTable->getRowsCount() === 1 && $dataTable instanceof DataTable\Simple) {
             $simpleTable = $dataTable;
