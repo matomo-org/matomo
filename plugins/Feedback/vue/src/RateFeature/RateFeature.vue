@@ -6,7 +6,7 @@
 
 <template>
   <div
-    title="{{ translate('Feedback_RateFeatureTitle', $sanitize(title)) }}"
+    :title="translate('Feedback_RateFeatureTitle', $sanitize(title))"
     class="ratefeature"
   >
     <div
@@ -15,20 +15,20 @@
       v-on:mouseleave="expanded = false"
     >
       <img
-        v-on:click="likeFeature()"
+        v-on:click="likeFeature();showFeedbackForm=true"
         class="like-icon"
-        src="plugins/Feedback/angularjs/ratefeature/thumbs-up.png"
+        src="plugins/Feedback/vue/src/RateFeature/thumbs-up.png"
       />
       <img
-        v-on:click="dislikeFeature()"
+        v-on:click="dislikeFeature();showFeedbackForm=true"
         class="dislike-icon"
         v-show="expanded"
-        src="plugins/Feedback/angularjs/ratefeature/thumbs-down.png"
+        src="plugins/Feedback/vue/src/RateFeature/thumbs-down.png"
       />
     </div>
     <MatomoDialog
-      show="showFeedbackForm"
-      @yes="sendFeedback(feedbackMessage)"
+      v-model="showFeedbackForm"
+      @yes="sendFeedback()"
     >
       <div
         class="ui-confirm ratefeatureDialog"
@@ -38,23 +38,23 @@
         <p v-if="!like">{{ translate('Feedback_RateFeatureLeaveMessageDislike') }}</p>
         <br />
         <div class="messageContainer">
-          <textarea ng-model="feedbackMessage" />
+          <textarea v-model="feedbackMessage" />
         </div>
         <input
           type="button"
-          title="{{ translate('Feedback_RateFeatureSendFeedbackInformation') }}"
-          value="{{ translate('Feedback_SendFeedback') }}"
+          :title="translate('Feedback_RateFeatureSendFeedbackInformation')"
+          :value="translate('Feedback_SendFeedback')"
           role="yes"
         />
         <input
           type="button"
           role="cancel"
-          value="{{ translate('General_Cancel') }}"
+          :value="translate('General_Cancel')"
         />
       </div>
     </MatomoDialog>
     <MatomoDialog
-      show="ratingDone"
+      v-model="ratingDone"
     >
       <div
         class="ui-confirm ratefeatureDialog"
@@ -67,7 +67,7 @@
         </div>
         <input
           type="button"
-          value="{{ translate('General_Ok') }}"
+          :value="translate('General_Ok')"
           role="yes"
         />
       </div>

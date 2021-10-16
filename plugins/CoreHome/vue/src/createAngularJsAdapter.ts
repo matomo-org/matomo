@@ -28,6 +28,14 @@ type AdapterFunction<InjectTypes, R = void> = (
   ...injected: InjectTypes,
 ) => R;
 
+type EventAdapterFunction<InjectTypes, R = void> = (
+  $event: any, // eslint-disable-line
+  scope: ng.IScope,
+  element: ng.IAugmentedJQuery,
+  attrs: ng.IAttributes,
+  ...injected: InjectTypes,
+) => R;
+
 type PostCreateFunction<InjectTypes, R = void> = (
   vm: ComponentPublicInstance,
   scope: ng.IScope,
@@ -36,7 +44,7 @@ type PostCreateFunction<InjectTypes, R = void> = (
   ...injected: InjectTypes,
 ) => R;
 
-type EventMapping<InjectTypes> = { [vueEventName: string]: AdapterFunction<InjectTypes> };
+type EventMapping<InjectTypes> = { [vueEventName: string]: EventAdapterFunction<InjectTypes> };
 
 type ComponentType = ReturnType<typeof defineComponent>;
 
@@ -89,7 +97,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
             Object.entries(events).forEach((info) => {
               const [eventName] = info;
-              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}')"`;
+              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
             });
             rootVueTemplate += '>';
             if (transclude) {
@@ -122,9 +130,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 return undefined;
               },
               methods: {
-                onEventHandler(name: string) {
+                onEventHandler(name: string, $event: any) { // eslint-disable-line
                   if (events[name]) {
-                    events[name](ngScope, ngElement, ngAttrs, ...injectedServices);
+                    events[name]($event, ngScope, ngElement, ngAttrs, ...injectedServices);
                   }
                 },
               },

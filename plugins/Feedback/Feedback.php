@@ -38,16 +38,13 @@ class Feedback extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/ratefeature.directive.less";
         $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
         $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-model.service.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.controller.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
