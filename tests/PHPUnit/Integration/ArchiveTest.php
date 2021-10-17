@@ -107,6 +107,8 @@ class ArchiveTest extends IntegrationTestCase
         $archive = Archive::build($idSite, 'day', '2014-05-07');
         $metrics = $archive->getNumeric(['ExamplePlugin_archive1metric', 'ExamplePlugin_archive2metric', 'ExamplePlugin_archive3metric']);
 
+        unset($metrics['_metadata']);
+
         $expected = [
             'ExamplePlugin_archive1metric' => 1,
             'ExamplePlugin_archive2metric' => 2,
