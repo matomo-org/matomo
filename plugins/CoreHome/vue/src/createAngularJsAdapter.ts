@@ -48,6 +48,8 @@ type EventMapping<InjectTypes> = { [vueEventName: string]: EventAdapterFunction<
 
 type ComponentType = ReturnType<typeof defineComponent>;
 
+let transcludeCounter = 0;
+
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
   scope?: ScopeMapping,
@@ -71,6 +73,11 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     noScope,
   } = options;
 
+  const currentTranscludeCounter = transcludeCounter;
+  if (transclude) {
+    transcludeCounter += 1;
+  }
+
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
@@ -92,7 +99,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngElement: ng.IAugmentedJQuery,
             ngAttrs: ng.IAttributes,
           ) {
-            const clone = ngElement.find('[ng-transclude]');
+            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
 
             let rootVueTemplate = '<root-component';
             Object.entries(scope).forEach(([, info]) => {
@@ -179,7 +186,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
     if (transclude) {
       adapter.transclude = true;
-      adapter.template = '<div ng-transclude/>';
+      adapter.template = `<div ng-transclude counter="${currentTranscludeCounter}"/>`;
     }
 
     return adapter;

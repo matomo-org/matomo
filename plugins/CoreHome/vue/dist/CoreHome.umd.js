@@ -1676,6 +1676,7 @@ MatomoDialogvue_type_script_lang_ts.render = render
  */
 
 
+let transcludeCounter = 0;
 function createAngularJsAdapter(options) {
   const {
     component,
@@ -1688,6 +1689,12 @@ function createAngularJsAdapter(options) {
     postCreate,
     noScope
   } = options;
+  const currentTranscludeCounter = transcludeCounter;
+
+  if (transclude) {
+    transcludeCounter += 1;
+  }
+
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
@@ -1706,7 +1713,7 @@ function createAngularJsAdapter(options) {
       compile: function angularJsAdapterCompile() {
         return {
           post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs) {
-            const clone = ngElement.find('[ng-transclude]');
+            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
             let rootVueTemplate = '<root-component';
             Object.entries(scope).forEach(([, info]) => {
               rootVueTemplate += ` :${info.vue}="${info.vue}"`;
@@ -1792,7 +1799,7 @@ function createAngularJsAdapter(options) {
 
     if (transclude) {
       adapter.transclude = true;
-      adapter.template = '<div ng-transclude/>';
+      adapter.template = `<div ng-transclude counter="${currentTranscludeCounter}"/>`;
     }
 
     return adapter;
