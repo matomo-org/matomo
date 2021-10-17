@@ -65,12 +65,12 @@ function setPiwikDomainFromEnvVar()
 setPiwikDomainFromEnvVar();
 
 // setup container for tests
-function setupRootContainer($bootstrap = false) {
+function setupRootContainer() {
     // before running tests, delete the TestingEnvironmentVariables file, since it can indirectly mess w/
     // phpunit's class loading (if a test class is loaded in bootstrap.php, phpunit can't load it from a file,
     // so executing the tests in a file will fail)
 
-    if ($bootstrap) {
+    if (getenv('TEST_SUITE')) {
         $vars = new TestingEnvironmentVariables();
         $vars->delete();
 
@@ -127,10 +127,6 @@ function prepareTestDatabaseConfig(Config $config)
         $testDb['host'] = $db['host'];
     }
 
-    if (empty($testDb['dbname'])) {
-        $testDb['dbname'] = $db['dbname'];
-    }
-
     $testDb['tables_prefix'] = ''; // tables_prefix has to be empty for UI tests
 
     $config->database_tests = $testDb;
@@ -145,7 +141,7 @@ $config = Config::getInstance();
 
 prepareServerVariables($config);
 prepareTestDatabaseConfig($config);
-setupRootContainer(true);
+//setupRootContainer(true);
 checkPiwikSetupForTests();
 printTestDoxHint();
 
