@@ -43,10 +43,20 @@ interface PiwikPopoverGlobal {
 
 let Piwik_Popover: PiwikPopoverGlobal;
 
+interface ModalConfirmCallbacks {
+  yes: () => void;
+  no: () => void;
+}
+
+interface ModalConfirmOptions {
+  onCloseEnd: () => void;
+}
+
 interface PiwikHelperGlobal {
   escape(text: string): string;
   redirect(params: any);
   htmlDecode(encoded: string): string;
+  modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks: ModalConfirmCallbacks, options: ModalConfirmOptions);
 }
 
 let piwikHelper: PiwikHelperGlobal;
