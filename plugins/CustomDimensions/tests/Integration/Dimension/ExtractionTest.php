@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dimension;
 
+use Piwik\Piwik;
 use Piwik\Plugins\CustomDimensions\Dimension\Extraction;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -185,6 +186,14 @@ class ExtractionTest extends IntegrationTestCase
         $this->buildExtraction('anyInvalid', '/ref(.+)')->check();
     }
 
+    public function test_check_shouldFailWhenInvalidRegGiven()
+    {
+        $check = '/foo(*)/';
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ValidatorErrorNoValidRegex', array($check)));
+        $this->buildExtraction('url', $check)->check();
+    }
+
     /**
      * @dataProvider getInvalidPatterns
      */
@@ -199,8 +208,9 @@ class ExtractionTest extends IntegrationTestCase
     public function test_check_shouldNotFailWhenValidCombinationsAreGiven()
     {
         $this->expectNotToPerformAssertions();
-        $this->buildExtraction('url', 'index_(+).html')->check();
-        $this->buildExtraction('action_name', 'index_(+).html')->check();
+        $this->buildExtraction('urlparam', 'index')->check(); // does not have to contain brackets
+        $this->buildExtraction('url', 'index_(.+).html')->check();
+        $this->buildExtraction('action_name', 'index_(.+).html')->check();
         $this->buildExtraction('url', '')->check(); // empty value is allowed
         $this->buildExtraction('urlparam', 'index')->check(); // does not have to contain brackets
     }

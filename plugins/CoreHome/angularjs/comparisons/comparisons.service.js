@@ -220,8 +220,9 @@
             });
 
             // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change the segment
-            var url = $.param($.extend({}, extraParams));
-            var strHash = $.param($.extend({}, compareParams));
+            var url = $.param($.extend({}, extraParams)).replace(/%5B%5D/g, '[]');
+            var strHash = $.param($.extend({}, compareParams)).replace(/%5B%5D/g, '[]');
+
             broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
         }
 
