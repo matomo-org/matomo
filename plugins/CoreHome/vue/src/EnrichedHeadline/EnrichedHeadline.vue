@@ -55,9 +55,7 @@
       class="inlineHelp"
       v-show="showInlineHelp"
     >
-      <div>
-        <p v-html="$sanitize(actualInlineHelp)"/>
-      </div>
+      <div v-html="$sanitize(actualInlineHelp)"/>
       <a
         v-if="helpUrl"
         rel="noreferrer noopener"
@@ -74,7 +72,6 @@ import {
   defineComponent,
   defineAsyncComponent,
   ref,
-  watch,
 } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
@@ -146,20 +143,20 @@ export default defineComponent({
       actualInlineHelp: this.inlineHelp,
     };
   },
-  setup(props) {
+  setup() {
     const root = ref<HTMLElement>(null);
-
-    watch(() => props.inlineHelp, (newValue) => {
-      this.actualInlineHelp = newValue;
-    });
-
-    watch(() => props.featureName, (newValue) => {
-      this.actualFeatureName = newValue;
-    });
 
     return {
       root,
     };
+  },
+  watch: {
+    inlineHelp(newValue: string) {
+      this.actualInlineHelp = newValue;
+    },
+    featureName(newValue: string) {
+      this.actualFeatureName = newValue;
+    },
   },
   mounted() {
     const { root } = this.$refs;
@@ -178,7 +175,7 @@ export default defineComponent({
         // initially loaded. Using $compile doesn't work. So get and set it manually
         const helpDocs = helpNode.getAttribute('data-content').trim();
         if (helpDocs.length) {
-          this.actualInlineHelp = helpDocs;
+          this.actualInlineHelp = `<p>${helpDocs}</p>`;
           setTimeout(() => helpNode.remove(), 0);
         }
       }

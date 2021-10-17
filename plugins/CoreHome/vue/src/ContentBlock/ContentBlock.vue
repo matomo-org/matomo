@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 
 let adminContent: HTMLElement|null = null;
@@ -53,22 +53,22 @@ export default defineComponent({
       actualHelpText: this.helpText,
     };
   },
-  setup(props) {
+  setup() {
     const root = ref<HTMLElement>(null);
     const content = ref<HTMLElement>(null);
-
-    watch(() => props.feature, () => {
-      this.actualFeature = props.feature;
-    });
-
-    watch(() => props.actualHelpText, () => {
-      this.actualHelpText = props.helpText;
-    });
 
     return {
       root,
       content,
     };
+  },
+  watch: {
+    feature(newValue: string) {
+      this.actualFeature = newValue;
+    },
+    helpText(newValue: string) {
+      this.actualHelpText = newValue;
+    },
   },
   mounted() {
     const { root, content } = this.$refs;
@@ -79,11 +79,13 @@ export default defineComponent({
       root.parentElement.prepend(anchorElement);
     }
 
-    const inlineHelp = content.querySelector('.contentHelp');
-    if (inlineHelp) {
-      this.actualHelpText = inlineHelp.innerHTML;
-      inlineHelp.remove();
-    }
+    setTimeout(() => {
+      const inlineHelp = content.querySelector('.contentHelp');
+      if (inlineHelp) {
+        this.actualHelpText = inlineHelp.innerHTML;
+        inlineHelp.remove();
+      }
+    }, 0);
 
     if (this.actualFeature && (this.actualFeature === true || this.actualFeature === 'true')) {
       this.actualFeature = this.contentTitle;
