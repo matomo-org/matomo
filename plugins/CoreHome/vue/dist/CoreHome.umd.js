@@ -148,6 +148,7 @@ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* r
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
+__webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -489,7 +490,7 @@ var noAdblockFlag = __webpack_require__("2342");
 function translate(translationStringId, ...values) {
   let pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
 
-  if (values.length === 1 && values[0] && values[0].length) {
+  if (values.length === 1 && values[0] && values[0] instanceof Array) {
     [pkArgs] = values;
   }
 
@@ -2111,6 +2112,168 @@ EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_templa
   directiveName: 'piwikEnrichedHeadline',
   transclude: true
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=604fa852
+
+const ContentBlockvue_type_template_id_604fa852_hoisted_1 = {
+  class: "card",
+  ref: "root"
+};
+const ContentBlockvue_type_template_id_604fa852_hoisted_2 = {
+  class: "card-content"
+};
+const ContentBlockvue_type_template_id_604fa852_hoisted_3 = {
+  key: 0,
+  class: "card-title"
+};
+const ContentBlockvue_type_template_id_604fa852_hoisted_4 = {
+  key: 1,
+  class: "card-title"
+};
+const ContentBlockvue_type_template_id_604fa852_hoisted_5 = {
+  ref: "content"
+};
+function ContentBlockvue_type_template_id_604fa852_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ContentBlockvue_type_template_id_604fa852_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_604fa852_hoisted_2, [_ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_604fa852_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.contentTitle && _ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_604fa852_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+    "feature-name": _ctx.actualFeature,
+    "help-url": _ctx.helpUrl,
+    "inline-help": _ctx.actualHelpText
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)]),
+    _: 1
+  }, 8, ["feature-name", "help-url", "inline-help"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_604fa852_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)])], 512);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=604fa852
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
+
+
+let adminContent = null;
+/* harmony default export */ var ContentBlockvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    contentTitle: String,
+    feature: String,
+    helpUrl: String,
+    helpText: String,
+    anchor: String
+  },
+  components: {
+    EnrichedHeadline: EnrichedHeadline
+  },
+
+  data() {
+    return {
+      actualFeature: this.feature,
+      actualHelpText: this.helpText
+    };
+  },
+
+  setup(props) {
+    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    const content = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => props.feature, () => {
+      this.actualFeature = props.feature;
+    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => props.actualHelpText, () => {
+      this.actualHelpText = props.helpText;
+    });
+    return {
+      root,
+      content
+    };
+  },
+
+  mounted() {
+    const {
+      root,
+      content
+    } = this.$refs;
+
+    if (this.anchor) {
+      const anchorElement = document.createElement('a');
+      anchorElement.id = this.anchor;
+      root.parentElement.prepend(anchorElement);
+    }
+
+    const inlineHelp = content.querySelector('.contentHelp');
+
+    if (inlineHelp) {
+      this.actualHelpText = inlineHelp.innerHTML;
+      inlineHelp.remove();
+    }
+
+    if (this.actualFeature && (this.actualFeature === true || this.actualFeature === 'true')) {
+      this.actualFeature = this.contentTitle;
+    }
+
+    if (adminContent === null) {
+      // cache admin node for further content blocks
+      adminContent = document.querySelector('#content.admin');
+    }
+
+    let contentTopPosition;
+
+    if (adminContent) {
+      contentTopPosition = adminContent.offsetTop;
+    }
+
+    if (contentTopPosition || contentTopPosition === 0) {
+      const parents = root.closest('[piwik-widget-loader]'); // when shown within the widget loader, we need to get the offset of that element
+      // as the widget loader might be still shown. Would otherwise not position correctly
+      // the widgets on the admin home page
+
+      const topThis = parents ? parents.offsetTop : root.offsetTop;
+
+      if (topThis - contentTopPosition < 17) {
+        // we make sure to display the first card with no margin-top to have it on same as line as
+        // navigation
+        this.root.style.marginTop = 0;
+      }
+    }
+  }
+
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue
+
+
+
+ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_604fa852_render
+
+/* harmony default export */ var ContentBlock = (ContentBlockvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var ContentBlock_adapter = (createAngularJsAdapter({
+  component: ContentBlock,
+  scope: {
+    contentTitle: {
+      angularJsBind: '@'
+    },
+    feature: {
+      angularJsBind: '@'
+    },
+    helpUrl: {
+      angularJsBind: '@'
+    },
+    helpText: {
+      angularJsBind: '@'
+    },
+    anchor: {
+      angularJsBind: '@?'
+    }
+  },
+  directiveName: 'piwikContentBlock',
+  transclude: true
+}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
 const ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1 = {
@@ -2251,6 +2414,8 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

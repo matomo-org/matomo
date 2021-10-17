@@ -238,7 +238,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/content-block/content-block.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";
