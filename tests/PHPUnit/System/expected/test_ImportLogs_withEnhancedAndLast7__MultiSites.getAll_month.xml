@@ -8,9 +8,6 @@
 			<nb_pageviews>45</nb_pageviews>
 			<revenue>195</revenue>
 			<nb_conversions>39</nb_conversions>
-			<_metadata>
-				<ts_archived>today-date-removed-in-tests</ts_archived>
-			</_metadata>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
@@ -35,9 +32,6 @@
 			<nb_pageviews>5</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<_metadata>
-				<ts_archived>today-date-removed-in-tests</ts_archived>
-			</_metadata>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
@@ -62,9 +56,6 @@
 			<nb_pageviews>1</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<_metadata>
-				<ts_archived>today-date-removed-in-tests</ts_archived>
-			</_metadata>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
@@ -91,9 +82,6 @@
 			<nb_pageviews>10</nb_pageviews>
 			<revenue>5</revenue>
 			<nb_conversions>1</nb_conversions>
-			<_metadata>
-		        <ts_archived>today-date-removed-in-tests</ts_archived>
-		    </_metadata>
 			<visits_evolution>-97.7%</visits_evolution>
 			<actions_evolution>-80.4%</actions_evolution>
 			<pageviews_evolution>-77.8%</pageviews_evolution>

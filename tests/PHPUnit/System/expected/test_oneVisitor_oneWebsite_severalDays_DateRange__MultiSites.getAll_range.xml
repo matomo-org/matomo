@@ -10,7 +10,6 @@
 		<actions_evolution>200%</actions_evolution>
 		<pageviews_evolution>200%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
-		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>1</idsite>
 		<ratio>1</ratio>
     	<previous_nb_visits>2</previous_nb_visits>
@@ -32,7 +31,6 @@
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
-		<ts_archived>today-date-removed-in-tests</ts_archived>
 		<idsite>2</idsite>
 		<ratio>1</ratio>
     	<previous_nb_visits>1</previous_nb_visits>
