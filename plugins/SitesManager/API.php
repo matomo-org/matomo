@@ -81,7 +81,7 @@ class API extends \Piwik\Plugin\API
      */
     private $translator;
 
-    private static $timezoneNameCache = [];
+    private $timezoneNameCache = [];
 
     public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Translator $translator)
     {
@@ -542,11 +542,11 @@ class API extends \Piwik\Plugin\API
     private function enrichSite(&$site)
     {
         $cacheKey = $site['timezone'] . $this->translator->getCurrentLanguage();
-        if (!isset(self::$timezoneNameCache[$cacheKey])) {
+        if (!isset($this->timezoneNameCache[$cacheKey])) {
             //cached as this can be called VERY often and getTimezoneName is quite slow
-            self::$timezoneNameCache[$cacheKey] = $this->getTimezoneName($site['timezone']);
+            $this->timezoneNameCache[$cacheKey] = $this->getTimezoneName($site['timezone']);
         }
-        $site['timezone_name'] = self::$timezoneNameCache[$cacheKey];
+        $site['timezone_name'] = $this->timezoneNameCache[$cacheKey];
 
         $key = 'Intl_Currency_' . $site['currency'];
         $name = $this->translator->translate($key);
