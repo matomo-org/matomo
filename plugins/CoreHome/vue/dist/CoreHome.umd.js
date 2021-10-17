@@ -489,7 +489,7 @@ var noAdblockFlag = __webpack_require__("2342");
 function translate(translationStringId, ...values) {
   let pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
 
-  if (values.length === 1 && values[0] && values[0].length === 1) {
+  if (values.length === 1 && values[0] && values[0].length) {
     [pkArgs] = values;
   }
 
