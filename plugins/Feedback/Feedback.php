@@ -38,7 +38,7 @@ class Feedback extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
-        $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/ratefeature.directive.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
         $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
         $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
     }

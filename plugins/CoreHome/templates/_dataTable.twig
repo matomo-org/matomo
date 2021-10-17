@@ -41,7 +41,7 @@
         <div class="card-description">{{ properties.description }}</div>
     {% endif %}
 
-    <div class="reportDocumentation">
+    <div class="reportDocumentation" data-content="{{ properties.documentation|e('html_attr') }}">
         {% if properties.documentation|default is not empty %}<p ng-bind-html="{{ properties.documentation|json_encode|e('html_attr') }}"></p>{% endif %}
         {% if properties.onlineGuideUrl|default is not empty %}<a href="{{ properties.onlineGuideUrl|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener" class="onlineGuide">{{ 'CoreHome_ReadMoreOnlineGuide'|translate }}</a>{% endif %}
         {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class="helpDate">{{ reportLastUpdatedMessage|raw }}</span>{% endif %}

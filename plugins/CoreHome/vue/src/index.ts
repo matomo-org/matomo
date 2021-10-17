@@ -18,6 +18,7 @@ import './AjaxHelper/AjaxHelper.adapter';
 import './PiwikUrl/PiwikUrl.adapter';
 import './Piwik/Piwik.adapter';
 import './MatomoDialog/MatomoDialog.adapter';
+import './EnrichedHeadline/EnrichedHeadline.adapter';
 
 export { default as createAngularJsAdapter } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
@@ -29,3 +30,4 @@ export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { default as Matomo } from './Matomo/Matomo';
 export * from './Periods';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
+export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
