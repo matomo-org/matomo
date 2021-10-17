@@ -26,7 +26,6 @@
     position: sticky;
     position: -webkit-sticky;
     top: 0;
-    z-index: 150;
   }
 
   td.highlight > .ratio {
@@ -648,7 +647,11 @@ td.cellSubDataTable .loadingPiwik {
     overflow-x: inherit;
   }
 
-  @media only screen and (max-width: 700px) {
+
+}
+
+@media only screen and (max-width: 1080px) {
+  .card-content {
     div.dataTableScroller {
       overflow-x: scroll;
     }
