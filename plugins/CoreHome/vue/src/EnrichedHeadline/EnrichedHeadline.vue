@@ -55,7 +55,9 @@
       class="inlineHelp"
       v-show="showInlineHelp"
     >
-      <div v-html="$sanitize(actualInlineHelp)" />
+      <div>
+        <p v-html="$sanitize(actualInlineHelp)"/>
+      </div>
       <a
         v-if="helpUrl"
         rel="noreferrer noopener"
