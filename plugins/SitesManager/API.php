@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager;
 use DateTimeZone;
 use Exception;
 use Piwik\Access;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -32,6 +33,7 @@ use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Measurable\Type;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\DataAccess\Model as CoreModel;
@@ -75,15 +77,17 @@ class API extends \Piwik\Plugin\API
     private $settingsMetadata;
 
     /**
-     * @var Type\TypeManager
+     * @var Translator
      */
-    private $typeManager;
+    private $translator;
 
-    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Type\TypeManager $typeManager)
+    private static $timezoneNameCache = [];
+
+    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Translator $translator)
     {
         $this->settingsProvider = $provider;
         $this->settingsMetadata = $settingsMetadata;
-        $this->typeManager = $typeManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -537,10 +541,15 @@ class API extends \Piwik\Plugin\API
 
     private function enrichSite(&$site)
     {
-        $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+        $cacheKey = $site['timezone'] . $this->translator->getCurrentLanguage();
+        if (!isset(self::$timezoneNameCache[$cacheKey])) {
+            //cached as this can be called VERY often and getTimezoneName is quite slow
+            self::$timezoneNameCache[$cacheKey] = $this->getTimezoneName($site['timezone']);
+        }
+        $site['timezone_name'] = self::$timezoneNameCache[$cacheKey];
 
         $key = 'Intl_Currency_' . $site['currency'];
-        $name = Piwik::translate($key);
+        $name = $this->translator->translate($key);
 
         $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
 
@@ -788,7 +797,7 @@ class API extends \Piwik\Plugin\API
         }
         $nbSites = count($idSites);
         if ($nbSites == 1) {
-            throw new Exception(Piwik::translate("SitesManager_ExceptionDeleteSite"));
+            throw new Exception($this->translator->translate("SitesManager_ExceptionDeleteSite"));
         }
 
         $this->getModel()->deleteSite($idSite);
@@ -818,13 +827,13 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
-        throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidTimezone', array($timezone)));
+        throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', array($timezone)));
     }
 
     private function checkValidCurrency($currency)
     {
         if (!in_array($currency, array_keys($this->getCurrencyList()))) {
-            throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
+            throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
         }
     }
 
@@ -861,7 +870,7 @@ class API extends \Piwik\Plugin\API
 
         foreach ($ips as $ip) {
             if (!$this->isValidIp($ip)) {
-                throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
+                throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
             }
         }
 
@@ -1342,8 +1351,8 @@ class API extends \Piwik\Plugin\API
 
         $return = array();
         foreach (array_keys($currency) as $currencyCode) {
-            $return[$currencyCode] = Piwik::translate('Intl_Currency_' . $currencyCode) .
-              ' (' . Piwik::translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
+            $return[$currencyCode] = $this->translator->translate('Intl_Currency_' . $currencyCode) .
+              ' (' . $this->translator->translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
         }
 
         asort($return);
@@ -1399,7 +1408,7 @@ class API extends \Piwik\Plugin\API
             $timezones = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
             foreach ($timezones as $timezone) {
                 if (!isset($continents[$continentCode])) {
-                    $continents[$continentCode] = Piwik::translate('Intl_Continent_' . $continentCode);
+                    $continents[$continentCode] = $this->translator->translate('Intl_Continent_' . $continentCode);
                 }
                 $continent = $continents[$continentCode];
 
@@ -1430,7 +1439,7 @@ class API extends \Piwik\Plugin\API
     public function getTimezoneName($timezone, $countryCode = null, $multipleTimezonesInCountry = null)
     {
         if (substr($timezone, 0, 3) === 'UTC') {
-            return Piwik::translate('SitesManager_Format_Utc', str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), substr($timezone, 3)));
+            return $this->translator->translate('SitesManager_Format_Utc', str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), substr($timezone, 3)));
         }
 
         if (!isset($countryCode)) {
@@ -1454,11 +1463,11 @@ class API extends \Piwik\Plugin\API
             $multipleTimezonesInCountry = (count($timezonesInCountry) > 1);
         }
 
-        $return = Piwik::translate('Intl_Country_' . $countryCode);
+        $return = $this->translator->translate('Intl_Country_' . $countryCode);
 
         if ($multipleTimezonesInCountry) {
             $translationId = 'Intl_Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone);
-            $city = Piwik::translate($translationId);
+            $city = $this->translator->translate($translationId);
 
             // Fall back to English identifier, if translation is missing due to differences in tzdata in different PHP versions.
             if ($city === $translationId) {
@@ -1555,7 +1564,7 @@ class API extends \Piwik\Plugin\API
     private function checkName($siteName)
     {
         if (empty($siteName)) {
-            throw new Exception(Piwik::translate("SitesManager_ExceptionEmptyName"));
+            throw new Exception($this->translator->translate("SitesManager_ExceptionEmptyName"));
         }
     }
 
