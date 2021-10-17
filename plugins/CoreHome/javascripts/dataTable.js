@@ -1628,9 +1628,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     top: 0
                 });
 
+                $(".dataTable thead").css('z-index',150);
                 tooltip.stop(true, true).fadeIn(250);
             },
             function () {
+              $(".dataTable thead").css('z-index',44);
                 $(this).prev().stop(true, true).fadeOut(400);
             });
         });
