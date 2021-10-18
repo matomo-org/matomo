@@ -1218,7 +1218,6 @@ PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
 PluginsInstalled[] = Monolog
 PluginsInstalled[] = Intl
-PluginsInstalled[] = "CoreVue"
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
