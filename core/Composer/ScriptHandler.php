@@ -18,7 +18,7 @@ class ScriptHandler
 {
     public static function cleanXhprof()
     {
-        if (! is_dir('vendor/facebook/xhprof/extension')) {
+        if (! is_dir('vendor/lox/xhprof/extension')) {
             return;
         }
 
@@ -27,7 +27,7 @@ class ScriptHandler
 
     public static function buildXhprof()
     {
-        if (! is_dir('vendor/facebook/xhprof/extension')) {
+        if (! is_dir('vendor/lox/xhprof/extension')) {
             return;
         }
 
