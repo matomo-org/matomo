@@ -9,6 +9,12 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Periods from '../Periods/Periods';
 import { format } from '../Periods/utilities';
 
+interface EventListener {
+  (...args: any[]): any; // eslint-disable-line
+
+  wrapper?: EventListenerOrEventListenerObject;
+}
+
 let originalTitle: string;
 
 const { piwik, broadcast, piwikHelper } = window;
@@ -72,6 +78,25 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 piwik.hasUserCapability = function hasUserCapability(capability: string) {
   return window.angular.isArray(piwik.userCapabilities)
     && piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+piwik.on = function addMatomoEventListener(eventName: string, listener: EventListener) {
+  function listenerWrapper(event) {
+    listener(...event.detail);
+  }
+
+  listener.wrapper = listenerWrapper;
+
+  window.addEventListener(eventName, listener);
+};
+
+piwik.off = function removeMatomoEventListener<T>(eventName: string, listener: EventListener) {
+  window.removeEventListener(eventName, listener.wrapper);
+};
+
+piwik.postEvent = function postMatomoEvent(eventName: string, ...args: any[]) {
+  const event = new CustomEvent(eventName, { detail: args });
+  window.dispatchEvent(event);
 };
 
 const Matomo = piwik;

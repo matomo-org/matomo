@@ -65,9 +65,15 @@ interface BroadcastGlobal {
   getValueFromUrl(paramName: string, url?: string): string;
   getValueFromHash(paramName: string, url?: string): string;
   isWidgetizeRequestWithoutSession(): boolean;
+  updateParamValue(newParamValue: string, urlStr: string): string;
 }
 
 let broadcast: BroadcastGlobal;
+
+interface ColorManagerService {
+  getColor(namespace: string, name: string): string;
+  getColors(namespace: string, names: string[], asArray: boolean): string[]|{[name: string]: string};
+}
 
 interface PiwikGlobal {
   timezoneOffset: number;
@@ -84,6 +90,7 @@ interface PiwikGlobal {
   piwik_url: string;
   helper: PiwikHelperGlobal;
   broadcast: BroadcastGlobal;
+  ColorManager: ColorManagerService;
 
   updatePeriodParamsFromUrl(): void;
   updateDateInTitle(date: string, period: string): void;

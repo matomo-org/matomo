@@ -203,8 +203,6 @@ var broadcast = {
      *
      * NOTE: this method will only make ajax call and replacing main content.
      *
-     * @deprecated in 3.2.2, will be removed in Matomo 5.
-     *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
      * @return {void}

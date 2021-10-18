@@ -27,6 +27,13 @@ const MatomoUrl = {
 
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
   },
+
+  onLocationChange(callback: (newLocation: URLSearchParams) => void) {
+    window.addEventListener('hashchange', () => {
+      const newLocation = new URLSearchParams(location.hash.replace(/^[#?\/]+/, ''));
+      callback(newLocation);
+    });
+  },
 };
 
 export default MatomoUrl;
