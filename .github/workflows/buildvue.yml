@@ -1,6 +1,8 @@
 name: Build Vue files
 
-on: pull_request
+on:
+  pull_request:
+    types: [synchronize]
 
 permissions:
   actions: read
@@ -44,7 +46,13 @@ jobs:
             exit 1;
           fi
 
-          echo "$PR - $PR_INFO - ${{ github.event.pull_request.number }}"
+          VUE_FILES_MODIFIED=$(git diff --name-only plugins/*/vue/**/* | wc -l)
+
+          if [[ $VUE_FILES_MODIFIED == "0" ]]
+          then
+            echo "No vue files modified"
+            exit 1;
+          fi
 
           echo ::set-output name=branch::$REF
       - uses: actions/checkout@v2
