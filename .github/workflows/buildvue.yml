@@ -51,7 +51,7 @@ jobs:
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
             echo "No vue files modified"
-            exit 1;
+            exit;
           fi
 
           echo ::set-output name=branch::$REF
