@@ -262,7 +262,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             Tracker::disconnectCachedDbConnection();
 
             // reconnect once we're sure the database exists
-            self::getConfig()->database['dbname'] = $this->dbName;
+            self::getConfig()->database_tests['dbname'] = $this->dbName;
             Db::createDatabaseObject();
 
             Db::get()->query("SET wait_timeout=28800;");
