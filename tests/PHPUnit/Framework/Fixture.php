@@ -263,7 +263,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
             // reconnect once we're sure the database exists
             self::getConfig()->database_tests['dbname'] = $this->dbName;
-            Db::createDatabaseObject();
+            Db::createDatabaseObject(self::getConfig()->database_tests);
 
             Db::get()->query("SET wait_timeout=28800;");
 
