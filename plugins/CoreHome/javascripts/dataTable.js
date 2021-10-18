@@ -1628,12 +1628,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     top: 0
                 });
 
-                $(".dataTable thead").css('z-index',150);
+                $(".dataTable thead").addClass('with-z-index');
                 tooltip.stop(true, true).fadeIn(250);
             },
             function () {
-              $(".dataTable thead").css('z-index',44);
-                $(this).prev().stop(true, true).fadeOut(400);
+              $(this).prev().stop(true, true).fadeOut(250);
+              $(".dataTable thead").removeClass('with-z-index');
             });
         });
     },
