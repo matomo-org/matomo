@@ -63,7 +63,7 @@ port = 3306
 aurora_readonly_read_committed =
 
 [database_tests]
-host =
+host = "127.0.0.1"
 username = "@USERNAME@"
 password =
 dbname = matomo_tests
