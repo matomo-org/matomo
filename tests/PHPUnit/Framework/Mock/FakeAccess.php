@@ -166,7 +166,7 @@ class FakeAccess extends Access
         $websitesAccess = array_merge(self::$idSitesView, self::$idSitesWrite, self::$idSitesAdmin);
 
         if (!is_array($idSites)) {
-            if ($idSites == 'all') {
+            if ($idSites === 'all') {
                 $idSites = API::getInstance()->getAllSitesId();
             } else {
                 $idSites = explode(',', $idSites);

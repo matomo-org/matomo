@@ -63,6 +63,7 @@ class GenerateVueComponent extends GenerateAngularConstructBase
             file_put_contents($indexFile, '');
         }
         file_put_contents($indexFile, "export { default as $adapterFunctionName } from './$component/$component.adapter';\n", FILE_APPEND);
+        file_put_contents($indexFile, "export { default as $component } from './$component/$component.vue';\n", FILE_APPEND);
 
         // TODO: generate a less file as well?
 

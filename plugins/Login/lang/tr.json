@@ -15,7 +15,6 @@
         "ExceptionPasswordMD5HashExpected": "Parola parametresinin parolanın MD5 yöntemi ile karılmış biçimi olması beklenir.",
         "HelpIpRange": "IP adreslerinin listesini, her satıra bir adres gelecek şekilde yazın. %1$sgibi CIDR biçimi ya da %2$s ve %3$s gibi genel arama karakterleri kullanılabilir",
         "IPsAlwaysBlocked": "Her zaman engellenecek IP adresleri",
-        "InvalidNonceOrHeadersOrReferrer": "Form güvenliği sağlanamadı. Lütfen formu yeniden yükleyin ve çerezlerin etkinleştirildiğinden emin olun. Bir vekil sunucu kullanıyorsanız, %2$s vekil sunucu üst bilgisini kabul edip sunucu başlığını iletmesi için Matomo %1$s olarak ayarlamalısınız. Ayrıca Referrer üst bilgisinin doğru şekilde gönderildiğini denetleyin.",
         "InvalidNonceSSLMisconfigured": "Ayrıca %1$sMatomo tarafında güvenli bir bağlantı kullanılmasını%2$s dayatabilirsiniz: yapılandırma dosyanızda%5$s bölümü altındaki %3$s seçeneğini %4$s olarak ayarlayın",
         "InvalidOrExpiredToken": "Kod geçersiz ya da süresi dolmuş.",
         "InvalidUsernameEmail": "Kullanıcı adı ya da e-posta adresi geçersiz.",

@@ -294,7 +294,7 @@ enable_segment_suggested_values = 1
 ; By default, any user with a "view" access for a website can create segment assigned to this website.
 ; Set this to "admin" or "superuser" to require that users should have at least this access to create new segments.
 ; Note: anonymous user (even if it has view access) is not allowed to create or edit segment.
-; Possible values are "view", "admin", "superuser"
+; Possible values are "view", "write", "admin", "superuser"
 adding_segment_requires_access = "view"
 
 ; Whether it is allowed for users to add segments that affect all websites or not. If there are many websites
