@@ -46,7 +46,7 @@ jobs:
             exit 1;
           fi
 
-          VUE_FILES_MODIFIED=$(git diff --name-only plugins/*/vue/**/* | wc -l)
+          VUE_FILES_MODIFIED=$(git diff HEAD^ --name-only plugins/*/vue/**/* | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
