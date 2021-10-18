@@ -501,11 +501,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             // manipulate the styles a bit, as it's otherwise not visible on screenshot
             await page.evaluate(function () {
                 var style = document.createElement('style');
-                style.innerHTML = '.permadocs { display: block !important; }';
+                style.innerHTML = '.permadocs { display: block !important;z-index:150!important; } .dataTable thead{ z-index:150 !important; }';
                 $('body').append(style);
 
                 //add index not overlap others
-                $(".dataTable thead").addClass('with-z-index');
                 $('.columnDocumentation:visible').addClass('permadocs');
             });
 
