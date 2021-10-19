@@ -59,6 +59,8 @@ jobs:
           git fetch --depth=1 origin 4.x-dev
 
           echo "git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/*"
+          git rev-parse ${{ steps.vars.outputs.base }}
+
           VUE_FILES_MODIFIED=$(git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/* | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
