@@ -72,15 +72,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified != ''
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
           cache: 'npm'
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == 1
       - run: npm install
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: ${{ steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1' }}
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
