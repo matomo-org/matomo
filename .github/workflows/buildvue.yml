@@ -33,7 +33,7 @@ jobs:
           REF=$(echo "${PR_INFO}" | jq -r .head.ref)
           BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
           STATE=$(echo "${PR_INFO}" | jq -r .state)
-          BASE_REF=$(echo "${PR_INFO}" | jq -r .base.ref)
+          BASE_SHA=$(echo "${PR_INFO}" | jq -r .base.sha)
 
           if [[ $STATE == "closed" ]]
           then
@@ -48,7 +48,7 @@ jobs:
           fi
 
           echo ::set-output name=branch::$REF
-          echo ::set-output name=base::$BASE_REF
+          echo ::set-output name=base::$BASE_SHA
       - uses: actions/checkout@v2
         with:
           ref: ${{ steps.vars.outputs.branch }}
@@ -56,10 +56,9 @@ jobs:
         if: steps.vars.outputs.branch != ''
       - name: Check vue changes
         run: |
-          git fetch origin 4.x-dev
+          git fetch origin ${{ steps.vars.outputs.base }}
 
           echo "git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/*"
-          git branch
 
           VUE_FILES_MODIFIED=$(git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/* | wc -l)
 
