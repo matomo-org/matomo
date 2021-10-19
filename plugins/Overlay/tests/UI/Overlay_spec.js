@@ -178,15 +178,10 @@ describe("Overlay", function () {
         testEnvironment.overrideConfig('General', 'enable_framed_allow_write_admin_token_auth', 1);
         testEnvironment.save();
 
-        await page.goto('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&idSite=3&period=year&date=today&disableLink=1&widget=1&token_auth=a4ca4238a0b923820dcc509a6f75849f', {waitUntil: 'networkidle0'});
+        await page.goto('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&idSite=3&period=year&date=today&disableLink=1&widget=1&flat=1&token_auth=a4ca4238a0b923820dcc509a6f75849f', {waitUntil: 'networkidle0'});
         await page.waitForNetworkIdle();
 
-        await page.evaluate(function() {
-            $('tr.subDataTable:contains(resources)').click();
-        });
-
-        await page.waitForFunction(() => !! $('.dataTable tbody tr:contains(index)').length);
-        const row = await page.jQuery('.dataTable tbody tr:contains(index)');
+        const row = await page.jQuery('.dataTable tbody tr:first', { waitFor: true });
         await row.hover();
 
         const icon = await page.waitForSelector('.dataTable tbody tr a.actionOverlay');
