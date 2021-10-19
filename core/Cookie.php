@@ -8,7 +8,9 @@
  */
 namespace Piwik;
 
+use DateTime;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\Exception;
 
 /**
  * Simple class to handle the cookies:
@@ -128,7 +130,7 @@ class Cookie
      *
      * @param string $Name Name of cookie
      * @param string $Value Value of cookie
-     * @param int $Expires Time the cookie expires
+     * @param int|string $Expires Time the cookie expires
      * @param string $Path
      * @param string $Domain
      * @param bool $Secure
@@ -151,8 +153,15 @@ class Cookie
             }
         }
 
+        // if php is 32 bit, passed a string format of cookie, then just return string, otherwise return int
+        if (DateTime::createFromFormat(DateTime::COOKIE, $Expires) !== false) {
+            $formatExpires = $Expires;
+        } else {
+            $formatExpires = gmdate('D, d-M-Y H:i:s', (int)$Expires);
+        }
+
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
-            . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', (int) $Expires) . ' GMT')
+            . (empty($Expires) ? '' : '; expires=' . $formatExpires . ' GMT')
             . (empty($Path) ? '' : '; path=' . $Path)
             . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
@@ -467,5 +476,19 @@ class Cookie
         }
 
         return $sameSite;
+    }
+    /**
+     *  extend Cookie by years, by pass, default 30 years php 32 bit, max 100 years
+     * @param int $years
+     * @throws \Exception
+     */
+    public function extendExpireByYears($years = 30)
+    {
+        if (is_int($years) && $years < 100) {
+            $expireTime = new DateTime(sprintf('+ %s years', $years));
+            $this->expire = $expireTime->format(DateTime::COOKIE);
+        } else {
+            throw new Exception('make sure the years is not exceed');
+        }
     }
 }
