@@ -56,7 +56,7 @@ jobs:
         if: steps.vars.outputs.branch != ''
       - name: Check vue changes
         run: |
-          git fetch origin ${{ steps.vars.outputs.base }}
+          git fetch --depth=1 origin ${{ steps.vars.outputs.base }}
 
           echo "git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/*"
 
