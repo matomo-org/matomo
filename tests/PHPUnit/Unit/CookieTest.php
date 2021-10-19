@@ -271,7 +271,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
 
     public function test_formatCookieExpire()
     {
-        //asert + 30 years
+        //assert + 30 years
         $checkTime = $this->cookie->formatExpireTime("+ 30 years");
         $years = $this->diffInYears($checkTime);
         $this->assertTrue($years >= 29);
