@@ -485,7 +485,7 @@ class Cookie
             if (is_int($time)) {
                 $expireTime->setTimestamp($time);
             } else if (!empty($time)) {
-                $expireTime = new DateTime($time);
+                $expireTime->modify($time);
             } else {
                 $expireTime->setTimestamp($this->getDefaultExpire());
             }
