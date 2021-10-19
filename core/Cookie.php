@@ -481,9 +481,10 @@ class Cookie
     public function formatExpireTime($time = null)
     {
 
-        ErrorHandler::registerErrorHandler();
+
+        $expireTime = new DateTime();
         try {
-            $expireTime = new DateTime();
+            ErrorHandler::registerWarningException();
             if (is_int($time)) {
                 $expireTime->setTimestamp($time);
             } else {
@@ -492,8 +493,6 @@ class Cookie
         } catch (\Exception $e) {
             $expireTime->setTimestamp($this->getDefaultExpire());
         }
-        restore_error_handler();
-
         return $expireTime->format(DateTime::COOKIE);
 
     }

@@ -297,6 +297,6 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $today = new DateTime();
         $time = DateTime::createFromFormat('l, d-M-Y H:i:s T', $checkTime);
         $diff = $time->diff($today);
-        return $diff->format('%Y');
+        return $diff->format('%y');
     }
 }
