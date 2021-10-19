@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use DateTime;
+use ErrorException;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\Exception;
 
@@ -480,6 +481,7 @@ class Cookie
     public function formatExpireTime($time = null)
     {
 
+        ErrorHandler::registerErrorHandler();
         try {
             $expireTime = new DateTime();
             if (is_int($time)) {
@@ -490,6 +492,7 @@ class Cookie
         } catch (\Exception $e) {
             $expireTime->setTimestamp($this->getDefaultExpire());
         }
+        restore_error_handler();
 
         return $expireTime->format(DateTime::COOKIE);
 
