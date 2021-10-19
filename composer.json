@@ -77,20 +77,6 @@
         "symfony/polyfill-php71": "*",
         "symfony/polyfill-php72": "*"
     },
-    "scripts": {
-        "pre-update-cmd": [
-            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
-        ],
-        "pre-install-cmd": [
-            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
-        ],
-        "post-update-cmd": [
-            "Piwik\\Composer\\ScriptHandler::buildXhprof"
-        ],
-        "post-install-cmd": [
-            "Piwik\\Composer\\ScriptHandler::buildXhprof"
-        ]
-    },
     "autoload": {
         "psr-4": {
             "Piwik\\Plugins\\": "plugins/",
