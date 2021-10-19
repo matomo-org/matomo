@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\SEO\tests\Integration;
 
 use Piwik\DataTable\Renderer;
+use Piwik\Http;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SEO\API;
 use Exception;
@@ -41,9 +43,12 @@ class SEOTest extends IntegrationTestCase
      */
     public function test_API()
     {
-        $ranks = $this->apiFunction();
+        $dataTable = API::getInstance()->getRank('http://matomo.org/');
+        $renderer = Renderer::factory('json');
+        $renderer->setTable($dataTable);
+        $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
-            if ($rank['rank'] == Piwik::translate('General_Error')) {
+            if ($rank['rank'] == Piwik::translate('General_ErrorTryAgain')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
@@ -54,28 +59,8 @@ class SEOTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess()
         );
-    }
-
-    /**
-     * this function rerun the API 3 times, to reduce the chance of failing.
-     */
-    private function apiFunction($counter = 0, $ranks = [])
-    {
-        if ($counter > 3) {
-            return $ranks;
-        }
-        $dataTable = API::getInstance()->getRank('http://matomo.org/');
-        $renderer = Renderer::factory('json');
-        $renderer->setTable($dataTable);
-        $ranks = json_decode($renderer->render(), true);
-        foreach ($ranks as $rank) {
-            if ($rank['rank'] === 0 ) {
-                $this->apiFunction($counter++, $ranks);
-            }
-        }
-        return $ranks;
     }
 
 }

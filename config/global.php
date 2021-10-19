@@ -29,7 +29,11 @@ return array(
         return $root . $tmp . $instanceId;
     },
 
+    'path.tmp.templates' => DI\string('{path.tmp}/templates_c'),
+
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
+
+    'view.clearcompiledtemplates.enable' => true,
 
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Matomo\Cache\Backend');

@@ -119,9 +119,11 @@ class Glossary
                 );
             }
         }
-        
+
         usort($metrics, function ($a, $b) {
-            return strcmp($a['name'], $b['name']);
+            $key = ($a['name'] === $b['name'] ? 'id' : 'name');
+
+            return strcmp($a[$key], $b[$key]);
         });
         return $metrics;
     }

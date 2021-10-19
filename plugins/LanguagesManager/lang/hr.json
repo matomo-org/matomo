@@ -1,1 +1,6 @@
-{}
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "O Matomo prijevodima",
+        "TranslationSearch": "Pretraga prijevoda"
+    }
+}
