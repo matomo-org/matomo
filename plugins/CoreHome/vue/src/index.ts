@@ -28,4 +28,5 @@ export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { default as Matomo } from './Matomo/Matomo';
 export * from './Periods';
+
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
