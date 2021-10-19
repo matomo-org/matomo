@@ -88,13 +88,7 @@ class Cookie
     {
         $this->name = $cookieName;
         $this->path = $path;
-        $this->expire = $expire;
-        if (is_null($expire)
-            || !is_numeric($expire)
-            || $expire < 0
-        ) {
-            $this->expire = $this->getDefaultExpire();
-        }
+        $this->expire = $this->formatExpireTime($expire);
 
         $this->keyStore = $keyStore;
         if ($this->isCookieFound()) {
@@ -477,18 +471,29 @@ class Cookie
 
         return $sameSite;
     }
+
     /**
      *  extend Cookie by years, by pass, default 30 years php 32 bit, max 100 years
-     * @param int $years
-     * @throws \Exception
+     * @param $time
+     * @return string
      */
-    public function extendExpireByYears($years = 30)
+    public function formatExpireTime($time = null)
     {
-        if (is_int($years) && $years < 100) {
-            $expireTime = new DateTime(sprintf('+ %s years', $years));
-            $this->expire = $expireTime->format(DateTime::COOKIE);
-        } else {
-            throw new Exception('make sure the years is not exceed');
+
+        try {
+            $expireTime = new DateTime();
+            if (is_int($time)) {
+                $expireTime->setTimestamp($time);
+            } else if (!empty($time)) {
+                $expireTime = new DateTime($time);
+            } else {
+                $expireTime->setTimestamp($this->getDefaultExpire());
+            }
+        } catch (\Exception $e) {
+            $expireTime->setTimestamp($this->getDefaultExpire());
         }
+
+        return $expireTime->format(DateTime::COOKIE);
+
     }
 }

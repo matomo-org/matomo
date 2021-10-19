@@ -58,8 +58,7 @@ class IgnoreCookie
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
 
 
-        $cookie = new Cookie($cookie_name, null, $cookie_path, false);
-        $cookie->extendExpireByYears();
+        $cookie = new Cookie($cookie_name, "+ 30 years", $cookie_path, false);
 
         $domain = @Config::getInstance()->Tracker['cookie_domain'];
         if (!empty($domain)) {
