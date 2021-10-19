@@ -23,6 +23,12 @@ class ApiTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::setAllowedModuleToFilterApiResponse('API.getReportMetadata', 'CustomDimensions');
+    }
+
     /**
      * @dataProvider getApiForTesting
      */
