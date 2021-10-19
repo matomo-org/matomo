@@ -51,28 +51,24 @@ jobs:
           echo ::set-output name=base::$BASE_REF
       - uses: actions/checkout@v2
         with:
-          ref: ${{ steps.vars.outputs.base }}
-          lfs: false
-        if: steps.vars.outputs.branch != ''
-      - uses: actions/checkout@v2
-        with:
           ref: ${{ steps.vars.outputs.branch }}
           lfs: false
         if: steps.vars.outputs.branch != ''
       - name: Check vue changes
         run: |
-          git branch
+          git fetch --depth=1 origin 4.x-dev
 
           VUE_FILES_MODIFIED=$(git diff "${{ steps.vars.outputs.base }}" --name-only plugins/*/vue/**/* | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
+            # unset var
+            echo ::set-output name=branch::
+
             echo "No vue files modified"
             exit;
           fi
 
-          # unset var
-          echo ::set-output name=branch::
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
