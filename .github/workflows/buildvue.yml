@@ -55,6 +55,7 @@ jobs:
           lfs: false
         if: steps.vars.outputs.branch != ''
       - name: Check vue changes
+        id: vuecheck
         run: |
           git fetch --depth=1 origin ${{ steps.vars.outputs.base }}
 
@@ -67,37 +68,34 @@ jobs:
           fi
 
           echo ::set-output name=vue_modified::1
-
-          echo "set?"
-          echo "${{ steps.vars.outputs.vue_modified }}"
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-        if: ${{ steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified != '' }}
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
           cache: 'npm'
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == 1
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - run: npm install
-        if: ${{ steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1' }}
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Install dependencies
         run: composer install --prefer-dist
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Quick Matomo Install
         run: |
           cat <<-EOF > ./config/config.ini.php
@@ -109,7 +107,7 @@ jobs:
           EOF
 
           cat ./config/config.ini.php
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Prepare git config
         run: |
           cat <<- EOF > $HOME/.netrc
@@ -123,10 +121,10 @@ jobs:
           chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Build Vue Modules
         run: php ./console vue:build
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
       - name: Push changes
         run: |
           if [[ $( git diff --numstat plugins/*/vue/dist/*.js plugins/*/vue/dist/*.map ) ]]
@@ -136,4 +134,4 @@ jobs:
             git commit -m "built vue files"
             git push
           fi
-        if: steps.vars.outputs.branch != '' && steps.vars.outputs.vue_modified == '1'
+        if: steps.vars.outputs.branch != '' && steps.vars.vuecheck.vue_modified == '1'
