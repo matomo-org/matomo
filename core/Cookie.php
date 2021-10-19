@@ -148,15 +148,8 @@ class Cookie
             }
         }
 
-        // if php is 32 bit, passed a string format of cookie, then just return string, otherwise return int
-        if (DateTime::createFromFormat(DateTime::COOKIE, $Expires) !== false) {
-            $formatExpires = $Expires;
-        } else {
-            $formatExpires = gmdate('D, d-M-Y H:i:s', (int)$Expires);
-        }
-
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
-            . (empty($Expires) ? '' : '; expires=' . $formatExpires . ' GMT')
+            . (empty($Expires) ? '' : '; expires=' . $Expires . ' GMT')
             . (empty($Path) ? '' : '; path=' . $Path)
             . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
