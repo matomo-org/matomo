@@ -283,4 +283,35 @@ describe("SegmentSelectorEditorTest", function () {
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments');
     });
+
+    it("should save a new segment when enable_create_realtime_segments = 0", async function() {
+        // ensure segment won't be archived after saving it.
+        testEnvironment.overrideConfig('General', 'enable_create_realtime_segments', 0);
+        testEnvironment.overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        testEnvironment.overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+        testEnvironment.optionsOverride = {
+          enableBrowserTriggerArchiving: '0',
+        };
+        testEnvironment.save();
+        await page.evaluate(function () {
+          $('.segmentRow0 .segment-row:first .metricValueBlock input').val('3').change();
+        });
+
+        await page.type('input.edit_segment_name', 'auto archive segment');
+        await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
+
+        // this is for debug purpose. If segment can't be saved, and alert might be shown, causing the UI test to hang
+        page.on('dialog', (dialog)=> {
+            console.log(dialog.message());
+        });
+
+        await page.evaluate(function () {
+            $('button.saveAndApply').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.segmentationContainer');
+
+        await page.click('.segmentationContainer .title');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
+    });
 });
