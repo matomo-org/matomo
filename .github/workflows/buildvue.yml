@@ -33,7 +33,7 @@ jobs:
           REF=$(echo "${PR_INFO}" | jq -r .head.ref)
           BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
           STATE=$(echo "${PR_INFO}" | jq -r .state)
-          BASE_SHA=$(echo "${PR_INFO}" | jq -r .base.sha)
+          BASE_REF=$(echo "${PR_INFO}" | jq -r .base.ref)
 
           if [[ $STATE == "closed" ]]
           then
@@ -47,7 +47,21 @@ jobs:
             exit 1;
           fi
 
-          VUE_FILES_MODIFIED=$(git diff "${BASE_SHA}" --name-only plugins/*/vue/**/* | wc -l)
+          echo ::set-output name=branch::$REF
+          echo ::set-output name=base::$BASE_REF
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.vars.outputs.base }}
+          lfs: false
+        if: steps.vars.outputs.branch != ''
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.vars.outputs.branch }}
+          lfs: false
+        if: steps.vars.outputs.branch != ''
+      - name: Check vue changes
+        run: |
+          VUE_FILES_MODIFIED=$(git diff "${{ steps.vars.outputs.base }}" --name-only plugins/*/vue/**/* | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
@@ -55,11 +69,8 @@ jobs:
             exit;
           fi
 
-          echo ::set-output name=branch::$REF
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.vars.outputs.branch }}
-          lfs: false
+          # unset var
+          echo ::set-output name=branch::
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
