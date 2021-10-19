@@ -61,6 +61,8 @@ jobs:
         if: steps.vars.outputs.branch != ''
       - name: Check vue changes
         run: |
+          git branch
+
           VUE_FILES_MODIFIED=$(git diff "${{ steps.vars.outputs.base }}" --name-only plugins/*/vue/**/* | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
