@@ -512,7 +512,12 @@ class Model
             $idarchive = $sequence->getNextId();
         } catch (Exception $e) {
             // edge case: sequence was not found, create it now
-            $sequence->create();
+            try {
+                $sequence->create();
+            } catch (Exception $ex) {
+                var_dump($e->getMessage());
+                throw $e;
+            }
 
             $idarchive = $sequence->getNextId();
         }
