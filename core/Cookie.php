@@ -473,7 +473,7 @@ class Cookie
     }
 
     /**
-     *  extend Cookie by years, by pass, default 30 years php 32 bit, max 100 years
+     *  extend Cookie by timestamp or sting like + 30 years, + 10 months, default 2 years
      * @param $time
      * @return string
      */
