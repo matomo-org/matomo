@@ -33,7 +33,7 @@ jobs:
           REF=$(echo "${PR_INFO}" | jq -r .head.ref)
           BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
           STATE=$(echo "${PR_INFO}" | jq -r .state)
-          BASE_BRANCH=$(echo "${PR_INFO}" | jq -r .base.ref)
+          BASE_SHA=$(echo "${PR_INFO}" | jq -r .base.sha)
 
           if [[ $STATE == "closed" ]]
           then
@@ -47,8 +47,7 @@ jobs:
             exit 1;
           fi
 
-          git fetch
-          VUE_FILES_MODIFIED=$(git diff "${BASE_BRANCH}" --name-only plugins/*/vue/**/* | wc -l)
+          VUE_FILES_MODIFIED=$(git diff "${BASE_SHA}" --name-only plugins/*/vue/**/* | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
