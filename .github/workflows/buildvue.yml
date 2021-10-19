@@ -69,6 +69,10 @@ jobs:
 
           echo ::set-output name=vue_modified::1
         if: steps.vars.outputs.branch != ''
+      - name: test
+        run: |
+          echo output:
+          echo "${{ steps.vuecheck.output.vue_modified }}"
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
