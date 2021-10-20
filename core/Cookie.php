@@ -477,7 +477,6 @@ class Cookie
     {
         $expireTime = new DateTime();
         try {
-            ErrorHandler::registerWarningException();
             if (is_int($time)) {
                 $expireTime->setTimestamp($time);
             } else {
@@ -486,7 +485,6 @@ class Cookie
         } catch (\Exception $e) {
             $expireTime->setTimestamp($this->getDefaultExpire());
         }
-        restore_error_handler();
         return $expireTime->format(DateTime::COOKIE);
 
     }
