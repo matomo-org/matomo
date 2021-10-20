@@ -281,9 +281,8 @@ class RequestTest extends UnitTestCase
     public function test_makeThirdPartyCookie_ShouldPreconfigureTheCookieInstance()
     {
         $cookie = $this->request->makeThirdPartyCookieUID();
-        $expect = (new DateTime)->setTimestamp(1450750817)->format(DATE_COOKIE);
         $this->assertCookieContains('COOKIE _pk_uid', $cookie);
-        $this->assertCookieContains('expire: '.$expect , $cookie);
+        $this->assertCookieContains('expire: 1450750817', $cookie);
         $this->assertCookieContains('path: ,', $cookie);
     }
 

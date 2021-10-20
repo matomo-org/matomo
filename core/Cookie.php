@@ -80,7 +80,7 @@ class Cookie
      * exists already.
      *
      * @param string $cookieName cookie Name
-     * @param int $expire The timestamp after which the cookie will expire, eg time() + 86400;
+     * @param int|string $expire The timestamp after which the cookie will expire, eg time() + 86400;
      *                                  use 0 (int zero) to expire cookie at end of browser session
      * @param string $path The path on the server in which the cookie will be available on.
      * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
@@ -89,7 +89,7 @@ class Cookie
     {
         $this->name = $cookieName;
         $this->path = $path;
-        $this->expire = $this->formatExpireTime($expire);
+        $this->expire = $expire;
 
         $this->keyStore = $keyStore;
         if ($this->isCookieFound()) {
@@ -147,6 +147,8 @@ class Cookie
                 $Domain = substr($Domain, 0, $Port);
             }
         }
+
+        $Expires = $this->formatExpireTime($Expires);
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
             . (empty($Expires) ? '' : '; expires=' . $Expires)
