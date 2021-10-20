@@ -12,6 +12,7 @@ use Piwik\API\CORSHandler;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -25,6 +26,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
 use Piwik\Plugins\SitesManager;
+use Piwik\View\SecurityPolicy;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -63,6 +65,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->ssl = ProxyHttp::isHttps();
         $view->siteUrls = SitesManager\API::getInstance()->getSiteUrlsFromId($this->site->getId());
 
+        StaticContainer::get(SecurityPolicy::class)->allowEmbedPage();
         $this->outputCORSHeaders();
         return $view->render();
     }
