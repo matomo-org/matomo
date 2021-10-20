@@ -104,19 +104,19 @@ abstract class SystemTestCase extends TestCase
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
 
-        $allowedModuleForApiMetadataReport = self::getAllowedModuleToFilterApiResponse('API.getReportMetadata');
-        $allowedModuleForApiSegmentsReport = self::getAllowedModuleToFilterApiResponse('API.getSegmentsMetadata');
-        if (!empty($allowedModuleForApiMetadataReport)) {
-            Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) use ($allowedModuleForApiMetadataReport) {
+        Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
+            $allowedModuleForApiMetadataReport = self::getAllowedModuleToFilterApiResponse('API.getReportMetadata');
+            if ($allowedModuleForApiMetadataReport) {
                 self::filterReportsCallback($reports, $info, $allowedModuleForApiMetadataReport);
-            });
-        }
+            }
+        });
 
-        if (!empty($allowedModuleForApiSegmentsReport)) {
-            Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) use ($allowedModuleForApiSegmentsReport) {
+        Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
+            $allowedModuleForApiSegmentsReport = self::getAllowedModuleToFilterApiResponse('API.getSegmentsMetadata');
+            if ($allowedModuleForApiSegmentsReport) {
                 self::filterReportsCallback($reports, $info, $allowedModuleForApiSegmentsReport);
-            });
-        }
+            }
+        });
     }
 
     public static function tearDownAfterClass(): void
