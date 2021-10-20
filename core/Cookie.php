@@ -483,7 +483,7 @@ class Cookie
                 $expireTime->modify($time);
             }
         } catch (\Exception $e) {
-            $expireTime->setTimestamp($this->getDefaultExpire());
+            $expireTime->modify("+2 years");
         }
         return $expireTime->format(DateTime::COOKIE);
 
