@@ -149,7 +149,7 @@ class Cookie
         }
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
-            . (empty($Expires) ? '' : '; expires=' . $Expires . ' GMT')
+            . (empty($Expires) ? '' : '; expires=' . $Expires)
             . (empty($Path) ? '' : '; path=' . $Path)
             . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
