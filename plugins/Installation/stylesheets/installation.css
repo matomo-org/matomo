@@ -26,6 +26,10 @@ body {
     color: #43a047;
 }
 
+#installation .form-group label {
+    color: #757575;
+}
+
 .header .languageSelection {
     color: #1976D2;
     font-size: 13px;
