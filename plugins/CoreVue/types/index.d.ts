@@ -57,6 +57,7 @@ interface PiwikHelperGlobal {
   redirect(params: any);
   htmlDecode(encoded: string): string;
   modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks: ModalConfirmCallbacks, options: ModalConfirmOptions);
+  getAngularDependency(eventName: string): any;
 }
 
 let piwikHelper: PiwikHelperGlobal;

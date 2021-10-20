@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { createAngularJsAdapter } from 'CoreHome';
+import createAngularJsAdapter from '../createAngularJsAdapter';
 import ComparisonsStore from './Comparisons.store';
 import Comparisons from './Comparisons.vue';
 

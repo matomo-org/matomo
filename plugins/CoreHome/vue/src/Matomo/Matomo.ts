@@ -5,6 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { IRootScopeService } from 'angular';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Periods from '../Periods/Periods';
 import { format } from '../Periods/utilities';
@@ -90,13 +91,19 @@ piwik.on = function addMatomoEventListener(eventName: string, listener: EventLis
   window.addEventListener(eventName, listener);
 };
 
-piwik.off = function removeMatomoEventListener<T>(eventName: string, listener: EventListener) {
+piwik.off = function removeMatomoEventListener(eventName: string, listener: EventListener) {
   window.removeEventListener(eventName, listener.wrapper);
 };
 
-piwik.postEvent = function postMatomoEvent(eventName: string, ...args: any[]) {
+piwik.postEvent = function postMatomoEvent(
+  eventName: string,
+  ...args: any[], // eslint-disable-line
+) {
   const event = new CustomEvent(eventName, { detail: args });
   window.dispatchEvent(event);
+
+  // required until angularjs is removed
+  (piwik.helper.getAngularDependency('$rootScope') as IRootScopeService).$oldEmit(eventName, ...args);
 };
 
 const Matomo = piwik;

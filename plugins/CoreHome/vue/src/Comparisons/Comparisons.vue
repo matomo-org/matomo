@@ -10,6 +10,7 @@
     <div
       class="comparison card"
       v-for="(comparison, $index) in comparisonsService.getSegmentComparisons()"
+      :key="comparison.index"
     >
       <div class="comparison-type">{{ translate('General_Segment') }}</div>
       <div
@@ -26,13 +27,18 @@
       <div
         class="comparison-period"
         v-for="periodComparison in comparisonsService.getPeriodComparisons()"
+        :key="periodComparison.index"
         :title="getComparisonTooltip(comparison, periodComparison)"
       >
         <span
           class="comparison-dot"
-          :style="{'background-color': comparisonsService.getSeriesColor(comparison, periodComparison)}"
+          :style="{
+            'background-color': comparisonsService.getSeriesColor(comparison, periodComparison)
+          }"
         />
-        <span class="comparison-period-label">{{ periodComparison.title }} ({{ getComparisonPeriodType(periodComparison) }})</span>
+        <span class="comparison-period-label">
+          {{ periodComparison.title }} ({{ getComparisonPeriodType(periodComparison) }})
+        </span>
       </div>
       <a
         class="remove-button"
@@ -60,7 +66,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { default as ComparisonsStore, AnyComparison } from './Comparisons.store';
+import ComparisonsStore, { AnyComparison } from './Comparisons.store';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
@@ -95,14 +101,19 @@ export default defineComponent({
       return typeof comparison.params.segment !== 'undefined';
     },
     getComparisonPeriodType(comparison: AnyComparison) {
-      const period = comparison.params.period;
+      const { period } = comparison.params;
       if (period === 'range') {
         return translate('CoreHome_PeriodRange');
       }
-      const periodStr = translate(`Intl_Period${period.substring(0, 1).toUpperCase()}${period.substring(1)}`);
+      const periodStr = translate(
+        `Intl_Period${period.substring(0, 1).toUpperCase()}${period.substring(1)}`,
+      );
       return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);
     },
-    getComparisonTooltip(segmentComparison: AnyComparison, periodComparison: AnyComparison): string|undefined {
+    getComparisonTooltip(
+      segmentComparison: AnyComparison,
+      periodComparison: AnyComparison,
+    ): string|undefined {
       if (!this.comparisonTooltips
         || !Object.keys(this.comparisonTooltips).length
       ) {
@@ -112,17 +123,18 @@ export default defineComponent({
       return this.comparisonTooltips[periodComparison.index][segmentComparison.index];
     },
     getUrlToSegment(segment: string) {
-      let hash = window.location.hash;
+      let { hash } = window.location;
       hash = window.broadcast.updateParamValue('comparePeriods[]=', hash);
       hash = window.broadcast.updateParamValue('compareDates[]=', hash);
       hash = window.broadcast.updateParamValue('compareSegments[]=', hash);
-      hash = window.broadcast.updateParamValue('segment=' + encodeURIComponent(segment), hash);
+      hash = window.broadcast.updateParamValue(`segment=${encodeURIComponent(segment)}`, hash);
       return window.location.search + hash;
     },
     setUpTooltips() {
+      const $ = { window };
       $(this.$refs.root).tooltip({
         track: true,
-        content: function() {
+        content: () => {
           const title = $(this).attr('title');
           return window.vueSanitize(title.replace(/\n/g, '<br />'));
         },
@@ -154,8 +166,8 @@ export default defineComponent({
           this.comparisonTooltips[periodComp.index] = {};
 
           segmentComparisons.forEach((segmentComp) => {
-            this.comparisonTooltips[periodComp.index][segmentComp.index] =
-              this.generateComparisonTooltip(report, periodComp, segmentComp);
+            const tooltip = this.generateComparisonTooltip(report, periodComp, segmentComp);
+            this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
           });
         });
       });
@@ -163,24 +175,32 @@ export default defineComponent({
     generateComparisonTooltip(
       visitsSummary: ProcessedReportResponse,
       periodComp: AnyComparison,
-      segmentComp: AnyComparison
+      segmentComp: AnyComparison,
     ): string {
       if (!visitsSummary.reportData.comparisons) { // sanity check
         return '';
       }
 
-      const firstRowIndex = this.comparisonsService.getComparisonSeriesIndex(periodComp.index, 0);
+      const firstRowIndex = this.comparisonsService.getComparisonSeriesIndex(
+        periodComp.index,
+        0,
+      );
 
       const firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
 
-      const comparisonRowIndex = this.comparisonsService.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
+      const comparisonRowIndex = this.comparisonsService.getComparisonSeriesIndex(
+        periodComp.index,
+        segmentComp.index,
+      );
       const comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];
 
       const firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
 
       let tooltip = '<div class="comparison-card-tooltip">';
 
-      const visitsPercent = ((comparisonRow.nb_visits / firstRow.nb_visits) * 100).toFixed(2) + '%';
+      let visitsPercent = ((comparisonRow.nb_visits / firstRow.nb_visits) * 100)
+        .toFixed(2);
+      visitsPercent = `${visitsPercent}%`;
 
       tooltip += translate('General_ComparisonCardTooltip1', [
         `'${comparisonRow.compareSegmentPretty}'`,
@@ -200,7 +220,7 @@ export default defineComponent({
 
       tooltip += '</div>';
       return tooltip;
-    }
+    },
   },
   setup() { // TODO: is this even needed?
     const root = ref(null);
@@ -215,7 +235,7 @@ export default defineComponent({
   },
   unmounted() {
     try {
-      $(this.refs.root).tooltip('destroy');
+      window.$(this.refs.root).tooltip('destroy');
     } catch (e) {
       // ignore
       console.log('does this always happen?'); // TODO: Remove

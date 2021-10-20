@@ -28,9 +28,9 @@ const MatomoUrl = {
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
   },
 
-  onLocationChange(callback: (newLocation: URLSearchParams) => void) {
+  onLocationChange(callback: (newLocation: URLSearchParams) => void): void {
     window.addEventListener('hashchange', () => {
-      const newLocation = new URLSearchParams(location.hash.replace(/^[#?\/]+/, ''));
+      const newLocation = new URLSearchParams(window.location.hash.replace(/^[#?/]+/, ''));
       callback(newLocation);
     });
   },
