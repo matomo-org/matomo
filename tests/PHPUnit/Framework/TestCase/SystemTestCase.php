@@ -62,37 +62,6 @@ abstract class SystemTestCase extends TestCase
 
     private static $allowedModuleApiWise = array();
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $allowedModuleForApiMetadataReport = self::getAllowedModuleToFilterApiResponse('API.getReportMetadata');
-        $allowedModuleForApiSegmentsReport = self::getAllowedModuleToFilterApiResponse('API.getSegmentsMetadata');
-        if (!empty($allowedModuleForApiMetadataReport)) {
-            Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) use ($allowedModuleForApiMetadataReport) {
-                $this->filterReportsCallback($reports, $info, $allowedModuleForApiMetadataReport);
-            });
-        }
-
-        if (!empty($allowedModuleForApiSegmentsReport)) {
-            Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) use ($allowedModuleForApiSegmentsReport) {
-                $this->filterReportsCallback($reports, $info, $allowedModuleForApiSegmentsReport);
-            });
-        }
-    }
-
-    private function filterReportsCallback(&$reports, $info, $module)
-    {
-        if (!empty($reports)) {
-            foreach ($reports as $key => $row) {
-                if (!isset($row['module']) || $row['module'] != $module) {
-                    unset($reports[$key]);
-                }
-            }
-            $reports = array_values($reports);
-        }
-    }
-
     public function setGroups(array $groups): void
     {
         $pluginName = explode('\\', get_class($this));
@@ -134,6 +103,20 @@ abstract class SystemTestCase extends TestCase
         } catch (Exception $e) {
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
+
+        $allowedModuleForApiMetadataReport = self::getAllowedModuleToFilterApiResponse('API.getReportMetadata');
+        $allowedModuleForApiSegmentsReport = self::getAllowedModuleToFilterApiResponse('API.getSegmentsMetadata');
+        if (!empty($allowedModuleForApiMetadataReport)) {
+            Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) use ($allowedModuleForApiMetadataReport) {
+                self::filterReportsCallback($reports, $info, $allowedModuleForApiMetadataReport);
+            });
+        }
+
+        if (!empty($allowedModuleForApiSegmentsReport)) {
+            Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) use ($allowedModuleForApiSegmentsReport) {
+                self::filterReportsCallback($reports, $info, $allowedModuleForApiSegmentsReport);
+            });
+        }
     }
 
     public static function tearDownAfterClass(): void
@@ -145,6 +128,8 @@ abstract class SystemTestCase extends TestCase
         } else {
             $fixture = static::$fixture;
         }
+
+        self::$allowedModuleApiWise = array();
 
         $fixture->performTearDown();
     }
@@ -890,6 +875,18 @@ abstract class SystemTestCase extends TestCase
 
     public static function getAllowedModuleToFilterApiResponse($api) {
         return (self::$allowedModuleApiWise[$api] ?? NULL);
+    }
+
+    private static function filterReportsCallback(&$reports, $info, $module)
+    {
+        if (!empty($reports)) {
+            foreach ($reports as $key => $row) {
+                if (!isset($row['module']) || $row['module'] != $module) {
+                    unset($reports[$key]);
+                }
+            }
+            $reports = array_values($reports);
+        }
     }
 }
 
