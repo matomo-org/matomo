@@ -59,10 +59,10 @@
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "~v1.4.0",
         "twig/twig": "^3.0",
-        "wikimedia/less.php": "^3.0"
+        "wikimedia/less.php": "^3.0",
+        "lox/xhprof": "dev-master"
     },
     "require-dev": {
-        "lox/xhprof": "dev-master",
         "mayflower/mo4-coding-standard": "~6.0",
         "phpunit/phpunit": "~8.5",
         "squizlabs/php_codesniffer": "^3.5",
@@ -76,20 +76,6 @@
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php71": "*",
         "symfony/polyfill-php72": "*"
-    },
-    "scripts": {
-        "pre-update-cmd": [
-            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
-        ],
-        "pre-install-cmd": [
-            "Piwik\\Composer\\ScriptHandler::cleanXhprof"
-        ],
-        "post-update-cmd": [
-            "Piwik\\Composer\\ScriptHandler::buildXhprof"
-        ],
-        "post-install-cmd": [
-            "Piwik\\Composer\\ScriptHandler::buildXhprof"
-        ]
     },
     "autoload": {
         "psr-4": {
