@@ -61,6 +61,7 @@ abstract class SystemTestCase extends TestCase
     public static $fixture;
 
     private static $allowedModuleApiWise = array();
+    private static $allowedCategoryApiWise = array();
 
     public function setGroups(array $groups): void
     {
@@ -107,14 +108,14 @@ abstract class SystemTestCase extends TestCase
         Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
             $allowedModuleForApiMetadataReport = self::getAllowedModuleToFilterApiResponse('API.getReportMetadata');
             if ($allowedModuleForApiMetadataReport) {
-                self::filterReportsCallback($reports, $info, $allowedModuleForApiMetadataReport);
+                self::filterReportsCallback($reports, $info, $allowedModuleForApiMetadataReport, 'module');
             }
         });
 
         Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
-            $allowedModuleForApiSegmentsReport = self::getAllowedModuleToFilterApiResponse('API.getSegmentsMetadata');
-            if ($allowedModuleForApiSegmentsReport) {
-                self::filterReportsCallback($reports, $info, $allowedModuleForApiSegmentsReport);
+            $allowedCategoryForApiSegmentsReport = self::getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
+            if ($allowedCategoryForApiSegmentsReport) {
+                self::filterReportsCallback($reports, $info, $allowedCategoryForApiSegmentsReport, 'category');
             }
         });
     }
@@ -877,11 +878,19 @@ abstract class SystemTestCase extends TestCase
         return (self::$allowedModuleApiWise[$api] ?? NULL);
     }
 
-    private static function filterReportsCallback(&$reports, $info, $module)
+    public static function setAllowedCategoryToFilterApiResponse($api, $category){
+        self::$allowedCategoryApiWise[$api] = $category;
+    }
+
+    public static function getAllowedCategoryToFilterApiResponse($api) {
+        return (self::$allowedCategoryApiWise[$api] ?? NULL);
+    }
+
+    private static function filterReportsCallback(&$reports, $info, $filterValue, $filterKey)
     {
         if (!empty($reports)) {
             foreach ($reports as $key => $row) {
-                if (!isset($row['module']) || $row['module'] != $module) {
+                if (!isset($row[$filterKey]) || $row[$filterKey] != $filterValue) {
                     unset($reports[$key]);
                 }
             }
