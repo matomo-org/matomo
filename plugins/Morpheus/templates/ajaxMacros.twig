@@ -18,7 +18,7 @@
         <div class="alert alert-danger">
 
             {% if contactEmail is defined and contactEmail %}
-                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ contactEmail ~ '">', '</a>')|raw }}
+                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ contactEmail|e('url') ~ '">', '</a>')|raw }}
             {% else %}
                 {{ 'General_ErrorRequest'|translate('', '') }}
             {% endif %}
