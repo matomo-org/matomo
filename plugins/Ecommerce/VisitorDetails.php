@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Ecommerce;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
@@ -30,6 +31,25 @@ class VisitorDetails extends VisitorDetailsAbstract
             'lifeTimeRevenue' => 0,
             'lifeTimeConversions' => 0,
             'lifeTimeEcommerceItems' => 0);
+
+    private function hasEverTrackedAnyItem($idSite)
+    {
+        $cacheKey = 'hasTrackedEcommerceItems_' . $idSite;
+        $cache = Cache::getTransientCache();
+        if ($cache->contains($cacheKey)) {
+            $hasTracked = $cache->fetch($cacheKey);
+        } else {
+            // in case an abdoned cart with items
+            $hasTracked = $this->getDb()->fetchOne('select 1 from ' . Common::prefixTable('log_conversion_item') . ' WHERE idsite = ? limit 1', $idSite);
+            if (empty($hasTracked)) {
+                // in case we can find an order without items
+                $hasTracked = $this->getDb()->fetchOne('select 1 from ' . Common::prefixTable('log_conversion') . ' WHERE idsite = ? and idorder is not null  limit 1', $idSite);
+            }
+            // won't work for abondened cards without items
+            $cache->save($cacheKey, (int) $hasTracked);
+        }
+        return !empty($hasTracked);
+    }
 
     public function extendVisitorDetails(&$visitor)
     {
@@ -137,8 +157,13 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
-        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        if ($this->hasEverTrackedAnyItem($idSite)) {
+            // we only need to execute this if actually ever any item was tracked
+            $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
+            $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        } else {
+            $lifeTimeStats = [];
+        }
 
         $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
 
