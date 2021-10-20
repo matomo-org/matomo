@@ -261,7 +261,7 @@ class UsersManagerTest extends IntegrationTestCase
             'singlequote'=>'singlequote\'s.email'.$domain,
             'manysymbols'=>'!#$%&\'*+-/=?^_{|}~'.$domain,
             'doublequotedscript'=>'"<script>alert(1)</script>"'.$domain,
-            'doublequotedscriptdotpost'=>'"<script>alert(1)</script>".blah'.$domain,
+            'doublequotedscriptdotpost'=>'"<script>alert(2)</script>".blah'.$domain,
             'predotdoublequotedscript'=>'bloo."<script>_x(fakething)</script>"'.$domain,
         ];
 
