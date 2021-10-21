@@ -109,7 +109,7 @@ class Month extends Period
      */
     private function fillDayPeriods($startDate, $endDate)
     {
-        while (($startDate->isEarlier($endDate) || $startDate === $endDate)) {
+        while (($startDate->isEarlier($endDate) || $startDate->toString() === $endDate->toString())) {
             $this->addSubperiod(new Day($startDate));
             $startDate = $startDate->addDay(1);
         }
