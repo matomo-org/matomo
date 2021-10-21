@@ -227,7 +227,7 @@ class CronArchive
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
-        $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
+        $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] === 1;
 
         $this->model = StaticContainer::get(Model::class);
 
@@ -243,7 +243,7 @@ class CronArchive
 
     private function isMaintenanceModeEnabled()
     {
-        return Config::getInstance()->General['maintenance_mode'] == 1;
+        return Config::getInstance()->General['maintenance_mode'] === 1;
     }
 
     /**
@@ -429,7 +429,7 @@ class CronArchive
                 continue;
             }
 
-            $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
+            $dateStr = $archive['period'] === Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd()));
 
@@ -516,7 +516,7 @@ class CronArchive
         $report = $archive['report'];
         $period = $this->periodIdsToLabels[$archive['period']];
 
-        if ($period == 'range') {
+        if ($period === 'range') {
             $date = $archive['date1'] . ',' . $archive['date2'];
         } else {
             $date = $archive['date1'];
@@ -794,7 +794,7 @@ class CronArchive
 
             $siteIdsToInvalidate = [];
             foreach ($siteIds as $idSite) {
-                if ($idSite != $idSiteToInvalidate) {
+                if ($idSite !== $idSiteToInvalidate) {
                     continue;
                 }
 
@@ -866,7 +866,7 @@ class CronArchive
         // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
         // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
         // will be good enough, if the date hasn't changed.
-        $isYesterday = $dateStr == 'yesterday';
+        $isYesterday = $dateStr === 'yesterday';
         $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday);
     }
 
@@ -878,7 +878,7 @@ class CronArchive
 
         $periodObj = PeriodFactory::build($period, $date);
 
-        if ($period == 'range') {
+        if ($period === 'range') {
             $date = [$date]; // so we don't split on the ',' in invalidateArchivedReports
         }
 
@@ -935,7 +935,8 @@ class CronArchive
     {
         $today = Date::factoryInTimezone('today', Site::getTimezoneFor($params->getSite()->getId()));
 
-        $isYesterday = $params->getPeriod()->getLabel() == 'day' && $params->getPeriod()->getDateStart()->toString() == Date::factory('yesterday')->toString();
+        $isYesterday = $params->getPeriod()->getLabel() === 'day'
+            && $params->getPeriod()->getDateStart()->toString() === Date::factory('yesterday')->toString();
 
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
 
@@ -948,7 +949,7 @@ class CronArchive
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday
             && !empty($idArchive)
-            && Date::factory($tsArchived)->toString() != $today->toString()
+            && Date::factory($tsArchived)->toString() !== $today->toString()
         ) {
             return false;
         }
@@ -984,7 +985,7 @@ class CronArchive
         $invalidationsToInsert = [];
         foreach (Piwik::$idPeriods as $label => $id) {
             // lower period than the one we're processing or range, don't care
-            if ($id <= $archiveToProcess['period'] || $label == 'range') {
+            if ($id <= $archiveToProcess['period'] || $label === 'range') {
                 continue;
             }
 
@@ -1000,8 +1001,8 @@ class CronArchive
             }
 
             // archive is for week that is over two months, we don't need to care about the month
-            if ($label == 'month'
-                && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
+            if ($label === 'month'
+                && Date::factory($archiveToProcess['date1'])->toString('m') !== Date::factory($archiveToProcess['date2'])->toString('m')
             ) {
                 continue;
             }
@@ -1207,7 +1208,7 @@ class CronArchive
             $defaultDate = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE];
             $preference = new UserPreferences();
             $period = $preference->getDefaultPeriod($defaultDate);
-            if ($period != 'range') {
+            if ($period !== 'range') {
                 continue;
             }
 

@@ -673,14 +673,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (is_int($rowId) && isset($this->rows[$rowId])) {
             return $this->rows[$rowId];
         }
-        if ($rowId == self::ID_SUMMARY_ROW
+        if ($rowId === self::ID_SUMMARY_ROW
             && !empty($this->summaryRow)
         ) {
             return $this->summaryRow;
         }
         if (empty($rowId)
             && !empty($this->totalsRow)
-            && $label == $this->totalsRow->getColumn('label')
+            && $label === $this->totalsRow->getColumn('label')
         ) {
             return $this->totalsRow;
         }
@@ -710,7 +710,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!isset($this->rowsIndexByLabel[$label])) {
             // in case label is '-1' and there is no normal row w/ that label. Note: this is for BC since
             // in the past, it was possible to get the summary row by searching for the label '-1'
-            if ($label == self::LABEL_SUMMARY_ROW
+            if ($label === self::LABEL_SUMMARY_ROW
                 && !is_null($this->summaryRow)
             ) {
                 return self::ID_SUMMARY_ROW;
@@ -765,7 +765,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowFromId($id)
     {
-        if ($id == self::ID_SUMMARY_ROW
+        if ($id === self::ID_SUMMARY_ROW
             && !is_null($this->summaryRow)
         ) {
             return $this->summaryRow;
@@ -1022,7 +1022,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getFirstRow()
     {
-        if (count($this->rows) == 0) {
+        if (count($this->rows) === 0) {
             if (!is_null($this->summaryRow)) {
                 return $this->summaryRow;
             }
@@ -1043,7 +1043,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return $this->summaryRow;
         }
 
-        if (count($this->rows) == 0) {
+        if (count($this->rows) === 0) {
             return false;
         }
 
@@ -1237,7 +1237,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $table1->rebuildIndex();
         $table2->rebuildIndex();
 
-        if ($table1->getRowsCount() != $table2->getRowsCount()) {
+        if ($table1->getRowsCount() !== $table2->getRowsCount()) {
             return false;
         }
 
@@ -1338,7 +1338,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         // if the datatable is the parent we force the Id at 0 (this is part of the specification)
-        if ($depth == 0) {
+        if ($depth === 0) {
             $forcedId = 0;
             $subtableId = 0;
         }
@@ -1485,7 +1485,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $row = new Row($row);
             }
 
-            if ($id == self::ID_SUMMARY_ROW) {
+            if ($id === self::ID_SUMMARY_ROW) {
                 $this->summaryRow = $row;
                 $this->summaryRow->setIsSummaryRow();
             } else {
@@ -1784,7 +1784,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // missing rows, return false
                 if ($missingRowColumns === false) {
                     return array(false, $i);
-                } elseif ($i != $pathLength - 1) {
+                } elseif ($i !== $pathLength - 1) {
                     // create subtable if missing, but only if not on the last segment
 
                     $table = new DataTable();
@@ -1828,7 +1828,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                     $copy = clone $subRow;
 
                     // if the summary row, add it to the existing summary row (or add a new one)
-                    if ($id == self::ID_SUMMARY_ROW) {
+                    if ($id === self::ID_SUMMARY_ROW) {
                         $existing = $result->getRowFromId(self::ID_SUMMARY_ROW);
                         if ($existing === false) {
                             $result->addSummaryRow($copy);
@@ -1841,7 +1841,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                             // sure to prepend the existing label w/ the parent row's label. otherwise
                             // we're just adding the parent row's label as a new column/metadata.
                             $newLabel = $parentLabel;
-                            if ($labelColumn == 'label') {
+                            if ($labelColumn === 'label') {
                                 $newLabel .= ' - ' . $copy->getColumn('label');
                             }
 

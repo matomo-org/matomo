@@ -117,9 +117,7 @@ class ProxyHttp
         $encoding = '';
         $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file);
 
-        if (!($byteStart == 0
-              && $byteEnd == filesize($file))
-        ) {
+        if (!($byteStart === 0 && $byteEnd === filesize($file))) {
             $compressedFileLocation .= ".$byteStart.$byteEnd";
         }
 
@@ -144,9 +142,7 @@ class ProxyHttp
                 }
             } else {
                 // if a compressed file exists, the file was manually compressed so we just serve that
-                if ($extension == '.gz'
-                    && !self::shouldCompressFile($file, $filegz)
-                ) {
+                if ($extension === '.gz' && !self::shouldCompressFile($file, $filegz)) {
                     $compressed = true;
                     $file = $filegz;
 
@@ -280,9 +276,9 @@ class ProxyHttp
         $data = file_get_contents($fileToCompress);
         $data = substr($data, $byteStart, $byteEnd - $byteStart);
 
-        if ($compressionEncoding == 'deflate') {
+        if ($compressionEncoding === 'deflate') {
             $data = gzdeflate($data, 9);
-        } elseif ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
+        } elseif ($compressionEncoding === 'gzip' || $compressionEncoding === 'x-gzip') {
             $data = self::gzencode($data);
         }
 

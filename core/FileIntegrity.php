@@ -252,7 +252,7 @@ class FileIntegrity
             $directory = $file;
 
             // add this directory and each parent directory
-            while( ($directory = dirname($directory)) && $directory != '.' && $directory != '/') {
+            while( ($directory = dirname($directory)) && $directory !== '.' && $directory !== '/') {
                 $directories[] = $directory;
             }
         }
@@ -323,7 +323,7 @@ class FileIntegrity
 
             if (!file_exists($file) || !is_readable($file)) {
                 $messagesMismatch[] = Piwik::translate('General_ExceptionMissingFile', $file);
-            } elseif (filesize($file) != $props[0]) {
+            } elseif (filesize($file) !== $props[0]) {
 
                 if (self::isModifiedPathValid($path)) {
                     continue;
@@ -336,7 +336,7 @@ class FileIntegrity
                     // convert end-of-line characters and re-test text files
                     $content = @file_get_contents($file);
                     $content = str_replace("\r\n", "\n", $content);
-                    if ((strlen($content) != $props[0])
+                    if ((strlen($content) !== $props[0])
                         || (@md5($content) !== $props[1])
                     ) {
                         $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
@@ -449,7 +449,7 @@ class FileIntegrity
     protected static function getDirectoryParentFromList($directory, $directories)
     {
         foreach($directories as $directoryMaybeParent) {
-            if ($directory == $directoryMaybeParent) {
+            if ($directory === $directoryMaybeParent) {
                 continue;
             }
 

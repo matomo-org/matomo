@@ -34,7 +34,7 @@ class Deactivate extends Migration
 
     public function __toString()
     {
-        $domain = Config::getLocalConfigPath() == Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
+        $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
         $domainArg = !empty($domain) ? "--matomo-domain=\"$domain\" " : '';
 
         return sprintf('./console %splugin:deactivate "%s"', $domainArg, $this->pluginName);

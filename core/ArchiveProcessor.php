@@ -448,7 +448,7 @@ class ArchiveProcessor
         $sites = $this->getIdSitesToComputeNbUniques();
 
         if (count($sites) > 1 && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites()) {
-            if ($periodLabel != 'day') {
+            if ($periodLabel !== 'day') {
                 // for day we still keep the aggregated metric but for other periods we remove it as it becomes to
                 // inaccurate
                 $row->deleteColumn('nb_uniq_visitors');

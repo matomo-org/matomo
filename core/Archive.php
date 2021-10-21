@@ -833,7 +833,7 @@ class Archive implements ArchiveQuery
         }
 
         $periodString = $period->getRangeString();
-        $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
+        $periodDateStr = $period->getLabel() === 'range' ? $periodString : $period->getDateStart()->toString();
 
         $idSites = array($site->getId());
 

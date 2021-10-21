@@ -93,7 +93,7 @@ class AuthResult
      */
     public function hasSuperUserAccess()
     {
-        return $this->getCode() == self::SUCCESS_SUPERUSER_AUTH_CODE;
+        return $this->getCode() === self::SUCCESS_SUPERUSER_AUTH_CODE;
     }
 
     /**

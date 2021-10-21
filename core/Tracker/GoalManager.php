@@ -99,7 +99,7 @@ class GoalManager
         $goals = self::getGoalDefinitions($idSite);
 
         foreach ($goals as $goal) {
-            if ($goal['idgoal'] == $idGoal) {
+            if ($goal['idgoal'] === $idGoal) {
                 return $goal;
             }
         }
@@ -169,11 +169,11 @@ class GoalManager
         }
 
         // if the attribute to match is not the type of the current action
-        if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
-          || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
-          || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
-          || ($attribute == 'manually')
-          || self::isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
+        if ((($attribute === 'url' || $attribute === 'title') && $actionType !== Action::TYPE_PAGE_URL)
+          || ($attribute === 'file' && $actionType !== Action::TYPE_DOWNLOAD)
+          || ($attribute === 'external_website' && $actionType !== Action::TYPE_OUTLINK)
+          || ($attribute === 'manually')
+          || self::isEventMatchingGoal($goal) && $actionType !== Action::TYPE_EVENT
         ) {
             return null;
         }
@@ -321,7 +321,7 @@ class GoalManager
      */
     protected function getRevenue($revenue)
     {
-        if (round($revenue) != $revenue) {
+        if (round($revenue) !== $revenue) {
             $revenue = round($revenue, self::REVENUE_PRECISION);
         }
 
@@ -472,7 +472,7 @@ class GoalManager
             $newItem = $itemInCartBySku[$itemInDb[0]];
             $newItem = $this->getItemRowCast($newItem);
 
-            if (count($itemInDb) != count($newItem)) {
+            if (count($itemInDb) !== count($newItem)) {
                 Common::printDebug("ERROR: Different format in items from cart and DB");
                 throw new Exception(" Item in DB and Item in cart have a different format, this is not expected... " . var_export($itemInDb, true) . var_export($newItem, true));
             }
@@ -724,7 +724,7 @@ class GoalManager
             }
 
             // If multiple Goal conversions per visit, set a cache buster
-            if ($convertedGoal['allow_multiple'] == 0) {
+            if ($convertedGoal['allow_multiple'] === 0) {
                 $conversion['buster'] = 0;
             } else {
                 $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
@@ -785,7 +785,7 @@ class GoalManager
             && !empty($convertedGoal['event_value_as_revenue'])
         ) {
             $eventValue = ActionEvent::getEventValue($request);
-            if ($eventValue != '') {
+            if ($eventValue !== '') {
                 $conversion['revenue'] = $eventValue;
             }
         }
@@ -926,7 +926,7 @@ class GoalManager
                 if (!$goal['case_sensitive']) {
                     $pattern .= 'i';
                 }
-                $match = (@preg_match($pattern, $url) == 1);
+                $match = (@preg_match($pattern, $url) === 1);
                 break;
             case 'contains':
                 if ($goal['case_sensitive']) {
@@ -942,7 +942,7 @@ class GoalManager
                 } else {
                     $matched = strcasecmp($goal['pattern'], $url);
                 }
-                $match = ($matched == 0);
+                $match = ($matched === 0);
                 break;
             default:
                 try {

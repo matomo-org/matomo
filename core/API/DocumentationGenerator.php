@@ -117,7 +117,7 @@ class DocumentationGenerator
         $toDisplay = array();
 
         foreach ($info as $methodName => $infoMethod) {
-            if ($methodName == '__documentation') {
+            if ($methodName === '__documentation') {
                 continue;
             }
             $toDisplay[$moduleName][] = $methodName;
@@ -191,7 +191,7 @@ class DocumentationGenerator
      */
     public function checkDocumentation($moduleToCheck)
     {
-        if (strpos($moduleToCheck, '@hide') == true) {
+        if (strpos($moduleToCheck, '@hide') === true) {
             $moduleToCheck = str_replace(strtok(strstr($moduleToCheck, '@hide'), "\n"), "", $moduleToCheck);
         }
         return $moduleToCheck;

@@ -109,7 +109,7 @@ class Factory
         $containerId = Common::getRequestVar('containerId', '', 'string');
 
         if (!isset($loadViewDataTableParametersForUser)) {
-            $loadViewDataTableParametersForUser = ($containerId != '' || '0' == Common::getRequestVar('widget', '0', 'string'));
+            $loadViewDataTableParametersForUser = ($containerId !== '' || '0' === Common::getRequestVar('widget', '0', 'string'));
         }
 
         if ($loadViewDataTableParametersForUser) {

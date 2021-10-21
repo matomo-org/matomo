@@ -179,7 +179,7 @@ class JoinGenerator
 
             $logTable = $this->tables->getLogTable($table);
 
-            if ($i == 0) {
+            if ($i === 0) {
                 // first table
                 $this->joinString .= $tableSql;
             } else {
@@ -259,7 +259,7 @@ class JoinGenerator
 
             $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
             foreach ($otherJoins as $joinTable => $column) {
-                if($availableLogTable->getName() == $joinTable) {
+                if($availableLogTable->getName() === $joinTable) {
                     $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
                     break;
                 }
@@ -277,7 +277,7 @@ class JoinGenerator
             return null;
         }
 
-        if ($table == 'log_conversion_item') { // by default we don't want to consider deleted columns
+        if ($table === 'log_conversion_item') { // by default we don't want to consider deleted columns
             $join .= sprintf(' AND `%s`.deleted = 0', $table);
         }
 

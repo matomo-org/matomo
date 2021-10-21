@@ -150,7 +150,7 @@ class Filesystem
             @exec($command, $output, $returnCode);
 
             // check if filesystem is NFS
-            if ($returnCode == 0
+            if ($returnCode === 0
                 && count($output) > 1
                 && preg_match('/\bnfs\d?\b/', implode("\n", $output))
             ) {
@@ -189,10 +189,10 @@ class Filesystem
      */
     public static function globr($sDir, $sPattern, $nFlags = 0)
     {
-        if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) == false) {
+        if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) === false) {
             $aFiles = array();
         }
-        if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) != false) {
+        if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) !== false) {
             foreach ($aDirs as $sSubDir) {
                 if (is_link($sSubDir)) {
                     continue;
@@ -220,7 +220,7 @@ class Filesystem
             return;
         }
         while (false !== ($obj = readdir($dh))) {
-            if ($obj == '.' || $obj == '..') {
+            if ($obj === '.' || $obj === '..') {
                 continue;
             }
 
@@ -271,9 +271,9 @@ class Filesystem
      */
     public static function sortFilesDescByPathLength($files)
     {
-        usort($files, function ($a, $b) {
+        usort($files, static function ($a, $b) {
             // sort by filename length so we kinda make sure to remove files before its directories
-            if ($a == $b) {
+            if ($a === $b) {
                 return 0;
             }
 
@@ -375,7 +375,7 @@ class Filesystem
             self::mkdir($target);
             $d = dir($source);
             while (false !== ($entry = $d->read())) {
-                if ($entry == '.' || $entry == '..') {
+                if ($entry === '.' || $entry === '..') {
                     continue;
                 }
 

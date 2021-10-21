@@ -163,7 +163,7 @@ class Plugin
         $myClassName = get_class();
         $pluginClassName = get_class($this);
 
-        if ($pluginClassName == $myClassName) {
+        if ($pluginClassName === $myClassName) {
             // plugin has not defined its own class
             return false;
         }
@@ -171,7 +171,7 @@ class Plugin
         $foo = new \ReflectionMethod(get_class($this), 'getInformation');
         $declaringClass = $foo->getDeclaringClass()->getName();
 
-        return $declaringClass != $myClassName;
+        return $declaringClass !== $myClassName;
     }
 
     /**

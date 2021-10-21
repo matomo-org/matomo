@@ -126,7 +126,7 @@ class Html extends Renderer
                 $metadata[] = "'$name' => $value";
             }
 
-            if (count($metadata) != 0) {
+            if (count($metadata) !== 0) {
                 $someMetadata = true;
                 $metadata = implode("<br />", $metadata);
                 $this->tableStructure[$i]['_metadata'] = $metadata;

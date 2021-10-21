@@ -54,7 +54,7 @@ class HtmlReportEmailHeaderView extends View
         $this->assign("date", $date);
 
         // segment
-        $displaySegment = ($segment != null);
+        $displaySegment = ($segment !== null);
         $this->assign("displaySegment", $displaySegment);
         if ($displaySegment) {
             $this->assign("segmentName", $segment['name']);

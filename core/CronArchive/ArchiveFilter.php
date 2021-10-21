@@ -112,7 +112,7 @@ class ArchiveFilter
         if (!empty($this->forceReport)
             && (empty($archive['plugin'])
                 || empty($archive['report'])
-                || $archive['plugin'] . '.' . $archive['report'] != $this->forceReport)
+                || $archive['plugin'] . '.' . $archive['report'] !== $this->forceReport)
         ) {
             return "report is not the same as value specified in --force-report";
         }

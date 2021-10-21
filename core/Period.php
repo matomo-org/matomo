@@ -130,7 +130,7 @@ abstract class Period
     {
         $this->generate();
 
-        if (count($this->subperiods) == 0) {
+        if (count($this->subperiods) === 0) {
             return $this->getDate();
         }
 
@@ -175,7 +175,7 @@ abstract class Period
     {
         $this->generate();
 
-        if (count($this->subperiods) == 0) {
+        if (count($this->subperiods) === 0) {
             return $this->getDate();
         }
 

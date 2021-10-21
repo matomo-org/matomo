@@ -543,14 +543,14 @@ class Common
                     $ok    = true;
                 }
             } elseif ($varType === 'integer') {
-                if ($value == (string)(int)$value) {
+                if ($value === (string)(int)$value) {
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
                 $valueToCompare = (string)(float)$value;
                 $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
 
-                if ($value == $valueToCompare) {
+                if ($value === $valueToCompare) {
                     $ok = true;
                 }
             } elseif ($varType === 'array') {
@@ -685,7 +685,7 @@ class Common
     public static function convertVisitorIdToBin($id)
     {
         if (strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
-            || @bin2hex(self::hex2bin($id)) != $id
+            || @bin2hex(self::hex2bin($id)) !== $id
         ) {
             throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
         }
@@ -712,7 +712,7 @@ class Common
      */
     public static function hasJsonErrorOccurred()
     {
-        return json_last_error() != JSON_ERROR_NONE;
+        return json_last_error() !== JSON_ERROR_NONE;
     }
 
     /**

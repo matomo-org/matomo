@@ -234,9 +234,7 @@ class DataTableGenericFilter
     private function containsProcessedMetric($metrics, $name)
     {
         foreach ($metrics as $metric) {
-            if ($metric instanceof ProcessedMetric
-                && $metric->getName() == $name
-            ) {
+            if ($metric instanceof ProcessedMetric && $metric->getName() === $name) {
                 return true;
             }
         }

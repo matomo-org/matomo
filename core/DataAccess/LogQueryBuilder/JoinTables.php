@@ -188,7 +188,7 @@ class JoinTables extends \ArrayObject
         }
 
         foreach ($otherWays as $logTable => $column) {
-            if ($logTable == 'log_visit' || $this->isTableJoinableOnVisit($logTable)) {
+            if ($logTable === 'log_visit' || $this->isTableJoinableOnVisit($logTable)) {
                 return true;
             }
         }
@@ -215,7 +215,7 @@ class JoinTables extends \ArrayObject
         }
 
         foreach ($otherWays as $logTable => $column) {
-            if ($logTable == 'log_action' || $this->isTableJoinableOnAction($logTable)) {
+            if ($logTable === 'log_action' || $this->isTableJoinableOnAction($logTable)) {
                 return true;
             }
         }
@@ -281,13 +281,13 @@ class JoinTables extends \ArrayObject
     {
         foreach ($tables as $entry) {
             if (is_string($entry)
-                && $entry == $table
+                && $entry === $table
             ) {
                 return true;
             }
 
             if (is_array($entry)
-                && $entry['table'] == $table
+                && $entry['table'] === $table
             ) {
                 return true;
             }
@@ -355,7 +355,7 @@ class JoinTables extends \ArrayObject
                 $tableName = isset($info['tableAlias']) ? $info['tableAlias'] : $info['table'];
             }
 
-            if ($tableName == $tableToSearchFor) {
+            if ($tableName === $tableToSearchFor) {
                 return $key;
             }
         }

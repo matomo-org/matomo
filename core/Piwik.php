@@ -128,10 +128,10 @@ class Piwik
      */
     public static function getQuotientSafe($dividend, $divisor, $precision = 0)
     {
-        if ($divisor == 0) {
+        if ($divisor === 0) {
             return 0;
         }
-        if ($dividend == 0 || $dividend === '-') {
+        if ($dividend === 0 || $dividend === '-') {
             $dividend = 0;
         }
         if (!is_numeric($dividend) || !is_numeric($divisor)) {
@@ -369,7 +369,7 @@ class Piwik
     {
         $currentUserLogin = Piwik::getCurrentUserLogin();
         $isSuperUser = self::hasUserSuperUserAccess();
-        return !$isSuperUser && $currentUserLogin && strtolower($currentUserLogin) == 'anonymous';
+        return !$isSuperUser && $currentUserLogin && strtolower($currentUserLogin) === 'anonymous';
     }
 
     /**

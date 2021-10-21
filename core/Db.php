@@ -446,7 +446,7 @@ class Db
             // filter out all InnoDB tables
             $myisamDbTables = array();
             foreach (self::getTableStatus() as $row) {
-                if (strtolower($row['Engine']) == 'myisam'
+                if (strtolower($row['Engine']) === 'myisam'
                     && in_array($row['Name'], $tables)
                 ) {
                     $myisamDbTables[] = $row['Name'];
@@ -744,7 +744,7 @@ class Db
 
         while ($maxRetries > 0) {
             $result = $db->fetchOne($sql, array($lockName));
-            if ($result == '1') {
+            if ($result === '1') {
                 return true;
             }
             $maxRetries--;
@@ -764,7 +764,7 @@ class Db
         $sql = 'SELECT RELEASE_LOCK(?)';
 
         $db = self::get();
-        return $db->fetchOne($sql, array($lockName)) == '1';
+        return $db->fetchOne($sql, array($lockName)) === '1';
     }
 
     /**
@@ -821,7 +821,7 @@ class Db
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
         if (self::$logQueries === false
-            || @Config::getInstance()->Debug['log_sql_queries'] != 1
+            || @Config::getInstance()->Debug['log_sql_queries'] !== 1
         ) {
             return;
         }

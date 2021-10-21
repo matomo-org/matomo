@@ -515,14 +515,9 @@ abstract class ViewDataTable implements ViewInterface
         $period = Common::getRequestVar('period', null, 'string', $requestArray);
         $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
 
-        if (Period::isMultiplePeriod($date, $period)
+        return !(Period::isMultiplePeriod($date, $period)
             || strpos($idSite, ',') !== false
-            || $idSite == 'all'
-        ) {
-            return false;
-        }
-
-        return true;
+            || $idSite === 'all');
     }
 
     /**

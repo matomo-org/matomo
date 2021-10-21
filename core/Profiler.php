@@ -100,7 +100,7 @@ class Profiler
 
     private static function maxSumMsFirst($a, $b)
     {
-        if ($a['sum_time_ms'] == $b['sum_time_ms']) {
+        if ($a['sum_time_ms'] === $b['sum_time_ms']) {
             return 0;
         }
         return ($a['sum_time_ms'] < $b['sum_time_ms']) ? -1 : 1;
@@ -108,7 +108,7 @@ class Profiler
 
     private static function sortTimeDesc($a, $b)
     {
-        if ($a['sumTimeMs'] == $b['sumTimeMs']) {
+        if ($a['sumTimeMs'] === $b['sumTimeMs']) {
             return 0;
         }
         return ($a['sumTimeMs'] < $b['sumTimeMs']) ? -1 : 1;
@@ -193,7 +193,7 @@ class Profiler
                 $avgTimeString = " (average = <b>" . round($avgTimeMs, 1) . "ms</b>)";
             }
             $query = preg_replace('/([\t\n\r ]+)/', ' ', $query);
-            $output .= "Executed <b>$count</b> time" . ($count == 1 ? '' : 's') . " in <b>" . $timeMs . "ms</b> $avgTimeString <pre>\t$query</pre>";
+            $output .= "Executed <b>$count</b> time" . ($count === 1 ? '' : 's') . " in <b>" . $timeMs . "ms</b> $avgTimeString <pre>\t$query</pre>";
         }
         Log::debug($output);
     }
@@ -347,7 +347,7 @@ class Profiler
                     $aggregatedData[$key] = $data;
                 } else {
                     // don't aggregate main() metrics since only the super run has the correct metrics for the entire run
-                    if ($key == "main()") {
+                    if ($key === "main()") {
                         continue;
                     }
 

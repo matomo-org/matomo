@@ -282,11 +282,11 @@ class AssetManager extends Singleton
      */
     public function isMergedAssetsDisabled()
     {
-        if (Config::getInstance()->Development['disable_merged_assets'] == 1) {
+        if (Config::getInstance()->Development['disable_merged_assets'] === 1) {
             return true;
         }
         
-        if (isset($_GET['disable_merged_assets']) && $_GET['disable_merged_assets'] == 1) {
+        if (isset($_GET['disable_merged_assets']) && $_GET['disable_merged_assets'] === 1) {
             return true;
         }
         

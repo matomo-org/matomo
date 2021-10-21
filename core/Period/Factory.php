@@ -76,7 +76,7 @@ abstract class Factory
         if (is_string($date)) {
             [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
             if (Period::isMultiplePeriod($date, $period)
-                || $period == 'range'
+                || $period === 'range'
             ) {
 
                 return new Range($period, $date, $timezone);
@@ -162,7 +162,7 @@ abstract class Factory
 
         [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
 
-        if ($period == 'range') {
+        if ($period === 'range') {
             self::checkPeriodIsEnabled('range');
             $oPeriod = new Range('range', $date, $timezone, Date::factory('today', $timezone));
         } else {

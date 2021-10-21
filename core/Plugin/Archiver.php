@@ -187,6 +187,6 @@ abstract class Archiver
     {
         $requestedReport = $this->getProcessor()->getParams()->getArchiveOnlyReport();
 
-        return empty($requestedReport) || $requestedReport == $reportName;
+        return empty($requestedReport) || $requestedReport === $reportName;
     }
 }

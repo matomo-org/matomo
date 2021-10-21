@@ -95,7 +95,7 @@ class Handler
         }
 
         // if an internal server error, log as a real error, otherwise it's just malformed input
-        if ($statusCode == 500) {
+        if ($statusCode === 500) {
             $this->logger->error('Exception: {exception}', [
                 'exception' => $e,
             ]);

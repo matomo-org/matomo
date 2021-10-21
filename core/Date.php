@@ -507,7 +507,7 @@ class Date
     {
         $currentWeek = date('W', $this->getTimestamp());
         $toCompareWeek = date('W', $date->getTimestamp());
-        if ($currentWeek == $toCompareWeek) {
+        if ($currentWeek === $toCompareWeek) {
             return 0;
         }
         if ($currentWeek < $toCompareWeek) {
@@ -527,7 +527,7 @@ class Date
     {
         $currentMonth = date('n', $this->getTimestamp());
         $toCompareMonth = date('n', $date->getTimestamp());
-        if ($currentMonth == $toCompareMonth) {
+        if ($currentMonth === $toCompareMonth) {
             return 0;
         }
         if ($currentMonth < $toCompareMonth) {
@@ -547,7 +547,7 @@ class Date
     {
         $currentYear   = date('Y', $this->getTimestamp());
         $toCompareYear = date('Y', $date->getTimestamp());
-        if ($currentYear == $toCompareYear) {
+        if ($currentYear === $toCompareYear) {
             return 0;
         }
         if ($currentYear < $toCompareYear) {
@@ -891,7 +891,7 @@ class Date
                 return $this->toString('s');
             // am / pm
             case "a":
-                return $this->toString('a') == 'am' ? $translator->translate('Intl_Time_AM') : $translator->translate('Intl_Time_PM');
+                return $this->toString('a') === 'am' ? $translator->translate('Intl_Time_AM') : $translator->translate('Intl_Time_PM');
 
             // currently not implemented:
             case "G":
@@ -1010,7 +1010,7 @@ class Date
     {
         $isNegative = ($n < 0);
         $minutes = 0;
-        if ($n != round($n)) {
+        if ($n !== round($n)) {
             if ($n >= 1 || $n <= -1) {
                 $extraMinutes = floor(abs($n));
                 if ($isNegative) {
@@ -1062,7 +1062,7 @@ class Date
      */
     public function addPeriod($n, $period)
     {
-        if (strtolower($period) == 'month') { // TODO: comments
+        if (strtolower($period) === 'month') { // TODO: comments
             $dateInfo = getdate($this->timestamp);
 
             $ts = mktime(
@@ -1087,14 +1087,12 @@ class Date
 
     private static function getMaxDaysInMonth($timestamp)
     {
-        $month = (int)date('m', $timestamp);
-        if (date('L', $timestamp) == 1
-            && $month == 2
-        ) {
+        $month = (int) date('m', $timestamp);
+        if ($month === 2 && (int) date('L', $timestamp) === 1) {
             return 29;
-        } else {
-            return self::$maxDaysInMonth[$month];
         }
+
+        return self::$maxDaysInMonth[$month];
     }
 
     /**

@@ -172,7 +172,7 @@ class DataTablePostProcessor
      */
     public function applyFlattener($dataTable)
     {
-        if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
+        if (Common::getRequestVar('flat', '0', 'string', $this->request) === '1') {
             // skip flattening if not supported by report and remove subtables only
             if ($this->report && !$this->report->supportsFlatten()) {
                 $dataTable->filter('RemoveSubtables');
@@ -180,7 +180,7 @@ class DataTablePostProcessor
             }
 
             $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
-            if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
+            if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) === '1') {
                 $flattener->includeAggregateRows();
             }
 
@@ -200,7 +200,7 @@ class DataTablePostProcessor
      */
     public function applyTotalsCalculator($dataTable)
     {
-        if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+        if (1 === Common::getRequestVar('totals', '1', 'integer', $this->request)) {
             $calculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request, $this->report);
             $dataTable  = $calculator->calculate($dataTable);
         }
@@ -214,7 +214,7 @@ class DataTablePostProcessor
     public function applyGenericFilters($dataTable)
     {
         // if the flag disable_generic_filters is defined we skip the generic filters
-        if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
+        if (0 === Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $this->applyProcessedMetricsGenericFilters($dataTable);
 
             $genericFilter = new DataTableGenericFilter($this->request, $this->report);
@@ -263,8 +263,8 @@ class DataTablePostProcessor
                 'filter_update_columns_when_show_all_goals', false, 'string', $this->request);
             if ((int) $addGoalProcessedMetrics === 0
                 && $addGoalProcessedMetrics !== '0'
-                && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
-                && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+                && $addGoalProcessedMetrics !== Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+                && $addGoalProcessedMetrics !== Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             ) {
                 $addGoalProcessedMetrics = null;
             }
@@ -299,7 +299,7 @@ class DataTablePostProcessor
     public function applyQueuedFilters($dataTable)
     {
         // if the flag disable_queued_filters is defined we skip the filters that were queued
-        if (Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0) {
+        if (Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) === 0) {
             $dataTable->applyQueuedFilters();
         }
         return $dataTable;
@@ -360,7 +360,7 @@ class DataTablePostProcessor
 
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
         if (!empty($label)) {
-            $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
+            $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) === 1;
 
             $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request);
             $dataTable = $filter->filter($label, $dataTable, $addLabelIndex);
@@ -375,7 +375,7 @@ class DataTablePostProcessor
     public function applyMetricsFormatting($dataTable)
     {
         $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
-        if ($formatMetrics == '0') {
+        if ($formatMetrics === '0') {
             return $dataTable;
         }
 
@@ -481,7 +481,7 @@ class DataTablePostProcessor
     public function applyComparison(DataTableInterface $dataTable)
     {
         $compare = Common::getRequestVar('compare', '0', 'int', $this->request);
-        if ($compare != 1) {
+        if ($compare !== 1) {
             return $dataTable;
         }
 

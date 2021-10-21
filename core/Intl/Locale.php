@@ -24,7 +24,7 @@ class Locale
             $newLocale[] = $localePart;
             
             $localeVariant = str_replace('UTF-8', 'UTF8', $localePart);
-            if($localeVariant != $localePart){
+            if($localeVariant !== $localePart){
                 $newLocale[] = $localeVariant;
             }
         }

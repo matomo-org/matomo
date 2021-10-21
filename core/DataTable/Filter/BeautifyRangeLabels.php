@@ -84,7 +84,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
 
             // if the lower bound is the same as the upper bound make sure the singular label
             // is used
-            if ($lowerBound == $upperBound) {
+            if ($lowerBound === $upperBound) {
                 return $this->getSingleUnitLabel($value, $lowerBound);
             } else {
                 return $this->getRangeLabel($value, $lowerBound, $upperBound);
@@ -100,7 +100,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
                 $len = strlen($value);
 
                 // if the label doesn't end with a '+', append it
-                if ($len < $plusLen || substr($value, $len - $plusLen) != $plusEncoded) {
+                if ($len < $plusLen || substr($value, $len - $plusLen) !== $plusEncoded) {
                     $value .= $plusEncoded;
                 }
 
@@ -126,7 +126,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
      */
     public function getSingleUnitLabel($oldLabel, $lowerBound)
     {
-        if ($lowerBound == 1) {
+        if ($lowerBound === 1) {
             return $this->labelSingular;
         } else {
             return sprintf($this->labelPlural, $lowerBound);

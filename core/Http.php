@@ -32,7 +32,7 @@ class Http
         $method = 'curl';
         if (!self::isCurlEnabled()) {
             $method = 'fopen';
-            if (@ini_get('allow_url_fopen') != '1') {
+            if (@ini_get('allow_url_fopen') !== '1') {
                 $method = 'socket';
                 if (!self::isSocketEnabled()) {
                     return null;
@@ -338,7 +338,7 @@ class Http
 		    }
 	    }
 
-        if ($method == 'socket') {
+        if ($method === 'socket') {
             if (!self::isSocketEnabled()) {
                 // can be triggered in tests
                 throw new Exception("HTTP socket support is not enabled (php function fsockopen is not available) ");
@@ -349,12 +349,12 @@ class Http
                 throw new Exception('Malformed URL: ' . $aUrl);
             }
 
-            if ($url['scheme'] != 'http' && $url['scheme'] != 'https') {
+            if ($url['scheme'] !== 'http' && $url['scheme'] !== 'https') {
                 throw new Exception('Invalid protocol/scheme: ' . $url['scheme']);
             }
             $host = $url['host'];
-            $port = isset($url['port']) ? $url['port'] : ('https' == $url['scheme'] ? 443 : 80);
-            $path = isset($url['path']) ? $url['path'] : '/';
+            $port = $url['port'] ?? ('https' === $url['scheme'] ? 443 : 80);
+            $path = $url['path'] ?? '/';
             if (isset($url['query'])) {
                 $path .= '?' . $url['query'];
             }
@@ -382,7 +382,7 @@ class Http
                 $connectPort = $port;
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
 
-                if ('https' == $url['scheme']) {
+                if ('https' === $url['scheme']) {
                     $connectHost = 'ssl://' . $connectHost;
                 }
             }
@@ -397,7 +397,7 @@ class Http
 
             // send HTTP request header
             $requestHeader .=
-                "Host: $host" . ($port != 80 && ('https' == $url['scheme'] && $port != 443) ? ':' . $port : '') . "\r\n"
+                "Host: $host" . ($port !== 80 && ('https' === $url['scheme'] && $port !== 443) ? ':' . $port : '') . "\r\n"
                 . ($httpAuth ? $httpAuth : '')
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
@@ -442,7 +442,7 @@ class Http
                 }
 
                 // a blank line marks the end of the server response header
-                if (rtrim($line, "\r\n") == '') {
+                if (rtrim($line, "\r\n") === '') {
                     break;
                 }
 
@@ -514,9 +514,7 @@ class Http
                 self::parseHeaderLine($headers, $line);
             }
 
-            if (feof($fsock)
-                && $httpMethod != 'HEAD'
-            ) {
+            if (feof($fsock) && $httpMethod !== 'HEAD') {
                 throw new Exception('Unexpected end of transmission');
             }
 
@@ -548,7 +546,7 @@ class Http
 
             // determine success or failure
             @fclose(@$fsock);
-        } elseif ($method == 'fopen') {
+        } elseif ($method === 'fopen') {
             $response = false;
 
             // we make sure the request takes less than a few seconds to fail
@@ -626,7 +624,7 @@ class Http
             if (!empty($default_socket_timeout)) {
                 @ini_set('default_socket_timeout', $default_socket_timeout);
             }
-        } elseif ($method == 'curl') {
+        } elseif ($method === 'curl') {
             if (!self::isCurlEnabled()) {
                 // can be triggered in tests
                 throw new Exception("CURL is not enabled in php.ini, but is being used.");
@@ -676,7 +674,7 @@ class Http
                 );
             }
             @curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $httpMethod);
-            if ($httpMethod == 'HEAD') {
+            if ($httpMethod === 'HEAD') {
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
             }
 
@@ -698,7 +696,7 @@ class Http
              * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
              * in safe_mode or open_basedir is set
              */
-            if ((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+            if ((string) ini_get('safe_mode') === '' && ini_get('open_basedir') === '') {
                 $protocols = 0;
 
                 foreach (explode(',', $allowedProtocols) as $protocol) {
@@ -735,7 +733,7 @@ class Http
                 $response = '';
             } elseif ($response === false) {
                 $errstr = curl_error($ch);
-                if ($errstr != '') {
+                if ($errstr !== '') {
                     throw new Exception('curl_exec: ' . $errstr
                         . '. Hostname requested was: ' . UrlHelper::getHostFromUrl($aUrl));
                 }
@@ -744,10 +742,10 @@ class Http
                 $header = '';
                 // redirects are included in the output html, so we look for the last line that starts w/ HTTP/...
                 // to split the response
-                while (substr($response, 0, 5) == "HTTP/") {
+                while (substr($response, 0, 5) === "HTTP/") {
                     $split = explode("\r\n\r\n", $response, 2);
 
-                    if(count($split) == 2) {
+                    if(count($split) === 2) {
                         [$header, $response] = $split;
                     } else {
                         $response = '';
@@ -775,9 +773,7 @@ class Http
             @fclose($file);
 
             $fileSize = filesize($destinationPath);
-            if ($contentLength > 0
-                && $fileSize != $contentLength
-            ) {
+            if ($contentLength > 0 && $fileSize !== $contentLength) {
                 throw new Exception('File size error: ' . $destinationPath . '; expected ' . $contentLength . ' bytes; received ' . $fileLength . ' bytes; saved ' . $fileSize . ' bytes to file');
             }
             return true;
@@ -913,7 +909,7 @@ class Http
                 $expectedFileSize = (int)$expectedFileSizeResult['headers']['Content-Length'];
             }
 
-            if ($expectedFileSize == 0) {
+            if ($expectedFileSize === 0) {
                 Log::info("HEAD request for '%s' failed, got following: %s", $url, print_r($expectedFileSizeResult, true));
                 throw new Exception(Piwik::translate('General_DownloadFail_HttpRequestFail'));
             }
@@ -1021,7 +1017,7 @@ class Http
     private static function parseHeaderLine(&$headers, $line)
     {
         $parts = explode(':', $line, 2);
-        if (count($parts) == 1) {
+        if (count($parts) === 1) {
             return;
         }
 

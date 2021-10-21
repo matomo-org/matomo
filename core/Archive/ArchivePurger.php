@@ -242,7 +242,7 @@ class ArchivePurger
         $deletedCount = $this->model->deleteArchivesWithPeriod(
             $numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
 
-        $level = $deletedCount == 0 ? LogLevel::DEBUG : LogLevel::INFO;
+        $level = $deletedCount === 0 ? LogLevel::DEBUG : LogLevel::INFO;
         $this->logger->log($level, "Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
             'count' => $deletedCount,
             'numericTable' => $numericTable,

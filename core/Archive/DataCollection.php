@@ -323,9 +323,9 @@ class DataCollection
         if (!empty($metadataNamesToIndexBy)) {
             $metadataName = array_shift($metadataNamesToIndexBy);
 
-            if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
+            if ($metadataName === DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $indexKeyValues = array_values($this->sitesId);
-            } elseif ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            } elseif ($metadataName === DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $indexKeyValues = array_keys($this->periods);
             }
 
@@ -349,9 +349,9 @@ class DataCollection
         $currentLevel = & $index;
 
         foreach ($metadataNamesToIndexBy as $metadataName) {
-            if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
+            if ($metadataName === DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $key = $idSite;
-            } elseif ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            } elseif ($metadataName === DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $key = $period;
             } else {
                 $key = $row[self::METADATA_CONTAINER_ROW_KEY][$metadataName];
@@ -398,7 +398,7 @@ class DataCollection
 
     private function checkExpandedMethodPrerequisites()
     {
-        if ($this->dataType != 'blob') {
+        if ($this->dataType !== 'blob') {
             throw new Exception("DataCollection: cannot call getExpandedDataTable with "
                 . "{$this->dataType} data types. Only works with blob data.");
         }

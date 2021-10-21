@@ -191,9 +191,9 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      */
     private static function getPercentageValue($value, $divisor, $quotientPrecision)
     {
-        if ($value == 0) {
+        if ($value === 0) {
             $evolution = 0;
-        } elseif ($divisor == 0) {
+        } elseif ($divisor === 0) {
             $evolution = 100;
         } else {
             $evolution = ($value / $divisor) * 100;

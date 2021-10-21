@@ -68,7 +68,7 @@ class API
     {
         $resources = $this->getAvailableResources();
         foreach ($resources as $res) {
-            if ($res->slug == $resource) {
+            if ($res->slug === $resource) {
                 return true;
             }
         }
@@ -137,9 +137,9 @@ class API
         $httpStatus = $response['status'];
         $response = $response['data'];
 
-        if ($httpStatus == 401) {
+        if ($httpStatus === 401) {
             throw new AuthenticationFailedException();
-        } elseif ($httpStatus != 200) {
+        } elseif ($httpStatus !== 200) {
             throw new Exception('Error while getting API results', $httpStatus);
         }
 

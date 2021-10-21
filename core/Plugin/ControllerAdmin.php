@@ -36,7 +36,7 @@ abstract class ControllerAdmin extends Controller
     private static function notifyWhenTrackingStatisticsDisabled()
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
-        if ($statsEnabled == "0") {
+        if ($statsEnabled === "0") {
             $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
             $notification->context = Notification::CONTEXT_INFO;
             Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);

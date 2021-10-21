@@ -513,7 +513,7 @@ class Access
 
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 
-        if (count($idSitesAccessible) == 0) {
+        if (count($idSitesAccessible) === 0) {
             $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
         }
     }

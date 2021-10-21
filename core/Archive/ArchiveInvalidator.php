@@ -11,6 +11,7 @@ namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ReArchiveList;
@@ -20,17 +21,15 @@ use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
-use Piwik\Common;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Period;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\Tracker\Model as TrackerModel;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -278,9 +277,9 @@ class ArchiveInvalidator
             $hasMoreThanJustToday[$idSite] = true;
             $tz = Site::getTimezoneFor($idSite);
 
-            if (($period == 'day' || $period === false)
-                && count($dates) == 1
-                && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
+            if (($period === 'day' || $period === false)
+                && count($dates) === 1
+                && ((string)$dates[0]) === ((string)Date::factoryInTimezone('today', $tz))
             ) {
                 $hasMoreThanJustToday[$idSite] = false;
             }
@@ -313,9 +312,9 @@ class ArchiveInvalidator
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period !== 'range', $forceInvalidateNonexistantRanges, $name);
 
-        $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
+        $isInvalidatingDays = $period === 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
         if ($isInvalidatingDays
             && $isNotInvalidatingSegment
@@ -345,18 +344,14 @@ class ArchiveInvalidator
                 $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
 
                 // cascade down
-                if ($cascadeDown
-                    && $period != 'range'
-                ) {
+                if ($cascadeDown && $period !== 'range') {
                     $this->addChildPeriodsByYearMonth($result, $periodObj);
                 }
 
                 // cascade up
                 // if the period spans multiple years or months, it won't be used when aggregating parent periods, so
                 // we can avoid invalidating it
-                if ($this->shouldPropagateUp($periodObj)
-                    && $period != 'range'
-                ) {
+                if ($this->shouldPropagateUp($periodObj) && $period !== 'range') {
                     $this->addParentPeriodsByYearMonth($result, $periodObj);
                 }
             }
@@ -367,15 +362,15 @@ class ArchiveInvalidator
 
     private function shouldPropagateUp(Period $periodObj)
     {
-        return $periodObj->getDateStart()->toString('Y') == $periodObj->getDateEnd()->toString('Y')
-            && $periodObj->getDateStart()->toString('m') == $periodObj->getDateEnd()->toString('m');
+        return $periodObj->getDateStart()->toString('Y') === $periodObj->getDateEnd()->toString('Y')
+            && $periodObj->getDateStart()->toString('m') === $periodObj->getDateEnd()->toString('m');
     }
 
     private function addChildPeriodsByYearMonth(&$result, Period $period)
     {
-        if ($period->getLabel() == 'range') {
+        if ($period->getLabel() === 'range') {
             return;
-        } else if ($period->getLabel() == 'day'
+        } else if ($period->getLabel() === 'day'
             && $this->shouldPropagateUp($period)
         ) {
             $this->addParentPeriodsByYearMonth($result, $period);
@@ -390,8 +385,8 @@ class ArchiveInvalidator
 
     private function addParentPeriodsByYearMonth(&$result, Period $period, Date $originalDate = null)
     {
-        if ($period->getLabel() == 'year'
-            || $period->getLabel() == 'range'
+        if ($period->getLabel() === 'year'
+            || $period->getLabel() === 'range'
             || !Period\Factory::isPeriodEnabledForAPI($period->getParentPeriodLabel())
         ) {
             return;
@@ -626,7 +621,7 @@ class ArchiveInvalidator
 
             $entryPluginName = $entry['pluginName'];
             if (!empty($pluginName)
-                && $pluginName != $entryPluginName
+                && $pluginName !== $entryPluginName
             ) {
                 continue;
             }
@@ -634,7 +629,7 @@ class ArchiveInvalidator
             $entryReport = $entry['report'];
             if (!empty($pluginName)
                 && !empty($report)
-                && $report != $entryReport
+                && $report !== $entryReport
             ) {
                 continue;
             }

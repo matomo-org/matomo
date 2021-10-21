@@ -221,7 +221,7 @@ abstract class Action
 
         $this->actionUrl = PageUrl::getUrlIfLookValid($url2);
 
-        if ($url != $this->rawActionUrl) {
+        if ($url !== $this->rawActionUrl) {
             $this->logger->debug(' Before was "{rawActionUrl}"', [
                 'rawActionUrl' => $this->rawActionUrl,
             ]);

@@ -121,8 +121,8 @@ class Flattener extends DataTableManipulator
         if ($label !== false) {
             $origLabel = $label = trim($label);
 
-            if ($this->recursiveLabelSeparator == '/') {
-                if (substr($label, 0, 1) == '/' && substr($labelPrefix, -1) == '/') {
+            if ($this->recursiveLabelSeparator === '/') {
+                if (substr($label, 0, 1) === '/' && substr($labelPrefix, -1) === '/') {
                     $origLabel = $label = substr($label, 1);
                 } elseif ($rowId === DataTable::ID_SUMMARY_ROW && $labelPrefix && $label != DataTable::LABEL_SUMMARY_ROW) {
                     $label = ' - ' . $label;
@@ -141,7 +141,7 @@ class Flattener extends DataTableManipulator
             $row->setColumn('label', $label);
 
             if ($row->getMetadata($dimensionName)) {
-                if ($rowId === DataTable::ID_SUMMARY_ROW && $this->recursiveLabelSeparator == '/') {
+                if ($rowId === DataTable::ID_SUMMARY_ROW && $this->recursiveLabelSeparator === '/') {
                     $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . ' - ' . $origLabel;
                 } else {
                     $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
@@ -202,7 +202,7 @@ class Flattener extends DataTableManipulator
                     foreach ($row->getMetadata() as $name => $value) {
                         // do not set 'segment' parameter if there is a segmentValue on the row, since that will prevent the segmentValue
                         // from being used in DataTablePostProcessor
-                        if ($name == 'segment' && $subRow->getMetadata('segmentValue') !== false) {
+                        if ($name === 'segment' && $subRow->getMetadata('segmentValue') !== false) {
                             continue;
                         }
 

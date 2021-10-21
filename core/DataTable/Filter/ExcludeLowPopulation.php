@@ -68,7 +68,7 @@ class ExcludeLowPopulation extends BaseFilter
 
         $this->columnToFilter = $this->selectColumnToExclude($columnToFilter, $row);
 
-        if ($minimumValue == 0) {
+        if ($minimumValue === 0) {
             if ($minimumPercentageThreshold === false) {
                 $minimumPercentageThreshold = self::MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD;
             }

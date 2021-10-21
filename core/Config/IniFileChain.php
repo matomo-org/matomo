@@ -7,10 +7,10 @@
  */
 namespace Piwik\Config;
 
-use Piwik\Common;
 use Matomo\Ini\IniReader;
 use Matomo\Ini\IniReadingException;
 use Matomo\Ini\IniWriter;
+use Piwik\Common;
 use Piwik\Piwik;
 
 /**
@@ -180,11 +180,11 @@ class IniFileChain
                 $lhsIndex = $self->findIndexOfFirstFileWithSection($sectionNameLhs);
                 $rhsIndex = $self->findIndexOfFirstFileWithSection($sectionNameRhs);
 
-                if ($lhsIndex == $rhsIndex) {
+                if ($lhsIndex === $rhsIndex) {
                     $lhsIndexInFile = $self->getIndexOfSectionInFile($lhsIndex, $sectionNameLhs);
                     $rhsIndexInFile = $self->getIndexOfSectionInFile($rhsIndex, $sectionNameRhs);
 
-                    if ($lhsIndexInFile == $rhsIndexInFile) {
+                    if ($lhsIndexInFile === $rhsIndexInFile) {
                         return 0;
                     } elseif ($lhsIndexInFile < $rhsIndexInFile) {
                         return -1;
@@ -328,9 +328,7 @@ class IniFileChain
 
         $mergedSettings = array();
         foreach ($this->settingsChain as $file => $settings) {
-            if ($file == $userSettingsFile
-                || empty($settings)
-            ) {
+            if ($file === $userSettingsFile || empty($settings)) {
                 continue;
             }
 
@@ -466,7 +464,7 @@ class IniFileChain
     public function getIndexOfSectionInFile($fileIndex, $sectionName)
     {
         reset($this->settingsChain);
-        for ($i = 0; $i != $fileIndex; ++$i) {
+        for ($i = 0; $i !== $fileIndex; ++$i) {
             next($this->settingsChain);
         }
 

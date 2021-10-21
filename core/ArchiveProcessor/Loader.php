@@ -227,7 +227,7 @@ class Loader
         $processAllReportsIncludingVisitsSummary =
                 Rules::shouldProcessReportsAllPlugins(array($this->params->getSite()->getId()), $this->params->getSegment(), $this->params->getPeriod()->getLabel());
         $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary
-                                                        || $this->params->getRequestedPlugin() == 'VisitsSummary';
+                                                        || $this->params->getRequestedPlugin() === 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;
     }
 
@@ -236,9 +236,9 @@ class Loader
         $period = $this->params->getPeriod()->getLabel();
         $debugSetting = 'always_archive_data_period'; // default
 
-        if ($period == 'day') {
+        if ($period === 'day') {
             $debugSetting = 'always_archive_data_day';
-        } elseif ($period == 'range') {
+        } elseif ($period === 'range') {
             $debugSetting = 'always_archive_data_range';
         }
 
@@ -276,7 +276,7 @@ class Loader
     protected function getMinTimeArchiveProcessed()
     {
         // for range periods we can archive in a browser request request, make sure to check for the ttl no matter what
-        $isRangeArchiveAndArchivingEnabled = $this->params->getPeriod()->getLabel() == 'range'
+        $isRangeArchiveAndArchivingEnabled = $this->params->getPeriod()->getLabel() === 'range'
             && Rules::isArchivingEnabledFor([$this->params->getSite()->getId()], $this->params->getSegment(), $this->params->getPeriod()->getLabel());
 
         if (!$isRangeArchiveAndArchivingEnabled) {
@@ -485,7 +485,7 @@ class Loader
         $params = $this->params;
 
         // the archive is invalidated and we are in a browser request that is allowed archive it
-        if ($value == ArchiveWriter::DONE_INVALIDATED
+        if ($value === ArchiveWriter::DONE_INVALIDATED
             && Rules::isArchivingEnabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
         ) {
             // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations

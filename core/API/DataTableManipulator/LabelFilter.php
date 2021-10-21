@@ -96,7 +96,7 @@ class LabelFilter extends DataTableManipulator
         }
 
         // end of tree search reached
-        if (count($labelParts) == 0) {
+        if (count($labelParts) === 0) {
             return $row;
         }
 
@@ -139,7 +139,7 @@ class LabelFilter extends DataTableManipulator
 
         $originalLabel = trim($originalLabel);
 
-        $isTerminal = substr($originalLabel, 0, 1) == self::TERMINAL_OPERATOR;
+        $isTerminal = substr($originalLabel, 0, 1) === self::TERMINAL_OPERATOR;
         if ($isTerminal) {
             $originalLabel = substr($originalLabel, 1);
         }
@@ -150,9 +150,7 @@ class LabelFilter extends DataTableManipulator
         $sanitizedLabel = Common::sanitizeInputValue($label);
         $variations[] = $sanitizedLabel;
 
-        if ($this->apiModule == 'Actions'
-            && in_array($this->apiMethod, $pageTitleReports)
-        ) {
+        if ($this->apiModule == 'Actions' && in_array($this->apiMethod, $pageTitleReports)) {
             if ($isTerminal) {
                 array_unshift($variations, ' ' . $sanitizedLabel);
                 array_unshift($variations, ' ' . $label);
@@ -217,6 +215,6 @@ class LabelFilter extends DataTableManipulator
 
     private function isComparing()
     {
-        return Common::getRequestVar('compare', 0, 'int', $this->request) == 1;
+        return Common::getRequestVar('compare', 0, 'int', $this->request) === 1;
     }
 }

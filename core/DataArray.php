@@ -187,7 +187,7 @@ class DataArray
                          Metrics::INDEX_GOAL_REVENUE             => 0,
             );
         }
-        if ($idGoal == GoalManager::IDGOAL_ORDER) {
+        if ($idGoal === GoalManager::IDGOAL_ORDER) {
             return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
                          Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
                          Metrics::INDEX_GOAL_REVENUE                    => 0,
@@ -393,7 +393,7 @@ class DataArray
             $values[Metrics::INDEX_NB_CONVERSIONS] = $conversions;
 
             // 25.00 recorded as 25
-            if (round($revenue) == $revenue) {
+            if (round($revenue) === $revenue) {
                 $revenue = round($revenue);
             }
             $values[Metrics::INDEX_REVENUE] = $revenue;
@@ -414,7 +414,7 @@ class DataArray
      */
     public static function isRowActions($row)
     {
-        return (count($row) == count(static::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
+        return (count($row) === count(static::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
     }
 
     /**

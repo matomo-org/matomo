@@ -201,7 +201,7 @@ class Segment
         $segments = $this->getAvailableSegments();
 
         foreach ($segments as $segment) {
-            if ($segment['segment'] == $name && !empty($name)) {
+            if ($segment['segment'] === $name && !empty($name)) {
 
                 // check permission
                 if (isset($segment['permission']) && $segment['permission'] != 1) {
@@ -625,13 +625,13 @@ class Segment
 
         $foundStoredSegment = null;
         foreach ($availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
-                || $storedSegment['definition'] == urldecode($segment)
-                || $storedSegment['definition'] == urlencode($segment)
+            if ($storedSegment['definition'] === $segment
+                || $storedSegment['definition'] === urldecode($segment)
+                || $storedSegment['definition'] === urlencode($segment)
 
-                || $storedSegment['definition'] == $this->originalString
-                || $storedSegment['definition'] == urldecode($this->originalString)
-                || $storedSegment['definition'] == urlencode($this->originalString)
+                || $storedSegment['definition'] === $this->originalString
+                || $storedSegment['definition'] === urldecode($this->originalString)
+                || $storedSegment['definition'] === urlencode($this->originalString)
             ) {
                 $foundStoredSegment = $storedSegment;
             }

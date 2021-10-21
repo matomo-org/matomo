@@ -251,7 +251,7 @@ class Formatter
                 $size = $size / 1024;
             } elseif ($unit && $unit === $currentUnit) {
                 break;
-            } elseif ($size >= 1024 && $idx != $numUnits) {
+            } elseif ($size >= 1024 && $idx !== $numUnits) {
                 $size = $size / 1024;
             } else {
                 break;
@@ -267,7 +267,7 @@ class Formatter
     {
         $metricsRegexParts = array();
         foreach ($metricsToFormat as $metricFilter) {
-            if ($metricFilter[0] == '/') {
+            if ($metricFilter[0] === '/') {
                 $metricsRegexParts[] = '(?:' . substr($metricFilter, 1, strlen($metricFilter) - 2) . ')';
             } else {
                 $metricsRegexParts[] = preg_quote($metricFilter);

@@ -67,7 +67,7 @@ class AddSegmentByRangeLabel extends BaseFilter
                 // get the range
                 sscanf($label, "%d - %d", $lowerBound, $upperBound);
 
-                if ($lowerBound == $upperBound) {
+                if ($lowerBound === $upperBound) {
                     $row->setMetadata('segment', $this->segment . '==' . urlencode($lowerBound));
                 } else {
                     $row->setMetadata('segment', $this->segment . '>=' . urlencode($lowerBound) . ';' .

@@ -11,7 +11,6 @@ namespace Piwik\Archive;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 
@@ -158,7 +157,7 @@ class DataTableFactory
 
     private function isNumericDataType()
     {
-        return $this->dataType == 'numeric';
+        return $this->dataType === 'numeric';
     }
 
     /**
@@ -371,7 +370,7 @@ class DataTableFactory
      */
     private function createDataTable($data, $keyMetadata)
     {
-        if ($this->dataType == 'blob') {
+        if ($this->dataType === 'blob') {
             $result = $this->makeFromBlobRow($data, $keyMetadata);
         } else {
             $result = $this->makeFromMetricsArray($data, $keyMetadata);
@@ -468,7 +467,7 @@ class DataTableFactory
      */
     private function prettifyIndexLabel($labelType, $label)
     {
-        if ($labelType == self::TABLE_METADATA_PERIOD_INDEX) { // prettify period labels
+        if ($labelType === self::TABLE_METADATA_PERIOD_INDEX) { // prettify period labels
             $period = $this->periods[$label];
             $label = $period->getLabel();
             if ($label === 'week' || $label === 'range') {
@@ -501,9 +500,7 @@ class DataTableFactory
             // ensure that the PHP renderer outputs 0 when only one column is queried.
             // w/o this code, an empty array would be created, and other parts of Piwik
             // would break.
-            if (count($this->dataNames) == 1
-                && $this->isNumericDataType()
-            ) {
+            if (count($this->dataNames) === 1 && $this->isNumericDataType()) {
                 $name = reset($this->dataNames);
                 $table->addRow(new Row(array(Row::COLUMNS => array($name => 0))));
             }

@@ -150,7 +150,7 @@ class Html extends ReportRenderer
 
         $segment = \Piwik\Plugins\ScheduledReports\API::getSegment($report['idsegment']);
 
-        $segmentName = $segment != null ? sprintf(' (%s)', $segment['name']) : '';
+        $segmentName = $segment !== null ? sprintf(' (%s)', $segment['name']) : '';
 
         $processedReportMetadata = $processedReport['metadata'];
 

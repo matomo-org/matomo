@@ -23,7 +23,6 @@ use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionInitializer;
-use Piwik\SupportedBrowser;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -262,7 +261,7 @@ class FrontController extends Singleton
             $lastError['request_id'] = self::$requestId;
         }
 
-        if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+        if (!empty($lastError) && $lastError['type'] === E_ERROR) {
             $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
                 . ErrorHandler::getFatalErrorPartialBacktrace();
 
@@ -486,7 +485,7 @@ class FrontController extends Singleton
 
     protected function handleMaintenanceMode()
     {
-        if ((Config::getInstance()->General['maintenance_mode'] != 1) || Common::isPhpCliMode()) {
+        if ((Config::getInstance()->General['maintenance_mode'] !== 1) || Common::isPhpCliMode()) {
             return;
         }
         Common::sendResponseCode(503);
@@ -527,11 +526,11 @@ class FrontController extends Singleton
     protected function handleSSLRedirection()
     {
         // Specifically disable for the opt out iframe
-        if (Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
+        if (Piwik::getModule() === 'CoreAdminHome' && Piwik::getAction() === 'optOut') {
             return;
         }
         // Disable Https for VisitorGenerator
-        if (Piwik::getModule() == 'VisitorGenerator') {
+        if (Piwik::getModule() === 'VisitorGenerator') {
             return;
         }
         if (Common::isPhpCliMode()) {
@@ -565,13 +564,13 @@ class FrontController extends Singleton
 
     private function handleProfiler()
     {
-        $profilerEnabled = Config::getInstance()->Debug['enable_php_profiler'] == 1;
+        $profilerEnabled = Config::getInstance()->Debug['enable_php_profiler'] === 1;
         if (!$profilerEnabled) {
             return;
         }
 
         if (!empty($_GET['xhprof'])) {
-            $mainRun = $_GET['xhprof'] == 1; // core:archive command sets xhprof=2
+            $mainRun = $_GET['xhprof'] === 1; // core:archive command sets xhprof=2
             Profiler::setupProfilerXHProf($mainRun);
         }
     }
@@ -787,7 +786,7 @@ class FrontController extends Singleton
         }
 
         $generalConfig = Config::getInstance()->General;
-        if ($generalConfig['enable_framed_pages'] == '1' || $generalConfig['enable_framed_settings'] == '1') {
+        if ($generalConfig['enable_framed_pages'] === '1' || $generalConfig['enable_framed_settings'] === '1') {
             return true;
         }
 

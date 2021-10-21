@@ -132,8 +132,8 @@ class Nonce
         // validate origin
         $origin = self::getOrigin();
         if (!empty($origin) &&
-          ($origin == 'null'
-            || !in_array($origin, self::getAcceptableOrigins()))
+            ($origin === 'null'
+                || !in_array($origin, self::getAcceptableOrigins(), true))
         ) {
             return Piwik::translate('Login_InvalidNonceOrigin') . $additionalErrors;
         }

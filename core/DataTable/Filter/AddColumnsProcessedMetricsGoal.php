@@ -119,7 +119,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
             foreach ($goals as $idGoal) {
                 if (($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
                         || $this->isEcommerce)
-                    && $this->processOnlyIdGoal != $idGoal
+                    && $this->processOnlyIdGoal !== $idGoal
                 ) {
                     continue;
                 }
@@ -128,7 +128,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 
                 // When the table is displayed by clicking on the flag icon, we only display the columns
                 // Visits, Conversions, Per goal conversion rate, Revenue
-                if ($this->processOnlyIdGoal == self::GOALS_OVERVIEW) {
+                if ($this->processOnlyIdGoal === self::GOALS_OVERVIEW) {
                     continue;
                 }
 

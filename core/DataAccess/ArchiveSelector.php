@@ -221,7 +221,7 @@ class ArchiveSelector
                 $pairs = explode(',', $archives);
                 foreach ($pairs as $pair) {
                     $parts = explode('|', $pair);
-                    if (count($parts) != 3) { // GROUP_CONCAT got cut off, have to ignore the rest
+                    if (count($parts) !== 3) { // GROUP_CONCAT got cut off, have to ignore the rest
                         // note: in this edge case, we end up not selecting the all plugins archive because it will be older than the partials.
                         // not ideal, but it avoids an exception.
                         $logger->info("GROUP_CONCAT got cut off in ArchiveSelector." . __FUNCTION__ . ' for idsite = ' . $row['idsite'] . ', period = ' . $dateStr);
@@ -234,7 +234,7 @@ class ArchiveSelector
                     if (strpos($doneFlag, '.') === false // all plugins archive
                         // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
                         // don't treat it like an all plugins archive
-                        && $value != ArchiveWriter::DONE_PARTIAL
+                        && $value !== ArchiveWriter::DONE_PARTIAL
                     ) {
                         break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
@@ -439,7 +439,7 @@ class ArchiveSelector
         foreach ($results as $result) {
             if (in_array($result['name'], $doneFlags)
                 && in_array($result['idarchive'], $idArchives)
-                && $result['value'] != ArchiveWriter::DONE_PARTIAL
+                && $result['value'] !== ArchiveWriter::DONE_PARTIAL
             ) {
                 $archiveData = $result;
                 if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
@@ -474,7 +474,7 @@ class ArchiveSelector
             }
 
             $thisTsArchived = Date::factory($row['ts_archived']);
-            if ($row['value'] == ArchiveWriter::DONE_PARTIAL
+            if ($row['value'] === ArchiveWriter::DONE_PARTIAL
                 && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater($thisTsArchived))
             ) {
                 $archiveData['partial'][] = $row['idarchive'];
