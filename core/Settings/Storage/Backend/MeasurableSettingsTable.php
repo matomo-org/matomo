@@ -9,9 +9,9 @@
 
 namespace Piwik\Settings\Storage\Backend;
 
+use Exception;
 use Piwik\Common;
 use Piwik\Db;
-use Exception;
 
 /**
  * Measurable settings backend. Stores all settings in a "site_setting" database table.
@@ -168,7 +168,7 @@ class MeasurableSettingsTable extends BaseSettingsTable
             $query = sprintf('DELETE FROM %s WHERE idsite = ?', Common::prefixTable('site_setting'));
             Db::query($query, array($idSite));
         } catch (Exception $e) {
-            if ($e->getCode() !== 42) {
+            if ((string) $e->getCode() !== '42') {
                 // ignore table not found error, which might occur when updating from an older version of Piwik
                 throw $e;
             }

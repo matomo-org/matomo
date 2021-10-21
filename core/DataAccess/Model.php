@@ -86,7 +86,7 @@ class Model
 
                 array_shift($duplicateArchives);
 
-                if ($value !== ArchiveWriter::DONE_PARTIAL) {
+                if ((int) $value !== ArchiveWriter::DONE_PARTIAL) {
                     break;
                 }
             }

@@ -564,13 +564,13 @@ class FrontController extends Singleton
 
     private function handleProfiler()
     {
-        $profilerEnabled = Config::getInstance()->Debug['enable_php_profiler'] === 1;
+        $profilerEnabled = (string) Config::getInstance()->Debug['enable_php_profiler'] === '1';
         if (!$profilerEnabled) {
             return;
         }
 
         if (!empty($_GET['xhprof'])) {
-            $mainRun = $_GET['xhprof'] === 1; // core:archive command sets xhprof=2
+            $mainRun = (string) $_GET['xhprof'] === '1'; // core:archive command sets xhprof=2
             Profiler::setupProfilerXHProf($mainRun);
         }
     }
@@ -786,7 +786,9 @@ class FrontController extends Singleton
         }
 
         $generalConfig = Config::getInstance()->General;
-        if ($generalConfig['enable_framed_pages'] === '1' || $generalConfig['enable_framed_settings'] === '1') {
+        if ((string) $generalConfig['enable_framed_pages'] === '1'
+            || (string) $generalConfig['enable_framed_settings'] === '1'
+        ) {
             return true;
         }
 

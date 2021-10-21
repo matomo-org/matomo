@@ -14,20 +14,17 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveSelector;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
-use Piwik\CronArchive\SegmentArchiving;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -126,7 +123,7 @@ class Loader
 
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
+        [$idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value] = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
             && !$this->shouldForceInvalidatedArchive($value, $tsArchived)
@@ -154,8 +151,8 @@ class Loader
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        [$visits, $visitsConverted] = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        [$idArchive, $visits] = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
             return [[$idArchive], $visits];
@@ -470,7 +467,7 @@ class Loader
     private function hasSiteVisitsBetweenTimeframe($idSite, Period $period)
     {
         $timezone = Site::getTimezoneFor($idSite);
-        list($date1, $date2) = $period->getBoundsInTimezone($timezone);
+        [$date1, $date2] = $period->getBoundsInTimezone($timezone);
 
         return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
     }
@@ -485,7 +482,7 @@ class Loader
         $params = $this->params;
 
         // the archive is invalidated and we are in a browser request that is allowed archive it
-        if ($value === ArchiveWriter::DONE_INVALIDATED
+        if ((int) $value === ArchiveWriter::DONE_INVALIDATED
             && Rules::isArchivingEnabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
         ) {
             // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations

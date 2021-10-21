@@ -13,10 +13,10 @@ use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAsset\InMemoryUIAsset;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\StylesheetUIAssetFetcher;
-use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
 use Piwik\Container\StaticContainer;
@@ -282,11 +282,11 @@ class AssetManager extends Singleton
      */
     public function isMergedAssetsDisabled()
     {
-        if (Config::getInstance()->Development['disable_merged_assets'] === 1) {
+        if ((string) Config::getInstance()->Development['disable_merged_assets'] === '1') {
             return true;
         }
-        
-        if (isset($_GET['disable_merged_assets']) && $_GET['disable_merged_assets'] === 1) {
+
+        if (isset($_GET['disable_merged_assets']) && (string) $_GET['disable_merged_assets'] === '1') {
             return true;
         }
         

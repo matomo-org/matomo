@@ -144,7 +144,7 @@ class Model
         try {
             $this->getDb()->query($sql, $bind);
         } catch (Exception $e) {
-            if ($e->getCode() === 23000 ||
+            if ((string) $e->getCode() === '23000' ||
                 false !== strpos($e->getMessage(), 'Duplicate entry') ||
                 false !== strpos($e->getMessage(), 'Integrity constraint violation')) {
                 Common::printDebug('Did not create ecommerce item as item was already created');
@@ -316,7 +316,7 @@ class Model
 
     public function updateVisit($idSite, $idVisit, $valuesToUpdate)
     {
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+        [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode(', ',$updateParts);
         $table = Common::prefixTable('log_visit');
@@ -345,7 +345,7 @@ class Model
             return;
         }
 
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+        [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_link_visit_action');

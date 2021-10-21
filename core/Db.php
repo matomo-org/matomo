@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
 
 /**
@@ -744,7 +743,7 @@ class Db
 
         while ($maxRetries > 0) {
             $result = $db->fetchOne($sql, array($lockName));
-            if ($result === '1') {
+            if ((string) $result === '1') {
                 return true;
             }
             $maxRetries--;
@@ -764,7 +763,8 @@ class Db
         $sql = 'SELECT RELEASE_LOCK(?)';
 
         $db = self::get();
-        return $db->fetchOne($sql, array($lockName)) === '1';
+
+        return (string) $db->fetchOne($sql, [$lockName]) === '1';
     }
 
     /**
@@ -820,9 +820,7 @@ class Db
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
-        if (self::$logQueries === false
-            || @Config::getInstance()->Debug['log_sql_queries'] !== 1
-        ) {
+        if (self::$logQueries === false || @(string) Config::getInstance()->Debug['log_sql_queries'] !== '1') {
             return;
         }
 

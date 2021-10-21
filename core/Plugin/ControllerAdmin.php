@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
@@ -18,12 +18,12 @@ use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\ProxyHttp;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
-use Piwik\ProxyHttp;
-use Piwik\SettingsPiwik;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
@@ -36,7 +36,7 @@ abstract class ControllerAdmin extends Controller
     private static function notifyWhenTrackingStatisticsDisabled()
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
-        if ($statsEnabled === "0") {
+        if ((string) $statsEnabled === '0') {
             $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
             $notification->context = Notification::CONTEXT_INFO;
             Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);

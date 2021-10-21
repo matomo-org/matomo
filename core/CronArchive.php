@@ -9,28 +9,26 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\Process;
+use Piwik\CliMulti\RequestParser;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
-use Piwik\Archive\ArchiveInvalidator;
-use Piwik\CliMulti\RequestParser;
 use Piwik\CronArchive\QueueConsumer;
+use Piwik\CronArchive\SegmentArchiving;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
-use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
@@ -227,7 +225,7 @@ class CronArchive
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
-        $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] === 1;
+        $this->isArchiveProfilingEnabled = (string) Config::getInstance()->Debug['archiving_profile'] === '1';
 
         $this->model = StaticContainer::get(Model::class);
 
@@ -243,7 +241,7 @@ class CronArchive
 
     private function isMaintenanceModeEnabled()
     {
-        return Config::getInstance()->General['maintenance_mode'] === 1;
+        return (string) Config::getInstance()->General['maintenance_mode'] === '1';
     }
 
     /**
@@ -414,7 +412,7 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            list($url, $segment, $plugin) = $this->generateUrlToArchiveFromArchiveInfo($archive);
+            [$url, $segment, $plugin] = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
@@ -944,7 +942,7 @@ class CronArchive
             Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()));
 
         // empty plugins param since we only check for an 'all' archive
-        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
+        [$idArchive, $visits, $visitsConverted, $ignore, $tsArchived] = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
 
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday

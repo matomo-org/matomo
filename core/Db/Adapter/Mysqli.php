@@ -199,12 +199,13 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     {
         if (is_null($connection)) {
             if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
-                return $match[1] === $errno;
+                return $match[1] === (string) $errno;
             }
-            return mysqli_connect_errno() === $errno;
+
+            return mysqli_connect_errno() === (int) $errno;
         }
 
-        return mysqli_errno($connection) === $errno;
+        return mysqli_errno($connection) === (int) $errno;
     }
 
     /**

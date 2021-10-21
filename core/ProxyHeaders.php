@@ -21,7 +21,7 @@ class ProxyHeaders
      */
     public static function getProtocolInformation()
     {
-        if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === 443) {
+        if (isset($_SERVER['SERVER_PORT']) && (string) $_SERVER['SERVER_PORT'] === '443') {
             return 'SERVER_PORT=443';
         }
 
