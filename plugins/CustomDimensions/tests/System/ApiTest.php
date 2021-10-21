@@ -26,8 +26,8 @@ class ApiTest extends SystemTestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::setAllowedModuleToFilterApiResponse('API.getReportMetadata', 'CustomDimensions');
-        self::setAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata', 'Visitors');
+        self::setAllowedModulesToFilterApiResponse('API.getReportMetadata', array('CustomDimensions'));
+        self::setAllowedCategoriesToFilterApiResponse('API.getSegmentsMetadata', array('Visitors', 'Behaviour'));
     }
 
     /**

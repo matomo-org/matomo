@@ -60,8 +60,8 @@ abstract class SystemTestCase extends TestCase
      */
     public static $fixture;
 
-    private static $allowedModuleApiWise = array();
-    private static $allowedCategoryApiWise = array();
+    private static $allowedModulesApiWise = array();
+    private static $allowedCategoriesApiWise = array();
 
     public function setGroups(array $groups): void
     {
@@ -106,16 +106,18 @@ abstract class SystemTestCase extends TestCase
         }
 
         Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
-            $allowedModuleForApiMetadataReport = self::getAllowedModuleToFilterApiResponse('API.getReportMetadata');
+            $allowedModuleForApiMetadataReport = self::getAllowedModulesToFilterApiResponse('API.getReportMetadata');
             if ($allowedModuleForApiMetadataReport) {
-                self::filterReportsCallback($reports, $info, $allowedModuleForApiMetadataReport, 'module');
+                $filterKey = 'module';
+                self::filterReportsCallback($reports, $info, $filterKey, $allowedModuleForApiMetadataReport);
             }
         });
 
         Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
-            $allowedCategoryForApiSegmentsReport = self::getAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata');
+            $allowedCategoryForApiSegmentsReport = self::getAllowedCategoriesToFilterApiResponse('API.getSegmentsMetadata');
             if ($allowedCategoryForApiSegmentsReport) {
-                self::filterReportsCallback($reports, $info, $allowedCategoryForApiSegmentsReport, 'category');
+                $filterKey = 'category';
+                self::filterReportsCallback($reports, $info, $filterKey, $allowedCategoryForApiSegmentsReport);
             }
         });
     }
@@ -130,7 +132,8 @@ abstract class SystemTestCase extends TestCase
             $fixture = static::$fixture;
         }
 
-        self::$allowedModuleApiWise = array();
+        self::$allowedModulesApiWise = array();
+        self::$allowedCategoriesApiWise = array();
 
         $fixture->performTearDown();
     }
@@ -870,27 +873,27 @@ abstract class SystemTestCase extends TestCase
         return parent::hasDependencies();
     }
 
-    public static function setAllowedModuleToFilterApiResponse($api, $category){
-        self::$allowedModuleApiWise[$api] = $category;
+    public static function setAllowedModulesToFilterApiResponse($api, $category){
+        self::$allowedModulesApiWise[$api] = $category;
     }
 
-    public static function getAllowedModuleToFilterApiResponse($api) {
-        return (self::$allowedModuleApiWise[$api] ?? NULL);
+    public static function getAllowedModulesToFilterApiResponse($api) {
+        return (self::$allowedModulesApiWise[$api] ?? NULL);
     }
 
-    public static function setAllowedCategoryToFilterApiResponse($api, $category){
-        self::$allowedCategoryApiWise[$api] = $category;
+    public static function setAllowedCategoriesToFilterApiResponse($api, $category){
+        self::$allowedCategoriesApiWise[$api] = $category;
     }
 
-    public static function getAllowedCategoryToFilterApiResponse($api) {
-        return (self::$allowedCategoryApiWise[$api] ?? NULL);
+    public static function getAllowedCategoriesToFilterApiResponse($api) {
+        return (self::$allowedCategoriesApiWise[$api] ?? NULL);
     }
 
-    private static function filterReportsCallback(&$reports, $info, $filterValue, $filterKey)
+    private static function filterReportsCallback(&$reports, $info, $filterKey, $filterValues)
     {
         if (!empty($reports)) {
             foreach ($reports as $key => $row) {
-                if (!isset($row[$filterKey]) || $row[$filterKey] != $filterValue) {
+                if (!isset($row[$filterKey]) || !in_array($row[$filterKey], $filterValues)) {
                     unset($reports[$key]);
                 }
             }

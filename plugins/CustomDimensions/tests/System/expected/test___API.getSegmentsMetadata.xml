@@ -312,4 +312,142 @@
 		<segment>visitorId</segment>
 		<permission>1</permission>
 	</row>
+	<row>
+		<type>metric</type>
+		<category>Behaviour</category>
+		<name>Bandwidth</name>
+		<segment>bandwidth</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Action Type</name>
+		<segment>actionType</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Action URL</name>
+		<segment>actionUrl</segment>
+		<unionOfSegments>
+			<row>pageUrl</row>
+			<row>downloadUrl</row>
+			<row>outlinkUrl</row>
+			<row>eventUrl</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Category (Site Search)</name>
+		<segment>siteSearchCategory</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Clicked Outlink</name>
+		<segment>outlinkUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Content Interaction</name>
+		<segment>contentInteraction</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Content Name</name>
+		<segment>contentName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Content Piece</name>
+		<segment>contentPiece</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Content Target</name>
+		<segment>contentTarget</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Download URL</name>
+		<segment>downloadUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Entry Page URL</name>
+		<segment>entryPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Entry Page title</name>
+		<segment>entryPageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Exit Page Title</name>
+		<segment>exitPageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Exit Page URL</name>
+		<segment>exitPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Keyword (Site Search)</name>
+		<segment>siteSearchKeyword</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Keyword count (Site Search)</name>
+		<segment>siteSearchCount</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>MyName3</name>
+		<segment>dimension3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>MyName5</name>
+		<segment>dimension5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Page Title</name>
+		<segment>pageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Page URL</name>
+		<segment>pageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Server time - hour</name>
+		<segment>actionServerHour</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Behaviour</category>
+		<name>Server time - minute</name>
+		<segment>actionServerMinute</segment>
+	</row>
 </result>
