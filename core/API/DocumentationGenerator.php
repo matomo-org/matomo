@@ -191,7 +191,7 @@ class DocumentationGenerator
      */
     public function checkDocumentation($moduleToCheck)
     {
-        if (strpos($moduleToCheck, '@hide') === true) {
+        if (strpos($moduleToCheck, '@hide') !== false) {
             $moduleToCheck = str_replace(strtok(strstr($moduleToCheck, '@hide'), "\n"), "", $moduleToCheck);
         }
         return $moduleToCheck;

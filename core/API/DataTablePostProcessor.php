@@ -374,7 +374,7 @@ class DataTablePostProcessor
      */
     public function applyMetricsFormatting($dataTable)
     {
-        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
+        $formatMetrics = Common::getRequestVar('format_metrics', '0', 'string', $this->request);
         if ($formatMetrics === '0') {
             return $dataTable;
         }
