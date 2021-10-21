@@ -150,7 +150,7 @@ class LabelFilter extends DataTableManipulator
         $sanitizedLabel = Common::sanitizeInputValue($label);
         $variations[] = $sanitizedLabel;
 
-        if ($this->apiModule == 'Actions' && in_array($this->apiMethod, $pageTitleReports)) {
+        if ($this->apiModule === 'Actions' && in_array($this->apiMethod, $pageTitleReports)) {
             if ($isTerminal) {
                 array_unshift($variations, ' ' . $sanitizedLabel);
                 array_unshift($variations, ' ' . $label);
