@@ -326,7 +326,7 @@ class Manager
         $result = array();
         foreach (self::getPluginsDirectories() as $pluginsDir) {
             $pluginsName = _glob($pluginsDir . '*', GLOB_ONLYDIR);
-            if ($pluginsName != false) {
+            if ($pluginsName !== false) {
                 foreach ($pluginsName as $path) {
                     if (self::pluginStructureLooksValid($path)) {
                         $result[] = basename($path);
@@ -738,7 +738,7 @@ class Manager
             if ($plugin->isTheme()
                 && $this->isPluginActivated($plugin->getPluginName())
             ) {
-                if ($plugin->getPluginName() != self::DEFAULT_THEME) {
+                if ($plugin->getPluginName() !== self::DEFAULT_THEME) {
                     return $plugin; // enabled theme (not default)
                 }
                 $theme = $plugin; // default theme
@@ -757,7 +757,7 @@ class Manager
         $plugins = $this->getLoadedPlugins();
 
         foreach ($plugins as $plugin) {
-            if ($plugin->isTheme() && $plugin->getPluginName() == $themeName) {
+            if ($plugin->isTheme() && $plugin->getPluginName() === $themeName) {
                 return new Theme($plugin);
             }
         }
@@ -867,7 +867,7 @@ class Manager
     {
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
-        || $name == self::DEFAULT_THEME;
+        || $name === self::DEFAULT_THEME;
     }
 
     /**
@@ -1235,7 +1235,7 @@ class Manager
     protected function getClassNamePlugin($pluginName)
     {
         $className = $pluginName;
-        if ($pluginName == 'API') {
+        if ($pluginName === 'API') {
             $className = 'Plugin';
         }
         return "\\Piwik\\Plugins\\$pluginName\\$className";
@@ -1477,7 +1477,7 @@ class Manager
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
         if ($themeEnabled
-            && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+            && $themeEnabled->getPluginName() !== self::DEFAULT_THEME) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
 
             $plugin = $this->loadPlugin($pluginName);

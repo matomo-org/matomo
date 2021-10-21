@@ -255,7 +255,7 @@ class PluginsArchiver
      */
     protected function shouldProcessReportsForPlugin($pluginName)
     {
-        if ($this->params->getRequestedPlugin() == $pluginName) {
+        if ($this->params->getRequestedPlugin() === $pluginName) {
             return true;
         }
 

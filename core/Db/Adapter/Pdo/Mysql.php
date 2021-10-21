@@ -223,7 +223,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public static function isPdoErrorNumber($e, $errno)
     {
         if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
-            return $match[1] == $errno;
+            return $match[1] === $errno;
         }
 
         return false;

@@ -324,13 +324,13 @@ class QueueConsumer
     private function archiveArrayContainsArchive($archiveArray, $archive)
     {
         foreach ($archiveArray as $entry) {
-            if ($entry['idsite'] == $archive['idsite']
-                && $entry['period'] == $archive['period']
-                && $entry['date1'] == $archive['date1']
-                && $entry['date2'] == $archive['date2']
-                && $entry['name'] == $archive['name']
-                && $entry['plugin'] == $archive['plugin']
-                && $entry['report'] == $archive['report']
+            if ($entry['idsite'] === $archive['idsite']
+                && $entry['period'] === $archive['period']
+                && $entry['date1'] === $archive['date1']
+                && $entry['date2'] === $archive['date2']
+                && $entry['name'] === $archive['name']
+                && $entry['plugin'] === $archive['plugin']
+                && $entry['report'] === $archive['report']
             ) {
                 return true;
             }
@@ -360,7 +360,7 @@ class QueueConsumer
                 continue;
             }
 
-            $periodDate = $periodLabel == 'range' ? $nextArchive['date1'] . ',' . $nextArchive['date2'] : $nextArchive['date1'];
+            $periodDate = $periodLabel === 'range' ? $nextArchive['date1'] . ',' . $nextArchive['date2'] : $nextArchive['date1'];
             $nextArchive['periodObj'] = PeriodFactory::build($periodLabel, $periodDate);
 
             $isCronArchivingEnabled = $this->findSegmentForArchive($nextArchive);
@@ -392,7 +392,7 @@ class QueueConsumer
         $site = new Site($invalidatedArchive['idsite']);
 
         $periodLabel = $this->periodIdsToLabels[$invalidatedArchive['period']];
-        $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
+        $dateStr = $periodLabel === 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
         $period = PeriodFactory::build($periodLabel, $dateStr);
 
         $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
@@ -415,7 +415,7 @@ class QueueConsumer
             }
 
             if (empty($archiveBeingProcessed['idSite'])
-                || $archiveBeingProcessed['idSite'] != $archiveToProcess['idsite']
+                || $archiveBeingProcessed['idSite'] !== $archiveToProcess['idsite']
             ) {
                 continue; // different site
             }
@@ -423,8 +423,8 @@ class QueueConsumer
             // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
             if (!empty($archiveBeingProcessed['segment'])
                 && !empty($archiveToProcess['segment'])
-                && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
-                && urldecode($archiveBeingProcessed['segment']) != $archiveToProcess['segment']
+                && $archiveBeingProcessed['segment'] !== $archiveToProcess['segment']
+                && urldecode($archiveBeingProcessed['segment']) !== $archiveToProcess['segment']
             ) {
                 continue;
             }
@@ -463,9 +463,9 @@ class QueueConsumer
     {
         // archive is for different site/period
         if (empty($archiveBeingProcessed['idSite'])
-            || $archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
-            || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
-            || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
+            || $archiveToProcess['idsite'] !== $archiveBeingProcessed['idSite']
+            || $archiveToProcess['periodObj']->getId() !== $archiveBeingProcessed['periodObj']->getId()
+            || $archiveToProcess['periodObj']->getDateStart()->toString() !== $archiveBeingProcessed['periodObj']->getDateStart()->toString()
         ) {
             return false;
         }
@@ -486,9 +486,9 @@ class QueueConsumer
         }
 
         foreach ($archivesToProcess as $archive) {
-            $isSamePeriod = $archive['period'] == $invalidatedArchive['period']
-                && $archive['date1'] == $invalidatedArchive['date1']
-                && $archive['date2'] == $invalidatedArchive['date2'];
+            $isSamePeriod = $archive['period'] === $invalidatedArchive['period']
+                && $archive['date1'] === $invalidatedArchive['date1']
+                && $archive['date2'] === $invalidatedArchive['date2'];
 
             // don't do the check for $archvie, if we have the same period and segment as $invalidatedArchive
             // we only want to to do the intersecting periods check if there are different periods or one of the
@@ -498,7 +498,7 @@ class QueueConsumer
             // "All Visits"
             if (!empty($archive['segment'])
                 && !empty($invalidatedArchive['segment'])
-                && $archive['segment'] != $invalidatedArchive['segment']
+                && $archive['segment'] !== $invalidatedArchive['segment']
                 && $isSamePeriod
             ) {
                 continue;
@@ -515,7 +515,7 @@ class QueueConsumer
     private function findSegmentForArchive(&$archive)
     {
         $flag = explode('.', $archive['name'])[0];
-        if ($flag == 'done') {
+        if ($flag === 'done') {
             $archive['segment'] = '';
             return true;
         }
@@ -585,7 +585,7 @@ class QueueConsumer
         $site = new Site($invalidatedArchive['idsite']);
 
         $periodLabel = $this->periodIdsToLabels[$invalidatedArchive['period']];
-        $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
+        $dateStr = $periodLabel === 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
         $period = PeriodFactory::build($periodLabel, $dateStr);
 
         $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);

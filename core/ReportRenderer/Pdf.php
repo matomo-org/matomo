@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\TCPDF;
@@ -203,7 +202,7 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Write(1, $this->formatText($description));
 
         // segment
-        if ($segment != null) {
+        if ($segment !== null) {
             $this->TCPDF->Ln();
             $this->TCPDF->Ln();
             $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize - 2);
@@ -237,7 +236,7 @@ class Pdf extends ReportRenderer
         // Table-only 2-column report
         static $tableOnly2ColumnReportCount = 0;
         $tableOnly2ColumnReport = $tableOnlyReport
-            && $columnCount == 2;
+            && $columnCount === 2;
 
         // Table-only report with more than 2 columns
         static $tableOnlyManyColumnReportRowCount = 0;
@@ -253,13 +252,13 @@ class Pdf extends ReportRenderer
             // and
             (
                 // it is the first report
-                $this->currentPage == 0
+                $this->currentPage === 0
                 // or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS
-                || ($graphOnlyReport && $graphOnlyReportCount == 0)
+                || ($graphOnlyReport && $graphOnlyReportCount === 0)
                 // or, it is a table-only 2-column report and it is the first of a series of self::MAX_2COL_TABLE_REPORTS
-                || ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount == 0)
+                || ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount === 0)
                 // or it is a table-only report with more than 2 columns and it is the first of its series or there isn't enough space left on the page
-                || ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount == 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
+                || ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount === 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
                 // or it is a report with both a table and a graph
                 || !$graphOnlyReport && !$tableOnlyReport
             )
@@ -364,7 +363,7 @@ class Pdf extends ReportRenderer
             }
             foreach ($this->reportColumns as $columnId => $columnName) {
                 // Label column
-                if ($columnId == 'label') {
+                if ($columnId === 'label') {
                     $isLogoDisplayable = isset($rowMetadata['logo']);
                     $text = '';
                     $posX = $this->TCPDF->GetX();
@@ -427,7 +426,7 @@ class Pdf extends ReportRenderer
     {
         $imageGraph = parent::getStaticGraph(
             $this->reportMetadata,
-            $this->orientation == self::PORTRAIT ? self::IMAGE_GRAPH_WIDTH_PORTRAIT : self::IMAGE_GRAPH_WIDTH_LANDSCAPE,
+            $this->orientation === self::PORTRAIT ? self::IMAGE_GRAPH_WIDTH_PORTRAIT : self::IMAGE_GRAPH_WIDTH_LANDSCAPE,
             self::IMAGE_GRAPH_HEIGHT,
             $this->evolutionGraph,
             $this->segment
@@ -475,11 +474,9 @@ class Pdf extends ReportRenderer
 
         $columnsCount = count($this->reportColumns);
         // Computes available column width
-        if ($this->orientation == self::PORTRAIT
-            && $columnsCount <= 3
-        ) {
+        if ($this->orientation === self::PORTRAIT && $columnsCount <= 3) {
             $totalWidth = $this->reportWidthPortrait * 2 / 3;
-        } elseif ($this->orientation == self::LANDSCAPE) {
+        } elseif ($this->orientation === self::LANDSCAPE) {
             $totalWidth = $this->reportWidthLandscape;
         } else {
             $totalWidth = $this->reportWidthPortrait;
@@ -514,7 +511,7 @@ class Pdf extends ReportRenderer
             $columnName = $this->formatText($columnName);
 
             //Label column
-            if ($countColumns == 0) {
+            if ($countColumns === 0) {
                 $this->TCPDF->MultiCell($this->labelCellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
                 $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
             } else {

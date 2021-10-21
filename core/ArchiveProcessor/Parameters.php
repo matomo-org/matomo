@@ -9,9 +9,6 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Cache;
-use Piwik\DataAccess\Model;
-use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Period;
@@ -149,7 +146,7 @@ class Parameters
      */
     public function getSubPeriods()
     {
-        if ($this->getPeriod()->getLabel() == 'day') {
+        if ($this->getPeriod()->getLabel() === 'day') {
             return array( $this->getPeriod() );
         }
         return $this->getPeriod()->getSubperiods();
@@ -254,7 +251,7 @@ class Parameters
 
     public function isSingleSite()
     {
-        return count($this->getIdSites()) == 1;
+        return count($this->getIdSites()) === 1;
     }
 
     public function logStatusDebug()

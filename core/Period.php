@@ -99,7 +99,7 @@ abstract class Period
         return is_string($dateString)
             && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
                 || Range::parseDateRange($dateString))
-            && $period != 'range';
+            && $period !== 'range';
     }
 
     /**
@@ -449,9 +449,9 @@ abstract class Period
     protected function getRangeFormat($short = false)
     {
         $maxDifference = 'D';
-        if ($this->getDateStart()->toString('y') != $this->getDateEnd()->toString('y')) {
+        if ($this->getDateStart()->toString('y') !== $this->getDateEnd()->toString('y')) {
             $maxDifference = 'Y';
-        } elseif ($this->getDateStart()->toString('m') != $this->getDateEnd()->toString('m')) {
+        } elseif ($this->getDateStart()->toString('m') !== $this->getDateEnd()->toString('m')) {
             $maxDifference = 'M';
         }
 

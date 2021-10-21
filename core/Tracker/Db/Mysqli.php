@@ -43,11 +43,11 @@ class Mysqli extends Db
      */
     public function __construct($dbInfo, $driverName = 'mysql')
     {
-        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
+        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) === '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['unix_socket'];
-        } elseif (isset($dbInfo['port']) && substr($dbInfo['port'], 0, 1) == '/') {
+        } elseif (isset($dbInfo['port']) && substr($dbInfo['port'], 0, 1) === '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['port'];
@@ -422,7 +422,7 @@ class Mysqli extends Db
      */
     public function commit($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction !== $xid || $this->activeTransaction === false) {
             return;
         }
 
@@ -443,7 +443,7 @@ class Mysqli extends Db
      */
     public function rollBack($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction !== $xid || $this->activeTransaction === false) {
             return;
         }
 

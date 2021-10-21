@@ -255,7 +255,7 @@ class Process
     private static function awkExistsAndRunsCorrectly()
     {
         $testResult = @shell_exec('echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | ' . self::AWK_COMMAND . ' 2>/dev/null');
-        return trim($testResult) == '537';
+        return trim($testResult) === '537';
     }
 
     private static function isSystemNotSupported()
@@ -288,7 +288,7 @@ class Process
         $exec = $command . ' > /dev/null 2>&1; echo $?';
         $returnCode = @shell_exec($exec);
         $returnCode = trim($returnCode);
-        return 0 == (int) $returnCode;
+        return 0 === (int) $returnCode;
     }
 
     public static function getListOfRunningProcesses()

@@ -482,7 +482,7 @@ class Mysql implements SchemaInterface
      */
     public function hasTables()
     {
-        return count($this->getTablesInstalled()) != 0;
+        return count($this->getTablesInstalled()) !== 0;
     }
 
     /**

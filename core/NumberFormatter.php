@@ -67,9 +67,7 @@ class NumberFormatter
      */
     public function format($value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
-        if (is_string($value)
-            && trim($value, '%') != $value
-        ) {
+        if (is_string($value) && trim($value, '%') !== $value) {
             return $this->formatPercent($value, $maximumFractionDigits, $minimumFractionDigits);
         }
 

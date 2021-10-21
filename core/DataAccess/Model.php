@@ -86,7 +86,7 @@ class Model
 
                 array_shift($duplicateArchives);
 
-                if ($value != ArchiveWriter::DONE_PARTIAL) {
+                if ($value !== ArchiveWriter::DONE_PARTIAL) {
                     break;
                 }
             }
@@ -141,7 +141,7 @@ class Model
                     $periodCondition .= " OR ";
                 }
 
-                if ($period->getLabel() == 'range') { // for ranges, we delete all ranges that contain the given date(s)
+                if ($period->getLabel() === 'range') { // for ranges, we delete all ranges that contain the given date(s)
                     $periodCondition .= "(period = " . (int)$period->getId()
                         . " AND date2 >= '" . $period->getDateStart()->getDatetime()
                         . "' AND date1 <= '" . $period->getDateEnd()->getDatetime() . "')";
@@ -219,7 +219,7 @@ class Model
 
             $siteCreationTime = Date::factory($siteCreationTime);
             foreach ($allPeriodsToInvalidate as $period) {
-                if ($period->getLabel() == 'range'
+                if ($period->getLabel() === 'range'
                     && !$forceInvalidateNonexistantRanges
                 ) {
                     continue; // range
@@ -247,7 +247,7 @@ class Model
                     }
 
                     $hash = $this->getHashFromDoneFlag($doneFlagToCheck);
-                    if ($doneFlagToCheck != $doneFlag
+                    if ($doneFlagToCheck !== $doneFlag
                         && (empty($hash)
                             || !in_array($hash, $hashesOfAllSegmentsToArchiveInCoreArchive)
                             || strpos($doneFlagToCheck, '.') !== false)

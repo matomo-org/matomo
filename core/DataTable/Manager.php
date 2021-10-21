@@ -94,7 +94,7 @@ class Manager extends \ArrayObject
             }
         }
 
-        if ($deleteWhenIdTableGreaterThan == 0) {
+        if ($deleteWhenIdTableGreaterThan === 0) {
             $this->exchangeArray(array());
             $this->nextTableId = 0;
         }

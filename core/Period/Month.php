@@ -83,7 +83,7 @@ class Month extends Period
     protected function processOptimalSubperiods($startDate, $endDate)
     {
         while ($startDate->isEarlier($endDate)
-            || $startDate == $endDate
+            || $startDate === $endDate
         ) {
             $week        = new Week($startDate);
             $startOfWeek = $week->getDateStart();
@@ -91,7 +91,7 @@ class Month extends Period
 
             if ($endOfWeek->isLater($endDate)) {
                 $this->fillDayPeriods($startDate, $endDate);
-            } elseif ($startOfWeek == $startDate) {
+            } elseif ($startOfWeek === $startDate) {
                 $this->addSubperiod($week);
             } else {
                 $this->fillDayPeriods($startDate, $endOfWeek);
@@ -109,7 +109,7 @@ class Month extends Period
      */
     private function fillDayPeriods($startDate, $endDate)
     {
-        while (($startDate->isEarlier($endDate) || $startDate == $endDate)) {
+        while (($startDate->isEarlier($endDate) || $startDate === $endDate)) {
             $this->addSubperiod(new Day($startDate));
             $startDate = $startDate->addDay(1);
         }

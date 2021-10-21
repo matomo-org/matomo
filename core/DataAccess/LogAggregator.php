@@ -488,7 +488,7 @@ class LogAggregator
         if (!is_array($dimension)) {
             $dimension = array($dimension);
         }
-        if (count($dimension) == 1) {
+        if (count($dimension) === 1) {
             $dimension = array("label" => reset($dimension));
         }
         $query = $this->queryVisitsByDimension($dimension);
@@ -694,7 +694,7 @@ class LogAggregator
 
             $isKnownField = !in_array($field, array('referrer_data'));
 
-            if ($selectAsString == $field && $isKnownField) {
+            if ($selectAsString === $field && $isKnownField) {
                 $field = $this->prefixColumn($field, $tableName);
             }
 
@@ -737,7 +737,7 @@ class LogAggregator
     {
         // do not process INDEX_NB_UNIQ_FINGERPRINTS unless specifically asked for
         if ($metricsRequested === false) {
-            if ($metricId == Metrics::INDEX_NB_UNIQ_FINGERPRINTS) {
+            if ($metricId === Metrics::INDEX_NB_UNIQ_FINGERPRINTS) {
                 return false;
             }
             return true;
@@ -1189,7 +1189,7 @@ class LogAggregator
         }
 
         foreach ($ranges as $gap) {
-            if (count($gap) == 2) {
+            if (count($gap) === 2) {
                 $lowerBound = $gap[0];
                 $upperBound = $gap[1];
 

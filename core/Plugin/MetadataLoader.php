@@ -54,7 +54,7 @@ class MetadataLoader
         $plugin   = $this->loadPluginInfoJson();
 
         // use translated plugin description if available
-        if ($defaults['description'] != Piwik::translate($defaults['description'])) {
+        if ($defaults['description'] !== Piwik::translate($defaults['description'])) {
             unset($plugin['description']);
         }
 

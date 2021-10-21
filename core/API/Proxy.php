@@ -415,7 +415,7 @@ class Proxy
                     $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
-                        if ($name == 'segment' && !empty($parametersRequest['segment'])) {
+                        if ($name === 'segment' && !empty($parametersRequest['segment'])) {
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
                         } else {

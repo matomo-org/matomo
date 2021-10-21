@@ -74,7 +74,7 @@ class LogQueryBuilder
         // hack for https://github.com/piwik/piwik/issues/9194#issuecomment-164321612
         $useSpecialConversionGroupBy = (!empty($segmentSql)
             && strpos($groupBy, 'log_conversion.idgoal') !== false
-            && $fromInitially == array('log_conversion')
+            && $fromInitially === array('log_conversion')
             && strpos($from, 'log_link_visit_action') !== false);
 
         if (!empty($this->forcedInnerGroupBy)) {
@@ -136,7 +136,7 @@ class LogQueryBuilder
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
         $neededFields = array_unique($matches[0]);
 
-        if (count($neededFields) == 0) {
+        if (count($neededFields) === 0) {
             throw new Exception("No needed fields found in select expression. "
                 . "Please use a table prefix.");
         }

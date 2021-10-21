@@ -350,7 +350,7 @@ abstract class MenuAbstract extends Singleton
             return 1;
         }
 
-        if ($itemOne['_order'] == $itemTwo['_order']) {
+        if ($itemOne['_order'] === $itemTwo['_order']) {
             return strcmp(
                 @$itemOne['_name'],
                 @$itemTwo['_name']);

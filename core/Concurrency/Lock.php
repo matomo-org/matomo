@@ -128,7 +128,7 @@ class Lock
 
                     if ($value === false) {
                         Common::printDebug($message . ' It seems like the key already expired as it no longer exists.');
-                    } elseif (!empty($value) && $value == $this->lockValue) {
+                    } elseif (!empty($value) && $value === $this->lockValue) {
                         Common::printDebug($message . ' We still have the lock but for some reason it did not expire.');
                     } elseif (!empty($value)) {
                         Common::printDebug($message . ' This lock has been acquired by another process/server.');

@@ -53,13 +53,13 @@ class Password
     {
         $options = [];
         $generalConfig = Config::getInstance()->General;
-        if ($generalConfig["password_hash_argon2_threads"] != "default") {
+        if ($generalConfig["password_hash_argon2_threads"] !== "default") {
             $options["threads"] = max($generalConfig["password_hash_argon2_threads"], 1);
         }
-        if ($generalConfig["password_hash_argon2_memory_cost"] != "default") {
+        if ($generalConfig["password_hash_argon2_memory_cost"] !== "default") {
             $options["memory_cost"] = max($generalConfig["password_hash_argon2_memory_cost"], 8 * $options["threads"]);
         }
-        if ($generalConfig["password_hash_argon2_time_cost"] != "default") {
+        if ($generalConfig["password_hash_argon2_time_cost"] !== "default") {
             $options["time_cost"] = max($generalConfig["password_hash_argon2_time_cost"], 1);
         }
         return $options;

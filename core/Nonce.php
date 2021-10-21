@@ -197,7 +197,7 @@ class Nonce
                 'http://' . $host,
                 'https://' . $host,
             );
-            if ($port != 443) {
+            if ($port !== 443) {
                 $origins[] = 'http://' . $host .':' . $port;
             }
             $origins[] = 'https://' . $host . ':' . $port;

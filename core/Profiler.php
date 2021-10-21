@@ -244,7 +244,7 @@ class Profiler
 
         $currentGitBranch = SettingsPiwik::getCurrentGitBranch();
         $profilerNamespace = "piwik";
-        if ($currentGitBranch != 'master') {
+        if ($currentGitBranch !== 'master') {
             $profilerNamespace .= "-" . $currentGitBranch;
         }
 

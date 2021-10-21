@@ -44,9 +44,9 @@ class Mysql extends Db
      */
     public function __construct($dbInfo, $driverName = 'mysql')
     {
-        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
+        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) === '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
-        } elseif (!empty($dbInfo['port']) && substr($dbInfo['port'], 0, 1) == '/') {
+        } elseif (!empty($dbInfo['port']) && substr($dbInfo['port'], 0, 1) === '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['port'];
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
@@ -297,7 +297,7 @@ class Mysql extends Db
      */
     public function commit($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction !== $xid || $this->activeTransaction === false) {
             return;
         }
 
@@ -316,7 +316,7 @@ class Mysql extends Db
      */
     public function rollBack($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction !== $xid || $this->activeTransaction === false) {
             return;
         }
 

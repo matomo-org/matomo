@@ -34,7 +34,7 @@ class Logger
 
     public function __construct(Config $config, LoggerInterface $logger = null)
     {
-        $this->isEnabled = $config->Debug['archiving_profile'] == 1;
+        $this->isEnabled = $config->Debug['archiving_profile'] === 1;
         $this->logger = $logger;
 
         $this->archivingRunId = $this->getArchivingRunId();
@@ -96,7 +96,7 @@ class Logger
 
         $data = [];
         foreach ($lines as $line) {
-            if (count($line) != 2) {
+            if (count($line) !== 2) {
                 continue;
             }
 

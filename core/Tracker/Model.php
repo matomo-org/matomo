@@ -144,7 +144,7 @@ class Model
         try {
             $this->getDb()->query($sql, $bind);
         } catch (Exception $e) {
-            if ($e->getCode() == 23000 ||
+            if ($e->getCode() === 23000 ||
                 false !== strpos($e->getMessage(), 'Duplicate entry') ||
                 false !== strpos($e->getMessage(), 'Integrity constraint violation')) {
                 Common::printDebug('Did not create ecommerce item as item was already created');
@@ -171,7 +171,7 @@ class Model
 
         // if the inserted action ID is not the same as the queried action ID, then that means we inserted
         // a duplicate, so remove it now
-        if ($realFirstActionId != $newActionId) {
+        if ($realFirstActionId !== $newActionId) {
             $this->deleteDuplicateAction($newActionId);
         }
 
@@ -328,7 +328,7 @@ class Model
 
         $db          = $this->getDb();
         $result      = $db->query($sqlQuery, $sqlBind);
-        $wasInserted = $db->rowCount($result) != 0;
+        $wasInserted = $db->rowCount($result) !== 0;
 
         if (!$wasInserted) {
             Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
@@ -356,7 +356,7 @@ class Model
 
         $db          = $this->getDb();
         $result      = $db->query($sqlQuery, $sqlBind);
-        $wasInserted = $db->rowCount($result) != 0;
+        $wasInserted = $db->rowCount($result) !== 0;
 
         if (!$wasInserted) {
             Common::printDebug("Action with this idLinkVa wasn't found in the DB.");
@@ -422,7 +422,7 @@ class Model
         $bindSql = array($idVisit);
 
         $val = $this->getDb()->fetchOne($sql, $bindSql);
-        return $val == $idSite;
+        return $val === $idSite;
     }
 
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
@@ -472,7 +472,7 @@ class Model
 
         $result = \Piwik\Db::fetchOne($sql, array($siteId));
 
-        return $result == null;
+        return $result === null;
     }
 
     private function fieldsToQuery($valuesToUpdate)

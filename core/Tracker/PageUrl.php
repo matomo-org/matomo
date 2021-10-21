@@ -11,11 +11,11 @@ namespace Piwik\Tracker;
 
 use Piwik\Cache;
 use Piwik\CacheId;
-use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\UrlHelper;
 
 class PageUrl
@@ -155,7 +155,7 @@ class PageUrl
             return '';
         } else {
             // Remove trailing Hash tag in ?query#hash#
-            if (substr($urlFragment, -1) == '#') {
+            if (substr($urlFragment, -1) === '#') {
                 $urlFragment = substr($urlFragment, 0, strlen($urlFragment) - 1);
             }
             return $urlFragment;
@@ -287,9 +287,7 @@ class PageUrl
         if (function_exists('mb_check_encoding')) {
             // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
             // encode to UTF-8.
-            if (strtolower($encoding) != 'utf-8'
-                && $encoding != false
-            ) {
+            if (strtolower($encoding) !== 'utf-8' && $encoding !== false) {
                 Common::printDebug("Encoding page URL query parameters to $encoding.");
 
                 $queryParameters = PageUrl::reencodeParametersArray($queryParameters, $encoding);
@@ -387,7 +385,7 @@ class PageUrl
     public static function normalizeUrl($url)
     {
         foreach (self::$urlPrefixMap as $prefix => $id) {
-            if (strtolower(substr($url, 0, strlen($prefix))) == $prefix) {
+            if (strtolower(substr($url, 0, strlen($prefix))) === $prefix) {
                 return array(
                     'url'      => substr($url, strlen($prefix)),
                     'prefixId' => $id

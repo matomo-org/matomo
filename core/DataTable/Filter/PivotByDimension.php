@@ -424,7 +424,7 @@ class PivotByDimension extends BaseFilter
     {
         foreach ($table->getRows() as $row) {
             foreach ($row->getColumns() as $columnName => $ignore) {
-                if ($columnName != 'label') {
+                if ($columnName !== 'label') {
                     return $columnName;
                 }
             }
@@ -455,7 +455,7 @@ class PivotByDimension extends BaseFilter
         if (!empty($period)) {
             $params['period'] = $period->getLabel();
 
-            if ($params['period'] == 'range') {
+            if ($params['period'] === 'range') {
                 $params['date'] = $period->getRangeString();
             } else {
                 $params['date'] = $period->getDateStart()->toString();
@@ -469,7 +469,7 @@ class PivotByDimension extends BaseFilter
     {
         // sort columns by sum (to ensure deterministic ordering)
         uksort($columnSet, function ($key1, $key2) use ($columnSet) {
-            if ($columnSet[$key1] == $columnSet[$key2]) {
+            if ($columnSet[$key1] === $columnSet[$key2]) {
                 return strcmp($key1, $key2);
             }
             return $columnSet[$key2] > $columnSet[$key1] ? 1 : -1;
@@ -562,7 +562,7 @@ class PivotByDimension extends BaseFilter
      */
     private static function areDimensionsEqualAndNotNull($lhs, $rhs)
     {
-        return !empty($lhs) && !empty($rhs) && $lhs->getId() == $rhs->getId();
+        return !empty($lhs) && !empty($rhs) && $lhs->getId() === $rhs->getId();
     }
 
     /**
@@ -572,7 +572,7 @@ class PivotByDimension extends BaseFilter
      */
     private static function areDimensionsNotEqualAndNotNull($lhs, $rhs)
     {
-        return !empty($lhs) && !empty($rhs) && $lhs->getId() != $rhs->getId();
+        return !empty($lhs) && !empty($rhs) && $lhs->getId() !== $rhs->getId();
     }
 
     private function setPivotColumn($pivotColumn)

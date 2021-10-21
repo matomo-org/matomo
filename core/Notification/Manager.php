@@ -70,7 +70,7 @@ class Manager
     public static function cancelAllNonPersistent()
     {
         foreach (static::getAllNotifications() as $id => $notification) {
-            if (Notification::TYPE_PERSISTENT != $notification->type) {
+            if (Notification::TYPE_PERSISTENT !== $notification->type) {
                 static::removeNotification($id);
             }
         }
@@ -86,7 +86,7 @@ class Manager
 
         uasort($notifications, function ($n1, $n2) {
             /** @var Notification $n1 */ /** @var Notification $n2 */
-            if ($n1->getPriority() == $n2->getPriority()) {
+            if ($n1->getPriority() === $n2->getPriority()) {
                 return 0;
             }
 

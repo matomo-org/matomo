@@ -742,9 +742,7 @@ class Piwik
     public static function isAssociativeArray($array)
     {
         reset($array);
-        if (!is_numeric(key($array))
-            || key($array) != 0
-        ) {
+        if (!is_numeric(key($array)) || key($array) !== 0) {
             // first key must be 0
 
             return true;
@@ -759,7 +757,7 @@ class Piwik
 
             if ($next === null) {
                 break;
-            } elseif ($current + 1 != $next) {
+            } elseif ($current + 1 !== $next) {
                 return true;
             }
         }

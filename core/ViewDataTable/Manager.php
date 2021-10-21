@@ -184,9 +184,9 @@ class Manager
         $nonCoreVisualizations = static::getNonCoreViewDataTables();
 
         foreach ($nonCoreVisualizations as $id => $klass) {
-            if ($klass::canDisplayViewDataTable($view) || $view::ID == $id) {
+            if ($klass::canDisplayViewDataTable($view) || $view::ID === $id) {
                 $footerIcon = static::getFooterIconFor($id);
-                if (Insight::ID == $footerIcon['id']) {
+                if (Insight::ID === $footerIcon['id']) {
                     $insightsViewIcons['buttons'][] = static::getFooterIconFor($id);
                 } else {
                     $graphViewIcons['buttons'][] = static::getFooterIconFor($id);
@@ -375,7 +375,7 @@ class Manager
 
         if ($view->config->show_goals) {
             $goalButton = static::getFooterIconFor(Goals::ID);
-            if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
+            if (Common::getRequestVar('idGoal', false) === 'ecommerceOrder') {
                 $goalButton['icon'] = 'icon-ecommerce-order';
             }
 

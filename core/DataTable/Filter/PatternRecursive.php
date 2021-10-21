@@ -66,7 +66,7 @@ class PatternRecursive extends BaseFilter
             } else {
                 // we delete the row if we couldn't find the pattern in any row in the
                 // children hierarchy
-                if ($this->filter($subTable) == 0) {
+                if ($this->filter($subTable) === 0) {
                     $patternNotFoundInChildren = true;
                 }
             }
