@@ -34,6 +34,33 @@ const MatomoUrl = {
       callback(newLocation);
     });
   },
+
+  parseHashQuery(): Parameters {
+    return this.parseQueryString(window.location.hash.replace(/^[#?/]+/, ''));
+  },
+
+  parseQueryString(query: string): Parameters {
+    const params = new URLSearchParams(query);
+    const result = {};
+
+    // TODO: doesn't handle object query params
+    Array.from(params.keys()).forEach((name) => {
+      if (/[[\]]/.test(name)
+        || name.indexOf('%5B%5D') !== -1
+      ) {
+        result[name] = params.getAll(name);
+      } else {
+        result[name] = params.get(name);
+      }
+    });
+
+    return result;
+  },
+
+  stringify(search: Parameters): string {
+    // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
+    return $.param(search);
+  },
 };
 
 export default MatomoUrl;

@@ -103,6 +103,7 @@ var broadcast = {
             hash = (''+hash).substr(1);
         }
 
+
         if (hash) {
 
             if (/^popover=/.test(hash)) {
@@ -201,6 +202,8 @@ var broadcast = {
      * Will propagate your new value into the current hash string and make ajax calls.
      *
      * NOTE: this method will only make ajax call and replacing main content.
+     *
+     * @deprecated in 3.2.2, will be removed in Matomo 5.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
@@ -567,6 +570,7 @@ var broadcast = {
 
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();
+        $('#content').empty();
         $("object").remove();
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;

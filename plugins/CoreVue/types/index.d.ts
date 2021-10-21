@@ -112,4 +112,7 @@ declare global {
 
     _pk_translate(translationStringId: string, values: string[]): string;
   }
+
+  type ParameterValue = string | number | null | undefined | ParameterValue[];
+  type Parameters = {[name: string]: ParameterValue | Parameters};
 }

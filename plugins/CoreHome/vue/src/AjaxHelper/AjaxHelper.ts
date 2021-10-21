@@ -40,8 +40,6 @@ window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
   this.active = 0;
 };
 
-type ParameterValue = string | number | null | undefined | ParameterValue[];
-export type Parameters = {[name: string]: ParameterValue | Parameters};
 type AnyFunction = (...params:any[]) => any; // eslint-disable-line
 
 /**

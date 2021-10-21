@@ -241,7 +241,9 @@ class ComparisonsStore {
 
     // change the page w/ these new param values
     if (Matomo.helper.isAngularRenderingThePage()) {
-      const search = new URLSearchParams(window.location.hash.replace(/^[#?/]+/, ''));
+      const search = MatomoUrl.parseHashQuery();
+      console.log(search);
+
       const newSearch = {
         ...search,
         ...compareParams,
@@ -253,8 +255,7 @@ class ComparisonsStore {
       delete newSearch['compareDates[]'];
 
       if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
-        const newSearchQuery = $.param(newSearch).replace(/%5B%5D/g, '[]');
-        window.broadcast.propagateAjax(newSearchQuery);
+        window.location.hash = `#?${MatomoUrl.stringify(newSearch)}`;
       }
 
       return;
