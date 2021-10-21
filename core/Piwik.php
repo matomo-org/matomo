@@ -131,7 +131,7 @@ class Piwik
         if ($divisor === 0) {
             return 0;
         }
-        if ($dividend === 0 || $dividend === '-') {
+        if ((int) $dividend === 0 || $dividend === '-') {
             $dividend = 0;
         }
         if (!is_numeric($dividend) || !is_numeric($divisor)) {
