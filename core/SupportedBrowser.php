@@ -29,7 +29,7 @@ class SupportedBrowser
      */
     private static $notSupportedBrowsers = [
         'FF' => 32,
-        'IE' => 10,
+        'IE' => 11,
         'SF' => 4,
         'CH' => 15,
         'OP' => 12,

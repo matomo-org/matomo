@@ -115,6 +115,7 @@
         "QuickLinks": "Quick Links",
         "Profilable": "Profilable",
         "SearchOnMatomo": "Search '%1$s' on Matomo.org",
+        "TechDeprecationWarning": "Starting in version Matomo %1$s, Matomo will be ending support for %2$s. For more information %3$ssee our blog post.%4$s",
         "ReportingCategoryHelpPrefix": "How does the \"%1$s > %2$s\" reporting page help me?",
         "VisitorsCategoryHelp1": "The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.",
         "VisitorsCategoryHelp2": "In addition to general information about your visitors, you can also use the %1$sVisits Log%2$s to see what occurred in every individual visit.",
