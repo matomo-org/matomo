@@ -27,6 +27,7 @@ class ApiTest extends SystemTestCase
     {
         parent::setUpBeforeClass();
         self::setAllowedModuleToFilterApiResponse('API.getReportMetadata', 'CustomDimensions');
+        self::setAllowedCategoryToFilterApiResponse('API.getSegmentsMetadata', 'Visitors');
     }
 
     /**
