@@ -95,6 +95,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $sitesModel = new \Piwik\Plugins\SitesManager\Model();
 
+        if (isset($action['type']) && $action['type'] == 'outlink' && isset($action['url'])) {
+            $action['url'] = html_entity_decode($action['url'], ENT_QUOTES, "UTF-8");
+        }
+
         $view                 = new View($template);
         $view->sendHeadersWhenRendering = false;
         $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
