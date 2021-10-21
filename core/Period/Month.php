@@ -91,7 +91,7 @@ class Month extends Period
 
             if ($endOfWeek->isLater($endDate)) {
                 $this->fillDayPeriods($startDate, $endDate);
-            } elseif ($startOfWeek === $startDate) {
+            } elseif ($startOfWeek->toString() === $startDate->toString()) {
                 $this->addSubperiod($week);
             } else {
                 $this->fillDayPeriods($startDate, $endOfWeek);
