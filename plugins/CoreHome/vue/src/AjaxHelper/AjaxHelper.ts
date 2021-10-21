@@ -7,6 +7,7 @@
 
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
+import jqXHR = JQuery.jqXHR;
 
 window.globalAjaxQueue = [] as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
@@ -65,7 +66,7 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
 /**
  * Global ajax helper to handle requests within Matomo
  */
-export default class AjaxHelper {
+export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Format of response
    */
@@ -144,10 +145,10 @@ export default class AjaxHelper {
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
-  static fetch(params: Parameters): JQuery.jqXHR {
-    const helper = new AjaxHelper();
+  static fetch<R = any>(params: Parameters): Promise<R> { // eslint-disable-line
+    const helper = new AjaxHelper<R>();
     helper.setFormat('json');
-    helper.addParams(params, 'get');
+    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
     return helper.send();
   }
 
@@ -333,7 +334,7 @@ export default class AjaxHelper {
   /**
    * Send the request
    */
-  send(): JQuery.jqXHR {
+  send(): Promise<T> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -345,7 +346,15 @@ export default class AjaxHelper {
     this.requestHandle = this.buildAjaxCall();
     globalAjaxQueue.push(this.requestHandle);
 
-    return this.requestHandle;
+    return new Promise<T>((resolve, reject) => {
+      this.requestHandle.then(resolve).fail((xhr: jqXHR) => {
+        if (xhr.statusText !== 'abort') {
+          console.log(`Warning: the ${window.$.param(this.getParams)} request failed!`);
+
+          reject(xhr);
+        }
+      });
+    });
   }
 
   /**

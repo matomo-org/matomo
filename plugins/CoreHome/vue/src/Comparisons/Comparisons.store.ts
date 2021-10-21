@@ -253,7 +253,8 @@ class ComparisonsStore {
       delete newSearch['compareDates[]'];
 
       if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
-        window.broadcast.propagateAjax($.param(newSearch));
+        const newSearchQuery = $.param(newSearch).replace(/%5B%5D/g, '[]');
+        window.broadcast.propagateAjax(newSearchQuery);
       }
 
       return;
@@ -369,7 +370,7 @@ class ComparisonsStore {
     const id = `${category}.${subcategory}`;
     const isEnabled = this.state.comparisonsDisabledFor.indexOf(id) === -1 && this.state.comparisonsDisabledFor.indexOf(`${category}.*`) === -1;
 
-    document.documentElement.classList.toggle('comparisonsDisabled', isEnabled);
+    document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
 
     this.state.isEnabled = isEnabled;
   }
@@ -379,7 +380,6 @@ class ComparisonsStore {
     const oldPeriodComparisons = this.state.periodComparisons;
 
     this.state.segmentComparisons = Object.freeze(newSegmentComparisons);
-
     this.state.periodComparisons = Object.freeze(newPeriodComparisons);
 
     if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(this.state.periodComparisons)

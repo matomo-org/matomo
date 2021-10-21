@@ -131,10 +131,10 @@ export default defineComponent({
       return window.location.search + hash;
     },
     setUpTooltips() {
-      const $ = { window };
+      const { $ } = window;
       $(this.$refs.root).tooltip({
         track: true,
-        content: () => {
+        content: function transformTooltipContent() {
           const title = $(this).attr('title');
           return window.vueSanitize(title.replace(/\n/g, '<br />'));
         },
@@ -231,7 +231,7 @@ export default defineComponent({
 
     this.onComparisonsChanged();
 
-    this.setUpTooltips();
+    setTimeout(() => this.setUpTooltips());
   },
   unmounted() {
     try {

@@ -20,4 +20,5 @@ angular.module('piwikApp.service').factory('piwikComparisonsService', Comparison
 export default createAngularJsAdapter({
   component: Comparisons,
   directiveName: 'piwikComparisons',
+  restrict: 'E',
 });

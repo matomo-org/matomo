@@ -103,7 +103,6 @@ var broadcast = {
             hash = (''+hash).substr(1);
         }
 
-
         if (hash) {
 
             if (/^popover=/.test(hash)) {
@@ -568,7 +567,6 @@ var broadcast = {
 
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();
-        $('#content').empty();
         $("object").remove();
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
