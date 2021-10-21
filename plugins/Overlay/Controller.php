@@ -12,7 +12,6 @@ use Piwik\API\CORSHandler;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -26,7 +25,6 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
 use Piwik\Plugins\SitesManager;
-use Piwik\View\SecurityPolicy;
 
 class Controller extends \Piwik\Plugin\Controller
 {
