@@ -2243,8 +2243,7 @@ class Comparisons_store_ComparisonsStore {
     Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       segmentComparisons: [],
       periodComparisons: [],
-      comparisonsDisabledFor: [],
-      isEnabled: null
+      comparisonsDisabledFor: []
     }));
 
     Comparisons_store_defineProperty(this, "colors", void 0);
@@ -2309,7 +2308,7 @@ class Comparisons_store_ComparisonsStore {
   }
 
   isComparisonEnabled() {
-    return this.state.isEnabled;
+    return this.checkEnabledForCurrentPage();
   }
 
   getIndividualComparisonRowIndices(seriesIndex) {
@@ -2514,7 +2513,6 @@ class Comparisons_store_ComparisonsStore {
       });
     }
 
-    this.checkEnabledForCurrentPage();
     this.setComparisons(newSegmentComparisons, newPeriodComparisons);
   }
 
@@ -2525,7 +2523,7 @@ class Comparisons_store_ComparisonsStore {
     const id = `${category}.${subcategory}`;
     const isEnabled = this.state.comparisonsDisabledFor.indexOf(id) === -1 && this.state.comparisonsDisabledFor.indexOf(`${category}.*`) === -1;
     document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
-    this.state.isEnabled = isEnabled;
+    return isEnabled;
   }
 
   setComparisons(newSegmentComparisons, newPeriodComparisons) {
@@ -2545,7 +2543,6 @@ class Comparisons_store_ComparisonsStore {
       method: 'API.getPagesComparisonsDisabledFor'
     }).then(result => {
       this.state.comparisonsDisabledFor = result;
-      this.checkEnabledForCurrentPage();
     });
   }
 

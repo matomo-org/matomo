@@ -56,7 +56,6 @@ class ComparisonsStore {
     segmentComparisons: [],
     periodComparisons: [],
     comparisonsDisabledFor: [],
-    isEnabled: null,
   });
 
   private colors: string[];
@@ -131,7 +130,7 @@ class ComparisonsStore {
   }
 
   isComparisonEnabled(): boolean {
-    return this.state.isEnabled;
+    return this.checkEnabledForCurrentPage();
   }
 
   getIndividualComparisonRowIndices(seriesIndex): { segmentIndex: number, periodIndex: number } {
@@ -359,7 +358,6 @@ class ComparisonsStore {
       });
     }
 
-    this.checkEnabledForCurrentPage();
     this.setComparisons(newSegmentComparisons, newPeriodComparisons);
   }
 
@@ -373,7 +371,7 @@ class ComparisonsStore {
 
     document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
 
-    this.state.isEnabled = isEnabled;
+    return isEnabled;
   }
 
   private setComparisons(newSegmentComparisons, newPeriodComparisons) {
@@ -396,7 +394,6 @@ class ComparisonsStore {
       method: 'API.getPagesComparisonsDisabledFor',
     }).then((result) => {
       this.state.comparisonsDisabledFor = result;
-      this.checkEnabledForCurrentPage();
     });
   }
 }
