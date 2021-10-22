@@ -99,7 +99,7 @@ class GoalManager
         $goals = self::getGoalDefinitions($idSite);
 
         foreach ($goals as $goal) {
-            if ($goal['idgoal'] === $idGoal) {
+            if ((int) $goal['idgoal'] === (int) $idGoal) {
                 return $goal;
             }
         }
