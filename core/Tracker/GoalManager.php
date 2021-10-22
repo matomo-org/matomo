@@ -99,7 +99,7 @@ class GoalManager
         $goals = self::getGoalDefinitions($idSite);
 
         foreach ($goals as $goal) {
-            if ($goal['idgoal'] === $idGoal) {
+            if ((int) $goal['idgoal'] === (int) $idGoal) {
                 return $goal;
             }
         }
@@ -321,7 +321,7 @@ class GoalManager
      */
     protected function getRevenue($revenue)
     {
-        if (round($revenue) !== $revenue) {
+        if (round($revenue) !== (float) $revenue) {
             $revenue = round($revenue, self::REVENUE_PRECISION);
         }
 
@@ -724,7 +724,7 @@ class GoalManager
             }
 
             // If multiple Goal conversions per visit, set a cache buster
-            if ($convertedGoal['allow_multiple'] === 0) {
+            if ((int) $convertedGoal['allow_multiple'] === 0) {
                 $conversion['buster'] = 0;
             } else {
                 $lastActionTime = $visitProperties->getProperty('visit_last_action_time');

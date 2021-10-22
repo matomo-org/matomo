@@ -200,7 +200,7 @@ class DataTablePostProcessor
      */
     public function applyTotalsCalculator($dataTable)
     {
-        if (1 === Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+        if (1 === Common::getRequestVar('totals', 1, 'integer', $this->request)) {
             $calculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request, $this->report);
             $dataTable  = $calculator->calculate($dataTable);
         }

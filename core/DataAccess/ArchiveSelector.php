@@ -234,7 +234,7 @@ class ArchiveSelector
                     if (strpos($doneFlag, '.') === false // all plugins archive
                         // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
                         // don't treat it like an all plugins archive
-                        && $value !== ArchiveWriter::DONE_PARTIAL
+                        && (int) $value !== ArchiveWriter::DONE_PARTIAL
                     ) {
                         break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
@@ -439,7 +439,7 @@ class ArchiveSelector
         foreach ($results as $result) {
             if (in_array($result['name'], $doneFlags)
                 && in_array($result['idarchive'], $idArchives)
-                && $result['value'] !== ArchiveWriter::DONE_PARTIAL
+                && (int) $result['value'] !== ArchiveWriter::DONE_PARTIAL
             ) {
                 $archiveData = $result;
                 if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
@@ -474,7 +474,7 @@ class ArchiveSelector
             }
 
             $thisTsArchived = Date::factory($row['ts_archived']);
-            if ($row['value'] === ArchiveWriter::DONE_PARTIAL
+            if ((int) $row['value'] === ArchiveWriter::DONE_PARTIAL
                 && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater($thisTsArchived))
             ) {
                 $archiveData['partial'][] = $row['idarchive'];
