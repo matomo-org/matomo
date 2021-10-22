@@ -193,7 +193,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     {
         if ((float) $value === 0.0) {
             $evolution = 0;
-        } elseif ($divisor === 0) {
+        } elseif ((float) $divisor === 0.0) {
             $evolution = 100;
         } else {
             $evolution = ($value / $divisor) * 100;
