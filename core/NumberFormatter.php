@@ -147,7 +147,7 @@ class NumberFormatter
 
         $pattern = $this->getPattern($value, 'Intl_NumberFormatCurrency');
 
-        if ($newValue == round($newValue)) {
+        if ((float) $newValue === round($newValue)) {
             // if no fraction digits available, don't show any
             $value = $this->formatNumberWithPattern($pattern, $newValue, 0, 0);
         } else {
@@ -173,7 +173,7 @@ class NumberFormatter
             $this->patterns[$language][$translationId] = $this->parsePattern($this->translator->translate($translationId));
         }
 
-        list($positivePattern, $negativePattern) = $this->patterns[$language][$translationId];
+        [$positivePattern, $negativePattern] = $this->patterns[$language][$translationId];
         $negative = $this->isNegative($value);
 
         return $negative ? $negativePattern : $positivePattern;
