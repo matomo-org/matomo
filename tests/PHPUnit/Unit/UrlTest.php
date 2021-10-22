@@ -14,6 +14,7 @@ use Piwik\Url;
 /**
  * @backupGlobals enabled
  * @group Core
+ * @group UrlTest
  */
 class UrlTest extends \PHPUnit\Framework\TestCase
 {
@@ -255,6 +256,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             array('/index.php', '/index.php', null),
             array('/index.php', '/index.php?module=Foo', null),
             array('/index.php', '/index.php/route/1', '/route/1'),
+            array('/index.php', '/index.php#<img src=http://matomo.org', ''),
             array('/index.php', '/index.php/route/2?module=Bar', '/route/2'),
             array('/path/index.php', '/path/index.php/route/3/?module=Fu&action=Bar#Hash', '/route/3/'),
         );

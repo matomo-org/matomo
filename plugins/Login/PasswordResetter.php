@@ -446,7 +446,7 @@ class PasswordResetter
         $bodyText = '<p>' . str_replace(
                 "\n\n",
                 "</p><p>",
-                Piwik::translate('Login_MailPasswordChangeBody2', [Common::sanitizeInputValue($login), $ip, $url])
+                Piwik::translate('Login_MailPasswordChangeBody2', [Common::sanitizeInputValue($login), $ip, Common::sanitizeInputValue($url)])
             ) . "</p>";
         $mail->setWrappedHtmlBody($bodyText);
 
