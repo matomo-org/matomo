@@ -174,7 +174,7 @@ class PluginSettingsTable extends BaseSettingsTable
             $table = Common::prefixTable('plugin_setting');
             Db::get()->query(sprintf('DELETE FROM %s WHERE user_login = ?', $table), array($userLogin));
         } catch (Exception $e) {
-            if ($e->getCode() !== 42) {
+            if ((string) $e->getCode() !== '42') {
                 // ignore table not found error, which might occur when updating from an older version of Piwik
                 throw $e;
             }
