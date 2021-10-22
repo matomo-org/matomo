@@ -321,7 +321,7 @@ class GoalManager
      */
     protected function getRevenue($revenue)
     {
-        if (round($revenue) !== $revenue) {
+        if (round($revenue) !== (float) $revenue) {
             $revenue = round($revenue, self::REVENUE_PRECISION);
         }
 
