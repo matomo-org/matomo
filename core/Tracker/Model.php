@@ -422,7 +422,7 @@ class Model
         $bindSql = array($idVisit);
 
         $val = $this->getDb()->fetchOne($sql, $bindSql);
-        return $val === $idSite;
+        return (string) $val === (string) $idSite;
     }
 
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
