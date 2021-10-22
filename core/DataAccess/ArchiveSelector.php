@@ -234,7 +234,7 @@ class ArchiveSelector
                     if (strpos($doneFlag, '.') === false // all plugins archive
                         // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
                         // don't treat it like an all plugins archive
-                        && $value !== ArchiveWriter::DONE_PARTIAL
+                        && (int) $value !== ArchiveWriter::DONE_PARTIAL
                     ) {
                         break; // found the all plugins archive, don't need to look in older archives since we have everything here
                     }
