@@ -439,7 +439,7 @@ class ArchiveSelector
         foreach ($results as $result) {
             if (in_array($result['name'], $doneFlags)
                 && in_array($result['idarchive'], $idArchives)
-                && $result['value'] !== ArchiveWriter::DONE_PARTIAL
+                && (int) $result['value'] !== ArchiveWriter::DONE_PARTIAL
             ) {
                 $archiveData = $result;
                 if (empty($archiveData[self::NB_VISITS_RECORD_LOOKED_UP])) {
