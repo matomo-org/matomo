@@ -724,7 +724,7 @@ class GoalManager
             }
 
             // If multiple Goal conversions per visit, set a cache buster
-            if ($convertedGoal['allow_multiple'] === 0) {
+            if ((int) $convertedGoal['allow_multiple'] === 0) {
                 $conversion['buster'] = 0;
             } else {
                 $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
