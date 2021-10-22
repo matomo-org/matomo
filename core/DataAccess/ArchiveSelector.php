@@ -474,7 +474,7 @@ class ArchiveSelector
             }
 
             $thisTsArchived = Date::factory($row['ts_archived']);
-            if ($row['value'] === ArchiveWriter::DONE_PARTIAL
+            if ((int) $row['value'] === ArchiveWriter::DONE_PARTIAL
                 && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater($thisTsArchived))
             ) {
                 $archiveData['partial'][] = $row['idarchive'];
