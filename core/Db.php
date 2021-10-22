@@ -820,7 +820,7 @@ class Db
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
-        if (self::$logQueries === false || @(string) Config::getInstance()->Debug['log_sql_queries'] !== '1') {
+        if (self::$logQueries === false || (string) Config::getInstance()->Debug['log_sql_queries'] !== '1') {
             return;
         }
 

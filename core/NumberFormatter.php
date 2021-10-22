@@ -147,7 +147,7 @@ class NumberFormatter
 
         $pattern = $this->getPattern($value, 'Intl_NumberFormatCurrency');
 
-        if ($newValue === round($newValue)) {
+        if ($newValue == round($newValue)) {
             // if no fraction digits available, don't show any
             $value = $this->formatNumberWithPattern($pattern, $newValue, 0, 0);
         } else {

@@ -391,12 +391,7 @@ class DataArray
                 }
             }
             $values[Metrics::INDEX_NB_CONVERSIONS] = $conversions;
-
-            // 25.00 recorded as 25
-            if (round($revenue) === $revenue) {
-                $revenue = round($revenue);
-            }
-            $values[Metrics::INDEX_REVENUE] = $revenue;
+            $values[Metrics::INDEX_REVENUE] = (float) $revenue;
 
             // if there are no "visit" column, we force one to prevent future complications
             // eg. This helps the setDefaultColumnsToDisplay() call

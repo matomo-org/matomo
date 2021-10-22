@@ -470,7 +470,7 @@ class FrontController extends Singleton
             throw new Exception("Invalid module name '$module'");
         }
 
-        list($module, $action) = Request::getRenamedModuleAndAction($module, $action);
+        [$module, $action] = Request::getRenamedModuleAndAction($module, $action);
 
         if (!SettingsPiwik::isInternetEnabled() && \Piwik\Plugin\Manager::getInstance()->doesPluginRequireInternetConnection($module)) {
             throw new PluginRequiresInternetException($module);
@@ -485,7 +485,7 @@ class FrontController extends Singleton
 
     protected function handleMaintenanceMode()
     {
-        if ((Config::getInstance()->General['maintenance_mode'] !== 1) || Common::isPhpCliMode()) {
+        if ((string) (Config::getInstance()->General['maintenance_mode'] !== '1') || Common::isPhpCliMode()) {
             return;
         }
         Common::sendResponseCode(503);
@@ -583,7 +583,7 @@ class FrontController extends Singleton
      */
     private function doDispatch($module, $action, $parameters)
     {
-        list($module, $action, $parameters) = $this->prepareDispatch($module, $action, $parameters);
+        [$module, $action, $parameters] = $this->prepareDispatch($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.

@@ -1010,7 +1010,7 @@ class Date
     {
         $isNegative = ($n < 0);
         $minutes = 0;
-        if ($n !== round($n)) {
+        if ($n != round($n)) {
             if ($n >= 1 || $n <= -1) {
                 $extraMinutes = floor(abs($n));
                 if ($isNegative) {

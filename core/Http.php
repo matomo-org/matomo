@@ -508,7 +508,7 @@ class Http
 
                 // save expected content length for later verification
                 if (preg_match('/^Content-Length:\s*(\d+)/', $line, $m)) {
-                    $contentLength = (integer)$m[1];
+                    $contentLength = (int) $m[1];
                 }
 
                 self::parseHeaderLine($headers, $line);
@@ -758,7 +758,7 @@ class Http
                 }
             }
 
-            $contentLength = @curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+            $contentLength = (int) @curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
             $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
 

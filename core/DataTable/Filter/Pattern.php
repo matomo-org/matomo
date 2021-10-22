@@ -72,7 +72,7 @@ class Pattern extends BaseFilter
      */
     public static function match($patternQuoted, $string, $invertedMatch = false)
     {
-        return preg_match($patternQuoted . "i", $string) === 1 ^ $invertedMatch;
+        return preg_match($patternQuoted . "i", $string) == 1 ^ $invertedMatch;
     }
 
     /**
