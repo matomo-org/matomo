@@ -186,7 +186,7 @@ class MeasurableSettingsTable extends BaseSettingsTable
             $query = sprintf('DELETE FROM %s WHERE plugin_name = ?', Common::prefixTable('site_setting'));
             Db::query($query, array($pluginName));
         } catch (Exception $e) {
-            if ($e->getCode() !== 42) {
+            if ((string) $e->getCode() !== '42') {
                 // ignore table not found error, which might occur when updating from an older version of Piwik
                 throw $e;
             }
