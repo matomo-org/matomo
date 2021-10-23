@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import ComparisonsStore, { AnyComparison } from './Comparisons.store';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
@@ -221,10 +221,6 @@ export default defineComponent({
       tooltip += '</div>';
       return tooltip;
     },
-  },
-  setup() { // TODO: is this even needed?
-    const root = ref(null);
-    return { root };
   },
   mounted() {
     Matomo.on('piwikComparisonsChanged', () => this.onComparisonsChanged());
