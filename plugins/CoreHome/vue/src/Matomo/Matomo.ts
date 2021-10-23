@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IRootScopeService } from 'angular';
+import { IAngularEvent } from 'angular';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Periods from '../Periods/Periods';
 import { format } from '../Periods/utilities';
@@ -13,7 +13,7 @@ import { format } from '../Periods/utilities';
 interface EventListener {
   (...args: any[]): any; // eslint-disable-line
 
-  wrapper?: EventListenerOrEventListenerObject;
+  wrapper: (evt: Event) => void; // eslint-disable-line
 }
 
 let originalTitle: string;
@@ -82,8 +82,8 @@ piwik.hasUserCapability = function hasUserCapability(capability: string) {
 };
 
 piwik.on = function addMatomoEventListener(eventName: string, listener: EventListener) {
-  function listenerWrapper(event) {
-    listener(...event.detail);
+  function listenerWrapper(evt: Event) {
+    listener(...(evt as CustomEvent<any[]>).detail); // eslint-disable-line
   }
 
   listener.wrapper = listenerWrapper;
@@ -97,13 +97,14 @@ piwik.off = function removeMatomoEventListener(eventName: string, listener: Even
 
 piwik.postEvent = function postMatomoEvent(
   eventName: string,
-  ...args: any[], // eslint-disable-line
-) {
+  ...args: any[] // eslint-disable-line
+): IAngularEvent {
   const event = new CustomEvent(eventName, { detail: args });
   window.dispatchEvent(event);
 
   // required until angularjs is removed
-  (piwik.helper.getAngularDependency('$rootScope') as IRootScopeService).$oldEmit(eventName, ...args);
+  return (piwik.helper.getAngularDependency('$rootScope') as any) // eslint-disable-line
+    .$oldEmit(eventName, ...args);
 };
 
 const Matomo = piwik;

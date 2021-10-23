@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ComparisonsStore, { AnyComparison } from './Comparisons.store';
+import ComparisonsStoreInstance, { AnyComparison } from './Comparisons.store';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
@@ -92,7 +92,7 @@ export default defineComponent({
   },
   data() {
     return {
-      comparisonsService: ComparisonsStore,
+      comparisonsService: ComparisonsStoreInstance,
       comparisonTooltips: null,
     };
   },

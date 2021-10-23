@@ -35,13 +35,13 @@ const MatomoUrl = {
     });
   },
 
-  parseHashQuery(): Parameters {
+  parseHashQuery(): QueryParameters {
     return this.parseQueryString(window.location.hash.replace(/^[#?/]+/, ''));
   },
 
-  parseQueryString(query: string): Parameters {
+  parseQueryString(query: string): QueryParameters {
     const params = new URLSearchParams(query);
-    const result = {};
+    const result: QueryParameters = {};
 
     // TODO: doesn't handle object query params
     Array.from(params.keys()).forEach((name) => {
@@ -57,7 +57,7 @@ const MatomoUrl = {
     return result;
   },
 
-  stringify(search: Parameters): string {
+  stringify(search: QueryParameters): string {
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
     return $.param(search);
   },

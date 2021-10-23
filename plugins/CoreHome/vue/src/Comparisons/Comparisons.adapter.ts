@@ -6,11 +6,11 @@
  */
 
 import createAngularJsAdapter from '../createAngularJsAdapter';
-import ComparisonsStore from './Comparisons.store';
+import ComparisonsStoreInstance from './Comparisons.store';
 import Comparisons from './Comparisons.vue';
 
 function ComparisonFactory() {
-  return ComparisonsStore;
+  return ComparisonsStoreInstance;
 }
 
 ComparisonFactory.$inject = [];

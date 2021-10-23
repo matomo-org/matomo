@@ -489,8 +489,8 @@ Matomo_piwik.hasUserCapability = function hasUserCapability(capability) {
 };
 
 Matomo_piwik.on = function addMatomoEventListener(eventName, listener) {
-  function listenerWrapper(event) {
-    listener(...event.detail);
+  function listenerWrapper(evt) {
+    listener(...evt.detail); // eslint-disable-line
   }
 
   listener.wrapper = listenerWrapper;
@@ -501,13 +501,15 @@ Matomo_piwik.off = function removeMatomoEventListener(eventName, listener) {
   window.removeEventListener(eventName, listener.wrapper);
 };
 
-Matomo_piwik.postEvent = function postMatomoEvent(eventName, ...args) {
+Matomo_piwik.postEvent = function postMatomoEvent(eventName, ...args // eslint-disable-line
+) {
   const event = new CustomEvent(eventName, {
     detail: args
   });
   window.dispatchEvent(event); // required until angularjs is removed
 
-  Matomo_piwik.helper.getAngularDependency('$rootScope').$oldEmit(eventName, ...args);
+  return Matomo_piwik.helper.getAngularDependency('$rootScope') // eslint-disable-line
+  .$oldEmit(eventName, ...args);
 };
 
 const Matomo = Matomo_piwik;
@@ -525,21 +527,21 @@ function piwikService() {
   return Matomo_Matomo;
 }
 
-angular.module('piwikApp.service').service('piwik', piwikService);
+window.angular.module('piwikApp.service').service('piwik', piwikService);
 
 function initPiwikService(piwik, $rootScope) {
   // overwrite $rootScope so all events also go through Matomo.postEvent(...) too.
-  $rootScope.$oldEmit = $rootScope.$emit;
+  $rootScope.$oldEmit = $rootScope.$emit; // eslint-disable-line
 
   $rootScope.$emit = function emitWrapper(name, ...args) {
-    Matomo_Matomo.postEvent(name, ...args);
+    return Matomo_Matomo.postEvent(name, ...args);
   };
 
   $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
 }
 
 initPiwikService.$inject = ['piwik', '$rootScope'];
-angular.module('piwikApp.service').run(initPiwikService);
+window.angular.module('piwikApp.service').run(initPiwikService);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -999,6 +1001,12 @@ function defaultErrorCallback(deferred, status) {
     return;
   }
 
+  if (typeof Piwik_Popover === 'undefined') {
+    console.log(`Request failed: ${deferred.responseText}`); // mostly for tests
+
+    return;
+  }
+
   const loadingError = $('#loadingError');
 
   if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
@@ -1122,18 +1130,14 @@ class AjaxHelper_AjaxHelper {
    * Adds params to the request.
    * If params are given more then once, the latest given value is used for the request
    *
-   * @param  params
+   * @param  initialParams
    * @param  type  type of given parameters (POST or GET)
    * @return {void}
    */
 
 
-  addParams(params, type) {
-    if (typeof params === 'string') {
-      // TODO: add global types for broadcast (multiple uses below)
-      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
-    }
-
+  addParams(initialParams, type) {
+    const params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach(key => {
       const value = params[key];
@@ -1168,7 +1172,7 @@ class AjaxHelper_AjaxHelper {
 
 
   setBulkRequests(...urls) {
-    const urlsProcessed = urls.map(u => $.param(u));
+    const urlsProcessed = urls.map(u => typeof u === 'string' ? u : $.param(u));
     this.addParams({
       module: 'API',
       method: 'API.getBulkRequest',
@@ -1321,11 +1325,11 @@ class AjaxHelper_AjaxHelper {
     }
 
     this.requestHandle = this.buildAjaxCall();
-    globalAjaxQueue.push(this.requestHandle);
+    window.globalAjaxQueue.push(this.requestHandle);
     return new Promise((resolve, reject) => {
       this.requestHandle.then(resolve).fail(xhr => {
         if (xhr.statusText !== 'abort') {
-          console.log(`Warning: the ${window.$.param(this.getParams)} request failed!`);
+          console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
           reject(xhr);
         }
       });
@@ -1375,11 +1379,11 @@ class AjaxHelper_AjaxHelper {
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
-      error: function errorCallback() {
-        globalAjaxQueue.active -= 1;
+      error: function errorCallback(...args) {
+        window.globalAjaxQueue.active -= 1;
 
         if (self.errorCallback) {
-          self.errorCallback.apply(this, arguments); // eslint-disable-line
+          self.errorCallback.apply(this, args);
         }
       },
       success: (response, status, request) => {
@@ -1413,7 +1417,7 @@ class AjaxHelper_AjaxHelper {
           this.callback(response, status, request);
         }
 
-        globalAjaxQueue.active -= 1;
+        window.globalAjaxQueue.active -= 1;
 
         if (Matomo_Matomo.ajaxRequestFinished) {
           Matomo_Matomo.ajaxRequestFinished();
@@ -1469,7 +1473,7 @@ class AjaxHelper_AjaxHelper {
   mixinDefaultGetParams(originalParams) {
     const segment = MatomoUrl_MatomoUrl.getSearchParam('segment');
     const defaultParams = {
-      idSite: Matomo_Matomo.idSite || broadcast.getValueFromUrl('idSite'),
+      idSite: Matomo_Matomo.idSite ? Matomo_Matomo.idSite.toString() : broadcast.getValueFromUrl('idSite'),
       period: Matomo_Matomo.period || broadcast.getValueFromUrl('period'),
       segment
     };
@@ -2215,20 +2219,32 @@ function Comparisons_store_defineProperty(obj, key, value) { if (key in obj) { O
 const SERIES_COLOR_COUNT = 8;
 const SERIES_SHADE_COUNT = 3;
 
+function wrapArray(values) {
+  if (!values) {
+    return [];
+  }
+
+  return values instanceof Array ? values : [values];
+}
+
 class Comparisons_store_ComparisonsStore {
+  get state() {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState);
+  }
+
   constructor() {
-    Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+    Comparisons_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       segmentComparisons: [],
       periodComparisons: [],
       comparisonsDisabledFor: []
     }));
 
-    Comparisons_store_defineProperty(this, "colors", void 0);
+    Comparisons_store_defineProperty(this, "colors", {});
 
     MatomoUrl_MatomoUrl.onLocationChange(() => this.updateComparisonsFromQueryParams());
     Matomo_Matomo.on('piwikSegmentationInited', () => this.updateComparisonsFromQueryParams());
     this.loadComparisonsDisabledFor();
-    window.$(() => {
+    $(() => {
       this.updateComparisonsFromQueryParams();
       this.colors = this.getAllSeriesColors();
     });
@@ -2240,7 +2256,7 @@ class Comparisons_store_ComparisonsStore {
 
   isComparing() {
     return this.isComparisonEnabled() // first two in each array are for the currently selected segment/period
-    && (this.state.segmentComparisons.length > 1 || this.state.periodComparisons.length > 1);
+    && (this.privateState.segmentComparisons.length > 1 || this.privateState.periodComparisons.length > 1);
   }
 
   isComparingPeriods() {
@@ -2252,7 +2268,7 @@ class Comparisons_store_ComparisonsStore {
       return [];
     }
 
-    return this.state.segmentComparisons;
+    return this.privateState.segmentComparisons;
   }
 
   getPeriodComparisons() {
@@ -2260,7 +2276,7 @@ class Comparisons_store_ComparisonsStore {
       return [];
     }
 
-    return this.state.periodComparisons;
+    return this.privateState.periodComparisons;
   }
 
   getSeriesColor(segmentComparison, periodComparison, metricIndex = 0) {
@@ -2310,7 +2326,9 @@ class Comparisons_store_ComparisonsStore {
       this.getSegmentComparisons().forEach(segmentComp => {
         seriesInfo.push({
           index: seriesIndex,
-          params: $.extend({}, segmentComp.params, periodComp.params),
+          params: { ...segmentComp.params,
+            ...periodComp.params
+          },
           color: this.colors[`series${seriesIndex}`]
         });
         seriesIndex += 1;
@@ -2324,7 +2342,7 @@ class Comparisons_store_ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons = [].concat(this.state.segmentComparisons);
+    const newComparisons = Array().concat(this.privateState.segmentComparisons);
     newComparisons.splice(index, 1);
     const extraParams = {};
 
@@ -2332,7 +2350,7 @@ class Comparisons_store_ComparisonsStore {
       extraParams.segment = newComparisons[0].params.segment;
     }
 
-    this.updateQueryParamsFromComparisons(newComparisons, this.state.periodComparisons, extraParams);
+    this.updateQueryParamsFromComparisons(newComparisons, this.privateState.periodComparisons, extraParams);
   }
 
   addSegmentComparison(params) {
@@ -2340,10 +2358,12 @@ class Comparisons_store_ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons = this.state.segmentComparisons.concat([{
-      params
+    const newComparisons = this.privateState.segmentComparisons.concat([{
+      params,
+      index: -1,
+      title: ''
     }]);
-    this.updateQueryParamsFromComparisons(newComparisons, this.state.periodComparisons);
+    this.updateQueryParamsFromComparisons(newComparisons, this.privateState.periodComparisons);
   }
 
   updateQueryParamsFromComparisons(segmentComparisons, periodComparisons, extraParams = {}) {
@@ -2381,7 +2401,6 @@ class Comparisons_store_ComparisonsStore {
 
     if (Matomo_Matomo.helper.isAngularRenderingThePage()) {
       const search = MatomoUrl_MatomoUrl.parseHashQuery();
-      console.log(search);
       const newSearch = { ...search,
         ...compareParams,
         ...extraParams
@@ -2439,11 +2458,11 @@ class Comparisons_store_ComparisonsStore {
     } catch (e) {// segment editor is not initialized yet
     }
 
-    let compareSegments = MatomoUrl_MatomoUrl.getSearchParam('compareSegments') || [];
+    let compareSegments = wrapArray(MatomoUrl_MatomoUrl.getSearchParam('compareSegments')) || [];
     compareSegments = compareSegments instanceof Array ? compareSegments : [compareSegments];
-    let comparePeriods = MatomoUrl_MatomoUrl.getSearchParam('comparePeriods') || [];
+    let comparePeriods = wrapArray(MatomoUrl_MatomoUrl.getSearchParam('comparePeriods')) || [];
     comparePeriods = comparePeriods instanceof Array ? comparePeriods : [comparePeriods];
-    let compareDates = MatomoUrl_MatomoUrl.getSearchParam('compareDates') || [];
+    let compareDates = wrapArray(MatomoUrl_MatomoUrl.getSearchParam('compareDates')) || [];
     compareDates = compareDates instanceof Array ? compareDates : [compareDates]; // add base comparisons
 
     compareSegments.unshift(MatomoUrl_MatomoUrl.getSearchParam('segment'));
@@ -2451,7 +2470,7 @@ class Comparisons_store_ComparisonsStore {
     compareDates.unshift(MatomoUrl_MatomoUrl.getSearchParam('date'));
     const newSegmentComparisons = [];
     compareSegments.forEach((segment, idx) => {
-      let storedSegment = null;
+      let storedSegment;
       availableSegments.forEach(s => {
         if (s.definition === segment || s.definition === decodeURIComponent(segment) || decodeURIComponent(s.definition) === segment) {
           storedSegment = s;
@@ -2498,18 +2517,18 @@ class Comparisons_store_ComparisonsStore {
     const category = MatomoUrl_MatomoUrl.getSearchParam('category') || MatomoUrl_MatomoUrl.getSearchParam('module');
     const subcategory = MatomoUrl_MatomoUrl.getSearchParam('subcategory') || MatomoUrl_MatomoUrl.getSearchParam('action');
     const id = `${category}.${subcategory}`;
-    const isEnabled = this.state.comparisonsDisabledFor.indexOf(id) === -1 && this.state.comparisonsDisabledFor.indexOf(`${category}.*`) === -1;
+    const isEnabled = this.privateState.comparisonsDisabledFor.indexOf(id) === -1 && this.privateState.comparisonsDisabledFor.indexOf(`${category}.*`) === -1;
     document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
     return isEnabled;
   }
 
   setComparisons(newSegmentComparisons, newPeriodComparisons) {
-    const oldSegmentComparisons = this.state.segmentComparisons;
-    const oldPeriodComparisons = this.state.periodComparisons;
-    this.state.segmentComparisons = Object.freeze(newSegmentComparisons);
-    this.state.periodComparisons = Object.freeze(newPeriodComparisons);
+    const oldSegmentComparisons = this.privateState.segmentComparisons;
+    const oldPeriodComparisons = this.privateState.periodComparisons;
+    this.privateState.segmentComparisons = newSegmentComparisons;
+    this.privateState.periodComparisons = newPeriodComparisons;
 
-    if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(this.state.periodComparisons) || JSON.stringify(oldSegmentComparisons) !== JSON.stringify(this.state.segmentComparisons)) {
+    if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(newPeriodComparisons) || JSON.stringify(oldSegmentComparisons) !== JSON.stringify(newSegmentComparisons)) {
       Matomo_Matomo.postEvent('piwikComparisonsChanged');
     }
   }
@@ -2519,49 +2538,48 @@ class Comparisons_store_ComparisonsStore {
       module: 'API',
       method: 'API.getPagesComparisonsDisabledFor'
     }).then(result => {
-      this.state.comparisonsDisabledFor = result;
+      this.privateState.comparisonsDisabledFor = result;
     });
   }
 
 }
-
 /* harmony default export */ var Comparisons_store = (new Comparisons_store_ComparisonsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=2f49476a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=4f8421ca
 
-const Comparisonsvue_type_template_id_2f49476a_hoisted_1 = {
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_1 = {
   key: 0,
   ref: "root"
 };
-const Comparisonsvue_type_template_id_2f49476a_hoisted_2 = {
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_2 = {
   class: "comparison-type"
 };
-const Comparisonsvue_type_template_id_2f49476a_hoisted_3 = ["title"];
-const Comparisonsvue_type_template_id_2f49476a_hoisted_4 = ["href"];
-const Comparisonsvue_type_template_id_2f49476a_hoisted_5 = ["title"];
-const Comparisonsvue_type_template_id_2f49476a_hoisted_6 = {
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_3 = ["title"];
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_4 = ["href"];
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_5 = ["title"];
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_6 = {
   class: "comparison-period-label"
 };
-const Comparisonsvue_type_template_id_2f49476a_hoisted_7 = ["onClick"];
-const Comparisonsvue_type_template_id_2f49476a_hoisted_8 = ["title"];
-const Comparisonsvue_type_template_id_2f49476a_hoisted_9 = {
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_7 = ["onClick"];
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_8 = ["title"];
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_9 = {
   class: "loadingPiwik",
   style: {
     "display": "none"
   }
 };
-const Comparisonsvue_type_template_id_2f49476a_hoisted_10 = ["alt"];
-function Comparisonsvue_type_template_id_2f49476a_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.comparisonsService.isComparing() ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_2f49476a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.comparisonsService.getSegmentComparisons(), (comparison, $index) => {
+const Comparisonsvue_type_template_id_4f8421ca_hoisted_10 = ["alt"];
+function Comparisonsvue_type_template_id_4f8421ca_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.comparisonsService.isComparing() ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_4f8421ca_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.comparisonsService.getSegmentComparisons(), (comparison, $index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "comparison card",
       key: comparison.index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_2f49476a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_4f8421ca_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
       class: "title",
       title: comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       target: "_blank",
       href: _ctx.getUrlToSegment(comparison.params.segment)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_2f49476a_hoisted_4)], 8, Comparisonsvue_type_template_id_2f49476a_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.comparisonsService.getPeriodComparisons(), periodComparison => {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_4f8421ca_hoisted_4)], 8, Comparisonsvue_type_template_id_4f8421ca_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.comparisonsService.getPeriodComparisons(), periodComparison => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
         class: "comparison-period",
         key: periodComparison.index,
@@ -2571,7 +2589,7 @@ function Comparisonsvue_type_template_id_2f49476a_render(_ctx, _cache, $props, $
         style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
           'background-color': _ctx.comparisonsService.getSeriesColor(comparison, periodComparison)
         })
-      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_2f49476a_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_2f49476a_hoisted_5);
+      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_4f8421ca_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_4f8421ca_hoisted_5);
     }), 128)), _ctx.comparisonsService.getSegmentComparisons().length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: 0,
       class: "remove-button",
@@ -2579,13 +2597,13 @@ function Comparisonsvue_type_template_id_2f49476a_render(_ctx, _cache, $props, $
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       class: "icon icon-close",
       title: _ctx.translate('General_ClickToRemoveComp')
-    }, null, 8, Comparisonsvue_type_template_id_2f49476a_hoisted_8)], 8, Comparisonsvue_type_template_id_2f49476a_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_2f49476a_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+    }, null, 8, Comparisonsvue_type_template_id_4f8421ca_hoisted_8)], 8, Comparisonsvue_type_template_id_4f8421ca_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_4f8421ca_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     src: "plugins/Morpheus/images/loading-blue.gif",
     alt: _ctx.translate('General_LoadingData')
-  }, null, 8, Comparisonsvue_type_template_id_2f49476a_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, Comparisonsvue_type_template_id_4f8421ca_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=2f49476a
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=4f8421ca
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
 
@@ -2738,7 +2756,7 @@ function Comparisonsvue_type_template_id_2f49476a_render(_ctx, _cache, $props, $
 
 
 
-Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_2f49476a_render
+Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_4f8421ca_render
 
 /* harmony default export */ var Comparisons = (Comparisonsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts
