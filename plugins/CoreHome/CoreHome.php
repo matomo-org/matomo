@@ -269,7 +269,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/date-picker/date-picker.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.js";
 

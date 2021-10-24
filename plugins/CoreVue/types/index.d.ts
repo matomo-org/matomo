@@ -105,6 +105,7 @@ declare global {
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
+    getBaseDatePickerOptions(): {[key: string]: any};
 
     on(eventName: string, listener: EventListener): void;
     off(eventName: string, listener: EventListener): void;

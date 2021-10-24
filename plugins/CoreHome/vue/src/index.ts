@@ -19,6 +19,7 @@ import './MatomoDialog/MatomoDialog.adapter';
 import './EnrichedHeadline/EnrichedHeadline.adapter';
 import './ContentBlock/ContentBlock.adapter';
 import './Comparisons/Comparisons.adapter';
+import './DatePicker/DatePicker.adapter';
 
 export { default as createAngularJsAdapter } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
@@ -33,3 +34,4 @@ export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
 export { default as ContentBlock } from './ContentBlock/ContentBlock.vue';
 export { default as Comparisons } from './Comparisons/Comparisons.vue';
+export { default as DatePicker } from './DatePicker/DatePicker.vue';
