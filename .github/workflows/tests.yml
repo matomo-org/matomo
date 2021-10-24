@@ -28,6 +28,15 @@ jobs:
           docker ps -a
 
       - name: Checkout code
+        if: !startsWith(matrix.tests,'UITests')
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          lfs: false
+          submodules: recursive
+
+      - name: Checkout code with LFS
+        if: startsWith(matrix.tests,'UITests')
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
