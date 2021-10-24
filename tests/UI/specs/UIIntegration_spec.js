@@ -243,6 +243,26 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
         });
 
+        it('should be possible to change the limit of evolution chart', async function () {
+            await page.hover('.dataTableFeatures');
+            await page.click('.limitSelection input');
+            await page.evaluate(function () {
+                $('.limitSelection ul li:contains(10) span').click();
+            });
+            await page.mouse.move(0, 0);
+            await page.waitForNetworkIdle();
+
+            pageWrap = await page.$('.pageWrap');
+            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
+        });
+
+        it('should keep the limit when reload the page', async function () {
+            await page.reload();
+
+            pageWrap = await page.$('.pageWrap');
+            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
+        });
+
         // skipped as phantom seems to crash at this test sometimes
         it.skip('should load visitors > visitor log page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
