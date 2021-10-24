@@ -57,7 +57,7 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
-          cp ./.github/scripts/config.ini.travis.php  ./config/config.ini.php
+          cp ./.github/files/config.ini.travis.php  ./config/config.ini.php
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
           mkdir -p ./tmp/cache
