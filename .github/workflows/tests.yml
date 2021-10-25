@@ -109,7 +109,7 @@ jobs:
           cd ../travis_woff2
           make clean all
           mkdir $HOME/.fonts
-          cp ./tests/travis/fonts/* $HOME/.fonts
+          cp /home/runner/work/matomo/matomo/tests/travis/fonts/* $HOME/.fonts
           fc-cache -f -v
           echo "fonts:"
           ls $HOME/.fonts
