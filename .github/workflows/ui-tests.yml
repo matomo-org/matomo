@@ -122,7 +122,7 @@ jobs:
       - name: UI tests Group ${{ matrix.parts }}
         working-directory: ./tests/lib/screenshot-testing/
         run: |
-          sudo node run-tests.js --persist-fixture-data --assume-artifacts --core --store-in-ui-tests-repo --num-test-groups=3 --test-group=${{ matrix.parts }}"
+          sudo node run-tests.js --persist-fixture-data --assume-artifacts --core --store-in-ui-tests-repo --num-test-groups=3 --test-group=${{ matrix.parts }}
 
 
 
