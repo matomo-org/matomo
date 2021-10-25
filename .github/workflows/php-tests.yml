@@ -6,7 +6,7 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  linux_tests:
+  matomo:
     runs-on: ubuntu-20.04
 
     services:
@@ -78,8 +78,7 @@ jobs:
 
       - name: Run PHP on 3000
         run: |
-          sudo php -S 127.0.0.1:80
-#          tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:3000
+          tmux new-session -d -s "php" sudo php -S 127.0.0.1:80
           tmux ls
 
       - name: Test runing

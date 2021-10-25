@@ -6,7 +6,7 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  linux_tests:
+  matomo:
     runs-on: ubuntu-20.04
 
     services:
@@ -88,13 +88,13 @@ jobs:
 
       - name: Run PHP on 3000
         run: |
-          tmux new-session -d -s "php" php -S  127.0.0.1:3000
+          tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
           tmux ls
 
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests-js'
         run: |
-          ./console tests:run-js --matomo-url='http://localhost:3000'
+          ./console tests:run-js --matomo-url='http://localhost'
 
       - name: Running angularjs && vue tests
         if: matrix.tests == 'AngularJSTests-js'
