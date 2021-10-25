@@ -88,7 +88,8 @@ jobs:
 
       - name: Run PHP on 3000
         run: |
-          tmux new-session -d -s "php" php -S localhost:3000
+          tmux new-session -d -s "php" php -S  127.0.0.1:3000
+          tmux ls
 
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests-js'
