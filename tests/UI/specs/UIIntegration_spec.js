@@ -229,7 +229,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'] = 1;
 
-            // use columns query param to make sure columns works when supplied in URL fragment
+            // use columns query param to make sure columns works when supplied in URL fragment 
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
             await page.waitForNetworkIdle();
 
