@@ -67,12 +67,14 @@ jobs:
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
-          sudo chmod -R 777 ./tmp
-      #
-      #      - name: Setup Nginx
-      #        run: |
-      #          docker run --name nginxapp -v /home/runner/work/matomo/matomo:/var/www/ -v /home/runner/work/matomo/matomo/.github/scripts/piwiki_nginx.config:/etc/nginx/conf -p 80:80 -d nginx
-      #          docker ps
+
+      - name: set tmp and screenshot folder permission
+        run: |
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/
+          ls -ld ./tmp
+          ls -ld ./tmp/assets
+          ls -ld ./tests/UI
 
       - name: Install dependencies
         run: |

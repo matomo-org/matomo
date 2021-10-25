@@ -77,8 +77,15 @@ jobs:
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
-          sudo chmod -R 777 ./tmp
 
+
+     - name: set tmp and screenshot folder permission
+       run: |
+         sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/
+         sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/
+         ls -ld ./tmp
+         ls -ld ./tmp/assets
+         ls -ld ./tests/UI
       #
       #      - name: Setup Nginx
       #        run: |
