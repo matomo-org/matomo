@@ -48,7 +48,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis, imagick
           ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
           tools: composer:v2
           coverage: none
@@ -90,6 +90,7 @@ jobs:
       - name: Run PHP on 3000
         run: |
           tmux new-session -d -s "php" php -S localhost:3000
+          curl -I localhost:3000
 
       - name: Javascript tests Build
         run: |
