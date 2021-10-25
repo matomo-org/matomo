@@ -480,7 +480,7 @@ class DataTablePostProcessor
 
     public function applyComparison(DataTableInterface $dataTable)
     {
-        $compare = Common::getRequestVar('compare', '0', 'int', $this->request);
+        $compare = Common::getRequestVar('compare', 0, 'int', $this->request);
         if ($compare !== 1) {
             return $dataTable;
         }
