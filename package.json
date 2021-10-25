@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/angular": "^1.8.2",
     "@types/jest": "^26.0.24",
+    "@types/materialize-css": "^1.0.11",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/cli-plugin-babel": "^4.5.13",
