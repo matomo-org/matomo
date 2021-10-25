@@ -77,6 +77,8 @@ jobs:
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
+          sudo chmod -R 755 ./tmp
+
       #
       #      - name: Setup Nginx
       #        run: |
@@ -87,7 +89,7 @@ jobs:
         run: |
           composer install --ignore-platform-reqs
 
-      - name: Run PHP on 3000
+      - name: Run PHP on 80
         run: |
           tmux new-session -d -s "php" sudo php -S 127.0.0.1:80
           tmux ls
