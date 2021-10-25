@@ -78,7 +78,8 @@ jobs:
 
       - name: Run PHP on 3000
         run: |
-          tmux new-session -d -s "php-cgi" php -S  127.0.0.1:3000
+          sudo php -S 127.0.0.1:80
+#          tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:3000
           tmux ls
 
       - name: Test runing
