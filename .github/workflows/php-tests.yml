@@ -39,7 +39,7 @@ jobs:
         with:
           php-version: 7.4
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1
           tools: composer:v2
           coverage: none
 

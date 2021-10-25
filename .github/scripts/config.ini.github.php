@@ -13,6 +13,7 @@ tables_prefix =
 ;charset = utf8
 
 [tests]
+http_host = "localhost"
 request_uri = "/"
 port = 3000
 
