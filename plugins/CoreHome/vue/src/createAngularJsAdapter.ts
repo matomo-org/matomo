@@ -50,6 +50,16 @@ type ComponentType = ReturnType<typeof defineComponent>;
 
 let transcludeCounter = 0;
 
+function toKebabCase(arg: string): string {
+  return arg.substring(0, 1).toLowerCase() + arg.substring(1)
+    .replace(/[A-Z]/g, (s) => `-${s.toLowerCase()}`);
+}
+
+function toAngularJsCamelCase(arg: string): string {
+  return arg.substring(0, 1).toLowerCase() + arg.substring(1)
+    .replace(/-([a-z])/g, (s, p) => p.toUpperCase());
+}
+
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
   scope?: ScopeMapping,
@@ -103,19 +113,29 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
           ) {
             const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
 
+            // build the root vue template
             let rootVueTemplate = '<root-component';
-            Object.entries(scope).forEach(([, info]) => {
-              rootVueTemplate += ` :${info.vue}="${info.vue}"`;
-            });
             Object.entries(events).forEach((info) => {
               const [eventName] = info;
               rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
+            });
+            Object.entries(scope).forEach(([key, info]) => {
+              if (info.angularJsBind === '&') {
+                const eventName = toKebabCase(key);
+                if (!events[eventName]) { // pass through scope & w/o a custom event handler
+                  rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
+                }
+              } else {
+                rootVueTemplate += ` :${info.vue}="${info.vue}"`;
+              }
             });
             rootVueTemplate += '>';
             if (transclude) {
               rootVueTemplate += '<div ref="transcludeTarget"/>';
             }
             rootVueTemplate += '</root-component>';
+
+            // build the vue app
             const app = createApp({
               template: rootVueTemplate,
               data() {
@@ -143,6 +163,11 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               },
               methods: {
                 onEventHandler(name: string, $event: any) { // eslint-disable-line
+                  const scopePropertyName = toAngularJsCamelCase(name);
+                  if (ngScope[scopePropertyName]) {
+                    ngScope[scopePropertyName]($event);
+                  }
+
                   if (events[name]) {
                     events[name]($event, ngScope, ngElement, ngAttrs, ...injectedServices);
                   }
@@ -153,13 +178,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             app.config.globalProperties.translate = translate;
             app.component('root-component', component);
 
+            // mount the app
             const mountPoint = mountPointFactory
               ? mountPointFactory(ngScope, ngElement, ngAttrs, ...injectedServices)
               : ngElement[0];
             const vm = app.mount(mountPoint);
 
+            // setup watches to bind between angularjs + vue
             Object.entries(scope).forEach(([scopeVarName, info]) => {
-              if (!info.angularJsBind) {
+              if (!info.angularJsBind || info.angularJsBind === '&') {
                 return;
               }
 
