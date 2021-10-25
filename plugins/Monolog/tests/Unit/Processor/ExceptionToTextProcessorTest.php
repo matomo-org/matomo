@@ -323,7 +323,9 @@ EOI;
         if (version_compare(Version::id(), '9.0', '>=')) {
             $input = str_replace('TestRunner->doRun', 'TestRunner->run', $input);
         }
-
+        if (!extension_loaded('xdebug')) {
+            $input = preg_replace("/\(([^()]*+|(?R))*\)/", "()", $input);
+        }
         return $input;
     }
 }

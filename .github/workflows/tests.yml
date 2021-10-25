@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins', 'JavascriptTests-js', 'AngularJSTests-js', 'UITests-js' ]
+        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins', 'JavascriptTests-js', 'AngularJSTests-js', 'UITests-0-js','UITests-1-js','UITests-2-js' ]
 
     steps:
       - name: Setup Mysql
@@ -102,15 +102,57 @@ jobs:
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
 
-
-      - name: UI tests
-        if: matrix.tests == 'Js-UITests'
+      - name: Javascript tests Build
+        if: endsWith(matrix.tests, 'js')
         run: |
+          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunJS.php || true
           git clone --recursive https://github.com/google/woff2.git ../travis_woff2
           cd ../travis_woff2
           make clean all
+          mkdir $HOME/.fonts
+          cp ./tests/travis/fonts/* $HOME/.fonts
+          fc-cache -f -v
+          echo "fonts:"
+          ls $HOME/.fonts
           sudo apt-get install ttf-mscorefonts-installer imagemagick imagemagick-doc
           sudo apt-get remove ttf-bitstream-vera
           cd /tests/lib/screenshot-testing
           npm install
+          sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
+
+
+      - name: Javascript Tests
+        if:  matrix.tests == 'JavascriptTests-js'
+        run: |
+          ./console tests:run-js --matomo-url='http://localhost:3000'
+
+      - name: Running angularjs && vue tests
+        if:  matrix.tests == 'AngularJSTests-js'
+        run: |
+          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
+          npm test
+
+      - name: UI tests Group 0
+        if: startsWith(matrix.tests,'UITests-0')
+        run: |
+          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunUI.php
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=0"
+
+      - name: UI tests Group 1
+        if: startsWith(matrix.tests,'UITests-1')
+        run: |
+          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunUI.php
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=1"
+
+      - name: UI tests Group 2
+        if: startsWith(matrix.tests,'UITests-2')
+        run: |
+          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunUI.php
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=2"
+
+
 
