@@ -87,7 +87,6 @@ jobs:
           composer install --ignore-platform-reqs
 
       - name: Run PHP on 3000
-        if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests') ||  endsWith(matrix.tests,'js')
         run: |
           tmux new-session -d -s "php" php -S localhost:3000
 

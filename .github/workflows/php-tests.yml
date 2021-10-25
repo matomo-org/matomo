@@ -51,11 +51,6 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: test php run on 80
-        run: |
-          sudo lsof -i :80
-          sudo php -S localhost:80
-
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
           cp .github/scripts/config.ini.github.php  config/config.ini.php
@@ -84,7 +79,6 @@ jobs:
       - name: Run PHP on 3000
         run: |
           tmux new-session -d -s "php-cgi" php -S localhost:3000
-
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'
