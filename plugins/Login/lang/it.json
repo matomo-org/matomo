@@ -16,6 +16,7 @@
         "HelpIpRange": "Inserisci un indirizzo IP o un intervallo di IP per riga. Puoi utilizzare la notazione CIDR, es. %1$s o puoi utilizzare delle wildcard, es. %2$s o %3$s",
         "IPsAlwaysBlocked": "Questi IP sono sempre bloccati",
         "InvalidNonceSSLMisconfigured": "Inoltre puoi %1$s forzare Matomo a utilizzare una connessione sicura%2$s: nel tuo file di configurazione %3$s imposta %4$s nella sezione %5$s",
+        "InvalidNonceToken": "Problema di sicurezza nel form, i token non coincidono. Ricarica il form e controlla che i cookies siano abilitati.",
         "InvalidOrExpiredToken": "Token non valido o scaduto",
         "InvalidUsernameEmail": "Nome utente e/o indirizzo e-mail non validi",
         "LogIn": "Accedi",
