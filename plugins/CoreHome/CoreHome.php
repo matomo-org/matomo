@@ -233,7 +233,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
 

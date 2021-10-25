@@ -35,40 +35,10 @@
             link: function(scope, element, attrs) {
 
                 scope.selectItem = function (event) {
-                    var $self = angular.element(event.target);
-
-                    if (!$self.hasClass('item') || $self.hasClass('disabled') || $self.hasClass('separator')) {
-                        return;
-                    }
-
-                    if (scope.menuTitleChangeOnClick !== false) {
-                        scope.menuTitle = $self.text().replace(/[\u0000-\u2666]/g, function(c) {
-                            return '&#'+c.charCodeAt(0)+';';
-                        });
-                    }
-                    scope.$eval('view.showItems = false');
-
-                    setTimeout(function () {
-                        scope.$apply();
-                    }, 0);
-
-                    element.find('.item').removeClass('active');
-                    $self.addClass('active');
                 };
 
                 scope.searchItems = function (searchTerm)
                 {
-                    searchTerm = searchTerm.toLowerCase();
-
-                    element.find('.item').each(function (index, node) {
-                        var $node = angular.element(node);
-
-                        if (-1 === $node.text().toLowerCase().indexOf(searchTerm)) {
-                            $node.hide();
-                        } else {
-                            $node.show();
-                        }
-                    });
                 };
             }
         };
