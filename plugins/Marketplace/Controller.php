@@ -515,6 +515,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->displayWarningIfConfigFileNotWritable();
 
         $this->securityPolicy->addPolicy('img-src', '*.matomo.org');
+        $this->securityPolicy->addPolicy('default-src', '*.matomo.org');
 
         $view->errorMessage = '';
 
