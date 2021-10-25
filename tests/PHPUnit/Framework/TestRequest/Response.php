@@ -216,7 +216,7 @@ class Response
         if (!is_array($fieldsToRemove)) {
             $fieldsToRemove = array();
         }
-        
+
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }
@@ -304,6 +304,9 @@ class Response
     {
         $rootUrl = Fixture::getRootUrl();
         $rootUrlRel = str_replace(array('http://', 'https://'), '//', $rootUrl);
+
+        //remove test with port
+        $rootUrlRel = preg_replace('/:[0-9]+/', '', $rootUrlRel);
 
         $apiResponse = str_replace($rootUrl, "http://example.com/piwik/", $apiResponse);
         $apiResponse = str_replace($rootUrlRel, "//example.com/piwik/", $apiResponse);
