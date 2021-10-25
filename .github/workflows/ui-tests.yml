@@ -89,6 +89,7 @@ jobs:
 
       - name: Run PHP on 3000
         run: |
+          sudo php -S 127.0.0.1:80
           tmux new-session -d -s "php" php -S 127.0.0.1:3000
           tmux ls
 
