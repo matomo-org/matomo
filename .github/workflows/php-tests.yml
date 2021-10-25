@@ -51,6 +51,8 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: test php run on 80
+        run:  php -S localhost:80
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
@@ -79,8 +81,7 @@ jobs:
 
       - name: Run PHP on 3000
         run: |
-          tmux new-session -d -s "php3000" php -S localhost:3000
-          tmux new-session -d -s "php80" php -S localhost:80
+          tmux new-session -d -s "php-cgi" php -S localhost:3000
 
 
       - name: Test runing
