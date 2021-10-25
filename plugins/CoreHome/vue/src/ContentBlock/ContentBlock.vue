@@ -12,7 +12,7 @@
         class="card-title"
       >{{ contentTitle }}</h2>
       <h2
-        v-if="contentTitle && actualFeature || helpUrl || actualHelpText"
+        v-if="contentTitle && (actualFeature || helpUrl || actualHelpText)"
         class="card-title"
       >
         <EnrichedHeadline
@@ -103,7 +103,7 @@ export default defineComponent({
       if (topThis - contentTopPosition < 17) {
         // we make sure to display the first card with no margin-top to have it on same as line as
         // navigation
-        this.root.style.marginTop = 0;
+        root.style.marginTop = 0;
       }
     }
   },
