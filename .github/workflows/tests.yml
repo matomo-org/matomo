@@ -91,7 +91,6 @@ jobs:
       - name: Run PHP on 3000
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests') ||  endsWith(matrix.tests,'js')
         run: |
-          sudo apt-get install tmux
           tmux new-session -d -s "php" php -S localhost:3000
 
       - name: Test runing
@@ -129,26 +128,24 @@ jobs:
 
       - name: Running angularjs && vue tests
         if:  matrix.tests == 'AngularJSTests-js'
+        working-directory: ./tests/angular
         run: |
+          npm install
           ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
-          npm test
 
       - name: UI tests Group 0
         if: startsWith(matrix.tests,'UITests-0')
         run: |
-          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunUI.php
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=0"
 
       - name: UI tests Group 1
         if: startsWith(matrix.tests,'UITests-1')
         run: |
-          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunUI.php
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=1"
 
       - name: UI tests Group 2
         if: startsWith(matrix.tests,'UITests-2')
         run: |
-          git checkout 4.x-dev ./plugins/TestRunner/Commands/TestsRunUI.php
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=2"
 
 
