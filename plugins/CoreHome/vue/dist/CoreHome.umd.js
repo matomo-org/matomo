@@ -148,6 +148,7 @@ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* r
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
 __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return /* reexport */ DropdownMenu; });
 __webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
+__webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
@@ -1713,6 +1714,60 @@ function piwikFocusAnywhereButHere() {
 
 piwikFocusAnywhereButHere.$inject = [];
 angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwikFocusAnywhereButHere);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/* harmony default export */ var FocusIf = ({
+  updated(el, binding) {
+    if (binding.value.focusIf) {
+      setTimeout(() => {
+        el.focus();
+      }, 5);
+    }
+  }
+
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusIf/FocusIf.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * If the given expression evaluates to true the element will be focused
+ *
+ * Example:
+ * <input type="text" piwik-focus-if="view.editName">
+ */
+
+function piwikFocusIf() {
+  return {
+    restrict: 'A',
+    link: function focusIfLink(scope, element, attrs) {
+      scope.$watch(attrs.piwikFocusIf, newValue => {
+        const binding = {
+          instance: null,
+          value: {
+            focusIf: !!newValue,
+            afterFocus: () => scope.$apply()
+          },
+          oldValue: null,
+          modifiers: {},
+          dir: {}
+        };
+        FocusIf.updated(element[0], binding);
+      });
+    }
+  };
+}
+
+angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -3127,6 +3182,8 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 
