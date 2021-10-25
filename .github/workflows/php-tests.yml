@@ -47,7 +47,7 @@ jobs:
         with:
           php-version: 7.4
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1
           tools: composer:v2
           coverage: none
 
@@ -61,12 +61,13 @@ jobs:
           mkdir -p ./tmp/logs
           mkdir -p ./tmp/sessions
           mkdir -p ./tmp/templates_c
+          mkdir -p ./tmp/templates_c/d2
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
-          sudo chmod -R 755 ./tmp
+          sudo chmod -R 777 ./tmp
       #
       #      - name: Setup Nginx
       #        run: |
