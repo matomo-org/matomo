@@ -52,7 +52,9 @@ jobs:
           coverage: none
 
       - name: test php run on 80
-        run:  php -S localhost:80
+        run: |
+          sudo lsof -i :80
+          sudo php -S localhost:80
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
