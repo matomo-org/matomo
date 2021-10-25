@@ -214,7 +214,7 @@ class DataTablePostProcessor
     public function applyGenericFilters($dataTable)
     {
         // if the flag disable_generic_filters is defined we skip the generic filters
-        if (0 === Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
+        if ('0' === Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $this->applyProcessedMetricsGenericFilters($dataTable);
 
             $genericFilter = new DataTableGenericFilter($this->request, $this->report);
