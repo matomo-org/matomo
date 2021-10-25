@@ -79,8 +79,8 @@ jobs:
           chmod a+rw ./plugins/*/tests/Integration/processed || true
 
 
-     - name: set tmp and screenshot folder permission
-       run: |
+      - name: set tmp and screenshot folder permission
+        run: |
          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/
          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/
          ls -ld ./tmp
