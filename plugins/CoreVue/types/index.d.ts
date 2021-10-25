@@ -65,6 +65,7 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks: ModalConfirmCallbacks, options: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
   }
 
   let piwikHelper: PiwikHelperGlobal;
