@@ -227,6 +227,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load visitors > overview page correctly', async function () {
             await page.keyboard.press('Escape'); // close shortcut screen
 
+            testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'] = 1;
+
             // use columns query param to make sure columns works when supplied in URL fragment
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
             await page.waitForNetworkIdle();
@@ -258,6 +260,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should keep the limit when reload the page', async function () {
             await page.reload();
+
+            delete testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'];
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
