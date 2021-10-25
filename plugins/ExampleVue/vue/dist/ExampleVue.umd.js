@@ -7,7 +7,7 @@
 		exports["ExampleVue"] = factory(require("CoreHome"), require("vue"));
 	else
 		root["ExampleVue"] = factory(root["CoreHome"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_vue__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	function webpackJsonpCallback(data) {
@@ -46,7 +46,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		"ExampleVue.umd": 0
+/******/ 		0: 0
 /******/ 	};
 /******/
 /******/
@@ -192,7 +192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "plugins/ExampleVue/vue/dist/";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
@@ -206,80 +206,92 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
-  \**********************************************************************************/
-/*! exports provided: exampleVueComponentAdapter */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/ExampleVue/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"exampleVueComponentAdapter\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"exampleVueComponentAdapter\"]; });\n\n\n\n\n\n//# sourceURL=webpack://ExampleVue/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://ExampleVue/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
-
-/***/ }),
-
-/***/ "./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts":
-/*!*********************************************************************************!*\
-  !*** ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts ***!
-  \*********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return exampleVueComponentAdapter; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nconst AsyncExampleComponent = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineAsyncComponent\"])(() => __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./ExampleComponent.vue */ \"./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.vue\")));\nfunction exampleVueComponentAdapter() {\n  return {\n    restrict: 'A',\n    scope: {},\n    template: '',\n    link: function exampleVueComponentAdapterLink(scope, element) {\n      const vueApp = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createApp\"])(AsyncExampleComponent);\n      vueApp.config.globalProperties.$sanitize = window.vueSanitize;\n      vueApp.mount(element[0]);\n    }\n  };\n}\nexampleVueComponentAdapter.$inject = [];\nangular.module('piwikApp').directive('exampleVueComponent', exampleVueComponentAdapter);\n\n//# sourceURL=webpack://ExampleVue/./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts?");
-
-/***/ }),
-
-/***/ "./plugins/ExampleVue/vue/src/index.ts":
-/*!*********************************************!*\
-  !*** ./plugins/ExampleVue/vue/src/index.ts ***!
-  \*********************************************/
-/*! exports provided: exampleVueComponentAdapter */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ExampleComponent_ExampleComponent_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExampleComponent/ExampleComponent.adapter */ \"./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"exampleVueComponentAdapter\", function() { return _ExampleComponent_ExampleComponent_adapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n//# sourceURL=webpack://ExampleVue/./plugins/ExampleVue/vue/src/index.ts?");
-
-/***/ }),
-
-/***/ "CoreHome":
-/*!***************************!*\
-  !*** external "CoreHome" ***!
-  \***************************/
-/*! no static exports found */
+/***/ "19dc":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://ExampleVue/external_%22CoreHome%22?");
+module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
-/***/ "vue":
-/*!******************************************************************!*\
-  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
-  \******************************************************************/
-/*! no static exports found */
+/***/ "8bbf":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://ExampleVue/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
+module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
+
+/***/ }),
+
+/***/ "fae3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "exampleVueComponentAdapter", function() { return /* reexport */ exampleVueComponentAdapter; });
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+// This file is imported into lib/wc client bundles.
+
+if (typeof window !== 'undefined') {
+  var currentScript = window.document.currentScript
+  if (false) { var getCurrentScript; }
+
+  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (src) {
+    __webpack_require__.p = src[1] // eslint-disable-line
+  }
+}
+
+// Indicate to webpack that this file can be concatenated
+/* harmony default export */ var setPublicPath = (null);
+
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+
+// CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+const AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21")));
+function exampleVueComponentAdapter() {
+  return {
+    restrict: 'A',
+    scope: {},
+    template: '',
+    link: function exampleVueComponentAdapterLink(scope, element) {
+      const vueApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(AsyncExampleComponent);
+      vueApp.config.globalProperties.$sanitize = window.vueSanitize;
+      vueApp.mount(element[0]);
+    }
+  };
+}
+exampleVueComponentAdapter.$inject = [];
+angular.module('piwikApp').directive('exampleVueComponent', exampleVueComponentAdapter);
+// CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+
+
+
 
 /***/ })
 
 /******/ });
 });
+//# sourceMappingURL=ExampleVue.umd.js.map
