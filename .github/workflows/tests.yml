@@ -128,7 +128,7 @@ jobs:
 
       - name: Running angularjs && vue tests
         if:  matrix.tests == 'AngularJSTests-js'
-        working-directory: ./tests/angular
+        working-directory: ./tests/angularjs
         run: |
           npm install
           ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
