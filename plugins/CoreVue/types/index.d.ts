@@ -7,7 +7,6 @@
 
 import jqXHR = JQuery.jqXHR;
 import { IAngularEvent, IAngularStatic } from 'angular';
-import Matomo from '../../CoreHome/vue/src/Matomo/Matomo';
 
 declare global {
   type ParameterValue = string | number | null | undefined | ParameterValue[];

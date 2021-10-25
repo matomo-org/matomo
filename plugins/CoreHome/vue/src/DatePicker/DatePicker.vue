@@ -219,7 +219,11 @@ export default defineComponent({
       setDatePickerCellColors();
     }
 
-    // on a prop change
+    // on a prop change (NOTE: we can't watch just `props`, since then newProps and oldProps will
+    // have the same values (since it is a proxy object). Using a copy doesn't quite work, the
+    // object it returns will always be different, BUT, since we check what changes it works
+    // for our purposes. The only downside is that it runs on every tick basically, but since
+    // that is within the context of the date picker component, it's bearable.
     watch(() => ({ ...props }), (newProps: typeof props, oldProps: typeof props) => {
       let redraw = false;
 

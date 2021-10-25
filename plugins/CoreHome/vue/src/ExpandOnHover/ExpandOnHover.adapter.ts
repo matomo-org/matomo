@@ -5,13 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IDirective, IScope } from 'angular';
-import ExpandOnClick from './ExpandOnClick';
+import ExpandOnHover from './ExpandOnHover';
 
-export default function piwikExpandOnClick(): IDirective {
+function piwikExpandOnHover() {
   return {
     restrict: 'A',
-    link: function expandOnClickLink(scope: IScope, element: JQuery) {
+    link: function expandOnHoverLink(scope, element) {
       const binding = {
         instance: null,
         value: {
@@ -22,13 +21,13 @@ export default function piwikExpandOnClick(): IDirective {
         dir: {},
       };
 
-      const wrapped = ExpandOnClick();
+      const wrapped = ExpandOnHover();
       wrapped.mounted(element[0], binding, null, null);
       scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
     },
   };
 }
 
-piwikExpandOnClick.$inject = [];
+piwikExpandOnHover.$inject = [];
 
-angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
+angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
