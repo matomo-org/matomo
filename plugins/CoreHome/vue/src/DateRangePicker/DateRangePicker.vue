@@ -75,9 +75,23 @@ export default defineComponent({
     DatePicker,
   },
   data() {
+    let startDate = null;
+    try {
+      startDate = parseDate(this.startDate);
+    } catch (e) {
+      // ignore
+    }
+
+    let endDate = null;
+    try {
+      endDate = parseDate(this.endDate);
+    } catch (e) {
+      // ignore
+    }
+
     return {
-      fromPickerSelectedDates: [null, null],
-      toPickerSelectedDates: [null, null],
+      fromPickerSelectedDates: [startDate, startDate],
+      toPickerSelectedDates: [endDate, endDate],
       fromPickerHighlightedDates: [null, null],
       toPickerHighlightedDates: [null, null],
       startDateText: '',

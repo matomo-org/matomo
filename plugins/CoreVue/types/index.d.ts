@@ -7,6 +7,7 @@
 
 import jqXHR = JQuery.jqXHR;
 import { IAngularEvent, IAngularStatic } from 'angular';
+import Matomo from '../../CoreHome/vue/src/Matomo/Matomo';
 
 declare global {
   type ParameterValue = string | number | null | undefined | ParameterValue[];
@@ -101,6 +102,12 @@ declare global {
     broadcast: BroadcastGlobal;
     ColorManager: ColorManagerService;
     ajaxRequestFinished?: () => void;
+    minDateYear: number;
+    minDateMonth: number;
+    minDateDay: number;
+    maxDateYear: number;
+    maxDateMonth: number;
+    maxDateDay: number;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
