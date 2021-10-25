@@ -1,0 +1,86 @@
+name: PHP Tests
+
+on:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  linux_tests:
+    runs-on: ubuntu-20.04
+
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins']
+
+    steps:
+      - name: Setup Mysql
+        run: |
+          docker run --name mariadb -p 3306:3306 --tmpfs /var/lib/mysql:rw -e MYSQL_DATABASE=piwik_tests -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mariadb
+          docker ps -a
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          lfs: false
+          submodules: recursive
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
+          tools: composer:v2
+          coverage: none
+
+
+      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
+        run: |
+          cp .github/scripts/config.ini.github.php  config/config.ini.php
+          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+          mkdir -p ./tmp/assets
+          mkdir -p ./tmp/cache
+          mkdir -p ./tmp/latest
+          mkdir -p ./tmp/logs
+          mkdir -p ./tmp/sessions
+          mkdir -p ./tmp/templates_c
+          mkdir -p ./tmp/tcpdf
+          mkdir -p ./tmp/climulti
+          chmod a+rw ./tests/lib/geoip-files || true
+          chmod a+rw ./plugins/*/tests/System/processed || true
+          chmod a+rw ./plugins/*/tests/Integration/processed || true
+      #
+      #      - name: Setup Nginx
+      #        run: |
+      #          docker run --name nginxapp -v /home/runner/work/matomo/matomo:/var/www/ -v /home/runner/work/matomo/matomo/.github/scripts/piwiki_nginx.config:/etc/nginx/conf -p 80:80 -d nginx
+      #          docker ps
+
+      - name: Install dependencies
+        run: |
+         composer install --ignore-platform-reqs
+
+      - name: Run PHP on 3000
+        run: |
+          tmux new-session -d -s "php" php -S localhost:3000
+
+      - name: Test runing
+        if: matrix.tests == 'UnitTests'
+        run: ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
+
+      - name: Test runing
+        if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
+        run: ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+
+
+
+

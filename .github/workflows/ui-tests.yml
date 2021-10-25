@@ -1,4 +1,4 @@
-name: tests
+name: UI Tests
 
 on:
   pull_request:
@@ -19,7 +19,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins', 'JavascriptTests-js', 'AngularJSTests-js', 'UITests-0-js','UITests-1-js','UITests-2-js' ]
+        tests: ['UITests' ]
+        parts: [ 0,1,2 ]
 
     steps:
       - name: Setup Mysql
@@ -28,20 +29,12 @@ jobs:
           docker ps -a
 
       - name: Checkout code
-        if: ${{ !startsWith(matrix.tests,'UITests') }}
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          lfs: false
-          submodules: recursive
-
-      - name: Checkout code with LFS
-        if: startsWith(matrix.tests,'UITests')
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           lfs: true
           submodules: recursive
+
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -53,13 +46,11 @@ jobs:
           coverage: none
 
       - name: Setup Node
-        if: endsWith(matrix.tests,'js')
         uses: actions/setup-node@v2
         with:
           node-version: '12'
 
       - name: installing node/puppeteer
-        if: endsWith(matrix.tests,'js')
         working-directory: ./tests/lib/screenshot-testing
         run: npm install
 
@@ -86,23 +77,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-         composer install --ignore-platform-reqs
+          composer install --ignore-platform-reqs
 
       - name: Run PHP on 3000
-        if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests') ||  endsWith(matrix.tests,'js')
         run: |
           tmux new-session -d -s "php" php -S localhost:3000
 
-      - name: Test runing
-        if: matrix.tests == 'UnitTests'
-        run: ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
-
-      - name: Test runing
-        if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
-        run: ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
-
       - name: Javascript tests Build
-        if: endsWith(matrix.tests, 'js')
         run: |
           git clone --recursive https://github.com/google/woff2.git ../travis_woff2
           cd ../travis_woff2
@@ -121,32 +102,9 @@ jobs:
           sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
 
 
-      - name: Javascript Tests
-        if:  matrix.tests == 'JavascriptTests-js'
+      - name: UI tests Group ${{ matrix.parts }}
         run: |
-          ./console tests:run-js --matomo-url='http://localhost:3000'
-
-      - name: Running angularjs && vue tests
-        if:  matrix.tests == 'AngularJSTests-js'
-        working-directory: ./tests/angularjs
-        run: |
-          npm install
-          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
-
-      - name: UI tests Group 0
-        if: startsWith(matrix.tests,'UITests-0')
-        run: |
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=0"
-
-      - name: UI tests Group 1
-        if: startsWith(matrix.tests,'UITests-1')
-        run: |
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=1"
-
-      - name: UI tests Group 2
-        if: startsWith(matrix.tests,'UITests-2')
-        run: |
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=2"
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
 
 
