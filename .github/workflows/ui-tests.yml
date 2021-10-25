@@ -120,14 +120,10 @@ jobs:
 
 
       - name: UI tests Group ${{ matrix.parts }}
+        working-directory: ./tests/lib/screenshot-testing/
         run: |
-          ls -ld ./tmp/assets
-          mkdir -p ./tests/UI/processed-ui-screenshots
-          mkdir -p ./tests/UI/expected-screenshots
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
-          ls -ld ./tests/UI/processed-ui-screenshots
-          sudo ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
+          curl http://localhost/tests/PHPUnit/proxy/?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&token_auth=c4ca4238a0b923820dcc509a6f75849b
+          sudo node run-tests.js --persist-fixture-data --assume-artifacts --core --store-in-ui-tests-repo --num-test-groups=3 --test-group=${{ matrix.parts }}"
 
 
 
