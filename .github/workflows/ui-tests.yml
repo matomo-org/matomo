@@ -26,10 +26,6 @@ jobs:
         ports:
           - 6379:6379
         options: --entrypoint redis-server
-      nginx:
-        image: nginx
-        ports:
-          - 3000:80
       mariadb:
         image: mariadb:latest
         ports:
@@ -82,6 +78,7 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
+          sudo setcap CAP_NET_BIND_SERVICE=+eip $(which php)
           cp .github/scripts/config.ini.github.php config/config.ini.php
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
@@ -119,7 +116,7 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          tmux new-session -d -s "php-3000" php -S localhost:3000
+          tmux new-session -d -s "php-80" php -S localhost:80
           tmux ls
 
       - name: Javascript tests Build
