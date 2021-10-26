@@ -1101,6 +1101,142 @@ class LogAggregator
     }
 
     /**
+     * Similar to queryConversionsByDimension and will return data in the same
+     * format, but takes into account pageviews leading up to a conversion, not
+     * just the final page that triggered the conversion
+     *
+     * @param string $linkType
+     *
+     * @return \Zend_Db_Statement|array
+     */
+    public function queryConversionsByPageView(string $linkType)
+    {
+
+        $dbSettings = new \Piwik\Db\Settings();
+        $tablePrefix = $dbSettings->getTablePrefix();
+        $subQuery = sprintf("
+            (SELECT COUNT(DISTINCT am.idaction)
+             FROM %slog_conversion cam
+             LEFT JOIN %slog_link_visit_action vam ON vam.idvisit = cam.idvisit AND vam.server_time <= log_conversion.server_time
+             LEFT JOIN %slog_action am ON am.idaction = vam.idaction_url
+             WHERE cam.idgoal = log_conversion.idgoal AND vam.idvisit = log_link_visit_action.idvisit
+             AND vam.idaction_url IS NOT NULL AND am.type = 1
+             GROUP BY cam.idgoal, cam.idvisit) AS `9`
+        ", $tablePrefix, $tablePrefix, $tablePrefix);
+
+        // Get unique pages visited before the goal conversion, one row per goal / visit / page combination
+        $query = $this->generateQuery(
+        // SELECT ...
+            implode(
+                ', ',
+                array(
+                    "log_conversion.idgoal AS idgoal",
+                    "log_link_visit_action.idaction_url AS idaction_url",
+                    "count(*) AS `10`",
+                    "count(distinct log_conversion.idvisit) AS `3`",
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 2),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), 4),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), 5),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), 6),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), 7),
+                    "SUM(log_conversion.items) AS `8`",
+                    $subQuery
+                )
+            ),
+            // FROM...
+            array(
+                self::LOG_CONVERSION_TABLE,
+                array(
+                    "table" => "log_link_visit_action",
+                    "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND log_link_visit_action.server_time <= log_conversion.server_time"
+                ),
+                array(
+                    "table" => "log_action",
+                    "joinOn" => "log_action.idaction = log_link_visit_action.idaction_url"
+                )
+            ),
+            // WHERE ... AND ...
+            implode(
+                ' AND ',
+                array(
+                    'log_conversion.server_time >= ?',
+                    'log_conversion.server_time <= ?',
+                    'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
+                    'log_conversion.idgoal > 0',
+                    'log_link_visit_action.idaction_url IS NOT NULL',
+                    'log_action.type = 1'
+                )
+            ),
+
+            // GROUP BY ...
+            'log_conversion.idgoal, log_conversion.idvisit, log_action.idaction',
+
+            // ORDER ...
+            false
+        );
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Return an array of total goal conversions
+     */
+    public function queryGoalConversionsTotals()
+    {
+
+        $select = implode(', ',
+                array(
+                    "log_conversion.idgoal AS idgoal",
+                    "count(*) AS conversions"
+                )
+            );
+
+        $tableName  = self::LOG_CONVERSION_TABLE;
+        $where = 'idgoal > 0';
+
+        $from    = array_merge([$tableName]);
+        $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
+        $groupBy = $this->getGroupByStatement(['idgoal'], $tableName);
+        $orderBy = false;
+        $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Query conversions by entry page
+     *
+     * @return \Zend_Db_Statement|array
+     */
+    public function queryConversionsByEntryPageView()
+    {
+
+        $dimensions = array_merge(array('idgoal', 'idaction_url'));
+        $tableName  = self::LOG_CONVERSION_TABLE;
+        $availableMetrics = $this->getConversionsMetricFields();
+
+        $where = 'idaction_url IS NOT NULL';
+
+        $select = $this->getSelectStatement($dimensions, $tableName, '', $availableMetrics);
+
+        $from    = array_merge([$tableName]);
+        $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
+        $groupBy = $this->getGroupByStatement($dimensions, $tableName);
+        $orderBy = false;
+
+        $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        if (!empty($rankingQuery)) {
+            $sumColumns = array_keys($availableMetrics);
+            $rankingQuery->addColumn($sumColumns, 'sum');
+
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+        }
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
      * Creates and returns an array of SQL `SELECT` expressions that will each count how
      * many rows have a column whose value is within a certain range.
      *

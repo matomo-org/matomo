@@ -98,6 +98,8 @@ class Metrics
     const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
+    const INDEX_GOAL_NB_PAGES_UNIQ_BEFORE = 9;
+    const INDEX_GOAL_NB_CONVERSIONS_FLOAT = 10;
 
     public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
@@ -163,6 +165,8 @@ class Metrics
         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 'revenue_shipping',
         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
+        Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE       => 'nb_conv_pages_before',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT       => 'nb_conversions_float',
     );
 
     protected static $metricsAggregatedFromLogs = array(

@@ -176,15 +176,89 @@ class DataArray
     }
 
     /**
+     * @param $idaction
+     * @param $row
+     * @param bool $doFloatConversionSum Sum metrics using the float conversion
+     */
+    public function sumMetricsGoalsPages($idaction, $row, $doFloatConversionSum = true)
+    {
+        $label = $idaction;
+
+        foreach ($this->data as $k => $r) {
+            if ($r['idaction'] == $idaction) {
+                $label = $k;
+                break;
+            }
+        }
+
+        $idGoal = $row['idgoal'];
+
+        if (!isset($this->data[$label][Metrics::INDEX_GOALS][$idGoal])) {
+            $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = static::makeEmptyGoalRow($idGoal);
+        }
+
+        if ($doFloatConversionSum) {
+            // Pages
+            $this->doSumGoalsMetricsPages($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
+        } else {
+            // Entry pages
+            $this->doSumGoalsMetrics($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
+        }
+    }
+
+    /**
+     * Sum goal metrics for pages
+     *
+     * @param $newRowToAdd
+     * @param $oldRowToUpdate
+     */
+    protected function doSumGoalsMetricsPages($newRowToAdd, &$oldRowToUpdate)
+    {
+
+        // Store the non-float conversions before we do adjustments, although not displayed for pages, this value
+        // will be used as part of the "Viewed before rate"
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_CONVERSIONS] += $newRowToAdd[Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT];
+
+        $adjustedConversions = $newRowToAdd[Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT];
+        $adjustedRevenue = $newRowToAdd[Metrics::INDEX_GOAL_REVENUE];
+        if ($newRowToAdd[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] > 0) {
+            $adjustedConversions = Piwik::getQuotientSafe($adjustedConversions, $newRowToAdd[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE], GoalManager::REVENUE_PRECISION + 2);
+            $adjustedRevenue =  Piwik::getQuotientSafe($adjustedRevenue, $newRowToAdd[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE], GoalManager::REVENUE_PRECISION + 2);
+        }
+
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT] += $adjustedConversions;
+        $oldRowToUpdate[Metrics::INDEX_GOAL_REVENUE] += $adjustedRevenue;
+
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED] += $newRowToAdd[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] += $newRowToAdd[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE];
+
+        // Cart & Order
+        if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS])) {
+            $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS];
+
+            // Order only
+            if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL])) {
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT];
+            }
+        }
+    }
+
+
+    /**
      * @param $idGoal
      * @return array
      */
     protected static function makeEmptyGoalRow($idGoal)
     {
         if ($idGoal > GoalManager::IDGOAL_ORDER) {
-            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
-                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
-                         Metrics::INDEX_GOAL_REVENUE             => 0,
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS         => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED    => 0,
+                         Metrics::INDEX_GOAL_REVENUE                => 0,
+                         Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE   => 0,
+                         Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT   => 0,
             );
         }
         if ($idGoal == GoalManager::IDGOAL_ORDER) {

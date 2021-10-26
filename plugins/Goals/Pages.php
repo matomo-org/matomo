@@ -329,6 +329,7 @@ class Pages
         if (is_null($order)) {
             $order = array(
                 'Referrers_Referrers',
+                'Pages',
                 'General_Visit',
                 'General_Visitors',
                 'VisitsSummary_VisitsSummary',

@@ -19,6 +19,10 @@ use Piwik\Metrics;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
+use Piwik\Metrics as PiwikMetrics;
+use Piwik\Tracker\Action;
+use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\RankingQuery;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
@@ -27,6 +31,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     const ITEMS_SKU_RECORD_NAME = 'Goals_ItemsSku';
     const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
     const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
+    const PAGE_CONVERSIONS_URL_RECORD_NAME = 'Goal_page_conversions_url';
+    const PAGE_CONVERSIONS_TITLES_RECORD_NAME = 'Goal_page_conversions_titles';
+    const PAGE_CONVERSIONS_ENTRY_RECORD_NAME = 'Goal_page_conversions_entry';
     const SKU_FIELD = 'idaction_sku';
     const NAME_FIELD = 'idaction_name';
     const CATEGORY_FIELD = 'idaction_category';
@@ -120,6 +127,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        $this->aggregatePageGoalsDayReports();
     }
 
     protected function aggregateGeneralGoalMetrics()
@@ -504,5 +512,273 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        $this->aggregatePageGoalsMultipleReports();
     }
+
+    /**
+     * @var DataArray[]
+     */
+    protected $arrays = array();
+
+    public function aggregatePageGoalsDayReports()
+    {
+
+        $maximumRowsInDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_events'];
+        $maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_events'];
+
+        // Generate page visits data tables and add goal conversions fields
+        $this->aggregatePageConversions('idaction_url', self::PAGE_CONVERSIONS_URL_RECORD_NAME, Action::TYPE_PAGE_URL);
+        $this->aggregatePageConversions('idaction_name', self::PAGE_CONVERSIONS_TITLES_RECORD_NAME, Action::TYPE_PAGE_TITLE);
+        $this->aggregateEntryConversions();
+
+        // Enrich the metrics
+        foreach ($this->arrays as $dataArray) {
+            $dataArray->enrichMetricsWithConversions();
+        }
+
+        // Write the blobs
+        foreach ($this->arrays as $recordName => $dataArray) {
+            $dataTable = $dataArray->asDataTable();
+            if ($recordName == self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME) {
+                $columnToSortByBeforeTruncation = Metrics::INDEX_PAGE_ENTRY_NB_VISITS;
+            } else {
+                $columnToSortByBeforeTruncation = Metrics::INDEX_NB_UNIQ_VISITORS;
+            }
+
+            $blob = $dataTable->getSerialized(
+                $maximumRowsInDataTable,
+                $maximumRowsInSubDataTable,
+                $columnToSortByBeforeTruncation);
+            $this->getProcessor()->insertBlobRecord($recordName, $blob);
+        }
+
+    }
+
+    /**
+     * Populate a datatable with page conversions for either page URLs or page titles
+     *
+     * @param string $linkField   'idaction_url' or 'idaction_name'
+     * @param string $recordName
+     * @param int $actionType
+     *
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function aggregatePageConversions(string $linkField, string $recordName, int $actionType)
+    {
+
+        $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
+
+        $metricsConfig = array(
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => array(
+                'aggregation' => false,
+                'query' => "count(distinct log_link_visit_action.idvisitor)",
+            ),
+        );
+
+        $select = "log_action.name,
+                log_action.type,
+                log_action.idaction,
+                log_action.url_prefix
+                ";
+
+        $select = $this->addMetricsToSelect($select, $metricsConfig);
+
+        $from = array(
+            "log_link_visit_action",
+            array(
+                "table" => "log_action",
+                "joinOn" => "log_link_visit_action.%s = log_action.idaction"
+            )
+        );
+
+        $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
+        $where .= " AND log_link_visit_action.%s IS NOT NULL AND log_link_visit_action.idaction_event_category IS NULL";
+
+        $actionTypesWhere = "log_action.type IN (" . implode(", ", [$actionType]) . ")";
+        $where .= " AND $actionTypesWhere";
+
+        $groupBy = "log_link_visit_action.idvisit";
+        $orderBy = "`" . PiwikMetrics::INDEX_NB_UNIQ_VISITORS . "` DESC, name ASC";
+
+        $rankingQuery = false;
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->addLabelColumn(array('idaction', 'name'));
+            $rankingQuery->addColumn('url_prefix');
+
+            $this->addMetricsToRankingQuery($rankingQuery, $metricsConfig);
+
+            $rankingQuery->partitionResultIntoMultipleGroups('type', (array)[$actionType]);
+        }
+
+        $this->pageGoalsGetVisits($select, $from, $where, $groupBy, $orderBy, $linkField, $rankingQuery);
+
+        // We now have a data array of pages with the unique visit count
+        // Next need to perform a separate query to get the goal conversion metrics and add them to the data array
+
+        $query = $this->getLogAggregator()->queryConversionsByPageView($linkField);
+
+        if ($query === false) {
+            return;
+        }
+        while ($row = $query->fetch()) {
+            $this->getDataArray($recordName)->sumMetricsGoalsPages($row[$linkField], $row, true);
+        }
+
+    }
+
+    /**
+     * Populate a datatable with entry page conversions
+     *
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function aggregateEntryConversions()
+    {
+
+        $select = "count(distinct log_visit.idvisitor) as `" . PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS . "`,
+                count(*) as `" . PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS . "`,
+                log_action.idaction,
+                log_action.name,
+                log_action.type,
+                log_action.url_prefix
+                ";
+
+        $from = array(
+            "log_visit",
+                array(
+                    "table"  => "log_action",
+                    "joinOn" => "log_visit.visit_entry_idaction_url = log_action.idaction"
+                )
+        );
+
+        $where  = $this->getLogAggregator()->getWhereStatement('log_visit', 'visit_last_action_time');
+        $where .= " AND log_visit.%s > 0";
+
+        $groupBy = "log_visit.%s";
+
+        $orderBy = "`" . PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS . "` DESC";
+
+        $rankingQuery = false;
+        $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->addLabelColumn(array('idaction', 'name'));
+            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
+            $rankingQuery->addColumn(array(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS), 'sum');
+        }
+
+        $this->pageGoalsGetVisits($select, $from, $where, $groupBy, $orderBy, 'visit_entry_idaction_url', $rankingQuery);
+
+        $query = $this->getLogAggregator()->queryConversionsByEntryPageView();
+
+        if ($query === false) {
+            return;
+        }
+        while ($row = $query->fetch()) {
+            $this->getDataArray(self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME)->sumMetricsGoalsPages($row['idaction_url'], $row, false);
+        }
+    }
+
+    protected function pageGoalsGetVisits($select, $from, $where, $groupBy, $orderBy, $sprintfField, RankingQuery $rankingQuery = null)
+    {
+        $select = sprintf($select, $sprintfField);
+
+        // get query with segmentation
+        $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        // replace the rest of the %s
+        $querySql = str_replace("%s", $sprintfField, $query['sql']);
+
+        // apply ranking query
+        if ($rankingQuery) {
+            $querySql = $rankingQuery->generateRankingQuery($querySql);
+        }
+
+        $dataTable = new DataTable();
+        $dataTable->setMaximumAllowedRows(ArchivingHelper::$maximumRowsInDataTableLevelZero);
+
+        // get result
+        $resultSet = $this->getLogAggregator()->getDb()->query($querySql, $query['bind']);
+
+        if ($resultSet === false) {
+            return;
+        }
+
+        while ($row = $resultSet->fetch()) {
+
+            if ($sprintfField == 'idaction_url') {
+                $this->aggregateRow($row, self::PAGE_CONVERSIONS_URL_RECORD_NAME);
+            } else if ($sprintfField == 'idaction_name') {
+                $this->aggregateRow($row, self::PAGE_CONVERSIONS_TITLES_RECORD_NAME);
+            } else if ($sprintfField == 'visit_entry_idaction_url') {
+                $this->aggregateRow($row, self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME);
+            }
+        }
+
+    }
+
+    /**
+     * @param string $name
+     * @return DataArray
+     */
+    protected function getDataArray($name)
+    {
+        if (empty($this->arrays[$name])) {
+            $this->arrays[$name] = new DataArray();
+        }
+        return $this->arrays[$name];
+    }
+
+    protected function aggregateRow($row, $recordName)
+    {
+        $dataArray = $this->getDataArray($recordName);
+        $mainLabel = $row['name'];
+        unset($row['name']);
+        $dataArray->sumMetrics($mainLabel, $row);
+    }
+
+    private function addMetricsToSelect($select, $metricsConfig)
+    {
+        if (!empty($metricsConfig)) {
+            foreach ($metricsConfig as $metric => $config) {
+                $select .= ', ' . $config['query'] . " as `" . $metric . "`";
+            }
+        }
+
+        return $select;
+    }
+
+    private function addMetricsToRankingQuery(RankingQuery $rankingQuery, $metricsConfig)
+    {
+        foreach ($metricsConfig as $metric => $config) {
+            if (!empty($config['aggregation'])) {
+                $rankingQuery->addColumn($metric, $config['aggregation']);
+            } else {
+                $rankingQuery->addColumn($metric);
+            }
+        }
+    }
+
+
+    public function aggregatePageGoalsMultipleReports()
+    {
+
+        $columnsAggregationOperation = null;
+        $this->getProcessor()->aggregateDataTableRecords(
+            [
+                self::PAGE_CONVERSIONS_URL_RECORD_NAME,
+                self::PAGE_CONVERSIONS_TITLES_RECORD_NAME,
+                self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME,
+            ],
+            $this->maximumRows,
+            $maximumRowsInSubDataTable = null,
+            $columnToSortByBeforeTruncation = null,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = array()
+        );
+
+
+    }
+
 }

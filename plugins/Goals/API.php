@@ -759,6 +759,81 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    protected function getPageGoalDataTable($recordName, $idSite, $period, $date, $segment)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $archive = Archive::build($idSite, $period, $date, $segment);
+
+        // get the data table
+        $dataTable = $archive->getDataTable($recordName, $idSubtable = null);
+        $dataTable->queueFilter('ReplaceColumnNames');
+
+        return $dataTable;
+    }
+
+    /**
+     * Gets a DataTable that maps pages to the count of conversions that occurred on visits
+     * where the page was viewed before conversion for the specified site, date range, segment and goal.
+     *
+     * @param int $idSite The site to select data from.
+     * @param string $period The period type.
+     * @param string $date The date type.
+     * @param string|bool $segment The segment.
+     * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
+     *                         data for every goal that belongs to $idSite is returned.
+     *
+     * @return bool|DataTable
+     */
+    public function getPagesUrl($idSite, $period, $date, $segment = false, $idGoal = false)
+    {
+        $dataTable = $this->getPageGoalDataTable(
+            Archiver::PAGE_CONVERSIONS_URL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+        $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
+        return $dataTable;
+    }
+
+    /**
+     * Gets a DataTable that maps page titles to the count of conversions that occurred on visits
+     * where the page was viewed before conversion for the specified site, date range, segment and goal.
+     *
+     * @param int $idSite The site to select data from.
+     * @param string $period The period type.
+     * @param string $date The date type.
+     * @param string|bool $segment The segment.
+     * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
+     *                         data for every goal that belongs to $idSite is returned.
+     *
+     * @return bool|DataTable
+     */
+    public function getPagesTitles($idSite, $period, $date, $segment = false, $idGoal = false)
+    {
+        $dataTable = $this->getPageGoalDataTable(
+            Archiver::PAGE_CONVERSIONS_TITLES_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+        $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
+        return $dataTable;
+    }
+
+    /**
+     * Gets a DataTable that maps entry pages to the count of conversions that occurred on visits that started on
+     * each entry page and resulted in a conversion, for the specified site, date range, segment and goal.
+     *
+     * @param int $idSite The site to select data from.
+     * @param string $period The period type.
+     * @param string $date The date type.
+     * @param string|bool $segment The segment.
+     * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
+     *                         data for every goal that belongs to $idSite is returned.
+     *
+     * @return bool|DataTable
+     */
+    public function getPagesEntry($idSite, $period, $date, $segment = false, $idGoal = false)
+    {
+        $dataTable = $this->getPageGoalDataTable(
+            Archiver::PAGE_CONVERSIONS_ENTRY_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+        return $dataTable;
+    }
+
     /**
      * Enhances the dataTable with Items attributes found in the Custom Variables report.
      *

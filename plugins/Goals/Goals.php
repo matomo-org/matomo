@@ -257,6 +257,17 @@ class Goals extends \Piwik\Plugin
             'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
+        // Entry type goals, not per visit
+        $goalEntryProcessedMetrics = array(
+            'revenue_per_entry' => Piwik::translate('General_ColumnValuePerEntry'),
+        );
+
+        $goalEntryMetrics = array(
+            'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
+            'conversion_entry_rate' => Piwik::translate('General_ColumnConversionRate'),
+            'revenue'         => Piwik::translate('General_ColumnRevenue')
+        );
+
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
         foreach ($reportsWithGoals as $reportWithGoals) {
@@ -266,8 +277,14 @@ class Goals extends \Piwik\Plugin
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])) {
-                    $apiReportToUpdate['metricsGoal'] = $goalMetrics;
-                    $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
+
+                    if ($reportWithGoals['action'] == 'getPagesEntry') {
+                        $apiReportToUpdate['metricsGoal'] = $goalEntryMetrics;
+                        $apiReportToUpdate['processedMetricsGoal'] = $goalEntryProcessedMetrics;
+                    } else {
+                        $apiReportToUpdate['metricsGoal'] = $goalMetrics;
+                        $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
+                    }
                     break;
                 }
             }
@@ -281,7 +298,7 @@ class Goals extends \Piwik\Plugin
         $reports = new ReportsProvider();
 
         foreach ($reports->getAllReports() as $report) {
-            if ($report->hasGoalMetrics() && $report->isEnabled()) {
+            if ($report->hasGoalMetrics() && $report->isEnabled() && $report->getCategoryId() != 'Pages') {
                 $reportsWithGoals[] = array(
                     'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
@@ -292,6 +309,25 @@ class Goals extends \Piwik\Plugin
             }
         }
 
+        $reportsWithGoals[] = array('category' => 'Pages',
+            'name'     => Piwik::translate('General_Pages'),
+            'module'   => 'Goals',
+            'action'   => 'getPagesUrl',
+            'viewDataTable' => 'tableGoalsPages',
+        );
+        $reportsWithGoals[] = array('category' => 'Pages',
+            'name'     => Piwik::translate('Goals_EntryPages'),
+            'module'   => 'Goals',
+            'action'   => 'getPagesEntry',
+            'viewDataTable' => 'tableGoalsEntryPages',
+        );
+
+        $reportsWithGoals[] = array('category' => 'Pages',
+            'name'     => Piwik::translate('Goals_PageTitles'),
+            'module'   => 'Goals',
+            'action'   => 'getPagesTitles',
+            'viewDataTable' => 'tableGoalsPages',
+        );
         $reportsWithGoals[] = array('category' => 'General_Visit',
             'name'     => Piwik::translate('Goals_VisitsUntilConv'),
             'module'   => 'Goals',
