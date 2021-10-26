@@ -39,6 +39,7 @@
         "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Introduza uma lista de agentes de utilizador para os excluir de serem acompanhados pelo Matomo.",
         "GlobalExcludedUserAgentHelp2": "Pode utilizar isto para evitar que alguns bots sejam acompanhados.",
+        "GlobalExcludedUserAgentHelp3": "As expressões regulares como %s são suportadas.",
         "GlobalListExcludedIps": "Lista global de IPs excluídos",
         "GlobalListExcludedQueryParameters": "Lista global de parâmetros de endereços de consulta para excluir",
         "GlobalListExcludedUserAgents": "Lista global de agentes de utilizador a excluir",

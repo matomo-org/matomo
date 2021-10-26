@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.vue?vue&type=template&id=9a0bba80
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.vue?vue&type=template&id=2b8ee5bc
 
 
 const _hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
@@ -29,13 +29,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "-"), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.count) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.increment && _ctx.increment(...args))
   }, "+"), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
-    show: _ctx.showDialog
+    modelValue: _ctx.showDialog,
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.showDialog = $event)
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [_hoisted_1]),
     _: 1
-  }, 8, ["show"])]);
+  }, 8, ["modelValue"])]);
 }
-// CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.vue?vue&type=template&id=9a0bba80
+// CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.vue?vue&type=template&id=2b8ee5bc
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -47,16 +48,11 @@ var external_CoreHome_ = __webpack_require__("19dc");
   components: {
     MatomoDialog: external_CoreHome_["MatomoDialog"]
   },
-  computed: {
-    showDialog() {
-      return this.count > 15;
-    }
-
-  },
 
   data() {
     return {
-      count: 12
+      count: 12,
+      showDialog: false
     };
   },
 
@@ -64,10 +60,12 @@ var external_CoreHome_ = __webpack_require__("19dc");
     return {
       increment() {
         this.count += 1;
+        this.showDialog = this.count > 15;
       },
 
       decrement() {
         this.count -= 1;
+        this.showDialog = this.count > 15;
       }
 
     };

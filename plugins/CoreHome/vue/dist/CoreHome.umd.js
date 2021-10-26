@@ -147,6 +147,8 @@ __webpack_require__.d(__webpack_exports__, "getToday", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
+__webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
+__webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -485,8 +487,14 @@ var noAdblockFlag = __webpack_require__("2342");
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-function translate(translationStringId, values = []) {
-  return window._pk_translate(translationStringId, values); // eslint-disable-line
+function translate(translationStringId, ...values) {
+  let pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
+
+  if (values.length === 1 && values[0] && values[0] instanceof Array) {
+    [pkArgs] = values;
+  }
+
+  return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
 function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1007,6 +1015,14 @@ class AjaxHelper_AjaxHelper {
   /**
    * Handle for current request
    */
+  // helper method entry point
+  static fetch(params) {
+    const helper = new AjaxHelper_AjaxHelper();
+    helper.setFormat('json');
+    helper.addParams(params, 'get');
+    return helper.send();
+  }
+
   constructor() {
     AjaxHelper_defineProperty(this, "format", 'json');
 
@@ -1564,12 +1580,15 @@ angular.module('piwikApp.service').run(Piwik_adapter_initPiwikService);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=42c028e0
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=50fda6d8
 
+const _hoisted_1 = {
+  ref: "root"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=42c028e0
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=50fda6d8
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
 
@@ -1579,7 +1598,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /**
      * Whether the modal is displayed or not;
      */
-    show: {
+    modelValue: {
       type: Boolean,
       required: true
     },
@@ -1596,17 +1615,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       required: false
     }
   },
-  emits: ['yes', 'no', 'closeEnd', 'close'],
+  emits: ['yes', 'no', 'closeEnd', 'close', 'update:modelValue'],
+
+  setup() {
+    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    return {
+      root
+    };
+  },
 
   activated() {
-    const slotElement = this.element || this.$slots.default()[0].el;
-    slotElement.style.display = 'none';
+    this.$emit('update:modelValue', false);
   },
 
   watch: {
-    show(newValue, oldValue) {
+    modelValue(newValue, oldValue) {
       if (newValue) {
-        const slotElement = this.element || this.$slots.default()[0].el;
+        const slotElement = this.element || this.$refs.root.firstElementChild;
         Matomo_Matomo.helper.modalConfirm(slotElement, {
           yes: () => {
             this.$emit('yes');
@@ -1616,6 +1641,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }
         }, {
           onCloseEnd: () => {
+            // materialize removes the child element, so we move it back to the slot
+            if (!this.element) {
+              this.$refs.root.appendChild(slotElement);
+            }
+
+            this.$emit('update:modelValue', false);
             this.$emit('closeEnd');
           }
         });
@@ -1644,6 +1675,8 @@ MatomoDialogvue_type_script_lang_ts.render = render
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+let transcludeCounter = 0;
 function createAngularJsAdapter(options) {
   const {
     component,
@@ -1656,8 +1689,18 @@ function createAngularJsAdapter(options) {
     postCreate,
     noScope
   } = options;
+  const currentTranscludeCounter = transcludeCounter;
+
+  if (transclude) {
+    transcludeCounter += 1;
+  }
+
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
+    if (!info.vue) {
+      info.vue = scopeVarName;
+    }
+
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
@@ -1670,14 +1713,14 @@ function createAngularJsAdapter(options) {
       compile: function angularJsAdapterCompile() {
         return {
           post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs) {
-            const clone = ngElement.find('[ng-transclude]');
+            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
             let rootVueTemplate = '<root-component';
             Object.entries(scope).forEach(([, info]) => {
               rootVueTemplate += ` :${info.vue}="${info.vue}"`;
             });
             Object.entries(events).forEach(info => {
               const [eventName] = info;
-              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}')"`;
+              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
             });
             rootVueTemplate += '>';
 
@@ -1715,15 +1758,16 @@ function createAngularJsAdapter(options) {
               },
 
               methods: {
-                onEventHandler(name) {
+                onEventHandler(name, $event) {
                   if (events[name]) {
-                    events[name](ngScope, ngElement, ngAttrs, ...injectedServices);
+                    events[name]($event, ngScope, ngElement, ngAttrs, ...injectedServices);
                   }
                 }
 
               }
             });
             app.config.globalProperties.$sanitize = window.vueSanitize;
+            app.config.globalProperties.translate = translate;
             app.component('root-component', component);
             const mountPoint = mountPointFactory ? mountPointFactory(ngScope, ngElement, ngAttrs, ...injectedServices) : ngElement[0];
             const vm = app.mount(mountPoint);
@@ -1755,7 +1799,7 @@ function createAngularJsAdapter(options) {
 
     if (transclude) {
       adapter.transclude = true;
-      adapter.template = '<div ng-transclude/>';
+      adapter.template = `<div ng-transclude counter="${currentTranscludeCounter}"/>`;
     }
 
     return adapter;
@@ -1778,16 +1822,15 @@ function createAngularJsAdapter(options) {
   component: MatomoDialog,
   scope: {
     show: {
-      vue: 'show',
+      vue: 'modelValue',
       default: false
     },
     element: {
-      vue: 'element',
       default: (scope, element) => element[0]
     }
   },
   events: {
-    yes: (scope, element, attrs) => {
+    yes: ($event, scope, element, attrs) => {
       if (attrs.yes) {
         scope.$eval(attrs.yes);
         setTimeout(() => {
@@ -1795,7 +1838,7 @@ function createAngularJsAdapter(options) {
         }, 0);
       }
     },
-    no: (scope, element, attrs) => {
+    no: ($event, scope, element, attrs) => {
       if (attrs.no) {
         scope.$eval(attrs.no);
         setTimeout(() => {
@@ -1803,7 +1846,7 @@ function createAngularJsAdapter(options) {
         }, 0);
       }
     },
-    close: (scope, element, attrs) => {
+    close: ($event, scope, element, attrs) => {
       if (attrs.close) {
         scope.$eval(attrs.close);
         setTimeout(() => {
@@ -1811,9 +1854,9 @@ function createAngularJsAdapter(options) {
         }, 0);
       }
     },
-    closeEnd: (scope, element, attrs, $parse) => {
+    'update:modelValue': (newValue, scope, element, attrs, $parse) => {
       setTimeout(() => {
-        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+        scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));
       }, 0);
     }
   },
@@ -1826,25 +1869,443 @@ function createAngularJsAdapter(options) {
     return vueRootPlaceholder[0];
   },
   postCreate: (vm, scope, element, attrs) => {
-    scope.$watch(attrs.piwikDialog, newValue => {
-      vm.show = newValue || false;
+    scope.$watch(attrs.piwikDialog, (newValue, oldValue) => {
+      if (oldValue !== newValue) {
+        vm.modelValue = newValue || false;
+      }
     });
   },
   noScope: true
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=678de864
+
+const EnrichedHeadlinevue_type_template_id_678de864_hoisted_1 = {
+  key: 0,
+  class: "title",
+  tabindex: "6"
+};
+const _hoisted_2 = ["href", "title"];
+const _hoisted_3 = {
+  class: "iconsBar"
+};
+const _hoisted_4 = ["href", "title"];
+
+const _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-help"
+}, null, -1);
+
+const _hoisted_6 = [_hoisted_5];
+const _hoisted_7 = ["title"];
+
+const _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-info"
+}, null, -1);
+
+const _hoisted_9 = [_hoisted_8];
+const _hoisted_10 = {
+  class: "ratingIcons"
+};
+const _hoisted_11 = {
+  class: "inlineHelp"
+};
+const _hoisted_12 = ["innerHTML"];
+const _hoisted_13 = ["href"];
+function EnrichedHeadlinevue_type_template_id_678de864_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RateFeature");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: "enrichedHeadline",
+    onMouseenter: _cache[1] || (_cache[1] = $event => _ctx.showIcons = true),
+    onMouseleave: _cache[2] || (_cache[2] = $event => _ctx.showIcons = false),
+    ref: "root"
+  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_678de864_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    key: 1,
+    class: "title",
+    href: _ctx.editUrl,
+    title: _ctx.translate('CoreHome_ClickToEditX', _ctx.$sanitize(_ctx.actualFeatureName))
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 8, _hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_3, [_ctx.helpUrl && !_ctx.actualInlineHelp ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    key: 0,
+    rel: "noreferrer noopener",
+    target: "_blank",
+    class: "helpIcon",
+    href: _ctx.helpUrl,
+    title: _ctx.translate('CoreHome_ExternalHelp')
+  }, _hoisted_6, 8, _hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualInlineHelp ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    key: 1,
+    onClick: _cache[0] || (_cache[0] = $event => _ctx.showInlineHelp = !_ctx.showInlineHelp),
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
+      'active': _ctx.showInlineHelp
+    }]),
+    title: _ctx.translate(_ctx.reportGenerated ? 'General_HelpReport' : 'General_Help')
+  }, _hoisted_9, 10, _hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_RateFeature, {
+    title: _ctx.actualFeatureName
+  }, null, 8, ["title"])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showIcons || _ctx.showInlineHelp]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp)
+  }, null, 8, _hoisted_12), _ctx.helpUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    key: 0,
+    rel: "noreferrer noopener",
+    target: "_blank",
+    class: "readMore",
+    href: _ctx.helpUrl
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MoreDetails')), 9, _hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showInlineHelp]])], 544);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=678de864
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
+
+
+ // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
+// CoreHome)
+// TODO: may need a generic solution at some point, but it's bad practice to have
+// cyclic dependencies like this. it worked before because it was individual files
+// dependening on each other, not whole plugins.
+
+const RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => new Promise(resolve => {
+  window.$(document).ready(() => {
+    resolve(window.Feedback.RateFeature); // eslint-disable-line
+  });
+}));
+/**
+ * Usage:
+ *
+ * <h2 piwik-enriched-headline>All Websites Dashboard</h2>
+ * -> uses "All Websites Dashboard" as featurename
+ *
+ * <h2 piwik-enriched-headline feature-name="All Websites Dashboard">All Websites Dashboard (Total:
+ * 309 Visits)</h2>
+ * -> custom featurename
+ *
+ * <h2 piwik-enriched-headline help-url="http://piwik.org/guide">All Websites Dashboard</h2>
+ * -> shows help icon and links to external url
+ *
+ * <h2 piwik-enriched-headline edit-url="index.php?module=Foo&action=bar&id=4">All Websites
+ * Dashboard</h2>
+ * -> makes the headline clickable linking to the specified url
+ *
+ * <h2 piwik-enriched-headline inline-help="inlineHelp">Pages report</h2>
+ * -> inlineHelp specified via a attribute shows help icon on headline hover
+ *
+ * <h2 piwik-enriched-headline>All Websites Dashboard
+ *     <div class="inlineHelp">My <strong>inline help</strong></div>
+ * </h2>
+ * -> alternative definition for inline help
+ * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
+ *
+ * * <h2 piwik-enriched-headline report-generated="generated time">Pages report</h2>
+ * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
+ * activated by hover
+ * -> the tooltip shows the value of the attribute
+ */
+
+/* harmony default export */ var EnrichedHeadlinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    helpUrl: {
+      type: String,
+      default: ''
+    },
+    editUrl: {
+      type: String,
+      default: ''
+    },
+    reportGenerated: String,
+    featureName: String,
+    inlineHelp: String
+  },
+  components: {
+    RateFeature
+  },
+
+  data() {
+    return {
+      showIcons: false,
+      showInlineHelp: false,
+      actualFeatureName: this.featureName,
+      actualInlineHelp: this.inlineHelp
+    };
+  },
+
+  setup() {
+    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    return {
+      root
+    };
+  },
+
+  watch: {
+    inlineHelp(newValue) {
+      this.actualInlineHelp = newValue;
+    },
+
+    featureName(newValue) {
+      this.actualFeatureName = newValue;
+    }
+
+  },
+
+  mounted() {
+    const {
+      root
+    } = this.$refs;
+
+    if (!this.actualInlineHelp) {
+      let helpNode = root.querySelector('.title .inlineHelp');
+
+      if (!helpNode && root.parentElement.nextElementSibling) {
+        // hack for reports :(
+        helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');
+      }
+
+      if (helpNode) {
+        // hackish solution to get binded html of p tag within the help node
+        // at this point the ng-bind-html is not yet converted into html when report is not
+        // initially loaded. Using $compile doesn't work. So get and set it manually
+        const helpDocs = helpNode.getAttribute('data-content').trim();
+
+        if (helpDocs.length) {
+          this.actualInlineHelp = `<p>${helpDocs}</p>`;
+          setTimeout(() => helpNode.remove(), 0);
+        }
+      }
+    }
+
+    if (!this.actualFeatureName) {
+      this.actualFeatureName = root.querySelector('.title').textContent;
+    }
+
+    if (this.reportGenerated && Periods_Periods.parse(Matomo_Matomo.period, Matomo_Matomo.currentDateString).containsToday()) {
+      window.$(root.querySelector('.report-generated')).tooltip({
+        track: true,
+        content: this.reportGenerated,
+        items: 'div',
+        show: false,
+        hide: false
+      });
+    }
+  }
+
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue
+
+
+
+EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_678de864_render
+
+/* harmony default export */ var EnrichedHeadline = (EnrichedHeadlinevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var EnrichedHeadline_adapter = (createAngularJsAdapter({
+  component: EnrichedHeadline,
+  scope: {
+    helpUrl: {
+      angularJsBind: '@'
+    },
+    editUrl: {
+      angularJsBind: '@'
+    },
+    reportGenerated: {
+      angularJsBind: '@?'
+    },
+    featureName: {
+      angularJsBind: '@'
+    },
+    inlineHelp: {
+      angularJsBind: '@?'
+    }
+  },
+  directiveName: 'piwikEnrichedHeadline',
+  transclude: true
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=5f6844c4
+
+const ContentBlockvue_type_template_id_5f6844c4_hoisted_1 = {
+  class: "card",
+  ref: "root"
+};
+const ContentBlockvue_type_template_id_5f6844c4_hoisted_2 = {
+  class: "card-content"
+};
+const ContentBlockvue_type_template_id_5f6844c4_hoisted_3 = {
+  key: 0,
+  class: "card-title"
+};
+const ContentBlockvue_type_template_id_5f6844c4_hoisted_4 = {
+  key: 1,
+  class: "card-title"
+};
+const ContentBlockvue_type_template_id_5f6844c4_hoisted_5 = {
+  ref: "content"
+};
+function ContentBlockvue_type_template_id_5f6844c4_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ContentBlockvue_type_template_id_5f6844c4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_5f6844c4_hoisted_2, [_ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_5f6844c4_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_5f6844c4_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+    "feature-name": _ctx.actualFeature,
+    "help-url": _ctx.helpUrl,
+    "inline-help": _ctx.actualHelpText
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)]),
+    _: 1
+  }, 8, ["feature-name", "help-url", "inline-help"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_5f6844c4_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)])], 512);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=5f6844c4
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
+
+
+let adminContent = null;
+/* harmony default export */ var ContentBlockvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    contentTitle: String,
+    feature: String,
+    helpUrl: String,
+    helpText: String,
+    anchor: String
+  },
+  components: {
+    EnrichedHeadline: EnrichedHeadline
+  },
+
+  data() {
+    return {
+      actualFeature: this.feature,
+      actualHelpText: this.helpText
+    };
+  },
+
+  setup() {
+    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    const content = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    return {
+      root,
+      content
+    };
+  },
+
+  watch: {
+    feature(newValue) {
+      this.actualFeature = newValue;
+    },
+
+    helpText(newValue) {
+      this.actualHelpText = newValue;
+    }
+
+  },
+
+  mounted() {
+    const {
+      root,
+      content
+    } = this.$refs;
+
+    if (this.anchor) {
+      const anchorElement = document.createElement('a');
+      anchorElement.id = this.anchor;
+      root.parentElement.prepend(anchorElement);
+    }
+
+    setTimeout(() => {
+      const inlineHelp = content.querySelector('.contentHelp');
+
+      if (inlineHelp) {
+        this.actualHelpText = inlineHelp.innerHTML;
+        inlineHelp.remove();
+      }
+    }, 0);
+
+    if (this.actualFeature && (this.actualFeature === true || this.actualFeature === 'true')) {
+      this.actualFeature = this.contentTitle;
+    }
+
+    if (adminContent === null) {
+      // cache admin node for further content blocks
+      adminContent = document.querySelector('#content.admin');
+    }
+
+    let contentTopPosition;
+
+    if (adminContent) {
+      contentTopPosition = adminContent.offsetTop;
+    }
+
+    if (contentTopPosition || contentTopPosition === 0) {
+      const parents = root.closest('[piwik-widget-loader]'); // when shown within the widget loader, we need to get the offset of that element
+      // as the widget loader might be still shown. Would otherwise not position correctly
+      // the widgets on the admin home page
+
+      const topThis = parents ? parents.offsetTop : root.offsetTop;
+
+      if (topThis - contentTopPosition < 17) {
+        // we make sure to display the first card with no margin-top to have it on same as line as
+        // navigation
+        root.style.marginTop = 0;
+      }
+    }
+  }
+
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue
+
+
+
+ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_5f6844c4_render
+
+/* harmony default export */ var ContentBlock = (ContentBlockvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var ContentBlock_adapter = (createAngularJsAdapter({
+  component: ContentBlock,
+  scope: {
+    contentTitle: {
+      angularJsBind: '@'
+    },
+    feature: {
+      angularJsBind: '@'
+    },
+    helpUrl: {
+      angularJsBind: '@'
+    },
+    helpText: {
+      angularJsBind: '@'
+    },
+    anchor: {
+      angularJsBind: '@?'
+    }
+  },
+  directiveName: 'piwikContentBlock',
+  transclude: true
+}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
-const _hoisted_1 = {
+const ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1 = {
   class: "loadingPiwik"
 };
 
-const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+const ActivityIndicatorvue_type_template_id_6af4d064_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   src: "plugins/Morpheus/images/loading-blue.gif",
   alt: ""
 }, null, -1);
 
 function ActivityIndicatorvue_type_template_id_6af4d064_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1, [ActivityIndicatorvue_type_template_id_6af4d064_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
@@ -1972,6 +2433,10 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
 
 
 
