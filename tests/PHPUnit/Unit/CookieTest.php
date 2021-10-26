@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use DateTime;
 use Piwik\Common;
 use Piwik\Cookie;
 use Piwik\SettingsPiwik;
@@ -70,7 +71,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->cookie->set('ignore', '*f1');
         $this->assertEquals('*f1', $this->cookie->get('ignore'));
     }
-    
+
     public function test_delete_unsetsValues()
     {
         $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=1.2';
@@ -266,5 +267,32 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function test_isCookieInRequest_ReturnsFalseIfCookieExists()
     {
         $this->assertFalse(Cookie::isCookieInRequest('abc'));
+    }
+
+    public function test_formatCookieExpire()
+    {
+        //assert + 30 years
+        $checkTime = $this->cookie->formatExpireTime("+ 30 years");
+        $years = $this->diffInYears($checkTime);
+        $this->assertTrue($years >= 29);
+
+        // assert Empty
+        $checkTime = $this->cookie->formatExpireTime();
+        $years = $this->diffInYears($checkTime);
+        $this->assertTrue($years >= 1);
+
+        // assert timestamp
+        $checkTime = $this->cookie->formatExpireTime(time()+(86400 * 365 * 3));
+        $years = $this->diffInYears($checkTime);
+        $this->assertTrue($years >= 2);
+
+    }
+
+    private function diffInYears($checkTime)
+    {
+        $today = new DateTime();
+        $time = DateTime::createFromFormat('l, d-M-Y H:i:s T', $checkTime);
+        $diff = $time->diff($today);
+        return $diff->format('%y');
     }
 }
