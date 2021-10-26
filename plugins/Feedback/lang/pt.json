@@ -30,11 +30,15 @@
         "RateFeatureSendFeedbackInformation": "A sua plataforma Matomo irá enviar um e-mail à equipa do Matomo (incluindo o seu endereço de e-mail) para que o possamos contactar se tiver qualquer questão.",
         "RateFeatureThankYouTitle": "Obrigado por avaliar '%s'!",
         "RateFeatureTitle": "Gosta da funcionalidade '%s'? Por favor, avalie e deixe um comentário",
+        "ReferBannerEmailShareBody": "Eu escolhi o Matomo, uma alternativa ética ao Google Analytics que me dá o controlo de 100%% dos dados e protege os dados dos visitantes do meu site.\nEstou a partilhar esta mensagem na esperança de que também retire o poder do Google e obtenha total propriedade sobre os seus próprios dados.\n\nSaiba mais sobre o Matomo em https://matomo.org",
         "ReferBannerEmailShareSubject": "Encaminhe-os para Matomo Analytics agora para retomar o controlo!",
         "ReferBannerLonger": "Ajude-nos a espalhar a palavra sobre nós para que mais pessoas tenham controlo sobre seus dados analíticos.",
+        "ReferBannerSocialShareText": "Se estiver a usar o Google Analytics, mantenha o controlo mudando para uma alternativa ética como o Matomo agora!",
         "ReferBannerTitle": "Acredita no Matomo?",
+        "ReferMatomo": "Divulgar o Matomo",
         "RemindMeLater": "Lembrar mais tarde",
         "RemoveOtherLabel": "E quero ver os dados do meu 'Outros'",
+        "ReviewMatomoTitle": "Gosta do Matomo?",
         "SearchHelpResources": "Procurar por recursos de apoio em matomo.org",
         "SendFeedback": "Enviar comentário",
         "ThankYou": "Obrigado por nos ajudar a melhorar o Matomo!",
@@ -44,6 +48,7 @@
         "UserGuides": "Guias do utilizador",
         "ViewAnswersToFAQ": "Ver respostas às %1$sperguntas frequentes%2$s",
         "ViewUserGuides": "Saiba como configurar o Matomo e como analisar eficazmente os seus dados com os nossos %1$sguias do utilizador%2$s",
-        "VisitTheForums": "Visite os %1$s fóruns%2$s e obtenha ajuda da comunidade de utilizadores do Matomo"
+        "VisitTheForums": "Visite os %1$s fóruns%2$s e obtenha ajuda da comunidade de utilizadores do Matomo",
+        "WontShowAgain": "Não mostraremos essa mensagem de novo."
     }
 }
