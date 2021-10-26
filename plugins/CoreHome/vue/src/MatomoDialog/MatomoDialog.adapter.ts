@@ -14,36 +14,35 @@ export default createAngularJsAdapter<[IParseService]>({
   component: MatomoDialog,
   scope: {
     show: {
-      vue: 'show',
+      vue: 'modelValue',
       default: false,
     },
     element: {
-      vue: 'element',
       default: (scope, element) => element[0],
     },
   },
   events: {
-    yes: (scope, element, attrs) => {
+    yes: ($event, scope, element, attrs) => {
       if (attrs.yes) {
         scope.$eval(attrs.yes);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    no: (scope, element, attrs) => {
+    no: ($event, scope, element, attrs) => {
       if (attrs.no) {
         scope.$eval(attrs.no);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    close: (scope, element, attrs) => {
+    close: ($event, scope, element, attrs) => {
       if (attrs.close) {
         scope.$eval(attrs.close);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    closeEnd: (scope, element, attrs, $parse: IParseService) => {
+    'update:modelValue': (newValue, scope, element, attrs, $parse: IParseService) => {
       setTimeout(() => {
-        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+        scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));
       }, 0);
     },
   },
@@ -56,8 +55,10 @@ export default createAngularJsAdapter<[IParseService]>({
     return vueRootPlaceholder[0];
   },
   postCreate: (vm: ComponentPublicInstance, scope, element, attrs) => {
-    scope.$watch(attrs.piwikDialog, (newValue: boolean) => {
-      vm.show = newValue || false;
+    scope.$watch(attrs.piwikDialog, (newValue: boolean, oldValue: boolean) => {
+      if (oldValue !== newValue) {
+        vm.modelValue = newValue || false;
+      }
     });
   },
   noScope: true,

@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use DateTime;
 use Piwik\Container\StaticContainer;
 
 /**
@@ -77,7 +78,7 @@ class Cookie
      * exists already.
      *
      * @param string $cookieName cookie Name
-     * @param int $expire The timestamp after which the cookie will expire, eg time() + 86400;
+     * @param int|string $expire The timestamp after which the cookie will expire, eg time() + 86400;
      *                                  use 0 (int zero) to expire cookie at end of browser session
      * @param string $path The path on the server in which the cookie will be available on.
      * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
@@ -87,12 +88,6 @@ class Cookie
         $this->name = $cookieName;
         $this->path = $path;
         $this->expire = $expire;
-        if (is_null($expire)
-            || !is_numeric($expire)
-            || $expire < 0
-        ) {
-            $this->expire = $this->getDefaultExpire();
-        }
 
         $this->keyStore = $keyStore;
         if ($this->isCookieFound()) {
@@ -128,7 +123,7 @@ class Cookie
      *
      * @param string $Name Name of cookie
      * @param string $Value Value of cookie
-     * @param int $Expires Time the cookie expires
+     * @param int|string $Expires Time the cookie expires
      * @param string $Path
      * @param string $Domain
      * @param bool $Secure
@@ -151,8 +146,10 @@ class Cookie
             }
         }
 
+        $Expires = $this->formatExpireTime($Expires);
+
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
-            . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', (int) $Expires) . ' GMT')
+            . (empty($Expires) ? '' : '; expires=' . $Expires)
             . (empty($Path) ? '' : '; path=' . $Path)
             . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
@@ -467,5 +464,24 @@ class Cookie
         }
 
         return $sameSite;
+    }
+
+    /**
+     *  extend Cookie by timestamp or sting like + 30 years, + 10 months, default 2 years
+     * @param $time
+     * @return string
+     */
+    public function formatExpireTime($time = null)
+    {
+        $expireTime = new DateTime();
+        if (is_null($time) || (is_int($time) && $time < 0)) {
+            $expireTime->modify("+2 years");
+        } else if (is_int($time)) {
+            $expireTime->setTimestamp($time);
+        } else if (!$expireTime->modify($time)) {
+            $expireTime->modify("+2 years");
+        }
+        return $expireTime->format(DateTime::COOKIE);
+
     }
 }

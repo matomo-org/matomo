@@ -63,6 +63,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->ssl = ProxyHttp::isHttps();
         $view->siteUrls = SitesManager\API::getInstance()->getSiteUrlsFromId($this->site->getId());
 
+        $this->securityPolicy->allowEmbedPage();
         $this->outputCORSHeaders();
         return $view->render();
     }

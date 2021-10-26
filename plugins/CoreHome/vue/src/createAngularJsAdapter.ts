@@ -11,9 +11,10 @@ import {
   ref,
   ComponentPublicInstance,
 } from 'vue';
+import translate from './translate';
 
 interface SingleScopeVarInfo {
-  vue: string;
+  vue?: string;
   default?: any; // eslint-disable-line
   angularJsBind?: string;
 }
@@ -21,6 +22,14 @@ interface SingleScopeVarInfo {
 type ScopeMapping = { [scopeVarName: string]: SingleScopeVarInfo };
 
 type AdapterFunction<InjectTypes, R = void> = (
+  scope: ng.IScope,
+  element: ng.IAugmentedJQuery,
+  attrs: ng.IAttributes,
+  ...injected: InjectTypes,
+) => R;
+
+type EventAdapterFunction<InjectTypes, R = void> = (
+  $event: any, // eslint-disable-line
   scope: ng.IScope,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
@@ -35,9 +44,11 @@ type PostCreateFunction<InjectTypes, R = void> = (
   ...injected: InjectTypes,
 ) => R;
 
-type EventMapping<InjectTypes> = { [vueEventName: string]: AdapterFunction<InjectTypes> };
+type EventMapping<InjectTypes> = { [vueEventName: string]: EventAdapterFunction<InjectTypes> };
 
 type ComponentType = ReturnType<typeof defineComponent>;
+
+let transcludeCounter = 0;
 
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
@@ -62,8 +73,16 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     noScope,
   } = options;
 
+  const currentTranscludeCounter = transcludeCounter;
+  if (transclude) {
+    transcludeCounter += 1;
+  }
+
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
+    if (!info.vue) {
+      info.vue = scopeVarName;
+    }
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
@@ -80,7 +99,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngElement: ng.IAugmentedJQuery,
             ngAttrs: ng.IAttributes,
           ) {
-            const clone = ngElement.find('[ng-transclude]');
+            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
 
             let rootVueTemplate = '<root-component';
             Object.entries(scope).forEach(([, info]) => {
@@ -88,7 +107,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
             Object.entries(events).forEach((info) => {
               const [eventName] = info;
-              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}')"`;
+              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
             });
             rootVueTemplate += '>';
             if (transclude) {
@@ -121,14 +140,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 return undefined;
               },
               methods: {
-                onEventHandler(name: string) {
+                onEventHandler(name: string, $event: any) { // eslint-disable-line
                   if (events[name]) {
-                    events[name](ngScope, ngElement, ngAttrs, ...injectedServices);
+                    events[name]($event, ngScope, ngElement, ngAttrs, ...injectedServices);
                   }
                 },
               },
             });
             app.config.globalProperties.$sanitize = window.vueSanitize;
+            app.config.globalProperties.translate = translate;
             app.component('root-component', component);
 
             const mountPoint = mountPointFactory
@@ -166,7 +186,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
     if (transclude) {
       adapter.transclude = true;
-      adapter.template = '<div ng-transclude/>';
+      adapter.template = `<div ng-transclude counter="${currentTranscludeCounter}"/>`;
     }
 
     return adapter;
