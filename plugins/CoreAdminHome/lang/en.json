@@ -105,7 +105,7 @@
         "PluginSettingsSaveSuccess": "Plugin settings updated.",
         "PluginSettingsValueNotAllowed": "The value for the \"%1$s\" field in the \"%2$s\" plugin is not allowed",
         "Problem": "Problem",
-        "ProtocolNotDetectedCorrectly": "You are currently viewing Matomo over a secure SSL connection (using https), but Matomo could only detect a non secure connection on the server.",
+        "ProtocolNotDetectedCorrectly": "You are currently viewing Matomo over a secure SSL connection (using HTTPS), but Matomo could only detect a non secure connection on the server.",
         "ProtocolNotDetectedCorrectlySolution": "To make sure Matomo securely requests and serves your content over HTTPS, you may edit your %1$s file and either configure your proxy settings, or you may add the line %2$s below the %3$s section. %4$sLearn more%5$s",
         "ReleaseChannel": "Release channel",
         "SecurityNotificationAllTokenAuthDeletedBody": "Someone deleted all of the auth tokens in your account.",
