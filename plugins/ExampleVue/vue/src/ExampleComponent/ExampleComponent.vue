@@ -11,7 +11,7 @@
     {{ count }}
     <button v-on:click="increment">+</button>
 
-    <MatomoDialog :show="showDialog">
+    <MatomoDialog v-model="showDialog">
       <div class="ui-confirm exampleDialog">
         <h2>Alert</h2>
         <p>
@@ -32,24 +32,21 @@ export default defineComponent({
   components: {
     MatomoDialog,
   },
-  computed: {
-    showDialog() {
-      return this.count > 15;
-    },
-  },
   data() {
     return {
       count: 12,
+      showDialog: false,
     };
   },
-
   setup() {
     return {
       increment() {
         this.count += 1;
+        this.showDialog = this.count > 15;
       },
       decrement() {
         this.count -= 1;
+        this.showDialog = this.count > 15;
       },
     };
   },
