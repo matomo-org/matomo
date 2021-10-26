@@ -1,20 +1,24 @@
 {
     "Contents": {
-        "PluginDescription": "O acompanhamento de conteúdo e banner permite-lhe medir a performance (visualizações, cliques, CTR) de qualquer pedaço de conteúdo nas suas páginas (banner de publicidade, imagem, qualquer item).",
-        "Impressions": "Impressões",
         "ContentImpression": "Impressão de conteúdo",
         "ContentInteraction": "Interação de conteúdo",
         "ContentInteractions": "Interações de conteúdo",
-        "InteractionRate": "Taxa de Interação",
         "ContentName": "Nome do Conteúdo",
+        "ContentNameReportDocumentation": "Este relatório mostra os nomes do conteúdo que os seus visitantes visualizaram e interagiram.",
         "ContentNames": "Nomes do conteúdo",
         "ContentPiece": "Parte de Conteúdo",
+        "ContentPieceReportDocumentation": "Este relatório mostra as partes do conteúdo que os seus visitantes visualizaram e interagiram.",
         "ContentPieces": "Pedaços de conteúdo",
         "ContentTarget": "Conteúdo de Destino",
         "ContentTargets": "Conteúdos-alvo",
         "Contents": "Conteúdos",
-        "InteractionsMetricDocumentation": "O número de interações num bloco de conteúdo (por exemplo, um 'clique' num banner ou publicidade)",
+        "ContentsSubcategoryHelp1": "O rastreamento de conteúdo ajuda a determinar a popularidade de partes específicas de conteúdo em qualquer página do seu site ou aplicação. Esta secção relata o número de impressões e interações que as várias partes do conteúdo no seu site recebem.",
+        "ContentsSubcategoryHelp2": "Saiba mais no guia de rastreamento de conteúdo.",
+        "Impressions": "Impressões",
         "ImpressionsMetricDocumentation": "O número de vezes que um bloco de conteúdo, como um banner ou publicidade, foi apresentado numa página.",
-        "InteractionRateMetricDocumentation": "O rácio de impressões a interações de conteúdo."
+        "InteractionRate": "Taxa de Interação",
+        "InteractionRateMetricDocumentation": "O rácio de impressões a interações de conteúdo.",
+        "InteractionsMetricDocumentation": "O número de interações num bloco de conteúdo (por exemplo, um 'clique' num banner ou publicidade).",
+        "PluginDescription": "O acompanhamento de conteúdo e banner permite-lhe medir a performance (visualizações, cliques, CTR) de qualquer pedaço de conteúdo nas suas páginas (banner de publicidade, imagem, qualquer item)."
     }
 }

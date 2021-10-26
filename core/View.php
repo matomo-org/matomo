@@ -446,8 +446,13 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
-        Filesystem::unlinkRecursive($templatesCompiledPath, false);
+        $enable = StaticContainer::get('view.clearcompiledtemplates.enable');
+        if ($enable) {
+            // some high performance systems that run many Matomo instances may never want to clear this template cache
+            // if they use eg a blue/green deployment
+            $templatesCompiledPath = StaticContainer::get('path.tmp.templates');
+            Filesystem::unlinkRecursive($templatesCompiledPath, false);
+        }
     }
 
     /**

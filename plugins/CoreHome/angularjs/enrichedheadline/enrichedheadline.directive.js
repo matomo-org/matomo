@@ -42,8 +42,6 @@
         var defaults = {
             helpUrl: '',
             editUrl: '',
-            reportGenerated: '',
-            showReportGenerated: '',
         };
 
         return {
@@ -55,7 +53,6 @@
                 reportGenerated: '@?',
                 featureName: '@',
                 inlineHelp: '@?',
-                showReportGenerated: '=?'
             },
             templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
@@ -105,7 +102,7 @@
                             hide: false
                         });
 
-                        scope.showReportGenerated = '1';
+
                     }
                 };
             }
