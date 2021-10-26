@@ -476,13 +476,11 @@ class Cookie
     public function formatExpireTime($time = null)
     {
         $expireTime = new DateTime();
-        try {
-            if (is_int($time)) {
-                $expireTime->setTimestamp($time);
-            } else {
-                $expireTime->modify($time);
-            }
-        } catch (\Exception $e) {
+        if (is_null($time) || (is_int($time) && $time < 0)) {
+            $expireTime->modify("+2 years");
+        } else if (is_int($time)) {
+            $expireTime->setTimestamp($time);
+        } else if (!$expireTime->modify($time)) {
             $expireTime->modify("+2 years");
         }
         return $expireTime->format(DateTime::COOKIE);
