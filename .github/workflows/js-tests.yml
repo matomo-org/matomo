@@ -16,11 +16,6 @@ permissions:
   security-events: none
   statuses: none
 
-concurrency:
-  group: ${{ github.event.pull_request.head }}
-  cancel-in-progress: true
-
-
 jobs:
   matomo:
     runs-on: ubuntu-20.04
