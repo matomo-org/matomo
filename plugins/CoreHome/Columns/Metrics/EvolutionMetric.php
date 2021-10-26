@@ -110,7 +110,7 @@ class EvolutionMetric extends ProcessedMetric
         $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
 
         // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
-        $ratio = $this->getRatio($this->currentData, $this->pastData, $row);
+        $ratio = self::getRatio($this->currentData, $this->pastData, $row);
         $period = $this->pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         $row->setMetadata('ratio', $ratio);
         $row->setMetadata('previous_'.$columnName, $pastValue);
