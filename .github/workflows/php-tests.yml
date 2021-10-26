@@ -73,6 +73,7 @@ jobs:
           mkdir -p ./tmp/sessions
           mkdir -p ./tmp/templates_c
           mkdir -p ./tmp/templates_c/d2
+          mkdir -p ./tmp/nonexistant
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           chmod a+rw ./tests/lib/geoip-files || true
@@ -81,8 +82,10 @@ jobs:
 
       - name: set tmp and screenshot folder permission
         run: |
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/templates_c
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/nonexistant
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
           ls -ld ./tmp
           ls -ld ./tmp/assets
           ls -ld ./tests/UI
