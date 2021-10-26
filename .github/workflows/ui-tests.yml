@@ -137,6 +137,12 @@ jobs:
 
 
       - name: UI tests Group ${{ matrix.parts }}
+        continue-on-error: true
         run: |
           sudo ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
+      - name: Update Screenshots artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshot-prcocess
+          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
