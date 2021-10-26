@@ -270,6 +270,7 @@ function DataTable_RowActions_RowEvolution(dataTable) {
     /** The rows to be compared in multi row evolution */
     this.multiEvolutionRows = [];
     this.multiEvolutionRowsSeries = [];
+    this.showGoalMetricsForGoal;
 }
 
 /** Static helper method to launch row evolution from anywhere */
@@ -438,6 +439,9 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
             var metric = $(this).val();
             Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
             var extraParams = {action: 'getMultiRowEvolutionPopover', column: metric};
+            if (self.showGoalMetricsForGoal) {
+                extraParams['showGoalMetricsForGoal'] = self.showGoalMetricsForGoal;
+            }
             self.openPopover(apiMethod, extraParams, label);
             return true;
         });
@@ -466,6 +470,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
     if (self.dataTable && self.dataTable.jsViewDataTable === 'tableGoals') {
         // remove idGoal param, when it's set for goal visualizations
         if (extraParams['idGoal']) {
+            self.showGoalMetricsForGoal = extraParams['showGoalMetricsForGoal'] = extraParams['idGoal'];
             delete(extraParams['idGoal']);
         }
     }

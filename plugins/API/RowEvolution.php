@@ -20,6 +20,10 @@ use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -37,7 +41,7 @@ class RowEvolution
         'getPageUrl'
     );
 
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $labelSeries = '')
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $labelSeries = '', $showGoalMetricsForGoal = false)
     {
         // validation of requested $period & $date
         if ($period == 'range') {
@@ -54,7 +58,22 @@ class RowEvolution
 
         $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters);
 
-        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters);
+        // if goal metrics should be shown, we replace the metrics
+        if ($showGoalMetricsForGoal !== false) {
+            $conversionsMetric = new Conversions($idSite, $showGoalMetricsForGoal);
+            $conversionRateMetric = new ConversionRate($idSite, $showGoalMetricsForGoal);
+            $revenueMetric = new Revenue($idSite, $showGoalMetricsForGoal);
+            $revenuePerVisitMetric = new RevenuePerVisit($idSite, $showGoalMetricsForGoal);
+            $metadata['metrics'] = [
+                'nb_visits' => $metadata['metrics']['nb_visits'],
+                $conversionsMetric->getName() => $conversionsMetric->getTranslatedName(),
+                $conversionRateMetric->getName() => $conversionRateMetric->getTranslatedName(),
+                $revenueMetric->getName() => $revenueMetric->getTranslatedName(),
+                $revenuePerVisitMetric->getName() => $revenuePerVisitMetric->getTranslatedName(),
+            ];
+        }
+
+        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters, $showGoalMetricsForGoal);
 
         if (empty($dataTable->getDataTables())) {
             return array();
@@ -254,7 +273,7 @@ class RowEvolution
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $apiParameters)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $apiParameters, $showGoalMetricsForGoal)
     {
         if (!is_array($label)) {
             $label = array($label);
@@ -278,6 +297,13 @@ class RowEvolution
             // can be sorted in a different order)
             'labelFilterAddLabelIndex' => count($label) > 1 ? 1 : 0,
         );
+
+        if ($showGoalMetricsForGoal !== false) {
+            $parameters['filter_show_goal_columns_process_goals'] = $showGoalMetricsForGoal;
+            $parameters['idGoal'] = $showGoalMetricsForGoal;
+            $parameters['filter_update_columns_when_show_all_goals'] = 1;
+        }
+
         if (!empty($apiParameters) && is_array($apiParameters)) {
             foreach ($apiParameters as $param => $value) {
                 $parameters[$param] = $value;
