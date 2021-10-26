@@ -25,5 +25,6 @@ module.exports = {
         "allowedNames": ["self"],
       }
     ],
+    'no-param-reassign': ["error", { "props": false }],
   },
 };

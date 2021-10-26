@@ -87,7 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "plugins/CoreHome/vue/dist/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -95,6 +95,23 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "2342":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// see https://github.com/matomo-org/matomo/issues/5094 used to detect an ad blocker
+
+window.hasBlockedContent = false;
+
+/***/ }),
 
 /***/ "8bbf":
 /***/ (function(module, exports) {
@@ -111,19 +128,25 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ activityIndicatorAdapter; });
+__webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
+__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
-__webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ alertAdapter; });
+__webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ Alert_adapter; });
 __webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
-__webpack_require__.d(__webpack_exports__, "PiwikUrl", function() { return /* reexport */ PiwikUrl_PiwikUrl; });
-__webpack_require__.d(__webpack_exports__, "Piwik", function() { return /* reexport */ Piwik_Piwik; });
+__webpack_require__.d(__webpack_exports__, "MatomoUrl", function() { return /* reexport */ MatomoUrl_MatomoUrl; });
+__webpack_require__.d(__webpack_exports__, "Matomo", function() { return /* reexport */ Matomo_Matomo; });
 __webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
 __webpack_require__.d(__webpack_exports__, "Day", function() { return /* reexport */ Day_DayPeriod; });
 __webpack_require__.d(__webpack_exports__, "Week", function() { return /* reexport */ Week_WeekPeriod; });
 __webpack_require__.d(__webpack_exports__, "Month", function() { return /* reexport */ Month_MonthPeriod; });
 __webpack_require__.d(__webpack_exports__, "Year", function() { return /* reexport */ Year_YearPeriod; });
 __webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range_RangePeriod; });
+__webpack_require__.d(__webpack_exports__, "format", function() { return /* reexport */ format; });
+__webpack_require__.d(__webpack_exports__, "getToday", function() { return /* reexport */ getToday; });
+__webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
+__webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
+__webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -141,7 +164,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -153,7 +176,7 @@ if (typeof window !== 'undefined') {
  * Similar to angulars $location but works around some limitation. Use it if you need to access
  * search params
  */
-const PiwikUrl = {
+const MatomoUrl = {
   getSearchParam(paramName) {
     const hash = window.location.href.split('#');
     const regex = new RegExp(`${paramName}(\\[]|=)`);
@@ -170,533 +193,8 @@ const PiwikUrl = {
   }
 
 };
-/* harmony default export */ var PiwikUrl_PiwikUrl = (PiwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-window.globalAjaxQueue = [];
-window.globalAjaxQueue.active = 0;
-
-window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
-  for (let i = this.length; i >= 0; i -= 1) {
-    if (!this[i] || this[i].readyState === 4) {
-      this.splice(i, 1);
-    }
-  }
-};
-
-window.globalAjaxQueue.push = function globalAjaxQueuePush(...args) {
-  this.active += args.length; // cleanup ajax queue
-
-  this.clean(); // call original array push
-
-  return Array.prototype.push.call(this, ...args);
-};
-
-window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
-  // abort all queued requests if possible
-  this.forEach(x => x && x.abort && x.abort()); // remove all elements from array
-
-  this.splice(0, this.length);
-  this.active = 0;
-};
-/**
- * error callback to use by default
- */
-
-
-function defaultErrorCallback(deferred, status) {
-  // do not display error message if request was aborted
-  if (status === 'abort') {
-    return;
-  }
-
-  const loadingError = $('#loadingError');
-
-  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
-    if (deferred && deferred.status === 500) {
-      $(document.body).html(piwikHelper.escape(deferred.responseText));
-    }
-  } else {
-    loadingError.show();
-  }
-}
-/**
- * Global ajax helper to handle requests within piwik
- */
-
-
-class AjaxHelper_AjaxHelper {
-  /**
-   * Format of response
-   */
-
-  /**
-   * A timeout for the request which will override any global timeout
-   */
-
-  /**
-   * Callback function to be executed on success
-   */
-
-  /**
-   * Use this.callback if an error is returned
-   */
-
-  /**
-   * Callback function to be executed on error
-   */
-
-  /**
-   * Callback function to be executed on complete (after error or success)
-   */
-
-  /**
-   * Params to be passed as GET params
-   * @see ajaxHelper.mixinDefaultGetParams
-   */
-
-  /**
-   * Base URL used in the AJAX request. Can be set by setUrl.
-   *
-   * It is set to '?' rather than 'index.php?' to increase chances that it works
-   * including for users who have an automatic 301 redirection from index.php? to ?
-   * POST values are missing when there is such 301 redirection. So by by-passing
-   * this 301 redirection, we avoid this issue.
-   *
-   * @see ajaxHelper.setUrl
-   */
-
-  /**
-   * Params to be passed as GET params
-   * @see ajaxHelper.mixinDefaultPostParams
-   */
-
-  /**
-   * Element to be displayed while loading
-   */
-
-  /**
-   * Element to be displayed on error
-   */
-
-  /**
-   * Handle for current request
-   */
-  constructor() {
-    _defineProperty(this, "format", 'json');
-
-    _defineProperty(this, "timeout", null);
-
-    _defineProperty(this, "callback", null);
-
-    _defineProperty(this, "useRegularCallbackInCaseOfError", false);
-
-    _defineProperty(this, "errorCallback", void 0);
-
-    _defineProperty(this, "withToken", false);
-
-    _defineProperty(this, "completeCallback", void 0);
-
-    _defineProperty(this, "getParams", {});
-
-    _defineProperty(this, "getUrl", '?');
-
-    _defineProperty(this, "postParams", {});
-
-    _defineProperty(this, "loadingElement", null);
-
-    _defineProperty(this, "errorElement", '#ajaxError');
-
-    _defineProperty(this, "requestHandle", null);
-
-    _defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
-
-    this.errorCallback = defaultErrorCallback;
-  }
-  /**
-   * Adds params to the request.
-   * If params are given more then once, the latest given value is used for the request
-   *
-   * @param  params
-   * @param  type  type of given parameters (POST or GET)
-   * @return {void}
-   */
-
-
-  addParams(params, type) {
-    if (typeof params === 'string') {
-      // TODO: add global types for broadcast (multiple uses below)
-      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
-    }
-
-    const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
-    Object.keys(params).forEach(key => {
-      const value = params[key];
-
-      if (arrayParams.indexOf(key) !== -1 && !value) {
-        return;
-      }
-
-      if (type.toLowerCase() === 'get') {
-        this.getParams[key] = value;
-      } else if (type.toLowerCase() === 'post') {
-        this.postParams[key] = value;
-      }
-    });
-  }
-
-  withTokenInUrl() {
-    this.withToken = true;
-  }
-  /**
-   * Sets the base URL to use in the AJAX request.
-   */
-
-
-  setUrl(url) {
-    this.addParams(broadcast.getValuesFromUrl(url), 'GET');
-  }
-  /**
-   * Gets this helper instance ready to send a bulk request. Each argument to this
-   * function is a single request to use.
-   */
-
-
-  setBulkRequests(...urls) {
-    const urlsProcessed = urls.map(u => $.param(u));
-    this.addParams({
-      module: 'API',
-      method: 'API.getBulkRequest',
-      urls: urlsProcessed,
-      format: 'json'
-    }, 'post');
-  }
-  /**
-   * Set a timeout (in milliseconds) for the request. This will override any global timeout.
-   *
-   * @param timeout  Timeout in milliseconds
-   */
-
-
-  setTimeout(timeout) {
-    this.timeout = timeout;
-  }
-  /**
-   * Sets the callback called after the request finishes
-   *
-   * @param callback  Callback function
-   */
-
-
-  setCallback(callback) {
-    this.callback = callback;
-  }
-  /**
-   * Set that the callback passed to setCallback() should be used if an application error (i.e. an
-   * Exception in PHP) is returned.
-   */
-
-
-  useCallbackInCaseOfError() {
-    this.useRegularCallbackInCaseOfError = true;
-  }
-  /**
-   * Set callback to redirect on success handler
-   * &update=1(+x) will be appended to the current url
-   *
-   * @param [params] to modify in redirect url
-   * @return {void}
-   */
-
-
-  redirectOnSuccess(params) {
-    this.setCallback(() => {
-      piwikHelper.redirect(params);
-    });
-  }
-  /**
-   * Sets the callback called in case of an error within the request
-   */
-
-
-  setErrorCallback(callback) {
-    this.errorCallback = callback;
-  }
-  /**
-   * Sets the complete callback which is called after an error or success callback.
-   */
-
-
-  setCompleteCallback(callback) {
-    this.completeCallback = callback;
-  }
-  /**
-   * Sets the response format for the request
-   *
-   * @param format  response format (e.g. json, html, ...)
-   */
-
-
-  setFormat(format) {
-    this.format = format;
-  }
-  /**
-   * Set the div element to show while request is loading
-   *
-   * @param [element]  selector for the loading element
-   */
-
-
-  setLoadingElement(element) {
-    this.loadingElement = element || '#ajaxLoadingDiv';
-  }
-  /**
-   * Set the div element to show on error
-   *
-   * @param element  selector for the error element
-   */
-
-
-  setErrorElement(element) {
-    if (!element) {
-      return;
-    }
-
-    this.errorElement = element;
-  }
-  /**
-   * Detect whether are allowed to use the given default parameter or not
-   */
-
-
-  useGETDefaultParameter(parameter) {
-    if (parameter && this.defaultParams) {
-      for (let i = 0; i < this.defaultParams.length; i += 1) {
-        if (this.defaultParams[i] === parameter) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-  /**
-   * Removes a default parameter that is usually send automatically along the request.
-   *
-   * @param parameter  A name such as "period", "date", "segment".
-   */
-
-
-  removeDefaultParameter(parameter) {
-    if (parameter && this.defaultParams) {
-      for (let i = 0; i < this.defaultParams.length; i += 1) {
-        if (this.defaultParams[i] === parameter) {
-          this.defaultParams.splice(i, 1);
-        }
-      }
-    }
-  }
-  /**
-   * Send the request
-   */
-
-
-  send() {
-    if ($(this.errorElement).length) {
-      $(this.errorElement).hide();
-    }
-
-    if (this.loadingElement) {
-      $(this.loadingElement).fadeIn();
-    }
-
-    this.requestHandle = this.buildAjaxCall();
-    globalAjaxQueue.push(this.requestHandle);
-  }
-  /**
-   * Aborts the current request if it is (still) running
-   */
-
-
-  abort() {
-    if (this.requestHandle && typeof this.requestHandle.abort === 'function') {
-      this.requestHandle.abort();
-      this.requestHandle = null;
-    }
-  }
-  /**
-   * Builds and sends the ajax requests
-   */
-
-
-  buildAjaxCall() {
-    const self = this;
-    const parameters = this.mixinDefaultGetParams(this.getParams);
-    let url = this.getUrl;
-
-    if (url[url.length - 1] !== '?') {
-      url += '&';
-    } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
-    // URL encodes the values)
-
-
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
-      delete parameters.segment;
-    }
-
-    if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
-      delete parameters.date;
-    }
-
-    url += $.param(parameters);
-    const ajaxCall = {
-      type: 'POST',
-      async: true,
-      url,
-      dataType: this.format || 'json',
-      complete: this.completeCallback,
-      error: function errorCallback() {
-        globalAjaxQueue.active -= 1;
-
-        if (self.errorCallback) {
-          self.errorCallback.apply(this, arguments); // eslint-disable-line
-        }
-      },
-      success: (response, status, request) => {
-        if (this.loadingElement) {
-          $(this.loadingElement).hide();
-        }
-
-        if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {
-          let placeAt = null;
-          let type = 'toast';
-
-          if ($(this.errorElement).length && response.message) {
-            $(this.errorElement).show();
-            placeAt = this.errorElement;
-            type = null;
-          }
-
-          if (response.message) {
-            const UI = window['require']('piwik/UI'); // eslint-disable-line
-
-            const notification = new UI.Notification();
-            notification.show(response.message, {
-              placeat: placeAt,
-              context: 'error',
-              type,
-              id: 'ajaxHelper'
-            });
-            notification.scrollToNotification();
-          }
-        } else if (this.callback) {
-          this.callback(response, status, request);
-        }
-
-        globalAjaxQueue.active -= 1;
-        const {
-          piwik
-        } = window;
-
-        if (piwik && piwik.ajaxRequestFinished) {
-          piwik.ajaxRequestFinished();
-        }
-      },
-      data: this.mixinDefaultPostParams(this.postParams),
-      timeout: this.timeout !== null ? this.timeout : undefined
-    };
-    return $.ajax(ajaxCall);
-  }
-
-  isRequestToApiMethod() {
-    return this.getParams && this.getParams.module === 'API' && this.getParams.method || this.postParams && this.postParams.module === 'API' && this.postParams.method;
-  }
-
-  isWidgetizedRequest() {
-    return broadcast.getValueFromUrl('module') === 'Widgetize';
-  }
-
-  getDefaultPostParams() {
-    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
-      return {
-        token_auth: piwik.token_auth,
-        // When viewing a widgetized report there won't be any session that can be used, so don't
-        // force session usage
-        force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
-      };
-    }
-
-    return {};
-  }
-  /**
-   * Mixin the default parameters to send as POST
-   *
-   * @param params   parameter object
-   */
-
-
-  mixinDefaultPostParams(params) {
-    const defaultParams = this.getDefaultPostParams();
-    const mergedParams = { ...defaultParams,
-      ...params
-    };
-    return mergedParams;
-  }
-  /**
-   * Mixin the default parameters to send as GET
-   *
-   * @param   params   parameter object
-   */
-
-
-  mixinDefaultGetParams(originalParams) {
-    const segment = PiwikUrl_PiwikUrl.getSearchParam('segment');
-    const defaultParams = {
-      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),
-      period: piwik.period || broadcast.getValueFromUrl('period'),
-      segment
-    };
-    const params = originalParams; // never append token_auth to url
-
-    if (params.token_auth) {
-      params.token_auth = null;
-      delete params.token_auth;
-    }
-
-    Object.keys(defaultParams).forEach(key => {
-      if (this.useGETDefaultParameter(key) && !params[key] && !this.postParams[key] && defaultParams[key]) {
-        params[key] = defaultParams[key];
-      }
-    }); // handle default date & period if not already set
-
-    if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-      params.date = piwik.currentDateString;
-    }
-
-    return params;
-  }
-
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
-
-window.ajaxHelper = AjaxHelper_AjaxHelper;
-
-function ajaxQueue() {
-  return globalAjaxQueue;
-}
-
-angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
+/* harmony default export */ var MatomoUrl_MatomoUrl = (MatomoUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -707,7 +205,7 @@ angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
 
 function piwikUrl() {
   const model = {
-    getSearchParam: PiwikUrl_PiwikUrl.getSearchParam.bind(PiwikUrl_PiwikUrl)
+    getSearchParam: MatomoUrl_MatomoUrl.getSearchParam.bind(MatomoUrl_MatomoUrl)
   };
   return model;
 }
@@ -715,7 +213,7 @@ function piwikUrl() {
 piwikUrl.$inject = [];
 angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
-function Periods_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -725,16 +223,16 @@ function Periods_defineProperty(obj, key, value) { if (key in obj) { Object.defi
  */
 
 /**
- * Piwik period management service for the frontend.
+ * Matomo period management service for the frontend.
  *
  * Usage:
  *
- *     var DayPeriod = piwikPeriods.get('day');
+ *     var DayPeriod = matomoPeriods.get('day');
  *     var day = new DayPeriod(new Date());
  *
  * or
  *
- *     var day = piwikPeriods.parse('day', '2013-04-05');
+ *     var day = matomoPeriods.parse('day', '2013-04-05');
  *
  * Adding custom periods:
  *
@@ -751,9 +249,9 @@ function Periods_defineProperty(obj, key, value) { if (key in obj) { Object.defi
  * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
  *                                  'week', etc.
  *
- * Then call piwik.addCustomPeriod w/ your period class:
+ * Then call Periods.addCustomPeriod w/ your period class:
  *
- *     piwik.addCustomPeriod('mycustomperiod', MyCustomPeriod);
+ *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);
  *
  * NOTE: currently only single date periods like day, week, month year can
  *       be extended. Other types of periods that require a special UI to
@@ -762,9 +260,9 @@ function Periods_defineProperty(obj, key, value) { if (key in obj) { Object.defi
  */
 class Periods {
   constructor() {
-    Periods_defineProperty(this, "periods", {});
+    _defineProperty(this, "periods", {});
 
-    Periods_defineProperty(this, "periodOrder", []);
+    _defineProperty(this, "periodOrder", []);
   }
 
   addCustomPeriod(name, periodClass) {
@@ -814,7 +312,7 @@ function format(date) {
 function getToday() {
   const date = new Date(Date.now()); // undo browser timezone
 
-  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply piwik site timezone (if it exists)
+  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply Matomo site timezone (if it exists)
 
   date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
 
@@ -880,7 +378,7 @@ function todayIsInRange(dateRange) {
 
   return false;
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -892,12 +390,12 @@ function todayIsInRange(dateRange) {
 
 let originalTitle;
 const {
-  piwik: Piwik_piwik,
-  broadcast: Piwik_broadcast,
-  piwikHelper: Piwik_piwikHelper
+  piwik,
+  broadcast: Matomo_broadcast,
+  piwikHelper: Matomo_piwikHelper
 } = window;
-Piwik_piwik.helper = Piwik_piwikHelper;
-Piwik_piwik.broadcast = Piwik_broadcast;
+piwik.helper = Matomo_piwikHelper;
+piwik.broadcast = Matomo_broadcast;
 
 function isValidPeriod(periodStr, dateStr) {
   try {
@@ -908,35 +406,35 @@ function isValidPeriod(periodStr, dateStr) {
   }
 }
 
-Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
-  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
-  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
+piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
+  let date = MatomoUrl_MatomoUrl.getSearchParam('date');
+  const period = MatomoUrl_MatomoUrl.getSearchParam('period');
 
   if (!isValidPeriod(period, date)) {
     // invalid data in URL
     return;
   }
 
-  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
+  if (piwik.period === period && piwik.currentDateString === date) {
     // this period / date is already loaded
     return;
   }
 
-  Piwik_piwik.period = period;
+  piwik.period = period;
   const dateRange = Periods_Periods.parse(period, date).getDateRange();
-  Piwik_piwik.startDateString = format(dateRange[0]);
-  Piwik_piwik.endDateString = format(dateRange[1]);
-  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+  piwik.startDateString = format(dateRange[0]);
+  piwik.endDateString = format(dateRange[1]);
+  piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
   // to have the dates than previousN/lastN.
 
-  if (Piwik_piwik.period === 'range') {
-    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
+  if (piwik.period === 'range') {
+    date = `${piwik.startDateString},${piwik.endDateString}`;
   }
 
-  Piwik_piwik.currentDateString = date;
+  piwik.currentDateString = date;
 };
 
-Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+piwik.updateDateInTitle = function updateDateInTitle(date, period) {
   if (!$('.top_controls #periodString').length) {
     return;
   } // Cache server-rendered page title
@@ -944,19 +442,19 @@ Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
 
   originalTitle = originalTitle || document.title;
 
-  if (originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${Piwik_piwik.siteName}${dateString}${originalTitle.substr(Piwik_piwik.siteName.length)}`;
+    document.title = `${piwik.siteName}${dateString}${originalTitle.substr(piwik.siteName.length)}`;
   }
 };
 
-Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
-  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
+piwik.hasUserCapability = function hasUserCapability(capability) {
+  return window.angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
 };
 
-const Piwik = Piwik_piwik;
-/* harmony default export */ var Piwik_Piwik = (Piwik);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
+const Matomo = piwik;
+/* harmony default export */ var Matomo_Matomo = (Matomo);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -966,7 +464,7 @@ const Piwik = Piwik_piwik;
 
 
 function piwikService() {
-  return Piwik_Piwik;
+  return Matomo_Matomo;
 }
 
 angular.module('piwikApp.service').service('piwik', piwikService);
@@ -977,24 +475,8 @@ function initPiwikService(piwik, $rootScope) {
 
 initPiwikService.$inject = ['piwik', '$rootScope'];
 angular.module('piwikApp.service').run(initPiwikService);
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
-
-const _hoisted_1 = {
-  class: "loadingPiwik"
-};
-
-const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-  src: "plugins/Morpheus/images/loading-blue.gif",
-  alt: ""
-}, null, -1);
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
+// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
+var noAdblockFlag = __webpack_require__("2342");
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
 /*!
@@ -1006,301 +488,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 function translate(translationStringId, values = []) {
   return window._pk_translate(translationStringId, values); // eslint-disable-line
 }
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var ActivityIndicatorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    loading: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    loadingMessage: {
-      type: String,
-      required: false,
-      default: translate('General_LoadingData')
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue
-
-
-
-ActivityIndicatorvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-function activityIndicatorAdapter() {
-  return {
-    restrict: 'A',
-    scope: {
-      loading: '<',
-      loadingMessage: '<'
-    },
-    template: '',
-    link: function activityIndicatorAdapterLink(scope, element) {
-      const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<activity-indicator :loading="loading" :loadingMessage="loadingMessage"/>',
-
-        data() {
-          return {
-            loading: scope.loading,
-            loadingMessage: scope.loadingMessage
-          };
-        }
-
-      });
-      app.component('activity-indicator', ActivityIndicator);
-      const vm = app.mount(element[0]);
-      scope.$watch('loading', newValue => {
-        vm.loading = newValue;
-      });
-      scope.$watch('loadingMessage', newValue => {
-        vm.loadingMessage = newValue || translate('General_LoadingData');
-      });
-    }
-  };
-}
-activityIndicatorAdapter.$inject = [];
-angular.module('piwikApp').directive('piwikActivityIndicator', activityIndicatorAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-
-function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", {
-      [`alert-${_ctx.severity}`]: true
-    }])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    severity: {
-      type: String,
-      required: true
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
-
-
-
-Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
-
-/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function alertAdapter() {
-  return {
-    restrict: 'A',
-    transclude: true,
-    scope: {
-      severity: '@piwikAlert'
-    },
-    template: '<div ng-transclude/>',
-    compile: function alertAdapterCompile() {
-      return {
-        post: function alertAdapterPostLink(scope, element) {
-          const clone = element.find('[ng-transclude]');
-          const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-            template: '<alert :severity="severity"><div ref="transcludeTarget"/></alert>',
-
-            data() {
-              return {
-                severity: scope.severity
-              };
-            },
-
-            setup() {
-              const transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-              return {
-                transcludeTarget
-              };
-            }
-
-          });
-          app.component('alert', Alert);
-          const vm = app.mount(element[0]);
-          scope.$watch('severity', newValue => {
-            vm.severity = newValue;
-          });
-          $(vm.transcludeTarget).append(clone);
-        }
-      };
-    }
-  };
-}
-alertAdapter.$inject = [];
-angular.module('piwikApp').directive('piwikAlert', alertAdapter);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
-function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Range_RangePeriod {
-  constructor(startDate, endDate, childPeriodType) {
-    Range_defineProperty(this, "startDate", void 0);
-
-    Range_defineProperty(this, "endDate", void 0);
-
-    Range_defineProperty(this, "childPeriodType", void 0);
-
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.childPeriodType = childPeriodType;
-  }
-  /**
-   * Returns a range representing the last N childPeriodType periods, including the current one.
-   */
-
-
-  static getLastNRange(childPeriodType, strAmount, strEndDate) {
-    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
-
-    if (Number.isNaN(nAmount)) {
-      throw new Error('Invalid range strAmount');
-    }
-
-    let endDate = strEndDate ? parseDate(strEndDate) : getToday();
-    let startDate = new Date(endDate.getTime());
-
-    if (childPeriodType === 'day') {
-      startDate.setDate(startDate.getDate() - nAmount);
-    } else if (childPeriodType === 'week') {
-      startDate.setDate(startDate.getDate() - nAmount * 7);
-    } else if (childPeriodType === 'month') {
-      startDate.setDate(1);
-      startDate.setMonth(startDate.getMonth() - nAmount);
-    } else if (childPeriodType === 'year') {
-      startDate.setFullYear(startDate.getFullYear() - nAmount);
-    } else {
-      throw new Error(`Unknown period type '${childPeriodType}'.`);
-    }
-
-    if (childPeriodType !== 'day') {
-      const startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
-      const endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-      [startDate] = startPeriod.getDateRange();
-      [, endDate] = endPeriod.getDateRange();
-    }
-
-    const firstWebsiteDate = new Date(1991, 7, 6);
-
-    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
-      switch (childPeriodType) {
-        case 'year':
-          startDate = new Date(1992, 0, 1);
-          break;
-
-        case 'month':
-          startDate = new Date(1991, 8, 1);
-          break;
-
-        case 'week':
-          startDate = new Date(1991, 8, 12);
-          break;
-
-        case 'day':
-        default:
-          startDate = firstWebsiteDate;
-          break;
-      }
-    }
-
-    return new Range_RangePeriod(startDate, endDate, childPeriodType);
-  }
-
-  static parse(strDate, childPeriodType = 'day') {
-    if (/^previous/.test(strDate)) {
-      const endDate = Range_RangePeriod.getLastNRange(childPeriodType, '2').startDate;
-      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
-    }
-
-    if (/^last/.test(strDate)) {
-      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
-    }
-
-    const parts = decodeURIComponent(strDate).split(',');
-    return new Range_RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
-  }
-
-  static getDisplayText() {
-    return translate('General_DateRangeInPeriodList');
-  }
-
-  getPrettyString() {
-    const start = format(this.startDate);
-    const end = format(this.endDate);
-    return translate('General_DateRangeFromTo', [start, end]);
-  }
-
-  getDateRange() {
-    return [this.startDate, this.endDate];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-window.piwik.addCustomPeriod = Periods_Periods.addCustomPeriod.bind(Periods_Periods);
-
-function piwikPeriods() {
-  return {
-    getAllLabels: Periods_Periods.getAllLabels.bind(Periods_Periods),
-    isRecognizedPeriod: Periods_Periods.isRecognizedPeriod.bind(Periods_Periods),
-    get: Periods_Periods.get.bind(Periods_Periods),
-    parse: Periods_Periods.parse.bind(Periods_Periods),
-    parseDate: parseDate,
-    format: format,
-    RangePeriod: Range_RangePeriod,
-    todayIsInRange: todayIsInRange
-  };
-}
-
-angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
 function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1486,6 +673,1283 @@ class Year_YearPeriod {
 
 }
 Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
+function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Range_RangePeriod {
+  constructor(startDate, endDate, childPeriodType) {
+    Range_defineProperty(this, "startDate", void 0);
+
+    Range_defineProperty(this, "endDate", void 0);
+
+    Range_defineProperty(this, "childPeriodType", void 0);
+
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.childPeriodType = childPeriodType;
+  }
+  /**
+   * Returns a range representing the last N childPeriodType periods, including the current one.
+   */
+
+
+  static getLastNRange(childPeriodType, strAmount, strEndDate) {
+    const nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
+
+    if (Number.isNaN(nAmount)) {
+      throw new Error('Invalid range strAmount');
+    }
+
+    let endDate = strEndDate ? parseDate(strEndDate) : getToday();
+    let startDate = new Date(endDate.getTime());
+
+    if (childPeriodType === 'day') {
+      startDate.setDate(startDate.getDate() - nAmount);
+    } else if (childPeriodType === 'week') {
+      startDate.setDate(startDate.getDate() - nAmount * 7);
+    } else if (childPeriodType === 'month') {
+      startDate.setDate(1);
+      startDate.setMonth(startDate.getMonth() - nAmount);
+    } else if (childPeriodType === 'year') {
+      startDate.setFullYear(startDate.getFullYear() - nAmount);
+    } else {
+      throw new Error(`Unknown period type '${childPeriodType}'.`);
+    }
+
+    if (childPeriodType !== 'day') {
+      const startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
+      const endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
+      [startDate] = startPeriod.getDateRange();
+      [, endDate] = endPeriod.getDateRange();
+    }
+
+    const firstWebsiteDate = new Date(1991, 7, 6);
+
+    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
+      switch (childPeriodType) {
+        case 'year':
+          startDate = new Date(1992, 0, 1);
+          break;
+
+        case 'month':
+          startDate = new Date(1991, 8, 1);
+          break;
+
+        case 'week':
+          startDate = new Date(1991, 8, 12);
+          break;
+
+        case 'day':
+        default:
+          startDate = firstWebsiteDate;
+          break;
+      }
+    }
+
+    return new Range_RangePeriod(startDate, endDate, childPeriodType);
+  }
+  /**
+   * Returns a range representing a specific child date range counted back from the end date
+   *
+   * @param childPeriodType Type of the period, eg. day, week, year
+   * @param rangeEndDate
+   * @param countBack Return only the child date range for this specific period number
+   * @returns {RangePeriod}
+   */
+
+
+  static getLastNRangeChild(childPeriodType, rangeEndDate, countBack) {
+    const ed = rangeEndDate ? parseDate(rangeEndDate) : getToday();
+    let startDate = new Date(ed.getTime());
+    let endDate = new Date(ed.getTime());
+
+    if (childPeriodType === 'day') {
+      startDate.setDate(startDate.getDate() - countBack);
+      endDate.setDate(endDate.getDate() - countBack);
+    } else if (childPeriodType === 'week') {
+      startDate.setDate(startDate.getDate() - countBack * 7);
+      endDate.setDate(endDate.getDate() - countBack * 7);
+    } else if (childPeriodType === 'month') {
+      startDate.setDate(1);
+      startDate.setMonth(startDate.getMonth() - countBack);
+      endDate.setDate(1);
+      endDate.setMonth(endDate.getMonth() - countBack);
+    } else if (childPeriodType === 'year') {
+      startDate.setFullYear(startDate.getFullYear() - countBack);
+      endDate.setFullYear(endDate.getFullYear() - countBack);
+    } else {
+      throw new Error(`Unknown period type '${childPeriodType}'.`);
+    }
+
+    if (childPeriodType !== 'day') {
+      const startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
+      const endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
+      [startDate] = startPeriod.getDateRange();
+      [, endDate] = endPeriod.getDateRange();
+    }
+
+    const firstWebsiteDate = new Date(1991, 7, 6);
+
+    if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
+      switch (childPeriodType) {
+        case 'year':
+          startDate = new Date(1992, 0, 1);
+          break;
+
+        case 'month':
+          startDate = new Date(1991, 8, 1);
+          break;
+
+        case 'week':
+          startDate = new Date(1991, 8, 12);
+          break;
+
+        case 'day':
+        default:
+          startDate = firstWebsiteDate;
+          break;
+      }
+    }
+
+    return new Range_RangePeriod(startDate, endDate, childPeriodType);
+  }
+
+  static parse(strDate, childPeriodType = 'day') {
+    if (/^previous/.test(strDate)) {
+      const endDate = Range_RangePeriod.getLastNRange(childPeriodType, '2').startDate;
+      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
+    }
+
+    if (/^last/.test(strDate)) {
+      return Range_RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
+    }
+
+    const parts = decodeURIComponent(strDate).split(',');
+    return new Range_RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
+  }
+
+  static getDisplayText() {
+    return translate('General_DateRangeInPeriodList');
+  }
+
+  getPrettyString() {
+    const start = format(this.startDate);
+    const end = format(this.endDate);
+    return translate('General_DateRangeFromTo', [start, end]);
+  }
+
+  getDateRange() {
+    return [this.startDate, this.endDate];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+window.piwik.addCustomPeriod = Periods_Periods.addCustomPeriod.bind(Periods_Periods);
+
+function piwikPeriods() {
+  return {
+    getAllLabels: Periods_Periods.getAllLabels.bind(Periods_Periods),
+    isRecognizedPeriod: Periods_Periods.isRecognizedPeriod.bind(Periods_Periods),
+    get: Periods_Periods.get.bind(Periods_Periods),
+    parse: Periods_Periods.parse.bind(Periods_Periods),
+    parseDate: parseDate,
+    format: format,
+    RangePeriod: Range_RangePeriod,
+    todayIsInRange: todayIsInRange
+  };
+}
+
+angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
+function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+window.globalAjaxQueue = [];
+window.globalAjaxQueue.active = 0;
+
+window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
+  for (let i = this.length; i >= 0; i -= 1) {
+    if (!this[i] || this[i].readyState === 4) {
+      this.splice(i, 1);
+    }
+  }
+};
+
+window.globalAjaxQueue.push = function globalAjaxQueuePush(...args) {
+  this.active += args.length; // cleanup ajax queue
+
+  this.clean(); // call original array push
+
+  return Array.prototype.push.call(this, ...args);
+};
+
+window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
+  // abort all queued requests if possible
+  this.forEach(x => x && x.abort && x.abort()); // remove all elements from array
+
+  this.splice(0, this.length);
+  this.active = 0;
+};
+/**
+ * error callback to use by default
+ */
+
+
+function defaultErrorCallback(deferred, status) {
+  // do not display error message if request was aborted
+  if (status === 'abort') {
+    return;
+  }
+
+  const loadingError = $('#loadingError');
+
+  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
+    if (deferred && deferred.status === 500) {
+      $(document.body).html(piwikHelper.escape(deferred.responseText));
+    }
+  } else {
+    loadingError.show();
+  }
+}
+/**
+ * Global ajax helper to handle requests within Matomo
+ */
+
+
+class AjaxHelper_AjaxHelper {
+  /**
+   * Format of response
+   */
+
+  /**
+   * A timeout for the request which will override any global timeout
+   */
+
+  /**
+   * Callback function to be executed on success
+   */
+
+  /**
+   * Use this.callback if an error is returned
+   */
+
+  /**
+   * Callback function to be executed on error
+   *
+   * @deprecated use the jquery promise API
+   */
+
+  /**
+   * Callback function to be executed on complete (after error or success)
+   *
+   * @deprecated use the jquery promise API
+   */
+
+  /**
+   * Params to be passed as GET params
+   * @see ajaxHelper.mixinDefaultGetParams
+   */
+
+  /**
+   * Base URL used in the AJAX request. Can be set by setUrl.
+   *
+   * It is set to '?' rather than 'index.php?' to increase chances that it works
+   * including for users who have an automatic 301 redirection from index.php? to ?
+   * POST values are missing when there is such 301 redirection. So by by-passing
+   * this 301 redirection, we avoid this issue.
+   *
+   * @see ajaxHelper.setUrl
+   */
+
+  /**
+   * Params to be passed as GET params
+   * @see ajaxHelper.mixinDefaultPostParams
+   */
+
+  /**
+   * Element to be displayed while loading
+   */
+
+  /**
+   * Element to be displayed on error
+   */
+
+  /**
+   * Handle for current request
+   */
+  constructor() {
+    AjaxHelper_defineProperty(this, "format", 'json');
+
+    AjaxHelper_defineProperty(this, "timeout", null);
+
+    AjaxHelper_defineProperty(this, "callback", null);
+
+    AjaxHelper_defineProperty(this, "useRegularCallbackInCaseOfError", false);
+
+    AjaxHelper_defineProperty(this, "errorCallback", void 0);
+
+    AjaxHelper_defineProperty(this, "withToken", false);
+
+    AjaxHelper_defineProperty(this, "completeCallback", void 0);
+
+    AjaxHelper_defineProperty(this, "getParams", {});
+
+    AjaxHelper_defineProperty(this, "getUrl", '?');
+
+    AjaxHelper_defineProperty(this, "postParams", {});
+
+    AjaxHelper_defineProperty(this, "loadingElement", null);
+
+    AjaxHelper_defineProperty(this, "errorElement", '#ajaxError');
+
+    AjaxHelper_defineProperty(this, "requestHandle", null);
+
+    AjaxHelper_defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
+
+    this.errorCallback = defaultErrorCallback;
+  }
+  /**
+   * Adds params to the request.
+   * If params are given more then once, the latest given value is used for the request
+   *
+   * @param  params
+   * @param  type  type of given parameters (POST or GET)
+   * @return {void}
+   */
+
+
+  addParams(params, type) {
+    if (typeof params === 'string') {
+      // TODO: add global types for broadcast (multiple uses below)
+      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
+    }
+
+    const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+    Object.keys(params).forEach(key => {
+      const value = params[key];
+
+      if (arrayParams.indexOf(key) !== -1 && !value) {
+        return;
+      }
+
+      if (type.toLowerCase() === 'get') {
+        this.getParams[key] = value;
+      } else if (type.toLowerCase() === 'post') {
+        this.postParams[key] = value;
+      }
+    });
+  }
+
+  withTokenInUrl() {
+    this.withToken = true;
+  }
+  /**
+   * Sets the base URL to use in the AJAX request.
+   */
+
+
+  setUrl(url) {
+    this.addParams(broadcast.getValuesFromUrl(url), 'GET');
+  }
+  /**
+   * Gets this helper instance ready to send a bulk request. Each argument to this
+   * function is a single request to use.
+   */
+
+
+  setBulkRequests(...urls) {
+    const urlsProcessed = urls.map(u => $.param(u));
+    this.addParams({
+      module: 'API',
+      method: 'API.getBulkRequest',
+      urls: urlsProcessed,
+      format: 'json'
+    }, 'post');
+  }
+  /**
+   * Set a timeout (in milliseconds) for the request. This will override any global timeout.
+   *
+   * @param timeout  Timeout in milliseconds
+   */
+
+
+  setTimeout(timeout) {
+    this.timeout = timeout;
+  }
+  /**
+   * Sets the callback called after the request finishes
+   *
+   * @param callback  Callback function
+   * @deprecated use the jquery promise API
+   */
+
+
+  setCallback(callback) {
+    this.callback = callback;
+  }
+  /**
+   * Set that the callback passed to setCallback() should be used if an application error (i.e. an
+   * Exception in PHP) is returned.
+   */
+
+
+  useCallbackInCaseOfError() {
+    this.useRegularCallbackInCaseOfError = true;
+  }
+  /**
+   * Set callback to redirect on success handler
+   * &update=1(+x) will be appended to the current url
+   *
+   * @param [params] to modify in redirect url
+   * @return {void}
+   */
+
+
+  redirectOnSuccess(params) {
+    this.setCallback(() => {
+      piwikHelper.redirect(params);
+    });
+  }
+  /**
+   * Sets the callback called in case of an error within the request
+   *
+   * @deprecated use the jquery promise API
+   */
+
+
+  setErrorCallback(callback) {
+    this.errorCallback = callback;
+  }
+  /**
+   * Sets the complete callback which is called after an error or success callback.
+   *
+   * @deprecated use the jquery promise API
+   */
+
+
+  setCompleteCallback(callback) {
+    this.completeCallback = callback;
+  }
+  /**
+   * Sets the response format for the request
+   *
+   * @param format  response format (e.g. json, html, ...)
+   */
+
+
+  setFormat(format) {
+    this.format = format;
+  }
+  /**
+   * Set the div element to show while request is loading
+   *
+   * @param [element]  selector for the loading element
+   */
+
+
+  setLoadingElement(element) {
+    this.loadingElement = element || '#ajaxLoadingDiv';
+  }
+  /**
+   * Set the div element to show on error
+   *
+   * @param element  selector for the error element
+   */
+
+
+  setErrorElement(element) {
+    if (!element) {
+      return;
+    }
+
+    this.errorElement = element;
+  }
+  /**
+   * Detect whether are allowed to use the given default parameter or not
+   */
+
+
+  useGETDefaultParameter(parameter) {
+    if (parameter && this.defaultParams) {
+      for (let i = 0; i < this.defaultParams.length; i += 1) {
+        if (this.defaultParams[i] === parameter) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+  /**
+   * Removes a default parameter that is usually send automatically along the request.
+   *
+   * @param parameter  A name such as "period", "date", "segment".
+   */
+
+
+  removeDefaultParameter(parameter) {
+    if (parameter && this.defaultParams) {
+      for (let i = 0; i < this.defaultParams.length; i += 1) {
+        if (this.defaultParams[i] === parameter) {
+          this.defaultParams.splice(i, 1);
+        }
+      }
+    }
+  }
+  /**
+   * Send the request
+   */
+
+
+  send() {
+    if ($(this.errorElement).length) {
+      $(this.errorElement).hide();
+    }
+
+    if (this.loadingElement) {
+      $(this.loadingElement).fadeIn();
+    }
+
+    this.requestHandle = this.buildAjaxCall();
+    globalAjaxQueue.push(this.requestHandle);
+    return this.requestHandle;
+  }
+  /**
+   * Aborts the current request if it is (still) running
+   */
+
+
+  abort() {
+    if (this.requestHandle && typeof this.requestHandle.abort === 'function') {
+      this.requestHandle.abort();
+      this.requestHandle = null;
+    }
+  }
+  /**
+   * Builds and sends the ajax requests
+   */
+
+
+  buildAjaxCall() {
+    const self = this;
+    const parameters = this.mixinDefaultGetParams(this.getParams);
+    let url = this.getUrl;
+
+    if (url[url.length - 1] !== '?') {
+      url += '&';
+    } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
+    // URL encodes the values)
+
+
+    if (parameters.segment) {
+      url = `${url}segment=${parameters.segment}&`;
+      delete parameters.segment;
+    }
+
+    if (parameters.date) {
+      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      delete parameters.date;
+    }
+
+    url += $.param(parameters);
+    const ajaxCall = {
+      type: 'POST',
+      async: true,
+      url,
+      dataType: this.format || 'json',
+      complete: this.completeCallback,
+      error: function errorCallback() {
+        globalAjaxQueue.active -= 1;
+
+        if (self.errorCallback) {
+          self.errorCallback.apply(this, arguments); // eslint-disable-line
+        }
+      },
+      success: (response, status, request) => {
+        if (this.loadingElement) {
+          $(this.loadingElement).hide();
+        }
+
+        if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {
+          let placeAt = null;
+          let type = 'toast';
+
+          if ($(this.errorElement).length && response.message) {
+            $(this.errorElement).show();
+            placeAt = this.errorElement;
+            type = null;
+          }
+
+          if (response.message) {
+            const UI = window['require']('piwik/UI'); // eslint-disable-line
+
+            const notification = new UI.Notification();
+            notification.show(response.message, {
+              placeat: placeAt,
+              context: 'error',
+              type,
+              id: 'ajaxHelper'
+            });
+            notification.scrollToNotification();
+          }
+        } else if (this.callback) {
+          this.callback(response, status, request);
+        }
+
+        globalAjaxQueue.active -= 1;
+
+        if (Matomo_Matomo.ajaxRequestFinished) {
+          Matomo_Matomo.ajaxRequestFinished();
+        }
+      },
+      data: this.mixinDefaultPostParams(this.postParams),
+      timeout: this.timeout !== null ? this.timeout : undefined
+    };
+    return $.ajax(ajaxCall);
+  }
+
+  isRequestToApiMethod() {
+    return this.getParams && this.getParams.module === 'API' && this.getParams.method || this.postParams && this.postParams.module === 'API' && this.postParams.method;
+  }
+
+  isWidgetizedRequest() {
+    return broadcast.getValueFromUrl('module') === 'Widgetize';
+  }
+
+  getDefaultPostParams() {
+    if (this.withToken || this.isRequestToApiMethod() || Matomo_Matomo.shouldPropagateTokenAuth) {
+      return {
+        token_auth: Matomo_Matomo.token_auth,
+        // When viewing a widgetized report there won't be any session that can be used, so don't
+        // force session usage
+        force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
+      };
+    }
+
+    return {};
+  }
+  /**
+   * Mixin the default parameters to send as POST
+   *
+   * @param params   parameter object
+   */
+
+
+  mixinDefaultPostParams(params) {
+    const defaultParams = this.getDefaultPostParams();
+    const mergedParams = { ...defaultParams,
+      ...params
+    };
+    return mergedParams;
+  }
+  /**
+   * Mixin the default parameters to send as GET
+   *
+   * @param   params   parameter object
+   */
+
+
+  mixinDefaultGetParams(originalParams) {
+    const segment = MatomoUrl_MatomoUrl.getSearchParam('segment');
+    const defaultParams = {
+      idSite: Matomo_Matomo.idSite || broadcast.getValueFromUrl('idSite'),
+      period: Matomo_Matomo.period || broadcast.getValueFromUrl('period'),
+      segment
+    };
+    const params = originalParams; // never append token_auth to url
+
+    if (params.token_auth) {
+      params.token_auth = null;
+      delete params.token_auth;
+    }
+
+    Object.keys(defaultParams).forEach(key => {
+      if (this.useGETDefaultParameter(key) && !params[key] && !this.postParams[key] && defaultParams[key]) {
+        params[key] = defaultParams[key];
+      }
+    }); // handle default date & period if not already set
+
+    if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
+      params.date = Matomo_Matomo.currentDateString;
+    }
+
+    return params;
+  }
+
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
+
+window.ajaxHelper = AjaxHelper_AjaxHelper;
+
+function ajaxQueue() {
+  return globalAjaxQueue;
+}
+
+angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * Similar to angulars $location but works around some limitation. Use it if you need to access
+ * search params
+ */
+const PiwikUrl = {
+  getSearchParam(paramName) {
+    const hash = window.location.href.split('#');
+    const regex = new RegExp(`${paramName}(\\[]|=)`);
+
+    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
+      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
+
+      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
+        return valueFromHash;
+      }
+    }
+
+    return window.broadcast.getValueFromUrl(paramName, window.location.search);
+  }
+
+};
+/* harmony default export */ var PiwikUrl_PiwikUrl = (PiwikUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function PiwikUrl_adapter_piwikUrl() {
+  const model = {
+    getSearchParam: PiwikUrl_PiwikUrl.getSearchParam.bind(PiwikUrl_PiwikUrl)
+  };
+  return model;
+}
+
+PiwikUrl_adapter_piwikUrl.$inject = [];
+angular.module('piwikApp.service').service('piwikUrl', PiwikUrl_adapter_piwikUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+let Piwik_originalTitle;
+const {
+  piwik: Piwik_piwik,
+  broadcast: Piwik_broadcast,
+  piwikHelper: Piwik_piwikHelper
+} = window;
+Piwik_piwik.helper = Piwik_piwikHelper;
+Piwik_piwik.broadcast = Piwik_broadcast;
+
+function Piwik_isValidPeriod(periodStr, dateStr) {
+  try {
+    Periods_Periods.parse(periodStr, dateStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
+  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
+  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
+
+  if (!Piwik_isValidPeriod(period, date)) {
+    // invalid data in URL
+    return;
+  }
+
+  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
+    // this period / date is already loaded
+    return;
+  }
+
+  Piwik_piwik.period = period;
+  const dateRange = Periods_Periods.parse(period, date).getDateRange();
+  Piwik_piwik.startDateString = format(dateRange[0]);
+  Piwik_piwik.endDateString = format(dateRange[1]);
+  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+  // to have the dates than previousN/lastN.
+
+  if (Piwik_piwik.period === 'range') {
+    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
+  }
+
+  Piwik_piwik.currentDateString = date;
+};
+
+Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+  if (!$('.top_controls #periodString').length) {
+    return;
+  } // Cache server-rendered page title
+
+
+  Piwik_originalTitle = Piwik_originalTitle || document.title;
+
+  if (Piwik_originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
+    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+    document.title = `${Piwik_piwik.siteName}${dateString}${Piwik_originalTitle.substr(Piwik_piwik.siteName.length)}`;
+  }
+};
+
+Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
+  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+const Piwik = Piwik_piwik;
+/* harmony default export */ var Piwik_Piwik = (Piwik);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function Piwik_adapter_piwikService() {
+  return Piwik_Piwik;
+}
+
+angular.module('piwikApp.service').service('piwik', Piwik_adapter_piwikService);
+
+function Piwik_adapter_initPiwikService(piwik, $rootScope) {
+  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
+}
+
+Piwik_adapter_initPiwikService.$inject = ['piwik', '$rootScope'];
+angular.module('piwikApp.service').run(Piwik_adapter_initPiwikService);
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=42c028e0
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default");
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=42c028e0
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var MatomoDialogvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    /**
+     * Whether the modal is displayed or not;
+     */
+    show: {
+      type: Boolean,
+      required: true
+    },
+
+    /**
+     * Only here for backwards compatibility w/ AngularJS. If supplied, we use this
+     * element to launch the modal instead of the element in the slot. This should not
+     * be used for new Vue code.
+     *
+     * @deprecated
+     */
+    element: {
+      type: HTMLElement,
+      required: false
+    }
+  },
+  emits: ['yes', 'no', 'closeEnd', 'close'],
+
+  activated() {
+    const slotElement = this.element || this.$slots.default()[0].el;
+    slotElement.style.display = 'none';
+  },
+
+  watch: {
+    show(newValue, oldValue) {
+      if (newValue) {
+        const slotElement = this.element || this.$slots.default()[0].el;
+        Matomo_Matomo.helper.modalConfirm(slotElement, {
+          yes: () => {
+            this.$emit('yes');
+          },
+          no: () => {
+            this.$emit('no');
+          }
+        }, {
+          onCloseEnd: () => {
+            this.$emit('closeEnd');
+          }
+        });
+      } else if (newValue === false && oldValue === true) {
+        // the user closed the dialog, e.g. by pressing Esc or clicking away from it
+        this.$emit('close');
+      }
+    }
+
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue
+
+
+
+MatomoDialogvue_type_script_lang_ts.render = render
+
+/* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function createAngularJsAdapter(options) {
+  const {
+    component,
+    scope = {},
+    events = {},
+    $inject,
+    directiveName,
+    transclude,
+    mountPointFactory,
+    postCreate,
+    noScope
+  } = options;
+  const angularJsScope = {};
+  Object.entries(scope).forEach(([scopeVarName, info]) => {
+    if (info.angularJsBind) {
+      angularJsScope[scopeVarName] = info.angularJsBind;
+    }
+  });
+
+  function angularJsAdapter(...injectedServices) {
+    const adapter = {
+      restrict: 'A',
+      scope: noScope ? undefined : angularJsScope,
+      compile: function angularJsAdapterCompile() {
+        return {
+          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs) {
+            const clone = ngElement.find('[ng-transclude]');
+            let rootVueTemplate = '<root-component';
+            Object.entries(scope).forEach(([, info]) => {
+              rootVueTemplate += ` :${info.vue}="${info.vue}"`;
+            });
+            Object.entries(events).forEach(info => {
+              const [eventName] = info;
+              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}')"`;
+            });
+            rootVueTemplate += '>';
+
+            if (transclude) {
+              rootVueTemplate += '<div ref="transcludeTarget"/>';
+            }
+
+            rootVueTemplate += '</root-component>';
+            const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
+              template: rootVueTemplate,
+
+              data() {
+                const initialData = {};
+                Object.entries(scope).forEach(([scopeVarName, info]) => {
+                  let value = ngScope[scopeVarName];
+
+                  if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
+                    value = info.default instanceof Function ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices) : info.default;
+                  }
+
+                  initialData[info.vue] = value;
+                });
+                return initialData;
+              },
+
+              setup() {
+                if (transclude) {
+                  const transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+                  return {
+                    transcludeTarget
+                  };
+                }
+
+                return undefined;
+              },
+
+              methods: {
+                onEventHandler(name) {
+                  if (events[name]) {
+                    events[name](ngScope, ngElement, ngAttrs, ...injectedServices);
+                  }
+                }
+
+              }
+            });
+            app.config.globalProperties.$sanitize = window.vueSanitize;
+            app.component('root-component', component);
+            const mountPoint = mountPointFactory ? mountPointFactory(ngScope, ngElement, ngAttrs, ...injectedServices) : ngElement[0];
+            const vm = app.mount(mountPoint);
+            Object.entries(scope).forEach(([scopeVarName, info]) => {
+              if (!info.angularJsBind) {
+                return;
+              }
+
+              ngScope.$watch(scopeVarName, newValue => {
+                if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
+                  vm[scopeVarName] = info.default instanceof Function ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices) : info.default;
+                } else {
+                  vm[scopeVarName] = newValue;
+                }
+              });
+            });
+
+            if (transclude) {
+              $(vm.transcludeTarget).append(clone);
+            }
+
+            if (postCreate) {
+              postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
+            }
+          }
+        };
+      }
+    };
+
+    if (transclude) {
+      adapter.transclude = true;
+      adapter.template = '<div ng-transclude/>';
+    }
+
+    return adapter;
+  }
+
+  angularJsAdapter.$inject = $inject || [];
+  angular.module('piwikApp').directive(directiveName, angularJsAdapter);
+  return angularJsAdapter;
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var MatomoDialog_adapter = (createAngularJsAdapter({
+  component: MatomoDialog,
+  scope: {
+    show: {
+      vue: 'show',
+      default: false
+    },
+    element: {
+      vue: 'element',
+      default: (scope, element) => element[0]
+    }
+  },
+  events: {
+    yes: (scope, element, attrs) => {
+      if (attrs.yes) {
+        scope.$eval(attrs.yes);
+        setTimeout(() => {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    no: (scope, element, attrs) => {
+      if (attrs.no) {
+        scope.$eval(attrs.no);
+        setTimeout(() => {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    close: (scope, element, attrs) => {
+      if (attrs.close) {
+        scope.$eval(attrs.close);
+        setTimeout(() => {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    closeEnd: (scope, element, attrs, $parse) => {
+      setTimeout(() => {
+        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+      }, 0);
+    }
+  },
+  $inject: ['$parse'],
+  directiveName: 'piwikDialog',
+  transclude: true,
+  mountPointFactory: (scope, element) => {
+    const vueRootPlaceholder = $('<div class="vue-placeholder"/>');
+    vueRootPlaceholder.appendTo(element);
+    return vueRootPlaceholder[0];
+  },
+  postCreate: (vm, scope, element, attrs) => {
+    scope.$watch(attrs.piwikDialog, newValue => {
+      vm.show = newValue || false;
+    });
+  },
+  noScope: true
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
+
+const _hoisted_1 = {
+  class: "loadingPiwik"
+};
+
+const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  src: "plugins/Morpheus/images/loading-blue.gif",
+  alt: ""
+}, null, -1);
+
+function ActivityIndicatorvue_type_template_id_6af4d064_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var ActivityIndicatorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    loading: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    loadingMessage: {
+      type: String,
+      required: false,
+      default: translate('General_LoadingData')
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue
+
+
+
+ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_template_id_6af4d064_render
+
+/* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+/* harmony default export */ var ActivityIndicator_adapter = (createAngularJsAdapter({
+  component: ActivityIndicator,
+  scope: {
+    loading: {
+      vue: 'loading',
+      angularJsBind: '<'
+    },
+    loadingMessage: {
+      vue: 'loadingMessage',
+      angularJsBind: '<',
+      default: () => translate('General_LoadingData')
+    }
+  },
+  $inject: [],
+  directiveName: 'piwikActivityIndicator'
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
+
+function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", {
+      [`alert-${_ctx.severity}`]: true
+    }])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    severity: {
+      type: String,
+      required: true
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
+
+
+
+Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
+
+/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Alert_adapter = (createAngularJsAdapter({
+  component: Alert,
+  scope: {
+    severity: {
+      vue: 'severity',
+      angularJsBind: '@piwikAlert'
+    }
+  },
+  directiveName: 'piwikAlert',
+  transclude: true
+}));
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1500,6 +1964,7 @@ Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
 
 
 
+
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1507,6 +1972,18 @@ Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Idioma do navegador",
         "LanguageCode": "Código do idioma",
-        "PluginDescription": "Apresenta o idioma utilizado pelos navegadores dos seus visitantes."
+        "PluginDescription": "Apresenta o idioma utilizado pelos navegadores dos seus visitantes.",
+        "getLanguageCodeDocumentation": "Este relatório mostra em que código de linguagem exato os navegadores do visitante estão configurados. (por exemplo, \"Alemão - Áustria (de-at)\")",
+        "getLanguageDocumentation": "Este relatório mostra que idioma os navegadores do visitante estão a usar. (por exemplo, \"Inglês\")"
     }
 }

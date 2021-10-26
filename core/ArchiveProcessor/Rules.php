@@ -208,45 +208,40 @@ class Rules
 
     public static function isArchivingEnabledFor(array $idSites, Segment $segment, $periodLabel)
     {
-        return !self::isArchivingDisabledFor($idSites, $segment, $periodLabel);
+        $isArchivingEnabled = self::isRequestAuthorizedToArchive() && !self::$archivingDisabledByTests;
+
+        $generalConfig = Config::getInstance()->General;
+
+        if ($periodLabel === 'range') {
+            if (isset($generalConfig['archiving_range_force_on_browser_request'])
+                && $generalConfig['archiving_range_force_on_browser_request'] == false
+            ) {
+                Log::debug("Not forcing archiving for range period.");
+                return $isArchivingEnabled;
+            }
+
+            return true;
+        }
+
+        if ($segment->isEmpty()) {
+            // viewing "All Visits"
+            return $isArchivingEnabled;
+        }
+
+        if (!$isArchivingEnabled
+            && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
+            && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
+        ) {
+            Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1 or because the segment is selected to be pre-processed.");
+            return false;
+        }
+
+        return true;
     }
 
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
-        $generalConfig = Config::getInstance()->General;
-
-        if ($periodLabel == 'range') {
-            if (!isset($generalConfig['archiving_range_force_on_browser_request'])
-                || $generalConfig['archiving_range_force_on_browser_request'] != false
-            ) {
-                return false;
-            }
-
-            Log::debug("Not forcing archiving for range period.");
-            $processOneReportOnly = false;
-
-        } else {
-            $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
-        }
-
-        $isArchivingEnabled = self::isRequestAuthorizedToArchive() && !self::$archivingDisabledByTests;
-
-        if ($processOneReportOnly)  {
-            // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
-            if (!$segment->isEmpty()
-                && !$isArchivingEnabled
-                && !self::isBrowserArchivingAvailableForSegments()
-                && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
-            ) {
-                Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
-                return true;
-            }
-
-            // Always allow processing one report
-            return false;
-        }
-
-        return !$isArchivingEnabled;
+        return !self::isArchivingEnabledFor($idSites, $segment, $periodLabel);
     }
 
     public static function isRequestAuthorizedToArchive(Parameters $params = null)

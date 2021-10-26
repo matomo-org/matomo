@@ -17,16 +17,16 @@ interface PeriodClass {
 }
 
 /**
- * Piwik period management service for the frontend.
+ * Matomo period management service for the frontend.
  *
  * Usage:
  *
- *     var DayPeriod = piwikPeriods.get('day');
+ *     var DayPeriod = matomoPeriods.get('day');
  *     var day = new DayPeriod(new Date());
  *
  * or
  *
- *     var day = piwikPeriods.parse('day', '2013-04-05');
+ *     var day = matomoPeriods.parse('day', '2013-04-05');
  *
  * Adding custom periods:
  *
@@ -43,9 +43,9 @@ interface PeriodClass {
  * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
  *                                  'week', etc.
  *
- * Then call piwik.addCustomPeriod w/ your period class:
+ * Then call Periods.addCustomPeriod w/ your period class:
  *
- *     piwik.addCustomPeriod('mycustomperiod', MyCustomPeriod);
+ *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);
  *
  * NOTE: currently only single date periods like day, week, month year can
  *       be extended. Other types of periods that require a special UI to
