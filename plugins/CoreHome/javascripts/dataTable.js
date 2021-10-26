@@ -111,10 +111,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
         this._init(domElem);
+        this.enableStickHead(domElem);
         this.initialized = true;
 
     },
 
+    enableStickHead: function (domElem) {
+      $(window).resize(function () {
+        var tableScrollerWidth = $(domElem).find('.dataTableScroller').width();
+        var tableWidth = $(domElem).find('table').width();
+        console.log(tableWidth);
+        if (tableScrollerWidth < tableWidth) {
+          $('.dataTableScroller').css('overflow-x', 'scroll');
+        }
+      });
+    },
     //function triggered when user click on column sort
     onClickSort: function (domElem) {
         var self = this;
