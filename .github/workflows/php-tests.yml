@@ -28,6 +28,10 @@ jobs:
         ports:
           - 6379:6379
         options: --entrypoint redis-server
+      nginx:
+        image: nginx
+        ports:
+          - 3000:80
       mariadb:
         image: mariadb:latest
         ports:
