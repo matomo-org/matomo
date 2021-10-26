@@ -17,6 +17,10 @@ permissions:
   security-events: none
   statuses: none
 
+concurrency:
+  group: ${{ github.event.pull_request.head }}
+  cancel-in-progress: true
+
 jobs:
   matomo:
     runs-on: ubuntu-20.04
@@ -98,6 +102,7 @@ jobs:
         run: |
           tmux new-session -d -s "php" sudo php -S 127.0.0.1:80
           tmux ls
+          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'

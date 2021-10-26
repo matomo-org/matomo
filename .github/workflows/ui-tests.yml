@@ -16,6 +16,11 @@ permissions:
   security-events: none
   statuses: none
 
+concurrency:
+  group: ${{ github.event.pull_request.head }}
+  cancel-in-progress: true
+
+
 jobs:
   matomo:
     runs-on: ubuntu-20.04
@@ -139,10 +144,13 @@ jobs:
       - name: UI tests Group ${{ matrix.parts }}
         continue-on-error: true
         run: |
+          mkdir -p ./tests/UI/processed-ui-screenshots
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+          ls -ld ./tests/UI/processed-ui-screenshots
           sudo ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
       - name: Update Screenshots artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshot-prcocess
-          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+        run:|
+          cd /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+          ls -la
