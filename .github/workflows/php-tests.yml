@@ -110,8 +110,8 @@ jobs:
            ls -la
            ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
 
-     - name: show Permission
-       run: |
+      - name: show Permission
+        run: |
            cd ./tmp
            ls -la
            cd templates_c
