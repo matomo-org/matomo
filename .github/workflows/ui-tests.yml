@@ -78,7 +78,7 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
-          sudo setcap CAP_NET_BIND_SERVICE=+eip $(which php)
+          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
           cp .github/scripts/config.ini.github.php config/config.ini.php
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
