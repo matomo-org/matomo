@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Unit\Tracker;
 
-use DateTime;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Matomo\Network\IPUtils;
