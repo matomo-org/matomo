@@ -517,7 +517,7 @@ class Map implements DataTableInterface
      * Delete row metadata by name in every row.
      *
      * @param       $name
-     * @param false $deleteRecursiveInSubtables
+     * @param bool $deleteRecursiveInSubtables
      */
     public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false)
     {
