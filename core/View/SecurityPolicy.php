@@ -31,8 +31,8 @@ class SecurityPolicy
      */
     private $policies = array();
 
-    private $cspEnabled = true;
-    private $reportOnly = false;
+    private $cspEnabled;
+    private $reportOnly;
 
     /**
      * Constructor.
@@ -42,8 +42,8 @@ class SecurityPolicy
         $this->policies['img-src'] = self::RULE_IMG_DEFAULT;
 
         $generalConfig = $config->General;
-        $this->cspEnabled = $generalConfig['csp_enabled'];
-        $this->reportOnly = $generalConfig['csp_report_only'];
+        $this->cspEnabled = $generalConfig['csp_enabled'] ?? true;
+        $this->reportOnly = $generalConfig['csp_report_only'] ?? false;
     }
 
     /**
