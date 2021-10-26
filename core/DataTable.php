@@ -1021,7 +1021,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $this->summaryRow->deleteMetadata($name);
         }
         if (!is_null($this->totalsRow)) {
-                $this->totalsRow->deleteMetadata($name);
+            $this->totalsRow->deleteMetadata($name);
         }
 
     }
