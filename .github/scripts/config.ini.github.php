@@ -13,6 +13,7 @@ tables_prefix =
 ;charset = utf8
 
 [tests]
+port = 3000
 request_uri = "/"
 
 [database_tests]

@@ -97,7 +97,7 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          tmux new-session -d -s "php" sudo php -S 127.0.0.1:80
+          tmux new-session -d -s "php-3000" php -S 127.0.0.1:3000
           tmux ls
           sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
 
