@@ -107,8 +107,8 @@ jobs:
         continue-on-error: true
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
-        ls -l
-        ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+           ls -la
+           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
 
      - name: show Permission
        run: |
