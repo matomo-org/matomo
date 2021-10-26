@@ -44,9 +44,6 @@ class EnvironmentValidationTest extends SystemTestCase
      */
     public function test_NoGlobalConfigFile_TriggersError($entryPoint)
     {
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
         $this->simulateAbsentConfigFile('global.ini.php');
 
         $output = $this->triggerPiwikFrom($entryPoint);

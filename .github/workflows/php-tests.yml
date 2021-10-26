@@ -119,6 +119,7 @@ jobs:
            ls -la
            cd templates_c
            ls -la
+           tmux attach-session -t php-80
 
 
 
