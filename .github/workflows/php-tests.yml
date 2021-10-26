@@ -34,7 +34,7 @@ jobs:
         env:
           MYSQL_DATABASE: piwik_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --max_allowed_packet=134209536
+        options: --tmpfs /var/lib/mysql:rw
     strategy:
       fail-fast: false
       matrix:
