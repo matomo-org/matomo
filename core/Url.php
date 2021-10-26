@@ -145,13 +145,13 @@ class Url
             }
 
             // strip parameters
-            if (($pos = strpos($url, "?")) !== false) {
-                $url = substr($url, 0, $pos);
+            if (($pos = mb_strpos($url, "?")) !== false) {
+                $url = mb_substr($url, 0, $pos);
             }
 
             // strip path_info
             if ($removePathInfo && !empty($_SERVER['PATH_INFO'])) {
-                $url = substr($url, 0, -strlen($_SERVER['PATH_INFO']));
+                $url = mb_substr($url, 0, -mb_strlen($_SERVER['PATH_INFO']));
             }
         }
 
@@ -177,8 +177,8 @@ class Url
         // A hash part should actually be never send to the server, as browsers automatically remove them from the request
         // The same happens for tools like cUrl. While Apache won't answer requests that contain them, Nginx would handle them
         // and the hash part would be included in REQUEST_URI. Therefor we always remove any hash parts here.
-        if (strpos($url, '#')) {
-            $url = substr($url, 0, strpos($url, '#'));
+        if (mb_strpos($url, '#')) {
+            $url = mb_substr($url, 0, mb_strpos($url, '#'));
         }
 
         return $url;
