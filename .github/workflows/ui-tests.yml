@@ -4,6 +4,17 @@ on:
   pull_request:
   schedule:
     - cron: '0 0 * * *'
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: write
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
 
 jobs:
   matomo:
@@ -122,7 +133,6 @@ jobs:
 
 
       - name: UI tests Group ${{ matrix.parts }}
-        working-directory: ./tests/lib/screenshot-testing/
         run: |
           sudo ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
