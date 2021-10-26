@@ -22,8 +22,7 @@ jobs:
         env:
           MYSQL_DATABASE: piwik_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-
+        options: --tmpfs /var/lib/mysql:rw --max_allowed_packet=134209536 --wait_timeout=36000 --sql_mode='NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'
     strategy:
       fail-fast: false
       matrix:
@@ -46,7 +45,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
           ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1
           tools: composer:v2
           coverage: none
