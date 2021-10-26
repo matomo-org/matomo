@@ -1,10 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Questo report offre una panoramica informativa per ciascuno dei tuoi siti web, contenente le metriche più comuni sui tuoi visitatori.",
         "Evolution": "Evoluzione",
         "LoadingWebsites": "Caricamento siti web",
         "PluginDescription": "Guarda e confronta tutti i siti e le app in questa utile dashboard 'Tutti i Siti'.",
-        "TopLinkTooltip": "Compara le statistiche web di tutti i tuoi siti web.",
         "SingleWebsitesDashboardDocumentation": "Questo report offre una panoramica informativa per un sito web specifico, contenente le metriche più comuni sui tuoi visitatori.",
-        "AllWebsitesDashboardDocumentation": "Questo report offre una panoramica informativa per ciascuno dei tuoi siti web, contenente le metriche più comuni sui tuoi visitatori."
+        "TopLinkTooltip": "Compara le statistiche web di tutti i tuoi siti web."
     }
 }
