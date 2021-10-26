@@ -17,7 +17,7 @@ permissions:
   statuses: none
 
 jobs:
-  matomo:
+  php74:
     runs-on: ubuntu-20.04
 
     services:
@@ -78,7 +78,6 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
-          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
           cp .github/scripts/config.ini.github.php config/config.ini.php
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
@@ -116,6 +115,7 @@ jobs:
 
       - name: Run PHP on 80
         run: |
+          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
           tmux new-session -d -s "php-80" php -S localhost:80
           tmux ls
 
