@@ -135,14 +135,6 @@ jobs:
 
       - name: UI tests Group ${{ matrix.parts }}
         run: |
-#          echo ""
-#          echo "View UI failures (if any) here:"
-#          echo ""
-#          echo "https://builds-artifacts.matomo.org/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/$TRAVIS_BUILD_NUMBER/"
-#          echo ""
-#          echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
-#          echo ""
-#          echo -n "./console tests:sync-ui-screenshots $TRAVIS_BUILD_NUMBER"
           sudo ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
 
