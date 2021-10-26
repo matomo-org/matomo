@@ -9,9 +9,7 @@
 namespace Piwik;
 
 use DateTime;
-use ErrorException;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\Exception;
 
 /**
  * Simple class to handle the cookies:
