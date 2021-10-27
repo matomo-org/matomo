@@ -2,6 +2,8 @@ name: UI Tests
 
 on:
   pull_request:
+    branches:
+      - main
   schedule:
     - cron: '0 0 * * *'
 permissions:
@@ -120,8 +122,6 @@ jobs:
           sudo apt-get install php7.4-fpm
           sudo systemctl start php7.4-fpm
           sudo systemctl enable php7.4-fpm
-          tail -f /etc/nginx/sites-available/default
-          tail -f /etc/nginx/nginx.conf
           sudo cp /home/runner/work/matomo/matomo/.github/scripts/default /etc/nginx/sites-available/
           sudo nginx -t
           sudo systemctl reload nginx
