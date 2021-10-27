@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins']
+        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins' ]
 
     steps:
 
@@ -90,7 +90,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-         composer install --ignore-platform-reqs
+          composer install --ignore-platform-reqs
 
       - name: Setup LAMP apache2
         run: |
@@ -107,16 +107,16 @@ jobs:
       - name: Test runing
         if: matrix.tests == 'UnitTests'
         run: |
-        sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
-        sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-        ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
+          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
 
       - name: Test runing
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
-           sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
-           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
 
 
 
