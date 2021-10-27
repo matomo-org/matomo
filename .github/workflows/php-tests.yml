@@ -55,7 +55,7 @@ jobs:
         with:
           php-version: 7.4
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1, error_reporting=E_ALL, log_errors=on, display_errors=on, zend.exception_ignore_args = Off
           tools: composer:v2
           coverage: none
 
@@ -71,7 +71,6 @@ jobs:
           mkdir -p ./tmp/sessions
           mkdir -p ./tmp/templates_c
           mkdir -p ./tmp/templates_c/d2
-          mkdir -p ./tmp/nonexistant
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           chmod a+rw ./tests/lib/geoip-files || true
