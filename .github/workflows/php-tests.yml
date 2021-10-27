@@ -102,6 +102,8 @@ jobs:
           sudo apt-get install php7.4-fpm
           sudo systemctl start php7.4-fpm
           sudo systemctl enable php7.4-fpm
+          sudo ls -l /etc/nginx
+          sudo nginx -t
           sudo cp /home/runner/work/matomo/matomo/.github/scripts/matomo.test /etc/nginx/site-available/matomo.test
           sudo ln -s /etc/nginx/sites-available/matomo.test /etc/nginx/sites-enabled/
           sudo nginx -t
