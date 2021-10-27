@@ -105,6 +105,7 @@ jobs:
           sudo cp /home/runner/work/matomo/matomo/.github/scripts/matomo.test /etc/nginx/sites-available/matomo.test
           sudo ln -s /etc/nginx/sites-available/matomo.test /etc/nginx/sites-enabled/
           sudo nginx -t
+          sudo systemctl start nginx
           sudo systemctl reload nginx
           sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
 
