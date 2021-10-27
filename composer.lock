@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62e96a498f1bf639fc5a15e57cb1f1eb",
+    "content-hash": "21bbe6eaffe95524a3cc128e05470994",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -151,35 +151,28 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "1.2.3",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "9117a5e4ee51d407adad2c11dc75e5be35b61ca5"
+                "reference": "dbdab86358f633a7338d5a0874b49863eadff750"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/9117a5e4ee51d407adad2c11dc75e5be35b61ca5",
-                "reference": "9117a5e4ee51d407adad2c11dc75e5be35b61ca5",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/dbdab86358f633a7338d5a0874b49863eadff750",
+                "reference": "dbdab86358f633a7338d5a0874b49863eadff750",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": ">=5.4.0"
+                "ext-mbstring": "*",
+                "php": ">=7.0"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
-                "ext-gd": "*",
-                "friendsofphp/php-cs-fixer": "^2.8",
-                "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "php": ">=5.4.0",
-                "phpro/grumphp": "^0.12.0",
-                "phpunit/phpunit": "^4.8.36",
-                "povils/phpmnd": "^1.1",
-                "sebastian/phpcpd": "^3.0",
-                "sensiolabs/security-checker": "^4.1",
-                "squizlabs/php_codesniffer": "^3.1",
-                "wearejust/grumphp-extra-tasks": "^2.1"
+                "ext-xdebug": "*",
+                "phpunit/php-code-coverage": "^3.3.0",
+                "phpunit/phpunit": "^5.3"
             },
             "type": "library",
             "autoload": {
@@ -209,7 +202,7 @@
                 "issues": "https://github.com/davaxi/Sparkline/issues",
                 "source": "https://github.com/davaxi/Sparkline/releases"
             },
-            "time": "2021-02-17T16:18:49+00:00"
+            "time": "2021-09-30T19:16:11+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -4137,7 +4130,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {
