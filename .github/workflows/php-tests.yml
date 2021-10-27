@@ -95,7 +95,6 @@ jobs:
       - name: Setup LAMP apache2
         run: |
           sudo systemctl start php7.4-fpm
-          LC_ALL=C.UTF-8 sudo apt-add-repository http://p/scripts/test.conf /etc/apache2/sites-available/
           sudo a2enmod actions fcgid alias proxy_fcgi php7.4 rewrite
           sudo a2ensite test.conf
           sudo systemctl restart apache2
