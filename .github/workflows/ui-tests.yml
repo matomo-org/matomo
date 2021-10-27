@@ -54,7 +54,7 @@ jobs:
           php -v
           sudo apt install php-fpm
           sudo chown -R $USER:$USER /home/runner/work/matomo/matomo
-          sudo nginx -c ".github/scripts/matomo_nginx.conf"
+          sudo nginx -c "/home/runner/work/matomo/matomo/.github/scripts/matomo_nginx.conf"
           curl localhost
 #
 #      - name: Setup Node
