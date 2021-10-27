@@ -5,10 +5,12 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 <template>
-  <slot></slot>
+  <div v-show="modelValue" ref="root">
+    <slot></slot>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Matomo from '../Matomo/Matomo';
 
 export default defineComponent({
@@ -16,7 +18,7 @@ export default defineComponent({
     /**
      * Whether the modal is displayed or not;
      */
-    show: {
+    modelValue: {
       type: Boolean,
       required: true,
     },
@@ -33,20 +35,33 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['yes', 'no', 'closeEnd', 'close'],
+  emits: ['yes', 'no', 'closeEnd', 'close', 'update:modelValue'],
+  setup() {
+    const root = ref(null);
+
+    return {
+      root,
+    };
+  },
   activated() {
-    const slotElement = this.element || this.$slots.default()[0].el;
-    slotElement.style.display = 'none';
+    this.$emit('update:modelValue', false);
   },
   watch: {
-    show(newValue, oldValue) {
+    modelValue(newValue, oldValue) {
       if (newValue) {
-        const slotElement = this.element || this.$slots.default()[0].el;
+        const slotElement = this.element || this.$refs.root.firstElementChild;
         Matomo.helper.modalConfirm(slotElement, {
           yes: () => { this.$emit('yes'); },
           no: () => { this.$emit('no'); },
         }, {
-          onCloseEnd: () => { this.$emit('closeEnd'); },
+          onCloseEnd: () => {
+            // materialize removes the child element, so we move it back to the slot
+            if (!this.element) {
+              this.$refs.root.appendChild(slotElement);
+            }
+            this.$emit('update:modelValue', false);
+            this.$emit('closeEnd');
+          },
         });
       } else if (newValue === false && oldValue === true) {
         // the user closed the dialog, e.g. by pressing Esc or clicking away from it
