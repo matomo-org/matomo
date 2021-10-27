@@ -2,6 +2,7 @@ server {
         listen 80;
         root /home/runner/work/matomo/matomo/;
         index index.php index.html;
+        server_name localhost;
 
     location / {
             add_header 'Access-Control-Allow-Origin' '*';
