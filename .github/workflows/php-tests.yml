@@ -98,24 +98,22 @@ jobs:
 
       - name: set tmp and screenshot folder permission
         run: |
+          sudo gpasswd -a "$USER" www-data
+          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
+          sudo chmod o+w /home/runner/work/matomo/matomo/
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          ls -ld ./tmp
-          ls -ld ./tmp/assets
-          ls -ld ./tests/UI
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'
         run: |
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
            ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
 
       - name: Test runing
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
 
 

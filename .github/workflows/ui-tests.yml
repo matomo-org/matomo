@@ -128,24 +128,16 @@ jobs:
 
       - name: set tmp and screenshot folder permission
         run: |
+          sudo gpasswd -a "$USER" www-data
+          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
+          sudo chmod o+w /home/runner/work/matomo/matomo/
+          mkdir -p ./tests/UI/processed-ui-screenshots
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/nonexistant
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          ls -ld ./tmp
-          ls -ld ./tmp/assets
-          ls -ld ./tests/UI
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
 
       - name: UI tests Group ${{ matrix.parts }}
         continue-on-error: true
         run: |
-          mkdir -p ./tests/UI/processed-ui-screenshots
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
       - name: upload processed screenshots
