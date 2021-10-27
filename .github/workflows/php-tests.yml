@@ -99,7 +99,6 @@ jobs:
       - name: Setup LAMP
         run: |
           sudo systemctl stop apache2
-          sudo systemctl status apache2
           sudo apt install nginx
           sudo systemctl start nginx
           sudo apt-get install php7.4-fpm
