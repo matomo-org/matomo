@@ -112,10 +112,15 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/nonexistant
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
+          sudo chown -R www-data:www-data /home/runner/work/matomo/matomo
           ls -ld ./tmp
           ls -ld ./tmp/assets
           ls -ld ./tests/UI
-          
+
       - name: Javascript tests Build
         run: |
           git clone --recursive https://github.com/google/woff2.git ../travis_woff2
