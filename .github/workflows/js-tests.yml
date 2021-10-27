@@ -2,6 +2,8 @@ name: JS Tests
 
 on:
   pull_request:
+    branches:
+      - main
   schedule:
     - cron: '0 0 * * *'
 permissions:
@@ -41,10 +43,10 @@ jobs:
         tests: [ 'JavascriptTests-js', 'AngularJSTests-js' ]
 
     steps:
-#      - name: Setup Mysql
-#        run: |
-#          docker run --name mariadb -p 3306:3306 --tmpfs /var/lib/mysql:rw -e MYSQL_DATABASE=piwik_tests -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mariadb
-#          docker ps -a
+      #      - name: Setup Mysql
+      #        run: |
+      #          docker run --name mariadb -p 3306:3306 --tmpfs /var/lib/mysql:rw -e MYSQL_DATABASE=piwik_tests -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mariadb
+      #          docker ps -a
 
       - name: Checkout code
         uses: actions/checkout@v2

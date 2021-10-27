@@ -55,6 +55,7 @@ jobs:
           sudo systemctl disable apache2 && sudo systemctl stop apache2
           sudo apt install php-fpm
           sudo chown -R $USER:$USER /home/runner/work/matomo/matomo
+          sudo cp ./.github/script/matomo.test /etc/nginx/sites-available/matomo.test
           sudo ln -s /etc/nginx/sites-available/matomo.test /etc/nginx/sites-enabled/
           sudo nginx -t
           sudo systemctl start nginx
