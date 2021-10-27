@@ -63,6 +63,14 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Setup Apache
+        uses: thunder/apache-shiva-php-action@v1
+        with:
+          php-version: '7.4'
+          site-directory: /home/runner/work/matomo/matomo/
+          # Defaults to 8888
+          http-port: 80
+
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
           php -i
@@ -96,17 +104,18 @@ jobs:
         run: |
          composer install --ignore-platform-reqs
 
-      - name: Setup LAMP apache2
-        run: |
-          sudo apt-get update
-          sudo apt-get install libapache2-mod-php7.4
-          sudo a2enmod php7.4
-          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
-          sudo a2enmod rewrite
-          sudo a2ensite test.conf
-          sudo systemctl restart apache2
-          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
-          curl localhost
+#      - name: Setup LAMP apache2
+#        run: |
+#          sudo apt-get update
+#          LC_ALL=C.UTF-8 sudo apt-add-repository http://ppa.launchpad.net/ondrej/php/ubuntu
+#          sudo apt-get install libapache2-mod-php7.4
+#          sudo a2enmod php7.4
+#          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
+#          sudo a2enmod rewrite
+#          sudo a2ensite test.conf
+#          sudo systemctl restart apache2
+#          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
+#          curl localhost
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'
