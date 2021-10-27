@@ -12,7 +12,7 @@
         class="card-title"
       >{{ contentTitle }}</h2>
       <h2
-        v-if="contentTitle && actualFeature || helpUrl || actualHelpText"
+        v-if="contentTitle && (actualFeature || helpUrl || actualHelpText)"
         class="card-title"
       >
         <EnrichedHeadline

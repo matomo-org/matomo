@@ -83,15 +83,15 @@ matrix:
     # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
     - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=0"
-      dist: xenial
+      dist: bionic
       sudo: false
     - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=1"
-      dist: xenial
+      dist: bionic
       sudo: false
     - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=2"
-      dist: xenial
+      dist: bionic
       sudo: false
 
 dist: bionic
