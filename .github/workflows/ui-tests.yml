@@ -39,7 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UITests' ]
-        parts: [ 0,1,2 ]
+        parts: [ 0 ]
 
     steps:
       - name: Checkout code
@@ -55,7 +55,7 @@ jobs:
           sudo systemctl disable apache2 && sudo systemctl stop apache2
           sudo apt install php-fpm
           sudo chown -R $USER:$USER /home/runner/work/matomo/matomo
-          sudo cp ./.github/script/matomo.test /etc/nginx/sites-available/matomo.test
+          sudo cp ./.github/scripts/matomo.test /etc/nginx/sites-available/matomo.test
           sudo ln -s /etc/nginx/sites-available/matomo.test /etc/nginx/sites-enabled/
           sudo nginx -t
           sudo systemctl start nginx
