@@ -664,7 +664,12 @@ Segmentation = (function($) {
             var segmentStr = getSegmentGeneratorController().getSegmentString();
             var segmentId = $(self.form).find(".available_segments_select").val() || "";
             var user = $(self.form).find(".enable_all_users_select option:selected").val();
-            var autoArchive = $(self.form).find(".auto_archive_select option:selected").val() || 0;
+            // if create realtime segments is disabled, the select field is not available, but we need to use autoArchive = 1
+            if ($(self.form).find(".auto_archive_select").length) {
+              var autoArchive = $(self.form).find(".auto_archive_select option:selected").val() || 0;
+            } else {
+              var autoArchive = 1;
+            }
             var params = {
                 "name": segmentName,
                 "definition": segmentStr,
