@@ -2,7 +2,9 @@ name: Build Vue files
 
 on:
   pull_request:
-    types: [synchronize]
+    branches:
+      - main
+    types: [ synchronize ]
 
 permissions:
   actions: read
