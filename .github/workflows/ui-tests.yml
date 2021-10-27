@@ -113,11 +113,17 @@ jobs:
         run: |
           composer install --ignore-platform-reqs
 
-      - name: Run PHP on 80
+      - name: Setup LAMP
         run: |
-          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-          tmux new-session -d -s "php-80" php -S localhost:80
-          tmux ls
+          sudo apt install nginx
+          sudo apt-get install php7.4-fpm
+          systemctl start php7.4-fpm
+          systemctl enable php7.4-fpm
+          sudo cp ./github/script/matomo.test /etc/nginx/site-available/matomo.test
+          sudo ln -s /etc/nginx/sites-available/matomo.test /etc/nginx/sites-enabled/
+          sudo nginx -t
+          sudo systemctl reload nginx
+          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
 
       - name: Javascript tests Build
         run: |

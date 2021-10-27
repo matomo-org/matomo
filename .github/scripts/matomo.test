@@ -1,0 +1,10 @@
+server {
+        listen 80;
+        root /home/runner/work/matomo/matomo/;
+        index index.php;
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+    }
+}
