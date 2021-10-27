@@ -99,22 +99,21 @@ jobs:
       - name: Setup LAMP
         run: |
           sudo apt install nginx
+          sudo systemctl start nginx
           sudo apt-get install php7.4-fpm
           sudo systemctl start php7.4-fpm
           sudo systemctl enable php7.4-fpm
-          sudo cp /home/runner/work/matomo/matomo/.github/scripts/matomo_test.conf /etc/nginx/sites-available/
-          sudo ln -s /etc/nginx/sites-available/matomo_test.conf /etc/nginx/sites-enabled/
+          sudo cp /home/runner/work/matomo/matomo/.github/scripts/default /etc/nginx/sites-available/
           sudo nginx -t
-          sudo systemctl start nginx
           sudo systemctl reload nginx
           sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
+          curl localhost
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'
         run: ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
 
       - name: Test runing
-        continue-on-error: true
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
            ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
