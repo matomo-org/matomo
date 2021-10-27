@@ -1792,6 +1792,10 @@ function createAngularJsAdapter(options) {
             if (postCreate) {
               postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
             }
+
+            ngScope.$on('$destroy', () => {
+              app.unmount();
+            });
           }
         };
       }
