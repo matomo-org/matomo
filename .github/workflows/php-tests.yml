@@ -66,6 +66,7 @@ jobs:
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
           mkdir -p ./tmp/cache
+          mkdir -p ./tmp/cache/tracker
           mkdir -p ./tmp/latest
           mkdir -p ./tmp/logs
           mkdir -p ./tmp/sessions
@@ -97,7 +98,6 @@ jobs:
           sudo chmod -R 777 /tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          sudo chown -R www-data:www-data /home/runner/work/matomo/matomo
           ls -ld ./tmp
           ls -ld ./tmp/assets
           ls -ld ./tests/UI
@@ -105,14 +105,12 @@ jobs:
       - name: Test runing
         if: matrix.tests == 'UnitTests'
         run: |
-          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
            ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
 
       - name: Test runing
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
-          sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
 
