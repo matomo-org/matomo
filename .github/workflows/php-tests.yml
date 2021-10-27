@@ -96,7 +96,7 @@ jobs:
         run: |
          composer install --ignore-platform-reqs
 
-      - name: Setup LAMP
+      - name: Setup LAMP apache2
         run: |
           sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
           sudo a2enmod rewrite
@@ -104,19 +104,6 @@ jobs:
           sudo systemctl restart apache2
           sudo chown -R runner:docker /home/runner/work/matomo/matomo/tmp
           curl localhost
-
-      - name: upload nginx conf
-        uses: actions/upload-artifact@v2
-        with:
-          name: nginx
-          path:  /etc/nginx/
-
-      - name: Download nginx conf
-        uses: actions/download-artifact@v2
-        with:
-          name: nginx
-          path:  /etc/nginx/
-
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'
