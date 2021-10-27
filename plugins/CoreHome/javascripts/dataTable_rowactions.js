@@ -317,7 +317,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 
     $.each(this.dataTable.param, function (index, value) {
         // we automatically add fields like idDimension, idGoal etc.
-        if (index !== 'idSite' && index.indexOf('id') === 0 && $.isNumeric(value)) {
+        if (index !== 'idSite' && index.indexOf('id') === 0 && ($.isNumeric(value) || value.indexOf('ecommerce') === 0)) {
             extraParams[index] = value;
         }
     });
@@ -441,6 +441,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
             var extraParams = {action: 'getMultiRowEvolutionPopover', column: metric};
             if (self.showGoalMetricsForGoal) {
                 extraParams['showGoalMetricsForGoal'] = self.showGoalMetricsForGoal;
+                extraParams['documentationForGoalsPage'] = 1;
             }
             self.openPopover(apiMethod, extraParams, label);
             return true;
@@ -471,6 +472,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         // remove idGoal param, when it's set for goal visualizations
         if (extraParams['idGoal']) {
             self.showGoalMetricsForGoal = extraParams['showGoalMetricsForGoal'] = extraParams['idGoal'];
+            extraParams['documentationForGoalsPage'] = 1;
             delete(extraParams['idGoal']);
         }
     }

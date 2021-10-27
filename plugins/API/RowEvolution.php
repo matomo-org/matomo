@@ -14,6 +14,7 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
@@ -60,17 +61,37 @@ class RowEvolution
 
         // if goal metrics should be shown, we replace the metrics
         if ($showGoalMetricsForGoal !== false) {
-            $conversionsMetric = new Conversions($idSite, $showGoalMetricsForGoal);
-            $conversionRateMetric = new ConversionRate($idSite, $showGoalMetricsForGoal);
-            $revenueMetric = new Revenue($idSite, $showGoalMetricsForGoal);
-            $revenuePerVisitMetric = new RevenuePerVisit($idSite, $showGoalMetricsForGoal);
+            $goalsToProcess = $this->getGoalsToProcess($showGoalMetricsForGoal, $idSite);
+
             $metadata['metrics'] = [
                 'nb_visits' => $metadata['metrics']['nb_visits'],
-                $conversionsMetric->getName() => $conversionsMetric->getTranslatedName(),
-                $conversionRateMetric->getName() => $conversionRateMetric->getTranslatedName(),
-                $revenueMetric->getName() => $revenueMetric->getTranslatedName(),
-                $revenuePerVisitMetric->getName() => $revenuePerVisitMetric->getTranslatedName(),
             ];
+
+            foreach ($goalsToProcess as $idGoal) {
+                if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                    $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('General_EcommerceOrders');
+                    $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_TotalRevenue');
+                    $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
+                    $metadata['metrics']['goal_ecommerceOrder_avg_order_revenue'] = Piwik::translate('General_AverageOrderValue');
+                    $metadata['metrics']['goal_ecommerceOrder_items'] = Piwik::translate('General_PurchasedProducts');
+                    $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnValuePerVisit');
+                    continue;
+                }
+                $conversionsMetric     = new Conversions($idSite, $idGoal);
+                $conversionRateMetric  = new ConversionRate($idSite, $idGoal);
+                $revenueMetric         = new Revenue($idSite, $idGoal);
+                $revenuePerVisitMetric = new RevenuePerVisit($idSite, $idGoal);
+
+                $metadata['metrics'][$conversionsMetric->getName()]     = $conversionsMetric->getTranslatedName();
+                $metadata['metrics'][$conversionRateMetric->getName()]  = $conversionRateMetric->getTranslatedName();
+                $metadata['metrics'][$revenueMetric->getName()]         = $revenueMetric->getTranslatedName();
+                $metadata['metrics'][$revenuePerVisitMetric->getName()] = $revenuePerVisitMetric->getTranslatedName();
+            }
+
+            if ($showGoalMetricsForGoal !== Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                // not shown when only ecommerce metrics are shown
+                $metadata['metrics']['revenue_per_visit'] = Piwik::translate('General_ColumnValuePerVisit');
+            }
         }
 
         $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters, $showGoalMetricsForGoal);
@@ -107,6 +128,41 @@ class RowEvolution
             );
         }
         return $data;
+    }
+
+    protected function getGoalsToProcess($goalId, $idSite)
+    {
+        switch ($goalId) {
+            case AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE:
+            case AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW:
+                return $this->getAllGoalIds($idSite);
+            case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
+            default:
+                return [$goalId];
+        }
+    }
+
+    protected function getAllGoalIds($idSite)
+    {
+        static $goalIds = [];
+
+        if (!empty($goalIds[$idSite])) {
+            return $goalIds[$idSite];
+        }
+
+        $goalIds[$idSite] = [];
+
+        if (Site::isEcommerceEnabledFor($idSite)) {
+            $goalIds[$idSite][] = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        }
+
+        $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+
+        foreach ($siteGoals as $goal) {
+            $goalIds[$idSite][] = $goal['idgoal'];
+        }
+
+        return $goalIds[$idSite];
     }
 
     /**
@@ -299,9 +355,9 @@ class RowEvolution
         );
 
         if ($showGoalMetricsForGoal !== false) {
-            $parameters['filter_show_goal_columns_process_goals'] = $showGoalMetricsForGoal;
-            $parameters['idGoal'] = $showGoalMetricsForGoal;
+            $parameters['filter_show_goal_columns_process_goals'] = implode(',', $this->getGoalsToProcess($showGoalMetricsForGoal, $idSite));
             $parameters['filter_update_columns_when_show_all_goals'] = 1;
+            $parameters['idGoal'] = $showGoalMetricsForGoal;
         }
 
         if (!empty($apiParameters) && is_array($apiParameters)) {
