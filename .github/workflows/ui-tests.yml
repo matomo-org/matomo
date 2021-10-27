@@ -38,15 +38,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: ['UITests' ]
+        tests: [ 'UITests' ]
         parts: [ 0,1,2 ]
 
     steps:
-#      - name: Setup Mysql
-#        run: |
-#          docker run --name mariadb -p 3306:3306 --tmpfs /var/lib/mysql:rw -e MYSQL_DATABASE=piwik_tests -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mariadb
-#          docker ps -a
-
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -54,15 +49,14 @@ jobs:
           lfs: true
           submodules: recursive
 
-
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, imagick
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
-          tools: composer:v2
-          coverage: none
+        run: |
+          sudo apt-get install php libapache2-mod-php php-mbstring php-xmlrpc php-soap php-gd php-redis php-xml php-cli php-zip php-bcmath php-tokenizer php-json php-pear
+          php -v
+          curl -sS https://getcomposer.org/installer | php
+          sudo mv composer.phar /usr/local/bin/composer
+          sudo chmod +x /usr/local/bin/composer
+          composer --version
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -101,13 +95,10 @@ jobs:
 
       - name: Setup LAMP apache2
         run: |
-          sudo systemctl start php7.4-fpm
-          sudo a2enmod actions alias proxy_fcgi rewrite
           sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
           sudo a2ensite test.conf
           sudo systemctl restart apache2
           curl localhost
-
 
 
       - name: Javascript tests Build
@@ -144,10 +135,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: processed-ui-screenshots
-          path:  /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
 
       - name: Download processed screenshots
         uses: actions/download-artifact@v2
         with:
           name: processed-ui-screenshots
-          path:  /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
