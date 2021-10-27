@@ -360,10 +360,10 @@ class API extends \Piwik\Plugin\API
                 $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
                     $metricSettings[self::METRIC_RECORD_NAME_KEY],
-                    $currentData,
                     $pastData,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
-                    $quotientPrecision = 1
+                    $quotientPrecision = 1,
+                    $currentData
                 );
             }
             $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);

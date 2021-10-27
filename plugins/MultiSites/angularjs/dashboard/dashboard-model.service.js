@@ -68,7 +68,7 @@
                 site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
 
                 if (site.hasOwnProperty('ratio') && site.ratio != 1) {
-                    var percent = ((Math.round((site.ratio * 100))/100)*100)+'%';
+                    var percent = NumberFormatter.formatPercent(((Math.round((site.ratio * 100))/100)*100));
                     var metricName = null;
                     var previousTotal = 0;
                     var currentTotal = 0;
@@ -77,21 +77,21 @@
                     if (model.sortColumn == 'nb_visits' || model.sortColumn == 'visits_evolution') {
                         previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
                         currentTotal = NumberFormatter.formatNumber(site.nb_visits);
-                        evolution = site.visits_evolution + '%';
+                        evolution = NumberFormatter.formatPercent(site.visits_evolution);
                         metricName = _pk_translate("General_ColumnNbVisits");
                         previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_nb_visits * site.ratio));
                     }
                     if (model.sortColumn == 'pageviews_evolution') {
                         previousTotal = site.previous_Actions_nb_pageviews;
                         currentTotal = site.nb_pageviews;
-                        evolution = site.pageviews_evolution + '%';
+                        evolution = NumberFormatter.formatPercent(site.pageviews_evolution);
                         metricName = _pk_translate("General_ColumnPageviews");
                         previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_Actions_nb_pageviews * site.ratio));
                     }
                     if (model.sortColumn == 'revenue_evolution') {
                         previousTotal = NumberFormatter.formatNumber(site.previous_Goal_revenue);
                         currentTotal = NumberFormatter.formatNumber(site.revenue);
-                        evolution = site.revenue_evolution + '%';
+                        evolution = NumberFormatter.formatPercent(site.revenue_evolution);
                         metricName = _pk_translate("General_ColumnRevenue");
                         previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_Goal_revenue * site.ratio));
                     }
@@ -99,7 +99,21 @@
                     if (metricName) {
                         site.tooltip = _pk_translate("MultiSites_EvolutionComparisonIncomplete", [percent]) + "\n";
                         site.tooltip += _pk_translate("MultiSites_EvolutionComparisonProportional", [percent, previousTotalAdjusted, metricName, previousTotal]) + "\n";
-                        site.tooltip += _pk_translate("MultiSites_EvolutionComparison", [currentTotal, metricName, site.periodName, previousTotalAdjusted, site.previousRange, evolution]);
+
+                        switch (site.periodName) {
+                            case 'day':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonDay", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                            case 'week':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonWeek", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                            case 'month':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonMonth", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                            case 'year':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonYear", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                        }
                     }
 
                 }

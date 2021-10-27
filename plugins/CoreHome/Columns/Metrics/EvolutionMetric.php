@@ -69,8 +69,11 @@ class EvolutionMetric extends ProcessedMetric
      * @param string|false $evolutionMetricName The name of the evolution processed metric. Defaults to
      *                                          $wrapped's name with `'_evolution'` appended.
      * @param int $quotientPrecision The percent's quotient precision.
+     * @param DataTable|null $currentData The current datatable, optional but required to calculate the proportionate
+     *                                    evolution values
      */
-    public function __construct($wrapped, DataTable $currentData = null, DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0)
+    public function __construct($wrapped, ?DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0,
+                                ?DataTable $currentData = null)
     {
         $this->wrapped = $wrapped;
         $this->pastData = $pastData;
@@ -196,41 +199,44 @@ class EvolutionMetric extends ProcessedMetric
      *
      * If the current period end is in the past then the ratio will always be 1, since the current period is complete.
      *
-     * @param DataTable $currentData
-     * @param DataTable $pastData
+     * @param DataTable|null $currentData
+     * @param DataTable|null $pastData
      * @param Row $row
      * @return float|int
      * @throws \Exception
      */
-    public static function getRatio(DataTable $currentData, DataTable $pastData, Row $row)
+    public static function getRatio(?DataTable $currentData, ?DataTable $pastData, Row $row)
     {
         $ratio = 1;
 
-        $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+        if ($currentData != null && $pastData != null) {
 
-        $pStart = $p->getDateStart()->setTime('00:00:00');
-        $pEnd = $p->getDateEnd()->setTime('00:00:00');
+            $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
-        $c = $currentData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        $cStart = $c->getDateStart()->setTime('00:00:00');
-        $cEnd = $c->getDateEnd()->setTime('00:00:00');
+            $pStart = $p->getDateStart()->setTime('00:00:00');
+            $pEnd = $p->getDateEnd()->setTime('00:00:00');
 
-        $nowTS = Date::getNowTimestamp();
+            $c = $currentData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+            $cStart = $c->getDateStart()->setTime('00:00:00');
+            $cEnd = $c->getDateEnd()->setTime('00:00:00');
 
-        // If we know the date the the datatable data was generated then use that instead of now
-        $archivedDateStr = $row->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+            $nowTS = Date::getNowTimestamp();
 
-        if ($archivedDateStr) {
-            $archivedDate = Date::factory($archivedDateStr);
-            if ($archivedDate) {
-                $nowTS = Date::factory($archivedDate)->getTimestamp();
+            // If we know the date the the datatable data was generated then use that instead of now
+            $archivedDateStr = $row->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+
+            if ($archivedDateStr) {
+                $archivedDate = Date::factory($archivedDateStr);
+                if ($archivedDate) {
+                    $nowTS = Date::factory($archivedDate)->getTimestamp();
+                }
             }
-        }
 
-        if ($cStart->getTimestamp() <= $nowTS && $cEnd->getTimestamp() >= $nowTS) {
-            $secsInPastPeriod = $pEnd->getTimestamp() - $pStart->getTimestamp();
-            $secsInCurrentPeriod = $nowTS - $cStart->getTimestamp();
-            $ratio = $secsInCurrentPeriod / $secsInPastPeriod;
+            if ($cStart->getTimestamp() <= $nowTS && $cEnd->getTimestamp() >= $nowTS) {
+                $secsInPastPeriod = $pEnd->getTimestamp() - $pStart->getTimestamp();
+                $secsInCurrentPeriod = $nowTS - $cStart->getTimestamp();
+                $ratio = $secsInCurrentPeriod / $secsInPastPeriod;
+            }
         }
 
         return $ratio;
