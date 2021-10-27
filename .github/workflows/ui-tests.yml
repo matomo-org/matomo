@@ -52,7 +52,7 @@ jobs:
       - name: Setup PHP and Nginx
         run: |
           php -v
-          sudo apt install php-fpm
+          sudo apt install php8.0-fpm
           sudo chown -R $USER:$USER /home/runner/work/matomo/matomo
           sudo nginx -c "/home/runner/work/matomo/matomo/.github/scripts/matomo_nginx.conf"
           curl localhost
