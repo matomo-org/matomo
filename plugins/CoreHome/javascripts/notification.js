@@ -44,8 +44,7 @@
         checkMessage(message);
         options = checkOptions(options);
 
-        var template = generateNotificationHtmlMarkup(options, message);
-        this.$node   = placeNotification(template, options);
+        placeNotification($.extend({}, { message }, options));
     };
 
     /**
@@ -92,98 +91,69 @@
             throw new Error("A valid selector is required for the placeat option when using Notification.toast().");
         }
 
-        var $template = $(generateNotificationHtmlMarkup(options, message)).hide();
-        $('body').append($template);
-
-        compileNotification($template);
-
-        $template.css({
-            position: 'absolute',
+        placeNotification($.extend({}, { message }, options, {
+          // place the notification in body
+          placeat: 'body',
+          position: {
             left: $placeat.offset().left,
             top: $placeat.offset().top
-        });
-        setTimeout(function () {
-            $template.animate(
-                {
-                    top: $placeat.offset().top - $template.height()
-                },
-                {
-                    duration: 300,
-                    start: function () {
-                        $template.show();
-                    }
-                }
-            );
-        });
+          }
+        }));
     };
 
     exports.Notification = Notification;
 
-    function generateNotificationHtmlMarkup(options, message) {
-        var attributeMapping = {
-                id: 'notification-id',
-                title: 'notification-title',
-                context: 'context',
-                type: 'type',
-                noclear: 'noclear',
-                class: 'class',
-                toastLength: 'toast-length'
-            },
-            html = '<div piwik-notification';
+    function initializeNotificationContainer(selector, group) {
+      var $container = $(selector);
+      if ($container.data('notification-container-inited') === '1') {
+        return;
+      }
 
-        for (var key in attributeMapping) {
-            if (attributeMapping.hasOwnProperty(key)
-                && options[key]
-            ) {
-                html += ' ' + attributeMapping[key] + '="' + options[key].toString().replace(/"/g, "&quot;") + '"';
-            }
-        }
+      var mountPoint = $('<div/>');
+      mountPoint.appendTo($container);
 
-        html += '><div ng-non-bindable>' + message + '</div></div>';
+      // initialize vue notification group component
+      var Vue = window.Vue;
+      var app = Vue.createApp({
+        template: '<NotificationGroup :group="group"/>',
+        data: function() {
+          return { group };
+        },
+      });
+      app.config.globalProperties.$sanitize = window.vueSanitize;
+      app.config.globalProperties.translate = window.CoreHome.translate;
+      app.component('NotificationGroup', window.CoreHome.NotificationGroup);
+      app.mount(mountPoint[0]);
 
-        return html;
+      $container.data('notification-container-inited', '1');
     }
 
-    function compileNotification($node) {
-        angular.element(document).injector().invoke(function ($compile, $rootScope) {
-            $compile($node)($rootScope.$new(true));
-        });
+    function addNotification(addType, options) {
+      var method = addType === 'append' ? 'appendNotification' : 'prependNotification';
+      window.CoreHome.NotificationsStore[method](options);
     }
 
-    function placeNotification(template, options) {
-        var $notificationNode = $(template);
-
-        // compile the template in angular
-        compileNotification($notificationNode);
-
-        if (options.style) {
-            $notificationNode.css(options.style);
-        }
-
+    function placeNotification(options) {
+        var group = options.group || options.placeat;
         var notificationPosition = '#notificationContainer';
         var method = 'append';
         if (options.placeat) {
-            notificationPosition = options.placeat;
+          notificationPosition = options.placeat;
         } else {
-            // If a modal is open, we want to make sure the error message is visible and therefore show it within the opened modal
-            var modalSelector = '.modal.open .modal-content';
-            var modalOpen = $(modalSelector);
-            if (modalOpen.length) {
-                notificationPosition = modalSelector;
-                method = 'prepend';
-            }
+          // If a modal is open, we want to make sure the error message is visible and therefore show it within the opened modal
+          var modalSelector = '.modal.open .modal-content';
+          var modalOpen = $(modalSelector);
+          if (modalOpen.length) {
+            notificationPosition = modalSelector;
+            method = 'prepend';
+          }
         }
 
-        $notificationNode = $notificationNode.hide();
-        $(notificationPosition)[method]($notificationNode);
+        options.noclear = !!options.noclear;
 
-        if (false === options.animate) {
-            $notificationNode.show();
-        } else {
-            $notificationNode.fadeIn(1000);
-        }
+        initializeNotificationContainer(notificationPosition, group);
 
-        return $notificationNode;
+        addNotification(method, options);
     }
 
     function checkMessage(message) {

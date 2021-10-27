@@ -133,5 +133,6 @@ declare global {
     piwik_translations: {[key: string]: string};
 
     _pk_translate(translationStringId: string, values: string[]): string;
+    require(p: string): any;
   }
 }

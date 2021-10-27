@@ -159,6 +159,9 @@ __webpack_require__.d(__webpack_exports__, "Menudropdown", function() { return /
 __webpack_require__.d(__webpack_exports__, "DatePicker", function() { return /* reexport */ DatePicker; });
 __webpack_require__.d(__webpack_exports__, "DateRangePicker", function() { return /* reexport */ DateRangePicker; });
 __webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { return /* reexport */ PeriodDatePicker; });
+__webpack_require__.d(__webpack_exports__, "Notification", function() { return /* reexport */ Notification; });
+__webpack_require__.d(__webpack_exports__, "NotificationGroup", function() { return /* reexport */ NotificationGroup; });
+__webpack_require__.d(__webpack_exports__, "NotificationsStore", function() { return /* reexport */ Notification_NotificationsStore; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1093,14 +1096,24 @@ class AjaxHelper_AjaxHelper {
    * Handle for current request
    */
   // helper method entry point
-  static fetch(params) {
+  static fetch(params, options = {}) {
     const helper = new AjaxHelper_AjaxHelper();
+
+    if (options.withTokenInUrl) {
+      helper.withTokenInUrl();
+    }
+
     helper.setFormat('json');
     helper.addParams({
       module: 'API',
       format: 'json',
       ...params
     }, 'get');
+
+    if (options.postParams) {
+      helper.addParams(options.postParams, 'post');
+    }
+
     return helper.send();
   }
 
@@ -4311,6 +4324,354 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
 
 
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=68544347
+
+const Notificationvue_type_template_id_68544347_hoisted_1 = {
+  key: 1
+};
+function Notificationvue_type_template_id_68544347_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+    name: _ctx.type === 'toast' ? 'toast-slide-up' : undefined,
+    appear: ""
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+      name: _ctx.animate ? 'fade-in' : undefined,
+      appear: ""
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+        name: _ctx.type === 'toast' ? 'slow-fade-out' : undefined,
+        onAfterLeave: _cache[1] || (_cache[1] = $event => _ctx.toastClosed())
+      }, {
+        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [!_ctx.deleted ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+          key: 0,
+          class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["notification system", {
+            [_ctx.context ? `notification-${_ctx.context}` : '']: !!_ctx.context
+          }]),
+          ref: "root",
+          style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(_ctx.positionStyles)
+        }, [!_ctx.noclear ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+          key: 0,
+          type: "button",
+          class: "close",
+          "data-dismiss": "alert",
+          onClick: _cache[0] || (_cache[0] = $event => _ctx.closeNotification($event))
+        }, "&times;")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("strong", Notificationvue_type_template_id_68544347_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
+        _: 3
+      }, 8, ["name"])]),
+      _: 3
+    }, 8, ["name"])]),
+    _: 3
+  }, 8, ["name"]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=68544347
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts
+
+
+const {
+  $: Notificationvue_type_script_lang_ts_$
+} = window;
+/* harmony default export */ var Notificationvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    notificationId: String,
+    // TODO: shouldn't need this since the title can be specified within
+    //       HTML of the node that uses the directive.
+    title: String,
+    context: String,
+    type: String,
+    noclear: Boolean,
+    toastLength: {
+      type: Number,
+      default: 12 * 1000
+    },
+    style: String,
+    animate: Boolean,
+    position: Object
+  },
+  computed: {
+    canClose() {
+      if (this.type === 'persistent') {
+        // otherwise it is never possible to dismiss the notification
+        return false;
+      }
+
+      return this.noclear;
+    },
+
+    positionStyles() {
+      return this.position && {
+        position: 'absolute',
+        top: this.position.top,
+        left: this.position.left
+      };
+    }
+
+  },
+  emits: ['closed'],
+
+  mounted() {
+    const addToastEvent = () => {
+      setTimeout(() => {
+        this.deleted = true;
+      }, this.toastLength);
+    };
+
+    if (this.type === 'toast') {
+      addToastEvent();
+    }
+
+    if (this.style) {
+      Notificationvue_type_script_lang_ts_$(this.$refs.root).css(this.style);
+    }
+  },
+
+  methods: {
+    toastClosed() {
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
+        this.$emit('closed');
+      });
+    },
+
+    closeNotification(event) {
+      if (this.canClose && event && event.target) {
+        this.deleted = true;
+        Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
+          this.$emit('closed');
+        });
+      }
+
+      this.markNotificationAsRead();
+    },
+
+    markNotificationAsRead() {
+      if (!this.props.notificationId) {
+        return;
+      }
+
+      AjaxHelper_AjaxHelper.fetch({
+        module: 'CoreHome',
+        action: 'markNotificationAsRead'
+      }, {
+        postParams: {
+          notificationId: this.props.notificationId
+        }
+      });
+    }
+
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue
+
+
+
+Notificationvue_type_script_lang_ts.render = Notificationvue_type_template_id_68544347_render
+
+/* harmony default export */ var Notification = (Notificationvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Notification_adapter = (createAngularJsAdapter({
+  component: Notification,
+  scope: {
+    notificationId: {
+      angularJsBind: '@?'
+    },
+    title: {
+      angularJsBind: '@?notificationTitle'
+    },
+    context: {
+      angularJsBind: '@?'
+    },
+    type: {
+      angularJsBind: '@?'
+    },
+    noclear: {
+      angularJsBind: '@?'
+    },
+    toastLength: {
+      angularJsBind: '@?'
+    }
+  },
+  directiveName: 'piwikNotification',
+  transclude: true
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationsStore.ts
+function NotificationsStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+class NotificationsStore_NotificationsStore {
+  constructor() {
+    NotificationsStore_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      notifications: []
+    }));
+  }
+
+  get state() {
+    return this.privateState;
+  }
+
+  appendNotification(notification) {
+    // remove existing notification before adding
+    if (notification.id) {
+      this.removeNotification(notification.id);
+    }
+
+    this.privateState.notifications.push(notification);
+  }
+
+  prependNotification(notification) {
+    // remove existing notification before adding
+    if (notification.id) {
+      this.removeNotification(notification.id);
+    }
+
+    this.privateState.notifications.unshift(notification);
+  }
+
+  removeNotification(id) {
+    this.privateState.notifications = this.privateState.notifications.filter(n => n.id !== id);
+  }
+
+  parseNotificationDivs() {
+    const UI = window.require('piwik/UI');
+
+    const $notificationNodes = $('[data-role="notification"]');
+    $notificationNodes.each((index, notificationNode) => {
+      const $notificationNode = $(notificationNode);
+      const attributes = $notificationNode.data();
+      const message = $notificationNode.html();
+
+      if (message) {
+        const notification = new UI.Notification();
+        attributes.animate = false;
+        notification.show(message, attributes);
+      }
+
+      $notificationNodes.remove();
+    });
+  }
+
+  clearTransientNotifications() {
+    this.privateState.notifications = this.privateState.notifications.filter(n => n.type !== 'transient');
+  }
+
+}
+
+const instance = new NotificationsStore_NotificationsStore();
+/* harmony default export */ var Notification_NotificationsStore = (instance); // parse notifications on dom load
+
+$(() => instance.parseNotificationDivs());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationsStore.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+angular.module('piwikApp').factory('notifications', () => Notification_NotificationsStore);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e69badae
+
+const NotificationGroupvue_type_template_id_e69badae_hoisted_1 = ["innerHTML"];
+function NotificationGroupvue_type_template_id_e69badae_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.notifications, (notification, index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
+      key: notification.id || `no-id-${index}`,
+      "notification-id": notification.id,
+      title: notification.title,
+      context: notification.context,
+      type: notification.type,
+      noclear: notification.noclear,
+      "toast-length": notification.toastLength,
+      style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(notification.style),
+      animate: notification.animate,
+      position: notification.position,
+      onClosed: $event => _ctx.removeNotification(notification.id)
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+        innerHTML: _ctx.$sanitize(notification.message)
+      }, null, 8, NotificationGroupvue_type_template_id_e69badae_hoisted_1)]),
+      _: 2
+    }, 1032, ["notification-id", "title", "context", "type", "noclear", "toast-length", "style", "animate", "position", "onClosed"]);
+  }), 128);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e69badae
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var NotificationGroupvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    group: String
+  },
+  components: {
+    Notification: Notification
+  },
+  computed: {
+    notifications() {
+      return Notification_NotificationsStore.state.notifications.filter(n => {
+        if (this.group) {
+          return this.group === n.group;
+        }
+
+        return !n.group;
+      });
+    }
+
+  },
+
+  data() {
+    return {
+      notificationStore: Notification_NotificationsStore
+    };
+  },
+
+  methods: {
+    removeNotification(id) {
+      this.notificationStore.removeNotification(id);
+    }
+
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue
+
+
+
+NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_template_id_e69badae_render
+
+/* harmony default export */ var NotificationGroup = (NotificationGroupvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -4318,6 +4679,7 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

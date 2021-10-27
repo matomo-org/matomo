@@ -51,3 +51,4 @@ export { default as Menudropdown } from './Menudropdown/Menudropdown.vue';
 export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
+export * from './Notification';
