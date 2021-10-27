@@ -96,6 +96,7 @@ jobs:
         run: |
           sudo systemctl start php7.4-fpm
           sudo a2enmod actions alias proxy_fcgi rewrite
+          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
           sudo a2ensite test.conf
           sudo systemctl restart apache2
           curl localhost
