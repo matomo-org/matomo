@@ -59,89 +59,90 @@ jobs:
           sudo ln -s /etc/nginx/sites-available/matomo.test /etc/nginx/sites-enabled/
           sudo nginx -t
           sudo systemctl start nginx
+          sudo systemctl status nginx
           curl localhost
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-
-      - name: installing node/puppeteer
-        working-directory: ./tests/lib/screenshot-testing
-        run: |
-          git lfs pull --exclude=
-          npm install
-          node --version
-
-      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
-        run: |
-          cp .github/scripts/config.ini.github.php config/config.ini.php
-          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
-          mkdir -p ./tmp/assets
-          mkdir -p ./tmp/cache
-          mkdir -p ./tmp/cache/tracker
-          mkdir -p ./tmp/latest
-          mkdir -p ./tmp/logs
-          mkdir -p ./tmp/sessions
-          mkdir -p ./tmp/templates_c
-          mkdir -p ./tmp/nonexistant
-          mkdir -p ./tmp/tcpdf
-          mkdir -p ./tmp/climulti
-          mkdir -p /tmp
-          chmod a+rw ./tests/lib/geoip-files || true
-          chmod a+rw ./plugins/*/tests/System/processed || true
-          chmod a+rw ./plugins/*/tests/Integration/processed || true
-
-      - name: Install dependencies
-        run: |
-          composer install --ignore-platform-reqs
-
-      - name: Setup LAMP apache2
-        run: |
-          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
-          sudo a2ensite test.conf
-          sudo systemctl restart apache2
-          curl localhost
-
-
-      - name: Javascript tests Build
-        run: |
-          git clone --recursive https://github.com/google/woff2.git ../travis_woff2
-          cd ../travis_woff2
-          make clean all
-          mkdir $HOME/.fonts
-          cp /home/runner/work/matomo/matomo/tests/travis/fonts/* $HOME/.fonts
-          fc-cache -f -v
-          echo "fonts:"
-          ls $HOME/.fonts
-          sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
-          sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
-          sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
-          sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
-          sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
-
-      - name: set tmp and screenshot folder permission
-        run: |
-          sudo gpasswd -a "$USER" www-data
-          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
-          sudo chmod o+w /home/runner/work/matomo/matomo/
-          mkdir -p ./tests/UI/processed-ui-screenshots
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-
-      - name: UI tests Group ${{ matrix.parts }}
-        continue-on-error: true
-        run: |
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
-
-      - name: upload processed screenshots
-        uses: actions/upload-artifact@v2
-        with:
-          name: processed-ui-screenshots
-          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-
-      - name: Download processed screenshots
-        uses: actions/download-artifact@v2
-        with:
-          name: processed-ui-screenshots
-          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+#
+#      - name: Setup Node
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: '12'
+#
+#      - name: installing node/puppeteer
+#        working-directory: ./tests/lib/screenshot-testing
+#        run: |
+#          git lfs pull --exclude=
+#          npm install
+#          node --version
+#
+#      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
+#        run: |
+#          cp .github/scripts/config.ini.github.php config/config.ini.php
+#          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+#          mkdir -p ./tmp/assets
+#          mkdir -p ./tmp/cache
+#          mkdir -p ./tmp/cache/tracker
+#          mkdir -p ./tmp/latest
+#          mkdir -p ./tmp/logs
+#          mkdir -p ./tmp/sessions
+#          mkdir -p ./tmp/templates_c
+#          mkdir -p ./tmp/nonexistant
+#          mkdir -p ./tmp/tcpdf
+#          mkdir -p ./tmp/climulti
+#          mkdir -p /tmp
+#          chmod a+rw ./tests/lib/geoip-files || true
+#          chmod a+rw ./plugins/*/tests/System/processed || true
+#          chmod a+rw ./plugins/*/tests/Integration/processed || true
+#
+#      - name: Install dependencies
+#        run: |
+#          composer install --ignore-platform-reqs
+#
+#      - name: Setup LAMP apache2
+#        run: |
+#          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
+#          sudo a2ensite test.conf
+#          sudo systemctl restart apache2
+#          curl localhost
+#
+#
+#      - name: Javascript tests Build
+#        run: |
+#          git clone --recursive https://github.com/google/woff2.git ../travis_woff2
+#          cd ../travis_woff2
+#          make clean all
+#          mkdir $HOME/.fonts
+#          cp /home/runner/work/matomo/matomo/tests/travis/fonts/* $HOME/.fonts
+#          fc-cache -f -v
+#          echo "fonts:"
+#          ls $HOME/.fonts
+#          sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
+#          sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+#          sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+#          sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
+#          sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
+#
+#      - name: set tmp and screenshot folder permission
+#        run: |
+#          sudo gpasswd -a "$USER" www-data
+#          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
+#          sudo chmod o+w /home/runner/work/matomo/matomo/
+#          mkdir -p ./tests/UI/processed-ui-screenshots
+#          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+#          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+#
+#      - name: UI tests Group ${{ matrix.parts }}
+#        continue-on-error: true
+#        run: |
+#          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
+#
+#      - name: upload processed screenshots
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: processed-ui-screenshots
+#          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+#
+#      - name: Download processed screenshots
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: processed-ui-screenshots
+#          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
