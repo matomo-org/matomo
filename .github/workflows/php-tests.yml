@@ -98,7 +98,8 @@ jobs:
 
       - name: Setup LAMP apache2
         run: |
-          sudo apt-get install libapache2-mod-php7.4
+          sudo apt-get install php7.4-common libapache2-mod-php7.4
+          sudo a2enmod php7.4
           sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
           sudo a2enmod rewrite
           sudo a2ensite test.conf
