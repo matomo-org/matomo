@@ -82,7 +82,7 @@ jobs:
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
           mkdir -p ./tmp/cache
-          mkdir -p ./tmp/tracker
+          mkdir -p ./tmp/cache/tracker
           mkdir -p ./tmp/latest
           mkdir -p ./tmp/logs
           mkdir -p ./tmp/sessions
@@ -108,19 +108,7 @@ jobs:
           sudo systemctl restart apache2
           curl localhost
 
-      - name: set tmp and screenshot folder permission
-        run: |
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/nonexistant
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          ls -ld ./tmp
-          ls -ld ./tmp/assets
-          ls -ld ./tests/UI
+
 
       - name: Javascript tests Build
         run: |
@@ -138,13 +126,26 @@ jobs:
           sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
           sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
 
+      - name: set tmp and screenshot folder permission
+        run: |
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/nonexistant
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
+          ls -ld ./tmp
+          ls -ld ./tmp/assets
+          ls -ld ./tests/UI
 
       - name: UI tests Group ${{ matrix.parts }}
         continue-on-error: true
         run: |
           mkdir -p ./tests/UI/processed-ui-screenshots
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-          ls -ld ./tests/UI/processed-ui-screenshots
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
       - name: upload processed screenshots

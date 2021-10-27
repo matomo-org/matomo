@@ -132,7 +132,7 @@ backends[] = file
 
 [RedisCache]
 ; Redis server configuration.
-host = "127.0.0.1"
+host = "localhost"
 port = 6379
 ; instead of host and port a unix socket path can be configured
 unix_socket = ""
