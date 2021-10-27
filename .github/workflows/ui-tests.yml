@@ -17,7 +17,7 @@ permissions:
   statuses: none
 
 jobs:
-  php74:
+  Linux:
     runs-on: ubuntu-20.04
 
     services:
