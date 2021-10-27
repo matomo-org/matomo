@@ -11,7 +11,7 @@ use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Filesystem;
 
-class Output
+class Output implements OutputInterface
 {
 
     private $tmpFile  = '';
@@ -45,14 +45,14 @@ class Output
         return $this->tmpFile;
     }
 
-    public function isAbnormal()
+    public function isAbnormal(): bool
     {
         $size = Filesystem::getFileSize($this->tmpFile, 'MB');
 
         return $size !== null && $size >= 100;
     }
 
-    public function exists()
+    public function exists(): bool
     {
         return file_exists($this->tmpFile);
     }

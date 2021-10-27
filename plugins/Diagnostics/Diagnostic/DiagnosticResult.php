@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
+use function Piwik\piwik_fix_lbrace;
 
 /**
  * The result of a diagnostic.
@@ -70,7 +71,7 @@ class DiagnosticResult
         }
 
         if ($escapeComment) {
-            $comment = Common::sanitizeInputValue($comment);
+            $comment = piwik_fix_lbrace(Common::sanitizeInputValue($comment));
         }
 
         return self::singleResult($label, self::STATUS_INFORMATIONAL, $comment);

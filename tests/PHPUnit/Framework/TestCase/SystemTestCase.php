@@ -20,6 +20,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\ReportRenderer;
 use Piwik\Site;
@@ -58,6 +59,9 @@ abstract class SystemTestCase extends TestCase
      * @var Fixture
      */
     public static $fixture;
+
+    private static $allowedModulesApiWise = array();
+    private static $allowedCategoriesApiWise = array();
 
     public function setGroups(array $groups): void
     {
@@ -100,6 +104,22 @@ abstract class SystemTestCase extends TestCase
         } catch (Exception $e) {
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
+
+        Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
+            $allowedModuleForApiMetadataReport = self::getAllowedModulesToFilterApiResponse('API.getReportMetadata');
+            if ($allowedModuleForApiMetadataReport) {
+                $filterKey = 'module';
+                self::filterReportsCallback($reports, $info, $filterKey, $allowedModuleForApiMetadataReport);
+            }
+        });
+
+        Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
+            $allowedCategoryForApiSegmentsReport = self::getAllowedCategoriesToFilterApiResponse('API.getSegmentsMetadata');
+            if ($allowedCategoryForApiSegmentsReport) {
+                $filterKey = 'category';
+                self::filterReportsCallback($reports, $info, $filterKey, $allowedCategoryForApiSegmentsReport);
+            }
+        });
     }
 
     public static function tearDownAfterClass(): void
@@ -111,6 +131,9 @@ abstract class SystemTestCase extends TestCase
         } else {
             $fixture = static::$fixture;
         }
+
+        self::$allowedModulesApiWise = array();
+        self::$allowedCategoriesApiWise = array();
 
         $fixture->performTearDown();
     }
@@ -848,6 +871,34 @@ abstract class SystemTestCase extends TestCase
         }
 
         return parent::hasDependencies();
+    }
+
+    public static function setAllowedModulesToFilterApiResponse($api, $category){
+        self::$allowedModulesApiWise[$api] = $category;
+    }
+
+    public static function getAllowedModulesToFilterApiResponse($api) {
+        return (self::$allowedModulesApiWise[$api] ?? NULL);
+    }
+
+    public static function setAllowedCategoriesToFilterApiResponse($api, $category){
+        self::$allowedCategoriesApiWise[$api] = $category;
+    }
+
+    public static function getAllowedCategoriesToFilterApiResponse($api) {
+        return (self::$allowedCategoriesApiWise[$api] ?? NULL);
+    }
+
+    private static function filterReportsCallback(&$reports, $info, $filterKey, $filterValues)
+    {
+        if (!empty($reports)) {
+            foreach ($reports as $key => $row) {
+                if (!isset($row[$filterKey]) || !in_array($row[$filterKey], $filterValues)) {
+                    unset($reports[$key]);
+                }
+            }
+            $reports = array_values($reports);
+        }
     }
 }
 

@@ -10,10 +10,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * We have begun introducing Vue 3 as the frontend framework to replace AngularJS. You can learn more about it in [our developer guide.](https://developer.matomo.org/guides/working-with-piwiks-ui)
 
+### New APIs
+* New API Methods `SecurityPolicy.addPolicy`, `SecurityPolicy.overridePolicy`, `SecurityPolicy.removeDirective`, `SecurityPolicy.allowEmbedPage`, `SecurityPolicy.disable` allow developers to modify or disable the default Content Security Policy. `Plugins\Controller` has a new member `securityPolicy` so plugins can use `$this->securityPolicy` to access these new methods when a custom Content Security Policy is needed.
+
 ### Breaking Changes
 
 * With the introduction of Vue 3 we are also dropping support for IE11. All new supported browsers are determined by the browserslist tool. Running `npx browserslist` will list the browsers currently supported.
 * When the Ecommerce feature is disabled for a site, then the Live API no longer returns the Ecommerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
+* Content Security Policy (added in Matomo 4.4.0) is no longer in Report Only mode by default. 
 
 ## Matomo 4.4.0
 
