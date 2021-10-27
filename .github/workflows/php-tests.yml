@@ -77,16 +77,6 @@ jobs:
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
 
-      - name: set tmp and screenshot folder permission
-        run: |
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/nonexistant
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
-          ls -ld ./tmp
-          ls -ld ./tmp/assets
-          ls -ld ./tests/UI
-
       - name: Install dependencies
         run: |
           composer install --ignore-platform-reqs
@@ -99,6 +89,15 @@ jobs:
           sudo a2ensite test.conf
           sudo systemctl restart apache2
           curl localhost
+
+      - name: set tmp and screenshot folder permission
+        run: |
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
+          ls -ld ./tmp
+          ls -ld ./tmp/assets
+          ls -ld ./tests/UI
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'
