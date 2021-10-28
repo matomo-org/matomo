@@ -118,7 +118,7 @@ class EvolutionMetric extends ProcessedMetric
         $row->setMetadata('ratio', $ratio);
         $row->setMetadata('previous_'.$columnName, $pastValue);
         $row->setMetadata('periodName', $period->getLabel());
-        $row->setMetadata('previousRange', $period->getDateStart()->setTime('00:00:00').' - '.$period->getDateEnd()->setTime('00:00:00'));
+        $row->setMetadata('previousRange', $period->getLocalizedShortString());
         $pastValue = ($pastValue * $ratio);
 
         $dividend = $currentValue - $pastValue;

@@ -68,7 +68,7 @@
                 site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
 
                 if (site.hasOwnProperty('ratio') && site.ratio != 1) {
-                    var percent = NumberFormatter.formatPercent(((Math.round((site.ratio * 100))/100)*100));
+                    var percent = NumberFormatter.formatPercent(Math.round((site.ratio * 100)));
                     var metricName = null;
                     var previousTotal = 0;
                     var currentTotal = 0;
