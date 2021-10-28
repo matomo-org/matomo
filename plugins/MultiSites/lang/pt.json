@@ -1,8 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de cada um dos seus sites, contendo as métricas mais gerais sobre os seus visitantes.",
         "Evolution": "Evolução",
         "LoadingWebsites": "A carregar sites",
         "PluginDescription": "Veja e compare todos os seus sites e aplicações neste útil painel 'Todos os sites'.",
+        "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre os seus visitantes.",
         "TopLinkTooltip": "Compare as estatísticas de todos os seus sites."
     }
 }
