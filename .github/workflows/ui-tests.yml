@@ -94,17 +94,11 @@ jobs:
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
 
-      - name: Setup LAMP apache2
+      - name: Run PHP on 80
         run: |
-          sudo apt install php8.0-fpm libapache2-mod-fcgid
-          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
-          sudo apachectl -M
-          sudo a2enmod actions alias proxy_fcgi rewrite setenvif
-          sudo a2enconf php8.0-fpm
-          sudo a2ensite test.conf
-          sudo systemctl restart apache2
-          curl localhost
-          cat /var/log/apache2/error.log
+          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+          tmux new-session -d -s "php-80" php -S localhost:80
+          tmux ls
       #
       #
       - name: Javascript tests Build
@@ -125,8 +119,7 @@ jobs:
 
       - name: set tmp and screenshot folder permission
         run: |
-          sudo gpasswd -a "$USER" www-data
-          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
+          sudo chown -R docker:runner /home/runner/work/matomo/matomo/
           sudo chmod o+w /home/runner/work/matomo/matomo/
           mkdir -p ./tests/UI/processed-ui-screenshots
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
