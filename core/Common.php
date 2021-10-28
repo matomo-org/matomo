@@ -543,7 +543,7 @@ class Common
                     $ok    = true;
                 }
             } elseif ($varType === 'integer') {
-                if ($value === (string)(int)$value) {
+                if ((string)$value === (string)(int)$value) {
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
