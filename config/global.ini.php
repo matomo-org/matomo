@@ -63,7 +63,7 @@ port = 3306
 aurora_readonly_read_committed =
 
 [database_tests]
-host = 127.0.0.1
+host = "127.0.0.1"
 username = "@USERNAME@"
 password =
 dbname = matomo_tests
@@ -132,7 +132,7 @@ backends[] = file
 
 [RedisCache]
 ; Redis server configuration.
-host = "localhost"
+host = "127.0.0.1"
 port = 6379
 ; instead of host and port a unix socket path can be configured
 unix_socket = ""
