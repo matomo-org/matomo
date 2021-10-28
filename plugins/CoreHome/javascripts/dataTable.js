@@ -117,14 +117,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     enableStickHead: function (domElem) {
-      $(window).resize(function () {
+      // Bind to the resize event of the window object
+      $(window).on('resize', function () {
         var tableScrollerWidth = $(domElem).find('.dataTableScroller').width();
         var tableWidth = $(domElem).find('table').width();
-        console.log(tableWidth);
         if (tableScrollerWidth < tableWidth) {
           $('.dataTableScroller').css('overflow-x', 'scroll');
         }
-      });
+        // Invoke the resize event immediately
+      }).resize();
     },
     //function triggered when user click on column sort
     onClickSort: function (domElem) {
