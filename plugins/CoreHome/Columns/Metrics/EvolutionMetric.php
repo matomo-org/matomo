@@ -214,7 +214,7 @@ class EvolutionMetric extends ProcessedMetric
             $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
             $pStart = $p->getDateStart()->setTime('00:00:00');
-            $pEnd = $p->getDateEnd()->setTime('00:00:00');
+            $pEnd = $p->getDateEnd()->setTime('23:59:59');
 
             $c = $currentData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
             $cStart = $c->getDateStart()->setTime('00:00:00');
