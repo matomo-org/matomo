@@ -56,7 +56,8 @@ class CalculateConversionPageRate extends BaseFilter
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             foreach ($goals as $goalId) {
                 if (isset($row['goal_'.$goalId.'_conversion_page_rate'])) {
-                    $row['goal_'.$goalId.'_conversion_page_rate'] = $formatter->getPrettyPercentFromQuotient(Piwik::getQuotientSafe($row['goal_'.$goalId.'_nb_conversions'], $goalTotals[$goalId], 4));
+                    $row['goal_'.$goalId.'_conversion_page_rate'] =
+                        $formatter->getPrettyPercentFromQuotient(Piwik::getQuotientSafe($row['goal_'.$goalId.'_nb_conversions'], $goalTotals[$goalId], 3));
                 }
             }
         }

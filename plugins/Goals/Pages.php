@@ -281,6 +281,11 @@ class Pages
             }
 
             foreach ($reports as $report) {
+
+                if (isset($report['noMenu']) && $report['noMenu']) {
+                    continue;
+                }
+
                 $order++;
 
                 if (empty($report['viewDataTable'])

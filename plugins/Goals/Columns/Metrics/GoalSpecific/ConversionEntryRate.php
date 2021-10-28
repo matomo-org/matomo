@@ -59,6 +59,6 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
         $nbVisits = $this->getMetric($row, 'entry_nb_visits');
         $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
 
-        return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 2);
+        return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 1);
     }
 }

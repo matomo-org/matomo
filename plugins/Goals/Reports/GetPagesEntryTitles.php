@@ -15,7 +15,7 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-class GetPagesEntry extends Base
+class GetPagesEntryTitles extends Base
 {
     protected $defaultSortColumn = '';
 
@@ -24,10 +24,9 @@ class GetPagesEntry extends Base
     protected function init()
     {
         parent::init();
-
         $this->categoryId = 'Pages';
         $this->parameters = null;
-        $this->name = Piwik::translate('Goals_EntryPages');
+        $this->name = Piwik::translate('Goals_EntryPagesTitles');
         $this->documentation = Piwik::translate('Goals_EntryPagesReportDocumentation');
         $this->dimension = new EntryPageUrl();
         $this->metrics = array( 'nb_conversions', 'nb_visits_converted', 'revenue', 'entry_nb_visits');
@@ -74,7 +73,7 @@ class GetPagesEntry extends Base
     public function getRelatedReports()
     {
         return array(
-            ReportsProvider::factory('Goals', 'getPagesEntryTitles'),
+            ReportsProvider::factory('Goals', 'getPagesEntry'),
         );
     }
 

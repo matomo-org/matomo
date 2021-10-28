@@ -1105,13 +1105,10 @@ class LogAggregator
      * format, but takes into account pageviews leading up to a conversion, not
      * just the final page that triggered the conversion
      *
-     * @param string $linkType
-     *
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByPageView(string $linkType)
+    public function queryConversionsByPageView()
     {
-
         $dbSettings = new \Piwik\Db\Settings();
         $tablePrefix = $dbSettings->getTablePrefix();
         $subQuery = sprintf("
@@ -1179,59 +1176,46 @@ class LogAggregator
     }
 
     /**
-     * Return an array of total goal conversions
-     */
-    public function queryGoalConversionsTotals()
-    {
-
-        $select = implode(', ',
-                array(
-                    "log_conversion.idgoal AS idgoal",
-                    "count(*) AS conversions"
-                )
-            );
-
-        $tableName  = self::LOG_CONVERSION_TABLE;
-        $where = 'idgoal > 0';
-
-        $from    = array_merge([$tableName]);
-        $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
-        $groupBy = $this->getGroupByStatement(['idgoal'], $tableName);
-        $orderBy = false;
-        $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
-
-        return $this->getDb()->query($query['sql'], $query['bind']);
-    }
-
-    /**
      * Query conversions by entry page
+     *
+     * @param string $matchField
      *
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByEntryPageView()
+    public function queryConversionsByEntryPageView(string $matchField)
     {
-
-        $dimensions = array_merge(array('idgoal', 'idaction_url'));
         $tableName  = self::LOG_CONVERSION_TABLE;
-        $availableMetrics = $this->getConversionsMetricFields();
 
-        $where = 'idaction_url IS NOT NULL';
+        $select = implode(
+                ', ',
+                array(
+                    "log_conversion.idgoal AS idgoal",
+                    "log_visit.".$matchField." AS idaction",
+                    "count(*) AS `1`",
+                    "count(distinct log_conversion.idvisit) AS `3`",
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 2),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), 4),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), 5),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), 6),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), 7),
+                    "SUM(log_conversion.items) AS `8`",
+                )
+            );
 
-        $select = $this->getSelectStatement($dimensions, $tableName, '', $availableMetrics);
+        $from = array(
+            $tableName,
+                array(
+                    "table"  => "log_visit",
+                    "joinOn" => "log_visit.idvisit = log_conversion.idvisit"
+                )
+        );
 
-        $from    = array_merge([$tableName]);
+        $where   = $matchField.' IS NOT NULL AND log_conversion.idgoal > 0';
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
-        $groupBy = $this->getGroupByStatement($dimensions, $tableName);
+        $groupBy = 'log_visit.'.$matchField;
         $orderBy = false;
 
         $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
-
-        if (!empty($rankingQuery)) {
-            $sumColumns = array_keys($availableMetrics);
-            $rankingQuery->addColumn($sumColumns, 'sum');
-
-            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
-        }
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }

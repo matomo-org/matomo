@@ -321,12 +321,18 @@ class Goals extends \Piwik\Plugin
             'action'   => 'getPagesEntry',
             'viewDataTable' => 'tableGoalsEntryPages',
         );
-
         $reportsWithGoals[] = array('category' => 'Pages',
             'name'     => Piwik::translate('Goals_PageTitles'),
             'module'   => 'Goals',
             'action'   => 'getPagesTitles',
             'viewDataTable' => 'tableGoalsPages',
+        );
+        $reportsWithGoals[] = array('category' => 'Pages',
+            'name'     => Piwik::translate('Goals_EntryPagesTitles'),
+            'module'   => 'Goals',
+            'action'   => 'getPagesEntryTitles',
+            'viewDataTable' => 'tableGoalsEntryPages',
+            'noMenu'   => true
         );
         $reportsWithGoals[] = array('category' => 'General_Visit',
             'name'     => Piwik::translate('Goals_VisitsUntilConv'),

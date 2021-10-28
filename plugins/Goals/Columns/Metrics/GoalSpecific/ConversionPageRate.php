@@ -45,7 +45,6 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
         return array('goals');
     }
 
-
     public function compute(Row $row)
     {
         return 0; // CalculateConversionPageRate filter will populate this value

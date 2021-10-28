@@ -243,7 +243,6 @@ class Controller extends \Piwik\Plugin\Controller
     protected function getTopDimensions($idGoal)
     {
         $columnNbConversions = 'goal_' . $idGoal . '_nb_conversions';
-        $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
 
         $topDimensionsToLoad = array();
 
@@ -261,6 +260,11 @@ class Controller extends \Piwik\Plugin\Controller
                 'website' => 'Referrers.getWebsites',
             );
         }
+
+        $topDimensionsToLoad += array(
+            'entry_page' => 'Goals.getPagesEntry',
+        );
+
         $topDimensions = array();
         foreach ($topDimensionsToLoad as $dimensionName => $apiMethod) {
             $request = new Request("method=$apiMethod
@@ -274,6 +278,13 @@ class Controller extends \Piwik\Plugin\Controller
             $datatable = $request->process();
             $topDimension = array();
             $count = 0;
+
+            if ($apiMethod == 'Goals.getPagesEntry') {
+                $columnConversionRate = 'goal_' . $idGoal . '_conversion_entry_rate';
+            } else {
+                $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
+            }
+
             foreach ($datatable->getRows() as $row) {
                 $conversions = $row->getColumn($columnNbConversions);
                 if ($conversions > 0

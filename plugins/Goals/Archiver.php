@@ -34,6 +34,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const PAGE_CONVERSIONS_URL_RECORD_NAME = 'Goal_page_conversions_url';
     const PAGE_CONVERSIONS_TITLES_RECORD_NAME = 'Goal_page_conversions_titles';
     const PAGE_CONVERSIONS_ENTRY_RECORD_NAME = 'Goal_page_conversions_entry';
+    const PAGE_CONVERSIONS_ENTRY_TITLES_RECORD_NAME = 'Goal_page_conversions_entry_titles';
     const SKU_FIELD = 'idaction_sku';
     const NAME_FIELD = 'idaction_name';
     const CATEGORY_FIELD = 'idaction_category';
@@ -529,7 +530,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         // Generate page visits data tables and add goal conversions fields
         $this->aggregatePageConversions('idaction_url', self::PAGE_CONVERSIONS_URL_RECORD_NAME, Action::TYPE_PAGE_URL);
         $this->aggregatePageConversions('idaction_name', self::PAGE_CONVERSIONS_TITLES_RECORD_NAME, Action::TYPE_PAGE_TITLE);
-        $this->aggregateEntryConversions();
+        $this->aggregateEntryConversions('visit_entry_idaction_url', self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME);
+        $this->aggregateEntryConversions('visit_entry_idaction_name', self::PAGE_CONVERSIONS_ENTRY_TITLES_RECORD_NAME);
 
         // Enrich the metrics
         foreach ($this->arrays as $dataArray) {
@@ -616,7 +618,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         // We now have a data array of pages with the unique visit count
         // Next need to perform a separate query to get the goal conversion metrics and add them to the data array
 
-        $query = $this->getLogAggregator()->queryConversionsByPageView($linkField);
+        $query = $this->getLogAggregator()->queryConversionsByPageView();
 
         if ($query === false) {
             return;
@@ -632,7 +634,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      *
      * @throws \Zend_Db_Statement_Exception
      */
-    public function aggregateEntryConversions()
+    public function aggregateEntryConversions($linkField, $recordName)
     {
 
         $select = "count(distinct log_visit.idvisitor) as `" . PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS . "`,
@@ -647,7 +649,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             "log_visit",
                 array(
                     "table"  => "log_action",
-                    "joinOn" => "log_visit.visit_entry_idaction_url = log_action.idaction"
+                    "joinOn" => "log_visit.%s = log_action.idaction"
                 )
         );
 
@@ -667,15 +669,14 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addColumn(array(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS), 'sum');
         }
 
-        $this->pageGoalsGetVisits($select, $from, $where, $groupBy, $orderBy, 'visit_entry_idaction_url', $rankingQuery);
+        $this->pageGoalsGetVisits($select, $from, $where, $groupBy, $orderBy, $linkField, $rankingQuery);
 
-        $query = $this->getLogAggregator()->queryConversionsByEntryPageView();
-
+        $query = $this->getLogAggregator()->queryConversionsByEntryPageView($linkField);
         if ($query === false) {
             return;
         }
         while ($row = $query->fetch()) {
-            $this->getDataArray(self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME)->sumMetricsGoalsPages($row['idaction_url'], $row, false);
+            $this->getDataArray($recordName)->sumMetricsGoalsPages($row['idaction'], $row, false);
         }
     }
 
@@ -712,6 +713,8 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $this->aggregateRow($row, self::PAGE_CONVERSIONS_TITLES_RECORD_NAME);
             } else if ($sprintfField == 'visit_entry_idaction_url') {
                 $this->aggregateRow($row, self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME);
+            } else if ($sprintfField == 'visit_entry_idaction_name') {
+                $this->aggregateRow($row, self::PAGE_CONVERSIONS_ENTRY_TITLES_RECORD_NAME);
             }
         }
 
@@ -759,16 +762,15 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-
     public function aggregatePageGoalsMultipleReports()
     {
-
         $columnsAggregationOperation = null;
         $this->getProcessor()->aggregateDataTableRecords(
             [
                 self::PAGE_CONVERSIONS_URL_RECORD_NAME,
                 self::PAGE_CONVERSIONS_TITLES_RECORD_NAME,
                 self::PAGE_CONVERSIONS_ENTRY_RECORD_NAME,
+                self::PAGE_CONVERSIONS_ENTRY_TITLES_RECORD_NAME,
             ],
             $this->maximumRows,
             $maximumRowsInSubDataTable = null,
@@ -777,7 +779,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array()
         );
-
 
     }
 
