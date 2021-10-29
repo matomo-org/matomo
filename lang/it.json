@@ -24,7 +24,7 @@
         "AverageX": "Media %s",
         "BackToPiwik": "Torna a Matomo",
         "Broken": "Interrotto",
-        "BrokenDownReportDocumentation": "Esso è suddiviso in vari report, che vengono visualizzati in piccoli grafici nella parte inferiore della pagina. Cliccando sul report che vi piacerebbe vedere, si possono ingrandire i grafici.",
+        "BrokenDownReportDocumentation": "È suddiviso in vari report, che vengono visualizzati in piccoli grafici nella parte inferiore della pagina. Cliccando sul report che vi piacerebbe vedere, si possono ingrandire i grafici.",
         "Cancel": "Annulla",
         "CannotUnzipFile": "Impossibile scompattare il file %1$s: %2$s",
         "ChangeInX": "Cambia in %1$s",
