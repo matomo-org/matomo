@@ -114,7 +114,7 @@ class Goals extends HtmlTable
             Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', $goalName);
     }
 
-    private function setPropertiesForGoalsOverview($idSite)
+    protected function setPropertiesForGoalsOverview($idSite)
     {
         $allGoals = $this->getGoals($idSite);
 
@@ -129,7 +129,7 @@ class Goals extends HtmlTable
         $this->config->columns_to_display[] = 'revenue_per_visit';
     }
 
-    private function setPropertiesForGoals($idSite, $idGoals)
+    protected function setPropertiesForGoals($idSite, $idGoals)
     {
         $allGoals = $this->getGoals($idSite);
 
@@ -161,9 +161,9 @@ class Goals extends HtmlTable
         $this->config->columns_to_display[] = 'revenue_per_visit';
     }
 
-    private $goalsForCurrentSite = null;
+    protected $goalsForCurrentSite = null;
 
-    private function getGoals($idSite)
+    protected function getGoals($idSite)
     {
         if ($this->goalsForCurrentSite === null) {
             // get all goals to display info for
@@ -195,11 +195,32 @@ class Goals extends HtmlTable
         return $this->goalsForCurrentSite;
     }
 
-    private function getAllGoalIds($idSite)
+    protected function getAllGoalIds($idSite)
     {
         $allGoals = $this->getGoals($idSite);
         return array_map(function ($data) {
             return $data['idgoal'];
         }, $allGoals);
     }
+
+    /**
+     * Hide any goal columns marked as excluded by datatable filters
+     */
+    protected function removeExcludedColumns()
+    {
+        $excludedGoalColumns = $this->dataTable->getMetadata('excluded_goal_columns');
+        if ($excludedGoalColumns) {
+            $excludedGoalColumns = json_decode($excludedGoalColumns);
+            foreach ($this->config->columns_to_display as $k => $v) {
+                foreach ($excludedGoalColumns as $excludeColName) {
+                    if ($v === $excludeColName) {
+                        unset($this->config->columns_to_display[$k]);
+                        break;
+                    }
+                }
+            }
+            $this->dataTable->deleteMetadata('excluded_goal_columns');
+        }
+    }
+
 }

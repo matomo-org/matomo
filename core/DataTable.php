@@ -1678,6 +1678,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Deletes a metadata property by name.
+     *
+     * @param string $name The metadata name.
+     */
+    public function deleteMetadata($name)
+    {
+        unset($this->metadata[$name]);
+    }
+
+    /**
      * Returns all table metadata.
      *
      * @return array
