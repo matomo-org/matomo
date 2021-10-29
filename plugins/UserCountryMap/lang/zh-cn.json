@@ -17,7 +17,7 @@
         "Searches": "%s 次搜索",
         "SecondsAgo": "%s 秒前",
         "ShowingVisits": "最后访客地理位置",
-        "Unlocated": "<b>%1$s</b> %2$p 的访问来自 %3$c 无法定位地理位置。",
+        "Unlocated": "來自 %3$c 的訪客 <b>%1$s</b> %2$p 無法定位地理位置。",
         "VisitorMap": "访客地图",
         "WithUnknownCity": "%s未知城市",
         "WithUnknownRegion": "%s未知区域",

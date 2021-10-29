@@ -226,16 +226,6 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         return $rowsAffected;
     }
 
-    /**
-     * Is the connection character set equal to utf8?
-     *
-     * @return bool
-     */
-    public function isConnectionUTF8()
-    {
-        $charset = mysqli_character_set_name($this->_connection);
-        return strpos($charset, 'utf8') === 0;
-    }
 
     /**
      * Get client version

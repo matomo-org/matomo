@@ -18,6 +18,16 @@
         var $location;
         var oldInjectorFn;
         var $window;
+        var oldWindowHash;
+
+        function setHash(search) {
+          $location.search(search);
+          window.location.hash = '#?' + search;
+        }
+
+        beforeEach(function () {
+          oldWindowHash = window.location.hash;
+        });
 
         beforeEach(module('piwikApp.service'));
         beforeEach(module(function($provide) {
@@ -86,9 +96,13 @@
             $httpBackend.verifyNoOutstandingRequest ();
         });
 
+        afterEach(function () {
+          window.location.hash = oldWindowHash;
+        });
+
         describe('#getComparisons()', function () {
             it('should return all comparisons in URL', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getComparisons()).to.deep.equal([
@@ -133,7 +147,7 @@
             });
 
             it('should return base params if there are no comparisons', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getComparisons()).to.deep.equal([
@@ -156,7 +170,7 @@
             });
 
             it('should return nothing if comparison is not enabled for the page', function () {
-                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getComparisons()).to.deep.equal([]);
@@ -165,27 +179,27 @@
 
         describe('#removeSegmentComparison()', function () {
             it('should remove an existing segment comparison from the URL', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 piwikComparisonsService.removeSegmentComparison(1);
 
-                expect($location.url()).to.equal('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=&updated=1#%3Fdate=2012-01-01,2012-01-02&period=range&comparePeriods%255B%255D=week&compareDates%255B%255D=2018-03-04');
+                expect($location.url()).to.equal('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=&updated=1#%3Fcategory=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=');
             });
 
             it('should change the base comparison if the first segment is removed', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 piwikComparisonsService.removeSegmentComparison(0);
 
-                expect($location.url()).to.equal('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=&updated=1#%3Fdate=2012-01-01,2012-01-02&period=range&segment=comparedsegment&comparePeriods%255B%255D=week&compareDates%255B%255D=2018-03-04');
+                expect($location.url()).to.equal('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=&updated=1#%3Fcategory=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=');
             });
         });
 
         describe('#addSegmentComparison()', function () {
             it('should add a new segment comparison to the URL', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 piwikComparisonsService.addSegmentComparison({
@@ -201,7 +215,7 @@
             });
 
             it('should add the all visits segment to the URL', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 piwikComparisonsService.addSegmentComparison({
@@ -217,7 +231,7 @@
             });
 
             it('should add a new period comparison to the URL', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareSegments[]=comparedsegment');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 piwikComparisonsService.addSegmentComparison({
@@ -233,7 +247,7 @@
             });
 
             it('should add another period comparison to the URL if one is already there', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 piwikComparisonsService.addSegmentComparison({
@@ -252,21 +266,21 @@
 
         describe('#isComparisonEnabled()', function () {
             it('should return true if comparison is enabled for the page', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparisonEnabled()).to.be.true;
             });
 
             it('should return false if comparison is disabled for the page', function () {
-                $location.search('category=MyModule2&subcategory=disabledPage2&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                setHash('category=MyModule2&subcategory=disabledPage2&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparisonEnabled()).to.be.false;
             });
 
             it('should return false if comparison is disabled for the entire category', function () {
-                $location.search('category=MyModule3&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                setHash('category=MyModule3&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparisonEnabled()).to.be.false;
@@ -275,7 +289,7 @@
 
         describe('#getSegmentComparisons()', function () {
             it('should return the segment comparisons only', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getSegmentComparisons()).to.be.deep.equal([
@@ -286,7 +300,7 @@
             });
 
             it('should return nothing if comparison is not enabled', function () {
-                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getSegmentComparisons()).to.be.deep.equal([]);
@@ -295,7 +309,7 @@
 
         describe('#getPeriodComparisons()', function () {
             it('should return the period comparisons only', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getPeriodComparisons()).to.be.deep.equal([
@@ -319,7 +333,7 @@
             });
 
             it('should return nothing if comparison is not enabled', function () {
-                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getPeriodComparisons()).to.be.deep.equal([]);
@@ -328,7 +342,7 @@
 
         describe('#getAllComparisonSeries()', function () {
             it('should return all individual comparison serieses', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getAllComparisonSeries()).to.be.deep.equal([
@@ -390,7 +404,7 @@
             });
 
             it('should return nothing if comparison is not enabled', function () {
-                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getAllComparisonSeries()).to.be.deep.equal([]);
@@ -399,40 +413,40 @@
 
         describe('#isComparing()', function () {
             it('should return true if there are comparison parameters present', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparing()).to.be.true;
             });
 
             it('should return true if there are segment comparisons but no period comparisons', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparing()).to.be.true;
             });
 
             it('should return true if there are period comparisons but no segment comparisons', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparing()).to.be.true;
             });
 
             it('should return false if there are no comparison parameters present', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparing()).to.be.false;
 
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparing()).to.be.false;
             });
 
             it('should return false if comparison is not enabled', function () {
-                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparing()).to.be.false;
@@ -441,28 +455,28 @@
 
         describe('#isComparingPeriods()', function () {
             it('should return true if there are periods being compared', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparingPeriods()).to.be.true;
             });
 
             it('should return false if there are no periods being compared, just segments', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparingPeriods()).to.be.false;
             });
 
             it('should return false if there is nothing being compared', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparingPeriods()).to.be.false;
             });
 
             it('should return false if comparing is not enabled', function () {
-                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.isComparingPeriods()).to.be.false;
@@ -471,7 +485,7 @@
 
         describe('#getIndividualComparisonRowIndices()', function () {
             it('should calculate the segment/period index from the given series index', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getIndividualComparisonRowIndices(3)).to.be.deep.equal({
@@ -488,7 +502,7 @@
 
         describe('#getComparisonSeriesIndex()', function () {
             it('should return the comparison series index from the given segment & period indices', function () {
-                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getComparisonSeriesIndex(1, 1)).to.be.deep.equal(4);

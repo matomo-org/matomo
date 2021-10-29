@@ -15,7 +15,6 @@
         "ExceptionPasswordMD5HashExpected": "パスワードパラメータは、パスワードの MD5 ハッシュ値であることを想定されています。",
         "HelpIpRange": "1 行に 1 つの IP アドレスまたは 1 つの IP 範囲を入力します。 たとえば、CIDR 表記を使用することができます。%1$sまたはワイルドカードを使用することができます。 例：%2$s または %3$s",
         "IPsAlwaysBlocked": "これらの IP は常にブロックされています",
-        "InvalidNonceOrHeadersOrReferrer": "安全にフォームをロードできませんでした。フォームを再ロードし、cookie が有効になっていることを確認してください。プロキシサーバーを使用する場合、ホストヘッダーを転送するプロキシヘッダー %1$s を許可するために、Matomo を %2$s 設定する必要があります。また、リファラーヘッダーが正しく送信されているかどうかご確認ください。",
         "InvalidNonceSSLMisconfigured": "また、%1$s は、Matomo に安全な接続%2$sを使用させることができます：設定ファイルでセクション %5$s の下の%3$s の設定 %4$s",
         "InvalidOrExpiredToken": "トークンが無効または期限切れです。",
         "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です。",

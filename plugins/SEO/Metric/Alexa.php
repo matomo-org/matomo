@@ -34,8 +34,9 @@ class Alexa implements MetricsProvider
     public function getMetrics($domain)
     {
         $value = null;
+        $suffix = 'General_Pages';
         try {
-            $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
+            $response = Http::sendHttpRequest(self::URL . urlencode($domain ?? ''), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
             libxml_use_internal_errors(true); // suppress errors
             $dom = new \DomDocument();
             $dom->loadHTML($response);
@@ -50,14 +51,15 @@ class Alexa implements MetricsProvider
             }
         } catch (\Exception $e) {
             $this->logger->info('Error while getting Alexa SEO stats: {message}', array('message' => $e->getMessage()));
-            $value = Piwik::translate('General_Error');
+            $value = Piwik::translate('General_ErrorTryAgain');
+            $suffix = '';
         }
 
         $logo = "plugins/Morpheus/icons/dist/SEO/alexa.com.png";
-        $link = self::LINK . urlencode($domain);
+        $link = self::LINK . urlencode($domain ?? '');
 
         return array(
-            new Metric('alexa', 'SEO_AlexaRank', $value, $logo, $link)
+          new Metric('alexa', 'SEO_AlexaRank', $value, $logo, $link, null, $suffix)
         );
     }
 }

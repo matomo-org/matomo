@@ -1,5 +1,9 @@
 .segment-generator {
-  width: 900px;
+  width: 930px;
+
+  @media screen and (max-width: 940px) {
+    width: 100%;
+  }
 
   .segment-row-inputs {
     .form-group {
@@ -106,10 +110,15 @@
     border-radius: 3px;
     display: inline-block;
     position: relative;
-    width: 887px;
+    width: 100%;
     padding: 12px 1%;
     background: #efefeb;
     padding: 0 5px 0 5px;
+
+    @media screen and (max-width: 749px) {
+      width: 100%;
+    }
+
   }
 
   .segment-row .segment-close {

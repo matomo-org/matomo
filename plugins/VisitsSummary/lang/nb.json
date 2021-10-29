@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "gjennomsnittlig generingstid",
         "GenerateQueries": "%s spørringer kjørt",
         "GenerateTime": "%s sekunder for å generere denne siden",
         "NbActionsDescription": "%s handlinger",

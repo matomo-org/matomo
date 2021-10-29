@@ -429,4 +429,25 @@ class ConfigTest extends TestCase
         $configCategory = $config->getFromLocalConfig('Category');
         $this->assertEquals(array('key1' => 'value_overwritten'), $configCategory);
     }
+
+    public function testSanityCheckFails()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+
+        $expectedPath = '';
+        $correctContent = file_get_contents($userFile);
+        $incorrectContent = 'incorrrect content';
+
+        \Piwik\Piwik::addAction('Core.configFileSanityCheckFailed', function ($path) use (&$expectedPath) {
+            $expectedPath = $path;
+        });
+
+        $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
+
+        $this->assertFalse($config->sanityCheck($userFile, $incorrectContent, true));
+        $this->assertTrue($config->sanityCheck($userFile, $correctContent));
+        $this->assertSame($userFile, $expectedPath);
+    }
 }

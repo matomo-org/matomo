@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Gjennomsnittlig tid for lasting av side",
         "ColumnTimeServer": "Servertid"
     }
 }

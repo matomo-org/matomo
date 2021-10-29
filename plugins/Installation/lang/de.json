@@ -56,6 +56,7 @@
         "PercentDone": "%s %% Fertig",
         "PerformanceSettingsDesc1": "Eine finale Anmerkung zur Performance: Ihr Matomo ist eingerichtet und bereit zum Tracken und Berichte über ihre Webseite anzuzeigen, aber wenn Ihnen Ihr Matomo langsam vorkommt, können sie zusätzliche Schritte vornehmen und %1$sCLI-Archivierung%2$s aktivieren. Dies generiert Ihre Berichte periodisch im Hintergrund anstatt, wenn Sie sie aufrufen.",
         "PerformanceSettingsDesc2": "Dies erfordert, dass Sie einen Matomo Aufruf zu Cron hinzufügen, was nicht automatisch während der Installation gemacht werden kann. Aber Sie können %1$sunser FAQ lesen um zu erfahren, wie Sie es selbst einrichten können.%2$s",
+        "PhpBinaryCheckHelp": "32-bit <p> Wir empfehlen ein Upgrade auf eine 64-Bit-PHP-Binärdatei bis spätestens Januar 2026, um Fehler in der Zukunft zu vermeiden.</p>",
         "PiwikOrgNewsletter": "Wichtige Matomo Community Updates per Mail zukommen lassen",
         "PleaseFixTheFollowingErrors": "Bitte beheben Sie die folgenden Fehler",
         "ProfessionalServicesAdTitle": "Erweiterte Analysen & Service",

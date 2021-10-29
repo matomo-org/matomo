@@ -1,7 +1,8 @@
 {
     "Ecommerce": {
+        "PluginDescription": "Med netthandel kan du spore når brukere legger til produkter i handlekurver, og når de konverterer til en netthandel. Spor også visninger av produkter og produktkategorier og forlatte handlekurver.",
         "Sales": "Salg",
-        "SalesBy": "Salg etter %s",
-        "SalesAdjective": "Salg %s"
+        "SalesAdjective": "Salg %s",
+        "SalesBy": "Salg etter %s"
     }
 }

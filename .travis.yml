@@ -29,9 +29,6 @@ git:
 env:
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
-    - SKIP_INSTALL_MYSQL_56=1
-    - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
-    - secure: "CW73pDjcaabpSL7bWiWIQLydKmvLzA1gWNv/zK0VcAKezQtCAQbqpIY1+B56wOhkaCWa7P+xdd2gUWEtvvdRKEC0sZcgCdHD5pQx390e5PWCMQTFO+doAElI4w4DMATCbH890Wcw2rotiZcjlkPYY+urIpUlcRsl6mMtBVQuQ9c="
 
 matrix:
   fast_finish: true
@@ -86,15 +83,15 @@ matrix:
     # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
     - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=0"
-      dist: xenial
+      dist: bionic
       sudo: false
     - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=1"
-      dist: xenial
+      dist: bionic
       sudo: false
     - php: 7.2
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=2"
-      dist: xenial
+      dist: bionic
       sudo: false
 
 dist: bionic

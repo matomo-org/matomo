@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
-        "PluginDescription": "任意のプラグインが Matomo JavaScript Tracking ファイル（ matomo.js ）を拡張し、新しい機能と Web サイトの測定機能を追加することができます。",
-        "DiagnosticPiwikJsWritable": "書き込み可能な JavaScript トラッカー（%s）",
+        "DiagnosticPiwikJsMakeWritable": "次のコマンドを実行して、%1$s を書き込み可能にすることを推奨します。: %2$s",
         "DiagnosticPiwikJsNotWritable": "Matomo JavaScriptトラッカーファイル %s は書き込み可能ではありません。これは、他のプラグインが JavaScriptトラッカー を拡張できないことを意味します。 将来的には、一部のコア機能も期待どおりに機能しない可能性があります。",
-        "DiagnosticPiwikJsMakeWritable": "次のコマンドを実行して、%1$s を書き込み可能にすることを推奨します。: %2$s"
+        "DiagnosticPiwikJsWritable": "書き込み可能な JavaScript トラッカー（%s）",
+        "PluginDescription": "任意のプラグインが Matomo JavaScript Tracking ファイル（ matomo.js ）を拡張し、新しい機能と Web サイトの測定機能を追加することができます。"
     }
 }

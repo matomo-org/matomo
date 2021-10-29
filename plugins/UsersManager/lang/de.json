@@ -111,6 +111,7 @@
         "MainDescription": "Hier kann der Zugriff auf bestimmte Webseiten erteilt werden. Es ist auch möglich, Zugriff auf alle Webseiten zu erlauben, in dem Sie \"Für alle Webseiten anwenden\" im Webseitenselektor anwählen.",
         "ManageAccess": "Zugriffsverwaltung",
         "ManageUsers": "Benutzer verwalten",
+        "ManageUsersAdminDesc": "Erstellen Sie neue Benutzer oder aktualisieren Sie die vorhandenen Benutzer. Hier können Sie dann auch deren Berechtigungen festlegen. Bitte beachten Sie, dass Sie als Administrator angemeldet sind. Das bedeutet, dass Sie nur Benutzer sehen und verwalten, die Zugriff auf bestimmte Websites haben, auf denen Sie über \"Administrator\"-Berechtigungen verfügen. Nur ein Hauptadministrator kann alle Benutzer auf allen Websites sehen und verwalten.",
         "ManageUsersDesc": "Erstellen Sie neue Benutzer oder aktualisieren Sie die existierenden. Sie können hier auch deren Berechtigungen ändern.",
         "MenuAnonymousUserSettings": "Gast-Besucher (\"anonymous\") Einstellungen",
         "MenuPersonal": "Persönlich",

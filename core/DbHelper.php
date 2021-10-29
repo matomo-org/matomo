@@ -118,9 +118,13 @@ class DbHelper
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
      */
-    public static function getInstallVersion()
+    public static function getInstallVersion(): string
     {
-        return Schema::getInstance()->getInstallVersion();
+        return Schema::getInstance()->getInstallVersion() ?? '0';
+        // need string as usage is usually
+        // version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<') or similar
+        // and PHP 8.1 throws a deprecation warning otherwise
+        // @see https://github.com/matomo-org/matomo/pull/17989#issuecomment-921298360
     }
 
     public static function wasMatomoInstalledBeforeVersion($version)
@@ -150,15 +154,6 @@ class DbHelper
         }
     }
 
-    /**
-     * Check database connection character set is utf8.
-     *
-     * @return bool  True if it is (or doesn't matter); false otherwise
-     */
-    public static function isDatabaseConnectionUTF8()
-    {
-        return Db::get()->isConnectionUTF8();
-    }
 
     /**
      * Checks the database server version against the required minimum

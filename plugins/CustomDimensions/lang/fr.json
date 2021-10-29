@@ -18,7 +18,7 @@
         "ExceptionDimensionIsNotActive": "La dimension %1$d pour le site web %2$d n'est pas active.",
         "ExtractValue": "Extraire la valeur",
         "Extractions": "Extractions",
-        "ExtractionsHelp": "Ceci est optionnel. Une regex peut être utilisée pour extraire la valeur de cette dimension personnalisée depuis l'url ou le titre d'une page automatiquement. De cette manière la value de la dimension personnalisée n'a pas besoin d'être définie manuellement via l'API de suivi. Une valeur peut toujours être définie via l'API de suivi Matomo. Les valeurs de dimension définies manuellement via l'API ont toujours priorité sur celles extraites. Si plusieurs extractions sont définies, la première correspondance est utilisée.",
+        "ExtractionsHelp": "Ceci est facultatif. Une expression régulière peut être utilisée pour extraire automatiquement la valeur de cette dimension personnalisée à partir d'une URL de page ou d'un titre de page. De cette façon, la valeur de la dimension personnalisée n'a pas besoin d'être définie manuellement via un client de suivi. Une valeur peut toujours être définie manuellement via l'API Matomo Tracker. Les valeurs de dimension définies manuellement dans le suivi des clients ont toujours la priorité sur les extractions. Si plusieurs extractions sont définies, la première extraction qui correspond est utilisée. Vous n'avez pas besoin d'échapper aux barres obliques car Matomo le fait automatiquement pour vous. Par exemple, utilisez /news/ au lieu de \\/news\\/.",
         "HowToCreateCustomDimension": "Afin de créer de nouvelles Dimensions Personnalisées exécutez la commande suivante dans votre installation Matomo :",
         "HowToManyCreateCustomDimensions": "Si vous souhaitez créer plusieurs dimensions personnalisées à la fois il suffit simplement d'ajouter le nombre de dimensions souhaitées à la fin. Comme toutes les modifications de bases de données vont être exécutées en une seule fois, cela ne devrait pas prendre plus de temps de les ajouter toutes à la fois.",
         "HowToTrackManuallyTitle": "Suivre la valeur de cette dimension manuellement",
@@ -34,9 +34,10 @@
         "NoCustomDimensionConfigured": "Aucune dimension personnalisée n'est encore configurée, configurez-en une maintenant.",
         "NoValue": "aucune valeur",
         "PageUrlParam": "Paramètre d'URL de page",
+        "PluginDescription": "Étendez Matomo à vos besoins en définissant et en suivant les dimensions personnalisées dans le cadre de l'action ou de la visite",
         "ScopeDescriptionAction": "Les dimensions personnalisées dans la portée \"Action\" peuvent être transmises avec n'importe quelle action (vue de page, téléchargement, évènement, etc...).",
         "ScopeDescriptionActionMoreInfo": "Des extractions peuvent être définies de manière à ce que la valeur soit extraite depuis l'URL, le titre ou des paramètres d'URL de la page.",
-        "ScopeDescriptionVisit": "Les dimensions personnalisées dans la portée \"visite\" peuvent être transmises avec n'importe quelle requête de suivi et stockées avec la visite.",
+        "ScopeDescriptionVisit": "Les dimensions personnalisées dans la portée « Visite » peuvent être envoyées avec toute demande de suivi et sont stockées dans la visite.",
         "ScopeDescriptionVisitMoreInfo": "Si vous définissez différentes valeurs pour une dimension donnée lors d'une visite, la dernière valeur définie sera utilisée.",
         "XofYLeft": "%1$s de %2$s dimensions restantes"
     }

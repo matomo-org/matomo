@@ -109,6 +109,7 @@
         "SystemSummaryPiwikVersion": "Έκδοση του Matomo",
         "SystemSummaryWidget": "Περίληψη συστήματος",
         "TableNoData": "Δεν υπάρχουν δεδομένα για τον πίνακα.",
+        "TechDeprecationWarning": "Αρχίζοντας από την έκδοση %1$s του Matomo, η υποστήριξη του Matomo θα λήξει για την %2$s. Για περισσότερες πληροφορίες, %3$sδείτε την καταχώρισή μας στο ιστολόγιο%4$s.",
         "ThanksFromAllOfUs": "Από όλους εμάς στο Matomo σας ευχαριστούμε!",
         "ThereIsNoDataForThisReport": "Δεν υπάρχουν δεδομένα για αυτή την αναφορά.",
         "UnFlattenDataTable": "Η αναφορά είναι επίπεδη %s Κάντε την ιεραρχημένη",

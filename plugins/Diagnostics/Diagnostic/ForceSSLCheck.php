@@ -11,6 +11,7 @@ use Piwik\Config;
 use Piwik\ProxyHttp;
 use Piwik\Translation\Translator;
 use Piwik\Url;
+use Piwik\View;
 
 /**
  * Check that Matomo is configured to force SSL.
@@ -38,10 +39,9 @@ class ForceSSLCheck implements Diagnostic
                 return [];
             }
 
-            $message = $this->translator->translate('General_UseSSLInstall', [
-                '<a href="https://'. Url::getCurrentHost() . Url::getCurrentScriptName(false) . Url::getCurrentQueryString() .'">',
-                '</a>'
-            ]);
+            $view = new View('@Diagnostics/force_ssl_link');
+            $view->link = 'https://' . Url::getCurrentHost() . Url::getCurrentScriptName(false) . Url::getCurrentQueryString();
+            $message = $view->render();
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $message)];
         }
 

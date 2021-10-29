@@ -19,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Klatrere og stupere",
         "NoResultMatchesCriteria": "Ingen rader passer til kriteriene",
         "OverviewWidgetTitle": "Innsiktsoversikt",
+        "PluginDescription": "Gir innsikt i trafikken din. Innsikt er tilgjengelig som dashbord-widgets, samt et nytt ikon i rapporter, slik at du kan se de viktigste trendene i dataene dine.",
         "TitleConsideredInsightsChanges": "Radene økte eller minket med minst %1$s besøk (%2$s%% av totalt %3$s besøk).",
         "TitleConsideredInsightsGrowth": "Følgende rader har en vekst på minst %1$s%% sammenliknet med %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Regnes som klatrere kun hvis de økte med mer enn %1$s%% besøk eller minket med mer enn %2$s%% besøk, nye oppføringer kun hvis de har økt med mer enn %3$s%% besøk (%4$s), og forsvunne rader hvis de minket med mer enn %5$s%% besøk (%6$s).",

@@ -135,11 +135,11 @@ class Common
         if(PHP_SAPI === 'cli'){
             return true;
         }
-        
+
         if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))){
             return true;
         }
-        
+
         return false;
     }
 
@@ -586,40 +586,14 @@ class Common
      *
      * @param int $min
      * @param null|int $max Defaults to max int value
-     * @return int|null
+     * @return int
      */
     public static function getRandomInt($min = 0, $max = null)
     {
-        $rand = null;
-
-        if (function_exists('random_int')) {
-            try {
-                if (!isset($max)) {
-                    $max = PHP_INT_MAX;
-                }
-                $rand = random_int($min, $max);
-            } catch (Exception $e) {
-                // If none of the crypto sources are available, an Exception will be thrown.
-                $rand = null;
-            }
+        if (!isset($max)) {
+            $max = PHP_INT_MAX;
         }
-
-        if (!isset($rand)) {
-            if (function_exists('mt_rand')) {
-                if (!isset($max)) {
-                    $max = mt_getrandmax();
-                }
-                $rand = mt_rand($min, $max);
-            } else {
-                if (!isset($max)) {
-                    $max = getrandmax();
-                }
-
-                $rand = rand($min, $max);
-            }
-        }
-
-        return $rand;
+        return random_int($min, $max);
     }
 
     /**

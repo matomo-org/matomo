@@ -3,6 +3,7 @@
         "Clicks": "%s clics",
         "ClicksFromXLinks": "%1$s clics depuis un des %2$s liens",
         "Domain": "Domaine",
+        "ErrorNoSiteUrls": "AVERTISSEMENT : ce site Web n'a pas d'URL de site définies dans Matomo. Cela peut entraîner la rupture ou un comportement étrange de Overlay et d'autres fonctionnalités. Pour résoudre ce problème, ajoutez une URL dans les paramètres de ce site Web dans la section Administration de Matomo.",
         "ErrorNotLoading": "L'analyse des pages web n'a pas pu être lancée pour le moment.",
         "ErrorNotLoadingDetails": "Peut être que la page chargée sur la droite n'a pas de code de suivi Matomo. Dans ce cas, essayez de lancer la navigation superposée depuis une autre page que le rapport de pages.",
         "ErrorNotLoadingDetailsSSL": "Etant donné que vous utilisez Matomo en https, la cause la plus probable est que votre site web ne supporte pas le SSL. Essayez d'utiliser Matomo en http.",

@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "2FA": "2FA (to-faktor autentisering)",
         "AddUser": "Legg til ny bruker",
         "AllWebsites": "Alle nettsteder",
         "AnonymousUser": "Anonym bruker",
@@ -30,17 +31,18 @@
         "LastSeen": "Sist sett",
         "ManageAccess": "Administrer tilgang",
         "MenuAnonymousUserSettings": "Innstillinger for anonym bruker",
-        "MenuUsers": "Brukere",
-        "MenuUserSettings": "Brukerinnstillinger",
         "MenuPersonal": "Personlig",
-        "PersonalSettings": "Personlige innstillinger",
-        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Merk: Du kan ikke endre innstillingene i denne seksjonen fordi du ikke har noen nettsteder som kan nås av en anonym bruker.",
+        "MenuUserSettings": "Brukerinnstillinger",
+        "MenuUsers": "Brukere",
         "NoUsersExist": "Det er ingen brukere ennå.",
+        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Merk: Du kan ikke endre innstillingene i denne seksjonen fordi du ikke har noen nettsteder som kan nås av en anonym bruker.",
+        "PersonalSettings": "Personlige innstillinger",
         "PrivAdmin": "Admin",
         "PrivNone": "Ingen tilgang",
         "PrivView": "Vis",
         "ReportDateToLoadByDefault": "Rapportdato som skal lastes som standard",
         "ReportToLoadByDefault": "Rapport som skal lastes som standard",
+        "ShowAll": "Vis alle",
         "SuperUserAccessManagement": "Administrer superbrukertilgang",
         "SuperUserAccessManagementGrantMore": "Du kan gi superbrukertilgang til andre Matomo-brukere her. Vennligst bruk denne funksjonen forsiktig.",
         "SuperUserAccessManagementMainDescription": "Superbrukere har alle mulige rettigheter. De kan utføre alle administrative funksjoner slik som å legge til nye nettsteder som skal spores, legge til brukere, endre brukerrettigheter, aktivering og deaktivering av utvidelser og til og med installere nye utvidelser fra Markedsplassen.",
@@ -48,12 +50,11 @@
         "ThereAreCurrentlyNRegisteredUsers": "Det er for tiden %s registrerte brukere.",
         "TypeYourPasswordAgain": "Skriv inn ditt nye passord på nytt.",
         "User": "Bruker",
+        "Username": "Brukernavn",
         "UsersManagement": "Administrasjon av brukere",
         "UsersManagementMainDescription": "Opprett nye brukere eller oppdater eksisterende. Du kan sette deres rettigheter over.",
         "YourUsernameCannotBeChanged": "Brukernavnet ditt kan ikke endres.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDine besøk blir ignorert av Matomo på %2$s %3$s (informasjonskapselen for ekskludering fra Matomo ble funnet i din nettleser).",
-        "YourVisitsAreNotIgnored": "%1$sDine besøk blir ikke ignorert av Matomo%2$s (informasjonskapselen for ekskludering fra Matomo ble ikke funnet i din nettleser).",
-        "ShowAll": "Vis alle",
-        "Username": "Brukernavn"
+        "YourVisitsAreNotIgnored": "%1$sDine besøk blir ikke ignorert av Matomo%2$s (informasjonskapselen for ekskludering fra Matomo ble ikke funnet i din nettleser)."
     }
 }

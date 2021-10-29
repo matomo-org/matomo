@@ -111,6 +111,7 @@
         "MainDescription": "Web sitelerinize erişim izni vereceğiniz kullanıcıları seçin. Tüm web sitelerine birden izin vermek için web sitesi seçicisinden 'Tüm web sitelerine uygula' seçeneğini seçin.",
         "ManageAccess": "Erişim izni yönetimi",
         "ManageUsers": "Kullanıcı yönetimi",
+        "ManageUsersAdminDesc": "Yeni kullanıcılar ekleyin ya da var olan kullanıcıları güncelleyin. Daha sonra izinlerini burada da ayarlayabilirsiniz. Yönetici olarak oturum açtığınızı lütfen unutmayın. Bu durum, yalnız \"yönetici\" izinlerine sahip olduğunuz belirli web sitelerine erişimi olan kullanıcıları gördüğünüz ve yönettiğiniz anlamına gelir. Yalnız süper kullanıcı erişimi olan bir kullanıcı, tüm web sitelerindeki tüm kullanıcıları görebilir ve yönetebilir.",
         "ManageUsersDesc": "Yeni kullanıcılar ekleyin ya da var olan kullanıcıları güncelleyin. Ardından buradan izinlerini ayarlayabilirsiniz.",
         "MenuAnonymousUserSettings": "Anonim kullanıcı ayarları",
         "MenuPersonal": "Kişisel",

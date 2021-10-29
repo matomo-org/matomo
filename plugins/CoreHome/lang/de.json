@@ -109,6 +109,7 @@
         "SystemSummaryPiwikVersion": "Matomo-Version",
         "SystemSummaryWidget": "Systemzusammenfassung",
         "TableNoData": "Keine Daten für diese Tabelle.",
+        "TechDeprecationWarning": "Ab Matomo-Version %1$s stellt Matomo die Unterstützung für %2$s ein. Mehr Details entnehmen Sie bitte %3$sunserem Blogpost.%4$s",
         "ThanksFromAllOfUs": "Vielen Dank von uns allen bei Matomo!",
         "ThereIsNoDataForThisReport": "Es stehen keine Daten für diesen Bericht zur Verfügung.",
         "UnFlattenDataTable": "Der Bericht ist flach %s Hierarchisch anzeigen",

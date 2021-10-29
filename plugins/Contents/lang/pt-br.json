@@ -1,20 +1,24 @@
 {
     "Contents": {
-        "PluginDescription": "O rastreamento de conteúdo e banner permite que meça o desempenho (visualizações, cliques, CTR) de qualquer parte do conteúdo em suas páginas (Banner de anúncio, imagem, qualquer item).",
-        "Impressions": "Impressões",
         "ContentImpression": "Impressão de Conteúdo",
         "ContentInteraction": "Interação de Conteúdo",
         "ContentInteractions": "Interação de Conteúdos",
-        "InteractionRate": "Taxa de interação",
         "ContentName": "Nome do conteúdo",
+        "ContentNameReportDocumentation": "Este relatório mostra os nomes do conteúdo que seus visitantes visualizaram e interagiram.",
         "ContentNames": "Nomes de Conteúdo",
         "ContentPiece": "Parte do conteúdo",
+        "ContentPieceReportDocumentation": "Este relatório mostra as partes do conteúdo que seus visitantes visualizaram e interagiram.",
         "ContentPieces": "Peças de Conteúdo",
         "ContentTarget": "Destino do conteúdo",
         "ContentTargets": "Metas de Conteúdo",
         "Contents": "Conteúdos",
-        "InteractionsMetricDocumentation": "O número de vezes que interagiram com um bloco de conteúdo (e.g., um 'clique' em um banner ou anúncio).",
+        "ContentsSubcategoryHelp1": "O rastreamento de conteúdo ajuda a determinar a popularidade de partes específicas de conteúdo em qualquer página de seu site ou aplicativo. Esta seção relata o número de impressões e interações que as várias partes do conteúdo em seu site recebem.",
+        "ContentsSubcategoryHelp2": "Saiba mais no guia de rastreamento de conteúdo.",
+        "Impressions": "Impressões",
         "ImpressionsMetricDocumentation": "O número de vezes que um bloco de conteúdo, como um banner ou um anúncio, foi exibido em uma página.",
-        "InteractionRateMetricDocumentation": "A proporção de impressões de conteúdo para interações."
+        "InteractionRate": "Taxa de interação",
+        "InteractionRateMetricDocumentation": "A proporção de impressões de conteúdo para interações.",
+        "InteractionsMetricDocumentation": "O número de vezes que interagiram com um bloco de conteúdo (e.g., um 'clique' em um banner ou anúncio).",
+        "PluginDescription": "O rastreamento de conteúdo e banner permite que meça o desempenho (visualizações, cliques, CTR) de qualquer parte do conteúdo em suas páginas (Banner de anúncio, imagem, qualquer item)."
     }
 }

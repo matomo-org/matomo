@@ -880,6 +880,10 @@ class API extends \Piwik\Plugin\API
         unset($user['password']);
         unset($user['ts_password_modified']);
 
+        if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
+            $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
+        }
+
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
@@ -901,6 +905,10 @@ class API extends \Piwik\Plugin\API
 
         if (isset($user['superuser_access'])) {
             $newUser['superuser_access'] = $user['superuser_access'];
+        }
+
+        if (isset($user['last_seen'])) {
+            $newUser['last_seen'] = $user['last_seen'];
         }
 
         return $newUser;
