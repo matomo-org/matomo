@@ -73,7 +73,7 @@ abstract class SystemTestCase extends TestCase
         ),
         'API.getReportPagesMetadata' => array(
             'actionName' => 'API.API.getReportPagesMetadata.end',
-            'filterKey' => 'module'
+            'filterKey' => 'category'
         ),
         'API.getWidgetMetadata' => array(
             'actionName' => 'API.API.getWidgetMetadata.end',
@@ -909,7 +909,15 @@ abstract class SystemTestCase extends TestCase
     {
         if (!empty($reports)) {
             foreach ($reports as $key => $row) {
-                if (!isset($row[$filterKey]) || !in_array($row[$filterKey], $filterValues)) {
+                if (
+                    !isset($row[$filterKey]) ||
+                    (
+                        is_array($row[$filterKey]) &&
+                        isset($row[$filterKey]['name']) &&
+                        !in_array($row[$filterKey]['name'], $filterValues)
+                    ) ||
+                    !is_array($row[$filterKey]) && !in_array($row[$filterKey], $filterValues)
+                ) {
                     unset($reports[$key]);
                 }
             }
