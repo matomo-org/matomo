@@ -543,14 +543,14 @@ class Common
                     $ok    = true;
                 }
             } elseif ($varType === 'integer') {
-                if ((string)$value === (string)(int)$value) {
+                if (!is_array($value) && (string) $value === (string)(int)$value) {
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
                 $valueToCompare = (string)(float)$value;
                 $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
 
-                if ($value === $valueToCompare) {
+                if ((string) $value === $valueToCompare) {
                     $ok = true;
                 }
             } elseif ($varType === 'array') {

@@ -673,14 +673,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (is_int($rowId) && isset($this->rows[$rowId])) {
             return $this->rows[$rowId];
         }
-        if ($rowId === self::ID_SUMMARY_ROW
-            && !empty($this->summaryRow)
-        ) {
+        if ((int) $rowId === self::ID_SUMMARY_ROW && !empty($this->summaryRow)) {
             return $this->summaryRow;
         }
         if (empty($rowId)
             && !empty($this->totalsRow)
-            && $label === $this->totalsRow->getColumn('label')
+            && (string) $label === (string) $this->totalsRow->getColumn('label')
         ) {
             return $this->totalsRow;
         }
@@ -710,9 +708,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!isset($this->rowsIndexByLabel[$label])) {
             // in case label is '-1' and there is no normal row w/ that label. Note: this is for BC since
             // in the past, it was possible to get the summary row by searching for the label '-1'
-            if ($label === self::LABEL_SUMMARY_ROW
-                && !is_null($this->summaryRow)
-            ) {
+            if ($label === (string) self::LABEL_SUMMARY_ROW && !is_null($this->summaryRow)) {
                 return self::ID_SUMMARY_ROW;
             }
 
@@ -765,9 +761,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowFromId($id)
     {
-        if ($id === self::ID_SUMMARY_ROW
-            && !is_null($this->summaryRow)
-        ) {
+        if ((int) $id === self::ID_SUMMARY_ROW && !is_null($this->summaryRow)) {
             return $this->summaryRow;
         }
 
@@ -1245,9 +1239,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         foreach ($rows1 as $row1) {
             $row2 = $table2->getRowFromLabel($row1->getColumn('label'));
-            if ($row2 === false
-                || !Row::isEqual($row1, $row2)
-            ) {
+            if ($row2 === false || !Row::isEqual($row1, $row2)) {
                 return false;
             }
         }
