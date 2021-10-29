@@ -474,9 +474,14 @@ class API extends \Piwik\Plugin\API
             '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
             '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
         );
+        $segment = new Segment($segment, [$idSite]);
+        $segment = $segment->getString();
 
         foreach ($segments as $appendToMetricName => $predefinedSegment) {
-            $segmentToUse = $this->appendSegment($predefinedSegment, $segment);
+            if (!empty($predefinedSegment)) {
+                Archiver::$ARCHIVE_DEPENDENT = false;
+            }
+            $segmentToUse = $this->appendSegment($segment, $predefinedSegment);
 
             /** @var DataTable|DataTable\Map $tableSegmented */
             $tableSegmented = Request::processRequest('Goals.getMetrics', array(
@@ -489,7 +494,7 @@ class API extends \Piwik\Plugin\API
                 'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
             ), $default = []);
-
+            Archiver::$ARCHIVE_DEPENDENT = true;
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                                     array($appendToMetricName));
 
