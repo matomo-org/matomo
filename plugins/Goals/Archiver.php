@@ -624,7 +624,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             return;
         }
         while ($row = $query->fetch()) {
-            $this->getDataArray($recordName)->sumMetricsGoalsPages($row[$linkField], $row, true);
+            $this->getDataArray($recordName)->sumMetricsGoalsPages($row['idaction'], $row, true);
         }
 
     }

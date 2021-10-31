@@ -1128,7 +1128,7 @@ class LogAggregator
                 ', ',
                 array(
                     "log_conversion.idgoal AS idgoal",
-                    "log_link_visit_action.idaction_url AS idaction_url",
+                    "log_link_visit_action.idaction_url AS idaction",
                     "count(*) AS `10`",
                     "count(distinct log_conversion.idvisit) AS `3`",
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 2),

@@ -185,7 +185,7 @@ class DataArray
         $label = $idaction;
 
         foreach ($this->data as $k => $r) {
-            if ($r['idaction'] == $idaction) {
+            if (isset($r['idaction']) && $r['idaction'] == $idaction) {
                 $label = $k;
                 break;
             }
