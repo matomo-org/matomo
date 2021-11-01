@@ -7,5 +7,4 @@
 
 import './RateFeature/RateFeature.adapter';
 
-export { default as ReviewLinks } from './ReviewLinks/ReviewLinks.vue';
 export { default as RateFeature } from './RateFeature/RateFeature.vue';
