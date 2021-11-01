@@ -508,12 +508,6 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $columnsToRenameAfterAggregation = null,
                 $countRowsRecursive = array());
 
-        if (Segment::containsCondition($this->getProcessor()->getParams()->getSegment()->getString(), SegmentExpression::AND_DELIMITER, VisitFrequencyAPI::NEW_VISITOR_SEGMENT)
-        || Segment::containsCondition($this->getProcessor()->getParams()->getSegment()->getString(), SegmentExpression::AND_DELIMITER, VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT)
-
-        ) {
-           // return;
-        }
         if (self::$ARCHIVE_DEPENDENT) {
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);

@@ -474,11 +474,15 @@ class API extends \Piwik\Plugin\API
             '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
             '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
         );
-        $segment = new Segment($segment, [$idSite]);
-        $segment = $segment->getString();
 
         foreach ($segments as $appendToMetricName => $predefinedSegment) {
             if (!empty($predefinedSegment)) {
+                // we are disabling the archiving of these segments as the archiver archives them already using
+                // archiveProcessDependend logic. Otherwise we would eg archive reports that we don't need:
+                // userid=5;visitorType%3D%3Dnew;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer
+                // userid=5;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer;visitorType%3D%3Dnew;
+                // it would also archive dependends for these segments that we already combined here and then combine
+                // segments again when archiving dependends
                 Archiver::$ARCHIVE_DEPENDENT = false;
             }
             $segmentToUse = $this->appendSegment($segment, $predefinedSegment);
