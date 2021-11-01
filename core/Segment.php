@@ -591,7 +591,7 @@ class Segment
         return $segment . $operator . $segmentCondition;
     }
 
-    public static function containsCondition($segment, $operator, $segmentCondition)
+    private static function containsCondition($segment, $operator, $segmentCondition)
     {
         // check when segment/condition are of same encoding
         return strpos($segment, $operator . $segmentCondition) !== false
