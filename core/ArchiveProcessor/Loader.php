@@ -163,17 +163,15 @@ class Loader
         if (!$lock->acquire()) {
             return [false, false];
         }
-        if ($lock->acquire()) {
-            try {
-                list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-                list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        try {
+            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-                if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-                    return [[$idArchive], $visits];
-                }
-            } finally {
-                $lock->release();
+            if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                return [[$idArchive], $visits];
             }
+        } finally {
+            $lock->release();
         }
 
     }
