@@ -28,6 +28,8 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 use Piwik\CronArchive\SegmentArchiving;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\Store\FlockStore;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -154,14 +156,35 @@ class Loader
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        $store = new FlockStore(PIWIK_DOCUMENT_ROOT.'/tmp/locks');
+        $factory = new LockFactory($store,10);
+        $lock = $factory->createLock($this->makeArchivingLock());
 
-        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return [[$idArchive], $visits];
+        if (!$lock->acquire()) {
+            return [false, false];
+        }
+        if ($lock->acquire()) {
+            try {
+                list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+                list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+
+                if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                    return [[$idArchive], $visits];
+                }
+            } finally {
+                $lock->release();
+            }
         }
 
-        return [false, false];
+    }
+
+
+    private function makeArchivingLock()
+    {
+        $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
+          $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
+        return $this->params->getPeriod()->getDateStart()->toString() .
+          $this->params->getPeriod()->getDateEnd()->toString() . $doneFlag;
     }
 
     /**

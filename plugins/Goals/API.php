@@ -466,12 +466,6 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false, $compare = false)
     {
-        if (!file_exists(PIWIK_INCLUDE_PATH . '/tmp/locks')) {
-            @mkdir(PIWIK_INCLUDE_PATH . '/tmp/locks');
-        }
-        $filename = $idSite . '_' . $period . '_' . $date;
-        $fp = fopen(PIWIK_INCLUDE_PATH . '/tmp/locks/' . $filename . '.lock', "w");
-        if (flock($fp, LOCK_EX)) {
             Piwik::checkUserHasViewAccess($idSite);
 
             /** @var DataTable|DataTable\Map $table */
@@ -486,17 +480,6 @@ class API extends \Piwik\Plugin\API
             foreach ($segments as $appendToMetricName => $predefinedSegment) {
                 $segmentToUse = $this->appendSegment($predefinedSegment, $segment);
 
-                /** @var DataTable|DataTable\Map $tableSegmented */
-                $tableSegmented = Request::processRequest('Goals.getMetrics', array(
-                  'segment'                    => $segmentToUse,
-                  'idSite'                     => $idSite,
-                  'period'                     => $period,
-                  'date'                       => $date,
-                  'idGoal'                     => $idGoal,
-                  'columns'                    => $columns,
-                  'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                  'format_metrics'             => Common::getRequestVar('format_metrics', 'bc'),
-                ), $default = []);
                 /** @var DataTable|DataTable\Map $tableSegmented */
                 $tableSegmented = Request::processRequest('Goals.getMetrics', array(
                   'segment'                    => $segmentToUse,
@@ -532,13 +515,7 @@ class API extends \Piwik\Plugin\API
                     $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
                 });
             }
-
-            flock($fp, LOCK_UN);
-            fclose($fp);
-            unlink($filename);
             return $table;
-        }
-
 
     }
 
