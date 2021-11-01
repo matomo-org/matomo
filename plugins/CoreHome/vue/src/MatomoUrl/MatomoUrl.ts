@@ -5,11 +5,69 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { ILocationService } from 'angular';
+import { computed, ref, ComputedRef } from 'vue';
+import Matomo from '../Matomo/Matomo';
+import Periods from '../Periods/Periods';
+import { format } from '../Periods';
+
+const { piwik, broadcast } = window;
+
+function isValidPeriod(periodStr: string, dateStr: string) {
+  try {
+    Periods.parse(periodStr, dateStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 /**
- * Similar to angulars $location but works around some limitation. Use it if you need to access
- * search params
+ * URL store and helper functions.
  */
-const MatomoUrl = {
+class MatomoUrl {
+  private urlQuery = ref('');
+
+  private hashQuery = ref('');
+
+  readonly urlParsed = computed(() => broadcast.getValuesFromUrl(`?${this.urlQuery.value}`));
+
+  readonly hashParsed = computed(() => broadcast.getValuesFromUrl(`?${this.hashQuery.value}`));
+
+  readonly parsed: ComputedRef<QueryParameters> = computed(() => ({
+    ...this.urlParsed.value,
+    ...this.hashParsed.value,
+  }));
+
+  constructor() {
+    this.setUrlQuery(window.location.search);
+    this.setHashQuery(window.location.hash);
+
+    // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
+    // have to hook into this method if we want our event handlers to execute before other angularjs
+    // handlers (like the reporting page one)
+    Matomo.on('$locationChangeSuccess', () => {
+      const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
+      const absUrl = $location.absUrl();
+
+      const queryPos = absUrl.indexOf('?');
+      const hashPos = absUrl.indexOf('#');
+
+      this.setUrlQuery(absUrl.substring(queryPos, hashPos));
+      this.setHashQuery(absUrl.substring(hashPos));
+    });
+
+    this.updatePeriodParamsFromUrl();
+  }
+
+  private setUrlQuery(search: string) {
+    this.urlQuery.value = search.replace(/^\?/, '');
+  }
+
+  private setHashQuery(hash: string) {
+    this.hashQuery.value = hash.replace(/^[#/?]+/, '');
+  }
+
   getSearchParam(paramName: string): string {
     const hash = window.location.href.split('#');
 
@@ -26,18 +84,18 @@ const MatomoUrl = {
     }
 
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
-  },
+  }
 
   onLocationChange(callback: (newLocation: URLSearchParams) => void): void {
     window.addEventListener('hashchange', () => {
       const newLocation = new URLSearchParams(window.location.hash.replace(/^[#?/]+/, ''));
       callback(newLocation);
     });
-  },
+  }
 
   parseHashQuery(): QueryParameters {
     return this.parseQueryString(window.location.hash.replace(/^[#?/]+/, ''));
-  },
+  }
 
   parseQueryString(query: string): QueryParameters {
     const params = new URLSearchParams(query);
@@ -55,12 +113,45 @@ const MatomoUrl = {
     });
 
     return result;
-  },
+  }
 
   stringify(search: QueryParameters): string {
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
     return $.param(search);
-  },
-};
+  }
 
-export default MatomoUrl;
+  updatePeriodParamsFromUrl(): void {
+    let date = this.getSearchParam('date');
+    const period = this.getSearchParam('period');
+    if (!isValidPeriod(period, date)) {
+      // invalid data in URL
+      return;
+    }
+
+    if (piwik.period === period && piwik.currentDateString === date) {
+      // this period / date is already loaded
+      return;
+    }
+
+    piwik.period = period;
+
+    const dateRange = Periods.parse(period, date).getDateRange();
+    piwik.startDateString = format(dateRange[0]);
+    piwik.endDateString = format(dateRange[1]);
+
+    piwik.updateDateInTitle(date, period);
+
+    // do not set anything to previousN/lastN, as it's more useful to plugins
+    // to have the dates than previousN/lastN.
+    if (piwik.period === 'range') {
+      date = `${piwik.startDateString},${piwik.endDateString}`;
+    }
+
+    piwik.currentDateString = date;
+  }
+}
+
+const instance = new MatomoUrl();
+export default instance;
+
+piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);

@@ -5,12 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { reactive, readonly, DeepReadonly } from 'vue';
+import { reactive, watch, computed } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 import translate from '../translate';
 import Periods from '../Periods/Periods';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import SegmentsStore from '../Segmentation/Segments.store';
 
 const SERIES_COLOR_COUNT = 8;
 const SERIES_SHADE_COUNT = 3;
@@ -39,8 +40,6 @@ export interface AnyComparison {
 }
 
 export interface ComparisonsStoreState {
-  segmentComparisons: SegmentComparison[];
-  periodComparisons: PeriodComparison[];
   comparisonsDisabledFor: string[];
 }
 
@@ -59,27 +58,29 @@ function wrapArray<T>(values: T | T[]): T[] {
 
 export class ComparisonsStore {
   private privateState = reactive<ComparisonsStoreState>({
-    segmentComparisons: [],
-    periodComparisons: [],
     comparisonsDisabledFor: [],
   });
 
-  get state(): DeepReadonly<ComparisonsStore['privateState']> {
-    return readonly(this.privateState);
-  }
-
   private colors: { [key: string]: string } = {};
 
-  constructor() {
-    MatomoUrl.onLocationChange(() => this.updateComparisonsFromQueryParams());
-    Matomo.on('piwikSegmentationInited', () => this.updateComparisonsFromQueryParams());
+  readonly segmentComparisons = computed(() => this.parseSegmentComparisons());
 
+  readonly periodComparisons = computed(() => this.parsePeriodComparisons());
+
+  readonly isEnabled = computed(() => this.checkEnabledForCurrentPage());
+
+  constructor() {
     this.loadComparisonsDisabledFor();
 
     $(() => {
-      this.updateComparisonsFromQueryParams();
       this.colors = this.getAllSeriesColors() as { [key: string]: string };
     });
+
+    watch(
+      () => this.getComparisons(),
+      () => Matomo.postEvent('piwikComparisonsChanged'),
+      { deep: true },
+    );
   }
 
   getComparisons(): AnyComparison[] {
@@ -90,8 +91,8 @@ export class ComparisonsStore {
   isComparing(): boolean {
     return this.isComparisonEnabled()
       // first two in each array are for the currently selected segment/period
-      && (this.privateState.segmentComparisons.length > 1
-        || this.privateState.periodComparisons.length > 1);
+      && (this.segmentComparisons.value.length > 1
+        || this.periodComparisons.value.length > 1);
   }
 
   isComparingPeriods(): boolean {
@@ -103,7 +104,7 @@ export class ComparisonsStore {
       return [];
     }
 
-    return this.privateState.segmentComparisons;
+    return this.segmentComparisons.value;
   }
 
   getPeriodComparisons(): PeriodComparison[] {
@@ -111,7 +112,7 @@ export class ComparisonsStore {
       return [];
     }
 
-    return this.privateState.periodComparisons;
+    return this.periodComparisons.value;
   }
 
   getSeriesColor(
@@ -141,7 +142,7 @@ export class ComparisonsStore {
   }
 
   isComparisonEnabled(): boolean {
-    return this.checkEnabledForCurrentPage();
+    return this.isEnabled.value;
   }
 
   getIndividualComparisonRowIndices(seriesIndex: number): {
@@ -187,7 +188,7 @@ export class ComparisonsStore {
     }
 
     const newComparisons: SegmentComparison[] = Array<SegmentComparison>()
-      .concat(this.privateState.segmentComparisons);
+      .concat(this.segmentComparisons.value);
     newComparisons.splice(index, 1);
 
     const extraParams: {[key: string]: string} = {};
@@ -197,7 +198,7 @@ export class ComparisonsStore {
 
     this.updateQueryParamsFromComparisons(
       newComparisons,
-      this.privateState.periodComparisons,
+      this.periodComparisons.value,
       extraParams,
     );
   }
@@ -207,9 +208,9 @@ export class ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons = this.privateState.segmentComparisons
+    const newComparisons = this.segmentComparisons.value
       .concat([{ params, index: -1, title: '' } as SegmentComparison]);
-    this.updateQueryParamsFromComparisons(newComparisons, this.privateState.periodComparisons);
+    this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);
   }
 
   private updateQueryParamsFromComparisons(
@@ -305,28 +306,22 @@ export class ComparisonsStore {
     return ColorManager.getColors('comparison-series-color', seriesColorNames);
   }
 
-  private updateComparisonsFromQueryParams() {
-    let title;
-    let availableSegments: { definition: string, name: string }[] = [];
-    try {
-      availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
-    } catch (e) {
-      // segment editor is not initialized yet
-    }
+  private loadComparisonsDisabledFor() {
+    AjaxHelper.fetch({
+      module: 'API',
+      method: 'API.getPagesComparisonsDisabledFor',
+    }).then((result) => {
+      this.privateState.comparisonsDisabledFor = result;
+    });
+  }
 
-    let compareSegments: string[] = wrapArray(MatomoUrl.getSearchParam('compareSegments')) || [];
-    compareSegments = compareSegments instanceof Array ? compareSegments : [compareSegments];
+  private parseSegmentComparisons(): SegmentComparison[] {
+    const { availableSegments } = SegmentsStore.state;
 
-    let comparePeriods: string[] = wrapArray(MatomoUrl.getSearchParam('comparePeriods')) || [];
-    comparePeriods = comparePeriods instanceof Array ? comparePeriods : [comparePeriods];
-
-    let compareDates: string[] = wrapArray(MatomoUrl.getSearchParam('compareDates')) || [];
-    compareDates = compareDates instanceof Array ? compareDates : [compareDates];
+    const compareSegments: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.compareSegments));
 
     // add base comparisons
-    compareSegments.unshift(MatomoUrl.getSearchParam('segment'));
-    comparePeriods.unshift(MatomoUrl.getSearchParam('period'));
-    compareDates.unshift(MatomoUrl.getSearchParam('date'));
+    compareSegments.unshift(MatomoUrl.parsed.value.segment);
 
     const newSegmentComparisons: SegmentComparison[] = [];
     compareSegments.forEach((segment, idx) => {
@@ -355,8 +350,19 @@ export class ComparisonsStore {
       });
     });
 
+    return newSegmentComparisons;
+  }
+
+  private parsePeriodComparisons(): PeriodComparison[] {
+    const comparePeriods: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.comparePeriods));
+    const compareDates: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.compareDates));
+
+    comparePeriods.unshift(MatomoUrl.parsed.value.period);
+    compareDates.unshift(MatomoUrl.parsed.value.date);
+
     const newPeriodComparisons: PeriodComparison[] = [];
     for (let i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {
+      let title;
       try {
         title = Periods.parse(comparePeriods[i], compareDates[i]).getPrettyString();
       } catch (e) {
@@ -373,14 +379,14 @@ export class ComparisonsStore {
       });
     }
 
-    this.setComparisons(newSegmentComparisons, newPeriodComparisons);
+    return newPeriodComparisons;
   }
 
   private checkEnabledForCurrentPage() {
     // category/subcategory is not included on top bar pages, so in that case we use module/action
-    const category = MatomoUrl.getSearchParam('category') || MatomoUrl.getSearchParam('module');
-    const subcategory = MatomoUrl.getSearchParam('subcategory')
-      || MatomoUrl.getSearchParam('action');
+    const category = MatomoUrl.parsed.value.category || MatomoUrl.parsed.value.module;
+    const subcategory = MatomoUrl.parsed.value.subcategory
+      || MatomoUrl.parsed.value.action;
 
     const id = `${category}.${subcategory}`;
     const isEnabled = this.privateState.comparisonsDisabledFor.indexOf(id) === -1
@@ -389,32 +395,6 @@ export class ComparisonsStore {
     document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
 
     return isEnabled;
-  }
-
-  private setComparisons(
-    newSegmentComparisons: SegmentComparison[],
-    newPeriodComparisons: PeriodComparison[],
-  ) {
-    const oldSegmentComparisons = this.privateState.segmentComparisons;
-    const oldPeriodComparisons = this.privateState.periodComparisons;
-
-    this.privateState.segmentComparisons = newSegmentComparisons;
-    this.privateState.periodComparisons = newPeriodComparisons;
-
-    if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(newPeriodComparisons)
-      || JSON.stringify(oldSegmentComparisons) !== JSON.stringify(newSegmentComparisons)
-    ) {
-      Matomo.postEvent('piwikComparisonsChanged');
-    }
-  }
-
-  private loadComparisonsDisabledFor() {
-    AjaxHelper.fetch({
-      module: 'API',
-      method: 'API.getPagesComparisonsDisabledFor',
-    }).then((result) => {
-      this.privateState.comparisonsDisabledFor = result;
-    });
   }
 }
 

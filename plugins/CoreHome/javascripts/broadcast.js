@@ -712,14 +712,21 @@ var broadcast = {
      * @returns {object}
      */
     extractKeyValuePairsFromQueryString: function (queryString) {
-        var pairs = queryString.split('&');
+        var pairs = queryString.replace(/%5B%5D/g, '[]').split('&');
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
             // attn: split with regex has bugs in several browsers such as IE 8
             // so we need to split, use the first part as key and rejoin the rest
             var pair = pairs[i].split('=');
             var key = pair.shift();
-            result[key] = pair.join('=');
+            var value = pair.join('=');
+            if (/\[.*?]$/.test(key)) {
+              key = key.replace(/\[.*?]$/, '');
+              result[key] = result[key] || [];
+              result[key].push(value);
+            } else {
+              result[key] = value;
+            }
         }
         return result;
     },
