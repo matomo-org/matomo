@@ -23,12 +23,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: check firewall
-        run: |
-        sudo ufw status
 
   php:
     runs-on: ubuntu-20.04
@@ -58,6 +52,9 @@ jobs:
 
     steps:
 
+      - name: check firewall
+        run: |
+          sudo ufw status
       - name: Checkout code
         uses: actions/checkout@v2
         with:
