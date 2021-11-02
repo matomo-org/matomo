@@ -176,7 +176,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'
                 try {
                     // on mariadb this might work
-                    $this->logAggregator->getDb()->exec('SET SESSION innodb_force_primary_key=' . $val);
+                    $this->logAggregator->getDb()->exec('set global innodb_force_primary_key = '.$val);
                 } catch (\Exception $e) {
                     if ($this->logAggregator->getDb()->isErrNo($e, 1193)) {
                         // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'
