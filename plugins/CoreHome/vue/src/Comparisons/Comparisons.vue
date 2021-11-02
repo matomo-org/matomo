@@ -42,7 +42,7 @@
       </div>
       <a
         class="remove-button"
-        v-on:click="comparisonsService.removeSegmentComparison($index)"
+        v-on:click="removeSegmentComparison($index)"
         v-if="segmentComparisons.length > 1"
       >
         <span
@@ -102,11 +102,14 @@ export default defineComponent({
     const segmentComparisons = computed(() => ComparisonsStoreInstance.getSegmentComparisons());
     const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
     const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
+    const removeSegmentComparison = ComparisonsStoreInstance.removeSegmentComparison
+      .bind(ComparisonsStoreInstance);
     return {
       isComparing,
       segmentComparisons,
       periodComparisons,
       getSeriesColor,
+      removeSegmentComparison,
     };
   },
   methods: {
