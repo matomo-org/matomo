@@ -49,11 +49,9 @@ class MatomoUrl {
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
     Matomo.on('$locationChangeSuccess', (absUrl: string) => {
-      const queryPos = absUrl.indexOf('?');
-      const hashPos = absUrl.indexOf('#');
-
-      this.setUrlQuery(absUrl.substring(queryPos, hashPos));
-      this.setHashQuery(absUrl.substring(hashPos));
+      const url = new URL(absUrl);
+      this.setUrlQuery(url.search.replace(/^\?/, ''));
+      this.setHashQuery(url.hash.replace(/^#/, ''));
     });
 
     this.updatePeriodParamsFromUrl();

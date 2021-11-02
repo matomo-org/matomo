@@ -885,10 +885,9 @@ class MatomoUrl_MatomoUrl {
     // handlers (like the reporting page one)
 
     Matomo_Matomo.on('$locationChangeSuccess', absUrl => {
-      const queryPos = absUrl.indexOf('?');
-      const hashPos = absUrl.indexOf('#');
-      this.setUrlQuery(absUrl.substring(queryPos, hashPos));
-      this.setHashQuery(absUrl.substring(hashPos));
+      const url = new URL(absUrl);
+      this.setUrlQuery(url.search.replace(/^\?/, ''));
+      this.setHashQuery(url.hash.replace(/^#/, ''));
     });
     this.updatePeriodParamsFromUrl();
   }
