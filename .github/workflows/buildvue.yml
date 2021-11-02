@@ -1,6 +1,7 @@
 name: Build Vue files
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -132,7 +133,7 @@ jobs:
           if [[ $( git diff --numstat plugins/*/vue/dist/*.js plugins/*/vue/dist/*.map ) ]]
           then
             cd $GITHUB_WORKSPACE
-            git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.map
+            git add plugins/*/vue/dist/*.js
             git commit -m "built vue files"
             git push
           fi

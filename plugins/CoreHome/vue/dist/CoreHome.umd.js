@@ -1881,9 +1881,9 @@ function createAngularJsAdapter(options) {
   },
   noScope: true
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=678de864
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=b71c9b1c
 
-const EnrichedHeadlinevue_type_template_id_678de864_hoisted_1 = {
+const EnrichedHeadlinevue_type_template_id_b71c9b1c_hoisted_1 = {
   key: 0,
   class: "title",
   tabindex: "6"
@@ -1914,7 +1914,7 @@ const _hoisted_11 = {
 };
 const _hoisted_12 = ["innerHTML"];
 const _hoisted_13 = ["href"];
-function EnrichedHeadlinevue_type_template_id_678de864_render(_ctx, _cache, $props, $setup, $data, $options) {
+function EnrichedHeadlinevue_type_template_id_b71c9b1c_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RateFeature");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -1922,7 +1922,7 @@ function EnrichedHeadlinevue_type_template_id_678de864_render(_ctx, _cache, $pro
     onMouseenter: _cache[1] || (_cache[1] = $event => _ctx.showIcons = true),
     onMouseleave: _cache[2] || (_cache[2] = $event => _ctx.showIcons = false),
     ref: "root"
-  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_678de864_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_b71c9b1c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 1,
     class: "title",
     href: _ctx.editUrl,
@@ -1953,7 +1953,7 @@ function EnrichedHeadlinevue_type_template_id_678de864_render(_ctx, _cache, $pro
     href: _ctx.helpUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MoreDetails')), 9, _hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showInlineHelp]])], 544);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=678de864
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=b71c9b1c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
 
@@ -2049,42 +2049,44 @@ const RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["define
   mounted() {
     const {
       root
-    } = this.$refs;
+    } = this.$refs; // timeout used since angularjs does not fill out the transclude at this point
 
-    if (!this.actualInlineHelp) {
-      let helpNode = root.querySelector('.title .inlineHelp');
+    setTimeout(() => {
+      if (!this.actualInlineHelp) {
+        let helpNode = root.querySelector('.title .inlineHelp');
 
-      if (!helpNode && root.parentElement.nextElementSibling) {
-        // hack for reports :(
-        helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');
-      }
+        if (!helpNode && root.parentElement.nextElementSibling) {
+          // hack for reports :(
+          helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');
+        }
 
-      if (helpNode) {
-        // hackish solution to get binded html of p tag within the help node
-        // at this point the ng-bind-html is not yet converted into html when report is not
-        // initially loaded. Using $compile doesn't work. So get and set it manually
-        const helpDocs = helpNode.getAttribute('data-content').trim();
+        if (helpNode) {
+          // hackish solution to get binded html of p tag within the help node
+          // at this point the ng-bind-html is not yet converted into html when report is not
+          // initially loaded. Using $compile doesn't work. So get and set it manually
+          const helpDocs = helpNode.getAttribute('data-content').trim();
 
-        if (helpDocs.length) {
-          this.actualInlineHelp = `<p>${helpDocs}</p>`;
-          setTimeout(() => helpNode.remove(), 0);
+          if (helpDocs.length) {
+            this.actualInlineHelp = `<p>${helpDocs}</p>`;
+            setTimeout(() => helpNode.remove(), 0);
+          }
         }
       }
-    }
 
-    if (!this.actualFeatureName) {
-      this.actualFeatureName = root.querySelector('.title').textContent;
-    }
+      if (!this.actualFeatureName) {
+        this.actualFeatureName = root.querySelector('.title').textContent;
+      }
 
-    if (this.reportGenerated && Periods_Periods.parse(Matomo_Matomo.period, Matomo_Matomo.currentDateString).containsToday()) {
-      window.$(root.querySelector('.report-generated')).tooltip({
-        track: true,
-        content: this.reportGenerated,
-        items: 'div',
-        show: false,
-        hide: false
-      });
-    }
+      if (this.reportGenerated && Periods_Periods.parse(Matomo_Matomo.period, Matomo_Matomo.currentDateString).containsToday()) {
+        window.$(root.querySelector('.report-generated')).tooltip({
+          track: true,
+          content: this.reportGenerated,
+          items: 'div',
+          show: false,
+          hide: false
+        });
+      }
+    });
   }
 
 }));
@@ -2094,7 +2096,7 @@ const RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["define
 
 
 
-EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_678de864_render
+EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_b71c9b1c_render
 
 /* harmony default export */ var EnrichedHeadline = (EnrichedHeadlinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts
