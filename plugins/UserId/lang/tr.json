@@ -1,6 +1,7 @@
 {
     "UserId": {
         "PluginDescription": "Kullanıcı raporlarını görüntüler",
+        "ThereIsNoDataForThisReportHelp": "%1$sBu rapor için nasıl veri oluşturulacağı hakkında ayrıntılı bilgi almak için kullanıcı rehberimize bakabilirsiniz.%2$s",
         "UserId": "Kullanıcı kodu",
         "UserReportDocumentation": "Bu rapor, her kullanıcı kodu için, ziyaretler, ve diğer genel ölçümleri içerir.",
         "UserReportTitle": "Kullanıcı kodları",

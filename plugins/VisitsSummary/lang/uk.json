@@ -17,11 +17,12 @@
         "NbUniquePageviewsDescription": "унікальних переглядів сторінок",
         "NbUniqueVisitors": "унікальних відвідувачів",
         "NbUsersDescription": "користувачів",
-        "NbVisitsDescription": "відвідувань",
         "NbVisitsBounced": "візитів з відмовами (залишили сайт після прегляду однієї сторінки)",
+        "NbVisitsDescription": "відвідувань",
         "PluginDescription": "Звіти загальних аналітичних показників: відвідування, кількість унікальних відвідувачів, кількість користувачів, показник відмов і т.д..",
         "VisitsSummary": "Відвідувань",
         "VisitsSummaryDocumentation": "Це огляд динаміки відвідувань.",
+        "VisitsSummaryReportDocumentation": "Цей звіт дає дуже загальне уявлення про те, як поводяться ваші відвідувачі.",
         "WidgetLastVisits": "Графік останніх відвідувань",
         "WidgetOverviewGraph": "Огляд по всім графіками",
         "WidgetVisits": "Огляд відвідувань"

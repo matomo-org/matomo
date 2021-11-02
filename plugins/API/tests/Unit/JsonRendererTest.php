@@ -238,6 +238,26 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('myName([1,2,5,"string",10])', $response);
     }
 
+    public function test_renderArray_withAssociativeArrayJsonpCorrectlyFormatted()
+    {
+        $input = array('key' => 'value');
+        $renderer  = $this->makeBuilder(array('callback' => '__myfunc', 'jsoncallback' => '__myfunc'));
+        $result = $renderer->renderArray($input);
+
+        $this->assertEquals('__myfunc({"key":"value"})', $result);
+        $this->assertNoJsonError($result);
+    }
+
+    public function test_renderArray_withMultidimensionalArrayJsonpCorrectlyFormatted()
+    {
+        $input = array('key' => 'value', 'deepKey' => array('deeper' => 'deepValue'));
+        $renderer  = $this->makeBuilder(array('callback' => '__myfunc', 'jsoncallback' => '__myfunc'));
+        $result = $renderer->renderArray($input);
+
+        $this->assertEquals('__myfunc({"key":"value","deepKey":{"deeper":"deepValue"}})', $result);
+        $this->assertNoJsonError($result);
+    }
+
     public function test_renderArray_ShouldRenderAnEmptyArray()
     {
         $response = $this->jsonBuilder->renderArray(array());

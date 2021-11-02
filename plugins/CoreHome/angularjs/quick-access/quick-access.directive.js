@@ -58,9 +58,12 @@
                 }
 
                 scope.quickAccessTitle = translate('CoreHome_QuickAccessTitle', searchAreasTitle);
-
+              
                 function trim(str) {
-                    return str.replace(/^\s+|\s+$/g,'');
+                    if (str) {
+                      return str.replace(/^\s+|\s+$/g,'');
+                    }
+                    return str;
                 }
 
                 scope.getTopMenuItems = function()
@@ -107,7 +110,6 @@
                         $element.find('li .item').each(function (i, element) {
                             var $element = angular.element(element);
                             var text = trim($element.text());
-
                             if (text) {
                                 leftMenuItems.push({name: text, category: category, index: ++menuIndex});
                                 $element.attr('quick_access', menuIndex);

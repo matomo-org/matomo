@@ -48,6 +48,20 @@
     <div id="Transitions_Canvas_Loops" class="Transitions_Canvas_Container"></div>
 </div>
 
+<div class="dataTableWrapper" id="transition-export-actions" style="display:none">
+    <div class="dataTableFeatures">
+        <div class="dataTableFooterNavigation">
+            <div class="dataTableControls">
+                <div class="row">
+                    <a class="dataTableAction" href="javascript:;" transition-exporter>
+                        <span class="icon-export"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var Piwik_Transitions_Translations = {
         {% for internalKey, translation in translations %}
@@ -55,4 +69,7 @@
         {% endfor %}
         "": ""
     };
+    var tea = $('#transition-export-actions');
+    if (!tea.parent().hasClass('popoverContainer'))
+        tea.show();
 </script>

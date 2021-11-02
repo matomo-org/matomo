@@ -2,6 +2,8 @@
     "Widgetize": {
         "OpenInNewWindow": "Ouvrir dans une nouvelle fenêtre",
         "PluginDescription": "Affichez n'importe quel rapport Matomo sur votre site web avec une simple balise HTML.",
-        "TopLinkTooltip": "Exporter les rapports Matomo en tant que gadget et incorporer le tableau de bord dans votre application en tant qu'iframe."
+        "TooHighAccessLevel": "Cet utilisateur a un accès super utilisateur. Pour l'intégration de widgets, les autorisations de jeton de super utilisateur ne sont pas autorisées. %1$sconsultez notre FAQ pour plus d'informations.%2$s",
+        "TopLinkTooltip": "Exporter les rapports Matomo en tant que gadget et incorporer le tableau de bord dans votre application en tant qu'iframe.",
+        "ViewAccessRequired": "Cet utilisateur a au moins un accès en écriture. Seuls les jetons des utilisateurs qui n'ont qu'un accès en vue peuvent être utilisés. Voir %1$s pour plus d'informations."
     }
 }

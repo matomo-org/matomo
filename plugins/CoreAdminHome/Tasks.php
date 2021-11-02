@@ -233,7 +233,7 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function purgeOutdatedArchives()
     {
-        if ($this->willPurgingCausePotentialProblemInUI()) {
+        if ($this->willPurgingCausePotentialProblemInUI() && !Rules::$disablePureOutdatedArchive) {
             $this->logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
             return false;
         }

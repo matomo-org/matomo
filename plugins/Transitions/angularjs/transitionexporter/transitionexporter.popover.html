@@ -1,0 +1,21 @@
+<div class="transition-export-popover row">
+
+    <div class="col l6">
+        <div class="input-field">
+            <div piwik-field uicontrol="radio" name="exportFormat"
+                 data-title="{{ 'CoreHome_ExportFormat'|translate }}"
+                 ng-change="onExportFormatChange(exportFormat)"
+                 ng-model="exportFormat"
+                 full-width="true"
+                 value="JSON"
+                 options="exportFormatOptions">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col l12">
+        <a class="btn" ng-attr-href="{{ getExportLink() }}" target="_new" title="{{ 'CoreHome_ExportTooltip'|translate }}">{{ 'General_Export'|translate }}</a>
+    </div>
+
+</div>

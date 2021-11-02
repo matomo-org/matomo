@@ -16,6 +16,7 @@ use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\Piwik;
 use Exception;
+use Piwik\Validators\Regex;
 
 class Extraction
 {
@@ -50,6 +51,10 @@ class Extraction
                 throw new Exception("You need to group exactly one part of the regular expression inside round brackets, eg 'index_(.+).html'");
             }
         }
+
+        //validate regex pattern
+        $validator = new Regex();
+        $validator->validate($this->formatPattern());
     }
 
     public static function getSupportedDimensions()
@@ -104,6 +109,20 @@ class Extraction
             return null;
         }
 
+        $regex = $this->formatPattern();
+
+        if (preg_match($regex, (string) $value, $matches)) {
+            // we could improve performance here I reckon by combining all patterns of all configs see eg http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html
+
+            if (array_key_exists(1, $matches)) {
+                return $matches[1];
+            }
+        }
+    }
+
+    // format pattern to matomo format
+    private function formatPattern () {
+
         $pattern = $this->pattern;
         if ($this->dimension === 'urlparam') {
             $pattern = '\?.*' . $pattern . '=([^&]*)';
@@ -114,12 +133,6 @@ class Extraction
             $regex .= 'i';
         }
 
-        if (preg_match($regex, (string) $value, $matches)) {
-            // we could improve performance here I reckon by combining all patterns of all configs see eg http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html
-
-            if (array_key_exists(1, $matches)) {
-                return $matches[1];
-            }
-        }
+        return $regex;
     }
 }

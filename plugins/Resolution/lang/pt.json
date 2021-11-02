@@ -7,6 +7,7 @@
         "Resolutions": "Resoluções",
         "WidgetGlobalVisitors": "Configuração dos visitantes",
         "WidgetGlobalVisitorsDocumentation": "Este relatório mostra as configurações gerais mais comuns que os visitantes tinham. Uma configuração é a combinação de um sistema operativo, um tipo de navegador e uma resolução de ecrã.",
-        "WidgetResolutions": "Resoluções de ecrã"
+        "WidgetResolutions": "Resoluções de ecrã",
+        "WidgetResolutionsDocumentation": "Este relatório mostra as resoluções de ecrã que os seus visitantes utilizaram quando visualizaram o seu site da Web."
     }
 }

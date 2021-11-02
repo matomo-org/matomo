@@ -30,17 +30,25 @@
         "RateFeatureSendFeedbackInformation": "Votre installation Matomo nous enverra (l'équipe Matomo) un e-mail (contenant votre adresse e-mail) afin que nous puissions entrer en contact avec vous si vous avez des questions.",
         "RateFeatureThankYouTitle": "Merci d'avoir noté \"%s\" !",
         "RateFeatureTitle": "Est-ce que vous aimez la fonctionnalité \"%s\" ? Notez la et laissez un commentaire",
+        "ReferBannerEmailShareBody": "Je choisis Matomo, une alternative éthique à Google Analytics qui me donne 100%% de propriété des données et protège les données des visiteurs de mon site Web.\nJe partage ce message dans l'espoir que vous aussi, vous reprendrez le pouvoir de Google et deviendrez l'entière propriété de vos propres données.\n\nDécouvrez Matomo sur https://matomo.org",
+        "ReferBannerEmailShareSubject": "Référez-les dès maintenant à Matomo Analytics pour reprendre le contrôle !",
+        "ReferBannerLonger": "Aidez-nous à faire passer le mot à notre sujet afin que davantage de personnes contrôlent leurs données analytiques.",
+        "ReferBannerSocialShareText": "Si vous utilisez Google Analytics, gardez le contrôle en passant à une alternative éthique comme Matomo maintenant !",
         "ReferBannerTitle": "Vous croyez en Matomo ?",
+        "ReferMatomo": "Référer Matomo",
         "RemindMeLater": "Me le rappeler plus tard",
         "RemoveOtherLabel": "Je veux voir mes 'Autres' données",
+        "ReviewMatomoTitle": "Comme Matomo ?",
         "SearchHelpResources": "Rechercher dans les ressources de matomo.org",
         "SendFeedback": "Envoyer le retour",
         "ThankYou": "Merci d'avoir aidé à améliorer Matomo !",
+        "ThankYouForSpreading": "Merci de faire passer le mot et de créer un Web plus sûr",
         "TopLinkTooltip": "Dites-nous ce que vous en pensez, ou demandez un Support Professionnel.",
         "TrackMultipleSites": "J'ai besoin de suivre plusieurs sites ou sous-domaines",
         "UserGuides": "Guides de l'utilisateur",
         "ViewAnswersToFAQ": "Voir les réponses aux %1$squestions fréquemment posées%2$s",
         "ViewUserGuides": "Apprenez comment configurer Matomo et comment analyser de manière efficaces vos données avec notre %1$sguide utilisateur%2$s",
-        "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Matomo."
+        "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Matomo.",
+        "WontShowAgain": "Nous n'afficherons plus ce message."
     }
 }

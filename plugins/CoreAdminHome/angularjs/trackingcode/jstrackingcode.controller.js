@@ -38,6 +38,7 @@
         this.isLoading = false;
         this.customVars = [];
         this.siteUrls = {};
+        this.siteExcludedQueryParams = {};
         this.hasManySiteUrls = false;
         this.maxCustomVariables = parseInt(angular.element('[name=numMaxCustomVariables]').val(), 10);
         this.canAddMoreCustomVariables = this.maxCustomVariables && this.maxCustomVariables > 0;
@@ -50,7 +51,7 @@
         // queries Piwik for needed site info for one site
         var getSiteData = function (idSite, sectionSelect, callback) {
             // if data is already loaded, don't do an AJAX request
-            if (self.siteUrls[idSite]) {
+            if (self.siteUrls[idSite] && self.siteExcludedQueryParams[idSite]) {
 
                 callback();
                 return;
@@ -66,12 +67,19 @@
                 filter_limit: '-1'
             }).then(function (data) {
                 self.siteUrls[idSite] = data || [];
-
-                // re-enable controls
-                self.isLoading = false;
-
-                callback();
+                // Load site excludedQueryParams
+                piwikApi.fetch({
+                    module: 'API',
+                    method: 'Overlay.getExcludedQueryParameters',
+                    idSite: idSite,
+                    filter_limit: '-1'
+                }).then(function (data) {
+                    self.siteExcludedQueryParams[idSite] = data || [];
+                    self.isLoading = false;
+                    callback();
+                });
             });
+
         };
 
 
@@ -93,6 +101,10 @@
                 trackNoScript: self.trackNoScript ? 1: 0,
                 forceMatomoEndpoint: 1
             };
+
+            if (self.siteExcludedQueryParams[self.site.id]) {
+                params.excludedQueryParams = self.siteExcludedQueryParams[self.site.id];
+            }
 
             if (self.useCustomCampaignParams) {
                 params.customCampaignNameQueryParam = self.customCampaignName;

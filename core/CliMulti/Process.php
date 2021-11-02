@@ -8,6 +8,7 @@
 namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
@@ -28,7 +29,7 @@ class Process
     private $finished = null;
     private $pidFile = '';
     private $timeCreation = null;
-    private $isSupported = null;
+    private static $isSupported = null;
     private $pid = null;
     private $started = null;
 
@@ -41,7 +42,6 @@ class Process
         $pidDir = CliMulti::getTmpPath();
         Filesystem::mkdir($pidDir);
 
-        $this->isSupported  = self::isSupported();
         $this->pidFile      = $pidDir . '/' . $pid . '.pid';
         $this->timeCreation = time();
         $this->pid = $pid;
@@ -133,7 +133,7 @@ class Process
             return false;
         }
 
-        if (!$this->pidFileSizeIsNormal()) {
+        if (!$this->pidFileSizeIsNormal($content)) {
             $this->finishProcess();
             return false;
         }
@@ -149,11 +149,11 @@ class Process
         return false;
     }
 
-    private function pidFileSizeIsNormal()
+    private function pidFileSizeIsNormal($content)
     {
-        $size = Filesystem::getFileSize($this->pidFile);
+        $size = Common::mb_strlen($content);
 
-        return $size !== null && $size < 500;
+        return $size < 500;
     }
 
     public function finishProcess()
@@ -169,7 +169,7 @@ class Process
 
     private function isProcessStillRunning($content)
     {
-        if (!$this->isSupported) {
+        if (!self::isSupported()) {
             return true;
         }
 
@@ -184,15 +184,23 @@ class Process
         return @file_get_contents($this->pidFile);
     }
 
-    private function writePidFileContent($content)
+    /**
+     * Tests only
+     * @internal
+     * @param $content
+     */
+    public function writePidFileContent($content)
     {
         file_put_contents($this->pidFile, $content);
     }
 
     public static function isSupported()
     {
-        $reasons = self::isSupportedWithReason();
-        return empty($reasons);
+        if (!isset(self::$isSupported)) {
+            $reasons = self::isSupportedWithReason();
+            self::$isSupported = empty($reasons);
+        }
+        return self::$isSupported;
     }
 
     public static function isSupportedWithReason()

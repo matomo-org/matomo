@@ -7,10 +7,9 @@
         "Engagement": "利用状況",
         "NPages": "%s ページ",
         "OnePage": "1 ページ",
-        "PluginDescription": "ビジターの関心についてのレポート：閲覧したページ数、ウェブサイトに費やされた時間、最後のビジット以来の日数、その他",
+        "PluginDescription": "ビジターの関心についてのレポート：閲覧したページ数、ウェブサイトに費やされた時間、最後のビジット以来の日数、その他。",
         "VisitNum": "訪問回数",
         "VisitsByDaysSinceLast": "最後の訪問からの日数別のビジット",
-        "visitsByVisitCount": "訪問回数別のビジット",
         "VisitsPerDuration": "ビジット継続時間単位のビジット",
         "VisitsPerNbOfPages": "ページ数単位のビジット",
         "WidgetLengths": "ビジットの長さ",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "ある特定のページビュー数毎にどれだけのビジットがあったかを示すリポートです。初期状態はタグクラウド表示で、ビジットの多いページビュー数ほど大きなフォントで表示されます。",
         "WidgetVisitsByDaysSinceLast": "前回の訪問からの日数",
         "WidgetVisitsByDaysSinceLastDocumentation": "ある特定の日数以前に最後の訪問をしたビジターの数を示すリポートです。",
-        "WidgetVisitsByNumDocumentation": "N 回目の訪問をしたビジット数を示すリポートです。すなわち少なくとも N 回ウェブサイトを訪問したビジターです。"
+        "WidgetVisitsByNumDocumentation": "N 回目の訪問をしたビジット数を示すリポートです。すなわち少なくとも N 回ウェブサイトを訪問したビジターです。",
+        "visitsByVisitCount": "訪問回数別のビジット"
     }
 }

@@ -157,12 +157,12 @@
 	</row>
 	<row>
 		<name>Pageviews</name>
-		<id>nb_pageviews</id>
+		<id>nb_hits</id>
 		<documentation>The number of times this page was visited.</documentation>
 	</row>
 	<row>
 		<name>Pageviews</name>
-		<id>nb_hits</id>
+		<id>nb_pageviews</id>
 		<documentation>The number of times this page was visited.</documentation>
 	</row>
 	<row>

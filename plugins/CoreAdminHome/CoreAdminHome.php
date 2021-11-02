@@ -69,7 +69,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.min.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/protocolCheck.js";
     }
@@ -116,5 +115,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_NoKnownFailures';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail';
+        $translationKeys[] = 'SitesManager_InstallationGuides';
     }
 }
