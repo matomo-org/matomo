@@ -111,9 +111,22 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
         this._init(domElem);
+        this.enableStickHead(domElem);
         this.initialized = true;
+
     },
 
+    enableStickHead: function (domElem) {
+      // Bind to the resize event of the window object
+      $(window).on('resize', function () {
+        var tableScrollerWidth = $(domElem).find('.dataTableScroller').width();
+        var tableWidth = $(domElem).find('table').width();
+        if (tableScrollerWidth < tableWidth) {
+          $('.dataTableScroller').css('overflow-x', 'scroll');
+        }
+        // Invoke the resize event immediately
+      }).resize();
+    },
     //function triggered when user click on column sort
     onClickSort: function (domElem) {
         var self = this;
@@ -1627,10 +1640,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     top: 0
                 });
 
+                $(".dataTable thead").addClass('with-z-index');
                 tooltip.stop(true, true).fadeIn(250);
             },
             function () {
-                $(this).prev().stop(true, true).fadeOut(400);
+              $(this).prev().stop(true, true).fadeOut(250);
+              $(".dataTable thead").removeClass('with-z-index');
             });
         });
     },
