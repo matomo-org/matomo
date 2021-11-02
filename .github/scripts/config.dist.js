@@ -10,14 +10,14 @@
 /**
  * The root Piwik URL to test against.
  */
-exports.piwikUrl = "http://localhost/";
+exports.piwikUrl = "http://localhost:3000/";
 
 /**
  * Data for the $_SERVER variable in the setup/teardown PHP scripts. Should be the same as
  * the values in your phpunit.xml file.
  */
 exports.phpServer = {
-    HTTP_HOST: 'localhost:3000',
+    HTTP_HOST: 'localhost',
     REQUEST_URI: '/',
     REMOTE_ADDR: '127.0.0.1'
 };
