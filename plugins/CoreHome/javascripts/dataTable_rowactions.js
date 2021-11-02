@@ -275,7 +275,6 @@ function DataTable_RowActions_RowEvolution(dataTable) {
     /** The rows to be compared in multi row evolution */
     this.multiEvolutionRows = [];
     this.multiEvolutionRowsSeries = [];
-    this.showGoalMetricsForGoal;
 }
 
 /** Static helper method to launch row evolution from anywhere */
@@ -326,6 +325,20 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
             extraParams[index] = value;
         }
     });
+
+    if (this.dataTable && this.dataTable.jsViewDataTable === 'tableGoals') {
+        // When there is a idGoal parameter available, the user is currently viewing a Goal or Ecommerce page
+        // In this case we want to show the specific goal metrics in the row evolution
+        if (extraParams['idGoal']) {
+            extraParams['showGoalMetricsForGoal'] = extraParams['idGoal'];
+            delete(extraParams['idGoal']);
+        }
+        // If no idGoal is available it is a random report switched to goal visualization
+        // we then ensure the row evolution will show the goal overview metrics
+        else  {
+            extraParams['showGoalMetricsForGoal'] = -1;
+        }
+    }
 
     // check if abandonedCarts is in the dataTable params and if so, propagate to row evolution request
     if (this.dataTable.param.abandonedCarts !== undefined) {
@@ -443,11 +456,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         box.find('select.multirowevoltion-metric').change(function () {
             var metric = $(this).val();
             Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
-            var extraParams = {action: 'getMultiRowEvolutionPopover', column: metric};
-            if (self.showGoalMetricsForGoal) {
-                extraParams['showGoalMetricsForGoal'] = self.showGoalMetricsForGoal;
-                extraParams['documentationForGoalsPage'] = 1;
-            }
+            extraParams.column = metric;
             self.openPopover(apiMethod, extraParams, label);
             return true;
         });
@@ -470,24 +479,6 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         idDimension = parseInt(idDimension, 10);
         if (idDimension > 0) {
             requestParams.idDimension = idDimension;
-        }
-    }
-
-    // When the triggering datatable is showing goal metrics, we need to ensure that the row evolution
-    // also shows the matching goal metrics
-    if (self.dataTable && self.dataTable.jsViewDataTable === 'tableGoals') {
-        extraParams['documentationForGoalsPage'] = 1;
-
-        // When there is a idGoal parameter available, the user is currently viewing a Goal or Ecommerce page
-        // In this case we want to show the specific goal metrics in the row evolution
-        if (extraParams['idGoal']) {
-            self.showGoalMetricsForGoal = extraParams['showGoalMetricsForGoal'] = extraParams['idGoal'];
-            delete(extraParams['idGoal']);
-        }
-        // If no idGoal is available it is a random report switch to goal visualization
-        // we then ensure the row evolution will show the goal overview metrics
-        else  {
-            self.showGoalMetricsForGoal = extraParams['showGoalMetricsForGoal'] = -1;
         }
     }
 
