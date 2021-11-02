@@ -81,7 +81,6 @@ class Loader
         $this->logger = StaticContainer::get(LoggerInterface::class);
         $this->rawLogDao = new RawLogDao();
         $this->dataAccessModel = new Model();
-        $this->lock = new Lock(StaticContainer::get(LockBackend::class), '');
     }
 
     /**
@@ -143,24 +142,27 @@ class Loader
         $lockId = $this->makeArchivingLock();
 
 
-        echo "<pre>", print_r('init check other process lock ' . ($this->lock->isLockedByAnyProcess($lockId) ? 'on' : 'off'),
-          1), "</pre>";
-        $isLock = $this->lock->acquireLock($lockId);
-        echo "<pre>", print_r('init current lock ' . ($isLock ? 'on' : 'off'), 1), "</pre>";
-        echo "<pre>", print_r($lockId, 1), "</pre>";
-        echo "<pre>", print_r('other process lock ' . ($this->lock->isLockedByAnyProcess() ? 'on' : 'off'),
-          1), "</pre>";
-        echo "Another process<br/>";
+//        echo "<pre>", print_r('init check other process lock ' . ($this->lock->isLockedByAnyProcess($lockId) ? 'on' : 'off'),
+//          1), "</pre>";
+        $this->lock = new Lock(StaticContainer::get(LockBackend::class), '');
+        $isLock = $this->lock->acquireLock($lockId); //init lock
+//        echo "<pre>", print_r('init current lock ' . ($isLock ? 'on' : 'off'), 1), "</pre>";
+//        echo "<pre>", print_r($lockId, 1), "</pre>";
+//        echo "<pre>", print_r('other process lock ' . ($this->lock->isLockedByAnyProcess() ? 'on' : 'off'), 1), "</pre>"; //other process lock on
+//        echo "Another process<br/>";
 
+        $isCurrentLock = true;
         $loopsCounter = 0;
-        while ($isLock && $loopsCounter < 40) {
+        while ($isCurrentLock && $loopsCounter < 100) {
             $loopsCounter++;
-            usleep(10000);
-            $isLock = $this->lock->isLockedByAnyProcess();
+            usleep(100000);
+            $isCurrentLock = $this->lock->isLockedByOtherProcess();
+            echo "<pre>",print_r($loopsCounter,1),"</pre>";
         }
         if ($loopsCounter > 0) {
             list($visits, $visitsConverted) = $this->loadArchiveData();
             if ($this->quickReturn) {
+                $this->lock->unlock();
                 return [$visits, $visitsConverted];
             }
         }
@@ -168,6 +170,7 @@ class Loader
             list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
             list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
             if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                $this->lock->unlock();
                 return [[$idArchive], $visits];
             }
         } finally {
