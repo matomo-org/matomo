@@ -344,14 +344,14 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: processed-ui-screenshots
+          name: failed-ui
           path: /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
 
       - name: Download processed screenshots
         uses: actions/download-artifact@v2
         if: failure()
         with:
-          name: processed-ui-screenshots
+          name: failed-ui
           path: /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
 
 
