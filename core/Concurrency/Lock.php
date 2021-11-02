@@ -90,7 +90,6 @@ class Lock
 
         $lockValue = substr(Common::generateUniqId(), 0, 12);
         $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);
-
         if ($locked) {
             $this->lockValue = $lockValue;
             $this->ttlUsed = $ttlInSeconds;
@@ -107,6 +106,22 @@ class Lock
         }
 
         return $this->lockValue === $this->backend->get($this->lockKey);
+    }
+
+    public function isLockedByAnyProcess($key = null)
+    {
+        if ($key) {
+            $lockValue = $this->backend->get($key);
+            return !empty($lockValue);
+        }
+        $lockValue = $this->backend->get($this->lockKey);
+        return !empty($lockValue);
+    }
+
+    public function isLockedByOtherProcess()
+    {
+        $lockValue = $this->backend->get($this->lockKey);
+        return !empty($lockValue) && $this->lockValue !== $lockValue;
     }
 
     public function unlock()

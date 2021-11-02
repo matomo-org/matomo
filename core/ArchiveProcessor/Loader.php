@@ -11,6 +11,8 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
@@ -28,8 +30,6 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 use Piwik\CronArchive\SegmentArchiving;
-use Symfony\Component\Lock\LockFactory;
-use Symfony\Component\Lock\Store\FlockStore;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -68,6 +68,10 @@ class Loader
      */
     private $dataAccessModel;
 
+    private $quickReturn;
+
+    private $lock;
+
     public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
         $this->params = $params;
@@ -77,6 +81,7 @@ class Loader
         $this->logger = StaticContainer::get(LoggerInterface::class);
         $this->rawLogDao = new RawLogDao();
         $this->dataAccessModel = new Model();
+        $this->lock = new Lock(StaticContainer::get(LockBackend::class), '');
     }
 
     /**
@@ -126,15 +131,74 @@ class Loader
             $this->invalidatedReportsIfNeeded();
         }
 
+        list($visits, $visitsConverted) = $this->loadArchiveData();
+        if ($this->quickReturn) {
+            return [$visits, $visitsConverted];
+        }
+
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $this->logger->info("initiating archiving via core:archive for " . $this->params);
+        }
+
+        $lockId = $this->makeArchivingLock();
+
+
+        if($lockId == 'b2486039adc3b798ba57ac62f7748ece.done90a5a511e1974bca37613b6daec137ba.Goals') {
+            echo "<pre>", print_r('init check other process lock ' . ($this->lock->isLockedByAnyProcess($lockId) ? 'on' : 'off'),
+              1), "</pre>";
+            $isLock = $this->lock->acquireLock($lockId);
+            echo "<pre>", print_r('init current lock ' . ($isLock ? 'on' : 'off'), 1), "</pre>";
+            echo "<pre>", print_r($lockId, 1), "</pre>";
+            echo "<pre>", print_r('other process lock ' . ($this->lock->isLockedByAnyProcess() ? 'on' : 'off'),
+              1), "</pre>";
+            echo "Another process<br/>";
+        }
+
+        $loopsCounter = 0;
+        while ($isLock && $loopsCounter < 40) {
+            $loopsCounter++;
+            usleep(10000);
+            $isLock = $this->lock->isLockedByAnyProcess();
+        }
+        if ($loopsCounter > 0) {
+            list($visits, $visitsConverted) = $this->loadArchiveData();
+            if ($this->quickReturn) {
+                return [$visits, $visitsConverted];
+            }
+        }
+        try {
+            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+            if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                return [[$idArchive], $visits];
+            }
+        } finally {
+            $this->lock->unlock();
+        }
+
+    }
+
+
+    private function makeArchivingLock()
+    {
+        $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
+          $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
+
+        return md5($this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() ).'.'. $doneFlag;
+
+    }
+
+    protected function loadArchiveData()
+    {
+        $this->quickReturn = false;
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchives)
-            && !Rules::isActuallyForceArchivingSinglePlugin()
-            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)
-        ) {
+        if (!empty($idArchives) && !Rules::isActuallyForceArchivingSinglePlugin() && !$this->shouldForceInvalidatedArchive($value,
+            $tsArchived)) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
+            $this->quickReturn = true;
             return [$idArchives, $visits];
         }
 
@@ -146,43 +210,14 @@ class Loader
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
             if (!empty($idArchives)) {
+                $this->quickReturn = true;
                 return [$idArchives, $visits];
             } else {
+                $this->quickReturn = true;
                 return [false, 0];
             }
         }
-
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $this->logger->info("initiating archiving via core:archive for " . $this->params);
-        }
-
-        $store = new FlockStore(PIWIK_DOCUMENT_ROOT.'/tmp/locks');
-        $factory = new LockFactory($store,10);
-        $lock = $factory->createLock($this->makeArchivingLock());
-
-        if (!$lock->acquire()) {
-            return [false, false];
-        }
-        try {
-            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
-
-            if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-                return [[$idArchive], $visits];
-            }
-        } finally {
-            $lock->release();
-        }
-
-    }
-
-
-    private function makeArchivingLock()
-    {
-        $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
-          $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
-        return $this->params->getPeriod()->getDateStart()->toString() .
-          $this->params->getPeriod()->getDateEnd()->toString() . $doneFlag;
+        return [$visits, $visitsConverted];
     }
 
     /**
