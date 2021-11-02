@@ -41,7 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UITests' ]
-        parts: [ 0 ]
+        parts: [ 0,1,2 ]
 
     steps:
       - name: Checkout code
