@@ -76,6 +76,10 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             return; // not supported w/ this method
         }
 
+        if (($method == 'socket' || $method == 'curl') && getenv('GITHUB')) {
+            $this->markTestSkipped("GITHUB using php -C don't have socket");
+        }
+
         $result = Http::sendHttpRequestBy(
             $method,
             Fixture::getRootUrl() . '/matomo.js',
