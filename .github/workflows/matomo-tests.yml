@@ -218,6 +218,131 @@ jobs:
           npm install
           ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
 
+  UI:
+    runs-on: ubuntu-20.04
+
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: piwik_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'UITests' ]
+        parts: [ 0 ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          lfs: true
+          submodules: recursive
+      #
+      - name: Install dependencies
+        run: |
+          composer install --ignore-platform-reqs
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
+          tools: composer:v2
+          coverage: none
+
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: installing node/puppeteer
+        working-directory: ./tests/lib/screenshot-testing
+        run: |
+          git lfs pull --exclude=
+          npm install
+          node --version
+
+      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
+        run: |
+          cp .github/scripts/config.ini.github.php config/config.ini.php
+          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+          mkdir -p ./tmp/assets
+          mkdir -p ./tmp/cache
+          mkdir -p ./tmp/cache/tracker
+          mkdir -p ./tmp/latest
+          mkdir -p ./tmp/logs
+          mkdir -p ./tmp/sessions
+          mkdir -p ./tmp/templates_c
+          mkdir -p ./tmp/nonexistant
+          mkdir -p ./tmp/tcpdf
+          mkdir -p ./tmp/climulti
+          mkdir -p /tmp
+          chmod a+rw ./tests/lib/geoip-files || true
+          chmod a+rw ./plugins/*/tests/System/processed || true
+          chmod a+rw ./plugins/*/tests/Integration/processed || true
+
+      - name: Run PHP on 80
+        run: |
+          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+          tmux new-session -d -s "php-80" php -S localhost:80
+          tmux ls
+      #
+      #
+      - name: Javascript tests Build
+        run: |
+          git clone --recursive https://github.com/google/woff2.git ../travis_woff2
+          cd ../travis_woff2
+          make clean all
+          mkdir $HOME/.fonts
+          cp /home/runner/work/matomo/matomo/tests/travis/fonts/* $HOME/.fonts
+          fc-cache -f -v
+          echo "fonts:"
+          ls $HOME/.fonts
+          sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
+
+      - name: set tmp and screenshot folder permission
+        run: |
+          sudo chown -R docker:runner /home/runner/work/matomo/matomo/
+          sudo chmod o+w /home/runner/work/matomo/matomo/
+          mkdir -p ./tests/UI/processed-ui-screenshots
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+
+      - name: UI tests Group ${{ matrix.parts }}
+        continue-on-error: true
+        run: |
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
+
+      - name: upload processed screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: processed-ui-screenshots
+          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+
+      - name: Download processed screenshots
+        uses: actions/download-artifact@v2
+        with:
+          name: processed-ui-screenshots
+          path: /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+
 
 
 
