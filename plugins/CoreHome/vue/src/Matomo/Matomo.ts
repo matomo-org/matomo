@@ -8,12 +8,6 @@
 import { IAngularEvent } from 'angular';
 import Periods from '../Periods/Periods';
 
-interface EventListener {
-  (...args: any[]): any; // eslint-disable-line
-
-  wrapper: (evt: Event) => void; // eslint-disable-line
-}
-
 let originalTitle: string;
 
 const { piwik, broadcast, piwikHelper } = window;
@@ -40,37 +34,39 @@ piwik.hasUserCapability = function hasUserCapability(capability: string) {
     && piwik.userCapabilities.indexOf(capability) !== -1;
 };
 
-piwik.on = function addMatomoEventListener(eventName: string, listener: EventListener) {
+piwik.on = function addMatomoEventListener(eventName: string, listener: WrappedEventListener) {
   function listenerWrapper(evt: Event) {
     listener(...(evt as CustomEvent<any[]>).detail); // eslint-disable-line
   }
 
   listener.wrapper = listenerWrapper;
 
-  window.addEventListener(eventName, listener);
+  window.addEventListener(eventName, listenerWrapper);
 };
 
-piwik.off = function removeMatomoEventListener(eventName: string, listener: EventListener) {
-  window.removeEventListener(eventName, listener.wrapper);
-};
-
-piwik.postEvent = function postMatomoEvent(
-  eventName: string,
-  ...args: any[], // eslint-disable-line
-): IAngularEvent {
-  piwik.postEventNoEmit(eventName, ...args);
-
-  // required until angularjs is removed
-  return (piwik.helper.getAngularDependency('$rootScope') as any) // eslint-disable-line
-    .$oldEmit(eventName, ...args);
+piwik.off = function removeMatomoEventListener(eventName: string, listener: WrappedEventListener) {
+  if (listener.wrapper) {
+    window.removeEventListener(eventName, listener.wrapper);
+  }
 };
 
 piwik.postEventNoEmit = function postEventNoEmit(
   eventName: string,
-  ...args: any[], // eslint-disable-line
+  ...args: any[] // eslint-disable-line
 ): void {
   const event = new CustomEvent(eventName, { detail: args });
   window.dispatchEvent(event);
+};
+
+piwik.postEvent = function postMatomoEvent(
+  eventName: string,
+  ...args: any[] // eslint-disable-line
+): IAngularEvent {
+  piwik.postEventNoEmit(eventName, ...args);
+
+  // required until angularjs is removed
+  const $rootScope = piwik.helper.getAngularDependency('$rootScope') as any; // eslint-disable-line
+  return $rootScope.$oldEmit(eventName, ...args);
 };
 
 const Matomo = piwik;

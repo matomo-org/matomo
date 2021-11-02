@@ -6,15 +6,9 @@
  */
 
 import { ILocationService } from 'angular';
-import {
-  computed,
-  ref,
-  ComputedRef,
-  readonly,
-} from 'vue';
+import { computed, ref, readonly } from 'vue';
 import Matomo from '../Matomo/Matomo';
-import Periods from '../Periods/Periods';
-import { format } from '../Periods';
+import { Periods, format } from '../Periods'; // important to load all periods here
 
 const { piwik, broadcast } = window;
 
@@ -26,6 +20,9 @@ function isValidPeriod(periodStr: string, dateStr: string) {
     return false;
   }
 }
+
+// using unknown since readonly does not work well with recursive types like QueryParameters
+type ParsedQueryParameters = Record<string, unknown>;
 
 /**
  * URL store and helper functions.
@@ -39,10 +36,10 @@ class MatomoUrl {
 
   private hashParsed = computed(() => broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true));
 
-  readonly parsed: ComputedRef<QueryParameters> = computed(() => readonly({
+  readonly parsed = computed(() => readonly({
     ...this.urlParsed.value,
     ...this.hashParsed.value,
-  }));
+  } as ParsedQueryParameters));
 
   constructor() {
     this.setUrlQuery(window.location.search);
@@ -51,10 +48,7 @@ class MatomoUrl {
     // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
-    Matomo.on('$locationChangeSuccess', () => {
-      const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
-      const absUrl = $location.absUrl();
-
+    Matomo.on('$locationChangeSuccess', (absUrl: string) => {
       const queryPos = absUrl.indexOf('?');
       const hashPos = absUrl.indexOf('#');
 

@@ -66,7 +66,8 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import ComparisonsStoreInstance, { AnyComparison } from './Comparisons.store';
+import { AnyComparison } from './Comparisons.store';
+import ComparisonsStoreInstance from './Comparisons.store.instance';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';

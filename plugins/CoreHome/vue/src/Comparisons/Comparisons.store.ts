@@ -5,7 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { reactive, watch, computed } from 'vue';
+import {
+  reactive,
+  watch,
+  computed,
+  readonly,
+} from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 import translate from '../translate';
@@ -56,10 +61,12 @@ function wrapArray<T>(values: T | T[]): T[] {
   return values instanceof Array ? values : [values];
 }
 
-export class ComparisonsStore {
+export default class ComparisonsStore {
   private privateState = reactive<ComparisonsStoreState>({
     comparisonsDisabledFor: [],
   });
+
+  readonly state = readonly(this.privateState); // for tests
 
   private colors: { [key: string]: string } = {};
 
@@ -318,10 +325,12 @@ export class ComparisonsStore {
   private parseSegmentComparisons(): SegmentComparison[] {
     const { availableSegments } = SegmentsStore.state;
 
-    const compareSegments: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.compareSegments));
+    const compareSegments: string[] = [
+      ...wrapArray(MatomoUrl.parsed.value.compareSegments as string[]),
+    ];
 
     // add base comparisons
-    compareSegments.unshift(MatomoUrl.parsed.value.segment || '');
+    compareSegments.unshift(MatomoUrl.parsed.value.segment as string || '');
 
     const newSegmentComparisons: SegmentComparison[] = [];
     compareSegments.forEach((segment, idx) => {
@@ -354,11 +363,16 @@ export class ComparisonsStore {
   }
 
   private parsePeriodComparisons(): PeriodComparison[] {
-    const comparePeriods: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.comparePeriods));
-    const compareDates: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.compareDates));
+    const comparePeriods: string[] = [
+      ...wrapArray(MatomoUrl.parsed.value.comparePeriods as string[]),
+    ];
 
-    comparePeriods.unshift(MatomoUrl.parsed.value.period);
-    compareDates.unshift(MatomoUrl.parsed.value.date);
+    const compareDates: string[] = [
+      ...wrapArray(MatomoUrl.parsed.value.compareDates as string[]),
+    ];
+
+    comparePeriods.unshift(MatomoUrl.parsed.value.period as string);
+    compareDates.unshift(MatomoUrl.parsed.value.date as string);
 
     const newPeriodComparisons: PeriodComparison[] = [];
     for (let i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {
@@ -397,5 +411,3 @@ export class ComparisonsStore {
     return isEnabled;
   }
 }
-
-export default new ComparisonsStore();

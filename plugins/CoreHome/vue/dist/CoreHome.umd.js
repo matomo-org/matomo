@@ -301,25 +301,30 @@ Matomo_piwik.on = function addMatomoEventListener(eventName, listener) {
   }
 
   listener.wrapper = listenerWrapper;
-  window.addEventListener(eventName, listener);
+  window.addEventListener(eventName, listenerWrapper);
 };
 
 Matomo_piwik.off = function removeMatomoEventListener(eventName, listener) {
-  window.removeEventListener(eventName, listener.wrapper);
+  if (listener.wrapper) {
+    window.removeEventListener(eventName, listener.wrapper);
+  }
 };
 
-Matomo_piwik.postEvent = function postMatomoEvent(eventName, ...args) {
-  Matomo_piwik.postEventNoEmit(eventName, ...args); // required until angularjs is removed
-
-  return Matomo_piwik.helper.getAngularDependency('$rootScope') // eslint-disable-line
-  .$oldEmit(eventName, ...args);
-};
-
-Matomo_piwik.postEventNoEmit = function postEventNoEmit(eventName, ...args) {
+Matomo_piwik.postEventNoEmit = function postEventNoEmit(eventName, ...args // eslint-disable-line
+) {
   const event = new CustomEvent(eventName, {
     detail: args
   });
   window.dispatchEvent(event);
+};
+
+Matomo_piwik.postEvent = function postMatomoEvent(eventName, ...args // eslint-disable-line
+) {
+  Matomo_piwik.postEventNoEmit(eventName, ...args); // required until angularjs is removed
+
+  const $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
+
+  return $rootScope.$oldEmit(eventName, ...args);
 };
 
 const Matomo = Matomo_piwik;
@@ -628,7 +633,7 @@ function piwikPeriods() {
   };
 }
 
-angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
+window.angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
 function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -840,7 +845,7 @@ function MatomoUrl_defineProperty(obj, key, value) { if (key in obj) { Object.de
  */
 
 
-
+ // important to load all periods here
 
 const {
   piwik: MatomoUrl_piwik,
@@ -879,9 +884,7 @@ class MatomoUrl_MatomoUrl {
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
 
-    Matomo_Matomo.on('$locationChangeSuccess', () => {
-      const $location = Matomo_Matomo.helper.getAngularDependency('$location');
-      const absUrl = $location.absUrl();
+    Matomo_Matomo.on('$locationChangeSuccess', absUrl => {
       const queryPos = absUrl.indexOf('?');
       const hashPos = absUrl.indexOf('#');
       this.setUrlQuery(absUrl.substring(queryPos, hashPos));
@@ -1027,7 +1030,7 @@ function initPiwikService(piwik, $rootScope) {
 
   $rootScope.$broadcast = function broadcastWrapper(name, ...args) {
     Matomo_Matomo.postEventNoEmit(name, ...args);
-    return $rootScope.$oldBroadcast(name, ...args);
+    return $rootScope.$oldBroadcast(name, ...args); // eslint-disable-line
   };
 
   $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
@@ -2350,10 +2353,13 @@ function wrapArray(values) {
 }
 
 class Comparisons_store_ComparisonsStore {
+  // for tests
   constructor() {
     Comparisons_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       comparisonsDisabledFor: []
     }));
+
+    Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
 
     Comparisons_store_defineProperty(this, "colors", {});
 
@@ -2584,7 +2590,7 @@ class Comparisons_store_ComparisonsStore {
     const {
       availableSegments
     } = Segments_store.state;
-    const compareSegments = [].concat(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments)); // add base comparisons
+    const compareSegments = [...wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments)]; // add base comparisons
 
     compareSegments.unshift(src_MatomoUrl_MatomoUrl.parsed.value.segment || '');
     const newSegmentComparisons = [];
@@ -2613,8 +2619,8 @@ class Comparisons_store_ComparisonsStore {
   }
 
   parsePeriodComparisons() {
-    const comparePeriods = [].concat(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.comparePeriods));
-    const compareDates = [].concat(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareDates));
+    const comparePeriods = [...wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.comparePeriods)];
+    const compareDates = [...wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareDates)];
     comparePeriods.unshift(src_MatomoUrl_MatomoUrl.parsed.value.period);
     compareDates.unshift(src_MatomoUrl_MatomoUrl.parsed.value.date);
     const newPeriodComparisons = [];
@@ -2652,44 +2658,46 @@ class Comparisons_store_ComparisonsStore {
   }
 
 }
-/* harmony default export */ var Comparisons_store = (new Comparisons_store_ComparisonsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=4929d8fc
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts
 
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_1 = {
+/* harmony default export */ var Comparisons_store_instance = (new Comparisons_store_ComparisonsStore());
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=8d79ddca
+
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_1 = {
   key: 0,
   ref: "root",
   class: "matomo-comparisons"
 };
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_2 = {
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_2 = {
   class: "comparison-type"
 };
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_3 = ["title"];
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_4 = ["href"];
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_5 = ["title"];
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_6 = {
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_3 = ["title"];
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_4 = ["href"];
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_5 = ["title"];
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_6 = {
   class: "comparison-period-label"
 };
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_7 = ["onClick"];
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_8 = ["title"];
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_9 = {
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_7 = ["onClick"];
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_8 = ["title"];
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_9 = {
   class: "loadingPiwik",
   style: {
     "display": "none"
   }
 };
-const Comparisonsvue_type_template_id_4929d8fc_hoisted_10 = ["alt"];
-function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.isComparing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_4929d8fc_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
+const Comparisonsvue_type_template_id_8d79ddca_hoisted_10 = ["alt"];
+function Comparisonsvue_type_template_id_8d79ddca_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.isComparing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_8d79ddca_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "comparison card",
       key: comparison.index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_4929d8fc_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_8d79ddca_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
       class: "title",
       title: comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       target: "_blank",
       href: _ctx.getUrlToSegment(comparison.params.segment)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_4929d8fc_hoisted_4)], 8, Comparisonsvue_type_template_id_4929d8fc_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_8d79ddca_hoisted_4)], 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
         class: "comparison-period",
         key: periodComparison.index,
@@ -2699,7 +2707,7 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
         style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
           'background-color': _ctx.getSeriesColor(comparison, periodComparison)
         })
-      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_4929d8fc_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_4929d8fc_hoisted_5);
+      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_8d79ddca_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_5);
     }), 128)), _ctx.segmentComparisons.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: 0,
       class: "remove-button",
@@ -2707,13 +2715,13 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       class: "icon icon-close",
       title: _ctx.translate('General_ClickToRemoveComp')
-    }, null, 8, Comparisonsvue_type_template_id_4929d8fc_hoisted_8)], 8, Comparisonsvue_type_template_id_4929d8fc_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_4929d8fc_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+    }, null, 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_8)], 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_8d79ddca_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     src: "plugins/Morpheus/images/loading-blue.gif",
     alt: _ctx.translate('General_LoadingData')
-  }, null, 8, Comparisonsvue_type_template_id_4929d8fc_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=4929d8fc
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=8d79ddca
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
 
@@ -2734,10 +2742,10 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
   setup() {
     // accessing has to be done through a computed property so we can use the computed
     // instance directly in the template. unfortunately, vue won't register to changes.
-    const isComparing = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store.isComparing());
-    const segmentComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store.getSegmentComparisons());
-    const periodComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store.getPeriodComparisons());
-    const getSeriesColor = Comparisons_store.getSeriesColor.bind(Comparisons_store);
+    const isComparing = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.isComparing());
+    const segmentComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.getSegmentComparisons());
+    const periodComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.getPeriodComparisons());
+    const getSeriesColor = Comparisons_store_instance.getSeriesColor.bind(Comparisons_store_instance);
     return {
       isComparing,
       segmentComparisons,
@@ -2754,7 +2762,7 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
     removeSegmentComparison(index) {
       // otherwise the tooltip will be stuck on the screen
       window.$(this.$refs.root).tooltip('destroy');
-      Comparisons_store.removeSegmentComparison(index);
+      Comparisons_store_instance.removeSegmentComparison(index);
     },
 
     getComparisonPeriodType(comparison) {
@@ -2810,12 +2818,12 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
     onComparisonsChanged() {
       this.comparisonTooltips = null;
 
-      if (!Comparisons_store.isComparing()) {
+      if (!Comparisons_store_instance.isComparing()) {
         return;
       }
 
-      const periodComparisons = Comparisons_store.getPeriodComparisons();
-      const segmentComparisons = Comparisons_store.getSegmentComparisons();
+      const periodComparisons = Comparisons_store_instance.getPeriodComparisons();
+      const segmentComparisons = Comparisons_store_instance.getSegmentComparisons();
       AjaxHelper_AjaxHelper.fetch({
         method: 'API.getProcessedReport',
         apiModule: 'VisitsSummary',
@@ -2843,9 +2851,9 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
         return '';
       }
 
-      const firstRowIndex = Comparisons_store.getComparisonSeriesIndex(periodComp.index, 0);
+      const firstRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, 0);
       const firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
-      const comparisonRowIndex = Comparisons_store.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
+      const comparisonRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
       const comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];
       const firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
       let tooltip = '<div class="comparison-card-tooltip">';
@@ -2890,7 +2898,7 @@ function Comparisonsvue_type_template_id_4929d8fc_render(_ctx, _cache, $props, $
 
 
 
-Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_4929d8fc_render
+Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_8d79ddca_render
 
 /* harmony default export */ var Comparisons = (Comparisonsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts
@@ -2905,7 +2913,7 @@ Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_4929
 
 
 function ComparisonFactory() {
-  return Comparisons_store;
+  return Comparisons_store_instance;
 }
 
 ComparisonFactory.$inject = [];
