@@ -28,8 +28,8 @@ class GoalsPages extends Goals
     {
         $this->removeExcludedColumns();
 
-        $this->config->addTranslation('sum_daily_nb_uniq_visitors', Piwik::translate('General_ColumnUniquePageviews'));
-        $this->config->metrics_documentation['sum_daily_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
+        $this->config->addTranslation('nb_hits', Piwik::translate('General_ColumnUniquePageviews'));
+        $this->config->metrics_documentation['nb_hits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
 
         parent::beforeRender();
     }
@@ -39,10 +39,10 @@ class GoalsPages extends Goals
         $allGoals = $this->getGoals($idSite);
 
         // set view properties
-        $this->config->columns_to_display = array('label', 'sum_daily_nb_uniq_visitors');
+        $this->config->columns_to_display = array('label', 'nb_hits');
 
         foreach ($allGoals as $goal) {
-            $column        = "goal_{$goal['idgoal']}_conversion_page_rate";
+            $column        = "goal_{$goal['idgoal']}_nb_conversion_page_rate";
             $this->config->columns_to_display[]  = $column;
         }
 
@@ -61,12 +61,12 @@ class GoalsPages extends Goals
             $this->requestConfig->filter_sort_order  = 'desc';
         }
 
-        $this->config->columns_to_display = array('label', 'sum_daily_nb_uniq_visitors');
+        $this->config->columns_to_display = array('label', 'nb_hits');
 
         $goalColumnTemplates = array(
             'goal_%s_nb_conversions_float',
             'goal_%s_revenue',
-            'goal_%s_conversion_page_rate',
+            'goal_%s_nb_conversion_page_rate',
         );
 
         // set columns to display (columns of same type but different goals will be next to each other,

@@ -144,6 +144,9 @@ class Collection
         if ($this->testConfig->idGoal !== false) {
             $parametersToSet['idGoal'] = $this->testConfig->idGoal;
         }
+        if (isset($this->testConfig->otherRequestParameters['filter_update_columns_when_show_all_goals'])) {
+            $parametersToSet['filter_update_columns_when_show_all_goals'] = $this->testConfig->otherRequestParameters['filter_update_columns_when_show_all_goals'];
+        }
 
         $requestUrls = $this->generateApiUrlPermutations($parametersToSet);
 

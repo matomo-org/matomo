@@ -27,7 +27,7 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return Goals::makeGoalColumn($this->idGoal, 'conversion_entry_rate', false);
+        return Goals::makeGoalColumn($this->idGoal, 'nb_conversion_entry_rate', false);
     }
 
     public function getTranslatedName()

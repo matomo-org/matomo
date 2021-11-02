@@ -571,9 +571,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
 
         $metricsConfig = array(
-            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => array(
-                'aggregation' => false,
-                'query' => "count(distinct log_link_visit_action.idvisitor)",
+            PiwikMetrics::INDEX_PAGE_NB_HITS => array(
+                'aggregation' => 'sum',
+                'query' => "count(*)"
             ),
         );
 
@@ -599,8 +599,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         $actionTypesWhere = "log_action.type IN (" . implode(", ", [$actionType]) . ")";
         $where .= " AND $actionTypesWhere";
 
-        $groupBy = "log_link_visit_action.idvisit";
-        $orderBy = "`" . PiwikMetrics::INDEX_NB_UNIQ_VISITORS . "` DESC, name ASC";
+        $groupBy = "log_action.idaction";
+        $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
 
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -618,7 +618,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         // We now have a data array of pages with the unique visit count
         // Next need to perform a separate query to get the goal conversion metrics and add them to the data array
 
-        $query = $this->getLogAggregator()->queryConversionsByPageView();
+        $query = $this->getLogAggregator()->queryConversionsByPageView($linkField);
 
         if ($query === false) {
             return;

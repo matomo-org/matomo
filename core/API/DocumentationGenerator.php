@@ -228,6 +228,7 @@ class DocumentationGenerator
             'idAlert'             => '1',
             'seconds'        => '3600',
 //            'segmentName'    => 'browserCode',
+            'filter_update_columns_when_show_all_goals' => '0',
         );
 
         foreach ($parametersToSet as $name => $value) {
@@ -296,6 +297,7 @@ class DocumentationGenerator
         $aParameters['compareSegments'] = false;
         $aParameters['comparisonIdSubtables'] = false;
         $aParameters['invert_compare_change_compute'] = false;
+        $aParameters['filter_update_columns_when_show_all_goals'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {

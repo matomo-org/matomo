@@ -27,7 +27,7 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return Goals::makeGoalColumn($this->idGoal, 'conversion_page_rate', false);
+        return Goals::makeGoalColumn($this->idGoal, 'nb_conversion_page_rate', false);
     }
 
     public function getTranslatedName()
@@ -47,6 +47,6 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        return 0; // CalculateConversionPageRate filter will populate this value
+        return $this->getMetric($row, 'nb_conversion_page_rate');
     }
 }

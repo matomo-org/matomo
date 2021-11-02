@@ -280,7 +280,7 @@ class Controller extends \Piwik\Plugin\Controller
             $count = 0;
 
             if ($apiMethod == 'Goals.getPagesEntry') {
-                $columnConversionRate = 'goal_' . $idGoal . '_conversion_entry_rate';
+                $columnConversionRate = 'goal_' . $idGoal . '_nb_conversion_entry_rate';
             } else {
                 $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
             }

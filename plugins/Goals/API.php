@@ -24,6 +24,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionEntryRate;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -767,7 +768,6 @@ class API extends \Piwik\Plugin\API
 
         // get the data table
         $dataTable = $archive->getDataTable($recordName, $idSubtable = null);
-        $dataTable->queueFilter('ReplaceColumnNames');
 
         return $dataTable;
     }
@@ -790,6 +790,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getPageGoalDataTable(
             Archiver::PAGE_CONVERSIONS_URL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
         $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
+        $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
         return $dataTable;
     }
@@ -812,6 +813,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getPageGoalDataTable(
             Archiver::PAGE_CONVERSIONS_TITLES_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
         $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
+        $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
         return $dataTable;
     }
@@ -833,6 +835,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getPageGoalDataTable(
             Archiver::PAGE_CONVERSIONS_ENTRY_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+        $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
         return $dataTable;
     }
@@ -854,6 +857,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getPageGoalDataTable(
             Archiver::PAGE_CONVERSIONS_ENTRY_TITLES_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+        $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
         return $dataTable;
     }

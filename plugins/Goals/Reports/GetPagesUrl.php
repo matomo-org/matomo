@@ -40,12 +40,12 @@ class GetPagesUrl extends Base
             $view->config->disable_subtable_when_show_goals = true;
         }
 
-        $view->requestConfig->filter_sort_column = 'nb_visits';
+        $view->requestConfig->filter_sort_column = 'nb_hits';
         $view->requestConfig->filter_sort_order  = 'asc';
         $view->requestConfig->filter_limit       = 25;
 
         $view->config->addTranslations(array('label' => $this->dimension->getName(),
-                                             'nb_visits' => Piwik::translate('General_ColumnUniquePageviews')));
+                                             'nb_hits' => Piwik::translate('General_ColumnUniquePageviews')));
     }
 
     public function configureReportMetadata(&$availableReports, $infos)

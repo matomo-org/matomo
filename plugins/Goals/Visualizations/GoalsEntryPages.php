@@ -42,7 +42,7 @@ class GoalsEntryPages extends Goals
         $this->config->columns_to_display = array('label', 'entry_nb_visits');
 
         foreach ($allGoals as $goal) {
-            $column        = "goal_{$goal['idgoal']}_conversion_entry_rate";
+            $column        = "goal_{$goal['idgoal']}_nb_conversion_entry_rate";
             $this->config->columns_to_display[]  = $column;
         }
 
@@ -65,7 +65,7 @@ class GoalsEntryPages extends Goals
 
         $goalColumnTemplates = array(
             'goal_%s_nb_conversions',
-            'goal_%s_conversion_entry_rate',
+            'goal_%s_nb_conversion_entry_rate',
             'goal_%s_revenue',
             'goal_%s_revenue_per_entry',
         );

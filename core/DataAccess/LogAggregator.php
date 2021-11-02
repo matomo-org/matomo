@@ -1105,14 +1105,16 @@ class LogAggregator
      * format, but takes into account pageviews leading up to a conversion, not
      * just the final page that triggered the conversion
      *
+     * @param string $linkField
+     *
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByPageView()
+    public function queryConversionsByPageView(string $linkField)
     {
         $dbSettings = new \Piwik\Db\Settings();
         $tablePrefix = $dbSettings->getTablePrefix();
         $subQuery = sprintf("
-            (SELECT COUNT(DISTINCT am.idaction)
+            (SELECT COUNT(am.idaction)
              FROM %slog_conversion cam
              LEFT JOIN %slog_link_visit_action vam ON vam.idvisit = cam.idvisit AND vam.server_time <= log_conversion.server_time
              LEFT JOIN %slog_action am ON am.idaction = vam.idaction_url
@@ -1128,7 +1130,7 @@ class LogAggregator
                 ', ',
                 array(
                     "log_conversion.idgoal AS idgoal",
-                    "log_link_visit_action.idaction_url AS idaction",
+                    "log_link_visit_action.".$linkField." AS idaction",
                     "count(*) AS `10`",
                     "count(distinct log_conversion.idvisit) AS `3`",
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 2),
@@ -1137,7 +1139,8 @@ class LogAggregator
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), 6),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), 7),
                     "SUM(log_conversion.items) AS `8`",
-                    $subQuery
+                    $subQuery,
+                    "1 AS `12`"
                 )
             ),
             // FROM...
@@ -1149,7 +1152,7 @@ class LogAggregator
                 ),
                 array(
                     "table" => "log_action",
-                    "joinOn" => "log_action.idaction = log_link_visit_action.idaction_url"
+                    "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField
                 )
             ),
             // WHERE ... AND ...
@@ -1160,8 +1163,8 @@ class LogAggregator
                     'log_conversion.server_time <= ?',
                     'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
                     'log_conversion.idgoal > 0',
-                    'log_link_visit_action.idaction_url IS NOT NULL',
-                    'log_action.type = 1'
+                    'log_link_visit_action.'.$linkField.' IS NOT NULL',
+                    ($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
                 )
             ),
 

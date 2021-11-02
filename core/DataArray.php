@@ -194,7 +194,12 @@ class DataArray
         $idGoal = $row['idgoal'];
 
         if (!isset($this->data[$label][Metrics::INDEX_GOALS][$idGoal])) {
-            $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = static::makeEmptyGoalRow($idGoal);
+
+            if ($doFloatConversionSum) {
+                $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = static::makeEmptyGoalPagesRow($idGoal);
+            } else {
+                $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = static::makeEmptyGoalPagesEntryRow($idGoal);
+            }
         }
 
         if ($doFloatConversionSum) {
@@ -202,7 +207,7 @@ class DataArray
             $this->doSumGoalsMetricsPages($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
         } else {
             // Entry pages
-            $this->doSumGoalsMetrics($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
+            $this->doSumGoalsMetricsPagesEntry($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
         }
     }
 
@@ -231,6 +236,33 @@ class DataArray
 
         $oldRowToUpdate[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED] += $newRowToAdd[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
         $oldRowToUpdate[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] += $newRowToAdd[Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE];
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ] += $newRowToAdd[Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ];
+
+        // Cart & Order
+        if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS])) {
+            $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS];
+
+            // Order only
+            if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL])) {
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT];
+            }
+        }
+    }
+
+    /**
+     * Sum goal metrics for entry pages
+     *
+     * @param $newRowToAdd
+     * @param $oldRowToUpdate
+     */
+    protected function doSumGoalsMetricsPagesEntry($newRowToAdd, &$oldRowToUpdate)
+    {
+
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_CONVERSIONS] += $newRowToAdd[Metrics::INDEX_GOAL_NB_CONVERSIONS];
+        $oldRowToUpdate[Metrics::INDEX_GOAL_REVENUE] += $newRowToAdd[Metrics::INDEX_GOAL_REVENUE];
 
         // Cart & Order
         if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS])) {
@@ -257,8 +289,74 @@ class DataArray
             return array(Metrics::INDEX_GOAL_NB_CONVERSIONS         => 0,
                          Metrics::INDEX_GOAL_NB_VISITS_CONVERTED    => 0,
                          Metrics::INDEX_GOAL_REVENUE                => 0,
-                         Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE   => 0,
-                         Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT   => 0,
+            );
+        }
+        if ($idGoal == GoalManager::IDGOAL_ORDER) {
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
+                         Metrics::INDEX_GOAL_REVENUE                    => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
+            );
+        }
+        // idGoal == GoalManager::IDGOAL_CART
+        return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                     Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                     Metrics::INDEX_GOAL_REVENUE             => 0,
+                     Metrics::INDEX_GOAL_ECOMMERCE_ITEMS     => 0,
+        );
+    }
+
+    /**
+     * @param $idGoal
+     * @return array
+     */
+    protected static function makeEmptyGoalPagesRow($idGoal)
+    {
+        if ($idGoal > GoalManager::IDGOAL_ORDER) {
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
+                         Metrics::INDEX_GOAL_REVENUE                    => 0,
+                         Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE       => 0,
+                         Metrics::INDEX_GOAL_NB_CONVERSIONS_FLOAT       => 0,
+                         Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE   => 0,
+                         Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ   => 0,
+            );
+        }
+        if ($idGoal == GoalManager::IDGOAL_ORDER) {
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
+                         Metrics::INDEX_GOAL_REVENUE                    => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
+            );
+        }
+        // idGoal == GoalManager::IDGOAL_CART
+        return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                     Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                     Metrics::INDEX_GOAL_REVENUE             => 0,
+                     Metrics::INDEX_GOAL_ECOMMERCE_ITEMS     => 0,
+        );
+    }
+
+    /**
+     * @param $idGoal
+     * @return array
+     */
+    protected static function makeEmptyGoalPagesEntryRow($idGoal)
+    {
+        if ($idGoal > GoalManager::IDGOAL_ORDER) {
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
+                         Metrics::INDEX_GOAL_REVENUE                    => 0,
+                         Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE  => 0,
+                         Metrics::INDEX_GOAL_REVENUE_PER_ENTRY          => 0
             );
         }
         if ($idGoal == GoalManager::IDGOAL_ORDER) {
