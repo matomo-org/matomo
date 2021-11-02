@@ -57,7 +57,7 @@ class ReleaseChannelTest extends IntegrationTestCase
     {
         $version = Version::VERSION;
         $phpVersion = urlencode(PHP_VERSION);
-        $mysqlVersion = Db::get()->getServerVersion();
+        $mysqlVersion = urlencode(Db::get()->getServerVersion());
         $url = urlencode(Url::getCurrentUrlWithoutQueryString());
 
         $urlToCheck = urlencode($this->channel->getUrlToCheckForLatestAvailableVersion());
