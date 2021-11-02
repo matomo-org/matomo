@@ -51,10 +51,6 @@ jobs:
         tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins' ]
 
     steps:
-
-      - name: check firewall
-        run: |
-          sudo ufw status
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -123,6 +119,7 @@ jobs:
         env:
           MYSQL_ADAPTER: PDO_MYSQL
           TRAVIS: true
+          GITHUB: true
 
   Javascript:
     runs-on: ubuntu-20.04
