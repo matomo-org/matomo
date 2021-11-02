@@ -64,13 +64,13 @@ jobs:
           php-version: 8.0
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
           ini-values: |
-              memory_limit = 256M,
-              max_execution_time=10000,
-              always_populate_raw_post_data=-1,
-              error_reporting=E_ALL,
-              log_errors=on, display_errors=on,
-              allow_url_fopen = on,
-              zend.exception_ignore_args = Off
+            memory_limit = 256M,
+            max_execution_time=10000,
+            always_populate_raw_post_data=-1,
+            error_reporting=E_ALL,
+            log_errors=on, display_errors=on,
+            allow_url_fopen = on,
+            zend.exception_ignore_args = Off
           tools: composer:v2
           coverage: none
 
@@ -125,7 +125,7 @@ jobs:
         run: |
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
         env:
-          MYSQL_ADAPTER: MYSQL_ADAPTER
+          MYSQL_ADAPTER: MYSQLI
           TRAVIS: true
           GITHUB: true
 
@@ -187,6 +187,7 @@ jobs:
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
           cp .github/scripts/config.ini.github.php  config/config.ini.php
+          sed -i 's/3000/\//g' ./config/config.ini.php
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
           mkdir -p ./tmp/cache
@@ -340,6 +341,8 @@ jobs:
       - name: UI tests Group ${{ matrix.parts }}
         run: |
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
+        env:
+          GITHUB: true
 
       - name: upload processed screenshots
         uses: actions/upload-artifact@v2
