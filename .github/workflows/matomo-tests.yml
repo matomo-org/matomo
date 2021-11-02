@@ -118,6 +118,7 @@ jobs:
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
         env:
           MYSQL_ADAPTER: PDO_MYSQL
+          TRAVIS: true
 
   Javascript:
     runs-on: ubuntu-20.04
@@ -320,7 +321,6 @@ jobs:
 
       - name: set tmp and screenshot folder permission
         run: |
-          sudo chown -R docker:runner /home/runner/work/matomo/matomo/
           sudo chmod o+w /home/runner/work/matomo/matomo/
           mkdir -p ./tests/UI/processed-ui-screenshots
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
