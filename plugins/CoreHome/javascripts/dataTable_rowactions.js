@@ -473,12 +473,21 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
     }
 
+    // When the triggering datatable is showing goal metrics, we need to ensure that the row evolution
+    // also shows the matching goal metrics
     if (self.dataTable && self.dataTable.jsViewDataTable === 'tableGoals') {
-        // remove idGoal param, when it's set for goal visualizations
+        extraParams['documentationForGoalsPage'] = 1;
+
+        // When there is a idGoal parameter available, the user is currently viewing a Goal or Ecommerce page
+        // In this case we want to show the specific goal metrics in the row evolution
         if (extraParams['idGoal']) {
             self.showGoalMetricsForGoal = extraParams['showGoalMetricsForGoal'] = extraParams['idGoal'];
-            extraParams['documentationForGoalsPage'] = 1;
             delete(extraParams['idGoal']);
+        }
+        // If no idGoal is available it is a random report switch to goal visualization
+        // we then ensure the row evolution will show the goal overview metrics
+        else  {
+            self.showGoalMetricsForGoal = extraParams['showGoalMetricsForGoal'] = -1;
         }
     }
 
