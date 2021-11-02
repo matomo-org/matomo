@@ -715,6 +715,10 @@ var broadcast = {
         var pairs = queryString.replace(/%5B%5D/g, '[]').split('&');
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
+            if (pairs[i] === '') {
+              continue;
+            }
+
             // attn: split with regex has bugs in several browsers such as IE 8
             // so we need to split, use the first part as key and rejoin the rest
             var pair = pairs[i].split('=');

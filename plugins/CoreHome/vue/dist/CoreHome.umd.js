@@ -2580,7 +2580,7 @@ class Comparisons_store_ComparisonsStore {
     } = Segments_store.state;
     const compareSegments = [].concat(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments)); // add base comparisons
 
-    compareSegments.unshift(src_MatomoUrl_MatomoUrl.parsed.value.segment);
+    compareSegments.unshift(src_MatomoUrl_MatomoUrl.parsed.value.segment || '');
     const newSegmentComparisons = [];
     compareSegments.forEach((segment, idx) => {
       let storedSegment;

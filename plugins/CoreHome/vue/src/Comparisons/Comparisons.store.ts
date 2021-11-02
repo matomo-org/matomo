@@ -321,7 +321,7 @@ export class ComparisonsStore {
     const compareSegments: string[] = [].concat(wrapArray(MatomoUrl.parsed.value.compareSegments));
 
     // add base comparisons
-    compareSegments.unshift(MatomoUrl.parsed.value.segment);
+    compareSegments.unshift(MatomoUrl.parsed.value.segment || '');
 
     const newSegmentComparisons: SegmentComparison[] = [];
     compareSegments.forEach((segment, idx) => {
