@@ -143,16 +143,14 @@ class Loader
         $lockId = $this->makeArchivingLock();
 
 
-        if($lockId == 'b2486039adc3b798ba57ac62f7748ece.done90a5a511e1974bca37613b6daec137ba.Goals') {
-            echo "<pre>", print_r('init check other process lock ' . ($this->lock->isLockedByAnyProcess($lockId) ? 'on' : 'off'),
-              1), "</pre>";
-            $isLock = $this->lock->acquireLock($lockId);
-            echo "<pre>", print_r('init current lock ' . ($isLock ? 'on' : 'off'), 1), "</pre>";
-            echo "<pre>", print_r($lockId, 1), "</pre>";
-            echo "<pre>", print_r('other process lock ' . ($this->lock->isLockedByAnyProcess() ? 'on' : 'off'),
-              1), "</pre>";
-            echo "Another process<br/>";
-        }
+        echo "<pre>", print_r('init check other process lock ' . ($this->lock->isLockedByAnyProcess($lockId) ? 'on' : 'off'),
+          1), "</pre>";
+        $isLock = $this->lock->acquireLock($lockId);
+        echo "<pre>", print_r('init current lock ' . ($isLock ? 'on' : 'off'), 1), "</pre>";
+        echo "<pre>", print_r($lockId, 1), "</pre>";
+        echo "<pre>", print_r('other process lock ' . ($this->lock->isLockedByAnyProcess() ? 'on' : 'off'),
+          1), "</pre>";
+        echo "Another process<br/>";
 
         $loopsCounter = 0;
         while ($isLock && $loopsCounter < 40) {
