@@ -76,6 +76,11 @@ DataTable_RowActions_Registry.register({
         if (dataTable === null && param) {
             // when row evolution is triggered from the url (not a click on the data table)
             // we look for the data table instance in the dom
+            // This actually doesn't work very good, as opening a row evolution using url params
+            // directly also triggers loading the report datatable, which might not yet be finished at
+            // this state, so the datatable might not yet be available
+            // When migrating/refactoring this it might be good to use promises in some way, so it would
+            // be possible to actually trigger the row evolution popover once the origin report was loaded.
             var report = param.split(':')[0];
             var div = $(require('piwik/UI').DataTable.getDataTableByReport(report));
             if (div.length && div.data('uiControlObject')) {
