@@ -93,7 +93,7 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          sudo ufw allow port 80
+          sudo ufw allow http
           sudo ufw enable
           sudo ufw status
           sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
