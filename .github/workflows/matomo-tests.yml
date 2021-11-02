@@ -63,7 +63,14 @@ jobs:
         with:
           php-version: 8.0
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
-          ini-values: memory_limit = 256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1, error_reporting=E_ALL, log_errors=on, display_errors=on, zend.exception_ignore_args = Off
+          ini-values: |
+              memory_limit = 256M,
+              max_execution_time=10000,
+              always_populate_raw_post_data=-1,
+              error_reporting=E_ALL,
+              log_errors=on, display_errors=on,
+              allow_url_fopen = on,
+              zend.exception_ignore_args = Off
           tools: composer:v2
           coverage: none
 
@@ -91,13 +98,11 @@ jobs:
         run: |
           composer install --ignore-platform-reqs
 
-      - name: Run PHP on 80
+      - name: Run PHP on 80 and 3000
         run: |
-          sudo ufw allow http
-          sudo ufw enable
-          sudo ufw status
           sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
           tmux new-session -d -s "php-80" php -S localhost:80
+          tmux new-session -d -s "php-3000" php -S localhost:3000
           tmux ls
 
       - name: set tmp and screenshot folder permission
@@ -120,9 +125,10 @@ jobs:
         run: |
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
         env:
-          MYSQL_ADAPTER: PDO_MYSQL
+          MYSQL_ADAPTER: MYSQL_ADAPTER
           TRAVIS: true
           GITHUB: true
+
 
   Javascript:
     runs-on: ubuntu-20.04
@@ -302,11 +308,9 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          sudo ufw allow http
-          sudo ufw enable
-          sudo ufw status
           sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
           tmux new-session -d -s "php-80" php -S localhost:80
+          tmux new-session -d -s "php-3000" php -S localhost:3000
           tmux ls
       #
       #
