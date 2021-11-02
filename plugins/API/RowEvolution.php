@@ -78,19 +78,33 @@ class RowEvolution
 
                 foreach ($goalsToProcess as $idGoal) {
                     if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+
+                        $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
+
+                        if ((int) $showGoalMetricsForGoal === AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {
+                            // only conversion rate is used for goals overview
+                            continue;
+                        }
+
                         $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('Goals_Conversions', Piwik::translate('General_EcommerceOrders'));
                         $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnRevenue');
-                        $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
                         $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnValuePerVisit');
                         continue;
                     }
-                    $conversionsMetric     = new Conversions($idSite, $idGoal);
+
                     $conversionRateMetric  = new ConversionRate($idSite, $idGoal);
+                    $metadata['metrics'][$conversionRateMetric->getName()]  = $conversionRateMetric->getTranslatedName();
+
+                    if ((int) $showGoalMetricsForGoal === AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {
+                        // only conversion rate is used for goals overview
+                        continue;
+                    }
+
+                    $conversionsMetric     = new Conversions($idSite, $idGoal);
                     $revenueMetric         = new Revenue($idSite, $idGoal);
                     $revenuePerVisitMetric = new RevenuePerVisit($idSite, $idGoal);
 
                     $metadata['metrics'][$conversionsMetric->getName()]     = $conversionsMetric->getTranslatedName();
-                    $metadata['metrics'][$conversionRateMetric->getName()]  = $conversionRateMetric->getTranslatedName();
                     $metadata['metrics'][$revenueMetric->getName()]         = $revenueMetric->getTranslatedName();
                     $metadata['metrics'][$revenuePerVisitMetric->getName()] = $revenuePerVisitMetric->getTranslatedName();
                 }
