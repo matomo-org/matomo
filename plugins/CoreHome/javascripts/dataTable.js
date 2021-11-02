@@ -990,7 +990,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     handleEvolutionAnnotations: function (domElem) {
         var self = this;
-        if (self.param.viewDataTable == 'graphEvolution'
+        if ((self.param.viewDataTable === 'graphEvolution' || self.param.viewDataTable === 'graphStackedBarEvolution')
             && $('.annotationView', domElem).length > 0) {
             // get dates w/ annotations across evolution period (have to do it through AJAX since we
             // determine placement using the elements created by jqplot)
