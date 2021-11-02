@@ -2,8 +2,8 @@ name: PHP Tests
 
 on:
   pull_request:
-    branches:
-      - main
+#    branches:
+#      - main
   schedule:
     - cron: '0 0 * * *'
 
@@ -59,7 +59,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
           ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1, error_reporting=E_ALL, log_errors=on, display_errors=on, zend.exception_ignore_args = Off
           tools: composer:v2
@@ -89,14 +89,11 @@ jobs:
         run: |
           composer install --ignore-platform-reqs
 
-      - name: Setup LAMP apache2
+      - name: Run PHP on 80
         run: |
-          sudo systemctl start php7.4-fpm
-          sudo a2enmod actions alias proxy_fcgi rewrite
-          sudo cp /home/runner/work/matomo/matomo/.github/scripts/test.conf /etc/apache2/sites-available/
-          sudo a2ensite test.conf
-          sudo systemctl restart apache2
-          curl localhost
+          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+          tmux new-session -d -s "php-80" php -S localhost:80
+          tmux ls
 
       - name: set tmp and screenshot folder permission
         run: |
