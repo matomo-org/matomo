@@ -61,35 +61,40 @@ class RowEvolution
 
         // if goal metrics should be shown, we replace the metrics
         if ($showGoalMetricsForGoal !== false) {
-            $goalsToProcess = $this->getGoalsToProcess($showGoalMetricsForGoal, $idSite);
-
             $metadata['metrics'] = [
                 'nb_visits' => $metadata['metrics']['nb_visits'],
             ];
 
-            foreach ($goalsToProcess as $idGoal) {
-                if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-                    $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('General_EcommerceOrders');
-                    $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_TotalRevenue');
-                    $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
-                    $metadata['metrics']['goal_ecommerceOrder_avg_order_revenue'] = Piwik::translate('General_AverageOrderValue');
-                    $metadata['metrics']['goal_ecommerceOrder_items'] = Piwik::translate('General_PurchasedProducts');
-                    $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnValuePerVisit');
-                    continue;
+            // Use ecommerce specific metrics / column names when only showing ecommerce metrics
+            if ($showGoalMetricsForGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('General_EcommerceOrders');
+                $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_TotalRevenue');
+                $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
+                $metadata['metrics']['goal_ecommerceOrder_avg_order_revenue'] = Piwik::translate('General_AverageOrderValue');
+                $metadata['metrics']['goal_ecommerceOrder_items'] = Piwik::translate('General_PurchasedProducts');
+                $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_ColumnValuePerVisit');
+            } else {
+                $goalsToProcess = $this->getGoalsToProcess($showGoalMetricsForGoal, $idSite);
+
+                foreach ($goalsToProcess as $idGoal) {
+                    if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                        $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('Goals_Conversions', Piwik::translate('General_EcommerceOrders'));
+                        $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnRevenue');
+                        $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
+                        $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnValuePerVisit');
+                        continue;
+                    }
+                    $conversionsMetric     = new Conversions($idSite, $idGoal);
+                    $conversionRateMetric  = new ConversionRate($idSite, $idGoal);
+                    $revenueMetric         = new Revenue($idSite, $idGoal);
+                    $revenuePerVisitMetric = new RevenuePerVisit($idSite, $idGoal);
+
+                    $metadata['metrics'][$conversionsMetric->getName()]     = $conversionsMetric->getTranslatedName();
+                    $metadata['metrics'][$conversionRateMetric->getName()]  = $conversionRateMetric->getTranslatedName();
+                    $metadata['metrics'][$revenueMetric->getName()]         = $revenueMetric->getTranslatedName();
+                    $metadata['metrics'][$revenuePerVisitMetric->getName()] = $revenuePerVisitMetric->getTranslatedName();
                 }
-                $conversionsMetric     = new Conversions($idSite, $idGoal);
-                $conversionRateMetric  = new ConversionRate($idSite, $idGoal);
-                $revenueMetric         = new Revenue($idSite, $idGoal);
-                $revenuePerVisitMetric = new RevenuePerVisit($idSite, $idGoal);
 
-                $metadata['metrics'][$conversionsMetric->getName()]     = $conversionsMetric->getTranslatedName();
-                $metadata['metrics'][$conversionRateMetric->getName()]  = $conversionRateMetric->getTranslatedName();
-                $metadata['metrics'][$revenueMetric->getName()]         = $revenueMetric->getTranslatedName();
-                $metadata['metrics'][$revenuePerVisitMetric->getName()] = $revenuePerVisitMetric->getTranslatedName();
-            }
-
-            if ($showGoalMetricsForGoal !== Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-                // not shown when only ecommerce metrics are shown
                 $metadata['metrics']['revenue_per_visit'] = Piwik::translate('General_ColumnValuePerVisit');
             }
         }
