@@ -37,14 +37,13 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      mariadb:
-        image: mariadb:latest
+      mysql:
+        image: mysql:5.7
         ports:
           - 3306:3306
         env:
           MYSQL_DATABASE: piwik_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw
     strategy:
       fail-fast: false
       matrix:
@@ -239,14 +238,13 @@ jobs:
         ports:
           - 6379:6379
         options: --entrypoint redis-server
-      mariadb:
-        image: mariadb:latest
+      mysql:
+        image: mysql:5.7
         ports:
           - 3306:3306
         env:
           MYSQL_DATABASE: piwik_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
     strategy:
       fail-fast: false
