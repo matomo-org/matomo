@@ -6,7 +6,12 @@
  */
 
 import { ILocationService } from 'angular';
-import { computed, ref, ComputedRef } from 'vue';
+import {
+  computed,
+  ref,
+  ComputedRef,
+  readonly,
+} from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import { format } from '../Periods';
@@ -30,11 +35,11 @@ class MatomoUrl {
 
   private hashQuery = ref('');
 
-  readonly urlParsed = computed(() => broadcast.getValuesFromUrl(`?${this.urlQuery.value}`));
+  private urlParsed = computed(() => broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true));
 
-  readonly hashParsed = computed(() => broadcast.getValuesFromUrl(`?${this.hashQuery.value}`));
+  private hashParsed = computed(() => broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true));
 
-  readonly parsed: ComputedRef<QueryParameters> = computed(() => ({
+  readonly parsed: ComputedRef<QueryParameters> = computed(() => readonly({
     ...this.urlParsed.value,
     ...this.hashParsed.value,
   }));
@@ -60,12 +65,11 @@ class MatomoUrl {
     this.updatePeriodParamsFromUrl();
   }
 
-  private setUrlQuery(search: string) {
-    this.urlQuery.value = search.replace(/^\?/, '');
-  }
+  updateHash(params: QueryParameters|string) {
+    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
 
-  private setHashQuery(hash: string) {
-    this.hashQuery.value = hash.replace(/^[#/?]+/, '');
+    const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
+    $location.search(serializedParams);
   }
 
   getSearchParam(paramName: string): string {
@@ -148,6 +152,14 @@ class MatomoUrl {
     }
 
     piwik.currentDateString = date;
+  }
+
+  private setUrlQuery(search: string) {
+    this.urlQuery.value = search.replace(/^\?/, '');
+  }
+
+  private setHashQuery(hash: string) {
+    this.hashQuery.value = hash.replace(/^[#/?]+/, '');
   }
 }
 

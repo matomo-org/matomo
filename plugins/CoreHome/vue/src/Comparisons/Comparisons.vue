@@ -102,19 +102,21 @@ export default defineComponent({
     const segmentComparisons = computed(() => ComparisonsStoreInstance.getSegmentComparisons());
     const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
     const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
-    const removeSegmentComparison = ComparisonsStoreInstance.removeSegmentComparison
-      .bind(ComparisonsStoreInstance);
     return {
       isComparing,
       segmentComparisons,
       periodComparisons,
       getSeriesColor,
-      removeSegmentComparison,
     };
   },
   methods: {
     comparisonHasSegment(comparison: AnyComparison) {
       return typeof comparison.params.segment !== 'undefined';
+    },
+    removeSegmentComparison(index: number) {
+      // otherwise the tooltip will be stuck on the screen
+      window.$(this.$refs.root).tooltip('destroy');
+      ComparisonsStoreInstance.removeSegmentComparison(index);
     },
     getComparisonPeriodType(comparison: AnyComparison) {
       const { period } = comparison.params;
@@ -250,12 +252,11 @@ export default defineComponent({
 
     setTimeout(() => this.setUpTooltips());
   },
-  unmounted() {
+  beforeUnmount() {
     try {
       window.$(this.refs.root).tooltip('destroy');
     } catch (e) {
       // ignore
-      console.log('does this always happen?'); // TODO: Remove
     }
   },
 });

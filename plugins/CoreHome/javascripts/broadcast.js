@@ -711,7 +711,7 @@ var broadcast = {
      * @param queryString
      * @returns {object}
      */
-    extractKeyValuePairsFromQueryString: function (queryString) {
+    extractKeyValuePairsFromQueryString: function (queryString, decode) {
         var pairs = queryString.replace(/%5B%5D/g, '[]').split('&');
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
@@ -724,6 +724,9 @@ var broadcast = {
             var pair = pairs[i].split('=');
             var key = pair.shift();
             var value = pair.join('=');
+            if (decode) {
+              value = decodeURIComponent(value);
+            }
             if (/\[.*?]$/.test(key)) {
               key = key.replace(/\[.*?]$/, '');
               result[key] = result[key] || [];
@@ -739,11 +742,13 @@ var broadcast = {
      * Returns all key-value pairs in query string of url.
      *
      * @param {string} url url to check. if undefined, null or empty, current url is used.
+     * @param {boolean} decodeValues if true, also applies decodeURIComponent to values. (Not
+     *                               true by default for BC.)
      * @return {object} key value pair describing query string parameters
      */
-    getValuesFromUrl: function (url) {
+    getValuesFromUrl: function (url, decode) {
         var searchString = this._removeHashFromUrl(url).split('?')[1] || '';
-        return this.extractKeyValuePairsFromQueryString(searchString);
+        return this.extractKeyValuePairsFromQueryString(searchString, decode);
     },
 
     /**

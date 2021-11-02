@@ -270,7 +270,7 @@ export class ComparisonsStore {
       delete newSearch['compareDates[]'];
 
       if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
-        window.location.hash = `#?${MatomoUrl.stringify(newSearch)}`;
+        MatomoUrl.updateHash(newSearch);
       }
 
       return;
