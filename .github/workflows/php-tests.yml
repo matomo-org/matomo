@@ -21,9 +21,11 @@ permissions:
 
 
 jobs:
-  php74:
+  php:
     runs-on: ubuntu-20.04
-
+    concurrency:
+      group: ${{ github.event.pull_request.head.sha }}
+      cancel-in-progress: true
     services:
       redis:
         image: redis:5.0
