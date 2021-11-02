@@ -8,6 +8,7 @@
  */
 namespace Piwik\ArchiveProcessor;
 
+use http\Exception;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
@@ -125,7 +126,7 @@ class Loader
         // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
         // made invalid, we will correctly re-archive below.
         if ($this->invalidateBeforeArchiving
-            && Rules::isBrowserTriggerEnabled()
+          && Rules::isBrowserTriggerEnabled()
         ) {
             $this->invalidatedReportsIfNeeded();
         }
@@ -139,44 +140,33 @@ class Loader
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
+        //get Lock ID
         $lockId = $this->makeArchivingLock();
 
+        //ini lock
+        $this->lock = new LoaderLock($lockId);
 
-//        echo "<pre>", print_r('init check other process lock ' . ($this->lock->isLockedByAnyProcess($lockId) ? 'on' : 'off'),
-//          1), "</pre>";
-        $this->lock = new Lock(StaticContainer::get(LockBackend::class), '');
-        $isLock = $this->lock->acquireLock($lockId); //init lock
-//        echo "<pre>", print_r('init current lock ' . ($isLock ? 'on' : 'off'), 1), "</pre>";
-//        echo "<pre>", print_r($lockId, 1), "</pre>";
-//        echo "<pre>", print_r('other process lock ' . ($this->lock->isLockedByAnyProcess() ? 'on' : 'off'), 1), "</pre>"; //other process lock on
-//        echo "Another process<br/>";
+        try {
+            //set lock
+            $this->lock->setLock();
 
-        $isCurrentLock = true;
-        $loopsCounter = 0;
-        while ($isCurrentLock && $loopsCounter < 100) {
-            $loopsCounter++;
-            usleep(100000);
-            $isCurrentLock = $this->lock->isLockedByOtherProcess();
-            echo "<pre>",print_r($loopsCounter,1),"</pre>";
-        }
-        if ($loopsCounter > 0) {
+            //pick select
             list($visits, $visitsConverted) = $this->loadArchiveData();
             if ($this->quickReturn) {
-                $this->lock->unlock();
                 return [$visits, $visitsConverted];
             }
-        }
-        try {
+
+            //insert data
             list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
             list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
             if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-                $this->lock->unlock();
                 return [[$idArchive], $visits];
             }
+        } catch (\Exception $e) {
+            throw new \Exception("exceed max time");
         } finally {
             $this->lock->unlock();
         }
-
     }
 
 
@@ -185,7 +175,7 @@ class Loader
         $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
           $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
 
-        return md5($this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() ).'.'. $doneFlag;
+        return md5($this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() .'.'. $doneFlag);
 
     }
 
