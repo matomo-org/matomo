@@ -1,4 +1,4 @@
-name: PHP Tests
+name: Matomo Tests
 
 on:
   pull_request:
