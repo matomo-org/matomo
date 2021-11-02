@@ -32,9 +32,13 @@ class MatomoUrl {
 
   private hashQuery = ref('');
 
-  private urlParsed = computed(() => broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true));
+  readonly urlParsed = computed(() => readonly(
+    broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true) as ParsedQueryParameters,
+  ));
 
-  private hashParsed = computed(() => broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true));
+  readonly hashParsed = computed(() => readonly(
+    broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true) as ParsedQueryParameters,
+  ));
 
   readonly parsed = computed(() => readonly({
     ...this.urlParsed.value,
@@ -82,38 +86,9 @@ class MatomoUrl {
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
   }
 
-  onLocationChange(callback: (newLocation: URLSearchParams) => void): void {
-    window.addEventListener('hashchange', () => {
-      const newLocation = new URLSearchParams(window.location.hash.replace(/^[#?/]+/, ''));
-      callback(newLocation);
-    });
-  }
-
-  parseHashQuery(): QueryParameters {
-    return this.parseQueryString(window.location.hash.replace(/^[#?/]+/, ''));
-  }
-
-  parseQueryString(query: string): QueryParameters {
-    const params = new URLSearchParams(query);
-    const result: QueryParameters = {};
-
-    // TODO: doesn't handle object query params
-    Array.from(params.keys()).forEach((name) => {
-      if (/[[\]]/.test(name)
-        || name.indexOf('%5B%5D') !== -1
-      ) {
-        result[name] = params.getAll(name);
-      } else {
-        result[name] = params.get(name);
-      }
-    });
-
-    return result;
-  }
-
   stringify(search: QueryParameters): string {
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-    return $.param(search);
+    return $.param(search).replace(/%5B%5D/g, '[]');
   }
 
   updatePeriodParamsFromUrl(): void {

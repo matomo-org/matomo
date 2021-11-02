@@ -871,9 +871,9 @@ class MatomoUrl_MatomoUrl {
 
     MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
 
-    MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => MatomoUrl_broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true)));
+    MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true))));
 
-    MatomoUrl_defineProperty(this, "hashParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => MatomoUrl_broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true)));
+    MatomoUrl_defineProperty(this, "hashParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true))));
 
     MatomoUrl_defineProperty(this, "parsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])({ ...this.urlParsed.value,
       ...this.hashParsed.value
@@ -940,7 +940,7 @@ class MatomoUrl_MatomoUrl {
 
   stringify(search) {
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-    return $.param(search);
+    return $.param(search).replace(/%5B%5D/g, '[]');
   }
 
   updatePeriodParamsFromUrl() {
@@ -2469,7 +2469,7 @@ class Comparisons_store_ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons = Array().concat(this.segmentComparisons.value);
+    const newComparisons = [...this.segmentComparisons.value];
     newComparisons.splice(index, 1);
     const extraParams = {};
 
@@ -2550,12 +2550,9 @@ class Comparisons_store_ComparisonsStore {
       }
     }); // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change
     // the segment
-    // TODO: move this to URL service?
 
-    const url = $.param({ ...extraParams
-    }).replace(/%5B%5D/g, '[]');
-    const strHash = $.param({ ...compareParams
-    }).replace(/%5B%5D/g, '[]');
+    const url = src_MatomoUrl_MatomoUrl.stringify(extraParams);
+    const strHash = src_MatomoUrl_MatomoUrl.stringify(compareParams);
     window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
   }
 
@@ -2660,43 +2657,43 @@ class Comparisons_store_ComparisonsStore {
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts
 
 /* harmony default export */ var Comparisons_store_instance = (new Comparisons_store_ComparisonsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=8d79ddca
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=1b8ecdd2
 
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_1 = {
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_1 = {
   key: 0,
   ref: "root",
   class: "matomo-comparisons"
 };
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_2 = {
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_2 = {
   class: "comparison-type"
 };
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_3 = ["title"];
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_4 = ["href"];
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_5 = ["title"];
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_6 = {
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_3 = ["title"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_4 = ["href"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_5 = ["title"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_6 = {
   class: "comparison-period-label"
 };
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_7 = ["onClick"];
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_8 = ["title"];
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_9 = {
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_7 = ["onClick"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_8 = ["title"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_9 = {
   class: "loadingPiwik",
   style: {
     "display": "none"
   }
 };
-const Comparisonsvue_type_template_id_8d79ddca_hoisted_10 = ["alt"];
-function Comparisonsvue_type_template_id_8d79ddca_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.isComparing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_8d79ddca_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_10 = ["alt"];
+function Comparisonsvue_type_template_id_1b8ecdd2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.isComparing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "comparison card",
       key: comparison.index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_8d79ddca_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
       class: "title",
       title: comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       target: "_blank",
       href: _ctx.getUrlToSegment(comparison.params.segment)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_8d79ddca_hoisted_4)], 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_4)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
         class: "comparison-period",
         key: periodComparison.index,
@@ -2706,7 +2703,7 @@ function Comparisonsvue_type_template_id_8d79ddca_render(_ctx, _cache, $props, $
         style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
           'background-color': _ctx.getSeriesColor(comparison, periodComparison)
         })
-      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_8d79ddca_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_5);
+      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_5);
     }), 128)), _ctx.segmentComparisons.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: 0,
       class: "remove-button",
@@ -2714,13 +2711,13 @@ function Comparisonsvue_type_template_id_8d79ddca_render(_ctx, _cache, $props, $
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       class: "icon icon-close",
       title: _ctx.translate('General_ClickToRemoveComp')
-    }, null, 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_8)], 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_8d79ddca_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+    }, null, 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_8)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     src: "plugins/Morpheus/images/loading-blue.gif",
     alt: _ctx.translate('General_LoadingData')
-  }, null, 8, Comparisonsvue_type_template_id_8d79ddca_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=8d79ddca
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=1b8ecdd2
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
 
@@ -2786,14 +2783,13 @@ function Comparisonsvue_type_template_id_8d79ddca_render(_ctx, _cache, $props, $
     },
 
     getUrlToSegment(segment) {
-      let {
-        hash
-      } = window.location;
-      hash = window.broadcast.updateParamValue('comparePeriods[]=', hash);
-      hash = window.broadcast.updateParamValue('compareDates[]=', hash);
-      hash = window.broadcast.updateParamValue('compareSegments[]=', hash);
-      hash = window.broadcast.updateParamValue(`segment=${encodeURIComponent(segment)}`, hash);
-      return window.location.search + hash;
+      const hash = { ...src_MatomoUrl_MatomoUrl.hashParsed.value
+      };
+      delete hash.comparePeriods;
+      delete hash.compareDates;
+      delete hash.compareSegments;
+      hash.segment = segment;
+      return `${window.location.search}#?${src_MatomoUrl_MatomoUrl.stringify(hash)}`;
     },
 
     setUpTooltips() {
@@ -2897,7 +2893,7 @@ function Comparisonsvue_type_template_id_8d79ddca_render(_ctx, _cache, $props, $
 
 
 
-Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_8d79ddca_render
+Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_1b8ecdd2_render
 
 /* harmony default export */ var Comparisons = (Comparisonsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts

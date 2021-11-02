@@ -142,12 +142,12 @@ export default defineComponent({
       return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];
     },
     getUrlToSegment(segment: string) {
-      let { hash } = window.location;
-      hash = window.broadcast.updateParamValue('comparePeriods[]=', hash);
-      hash = window.broadcast.updateParamValue('compareDates[]=', hash);
-      hash = window.broadcast.updateParamValue('compareSegments[]=', hash);
-      hash = window.broadcast.updateParamValue(`segment=${encodeURIComponent(segment)}`, hash);
-      return window.location.search + hash;
+      const hash = { ...MatomoUrl.hashParsed.value };
+      delete hash.comparePeriods;
+      delete hash.compareDates;
+      delete hash.compareSegments;
+      hash.segment = segment;
+      return `${window.location.search}#?${MatomoUrl.stringify(hash)}`;
     },
     setUpTooltips() {
       const { $ } = window;

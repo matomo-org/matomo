@@ -194,8 +194,7 @@ export default class ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons: SegmentComparison[] = Array<SegmentComparison>()
-      .concat(this.segmentComparisons.value);
+    const newComparisons: SegmentComparison[] = [...this.segmentComparisons.value];
     newComparisons.splice(index, 1);
 
     const extraParams: {[key: string]: string} = {};
@@ -264,7 +263,7 @@ export default class ComparisonsStore {
 
     // change the page w/ these new param values
     if (Matomo.helper.isAngularRenderingThePage()) {
-      const search = MatomoUrl.parseHashQuery();
+      const search = MatomoUrl.hashParsed.value;
 
       const newSearch: {[key: string]: string|string[]} = {
         ...search,
@@ -292,9 +291,8 @@ export default class ComparisonsStore {
 
     // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change
     // the segment
-    // TODO: move this to URL service?
-    const url = $.param({ ...extraParams }).replace(/%5B%5D/g, '[]');
-    const strHash = $.param({ ...compareParams }).replace(/%5B%5D/g, '[]');
+    const url = MatomoUrl.stringify(extraParams);
+    const strHash = MatomoUrl.stringify(compareParams);
 
     window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
   }
