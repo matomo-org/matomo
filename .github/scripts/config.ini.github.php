@@ -13,8 +13,8 @@ tables_prefix =
 ;charset = utf8
 
 [tests]
-http_host = "127.0.0.1"
-request_uri = ""
+http_host = 127.0.0.1
+request_uri = "/"
 
 [database_tests]
 host = 127.0.0.1
