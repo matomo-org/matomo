@@ -34,6 +34,10 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $this->setDescription('For Piwik core devs. Copies processed system tests from travis artifacts to local processed directories');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync, eg "14820".');
         $this->addOption('expected', 'e', InputOption::VALUE_NONE, 'If given file will be copied in expected directories instead of processed');
+        $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
+        $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
+        $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -56,9 +60,22 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
             $buildNumber = substr($buildNumber, 0, -2);
         }
 
+        $httpUser = $input->getOption('http-user');
+        $httpPassword = $input->getOption('http-password');
+
+        $repository = $input->getOption('repository');
         $filename = sprintf('system.%s.tar.bz2', $buildNumber);
-        $urlBase  = sprintf('https://builds-artifacts.matomo.org/matomo-org/matomo/%s', $filename);
-        $tests    = Http::sendHttpRequest($urlBase, $timeout = 120);
+        $urlBase  = sprintf('https://builds-artifacts.matomo.org/%s/%s', $repository, $filename);
+        $tests    = Http::sendHttpRequest($urlBase, $timeout = 120,
+            $userAgent = null,
+            $destinationPath = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'GET',
+            $httpUser,
+            $httpPassword);
 
         $tarFile = $tmpDir . $filename;
         file_put_contents($tarFile, $tests);
