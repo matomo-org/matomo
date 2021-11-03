@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
-use CpChart\Chart\Data;
+use CpChart\Data;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
