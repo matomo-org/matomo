@@ -101,12 +101,10 @@ class Http
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
-        //this is used to pass github action test
-        $acceptInvalidSslCertificate = getenv('travis') ? true : false;
 
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
         return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file,
-            $followDepth, $acceptLanguage, $acceptInvalidSslCertificate, $byteRange, $getExtendedInfo, $httpMethod,
+            $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod,
             $httpUsername, $httpPassword, null, [], null, $checkHostIsAllowed);
     }
 

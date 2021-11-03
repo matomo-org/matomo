@@ -2,8 +2,6 @@ name: Matomo Tests
 
 on:
   pull_request:
-  #    branches:
-  #      - main
   schedule:
     - cron: '0 0 * * *'
 
@@ -24,7 +22,7 @@ concurrency:
 
 jobs:
 
-  php:
+  PHP:
     runs-on: ubuntu-20.04
 
     services:
@@ -54,7 +52,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           lfs: false
           submodules: recursive
 
@@ -160,7 +157,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           lfs: false
           submodules: recursive
 
@@ -257,7 +253,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           lfs: true
           submodules: recursive
       #
@@ -268,7 +263,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 7.2
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
           ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
           tools: composer:v2
