@@ -491,18 +491,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
-        $translationKeys[] = 'Feedback_Question0';
-        $translationKeys[] = 'Feedback_Question1';
-        $translationKeys[] = 'Feedback_Question2';
-        $translationKeys[] = 'Feedback_Question3';
-        $translationKeys[] = 'Feedback_Question4';
-        $translationKeys[] = 'Feedback_FeedbackTitle';
-        $translationKeys[] = 'Feedback_FeedbackSubtitle';
-        $translationKeys[] = 'Feedback_ThankYourForFeedback';
-        $translationKeys[] = 'Feedback_Policy';
-        $translationKeys[] = 'Feedback_ThankYourForFeedback';
-        $translationKeys[] = 'Feedback_ThankYou';
-
 
     }
 }
