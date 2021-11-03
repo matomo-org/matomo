@@ -44,7 +44,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     {
         $this->updateCoreFiles($input, $output);
 
-        if (!$input->getOption('repository')) {
+        if ($input->getOption('repository') === 'matomo-org/matomo') {
             $this->updatePluginsFiles($input, $output);
         }
     }
