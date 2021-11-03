@@ -43,7 +43,10 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->updateCoreFiles($input, $output);
-        $this->updatePluginsFiles($input, $output);
+
+        if (!$input->getOption('repository')) {
+            $this->updatePluginsFiles($input, $output);
+        }
     }
 
     protected function updateCoreFiles(InputInterface $input, OutputInterface $output)
