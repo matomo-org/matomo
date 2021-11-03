@@ -8,8 +8,11 @@
   <div >
     <div v-if="!hide" class="trialHeader">
       <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
-      <a @click="showFeedbackForm=true" class="btn">{{ translate(`Feedback_Question${ question }`) }}</a>
-      <a class="btn" @click="setCookieValue('hide')">Close</a>
+      <a @click="showFeedbackForm=true" class="btn">
+        {{ translate(`Feedback_Question${ question }`) }}
+      </a>
+      <a class="close-btn" @click="setCookieValue('hide')">
+        <i class="icon-close white-text"></i></a>
     </div>
     <div
       class="ratefeature"
@@ -23,7 +26,8 @@
         >
           <h2>{{ translate(`Feedback_Question${question}`) }}</h2>
           <p
-            v-html="translate('Feedback_FeedbackSubtitle',`<i class='icon-heart red-text'></i>`)"></p>
+            v-html="translate('Feedback_FeedbackSubtitle',
+            `<i class='icon-heart red-text'></i>`)"></p>
           <br/>
           <div class="messageContainer">
             <textarea v-model="feedbackMessage"/>
@@ -48,7 +52,9 @@
           class="ui-confirm ratefeatureDialog"
         >
         <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
-        <p v-html="translate('Feedback_ThankYourForFeedback',`<i class='icon-heart red-text'></i>`)"></p>
+        <p v-html="translate('Feedback_ThankYourForFeedback',
+        `<i class='icon-heart red-text'></i>`)">
+        </p>
         </div>
       </MatomoDialog>
     </div>
@@ -58,13 +64,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoDialog, AjaxHelper } from 'CoreHome';
-import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
-const cookieName = "feedback-question";
+
+const cookieName = 'feedback-question';
 export default defineComponent({
 
   components: {
     MatomoDialog,
-    ReviewLinks,
   },
   data() {
     return {
@@ -80,11 +85,10 @@ export default defineComponent({
   watch: {
     showFeedbackForm() {
       // eslint-disable-next-line no-underscore-dangle
-      this.questionText = window._pk_translate(`Feedback_Question${this.question}`)
+      this.questionText = window._pk_translate(`Feedback_Question${this.question}`);
     },
   },
   created() {
-
     if (this.getCookieValue(cookieName) === 'hide') {
       this.hide = true;
     } else if (this.getCookieValue(cookieName)) {
@@ -131,7 +135,12 @@ export default defineComponent({
   text-align: center;
   color: #fff;
 }
-
+.close-btn {
+  float: right;
+  margin-right: 20px;
+  font-size: 1.2em;
+  margin-top: 12px !important;
+}
 .trialHeader span {
   vertical-align: sub;
   font-size: 14px;
