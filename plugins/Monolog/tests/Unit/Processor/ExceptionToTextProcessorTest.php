@@ -323,7 +323,6 @@ EOI;
         if (version_compare(Version::id(), '9.0', '>=')) {
             $input = str_replace('TestRunner->doRun', 'TestRunner->run', $input);
         }
-        // make sure zend.exception_ignore_args = on
         return $input;
     }
 }
