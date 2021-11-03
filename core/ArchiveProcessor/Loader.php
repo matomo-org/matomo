@@ -112,32 +112,17 @@ class Loader
         });
     }
 
+    /**
+     * @throws \Exception
+     */
     private function prepareArchiveImpl($pluginName)
     {
         $this->params->setRequestedPlugin($pluginName);
 
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-            if (!empty($requestedReport)) {
-                $this->params->setArchiveOnlyReport($requestedReport);
-            }
-        }
-
-        // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
-        // made invalid, we will correctly re-archive below.
-        if ($this->invalidateBeforeArchiving
-          && Rules::isBrowserTriggerEnabled()
-        ) {
-            $this->invalidatedReportsIfNeeded();
-        }
-
+        // load existing data from archive
         list($visits, $visitsConverted) = $this->loadArchiveData();
         if ($this->quickReturn) {
             return [$visits, $visitsConverted];
-        }
-
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
         //get Lock ID
@@ -146,9 +131,30 @@ class Loader
         //ini lock
         $this->lock = new LoaderLock($lockId);
 
+        //set mysql lock the entire process if another process is running
+        $this->lock->setLock();
         try {
-            //set lock
-            $this->lock->setLock();
+            if (SettingsServer::isArchivePhpTriggered()) {
+                $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+                if (!empty($requestedReport)) {
+                    $this->params->setArchiveOnlyReport($requestedReport);
+                }
+            }
+
+            // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
+            // made invalid, we will correctly re-archive below.
+            if ($this->invalidateBeforeArchiving
+              && Rules::isBrowserTriggerEnabled()
+            ) {
+                $this->invalidatedReportsIfNeeded();
+            }
+
+
+            if (SettingsServer::isArchivePhpTriggered()) {
+                $this->logger->info("initiating archiving via core:archive for " . $this->params);
+            }
+
+
 
             //pick select
             list($visits, $visitsConverted) = $this->loadArchiveData();
@@ -170,6 +176,10 @@ class Loader
     }
 
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     private function makeArchivingLock()
     {
         $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
@@ -179,8 +189,12 @@ class Loader
 
     }
 
+    /**
+     * @return array|false[]
+     */
     protected function loadArchiveData()
     {
+        // this hack was used to check the main function goes to return or continue
         $this->quickReturn = false;
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.

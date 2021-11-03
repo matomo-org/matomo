@@ -37,6 +37,7 @@ use Piwik\CronArchive\SegmentArchiving;
 class LoaderLock
 {
 
+    const MAX_LOCK_TIME = 60; //in seconds
     protected $id;
 
     public function __construct($id)
@@ -49,7 +50,7 @@ class LoaderLock
 
     public function setLock()
     {
-        Db::fetchOne('SELECT GET_LOCK(?,?)', array($this->id, 10));
+        Db::fetchOne('SELECT GET_LOCK(?,?)', array($this->id, self::MAX_LOCK_TIME));
     }
 
     public function unLock()
