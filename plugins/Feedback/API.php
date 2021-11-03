@@ -60,6 +60,39 @@ class API extends \Piwik\Plugin\API
         $this->sendMail($subject, $body);
     }
 
+    /**
+     * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
+     * config: "feedback_email_address".
+     *
+     * @param $question
+     * @param string|bool $message A message containing the actual feedback
+     * @throws \Piwik\NoAccessException
+     */
+    public function sendFeedbackForSurvey($question,  $message = false)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        $featureName = $this->getEnglishTranslationForFeatureName($question);
+
+
+        $body = sprintf("Question: %s\n", $featureName);
+
+        $feedbackMessage = "";
+        if (!empty($message) && $message != 'undefined') {
+            $feedbackMessage = sprintf("Answer:\n%s\n", trim($message));
+        }
+        $body .= $feedbackMessage ? $feedbackMessage : " \n";
+
+        $subject = sprintf("%s for %s %s",
+          empty($like) ? "-1" : "+1",
+          $featureName,
+          empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
+        );
+
+        $this->sendMail($subject, $body);
+    }
+
     private function sendMail($subject, $body)
     {
         $feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
