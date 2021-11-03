@@ -127,26 +127,3 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
-
-.trialHeader {
-  min-height: 48px;
-  background-color: #263238;
-  text-align: center;
-  color: #fff;
-}
-.close-btn {
-  float: right;
-  margin-right: 20px;
-  font-size: 1.2em;
-  margin-top: 12px !important;
-}
-.trialHeader span {
-  vertical-align: sub;
-  font-size: 14px;
-}
-.trialHeader a{
-  margin-left: 16px;
-  margin-top: 6px;
-}
-</style>
