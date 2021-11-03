@@ -62,6 +62,24 @@ abstract class SystemTestCase extends TestCase
 
     private static $allowedModulesApiWise = array();
     private static $allowedCategoriesApiWise = array();
+    private static $apisToFilterResponse = array(
+        'API.getReportMetadata' => array(
+            'actionName' => 'API.getReportMetadata.end',
+            'filterKey' => 'module'
+        ),
+        'API.getSegmentsMetadata' => array(
+            'actionName' => 'API.API.getSegmentsMetadata.end',
+            'filterKey' => 'category'
+        ),
+        'API.getReportPagesMetadata' => array(
+            'actionName' => 'API.API.getReportPagesMetadata.end',
+            'filterKey' => 'category'
+        ),
+        'API.getWidgetMetadata' => array(
+            'actionName' => 'API.API.getWidgetMetadata.end',
+            'filterKey' => 'module'
+        ),
+    );
 
     public function setGroups(array $groups): void
     {
@@ -105,21 +123,19 @@ abstract class SystemTestCase extends TestCase
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
 
-        Piwik::addAction('API.getReportMetadata.end', function (&$reports, $info) {
-            $allowedModuleForApiMetadataReport = self::getAllowedModulesToFilterApiResponse('API.getReportMetadata');
-            if ($allowedModuleForApiMetadataReport) {
-                $filterKey = 'module';
-                self::filterReportsCallback($reports, $info, $filterKey, $allowedModuleForApiMetadataReport);
-            }
-        });
-
-        Piwik::addAction('API.API.getSegmentsMetadata.end', function (&$reports, $info) {
-            $allowedCategoryForApiSegmentsReport = self::getAllowedCategoriesToFilterApiResponse('API.getSegmentsMetadata');
-            if ($allowedCategoryForApiSegmentsReport) {
-                $filterKey = 'category';
-                self::filterReportsCallback($reports, $info, $filterKey, $allowedCategoryForApiSegmentsReport);
-            }
-        });
+        foreach (self::$apisToFilterResponse as $api => $apiValue) {
+            Piwik::addAction($apiValue['actionName'], function (&$reports, $info) use ($api, $apiValue) {
+                $filterValues = array();
+                if ($apiValue['filterKey'] === 'module') {
+                    $filterValues = self::getAllowedModulesToFilterApiResponse($api);
+                } else if ($apiValue['filterKey'] === 'category') {
+                    $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
+                }
+                if ($filterValues) {
+                    self::filterReportsCallback($reports, $info, $api, $apiValue['filterKey'], $filterValues);
+                }
+            });
+        }
     }
 
     public static function tearDownAfterClass(): void
@@ -889,11 +905,19 @@ abstract class SystemTestCase extends TestCase
         return (self::$allowedCategoriesApiWise[$api] ?? NULL);
     }
 
-    private static function filterReportsCallback(&$reports, $info, $filterKey, $filterValues)
+    private static function filterReportsCallback(&$reports, $info, $api, $filterKey, $filterValues)
     {
         if (!empty($reports)) {
             foreach ($reports as $key => $row) {
-                if (!isset($row[$filterKey]) || !in_array($row[$filterKey], $filterValues)) {
+                if (
+                    !isset($row[$filterKey]) ||
+                    (
+                        is_array($row[$filterKey]) &&
+                        isset($row[$filterKey]['name']) &&
+                        !in_array($row[$filterKey]['name'], $filterValues)
+                    ) ||
+                    !is_array($row[$filterKey]) && !in_array($row[$filterKey], $filterValues)
+                ) {
                     unset($reports[$key]);
                 }
             }

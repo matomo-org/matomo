@@ -913,31 +913,6 @@ class MatomoUrl_MatomoUrl {
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
   }
 
-  onLocationChange(callback) {
-    window.addEventListener('hashchange', () => {
-      const newLocation = new URLSearchParams(window.location.hash.replace(/^[#?/]+/, ''));
-      callback(newLocation);
-    });
-  }
-
-  parseHashQuery() {
-    return this.parseQueryString(window.location.hash.replace(/^[#?/]+/, ''));
-  }
-
-  parseQueryString(query) {
-    const params = new URLSearchParams(query);
-    const result = {}; // TODO: doesn't handle object query params
-
-    Array.from(params.keys()).forEach(name => {
-      if (/[[\]]/.test(name) || name.indexOf('%5B%5D') !== -1) {
-        result[name] = params.getAll(name);
-      } else {
-        result[name] = params.get(name);
-      }
-    });
-    return result;
-  }
-
   stringify(search) {
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
     return $.param(search).replace(/%5B%5D/g, '[]');
@@ -2527,7 +2502,7 @@ class Comparisons_store_ComparisonsStore {
     }; // change the page w/ these new param values
 
     if (Matomo_Matomo.helper.isAngularRenderingThePage()) {
-      const search = src_MatomoUrl_MatomoUrl.parseHashQuery();
+      const search = src_MatomoUrl_MatomoUrl.hashParsed.value;
       const newSearch = { ...search,
         ...compareParams,
         ...extraParams

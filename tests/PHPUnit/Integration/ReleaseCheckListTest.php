@@ -880,14 +880,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/tecnickcom/tcpdf/fonts/times*',
             'vendor/tecnickcom/tcpdf/fonts/uni2cid*',
 
-            'vendor/szymach/c-pchart/src/Resources/fonts/advent_light*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Bedizen*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/calibri*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Forgotte*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/MankSans*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/pf_arma_five*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Silkscreen*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/verdana*',
+            'vendor/szymach/c-pchart/resources/fonts/advent_light*',
+            'vendor/szymach/c-pchart/resources/fonts/Bedizen*',
+            'vendor/szymach/c-pchart/resources/fonts/calibri*',
+            'vendor/szymach/c-pchart/resources/fonts/Forgotte*',
+            'vendor/szymach/c-pchart/resources/fonts/MankSans*',
+            'vendor/szymach/c-pchart/resources/fonts/pf_arma_five*',
+            'vendor/szymach/c-pchart/resources/fonts/Silkscreen*',
+            'vendor/szymach/c-pchart/resources/fonts/verdana*',
 
             'package-lock.json',
 
