@@ -186,7 +186,7 @@ class Piwik
      */
     public static function getContactEmailAddresses(): array
     {
-        $contactAddresses = isset(Config::getInstance()->General['contact_email_address']) ? trim(Config::getInstance()->General['contact_email_address']) : "";
+        $contactAddresses = trim(Config::getInstance()->General['contact_email_address']);
 
         if (empty($contactAddresses)) {
             return self::getAllSuperUserAccessEmailAddresses();
