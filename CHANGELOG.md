@@ -19,6 +19,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * When the Ecommerce feature is disabled for a site, then the Live API no longer returns the Ecommerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
 * Content Security Policy (added in Matomo 4.4.0) is no longer in Report Only mode by default. 
 
+### New config.ini.php settings
+
+* The config setting `contact_email_address` in `General` has been added. It will be used as contact email address for users. If not defined (default) all email addresses of all super users will be used instead, which equals the behavior it used to be.
+
 ## Matomo 4.4.0
 
 ### Breaking Changes

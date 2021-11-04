@@ -12,6 +12,10 @@ declare global {
   type ParameterValue = string | number | null | undefined | ParameterValue[];
   type QueryParameters = {[name: string]: ParameterValue | QueryParameters};
 
+  interface WrappedEventListener extends Function {
+    wrapper?: (evt: Event) => void;
+  }
+
   /**
    * global ajax queue
    *
@@ -71,7 +75,7 @@ declare global {
 
   interface BroadcastGlobal {
     getValueFromUrl(paramName: string, url?: string): string;
-    getValuesFromUrl(paramName: string): QueryParameters;
+    getValuesFromUrl(paramName: string, decode?: boolean): QueryParameters;
     getValueFromHash(paramName: string, url?: string): string;
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
@@ -114,16 +118,16 @@ declare global {
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(): {[key: string]: any};
 
-    on(eventName: string, listener: EventListener): void;
-    off(eventName: string, listener: EventListener): void;
+    on(eventName: string, listener: WrappedEventListener): void;
+    off(eventName: string, listener: WrappedEventListener): void;
     postEvent(eventName: string, ...args: any[]): IAngularEvent;
+    postEventNoEmit(eventName: string, ...args: any[]): void;
   }
 
   let piwik: PiwikGlobal;
 
   // add the objects to Window so we can access them through window if needed
   interface Window {
-    $: ((...args: any[]) => JQuery) | JQuery | JQueryStatic;
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
     piwik: PiwikGlobal;

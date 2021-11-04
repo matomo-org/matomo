@@ -153,41 +153,44 @@ export default defineComponent({
   mounted() {
     const { root } = this.$refs;
 
-    if (!this.actualInlineHelp) {
-      let helpNode = root.querySelector('.title .inlineHelp');
-      if (!helpNode && root.parentElement.nextElementSibling) {
-        // hack for reports :(
-        helpNode = (root.parentElement.nextElementSibling as HTMLElement)
-          .querySelector('.reportDocumentation');
-      }
+    // timeout used since angularjs does not fill out the transclude at this point
+    setTimeout(() => {
+      if (!this.actualInlineHelp) {
+        let helpNode = root.querySelector('.title .inlineHelp');
+        if (!helpNode && root.parentElement.nextElementSibling) {
+          // hack for reports :(
+          helpNode = (root.parentElement.nextElementSibling as HTMLElement)
+            .querySelector('.reportDocumentation');
+        }
 
-      if (helpNode) {
-        // hackish solution to get binded html of p tag within the help node
-        // at this point the ng-bind-html is not yet converted into html when report is not
-        // initially loaded. Using $compile doesn't work. So get and set it manually
-        const helpDocs = helpNode.getAttribute('data-content').trim();
-        if (helpDocs.length) {
-          this.actualInlineHelp = `<p>${helpDocs}</p>`;
-          setTimeout(() => helpNode.remove(), 0);
+        if (helpNode) {
+          // hackish solution to get binded html of p tag within the help node
+          // at this point the ng-bind-html is not yet converted into html when report is not
+          // initially loaded. Using $compile doesn't work. So get and set it manually
+          const helpDocs = helpNode.getAttribute('data-content').trim();
+          if (helpDocs.length) {
+            this.actualInlineHelp = `<p>${helpDocs}</p>`;
+            setTimeout(() => helpNode.remove(), 0);
+          }
         }
       }
-    }
 
-    if (!this.actualFeatureName) {
-      this.actualFeatureName = root.querySelector('.title').textContent;
-    }
+      if (!this.actualFeatureName) {
+        this.actualFeatureName = root.querySelector('.title').textContent;
+      }
 
-    if (this.reportGenerated
-      && Periods.parse(Matomo.period, Matomo.currentDateString).containsToday()
-    ) {
-      window.$(root.querySelector('.report-generated')).tooltip({
-        track: true,
-        content: this.reportGenerated,
-        items: 'div',
-        show: false,
-        hide: false,
-      });
-    }
+      if (this.reportGenerated
+        && Periods.parse(Matomo.period, Matomo.currentDateString).containsToday()
+      ) {
+        window.$(root.querySelector('.report-generated')).tooltip({
+          track: true,
+          content: this.reportGenerated,
+          items: 'div',
+          show: false,
+          hide: false,
+        });
+      }
+    });
   },
 });
 </script>
