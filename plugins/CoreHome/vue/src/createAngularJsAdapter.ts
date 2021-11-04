@@ -182,7 +182,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
             }
 
-            ngScope.$on('$destroy', () => {
+            ngElement.on('$destroy', () => {
               app.unmount();
             });
           },
