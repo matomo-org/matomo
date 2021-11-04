@@ -37,17 +37,13 @@ class Feedback extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
         $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
         $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
         $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
@@ -90,23 +86,15 @@ class Feedback extends \Piwik\Plugin
 
     public function renderViewsAndAddToPage(&$pageHtml)
     {
-        $feedbackPopopView = $this->renderFeedbackPopup();
         $referBannerView = $this->renderReferBanner();
 
-        $views = [$feedbackPopopView, $referBannerView];
+        $views = [$referBannerView];
         $implodedViews = implode('', $views);
 
         $endOfBody = strpos($pageHtml, '</body>');
         $pageHtml = substr_replace($pageHtml, $implodedViews, $endOfBody, 0);
     }
 
-    public function renderFeedbackPopup()
-    {
-        $popupView = new View('@Feedback/feedbackPopup');
-        $popupView->promptForFeedback = (int)$this->getShouldPromptForFeedback();
-
-        return $popupView->render();
-    }
 
     public function renderReferBanner()
     {
