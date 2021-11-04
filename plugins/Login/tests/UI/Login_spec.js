@@ -162,6 +162,9 @@ describe("Login", function () {
             throw new Error(`Could not find reset URL in email, captured mail info: ${fileContents}`)
         }
         resetUrl = resetUrl[0].replace(/<\/p>$/, '');
+        resetUrl = await page.evaluate((resetUrl) => {
+            return piwikHelper.htmlDecode(resetUrl);
+        }, resetUrl);
 
         await page.goto(resetUrl);
         await page.waitForNetworkIdle();

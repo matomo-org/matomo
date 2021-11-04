@@ -143,6 +143,14 @@ export default class AjaxHelper {
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
+  // helper method entry point
+  static fetch(params: Parameters): JQuery.jqXHR {
+    const helper = new AjaxHelper();
+    helper.setFormat('json');
+    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
+    return helper.send();
+  }
+
   constructor() {
     this.errorCallback = defaultErrorCallback;
   }

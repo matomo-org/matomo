@@ -224,8 +224,8 @@
                     scope.reportLimit         = reportLimit > 0 ? reportLimit : 100;
                     scope.reportLimitAll      = reportLimit == -1 ? 'yes' : 'no';
                     scope.optionFlat          = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === "1";
-                    scope.optionExpanded      = 1;
-                    scope.optionFormatMetrics = 0;
+                    scope.optionExpanded      = true;
+                    scope.optionFormatMetrics = false;
                     scope.hasSubtables        = scope.optionFlat || dataTable.numberOfSubtables > 0;
 
                     scope.availableReportFormats = {
