@@ -115,9 +115,9 @@
 
                 }
 
-                site.visits_evolution    = parseInt(site.visits_evolution, 10);
-                site.pageviews_evolution = parseInt(site.pageviews_evolution, 10);
-                site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
+                site.visits_evolution_int    = parseInt(site.visits_evolution, 10);
+                site.pageviews_evolution_int = parseInt(site.pageviews_evolution, 10);
+                site.revenue_evolution_int   = parseInt(site.revenue_evolution, 10);
 
             });
 
