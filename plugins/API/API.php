@@ -413,9 +413,11 @@ class API extends \Piwik\Plugin\API
      * @param bool|string $legendAppendMetric
      * @param bool|string $labelUseAbsoluteUrl
      * @param bool|int $idDimension
+     * @param string $labelSeries
+     * @param string|int $showGoalMetricsForGoal
      * @return array
      */
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false, $showGoalMetricsForGoal = false)
     {
         // check if site exists
         $idSite = (int) $idSite;
@@ -443,7 +445,7 @@ class API extends \Piwik\Plugin\API
 
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries);
+            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries, $showGoalMetricsForGoal);
     }
 
     /**

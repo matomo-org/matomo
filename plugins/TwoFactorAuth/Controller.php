@@ -109,8 +109,7 @@ class Controller extends \Piwik\Plugin\Controller
                 }
             }
         }
-        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', [], []);
-        $view->superUserEmails = implode(',', array_column($superUsers, 'email'));
+        $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
         $view->loginModule = Piwik::getLoginPluginName();
         $view->AccessErrorString = $messageNoAccess;
         $view->addForm($form);

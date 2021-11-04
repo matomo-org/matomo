@@ -6,7 +6,7 @@
  */
 
 import createAngularJsAdapter from '../createAngularJsAdapter';
-import ComparisonsStoreInstance from './Comparisons.store';
+import ComparisonsStoreInstance from './Comparisons.store.instance';
 import Comparisons from './Comparisons.vue';
 
 function ComparisonFactory() {

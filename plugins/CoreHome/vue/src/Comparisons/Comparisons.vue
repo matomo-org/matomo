@@ -5,11 +5,11 @@
 -->
 
 <template>
-  <div v-if="comparisonsService.isComparing()" ref="root">
+  <div v-if="isComparing" ref="root" class="matomo-comparisons">
     <h3>{{ translate('General_Comparisons') }}</h3>
     <div
       class="comparison card"
-      v-for="(comparison, $index) in comparisonsService.getSegmentComparisons()"
+      v-for="(comparison, $index) in segmentComparisons"
       :key="comparison.index"
     >
       <div class="comparison-type">{{ translate('General_Segment') }}</div>
@@ -26,14 +26,14 @@
       </div>
       <div
         class="comparison-period"
-        v-for="periodComparison in comparisonsService.getPeriodComparisons()"
+        v-for="periodComparison in periodComparisons"
         :key="periodComparison.index"
         :title="getComparisonTooltip(comparison, periodComparison)"
       >
         <span
           class="comparison-dot"
           :style="{
-            'background-color': comparisonsService.getSeriesColor(comparison, periodComparison)
+            'background-color': getSeriesColor(comparison, periodComparison)
           }"
         />
         <span class="comparison-period-label">
@@ -42,8 +42,8 @@
       </div>
       <a
         class="remove-button"
-        v-on:click="comparisonsService.removeSegmentComparison($index)"
-        v-if="comparisonsService.getSegmentComparisons().length > 1"
+        v-on:click="removeSegmentComparison($index)"
+        v-if="segmentComparisons.length > 1"
       >
         <span
           class="icon icon-close"
@@ -65,8 +65,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import ComparisonsStoreInstance, { AnyComparison } from './Comparisons.store';
+import { defineComponent, computed } from 'vue';
+import { AnyComparison } from './Comparisons.store';
+import ComparisonsStoreInstance from './Comparisons.store.instance';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
@@ -92,13 +93,31 @@ export default defineComponent({
   },
   data() {
     return {
-      comparisonsService: ComparisonsStoreInstance,
       comparisonTooltips: null,
+    };
+  },
+  setup() {
+    // accessing has to be done through a computed property so we can use the computed
+    // instance directly in the template. unfortunately, vue won't register to changes.
+    const isComparing = computed(() => ComparisonsStoreInstance.isComparing());
+    const segmentComparisons = computed(() => ComparisonsStoreInstance.getSegmentComparisons());
+    const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
+    const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
+    return {
+      isComparing,
+      segmentComparisons,
+      periodComparisons,
+      getSeriesColor,
     };
   },
   methods: {
     comparisonHasSegment(comparison: AnyComparison) {
       return typeof comparison.params.segment !== 'undefined';
+    },
+    removeSegmentComparison(index: number) {
+      // otherwise the tooltip will be stuck on the screen
+      window.$(this.$refs.root).tooltip('destroy');
+      ComparisonsStoreInstance.removeSegmentComparison(index);
     },
     getComparisonPeriodType(comparison: AnyComparison) {
       const { period } = comparison.params;
@@ -120,15 +139,15 @@ export default defineComponent({
         return undefined;
       }
 
-      return this.comparisonTooltips[periodComparison.index][segmentComparison.index];
+      return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];
     },
     getUrlToSegment(segment: string) {
-      let { hash } = window.location;
-      hash = window.broadcast.updateParamValue('comparePeriods[]=', hash);
-      hash = window.broadcast.updateParamValue('compareDates[]=', hash);
-      hash = window.broadcast.updateParamValue('compareSegments[]=', hash);
-      hash = window.broadcast.updateParamValue(`segment=${encodeURIComponent(segment)}`, hash);
-      return window.location.search + hash;
+      const hash = { ...MatomoUrl.hashParsed.value };
+      delete hash.comparePeriods;
+      delete hash.compareDates;
+      delete hash.compareSegments;
+      hash.segment = segment;
+      return `${window.location.search}#?${MatomoUrl.stringify(hash)}`;
     },
     setUpTooltips() {
       const { $ } = window;
@@ -145,12 +164,12 @@ export default defineComponent({
     onComparisonsChanged() {
       this.comparisonTooltips = null;
 
-      if (!this.comparisonsService.isComparing()) {
+      if (!ComparisonsStoreInstance.isComparing()) {
         return;
       }
 
-      const periodComparisons = this.comparisonsService.getPeriodComparisons();
-      const segmentComparisons = this.comparisonsService.getSegmentComparisons();
+      const periodComparisons = ComparisonsStoreInstance.getPeriodComparisons();
+      const segmentComparisons = ComparisonsStoreInstance.getSegmentComparisons();
       AjaxHelper.fetch({
         method: 'API.getProcessedReport',
         apiModule: 'VisitsSummary',
@@ -181,14 +200,14 @@ export default defineComponent({
         return '';
       }
 
-      const firstRowIndex = this.comparisonsService.getComparisonSeriesIndex(
+      const firstRowIndex = ComparisonsStoreInstance.getComparisonSeriesIndex(
         periodComp.index,
         0,
       );
 
       const firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
 
-      const comparisonRowIndex = this.comparisonsService.getComparisonSeriesIndex(
+      const comparisonRowIndex = ComparisonsStoreInstance.getComparisonSeriesIndex(
         periodComp.index,
         segmentComp.index,
       );
@@ -222,19 +241,23 @@ export default defineComponent({
       return tooltip;
     },
   },
+  updated() {
+    setTimeout(() => this.setUpTooltips());
+  },
   mounted() {
-    Matomo.on('piwikComparisonsChanged', () => this.onComparisonsChanged());
+    Matomo.on('piwikComparisonsChanged', () => {
+      this.onComparisonsChanged();
+    });
 
     this.onComparisonsChanged();
 
     setTimeout(() => this.setUpTooltips());
   },
-  unmounted() {
+  beforeUnmount() {
     try {
       window.$(this.refs.root).tooltip('destroy');
     } catch (e) {
       // ignore
-      console.log('does this always happen?'); // TODO: Remove
     }
   },
 });

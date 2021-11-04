@@ -26,6 +26,10 @@ body {
     color: #43a047;
 }
 
+#installation .form-group label {
+    color: #757575;
+}
+
 .header .languageSelection {
     color: #1976D2;
     font-size: 13px;
@@ -81,7 +85,7 @@ h3 {
     margin-bottom: 15px;
 }
 .content p {
-    color: #858585;
+    color: #757575;
     margin-bottom: 10px;
 }
 p.next-step {
