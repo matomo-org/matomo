@@ -55,10 +55,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $skipPasswordConfirm = $passwordConfirmation === false && version_compare(Version::VERSION, '4.4.0-b1', '<');
-        if (!$skipPasswordConfirm) {
-            $this->confirmCurrentUserPassword($passwordConfirmation);
-        }
+        $this->confirmCurrentUserPassword($passwordConfirmation);
 
         $pluginsSettings = $this->settingsProvider->getAllSystemSettings();
 

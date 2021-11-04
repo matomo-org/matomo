@@ -26,6 +26,6 @@ angular.module('piwikApp', [
   'piwikApp.service',
 ]);
 
-angular.element(() => {
-  angular.bootstrap(document, ['piwikApp']);
-});
+angular.module('piwikApp').config(['$locationProvider', function($locationProvider) {
+  $locationProvider.html5Mode({ enabled: false, rewriteLinks: false }).hashPrefix('');
+}]);

@@ -57,6 +57,10 @@ class Controller extends ControllerAdmin
         $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
         $widgetsList = WidgetsList::get();
 
+        if ($isInternetEnabled && $isMarketplaceEnabled) {
+            $this->securityPolicy->addPolicy('img-src', '*.matomo.org');
+        }
+
         $hasDonateForm = $widgetsList->isDefined('CoreHome', 'getDonateForm');
         $hasPiwikBlog = $widgetsList->isDefined('RssWidget', 'rssPiwik');
         $hasPremiumFeatures = $widgetsList->isDefined('Marketplace', 'getPremiumFeatures');

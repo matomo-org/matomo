@@ -12,5 +12,5 @@ module.exports = {
       tsconfig: 'tsconfig.spec.json',
     },
   },
-  setupFilesAfterEnv: ['./tests/angularjs/bootstrap.jest.js'],
+  setupFiles: ['./tests/angularjs/bootstrap.jest.js'],
 };

@@ -21,6 +21,12 @@ function initPiwikService(piwik: PiwikGlobal, $rootScope: IRootScopeService) {
     return Matomo.postEvent(name, ...args);
   };
 
+  ($rootScope as any).$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
+  $rootScope.$broadcast = function broadcastWrapper(name: string, ...args: any[]): IAngularEvent { // eslint-disable-line
+    Matomo.postEventNoEmit(name, ...args);
+    return ($rootScope as any).$oldBroadcast(name, ...args); // eslint-disable-line
+  };
+
   $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
 }
 

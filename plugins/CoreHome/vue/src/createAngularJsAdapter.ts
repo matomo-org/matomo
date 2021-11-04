@@ -208,6 +208,10 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             if (postCreate) {
               postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
             }
+
+            ngElement.on('$destroy', () => {
+              app.unmount();
+            });
           },
         };
       },

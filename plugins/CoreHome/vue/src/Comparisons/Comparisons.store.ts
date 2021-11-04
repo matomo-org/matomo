@@ -5,12 +5,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { reactive, readonly, DeepReadonly } from 'vue';
+import {
+  reactive,
+  watch,
+  computed,
+  readonly,
+} from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 import translate from '../translate';
 import Periods from '../Periods/Periods';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import SegmentsStore from '../Segmentation/Segments.store';
 
 const SERIES_COLOR_COUNT = 8;
 const SERIES_SHADE_COUNT = 3;
@@ -39,8 +45,6 @@ export interface AnyComparison {
 }
 
 export interface ComparisonsStoreState {
-  segmentComparisons: SegmentComparison[];
-  periodComparisons: PeriodComparison[];
   comparisonsDisabledFor: string[];
 }
 
@@ -57,29 +61,33 @@ function wrapArray<T>(values: T | T[]): T[] {
   return values instanceof Array ? values : [values];
 }
 
-export class ComparisonsStore {
+export default class ComparisonsStore {
   private privateState = reactive<ComparisonsStoreState>({
-    segmentComparisons: [],
-    periodComparisons: [],
     comparisonsDisabledFor: [],
   });
 
-  get state(): DeepReadonly<ComparisonsStore['privateState']> {
-    return readonly(this.privateState);
-  }
+  readonly state = readonly(this.privateState); // for tests
 
   private colors: { [key: string]: string } = {};
 
-  constructor() {
-    MatomoUrl.onLocationChange(() => this.updateComparisonsFromQueryParams());
-    Matomo.on('piwikSegmentationInited', () => this.updateComparisonsFromQueryParams());
+  readonly segmentComparisons = computed(() => this.parseSegmentComparisons());
 
+  readonly periodComparisons = computed(() => this.parsePeriodComparisons());
+
+  readonly isEnabled = computed(() => this.checkEnabledForCurrentPage());
+
+  constructor() {
     this.loadComparisonsDisabledFor();
 
     $(() => {
-      this.updateComparisonsFromQueryParams();
       this.colors = this.getAllSeriesColors() as { [key: string]: string };
     });
+
+    watch(
+      () => this.getComparisons(),
+      () => Matomo.postEvent('piwikComparisonsChanged'),
+      { deep: true },
+    );
   }
 
   getComparisons(): AnyComparison[] {
@@ -90,8 +98,8 @@ export class ComparisonsStore {
   isComparing(): boolean {
     return this.isComparisonEnabled()
       // first two in each array are for the currently selected segment/period
-      && (this.privateState.segmentComparisons.length > 1
-        || this.privateState.periodComparisons.length > 1);
+      && (this.segmentComparisons.value.length > 1
+        || this.periodComparisons.value.length > 1);
   }
 
   isComparingPeriods(): boolean {
@@ -103,7 +111,7 @@ export class ComparisonsStore {
       return [];
     }
 
-    return this.privateState.segmentComparisons;
+    return this.segmentComparisons.value;
   }
 
   getPeriodComparisons(): PeriodComparison[] {
@@ -111,7 +119,7 @@ export class ComparisonsStore {
       return [];
     }
 
-    return this.privateState.periodComparisons;
+    return this.periodComparisons.value;
   }
 
   getSeriesColor(
@@ -141,7 +149,7 @@ export class ComparisonsStore {
   }
 
   isComparisonEnabled(): boolean {
-    return this.checkEnabledForCurrentPage();
+    return this.isEnabled.value;
   }
 
   getIndividualComparisonRowIndices(seriesIndex: number): {
@@ -186,8 +194,7 @@ export class ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons: SegmentComparison[] = Array<SegmentComparison>()
-      .concat(this.privateState.segmentComparisons);
+    const newComparisons: SegmentComparison[] = [...this.segmentComparisons.value];
     newComparisons.splice(index, 1);
 
     const extraParams: {[key: string]: string} = {};
@@ -197,7 +204,7 @@ export class ComparisonsStore {
 
     this.updateQueryParamsFromComparisons(
       newComparisons,
-      this.privateState.periodComparisons,
+      this.periodComparisons.value,
       extraParams,
     );
   }
@@ -207,9 +214,9 @@ export class ComparisonsStore {
       throw new Error('Comparison disabled.');
     }
 
-    const newComparisons = this.privateState.segmentComparisons
+    const newComparisons = this.segmentComparisons.value
       .concat([{ params, index: -1, title: '' } as SegmentComparison]);
-    this.updateQueryParamsFromComparisons(newComparisons, this.privateState.periodComparisons);
+    this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);
   }
 
   private updateQueryParamsFromComparisons(
@@ -256,7 +263,7 @@ export class ComparisonsStore {
 
     // change the page w/ these new param values
     if (Matomo.helper.isAngularRenderingThePage()) {
-      const search = MatomoUrl.parseHashQuery();
+      const search = MatomoUrl.hashParsed.value;
 
       const newSearch: {[key: string]: string|string[]} = {
         ...search,
@@ -269,7 +276,7 @@ export class ComparisonsStore {
       delete newSearch['compareDates[]'];
 
       if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
-        window.location.hash = `#?${MatomoUrl.stringify(newSearch)}`;
+        MatomoUrl.updateHash(newSearch);
       }
 
       return;
@@ -284,9 +291,8 @@ export class ComparisonsStore {
 
     // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change
     // the segment
-    // TODO: move this to URL service?
-    const url = $.param({ ...extraParams }).replace(/%5B%5D/g, '[]');
-    const strHash = $.param({ ...compareParams }).replace(/%5B%5D/g, '[]');
+    const url = MatomoUrl.stringify(extraParams);
+    const strHash = MatomoUrl.stringify(compareParams);
 
     window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
   }
@@ -305,28 +311,24 @@ export class ComparisonsStore {
     return ColorManager.getColors('comparison-series-color', seriesColorNames);
   }
 
-  private updateComparisonsFromQueryParams() {
-    let title;
-    let availableSegments: { definition: string, name: string }[] = [];
-    try {
-      availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
-    } catch (e) {
-      // segment editor is not initialized yet
-    }
+  private loadComparisonsDisabledFor() {
+    AjaxHelper.fetch({
+      module: 'API',
+      method: 'API.getPagesComparisonsDisabledFor',
+    }).then((result) => {
+      this.privateState.comparisonsDisabledFor = result;
+    });
+  }
 
-    let compareSegments: string[] = wrapArray(MatomoUrl.getSearchParam('compareSegments')) || [];
-    compareSegments = compareSegments instanceof Array ? compareSegments : [compareSegments];
+  private parseSegmentComparisons(): SegmentComparison[] {
+    const { availableSegments } = SegmentsStore.state;
 
-    let comparePeriods: string[] = wrapArray(MatomoUrl.getSearchParam('comparePeriods')) || [];
-    comparePeriods = comparePeriods instanceof Array ? comparePeriods : [comparePeriods];
-
-    let compareDates: string[] = wrapArray(MatomoUrl.getSearchParam('compareDates')) || [];
-    compareDates = compareDates instanceof Array ? compareDates : [compareDates];
+    const compareSegments: string[] = [
+      ...wrapArray(MatomoUrl.parsed.value.compareSegments as string[]),
+    ];
 
     // add base comparisons
-    compareSegments.unshift(MatomoUrl.getSearchParam('segment'));
-    comparePeriods.unshift(MatomoUrl.getSearchParam('period'));
-    compareDates.unshift(MatomoUrl.getSearchParam('date'));
+    compareSegments.unshift(MatomoUrl.parsed.value.segment as string || '');
 
     const newSegmentComparisons: SegmentComparison[] = [];
     compareSegments.forEach((segment, idx) => {
@@ -355,8 +357,24 @@ export class ComparisonsStore {
       });
     });
 
+    return newSegmentComparisons;
+  }
+
+  private parsePeriodComparisons(): PeriodComparison[] {
+    const comparePeriods: string[] = [
+      ...wrapArray(MatomoUrl.parsed.value.comparePeriods as string[]),
+    ];
+
+    const compareDates: string[] = [
+      ...wrapArray(MatomoUrl.parsed.value.compareDates as string[]),
+    ];
+
+    comparePeriods.unshift(MatomoUrl.parsed.value.period as string);
+    compareDates.unshift(MatomoUrl.parsed.value.date as string);
+
     const newPeriodComparisons: PeriodComparison[] = [];
     for (let i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {
+      let title;
       try {
         title = Periods.parse(comparePeriods[i], compareDates[i]).getPrettyString();
       } catch (e) {
@@ -373,14 +391,14 @@ export class ComparisonsStore {
       });
     }
 
-    this.setComparisons(newSegmentComparisons, newPeriodComparisons);
+    return newPeriodComparisons;
   }
 
   private checkEnabledForCurrentPage() {
     // category/subcategory is not included on top bar pages, so in that case we use module/action
-    const category = MatomoUrl.getSearchParam('category') || MatomoUrl.getSearchParam('module');
-    const subcategory = MatomoUrl.getSearchParam('subcategory')
-      || MatomoUrl.getSearchParam('action');
+    const category = MatomoUrl.parsed.value.category || MatomoUrl.parsed.value.module;
+    const subcategory = MatomoUrl.parsed.value.subcategory
+      || MatomoUrl.parsed.value.action;
 
     const id = `${category}.${subcategory}`;
     const isEnabled = this.privateState.comparisonsDisabledFor.indexOf(id) === -1
@@ -390,32 +408,4 @@ export class ComparisonsStore {
 
     return isEnabled;
   }
-
-  private setComparisons(
-    newSegmentComparisons: SegmentComparison[],
-    newPeriodComparisons: PeriodComparison[],
-  ) {
-    const oldSegmentComparisons = this.privateState.segmentComparisons;
-    const oldPeriodComparisons = this.privateState.periodComparisons;
-
-    this.privateState.segmentComparisons = newSegmentComparisons;
-    this.privateState.periodComparisons = newPeriodComparisons;
-
-    if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(newPeriodComparisons)
-      || JSON.stringify(oldSegmentComparisons) !== JSON.stringify(newSegmentComparisons)
-    ) {
-      Matomo.postEvent('piwikComparisonsChanged');
-    }
-  }
-
-  private loadComparisonsDisabledFor() {
-    AjaxHelper.fetch({
-      module: 'API',
-      method: 'API.getPagesComparisonsDisabledFor',
-    }).then((result) => {
-      this.privateState.comparisonsDisabledFor = result;
-    });
-  }
 }
-
-export default new ComparisonsStore();

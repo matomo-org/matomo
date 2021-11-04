@@ -11,7 +11,8 @@ import '../Periods/Month';
 import '../Periods/Year';
 import '../Periods/Range';
 import '../Matomo/Matomo.adapter'; // for $rootScope.$oldEmit
-import { ComparisonsStore } from './Comparisons.store';
+import ComparisonsStore from './Comparisons.store';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 describe('CoreHome/Comparisons.store', () => {
   const DISABLED_PAGES = [
@@ -28,8 +29,14 @@ describe('CoreHome/Comparisons.store', () => {
     return new Promise(resolve => setTimeout(resolve, 0));
   }
 
+  function angularApply() {
+    window.angular.element(document).injector().get('$rootScope').$apply();
+  }
+
   async function setHash(search: string) {
-    window.location.hash = `#?${search}`;
+    MatomoUrl.updateHash(search);
+    angularApply();
+    await wait();
 
     // more than one required for all callbacks to finish
     while (!piwikComparisonsService.state.comparisonsDisabledFor.length) {
@@ -47,8 +54,16 @@ describe('CoreHome/Comparisons.store', () => {
       .reply(200, JSON.stringify(DISABLED_PAGES));
   });
   beforeAll(() => {
-    // so piwikHelper.isAngularRenderingThePage
+    // so piwikHelper.isAngularRenderingThePage will return true
     document.body.innerHTML = document.body.innerHTML + '<div piwik-reporting-page />';
+  });
+  beforeAll(async () => {
+    await new Promise<void>((resolve) => {
+      window.angular.element(() => {
+        window.angular.bootstrap(document, ['piwikApp']);
+        resolve();
+      });
+    });
   });
 
   beforeEach(() => {
@@ -65,6 +80,9 @@ describe('CoreHome/Comparisons.store', () => {
         return result;
       }
     } as unknown as ColorManagerService;
+  });
+  beforeEach(() => {
+    angularApply(); // necessary for some reason... doesn't work in beforeAll(), just beforeEach()
   });
   beforeEach(() => {
     piwikComparisonsService = new ComparisonsStore();
@@ -144,7 +162,6 @@ describe('CoreHome/Comparisons.store', () => {
         },
       ]);
     });
-
     it('should return nothing if comparison is not enabled for the page', async () => {
       await setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
 
@@ -157,18 +174,20 @@ describe('CoreHome/Comparisons.store', () => {
       await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
 
       piwikComparisonsService.removeSegmentComparison(1);
+      angularApply();
       await wait();
 
-      expect(window.location.href).toEqual('http://localhost/#?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments%5B%5D=&comparePeriods%5B%5D=week&compareDates%5B%5D=2018-03-04');
+      expect(window.location.href).toEqual('http://localhost/#?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=');
     });
 
     it('should change the base comparison if the first segment is removed', async () => {
       await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
 
       piwikComparisonsService.removeSegmentComparison(0);
+      angularApply();
       await wait();
 
-      expect(window.location.href).toEqual('http://localhost/#?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareSegments%5B%5D=&comparePeriods%5B%5D=week&compareDates%5B%5D=2018-03-04');
+      expect(window.location.href).toEqual('http://localhost/#?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=');
     });
   });
 
@@ -179,6 +198,7 @@ describe('CoreHome/Comparisons.store', () => {
       piwikComparisonsService.addSegmentComparison({
         segment: 'newsegment',
       });
+      angularApply();
       await wait();
 
       expect(piwikComparisonsService.getComparisons()).toEqual([
@@ -196,6 +216,7 @@ describe('CoreHome/Comparisons.store', () => {
       piwikComparisonsService.addSegmentComparison({
         segment: '',
       });
+      angularApply();
       await wait();
 
       expect(piwikComparisonsService.getComparisons()).toEqual([

@@ -229,7 +229,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'] = 1;
 
-            // use columns query param to make sure columns works when supplied in URL fragment 
+            // use columns query param to make sure columns works when supplied in URL fragment
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
             await page.waitForNetworkIdle();
 
@@ -525,9 +525,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             // manipulate the styles a bit, as it's otherwise not visible on screenshot
             await page.evaluate(function () {
                 var style = document.createElement('style');
-                style.innerHTML = '.permadocs { display: block !important; }';
+                style.innerHTML = '.permadocs { display: block !important;z-index:150!important; } .dataTable thead{ z-index:150 !important; }';
                 $('body').append(style);
 
+                //add index not overlap others
                 $('.columnDocumentation:visible').addClass('permadocs');
             });
 
@@ -568,64 +569,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('referrers_campaigns');
-        });
-    });
-
-    describe("GoalsPages", function () {
-        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-
-        // goals pages
-        it('should load the goals > ecommerce page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_ecommerce');
-        });
-
-        it('should load the goals > overview page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_overview');
-        });
-
-        it('should load the goals > management page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=Goals&action=manage");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('#content,.top_bar_sites_selector,.entityContainer')).to.matchImage('goals_manage');
-        });
-
-        it('should load the goals > single goal page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_individual_goal');
-        });
-
-        it('should update the evolution chart if a sparkline is clicked', async function () {
-            elem = await page.jQuery('.sparkline.linked:contains(%)');
-            await elem.click();
-            await page.waitForNetworkIdle();
-            await page.mouse.move(-10, -10);
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_individual_goal_updated');
-        });
-
-        // should load the row evolution [see #11526]
-        it('should show rov evolution for goal tables', async function () {
-            await page.waitForNetworkIdle();
-
-            const row = await page.waitForSelector('.dataTable tbody tr:first-child');
-            await row.hover();
-
-            const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
-            await icon.click();
-
-            await page.waitForSelector('.rowevolution');
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('goals_individual_row_evolution');
         });
     });
 
