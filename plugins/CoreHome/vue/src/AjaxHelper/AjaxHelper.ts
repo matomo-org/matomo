@@ -147,7 +147,7 @@ export default class AjaxHelper {
   static fetch(params: Parameters): JQuery.jqXHR {
     const helper = new AjaxHelper();
     helper.setFormat('json');
-    helper.addParams(params, 'get');
+    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
     return helper.send();
   }
 

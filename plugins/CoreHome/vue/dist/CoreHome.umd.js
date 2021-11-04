@@ -1019,7 +1019,11 @@ class AjaxHelper_AjaxHelper {
   static fetch(params) {
     const helper = new AjaxHelper_AjaxHelper();
     helper.setFormat('json');
-    helper.addParams(params, 'get');
+    helper.addParams({
+      module: 'API',
+      format: 'json',
+      ...params
+    }, 'get');
     return helper.send();
   }
 
