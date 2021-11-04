@@ -392,6 +392,21 @@ class DataTablePostProcessor
         // by string, like 'revenue'. this should be removed when all metrics are using the `Metric` class.
         $formatAll = $formatMetrics === 'all';
 
+        // If if the format_metrics_add_raw_copy option is set then write a copy of each metric to the row before formatting
+        $formatMetricsAddRawCopy = Common::getRequestVar('format_metrics_add_raw_copy', '', 'string', $this->request);
+        if ($formatMetricsAddRawCopy) {
+            $copiesToAdd = explode(',', $formatMetricsAddRawCopy);
+            if (count($copiesToAdd)) {
+                foreach ($dataTable->getRows() as $row) {
+                    foreach ($row->getColumns() as $column => $columnValue) {
+                        if (in_array($column, $copiesToAdd)) {
+                            $row->setColumn($column.'_raw', $columnValue);
+                        }
+                    }
+                }
+            }
+        }
+
         $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat, $formatAll));
         return $dataTable;
     }
