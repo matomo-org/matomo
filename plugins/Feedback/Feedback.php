@@ -9,6 +9,9 @@
 namespace Piwik\Plugins\Feedback;
 
 use Piwik\Date;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Site;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -38,14 +41,11 @@ class Feedback extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
         $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -86,76 +86,19 @@ class Feedback extends \Piwik\Plugin
 
     public function renderViewsAndAddToPage(&$pageHtml)
     {
-        $referBannerView = $this->renderReferBanner();
+        $feedbackQuestionBanner = $this->renderFeedbackQuestion();
 
-        $views = [$referBannerView];
-        $implodedViews = implode('', $views);
-
-        $endOfBody = strpos($pageHtml, '</body>');
-        $pageHtml = substr_replace($pageHtml, $implodedViews, $endOfBody, 0);
+        $matches = preg_split('/(<body.*?>)/i', $pageHtml, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $pageHtml = $matches[0] . $matches[1] . $feedbackQuestionBanner . $matches[2];
     }
 
 
-    public function renderReferBanner()
+    public function renderFeedbackQuestion()
     {
-        $referBannerView = new View('@Feedback/referBanner');
-        $referBannerView->showReferBanner = (int) $this->showReferBanner();
+        $feedbackQuestionBanner = new View('@Feedback/feedbackQuestionBanner');
+        $feedbackQuestionBanner->showQuestionBanner = (int)$this->getShouldPromptForFeedback();
 
-        return $referBannerView->render();
-    }
-
-    public function showReferBanner()
-    {
-        if ($this->getShouldPromptForFeedback()) {
-            return false;
-        }
-
-        if (Piwik::isUserIsAnonymous()) {
-            return false;
-        }
-
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return false;
-        }
-
-        if ($this->isDisabledInTestMode()) {
-            return false;
-        }
-
-        $shouldShowReferBanner = true;
-
-        /**
-         * @internal
-         */
-        Piwik::postEvent('Feedback.showReferBanner', [&$shouldShowReferBanner]);
-
-        if (!$shouldShowReferBanner) {
-            return false;
-        }
-
-        $referReminder = new ReferReminder();
-        $nextReminderDate = $referReminder->getUserOption();
-
-        if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(135)->toString('Y-m-d');
-            $referReminder->setUserOption($nextReminder);
-
-            return false;
-        }
-
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        $pluginManager = PluginManager::getInstance();
-        if ($pluginManager->hasPremiumFeatures()) {
-            return false;
-        }
-
-        $now = Date::now()->getTimestamp();
-        $nextReminderDate = Date::factory($nextReminderDate);
-
-        return $nextReminderDate->getTimestamp() <= $now;
+        return $feedbackQuestionBanner->render();
     }
 
     public function getShouldPromptForFeedback()
@@ -177,7 +120,7 @@ class Feedback extends \Piwik\Plugin
         }
 
         if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(90)->toString('Y-m-d');
+            $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
 
             return false;
@@ -185,6 +128,13 @@ class Feedback extends \Piwik\Plugin
 
         $now = Date::now()->getTimestamp();
         $nextReminderDate = Date::factory($nextReminderDate);
+
+        // if user is created 6 month ago, it won't show.
+        // I am not sure if this test really works. Because fake access is trade as isUserIsAnonymous
+        $userCreatedDate =Piwik::getCurrentUserCreationData();
+        if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
+            return false;
+        }
 
         return $nextReminderDate->getTimestamp() <= $now;
     }

@@ -11,7 +11,7 @@ import RateFeature from './FeedbackQuestion.vue';
 export default createAngularJsAdapter({
   component: RateFeature,
   scope: {
-    title: {
+    showQuestionBanner: {
       angularJsBind: '@',
     },
   },

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Feedback\tests\Unit;
 
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\Feedback\Feedback;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -42,7 +43,6 @@ class FeedbackTest extends IntegrationTestCase
         );
         FakeAccess::$identity = 'user1';
         FakeAccess::$superUser = false;
-
         $this->now = Date::$now;
     }
 

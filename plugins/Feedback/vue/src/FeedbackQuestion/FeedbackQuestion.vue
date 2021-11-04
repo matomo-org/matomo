@@ -6,12 +6,12 @@
 
 <template>
   <div >
-    <div v-if="!hide" class="trialHeader">
+    <div v-if="!isHide" class="trialHeader">
       <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
       <a @click="showFeedbackForm=true" class="btn">
         {{ translate(`Feedback_Question${ question }`) }}
       </a>
-      <a class="close-btn" @click="setCookieValue('hide')">
+      <a class="close-btn" @click="disableReminder">
         <i class="icon-close white-text"></i></a>
     </div>
     <div
@@ -68,8 +68,19 @@ import { MatomoDialog, AjaxHelper } from 'CoreHome';
 const cookieName = 'feedback-question';
 export default defineComponent({
 
+  props: {
+    showQuestionBanner: String,
+  },
   components: {
     MatomoDialog,
+  },
+  computed: {
+    isHide() {
+      if (this.showQuestionBanner === '0') {
+        return true;
+      }
+      return !!this.hide;
+    },
   },
   data() {
     return {
@@ -115,6 +126,10 @@ export default defineComponent({
       document.cookie = `${cookieName}=${value};expires=${now.toUTCString()};path=/`;
       this.hide = true;
     },
+    disableReminder() {
+      AjaxHelper.fetch({method: 'Feedback.updateFeedbackReminderDate'});
+      this.setCookieValue('hide');
+    },
     sendFeedback() {
       AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForSurvey',
@@ -122,7 +137,6 @@ export default defineComponent({
         message: this.feedbackMessage,
       });
       this.feedbackDone = true;
-      this.setCookieValue('hide');
     },
   },
 });

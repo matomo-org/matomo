@@ -10,6 +10,8 @@ namespace Piwik\Plugins\Feedback;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Renderer\Json;
+use Piwik\Date;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
@@ -91,6 +93,24 @@ class API extends \Piwik\Plugin\API
         );
 
         $this->sendMail($subject, $body);
+
+        //if feed is sent never show again.
+        $feedbackReminder = new FeedbackReminder();
+        $feedbackReminder->setUserOption(-1);
+
+    }
+
+    public function updateFeedbackReminderDate()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        //push reminder for 6 month
+        $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+        $feedbackReminder = new FeedbackReminder();
+        $feedbackReminder->setUserOption($nextReminder);
+
+        Json::sendHeaderJSON();
+        return json_encode(['Next reminder date: ' . $nextReminder]);
     }
 
     private function sendMail($subject, $body)
