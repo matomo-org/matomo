@@ -195,8 +195,8 @@ class Build extends ConsoleCommand
 
     private function checkNodeJsVersion(OutputInterface $output)
     {
-        $nodeVersion = ltrim(`node -v`, 'v');
-        $npmVersion = ltrim(`npm -v`, 'v');
+        $nodeVersion = ltrim(trim(`node -v`), 'v');
+        $npmVersion = ltrim(trim(`npm -v`), 'v');
 
         if (version_compare($nodeVersion, self::RECOMMENDED_NODE_VERSION, '<')) {
             $output->writeln(sprintf("<comment>The recommended node version for working with Vue is version %s or "
