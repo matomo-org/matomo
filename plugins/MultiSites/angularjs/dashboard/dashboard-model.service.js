@@ -63,9 +63,6 @@
 
             var allSites = report.sites;
             angular.forEach(allSites, function (site, index) {
-                site.visits_evolution    = parseInt(site.visits_evolution, 10);
-                site.pageviews_evolution = parseInt(site.pageviews_evolution, 10);
-                site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
 
                 if (site.hasOwnProperty('ratio') && site.ratio != 1) {
                     var percent = NumberFormatter.formatPercent(Math.round((site.ratio * 100)));
@@ -89,11 +86,11 @@
                         previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_Actions_nb_pageviews * site.ratio));
                     }
                     if (model.sortColumn == 'revenue_evolution') {
-                        previousTotal = NumberFormatter.formatNumber(site.previous_Goal_revenue);
-                        currentTotal = NumberFormatter.formatNumber(site.revenue);
+                        previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
+                        currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
                         evolution = NumberFormatter.formatPercent(site.revenue_evolution);
                         metricName = _pk_translate("General_ColumnRevenue");
-                        previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_Goal_revenue * site.ratio));
+                        previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(site.previous_Goal_revenue * site.ratio), site.currencySymbol);
                     }
 
                     if (metricName) {
@@ -117,6 +114,11 @@
                     }
 
                 }
+
+                site.visits_evolution    = parseInt(site.visits_evolution, 10);
+                site.pageviews_evolution = parseInt(site.pageviews_evolution, 10);
+                site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
+
             });
 
             model.totalVisits   = report.totals.nb_visits;

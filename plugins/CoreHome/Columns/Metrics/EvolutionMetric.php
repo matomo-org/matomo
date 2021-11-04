@@ -13,6 +13,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Site;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
@@ -116,6 +117,7 @@ class EvolutionMetric extends ProcessedMetric
         $ratio = self::getRatio($this->currentData, $this->pastData, $row);
         $period = $this->pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         $row->setMetadata('ratio', $ratio);
+        $row->setMetadata('currencySymbol', Site::getCurrencySymbolFor($row['label']));
         $row->setMetadata('previous_'.$columnName, $pastValue);
         $row->setMetadata('periodName', $period->getLabel());
         $row->setMetadata('previousRange', $period->getLocalizedShortString());
