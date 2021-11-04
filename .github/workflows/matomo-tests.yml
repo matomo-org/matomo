@@ -275,13 +275,6 @@ jobs:
         with:
           node-version: '12'
 
-      - name: installing node/puppeteer
-        working-directory: ./tests/lib/screenshot-testing
-        run: |
-          git lfs pull --exclude=
-          npm install
-          node --version
-
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
           cp .github/scripts/config.ini.github.php config/config.ini.php
@@ -316,7 +309,7 @@ jobs:
           cd ../travis_woff2
           make clean all
           mkdir $HOME/.fonts
-          cp /home/runner/work/matomo/matomo/tests/travis/fonts/* $HOME/.fonts
+          cp /home/runner/work/matomo/matomo/.github/scripts/fonts/* $HOME/.fonts
           fc-cache -f -v
           echo "fonts:"
           ls $HOME/.fonts
@@ -325,6 +318,13 @@ jobs:
           sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
           sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
           sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
+
+      - name: installing node/puppeteer
+        working-directory: ./tests/lib/screenshot-testing
+        run: |
+          git lfs pull --exclude=
+          npm install
+          node --version
 
       - name: set tmp and screenshot folder permission
         run: |
