@@ -32,15 +32,15 @@ class VisitsWithAllActionsAndDevices extends Fixture
         CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'age', 'visit', 1);
         CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'currency', 'action', 1);
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-
         // Campaign - needs a separate user otherwise it overrides the referrer
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setTokenAuth(self::getTokenAuth());
         $t->setUserId('Z4F66G776HGI');
         $t->setVisitorId(substr(sha1('Z4F66G776HGI'), 0, 16));
         $this->trackCampaignVisit($t, Date::factory($this->dateTime)->addHour(0)->getDatetime());
 
         // Main user for all other visits
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setTokenAuth(self::getTokenAuth());
         $t->setUserId('X4F66G776HGI');
         $t->setVisitorId(substr(sha1('X4F66G776HGI'), 0, 16));
