@@ -37,10 +37,7 @@ describe('FeedbackQuestion', function () {
   });
 
   it('should show error when blank content submit', async function () {
-    await page.evaluate(function () {
-      $('.modal textarea').val('test').trigger('change');
-    });
-    await page.waitForNetworkIdle();
+    await page.click('.modal .modal-footer a:nth-child(1)');
     var popup = await page.waitForSelector('.modal', { visible: true });
     expect(await popup.screenshot()).to.matchImage('feedback_failed');
   });
