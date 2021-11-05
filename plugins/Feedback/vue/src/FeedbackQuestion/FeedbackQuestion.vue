@@ -5,11 +5,11 @@
 -->
 
 <template>
-  <div >
+  <div>
     <div v-if="!isHide" class="trialHeader">
       <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
       <a @click="showFeedbackForm=true" class="btn">
-        {{ translate(`Feedback_Question${ question }`) }}
+        {{ translate(`Feedback_Question${question}`) }}
       </a>
       <a class="close-btn" @click="disableReminder">
         <i class="icon-close white-text"></i></a>
@@ -47,14 +47,22 @@
           />
         </div>
       </MatomoDialog>
-      <MatomoDialog  v-model="feedbackDone">
+      <MatomoDialog v-model="feedbackDone">
         <div
           class="ui-confirm ratefeatureDialog"
         >
-        <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
-        <p v-html="translate('Feedback_ThankYourForFeedback',
+          <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
+          <p v-html="translate('Feedback_ThankYourForFeedback',
         `<i class='icon-heart red-text'></i>`)">
-        </p>
+          </p>
+        </div>
+      </MatomoDialog>
+
+      <MatomoDialog v-model="errorMessage">
+        <div
+          class="ui-confirm ratefeatureDialog"
+        >
+          <p v-html="errorMessage"></p>
         </div>
       </MatomoDialog>
     </div>
@@ -90,7 +98,8 @@ export default defineComponent({
       feedbackDone: false,
       expanded: false,
       showFeedbackForm: false,
-      feedbackMessage: '',
+      feedbackMessage: null,
+      errorMessage: null,
     };
   },
   watch: {
@@ -100,17 +109,13 @@ export default defineComponent({
     },
   },
   created() {
-    if (this.getCookieValue(cookieName) === 'hide') {
-      this.hide = true;
-    } else if (this.getCookieValue(cookieName)) {
+    if (this.getCookieValue(cookieName)) {
       // eslint-disable-next-line radix
       this.question = parseInt(this.getCookieValue(cookieName));
       const nextQuestion = (this.question + 1 > 4) ? 0 : this.question + 1;
       this.setCookieValue(nextQuestion);
-      this.hide = false;
     } else {
       this.setCookieValue(0);
-      this.hide = false;
     }
   },
   methods: {
@@ -124,19 +129,27 @@ export default defineComponent({
       const expireTime = time + 1000 * 36000;
       now.setTime(expireTime);
       document.cookie = `${cookieName}=${value};expires=${now.toUTCString()};path=/`;
-      this.hide = true;
     },
     disableReminder() {
-      AjaxHelper.fetch({method: 'Feedback.updateFeedbackReminderDate'});
-      this.setCookieValue('hide');
-    },
-    sendFeedback() {
       AjaxHelper.fetch({
+        method: 'Feedback.updateFeedbackReminderDate',
+      });
+      this.hide = true;
+    },
+    async sendFeedback() {
+      this.errorMessage = null;
+      const res = await AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForSurvey',
         question: this.questionText,
         message: this.feedbackMessage,
       });
-      this.feedbackDone = true;
+
+      if (res.value === 'success') {
+        this.feedbackDone = true;
+        this.hide = true;
+      } else {
+        this.errorMessage = res.value;
+      }
     },
   },
 });

@@ -82,6 +82,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_FormEmptyBody';
     }
 
     public function renderViewsAndAddToPage(&$pageHtml)
@@ -114,29 +115,41 @@ class Feedback extends \Piwik\Plugin
 
         $feedbackReminder = new FeedbackReminder();
         $nextReminderDate = $feedbackReminder->getUserOption();
+        $now = Date::now()->getTimestamp();
 
+        //user answered question
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
             return false;
         }
 
+        // if is new user
         if ($nextReminderDate === false) {
+            //new user extend to 6 month
             $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
-
             return false;
         }
 
-        $now = Date::now()->getTimestamp();
-        $nextReminderDate = Date::factory($nextReminderDate);
 
-        // if user is created 6 month ago, it won't show.
+        // if user is not log in for a week. Display banner
+        $userLastSeen = Piwik::getCurrentUserLastSeen();
+        if (!empty($userLastSeen) && Date::factory($userLastSeen)->addDay(7)->getTimestamp() < $now) {
+            return true;
+        }
+        // if user is created less than 6 month ago, it won't show.
         // I am not sure if this test really works. Because fake access is trade as isUserIsAnonymous
-        $userCreatedDate =Piwik::getCurrentUserCreationData();
+        $userCreatedDate = Piwik::getCurrentUserCreationData();
         if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
-            return false;
+            return true;
         }
 
-        return $nextReminderDate->getTimestamp() <= $now;
+        $nextReminderDate = Date::factory($nextReminderDate);
+        // if user click close extend to 6 moth
+        if ($nextReminderDate->getTimestamp() > $now) {
+            return false;
+        }
+        return true;
+
     }
 
     // needs to be protected not private for testing purpose

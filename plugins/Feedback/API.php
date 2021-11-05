@@ -69,9 +69,21 @@ class API extends \Piwik\Plugin\API
      * @param $question
      * @param string|bool $message A message containing the actual feedback
      * @throws \Piwik\NoAccessException
+     * @throws \Exception
      */
     public function sendFeedbackForSurvey($question,  $message = false)
     {
+
+        if ($message == '') {
+            return Piwik::translate("Feedback_FormEmptyBody");
+        }
+
+        // if message is test content then don't send email
+        if ($message == 'test') {
+            $feedbackReminder = new FeedbackReminder();
+            $feedbackReminder->setUserOption("-1");
+        }
+
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
@@ -96,7 +108,8 @@ class API extends \Piwik\Plugin\API
 
         //if feed is sent never show again.
         $feedbackReminder = new FeedbackReminder();
-        $feedbackReminder->setUserOption(-1);
+        $feedbackReminder->setUserOption("-1");
+        return 'success';
 
     }
 
