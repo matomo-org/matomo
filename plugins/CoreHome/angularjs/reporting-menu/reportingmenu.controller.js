@@ -129,7 +129,11 @@
                 params.compareSegments = compareSegments;
             }
 
-            return $.param(params);
+            return $.param(params)
+              // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+              // entries to show up in the browser history. this has a compounding effect w/ angular.js,
+              // which when the back button is pressed to effectively abort the back navigation.
+              .replace(/%2C/g, ',');
         };
 
         $scope.loadCategory = function (category) {

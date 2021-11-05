@@ -71,7 +71,6 @@
 import {
   defineComponent,
   defineAsyncComponent,
-  ref,
 } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
@@ -141,13 +140,6 @@ export default defineComponent({
       showInlineHelp: false,
       actualFeatureName: this.featureName,
       actualInlineHelp: this.inlineHelp,
-    };
-  },
-  setup() {
-    const root = ref<HTMLElement>(null);
-
-    return {
-      root,
     };
   },
   watch: {

@@ -10,7 +10,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 
 export default defineComponent({
@@ -35,14 +35,7 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['yes', 'no', 'closeEnd', 'close', 'validation', 'update:modelValue'],
-  setup() {
-    const root = ref(null);
-
-    return {
-      root,
-    };
-  },
+  emits: ['yes', 'no', 'closeEnd', 'close', 'update:modelValue'],
   activated() {
     this.$emit('update:modelValue', false);
   },
