@@ -49,7 +49,7 @@ describe('FeedbackQuestion', function () {
 
     var popup = await page.waitForSelector('.modal', { visible: true });
     $('.modal textarea').val('test');
-    expect(await popup.screenshot()).to.matchImage('feedback_success');
+    expect(await popup.screenshot()).to.matchImage('feedback_finished');
   }) {}
 
   it('should remove banner when popup is submitted', async function () {
