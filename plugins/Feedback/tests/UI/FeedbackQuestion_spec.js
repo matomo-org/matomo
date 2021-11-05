@@ -36,10 +36,17 @@ describe('FeedbackQuestion', function () {
     expect(await popup.screenshot()).to.matchImage('feedback_popup');
   });
 
-  it ('should show success when banner is submit', async function () {
+  it('should show error when blank content submit', async function () {
     await page.evaluate(function () {
       $('.modal textarea').val('test').trigger('change');
     });
+    await page.waitForNetworkIdle();
+    var popup = await page.waitForSelector('.modal', { visible: true });
+    expect(await popup.screenshot()).to.matchImage('feedback_failed');
+  });
+
+  it('should show success when banner is submit', async function () {
+    await page.type('#message', 'test');
     await page.click('.modal .modal-footer a:nth-child(1)');
     await page.waitForNetworkIdle();
     var popup = await page.waitForSelector('.modal', { visible: true });

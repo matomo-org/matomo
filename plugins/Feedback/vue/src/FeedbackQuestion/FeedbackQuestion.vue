@@ -29,7 +29,7 @@
           <br/>
           <div class="messageContainer">
             <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
-            <textarea :class="{'has-error':errorMessage}" v-model="feedbackMessage"/>
+            <textarea id="message" :class="{'has-error':errorMessage}" v-model="feedbackMessage"/>
           </div>
           <br/>
           <p
