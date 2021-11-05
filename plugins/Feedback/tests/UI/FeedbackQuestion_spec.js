@@ -52,6 +52,6 @@ describe('FeedbackQuestion', function () {
     await page.evaluate(function () {
       $('.modal textarea').val('test').trigger('change');
     });
-    expect(await popup.screenshot()).to.matchImage('feedback_finished');
+    expect(await popup.screenshot()).to.matchImage('feedback_success');
   });
 });
