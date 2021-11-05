@@ -39,6 +39,7 @@ describe('FeedbackQuestion', function () {
   it ('should show success when banner is submit', async function () {
     await page.evaluate(function () {
       $('.modal textarea').val('test').trigger('change');
+      $('.modal .modal-footer a:nth-child(1)').click();
     });
     expect(await popup.screenshot()).to.matchImage('feedback_success');
   });
