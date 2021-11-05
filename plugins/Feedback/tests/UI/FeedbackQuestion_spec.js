@@ -40,11 +40,17 @@ describe('FeedbackQuestion', function () {
     await page.evaluate(function () {
       $('.modal .modal-footer a:nth-child(1)').click();
     });
+    expect($('.modal').isHidden().toEqual(true));
+  });
 
-    //set test that won't send email
+  if ('should show success when banner is submit', async function () {
+    await page.click('.trialHeader .btn');
+    await page.waitForNetworkIdle();
+
+    var popup = await page.waitForSelector('.modal', { visible: true });
     $('.modal textarea').val('test');
     expect(await popup.screenshot()).to.matchImage('feedback_success');
-  });
+  }) {}
 
   it('should remove banner when popup is submitted', async function () {
     expect($('.trialHeader').length.toEqual(false));

@@ -909,9 +909,6 @@ class API extends \Piwik\Plugin\API
         if (isset($user['last_seen'])) {
             $newUser['last_seen'] = $user['last_seen'];
         }
-        if (isset($user['date_registered'])) {
-            $newUser['date_registered'] = $user['date_registered'];
-        }
 
         return $newUser;
     }
