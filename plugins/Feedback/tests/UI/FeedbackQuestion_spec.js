@@ -36,19 +36,7 @@ describe('FeedbackQuestion', function () {
     expect(await popup.screenshot()).to.matchImage('feedback_popup');
   });
 
-  it('should show close popup cancel button is clicked', async function () {
-    await page.evaluate(function () {
-      $('.modal .modal-footer a:nth-child(1)').click();
-    });
-    const modal = await page.$('.modal');
-    expect(modal.is(':visible')).toBe(false);
-  });
-
   it ('should show success when banner is submit', async function () {
-    await page.click('.trialHeader .btn');
-    await page.waitForNetworkIdle();
-    var popup = await page.waitForSelector('.modal', { visible: true });
-
     await page.evaluate(function () {
       $('.modal textarea').val('test').trigger('change');
     });
