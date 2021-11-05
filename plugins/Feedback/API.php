@@ -82,6 +82,7 @@ class API extends \Piwik\Plugin\API
         if ($message == 'test') {
             $feedbackReminder = new FeedbackReminder();
             $feedbackReminder->setUserOption("-1");
+            return 'success';
         }
 
         Piwik::checkUserIsNotAnonymous();

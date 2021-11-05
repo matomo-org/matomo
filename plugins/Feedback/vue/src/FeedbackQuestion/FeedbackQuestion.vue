@@ -8,18 +8,16 @@
   <div>
     <div v-if="!isHide" class="trialHeader">
       <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
-      <a @click="showFeedbackForm=true" class="btn">
+      <a @click="showQuestion" class="btn">
         {{ translate(`Feedback_Question${question}`) }}
       </a>
       <a class="close-btn" @click="disableReminder">
         <i class="icon-close white-text"></i></a>
     </div>
-    <div
-      class="ratefeature"
-    >
+    <div class="ratefeature" >
       <MatomoDialog
         v-model="showFeedbackForm"
-        @yes="sendFeedback()"
+        @validation = "sendFeedback()"
       >
         <div
           class="ui-confirm ratefeatureDialog"
@@ -30,15 +28,16 @@
             `<i class='icon-heart red-text'></i>`)"></p>
           <br/>
           <div class="messageContainer">
-            <textarea v-model="feedbackMessage"/>
+            <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
+            <textarea :class="{'has-error':errorMessage}" v-model="feedbackMessage"/>
           </div>
           <br/>
           <p
             v-html="translate('Feedback_Policy',`<a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>`,'</a>')"></p>
           <input
             type="button"
+            role="validation"
             :value="translate('Feedback_SendFeedback')"
-            role="yes"
           />
           <input
             type="button"
@@ -55,14 +54,6 @@
           <p v-html="translate('Feedback_ThankYourForFeedback',
         `<i class='icon-heart red-text'></i>`)">
           </p>
-        </div>
-      </MatomoDialog>
-
-      <MatomoDialog v-model="errorMessage">
-        <div
-          class="ui-confirm ratefeatureDialog"
-        >
-          <p v-html="errorMessage"></p>
         </div>
       </MatomoDialog>
     </div>
@@ -119,6 +110,10 @@ export default defineComponent({
     }
   },
   methods: {
+    showQuestion() {
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+    },
     getCookieValue() {
       const currentCookie = document.cookie.match(`(^|;)\\s*${cookieName}\\s*=\\s*([^;]+)`);
       return currentCookie ? currentCookie.pop() : null;
@@ -145,6 +140,7 @@ export default defineComponent({
       });
 
       if (res.value === 'success') {
+        document.querySelector('.modal-close').click();
         this.feedbackDone = true;
         this.hide = true;
       } else {

@@ -297,98 +297,93 @@ RateFeaturevue_type_script_lang_ts.render = render
   },
   directiveName: 'piwikRateFeature'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=template&id=5a93b75c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=template&id=38f082ce
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_1 = {
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_1 = {
   key: 0,
   class: "trialHeader"
 };
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-heart red-text"
 }, null, -1);
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close white-text"
 }, null, -1);
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_4 = [FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_3];
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_5 = {
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_4 = [FeedbackQuestionvue_type_template_id_38f082ce_hoisted_3];
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_5 = {
   class: "ratefeature"
 };
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_6 = {
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_6 = {
   class: "ui-confirm ratefeatureDialog"
 };
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_7 = ["innerHTML"];
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_7 = ["innerHTML"];
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_9 = {
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_9 = {
   class: "messageContainer"
 };
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_10 = {
+  key: 0,
+  class: "error-text"
+};
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const FeedbackQuestionvue_type_template_id_38f082ce_hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-const FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_11 = ["innerHTML"];
-const _hoisted_12 = ["value"];
+const _hoisted_12 = ["innerHTML"];
 const _hoisted_13 = ["value"];
-const _hoisted_14 = {
+const _hoisted_14 = ["value"];
+const _hoisted_15 = {
   class: "ui-confirm ratefeatureDialog"
 };
-const _hoisted_15 = ["innerHTML"];
-const _hoisted_16 = {
-  class: "ui-confirm ratefeatureDialog"
-};
-const _hoisted_17 = ["innerHTML"];
-function FeedbackQuestionvue_type_template_id_5a93b75c_render(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_16 = ["innerHTML"];
+function FeedbackQuestionvue_type_template_id_38f082ce_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.isHide ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_FeedbackTitle`)) + " ", 1), FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_2]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    onClick: _cache[0] || (_cache[0] = $event => _ctx.showFeedbackForm = true),
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.isHide ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FeedbackQuestionvue_type_template_id_38f082ce_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_FeedbackTitle`)) + " ", 1), FeedbackQuestionvue_type_template_id_38f082ce_hoisted_2]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    onClick: _cache[0] || (_cache[0] = (...args) => _ctx.showQuestion && _ctx.showQuestion(...args)),
     class: "btn"
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_Question${_ctx.question}`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     class: "close-btn",
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.disableReminder && _ctx.disableReminder(...args))
-  }, FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_4)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
+  }, FeedbackQuestionvue_type_template_id_38f082ce_hoisted_4)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_38f082ce_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
     modelValue: _ctx.showFeedbackForm,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.showFeedbackForm = $event),
-    onYes: _cache[4] || (_cache[4] = $event => _ctx.sendFeedback())
+    onValidation: _cache[4] || (_cache[4] = $event => _ctx.sendFeedback())
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_Question${_ctx.question}`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_38f082ce_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_Question${_ctx.question}`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
       innerHTML: _ctx.translate('Feedback_FeedbackSubtitle', `<i class='icon-heart red-text'></i>`)
-    }, null, 8, FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_7), FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+    }, null, 8, FeedbackQuestionvue_type_template_id_38f082ce_hoisted_7), FeedbackQuestionvue_type_template_id_38f082ce_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_38f082ce_hoisted_9, [_ctx.errorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FeedbackQuestionvue_type_template_id_38f082ce_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.errorMessage), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+        'has-error': _ctx.errorMessage
+      }),
       "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.feedbackMessage = $event)
-    }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    }, null, 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), FeedbackQuestionvue_type_template_id_38f082ce_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
       innerHTML: _ctx.translate('Feedback_Policy', `<a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>`, '</a>')
-    }, null, 8, FeedbackQuestionvue_type_template_id_5a93b75c_hoisted_11), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "button",
-      value: _ctx.translate('Feedback_SendFeedback'),
-      role: "yes"
     }, null, 8, _hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "button",
+      role: "validation",
+      value: _ctx.translate('Feedback_SendFeedback')
+    }, null, 8, _hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       type: "button",
       role: "cancel",
       value: _ctx.translate('General_Cancel')
-    }, null, 8, _hoisted_13)])]),
+    }, null, 8, _hoisted_14)])]),
     _: 1
   }, 8, ["modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
     modelValue: _ctx.feedbackDone,
     "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.feedbackDone = $event)
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_ThankYou`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(`Feedback_ThankYou`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
       innerHTML: _ctx.translate('Feedback_ThankYourForFeedback', `<i class='icon-heart red-text'></i>`)
-    }, null, 8, _hoisted_15)])]),
-    _: 1
-  }, 8, ["modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
-    modelValue: _ctx.errorMessage,
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.errorMessage = $event)
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-      innerHTML: _ctx.errorMessage
-    }, null, 8, _hoisted_17)])]),
+    }, null, 8, _hoisted_16)])]),
     _: 1
   }, 8, ["modelValue"])])]);
 }
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=template&id=5a93b75c
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=template&id=38f082ce
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=script&lang=ts
 
@@ -445,6 +440,11 @@ const cookieName = 'feedback-question';
   },
 
   methods: {
+    showQuestion() {
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+    },
+
     getCookieValue() {
       const currentCookie = document.cookie.match(`(^|;)\\s*${cookieName}\\s*=\\s*([^;]+)`);
       return currentCookie ? currentCookie.pop() : null;
@@ -474,6 +474,7 @@ const cookieName = 'feedback-question';
       });
 
       if (res.value === 'success') {
+        document.querySelector('.modal-close').click();
         this.feedbackDone = true;
         this.hide = true;
       } else {
@@ -489,7 +490,7 @@ const cookieName = 'feedback-question';
 
 
 
-FeedbackQuestionvue_type_script_lang_ts.render = FeedbackQuestionvue_type_template_id_5a93b75c_render
+FeedbackQuestionvue_type_script_lang_ts.render = FeedbackQuestionvue_type_template_id_38f082ce_render
 
 /* harmony default export */ var FeedbackQuestion = (FeedbackQuestionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.adapter.ts
