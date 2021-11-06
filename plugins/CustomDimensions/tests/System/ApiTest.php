@@ -23,6 +23,16 @@ class ApiTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        self::setAllowedModulesToFilterApiResponse('API.getReportMetadata', array('CustomDimensions'));
+        self::setAllowedCategoriesToFilterApiResponse('API.getSegmentsMetadata', array('Visitors', 'Behaviour'));
+        self::setAllowedModulesToFilterApiResponse('API.getWidgetMetadata', array('CustomDimensions'));
+        self::setAllowedCategoriesToFilterApiResponse('API.getReportPagesMetadata', array('Visitors', 'Behaviour'));
+    }
+
     /**
      * @dataProvider getApiForTesting
      */
@@ -176,6 +186,24 @@ class ApiTest extends SystemTestCase
                 'otherRequestParameters' => [
                     'hideColumns' => 'acceptedValues' // hide accepted values as they might change
                 ]
+            )
+        );
+
+        $apiToTest[] = array(
+            array('API.getReportPagesMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
+            )
+        );
+
+        $apiToTest[] = array(
+            array('API.getWidgetMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
             )
         );
 
