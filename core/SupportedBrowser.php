@@ -25,15 +25,15 @@ class SupportedBrowser
      * supported.
      *
      * Current version numbers are coming from this list:
-     * https://caniuse.com/rel-noreferrer
+     * $ npx browserslist
      */
     private static $notSupportedBrowsers = [
-        'FF' => 32,
+        'FF' => 51,
         'IE' => 11,
-        'SF' => 4,
-        'CH' => 15,
-        'OP' => 12,
-        'PS' => 12,
+        'SF' => 10,
+        'CH' => 48,
+        'OP' => 72,
+        'PS' => 17,
     ];
 
     public static function checkIfBrowserSupported()
