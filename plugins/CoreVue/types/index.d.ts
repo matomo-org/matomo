@@ -126,7 +126,6 @@ declare global {
 
   let piwik: PiwikGlobal;
 
-  // add the objects to Window so we can access them through window if needed
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
