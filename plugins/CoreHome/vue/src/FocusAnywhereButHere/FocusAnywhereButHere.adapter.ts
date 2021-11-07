@@ -33,9 +33,9 @@ function piwikFocusAnywhereButHere(): IDirective {
         dir: {},
       };
 
-      const wrapped = FocusAnywhereButHere();
-      wrapped.mounted(element[0], binding, null, null);
-      scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = FocusAnywhereButHere;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     },
   };
 }

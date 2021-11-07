@@ -1660,7 +1660,45 @@ angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+function FocusAnywhereButHere_onClickOutsideElement(element, binding, event) {
+  const hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
+  binding.value.isMouseDown = false;
+  binding.value.hasScrolled = false;
 
+  if (hadUsedScrollbar) {
+    return;
+  }
+
+  if (!element.contains(event.target)) {
+    if (binding.value) {
+      binding.value.blur();
+    }
+  }
+}
+
+function FocusAnywhereButHere_onScroll(element, binding) {
+  binding.value.hasScrolled = true;
+}
+
+function FocusAnywhereButHere_onMouseDown(element, binding) {
+  binding.value.isMouseDown = true;
+  binding.value.hasScrolled = false;
+}
+
+function FocusAnywhereButHere_onEscapeHandler(element, binding, event) {
+  if (event.which === 27) {
+    setTimeout(() => {
+      binding.value.isMouseDown = false;
+      binding.value.hasScrolled = false;
+
+      if (binding.value.blur) {
+        binding.value.blur();
+      }
+    }, 0);
+  }
+}
+
+const FocusAnywhereButHere_doc = document.documentElement;
 /**
  * Usage (in a component):
  *
@@ -1671,70 +1709,29 @@ angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);
  *
  * Note: the binding data needs to be static, changes will not be handled.
  */
-function FocusAnywhereButHere() {
-  let element;
-  let binding;
-  let isMouseDown = false;
-  let hasScrolled = false;
 
-  function onClickOutsideElement(event) {
-    const hadUsedScrollbar = isMouseDown && hasScrolled;
-    isMouseDown = false;
-    hasScrolled = false;
+/* harmony default export */ var FocusAnywhereButHere = ({
+  mounted(el, binding) {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    binding.value.onEscapeHandler = FocusAnywhereButHere_onEscapeHandler.bind(null, el, binding);
+    binding.value.onMouseDown = FocusAnywhereButHere_onMouseDown.bind(null, el, binding);
+    binding.value.onClickOutsideElement = FocusAnywhereButHere_onClickOutsideElement.bind(null, el, binding);
+    binding.value.onScroll = FocusAnywhereButHere_onScroll.bind(null, el, binding);
+    FocusAnywhereButHere_doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    FocusAnywhereButHere_doc.addEventListener('mousedown', binding.value.onMouseDown);
+    FocusAnywhereButHere_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+    FocusAnywhereButHere_doc.addEventListener('scroll', binding.value.onScroll);
+  },
 
-    if (hadUsedScrollbar) {
-      return;
-    }
-
-    if (!element.contains(event.target)) {
-      if (binding.value.blur) {
-        binding.value.blur();
-      }
-    }
+  unmounted(el, binding) {
+    FocusAnywhereButHere_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
+    FocusAnywhereButHere_doc.removeEventListener('mousedown', binding.value.onMouseDown);
+    FocusAnywhereButHere_doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+    FocusAnywhereButHere_doc.removeEventListener('scroll', binding.value.onScroll);
   }
 
-  function onScroll() {
-    hasScrolled = true;
-  }
-
-  function onMouseDown() {
-    isMouseDown = true;
-    hasScrolled = false;
-  }
-
-  function onEscapeHandler(event) {
-    if (event.which === 27) {
-      setTimeout(() => {
-        isMouseDown = false;
-        hasScrolled = false;
-
-        if (binding.value.blur) {
-          binding.value.blur();
-        }
-      }, 0);
-    }
-  }
-
-  const doc = document.documentElement;
-  return {
-    mounted(el, b) {
-      element = el;
-      binding = b;
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mousedown', onMouseDown);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-      doc.addEventListener('scroll', onScroll);
-    },
-
-    unmounted() {
-      doc.removeEventListener('keyup', onEscapeHandler);
-      doc.removeEventListener('mousedown', onMouseDown);
-      doc.removeEventListener('mouseup', onClickOutsideElement);
-      doc.removeEventListener('scroll', onScroll);
-    }
-
-  };
-}
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1768,9 +1765,9 @@ function piwikFocusAnywhereButHere() {
         modifiers: {},
         dir: {}
       };
-      const wrapped = FocusAnywhereButHere();
-      wrapped.mounted(element[0], binding, null, null);
-      scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = FocusAnywhereButHere;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     }
   };
 }
@@ -3035,6 +3032,11 @@ class Comparisons_store_ComparisonsStore {
     const {
       ColorManager
     } = Matomo_Matomo;
+
+    if (!ColorManager) {
+      return [];
+    }
+
     const seriesColorNames = [];
 
     for (let i = 0; i < SERIES_COLOR_COUNT; i += 1) {
@@ -3049,6 +3051,13 @@ class Comparisons_store_ComparisonsStore {
   }
 
   loadComparisonsDisabledFor() {
+    const matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
+
+    if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
+      this.privateState.comparisonsDisabledFor = [];
+      return;
+    }
+
     AjaxHelper_AjaxHelper.fetch({
       module: 'API',
       method: 'API.getPagesComparisonsDisabledFor'
@@ -3393,50 +3402,50 @@ angular.module('piwikApp.service').factory('piwikComparisonsService', Comparison
   directiveName: 'piwikComparisons',
   restrict: 'E'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=58d3b5f8
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=bfe7c5e0
 
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_1 = {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_1 = {
   ref: "root",
   class: "menuDropdown"
 };
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_2 = ["title"];
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_3 = ["innerHTML"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_2 = ["title"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_3 = ["innerHTML"];
 
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-arrow-bottom"
 }, null, -1);
 
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_5 = {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_5 = {
   class: "items"
 };
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_6 = {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_6 = {
   key: 0,
   class: "search"
 };
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_7 = ["placeholder"];
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_8 = ["title"];
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_9 = ["title"];
-function Menudropdownvue_type_template_id_58d3b5f8_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_7 = ["placeholder"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_8 = ["title"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_9 = ["title"];
+function Menudropdownvue_type_template_id_bfe7c5e0_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
 
   const _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_58d3b5f8_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_bfe7c5e0_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "title",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.showItems = !_ctx.showItems),
     title: _ctx.tooltip
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(this.actualMenuTitle)
-  }, null, 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_3), Menudropdownvue_type_template_id_58d3b5f8_hoisted_4], 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Menudropdownvue_type_template_id_58d3b5f8_hoisted_5, [_ctx.showSearch && _ctx.showItems ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_58d3b5f8_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_3), Menudropdownvue_type_template_id_bfe7c5e0_hoisted_4], 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Menudropdownvue_type_template_id_bfe7c5e0_hoisted_5, [_ctx.showSearch && _ctx.showItems ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_bfe7c5e0_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.searchTerm = $event),
     onChange: _cache[2] || (_cache[2] = $event => _ctx.searchItems(_ctx.searchTerm)),
     placeholder: _ctx.translate('General_Search')
-  }, null, 40, Menudropdownvue_type_template_id_58d3b5f8_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, _ctx.showItems]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  }, null, 40, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, _ctx.showItems]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     class: "search_ico",
     src: "plugins/Morpheus/images/search_ico.png",
     title: _ctx.translate('General_Search')
-  }, null, 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_8), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  }, null, 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_8), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     onClick: _cache[3] || (_cache[3] = $event => {
       _ctx.searchTerm = '';
 
@@ -3445,11 +3454,13 @@ function Menudropdownvue_type_template_id_58d3b5f8_render(_ctx, _cache, $props, 
     class: "reset",
     src: "plugins/CoreHome/images/reset_search.png",
     title: _ctx.translate('General_Clear')
-  }, null, 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_9), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  }, null, 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_9), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     onClick: _cache[4] || (_cache[4] = $event => _ctx.selectItem($event))
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showItems]])], 512)), [[_directive_focus_anywhere_but_here, _ctx.showItems = false]]);
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showItems]])], 512)), [[_directive_focus_anywhere_but_here, {
+    blur: _ctx.lostFocus
+  }]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=58d3b5f8
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=bfe7c5e0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=script&lang=ts
 
@@ -3466,7 +3477,7 @@ const {
     menuTitleChangeOnClick: String
   },
   directives: {
-    FocusAnywhereButHere: FocusAnywhereButHere(),
+    FocusAnywhereButHere: FocusAnywhereButHere,
     FocusIf: FocusIf
   },
   emits: ['afterSelect'],
@@ -3486,6 +3497,10 @@ const {
   },
 
   methods: {
+    lostFocus() {
+      this.showItems = false;
+    },
+
     selectItem(event) {
       const targetClasses = event.target.classList;
 
@@ -3524,7 +3539,7 @@ const {
 
 
 
-Menudropdownvue_type_script_lang_ts.render = Menudropdownvue_type_template_id_58d3b5f8_render
+Menudropdownvue_type_script_lang_ts.render = Menudropdownvue_type_template_id_bfe7c5e0_render
 
 /* harmony default export */ var Menudropdown = (Menudropdownvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.adapter.ts
