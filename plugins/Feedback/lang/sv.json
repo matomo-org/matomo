@@ -40,6 +40,7 @@
         "RemoveOtherLabel": "Jag vill se min \"Övriga\" data",
         "PurgeOldData": "Jag vill ta bort viss gammal data",
         "SearchHelpResources": "Sök efter matomo.org hjälpresurser",
-        "PopularHelpTopics": "Populära hjälpämnen"
+        "PopularHelpTopics": "Populära hjälpämnen",
+        "ReferBannerTitle": "Tror du på Matomo?"
     }
 }

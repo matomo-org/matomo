@@ -40,6 +40,7 @@
         "RemoveOtherLabel": "我想要看我的「其它」資料",
         "PurgeOldData": "我想要移除一些舊資料",
         "SearchHelpResources": "搜尋 matomo.org 上的幫助文件",
-        "PopularHelpTopics": "熱門幫助文章"
+        "PopularHelpTopics": "熱門幫助文章",
+        "ReferBannerTitle": "信任 Matomo 嗎？"
     }
 }
