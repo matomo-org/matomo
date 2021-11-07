@@ -21,8 +21,14 @@
         "Unlocated": "<b>%1$s</b> %2$p der Besuche von %3$c konnten nicht lokalisiert werden.",
         "VisitorMap": "Besucherkarte",
         "WithUnknownCity": "%s mit unbekannter Stadt",
+<<<<<<< HEAD
         "WithUnknownRegion": "%s mit unbekannter Region",
         "WorldWide": "Weltweit",
         "map": "Karte"
+=======
+        "NoVisitsInfo": "Es werden aktuell keine Besuche angezeigt, weil für diesen Zeitraum kein Besuch mit korrekten Geolocation Informationen (Längengrad & Breitengrad) existiert.",
+        "NoVisitsInfo2": "Um das Problem zu lösen, stellen Sie sicher, dass Sie einen GeoIP Geolocation Provider mit einer GeoIP Stadt Datenbank verwenden. Wenn dies Ihr Problem nicht löst, dann ist es möglich (wenn auch unwahrscheinlich) dass Ihre Besuche IP Adressen haben, die nicht geolokalisiert werden können.",
+        "RealTimeMapHelp": "Die Echtzeit-Karte zeigt den Ort der Besucher auf Ihrer Seite von den letzten 30 Minuten. Grosse orange Kreise repräsentieren kürzliche Besuche, während kleinere Kreise die älteren Besuche anzeigen. Diese Daten aktualiseren alle fünf Sekunden, und neue Besucher werden mit einen Flash-Effekt dargestellt."
+>>>>>>> parent of 3217639434 (language update (#17639))
     }
 }

@@ -103,8 +103,14 @@
         "SystemCheckGzcompressHelp": "zlib エクステンションと gzcompress 機能を有効にする必要があります。",
         "SystemCheckGzuncompressHelp": "zlib エクステンションと gzuncompress機能を有効にする必要があります。",
         "SystemCheckHashHelp": "--disable-hash オプションを除外し、hash() サポートを有効にして PHP を設定して再構築する必要があります。",
+<<<<<<< HEAD
         "SystemCheckJsonHelp": "MatomoがJSONデータを読み書きするには、php-json拡張機能が必要です。",
+=======
+        "SystemCheckIconvHelp": "\"iconv\" のサポートを有効にして、PHP の再構築と設定を行う必要があります（--with-iconv）。",
+>>>>>>> parent of 3217639434 (language update (#17639))
         "SystemCheckMailHelp": "mail() 関数がない場合、フィードバックとパスワード紛失のメッセージを送信することができません。",
+        "SystemCheckMbstring": "mbstring",
+        "SystemCheckMbstringHelp": "mbstring 拡張子は、ユーザーインターフェイスと API レスポンスでマルチバイト文字を処理するために必要です。 また、php.ini で mbstring.func_overload が \" 0 \" に設定されていることを確認してください。",
         "SystemCheckMemoryLimit": "メモリ制限",
         "SystemCheckMemoryLimitHelp": "アクセス数の多いウェブサイトでは、アーカイブ処理の実行に、現在許可されている以上に多くのメモリを必要とする場合があります。必要に応じて、php.ini ファイルのディレクティブ memory_limit を変更してください。",
         "SystemCheckMemoryNoMemoryLimitSet": "メモリ制限は設定されていません",
@@ -120,8 +126,12 @@
         "SystemCheckPdoAndMysqliHelp": "GNU / Linuxサーバーでは、次のオプションを付けてphpをコンパイルできます：%1$sphp.iniに次の行を追加します：%2$s",
         "SystemCheckPhp": "PHP バージョン",
         "SystemCheckPhpPdoAndMysqli": "詳細ドキュメント：%1$sPHP PDO%2$s、%3$sMYSQLI%4$s",
+<<<<<<< HEAD
         "SystemCheckPhpSetting": "いくつかの重大な問題を防ぐためには、php.ini ファイルで以下を設定する必要があります: %s　",
         "SystemCheckSessionHelp": "「セッション」サポートを有効にしてPHPを構成および再構築する必要があります（--disable-sessionは使用しないでください）。",
+=======
+        "SystemCheckSplHelp": "Standard PHP Library (SPL) を有効にして、PHP の再構築と設定を行う必要があります（通常はデフォルト）。",
+>>>>>>> parent of 3217639434 (language update (#17639))
         "SystemCheckSettings": "必要な PHP 設定 (php,ini)",
         "SystemCheckSummaryNoProblems": "安心してください。Matomo のセットアップに問題はありません。",
         "SystemCheckSummaryThereWereErrors": "Matomo セットアップで、いくつかの %1$scritical issues%2$s が検知されました。 %3$sこれらの問題はすぐに修正する必要があります。%4$s",

@@ -105,8 +105,11 @@
         "SystemCheckGzcompressHelp": "Precisa ativar a extensão zlib e a função gzcompress.",
         "SystemCheckGzuncompressHelp": "Precisa ativar a extensão zlib e a função gzuncompress.",
         "SystemCheckHashHelp": "Tem de configurar e reconstruir o PHP com o suporte para a função hash() ativado, removendo a opção --disable-hash.",
+        "SystemCheckIconvHelp": "Tem de configurar e reconstruir o PHP com o suporte \"iconv\" ativado, --with-iconv.",
         "SystemCheckJsonHelp": "A extensão php-json é necessária para o Matomo ler e escrever dados JSON.",
         "SystemCheckMailHelp": "Mensagens de feedback e de palavras-passe perdida não serão enviadas sem mail().",
+        "SystemCheckMbstring": "mbstring",
+        "SystemCheckMbstringHelp": "A extensão mbstring é necessária para trabalhar com caracteres multibyte na interface do utilizador e com respostas da API. Confirme ainda que mbstring.func_overload está definido como \"0\" no php.ini.",
         "SystemCheckMemoryLimit": "Limite de memória",
         "SystemCheckMemoryLimitHelp": "Num site com tráfego elevado, o processo de arquivamento pode exigir mais memória do que o permitido atualmente. Se necessário, altere a diretiva memory_limit no seu ficheiro php.ini.",
         "SystemCheckMemoryNoMemoryLimitSet": "Não está definido um limite de memória",
@@ -122,8 +125,12 @@
         "SystemCheckPdoAndMysqliHelp": "Num servidor Linux pode compilar php com as seguintes opções: %1$s No seu ficheiro php.ini, adicione as seguintes linhas: %2$s",
         "SystemCheckPhp": "Versão de PHP",
         "SystemCheckPhpPdoAndMysqli": "Mais informações em: %1$sPHP PDO%2$s e %3$sMYSQLI%4$s.",
+<<<<<<< HEAD
         "SystemCheckPhpSetting": "Para impedir algum problema crítico, pode definir o seguinte no seu ficheiro php.ini: %s",
         "SystemCheckSessionHelp": "Precisa de configurar e recompilar o PHP com o suporte para \"session\" ativo (não utilizar --disable-session).",
+=======
+        "SystemCheckSplHelp": "Tem de configurar e reconstruir o PHP com a Standard PHP Library (SPL) ativada (por predefinição).",
+>>>>>>> parent of 3217639434 (language update (#17639))
         "SystemCheckSettings": "Configuração de PHP obrigatória (php.ini)",
         "SystemCheckSummaryNoProblems": "Não existem problemas com a sua configuração do Matomo.",
         "SystemCheckSummaryThereWereErrors": "Oh, não! O Matomo detetou alguns %1$sproblemas críticos%2$s com a sua configuração do Matomo. %3$sEstes problemas devem ser resolvidos imediatamente.%4$s",
