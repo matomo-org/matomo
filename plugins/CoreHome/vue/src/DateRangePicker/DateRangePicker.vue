@@ -94,8 +94,8 @@ export default defineComponent({
       toPickerSelectedDates: [endDate, endDate],
       fromPickerHighlightedDates: [null, null],
       toPickerHighlightedDates: [null, null],
-      startDateText: '',
-      endDateText: '',
+      startDateText: this.startDate,
+      endDateText: this.endDate,
     };
   },
   emits: ['rangeChange', 'submit'],
