@@ -87,30 +87,4 @@ class ControllerTest extends IntegrationTestCase
         FakeAccess::$superUser = false;
         $this->controller->updateFeedbackReminderDate();
     }
-
-    public function test_updateReferReminder_add180Days()
-    {
-        $_POST['nextReminder'] = '180';
-        $this->controller->updateReferReminderDate();
-
-        $option = Option::get('Feedback.nextReferReminder.user1');
-        $this->assertEquals($option, '2019-11-27');
-    }
-
-    public function test_updateReferReminder_neverAgain()
-    {
-        $_POST['nextReminder'] = '-1';
-        $this->controller->updateReferReminderDate();
-
-        $option = Option::get('Feedback.nextReferReminder.user1');
-        $this->assertEquals($option, '-1');
-    }
-
-    public function test_updateReferReminder_notLoggedIn()
-    {
-        $this->expectException(NoAccessException::class);
-        FakeAccess::$identity = null;
-        FakeAccess::$superUser = false;
-        $this->controller->updateReferReminderDate();
-    }
 }

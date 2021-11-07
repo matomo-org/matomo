@@ -40,21 +40,17 @@ class Feedback extends \Piwik\Plugin
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
         $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Feedback_ThankYou';
-        $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
@@ -65,12 +61,6 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
-        $translationKeys[] = 'Feedback_ReferMatomo';
-        $translationKeys[] = 'Feedback_ReferBannerTitle';
-        $translationKeys[] = 'Feedback_ReferBannerLonger';
-        $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
-        $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
-        $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'Feedback_WontShowAgain';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
@@ -79,9 +69,8 @@ class Feedback extends \Piwik\Plugin
     public function renderViewsAndAddToPage(&$pageHtml)
     {
         $feedbackPopopView = $this->renderFeedbackPopup();
-        $referBannerView = $this->renderReferBanner();
 
-        $views = [$feedbackPopopView, $referBannerView];
+        $views = [$feedbackPopopView];
         $implodedViews = implode('', $views);
 
         $endOfBody = strpos($pageHtml, '</body>');
@@ -94,68 +83,6 @@ class Feedback extends \Piwik\Plugin
         $popupView->promptForFeedback = (int)$this->getShouldPromptForFeedback();
 
         return $popupView->render();
-    }
-
-    public function renderReferBanner()
-    {
-        $referBannerView = new View('@Feedback/referBanner');
-        $referBannerView->showReferBanner = (int) $this->showReferBanner();
-
-        return $referBannerView->render();
-    }
-
-    public function showReferBanner()
-    {
-        if ($this->getShouldPromptForFeedback()) {
-            return false;
-        }
-
-        if (Piwik::isUserIsAnonymous()) {
-            return false;
-        }
-
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return false;
-        }
-
-        if ($this->isDisabledInTestMode()) {
-            return false;
-        }
-
-        $shouldShowReferBanner = true;
-
-        /**
-         * @internal
-         */
-        Piwik::postEvent('Feedback.showReferBanner', [&$shouldShowReferBanner]);
-
-        if (!$shouldShowReferBanner) {
-            return false;
-        }
-
-        $referReminder = new ReferReminder();
-        $nextReminderDate = $referReminder->getUserOption();
-
-        if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(135)->toString('Y-m-d');
-            $referReminder->setUserOption($nextReminder);
-
-            return false;
-        }
-
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        $pluginManager = PluginManager::getInstance();
-        if ($pluginManager->hasPremiumFeatures()) {
-            return false;
-        }
-
-        $now = Date::now()->getTimestamp();
-        $nextReminderDate = Date::factory($nextReminderDate);
-
-        return $nextReminderDate->getTimestamp() <= $now;
     }
 
     public function getShouldPromptForFeedback()
