@@ -139,6 +139,22 @@
         "TrackingFailuresEmail1": "Kjo bëhet vetëm për t’ju bërë të ditur se ditët e fundit kanë ndodhur %s lloje të ndryshme dështimesh ndjekjeje.",
         "TrackingFailuresEmail2": "Që të shihni krejt kërkesat me ndjekje të dështuar %1$sklikoni këtu%2$s.",
         "ImportFromGoogleAnalytics": "Importim prej Google Analytics",
-        "ImportFromGoogleAnalyticsDescription": "Nëse keni një zotërim Google Analytics dhe po kaloni në Matomo, mund të importoni të dhënat tuaja ekzistuese duke përdorur shtojcën %1$sGoogleAnalyticsImporter%2$s."
+        "ImportFromGoogleAnalyticsDescription": "Nëse keni një zotërim Google Analytics dhe po kaloni në Matomo, mund të importoni të dhënat tuaja ekzistuese duke përdorur shtojcën %1$sGoogleAnalyticsImporter%2$s.",
+        "SecurityNotificationEmailSubject": "Njoftim Sigurie",
+        "SecurityNotificationRecoveryCodesShowedBody": "Dikush pa kodet e rimarrjes me mirëfilltësim dyfaktorësh të llogarisë tuaj.",
+        "SecurityNotificationRecoveryCodesRegeneratedBody": "Dikush prodhoi kode të rinj rimarrjeje me mirëfilltësim dyfaktorësh për llogarinë tuaj.",
+        "SecurityNotificationTwoFactorAuthEnabledBody": "Dikush aktivizoi mirëfilltësim dyfaktorësh në llogarinë tuaj.",
+        "SecurityNotificationTwoFactorAuthDisabledBody": "Dikush çaktivizoi mirëfilltësim dyfaktorësh në llogarinë tuaj.",
+        "SecurityNotificationTokenAuthCreatedBody": "Dikush krijoi një token mirëfilltësimi (përshkrimi: %s) në llogarinë tuaj. Nëse s’qetë ju, fshijeni token-in.",
+        "SecurityNotificationTokenAuthDeletedBody": "Dikush fshiu një token mirëfilltësimi (përshkrim: %s) në llogarinë tuaj.",
+        "SecurityNotificationAllTokenAuthDeletedBody": "Dikush fshiu krejt token-ët e mirëfilltësimit në llogarinë tuaj.",
+        "SecurityNotificationSettingsChangedByUserBody": "Dikush ndryshoi rregullimet e sistemit. Rregullime të prekura: %s.",
+        "SecurityNotificationSettingsChangedByOtherSuperUserBody": "Një tjetër superpërdorues (%1$s) ndryshoi rregullimet e sistemit. Rregullime të prekura: %2$s. Nëse dini gjë rreth kësaj veprimtarie, vazhdoni. Nëse s’e njihni këtë veprimtari, ju lutemi, lidhuni me superpërdorues të tjerë.",
+        "SecurityNotificationUserCreatedBody": "Dikush krijoi një përdorues të ri (kredenciale hyrjeje: %s) në llogarinë tuaj.",
+        "SecurityNotificationUserDeletedBody": "Dikush fshiu një përdorues (kredenciale hyrjeje: %s) në llogarinë tuaj.",
+        "SecurityNotificationIfItWasYou": "Nëse qetë ju, vazhdoni. Nëse s’e njihni këtë veprimtari, ju lutemi, ricaktoni fjalëkalimin tuaj.",
+        "SecurityNotificationCheckTwoFactor": "Ju lutemi, kontrolloni aplikacionin tuaj të mirëfilltësimit dyfaktorësh ose pajisjen tuaj.",
+        "BruteForce": "Me Zor",
+        "TwoFactorAuth": "Mirëfilltësim dyfaktorësh"
     }
 }

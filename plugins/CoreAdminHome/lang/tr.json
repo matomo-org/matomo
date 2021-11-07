@@ -156,38 +156,6 @@
         "YouMayOptOut": "Bu web sitesine yaptığınız ziyaretlerle ilgili istatistik verilerinin, bilgisayarınıza özel bir kod içeren eşsiz bir web istatistiği çerezi ile toplanmasının engellenmesini seçebilirsiniz.",
         "YouMayOptOut2": "Bu web sitesinin burada belirtilen veri toplama ve istatistik işlemlerini yapmasını engelleyebilirsiniz.",
         "YouMayOptOut3": "Bu işlemi yaparak kişisel gizliliğinizi korumuş olursunuz ancak web sitesi sahibinin size ve diğer konuklara daha iyi bir deneyim sağlaması için yararlı bilgileri almasını engellemiş olursunuz.",
-<<<<<<< HEAD
         "YouMayOptOutBis": "Bu seçeneği uygulamak aşağıya tıklayarak izlemeyi devre dışı bırakma çerezini alın."
-=======
-        "UncheckToOptOut": "İzlemeyi devre dışı bırakmak için bu kutudaki işareti kaldırın.",
-        "CheckToOptIn": "İzlemeyi etkinleştirmek için bu kutuyu işaretleyin.",
-        "OptOutErrorNoCookies": "İzlemeyi devre dışı bırakma özelliğinin kullanabilmesi için çerezler etkinleştirilmiş olmalıdır.",
-        "OptOutErrorNotHttps": "Site HTTPS üzerinden yüklenmediğinden, izlemeyi devre dışı bırakma özelliği çalışamayabilir. Lütfen izlemeyi devre dışı bırakma durumunuzun değişip değişmediğini görmek için sayfayı yeniden yükleyin.",
-        "OptOutErrorWindowOpen": "İzlemeyi devre dışı bırakma açılan penceresi engellendiğinden, izlemeyi devre dışı bırakma özelliği çalışamayabilir. Lütfen izlemeyi devre dışı bırakma durumunuzun değişip değişmediğini görmek için sayfayı yeniden yükleyin.",
-        "MissingTrackingCodeEmailSubject": "Matomo İstatistiklerinde %s için bir trafik kaydı yok, şimdi başlayabilirsiniz",
-        "JsTrackingCodeMissingEmail1": "Bir kaç gün nce Matomo İstatistiklerine '%s' web sitesini eklemişsiniz. Matomo kayıtlarına bakıldığında bu web sitesi için herhangi bir trafik kaydı olmadığı görüldü.",
-        "JsTrackingCodeMissingEmail2": "Verileri toplamaya başlamak ve kullanıcılarınız hakkında bilgi edinmek için web sitesi ya da mobil uygulama için izleme kurulumunu yapmanız gerekir. Web siteleri için bu işlem izleme kodununun %s kod iminden önce eklenmesi ile kolayca yapılabilir.",
-        "JsTrackingCodeMissingEmail3": "İzleme kodunuzu bulmak ve özelleştirmek için %1$sburaya tıklayın%2$s (ya da %3$sJavaScript İzleme İstemcisi rehberi%4$s bölümüne bakın).",
-        "TrackingFailuresIntroduction": "Bu sayfada son %s gündeki izleme sorunlarını görebilirsiniz. Tüm sorunların değil yalnız sık rastlanan izleme sorunlarının kaydedildiğini unutmayın.",
-        "NoKnownFailures": "Herhangi bir izleme sorunu yok.",
-        "Problem": "Sorun",
-        "Solution": "Çözüm",
-        "TrackingURL": "İzleme Adresi",
-        "LearnMore": "Ayrıntılı bilgi alın",
-        "DeleteAllFailures": "Tüm sorunları sil",
-        "NTrackingFailures": "%s izleme sorunu",
-        "ViewAllTrackingFailures": "Tüm izleme sorunlarını görüntüle",
-        "TrackingFailureInvalidSiteProblem": "Site bulunamadı.",
-        "TrackingFailureInvalidSiteSolution": "İzleyicide yapılandırılmış idSite değerini güncelle.",
-        "TrackingFailureAuthenticationProblem": "İstekte kimlik doğrulaması yapılmamış ancak kimlik doğrulaması isteniyor.",
-        "TrackingFailureAuthenticationSolution": "İzleme isteği için \"Kimlik Doğrulama Kodu (token_auth)\" değerini ayarlayın ya da düzeltin.",
-        "ConfirmDeleteAllTrackingFailures": "Tüm izleme sorunlarını silmek istediğinize emin misiniz?",
-        "ConfirmDeleteThisTrackingFailure": "Bu izleme sorununu silmek istediğinize emin misiniz?",
-        "TrackingFailuresEmailSubject": "Matomo İstatistiklerindeki izleme sorunları",
-        "TrackingFailuresEmail1": "Bu ileti, son günlerde %s farklı izleme sorunu oluştuğunu bildirir.",
-        "TrackingFailuresEmail2": "Tüm izleme sorunlarını görüntülemek için %1$sburaya tıklayın%2$s.",
-        "ImportFromGoogleAnalytics": "Google Analytics Üzerinden İçe Aktar",
-        "ImportFromGoogleAnalyticsDescription": "Bir Google Analytics mülkünüz varsa ve Matomo uygulamasına geçiyorsanız, %1$sGoogleAnalyticsImporter%2$s uygulama ekini kullanarak var olan verilerinizi içe aktarabilirsiniz."
->>>>>>> parent of 3217639434 (language update (#17639))
     }
 }
