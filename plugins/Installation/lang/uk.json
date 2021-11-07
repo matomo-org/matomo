@@ -85,9 +85,7 @@
         "SystemCheckGlobHelp": "Ця вбудована функція було заблокована на вашому хостингу. Matomo спробує емулювати цю функцію але може зістикнутися з подальшими обмеженнями по безпеці. Функціональність може бути обмежена.",
         "SystemCheckGzcompressHelp": "Необхідно увімкнути розширення zlib та функцію gzcompress.",
         "SystemCheckGzuncompressHelp": "Необхідно увімкнути розширення zlib та функцію gzuncompress.",
-        "SystemCheckIconvHelp": "Необхідно переконфігурувати та перезібрати PHP з підтримкою \"iconv\", --with-iconv.",
         "SystemCheckMailHelp": "Е-майл повідомлення форми відгуку та відновлення паролю не будуть надсилатися без функції mail().",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Граничний розмір пам'яті",
         "SystemCheckMemoryLimitHelp": "На сайті з високим трафіком процес стистення даних може потребувати більше пам'яті ніж дозволено зараз.<br/>Дивіться детальніше про директиву memory_limit у файлі php.ini.",
         "SystemCheckNoErrorsOrWarnings": "Немає ніяких помилок або попереджень",
@@ -101,11 +99,7 @@
         "SystemCheckPdoAndMysqliHelp": "На Linux-сервері ви можете cкомпілювати PHP з наступними опціями: %1$s В php.ini, додати наступні рядки: %2$s",
         "SystemCheckPhp": "Версія PHP",
         "SystemCheckPhpPdoAndMysqli": "Детальніша інформація: %1$sPHP PDO%2$s та %3$sMYSQLI%4$s.",
-<<<<<<< HEAD
         "SystemCheckPhpSetting": "Щоб запобігти деяким критичним проблемам, необхідно встановити наступні параметри в вашому php.ini файлі: %s",
-=======
-        "SystemCheckSplHelp": "Необхідно переконфігурувати та перезібрати PHP з Standard PHP Library (SPL) топово увімкненою (by default).",
->>>>>>> parent of 3217639434 (language update (#17639))
         "SystemCheckSettings": "Вимоги до системи PHP (php.ini)",
         "SystemCheckSummaryNoProblems": "Ура! Немає ніяких проблем з установкою Matomo. Дайте собі поплескати по плечу.",
         "SystemCheckSummaryThereWereErrors": "Ой-ой! Matomo виявив деякі %1$sважливі проблеми%2$s з вашим встановленням Matomo. %3$sЦі проблеми повинні бути виправлені негайно.%4$s",

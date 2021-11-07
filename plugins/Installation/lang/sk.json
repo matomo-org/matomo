@@ -51,7 +51,6 @@
         "SystemCheckFunctionHelp": "Je potrebné aktivovať túto zabudovanú funkciu.",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafika)",
         "SystemCheckGDHelp": "„Sparklines“ (malé grafy) nebudú fungovať.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Pamäťový limit",
         "SystemCheckMemoryLimitHelp": "Na webstránkach s vysokou premávkou archivačný proces bude vyžadovať viac pamäte, než je to aktuálne povolené.<br \/> Pozrite si direktívu memory_limit vo vašom php.ini súbore, ak je to potrebné.",
         "SystemCheckNoErrorsOrWarnings": "Nie sú žiadne chyby alebo varovania",
