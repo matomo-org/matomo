@@ -109,6 +109,9 @@ export default defineComponent({
       this.setEndRangeDateFromStr(this.endDate);
     },
   },
+  mounted() {
+    this.rangeChanged(); // emit with initial range pair
+  },
   methods: {
     setStartRangeDate(date: Date) {
       this.fromPickerSelectedDates = [date, date];
