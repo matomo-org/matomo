@@ -8,23 +8,17 @@
  */
 namespace Piwik\ArchiveProcessor;
 
-use http\Exception;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
-use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -119,10 +113,28 @@ class Loader
     {
         $this->params->setRequestedPlugin($pluginName);
 
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+            if (!empty($requestedReport)) {
+                $this->params->setArchiveOnlyReport($requestedReport);
+            }
+        }
+
+        // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
+        // made invalid, we will correctly re-archive below.
+        if ($this->invalidateBeforeArchiving
+          && Rules::isBrowserTriggerEnabled()
+        ) {
+            $this->invalidatedReportsIfNeeded();
+        }
         // load existing data from archive
         list($visits, $visitsConverted) = $this->loadArchiveData();
         if ($this->quickReturn) {
             return [$visits, $visitsConverted];
+        }
+
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
         //get Lock ID
@@ -134,29 +146,7 @@ class Loader
         //set mysql lock the entire process if another process is running
         $this->lock->setLock();
         try {
-            if (SettingsServer::isArchivePhpTriggered()) {
-                $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-                if (!empty($requestedReport)) {
-                    $this->params->setArchiveOnlyReport($requestedReport);
-                }
-            }
-
-            // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
-            // made invalid, we will correctly re-archive below.
-            if ($this->invalidateBeforeArchiving
-              && Rules::isBrowserTriggerEnabled()
-            ) {
-                $this->invalidatedReportsIfNeeded();
-            }
-
-
-            if (SettingsServer::isArchivePhpTriggered()) {
-                $this->logger->info("initiating archiving via core:archive for " . $this->params);
-            }
-
-
-
-            //pick select
+            //try load Archive Data
             list($visits, $visitsConverted) = $this->loadArchiveData();
             if ($this->quickReturn) {
                 return [$visits, $visitsConverted];
