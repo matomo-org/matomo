@@ -35,7 +35,6 @@
         "PasswordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
         "PluginDescription": "Unterstützt Authentifizierung via Benutzername und Passwort sowie Password Reset Funktionalität. Die Authentifizierungsmethode kann durch ein anderes Login Plugin wie LoginLdap (verfügbar im Marketplace) geändert werden.",
         "RememberMe": "Angemeldet bleiben",
-<<<<<<< HEAD
         "SettingBruteForceBlacklistIp": "Diese IPs immer vom Anmelden abhalten",
         "SettingBruteForceEnable": "Aktiviere Brute Force Erkennung",
         "SettingBruteForceEnableHelp": "Brute Force Erkennung ist ein wichtiges Sicherheitsfeature, das Ihre Daten vor nicht autorisiertem Zugriff schützt. In dem einem Benutzer nicht erlaubt wird innerhalb von kurzer Zeit Tausende oder gar Millionen von Passwortkombinationen in kurzer Zeit auszuprobieren, wird stattdessen nur eine bestimmte Anzahl Anmeldeversuche im vorbestimmten Zeitbereich zugelassen. Bei zu vielen fehlgeschlagenen Anmeldungen in diesem Zeitbereich wird dem Benutzer für eine vorgegebene Zeit verwehrt, sich anzumelden. Bitte beachten Sie, dass wenn eine bestimmte IP blockiert ist, dann alle Benutzer welche diese IP verwenden ebenfalls von der Blockierung betroffen sind.",
@@ -46,13 +45,8 @@
         "SettingBruteForceWhitelistIp": "Diese IPs nie vom Anmelden abhalten",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Wir haben eine verdächtig hohe Anzahl von Anmeldeversuchen bei Ihrem Matomo Benutzerkonto in der letzten Stunde festgestellt, speziell %1$sAnmeldeversuche von %2$sunterschiedlichen IP-Adressen. Wir vermuten, dass jemand versucht, Ihr Benutzerkonto zu hacken.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Um Matomo abzusichern, empfehlen wir, folgende Vorsichtsmaßnahmen vorzunehmen:",
-=======
-        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Wir haben verdächtige Anmeldeversuche bei Ihrem Benutzerkonto festgestellt...",
-        "SuspiciousLoginAttemptsInLastHourEmail1": "Wir haben eine verdächtig hohe Anzahl von Anmeldeversuchen bei Ihrem Matomo Benutzerkonto in der letzten Stunde festgestelllt, speziell %1$sAnmeldeversuche von %2$sunterschiedlichen IP Adressen. Wir vermuten dass jemand versucht, Ihr Benutzerkonto zu hacken.",
-        "SuspiciousLoginAttemptsInLastHourEmail2": "Um Matomo abzusichern, empfehlen wir, folgende Vorsichtsmassnahmen vorzunehmen:",
->>>>>>> parent of 3217639434 (language update (#17639))
         "SuspiciousLoginAttemptsInLastHourEmail3": "Stellen Sie sicher, dass Sie ein sicheres Passwort verwenden, zufällig generiert und mit einer angemessenen Länge (zum Beispiel mindestens 30 Zeichen).",
-        "SuspiciousLoginAttemptsInLastHourEmail4": "Installieren und aktivieren Sie Zwei-Faktor-Authentifizierung, so dass Angreifer mehr Informationen als nur Ihr Passwort benötigen um sich einzuloggen.",
+        "SuspiciousLoginAttemptsInLastHourEmail4": "Installieren und aktivieren Sie Zwei-Faktor-Authentifizierung, sodass Angreifer mehr Informationen als nur Ihr Passwort benötigen um sich einzuloggen.",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Zusätzlich dazu, wenn Ihr Matomo eine limitierte Anzahl von Benutzern oder IP Adressen verwendet durch die Zugriff nötig ist, kann es sinnvoll sein, eine Liste mit erlaubten IP Adressen zu definieren. %1$sWeitere Informationen dazu in unserer Dokumentation%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Wir haben verdächtige Anmeldeversuche bei Ihrem Benutzerkonto festgestellt...",
         "UnblockAllIPs": "Blockierung aller aktuell geblockten IPs aufheben",
