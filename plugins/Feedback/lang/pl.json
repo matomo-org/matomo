@@ -1,0 +1,28 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Odkryłeś błąd o którym chcesz poinformować, czy masz pomysł na nową funkcjonalność?",
+        "HowToCreateTicket": "Zapraszamy, zapoznaj się z zaleceniami dotyczącymi pisania dobrych %1$szgłoszeń błędóœ%2$s lub %3$spomysłów na nowe funkcjonalności%4$s. Następnie zarejestruj się lub zaloguj do %5$snaszego systemu zgłoszeń%6$s i utwórz %7$snowe zgłoszenie%8$s.",
+        "IWantTo": "Pragnę:",
+        "LearnWaysToParticipate": "Poznaj wszystkie sposoby %1$suczestnictwa%2$s",
+        "ManuallySendEmailTo": "Prosimy ręcznie wysłać swoją wiadomość do",
+        "PluginDescription": "Wyślij informację zwrotną do Zespołu Matomo. Dziel się pomysłami i sugestiami, które pomogą uczynić Matomo najlepszą platformą analityczną Świata!",
+        "PrivacyClaim": "Matomo respektuje twoją %1$sprywatność%2$s i oddaje ci pełną kontrolę nad twoimi danymi.",
+        "RateFeatureLeaveMessageDislike": "Przykro nam słyszeć, że Ci się nie podoba! Proszę napisz, jak możemy to poprawić.",
+        "RateFeatureLeaveMessageLike": "Cieszymy, że podoba Ci się ta funkcjonalność! Prosimy pisz, aby podzielić się swoimi spostrzeżeniami lub nowymi pomysłami.",
+        "RateFeatureSendFeedbackInformation": "Twoja platforma Matomo wyśle nam (Ekipa Matomo) wiadomość email (zawierającą twój adres email), dzięki temu będziemy mogli mieć z toba kontakt jeśli miałbyś jakieś pytania.",
+        "RateFeatureThankYouTitle": "Dziękujemy za ocenę '%s'!",
+        "RateFeatureTitle": "Czy podoba Ci się funkcjonalność '%s'? Prosimy oceń ją i zostaw komentarz",
+        "SendFeedback": "Wyślij opinię",
+        "ThankYou": "Dziękujemy za pomoc, która pozwala uczynić statystyki Matomo jeszcze lepszymi!",
+        "TopLinkTooltip": "Powiedz nam co myslisz albo poproś o profesjonalne wsparcie.",
+        "ViewAnswersToFAQ": "Zobacz odpowiedzi na %1$sNajczęściej Zadawane Pytania (FAQ)%2$s",
+        "ViewUserGuides": "Naucz się jak skonfigurować Matomo i jak efektywnie analizować twoje dane z naszym %1$spodręcznikiem użytkownika%2$s",
+        "CommunityHelp": "Wsparcie społeczności",
+        "ProfessionalHelp": "Profesjonalna pomoc",
+        "ProfessionalServicesOfferIntro": "Jakie usługi przyniosą Ci korzyści?",
+        "ProfessionalServicesTraining": "Wyłączny dostęp do treningowych fimów Matomo",
+        "ContactUs": "Skontaktuj się z nami",
+        "VisitTheForums": "Odwiedź %1$sFora%2$s i uzyskaj pomoc społeczności użytkowników Matomo",
+        "Forums": "Forum"
+    }
+}

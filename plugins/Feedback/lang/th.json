@@ -1,0 +1,10 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "คุณมีข้อบกพร่องในการรายงานหรือการร้องขอคุณลักษณะหรือไม่",
+        "IWantTo": "ฉันอยากจะ:",
+        "LearnWaysToParticipate": "เรียนรู้เกี่ยวกับทั้งหมดด้วยวิธี %1$s คุณสามารถ %2$s มีส่วนร่วมได้",
+        "ManuallySendEmailTo": "กรุณาส่งข้อความของคุณด้วยตนเอง",
+        "SendFeedback": "ส่งคำติชม",
+        "ThankYou": "ขอบคุณที่ช่วยให้เราสามารถทำให้ Matomo ดีกว่า"
+    }
+}

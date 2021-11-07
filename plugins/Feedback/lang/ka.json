@@ -1,0 +1,11 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "არ გაქვთ შეცდომის რეპორტი ან მახასიათებლების მოთხოვნა?",
+        "IWantTo": "მე მინდა:",
+        "LearnWaysToParticipate": "გაეცანით ინფორმაციას %1$s მონაწილეობის%2$s მიღების ყველა გზის შესახებ",
+        "ManuallySendEmailTo": "გთხოვთ, ხელით გამოაგზავნეთ წერილი მისამართზე",
+        "SendFeedback": "გამოხმაურების გაგზავნა",
+        "ThankYou": "გმადლობთ, რომ გვეხმარებით Matomo გახდეს უკეთესი!",
+        "VisitTheForums": "იხილეთ %1$s ფორუმები%2$s"
+    }
+}

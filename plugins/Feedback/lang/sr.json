@@ -1,0 +1,27 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Da li želite da prijavite grešku u programu ili imate neku želju?",
+        "HowToCreateTicket": "Molimo vas da pročitate preporuke kako se piše dobra %1$sprijava problema%2$s ili %3$szahtev za novom funkcionalnošću%4$s. Nakon toga se %5$sregistrujte ili prijavite%6$s i kreirajte %7$snovi zahtev%8$s.",
+        "IWantTo": "Želim da:",
+        "LearnWaysToParticipate": "Pogledajte kako sve možete da %1$s uzmete učešće%2$s",
+        "ManuallySendEmailTo": "Molimo vas da pošaljete poruku na",
+        "PluginDescription": "Pošaljite vaše komentare Matomo timu. Podelite vaše ideje i predloge kako bismo učinili Matomo najboljom analitičkom platformom na svetu!",
+        "PrivacyClaim": "Matomo poštuje vašu %1$sprivatnost%2$s i daje vam potpunu kontrolu nad vašim podacima.",
+        "RateFeatureLeaveMessageDislike": "Šao nam je da vam se ne dopada! Molimo vas da nam javite kako možemo da ga poboljšamo.",
+        "RateFeatureLeaveMessageLike": "Drago nam je da vam se dopada! Molimo vas da nam javite šta vam se najviše sviđa ili da li imate neki zahtev.",
+        "RateFeatureSendFeedbackInformation": "Vaša Matomo platforma će poslati Matomo timu mejl (uključujući i vašu adresu) tako da možemo da stupimo sa vama u kontakt ukoliko imate neko pitanje.",
+        "RateFeatureThankYouTitle": "Hvala vam na oceni '%s'!",
+        "RateFeatureTitle": "Da li vam se sviđa '%s'? Molimo vas da date ocenu i ostavite komentar",
+        "SendFeedback": "Pošaljite vaše zapažanje",
+        "ThankYou": "Hvala vam što nam pomažete da učinimo Matomo boljim!",
+        "TopLinkTooltip": "Recite nam šta mislite ili zatražite profesionalnu pomoć.",
+        "ViewAnswersToFAQ": "Prikaži odgovore na %1$sčesto postavljana pitanja%2$s",
+        "ViewUserGuides": "Naučite kako da podesite Matomo i kako da efikasno analizirate vaše podatke prateći %1$skorisničko uputstvo%2$s",
+        "CommunityHelp": "Pomoć zajednice",
+        "ProfessionalHelp": "Profesionalna pomoć",
+        "ProfessionalServicesOfferIntro": "Od kojih usluga možete imati koristi?",
+        "ContactUs": "Kontaktirajte nas",
+        "VisitTheForums": "Posetite %1$s Forum%2$s kako biste dobili pomoć zajednice Matomo korisnika",
+        "Forums": "Forumi"
+    }
+}

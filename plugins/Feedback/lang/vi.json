@@ -1,0 +1,27 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Bạn đã có lỗi để báo cáo hoặc yêu cầu tính năng?",
+        "HowToCreateTicket": "Vui lòng đọc các đề xuất về việc viết một %1$sbáo cáo lỗi%2$s tốt hoặc yêu cầu %3$stính năng%4$s. Sau đó đăng ký hoặc đăng nhập vào %5$strình theo dõi vấn đề%6$s của chúng tôi và %7$stạo một vấn đề mới%8$s.",
+        "IWantTo": "Tôi muốn:",
+        "LearnWaysToParticipate": "Tìm hiểu về tất cả các cách bạn có thể %1$s tham gia %2$s",
+        "ManuallySendEmailTo": "Hãy tự gửi thông điệp của bạn tới",
+        "PluginDescription": "Gửi phản hồi của bạn cho nhóm Matomo. Chia sẻ ý tưởng và đề xuất của bạn để biến Matomo thành nền tảng phân tích tốt nhất trên thế giới!",
+        "PrivacyClaim": "Matomo tôn trọng %1$squyền riêng tư%2$s của bạn và cung cấp cho bạn toàn quyền kiểm soát dữ liệu của bạn.",
+        "RateFeatureLeaveMessageDislike": "Chúng tôi rất tiếc khi biết bạn không thích nó! Xin vui lòng cho chúng tôi biết làm thế nào chúng ta có thể cải thiện.",
+        "RateFeatureLeaveMessageLike": "Chúng tôi rất vui vì bạn thích nó! Vui lòng cho chúng tôi biết những gì bạn thích nhất hoặc nếu bạn có một yêu cầu tính năng.",
+        "RateFeatureSendFeedbackInformation": "Nền tảng Matomo của bạn sẽ gửi cho chúng tôi (nhóm Matomo) một email (bao gồm cả địa chỉ email của bạn) để chúng tôi có thể liên hệ với bạn nếu bạn có bất kỳ câu hỏi nào.",
+        "RateFeatureThankYouTitle": "Cảm ơn bạn đã đánh giá '%s'!",
+        "RateFeatureTitle": "Bạn có thích tính năng '%s' không? Vui lòng đánh giá và để lại nhận xét",
+        "SendFeedback": "Gửi phản hồi",
+        "ThankYou": "Cảm ơn bạn đã giúp chúng tôi để làm cho Matomo tốt hơn!",
+        "TopLinkTooltip": "Hãy cho chúng tôi những suy nghĩ của bạn, hoặc gửi một yêu cầu \"Hỗ trợ chuyên nghiệp\"",
+        "ViewAnswersToFAQ": "Xem câu trả lời cho %1$scác câu hỏi thường gặp%2$s",
+        "ViewUserGuides": "Tìm hiểu cách định cấu hình Matomo và cách phân tích hiệu quả dữ liệu của bạn với %1$shướng dẫn%2$s của chúng tôi",
+        "CommunityHelp": "Trợ giúp cộng đồng",
+        "ProfessionalHelp": "Trợ giúp chuyên nghiệp",
+        "ProfessionalServicesOfferIntro": "Những dịch vụ bạn có thể được hưởng lợi từ?",
+        "ContactUs": "Liên hệ chúng tôi",
+        "VisitTheForums": "Truy cập %1$sdiễn đàn%2$s và nhận trợ giúp từ cộng đồng người dùng Matomo",
+        "Forums": "Các diễn đàn"
+    }
+}
