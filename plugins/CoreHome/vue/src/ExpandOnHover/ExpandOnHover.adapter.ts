@@ -23,7 +23,7 @@ function piwikExpandOnHover() {
 
       const wrapped = ExpandOnHover();
       wrapped.mounted(element[0], binding, null, null);
-      scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
     },
   };
 }
