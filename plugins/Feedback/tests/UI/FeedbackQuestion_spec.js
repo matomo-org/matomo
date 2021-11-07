@@ -24,12 +24,12 @@ describe('FeedbackQuestion', function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
 
-    var banner = await page.waitForSelector('.trialHeader', { visible: true });
+    var banner = await page.waitForSelector('.bannerHeader', { visible: true });
     expect(await banner.screenshot()).to.matchImage('feedback_banner');
   });
 
   it('should display popup when banner button is clicked', async function () {
-    await page.click('.trialHeader .btn');
+    await page.click('.bannerHeader .btn');
     await page.waitForNetworkIdle();
 
     var popup = await page.waitForSelector('.modal', { visible: true });
@@ -38,7 +38,8 @@ describe('FeedbackQuestion', function () {
 
   it('should show error when blank content submit', async function () {
     await page.click('.modal .modal-footer a:nth-child(1)');
-    var popup = await page.waitForSelector('.modal', { visible: true });
+    await page.waitForNetworkIdle();
+    var popup = await page.waitForSelector('.modal.open', { visible: true });
     expect(await popup.screenshot()).to.matchImage('feedback_failed');
   });
 

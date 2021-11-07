@@ -6,7 +6,7 @@
 
 <template>
   <div>
-    <div v-if="!isHide" class="trialHeader">
+    <div v-if="!isHide" class="bannerHeader">
       <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
       <a @click="showQuestion" class="btn">
         {{ translate(`Feedback_Question${question}`) }}
