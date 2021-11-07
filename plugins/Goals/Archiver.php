@@ -17,6 +17,7 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
+use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 
@@ -112,14 +113,33 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
+        $idSite = $this->getSiteId();
+
+        if (!$this->hasAnyGoalOrEcommerce($idSite)) {
+            // when there is no goal or ecommerce there is nothing to archive
+            // epsecially processDependentArchive we want to avoid in that case for performance reasons
+            return;
+        }
+
         $this->aggregateGeneralGoalMetrics();
 
-        if (Manager::getInstance()->isPluginActivated('Ecommerce')) {
+        if ($this->usesEcommerce($idSite)) {
             $this->aggregateEcommerceItems();
         }
 
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
         $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+    }
+
+    private function hasAnyGoalOrEcommerce($idSite)
+    {
+        return $this->usesEcommerce($idSite) || GoalManager::getGoalIds($idSite);
+    }
+
+    private function usesEcommerce($idSite)
+    {
+        return Manager::getInstance()->isPluginActivated('Ecommerce')
+            && Site::isEcommerceEnabledFor($idSite);
     }
 
     protected function aggregateGeneralGoalMetrics()
@@ -433,36 +453,51 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $recordName . '_Cart';
     }
 
+    private function getSiteId()
+    {
+        return $this->getProcessor()->getParams()->getSite()->getId();
+    }
+
     /**
      * @internal param $this->getProcessor()
      */
     public function aggregateMultipleReports()
     {
-        /*
-         * Archive Ecommerce Items
-         */
-        $dataTableToSum = $this->dimensionRecord;
-        foreach ($this->dimensionRecord as $recordName) {
-            $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
+        $idSite = $this->getSiteId();
+        if (!$this->hasAnyGoalOrEcommerce($idSite)) {
+            // when there is no goal or ecommerce there is nothing to archive
+            // epsecially processDependentArchive we want to avoid in that case for performance reasons
+            return;
         }
-        $columnsAggregationOperation = null;
-
-        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
-            $maximumRowsInDataTableLevelZero = $this->productReportsMaximumRows,
-            $maximumRowsInSubDataTable = $this->productReportsMaximumRows,
-            $columnToSortByBeforeTruncation = Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
-            $columnsAggregationOperation,
-            $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = array());
 
         /*
          *  Archive General Goal metrics
          */
-        $goalIdsToSum = GoalManager::getGoalIds($this->getProcessor()->getParams()->getSite()->getId());
+        $goalIdsToSum = GoalManager::getGoalIds($idSite);
 
         //Ecommerce
-        $goalIdsToSum[] = GoalManager::IDGOAL_ORDER;
-        $goalIdsToSum[] = GoalManager::IDGOAL_CART; //bug here if idgoal=1
+        if ($this->usesEcommerce($this->getSiteId())) {
+            /*
+             * Archive Ecommerce Items
+             */
+            $dataTableToSum = $this->dimensionRecord;
+            foreach ($this->dimensionRecord as $recordName) {
+                $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
+            }
+            $columnsAggregationOperation = null;
+
+            $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
+                $maximumRowsInDataTableLevelZero = $this->productReportsMaximumRows,
+                $maximumRowsInSubDataTable = $this->productReportsMaximumRows,
+                $columnToSortByBeforeTruncation = Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
+                $columnsAggregationOperation,
+                $columnsToRenameAfterAggregation = null,
+                $countRowsRecursive = array());
+
+            $goalIdsToSum[] = GoalManager::IDGOAL_ORDER;
+            $goalIdsToSum[] = GoalManager::IDGOAL_CART; //bug here if idgoal=1
+        }
+
         // Overall goal metrics
         $goalIdsToSum[] = false;
 
