@@ -46,7 +46,7 @@ describe('FeedbackQuestion', function () {
     await page.type('#message', 'test');
     await page.click('.modal .modal-footer a:nth-child(1)');
     await page.waitForNetworkIdle();
-    var popup = await page.waitForSelector('.modal', { visible: true });
+    var popup = await page.waitForSelector('.modal.open', { visible: true });
     expect(await popup.screenshot()).to.matchImage('feedback_success');
   });
 });
