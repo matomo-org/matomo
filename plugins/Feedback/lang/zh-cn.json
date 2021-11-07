@@ -40,7 +40,6 @@
         "RemoveOtherLabel": "我想查看我的“其他”数据",
         "PurgeOldData": "我想删除一些旧数据",
         "SearchHelpResources": "搜索matomo.org帮助资源",
-        "PopularHelpTopics": "热门帮助主题",
-        "ReferBannerTitle": "相信Matomo？"
+        "PopularHelpTopics": "热门帮助主题"
     }
 }
