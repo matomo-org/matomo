@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
-use CpChart\Chart\Data;
+use CpChart\Data;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 
 /**

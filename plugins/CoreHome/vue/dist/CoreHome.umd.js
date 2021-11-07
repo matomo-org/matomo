@@ -134,7 +134,7 @@ __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { ret
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
 __webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ Alert_adapter; });
 __webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
-__webpack_require__.d(__webpack_exports__, "MatomoUrl", function() { return /* reexport */ MatomoUrl_MatomoUrl; });
+__webpack_require__.d(__webpack_exports__, "MatomoUrl", function() { return /* reexport */ src_MatomoUrl_MatomoUrl; });
 __webpack_require__.d(__webpack_exports__, "Matomo", function() { return /* reexport */ Matomo_Matomo; });
 __webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
 __webpack_require__.d(__webpack_exports__, "Day", function() { return /* reexport */ Day_DayPeriod; });
@@ -149,6 +149,7 @@ __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
+__webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -166,54 +167,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
+var noAdblockFlag = __webpack_require__("2342");
 
-/**
- * Similar to angulars $location but works around some limitation. Use it if you need to access
- * search params
- */
-const MatomoUrl = {
-  getSearchParam(paramName) {
-    const hash = window.location.href.split('#');
-    const regex = new RegExp(`${paramName}(\\[]|=)`);
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
-
-      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
-        return valueFromHash;
-      }
-    }
-
-    return window.broadcast.getValueFromUrl(paramName, window.location.search);
-  }
-
-};
-/* harmony default export */ var MatomoUrl_MatomoUrl = (MatomoUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikUrl() {
-  const model = {
-    getSearchParam: MatomoUrl_MatomoUrl.getSearchParam.bind(MatomoUrl_MatomoUrl)
-  };
-  return model;
-}
-
-piwikUrl.$inject = [];
-angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -301,6 +260,91 @@ class Periods {
 }
 
 /* harmony default export */ var Periods_Periods = (new Periods());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+let originalTitle;
+const {
+  piwik: Matomo_piwik,
+  broadcast: Matomo_broadcast,
+  piwikHelper: Matomo_piwikHelper
+} = window;
+Matomo_piwik.helper = Matomo_piwikHelper;
+Matomo_piwik.broadcast = Matomo_broadcast;
+
+Matomo_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+  if (!$('.top_controls #periodString').length) {
+    return;
+  } // Cache server-rendered page title
+
+
+  originalTitle = originalTitle || document.title;
+
+  if (originalTitle.indexOf(Matomo_piwik.siteName) === 0) {
+    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+    document.title = `${Matomo_piwik.siteName}${dateString}${originalTitle.substr(Matomo_piwik.siteName.length)}`;
+  }
+};
+
+Matomo_piwik.hasUserCapability = function hasUserCapability(capability) {
+  return window.angular.isArray(Matomo_piwik.userCapabilities) && Matomo_piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+Matomo_piwik.on = function addMatomoEventListener(eventName, listener) {
+  function listenerWrapper(evt) {
+    listener(...evt.detail); // eslint-disable-line
+  }
+
+  listener.wrapper = listenerWrapper;
+  window.addEventListener(eventName, listenerWrapper);
+};
+
+Matomo_piwik.off = function removeMatomoEventListener(eventName, listener) {
+  if (listener.wrapper) {
+    window.removeEventListener(eventName, listener.wrapper);
+  }
+};
+
+Matomo_piwik.postEventNoEmit = function postEventNoEmit(eventName, ...args // eslint-disable-line
+) {
+  const event = new CustomEvent(eventName, {
+    detail: args
+  });
+  window.dispatchEvent(event);
+};
+
+Matomo_piwik.postEvent = function postMatomoEvent(eventName, ...args // eslint-disable-line
+) {
+  Matomo_piwik.postEventNoEmit(eventName, ...args); // required until angularjs is removed
+
+  const $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
+
+  return $rootScope.$oldEmit(eventName, ...args);
+};
+
+const Matomo = Matomo_piwik;
+/* harmony default export */ var Matomo_Matomo = (Matomo);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function translate(translationStringId, ...values) {
+  let pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
+
+  if (values.length === 1 && values[0] && values[0] instanceof Array) {
+    [pkArgs] = values;
+  }
+
+  return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -329,7 +373,11 @@ function parseDate(date) {
     return date;
   }
 
-  const strDate = decodeURIComponent(date);
+  const strDate = decodeURIComponent(date).trim();
+
+  if (strDate === '') {
+    throw new Error('Invalid date, empty string.');
+  }
 
   if (strDate === 'today' || strDate === 'now') {
     return getToday();
@@ -361,13 +409,7 @@ function parseDate(date) {
     return lastYear;
   }
 
-  try {
-    return $.datepicker.parseDate('yy-mm-dd', strDate);
-  } catch (err) {
-    // angular swallows this error, so manual console log here
-    console.error(err.message || err);
-    throw err;
-  }
+  return $.datepicker.parseDate('yy-mm-dd', strDate);
 }
 function todayIsInRange(dateRange) {
   if (dateRange.length !== 2) {
@@ -380,307 +422,6 @@ function todayIsInRange(dateRange) {
 
   return false;
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-let originalTitle;
-const {
-  piwik,
-  broadcast: Matomo_broadcast,
-  piwikHelper: Matomo_piwikHelper
-} = window;
-piwik.helper = Matomo_piwikHelper;
-piwik.broadcast = Matomo_broadcast;
-
-function isValidPeriod(periodStr, dateStr) {
-  try {
-    Periods_Periods.parse(periodStr, dateStr);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
-  let date = MatomoUrl_MatomoUrl.getSearchParam('date');
-  const period = MatomoUrl_MatomoUrl.getSearchParam('period');
-
-  if (!isValidPeriod(period, date)) {
-    // invalid data in URL
-    return;
-  }
-
-  if (piwik.period === period && piwik.currentDateString === date) {
-    // this period / date is already loaded
-    return;
-  }
-
-  piwik.period = period;
-  const dateRange = Periods_Periods.parse(period, date).getDateRange();
-  piwik.startDateString = format(dateRange[0]);
-  piwik.endDateString = format(dateRange[1]);
-  piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
-  // to have the dates than previousN/lastN.
-
-  if (piwik.period === 'range') {
-    date = `${piwik.startDateString},${piwik.endDateString}`;
-  }
-
-  piwik.currentDateString = date;
-};
-
-piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  } // Cache server-rendered page title
-
-
-  originalTitle = originalTitle || document.title;
-
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
-    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.siteName}${dateString}${originalTitle.substr(piwik.siteName.length)}`;
-  }
-};
-
-piwik.hasUserCapability = function hasUserCapability(capability) {
-  return window.angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
-};
-
-const Matomo = piwik;
-/* harmony default export */ var Matomo_Matomo = (Matomo);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikService() {
-  return Matomo_Matomo;
-}
-
-angular.module('piwikApp.service').service('piwik', piwikService);
-
-function initPiwikService(piwik, $rootScope) {
-  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
-}
-
-initPiwikService.$inject = ['piwik', '$rootScope'];
-angular.module('piwikApp.service').run(initPiwikService);
-// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
-var noAdblockFlag = __webpack_require__("2342");
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function translate(translationStringId, ...values) {
-  let pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
-
-  if (values.length === 1 && values[0] && values[0] instanceof Array) {
-    [pkArgs] = values;
-  }
-
-  return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
-function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Day_DayPeriod {
-  constructor(dateInPeriod) {
-    Day_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Day_DayPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodDay');
-  }
-
-  getPrettyString() {
-    return format(this.dateInPeriod);
-  }
-
-  getDateRange() {
-    return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
-function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Week_WeekPeriod {
-  constructor(dateInPeriod) {
-    Week_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Week_WeekPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodWeek');
-  }
-
-  getPrettyString() {
-    const weekDates = this.getDateRange();
-    const startWeek = format(weekDates[0]);
-    const endWeek = format(weekDates[1]);
-    return translate('General_DateRangeFromTo', [startWeek, endWeek]);
-  }
-
-  getDateRange() {
-    const daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;
-    const startWeek = new Date(this.dateInPeriod.getTime());
-    startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);
-    const endWeek = new Date(startWeek.getTime());
-    endWeek.setDate(startWeek.getDate() + 6);
-    return [startWeek, endWeek];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
-function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Month_MonthPeriod {
-  constructor(dateInPeriod) {
-    Month_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Month_MonthPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodMonth');
-  }
-
-  getPrettyString() {
-    const month = translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);
-    return `${month} ${this.dateInPeriod.getFullYear()}`;
-  }
-
-  getDateRange() {
-    const startMonth = new Date(this.dateInPeriod.getTime());
-    startMonth.setDate(1);
-    const endMonth = new Date(this.dateInPeriod.getTime());
-    endMonth.setDate(1);
-    endMonth.setMonth(endMonth.getMonth() + 1);
-    endMonth.setDate(0);
-    return [startMonth, endMonth];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
-function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-class Year_YearPeriod {
-  constructor(dateInPeriod) {
-    Year_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  static parse(strDate) {
-    return new Year_YearPeriod(parseDate(strDate));
-  }
-
-  static getDisplayText() {
-    return translate('Intl_PeriodYear');
-  }
-
-  getPrettyString() {
-    return this.dateInPeriod.getFullYear().toString();
-  }
-
-  getDateRange() {
-    const startYear = new Date(this.dateInPeriod.getTime());
-    startYear.setMonth(0);
-    startYear.setDate(1);
-    const endYear = new Date(this.dateInPeriod.getTime());
-    endYear.setMonth(12);
-    endYear.setDate(0);
-    return [startYear, endYear];
-  }
-
-  containsToday() {
-    return todayIsInRange(this.getDateRange());
-  }
-
-}
-Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
 function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -890,7 +631,385 @@ function piwikPeriods() {
   };
 }
 
-angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
+window.angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
+function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Day_DayPeriod {
+  constructor(dateInPeriod) {
+    Day_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Day_DayPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodDay');
+  }
+
+  getPrettyString() {
+    return format(this.dateInPeriod);
+  }
+
+  getDateRange() {
+    return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
+function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Week_WeekPeriod {
+  constructor(dateInPeriod) {
+    Week_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Week_WeekPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodWeek');
+  }
+
+  getPrettyString() {
+    const weekDates = this.getDateRange();
+    const startWeek = format(weekDates[0]);
+    const endWeek = format(weekDates[1]);
+    return translate('General_DateRangeFromTo', [startWeek, endWeek]);
+  }
+
+  getDateRange() {
+    const daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;
+    const startWeek = new Date(this.dateInPeriod.getTime());
+    startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);
+    const endWeek = new Date(startWeek.getTime());
+    endWeek.setDate(startWeek.getDate() + 6);
+    return [startWeek, endWeek];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
+function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Month_MonthPeriod {
+  constructor(dateInPeriod) {
+    Month_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Month_MonthPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodMonth');
+  }
+
+  getPrettyString() {
+    const month = translate(`Intl_Month_Long_StandAlone_${this.dateInPeriod.getMonth() + 1}`);
+    return `${month} ${this.dateInPeriod.getFullYear()}`;
+  }
+
+  getDateRange() {
+    const startMonth = new Date(this.dateInPeriod.getTime());
+    startMonth.setDate(1);
+    const endMonth = new Date(this.dateInPeriod.getTime());
+    endMonth.setDate(1);
+    endMonth.setMonth(endMonth.getMonth() + 1);
+    endMonth.setDate(0);
+    return [startMonth, endMonth];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
+function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Year_YearPeriod {
+  constructor(dateInPeriod) {
+    Year_defineProperty(this, "dateInPeriod", void 0);
+
+    this.dateInPeriod = dateInPeriod;
+  }
+
+  static parse(strDate) {
+    return new Year_YearPeriod(parseDate(strDate));
+  }
+
+  static getDisplayText() {
+    return translate('Intl_PeriodYear');
+  }
+
+  getPrettyString() {
+    return this.dateInPeriod.getFullYear().toString();
+  }
+
+  getDateRange() {
+    const startYear = new Date(this.dateInPeriod.getTime());
+    startYear.setMonth(0);
+    startYear.setDate(1);
+    const endYear = new Date(this.dateInPeriod.getTime());
+    endYear.setMonth(12);
+    endYear.setDate(0);
+    return [startYear, endYear];
+  }
+
+  containsToday() {
+    return todayIsInRange(this.getDateRange());
+  }
+
+}
+Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
+function MatomoUrl_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+ // important to load all periods here
+
+const {
+  piwik: MatomoUrl_piwik,
+  broadcast: MatomoUrl_broadcast
+} = window;
+
+function isValidPeriod(periodStr, dateStr) {
+  try {
+    Periods_Periods.parse(periodStr, dateStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+/**
+ * URL store and helper functions.
+ */
+
+
+class MatomoUrl_MatomoUrl {
+  constructor() {
+    MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
+
+    MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
+
+    MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true))));
+
+    MatomoUrl_defineProperty(this, "hashParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true))));
+
+    MatomoUrl_defineProperty(this, "parsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])({ ...this.urlParsed.value,
+      ...this.hashParsed.value
+    })));
+
+    this.setUrlQuery(window.location.search);
+    this.setHashQuery(window.location.hash); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
+    // have to hook into this method if we want our event handlers to execute before other angularjs
+    // handlers (like the reporting page one)
+
+    Matomo_Matomo.on('$locationChangeSuccess', absUrl => {
+      const url = new URL(absUrl);
+      this.setUrlQuery(url.search.replace(/^\?/, ''));
+      this.setHashQuery(url.hash.replace(/^#/, ''));
+    });
+    this.updatePeriodParamsFromUrl();
+  }
+
+  updateHash(params) {
+    const serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
+    const $location = Matomo_Matomo.helper.getAngularDependency('$location');
+    $location.search(serializedParams);
+  }
+
+  getSearchParam(paramName) {
+    const hash = window.location.href.split('#');
+    const regex = new RegExp(`${paramName}(\\[]|=)`);
+
+    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
+      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
+
+      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
+        return valueFromHash;
+      }
+    }
+
+    return window.broadcast.getValueFromUrl(paramName, window.location.search);
+  }
+
+  stringify(search) {
+    // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
+    return $.param(search).replace(/%5B%5D/g, '[]');
+  }
+
+  updatePeriodParamsFromUrl() {
+    let date = this.getSearchParam('date');
+    const period = this.getSearchParam('period');
+
+    if (!isValidPeriod(period, date)) {
+      // invalid data in URL
+      return;
+    }
+
+    if (MatomoUrl_piwik.period === period && MatomoUrl_piwik.currentDateString === date) {
+      // this period / date is already loaded
+      return;
+    }
+
+    MatomoUrl_piwik.period = period;
+    const dateRange = Periods_Periods.parse(period, date).getDateRange();
+    MatomoUrl_piwik.startDateString = format(dateRange[0]);
+    MatomoUrl_piwik.endDateString = format(dateRange[1]);
+    MatomoUrl_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+    // to have the dates than previousN/lastN.
+
+    if (MatomoUrl_piwik.period === 'range') {
+      date = `${MatomoUrl_piwik.startDateString},${MatomoUrl_piwik.endDateString}`;
+    }
+
+    MatomoUrl_piwik.currentDateString = date;
+  }
+
+  setUrlQuery(search) {
+    this.urlQuery.value = search.replace(/^\?/, '');
+  }
+
+  setHashQuery(hash) {
+    this.hashQuery.value = hash.replace(/^[#/?]+/, '');
+  }
+
+}
+
+const instance = new MatomoUrl_MatomoUrl();
+/* harmony default export */ var src_MatomoUrl_MatomoUrl = (instance);
+MatomoUrl_piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function piwikUrl() {
+  const model = {
+    getSearchParam: src_MatomoUrl_MatomoUrl.getSearchParam.bind(src_MatomoUrl_MatomoUrl)
+  };
+  return model;
+}
+
+piwikUrl.$inject = [];
+angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function piwikService() {
+  return Matomo_Matomo;
+}
+
+window.angular.module('piwikApp.service').service('piwik', piwikService);
+
+function initPiwikService(piwik, $rootScope) {
+  // overwrite $rootScope so all events also go through Matomo.postEvent(...) too.
+  $rootScope.$oldEmit = $rootScope.$emit; // eslint-disable-line
+
+  $rootScope.$emit = function emitWrapper(name, ...args) {
+    return Matomo_Matomo.postEvent(name, ...args);
+  };
+
+  $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
+
+  $rootScope.$broadcast = function broadcastWrapper(name, ...args) {
+    Matomo_Matomo.postEventNoEmit(name, ...args);
+    return $rootScope.$oldBroadcast(name, ...args); // eslint-disable-line
+  };
+
+  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
+}
+
+initPiwikService.$inject = ['piwik', '$rootScope'];
+window.angular.module('piwikApp.service').run(initPiwikService);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
 function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -936,6 +1055,12 @@ window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
 function defaultErrorCallback(deferred, status) {
   // do not display error message if request was aborted
   if (status === 'abort') {
+    return;
+  }
+
+  if (typeof Piwik_Popover === 'undefined') {
+    console.log(`Request failed: ${deferred.responseText}`); // mostly for tests
+
     return;
   }
 
@@ -1019,7 +1144,11 @@ class AjaxHelper_AjaxHelper {
   static fetch(params) {
     const helper = new AjaxHelper_AjaxHelper();
     helper.setFormat('json');
-    helper.addParams(params, 'get');
+    helper.addParams({
+      module: 'API',
+      format: 'json',
+      ...params
+    }, 'get');
     return helper.send();
   }
 
@@ -1058,18 +1187,14 @@ class AjaxHelper_AjaxHelper {
    * Adds params to the request.
    * If params are given more then once, the latest given value is used for the request
    *
-   * @param  params
+   * @param  initialParams
    * @param  type  type of given parameters (POST or GET)
    * @return {void}
    */
 
 
-  addParams(params, type) {
-    if (typeof params === 'string') {
-      // TODO: add global types for broadcast (multiple uses below)
-      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
-    }
-
+  addParams(initialParams, type) {
+    const params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach(key => {
       const value = params[key];
@@ -1104,7 +1229,7 @@ class AjaxHelper_AjaxHelper {
 
 
   setBulkRequests(...urls) {
-    const urlsProcessed = urls.map(u => $.param(u));
+    const urlsProcessed = urls.map(u => typeof u === 'string' ? u : $.param(u));
     this.addParams({
       module: 'API',
       method: 'API.getBulkRequest',
@@ -1257,8 +1382,15 @@ class AjaxHelper_AjaxHelper {
     }
 
     this.requestHandle = this.buildAjaxCall();
-    globalAjaxQueue.push(this.requestHandle);
-    return this.requestHandle;
+    window.globalAjaxQueue.push(this.requestHandle);
+    return new Promise((resolve, reject) => {
+      this.requestHandle.then(resolve).fail(xhr => {
+        if (xhr.statusText !== 'abort') {
+          console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+          reject(xhr);
+        }
+      });
+    });
   }
   /**
    * Aborts the current request if it is (still) running
@@ -1304,11 +1436,11 @@ class AjaxHelper_AjaxHelper {
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
-      error: function errorCallback() {
-        globalAjaxQueue.active -= 1;
+      error: function errorCallback(...args) {
+        window.globalAjaxQueue.active -= 1;
 
         if (self.errorCallback) {
-          self.errorCallback.apply(this, arguments); // eslint-disable-line
+          self.errorCallback.apply(this, args);
         }
       },
       success: (response, status, request) => {
@@ -1342,7 +1474,7 @@ class AjaxHelper_AjaxHelper {
           this.callback(response, status, request);
         }
 
-        globalAjaxQueue.active -= 1;
+        window.globalAjaxQueue.active -= 1;
 
         if (Matomo_Matomo.ajaxRequestFinished) {
           Matomo_Matomo.ajaxRequestFinished();
@@ -1396,9 +1528,9 @@ class AjaxHelper_AjaxHelper {
 
 
   mixinDefaultGetParams(originalParams) {
-    const segment = MatomoUrl_MatomoUrl.getSearchParam('segment');
+    const segment = src_MatomoUrl_MatomoUrl.getSearchParam('segment');
     const defaultParams = {
-      idSite: Matomo_Matomo.idSite || broadcast.getValueFromUrl('idSite'),
+      idSite: Matomo_Matomo.idSite ? Matomo_Matomo.idSite.toString() : broadcast.getValueFromUrl('idSite'),
       period: Matomo_Matomo.period || broadcast.getValueFromUrl('period'),
       segment
     };
@@ -1432,155 +1564,7 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * Similar to angulars $location but works around some limitation. Use it if you need to access
- * search params
- */
-const PiwikUrl = {
-  getSearchParam(paramName) {
-    const hash = window.location.href.split('#');
-    const regex = new RegExp(`${paramName}(\\[]|=)`);
-
-    if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-      const valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
-
-      if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
-        return valueFromHash;
-      }
-    }
-
-    return window.broadcast.getValueFromUrl(paramName, window.location.search);
-  }
-
-};
-/* harmony default export */ var PiwikUrl_PiwikUrl = (PiwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PiwikUrl/PiwikUrl.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function PiwikUrl_adapter_piwikUrl() {
-  const model = {
-    getSearchParam: PiwikUrl_PiwikUrl.getSearchParam.bind(PiwikUrl_PiwikUrl)
-  };
-  return model;
-}
-
-PiwikUrl_adapter_piwikUrl.$inject = [];
-angular.module('piwikApp.service').service('piwikUrl', PiwikUrl_adapter_piwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-let Piwik_originalTitle;
-const {
-  piwik: Piwik_piwik,
-  broadcast: Piwik_broadcast,
-  piwikHelper: Piwik_piwikHelper
-} = window;
-Piwik_piwik.helper = Piwik_piwikHelper;
-Piwik_piwik.broadcast = Piwik_broadcast;
-
-function Piwik_isValidPeriod(periodStr, dateStr) {
-  try {
-    Periods_Periods.parse(periodStr, dateStr);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-Piwik_piwik.updatePeriodParamsFromUrl = function updatePeriodParamsFromUrl() {
-  let date = PiwikUrl_PiwikUrl.getSearchParam('date');
-  const period = PiwikUrl_PiwikUrl.getSearchParam('period');
-
-  if (!Piwik_isValidPeriod(period, date)) {
-    // invalid data in URL
-    return;
-  }
-
-  if (Piwik_piwik.period === period && Piwik_piwik.currentDateString === date) {
-    // this period / date is already loaded
-    return;
-  }
-
-  Piwik_piwik.period = period;
-  const dateRange = Periods_Periods.parse(period, date).getDateRange();
-  Piwik_piwik.startDateString = format(dateRange[0]);
-  Piwik_piwik.endDateString = format(dateRange[1]);
-  Piwik_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
-  // to have the dates than previousN/lastN.
-
-  if (Piwik_piwik.period === 'range') {
-    date = `${Piwik_piwik.startDateString},${Piwik_piwik.endDateString}`;
-  }
-
-  Piwik_piwik.currentDateString = date;
-};
-
-Piwik_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  } // Cache server-rendered page title
-
-
-  Piwik_originalTitle = Piwik_originalTitle || document.title;
-
-  if (Piwik_originalTitle.indexOf(Piwik_piwik.siteName) === 0) {
-    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${Piwik_piwik.siteName}${dateString}${Piwik_originalTitle.substr(Piwik_piwik.siteName.length)}`;
-  }
-};
-
-Piwik_piwik.hasUserCapability = function hasUserCapability(capability) {
-  return window.angular.isArray(Piwik_piwik.userCapabilities) && Piwik_piwik.userCapabilities.indexOf(capability) !== -1;
-};
-
-const Piwik = Piwik_piwik;
-/* harmony default export */ var Piwik_Piwik = (Piwik);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Piwik/Piwik.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function Piwik_adapter_piwikService() {
-  return Piwik_Piwik;
-}
-
-angular.module('piwikApp.service').service('piwik', Piwik_adapter_piwikService);
-
-function Piwik_adapter_initPiwikService(piwik, $rootScope) {
-  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
-}
-
-Piwik_adapter_initPiwikService.$inject = ['piwik', '$rootScope'];
-angular.module('piwikApp.service').run(Piwik_adapter_initPiwikService);
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=50fda6d8
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=15ad69b4
 
 const _hoisted_1 = {
   ref: "root"
@@ -1588,7 +1572,7 @@ const _hoisted_1 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=50fda6d8
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=15ad69b4
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
 
@@ -1616,13 +1600,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   },
   emits: ['yes', 'no', 'closeEnd', 'close', 'update:modelValue'],
-
-  setup() {
-    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    return {
-      root
-    };
-  },
 
   activated() {
     this.$emit('update:modelValue', false);
@@ -1687,7 +1664,8 @@ function createAngularJsAdapter(options) {
     transclude,
     mountPointFactory,
     postCreate,
-    noScope
+    noScope,
+    restrict = 'A'
   } = options;
   const currentTranscludeCounter = transcludeCounter;
 
@@ -1708,7 +1686,7 @@ function createAngularJsAdapter(options) {
 
   function angularJsAdapter(...injectedServices) {
     const adapter = {
-      restrict: 'A',
+      restrict,
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
@@ -1793,7 +1771,7 @@ function createAngularJsAdapter(options) {
               postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
             }
 
-            ngScope.$on('$destroy', () => {
+            ngElement.on('$destroy', () => {
               app.unmount();
             });
           }
@@ -1881,9 +1859,9 @@ function createAngularJsAdapter(options) {
   },
   noScope: true
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=b71c9b1c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=5653b0bd
 
-const EnrichedHeadlinevue_type_template_id_b71c9b1c_hoisted_1 = {
+const EnrichedHeadlinevue_type_template_id_5653b0bd_hoisted_1 = {
   key: 0,
   class: "title",
   tabindex: "6"
@@ -1914,7 +1892,7 @@ const _hoisted_11 = {
 };
 const _hoisted_12 = ["innerHTML"];
 const _hoisted_13 = ["href"];
-function EnrichedHeadlinevue_type_template_id_b71c9b1c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function EnrichedHeadlinevue_type_template_id_5653b0bd_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RateFeature");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -1922,7 +1900,7 @@ function EnrichedHeadlinevue_type_template_id_b71c9b1c_render(_ctx, _cache, $pro
     onMouseenter: _cache[1] || (_cache[1] = $event => _ctx.showIcons = true),
     onMouseleave: _cache[2] || (_cache[2] = $event => _ctx.showIcons = false),
     ref: "root"
-  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_b71c9b1c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_5653b0bd_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 1,
     class: "title",
     href: _ctx.editUrl,
@@ -1953,7 +1931,7 @@ function EnrichedHeadlinevue_type_template_id_b71c9b1c_render(_ctx, _cache, $pro
     href: _ctx.helpUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MoreDetails')), 9, _hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showInlineHelp]])], 544);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=b71c9b1c
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=5653b0bd
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
 
@@ -2028,13 +2006,6 @@ const RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["define
     };
   },
 
-  setup() {
-    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    return {
-      root
-    };
-  },
-
   watch: {
     inlineHelp(newValue) {
       this.actualInlineHelp = newValue;
@@ -2096,7 +2067,7 @@ const RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["define
 
 
 
-EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_b71c9b1c_render
+EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_5653b0bd_render
 
 /* harmony default export */ var EnrichedHeadline = (EnrichedHeadlinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts
@@ -2130,39 +2101,39 @@ EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_templa
   directiveName: 'piwikEnrichedHeadline',
   transclude: true
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=5f6844c4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=09ef9e02
 
-const ContentBlockvue_type_template_id_5f6844c4_hoisted_1 = {
+const ContentBlockvue_type_template_id_09ef9e02_hoisted_1 = {
   class: "card",
   ref: "root"
 };
-const ContentBlockvue_type_template_id_5f6844c4_hoisted_2 = {
+const ContentBlockvue_type_template_id_09ef9e02_hoisted_2 = {
   class: "card-content"
 };
-const ContentBlockvue_type_template_id_5f6844c4_hoisted_3 = {
+const ContentBlockvue_type_template_id_09ef9e02_hoisted_3 = {
   key: 0,
   class: "card-title"
 };
-const ContentBlockvue_type_template_id_5f6844c4_hoisted_4 = {
+const ContentBlockvue_type_template_id_09ef9e02_hoisted_4 = {
   key: 1,
   class: "card-title"
 };
-const ContentBlockvue_type_template_id_5f6844c4_hoisted_5 = {
+const ContentBlockvue_type_template_id_09ef9e02_hoisted_5 = {
   ref: "content"
 };
-function ContentBlockvue_type_template_id_5f6844c4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ContentBlockvue_type_template_id_09ef9e02_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ContentBlockvue_type_template_id_5f6844c4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_5f6844c4_hoisted_2, [_ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_5f6844c4_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_5f6844c4_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ContentBlockvue_type_template_id_09ef9e02_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_09ef9e02_hoisted_2, [_ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_09ef9e02_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_09ef9e02_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "feature-name": _ctx.actualFeature,
     "help-url": _ctx.helpUrl,
     "inline-help": _ctx.actualHelpText
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)]),
     _: 1
-  }, 8, ["feature-name", "help-url", "inline-help"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_5f6844c4_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)])], 512);
+  }, 8, ["feature-name", "help-url", "inline-help"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_09ef9e02_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)])], 512);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=5f6844c4
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=09ef9e02
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
 
@@ -2184,15 +2155,6 @@ let adminContent = null;
     return {
       actualFeature: this.feature,
       actualHelpText: this.helpText
-    };
-  },
-
-  setup() {
-    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    const content = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    return {
-      root,
-      content
     };
   },
 
@@ -2265,7 +2227,7 @@ let adminContent = null;
 
 
 
-ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_5f6844c4_render
+ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_09ef9e02_render
 
 /* harmony default export */ var ContentBlock = (ContentBlockvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts
@@ -2298,6 +2260,636 @@ ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_5f
   },
   directiveName: 'piwikContentBlock',
   transclude: true
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts
+function Segments_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+class Segments_store_SegmentsStore {
+  get state() {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.segmentState);
+  }
+
+  constructor() {
+    Segments_store_defineProperty(this, "segmentState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      availableSegments: []
+    }));
+
+    Matomo_Matomo.on('piwikSegmentationInited', () => this.setSegmentState());
+  }
+
+  setSegmentState() {
+    try {
+      const uiControlObject = $('.segmentEditorPanel').data('uiControlObject');
+      this.segmentState.availableSegments = uiControlObject.impl.availableSegments || [];
+    } catch (e) {// segment editor is not initialized yet
+    }
+  }
+
+}
+
+/* harmony default export */ var Segments_store = (new Segments_store_SegmentsStore());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts
+function Comparisons_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+
+
+
+const SERIES_COLOR_COUNT = 8;
+const SERIES_SHADE_COUNT = 3;
+
+function wrapArray(values) {
+  if (!values) {
+    return [];
+  }
+
+  return values instanceof Array ? values : [values];
+}
+
+class Comparisons_store_ComparisonsStore {
+  // for tests
+  constructor() {
+    Comparisons_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      comparisonsDisabledFor: []
+    }));
+
+    Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
+
+    Comparisons_store_defineProperty(this, "colors", {});
+
+    Comparisons_store_defineProperty(this, "segmentComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.parseSegmentComparisons()));
+
+    Comparisons_store_defineProperty(this, "periodComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.parsePeriodComparisons()));
+
+    Comparisons_store_defineProperty(this, "isEnabled", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.checkEnabledForCurrentPage()));
+
+    this.loadComparisonsDisabledFor();
+    $(() => {
+      this.colors = this.getAllSeriesColors();
+    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.getComparisons(), () => Matomo_Matomo.postEvent('piwikComparisonsChanged'), {
+      deep: true
+    });
+  }
+
+  getComparisons() {
+    return this.getSegmentComparisons().concat(this.getPeriodComparisons());
+  }
+
+  isComparing() {
+    return this.isComparisonEnabled() // first two in each array are for the currently selected segment/period
+    && (this.segmentComparisons.value.length > 1 || this.periodComparisons.value.length > 1);
+  }
+
+  isComparingPeriods() {
+    return this.getPeriodComparisons().length > 1; // first is currently selected period
+  }
+
+  getSegmentComparisons() {
+    if (!this.isComparisonEnabled()) {
+      return [];
+    }
+
+    return this.segmentComparisons.value;
+  }
+
+  getPeriodComparisons() {
+    if (!this.isComparisonEnabled()) {
+      return [];
+    }
+
+    return this.periodComparisons.value;
+  }
+
+  getSeriesColor(segmentComparison, periodComparison, metricIndex = 0) {
+    const seriesIndex = this.getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;
+
+    if (metricIndex === 0) {
+      return this.colors[`series${seriesIndex}`];
+    }
+
+    const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
+    return this.colors[`series${seriesIndex}-shade${shadeIndex}`];
+  }
+
+  getSeriesColorName(seriesIndex, metricIndex) {
+    let colorName = `series${seriesIndex % SERIES_COLOR_COUNT}`;
+
+    if (metricIndex > 0) {
+      colorName += `-shade${metricIndex % SERIES_SHADE_COUNT}`;
+    }
+
+    return colorName;
+  }
+
+  isComparisonEnabled() {
+    return this.isEnabled.value;
+  }
+
+  getIndividualComparisonRowIndices(seriesIndex) {
+    const segmentCount = this.getSegmentComparisons().length;
+    const segmentIndex = seriesIndex % segmentCount;
+    const periodIndex = Math.floor(seriesIndex / segmentCount);
+    return {
+      segmentIndex,
+      periodIndex
+    };
+  }
+
+  getComparisonSeriesIndex(periodIndex, segmentIndex) {
+    const segmentCount = this.getSegmentComparisons().length;
+    return periodIndex * segmentCount + segmentIndex;
+  }
+
+  getAllComparisonSeries() {
+    const seriesInfo = [];
+    let seriesIndex = 0;
+    this.getPeriodComparisons().forEach(periodComp => {
+      this.getSegmentComparisons().forEach(segmentComp => {
+        seriesInfo.push({
+          index: seriesIndex,
+          params: { ...segmentComp.params,
+            ...periodComp.params
+          },
+          color: this.colors[`series${seriesIndex}`]
+        });
+        seriesIndex += 1;
+      });
+    });
+    return seriesInfo;
+  }
+
+  removeSegmentComparison(index) {
+    if (!this.isComparisonEnabled()) {
+      throw new Error('Comparison disabled.');
+    }
+
+    const newComparisons = [...this.segmentComparisons.value];
+    newComparisons.splice(index, 1);
+    const extraParams = {};
+
+    if (index === 0) {
+      extraParams.segment = newComparisons[0].params.segment;
+    }
+
+    this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value, extraParams);
+  }
+
+  addSegmentComparison(params) {
+    if (!this.isComparisonEnabled()) {
+      throw new Error('Comparison disabled.');
+    }
+
+    const newComparisons = this.segmentComparisons.value.concat([{
+      params,
+      index: -1,
+      title: ''
+    }]);
+    this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);
+  }
+
+  updateQueryParamsFromComparisons(segmentComparisons, periodComparisons, extraParams = {}) {
+    // get unique segments/periods/dates from new Comparisons
+    const compareSegments = {};
+    const comparePeriodDatePairs = {};
+    let firstSegment = false;
+    let firstPeriod = false;
+    segmentComparisons.forEach(comparison => {
+      if (firstSegment) {
+        compareSegments[comparison.params.segment] = true;
+      } else {
+        firstSegment = true;
+      }
+    });
+    periodComparisons.forEach(comparison => {
+      if (firstPeriod) {
+        comparePeriodDatePairs[`${comparison.params.period}|${comparison.params.date}`] = true;
+      } else {
+        firstPeriod = true;
+      }
+    });
+    const comparePeriods = [];
+    const compareDates = [];
+    Object.keys(comparePeriodDatePairs).forEach(pair => {
+      const parts = pair.split('|');
+      comparePeriods.push(parts[0]);
+      compareDates.push(parts[1]);
+    });
+    const compareParams = {
+      compareSegments: Object.keys(compareSegments),
+      comparePeriods,
+      compareDates
+    }; // change the page w/ these new param values
+
+    if (Matomo_Matomo.helper.isAngularRenderingThePage()) {
+      const search = src_MatomoUrl_MatomoUrl.hashParsed.value;
+      const newSearch = { ...search,
+        ...compareParams,
+        ...extraParams
+      };
+      delete newSearch['compareSegments[]'];
+      delete newSearch['comparePeriods[]'];
+      delete newSearch['compareDates[]'];
+
+      if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
+        src_MatomoUrl_MatomoUrl.updateHash(newSearch);
+      }
+
+      return;
+    }
+
+    const paramsToRemove = [];
+    ['compareSegments', 'comparePeriods', 'compareDates'].forEach(name => {
+      if (!compareParams[name].length) {
+        paramsToRemove.push(name);
+      }
+    }); // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change
+    // the segment
+
+    const url = src_MatomoUrl_MatomoUrl.stringify(extraParams);
+    const strHash = src_MatomoUrl_MatomoUrl.stringify(compareParams);
+    window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
+  }
+
+  getAllSeriesColors() {
+    const {
+      ColorManager
+    } = Matomo_Matomo;
+    const seriesColorNames = [];
+
+    for (let i = 0; i < SERIES_COLOR_COUNT; i += 1) {
+      seriesColorNames.push(`series${i}`);
+
+      for (let j = 0; j < SERIES_SHADE_COUNT; j += 1) {
+        seriesColorNames.push(`series${i}-shade${j}`);
+      }
+    }
+
+    return ColorManager.getColors('comparison-series-color', seriesColorNames);
+  }
+
+  loadComparisonsDisabledFor() {
+    AjaxHelper_AjaxHelper.fetch({
+      module: 'API',
+      method: 'API.getPagesComparisonsDisabledFor'
+    }).then(result => {
+      this.privateState.comparisonsDisabledFor = result;
+    });
+  }
+
+  parseSegmentComparisons() {
+    const {
+      availableSegments
+    } = Segments_store.state;
+    const compareSegments = [...wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments)]; // add base comparisons
+
+    compareSegments.unshift(src_MatomoUrl_MatomoUrl.parsed.value.segment || '');
+    const newSegmentComparisons = [];
+    compareSegments.forEach((segment, idx) => {
+      let storedSegment;
+      availableSegments.forEach(s => {
+        if (s.definition === segment || s.definition === decodeURIComponent(segment) || decodeURIComponent(s.definition) === segment) {
+          storedSegment = s;
+        }
+      });
+      let segmentTitle = storedSegment ? storedSegment.name : translate('General_Unknown');
+
+      if (segment.trim() === '') {
+        segmentTitle = translate('SegmentEditor_DefaultAllVisits');
+      }
+
+      newSegmentComparisons.push({
+        params: {
+          segment
+        },
+        title: Matomo_Matomo.helper.htmlDecode(segmentTitle),
+        index: idx
+      });
+    });
+    return newSegmentComparisons;
+  }
+
+  parsePeriodComparisons() {
+    const comparePeriods = [...wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.comparePeriods)];
+    const compareDates = [...wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareDates)];
+    comparePeriods.unshift(src_MatomoUrl_MatomoUrl.parsed.value.period);
+    compareDates.unshift(src_MatomoUrl_MatomoUrl.parsed.value.date);
+    const newPeriodComparisons = [];
+
+    for (let i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {
+      let title;
+
+      try {
+        title = Periods_Periods.parse(comparePeriods[i], compareDates[i]).getPrettyString();
+      } catch (e) {
+        title = translate('General_Error');
+      }
+
+      newPeriodComparisons.push({
+        params: {
+          date: compareDates[i],
+          period: comparePeriods[i]
+        },
+        title,
+        index: i
+      });
+    }
+
+    return newPeriodComparisons;
+  }
+
+  checkEnabledForCurrentPage() {
+    // category/subcategory is not included on top bar pages, so in that case we use module/action
+    const category = src_MatomoUrl_MatomoUrl.parsed.value.category || src_MatomoUrl_MatomoUrl.parsed.value.module;
+    const subcategory = src_MatomoUrl_MatomoUrl.parsed.value.subcategory || src_MatomoUrl_MatomoUrl.parsed.value.action;
+    const id = `${category}.${subcategory}`;
+    const isEnabled = this.privateState.comparisonsDisabledFor.indexOf(id) === -1 && this.privateState.comparisonsDisabledFor.indexOf(`${category}.*`) === -1;
+    document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
+    return isEnabled;
+  }
+
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts
+
+/* harmony default export */ var Comparisons_store_instance = (new Comparisons_store_ComparisonsStore());
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=1b8ecdd2
+
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_1 = {
+  key: 0,
+  ref: "root",
+  class: "matomo-comparisons"
+};
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_2 = {
+  class: "comparison-type"
+};
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_3 = ["title"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_4 = ["href"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_5 = ["title"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_6 = {
+  class: "comparison-period-label"
+};
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_7 = ["onClick"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_8 = ["title"];
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_9 = {
+  class: "loadingPiwik",
+  style: {
+    "display": "none"
+  }
+};
+const Comparisonsvue_type_template_id_1b8ecdd2_hoisted_10 = ["alt"];
+function Comparisonsvue_type_template_id_1b8ecdd2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.isComparing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      class: "comparison card",
+      key: comparison.index
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+      class: "title",
+      title: comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      target: "_blank",
+      href: _ctx.getUrlToSegment(comparison.params.segment)
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_4)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+        class: "comparison-period",
+        key: periodComparison.index,
+        title: _ctx.getComparisonTooltip(comparison, periodComparison)
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        class: "comparison-dot",
+        style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
+          'background-color': _ctx.getSeriesColor(comparison, periodComparison)
+        })
+      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_5);
+    }), 128)), _ctx.segmentComparisons.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+      key: 0,
+      class: "remove-button",
+      onClick: $event => _ctx.removeSegmentComparison($index)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: "icon icon-close",
+      title: _ctx.translate('General_ClickToRemoveComp')
+    }, null, 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_8)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+    src: "plugins/Morpheus/images/loading-blue.gif",
+    alt: _ctx.translate('General_LoadingData')
+  }, null, 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=1b8ecdd2
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
+
+
+
+
+
+
+/* harmony default export */ var Comparisonsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {},
+
+  data() {
+    return {
+      comparisonTooltips: null
+    };
+  },
+
+  setup() {
+    // accessing has to be done through a computed property so we can use the computed
+    // instance directly in the template. unfortunately, vue won't register to changes.
+    const isComparing = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.isComparing());
+    const segmentComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.getSegmentComparisons());
+    const periodComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.getPeriodComparisons());
+    const getSeriesColor = Comparisons_store_instance.getSeriesColor.bind(Comparisons_store_instance);
+    return {
+      isComparing,
+      segmentComparisons,
+      periodComparisons,
+      getSeriesColor
+    };
+  },
+
+  methods: {
+    comparisonHasSegment(comparison) {
+      return typeof comparison.params.segment !== 'undefined';
+    },
+
+    removeSegmentComparison(index) {
+      // otherwise the tooltip will be stuck on the screen
+      window.$(this.$refs.root).tooltip('destroy');
+      Comparisons_store_instance.removeSegmentComparison(index);
+    },
+
+    getComparisonPeriodType(comparison) {
+      const {
+        period
+      } = comparison.params;
+
+      if (period === 'range') {
+        return translate('CoreHome_PeriodRange');
+      }
+
+      const periodStr = translate(`Intl_Period${period.substring(0, 1).toUpperCase()}${period.substring(1)}`);
+      return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);
+    },
+
+    getComparisonTooltip(segmentComparison, periodComparison) {
+      if (!this.comparisonTooltips || !Object.keys(this.comparisonTooltips).length) {
+        return undefined;
+      }
+
+      return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];
+    },
+
+    getUrlToSegment(segment) {
+      const hash = { ...src_MatomoUrl_MatomoUrl.hashParsed.value
+      };
+      delete hash.comparePeriods;
+      delete hash.compareDates;
+      delete hash.compareSegments;
+      hash.segment = segment;
+      return `${window.location.search}#?${src_MatomoUrl_MatomoUrl.stringify(hash)}`;
+    },
+
+    setUpTooltips() {
+      const {
+        $
+      } = window;
+      $(this.$refs.root).tooltip({
+        track: true,
+        content: function transformTooltipContent() {
+          const title = $(this).attr('title');
+          return window.vueSanitize(title.replace(/\n/g, '<br />'));
+        },
+        show: {
+          delay: 200,
+          duration: 200
+        },
+        hide: false
+      });
+    },
+
+    onComparisonsChanged() {
+      this.comparisonTooltips = null;
+
+      if (!Comparisons_store_instance.isComparing()) {
+        return;
+      }
+
+      const periodComparisons = Comparisons_store_instance.getPeriodComparisons();
+      const segmentComparisons = Comparisons_store_instance.getSegmentComparisons();
+      AjaxHelper_AjaxHelper.fetch({
+        method: 'API.getProcessedReport',
+        apiModule: 'VisitsSummary',
+        apiAction: 'get',
+        compare: '1',
+        compareSegments: src_MatomoUrl_MatomoUrl.getSearchParam('compareSegments'),
+        comparePeriods: src_MatomoUrl_MatomoUrl.getSearchParam('comparePeriods'),
+        compareDates: src_MatomoUrl_MatomoUrl.getSearchParam('compareDates'),
+        format_metrics: '1'
+      }).then(report => {
+        this.comparisonTooltips = {};
+        periodComparisons.forEach(periodComp => {
+          this.comparisonTooltips[periodComp.index] = {};
+          segmentComparisons.forEach(segmentComp => {
+            const tooltip = this.generateComparisonTooltip(report, periodComp, segmentComp);
+            this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
+          });
+        });
+      });
+    },
+
+    generateComparisonTooltip(visitsSummary, periodComp, segmentComp) {
+      if (!visitsSummary.reportData.comparisons) {
+        // sanity check
+        return '';
+      }
+
+      const firstRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, 0);
+      const firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
+      const comparisonRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
+      const comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];
+      const firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
+      let tooltip = '<div class="comparison-card-tooltip">';
+      let visitsPercent = (comparisonRow.nb_visits / firstRow.nb_visits * 100).toFixed(2);
+      visitsPercent = `${visitsPercent}%`;
+      tooltip += translate('General_ComparisonCardTooltip1', [`'${comparisonRow.compareSegmentPretty}'`, comparisonRow.comparePeriodPretty, visitsPercent, comparisonRow.nb_visits.toString(), firstRow.nb_visits.toString()]);
+
+      if (periodComp.index > 0) {
+        tooltip += '<br/><br/>';
+        tooltip += translate('General_ComparisonCardTooltip2', [comparisonRow.nb_visits_change.toString(), firstPeriodRow.compareSegmentPretty, firstPeriodRow.comparePeriodPretty]);
+      }
+
+      tooltip += '</div>';
+      return tooltip;
+    }
+
+  },
+
+  updated() {
+    setTimeout(() => this.setUpTooltips());
+  },
+
+  mounted() {
+    Matomo_Matomo.on('piwikComparisonsChanged', () => {
+      this.onComparisonsChanged();
+    });
+    this.onComparisonsChanged();
+    setTimeout(() => this.setUpTooltips());
+  },
+
+  beforeUnmount() {
+    try {
+      window.$(this.refs.root).tooltip('destroy');
+    } catch (e) {// ignore
+    }
+  }
+
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue
+
+
+
+Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_1b8ecdd2_render
+
+/* harmony default export */ var Comparisons = (Comparisonsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+function ComparisonFactory() {
+  return Comparisons_store_instance;
+}
+
+ComparisonFactory.$inject = [];
+angular.module('piwikApp.service').factory('piwikComparisonsService', ComparisonFactory);
+/* harmony default export */ var Comparisons_adapter = (createAngularJsAdapter({
+  component: Comparisons,
+  directiveName: 'piwikComparisons',
+  restrict: 'E'
 }));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
@@ -2417,21 +3009,6 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
   directiveName: 'piwikAlert',
   transclude: true
 }));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-
-
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform

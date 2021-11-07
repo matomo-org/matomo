@@ -6,7 +6,8 @@
       "angular",
       "jquery",
       "jqueryui",
-      "jest"
+      "jest",
+      "node"
     ]
   }
 }
