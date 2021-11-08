@@ -64,7 +64,6 @@ class SupportedBrowser
     {
         $message  = "<p><b>" . Piwik::translate('General_ExceptionNotSupportedBrowserTitle') . "</b></p>";
         $message .= "<p>" . Piwik::translate('General_ExceptionNotSupportedBrowserText') . "</p>";
-        $message .= '<p>(Detected ' . $client['name'] . ' v' . $client['version'] . ')</p>';
 
         $exception = new NotSupportedBrowserException($message);
         $exception->setIsHtmlMessage();
