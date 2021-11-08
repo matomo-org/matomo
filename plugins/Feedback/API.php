@@ -51,7 +51,7 @@ class API extends \Piwik\Plugin\API
 
         $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText);
 
-        if (!empty($choice) && $choice != 'undefined') {
+        if (!empty($choice) && $choice !== 'undefined') {
             $body .= "Choice: ".$choice."\n";
         }
 
