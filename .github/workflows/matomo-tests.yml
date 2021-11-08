@@ -205,6 +205,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          composer clear-cache
           composer install --ignore-platform-reqs
 
       - name: Run PHP on 80
@@ -258,6 +259,7 @@ jobs:
       #
       - name: Install dependencies
         run: |
+          composer clear-cache
           composer install --ignore-platform-reqs
 
       - name: Setup PHP
@@ -345,13 +347,13 @@ jobs:
           echo ""
           echo "::notice::View UI failures (if any) here:"
           echo ""
-          echo "::debug::https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.ref_name }}/${{ github.job }}/"
+          echo "::debug::https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
           echo ""
           echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
           echo ""
           echo -n "::debug::./console tests:sync-ui-screenshots ${{ github.job }}"
           echo ""
-          url_base="https://builds-artifacts.matomo.org/build?auth_key=$env:ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.job }}&build_entity_id=${{ github.job }}&branch=${{ github.ref_name }}"
+          url_base="https://builds-artifacts.matomo.org/build?auth_key=$env:ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
           echo "::debug::Uploading artifacts for UITests..."
           cd ./tests/UI
           tar -cvjSf processed-ui-screenshots.tar.bz2 processed-ui-screenshots
