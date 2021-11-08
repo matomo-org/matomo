@@ -1027,6 +1027,13 @@ exclude_requests = ""
 ; For both image files and base64 encoded strings supported image types are gif, jpg and png
 custom_image =
 
+; Allow you to disable archiving segment on selected plugins
+; When this is on, it won't archive any data for selected plugin if segment is not empty
+; This field accept split by comma eg: disable_archiving_segment_for_plugin="Plugin1,Plugin2,Plugin3"
+; This field also accept array format eg: disable_archiving_segment_for_plugin[]="Plugin1", disable_archiving_segment_for_plugin[]="Plugin2"
+; if you like to disable on specify site, please append the siteId to the [general_siteId]. eg siteId=2 [general_2]
+disable_archiving_segment_for_plugins = ""
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data

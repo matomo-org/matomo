@@ -402,6 +402,10 @@ class Loader
             return false;
         }
 
+        if (Rules::isSegmentPluginArchivingDisabled($params->getRequestedPlugin(), $params->getSite()->getId())) {
+            return false;
+        }
+
         /** @var SegmentArchiving */
         $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
         $segmentInfo = $segmentArchiving->findSegmentForHash($params->getSegment()->getHash(), $params->getSite()->getId());

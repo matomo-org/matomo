@@ -356,4 +356,28 @@ class Rules
     {
         return Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] != 1;
     }
+
+    public static function isSegmentPluginArchivingDisabled($pluginName, $siteId)
+    {
+        $pluginArchivingSetting = Config::getInstance()->General['disable_archiving_segment_for_plugins'];
+        $siteConfig = Config::getInstance()->${'General_' . $siteId};
+
+        if (!empty($siteConfig) && isset($siteConfig['disable_archiving_segment_for_plugins'])) {
+            $pluginArchivingSetting = $siteConfig['disable_archiving_segment_for_plugins'];
+        }
+
+        if (empty($pluginArchivingSetting)) {
+            return false;
+        }
+
+        if (is_string($pluginArchivingSetting)) {
+            $pluginArchivingSetting = explode(",", "$pluginArchivingSetting");
+        }
+
+        if (in_array($pluginName, $pluginArchivingSetting)) {
+            return true;
+        }
+        return false;
+
+    }
 }
