@@ -137,7 +137,8 @@
             `<i class='icon-heart red-text'></i>`)"></p>
 
           <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
-          <textarea :class="{'has-error':errorMessage}" v-model="feedbackMessage"/>
+          <textarea id="feedbacktext" :class="{'has-error':errorMessage}"
+                    v-model="feedbackMessage"/>
         </div>
 
         <input
