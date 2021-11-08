@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -27,14 +28,19 @@ class API extends \Piwik\Plugin\API
      * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
-     * @param string      $featureName  The name of a feature you want to give feedback to.
-     * @param bool|int    $like         Whether you like the feature or not
-     * @param string|bool $message      A message containing the actual feedback
+     * @param string|null $featureName  The name of a feature you want to give feedback to.
+     * @param int         $like         Whether you like the feature or not
+     * @param string|null $choice       Multiple choice option chosen
+     * @param string|null $message      A message containing the actual feedback
      */
-    public function sendFeedbackForFeature($featureName, $like, $message = false)
+    public function sendFeedbackForFeature(?string $featureName, int $like, ?string $choice, ?string $message = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
+
+        if (strlen($message) < 4) {
+            return Piwik::translate("Feedback_FormEmptyBody");
+        }
 
         $featureName = $this->getEnglishTranslationForFeatureName($featureName);
 
@@ -44,6 +50,10 @@ class API extends \Piwik\Plugin\API
         }
 
         $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText);
+
+        if (!empty($choice) && $choice != 'undefined') {
+            $body .= "Choice: ".$choice."\n";
+        }
 
         $feedbackMessage = "";
         if (!empty($message) && $message != 'undefined') {
@@ -57,7 +67,21 @@ class API extends \Piwik\Plugin\API
             empty($feedbackMessage) ? "" : "(w/ feedback)"
         );
 
-        $this->sendMail($subject, $body);
+        // Determine where Matomo is running and add as source
+        if (Config::getHostname() == 'demo.matomo.cloud') {
+            $source = 'Demo';
+        } else if (SettingsServer::isMatomoForWordPress()) {
+            $source = 'Wordpress';
+        } else {
+            $source = 'On-Premise';
+        }
+        $body .= "Source: ".$source."\n";
+
+        if ($message != 'test') {
+            $this->sendMail($subject, $body);
+        }
+
+        return 'success';
     }
 
     private function sendMail($subject, $body)

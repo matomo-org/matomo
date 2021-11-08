@@ -54,13 +54,29 @@ class Feedback extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_ThankYouHeart';
         $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtra';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraBugs';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraMissing';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraEasier';
+        $translationKeys[] = 'Feedback_RateFeatureOtherReason';
         $translationKeys[] = 'Feedback_SendFeedback';
         $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
+        $translationKeys[] = 'Feedback_RateFeatureUsefulInfo';
+        $translationKeys[] = 'Feedback_RateFeatureEasyToUse';
+        $translationKeys[] = 'Feedback_RateFeatureConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeAddMissingFeatures';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeMakeEasier';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeSpeedUp';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeFixBugs';
         $translationKeys[] = 'Feedback_ReviewMatomoTitle';
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
@@ -72,6 +88,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
         $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'Feedback_WontShowAgain';
+        $translationKeys[] = 'Feedback_AppreciateFeedback';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }

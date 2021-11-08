@@ -15,37 +15,139 @@
       v-on:mouseleave="expanded = false"
     >
       <img
-        v-on:click="likeFeature();showFeedbackForm=true"
+        v-on:click="likeFeature();"
         class="like-icon"
         src="plugins/Feedback/vue/src/RateFeature/thumbs-up.png"
       />
       <img
-        v-on:click="dislikeFeature();showFeedbackForm=true"
+        v-on:click="dislikeFeature();"
         class="dislike-icon"
-        v-show="expanded"
         src="plugins/Feedback/vue/src/RateFeature/thumbs-down.png"
       />
     </div>
     <MatomoDialog
       v-model="showFeedbackForm"
       @yes="sendFeedback()"
+      @validation = "sendFeedback()"
     >
       <div
         class="ui-confirm ratefeatureDialog"
       >
         <h2>{{ translate('Feedback_RateFeatureThankYouTitle', title) }}</h2>
-        <p v-if="like">{{ translate('Feedback_RateFeatureLeaveMessageLike') }}</p>
-        <p v-if="!like">{{ translate('Feedback_RateFeatureLeaveMessageDislike') }}</p>
         <br />
-        <div class="messageContainer">
-          <textarea v-model="feedbackMessage" />
+        <div
+          v-if="like"
+        >
+          <p v-if="title" >{{ translate('Feedback_RateFeatureLeaveMessageLikeNamedFeature',
+          title) }}</p>
+          <p v-if="!title" >{{ translate('Feedback_RateFeatureLeaveMessageLike') }}</p>
+          <br />
+          <div class="row">
+            <div class="col l6 offset-l3" style="text-align:left">
+              <label for="useful" class="ratelabel">
+                <input type="radio" id="useful" value="useful" v-model="likeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureUsefulInfo') }}
+              </label>
+              <br />
+              <label for="easy" class="ratelabel">
+                <input type="radio" id="easy" value="easy" v-model="likeReason" class="rateradio">
+                {{ translate('Feedback_RateFeatureEasyToUse') }}
+              </label>
+              <br />
+              <label for="configurable" class="ratelabel">
+                <input type="radio" id="configurable" value="configurable" v-model="likeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureConfigurable') }}
+              </label>
+              <br />
+              <label for="likeother" class="ratelabel">
+                <input type="radio" id="likeother" value="likeother" v-model="likeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureOtherReason') }}
+              </label>
+            </div>
+          </div>
+
         </div>
+        <div
+          v-if="!like"
+        >
+          <p v-if="title">{{ translate('Feedback_RateFeatureLeaveMessageDislikeNamedFeature',
+            title) }}</p>
+          <p v-if="!title">{{ translate('Feedback_RateFeatureLeaveMessageDislike') }}</p>
+          <br />
+          <div class="row">
+            <div class="col l6 offset-l3" style="text-align:left">
+              <label for="missingfeatures" class="ratelabel">
+                <input type="radio" id="missingfeatures" value="missingfeatures"
+                       v-model="dislikeReason" class="rateradio">
+                {{ translate('Feedback_RateFeatureDislikeAddMissingFeatures') }}
+              </label>
+              <br />
+              <label for="makeeasier" class="ratelabel">
+                <input type="radio" id="makeeasier" value="makeeasier" v-model="dislikeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureDislikeMakeEasier') }}
+              </label>
+              <br />
+              <label for="speedup" class="ratelabel">
+                <input type="radio" id="speedup" value="speedup" v-model="dislikeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureDislikeSpeedUp') }}
+              </label>
+              <br />
+              <label for="fixbugs" class="ratelabel">
+                <input type="radio" id="fixbugs" value="fixbugs" v-model="dislikeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureDislikeFixBugs') }}
+              </label>
+              <br />
+              <label for="dislikeother" class="ratelabel">
+                <input type="radio" id="dislikeother" value="dislikeother" v-model="dislikeReason"
+                       class="rateradio">
+                {{ translate('Feedback_RateFeatureOtherReason') }}
+              </label>
+              <br />
+            </div>
+          </div>
+
+        </div>
+
+        <div v-if="likeReason || dislikeReason" class="messageContainer">
+
+          <p v-if="likeReason" v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtra',
+            `<i class='icon-heart red-text'></i>`)"></p>
+
+          <p v-if="dislikeReason && dislikeReason == 'missingfeatures'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraMissing',
+            `<i class='icon-heart red-text'></i>`)"></p>
+
+          <p v-if="dislikeReason && dislikeReason == 'makeeasier'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraEasier',
+            `<i class='icon-heart red-text'></i>`)"></p>
+
+          <p v-if="dislikeReason && dislikeReason == 'fixbugs'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraBugs',
+            `<i class='icon-heart red-text'></i>`)"></p>
+
+          <p v-if="dislikeReason &&
+          (dislikeReason == 'dislikeother' || dislikeReason == 'speedup')"
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtra',
+            `<i class='icon-heart red-text'></i>`)"></p>
+
+          <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
+          <textarea :class="{'has-error':errorMessage}" v-model="feedbackMessage"/>
+        </div>
+
         <input
+          class="btn"
           type="button"
+          role="validation"
           :title="translate('Feedback_RateFeatureSendFeedbackInformation')"
           :value="translate('Feedback_SendFeedback')"
-          role="yes"
         />
+
         <input
           type="button"
           role="cancel"
@@ -53,21 +155,23 @@
         />
       </div>
     </MatomoDialog>
+
     <MatomoDialog
       v-model="ratingDone"
     >
       <div
         class="ui-confirm ratefeatureDialog"
       >
-        <h2>{{ translate('Feedback_ThankYou', title) }}</h2>
+        <h2 v-html="translate('Feedback_ThankYouHeart',`<i class='icon-heart red-text'></i>`)"></h2>
         <div
           v-if="like"
         >
           <ReviewLinks />
         </div>
+        <p v-if="!like">{{ translate('Feedback_AppreciateFeedback') }}</p>
         <input
           type="button"
-          :value="translate('General_Ok')"
+          :value="translate('General_Close')"
           role="yes"
         />
       </div>
@@ -91,27 +195,50 @@ export default defineComponent({
   data() {
     return {
       like: false,
+      likeReason: null,
+      dislikeReason: null,
       ratingDone: false,
       expanded: false,
       showFeedbackForm: false,
       feedbackMessage: '',
+      errorMessage: null,
     };
   },
   methods: {
     dislikeFeature() {
+      this.ratingDone = false;
       this.like = false;
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+      this.likeReason = null;
+      this.dislikeReason = null;
     },
     likeFeature() {
+      this.ratingDone = false;
       this.like = true;
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+      this.likeReason = null;
+      this.dislikeReason = null;
     },
-    sendFeedback() {
-      AjaxHelper.fetch({
+
+    async sendFeedback() {
+      this.errorMessage = null;
+      const res = await AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForFeature',
         featureName: this.title,
         like: this.like ? '1' : '0',
+        choice: this.like ? this.likeReason : this.dislikeReason,
         message: this.feedbackMessage,
       });
-      this.ratingDone = true;
+
+      if (res.value === 'success') {
+        document.querySelector('.modal-close').click();
+        this.ratingDone = true;
+        this.feedbackMessage = '';
+      } else {
+        this.errorMessage = res.value;
+      }
     },
   },
 });
