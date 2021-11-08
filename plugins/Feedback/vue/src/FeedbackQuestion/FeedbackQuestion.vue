@@ -64,6 +64,8 @@
 import { defineComponent } from 'vue';
 import { MatomoDialog, AjaxHelper } from 'CoreHome';
 
+const { $ } = window;
+
 const cookieName = 'feedback-question';
 export default defineComponent({
 
@@ -140,7 +142,7 @@ export default defineComponent({
       });
 
       if (res.value === 'success') {
-        document.querySelector('.modal-close').click();
+        $('.modal').modal('close');
         this.feedbackDone = true;
         this.hide = true;
       } else {
