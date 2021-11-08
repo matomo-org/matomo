@@ -562,6 +562,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
+            "plugins/CoreHome/javascripts/broadcast.js",
         );
 
         CoreVue::addJsFilesTo($files);
