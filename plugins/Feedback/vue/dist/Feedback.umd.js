@@ -145,45 +145,49 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=65bd066a
 
-const _hoisted_1 = ["title"];
-const _hoisted_2 = {
+var _hoisted_1 = ["title"];
+var _hoisted_2 = {
   class: "ui-confirm ratefeatureDialog"
 };
-const _hoisted_3 = {
+var _hoisted_3 = {
   key: 0
 };
-const _hoisted_4 = {
+var _hoisted_4 = {
   key: 1
 };
 
-const _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-const _hoisted_6 = {
+var _hoisted_6 = {
   class: "messageContainer"
 };
-const _hoisted_7 = ["title", "value"];
-const _hoisted_8 = ["value"];
-const _hoisted_9 = {
+var _hoisted_7 = ["title", "value"];
+var _hoisted_8 = ["value"];
+var _hoisted_9 = {
   class: "ui-confirm ratefeatureDialog"
 };
-const _hoisted_10 = {
+var _hoisted_10 = {
   key: 0
 };
-const _hoisted_11 = ["value"];
+var _hoisted_11 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
+  var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
 
-  const _component_ReviewLinks = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ReviewLinks");
+  var _component_ReviewLinks = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ReviewLinks");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     title: _ctx.translate('Feedback_RateFeatureTitle', _ctx.$sanitize(_ctx.title)),
     class: "ratefeature"
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "iconContainer",
-    onMouseenter: _cache[2] || (_cache[2] = $event => _ctx.expanded = true),
-    onMouseleave: _cache[3] || (_cache[3] = $event => _ctx.expanded = false)
+    onMouseenter: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.expanded = true;
+    }),
+    onMouseleave: _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.expanded = false;
+    })
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-    onClick: _cache[0] || (_cache[0] = $event => {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
       _ctx.likeFeature();
 
       _ctx.showFeedbackForm = true;
@@ -191,7 +195,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "like-icon",
     src: "plugins/Feedback/vue/src/RateFeature/thumbs-up.png"
   }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-    onClick: _cache[1] || (_cache[1] = $event => {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
       _ctx.dislikeFeature();
 
       _ctx.showFeedbackForm = true;
@@ -200,31 +204,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: "plugins/Feedback/vue/src/RateFeature/thumbs-down.png"
   }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.expanded]])], 32), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
     modelValue: _ctx.showFeedbackForm,
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.showFeedbackForm = $event),
-    onYes: _cache[6] || (_cache[6] = $event => _ctx.sendFeedback())
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.showFeedbackForm = $event;
+    }),
+    onYes: _cache[6] || (_cache[6] = function ($event) {
+      return _ctx.sendFeedback();
+    })
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureThankYouTitle', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageLike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageDislike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.feedbackMessage = $event)
-    }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "button",
-      title: _ctx.translate('Feedback_RateFeatureSendFeedbackInformation'),
-      value: _ctx.translate('Feedback_SendFeedback'),
-      role: "yes"
-    }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "button",
-      role: "cancel",
-      value: _ctx.translate('General_Cancel')
-    }, null, 8, _hoisted_8)])]),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureThankYouTitle', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageLike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageDislike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return _ctx.feedbackMessage = $event;
+        })
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "button",
+        title: _ctx.translate('Feedback_RateFeatureSendFeedbackInformation'),
+        value: _ctx.translate('Feedback_SendFeedback'),
+        role: "yes"
+      }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "button",
+        role: "cancel",
+        value: _ctx.translate('General_Cancel')
+      }, null, 8, _hoisted_8)])];
+    }),
     _: 1
   }, 8, ["modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
     modelValue: _ctx.ratingDone,
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.ratingDone = $event)
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return _ctx.ratingDone = $event;
+    })
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ThankYou', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ReviewLinks)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "button",
-      value: _ctx.translate('General_Ok'),
-      role: "yes"
-    }, null, 8, _hoisted_11)])]),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ThankYou', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ReviewLinks)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "button",
+        value: _ctx.translate('General_Ok'),
+        role: "yes"
+      }, null, 8, _hoisted_11)])];
+    }),
     _: 1
   }, 8, ["modelValue"])], 8, _hoisted_1);
 }
@@ -232,11 +248,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue?vue&type=template&id=4471fc41
 
-const ReviewLinksvue_type_template_id_4471fc41_hoisted_1 = {
+var ReviewLinksvue_type_template_id_4471fc41_hoisted_1 = {
   class: "requestReview"
 };
 
-const ReviewLinksvue_type_template_id_4471fc41_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<br><br><div class=\"review-links\"><div class=\"review-link\"><a href=\"https://www.capterra.com/p/182627/Matomo-Analytics/\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/capterra.svg\"></div><div class=\"link\">Capterra</div></a></div><div class=\"review-link\"><a href=\"https://www.g2crowd.com/products/matomo-formerly-piwik/details\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/g2crowd.svg\"></div><div class=\"link\">G2 Crowd</div></a></div><div class=\"review-link\"><a href=\"https://www.producthunt.com/posts/matomo-2\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/producthunt.svg\"></div><div class=\"link\">Product Hunt</div></a></div><div class=\"review-link\"><a href=\"https://www.saasworthy.com/product/matomo\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/saasworthy.png\"></div><div class=\"link\">SaaSworthy</div></a></div><div class=\"review-link\"><a href=\"https://www.trustradius.com/products/matomo/reviews\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/trustradius.svg\"></div><div class=\"link\">TrustRadius</div></a></div></div>", 3);
+var ReviewLinksvue_type_template_id_4471fc41_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<br><br><div class=\"review-links\"><div class=\"review-link\"><a href=\"https://www.capterra.com/p/182627/Matomo-Analytics/\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/capterra.svg\"></div><div class=\"link\">Capterra</div></a></div><div class=\"review-link\"><a href=\"https://www.g2crowd.com/products/matomo-formerly-piwik/details\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/g2crowd.svg\"></div><div class=\"link\">G2 Crowd</div></a></div><div class=\"review-link\"><a href=\"https://www.producthunt.com/posts/matomo-2\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/producthunt.svg\"></div><div class=\"link\">Product Hunt</div></a></div><div class=\"review-link\"><a href=\"https://www.saasworthy.com/product/matomo\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/saasworthy.png\"></div><div class=\"link\">SaaSworthy</div></a></div><div class=\"review-link\"><a href=\"https://www.trustradius.com/products/matomo/reviews\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/trustradius.svg\"></div><div class=\"link\">TrustRadius</div></a></div></div>", 3);
 
 function ReviewLinksvue_type_template_id_4471fc41_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReviewLinksvue_type_template_id_4471fc41_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_PleaseLeaveExternalReviewForMatomo')), 1), ReviewLinksvue_type_template_id_4471fc41_hoisted_2]);
@@ -267,8 +283,7 @@ ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_4471
     MatomoDialog: external_CoreHome_["MatomoDialog"],
     ReviewLinks: ReviewLinks
   },
-
-  data() {
+  data: function data() {
     return {
       like: false,
       ratingDone: false,
@@ -277,17 +292,14 @@ ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_4471
       feedbackMessage: ''
     };
   },
-
   methods: {
-    dislikeFeature() {
+    dislikeFeature: function dislikeFeature() {
       this.like = false;
     },
-
-    likeFeature() {
+    likeFeature: function likeFeature() {
       this.like = true;
     },
-
-    sendFeedback() {
+    sendFeedback: function sendFeedback() {
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'Feedback.sendFeedbackForFeature',
         featureName: this.title,
@@ -296,7 +308,6 @@ ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_4471
       });
       this.ratingDone = true;
     }
-
   }
 }));
 // CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=script&lang=ts
