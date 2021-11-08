@@ -147,8 +147,8 @@ __webpack_require__.d(__webpack_exports__, "getToday", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClickFactory; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHoverFactory; });
+__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
+__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 __webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
@@ -1577,6 +1577,48 @@ angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+function onExpand(element) {
+  element.classList.toggle('expanded');
+  const positionElement = element.querySelector('.dropdown.positionInViewport');
+
+  if (positionElement) {
+    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
+  }
+}
+
+function onClickOutsideElement(element, binding, event) {
+  const hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
+  binding.value.isMouseDown = false;
+  binding.value.hasScrolled = false;
+
+  if (hadUsedScrollbar) {
+    return;
+  }
+
+  if (!element.contains(event.target)) {
+    element.classList.remove('expanded');
+  }
+}
+
+function onScroll(binding) {
+  binding.value.hasScrolled = true;
+}
+
+function onMouseDown(binding) {
+  binding.value.isMouseDown = true;
+  binding.value.hasScrolled = false;
+}
+
+function onEscapeHandler(element, binding, event) {
+  if (event.which === 27) {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    element.classList.remove('expanded');
+  }
+}
+
+const doc = document.documentElement;
 /**
  * Usage (in a component):
  *
@@ -1586,72 +1628,31 @@ angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
  * }
  */
 
-function ExpandOnClickFactory() {
-  let element;
-  let isMouseDown = false;
-  let hasScrolled = false;
+/* harmony default export */ var ExpandOnClick = ({
+  mounted(el, binding) {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    binding.value.onExpand = onExpand.bind(null, el);
+    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
+    binding.value.onMouseDown = onMouseDown.bind(null, binding);
+    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
+    binding.value.onScroll = onScroll.bind(null, binding);
+    binding.value.expander.addEventListener('click', binding.value.onExpand);
+    doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    doc.addEventListener('mousedown', binding.value.onMouseDown);
+    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+    doc.addEventListener('scroll', binding.value.onScroll);
+  },
 
-  function onExpand() {
-    element.classList.toggle('expanded');
-    const positionElement = element.querySelector('.dropdown.positionInViewport');
-
-    if (positionElement) {
-      Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-    }
+  unmounted(el, binding) {
+    binding.value.expander.removeEventListener('click', binding.value.onExpand);
+    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
+    doc.removeEventListener('mousedown', binding.value.onMouseDown);
+    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+    doc.removeEventListener('scroll', binding.value.onScroll);
   }
 
-  function onClickOutsideElement(event) {
-    const hadUsedScrollbar = isMouseDown && hasScrolled;
-    isMouseDown = false;
-    hasScrolled = false;
-
-    if (hadUsedScrollbar) {
-      return;
-    }
-
-    if (!element.contains(event.target)) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  function onScroll() {
-    hasScrolled = true;
-  }
-
-  function onMouseDown() {
-    isMouseDown = true;
-    hasScrolled = false;
-  }
-
-  function onEscapeHandler(event) {
-    if (event.which === 27) {
-      isMouseDown = false;
-      hasScrolled = false;
-      element.classList.remove('expanded');
-    }
-  }
-
-  const doc = document.documentElement;
-  return {
-    mounted(el, binding) {
-      element = el;
-      binding.value.expander.addEventListener('click', onExpand);
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mousedown', onMouseDown);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-      doc.addEventListener('scroll', onScroll);
-    },
-
-    unmounted(el, binding) {
-      binding.value.expander.removeEventListener('click', onExpand);
-      doc.removeEventListener('keyup', onEscapeHandler);
-      doc.removeEventListener('mousedown', onMouseDown);
-      doc.removeEventListener('mouseup', onClickOutsideElement);
-      doc.removeEventListener('scroll', onScroll);
-    }
-
-  };
-}
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1673,9 +1674,9 @@ function piwikExpandOnClick() {
         modifiers: {},
         dir: {}
       };
-      const wrapped = ExpandOnClickFactory();
-      wrapped.mounted(element[0], binding, null, null);
-      element.on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = ExpandOnClick;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     }
   };
 }
@@ -1689,6 +1690,33 @@ angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+function onMouseEnter(element) {
+  element.classList.add('expanded');
+  const positionElement = element.querySelector('.dropdown.positionInViewport');
+
+  if (positionElement) {
+    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
+  }
+}
+
+function onMouseLeave(element) {
+  element.classList.remove('expanded');
+}
+
+function ExpandOnHover_onClickOutsideElement(element, event) {
+  if (!element.contains(event.target)) {
+    element.classList.remove('expanded');
+  }
+}
+
+function ExpandOnHover_onEscapeHandler(element, event) {
+  if (event.which === 27) {
+    element.classList.remove('expanded');
+  }
+}
+
+const ExpandOnHover_doc = document.documentElement;
 /**
  * Usage (in a component):
  *
@@ -1698,53 +1726,26 @@ angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
  * }
  */
 
-function ExpandOnHoverFactory() {
-  let element;
+/* harmony default export */ var ExpandOnHover = ({
+  mounted(el, binding) {
+    binding.value.onMouseEnter = onMouseEnter.bind(null, el);
+    binding.value.onMouseLeave = onMouseLeave.bind(null, el);
+    binding.value.onClickOutsideElement = ExpandOnHover_onClickOutsideElement.bind(null, el);
+    binding.value.onEscapeHandler = ExpandOnHover_onEscapeHandler.bind(null, el);
+    binding.value.expander.addEventListener('mouseenter', binding.value.onMouseEnter);
+    el.addEventListener('mouseleave', binding.value.onMouseLeave);
+    ExpandOnHover_doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    ExpandOnHover_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+  },
 
-  function onMouseEnter() {
-    element.classList.add('expanded');
-    const positionElement = element.querySelector('.dropdown.positionInViewport');
-
-    if (positionElement) {
-      Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-    }
+  unmounted(el, binding) {
+    binding.value.expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
+    el.removeEventListener('mouseleave', binding.value.onMouseLeave);
+    document.removeEventListener('keyup', binding.value.onEscapeHandler);
+    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
   }
 
-  function onMouseLeave() {
-    element.classList.remove('expanded');
-  }
-
-  function onClickOutsideElement(event) {
-    if (!element.contains(event.target)) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  function onEscapeHandler(event) {
-    if (event.which === 27) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  const doc = document.documentElement;
-  return {
-    mounted(el, binding) {
-      element = el;
-      binding.value.expander.addEventListener('mouseenter', onMouseEnter);
-      element.addEventListener('mouseleave', onMouseLeave);
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-    },
-
-    unmounted(el, binding) {
-      binding.value.expander.removeEventListener('mouseenter', onMouseEnter);
-      element.removeEventListener('mouseleave', onMouseLeave);
-      document.removeEventListener('keyup', onEscapeHandler);
-      document.removeEventListener('mouseup', onClickOutsideElement);
-    }
-
-  };
-}
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1767,9 +1768,9 @@ function piwikExpandOnHover() {
         modifiers: {},
         dir: {}
       };
-      const wrapped = ExpandOnHoverFactory();
-      wrapped.mounted(element[0], binding, null, null);
-      element.on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = ExpandOnHover;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     }
   };
 }
