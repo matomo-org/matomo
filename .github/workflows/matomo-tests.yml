@@ -53,7 +53,7 @@ jobs:
         env:
             ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
         run: |
-            url_base="https://builds-artifacts.matomo.org/build?auth_key=$env:ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.job }}&build_entity_id=${{ github.job }}&branch=${{ github.ref_name }}"
+            url_base="https://builds-artifacts.matomo.org/build?auth_key=${{ ARTIFACTS_PASS }}&repo=${{ github.repository }}&build_id=${{ github.job }}&build_entity_id=${{ github.job }}&branch=${{ github.ref_name }}"
             echo $url_base;
 
       - name: Checkout code
