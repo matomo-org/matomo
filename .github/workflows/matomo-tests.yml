@@ -349,7 +349,7 @@ jobs:
           echo ""
           echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
           echo ""
-          echo -n "::debug::./console tests:sync-ui-screenshots ${{ github.job }"
+          echo -n "::debug::./console tests:sync-ui-screenshots ${{ github.job }}"
           echo ""
           url_base="https://builds-artifacts.matomo.org/build?auth_key=$env:ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.job }}&build_entity_id=${{ github.job }}&branch=${{ github.ref_name }}"
           echo "::debug::Uploading artifacts for UITests..."
