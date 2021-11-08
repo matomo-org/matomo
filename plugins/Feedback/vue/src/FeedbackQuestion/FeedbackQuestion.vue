@@ -6,7 +6,7 @@
 
 <template>
   <div>
-    <div v-if="!isHide" class="bannerHeader">
+    <div v-if="!isHidden" class="bannerHeader">
       <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
       <a @click="showQuestion" class="btn">
         {{ translate(`Feedback_Question${question}`) }}
@@ -76,7 +76,7 @@ export default defineComponent({
     MatomoDialog,
   },
   computed: {
-    isHide() {
+    isHidden() {
       if (this.showQuestionBanner === '0') {
         return true;
       }

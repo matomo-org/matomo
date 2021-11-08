@@ -116,25 +116,20 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
-        // if is new user
+        // if is new user or old user field not exist
         if ($nextReminderDate === false) {
-            //new user extend to 6 month
+
+            // if user is created more than 6 month ago, set reminder to today and show banner
+            $userCreatedDate = Piwik::getCurrentUserCreationData();
+            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
+                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
+                $feedbackReminder->setUserOption($nextReminder);
+                return true;
+            }
+            //new user extend to 6 month, don't show banner
             $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
             return false;
-        }
-
-
-        // if user is not log in for a week. Display banner
-        $userLastSeen = Piwik::getCurrentUserLastSeen();
-        if (!empty($userLastSeen) && Date::factory($userLastSeen)->addDay(7)->getTimestamp() < $now) {
-            return true;
-        }
-        // if user is created less than 6 month ago, it won't show.
-        // I am not sure if this test really works. Because fake access is trade as isUserIsAnonymous
-        $userCreatedDate = Piwik::getCurrentUserCreationData();
-        if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
-            return true;
         }
 
         $nextReminderDate = Date::factory($nextReminderDate);
