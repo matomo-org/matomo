@@ -339,21 +339,26 @@ jobs:
         run: |
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
 
+      - name: failed UI details
+        if: failure()
+        shell: bash
+        run: |
+          echo ""
+          echo "::warning:: View UI failures here:"
+          echo ""
+          echo "::warning:: https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
+          echo ""
+          echo "::warning:: If the new screenshots are valid, then you can copy them over to the right directory with the command:"
+          echo ""
+          echo "::warning:: ./console tests:sync-ui-screenshots ${{ github.job }}"
+          echo ""
+
       - name: upload processed screenshots
         if: failure()
         shell: bash
         env:
           ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
         run: |
-          echo ""
-          echo "::notice:: View UI failures here:"
-          echo ""
-          echo "::debug:: https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
-          echo ""
-          echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
-          echo ""
-          echo -n "::debug:: ./console tests:sync-ui-screenshots ${{ github.job }}"
-          echo ""
           url_base="https://builds-artifacts.matomo.org/build?auth_key=$ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
           echo "::debug:: Uploading artifacts for UITests..."
           cd ./tests/UI
