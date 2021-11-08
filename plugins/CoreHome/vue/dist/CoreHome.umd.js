@@ -1606,7 +1606,7 @@ angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
   mounted(element, binding) {
     let options = {};
     $(element).addClass('matomo-dropdown-menu');
-    const isSubmenu = !!$(element).parent().closest('.dropdown-content');
+    const isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
 
     if (isSubmenu) {
       options = {

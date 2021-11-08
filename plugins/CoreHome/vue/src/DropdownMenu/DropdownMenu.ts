@@ -38,7 +38,7 @@ export default {
 
     $(element).addClass('matomo-dropdown-menu');
 
-    const isSubmenu = !!$(element).parent().closest('.dropdown-content');
+    const isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
     if (isSubmenu) {
       options = { hover: true };
       $(element).addClass('submenu');
