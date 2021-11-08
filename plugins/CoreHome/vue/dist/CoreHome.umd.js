@@ -150,8 +150,8 @@ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
 __webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClickFactory; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHoverFactory; });
+__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
+__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 __webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
@@ -1619,7 +1619,7 @@ angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
   mounted(element, binding) {
     let options = {};
     $(element).addClass('matomo-dropdown-menu');
-    const isSubmenu = !!$(element).parent().closest('.dropdown-content');
+    const isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
 
     if (isSubmenu) {
       options = {
@@ -1673,7 +1673,45 @@ angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+function onClickOutsideElement(element, binding, event) {
+  const hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
+  binding.value.isMouseDown = false;
+  binding.value.hasScrolled = false;
 
+  if (hadUsedScrollbar) {
+    return;
+  }
+
+  if (!element.contains(event.target)) {
+    if (binding.value) {
+      binding.value.blur();
+    }
+  }
+}
+
+function onScroll(element, binding) {
+  binding.value.hasScrolled = true;
+}
+
+function onMouseDown(element, binding) {
+  binding.value.isMouseDown = true;
+  binding.value.hasScrolled = false;
+}
+
+function onEscapeHandler(element, binding, event) {
+  if (event.which === 27) {
+    setTimeout(() => {
+      binding.value.isMouseDown = false;
+      binding.value.hasScrolled = false;
+
+      if (binding.value.blur) {
+        binding.value.blur();
+      }
+    }, 0);
+  }
+}
+
+const doc = document.documentElement;
 /**
  * Usage (in a component):
  *
@@ -1684,70 +1722,29 @@ angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);
  *
  * Note: the binding data needs to be static, changes will not be handled.
  */
-function FocusAnywhereButHere() {
-  let element;
-  let binding;
-  let isMouseDown = false;
-  let hasScrolled = false;
 
-  function onClickOutsideElement(event) {
-    const hadUsedScrollbar = isMouseDown && hasScrolled;
-    isMouseDown = false;
-    hasScrolled = false;
+/* harmony default export */ var FocusAnywhereButHere = ({
+  mounted(el, binding) {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
+    binding.value.onMouseDown = onMouseDown.bind(null, el, binding);
+    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
+    binding.value.onScroll = onScroll.bind(null, el, binding);
+    doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    doc.addEventListener('mousedown', binding.value.onMouseDown);
+    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+    doc.addEventListener('scroll', binding.value.onScroll);
+  },
 
-    if (hadUsedScrollbar) {
-      return;
-    }
-
-    if (!element.contains(event.target)) {
-      if (binding.value.blur) {
-        binding.value.blur();
-      }
-    }
+  unmounted(el, binding) {
+    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
+    doc.removeEventListener('mousedown', binding.value.onMouseDown);
+    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+    doc.removeEventListener('scroll', binding.value.onScroll);
   }
 
-  function onScroll() {
-    hasScrolled = true;
-  }
-
-  function onMouseDown() {
-    isMouseDown = true;
-    hasScrolled = false;
-  }
-
-  function onEscapeHandler(event) {
-    if (event.which === 27) {
-      setTimeout(() => {
-        isMouseDown = false;
-        hasScrolled = false;
-
-        if (binding.value.blur) {
-          binding.value.blur();
-        }
-      }, 0);
-    }
-  }
-
-  const doc = document.documentElement;
-  return {
-    mounted(el, b) {
-      element = el;
-      binding = b;
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mousedown', onMouseDown);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-      doc.addEventListener('scroll', onScroll);
-    },
-
-    unmounted() {
-      doc.removeEventListener('keyup', onEscapeHandler);
-      doc.removeEventListener('mousedown', onMouseDown);
-      doc.removeEventListener('mouseup', onClickOutsideElement);
-      doc.removeEventListener('scroll', onScroll);
-    }
-
-  };
-}
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1781,9 +1778,9 @@ function piwikFocusAnywhereButHere() {
         modifiers: {},
         dir: {}
       };
-      const wrapped = FocusAnywhereButHere();
-      wrapped.mounted(element[0], binding, null, null);
-      scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = FocusAnywhereButHere;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     }
   };
 }
@@ -1852,6 +1849,48 @@ angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+function onExpand(element) {
+  element.classList.toggle('expanded');
+  const positionElement = element.querySelector('.dropdown.positionInViewport');
+
+  if (positionElement) {
+    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
+  }
+}
+
+function ExpandOnClick_onClickOutsideElement(element, binding, event) {
+  const hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
+  binding.value.isMouseDown = false;
+  binding.value.hasScrolled = false;
+
+  if (hadUsedScrollbar) {
+    return;
+  }
+
+  if (!element.contains(event.target)) {
+    element.classList.remove('expanded');
+  }
+}
+
+function ExpandOnClick_onScroll(binding) {
+  binding.value.hasScrolled = true;
+}
+
+function ExpandOnClick_onMouseDown(binding) {
+  binding.value.isMouseDown = true;
+  binding.value.hasScrolled = false;
+}
+
+function ExpandOnClick_onEscapeHandler(element, binding, event) {
+  if (event.which === 27) {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    element.classList.remove('expanded');
+  }
+}
+
+const ExpandOnClick_doc = document.documentElement;
 /**
  * Usage (in a component):
  *
@@ -1861,72 +1900,31 @@ angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
  * }
  */
 
-function ExpandOnClickFactory() {
-  let element;
-  let isMouseDown = false;
-  let hasScrolled = false;
+/* harmony default export */ var ExpandOnClick = ({
+  mounted(el, binding) {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    binding.value.onExpand = onExpand.bind(null, el);
+    binding.value.onEscapeHandler = ExpandOnClick_onEscapeHandler.bind(null, el, binding);
+    binding.value.onMouseDown = ExpandOnClick_onMouseDown.bind(null, binding);
+    binding.value.onClickOutsideElement = ExpandOnClick_onClickOutsideElement.bind(null, el, binding);
+    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
+    binding.value.expander.addEventListener('click', binding.value.onExpand);
+    ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    ExpandOnClick_doc.addEventListener('mousedown', binding.value.onMouseDown);
+    ExpandOnClick_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+    ExpandOnClick_doc.addEventListener('scroll', binding.value.onScroll);
+  },
 
-  function onExpand() {
-    element.classList.toggle('expanded');
-    const positionElement = element.querySelector('.dropdown.positionInViewport');
-
-    if (positionElement) {
-      Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-    }
+  unmounted(el, binding) {
+    binding.value.expander.removeEventListener('click', binding.value.onExpand);
+    ExpandOnClick_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
+    ExpandOnClick_doc.removeEventListener('mousedown', binding.value.onMouseDown);
+    ExpandOnClick_doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+    ExpandOnClick_doc.removeEventListener('scroll', binding.value.onScroll);
   }
 
-  function onClickOutsideElement(event) {
-    const hadUsedScrollbar = isMouseDown && hasScrolled;
-    isMouseDown = false;
-    hasScrolled = false;
-
-    if (hadUsedScrollbar) {
-      return;
-    }
-
-    if (!element.contains(event.target)) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  function onScroll() {
-    hasScrolled = true;
-  }
-
-  function onMouseDown() {
-    isMouseDown = true;
-    hasScrolled = false;
-  }
-
-  function onEscapeHandler(event) {
-    if (event.which === 27) {
-      isMouseDown = false;
-      hasScrolled = false;
-      element.classList.remove('expanded');
-    }
-  }
-
-  const doc = document.documentElement;
-  return {
-    mounted(el, binding) {
-      element = el;
-      binding.value.expander.addEventListener('click', onExpand);
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mousedown', onMouseDown);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-      doc.addEventListener('scroll', onScroll);
-    },
-
-    unmounted(el, binding) {
-      binding.value.expander.removeEventListener('click', onExpand);
-      doc.removeEventListener('keyup', onEscapeHandler);
-      doc.removeEventListener('mousedown', onMouseDown);
-      doc.removeEventListener('mouseup', onClickOutsideElement);
-      doc.removeEventListener('scroll', onScroll);
-    }
-
-  };
-}
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1948,9 +1946,9 @@ function piwikExpandOnClick() {
         modifiers: {},
         dir: {}
       };
-      const wrapped = ExpandOnClickFactory();
-      wrapped.mounted(element[0], binding, null, null);
-      scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = ExpandOnClick;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     }
   };
 }
@@ -1964,6 +1962,33 @@ angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+function onMouseEnter(element) {
+  element.classList.add('expanded');
+  const positionElement = element.querySelector('.dropdown.positionInViewport');
+
+  if (positionElement) {
+    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
+  }
+}
+
+function onMouseLeave(element) {
+  element.classList.remove('expanded');
+}
+
+function ExpandOnHover_onClickOutsideElement(element, event) {
+  if (!element.contains(event.target)) {
+    element.classList.remove('expanded');
+  }
+}
+
+function ExpandOnHover_onEscapeHandler(element, event) {
+  if (event.which === 27) {
+    element.classList.remove('expanded');
+  }
+}
+
+const ExpandOnHover_doc = document.documentElement;
 /**
  * Usage (in a component):
  *
@@ -1973,53 +1998,26 @@ angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
  * }
  */
 
-function ExpandOnHoverFactory() {
-  let element;
+/* harmony default export */ var ExpandOnHover = ({
+  mounted(el, binding) {
+    binding.value.onMouseEnter = onMouseEnter.bind(null, el);
+    binding.value.onMouseLeave = onMouseLeave.bind(null, el);
+    binding.value.onClickOutsideElement = ExpandOnHover_onClickOutsideElement.bind(null, el);
+    binding.value.onEscapeHandler = ExpandOnHover_onEscapeHandler.bind(null, el);
+    binding.value.expander.addEventListener('mouseenter', binding.value.onMouseEnter);
+    el.addEventListener('mouseleave', binding.value.onMouseLeave);
+    ExpandOnHover_doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    ExpandOnHover_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+  },
 
-  function onMouseEnter() {
-    element.classList.add('expanded');
-    const positionElement = element.querySelector('.dropdown.positionInViewport');
-
-    if (positionElement) {
-      Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-    }
+  unmounted(el, binding) {
+    binding.value.expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
+    el.removeEventListener('mouseleave', binding.value.onMouseLeave);
+    document.removeEventListener('keyup', binding.value.onEscapeHandler);
+    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
   }
 
-  function onMouseLeave() {
-    element.classList.remove('expanded');
-  }
-
-  function onClickOutsideElement(event) {
-    if (!element.contains(event.target)) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  function onEscapeHandler(event) {
-    if (event.which === 27) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  const doc = document.documentElement;
-  return {
-    mounted(el, binding) {
-      element = el;
-      binding.value.expander.addEventListener('mouseenter', onMouseEnter);
-      element.addEventListener('mouseleave', onMouseLeave);
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-    },
-
-    unmounted(el, binding) {
-      binding.value.expander.removeEventListener('mouseenter', onMouseEnter);
-      element.removeEventListener('mouseleave', onMouseLeave);
-      document.removeEventListener('keyup', onEscapeHandler);
-      document.removeEventListener('mouseup', onClickOutsideElement);
-    }
-
-  };
-}
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2042,9 +2040,9 @@ function piwikExpandOnHover() {
         modifiers: {},
         dir: {}
       };
-      const wrapped = ExpandOnHoverFactory();
-      wrapped.mounted(element[0], binding, null, null);
-      scope.$on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = ExpandOnHover;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     }
   };
 }
@@ -3048,6 +3046,11 @@ class Comparisons_store_ComparisonsStore {
     const {
       ColorManager
     } = Matomo_Matomo;
+
+    if (!ColorManager) {
+      return [];
+    }
+
     const seriesColorNames = [];
 
     for (let i = 0; i < SERIES_COLOR_COUNT; i += 1) {
@@ -3062,6 +3065,13 @@ class Comparisons_store_ComparisonsStore {
   }
 
   loadComparisonsDisabledFor() {
+    const matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
+
+    if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
+      this.privateState.comparisonsDisabledFor = [];
+      return;
+    }
+
     AjaxHelper_AjaxHelper.fetch({
       module: 'API',
       method: 'API.getPagesComparisonsDisabledFor'
@@ -3406,50 +3416,50 @@ angular.module('piwikApp.service').factory('piwikComparisonsService', Comparison
   directiveName: 'piwikComparisons',
   restrict: 'E'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=58d3b5f8
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=bfe7c5e0
 
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_1 = {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_1 = {
   ref: "root",
   class: "menuDropdown"
 };
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_2 = ["title"];
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_3 = ["innerHTML"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_2 = ["title"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_3 = ["innerHTML"];
 
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-arrow-bottom"
 }, null, -1);
 
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_5 = {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_5 = {
   class: "items"
 };
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_6 = {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_6 = {
   key: 0,
   class: "search"
 };
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_7 = ["placeholder"];
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_8 = ["title"];
-const Menudropdownvue_type_template_id_58d3b5f8_hoisted_9 = ["title"];
-function Menudropdownvue_type_template_id_58d3b5f8_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_7 = ["placeholder"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_8 = ["title"];
+const Menudropdownvue_type_template_id_bfe7c5e0_hoisted_9 = ["title"];
+function Menudropdownvue_type_template_id_bfe7c5e0_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
 
   const _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_58d3b5f8_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_bfe7c5e0_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "title",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.showItems = !_ctx.showItems),
     title: _ctx.tooltip
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(this.actualMenuTitle)
-  }, null, 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_3), Menudropdownvue_type_template_id_58d3b5f8_hoisted_4], 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Menudropdownvue_type_template_id_58d3b5f8_hoisted_5, [_ctx.showSearch && _ctx.showItems ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_58d3b5f8_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_3), Menudropdownvue_type_template_id_bfe7c5e0_hoisted_4], 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Menudropdownvue_type_template_id_bfe7c5e0_hoisted_5, [_ctx.showSearch && _ctx.showItems ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Menudropdownvue_type_template_id_bfe7c5e0_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.searchTerm = $event),
     onChange: _cache[2] || (_cache[2] = $event => _ctx.searchItems(_ctx.searchTerm)),
     placeholder: _ctx.translate('General_Search')
-  }, null, 40, Menudropdownvue_type_template_id_58d3b5f8_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, _ctx.showItems]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  }, null, 40, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, _ctx.showItems]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     class: "search_ico",
     src: "plugins/Morpheus/images/search_ico.png",
     title: _ctx.translate('General_Search')
-  }, null, 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_8), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  }, null, 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_8), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     onClick: _cache[3] || (_cache[3] = $event => {
       _ctx.searchTerm = '';
 
@@ -3458,11 +3468,13 @@ function Menudropdownvue_type_template_id_58d3b5f8_render(_ctx, _cache, $props, 
     class: "reset",
     src: "plugins/CoreHome/images/reset_search.png",
     title: _ctx.translate('General_Clear')
-  }, null, 8, Menudropdownvue_type_template_id_58d3b5f8_hoisted_9), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  }, null, 8, Menudropdownvue_type_template_id_bfe7c5e0_hoisted_9), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     onClick: _cache[4] || (_cache[4] = $event => _ctx.selectItem($event))
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showItems]])], 512)), [[_directive_focus_anywhere_but_here, _ctx.showItems = false]]);
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showItems]])], 512)), [[_directive_focus_anywhere_but_here, {
+    blur: _ctx.lostFocus
+  }]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=58d3b5f8
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=template&id=bfe7c5e0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.vue?vue&type=script&lang=ts
 
@@ -3479,7 +3491,7 @@ const {
     menuTitleChangeOnClick: String
   },
   directives: {
-    FocusAnywhereButHere: FocusAnywhereButHere(),
+    FocusAnywhereButHere: FocusAnywhereButHere,
     FocusIf: FocusIf
   },
   emits: ['afterSelect'],
@@ -3499,6 +3511,10 @@ const {
   },
 
   methods: {
+    lostFocus() {
+      this.showItems = false;
+    },
+
     selectItem(event) {
       const targetClasses = event.target.classList;
 
@@ -3537,7 +3553,7 @@ const {
 
 
 
-Menudropdownvue_type_script_lang_ts.render = Menudropdownvue_type_template_id_58d3b5f8_render
+Menudropdownvue_type_script_lang_ts.render = Menudropdownvue_type_template_id_bfe7c5e0_render
 
 /* harmony default export */ var Menudropdown = (Menudropdownvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Menudropdown/Menudropdown.adapter.ts
@@ -3953,18 +3969,18 @@ DatePickervue_type_script_lang_ts.render = DatePickervue_type_template_id_735ab8
   },
   $inject: ['$timeout']
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=5d5439c6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=d9f4b538
 
-const DateRangePickervue_type_template_id_5d5439c6_hoisted_1 = {
+const DateRangePickervue_type_template_id_d9f4b538_hoisted_1 = {
   id: "calendarRangeFrom"
 };
-const DateRangePickervue_type_template_id_5d5439c6_hoisted_2 = {
+const DateRangePickervue_type_template_id_d9f4b538_hoisted_2 = {
   id: "calendarRangeTo"
 };
-function DateRangePickervue_type_template_id_5d5439c6_render(_ctx, _cache, $props, $setup, $data, $options) {
+function DateRangePickervue_type_template_id_d9f4b538_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_5d5439c6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_d9f4b538_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     id: "inputCalendarFrom",
     name: "inputCalendarFrom",
@@ -3982,7 +3998,7 @@ function DateRangePickervue_type_template_id_5d5439c6_render(_ctx, _cache, $prop
     onDateSelect: _cache[3] || (_cache[3] = $event => _ctx.setStartRangeDate($event.date)),
     onCellHover: _cache[4] || (_cache[4] = $event => _ctx.fromPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell)),
     onCellHoverLeave: _cache[5] || (_cache[5] = $event => _ctx.fromPickerHighlightedDates = [null, null])
-  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_5d5439c6_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeTo')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_d9f4b538_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeTo')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     id: "inputCalendarTo",
     name: "inputCalendarTo",
@@ -4002,7 +4018,7 @@ function DateRangePickervue_type_template_id_5d5439c6_render(_ctx, _cache, $prop
     onCellHoverLeave: _cache[11] || (_cache[11] = $event => _ctx.toPickerHighlightedDates = [null, null])
   }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])])], 64);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=5d5439c6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=d9f4b538
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts
 
@@ -4037,8 +4053,8 @@ function DateRangePickervue_type_template_id_5d5439c6_render(_ctx, _cache, $prop
       toPickerSelectedDates: [endDate, endDate],
       fromPickerHighlightedDates: [null, null],
       toPickerHighlightedDates: [null, null],
-      startDateText: '',
-      endDateText: ''
+      startDateText: this.startDate,
+      endDateText: this.endDate
     };
   },
 
@@ -4055,6 +4071,11 @@ function DateRangePickervue_type_template_id_5d5439c6_render(_ctx, _cache, $prop
     }
 
   },
+
+  mounted() {
+    this.rangeChanged(); // emit with initial range pair
+  },
+
   methods: {
     setStartRangeDate(date) {
       this.fromPickerSelectedDates = [date, date];
@@ -4140,7 +4161,7 @@ function DateRangePickervue_type_template_id_5d5439c6_render(_ctx, _cache, $prop
 
 
 
-DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template_id_5d5439c6_render
+DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template_id_d9f4b538_render
 
 /* harmony default export */ var DateRangePicker = (DateRangePickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts

@@ -21,6 +21,7 @@ use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreVue\CoreVue;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -561,7 +562,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
+            "plugins/CoreHome/javascripts/broadcast.js",
         );
+
+        CoreVue::addJsFilesTo($files);
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {

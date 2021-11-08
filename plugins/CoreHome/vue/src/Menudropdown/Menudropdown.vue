@@ -8,7 +8,7 @@
   <div
     ref="root"
     class="menuDropdown"
-    v-focus-anywhere-but-here="showItems = false"
+    v-focus-anywhere-but-here="{ blur: lostFocus }"
   >
     <span
       class="title"
@@ -69,7 +69,7 @@ export default defineComponent({
     menuTitleChangeOnClick: String,
   },
   directives: {
-    FocusAnywhereButHere: FocusAnywhereButHere(),
+    FocusAnywhereButHere,
     FocusIf,
   },
   emits: ['afterSelect'],
@@ -86,6 +86,9 @@ export default defineComponent({
     };
   },
   methods: {
+    lostFocus() {
+      this.showItems = false;
+    },
     selectItem(event: MouseEvent) {
       const targetClasses = (event.target as HTMLElement).classList;
       if (targetClasses.contains('item')

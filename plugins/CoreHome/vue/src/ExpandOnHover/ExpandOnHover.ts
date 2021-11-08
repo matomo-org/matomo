@@ -5,12 +5,44 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { DirectiveBinding, ObjectDirective } from 'vue';
+import { DirectiveBinding } from 'vue';
 import Matomo from '../Matomo/Matomo';
 
-interface ExpandOnClickArgs {
+interface ExpandOnHoverArgs {
   expander: HTMLElement,
+
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  onClickOutsideElement?: (event: MouseEvent) => void;
+  onEscapeHandler?: (event: KeyboardEvent) => void;
 }
+
+function onMouseEnter(element: HTMLElement) {
+  element.classList.add('expanded');
+
+  const positionElement = element.querySelector('.dropdown.positionInViewport');
+  if (positionElement) {
+    Matomo.helper.setMarginLeftToBeInViewport(positionElement);
+  }
+}
+
+function onMouseLeave(element: HTMLElement) {
+  element.classList.remove('expanded');
+}
+
+function onClickOutsideElement(element: HTMLElement, event: MouseEvent) {
+  if (!element.contains(event.target as HTMLElement)) {
+    element.classList.remove('expanded');
+  }
+}
+
+function onEscapeHandler(element: HTMLElement, event: KeyboardEvent) {
+  if (event.which === 27) {
+    element.classList.remove('expanded');
+  }
+}
+
+const doc = document.documentElement;
 
 /**
  * Usage (in a component):
@@ -20,50 +52,22 @@ interface ExpandOnClickArgs {
  *                                   // in this directive
  * }
  */
-export default function ExpandOnHoverFactory(): ObjectDirective {
-  let element: HTMLElement;
+export default {
+  mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnHoverArgs>): void {
+    binding.value.onMouseEnter = onMouseEnter.bind(null, el);
+    binding.value.onMouseLeave = onMouseLeave.bind(null, el);
+    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el);
+    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el);
 
-  function onMouseEnter() {
-    element.classList.add('expanded');
-
-    const positionElement = element.querySelector('.dropdown.positionInViewport');
-    if (positionElement) {
-      Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-    }
-  }
-
-  function onMouseLeave() {
-    element.classList.remove('expanded');
-  }
-
-  function onClickOutsideElement(event: MouseEvent) {
-    if (!element.contains(event.target as HTMLElement)) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  function onEscapeHandler(event: KeyboardEvent) {
-    if (event.which === 27) {
-      element.classList.remove('expanded');
-    }
-  }
-
-  const doc = document.documentElement;
-
-  return {
-    mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
-      element = el;
-
-      binding.value.expander.addEventListener('mouseenter', onMouseEnter);
-      element.addEventListener('mouseleave', onMouseLeave);
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-    },
-    unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
-      binding.value.expander.removeEventListener('mouseenter', onMouseEnter);
-      element.removeEventListener('mouseleave', onMouseLeave);
-      document.removeEventListener('keyup', onEscapeHandler);
-      document.removeEventListener('mouseup', onClickOutsideElement);
-    },
-  };
-}
+    binding.value.expander.addEventListener('mouseenter', binding.value.onMouseEnter);
+    el.addEventListener('mouseleave', binding.value.onMouseLeave);
+    doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+  },
+  unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnHoverArgs>): void {
+    binding.value.expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
+    el.removeEventListener('mouseleave', binding.value.onMouseLeave);
+    document.removeEventListener('keyup', binding.value.onEscapeHandler);
+    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+  },
+};

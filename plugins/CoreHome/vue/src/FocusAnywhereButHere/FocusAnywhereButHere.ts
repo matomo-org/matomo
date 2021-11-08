@@ -5,11 +5,69 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { DirectiveBinding, ObjectDirective } from 'vue';
+import { DirectiveBinding } from 'vue';
 
 interface FocusAnywhereButHereArgs {
   blur: () => void,
+
+  // TODO: document in developer-documentation
+  // directives in Vue should not have state, but the associated angularjs directive does.
+  // to make this work, we store data in the argument passed to this directive. As long as
+  // it is an object literal that does not change, this should work just fine.
+  isMouseDown?: boolean;
+  hasScrolled?: boolean;
+  onEscapeHandler?: (event: KeyboardEvent) => void;
+  onMouseDown?: () => void;
+  onClickOutsideElement?: (event: MouseEvent) => void;
+  onScroll?: () => void;
 }
+
+function onClickOutsideElement(
+  element: HTMLElement,
+  binding: DirectiveBinding<FocusAnywhereButHereArgs>,
+  event: MouseEvent,
+) {
+  const hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
+  binding.value.isMouseDown = false;
+  binding.value.hasScrolled = false;
+
+  if (hadUsedScrollbar) {
+    return;
+  }
+
+  if (!element.contains(event.target as HTMLElement)) {
+    if (binding.value) {
+      binding.value.blur();
+    }
+  }
+}
+
+function onScroll(element: HTMLElement, binding: DirectiveBinding<FocusAnywhereButHereArgs>) {
+  binding.value.hasScrolled = true;
+}
+
+function onMouseDown(element: HTMLElement, binding: DirectiveBinding<FocusAnywhereButHereArgs>) {
+  binding.value.isMouseDown = true;
+  binding.value.hasScrolled = false;
+}
+
+function onEscapeHandler(
+  element: HTMLElement,
+  binding: DirectiveBinding<FocusAnywhereButHereArgs>,
+  event: KeyboardEvent,
+) {
+  if (event.which === 27) {
+    setTimeout(() => {
+      binding.value.isMouseDown = false;
+      binding.value.hasScrolled = false;
+      if (binding.value.blur) {
+        binding.value.blur();
+      }
+    }, 0);
+  }
+}
+
+const doc = document.documentElement;
 
 /**
  * Usage (in a component):
@@ -21,66 +79,24 @@ interface FocusAnywhereButHereArgs {
  *
  * Note: the binding data needs to be static, changes will not be handled.
  */
-export default function FocusAnywhereButHere(): ObjectDirective {
-  let element: HTMLElement;
-  let binding: DirectiveBinding<FocusAnywhereButHereArgs>;
-  let isMouseDown = false;
-  let hasScrolled = false;
+export default {
+  mounted(el: HTMLElement, binding: DirectiveBinding<FocusAnywhereButHereArgs>): void {
+    binding.value.isMouseDown = false;
+    binding.value.hasScrolled = false;
+    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
+    binding.value.onMouseDown = onMouseDown.bind(null, el, binding);
+    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
+    binding.value.onScroll = onScroll.bind(null, el, binding);
 
-  function onClickOutsideElement(event: MouseEvent) {
-    const hadUsedScrollbar = isMouseDown && hasScrolled;
-    isMouseDown = false;
-    hasScrolled = false;
-
-    if (hadUsedScrollbar) {
-      return;
-    }
-
-    if (!element.contains(event.target as HTMLElement)) {
-      if (binding.value.blur) {
-        binding.value.blur();
-      }
-    }
-  }
-
-  function onScroll() {
-    hasScrolled = true;
-  }
-
-  function onMouseDown() {
-    isMouseDown = true;
-    hasScrolled = false;
-  }
-
-  function onEscapeHandler(event: KeyboardEvent) {
-    if (event.which === 27) {
-      setTimeout(() => {
-        isMouseDown = false;
-        hasScrolled = false;
-        if (binding.value.blur) {
-          binding.value.blur();
-        }
-      }, 0);
-    }
-  }
-
-  const doc = document.documentElement;
-
-  return {
-    mounted(el: HTMLElement, b: DirectiveBinding<FocusAnywhereButHereArgs>): void {
-      element = el;
-      binding = b;
-
-      doc.addEventListener('keyup', onEscapeHandler);
-      doc.addEventListener('mousedown', onMouseDown);
-      doc.addEventListener('mouseup', onClickOutsideElement);
-      doc.addEventListener('scroll', onScroll);
-    },
-    unmounted(): void {
-      doc.removeEventListener('keyup', onEscapeHandler);
-      doc.removeEventListener('mousedown', onMouseDown);
-      doc.removeEventListener('mouseup', onClickOutsideElement);
-      doc.removeEventListener('scroll', onScroll);
-    },
-  };
-}
+    doc.addEventListener('keyup', binding.value.onEscapeHandler);
+    doc.addEventListener('mousedown', binding.value.onMouseDown);
+    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
+    doc.addEventListener('scroll', binding.value.onScroll);
+  },
+  unmounted(el: HTMLElement, binding: DirectiveBinding<FocusAnywhereButHereArgs>): void {
+    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
+    doc.removeEventListener('mousedown', binding.value.onMouseDown);
+    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+    doc.removeEventListener('scroll', binding.value.onScroll);
+  },
+};
