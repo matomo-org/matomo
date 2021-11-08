@@ -14,10 +14,6 @@ describe('FeedbackQuestion', function () {
   var url = '?module=CoreHome&action=index&idSite=1&period=day&date=2019-07-11&forceFeedbackTest=1';
 
   before(async function () {
-    await page.webpage.setViewport({
-      width: 1250,
-      height: 768,
-    });
   });
 
   it('should display question banner', async function () {
