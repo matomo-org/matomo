@@ -342,15 +342,21 @@ jobs:
         if: failure()
         with:
           name: failed-ui
-          path: /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+          path: |
+              /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs/*.png
+              /home/runner/work/matomo/matomo/tests/UI/expected-screenshots/*.png
+              /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots/*.png
+
 
       - name: Download processed screenshots
         uses: actions/download-artifact@v2
         if: failure()
         with:
           name: failed-ui
-          path: /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
-
+          path: |
+            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs/*.png
+            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots/*.png
+            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots/*.png
 
 
 
