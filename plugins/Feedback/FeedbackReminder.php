@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Feedback;
 
 use Piwik\Piwik;
 use Piwik\Option;
-use Piwik\Site;
 
 class FeedbackReminder
 {
