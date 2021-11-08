@@ -15,7 +15,6 @@
           class="notification system"
           :class="{[context ? `notification-${context}` : '']: !!context}"
           ref="root"
-          :style="positionStyles"
           v-if="!deleted"
         >
           <button
@@ -57,7 +56,6 @@ export default defineComponent({
     },
     style: String,
     animate: Boolean,
-    position: Object,
   },
   computed: {
     canClose() {
@@ -66,13 +64,6 @@ export default defineComponent({
         return false;
       }
       return this.noclear;
-    },
-    positionStyles() {
-      return this.position && {
-        position: 'absolute',
-        top: this.position.top,
-        left: this.position.left,
-      };
     },
   },
   emits: ['closed'],

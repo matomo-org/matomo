@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import NotificationsStore from './NotificationsStore';
+import NotificationsStore from './Notifications.store';
 import Notification from './Notification.vue';
 
 export default defineComponent({

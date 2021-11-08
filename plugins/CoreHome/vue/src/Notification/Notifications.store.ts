@@ -5,12 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { DeepReadonly, reactive } from 'vue';
-
-interface Position {
-  top: number;
-  left: number;
-}
+import {
+  DeepReadonly,
+  reactive,
+  createVNode,
+  render,
+} from 'vue';
 
 interface Notification {
   id?: string;
@@ -25,7 +25,6 @@ interface Notification {
   toastLength?: number;
   style?: string;
   animate?: boolean;
-  position?: Position;
 }
 
 interface NotificationsData {
@@ -83,6 +82,25 @@ class NotificationsStore {
 
   clearTransientNotifications(): void {
     this.privateState.notifications = this.privateState.notifications.filter((n) => n.type !== 'transient');
+  }
+
+  toast(notification: Notification): void {
+    const toastElement = document.createElement('div');
+    document.body.appendChild(toastElement);
+
+    // TODO: make sure this gets unmounted
+    const toastVNode = createVNode(
+      Notification,
+      {
+        ...notification,
+        onClosed: () => {
+          render(null, toastElement);
+        },
+      },
+      null,
+    );
+
+    render(toastVNode, toastElement);
   }
 }
 

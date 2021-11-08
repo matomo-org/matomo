@@ -5,6 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import NotificationsStore from './NotificationsStore';
+import NotificationsStore from './Notifications.store';
 
 angular.module('piwikApp').factory('notifications', () => NotificationsStore);

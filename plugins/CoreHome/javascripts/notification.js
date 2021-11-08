@@ -83,22 +83,16 @@
      * @param    {object}  [options.style]            Optional style/css dictionary. For instance {'display': 'inline-block'}
      */
     Notification.prototype.toast = function (message, options) {
-        checkMessage(message);
+        checkMessage(message); // TODO: move the checks as well
         options = checkOptions(options);
 
         var $placeat = $(options.placeat);
         if (!$placeat.length) {
-            throw new Error("A valid selector is required for the placeat option when using Notification.toast().");
+          throw new Error("A valid selector is required for the placeat option when using Notification.toast().");
         }
 
-        placeNotification($.extend({}, { message }, options, {
-          // place the notification in body
-          placeat: 'body',
-          position: {
-            left: $placeat.offset().left,
-            top: $placeat.offset().top
-          }
-        }));
+        window.CoreHome.NotificationsStore.toast($.extend({ message: message }, options));
+
     };
 
     exports.Notification = Notification;
