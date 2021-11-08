@@ -65,7 +65,7 @@ export default defineComponent({
   props: {
     menuTitle: String,
     tooltip: String,
-    showSearch: String,
+    showSearch: Boolean,
     menuTitleChangeOnClick: String,
   },
   directives: {
