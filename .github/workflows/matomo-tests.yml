@@ -52,7 +52,6 @@ jobs:
       - name: upload processed screenshots
         env:
             ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
-        if: failure()
         run: |
             url_base="https://builds-artifacts.matomo.org/build?auth_key=$env:ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.job }}&build_entity_id=${{ github.job }}&branch=${{ github.ref_name }}"
             echo $url_base;
