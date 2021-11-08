@@ -136,7 +136,7 @@ export default defineComponent({
 
       if (!(date instanceof Date)) {
         try {
-          parseDate(date);
+          date = parseDate(date);
         } catch (e) {
           return false;
         }
