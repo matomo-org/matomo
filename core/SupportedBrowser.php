@@ -51,7 +51,7 @@ class SupportedBrowser
         $client = $deviceDetector->getClient();
 
         if (!empty($client) && $client['type'] === 'browser' && self::browserNotSupported($client['short_name'], (int)$client['version'])) {
-            self::throwException();
+            self::throwException($client);
         }
     }
 
@@ -60,10 +60,11 @@ class SupportedBrowser
         return array_key_exists($shortName, self::$notSupportedBrowsers) && $version > 0 && $version <= self::$notSupportedBrowsers[$shortName];
     }
 
-    private static function throwException()
+    private static function throwException($client)
     {
         $message  = "<p><b>" . Piwik::translate('General_ExceptionNotSupportedBrowserTitle') . "</b></p>";
         $message .= "<p>" . Piwik::translate('General_ExceptionNotSupportedBrowserText') . "</p>";
+        $message .= '<p>(Detected ' . $client['name'] . ' v' . $client['version'] . ')</p>';
 
         $exception = new NotSupportedBrowserException($message);
         $exception->setIsHtmlMessage();
