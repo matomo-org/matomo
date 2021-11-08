@@ -345,7 +345,7 @@ jobs:
           echo ""
           echo "::notice::View UI failures (if any) here:"
           echo ""
-          echo "::debug::https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.ref_name }}/${{ github.job }/"
+          echo "::debug::https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.ref_name }}/${{ github.job }}/"
           echo ""
           echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
           echo ""
