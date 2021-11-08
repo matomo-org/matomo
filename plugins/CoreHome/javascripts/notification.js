@@ -86,11 +86,6 @@
         checkMessage(message); // TODO: move the checks as well
         options = checkOptions(options);
 
-        var $placeat = $(options.placeat);
-        if (!$placeat.length) {
-          throw new Error("A valid selector is required for the placeat option when using Notification.toast().");
-        }
-
         window.CoreHome.NotificationsStore.toast($.extend({ message: message }, options));
 
     };

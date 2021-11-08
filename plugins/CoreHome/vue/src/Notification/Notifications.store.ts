@@ -11,6 +11,7 @@ import {
   createVNode,
   render,
 } from 'vue';
+import NotificationComponent from './Notification.vue';
 
 interface Notification {
   id?: string;
@@ -25,6 +26,7 @@ interface Notification {
   toastLength?: number;
   style?: string;
   animate?: boolean;
+  placeat?: string|HTMLElement|JQuery;
 }
 
 interface NotificationsData {
@@ -85,19 +87,30 @@ class NotificationsStore {
   }
 
   toast(notification: Notification): void {
+    const $placeat = $(notification.placeat);
+    if (!$placeat.length) {
+      throw new Error('A valid selector is required for the placeat option when using Notification.toast().');
+    }
+
     const toastElement = document.createElement('div');
+    toastElement.style.position = 'absolute';
+    toastElement.style.top = `${$placeat.offset().top}px`;
+    toastElement.style.left = `${$placeat.offset().left}px`;
+    toastElement.style.zIndex = '10';
     document.body.appendChild(toastElement);
 
     // TODO: make sure this gets unmounted
     const toastVNode = createVNode(
-      Notification,
+      NotificationComponent,
       {
         ...notification,
         onClosed: () => {
           render(null, toastElement);
         },
       },
-      null,
+      [
+        notification.message, // TODO: xss test
+      ],
     );
 
     render(toastVNode, toastElement);

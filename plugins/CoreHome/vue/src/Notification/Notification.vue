@@ -67,6 +67,11 @@ export default defineComponent({
     },
   },
   emits: ['closed'],
+  data() {
+    return {
+      deleted: false,
+    };
+  },
   mounted() {
     const addToastEvent = () => {
       setTimeout(() => {
