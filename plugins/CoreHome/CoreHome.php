@@ -285,8 +285,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
 
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/iecheck.js";
-
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -489,6 +487,5 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
-
     }
 }
