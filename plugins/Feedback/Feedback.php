@@ -133,7 +133,6 @@ class Feedback extends \Piwik\Plugin
         }
 
         $nextReminderDate = Date::factory($nextReminderDate);
-        // if user click close extend to 6 moth
         if ($nextReminderDate->getTimestamp() > $now) {
             return false;
         }
