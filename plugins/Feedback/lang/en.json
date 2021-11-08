@@ -10,7 +10,7 @@
         "RateFeatureLeaveMessageDislike": "How can we improve this feature?",
         "RateFeatureLeaveMessageDislikeNamedFeature": "How can we improve %1$s?",
         "RateFeatureLeaveMessageDislikeExtra": "Please let us know more about how we can do better so we can improve Matomo. Thank you %1$s",
-        "RateFeatureLeaveMessageDislikeExtraBugs": "We're sorry that you encountered issues with this feature, please let us know more about what didn't work so we can improve Matomo Thank You %1$s",
+        "RateFeatureLeaveMessageDislikeExtraBugs": "We're sorry that you encountered issues with this feature, please let us know more about what didn't work so we can improve Matomo. Thank You %1$s",
         "RateFeatureLeaveMessageDislikeExtraMissing": "Which features are you missing?",
         "RateFeatureLeaveMessageDislikeExtraEasier": "Was there a particular part of this feature you found difficult to use? Let us know how we can do better so we can improve Matomo Thank you %1$s",
         "RateFeatureLeaveMessageLike": "What do you like most about this feature?",
