@@ -316,7 +316,7 @@ export default class ComparisonsStore {
   }
 
   private loadComparisonsDisabledFor() {
-    const matomoModule: string = MatomoUrl.parsed.value.module;
+    const matomoModule: string = MatomoUrl.parsed.value.module as string;
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
     ) {
