@@ -22,9 +22,9 @@ export default function piwikExpandOnClick(): IDirective {
         dir: {},
       };
 
-      const wrapped = ExpandOnClick();
-      wrapped.mounted(element[0], binding, null, null);
-      element.on('$destroy', () => wrapped.unmounted(element[0], binding, null, null));
+      const wrapped = ExpandOnClick;
+      wrapped.mounted(element[0], binding);
+      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
     },
   };
 }
