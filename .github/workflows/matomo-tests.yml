@@ -341,20 +341,21 @@ jobs:
 
       - name: upload processed screenshots
         if: failure()
+        shell: bash
         env:
           ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
         run: |
           echo ""
-          echo "::notice::View UI failures (if any) here:"
+          echo "::notice:: View UI failures here:"
           echo ""
-          echo "::debug::https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
+          echo "::debug:: https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
           echo ""
           echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
           echo ""
-          echo -n "::debug::./console tests:sync-ui-screenshots ${{ github.job }}"
+          echo -n "::debug:: ./console tests:sync-ui-screenshots ${{ github.job }}"
           echo ""
-          url_base="https://builds-artifacts.matomo.org/build?auth_key=$env:ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
-          echo "::debug::Uploading artifacts for UITests..."
+          url_base="https://builds-artifacts.matomo.org/build?auth_key=$ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
+          echo "::debug:: Uploading artifacts for UITests..."
           cd ./tests/UI
           tar -cvjSf processed-ui-screenshots.tar.bz2 processed-ui-screenshots
           curl -X POST --data-binary processed-ui-screenshots.tar.bz2 "$url_base&artifact_name=processed-screenshots"
