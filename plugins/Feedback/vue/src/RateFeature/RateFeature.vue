@@ -184,6 +184,8 @@ import { defineComponent } from 'vue';
 import { MatomoDialog, AjaxHelper } from 'CoreHome';
 import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
 
+const { $ } = window;
+
 export default defineComponent({
   props: {
     title: String,
@@ -233,7 +235,7 @@ export default defineComponent({
       });
 
       if (res.value === 'success') {
-        document.querySelector('.modal-close').click();
+        $('.modal').modal('close');
         this.ratingDone = true;
         this.feedbackMessage = '';
       } else {
