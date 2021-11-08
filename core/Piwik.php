@@ -185,6 +185,7 @@ class Piwik
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
         return $user['date_registered'] ?? '';
     }
+    
     /**
      * Returns the current user's Last Seen.
      *
