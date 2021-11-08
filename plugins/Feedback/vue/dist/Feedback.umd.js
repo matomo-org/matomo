@@ -118,8 +118,8 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "ReviewLinks", function() { return /* reexport */ ReviewLinks; });
 __webpack_require__.d(__webpack_exports__, "RateFeature", function() { return /* reexport */ RateFeature; });
+__webpack_require__.d(__webpack_exports__, "FeedbackQuestion", function() { return /* reexport */ FeedbackQuestion; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -143,7 +143,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=65bd066a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=10cf2a3c
 
 var _hoisted_1 = ["title"];
 var _hoisted_2 = {
@@ -172,8 +172,6 @@ var _hoisted_10 = {
 var _hoisted_11 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
-
-  var _component_ReviewLinks = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ReviewLinks");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     title: _ctx.translate('Feedback_RateFeatureTitle', _ctx.$sanitize(_ctx.title)),
@@ -235,7 +233,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ThankYou', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ReviewLinks)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ThankYou', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_10)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "button",
         value: _ctx.translate('General_Ok'),
         role: "yes"
@@ -244,35 +242,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"])], 8, _hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=65bd066a
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=10cf2a3c
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue?vue&type=template&id=4471fc41
-
-var ReviewLinksvue_type_template_id_4471fc41_hoisted_1 = {
-  class: "requestReview"
-};
-
-var ReviewLinksvue_type_template_id_4471fc41_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<br><br><div class=\"review-links\"><div class=\"review-link\"><a href=\"https://www.capterra.com/p/182627/Matomo-Analytics/\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/capterra.svg\"></div><div class=\"link\">Capterra</div></a></div><div class=\"review-link\"><a href=\"https://www.g2crowd.com/products/matomo-formerly-piwik/details\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/g2crowd.svg\"></div><div class=\"link\">G2 Crowd</div></a></div><div class=\"review-link\"><a href=\"https://www.producthunt.com/posts/matomo-2\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/producthunt.svg\"></div><div class=\"link\">Product Hunt</div></a></div><div class=\"review-link\"><a href=\"https://www.saasworthy.com/product/matomo\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/saasworthy.png\"></div><div class=\"link\">SaaSworthy</div></a></div><div class=\"review-link\"><a href=\"https://www.trustradius.com/products/matomo/reviews\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/trustradius.svg\"></div><div class=\"link\">TrustRadius</div></a></div></div>", 3);
-
-function ReviewLinksvue_type_template_id_4471fc41_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReviewLinksvue_type_template_id_4471fc41_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_PleaseLeaveExternalReviewForMatomo')), 1), ReviewLinksvue_type_template_id_4471fc41_hoisted_2]);
-}
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue?vue&type=template&id=4471fc41
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var ReviewLinksvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({}));
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue?vue&type=script&lang=ts
-
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue
-
-
-
-ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_4471fc41_render
-
-/* harmony default export */ var ReviewLinks = (ReviewLinksvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=script&lang=ts
-
 
 
 /* harmony default export */ var RateFeaturevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -280,8 +252,7 @@ ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_4471
     title: String
   },
   components: {
-    MatomoDialog: external_CoreHome_["MatomoDialog"],
-    ReviewLinks: ReviewLinks
+    MatomoDialog: external_CoreHome_["MatomoDialog"]
   },
   data: function data() {
     return {
@@ -311,7 +282,7 @@ ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_4471
   }
 }));
 // CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue
 
 
@@ -337,6 +308,228 @@ RateFeaturevue_type_script_lang_ts.render = render
   },
   directiveName: 'piwikRateFeature'
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=template&id=b4fb9590
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_1 = {
+  key: 0,
+  class: "bannerHeader"
+};
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+  class: "icon-heart red-text"
+}, null, -1);
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+  class: "icon-close white-text"
+}, null, -1);
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_4 = [FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_3];
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_5 = {
+  class: "ratefeature"
+};
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_6 = {
+  class: "ui-confirm ratefeatureDialog"
+};
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_7 = ["innerHTML"];
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_9 = {
+  class: "messageContainer"
+};
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_10 = {
+  key: 0,
+  class: "error-text"
+};
+
+var FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_12 = ["innerHTML"];
+var _hoisted_13 = ["value"];
+var _hoisted_14 = ["value"];
+var _hoisted_15 = {
+  class: "ui-confirm ratefeatureDialog"
+};
+var _hoisted_16 = ["innerHTML"];
+function FeedbackQuestionvue_type_template_id_b4fb9590_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.isHidden ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_FeedbackTitle")) + " ", 1), FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_2]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return _ctx.showQuestion && _ctx.showQuestion.apply(_ctx, arguments);
+    }),
+    class: "btn"
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_Question".concat(_ctx.question))), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    class: "close-btn",
+    onClick: _cache[1] || (_cache[1] = function () {
+      return _ctx.disableReminder && _ctx.disableReminder.apply(_ctx, arguments);
+    })
+  }, FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_4)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
+    modelValue: _ctx.showFeedbackForm,
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.showFeedbackForm = $event;
+    }),
+    onValidation: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.sendFeedback();
+    })
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_Question".concat(_ctx.question))), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.translate('Feedback_FeedbackSubtitle', "<i class='icon-heart red-text'></i>")
+      }, null, 8, FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_7), FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_9, [_ctx.errorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.errorMessage), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+        id: "message",
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+          'has-error': _ctx.errorMessage
+        }),
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return _ctx.feedbackMessage = $event;
+        })
+      }, null, 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), FeedbackQuestionvue_type_template_id_b4fb9590_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.translate('Feedback_Policy', "<a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>", '</a>')
+      }, null, 8, _hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "button",
+        role: "validation",
+        value: _ctx.translate('Feedback_SendFeedback')
+      }, null, 8, _hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "button",
+        role: "cancel",
+        value: _ctx.translate('General_Cancel')
+      }, null, 8, _hoisted_14)])];
+    }),
+    _: 1
+  }, 8, ["modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
+    modelValue: _ctx.feedbackDone,
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.feedbackDone = $event;
+    })
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_ThankYou")), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.translate('Feedback_ThankYourForFeedback', "<i class='icon-heart red-text'></i>")
+      }, null, 8, _hoisted_16)])];
+    }),
+    _: 1
+  }, 8, ["modelValue"])])]);
+}
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=template&id=b4fb9590
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=script&lang=ts
+
+
+var _window = window,
+    $ = _window.$;
+var cookieName = 'feedback-question';
+/* harmony default export */ var FeedbackQuestionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    showQuestionBanner: String
+  },
+  components: {
+    MatomoDialog: external_CoreHome_["MatomoDialog"]
+  },
+  computed: {
+    isHidden: function isHidden() {
+      if (this.showQuestionBanner === '0') {
+        return true;
+      }
+
+      return !!this.hide;
+    }
+  },
+  data: function data() {
+    return {
+      questionText: '',
+      question: 0,
+      hide: null,
+      feedbackDone: false,
+      expanded: false,
+      showFeedbackForm: false,
+      feedbackMessage: null,
+      errorMessage: null
+    };
+  },
+  watch: {
+    showFeedbackForm: function showFeedbackForm() {
+      // eslint-disable-next-line no-underscore-dangle
+      this.questionText = window._pk_translate("Feedback_Question".concat(this.question));
+    }
+  },
+  created: function created() {
+    if (this.getCookieValue(cookieName)) {
+      // eslint-disable-next-line radix
+      this.question = parseInt(this.getCookieValue(cookieName));
+      var nextQuestion = this.question + 1 > 4 ? 0 : this.question + 1;
+      this.setCookieValue(nextQuestion);
+    } else {
+      this.setCookieValue(0);
+    }
+  },
+  methods: {
+    showQuestion: function showQuestion() {
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+    },
+    getCookieValue: function getCookieValue() {
+      var currentCookie = document.cookie.match("(^|;)\\s*".concat(cookieName, "\\s*=\\s*([^;]+)"));
+      return currentCookie ? currentCookie.pop() : null;
+    },
+    setCookieValue: function setCookieValue(value) {
+      var now = new Date();
+      var time = now.getTime();
+      var expireTime = time + 1000 * 36000;
+      now.setTime(expireTime);
+      document.cookie = "".concat(cookieName, "=").concat(value, ";expires=").concat(now.toUTCString(), ";path=/");
+    },
+    disableReminder: function disableReminder() {
+      external_CoreHome_["AjaxHelper"].fetch({
+        method: 'Feedback.updateFeedbackReminderDate'
+      });
+      this.hide = true;
+    },
+    sendFeedback: async function sendFeedback() {
+      this.errorMessage = null;
+      var res = await external_CoreHome_["AjaxHelper"].fetch({
+        method: 'Feedback.sendFeedbackForSurvey',
+        question: this.questionText,
+        message: this.feedbackMessage
+      });
+
+      if (res.value === 'success') {
+        $('.modal').modal('close');
+        this.feedbackDone = true;
+        this.hide = true;
+      } else {
+        this.errorMessage = res.value;
+      }
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue
+
+
+
+FeedbackQuestionvue_type_script_lang_ts.render = FeedbackQuestionvue_type_template_id_b4fb9590_render
+
+/* harmony default export */ var FeedbackQuestion = (FeedbackQuestionvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var FeedbackQuestion_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: FeedbackQuestion,
+  scope: {
+    showQuestionBanner: {
+      angularJsBind: '@'
+    }
+  },
+  directiveName: 'piwikFeedbackQuestion'
+}));
 // CONCATENATED MODULE: ./plugins/Feedback/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -344,6 +537,7 @@ RateFeaturevue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
