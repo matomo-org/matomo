@@ -23,7 +23,7 @@
             data-dismiss="alert"
             v-if="!noclear"
             v-on:click="closeNotification($event)"
-          >&amp;times;</button>
+          >&times;</button>
           <strong v-if="title">{{ title }}</strong>
           <!-- ng-transclude causes directive child elements to be added here -->
           <div>
