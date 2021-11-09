@@ -43,7 +43,7 @@ class LoaderLock
     public function __construct($id)
     {
         if (strlen($id) > 64) {
-            throw new \Exception('excceed lenth');
+            throw new \Exception('exceeds length');
         }
         $this->id = $id;
     }
