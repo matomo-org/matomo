@@ -1,9 +1,13 @@
 {
     "CoreHome": {
         "CategoryNoData": "Informatsioon puudub selles kategoorias. Proovi \"Include all population\".",
+        "ChangePeriod": "Muuda ajavahemikku",
         "ChangeVisualization": "Muuda visualiseerimist",
         "CheckForUpdates": "Kontrolli uuendusi",
         "CheckPiwikOut": "Proovi Matomout!",
+        "ChooseX": "Vali %1$s",
+        "ClickToEditX": "Muutmiseks klõpsi - %s",
+        "ClickToSeeFullInformation": "Kogu teabe lugemiseks klõpsi",
         "CloseSearch": "Sulge otsing",
         "CloseWidgetDirections": "Sa saad antud vidina sulgeda, valides 'X' vidina ülaservas.",
         "Default": "vaikimisi",
@@ -15,19 +19,19 @@
         "PeriodRange": "vahemik",
         "ReportGeneratedOn": "Raport genereeritud %s",
         "ReportGeneratedXAgo": "Raport genereeritud %s tagasi",
-        "SharePiwikShort": "Matomo! Tasuta ja avatud lähtekoodiga veebianalüütika tarkvara. Oma enda andmeid!",
+        "SharePiwikShort": "Matomo! Tasuta ja avatud lähtekoodiga veebianalüütika tarkvara. Andmed on sinu kontrolli all.",
         "ShareThis": "Jaga seda",
         "ShowJSCode": "Näita sisestatavat JavaScript koodi",
         "SkipToContent": "Mine sisu juurde",
         "SupportPiwik": "Toeta Matomout!",
+        "SystemSummaryNWebsites": "%d veebilehte",
+        "SystemSummaryPhpVersion": "PHP versioon",
+        "SystemSummaryWidget": "Süsteemi kokkuvõte",
         "TableNoData": "Antud tabeli jaoks andmed puuduvad.",
         "ThereIsNoDataForThisReport": "Raporti jaoks puuduvad antud perioodis andmed.",
         "UnFlattenDataTable": "Antud raport on lame %s Tee see hierarhiliseks",
         "ViewAllPiwikVideoTutorials": "Vaata kõiki Matomou video õpetusi",
         "WebAnalyticsReports": "Veebi analüüsi raportid",
-        "YouAreUsingTheLatestVersion": "Kasutad uusimat Matomou versiooni!",
-        "SystemSummaryWidget": "Süsteemi kokkuvõte",
-        "SystemSummaryNWebsites": "%d veebilehte",
-        "SystemSummaryPhpVersion": "PHP versioon"
+        "YouAreUsingTheLatestVersion": "Kasutad uusimat Matomou versiooni!"
     }
 }

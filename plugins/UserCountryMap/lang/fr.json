@@ -13,6 +13,7 @@
         "None": "aucun",
         "PluginDescription": "Ce composant fournit les gadgets Carte du Visiteur et Carte en temps réel. Note : requiert que le composant Pays du Visiteur soit activé.",
         "RealTimeMap": "Carte en temps-réel",
+        "RealTimeMapHelp": "La carte en temps réel montre l'emplacement des visiteurs sur votre site au cours des 30 dernières minutes. Les grandes bulles orange représentent les visites les plus récentes, tandis que les petites bulles grises représentent les visites plus anciennes. Ces données sont actualisées toutes les cinq secondes et de nouveaux visiteurs apparaissent avec un effet clignotant.",
         "Regions": "Régions",
         "Searches": "%s recherches",
         "SecondsAgo": "%s secondes",

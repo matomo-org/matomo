@@ -33,6 +33,15 @@ class FakePluginList extends PluginList
         $section['Plugins'] = $this->plugins;
         $globalSettingsProvider->setSection('Plugins', $section);
     }
+
+    public function sortPlugins(array $plugins)
+    {
+        if (isset($GLOBALS['MATOMO_SORT_PLUGINS']) && is_callable($GLOBALS['MATOMO_SORT_PLUGINS'])) {
+            return call_user_func($GLOBALS['MATOMO_SORT_PLUGINS'], parent::sortPlugins($plugins));
+        }
+
+        return parent::sortPlugins($plugins);
+    }
 }
 
 /**

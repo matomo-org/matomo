@@ -13,6 +13,7 @@
         "None": "Nenhum",
         "PluginDescription": "Esta extensão fornece as widgets do Mapa de visitantes e o Mapa em tempo real. Nota: Requer que a extensão UserCountry esteja ativa.",
         "RealTimeMap": "Mapa em tempo real",
+        "RealTimeMapHelp": "O mapa em tempo real mostra a localização dos visitantes no seu site nos últimos 30 minutos. Grandes bolhas laranja representam visitas mais recentes, enquanto pequenas bolhas cinzentas representam visitas mais antigas. Estes dados são atualizados a cada cinco segundos, e novos visitantes aparecem com um efeito intermitente.",
         "Regions": "Regiões",
         "Searches": "%s pesquisas",
         "SecondsAgo": "Há %s segundos",

@@ -15,7 +15,6 @@
         "ExceptionPasswordMD5HashExpected": "Parametri i fjalëkalimit pritet të jetë një hash MD5 fjalëkalimi.",
         "HelpIpRange": "Jepni një adresë IP ose një interval IP-sh për rresht. Mund të përdorni mënyrë shënimesh CIDR, p.sh., %1$s ose mund të përdorni shenja të gjithëpushtetshme, p.sh., %2$s ose %3$s",
         "IPsAlwaysBlocked": "Këto IP janë përherë të bllokuara",
-        "InvalidNonceOrHeadersOrReferrer": "Siguria e formularit dështoi. Ju lutemi, ringarkoni formularin dhe kontrolloni nëse janë të aktivizuara \\\"cookie\\\"-et tuaja. Nëse përdorni një shërbyes ndërmjetës, duhet ta formësoni %1$s Matomo-n që të pranojë krye ndërmjetësi%2$s i cili përcjell krye Strehe. Kontrolloni gjithashtu që kryet e Sjellësit dërgohen saktë.",
         "InvalidNonceSSLMisconfigured": "Po ashtu, mund %1$sta detyroni Matomo-n të përdorë një lidhje të sigurt%2$s: te kartela juaj %3$s rregulloni %4$s nën ndarjen %5$s",
         "InvalidOrExpiredToken": "Elementi është i pavlefshëm ose ka skaduar.",
         "InvalidUsernameEmail": "Emër përdoruesi dhe/ose adresë email e pavlefshme.",

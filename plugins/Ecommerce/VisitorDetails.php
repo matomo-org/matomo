@@ -26,18 +26,25 @@ use Piwik\View;
 class VisitorDetails extends VisitorDetailsAbstract
 {
     const CATEGORY_COUNT = 5;
+    const DEFAULT_LIFETIME_STAT = array(
+            'lifeTimeRevenue' => 0,
+            'lifeTimeConversions' => 0,
+            'lifeTimeEcommerceItems' => 0);
 
     public function extendVisitorDetails(&$visitor)
     {
-        $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
-            $visitor['visitorId']);
-        $visitor['totalEcommerceRevenue']     = $ecommerceMetrics['totalEcommerceRevenue'];
-        $visitor['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
-        $visitor['totalEcommerceItems']       = $ecommerceMetrics['totalEcommerceItems'];
+        if(Site::isEcommerceEnabledFor($visitor['idSite']))
+        {
+            $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
+                $visitor['visitorId']);
+            $visitor['totalEcommerceRevenue']     = $ecommerceMetrics['totalEcommerceRevenue'];
+            $visitor['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
+            $visitor['totalEcommerceItems']       = $ecommerceMetrics['totalEcommerceItems'];
 
-        $visitor['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
-        $visitor['totalAbandonedCarts']        = $ecommerceMetrics['totalAbandonedCarts'];
-        $visitor['totalAbandonedCartsItems']   = $ecommerceMetrics['totalAbandonedCartsItems'];
+            $visitor['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
+            $visitor['totalAbandonedCarts']        = $ecommerceMetrics['totalAbandonedCarts'];
+            $visitor['totalAbandonedCartsItems']   = $ecommerceMetrics['totalAbandonedCartsItems'];
+        }
     }
 
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
@@ -130,11 +137,19 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
+        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
-        $sql            = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
+
+        $lifeTimeStatsByGoal = array_reduce($lifeTimeStats, function ($carry, $statRow) {
+            $idgoal = $statRow['idgoal'];
+            $carry[$idgoal] = array_merge($carry[$idgoal], $statRow);
+            return $carry;
+        },$defaultStats);
+
+        $ecommerceOrders = $lifeTimeStatsByGoal[GoalManager::IDGOAL_ORDER];
+        $abandonedCarts = $lifeTimeStatsByGoal[GoalManager::IDGOAL_CART];
 
         return array(
             'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
@@ -148,22 +163,25 @@ class VisitorDetails extends VisitorDetailsAbstract
 
 
     /**
-     * @param $ecommerceIdGoal
+     * Returns and SQL string that queries for `lifeTimeRevenue`, `lifeTimeConversions`, and `lifeTimeEcommerceItems` grouped by
+     * `idgoal` for abandoned carts and orders.
      * @return string
      */
-    protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal($ecommerceIdGoal)
+    protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
     {
         $sql = "SELECT
+                    idgoal,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
                     COUNT(*) as lifeTimeConversions,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
 					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
-					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
+					    STRAIGHT_JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
 					    ON log_visit.idvisit = log_conversion.idvisit
 					WHERE
 					        log_visit.idsite = ?
 					    AND log_visit.idvisitor = ?
-						AND log_conversion.idgoal = " . $ecommerceIdGoal . "
+						AND log_conversion.idgoal IN ( " . GoalManager::IDGOAL_CART . ", " . GoalManager::IDGOAL_ORDER . " )
+                    GROUP BY idgoal
         ";
         return $sql;
     }

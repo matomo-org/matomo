@@ -331,7 +331,7 @@ var broadcast = {
         // available in global scope
         var currentSearchStr = $window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
-        
+
         if (!currentSearchStr) {
             currentSearchStr = '?';
         }
@@ -711,15 +711,29 @@ var broadcast = {
      * @param queryString
      * @returns {object}
      */
-    extractKeyValuePairsFromQueryString: function (queryString) {
-        var pairs = queryString.split('&');
+    extractKeyValuePairsFromQueryString: function (queryString, decode) {
+        var pairs = queryString.replace(/%5B%5D/g, '[]').split('&');
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
+            if (pairs[i] === '') {
+              continue;
+            }
+
             // attn: split with regex has bugs in several browsers such as IE 8
             // so we need to split, use the first part as key and rejoin the rest
             var pair = pairs[i].split('=');
             var key = pair.shift();
-            result[key] = pair.join('=');
+            var value = pair.join('=');
+            if (decode) {
+              value = decodeURIComponent(value);
+            }
+            if (/\[.*?]$/.test(key)) {
+              key = key.replace(/\[.*?]$/, '');
+              result[key] = result[key] || [];
+              result[key].push(value);
+            } else {
+              result[key] = value;
+            }
         }
         return result;
     },
@@ -728,11 +742,13 @@ var broadcast = {
      * Returns all key-value pairs in query string of url.
      *
      * @param {string} url url to check. if undefined, null or empty, current url is used.
+     * @param {boolean} decodeValues if true, also applies decodeURIComponent to values. (Not
+     *                               true by default for BC.)
      * @return {object} key value pair describing query string parameters
      */
-    getValuesFromUrl: function (url) {
+    getValuesFromUrl: function (url, decode) {
         var searchString = this._removeHashFromUrl(url).split('?')[1] || '';
-        return this.extractKeyValuePairsFromQueryString(searchString);
+        return this.extractKeyValuePairsFromQueryString(searchString, decode);
     },
 
     /**
@@ -846,3 +862,5 @@ var broadcast = {
         return searchString;
     }
 };
+
+window.broadcast = broadcast; // hack to get broadcast to work in vue (jest) tests

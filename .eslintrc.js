@@ -15,5 +15,18 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/prefer-default-export': 'off',
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': ['error'],
+    'class-methods-use-this': 'off',
+    "@typescript-eslint/no-this-alias": [
+      "error",
+      {
+        "allowDestructuring": true,
+        "allowedNames": ["self"],
+      }
+    ],
+    'no-param-reassign': ["error", { "props": false }],
+    'camelcase': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 };

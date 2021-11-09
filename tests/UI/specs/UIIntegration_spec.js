@@ -120,6 +120,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     describe("misc", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
+        afterEach(async () => {
+            await page.setUserAgent(page.originalUserAgent);
+        });
+
         it("should load the page of a plugin located in a custom directory", async function () {
             await page.goto("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
 
@@ -129,7 +133,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         // shortcuts help
         it("should show shortcut help", async function () {
-            await page.setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+            await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
             await page.waitForNetworkIdle();
             await page.keyboard.press('?');
@@ -227,6 +231,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load visitors > overview page correctly', async function () {
             await page.keyboard.press('Escape'); // close shortcut screen
 
+            testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'] = 1;
+
             // use columns query param to make sure columns works when supplied in URL fragment
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
             await page.waitForNetworkIdle();
@@ -241,6 +247,28 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
+        });
+
+        it('should be possible to change the limit of evolution chart', async function () {
+            await page.hover('.dataTableFeatures');
+            await page.click('.limitSelection input');
+            await page.evaluate(function () {
+                $('.limitSelection ul li:contains(10) span').click();
+            });
+            await page.mouse.move(0, 0);
+            await page.waitForNetworkIdle();
+
+            pageWrap = await page.$('.pageWrap');
+            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
+        });
+
+        it('should keep the limit when reload the page', async function () {
+            await page.reload();
+
+            delete testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'];
+
+            pageWrap = await page.$('.pageWrap');
+            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
         });
 
         // skipped as phantom seems to crash at this test sometimes
@@ -501,9 +529,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             // manipulate the styles a bit, as it's otherwise not visible on screenshot
             await page.evaluate(function () {
                 var style = document.createElement('style');
-                style.innerHTML = '.permadocs { display: block !important; }';
+                style.innerHTML = '.permadocs { display: block !important;z-index:150!important; } .dataTable thead{ z-index:150 !important; }';
                 $('body').append(style);
 
+                //add index not overlap others
                 $('.columnDocumentation:visible').addClass('permadocs');
             });
 
@@ -544,64 +573,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('referrers_campaigns');
-        });
-    });
-
-    describe("GoalsPages", function () {
-        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-
-        // goals pages
-        it('should load the goals > ecommerce page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_ecommerce');
-        });
-
-        it('should load the goals > overview page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_overview');
-        });
-
-        it('should load the goals > management page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=Goals&action=manage");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('#content,.top_bar_sites_selector,.entityContainer')).to.matchImage('goals_manage');
-        });
-
-        it('should load the goals > single goal page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_individual_goal');
-        });
-
-        it('should update the evolution chart if a sparkline is clicked', async function () {
-            elem = await page.jQuery('.sparkline.linked:contains(%)');
-            await elem.click();
-            await page.waitForNetworkIdle();
-            await page.mouse.move(-10, -10);
-
-            expect(await page.screenshotSelector('.pageWrap')).to.matchImage('goals_individual_goal_updated');
-        });
-
-        // should load the row evolution [see #11526]
-        it('should show rov evolution for goal tables', async function () {
-            await page.waitForNetworkIdle();
-
-            const row = await page.waitForSelector('.dataTable tbody tr:first-child');
-            await row.hover();
-
-            const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
-            await icon.click();
-
-            await page.waitForSelector('.rowevolution');
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('goals_individual_row_evolution');
         });
     });
 

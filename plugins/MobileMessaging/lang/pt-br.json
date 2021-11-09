@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "Créditos disponíveis: %1$s",
         "Exception_UnknownProvider": "Nome do provedor '%1$s' desconhecido. No lugar, tente um dos seguintes: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Você pode adicionar mais números de telefone acessando",
         "MobileReport_MobileMessagingSettingsLink": "a página de configurações de mensagens móveis",
@@ -7,16 +8,17 @@
         "MultiSites_Must_Be_Activated": "Para gerar textos SMS de estatísticas do seu site, por favor ative o plugin MultiSites no Matomo.",
         "PhoneNumbers": "Números de telefone",
         "PluginDescription": "Crie e baixe relatórios SMS personalizados, e tenha-os enviados para o seu celular diária, semanal ou mensalmente.",
+        "SMS_Content_Too_Long": "[muito longo]",
+        "SettingsMenu": "Mensagens móveis",
         "Settings_APIKey": "Chave da API",
         "Settings_CountryCode": "Código do país",
-        "Settings_SelectCountry": "Selecionar país",
+        "Settings_CredentialInvalid": "Sua conta API SMS %1$s está configurada, mas um erro ocorreu ao tentar receber os créditos disponíveis.",
         "Settings_CredentialNotProvided": "Antes que você possa criar e gerenciar números de telefone, por favor conecte o Matomo à sua conta SMS acima.",
         "Settings_CredentialNotProvidedByAdmin": "Antes que você possa criar e gerenciar números de telefone, por favor solicite ao seu administrador para conectar o Matomo a uma conta SMS.",
         "Settings_CredentialProvided": "Sua conta API SMS %s está configurada corretamente!",
-        "Settings_CredentialInvalid": "Sua conta API SMS %1$s está configurada, mas um erro ocorreu ao tentar receber os créditos disponíveis.",
-        "Settings_DeleteAccountConfirm": "Tem certeza de que deseja apagar esta conta SMS?",
-        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "O provedor de SMS configurado será usado somente por você e não pelos outros usuários.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Os números de telefone configurados somente podem ser visualizados e usados por você e não pelos outros usuários.",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "O provedor de SMS configurado será usado somente por você e não pelos outros usuários.",
+        "Settings_DeleteAccountConfirm": "Tem certeza de que deseja apagar esta conta SMS?",
         "Settings_EnterActivationCode": "Informe o código de ativação",
         "Settings_InvalidActivationCode": "O código informado não é válido, por favor tente novamente.",
         "Settings_LetUsersManageAPICredential": "Permite aos usuários gerenciarem seu próprio provedor SMS",
@@ -32,17 +34,15 @@
         "Settings_PleaseSignUp": "Para criar relatórios de SMS e receber mensagens curtas de texto com as estatísticas do seu site em seu telefone móvel, inscreva-se com a API SMS e insira suas informações abaixo.",
         "Settings_SMSAPIAccount": "Gerenciar conta de API SMS",
         "Settings_SMSProvider": "Provedor SMS",
+        "Settings_SelectCountry": "Selecionar país",
         "Settings_SuperAdmin": "Configurações de super usuário",
         "Settings_SuspiciousPhoneNumber": "Se você não receber a mensagem de texto, você pode experimentar sem o zero inicial. Ex.: %s",
         "Settings_UpdateOrDeleteAccount": "Você também pode %1$satualizar%2$s ou %3$sexcluir%4$s esta conta.",
         "Settings_ValidatePhoneNumber": "Validar",
         "Settings_VerificationCodeJustSent": "Acabamos de enviar um SMS para este número com um código: por favor digite acima o código e clique em \"Validar\".",
-        "SettingsMenu": "Mensagens móveis",
-        "SMS_Content_Too_Long": "[muito longo]",
-        "Available_Credits": "Créditos disponíveis: %1$s",
         "TopLinkTooltip": "Receba relatórios de web analytics em seu email ou telefone móvel.",
         "TopMenu": "Relatórios de e-mail e SMS",
         "UserKey": "Chave do usuário",
-        "VerificationText": "O código é %1$s. Para validar o seu número de telefone e receber relatórios Matomo de SMS, por favor copie este código no formulário disponível em Matomo > %2$s > %3$s."
+        "VerificationText": "O código é %1$s. Para confirmar o seu número de telefone e receber relatórios por SMS do Matomo, por favor copie este código para o formulário disponível via Matomo &gt; %2$s &gt; %3$s."
     }
 }

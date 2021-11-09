@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("vue"));
+		module.exports = factory(require("CoreHome"), require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["CoreHome", ], factory);
 	else if(typeof exports === 'object')
-		exports["ExampleVue"] = factory(require("vue"));
+		exports["ExampleVue"] = factory(require("CoreHome"), require("vue"));
 	else
-		root["ExampleVue"] = factory(root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
+		root["ExampleVue"] = factory(root["CoreHome"], root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	function webpackJsonpCallback(data) {
@@ -192,7 +192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "plugins/ExampleVue/vue/dist/";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
@@ -210,6 +210,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "19dc":
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
+
+/***/ }),
 
 /***/ "8bbf":
 /***/ (function(module, exports) {
@@ -248,15 +255,24 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/ExampleComponent/ExampleComponent.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
-const AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21")));
+var AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
+  return __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21"));
+});
 function exampleVueComponentAdapter() {
   return {
     restrict: 'A',
     scope: {},
     template: '',
     link: function exampleVueComponentAdapterLink(scope, element) {
-      const vueApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(AsyncExampleComponent);
+      var vueApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(AsyncExampleComponent);
+      vueApp.config.globalProperties.$sanitize = window.vueSanitize;
       vueApp.mount(element[0]);
     }
   };
@@ -264,6 +280,12 @@ function exampleVueComponentAdapter() {
 exampleVueComponentAdapter.$inject = [];
 angular.module('piwikApp').directive('exampleVueComponent', exampleVueComponentAdapter);
 // CONCATENATED MODULE: ./plugins/ExampleVue/vue/src/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

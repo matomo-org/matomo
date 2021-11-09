@@ -77,8 +77,9 @@ const AUTO_WAIT_METHODS = {// TODO: remove this to keep it consistent?
     'reload': true,
 };
 
-var PageRenderer = function (baseUrl, page) {
+var PageRenderer = function (baseUrl, page, originalUserAgent) {
     this.webpage = page;
+    this.originalUserAgent = originalUserAgent;
 
     this.selectorMarkerClass = 0;
     this.pageLogs = [];

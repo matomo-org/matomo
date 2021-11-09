@@ -1,3 +1,10 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
 <template>
   <div v-show="loading" class="loadingPiwik">
     <img src="plugins/Morpheus/images/loading-blue.gif" alt=""/>

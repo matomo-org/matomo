@@ -96,7 +96,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getReferrerName(): string
     {
-        return urldecode($this->details['referer_name'] ?? '');
+         return html_entity_decode(($this->details['referer_name'] ?? ''), ENT_QUOTES, "UTF-8");
     }
 
     protected function getSearchEngineUrl()

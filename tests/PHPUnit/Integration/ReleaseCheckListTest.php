@@ -40,27 +40,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         parent::setUp();
     }
-
-    public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
-    {
-        $pluginsToTest = ['CustomVariables', 'Provider'];
-
-        $pluginManager = Plugin\Manager::getInstance();
-
-        $package = Http::sendHttpRequest('https://raw.githubusercontent.com/matomo-org/matomo-package/master/scripts/build-package.sh', 20);
-
-        foreach ($pluginsToTest as $pluginToTest) {
-            $isPluginBundledWithCore = $pluginManager->isPluginBundledWithCore($pluginToTest);
-            $isPluginIncludedInBuildZip = strpos($package, 'plugins/' . $pluginToTest) !== false;
-
-            if ($isPluginBundledWithCore xor $isPluginIncludedInBuildZip) {
-                throw new Exception('Expected that when plugin can be uninstalled (is not included in core), then the plugin is also included in the build-package.sh so it is included in the release zip. Once we no longer include this plugin in build.zip then we need to allow uninstalling these plugins by changing isPluginBundledWithCore method. Plugin is ' . $pluginToTest);
-            }
-        }
-
-        $this->assertNotEmpty($isPluginBundledWithCore, 'We expect at least one plugin to be checked in this test, otherwise we can remove this test once they are no longer included in core');
-    }
-
+    
     public function test_TestCaseHasSetGroupsMethod()
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
@@ -853,7 +833,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/maxmind/web-service-common/dev-bin/',
             'vendor/maxmind/web-service-common/CHANGELOG.md',
             'vendor/php-di/invoker/doc/',
-            'vendor/szymach/c-pchart/doc',
+            'vendor/szymach/c-pchart/resources/doc',
             'vendor/leafo/lessphp/docs',
             'vendor/container-interop/container-interop/docs',
             'vendor/pear/archive_tar/docs',
@@ -900,14 +880,16 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/tecnickcom/tcpdf/fonts/times*',
             'vendor/tecnickcom/tcpdf/fonts/uni2cid*',
 
-            'vendor/szymach/c-pchart/src/Resources/fonts/advent_light*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Bedizen*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/calibri*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Forgotte*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/MankSans*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/pf_arma_five*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Silkscreen*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/verdana*',
+            'vendor/szymach/c-pchart/resources/fonts/advent_light*',
+            'vendor/szymach/c-pchart/resources/fonts/Bedizen*',
+            'vendor/szymach/c-pchart/resources/fonts/calibri*',
+            'vendor/szymach/c-pchart/resources/fonts/Forgotte*',
+            'vendor/szymach/c-pchart/resources/fonts/MankSans*',
+            'vendor/szymach/c-pchart/resources/fonts/pf_arma_five*',
+            'vendor/szymach/c-pchart/resources/fonts/Silkscreen*',
+            'vendor/szymach/c-pchart/resources/fonts/verdana*',
+
+            'package-lock.json',
 
             # not needed js files
             'node_modules/angular/angular.min.js.gzip',
@@ -1039,7 +1021,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '.lfsconfig',
             'HIRING.md',
             '.github/',
-
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);

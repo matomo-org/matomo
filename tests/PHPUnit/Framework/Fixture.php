@@ -262,7 +262,6 @@ class Fixture extends \PHPUnit\Framework\Assert
             Tracker::disconnectCachedDbConnection();
 
             // reconnect once we're sure the database exists
-            self::getConfig()->database['dbname'] = $this->dbName;
             Db::createDatabaseObject();
 
             Db::get()->query("SET wait_timeout=28800;");
@@ -530,12 +529,13 @@ class Fixture extends \PHPUnit\Framework\Assert
      * @param null|string $type eg 'website' or 'mobileapp'
      * @param null|string $settings eg 'website' or 'mobileapp'
      * @param int $excludeUnknownUrls
+     * @param null|string $excludedParameters
      * @return int    idSite of website created
      */
     public static function createWebsite($dateTime, $ecommerce = 0, $siteName = false, $siteUrl = false,
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null, $timezone = null, $type = null,
-                                         $excludeUnknownUrls = 0)
+                                         $excludeUnknownUrls = 0, $excludedParameters = null)
     {
         if($siteName === false) {
             $siteName = self::DEFAULT_SITE_NAME;
@@ -546,7 +546,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $ecommerce,
             $siteSearch, $searchKeywordParameters, $searchCategoryParameters,
             $ips = null,
-            $excludedQueryParameters = null,
+            $excludedQueryParameters = $excludedParameters,
             $timezone,
             $currency = null,
             $group = null,
@@ -992,7 +992,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
         $originalDbName = $config['database']['dbname'];
         if ($dbName == $originalDbName
-            && $dbName != 'piwik_tests'
+            && $dbName != 'piwik_tests' && $dbName !='matomo_tests'
         ) { // santity check
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }

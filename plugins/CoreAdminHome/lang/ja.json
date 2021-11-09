@@ -80,7 +80,7 @@
         "MenuDevelopment": "開発",
         "MenuDiagnostic": "診断",
         "MenuGeneralSettings": "一般設定",
-        "MenuMeasurables": "Measurables",
+        "MenuMeasurables": "測定可能なもの",
         "MenuSystem": "システム",
         "MissingTrackingCodeEmailSubject": "Matomo Analytics に %s のトラフィックが記録されていません、今すぐ始めましょう",
         "NTrackingFailures": "%sトラッキングエラー",

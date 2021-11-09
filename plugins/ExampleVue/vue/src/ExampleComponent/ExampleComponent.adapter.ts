@@ -1,3 +1,10 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 import { createApp, defineAsyncComponent } from 'vue';
 
 const AsyncExampleComponent = defineAsyncComponent(() => import('./ExampleComponent.vue'));
@@ -10,6 +17,7 @@ export default function exampleVueComponentAdapter(): ng.IDirective {
     template: '',
     link: function exampleVueComponentAdapterLink(scope: ng.IScope, element: ng.IAugmentedJQuery) {
       const vueApp = createApp(AsyncExampleComponent);
+      vueApp.config.globalProperties.$sanitize = window.vueSanitize;
       vueApp.mount(element[0]);
     },
   };

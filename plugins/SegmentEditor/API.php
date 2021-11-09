@@ -181,6 +181,7 @@ class API extends \Piwik\Plugin\API
         $authorized =
             ($requiredAccess == 'view' && Piwik::isUserHasViewAccess($idSite)) ||
             ($requiredAccess == 'admin' && Piwik::isUserHasAdminAccess($idSite)) ||
+            ($requiredAccess == 'write' && Piwik::isUserHasWriteAccess($idSite)) ||
             ($requiredAccess == 'superuser' && Piwik::hasUserSuperUserAccess())
         ;
 
