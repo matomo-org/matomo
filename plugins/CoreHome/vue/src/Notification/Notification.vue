@@ -16,7 +16,9 @@
             <div
               class="notification system"
               :class="{[context ? `notification-${context}` : '']: !!context}"
+              :style="style"
               ref="root"
+              :data-notification-instance-id="notificationInstanceId"
             >
               <button
                 type="button"
@@ -30,7 +32,10 @@
               <strong v-if="title">{{ title }}</strong>
               <!-- ng-transclude causes directive child elements to be added here -->
               <div class="notification-body">
-                <slot />
+                <div v-if="message" v-html="$sanitize(message)"/>
+                <div v-if="!message">
+                  <slot />
+                </div>
               </div>
             </div>
           </transition>
@@ -49,8 +54,9 @@ const { $ } = window;
 export default defineComponent({
   props: {
     notificationId: String,
-    // TODO: shouldn't need this since the title can be specified within
-    //       HTML of the node that uses the directive.
+    // NOTE: notificationId refers to server side ID for notifications stored in the session.
+    // this ID is just so it can be selected outside of this component (just for scrolling).
+    notificationInstanceId: String,
     title: String,
     context: String,
     type: String,
@@ -59,8 +65,9 @@ export default defineComponent({
       type: Number,
       default: 12 * 1000,
     },
-    style: String,
+    style: [String, Object],
     animate: Boolean,
+    message: String,
   },
   computed: {
     canClose() {

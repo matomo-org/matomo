@@ -10,22 +10,76 @@ import {
   reactive,
   createVNode,
   render,
+  createApp,
 } from 'vue';
 import NotificationComponent from './Notification.vue';
+import translate from '../translate';
+import Matomo from '../Matomo/Matomo';
 
 interface Notification {
+  /**
+   * Only needed for persistent notifications. The id will be sent to the
+   * frontend once the user closes the notifications. The notification has to
+   * be registered/notified under this name.
+   */
   id?: string;
+
+  /**
+   * Unique ID generated for the notification so it can be referenced specifically
+   * to scroll to.
+   */
+  notificationInstanceId: string;
+
+  /**
+   * Determines which notification group a notification is meant to be displayed
+   * in.
+   */
   group?: string;
-  // TODO: shouldn't need this since the title can be specified within
-  //       HTML of the node that uses the directive.
+
+  /**
+   * The title of the notification. For instance the plugin name.
+   */
   title?: string;
+
+  /**
+   * The actual message that will be displayed. Must be set.
+   */
   message: string;
+
+  /**
+   * Context of the notification: 'info', 'warning', 'success' or 'error'
+   */
   context: 'success'|'error'|'info'|'warning';
+
+  /**
+   * The type of the notification: Either 'toast' or 'transient'. 'persistent' is valid, but
+   * has no effect if only specified client side.
+   */
   type: 'toast'|'persistent'|'transient';
+
+  /**
+   * If set, the close icon is not displayed.
+   */
   noclear?: boolean;
+
+  /**
+   * The number of milliseconds before a toast animation disappears.
+   */
   toastLength?: number;
-  style?: string;
+
+  /**
+   * Optional style/css dictionary. For instance {'display': 'inline-block'}
+   */
+  style?: string|Record<string, unknown>;
+
+  /**
+   * If true, fades the animation in.
+   */
   animate?: boolean;
+
+  /**
+   * Where to place the notification. Required if showing a toast.
+   */
   placeat?: string|HTMLElement|JQuery;
 }
 
@@ -38,33 +92,42 @@ class NotificationsStore {
     notifications: [],
   });
 
+  private nextNotificationId = 0;
+
   get state(): DeepReadonly<NotificationsData> {
     return this.privateState;
   }
 
   appendNotification(notification: Notification): void {
+    this.checkMessage(notification.message);
+
     // remove existing notification before adding
     if (notification.id) {
-      this.removeNotification(notification.id);
+      this.remove(notification.id);
     }
     this.privateState.notifications.push(notification);
   }
 
   prependNotification(notification: Notification): void {
+    this.checkMessage(notification.message);
+
     // remove existing notification before adding
     if (notification.id) {
-      this.removeNotification(notification.id);
+      this.remove(notification.id);
     }
     this.privateState.notifications.unshift(notification);
   }
 
-  removeNotification(id: string): void {
-    this.privateState.notifications = this.privateState.notifications.filter((n) => n.id !== id);
+  /**
+   * Removes a previously shown notification having the given notification id.
+   */
+  remove(id: string): void {
+    this.privateState.notifications = this.privateState.notifications.filter(
+      (n) => n.id !== id,
+    );
   }
 
   parseNotificationDivs(): void {
-    const UI = window.require('piwik/UI');
-
     const $notificationNodes = $('[data-role="notification"]');
 
     $notificationNodes.each((index, notificationNode) => {
@@ -73,9 +136,7 @@ class NotificationsStore {
       const message = $notificationNode.html();
 
       if (message) {
-        const notification = new UI.Notification();
-        attributes.animate = false;
-        notification.show(message, attributes);
+        this.show({ ...attributes, message, animate: false });
       }
 
       $notificationNodes.remove();
@@ -83,10 +144,63 @@ class NotificationsStore {
   }
 
   clearTransientNotifications(): void {
-    this.privateState.notifications = this.privateState.notifications.filter((n) => n.type !== 'transient');
+    this.privateState.notifications = this.privateState.notifications.filter(
+      (n) => n.type !== 'transient',
+    );
   }
 
+  /**
+   * Creates a notification and shows it to the user.
+   */
+  show(notification: Notification): string {
+    this.checkMessage(notification.message);
+    this.checkNotToast(notification);
+
+    let addMethod = this.appendNotification;
+
+    let notificationPosition: typeof Notification['placeat'] = '#notificationContainer';
+    if (notification.placeat) {
+      notificationPosition = notification.placeat;
+    } else {
+      // If a modal is open, we want to make sure the error message is visible and therefore
+      // show it within the opened modal
+      const modalSelector = '.modal.open .modal-content';
+      if (document.querySelector(modalSelector)) {
+        notificationPosition = modalSelector;
+        addMethod = this.prependNotification;
+      }
+    }
+
+    const group = notification.group
+      || (notification.placeat ? notification.placeat.toString() : '');
+
+    this.initializeNotificationContainer(notificationPosition, group);
+
+    const notificationInstanceId = (this.nextNotificationId += 1).toString();
+
+    addMethod.call(this, {
+      ...notification,
+      group,
+      notificationId: notification.id,
+      notificationInstanceId,
+    });
+
+    return notificationInstanceId;
+  }
+
+  scrollToNotification(notificationInstanceId: string) {
+    const element = document.querySelector(`[data-notification-instance-id=${notificationInstanceId}]`);
+    if (element) {
+      Matomo.lazyScrollTo(element, 250);
+    }
+  }
+
+  /**
+   * Shows a notification at a certain point with a quick upwards animation.
+   */
   toast(notification: Notification): void {
+    this.checkMessage(notification.message);
+
     const $placeat = $(notification.placeat);
     if (!$placeat.length) {
       throw new Error('A valid selector is required for the placeat option when using Notification.toast().');
@@ -99,25 +213,57 @@ class NotificationsStore {
     toastElement.style.zIndex = '1000';
     document.body.appendChild(toastElement);
 
-    const sanitizedMessage = window.vueSanitize(notification.message);
-
-    const toastVNode = createVNode(
-      NotificationComponent,
-      {
+    const app = createApp({
+      render: () => createVNode(NotificationComponent, {
         ...notification,
+        notificationId: notification.id,
         type: 'toast',
         onClosed: () => {
           render(null, toastElement);
         },
-      },
-      {
-        default() {
-          return createVNode('div', { innerHTML: sanitizedMessage });
-        },
-      },
-    );
+      }),
+    });
+    app.config.globalProperties.$sanitize = window.vueSanitize;
+    app.config.globalProperties.translate = translate;
+    app.mount(toastElement);
+  }
 
-    render(toastVNode, toastElement);
+  private initializeNotificationContainer(
+    notificationPosition: typeof Notification['placeat'],
+    group: string,
+  ) {
+    const $container = window.$(notificationPosition);
+    if ($container.children('.notification-group').length) {
+      return;
+    }
+
+    const mountPoint = document.createElement('div');
+    $container.append(mountPoint);
+
+    // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
+    // to be dynamically initialized.
+    const NotificationGroup = (window as any).CoreHome.NotificationGroup; // eslint-disable-line
+
+    const app = createApp({
+      template: '<NotificationGroup :group="group"/>',
+      data: () => ({ group }),
+    });
+    app.config.globalProperties.$sanitize = window.vueSanitize;
+    app.config.globalProperties.translate = translate;
+    app.component('NotificationGroup', NotificationGroup);
+    app.mount(mountPoint[0]);
+  }
+
+  private checkMessage(message: string) {
+    if (!message) {
+      throw new Error('No message given, cannot display notification');
+    }
+  }
+
+  private checkNotToast(notification: Notification) {
+    if (notification.type === 'toast') {
+      throw new Error('Use NotificationsStore.toast() to create toasts.');
+    }
   }
 }
 

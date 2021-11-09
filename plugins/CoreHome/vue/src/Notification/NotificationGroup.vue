@@ -5,22 +5,24 @@
 -->
 
 <template>
-  <Notification
-    v-for="(notification, index) in notifications"
-    :key="notification.id || `no-id-${index}`"
-    :notification-id="notification.id"
-    :title="notification.title"
-    :context="notification.context"
-    :type="notification.type"
-    :noclear="notification.noclear"
-    :toast-length="notification.toastLength"
-    :style="notification.style"
-    :animate="notification.animate"
-    :position="notification.position"
-    @closed="removeNotification(notification.id)"
-  >
-    <div v-html="$sanitize(notification.message)"/>
-  </Notification>
+  <div class="notification-group">
+    <Notification
+      v-for="(notification, index) in notifications"
+      :key="notification.id || `no-id-${index}`"
+      :notification-id="notification.id"
+      :title="notification.title"
+      :context="notification.context"
+      :type="notification.type"
+      :noclear="notification.noclear"
+      :toast-length="notification.toastLength"
+      :style="notification.style"
+      :animate="notification.animate"
+      :position="notification.position"
+      @closed="removeNotification(notification.id)"
+    >
+      <div v-html="$sanitize(notification.message)"/>
+    </Notification>
+  </div>
 </template>
 
 <script lang="ts">
@@ -53,7 +55,7 @@ export default defineComponent({
   },
   methods: {
     removeNotification(id: string) {
-      this.notificationStore.removeNotification(id);
+      this.notificationStore.remove(id);
     },
   },
 });
