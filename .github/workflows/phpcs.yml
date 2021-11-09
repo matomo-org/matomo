@@ -2,8 +2,6 @@ name: PHPCS check
 
 on:
   pull_request:
-    branches:
-      - main
 
 permissions:
   actions: read

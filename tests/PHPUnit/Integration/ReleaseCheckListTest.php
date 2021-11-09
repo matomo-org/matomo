@@ -334,9 +334,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     public function test_phpFilesStartWithRightCharacter()
     {
-        if (getenv('GITHUB')) {
-            $this->markTestSkipped('No Nginx or Apache skip this');
-        }
+
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
         $tested = 0;

@@ -293,6 +293,9 @@ jobs:
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           mkdir -p /tmp
+          mkdir -p ./tests/PHPUnit/proxy/plugins/Morpheus/images/
+          cp ./plugins/Morpheus/images/logo.svg ./tests/PHPUnit/proxy/plugins/Morpheus/images/
+          ln -s plugins/Morpheus/images/ tests/PHPUnit/proxy/plugins/Morpheus/images/
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
