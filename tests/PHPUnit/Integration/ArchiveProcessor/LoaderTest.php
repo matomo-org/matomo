@@ -40,8 +40,8 @@ class LoaderTest extends IntegrationTestCase
     {
         parent::beforeTableDataCached();
 
-        Fixture::createWebsite('2012-02-03 00:00:00');
-        Fixture::createWebsite('2012-02-03 00:00:00');
+        Fixture::createWebsite('2012-02-03 00:00:00', $ecommerce = 1);
+        Fixture::createWebsite('2012-02-03 00:00:00', $ecommerce = 1);
     }
 
     public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives()

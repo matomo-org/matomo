@@ -63,15 +63,15 @@ class OneVisitorTwoVisits extends Fixture
     private function setUpWebsitesAndGoals()
     {
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime);
+            self::createWebsite($this->dateTime, 1);
         }
 
         if (!self::siteCreated($idSite = 2)) {
-            $this->idSiteEmptyBis = $this->createWebsite($this->dateTime);
+            $this->idSiteEmptyBis = $this->createWebsite($this->dateTime, 1);
         }
 
         if (!self::siteCreated($idSite = 3)) {
-            $this->idSiteEmptyTer = $this->createWebsite($this->dateTime);
+            $this->idSiteEmptyTer = $this->createWebsite($this->dateTime, 1);
         }
     }
 
