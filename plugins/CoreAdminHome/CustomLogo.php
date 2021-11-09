@@ -42,10 +42,6 @@ class CustomLogo
 
     public function getSVGLogoUrl($pathOnly = false)
     {
-        // for github action tests
-        if (getenv('github')) {
-            return '/tmp/logo.svg';
-        }
         $defaultLogo = 'plugins/Morpheus/images/logo.svg';
         $themeLogo = 'plugins/%s/images/logo.svg';
         $customLogo = static::getPathUserSvgLogo();

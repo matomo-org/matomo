@@ -297,6 +297,7 @@ jobs:
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
+          sed -i -E 's/logoSVG/"\/tmp\/logo.svg"/g' plugins/CoreHome/templates/_logo.twig
 
       - name: Run PHP on 80
         run: |
@@ -337,9 +338,8 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
 
       - name: UI tests Group ${{ matrix.parts }}
-        env:
-          GITHUB: true
         run: |
+          ls -l ./tmp/
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=7 --test-group=${{ matrix.parts }}"
 
       - name: failed UI details
