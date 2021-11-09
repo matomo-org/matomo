@@ -22,3 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout current branch {{ github.base_ref }}
+        run: |
+          echo ${{ github.base_ref }}
+          echo ${{ github.head_ref }}
