@@ -361,10 +361,10 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: failed-ui
+          name: ${{ github.run_id }}
           path: |
             /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
-            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
+            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
             /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
 
 
@@ -372,8 +372,11 @@ jobs:
         uses: actions/download-artifact@v2
         if: failure()
         with:
-          name: failed-ui
-          path: /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+          name: ${{ github.run_id }}
+          path: |
+            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
 
 #      - name: upload processed screenshots
 #        if: failure()
