@@ -9,7 +9,6 @@ import {
   DeepReadonly,
   reactive,
   createVNode,
-  render,
   createApp,
 } from 'vue';
 import NotificationComponent from './Notification.vue';
@@ -225,7 +224,7 @@ class NotificationsStore {
         notificationId: notification.id,
         type: 'toast',
         onClosed: () => {
-          render(null, toastElement);
+          app.unmount();
         },
       }),
     });
