@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins' ]
+        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins0','IntegrationTestsPlugins1','IntegrationTestsPlugins2' ]
 
     steps:
       - name: Checkout code
@@ -120,7 +120,8 @@ jobs:
       - name: Test runing
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
-          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+          php ./tests/PHPUnit/spliteXML.php
+          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/generated.xml --testsuite ${{ matrix.tests }}
         env:
           TRAVIS: true
           GITHUB: true
@@ -248,7 +249,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UITests' ]
-        parts: [ 0,1,2 ]
+        parts: [ 0,1,2,3,4,5 ]
 
     steps:
       - name: Checkout code
@@ -337,7 +338,7 @@ jobs:
 
       - name: UI tests Group ${{ matrix.parts }}
         run: |
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=3 --test-group=${{ matrix.parts }}"
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=6 --test-group=${{ matrix.parts }}"
 
       - name: failed UI details
         if: failure()
