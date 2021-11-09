@@ -16,7 +16,7 @@ if (file_exists($pathDist)) {
     }
 
     //split large tests to 3 parts
-    $IntegrationTestsPluginsChunk = array_chunk($IntegrationTestsPlugins, (ceil(count($IntegrationTestsPlugins) / 3)));
+    $IntegrationTestsPluginsChunk = array_chunk($IntegrationTestsPlugins, (ceil(count($IntegrationTestsPlugins) / 4)));
 
     $dom = new DOMDocument;
     $dom->load($pathDist);
