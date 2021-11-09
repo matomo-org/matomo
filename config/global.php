@@ -167,19 +167,24 @@ return array(
 
         foreach ($ips as $ip) {
             $ip = trim($ip);
-            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            if (filter_var($ip, FILTER_VALIDATE_IP) || \Matomo\Network\IPUtils::getIPRangeBounds($ip) !== null) {
                 $ipsResolved[] = $ip;
             } else {
                 $ipFromHost = @gethostbyname($ip);
-                if (!empty($ipFromHost)) {
-                    // we don't check using filter_var if it's an IP as "gethostbyname" will return the $ip if it's not a hostname
-                    // and we then assume it is an IP range. Otherwise IP ranges would not be added. Ideally would above check if it is an
-                    // IP range before trying to get host by name.
+                if (!empty($ipFromHost) && $ipFromHost !== $ip) {
                     $ipsResolved[] = $ipFromHost;
                 } 
                 
                 if (function_exists('dns_get_record')) {
-                    $entry = @dns_get_record($ip, DNS_AAAA);
+                    $lazyCache = \Piwik\Cache::getLazyCache();
+                    $cacheKey = 'DNS.' . md5($ip);
+                    if ( !$lazyCache->contains($cacheKey) ) {
+                        $entry = @dns_get_record($ip, DNS_AAAA);
+                        $lazyCache->save($cacheKey, $entry, 30);
+                    } else {
+                        $entry = $lazyCache->fetch($cacheKey);
+                    }
+
                     if (!empty($entry['0']['ipv6'])
                         && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
                         $ipsResolved[] = $entry['0']['ipv6'];
