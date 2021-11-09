@@ -103,9 +103,14 @@ export default defineComponent({
     };
   },
   watch: {
-    showFeedbackForm() {
+    showFeedbackForm(val) {
       // eslint-disable-next-line no-underscore-dangle
       this.questionText = translate(`Feedback_Question${this.question}`);
+      if (val) {
+        setInterval(() => {
+          $('#message').focus();
+        }, 500);
+      }
     },
   },
   created() {
