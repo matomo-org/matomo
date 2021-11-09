@@ -75,7 +75,8 @@ jobs:
         run: |
           php -i
           cp .github/scripts/config.ini.github.php  config/config.ini.php
-          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+          php ./tests/PHPUnit/spliteXML.php
+          ls ./tests/PHPUnit/
           mkdir -p ./tmp/assets
           mkdir -p ./tmp/cache
           mkdir -p ./tmp/cache/tracker
@@ -120,8 +121,7 @@ jobs:
       - name: Test runing
         if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
         run: |
-          php ./tests/PHPUnit/spliteXML.php
-          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/generated.xml --testsuite ${{ matrix.tests }}
+          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
         env:
           TRAVIS: true
           GITHUB: true

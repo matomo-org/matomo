@@ -40,7 +40,7 @@ if (file_exists("./phpunit.xml.dist")) {
 
     $newGenerate = new DOMDocument();
     $newGenerate->loadXML($generated);
-    $newGenerate->save('./generated.xml');
+    $newGenerate->save('./phpunit.xml');
 
 
 } else {
