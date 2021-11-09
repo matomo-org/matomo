@@ -27,6 +27,9 @@ describe("RateFeature", function () {
         await like.evaluate(b => b.click());
 
         var modal = await page.waitForSelector('.modal.open', { visible: true });
+
+        await page.waitForTimeout(1000);
+
         expect(await modal.screenshot()).to.matchImage('rate_feature_like_questions');
     });
 
@@ -45,7 +48,7 @@ describe("RateFeature", function () {
         expect(await modal.screenshot()).to.matchImage('rate_feature_like_submit');
     });
 
-  it('should display the dislike feature popup', async function () {
+    it('should display the dislike feature popup', async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
@@ -53,6 +56,9 @@ describe("RateFeature", function () {
         await like.evaluate(b => b.click());
 
         var modal = await page.waitForSelector('.modal.open', { visible: true });
+
+        await page.waitForTimeout(1000);
+
         expect(await modal.screenshot()).to.matchImage('rate_feature_dislike_questions');
     });
 
@@ -70,5 +76,13 @@ describe("RateFeature", function () {
         var modal = await page.waitForSelector('.modal.open', { visible: true });
         expect(await modal.screenshot()).to.matchImage('rate_feature_dislike_submit');
     });
+
+    function delay(interval) {
+       return it('should delay', done =>
+       {
+          setTimeout(() => done(), interval)
+       }).timeout(interval + 100);
+    }
+
 
 });
