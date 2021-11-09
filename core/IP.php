@@ -45,10 +45,6 @@ class IP
      */
     public static function getIpFromHeader()
     {
-        //used for github action tests
-        if (getenv('GITHUB')) {
-            return "127.0.0.1";
-        }
         $general = Config::getInstance()->General;
         $clientHeaders = @$general['proxy_client_headers'];
         if (!is_array($clientHeaders)) {
