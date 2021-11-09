@@ -67,7 +67,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoDialog, AjaxHelper } from 'CoreHome';
+import {
+  MatomoDialog, AjaxHelper, setCookie, getCookie, translate,
+} from 'CoreHome';
 
 const { $ } = window;
 
@@ -103,34 +105,35 @@ export default defineComponent({
   watch: {
     showFeedbackForm() {
       // eslint-disable-next-line no-underscore-dangle
-      this.questionText = window._pk_translate(`Feedback_Question${this.question}`);
+      this.questionText = translate(`Feedback_Question${this.question}`);
     },
   },
   created() {
-    if (this.getCookieValue(cookieName)) {
-      // eslint-disable-next-line radix
-      this.question = parseInt(this.getCookieValue(cookieName));
-      const nextQuestion = (this.question + 1 > 4) ? 0 : this.question + 1;
-      this.setCookieValue(nextQuestion);
-    } else {
-      this.setCookieValue(0);
+    if (this.showQuestionBanner !== '0') {
+      this.initQuestion();
     }
   },
   methods: {
+    initQuestion() {
+      if (getCookie(cookieName)) {
+        // eslint-disable-next-line radix
+        this.question = parseInt(getCookie(cookieName));
+        const nextQuestion = (this.question + 1 > 4) ? 0 : this.question + 1;
+        setCookie(cookieName, nextQuestion, 7);
+      } else {
+        setCookie(cookieName, this.getRandomIntBetween(0, 4), 7);
+      }
+    },
+    getRandomIntBetween(min, max) {
+      // eslint-disable-next-line no-param-reassign
+      min = Math.ceil(min);
+      // eslint-disable-next-line no-param-reassign
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    },
     showQuestion() {
       this.showFeedbackForm = true;
       this.errorMessage = null;
-    },
-    getCookieValue() {
-      const currentCookie = document.cookie.match(`(^|;)\\s*${cookieName}\\s*=\\s*([^;]+)`);
-      return currentCookie ? currentCookie.pop() : null;
-    },
-    setCookieValue(value) {
-      const now = new Date();
-      const time = now.getTime();
-      const expireTime = time + 1000 * 36000;
-      now.setTime(expireTime);
-      document.cookie = `${cookieName}=${value};expires=${now.toUTCString()};path=/`;
     },
     disableReminder() {
       AjaxHelper.fetch({

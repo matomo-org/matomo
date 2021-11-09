@@ -52,6 +52,6 @@
         "FeedbackSubtitle": "Here's your chance to ask for it! Please describe in as much details as you can. <br/> Your feedback will help us improve Matomo. %1$s",
         "ThankYourForFeedback": "We really appreciate your feedback! %1$s We will be in touch in case we require more information about your feedback.",
         "Policy": "Your message and your email address will be sent to us by submitting this form. The information will be only used to improve our products and services. Your data will be processed by us, our hosting provider, and our support ticket provider. For more information have a look at %1$sMatomo's Privacy Policy%2$s.",
-        "FormEmptyBody": "The message body can't not be blank."
+        "MessageBodyValidationError": "The message body is too short (minimum is 10 characters)."
     }
 }

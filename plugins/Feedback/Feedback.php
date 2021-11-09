@@ -76,11 +76,15 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_ThankYou';
-        $translationKeys[] = 'Feedback_FormEmptyBody';
+        $translationKeys[] = 'Feedback_MessageBodyValidationError';
     }
 
     public function renderViewsAndAddToPage(&$pageHtml)
     {
+        //only show on superuser
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return $pageHtml;
+        }
         $feedbackQuestionBanner = $this->renderFeedbackQuestion();
 
         $matches = preg_split('/(<body.*?>)/i', $pageHtml, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);

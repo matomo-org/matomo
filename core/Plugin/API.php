@@ -9,7 +9,10 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\NoAccessException;
+use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 
 /**

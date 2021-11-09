@@ -73,9 +73,11 @@ class API extends \Piwik\Plugin\API
      */
     public function sendFeedbackForSurvey($question,  $message = false)
     {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
 
-        if ($message == '') {
-            return Piwik::translate("Feedback_FormEmptyBody");
+        if ($message == '' || strlen($message) < 10) {
+            return Piwik::translate("Feedback_MessageBodyValidationError");
         }
 
         // if message is test content then don't send email
@@ -84,9 +86,6 @@ class API extends \Piwik\Plugin\API
             $feedbackReminder->setUserOption("-1");
             return 'success';
         }
-
-        Piwik::checkUserIsNotAnonymous();
-        Piwik::checkUserHasSomeViewAccess();
 
         $featureName = $this->getEnglishTranslationForFeatureName($question);
 
@@ -107,9 +106,11 @@ class API extends \Piwik\Plugin\API
 
         $this->sendMail($subject, $body);
 
-        //if feed is sent never show again.
+        //if feedback is sent set next one to 6 month.
+        $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
         $feedbackReminder = new FeedbackReminder();
-        $feedbackReminder->setUserOption("-1");
+        $feedbackReminder->setUserOption($nextReminder);
+
         return 'success';
 
     }
