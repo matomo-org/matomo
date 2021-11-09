@@ -54,6 +54,11 @@
           <p v-html="translate('Feedback_ThankYourForFeedback',
         `<i class='icon-heart red-text'></i>`)">
           </p>
+          <input
+            type="button"
+            role="cancel"
+            :value="translate('General_Close')"
+          />
         </div>
       </MatomoDialog>
     </div>
