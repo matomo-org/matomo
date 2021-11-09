@@ -74,10 +74,6 @@ class LanguagesManager extends \Piwik\Plugin
     {
         // piwik object & scripts aren't loaded in 'other' topbars
         $str .= "<script type='text/javascript'>if (!window.piwik) window.piwik={};</script>";
-
-        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
-        $str .= "<script type='text/javascript' src='plugins/CoreHome/vue/dist/$coreHomeUmd'></script>";
-
         $str .= "<script type='text/javascript' src='plugins/LanguagesManager/angularjs/languageselector/languageselector.directive.js'></script>";
         $str .= $this->getLanguagesSelector();
     }

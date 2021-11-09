@@ -10,10 +10,6 @@ import { DirectiveBinding } from 'vue';
 interface FocusAnywhereButHereArgs {
   blur: () => void,
 
-  // TODO: document in developer-documentation
-  // directives in Vue should not have state, but the associated angularjs directive does.
-  // to make this work, we store data in the argument passed to this directive. As long as
-  // it is an object literal that does not change, this should work just fine.
   isMouseDown?: boolean;
   hasScrolled?: boolean;
   onEscapeHandler?: (event: KeyboardEvent) => void;

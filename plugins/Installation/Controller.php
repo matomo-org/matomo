@@ -17,6 +17,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -566,6 +567,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         );
 
         CoreVue::addJsFilesTo($files);
+
+        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
+        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {

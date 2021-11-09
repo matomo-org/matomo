@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
+use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
@@ -117,6 +118,9 @@ class Controller extends \Piwik\Plugin\Controller
         );
 
         CoreVue::addJsFilesTo($files);
+
+        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
+        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
         return AssetManager::compileCustomJs($files);
     }
