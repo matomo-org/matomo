@@ -114,25 +114,34 @@
 
         <div v-if="likeReason || dislikeReason" class="messageContainer" style="text-align:left">
 
-          <p v-if="likeReason" v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtra',
-            `<i class='icon-heart red-text'></i>`)"></p>
+          <p v-if="likeReason && likeReason == 'useful'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtraUseful')">
+          </p>
+          <p v-if="likeReason && likeReason == 'easy'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtraEasy')">
+          </p>
+          <p v-if="likeReason && likeReason == 'configurable'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtraConfigurable')">
+          </p>
+          <p v-if="likeReason && likeReason == 'likeother'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtra')">
+          </p>
 
           <p v-if="dislikeReason && dislikeReason == 'missingfeatures'"
-             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraMissing',
-            `<i class='icon-heart red-text'></i>`)"></p>
-
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraMissing')">
+          </p>
           <p v-if="dislikeReason && dislikeReason == 'makeeasier'"
-             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraEasier',
-            `<i class='icon-heart red-text'></i>`)"></p>
-
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraEasier')">
+          </p>
           <p v-if="dislikeReason && dislikeReason == 'fixbugs'"
-             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraBugs',
-            `<i class='icon-heart red-text'></i>`)"></p>
-
-          <p v-if="dislikeReason &&
-          (dislikeReason == 'dislikeother' || dislikeReason == 'speedup')"
-             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtra',
-            `<i class='icon-heart red-text'></i>`)"></p>
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraBugs')">
+          </p>
+          <p v-if="dislikeReason && dislikeReason == 'speedup'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtraSpeed')">
+          </p>
+          <p v-if="dislikeReason && dislikeReason == 'dislikeother'"
+             v-html="translate('Feedback_RateFeatureLeaveMessageDislikeExtra')">
+          </p>
 
           <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
           <textarea ref="feedbackText" class="materialize-textarea" id="feedbacktext"
