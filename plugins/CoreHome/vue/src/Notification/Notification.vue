@@ -24,7 +24,7 @@
                 type="button"
                 class="close"
                 data-dismiss="alert"
-                v-if="!canClose"
+                v-if="canClose"
                 v-on:click="closeNotification($event)"
               >
                 &times;
@@ -86,6 +86,7 @@ export default defineComponent({
         // otherwise it is never possible to dismiss the notification
         return true;
       }
+
       return !this.noclear;
     },
   },

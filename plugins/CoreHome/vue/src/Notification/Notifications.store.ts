@@ -190,6 +190,7 @@ class NotificationsStore {
       group,
       notificationId: notification.id,
       notificationInstanceId,
+      type: notification.type || 'transient',
     });
 
     return notificationInstanceId;
