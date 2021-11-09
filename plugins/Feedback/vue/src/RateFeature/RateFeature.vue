@@ -41,7 +41,7 @@
           <h2 v-if="!title" >{{ translate('Feedback_RateFeatureLeaveMessageLike') }}</h2>
           <br />
           <div class="row">
-            <div style="text-align:left">
+            <div style="text-align:left; margin-top: 16px">
               <label for="useful" class="ratelabel">
                 <input type="radio" id="useful" value="useful" v-model="likeReason"
                        class="rateradio">
