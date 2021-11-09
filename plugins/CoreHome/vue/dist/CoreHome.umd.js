@@ -147,14 +147,9 @@ __webpack_require__.d(__webpack_exports__, "getToday", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 __webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
-__webpack_require__.d(__webpack_exports__, "DatePicker", function() { return /* reexport */ DatePicker; });
-__webpack_require__.d(__webpack_exports__, "DateRangePicker", function() { return /* reexport */ DateRangePicker; });
-__webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { return /* reexport */ PeriodDatePicker; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1840,215 +1835,7 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function onExpand(element) {
-  element.classList.toggle('expanded');
-  var positionElement = element.querySelector('.dropdown.positionInViewport');
-
-  if (positionElement) {
-    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-  }
-}
-
-function onClickOutsideElement(element, binding, event) {
-  var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
-  binding.value.isMouseDown = false;
-  binding.value.hasScrolled = false;
-
-  if (hadUsedScrollbar) {
-    return;
-  }
-
-  if (!element.contains(event.target)) {
-    element.classList.remove('expanded');
-  }
-}
-
-function onScroll(binding) {
-  binding.value.hasScrolled = true;
-}
-
-function onMouseDown(binding) {
-  binding.value.isMouseDown = true;
-  binding.value.hasScrolled = false;
-}
-
-function onEscapeHandler(element, binding, event) {
-  if (event.which === 27) {
-    binding.value.isMouseDown = false;
-    binding.value.hasScrolled = false;
-    element.classList.remove('expanded');
-  }
-}
-
-var doc = document.documentElement;
-/**
- * Usage (in a component):
- *
- * directives: {
- *   ExpandOnClick: ExpandOnClick(), // function call is important since we store state
- *                                   // in this directive
- * }
- */
-
-/* harmony default export */ var ExpandOnClick = ({
-  mounted: function mounted(el, binding) {
-    binding.value.isMouseDown = false;
-    binding.value.hasScrolled = false;
-    binding.value.onExpand = onExpand.bind(null, el);
-    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
-    binding.value.onMouseDown = onMouseDown.bind(null, binding);
-    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
-    binding.value.onScroll = onScroll.bind(null, binding);
-    binding.value.expander.addEventListener('click', binding.value.onExpand);
-    doc.addEventListener('keyup', binding.value.onEscapeHandler);
-    doc.addEventListener('mousedown', binding.value.onMouseDown);
-    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
-    doc.addEventListener('scroll', binding.value.onScroll);
-  },
-  unmounted: function unmounted(el, binding) {
-    binding.value.expander.removeEventListener('click', binding.value.onExpand);
-    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
-    doc.removeEventListener('mousedown', binding.value.onMouseDown);
-    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-    doc.removeEventListener('scroll', binding.value.onScroll);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikExpandOnClick() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {
-          expander: element.find('.title').first()[0]
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      var wrapped = ExpandOnClick;
-      wrapped.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        return wrapped.unmounted(element[0], binding);
-      });
-    }
-  };
-}
-piwikExpandOnClick.$inject = [];
-angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function onMouseEnter(element) {
-  element.classList.add('expanded');
-  var positionElement = element.querySelector('.dropdown.positionInViewport');
-
-  if (positionElement) {
-    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-  }
-}
-
-function onMouseLeave(element) {
-  element.classList.remove('expanded');
-}
-
-function ExpandOnHover_onClickOutsideElement(element, event) {
-  if (!element.contains(event.target)) {
-    element.classList.remove('expanded');
-  }
-}
-
-function ExpandOnHover_onEscapeHandler(element, event) {
-  if (event.which === 27) {
-    element.classList.remove('expanded');
-  }
-}
-
-var ExpandOnHover_doc = document.documentElement;
-/**
- * Usage (in a component):
- *
- * directives: {
- *   ExpandOnHover: ExpandOnHover(), // function call is important since we store state
- *                                   // in this directive
- * }
- */
-
-/* harmony default export */ var ExpandOnHover = ({
-  mounted: function mounted(el, binding) {
-    binding.value.onMouseEnter = onMouseEnter.bind(null, el);
-    binding.value.onMouseLeave = onMouseLeave.bind(null, el);
-    binding.value.onClickOutsideElement = ExpandOnHover_onClickOutsideElement.bind(null, el);
-    binding.value.onEscapeHandler = ExpandOnHover_onEscapeHandler.bind(null, el);
-    binding.value.expander.addEventListener('mouseenter', binding.value.onMouseEnter);
-    el.addEventListener('mouseleave', binding.value.onMouseLeave);
-    ExpandOnHover_doc.addEventListener('keyup', binding.value.onEscapeHandler);
-    ExpandOnHover_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
-  },
-  unmounted: function unmounted(el, binding) {
-    binding.value.expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
-    el.removeEventListener('mouseleave', binding.value.onMouseLeave);
-    document.removeEventListener('keyup', binding.value.onEscapeHandler);
-    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikExpandOnHover() {
-  return {
-    restrict: 'A',
-    link: function expandOnHoverLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {
-          expander: element.find('.title').first()[0]
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      var wrapped = ExpandOnHover;
-      wrapped.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        return wrapped.unmounted(element[0], binding);
-      });
-    }
-  };
-}
-
-piwikExpandOnHover.$inject = [];
-angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=15ad69b4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=7aba656e
 
 var _hoisted_1 = {
   ref: "root"
@@ -2056,7 +1843,7 @@ var _hoisted_1 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=15ad69b4
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=7aba656e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
 
@@ -2099,6 +1886,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           },
           no: function no() {
             _this.$emit('no');
+          },
+          validation: function validation() {
+            _this.$emit('validation');
           }
         }, {
           onCloseEnd: function onCloseEnd() {
@@ -2150,19 +1940,6 @@ function createAngularJsAdapter_arrayWithHoles(arr) { if (Array.isArray(arr)) re
 
 
 var transcludeCounter = 0;
-
-function toKebabCase(arg) {
-  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/[A-Z]/g, function (s) {
-    return "-".concat(s.toLowerCase());
-  });
-}
-
-function toAngularJsCamelCase(arg) {
-  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/-([a-z])/g, function (s, p) {
-    return p.toUpperCase();
-  });
-}
-
 function createAngularJsAdapter(options) {
   var component = options.component,
       _options$scope = options.scope,
@@ -2209,30 +1986,19 @@ function createAngularJsAdapter(options) {
       compile: function angularJsAdapterCompile() {
         return {
           post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs) {
-            var clone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
-
+            var clone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null;
             var rootVueTemplate = '<root-component';
+            Object.entries(scope).forEach(function (_ref3) {
+              var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
+                  info = _ref4[1];
+
+              rootVueTemplate += " :".concat(info.vue, "=\"").concat(info.vue, "\"");
+            });
             Object.entries(events).forEach(function (info) {
               var _info = createAngularJsAdapter_slicedToArray(info, 1),
                   eventName = _info[0];
 
               rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
-            });
-            Object.entries(scope).forEach(function (_ref3) {
-              var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
-                  key = _ref4[0],
-                  info = _ref4[1];
-
-              if (info.angularJsBind === '&') {
-                var eventName = toKebabCase(key);
-
-                if (!events[eventName]) {
-                  // pass through scope & w/o a custom event handler
-                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
-                }
-              } else {
-                rootVueTemplate += " :".concat(info.vue, "=\"").concat(info.vue, "\"");
-              }
             });
             rootVueTemplate += '>';
 
@@ -2240,8 +2006,7 @@ function createAngularJsAdapter(options) {
               rootVueTemplate += '<div ref="transcludeTarget"/>';
             }
 
-            rootVueTemplate += '</root-component>'; // build the vue app
-
+            rootVueTemplate += '</root-component>';
             var app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
               template: rootVueTemplate,
               data: function data() {
@@ -2273,12 +2038,6 @@ function createAngularJsAdapter(options) {
               },
               methods: {
                 onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(name);
-
-                  if (ngScope[scopePropertyName]) {
-                    ngScope[scopePropertyName]($event);
-                  }
-
                   if (events[name]) {
                     events[name].apply(events, [$event, ngScope, ngElement, ngAttrs].concat(injectedServices));
                   }
@@ -2287,17 +2046,15 @@ function createAngularJsAdapter(options) {
             });
             app.config.globalProperties.$sanitize = window.vueSanitize;
             app.config.globalProperties.translate = translate;
-            app.component('root-component', component); // mount the app
-
+            app.component('root-component', component);
             var mountPoint = mountPointFactory ? mountPointFactory.apply(void 0, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : ngElement[0];
-            var vm = app.mount(mountPoint); // setup watches to bind between angularjs + vue
-
+            var vm = app.mount(mountPoint);
             Object.entries(scope).forEach(function (_ref7) {
               var _ref8 = createAngularJsAdapter_slicedToArray(_ref7, 2),
                   scopeVarName = _ref8[0],
                   info = _ref8[1];
 
-              if (!info.angularJsBind || info.angularJsBind === '&') {
+              if (!info.angularJsBind) {
                 return;
               }
 
@@ -2370,6 +2127,14 @@ function createAngularJsAdapter(options) {
       }
     },
     no: function no($event, scope, element, attrs) {
+      if (attrs.no) {
+        scope.$eval(attrs.no);
+        setTimeout(function () {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    validation: function validation($event, scope, element, attrs) {
       if (attrs.no) {
         scope.$eval(attrs.no);
         setTimeout(function () {
@@ -3529,763 +3294,6 @@ angular.module('piwikApp.service').factory('piwikComparisonsService', Comparison
   directiveName: 'piwikComparisons',
   restrict: 'E'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=c8c462d2
-
-var DatePickervue_type_template_id_c8c462d2_hoisted_1 = {
-  ref: "root"
-};
-function DatePickervue_type_template_id_c8c462d2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DatePickervue_type_template_id_c8c462d2_hoisted_1, null, 512);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=c8c462d2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts
-function DatePickervue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function DatePickervue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { DatePickervue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { DatePickervue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { DatePickervue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function DatePickervue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-var DEFAULT_STEP_MONTHS = 1;
-var DatePickervue_type_script_lang_ts_window = window,
-    DatePickervue_type_script_lang_ts_$ = DatePickervue_type_script_lang_ts_window.$;
-/* harmony default export */ var DatePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    selectedDateStart: Date,
-    selectedDateEnd: Date,
-    highlightedDateStart: Date,
-    highlightedDateEnd: Date,
-    viewDate: [String, Date],
-    stepMonths: Number,
-    disableMonthDropdown: Boolean,
-    options: Object
-  },
-  emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],
-  setup: function setup(props, context) {
-    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-
-    function setDateCellColor($dateCell, dateValue) {
-      var $dateCellLink = $dateCell.children('a');
-
-      if (props.selectedDateStart && props.selectedDateEnd && dateValue >= props.selectedDateStart && dateValue <= props.selectedDateEnd) {
-        $dateCell.addClass('ui-datepicker-current-period');
-      } else {
-        $dateCell.removeClass('ui-datepicker-current-period');
-      }
-
-      if (props.highlightedDateStart && props.highlightedDateEnd && dateValue >= props.highlightedDateStart && dateValue <= props.highlightedDateEnd) {
-        // other-month cells don't have links, so the <td> must have the ui-state-hover class
-        var elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;
-        elementToAddClassTo.addClass('ui-state-hover');
-      } else {
-        $dateCell.removeClass('ui-state-hover');
-        $dateCellLink.removeClass('ui-state-hover');
-      }
-    }
-
-    function getCellDate($dateCell, month, year) {
-      if ($dateCell.hasClass('ui-datepicker-other-month')) {
-        return getOtherMonthDate($dateCell, month, year); // eslint-disable-line
-      }
-
-      var day = parseInt($dateCell.children('a,span').text(), 10);
-      return new Date(year, month, day);
-    }
-
-    function getOtherMonthDate($dateCell, month, year) {
-      var date;
-      var $row = $dateCell.parent();
-      var $rowCells = $row.children('td'); // if in the first row, the date cell is before the current month
-
-      if ($row.is(':first-child')) {
-        var $firstDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').first();
-        date = getCellDate($firstDateInMonth, month, year);
-        date.setDate($rowCells.index($dateCell) - $rowCells.index($firstDateInMonth) + 1);
-        return date;
-      } // the date cell is after the current month
-
-
-      var $lastDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').last();
-      date = getCellDate($lastDateInMonth, month, year);
-      date.setDate(date.getDate() + $rowCells.index($dateCell) - $rowCells.index($lastDateInMonth));
-      return date;
-    }
-
-    function getMonthYearDisplayed() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var $firstCellWithMonth = element.find('td[data-month]');
-      var month = parseInt($firstCellWithMonth.attr('data-month'), 10);
-      var year = parseInt($firstCellWithMonth.attr('data-year'), 10);
-      return [month, year];
-    }
-
-    function setDatePickerCellColors() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var $calendarTable = element.find('.ui-datepicker-calendar');
-      var monthYear = getMonthYearDisplayed(); // highlight the rest of the cells by first getting the date for the first cell
-      // in the calendar, then just incrementing by one for the rest of the cells.
-
-      var $cells = $calendarTable.find('td');
-      var $firstDateCell = $cells.first();
-      var currentDate = getCellDate($firstDateCell, monthYear[0], monthYear[1]);
-      $cells.each(function setCellColor() {
-        setDateCellColor(DatePickervue_type_script_lang_ts_$(this), currentDate);
-        currentDate.setDate(currentDate.getDate() + 1);
-      });
-    }
-
-    function viewDateChanged() {
-      var date = props.viewDate;
-
-      if (!date) {
-        return false;
-      }
-
-      if (!(date instanceof Date)) {
-        try {
-          date = parseDate(date);
-        } catch (e) {
-          return false;
-        }
-      }
-
-      var element = DatePickervue_type_script_lang_ts_$(root.value); // only change the datepicker date if the date is outside of the current month/year.
-      // this avoids a re-render in other cases.
-
-      var monthYear = getMonthYearDisplayed();
-
-      if (monthYear[0] !== date.getMonth() || monthYear[1] !== date.getFullYear()) {
-        element.datepicker('setDate', date);
-        return true;
-      }
-
-      return false;
-    } // remove the ui-state-active class & click handlers for every cell. we bypass
-    // the datepicker's date selection logic for smoother browser rendering.
-
-
-    function onJqueryUiRenderedPicker() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      element.find('td[data-event]').off('click');
-      element.find('.ui-state-active').removeClass('ui-state-active');
-      element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day'); // add href to left/right nav in calendar so they can be accessed via keyboard
-
-      element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');
-    }
-
-    function stepMonthsChanged() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var stepMonths = props.stepMonths || DEFAULT_STEP_MONTHS;
-
-      if (element.datepicker('option', 'stepMonths') === stepMonths) {
-        return false;
-      } // setting stepMonths will change the month in view back to the selected date. to avoid
-      // we set the selected date to the month in view.
-
-
-      var currentMonth = DatePickervue_type_script_lang_ts_$('.ui-datepicker-month', element).val();
-      var currentYear = DatePickervue_type_script_lang_ts_$('.ui-datepicker-year', element).val();
-      element.datepicker('option', 'stepMonths', stepMonths).datepicker('setDate', new Date(currentYear, currentMonth));
-      onJqueryUiRenderedPicker();
-      return true;
-    }
-
-    function enableDisableMonthDropdown() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      element.find('.ui-datepicker-month').attr('disabled', props.disableMonthDropdown);
-    }
-
-    function handleOtherMonthClick() {
-      if (!DatePickervue_type_script_lang_ts_$(this).hasClass('ui-state-hover')) {
-        return;
-      }
-
-      var $row = DatePickervue_type_script_lang_ts_$(this).parent();
-      var $tbody = $row.parent();
-
-      if ($row.is(':first-child')) {
-        // click on first of the month
-        $tbody.find('a').first().click();
-      } else {
-        // click on last of month
-        $tbody.find('a').last().click();
-      }
-    }
-
-    function onCalendarViewChange() {
-      // clicking left/right re-enables the month dropdown, so we disable it again
-      enableDisableMonthDropdown();
-      setDatePickerCellColors();
-    } // on a prop change (NOTE: we can't watch just `props`, since then newProps and oldProps will
-    // have the same values (since it is a proxy object). Using a copy doesn't quite work, the
-    // object it returns will always be different, BUT, since we check what changes it works
-    // for our purposes. The only downside is that it runs on every tick basically, but since
-    // that is within the context of the date picker component, it's bearable.
-
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return DatePickervue_type_script_lang_ts_objectSpread({}, props);
-    }, function (newProps, oldProps) {
-      var redraw = false;
-      ['selectedDateStart', 'selectedDateEnd', 'highlightedDateStart', 'highlightedDateEnd'].forEach(function (propName) {
-        if (redraw) {
-          return;
-        }
-
-        if (!newProps[propName] && oldProps[propName]) {
-          redraw = true;
-        }
-
-        if (newProps[propName] && !oldProps[propName]) {
-          redraw = true;
-        }
-
-        if (newProps[propName] && oldProps[propName] && newProps[propName].getTime() !== oldProps[propName].getTime()) {
-          redraw = true;
-        }
-      });
-
-      if (newProps.viewDate !== oldProps.viewDate && viewDateChanged()) {
-        redraw = true;
-      }
-
-      if (newProps.stepMonths !== oldProps.stepMonths) {
-        stepMonthsChanged();
-      }
-
-      if (newProps.enableDisableMonthDropdown !== oldProps.enableDisableMonthDropdown) {
-        enableDisableMonthDropdown();
-      } // redraw when selected/highlighted dates change
-
-
-      if (redraw) {
-        setDatePickerCellColors();
-      }
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var customOptions = props.options || {};
-
-      var datePickerOptions = DatePickervue_type_script_lang_ts_objectSpread(DatePickervue_type_script_lang_ts_objectSpread(DatePickervue_type_script_lang_ts_objectSpread({}, Matomo_Matomo.getBaseDatePickerOptions()), customOptions), {}, {
-        onChangeMonthYear: function onChangeMonthYear() {
-          // datepicker renders the HTML after this hook is called, so we use setTimeout
-          // to run some code after the render.
-          setTimeout(function () {
-            onJqueryUiRenderedPicker();
-          });
-        }
-      });
-
-      element.datepicker(datePickerOptions);
-      element.on('mouseover', 'tbody td a', function (event) {
-        // this event is triggered when a user clicks a date as well. in that case,
-        // the originalEvent is null. we don't need to redraw again for that, so
-        // we ignore events like that.
-        if (event.originalEvent) {
-          setDatePickerCellColors();
-        }
-      }); // on hover cell, execute scope.cellHover()
-
-      element.on('mouseenter', 'tbody td', function onMouseEnter() {
-        var monthYear = getMonthYearDisplayed();
-        var $dateCell = DatePickervue_type_script_lang_ts_$(this);
-        var dateValue = getCellDate($dateCell, monthYear[0], monthYear[1]);
-        context.emit('cellHover', {
-          date: dateValue,
-          $cell: $dateCell
-        });
-      }); // overrides jquery UI handler that unhighlights a cell when the mouse leaves it
-
-      element.on('mouseout', 'tbody td a', function () {
-        setDatePickerCellColors();
-      }); // call scope.cellHoverLeave() when mouse leaves table body (can't do event on tbody, for
-      // some reason that fails, so we do two events, one on the table & one on thead)
-
-      element.on('mouseleave', 'table', function () {
-        return context.emit('cellHoverLeave');
-      }).on('mouseenter', 'thead', function () {
-        return context.emit('cellHoverLeave');
-      }); // make sure whitespace is clickable when the period makes it appropriate
-
-      element.on('click', 'tbody td.ui-datepicker-other-month', function () {
-        return handleOtherMonthClick();
-      }); // NOTE: using a selector w/ .on() doesn't seem to work for some reason...
-
-      element.on('click', function (e) {
-        e.preventDefault();
-        var $target = DatePickervue_type_script_lang_ts_$(e.target).closest('a');
-
-        if (!$target.is('.ui-datepicker-next') && !$target.is('.ui-datepicker-prev')) {
-          return;
-        }
-
-        onCalendarViewChange();
-      }); // when a cell is clicked, invoke the onDateSelected function. this, in conjunction
-      // with onJqueryUiRenderedPicker(), overrides the date picker's click behavior.
-
-      element.on('click', 'td[data-month]', function (event) {
-        var $cell = DatePickervue_type_script_lang_ts_$(event.target).closest('td');
-        var month = parseInt($cell.attr('data-month'), 10);
-        var year = parseInt($cell.attr('data-year'), 10);
-        var day = parseInt($cell.children('a,span').text(), 10);
-        context.emit('dateSelect', {
-          date: new Date(year, month, day)
-        });
-      });
-      var renderPostProcessed = stepMonthsChanged();
-      viewDateChanged();
-      enableDisableMonthDropdown();
-
-      if (!renderPostProcessed) {
-        onJqueryUiRenderedPicker();
-      }
-
-      setDatePickerCellColors();
-    });
-    return {
-      root: root
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue
-
-
-
-DatePickervue_type_script_lang_ts.render = DatePickervue_type_template_id_c8c462d2_render
-
-/* harmony default export */ var DatePicker = (DatePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var DatePicker_adapter = (createAngularJsAdapter({
-  component: DatePicker,
-  scope: {
-    selectedDateStart: {
-      angularJsBind: '<'
-    },
-    selectedDateEnd: {
-      angularJsBind: '<'
-    },
-    highlightedDateStart: {
-      angularJsBind: '<'
-    },
-    highlightedDateEnd: {
-      angularJsBind: '<'
-    },
-    viewDate: {
-      angularJsBind: '<'
-    },
-    stepMonths: {
-      angularJsBind: '<'
-    },
-    disableMonthDropdown: {
-      angularJsBind: '<'
-    },
-    options: {
-      angularJsBind: '<'
-    },
-    cellHover: {
-      angularJsBind: '&'
-    },
-    cellHoverLeave: {
-      angularJsBind: '&'
-    },
-    dateSelect: {
-      angularJsBind: '&'
-    }
-  },
-  directiveName: 'piwikDatePicker',
-  events: {
-    'cell-hover': function cellHover(event, scope, element, attrs, $timeout) {
-      $timeout(); // trigger new digest
-    },
-    'cell-hover-leave': function cellHoverLeave(event, scope, element, attrs, $timeout) {
-      $timeout(); // trigger new digest
-    },
-    'date-select': function dateSelect(event, scope, element, attrs, $timeout) {
-      $timeout(); // trigger new digest
-    }
-  },
-  $inject: ['$timeout']
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=d9f4b538
-
-var DateRangePickervue_type_template_id_d9f4b538_hoisted_1 = {
-  id: "calendarRangeFrom"
-};
-var DateRangePickervue_type_template_id_d9f4b538_hoisted_2 = {
-  id: "calendarRangeTo"
-};
-function DateRangePickervue_type_template_id_d9f4b538_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_d9f4b538_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "text",
-    id: "inputCalendarFrom",
-    name: "inputCalendarFrom",
-    class: "browser-default",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.startDateText = $event;
-    }),
-    onChange: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onRangeInputChanged('from', $event);
-    }),
-    onKeyup: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.handleEnterPress($event);
-    })
-  }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.startDateText]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DatePicker, {
-    id: "calendarFrom",
-    "view-date": _ctx.startDate,
-    "selected-date-start": _ctx.fromPickerSelectedDates[0],
-    "selected-date-end": _ctx.fromPickerSelectedDates[1],
-    "highlighted-date-start": _ctx.fromPickerHighlightedDates[0],
-    "highlighted-date-end": _ctx.fromPickerHighlightedDates[1],
-    onDateSelect: _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.setStartRangeDate($event.date);
-    }),
-    onCellHover: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.fromPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell);
-    }),
-    onCellHoverLeave: _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.fromPickerHighlightedDates = [null, null];
-    })
-  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_d9f4b538_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeTo')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "text",
-    id: "inputCalendarTo",
-    name: "inputCalendarTo",
-    class: "browser-default",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-      return _ctx.endDateText = $event;
-    }),
-    onChange: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.onRangeInputChanged('to', $event);
-    }),
-    onKeyup: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.handleEnterPress($event);
-    })
-  }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.endDateText]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DatePicker, {
-    id: "calendarTo",
-    "view-date": _ctx.endDate,
-    "selected-date-start": _ctx.toPickerSelectedDates[0],
-    "selected-date-end": _ctx.toPickerSelectedDates[1],
-    "highlighted-date-start": _ctx.toPickerHighlightedDates[0],
-    "highlighted-date-end": _ctx.toPickerHighlightedDates[1],
-    onDateSelect: _cache[9] || (_cache[9] = function ($event) {
-      return _ctx.setEndRangeDate($event.date);
-    }),
-    onCellHover: _cache[10] || (_cache[10] = function ($event) {
-      return _ctx.toPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell);
-    }),
-    onCellHoverLeave: _cache[11] || (_cache[11] = function ($event) {
-      return _ctx.toPickerHighlightedDates = [null, null];
-    })
-  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])])], 64);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=d9f4b538
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var DateRangePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    startDate: String,
-    endDate: String
-  },
-  components: {
-    DatePicker: DatePicker
-  },
-  data: function data() {
-    var startDate = null;
-
-    try {
-      startDate = parseDate(this.startDate);
-    } catch (e) {// ignore
-    }
-
-    var endDate = null;
-
-    try {
-      endDate = parseDate(this.endDate);
-    } catch (e) {// ignore
-    }
-
-    return {
-      fromPickerSelectedDates: [startDate, startDate],
-      toPickerSelectedDates: [endDate, endDate],
-      fromPickerHighlightedDates: [null, null],
-      toPickerHighlightedDates: [null, null],
-      startDateText: this.startDate,
-      endDateText: this.endDate
-    };
-  },
-  emits: ['rangeChange', 'submit'],
-  watch: {
-    startDate: function startDate() {
-      this.startDateText = this.startDate;
-      this.setStartRangeDateFromStr(this.startDate);
-    },
-    endDate: function endDate() {
-      this.endDateText = this.endDate;
-      this.setEndRangeDateFromStr(this.endDate);
-    }
-  },
-  mounted: function mounted() {
-    this.rangeChanged(); // emit with initial range pair
-  },
-  methods: {
-    setStartRangeDate: function setStartRangeDate(date) {
-      this.fromPickerSelectedDates = [date, date];
-      this.rangeChanged();
-    },
-    setEndRangeDate: function setEndRangeDate(date) {
-      this.toPickerSelectedDates = [date, date];
-      this.rangeChanged();
-    },
-    onRangeInputChanged: function onRangeInputChanged(source, event) {
-      if (source === 'from') {
-        this.setStartRangeDateFromStr(event.target.value);
-      } else {
-        this.setEndRangeDateFromStr(event.target.value);
-      }
-    },
-    getNewHighlightedDates: function getNewHighlightedDates(date, $cell) {
-      if ($cell.hasClass('ui-datepicker-unselectable')) {
-        return null;
-      }
-
-      return [date, date];
-    },
-    handleEnterPress: function handleEnterPress($event) {
-      if ($event.keyCode !== 13) {
-        return;
-      }
-
-      this.$emit('submit', {
-        start: this.startDate,
-        end: this.endDate
-      });
-    },
-    setStartRangeDateFromStr: function setStartRangeDateFromStr(dateStr) {
-      var startDateParsed;
-
-      try {
-        startDateParsed = parseDate(dateStr);
-      } catch (e) {
-        this.startDateText = this.startDate;
-      }
-
-      if (startDateParsed) {
-        this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-      }
-
-      this.rangeChanged();
-    },
-    setEndRangeDateFromStr: function setEndRangeDateFromStr(dateStr) {
-      var endDateParsed;
-
-      try {
-        endDateParsed = parseDate(dateStr);
-      } catch (e) {
-        this.endDateText = this.endDate;
-      }
-
-      if (endDateParsed) {
-        this.toPickerSelectedDates = [endDateParsed, endDateParsed];
-      }
-
-      this.rangeChanged();
-    },
-    rangeChanged: function rangeChanged() {
-      this.$emit('rangeChange', {
-        start: format(this.fromPickerSelectedDates[0]),
-        end: format(this.toPickerSelectedDates[0])
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue
-
-
-
-DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template_id_d9f4b538_render
-
-/* harmony default export */ var DateRangePicker = (DateRangePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var DateRangePicker_adapter = (createAngularJsAdapter({
-  component: DateRangePicker,
-  scope: {
-    startDate: {
-      angularJsBind: '<'
-    },
-    endDate: {
-      angularJsBind: '<'
-    },
-    rangeChange: {
-      angularJsBind: '&'
-    },
-    submit: {
-      angularJsBind: '&'
-    }
-  },
-  directiveName: 'piwikDateRangePicker',
-  restrict: 'E'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=0fe3c4e7
-
-function PeriodDatePickervue_type_template_id_0fe3c4e7_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DatePicker, {
-    "selected-date-start": _ctx.selectedDates[0],
-    "selected-date-end": _ctx.selectedDates[1],
-    "highlighted-date-start": _ctx.highlightedDates[0],
-    "highlighted-date-end": _ctx.highlightedDates[1],
-    "view-date": _ctx.viewDate,
-    "step-months": _ctx.period === 'year' ? 12 : 1,
-    "disable-month-dropdown": _ctx.period === 'year',
-    onCellHover: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onHoverNormalCell($event.date, $event.$cell);
-    }),
-    onCellHoverLeave: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onHoverLeaveNormalCells();
-    }),
-    onDateSelect: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.onDateSelected($event.date);
-    })
-  }, null, 8, ["selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end", "view-date", "step-months", "disable-month-dropdown"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=0fe3c4e7
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts
-
-
-
-
-var piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
-var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMonth - 1, Matomo_Matomo.maxDateDay);
-/* harmony default export */ var PeriodDatePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    period: String,
-    date: [String, Date]
-  },
-  components: {
-    DatePicker: DatePicker
-  },
-  emits: ['select'],
-  setup: function setup(props, context) {
-    var viewDate = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.date);
-    var selectedDates = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([null, null]);
-    var highlightedDates = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([null, null]);
-
-    function getBoundedDateRange(date) {
-      var dates = Periods_Periods.get(props.period).parse(date).getDateRange(); // make sure highlighted date range is within min/max date range
-
-      dates[0] = piwikMinDate < dates[0] ? dates[0] : piwikMinDate;
-      dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;
-      return dates;
-    }
-
-    function onHoverNormalCell(cellDate, $cell) {
-      var isOutOfMinMaxDateRange = cellDate < piwikMinDate || cellDate > piwikMaxDate; // don't highlight anything if the period is month or day, and we're hovering over calendar
-      // whitespace. since there are no dates, it's doesn't make sense what you're selecting.
-
-      var shouldNotHighlightFromWhitespace = $cell.hasClass('ui-datepicker-other-month') && (props.period === 'month' || props.period === 'day');
-
-      if (isOutOfMinMaxDateRange || shouldNotHighlightFromWhitespace) {
-        highlightedDates.value = [null, null];
-        return;
-      }
-
-      highlightedDates.value = getBoundedDateRange(cellDate);
-    }
-
-    function onHoverLeaveNormalCells() {
-      highlightedDates.value = [null, null];
-    }
-
-    function onDateSelected(date) {
-      context.emit('select', {
-        date: date
-      });
-    }
-
-    function onChanges() {
-      if (!props.period || !props.date) {
-        selectedDates.value = [null, null];
-        return;
-      }
-
-      selectedDates.value = getBoundedDateRange(props.date);
-    }
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(props, onChanges);
-    onChanges();
-    return {
-      selectedDates: selectedDates,
-      highlightedDates: highlightedDates,
-      viewDate: viewDate,
-      onHoverNormalCell: onHoverNormalCell,
-      onHoverLeaveNormalCells: onHoverLeaveNormalCells,
-      onDateSelected: onDateSelected
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue
-
-
-
-PeriodDatePickervue_type_script_lang_ts.render = PeriodDatePickervue_type_template_id_0fe3c4e7_render
-
-/* harmony default export */ var PeriodDatePicker = (PeriodDatePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var PeriodDatePicker_adapter = (createAngularJsAdapter({
-  component: PeriodDatePicker,
-  scope: {
-    period: {
-      angularJsBind: '<'
-    },
-    date: {
-      angularJsBind: '<'
-    },
-    select: {
-      angularJsBind: '&'
-    }
-  },
-  directiveName: 'piwikPeriodDatePicker',
-  restrict: 'E'
-}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
 var ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1 = {
@@ -4413,16 +3421,6 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
-
-
-
-
-
-
-
-
 
 
 
