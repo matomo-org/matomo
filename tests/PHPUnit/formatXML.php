@@ -5,12 +5,12 @@ $path = realpath(dirname(__FILE__)) . "/phpunit.xml";
 
 if (file_exists($pathDist)) {
     $IntegrationTestsPlugins = [];
-    foreach (glob('../../plugins/*', GLOB_ONLYDIR) as $dir) {
+    foreach (glob(realpath(dirname(__FILE__)).'../../plugins/*', GLOB_ONLYDIR) as $dir) {
         $dirname = basename($dir);
-        if (is_dir('../../plugins/' . $dirname . '/tests/Integration')) {
+        if (is_dir(realpath(dirname(__FILE__)).'../../plugins/' . $dirname . '/tests/Integration')) {
             $IntegrationTestsPlugins[] = '../../plugins/' . $dirname . '/tests/Integration';
         }
-        if (is_dir('../../plugins/' . $dirname . '/Tests/Integration')) {
+        if (is_dir(realpath(dirname(__FILE__)).'../../plugins/' . $dirname . '/Tests/Integration')) {
             $IntegrationTestsPlugins[] = '../../plugins/' . $dirname . '/Tests/Integration';
         }
     }
