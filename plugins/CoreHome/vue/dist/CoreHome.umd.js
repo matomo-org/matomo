@@ -2033,10 +2033,9 @@ function piwikFocusAnywhereButHere() {
         modifiers: {},
         dir: {}
       };
-      var wrapped = FocusAnywhereButHere;
-      wrapped.mounted(element[0], binding);
+      FocusAnywhereButHere.mounted(element[0], binding);
       element.on('$destroy', function () {
-        return wrapped.unmounted(element[0], binding);
+        return FocusAnywhereButHere.unmounted(element[0], binding);
       });
     }
   };
@@ -2056,6 +2055,10 @@ angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwi
     if (binding.value.focusIf) {
       setTimeout(function () {
         el.focus();
+
+        if (binding.value.afterFocus) {
+          binding.value.afterFocus();
+        }
       }, 5);
     }
   }
@@ -2202,10 +2205,9 @@ function piwikExpandOnClick() {
         modifiers: {},
         dir: {}
       };
-      var wrapped = ExpandOnClick;
-      wrapped.mounted(element[0], binding);
+      ExpandOnClick.mounted(element[0], binding);
       element.on('$destroy', function () {
-        return wrapped.unmounted(element[0], binding);
+        return ExpandOnClick.unmounted(element[0], binding);
       });
     }
   };
@@ -2296,10 +2298,9 @@ function piwikExpandOnHover() {
         modifiers: {},
         dir: {}
       };
-      var wrapped = ExpandOnHover;
-      wrapped.mounted(element[0], binding);
+      ExpandOnHover.mounted(element[0], binding);
       element.on('$destroy', function () {
-        return wrapped.unmounted(element[0], binding);
+        return ExpandOnHover.unmounted(element[0], binding);
       });
     }
   };

@@ -17,6 +17,10 @@ export default {
     if (binding.value.focusIf) {
       setTimeout(() => {
         el.focus();
+
+        if (binding.value.afterFocus) {
+          binding.value.afterFocus();
+        }
       }, 5);
     }
   },
