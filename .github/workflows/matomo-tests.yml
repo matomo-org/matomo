@@ -293,8 +293,7 @@ jobs:
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           mkdir -p /tmp
-          mkdir -p ./tests/PHPUnit/proxy/plugins/Morpheus/images/
-          cp ./plugins/Morpheus/images/logo.svg ./tests/PHPUnit/proxy/plugins/Morpheus/images/
+          cp ./plugins/Morpheus/images/logo.svg ./tmp/
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
@@ -338,6 +337,8 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
 
       - name: UI tests Group ${{ matrix.parts }}
+        env:
+          GITHUB: true
         run: |
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=7 --test-group=${{ matrix.parts }}"
 
