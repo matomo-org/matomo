@@ -344,11 +344,11 @@ jobs:
         shell: bash
         run: |
           echo ""
-          echo "::warning:: View UI failures here:"
+          echo "View UI failures here:"
           echo ""
           echo "::warning:: https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
           echo ""
-          echo "::warning:: If the new screenshots are valid, then you can copy them over to the right directory with the command:"
+          echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
           echo ""
           echo "::warning:: ./console tests:sync-ui-screenshots ${{ github.job }}"
           echo ""
