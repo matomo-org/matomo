@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import JQuery = JQuery;
 import Matomo from '../Matomo/Matomo';
+import { parseDate } from '../Periods';
 
 const DEFAULT_STEP_MONTHS = 1;
 
@@ -135,7 +136,7 @@ export default defineComponent({
 
       if (!(date instanceof Date)) {
         try {
-          date = $.datepicker.parseDate('yy-mm-dd', date);
+          date = parseDate(date);
         } catch (e) {
           return false;
         }

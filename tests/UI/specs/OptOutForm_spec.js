@@ -24,6 +24,9 @@ describe("OptOutForm", function () {
     after(async () => {
         await page.clearCookies();
     });
+    after(async () => {
+        await page.setUserAgent(page.originalUserAgent);
+    });
 
     it("should display correctly when embedded in another site", async function () {
         await page.clearCookies();
