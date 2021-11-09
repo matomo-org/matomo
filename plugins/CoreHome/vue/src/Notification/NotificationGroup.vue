@@ -17,7 +17,8 @@
       :toast-length="notification.toastLength"
       :style="notification.style"
       :animate="notification.animate"
-      :position="notification.position"
+      :message="notification.message"
+      :notification-instance-id="notification.notificationInstanceId"
       @closed="removeNotification(notification.id)"
     >
       <div v-html="$sanitize(notification.message)"/>
@@ -48,14 +49,9 @@ export default defineComponent({
       });
     },
   },
-  data() {
-    return {
-      notificationStore: NotificationsStore,
-    };
-  },
   methods: {
     removeNotification(id: string) {
-      this.notificationStore.remove(id);
+      NotificationsStore.remove(id);
     },
   },
 });

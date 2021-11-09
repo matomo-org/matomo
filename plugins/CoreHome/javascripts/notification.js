@@ -20,6 +20,7 @@
      */
     Notification.prototype.show = function (message, options) {
         options = checkOptions(options);
+        options.noclear = !! options.noclear;
         this.notificationId = window.CoreHome.NotificationsStore.show($.extend({ message: message }, options));
     };
 
@@ -30,7 +31,10 @@
         window.CoreHome.NotificationsStore.remove(notificationId);
     };
 
-    Notification.prototype.scrollToNotification = function () {
+  /**
+   * @deprecated use NotificationsStore.scrollToNotification() in CoreHome Vue module
+   */
+  Notification.prototype.scrollToNotification = function () {
         if (this.notificationId) {
             window.CoreHome.NotificationsStore.scrollToNotification(this.notificationId);
         }
@@ -41,6 +45,7 @@
      */
     Notification.prototype.toast = function (message, options) {
         options = checkOptions(options);
+        options.noclear = !! options.noclear;
         window.CoreHome.NotificationsStore.toast($.extend({ message: message }, options));
     };
 

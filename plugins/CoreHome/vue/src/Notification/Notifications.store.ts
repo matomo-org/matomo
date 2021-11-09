@@ -130,17 +130,20 @@ class NotificationsStore {
   parseNotificationDivs(): void {
     const $notificationNodes = $('[data-role="notification"]');
 
+    const notificationsToShow = [];
     $notificationNodes.each((index, notificationNode) => {
       const $notificationNode = $(notificationNode);
       const attributes = $notificationNode.data();
       const message = $notificationNode.html();
 
       if (message) {
-        this.show({ ...attributes, message, animate: false });
+        notificationsToShow.push({ ...attributes, message, animate: false });
       }
 
       $notificationNodes.remove();
     });
+
+    notificationsToShow.forEach((n) => this.show(n));
   }
 
   clearTransientNotifications(): void {
@@ -180,6 +183,7 @@ class NotificationsStore {
 
     addMethod.call(this, {
       ...notification,
+      noclear: !!notification.noclear,
       group,
       notificationId: notification.id,
       notificationInstanceId,
@@ -189,10 +193,12 @@ class NotificationsStore {
   }
 
   scrollToNotification(notificationInstanceId: string) {
-    const element = document.querySelector(`[data-notification-instance-id=${notificationInstanceId}]`);
-    if (element) {
-      Matomo.lazyScrollTo(element, 250);
-    }
+    setTimeout(() => {
+      const element = document.querySelector(`[data-notification-instance-id='${notificationInstanceId}']`);
+      if (element) {
+        Matomo.helper.lazyScrollTo(element, 250);
+      }
+    });
   }
 
   /**
@@ -237,21 +243,18 @@ class NotificationsStore {
       return;
     }
 
-    const mountPoint = document.createElement('div');
-    $container.append(mountPoint);
-
     // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
     // to be dynamically initialized.
     const NotificationGroup = (window as any).CoreHome.NotificationGroup; // eslint-disable-line
 
     const app = createApp({
-      template: '<NotificationGroup :group="group"/>',
+      template: '<NotificationGroup :group="group"></NotificationGroup>',
       data: () => ({ group }),
     });
     app.config.globalProperties.$sanitize = window.vueSanitize;
     app.config.globalProperties.translate = translate;
     app.component('NotificationGroup', NotificationGroup);
-    app.mount(mountPoint[0]);
+    app.mount($container[0]);
   }
 
   private checkMessage(message: string) {

@@ -367,9 +367,11 @@ Matomo_piwik.postEvent = function postMatomoEvent(eventName) {
 
   Matomo_piwik.postEventNoEmit.apply(Matomo_piwik, [eventName].concat(args)); // required until angularjs is removed
 
-  var $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
+  angular.element(function () {
+    var $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
 
-  return $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));
+    return $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));
+  });
 };
 
 var Matomo = Matomo_piwik;
@@ -5148,19 +5150,23 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       var _this = this;
 
       var $notificationNodes = $('[data-role="notification"]');
+      var notificationsToShow = [];
       $notificationNodes.each(function (index, notificationNode) {
         var $notificationNode = $(notificationNode);
         var attributes = $notificationNode.data();
         var message = $notificationNode.html();
 
         if (message) {
-          _this.show(Notifications_store_objectSpread(Notifications_store_objectSpread({}, attributes), {}, {
+          notificationsToShow.push(Notifications_store_objectSpread(Notifications_store_objectSpread({}, attributes), {}, {
             message: message,
             animate: false
           }));
         }
 
         $notificationNodes.remove();
+      });
+      notificationsToShow.forEach(function (n) {
+        return _this.show(n);
       });
     }
   }, {
@@ -5199,6 +5205,7 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       this.initializeNotificationContainer(notificationPosition, group);
       var notificationInstanceId = (this.nextNotificationId += 1).toString();
       addMethod.call(this, Notifications_store_objectSpread(Notifications_store_objectSpread({}, notification), {}, {
+        noclear: !!notification.noclear,
         group: group,
         notificationId: notification.id,
         notificationInstanceId: notificationInstanceId
@@ -5208,11 +5215,13 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
   }, {
     key: "scrollToNotification",
     value: function scrollToNotification(notificationInstanceId) {
-      var element = document.querySelector("[data-notification-instance-id=".concat(notificationInstanceId, "]"));
+      setTimeout(function () {
+        var element = document.querySelector("[data-notification-instance-id='".concat(notificationInstanceId, "']"));
 
-      if (element) {
-        Matomo_Matomo.lazyScrollTo(element, 250);
-      }
+        if (element) {
+          Matomo_Matomo.helper.lazyScrollTo(element, 250);
+        }
+      });
     }
     /**
      * Shows a notification at a certain point with a quick upwards animation.
@@ -5256,16 +5265,14 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
 
       if ($container.children('.notification-group').length) {
         return;
-      }
-
-      var mountPoint = document.createElement('div');
-      $container.append(mountPoint); // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
+      } // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
       // to be dynamically initialized.
+
 
       var NotificationGroup = window.CoreHome.NotificationGroup; // eslint-disable-line
 
       var app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<NotificationGroup :group="group"/>',
+        template: '<NotificationGroup :group="group"></NotificationGroup>',
         data: function data() {
           return {
             group: group
@@ -5275,7 +5282,7 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       app.config.globalProperties.$sanitize = window.vueSanitize;
       app.config.globalProperties.translate = translate;
       app.component('NotificationGroup', NotificationGroup);
-      app.mount(mountPoint[0]);
+      app.mount($container[0]);
     }
   }, {
     key: "checkMessage",
@@ -5313,16 +5320,16 @@ $(function () {
 angular.module('piwikApp').factory('notifications', function () {
   return Notifications_store;
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=b7043ca6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=54cc4969
 
-var NotificationGroupvue_type_template_id_b7043ca6_hoisted_1 = {
+var NotificationGroupvue_type_template_id_54cc4969_hoisted_1 = {
   class: "notification-group"
 };
-var NotificationGroupvue_type_template_id_b7043ca6_hoisted_2 = ["innerHTML"];
-function NotificationGroupvue_type_template_id_b7043ca6_render(_ctx, _cache, $props, $setup, $data, $options) {
+var NotificationGroupvue_type_template_id_54cc4969_hoisted_2 = ["innerHTML"];
+function NotificationGroupvue_type_template_id_54cc4969_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NotificationGroupvue_type_template_id_b7043ca6_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.notifications, function (notification, index) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NotificationGroupvue_type_template_id_54cc4969_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.notifications, function (notification, index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
       key: notification.id || "no-id-".concat(index),
       "notification-id": notification.id,
@@ -5333,7 +5340,8 @@ function NotificationGroupvue_type_template_id_b7043ca6_render(_ctx, _cache, $pr
       "toast-length": notification.toastLength,
       style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(notification.style),
       animate: notification.animate,
-      position: notification.position,
+      message: notification.message,
+      "notification-instance-id": notification.notificationInstanceId,
       onClosed: function onClosed($event) {
         return _ctx.removeNotification(notification.id);
       }
@@ -5341,13 +5349,13 @@ function NotificationGroupvue_type_template_id_b7043ca6_render(_ctx, _cache, $pr
       default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
         return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
           innerHTML: _ctx.$sanitize(notification.message)
-        }, null, 8, NotificationGroupvue_type_template_id_b7043ca6_hoisted_2)];
+        }, null, 8, NotificationGroupvue_type_template_id_54cc4969_hoisted_2)];
       }),
       _: 2
-    }, 1032, ["notification-id", "title", "context", "type", "noclear", "toast-length", "style", "animate", "position", "onClosed"]);
+    }, 1032, ["notification-id", "title", "context", "type", "noclear", "toast-length", "style", "animate", "message", "notification-instance-id", "onClosed"]);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=b7043ca6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=54cc4969
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts
 
@@ -5373,14 +5381,9 @@ function NotificationGroupvue_type_template_id_b7043ca6_render(_ctx, _cache, $pr
       });
     }
   },
-  data: function data() {
-    return {
-      notificationStore: Notifications_store
-    };
-  },
   methods: {
     removeNotification: function removeNotification(id) {
-      this.notificationStore.remove(id);
+      Notifications_store.remove(id);
     }
   }
 }));
@@ -5390,7 +5393,7 @@ function NotificationGroupvue_type_template_id_b7043ca6_render(_ctx, _cache, $pr
 
 
 
-NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_template_id_b7043ca6_render
+NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_template_id_54cc4969_render
 
 /* harmony default export */ var Notification_NotificationGroup = (NotificationGroupvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/index.ts
