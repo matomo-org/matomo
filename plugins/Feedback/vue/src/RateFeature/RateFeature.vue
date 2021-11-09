@@ -33,17 +33,15 @@
       <div
         class="ui-confirm ratefeatureDialog"
       >
-        <h2>{{ translate('Feedback_RateFeatureThankYouTitle', title) }}</h2>
-        <br />
         <div
           v-if="like"
         >
-          <p v-if="title" >{{ translate('Feedback_RateFeatureLeaveMessageLikeNamedFeature',
-          title) }}</p>
-          <p v-if="!title" >{{ translate('Feedback_RateFeatureLeaveMessageLike') }}</p>
+          <h2 v-if="title" >{{ translate('Feedback_RateFeatureLeaveMessageLikeNamedFeature',
+          title) }}</h2>
+          <h2 v-if="!title" >{{ translate('Feedback_RateFeatureLeaveMessageLike') }}</h2>
           <br />
           <div class="row">
-            <div class="col l6 offset-l3" style="text-align:left">
+            <div style="text-align:left">
               <label for="useful" class="ratelabel">
                 <input type="radio" id="useful" value="useful" v-model="likeReason"
                        class="rateradio">
@@ -73,12 +71,12 @@
         <div
           v-if="!like"
         >
-          <p v-if="title">{{ translate('Feedback_RateFeatureLeaveMessageDislikeNamedFeature',
-            title) }}</p>
-          <p v-if="!title">{{ translate('Feedback_RateFeatureLeaveMessageDislike') }}</p>
+          <h2 v-if="title">{{ translate('Feedback_RateFeatureLeaveMessageDislikeNamedFeature',
+            title) }}</h2>
+          <h2 v-if="!title">{{ translate('Feedback_RateFeatureLeaveMessageDislike') }}</h2>
           <br />
           <div class="row">
-            <div class="col l6 offset-l3" style="text-align:left">
+            <div style="text-align:left">
               <label for="missingfeatures" class="ratelabel">
                 <input type="radio" id="missingfeatures" value="missingfeatures"
                        v-model="dislikeReason" class="rateradio">
@@ -114,7 +112,7 @@
 
         </div>
 
-        <div v-if="likeReason || dislikeReason" class="messageContainer">
+        <div v-if="likeReason || dislikeReason" class="messageContainer" style="text-align:left">
 
           <p v-if="likeReason" v-html="translate('Feedback_RateFeatureLeaveMessageLikeExtra',
             `<i class='icon-heart red-text'></i>`)"></p>
@@ -137,7 +135,8 @@
             `<i class='icon-heart red-text'></i>`)"></p>
 
           <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
-          <textarea id="feedbacktext" :class="{'has-error':errorMessage}"
+          <textarea ref="feedbackText" class="materialize-textarea" id="feedbacktext"
+                    :class="{'has-error':errorMessage}"
                     v-model="feedbackMessage"/>
         </div>
 
@@ -207,6 +206,10 @@ export default defineComponent({
       errorMessage: null,
     };
   },
+  watch: {
+    likeReason: 'doFocusInput',
+    dislikeReason: 'doFocusInput',
+  },
   methods: {
     dislikeFeature() {
       this.ratingDone = false;
@@ -215,6 +218,7 @@ export default defineComponent({
       this.errorMessage = null;
       this.likeReason = null;
       this.dislikeReason = null;
+      this.feedbackMessage = '';
     },
     likeFeature() {
       this.ratingDone = false;
@@ -223,8 +227,16 @@ export default defineComponent({
       this.errorMessage = null;
       this.likeReason = null;
       this.dislikeReason = null;
+      this.feedbackMessage = '';
     },
-
+    doFocusInput() {
+      this.$nextTick(() => {
+        this.focusInput();
+      });
+    },
+    focusInput() {
+      this.$refs.feedbackText.focus();
+    },
     async sendFeedback() {
       this.errorMessage = null;
       const res = await AjaxHelper.fetch({
