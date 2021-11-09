@@ -19,6 +19,7 @@
       :animate="notification.animate"
       :message="notification.message"
       :notification-instance-id="notification.notificationInstanceId"
+      :css-class="notification.class"
       @closed="removeNotification(notification.id)"
     >
       <div v-html="$sanitize(notification.message)"/>

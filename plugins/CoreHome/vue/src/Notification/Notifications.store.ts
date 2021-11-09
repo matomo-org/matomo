@@ -72,6 +72,11 @@ interface Notification {
   style?: string|Record<string, unknown>;
 
   /**
+   * Optional CSS class to add.
+   */
+  class?: string;
+
+  /**
    * If true, fades the animation in.
    */
   animate?: boolean;
@@ -156,7 +161,6 @@ class NotificationsStore {
    */
   show(notification: Notification): string {
     this.checkMessage(notification.message);
-    this.checkNotToast(notification);
 
     let addMethod = this.appendNotification;
 
@@ -259,12 +263,6 @@ class NotificationsStore {
   private checkMessage(message: string) {
     if (!message) {
       throw new Error('No message given, cannot display notification');
-    }
-  }
-
-  private checkNotToast(notification: Notification) {
-    if (notification.type === 'toast') {
-      throw new Error('Use NotificationsStore.toast() to create toasts.');
     }
   }
 }

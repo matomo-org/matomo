@@ -15,7 +15,7 @@
           <transition :name="animate ? 'fade-in' : undefined" appear>
             <div
               class="notification system"
-              :class="{[context ? `notification-${context}` : '']: !!context}"
+              :class="cssClasses"
               :style="style"
               ref="root"
               :data-notification-instance-id="notificationInstanceId"
@@ -24,7 +24,7 @@
                 type="button"
                 class="close"
                 data-dismiss="alert"
-                v-if="!noclear"
+                v-if="!canClose"
                 v-on:click="closeNotification($event)"
               >
                 &times;
@@ -68,12 +68,23 @@ export default defineComponent({
     style: [String, Object],
     animate: Boolean,
     message: String,
+    cssClass: String,
   },
   computed: {
+    cssClasses() {
+      const result: Record<string, boolean> = {};
+      if (this.context) {
+        result[`notification-${this.context}`] = true;
+      }
+      if (this.cssClass) {
+        result[this.cssClass] = true;
+      }
+      return result;
+    },
     canClose() {
       if (this.type === 'persistent') {
         // otherwise it is never possible to dismiss the notification
-        return false;
+        return true;
       }
       return !this.noclear;
     },
