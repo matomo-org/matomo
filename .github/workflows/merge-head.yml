@@ -1,0 +1,24 @@
+name: Merge to Head
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [ synchronize ]
+
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout current branch {{ github.base_ref }}
