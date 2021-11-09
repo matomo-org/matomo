@@ -73,10 +73,6 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
-          php -i
-          cp .github/scripts/config.ini.github.php  config/config.ini.php
-          php ./tests/PHPUnit/spliteXML.php
-          ls ./tests/PHPUnit/
           mkdir -p ./tmp/assets
           mkdir -p ./tmp/cache
           mkdir -p ./tmp/cache/tracker
@@ -90,7 +86,10 @@ jobs:
           mkdir -p /tmp
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
-          chmod a+rw ./plugins/*/tests/Integration/processed || true
+          cp .github/scripts/config.ini.github.php  config/config.ini.php
+          php ./tests/PHPUnit/formatXML.php
+          ls ./tests/PHPUnit/
+
 
       - name: Install dependencies
         run: |

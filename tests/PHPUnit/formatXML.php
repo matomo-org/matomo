@@ -1,7 +1,9 @@
 <?php
 
-if (file_exists("./phpunit.xml.dist")) {
+$pathDist = realpath(dirname(__FILE__)) . "/phpunit.xml.dist";
+$path = realpath(dirname(__FILE__)) . "/phpunit.xml";
 
+if (file_exists($pathDist)) {
     $IntegrationTestsPlugins = [];
     foreach (glob('../../plugins/*', GLOB_ONLYDIR) as $dir) {
         $dirname = basename($dir);
@@ -17,7 +19,7 @@ if (file_exists("./phpunit.xml.dist")) {
     $IntegrationTestsPluginsChunk = array_chunk($IntegrationTestsPlugins, (ceil(count($IntegrationTestsPlugins) / 3)));
 
     $dom = new DOMDocument;
-    $dom->load("./phpunit.xml.dist");
+    $dom->load($pathDist);
     foreach ($dom->getElementsByTagName('testsuite') as $testSuit) {
         if ($testSuit->getAttribute('name') === "IntegrationTestsPlugins") {
             $parent = $testSuit->parentNode;
@@ -40,10 +42,10 @@ if (file_exists("./phpunit.xml.dist")) {
 
     $newGenerate = new DOMDocument();
     $newGenerate->loadXML($generated);
-    $newGenerate->save('./phpunit.xml');
+    $newGenerate->save($path);
 
 
 } else {
-    exit('Failed to open phpunit.xml.dist.');
+    exit('Failed to open ' . $pathDist);
 }
 
