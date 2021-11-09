@@ -360,7 +360,7 @@ class Rules
     public static function isSegmentPluginArchivingDisabled($pluginName, $siteId)
     {
         $pluginArchivingSetting = Config::getInstance()->General['disable_archiving_segment_for_plugins'];
-        $siteConfig = Config::getInstance()->${'General_' . $siteId};
+        $siteConfig = isset(Config::getInstance()->${'General_' . $siteId}) ? Config::getInstance()->${'General_' . $siteId} : null;
 
         if (!empty($siteConfig) && isset($siteConfig['disable_archiving_segment_for_plugins'])) {
             $pluginArchivingSetting = $siteConfig['disable_archiving_segment_for_plugins'];
