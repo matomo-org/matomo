@@ -26,7 +26,7 @@ jobs:
         with:
           lfs: false
           submodules: recursive
-          
+
       - name: Merge ${{ github.base_ref }} -> ${{ github.head_ref }}
         uses: devmasx/merge-branch@master
         with:
@@ -34,4 +34,10 @@ jobs:
           from_branch: ${{ github.base_ref }}
           target_branch: ${{ github.head_ref }}
           github_token: ${{ github.token }}
+
+      - name: commit ${{ github.head_ref }} branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: merge to ${{ github.base_ref }}
+          branch: ${{ github.head_ref }}
 
