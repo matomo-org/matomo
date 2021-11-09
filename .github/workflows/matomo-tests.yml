@@ -357,20 +357,37 @@ jobs:
           echo ""
           echo "::warning:: ./console tests:sync-ui-screenshots ${{ github.job }}"
           echo ""
-
       - name: upload processed screenshots
+        uses: actions/upload-artifact@v2
         if: failure()
-        shell: bash
-        env:
-          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
-        run: |
-          url_base="https://builds-artifacts.matomo.org/build?auth_key=$ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
-          echo "::debug:: Uploading artifacts for UITests..."
-          cd ./tests/UI
-          tar -cvjSf processed-ui-screenshots.tar.bz2 processed-ui-screenshots
-          curl -X POST --data-binary processed-ui-screenshots.tar.bz2 "$url_base&artifact_name=processed-screenshots"
-          tar -cvjSf screenshot-diffs.tar.bz2 screenshot-diffs
-          curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
+        with:
+          name: failed-ui
+          path: |
+            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
+            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
+
+
+      - name: Download processed screenshots
+        uses: actions/download-artifact@v2
+        if: failure()
+        with:
+          name: failed-ui
+          path: /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+
+#      - name: upload processed screenshots
+#        if: failure()
+#        shell: bash
+#        env:
+#          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+#        run: |
+#          url_base="https://builds-artifacts.matomo.org/build?auth_key=$ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
+#          echo "::debug:: Uploading artifacts for UITests..."
+#          cd ./tests/UI
+#          tar -cvjSf processed-ui-screenshots.tar.bz2 processed-ui-screenshots
+#          curl -X POST --data-binary processed-ui-screenshots.tar.bz2 "$url_base&artifact_name=processed-screenshots"
+#          tar -cvjSf screenshot-diffs.tar.bz2 screenshot-diffs
+#          curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
 
 
 
