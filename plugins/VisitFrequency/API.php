@@ -14,6 +14,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
+use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -60,7 +61,7 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
-            $modifiedSegment = $this->appendVisitorTypeSegment($segment, $visitorTypeSegment);
+            $modifiedSegment = Segment::combine($segment, SegmentExpression::AND_DELIMITER, $visitorTypeSegment);
 
             $columnsForVisitType = empty($columns) ? array() : $this->unprefixColumns($columns, $columnSuffix);
 
@@ -93,17 +94,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $resultSet;
-    }
-
-    protected function appendVisitorTypeSegment($segment, $toAppend)
-    {
-        if (empty($segment)) {
-            $segment = '';
-        } else {
-            $segment .= urlencode(SegmentExpression::AND_DELIMITER);
-        }
-        $segment .= $toAppend;
-        return $segment;
     }
 
     protected function unprefixColumns(array $requestedColumns, $suffix)
