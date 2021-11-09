@@ -30,6 +30,8 @@
           <div class="messageContainer">
             <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
             <textarea id="message" :class="{'has-error':errorMessage}" v-model="feedbackMessage"/>
+            <div class="error-text">
+              * Please write the reply in English.</div>
           </div>
           <br/>
           <p
