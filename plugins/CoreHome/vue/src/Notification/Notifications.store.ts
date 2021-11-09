@@ -96,21 +96,25 @@ class NotificationsStore {
     toastElement.style.position = 'absolute';
     toastElement.style.top = `${$placeat.offset().top}px`;
     toastElement.style.left = `${$placeat.offset().left}px`;
-    toastElement.style.zIndex = '10';
+    toastElement.style.zIndex = '1000';
     document.body.appendChild(toastElement);
 
-    // TODO: make sure this gets unmounted
+    const sanitizedMessage = window.vueSanitize(notification.message);
+
     const toastVNode = createVNode(
       NotificationComponent,
       {
         ...notification,
+        type: 'toast',
         onClosed: () => {
           render(null, toastElement);
         },
       },
-      [
-        notification.message, // TODO: xss test
-      ],
+      {
+        default() {
+          return createVNode('div', { innerHTML: sanitizedMessage });
+        },
+      },
     );
 
     render(toastVNode, toastElement);

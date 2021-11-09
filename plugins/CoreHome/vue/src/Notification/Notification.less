@@ -8,6 +8,10 @@
     margin-top: 1em;
   }
 
+  .notification-body {
+    min-width: 50px;
+  }
+
   // We have to use !important because the default button style is crazy
   .close {
     position: relative;
@@ -23,6 +27,7 @@
     color: inherit !important;
     opacity: 0.3;
     filter: alpha(opacity=30);
+    cursor: pointer;
   }
 
   &.notification-success {
@@ -69,10 +74,10 @@
 }
 
 // toast-slide-up transition
-.mode-toast-slide-up-active {
+.toast-slide-up-enter-active {
   transition: transform .3s ease;
 }
 
-.mode-toast-slide-up-to {
+.toast-slide-up-enter-from {
   transform: translateY(-100%);
 }

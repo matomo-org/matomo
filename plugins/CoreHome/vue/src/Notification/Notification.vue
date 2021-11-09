@@ -5,33 +5,38 @@
 -->
 
 <template>
-  <transition :name="type === 'toast' ? 'toast-slide-up' : undefined" appear>
-    <transition :name="animate ? 'fade-in' : undefined" appear>
-      <transition
-        :name="type === 'toast' ? 'slow-fade-out' : undefined"
-        @after-leave="toastClosed()"
-      >
-        <div
-          class="notification system"
-          :class="{[context ? `notification-${context}` : '']: !!context}"
-          ref="root"
-          v-if="!deleted"
-        >
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            v-if="!noclear"
-            v-on:click="closeNotification($event)"
-          >&times;</button>
-          <strong v-if="title">{{ title }}</strong>
-          <!-- ng-transclude causes directive child elements to be added here -->
-          <div>
-            <slot />
-          </div>
+  <transition
+    :name="type === 'toast' ? 'slow-fade-out' : undefined"
+    @after-leave="toastClosed()"
+  >
+    <div v-if="!deleted">
+      <transition :name="type === 'toast' ? 'toast-slide-up' : undefined" appear>
+        <div>
+          <transition :name="animate ? 'fade-in' : undefined" appear>
+            <div
+              class="notification system"
+              :class="{[context ? `notification-${context}` : '']: !!context}"
+              ref="root"
+            >
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                v-if="!noclear"
+                v-on:click="closeNotification($event)"
+              >
+                &times;
+              </button>
+              <strong v-if="title">{{ title }}</strong>
+              <!-- ng-transclude causes directive child elements to be added here -->
+              <div class="notification-body">
+                <slot />
+              </div>
+            </div>
+          </transition>
         </div>
       </transition>
-    </transition>
+    </div>
   </transition>
 </template>
 
@@ -63,7 +68,7 @@ export default defineComponent({
         // otherwise it is never possible to dismiss the notification
         return false;
       }
-      return this.noclear;
+      return !this.noclear;
     },
   },
   emits: ['closed'],
@@ -105,7 +110,7 @@ export default defineComponent({
       this.markNotificationAsRead();
     },
     markNotificationAsRead() {
-      if (!this.props.notificationId) {
+      if (!this.notificationId) {
         return;
       }
 
@@ -113,7 +118,7 @@ export default defineComponent({
         module: 'CoreHome',
         action: 'markNotificationAsRead',
       }, { // POST params
-        postParams: { notificationId: this.props.notificationId },
+        postParams: { notificationId: this.notificationId },
       });
     },
   },

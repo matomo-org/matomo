@@ -4440,26 +4440,31 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
   directiveName: 'piwikAlert',
   transclude: true
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=43555f22
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=71d8c905
 
-const Notificationvue_type_template_id_43555f22_hoisted_1 = {
+const Notificationvue_type_template_id_71d8c905_hoisted_1 = {
+  key: 0
+};
+const Notificationvue_type_template_id_71d8c905_hoisted_2 = {
   key: 1
 };
-function Notificationvue_type_template_id_43555f22_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Notificationvue_type_template_id_71d8c905_hoisted_3 = {
+  class: "notification-body"
+};
+function Notificationvue_type_template_id_71d8c905_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-    name: _ctx.type === 'toast' ? 'toast-slide-up' : undefined,
-    appear: ""
+    name: _ctx.type === 'toast' ? 'slow-fade-out' : undefined,
+    onAfterLeave: _cache[1] || (_cache[1] = $event => _ctx.toastClosed())
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-      name: _ctx.animate ? 'fade-in' : undefined,
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [!_ctx.deleted ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Notificationvue_type_template_id_71d8c905_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+      name: _ctx.type === 'toast' ? 'toast-slide-up' : undefined,
       appear: ""
     }, {
-      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-        name: _ctx.type === 'toast' ? 'slow-fade-out' : undefined,
-        onAfterLeave: _cache[1] || (_cache[1] = $event => _ctx.toastClosed())
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+        name: _ctx.animate ? 'fade-in' : undefined,
+        appear: ""
       }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [!_ctx.deleted ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-          key: 0,
+        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
           class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["notification system", {
             [_ctx.context ? `notification-${_ctx.context}` : '']: !!_ctx.context
           }]),
@@ -4470,15 +4475,15 @@ function Notificationvue_type_template_id_43555f22_render(_ctx, _cache, $props, 
           class: "close",
           "data-dismiss": "alert",
           onClick: _cache[0] || (_cache[0] = $event => _ctx.closeNotification($event))
-        }, "&times;")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("strong", Notificationvue_type_template_id_43555f22_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
+        }, " × ")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("strong", Notificationvue_type_template_id_71d8c905_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Notificationvue_type_template_id_71d8c905_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 2)]),
         _: 3
-      }, 8, ["name"])]),
+      }, 8, ["name"])])]),
       _: 3
-    }, 8, ["name"])]),
+    }, 8, ["name"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
     _: 3
   }, 8, ["name"]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=43555f22
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=71d8c905
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts
 
@@ -4509,7 +4514,7 @@ const {
         return false;
       }
 
-      return this.noclear;
+      return !this.noclear;
     }
 
   },
@@ -4556,7 +4561,7 @@ const {
     },
 
     markNotificationAsRead() {
-      if (!this.props.notificationId) {
+      if (!this.notificationId) {
         return;
       }
 
@@ -4565,7 +4570,7 @@ const {
         action: 'markNotificationAsRead'
       }, {
         postParams: {
-          notificationId: this.props.notificationId
+          notificationId: this.notificationId
         }
       });
     }
@@ -4578,7 +4583,7 @@ const {
 
 
 
-Notificationvue_type_script_lang_ts.render = Notificationvue_type_template_id_43555f22_render
+Notificationvue_type_script_lang_ts.render = Notificationvue_type_template_id_71d8c905_render
 
 /* harmony default export */ var Notification = (Notificationvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts
@@ -4694,15 +4699,22 @@ class Notifications_store_NotificationsStore {
     toastElement.style.position = 'absolute';
     toastElement.style.top = `${$placeat.offset().top}px`;
     toastElement.style.left = `${$placeat.offset().left}px`;
-    toastElement.style.zIndex = '10';
-    document.body.appendChild(toastElement); // TODO: make sure this gets unmounted
-
+    toastElement.style.zIndex = '1000';
+    document.body.appendChild(toastElement);
+    const sanitizedMessage = window.vueSanitize(notification.message);
     const toastVNode = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Notification, { ...notification,
+      type: 'toast',
       onClosed: () => {
         Object(external_commonjs_vue_commonjs2_vue_root_Vue_["render"])(null, toastElement);
       }
-    }, [notification.message // TODO: xss test
-    ]);
+    }, {
+      default() {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])('div', {
+          innerHTML: sanitizedMessage
+        });
+      }
+
+    });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["render"])(toastVNode, toastElement);
   }
 
