@@ -26,8 +26,12 @@ jobs:
         with:
           lfs: false
           submodules: recursive
+          
       - name: Merge ${{ github.base_ref }} -> ${{ github.head_ref }}
-        run:
-          git fetch ${{ github.base_ref }}
-          git merge ${{ github.base_ref }}
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: ${{ github.base_ref }}
+          target_branch: ${{ github.head_ref }}
+          github_token: ${{ github.token }}
 
