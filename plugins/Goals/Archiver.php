@@ -17,6 +17,8 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
+use Piwik\Segment;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 
@@ -38,6 +40,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     const LOG_CONVERSION_TABLE = 'log_conversion';
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
     const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
+
+    public static $ARCHIVE_DEPENDENT = true;
 
     /**
      * This array stores the ranges to use when displaying the 'visits to conversion' report
@@ -118,8 +122,10 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->aggregateEcommerceItems();
         }
 
-        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        if (self::$ARCHIVE_DEPENDENT) {
+            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
+            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        }
     }
 
     protected function aggregateGeneralGoalMetrics()
@@ -502,7 +508,9 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $columnsToRenameAfterAggregation = null,
                 $countRowsRecursive = array());
 
-        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        if (self::$ARCHIVE_DEPENDENT) {
+            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
+            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        }
     }
 }
