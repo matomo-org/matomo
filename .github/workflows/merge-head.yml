@@ -21,7 +21,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout current branch {{ github.base_ref }}
-        run: |
-          echo ${{ github.base_ref }}
-          echo ${{ github.head_ref }}
+      - name: checkout current branch
+        uses: actions/checkout@v2
+      - name: Merge ${{ github.base_ref }} -> ${{ github.head_ref }}
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: ${{ github.base_ref }}
+          target_branch: ${{ github.head_ref }}
+      - name: checkout ${{ github.base_ref }} branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+            commit_message: update current branch
+            branch: ${{ github.base_ref }}
