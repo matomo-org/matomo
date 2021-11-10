@@ -115,7 +115,13 @@ export default defineComponent({
   },
   created() {
     if (this.showQuestionBanner !== '0') {
-      this.initQuestion();
+      // eslint-disable-next-line no-restricted-globals
+      if (location.href.includes('forceFeedbackTest')) {
+        this.question = 0;
+        setCookie(cookieName, 0, 7);
+      } else {
+        this.initQuestion();
+      }
     }
   },
   methods: {

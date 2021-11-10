@@ -28,7 +28,6 @@ const PAGE_METHODS_TO_PROXY = [
     'cookies',
     'coverage',
     'deleteCookie',
-    'setCookie',
     'evaluate',
     'evaluateHandle',
     'evaluateOnNewDocument',

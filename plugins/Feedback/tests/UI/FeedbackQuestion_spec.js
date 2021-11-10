@@ -17,8 +17,6 @@ describe('FeedbackQuestion', function () {
   });
 
   it('should display question banner', async function () {
-    await page.setCookie('feedback_banner',0);
-
     await page.goto(url);
     await page.waitForNetworkIdle();
 
