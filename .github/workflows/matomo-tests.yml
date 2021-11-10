@@ -265,7 +265,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: 8.0
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
           ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
           tools: composer:v2
@@ -301,9 +301,9 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          sudo systemctl enable php7.2-fpm.service
-          sudo systemctl start php7.2-fpm.service
-          sudo systemctl status php7.2-fpm.service
+          sudo systemctl enable php8.0-fpm.service
+          sudo systemctl start php8.0-fpm.service
+          sudo systemctl status php8.0-fpm.service
           sudo systemctl enable nginx
           sudo systemctl start nginx
           sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
@@ -345,12 +345,14 @@ jobs:
           mkdir -p ./tests/UI/processed-ui-screenshots
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+          sudo chown -R www-data /home/runner/work/matomo/matomo/tmp/assets
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/assets
+
 
       - name: UI tests Group ${{ matrix.parts }}
         env:
           GITHUB: true
         run: |
-          ls -l ./tmp/
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
 
       - name: failed UI details
