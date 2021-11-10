@@ -297,11 +297,9 @@ jobs:
           mkdir -p ./tmp/climulti
           mkdir -p /tmp
           mkdir -p ./tests/UI/processed-ui-screenshots
-          cp ./plugins/Morpheus/images/logo.svg ./tmp/
           chmod a+rw ./tests/lib/geoip-files || true
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
-          sed -i -E 's/logoSVG/"\/tmp\/logo.svg"/g' plugins/CoreHome/templates/_logo.twig
 
       - name: Run PHP on Nginx
         run: |
