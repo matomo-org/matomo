@@ -12,7 +12,7 @@
   >
     <span
       class="title"
-      v-on:click="showItems = !showItems"
+      @click="showItems = !showItems"
       :title="tooltip"
     >
       <span v-html="$sanitize(this.actualMenuTitle)" />
@@ -29,8 +29,7 @@
         <input
           type="text"
           v-model="searchTerm"
-          v-on:change="searchItems(searchTerm)"
-          v-focus-if="showItems"
+          @keydown="onSearchTermKeydown($event)"
           :placeholder="translate('General_Search')"
         />
         <img
@@ -91,7 +90,7 @@ export default defineComponent({
     },
     selectItem(event: MouseEvent) {
       const targetClasses = (event.target as HTMLElement).classList;
-      if (targetClasses.contains('item')
+      if (!targetClasses.contains('item')
         || targetClasses.contains('disabled')
         || targetClasses.contains('separator')
       ) {
@@ -109,6 +108,11 @@ export default defineComponent({
       targetClasses.add('active');
 
       this.$emit('afterSelect');
+    },
+    onSearchTermKeydown() {
+      setTimeout(() => {
+        this.searchItems(this.searchTerm);
+      });
     },
     searchItems(unprocessedSearchTerm: string) {
       const searchTerm = unprocessedSearchTerm.toLowerCase();
