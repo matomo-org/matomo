@@ -301,7 +301,8 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          sudo apt install php7.2-fpm
+          sudo systemctl disable apache2
+          sudo systemctl stop apache2
           sudo systemctl enable nginx
           sudo systemctl start nginx
           sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
