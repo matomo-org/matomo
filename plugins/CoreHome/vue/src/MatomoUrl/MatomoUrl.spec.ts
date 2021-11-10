@@ -4,14 +4,15 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-import Matomo from './Matomo';
+import Matomo from '../Matomo/Matomo';
+import MatomoUrl from './MatomoUrl';
 import '../Periods/Day';
 import '../Periods/Week';
 import '../Periods/Month';
 import '../Periods/Year';
 import '../Periods/Range';
 
-describe('CoreHome/Matomo', () => {
+describe('CoreHome/MatomoUrl', () => {
   describe('#updatePeriodParamsFromUrl()', () => {
     const DATE_PERIODS_TO_TEST = [
       {
@@ -110,7 +111,7 @@ describe('CoreHome/Matomo', () => {
 
         history.pushState(null, '', '?date=' + date + '&period=' + period);
 
-        Matomo.updatePeriodParamsFromUrl();
+        MatomoUrl.updatePeriodParamsFromUrl();
 
         expect(Matomo.currentDateString).toEqual(expected.currentDateString);
         expect(Matomo.period).toEqual(expected.period);
@@ -126,7 +127,7 @@ describe('CoreHome/Matomo', () => {
 
         history.pushState(null, '', '?someparam=somevalue#?date=' + date + '&period=' + period);
 
-        Matomo.updatePeriodParamsFromUrl();
+        MatomoUrl.updatePeriodParamsFromUrl();
 
         expect(Matomo.currentDateString).toEqual(expected.currentDateString);
         expect(Matomo.period).toEqual(expected.period);
@@ -143,7 +144,7 @@ describe('CoreHome/Matomo', () => {
 
       history.pushState(null, '', '?someparam=somevalue#?date=' + Matomo.currentDateString + '&period=' + Matomo.period);
 
-      Matomo.updatePeriodParamsFromUrl();
+      MatomoUrl.updatePeriodParamsFromUrl();
 
       expect(Matomo.startDateString).toEqual('shouldnotchange');
       expect(Matomo.endDateString).toEqual('shouldnotchangeeither');

@@ -17,7 +17,8 @@ describe("SitesManager", function () {
     {
         await test();
         await page.waitForNetworkIdle();
-        pageWrap = await page.$('#content');
+        const pageWrap = await page.$('#content');
+        await page.waitFor(() => !!$('.enrichedHeadline:contains("Manage Measurables")').length);
         expect(await pageWrap.screenshot()).to.matchImage(screenshotName);
     }
 
