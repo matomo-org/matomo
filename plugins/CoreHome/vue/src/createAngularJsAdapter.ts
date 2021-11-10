@@ -114,7 +114,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngScope: ng.IScope,
             ngElement: ng.IAugmentedJQuery,
             ngAttrs: ng.IAttributes,
-            ngController: ng.IControllerService
+            ngController: ng.IControllerService,
           ) {
             const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
 
@@ -177,7 +177,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                   }
 
                   if (events[name]) {
-                    events[name]($event, this, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
+                    events[name](
+                      $event,
+                      this,
+                      ngScope,
+                      ngElement,
+                      ngAttrs,
+                      ngController,
+                      ...injectedServices,
+                    );
                   }
                 },
               },

@@ -24,7 +24,7 @@
       :class="{'loading': isLoading}"
       class="title"
       tabindex="4"
-      ::title="hasMultipleSites ? translate('CoreHome_ChangeCurrentWebsite', selectedSite.name || firstSiteName) : ''"
+      :title="selectorLinkTitle"
     >
       <span
         class="icon icon-arrow-bottom"
@@ -32,9 +32,9 @@
       />
       <span>
         <span
-          v-text="selectedSite.name || firstSiteName"
+          v-text="selectedSite.name || firstSiteName || '?'"
           v-if="selectedSite.name || !placeholder"
-        >?</span>
+        />
         <span
           v-if="!selectedSite.name && placeholder"
           class="placeholder"
@@ -96,7 +96,8 @@
         </ul>
         <ul
           v-show="!sites.length && searchTerm"
-          class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect"
+          class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all
+                 siteSelect"
         >
           <li class="ui-menu-item">
             <a
@@ -233,6 +234,11 @@ export default defineComponent({
     });
   },
   computed: {
+    selectorLinkTitle() {
+      return this.hasMultipleSites
+        ? translate('CoreHome_ChangeCurrentWebsite', this.selectedSite.name || this.firstSiteName)
+        : '';
+    },
     hasMultipleSites() {
       return this.initialSites && this.initialSites.length > 1;
     },
@@ -252,14 +258,14 @@ export default defineComponent({
   methods: {
     onAllSitesClick(event: MouseEvent) {
       this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
-      this.showSitesList = false
+      this.showSitesList = false;
     },
     switchSite(site: SiteRef, event: MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
-      const controlKey = navigator.userAgent.indexOf("Mac OS X") !== -1 ? event.metaKey : event.ctrlKey;
+      const controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
 
       if (event && controlKey && event.target && (event.target as HTMLLinkElement).href) {
-        window.open((event.target as HTMLLinkElement).href, "_blank");
+        window.open((event.target as HTMLLinkElement).href, '_blank');
         return;
       }
 
@@ -302,7 +308,7 @@ export default defineComponent({
       }
     },
     onPressEnter(event: KeyboardEvent) {
-      if (event.key !== "Enter") {
+      if (event.key !== 'Enter') {
         return;
       }
 
@@ -318,7 +324,7 @@ export default defineComponent({
         this.searchSite(this.searchTerm);
       });
     },
-    getMatchedSiteName(siteName: string) {// TODO: xss test + search name
+    getMatchedSiteName(siteName: string) { // TODO: xss test + search name
       const index = siteName.indexOf(this.searchTerm);
       if (index === -1) {
         return siteName;
@@ -335,10 +341,10 @@ export default defineComponent({
         return Promise.resolve();
       }
 
-      this.searchSite('%').then(() => {
+      return this.searchSite('%').then(() => {
         this.initialSites = this.sites;
         this.isInitialized = true;
-      })
+      });
     },
     searchSite(term: string) {
       if (!term) {
@@ -370,7 +376,7 @@ export default defineComponent({
 
         this.currentRequest = AjaxHelper.fetch({
           method: methodToCall,
-          limit: limit,
+          limit,
           pattern: term,
         });
 
@@ -379,7 +385,9 @@ export default defineComponent({
         if (response) {
           return this.updateWebsitesList(response);
         }
-      }).finally(function () {
+
+        return null;
+      }).finally(() => {
         this.isLoading = false;
         this.currentRequest = null;
       });

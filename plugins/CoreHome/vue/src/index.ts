@@ -53,4 +53,4 @@ export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
-export { default as Siteselector } from './SiteSelector/SiteSelector.vue';
+export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';

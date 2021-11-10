@@ -13,5 +13,5 @@ module.exports = {
       const rel = path.relative(context, info.absoluteResourcePath)
       return `webpack:///${rel}`
     });
-  }
+  },
 };

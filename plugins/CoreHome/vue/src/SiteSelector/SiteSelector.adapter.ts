@@ -5,9 +5,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { INgModelController, ITimeoutService } from 'angular';
 import createAngularJsAdapter from '../createAngularJsAdapter';
-import SiteSelector from './Siteselector.vue';
-import {INgModelController, ITimeoutService} from 'angular';
+import SiteSelector from './SiteSelector.vue';
 import Matomo from '../Matomo/Matomo';
 
 // TODO: ngModel tests
@@ -43,7 +43,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   directiveName: 'piwikSiteselector',
   events: {
     'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
-      if (newValue.id != vm.selectedSite.id) {
+      if (newValue.id !== vm.selectedSite.id) {
         element.attr('siteid', newValue.id);
         element.trigger('change', vm.selectedSite);
 
@@ -69,9 +69,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       };
     }
 
-    $timeout(function () {
+    $timeout(() => {
       if (attrs.siteid && attrs.sitename) {
-        vm.selectedSite = {id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename)};
+        vm.selectedSite = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
       }
     });
   },

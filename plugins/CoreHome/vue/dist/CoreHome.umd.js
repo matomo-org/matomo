@@ -162,6 +162,7 @@ __webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { retu
 __webpack_require__.d(__webpack_exports__, "Notification", function() { return /* reexport */ Notification; });
 __webpack_require__.d(__webpack_exports__, "NotificationGroup", function() { return /* reexport */ Notification_NotificationGroup; });
 __webpack_require__.d(__webpack_exports__, "NotificationsStore", function() { return /* reexport */ Notifications_store; });
+__webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return /* reexport */ SiteSelector; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1097,6 +1098,12 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
       var $location = Matomo_Matomo.helper.getAngularDependency('$location');
       $location.search(serializedParams);
+    }
+  }, {
+    key: "updateUrl",
+    value: function updateUrl(params) {
+      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
+      window.location.href = "".concat(window.location.pathname, "?").concat(serializedParams);
     }
   }, {
     key: "getSearchParam",
@@ -2484,7 +2491,7 @@ function createAngularJsAdapter(options) {
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
-          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs) {
+          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs, ngController) {
             var clone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
 
             var rootVueTemplate = '<root-component';
@@ -2560,7 +2567,7 @@ function createAngularJsAdapter(options) {
                   }
 
                   if (events[name]) {
-                    events[name].apply(events, [$event, ngScope, ngElement, ngAttrs].concat(injectedServices));
+                    events[name].apply(events, [$event, this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
                   }
                 }
               }
@@ -2601,7 +2608,7 @@ function createAngularJsAdapter(options) {
             }
 
             if (postCreate) {
-              postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs].concat(injectedServices));
+              postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
             }
 
             ngElement.on('$destroy', function () {
@@ -2647,7 +2654,7 @@ function createAngularJsAdapter(options) {
     }
   },
   events: {
-    yes: function yes($event, scope, element, attrs) {
+    yes: function yes($event, vm, scope, element, attrs) {
       if (attrs.yes) {
         scope.$eval(attrs.yes);
         setTimeout(function () {
@@ -2655,7 +2662,7 @@ function createAngularJsAdapter(options) {
         }, 0);
       }
     },
-    no: function no($event, scope, element, attrs) {
+    no: function no($event, vm, scope, element, attrs) {
       if (attrs.no) {
         scope.$eval(attrs.no);
         setTimeout(function () {
@@ -2663,7 +2670,7 @@ function createAngularJsAdapter(options) {
         }, 0);
       }
     },
-    close: function close($event, scope, element, attrs) {
+    close: function close($event, vm, scope, element, attrs) {
       if (attrs.close) {
         scope.$eval(attrs.close);
         setTimeout(function () {
@@ -2671,7 +2678,7 @@ function createAngularJsAdapter(options) {
         }, 0);
       }
     },
-    'update:modelValue': function updateModelValue(newValue, scope, element, attrs, $parse) {
+    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, controller, $parse) {
       setTimeout(function () {
         scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));
       }, 0);
@@ -4762,6 +4769,584 @@ PeriodDatePickervue_type_script_lang_ts.render = PeriodDatePickervue_type_templa
   directiveName: 'piwikPeriodDatePicker',
   restrict: 'E'
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=1a93f21c
+
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_1 = ["value", "name"];
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_2 = ["title"];
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_3 = ["textContent"];
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_4 = {
+  key: 1,
+  class: "placeholder"
+};
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_5 = {
+  class: "dropdown"
+};
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_6 = {
+  class: "custom_select_search"
+};
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_7 = ["placeholder"];
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_8 = {
+  key: 0
+};
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_9 = {
+  class: "custom_select_container"
+};
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_10 = ["onClick"];
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_11 = ["innerHTML", "href", "title"];
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_12 = {
+  class: "ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all\n                 siteSelect"
+};
+var SiteSelectorvue_type_template_id_1a93f21c_hoisted_13 = {
+  class: "ui-menu-item"
+};
+var _hoisted_14 = {
+  class: "ui-corner-all",
+  tabindex: "-1"
+};
+var _hoisted_15 = {
+  key: 1
+};
+function SiteSelectorvue_type_template_id_1a93f21c_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_AllSitesLink = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AllSitesLink");
+
+  var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
+
+  var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["siteSelector piwikSelector borderedControl", {
+      'expanded': _ctx.showSitesList,
+      'disabled': !_ctx.hasMultipleSites
+    }])
+  }, [_ctx.name ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
+    key: 0,
+    type: "hidden",
+    value: _ctx.selectedSite.id,
+    name: _ctx.name
+  }, null, 8, SiteSelectorvue_type_template_id_1a93f21c_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    ref: "selectorLink",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return _ctx.onClickSelector && _ctx.onClickSelector.apply(_ctx, arguments);
+    }),
+    onKeydown: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.onPressEnter($event);
+    }),
+    href: "javascript:void(0)",
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
+      'loading': _ctx.isLoading
+    }, "title"]),
+    tabindex: "4",
+    title: _ctx.selectorLinkTitle
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["icon icon-arrow-bottom", {
+      'iconHidden': _ctx.isLoading,
+      'collapsed': !_ctx.showSitesList
+    }])
+  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [_ctx.selectedSite.name || !_ctx.placeholder ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+    key: 0,
+    textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.selectedSite.name || _ctx.firstSiteName || '?')
+  }, null, 8, SiteSelectorvue_type_template_id_1a93f21c_hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.selectedSite.name && _ctx.placeholder ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", SiteSelectorvue_type_template_id_1a93f21c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.placeholder), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 42, SiteSelectorvue_type_template_id_1a93f21c_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteSelectorvue_type_template_id_1a93f21c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteSelectorvue_type_template_id_1a93f21c_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "text",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.searchTerm = '';
+    }),
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.searchTerm = $event;
+    }),
+    onKeydown: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.onSearchInputKeydown();
+    }),
+    tabindex: "4",
+    class: "websiteSearch inp browser-default",
+    placeholder: _ctx.translate('General_Search')
+  }, null, 40, SiteSelectorvue_type_template_id_1a93f21c_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, _ctx.showSitesList && _ctx.autocompleteMinSites <= _ctx.sites.length || _ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+    title: "Clear",
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      _ctx.searchTerm = '';
+
+      _ctx.loadInitialSites();
+    }),
+    class: "reset",
+    src: "plugins/CoreHome/images/reset_search.png"
+  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.autocompleteMinSites <= _ctx.sites.length || _ctx.searchTerm]]), _ctx.allSitesLocation === 'top' && _ctx.showAllSitesItem ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SiteSelectorvue_type_template_id_1a93f21c_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AllSitesLink, {
+    href: _ctx.urlAllSites,
+    "all-sites-text": _ctx.allSitesText,
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return _ctx.onAllSitesClick($event);
+    })
+  }, null, 8, ["href", "all-sites-text"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteSelectorvue_type_template_id_1a93f21c_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
+    class: "custom_select_ul_list",
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return _ctx.showSitesList = false;
+    })
+  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, function (site) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      onClick: function onClick($event) {
+        return _ctx.switchSite(site, $event);
+      },
+      key: site.idsite
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      onClick: _cache[7] || (_cache[7] = function ($event) {
+        return $event.preventDefault();
+      }),
+      innerHTML: _ctx.$sanitize(_ctx.getMatchedSiteName(site.name)),
+      tabindex: "4",
+      href: _ctx.getUrlForSiteId(site.idsite),
+      title: site.name
+    }, null, 8, SiteSelectorvue_type_template_id_1a93f21c_hoisted_11)], 8, SiteSelectorvue_type_template_id_1a93f21c_hoisted_10)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(!_ctx.showSelectedSite && _ctx.activeSiteId === site.idsite)]]);
+  }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", SiteSelectorvue_type_template_id_1a93f21c_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", SiteSelectorvue_type_template_id_1a93f21c_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_NotFound') + ' ' + _ctx.searchTerm), 1)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.sites.length && _ctx.searchTerm]])]), _ctx.allSitesLocation === 'bottom' && _ctx.showAllSitesItem ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AllSitesLink, {
+    href: _ctx.urlAllSites,
+    "all-sites-text": _ctx.allSitesText,
+    onClick: _cache[9] || (_cache[9] = function ($event) {
+      return _ctx.onAllSitesClick($event);
+    })
+  }, null, 8, ["href", "all-sites-text"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showSitesList]])], 2)), [[_directive_focus_anywhere_but_here, {
+    blur: _ctx.onBlur
+  }]]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=1a93f21c
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=5d242272
+
+var AllSitesLinkvue_type_template_id_5d242272_hoisted_1 = ["innerHTML", "href"];
+function AllSitesLinkvue_type_template_id_5d242272_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _this.onClick($event);
+    }),
+    class: "custom_select_all"
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $event.preventDefault();
+    }),
+    innerHTML: _ctx.$sanitize(_ctx.allSitesText),
+    tabindex: "4",
+    href: _ctx.href
+  }, null, 8, AllSitesLinkvue_type_template_id_5d242272_hoisted_1)]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=5d242272
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var AllSitesLinkvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    href: String,
+    allSitesText: String
+  },
+  emits: ['click'],
+  methods: {
+    onClick: function onClick() {
+      this.$emit('click');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue
+
+
+
+AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_5d242272_render
+
+/* harmony default export */ var AllSitesLink = (AllSitesLinkvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts
+function SiteSelectorvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function SiteSelectorvue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { SiteSelectorvue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { SiteSelectorvue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { SiteSelectorvue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function SiteSelectorvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+ // TODO: ng-model => v-model test
+
+/* harmony default export */ var SiteSelectorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    modelValue: {
+      Object: Object,
+      default: {
+        idsite: Matomo_Matomo.idSite,
+        name: Matomo_Matomo.helper.htmlDecode(Matomo_Matomo.siteName)
+      }
+    },
+    showSelectedSite: {
+      type: Boolean,
+      default: false
+    },
+    showAllSitesItem: {
+      type: Boolean,
+      default: true
+    },
+    switchSiteOnSelect: {
+      type: Boolean,
+      default: true
+    },
+    onlySitesWithAdminAccess: {
+      type: Boolean,
+      default: false
+    },
+    name: {
+      type: String,
+      default: ''
+    },
+    allSitesText: {
+      type: String,
+      default: translate('General_MultiSitesSummary')
+    },
+    allSitesLocation: {
+      type: String,
+      default: 'bottom'
+    },
+    placeholder: String
+  },
+  emits: ['update:modelValue'],
+  components: {
+    AllSitesLink: AllSitesLink
+  },
+  directives: {
+    FocusAnywhereButHere: FocusAnywhereButHere,
+    FocusIf: FocusIf
+  },
+  data: function data() {
+    return {
+      activeSiteId: Matomo_Matomo.idSite,
+      limitRequest: null,
+      currentRequest: null,
+      isInitialized: false,
+      showSitesList: false,
+      isLoading: false,
+      initialSites: null,
+      sites: Array(),
+      selectedSite: null,
+      autocompleteMinSites: parseInt(Matomo_Matomo.config.autocomplete_min_sites, 10)
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    window.initTopControls();
+    this.loadInitialSites().then(function () {
+      if (!_this.selectedSite && !_this.hasMultipleSites && _this.sites[0]) {
+        _this.selectedSite = {
+          id: _this.sites[0].idsite,
+          name: _this.sites[0].name
+        };
+
+        _this.$emit('update:modelValue', SiteSelectorvue_type_script_lang_ts_objectSpread({}, _this.selectedSite));
+      }
+    });
+    var shortcutTitle = translate('CoreHome_ShortcutWebsiteSelector');
+    Matomo_Matomo.helper.registerShortcut('w', shortcutTitle, function (event) {
+      if (event.altKey) {
+        return;
+      }
+
+      if (event.preventDefault) {
+        event.preventDefault();
+      } else {
+        event.returnValue = false; // IE
+      }
+
+      _this.$refs.selectorLink.click();
+
+      _this.$refs.selectorLink.focus();
+    });
+  },
+  computed: {
+    selectorLinkTitle: function selectorLinkTitle() {
+      return this.hasMultipleSites ? translate('CoreHome_ChangeCurrentWebsite', this.selectedSite.name || this.firstSiteName) : '';
+    },
+    hasMultipleSites: function hasMultipleSites() {
+      return this.initialSites && this.initialSites.length > 1;
+    },
+    firstSiteName: function firstSiteName() {
+      return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
+    },
+    urlAllSites: function urlAllSites() {
+      return src_MatomoUrl_MatomoUrl.stringify(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
+        module: 'MultiSites',
+        action: 'index',
+        date: src_MatomoUrl_MatomoUrl.parsed.value.date,
+        period: src_MatomoUrl_MatomoUrl.parsed.value.period
+      }));
+    }
+  },
+  methods: {
+    onAllSitesClick: function onAllSitesClick(event) {
+      this.switchSite({
+        idsite: 'all',
+        name: this.allSitesText
+      }, event);
+      this.showSitesList = false;
+    },
+    switchSite: function switchSite(site, event) {
+      // for Mac OS cmd key needs to be pressed, ctrl key on other systems
+      var controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
+
+      if (event && controlKey && event.target && event.target.href) {
+        window.open(event.target.href, '_blank');
+        return;
+      }
+
+      this.selectedSite = {
+        id: site.idsite,
+        name: site.name
+      };
+      this.$emit('update:modelValue', SiteSelectorvue_type_script_lang_ts_objectSpread({}, this.selectedSite));
+
+      if (!this.switchSiteOnSelect || this.activeSiteId === site.idsite) {
+        return;
+      }
+
+      this.loadSite(site.idsite);
+    },
+    loadSite: function loadSite(idSite) {
+      if (idSite === 'all') {
+        src_MatomoUrl_MatomoUrl.updateUrl(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
+          module: 'MultiSites',
+          action: 'index',
+          date: src_MatomoUrl_MatomoUrl.parsed.value.date,
+          period: src_MatomoUrl_MatomoUrl.parsed.value.period
+        }));
+      } else {
+        src_MatomoUrl_MatomoUrl.updateHash(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value), {}, {
+          segment: '',
+          idSite: idSite
+        })); // TODO: showAjaxLoading = false... do we need that?
+      }
+    },
+    onBlur: function onBlur() {
+      this.showSitesList = false;
+    },
+    onClickSelector: function onClickSelector() {
+      if (this.hasMultipleSites) {
+        this.showSitesList = !this.showSitesList;
+
+        if (!this.isLoading) {
+          this.loadInitialSites();
+        }
+      }
+    },
+    onPressEnter: function onPressEnter(event) {
+      if (event.key !== 'Enter') {
+        return;
+      }
+
+      event.preventDefault();
+      this.showSitesList = !this.showSitesList;
+
+      if (this.showSitesList && !this.isLoading) {
+        this.loadInitialSites();
+      }
+    },
+    onSearchInputKeydown: function onSearchInputKeydown() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.searchSite(_this2.searchTerm);
+      });
+    },
+    getMatchedSiteName: function getMatchedSiteName(siteName) {
+      var index = siteName.indexOf(this.searchTerm);
+
+      if (index === -1) {
+        return siteName;
+      }
+
+      var previousPart = siteName.substring(0, index);
+      var lastPart = siteName.substring(index + this.searchTerm.length);
+      return "".concat(previousPart, "<span class=\"autocompleteMatched\">").concat(this.searchTerm, "</span>").concat(lastPart);
+    },
+    loadInitialSites: function loadInitialSites() {
+      var _this3 = this;
+
+      if (this.initialSites) {
+        this.sites = this.initialSites;
+        return Promise.resolve();
+      }
+
+      return this.searchSite('%').then(function () {
+        _this3.initialSites = _this3.sites;
+        _this3.isInitialized = true;
+      });
+    },
+    searchSite: function searchSite(term) {
+      var _this4 = this;
+
+      if (!term) {
+        return this.loadInitialSites();
+      }
+
+      if (this.isLoading) {
+        if (this.currentRequest) {
+          this.currentRequest.abort();
+        } else if (this.limitRequest) {
+          this.limitRequest.abort();
+          this.limitRequest = null;
+        }
+      }
+
+      this.isLoading = true;
+
+      if (!this.limitRequest) {
+        this.limitRequest = AjaxHelper_AjaxHelper.fetch({
+          method: 'SitesManager.getNumWebsitesToDisplayPerPage'
+        });
+      }
+
+      return this.limitRequest.then(function (response) {
+        var limit = response.value;
+        var methodToCall = 'SitesManager.getPatternMatchSites';
+
+        if (_this4.onlySitesWithAdminAccess) {
+          methodToCall = 'SitesManager.getSitesWithAdminAccess';
+        }
+
+        _this4.currentRequest = AjaxHelper_AjaxHelper.fetch({
+          method: methodToCall,
+          limit: limit,
+          pattern: term
+        });
+        return _this4.currentRequest;
+      }).then(function (response) {
+        if (response) {
+          return _this4.updateWebsitesList(response);
+        }
+
+        return null;
+      }).finally(function () {
+        _this4.isLoading = false;
+        _this4.currentRequest = null;
+      });
+    },
+    updateWebsitesList: function updateWebsitesList(sites) {
+      if (!sites || !sites.length) {
+        this.sites = [];
+        return [];
+      }
+
+      var transformedSites = sites.map(function (s) {
+        return SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, s), {}, {
+          name: s.group ? "[".concat(s.group, "] ").concat(s.name) : s.name
+        });
+      }); // TODO: test sort diredction + site grouping if specified
+
+      transformedSites.sort(function (lhs, rhs) {
+        if (lhs.name < rhs.name) {
+          return -1;
+        }
+
+        return lhs.name > rhs.name ? 1 : 0;
+      });
+      return this.sites;
+    },
+    getUrlForSiteId: function getUrlForSiteId(idSite) {
+      var newQuery = src_MatomoUrl_MatomoUrl.stringify(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
+        segment: '',
+        idSite: idSite
+      }));
+      var newHash = src_MatomoUrl_MatomoUrl.stringify(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
+        segment: '',
+        idSite: idSite
+      }));
+      return "?".concat(newQuery, "#?").concat(newHash);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue
+
+
+
+SiteSelectorvue_type_script_lang_ts.render = SiteSelectorvue_type_template_id_1a93f21c_render
+
+/* harmony default export */ var SiteSelector = (SiteSelectorvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+ // TODO: ngModel tests
+
+/* harmony default export */ var SiteSelector_adapter = (createAngularJsAdapter({
+  component: SiteSelector,
+  scope: {
+    showSelectedSite: {
+      angularJsBind: '='
+    },
+    showAllSitesItem: {
+      angularJsBind: '='
+    },
+    switchSiteOnSelect: {
+      angularJsBind: '='
+    },
+    onlySitesWithAdminAccess: {
+      angularJsBind: '='
+    },
+    name: {
+      angularJsBind: '@'
+    },
+    allSitesText: {
+      angularJsBind: '@'
+    },
+    allSitesLocation: {
+      angularJsBind: '@'
+    },
+    placeholder: {
+      angularJsBind: '@'
+    }
+  },
+  $inject: ['$timeout'],
+  directiveName: 'piwikSiteselector',
+  events: {
+    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel) {
+      if (newValue.id !== vm.selectedSite.id) {
+        element.attr('siteid', newValue.id);
+        element.trigger('change', vm.selectedSite);
+
+        if (ngModel) {
+          ngModel.$setViewValue(newValue);
+        }
+      }
+    }
+  },
+  postCreate: function postCreate(vm, scope, element, attrs, controller, $timeout) {
+    var ngModel = controller; // setup ng-model mapping
+
+    if (ngModel) {
+      ngModel.$setViewValue(vm.selectedSite);
+
+      ngModel.$render = function () {
+        if (angular.isString(ngModel.$viewValue)) {
+          vm.selectedSite = JSON.parse(ngModel.$viewValue);
+        } else {
+          vm.selectedSite = ngModel.$viewValue;
+        }
+      };
+    }
+
+    $timeout(function () {
+      if (attrs.siteid && attrs.sitename) {
+        vm.selectedSite = {
+          id: attrs.siteid,
+          name: Matomo_Matomo.helper.htmlDecode(attrs.sitename)
+        };
+      }
+    });
+  }
+}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
 var ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1 = {
@@ -5435,6 +6020,8 @@ NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_temp
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 
