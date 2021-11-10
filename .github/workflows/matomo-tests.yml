@@ -354,7 +354,8 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c/2f
           ls -l /home/runner/work/matomo/matomo/
           sudo usermod -a -G www-data runner
-
+          sudo usermod -a -G www-data docker
+          sudo grep ^www-data /etc/group
 
       - name: UI tests Group ${{ matrix.parts }}
         env:
