@@ -29,18 +29,6 @@
     piwikSiteselector.$inject = ['$document', 'piwik', '$filter', '$timeout'];
 
     function piwikSiteselector($document, piwik, $filter, $timeout){
-        var defaults = {
-            name: '',
-            siteid: piwik.idSite,
-            sitename: piwik.helper.htmlDecode(piwik.siteName),
-            allSitesLocation: 'bottom',
-            allSitesText: $filter('translate')('General_MultiSitesSummary'),
-            showSelectedSite: 'false',
-            showAllSitesItem: 'true',
-            switchSiteOnSelect: 'true',
-            onlySitesWithAdminAccess: 'false'
-        };
-
         return {
             restrict: 'A',
             scope: {
@@ -58,53 +46,11 @@
             controller: 'SiteSelectorController',
             compile: function (element, attrs) {
 
-                for (var index in defaults) {
-                    if (attrs[index] === undefined) {
-                        attrs[index] = defaults[index];
-                    }
-                }
-
                 return function (scope, element, attrs, ngModel) {
-                    scope.model.onlySitesWithAdminAccess = scope.onlySitesWithAdminAccess;
-
-                    if (ngModel) {
-                        ngModel.$setViewValue(scope.selectedSite);
-                    }
-
-                    scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
-                        if (newValue != oldValue) {
-                            element.attr('siteid', newValue);
-                            element.trigger('change', scope.selectedSite);
-                        }
-                    });
-
-                    if (ngModel) {
-                        ngModel.$render = function() {
-                            if (angular.isString(ngModel.$viewValue)) {
-                                scope.selectedSite = JSON.parse(ngModel.$viewValue);
-                            } else {
-                                scope.selectedSite = ngModel.$viewValue;
-                            }
-                        };
-                    }
-
-                    scope.$watch('selectedSite', function (newValue) {
-                        if (ngModel) {
-                            ngModel.$setViewValue(newValue);
-                        }
-                    });
-
-                    scope.$watch('view.showSitesList', function (newValue) {
+                    scope.$watch('view.showSitesList', function (newValue) { // TODO: is this needed?
                         element.toggleClass('expanded', !! newValue);
                     });
 
-                    $timeout(function () {
-                        if (attrs.siteid && attrs.sitename) {
-                            scope.selectedSite = {id: attrs.siteid, name: piwik.helper.htmlDecode(attrs.sitename)};
-                        }
-
-                        initTopControls();
-                    });
                 };
             }
         };

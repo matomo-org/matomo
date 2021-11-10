@@ -68,6 +68,11 @@ class MatomoUrl {
     $location.search(serializedParams);
   }
 
+  updateUrl(params: QueryParameters|string) {
+    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
+    window.location.href = `${window.location.pathname}?${serializedParams}`;
+  }
+
   getSearchParam(paramName: string): string {
     const hash = window.location.href.split('#');
 

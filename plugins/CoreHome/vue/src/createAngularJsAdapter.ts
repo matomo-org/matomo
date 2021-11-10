@@ -31,9 +31,11 @@ type AdapterFunction<InjectTypes, R = void> = (
 
 type EventAdapterFunction<InjectTypes, R = void> = (
   $event: any, // eslint-disable-line
+  vm: ComponentPublicInstance,
   scope: ng.IScope,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
+  otherController: ng.IControllerService,
   ...injected: InjectTypes,
 ) => R;
 
@@ -42,6 +44,7 @@ type PostCreateFunction<InjectTypes, R = void> = (
   scope: ng.IScope,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
+  otherController: ng.IControllerService,
   ...injected: InjectTypes,
 ) => R;
 
@@ -111,6 +114,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngScope: ng.IScope,
             ngElement: ng.IAugmentedJQuery,
             ngAttrs: ng.IAttributes,
+            ngController: ng.IControllerService
           ) {
             const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
 
@@ -173,7 +177,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                   }
 
                   if (events[name]) {
-                    events[name]($event, ngScope, ngElement, ngAttrs, ...injectedServices);
+                    events[name]($event, this, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
                   }
                 },
               },
@@ -213,7 +217,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             }
 
             if (postCreate) {
-              postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
+              postCreate(vm, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
             }
 
             ngElement.on('$destroy', () => {
