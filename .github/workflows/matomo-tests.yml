@@ -351,6 +351,12 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c/2f
           ls -l /home/runner/work/matomo/matomo/
 
+      - name: update Chrome driver
+        run: |
+         sudo apt-get update
+         sudo apt-get --only-upgrade install google-chrome-stable
+         google-chrome --version
+
       - name: UI tests Group ${{ matrix.parts }}
         env:
           GITHUB: true
