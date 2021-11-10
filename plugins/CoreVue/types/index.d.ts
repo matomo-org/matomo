@@ -68,6 +68,7 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks: ModalConfirmCallbacks, options: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -105,10 +106,17 @@ declare global {
     broadcast: BroadcastGlobal;
     ColorManager: ColorManagerService;
     ajaxRequestFinished?: () => void;
+    minDateYear: number;
+    minDateMonth: number;
+    minDateDay: number;
+    maxDateYear: number;
+    maxDateMonth: number;
+    maxDateDay: number;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
+    getBaseDatePickerOptions(): {[key: string]: any};
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
@@ -118,7 +126,6 @@ declare global {
 
   let piwik: PiwikGlobal;
 
-  // add the objects to Window so we can access them through window if needed
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;

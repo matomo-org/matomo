@@ -88,6 +88,7 @@
         "ColumnViewsWithGenerationTime": "Wyświetleń z czasem generowania",
         "ColumnVisitDuration": "Czas pobytu (w sekundach)",
         "ColumnVisitsWithConversions": "Wizyty z konwersjami",
+        "CompareTo": "Porównaj z:",
         "ComputedMetricAverage": "Śr. %1$s na %2$s",
         "ComputedMetricAverageDocumentation": "Średnia wartość \"%1$s\" na \"%2$s\".",
         "ComputedMetricAverageShortDocumentation": "Średnia wartość \"%1$s\".",

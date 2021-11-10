@@ -262,14 +262,16 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-const AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21")));
+var AsyncExampleComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
+  return __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "2d21"));
+});
 function exampleVueComponentAdapter() {
   return {
     restrict: 'A',
     scope: {},
     template: '',
     link: function exampleVueComponentAdapterLink(scope, element) {
-      const vueApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(AsyncExampleComponent);
+      var vueApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(AsyncExampleComponent);
       vueApp.config.globalProperties.$sanitize = window.vueSanitize;
       vueApp.mount(element[0]);
     }
