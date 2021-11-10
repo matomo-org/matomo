@@ -158,8 +158,6 @@ class Loader
             if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
                 return [[$idArchive], $visits];
             }
-        } catch (\Exception $e) {
-            throw new \Exception("exceed max time");
         } finally {
             $this->lock->unlock();
         }
@@ -175,7 +173,7 @@ class Loader
         $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
           $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
 
-        return md5($this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() .'.'. $doneFlag);
+        return $this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() .'.'. $doneFlag;
 
     }
 

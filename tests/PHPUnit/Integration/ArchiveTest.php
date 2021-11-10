@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Archive;
+use Piwik\ArchiveProcessor\LoaderLock;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -22,9 +23,13 @@ use Piwik\Db;
 use Piwik\Period\Factory;
 use Piwik\Plugins\VisitsSummary\API;
 use Piwik\Segment;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Tests\Fixtures\LockerMutiThread;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use SebastianBergmann\Environment\Runtime;
+use Thread;
 
 class ArchiveTest extends IntegrationTestCase
 {
@@ -311,6 +316,20 @@ class ArchiveTest extends IntegrationTestCase
             ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '1'],
         ];
         $this->assertEquals($expected, $archives);
+    }
+
+    public function test_mutithread()
+    {
+        $lockId = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $lockOne = new LoaderLock($lockId);
+        $lockOne->setLock();
+        $formatLockKey = md5(SettingsPiwik::getPiwikInstanceId() . $lockId);
+        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)',[$formatLockKey]);
+        $this->assertFalse((bool)$isLocked);
+        $lockOne->unLock();
+        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)',[$formatLockKey]);
+        $this->assertTrue((bool)$isLocked);
+
     }
 
     protected static function configureFixture($fixture)

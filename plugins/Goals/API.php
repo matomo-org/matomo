@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Goals;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
-use Piwik\ArchiveProcessor\ArchivingStatus;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
@@ -69,7 +67,7 @@ class API extends \Piwik\Plugin\API
     public function getGoal($idSite, $idGoal)
     {
         Piwik::checkUserHasViewAccess($idSite);
-
+        
         $goal = $this->getModel()->getActiveGoal($idSite, $idGoal);
 
         if (!empty($goal)) {
@@ -466,57 +464,66 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false, $compare = false)
     {
-            Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($idSite);
 
-            /** @var DataTable|DataTable\Map $table */
-            $table = null;
+        /** @var DataTable|DataTable\Map $table */
+        $table = null;
 
-            $segments = array(
-              '' => false,
-              '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
-              '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
-            );
+        $segments = array(
+            '' => false,
+            '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
+            '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
+        );
 
-            foreach ($segments as $appendToMetricName => $predefinedSegment) {
-                $segmentToUse = $this->appendSegment($predefinedSegment, $segment);
-
-                /** @var DataTable|DataTable\Map $tableSegmented */
-                $tableSegmented = Request::processRequest('Goals.getMetrics', array(
-                  'segment'                    => $segmentToUse,
-                  'idSite'                     => $idSite,
-                  'period'                     => $period,
-                  'date'                       => $date,
-                  'idGoal'                     => $idGoal,
-                  'columns'                    => $columns,
-                  'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                  'format_metrics'             => Common::getRequestVar('format_metrics', 'bc'),
-                ), $default = []);
-
-                $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
-                  array($appendToMetricName));
-
-                if (!isset($table)) {
-                    $table = $tableSegmented;
-                } else {
-                    $merger = new MergeDataTables();
-                    $merger->mergeDataTables($table, $tableSegmented);
-                }
+        foreach ($segments as $appendToMetricName => $predefinedSegment) {
+            if (!empty($predefinedSegment)) {
+                // we are disabling the archiving of these segments as the archiver archives them already using
+                // archiveProcessDependend logic. Otherwise we would eg archive reports that we don't need:
+                // userid=5;visitorType%3D%3Dnew;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer
+                // userid=5;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer;visitorType%3D%3Dnew;
+                // it would also archive dependends for these segments that we already combined here and then combine
+                // segments again when archiving dependends
+                Archiver::$ARCHIVE_DEPENDENT = false;
             }
+            $segmentToUse = $this->appendSegment($segment, $predefinedSegment);
 
-            // if we are comparing, this will be queried with format_metrics=0, but we will eventually need to format the metrics.
-            // unfortunately, we can't do that since the processed metric information is in the GetMetrics report. in this case,
-            // we queue the filter so it will eventually be formatted.
-            if (!empty($compare)) {
-                $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
-                $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
-                    $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
+            /** @var DataTable|DataTable\Map $tableSegmented */
+            $tableSegmented = Request::processRequest('Goals.getMetrics', array(
+                'segment' => $segmentToUse,
+                'idSite'  => $idSite,
+                'period'  => $period,
+                'date'    => $date,
+                'idGoal'  => $idGoal,
+                'columns' => $columns,
+                'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
+                'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
+            ), $default = []);
+            Archiver::$ARCHIVE_DEPENDENT = true;
+            $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
+                                    array($appendToMetricName));
 
-                    $formatter = new Metrics\Formatter();
-                    $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
-                });
+            if (!isset($table)) {
+                $table = $tableSegmented;
+            } else {
+                $merger = new MergeDataTables();
+                $merger->mergeDataTables($table, $tableSegmented);
             }
-            return $table;
+        }
 
+        // if we are comparing, this will be queried with format_metrics=0, but we will eventually need to format the metrics.
+        // unfortunately, we can't do that since the processed metric information is in the GetMetrics report. in this case,
+        // we queue the filter so it will eventually be formatted.
+        if (!empty($compare)) {
+            $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
+            $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
+                $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
+
+                $formatter = new Metrics\Formatter();
+                $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
+            });
+        }
+
+        return $table;
     }
 
     /**
