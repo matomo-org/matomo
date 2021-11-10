@@ -10,7 +10,7 @@
 /**
  * The root Piwik URL to test against.
  */
-exports.piwikUrl = "http://localhost:3000/";
+exports.piwikUrl = "http://localhost/";
 
 /**
  * Data for the $_SERVER variable in the setup/teardown PHP scripts. Should be the same as
