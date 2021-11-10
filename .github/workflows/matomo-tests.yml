@@ -307,11 +307,10 @@ jobs:
         run: |
           sudo systemctl enable php8.0-fpm.service
           sudo systemctl start php8.0-fpm.service
-          cat /etc/php/8.0/fpm/pool.d/www.conf
           sudo cp -rf  ./.github/scripts/www.conf /etc/php/8.0/fpm/pool.d/
-          cat /etc/php/8.0/fpm/pool.d/www.conf
+          sudo systemctl stop php8.0-fpm.service
           sudo systemctl reload php8.0-fpm.service
-          sudo systemctl restart php8.0-fpm.service
+          sudo systemctl start php8.0-fpm.service
           sudo systemctl status php8.0-fpm.service
           sudo systemctl enable nginx
           sudo systemctl start nginx
