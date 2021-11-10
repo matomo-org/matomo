@@ -305,9 +305,10 @@ jobs:
 
       - name: Run PHP on Nginx
         run: |
+          cat  /etc/php/8.0/fpm/php-fpm.conf
           sudo systemctl enable php8.0-fpm.service
           sudo systemctl start php8.0-fpm.service
-          sudo cp -rf  ./.github/scripts/php-fpm.conf /etc/php/8.0/fpm/php-fpm.conf
+          sudo cp -rf  ./.github/scripts/www.conf /etc/php/8.0/fpm/pool.d/
           sudo systemctl reload php8.0-fpm.service
           sudo systemctl restart php8.0-fpm.service
           sudo systemctl status php8.0-fpm.service
@@ -319,7 +320,7 @@ jobs:
           sudo systemctl reload nginx
           curl localhost
           cat /var/log/nginx/error.log
-          cat /var/log/php-fpm/fpm-error.log
+          cat /var/log/php8.0-fpm.log
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #          tmux new-session -d -s "php-80" php -S localhost:80
 #          tmux new-session -d -s "php-3000" php -S localhost:3000
