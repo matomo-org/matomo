@@ -279,7 +279,7 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
-          cp .github/scripts/config.ini.github.php config/config.ini.php
+          cp .github/scripts/config.ini.github.ui.php config/config.ini.php
           cp .github/scripts/config.dist.js ./tests/UI/config.js
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
           mkdir -p ./tmp/assets
