@@ -346,7 +346,6 @@ jobs:
 
       - name: set tmp and screenshot folder permission
         run: |
-          sudo chown -R www-data:www-data /home/runner/work/matomo/matomo/
           sudo chmod o+w /home/runner/work/matomo/matomo/
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
@@ -354,6 +353,7 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c/2f
           ls -l /home/runner/work/matomo/matomo/
+          sudo usermod -a -G runner www-data
 
 
       - name: UI tests Group ${{ matrix.parts }}
