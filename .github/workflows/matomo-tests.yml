@@ -149,12 +149,17 @@ jobs:
         tests: [ 'JavascriptTests-js', 'AngularJSTests-js' ]
 
     steps:
+      #      - name: Setup Mysql
+      #        run: |
+      #          docker run --name mariadb -p 3306:3306 --tmpfs /var/lib/mysql:rw -e MYSQL_DATABASE=piwik_tests -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mariadb
+      #          docker ps -a
 
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           lfs: false
           submodules: recursive
+
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -191,6 +196,12 @@ jobs:
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
           sudo chmod -R 755 ./tmp
+
+      #
+      #      - name: Setup Nginx
+      #        run: |
+      #          docker run --name nginxapp -v /home/runner/work/matomo/matomo:/var/www/ -v /home/runner/work/matomo/matomo/.github/scripts/piwiki_nginx.config:/etc/nginx/conf -p 80:80 -d nginx
+      #          docker ps
 
       - name: Install dependencies
         run: |
@@ -298,6 +309,7 @@ jobs:
           sudo ln -s /etc/nginx/sites-available/ui_nginx /etc/nginx/sites-enabled/
           sudo nginx -t
           sudo systemctl reload nginx
+          sudo systemctl status nginx
           curl localhost
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #          tmux new-session -d -s "php-80" php -S localhost:80
