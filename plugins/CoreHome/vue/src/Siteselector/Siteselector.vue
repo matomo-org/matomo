@@ -7,8 +7,8 @@
 <template>
   <div
     class="siteSelector piwikSelector borderedControl"
-    :class="{'expanded': view.showSitesList, 'disabled': !model.hasMultipleSites()}"
-    v-focus-anywhere-but-here="view.showSitesList = false"
+    :class="{'expanded': showSitesList, 'disabled': !model.hasMultipleSites()}"
+    v-focus-anywhere-but-here="{ blur: onBlur.bind(this) }"
   >
     <input
       v-if="inputName"
@@ -157,7 +157,10 @@ export default defineComponent({
     },
     switchSite(site: SiteRef, event: MouseEvent) {
       // TODO
-    }
+    },
+    onBlur() {
+      this.showSitesList = false;
+    },
   },
   computed: {
     urlAllSites() {
