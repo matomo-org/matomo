@@ -190,6 +190,7 @@ jobs:
           mkdir -p ./tmp/logs
           mkdir -p ./tmp/sessions
           mkdir -p ./tmp/templates_c
+          mkdir -p ./tmp/templates_c/d2
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           chmod a+rw ./tests/lib/geoip-files || true
@@ -289,6 +290,7 @@ jobs:
           mkdir -p ./tmp/logs
           mkdir -p ./tmp/sessions
           mkdir -p ./tmp/templates_c
+          mkdir -p ./tmp/templates_c/d2
           mkdir -p ./tmp/nonexistant
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
@@ -345,9 +347,8 @@ jobs:
           mkdir -p ./tests/UI/processed-ui-screenshots
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-          sudo chown -R www-data /home/runner/work/matomo/matomo/tmp/assets
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/assets
-
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
 
       - name: UI tests Group ${{ matrix.parts }}
         env:
