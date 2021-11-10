@@ -360,8 +360,7 @@ jobs:
         env:
           GITHUB: true
         run: |
-          sudo -u www-data
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
+          sudo -u www-data ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
 
       - name: failed UI details
         if: failure()
