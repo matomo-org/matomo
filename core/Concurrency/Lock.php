@@ -108,22 +108,6 @@ class Lock
         return $this->lockValue === $this->backend->get($this->lockKey);
     }
 
-    public function isLockedByAnyProcess($key = null)
-    {
-        if ($key) {
-            $lockValue = $this->backend->get($key);
-            return !empty($lockValue);
-        }
-        $lockValue = $this->backend->get($this->lockKey);
-        return !empty($lockValue);
-    }
-
-    public function isLockedByOtherProcess()
-    {
-        $lockValue = $this->backend->get($this->lockKey);
-        return !empty($lockValue) && $this->lockValue !== $lockValue;
-    }
-
     public function unlock()
     {
         if ($this->lockValue) {
