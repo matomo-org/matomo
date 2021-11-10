@@ -305,6 +305,7 @@ jobs:
 
       - name: Run PHP on 80
         run: |
+          ls -l /etc/php/8.0/fpm/pool.d/
           sudo cp -rf  ./.github/scripts/github.conf /etc/php/8.0/fpm/pool.d/
           sudo systemctl enable php8.0-fpm.service
           sudo systemctl start php8.0-fpm.service
