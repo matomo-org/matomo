@@ -301,17 +301,15 @@ jobs:
 
       - name: Run PHP on 80
         run: |
-          sudo service php7.2-fpm start
-          sudo systemctl disable apache2
-          sudo systemctl stop apache2
+          sudo systemctl enable php7.2-fpm.service
+          sudo systemctl start php7.2-fpm.service
+          sudo systemctl status php7.2-fpm.service
           sudo systemctl enable nginx
           sudo systemctl start nginx
           sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
           sudo unlink /etc/nginx/sites-enabled/default
           sudo nginx -t
           sudo systemctl reload nginx
-          sudo systemctl status nginx
-          ls -l /etc/nginx/sites-enabled/
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #          tmux new-session -d -s "php-80" php -S localhost:80
 #          tmux new-session -d -s "php-3000" php -S localhost:3000
