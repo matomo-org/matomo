@@ -319,6 +319,7 @@ jobs:
           sudo systemctl reload nginx
           curl localhost
           cat /var/log/nginx/error.log
+          cat /var/log/php-fpm/fpm-error.log
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #          tmux new-session -d -s "php-80" php -S localhost:80
 #          tmux new-session -d -s "php-3000" php -S localhost:3000
