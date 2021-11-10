@@ -111,7 +111,6 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
             'plugins/CoreHome/angularjs/common/directives/directive.module.js',
-            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
             'plugins/CoreHome/angularjs/piwikApp.config.js',
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
