@@ -76,15 +76,15 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
-        if ($message == '' || strlen($message) < 10) {
-            return Piwik::translate("Feedback_MessageBodyValidationError");
-        }
-
         // if message is test content then don't send email
         if ($message == 'test') {
             $feedbackReminder = new FeedbackReminder();
             $feedbackReminder->setUserOption("-1");
             return 'success';
+        }
+
+        if ($message == '' || strlen($message) < 10) {
+            return Piwik::translate("Feedback_MessageBodyValidationError");
         }
 
         $featureName = $this->getEnglishTranslationForFeatureName($question);

@@ -16,15 +16,11 @@ describe('FeedbackQuestion', function () {
   before(async function () {
   });
 
-  it('should display question banner', async function () {
+
+  it('should display popup when banner button is clicked', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
 
-    var banner = await page.waitForSelector('.bannerHeader', { visible: true });
-    expect(await banner.screenshot()).to.matchImage('feedback_banner');
-  });
-
-  it('should display popup when banner button is clicked', async function () {
     await page.click('.bannerHeader .btn');
     await page.waitForNetworkIdle();
 
