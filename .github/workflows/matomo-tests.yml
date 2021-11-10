@@ -310,9 +310,6 @@ jobs:
           sudo nginx -t
           sudo systemctl reload nginx
           sudo systemctl status nginx
-          curl localhost
-          cat /var/log/nginx/error.log
-          cat /etc/nginx/nginx.conf
           ls -l /etc/nginx/sites-enabled/
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #          tmux new-session -d -s "php-80" php -S localhost:80
