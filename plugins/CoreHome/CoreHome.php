@@ -229,9 +229,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
 
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";

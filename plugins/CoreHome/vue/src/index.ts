@@ -28,6 +28,7 @@ import './Menudropdown/Menudropdown.adapter';
 import './DatePicker/DatePicker.adapter';
 import './DateRangePicker/DateRangePicker.adapter';
 import './PeriodDatePicker/PeriodDatePicker.adapter';
+import './Siteselector/Siteselector.adapter';
 
 export { default as createAngularJsAdapter } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
@@ -52,3 +53,4 @@ export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
+export { default as Siteselector } from './Siteselector/Siteselector.vue';
