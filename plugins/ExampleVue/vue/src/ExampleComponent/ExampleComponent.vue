@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div>
+  <div class="example-component">
     <button v-on:click="decrement">-</button>
     {{ count }}
     <button v-on:click="increment">+</button>
@@ -23,6 +23,20 @@
     </MatomoDialog>
   </div>
 </template>
+
+<style lang="less" scoped>
+  .example-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      background-color: indigo;
+      color: white;
+      margin: 8px;
+    }
+  }
+</style>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
