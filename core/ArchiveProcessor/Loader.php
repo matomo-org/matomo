@@ -65,7 +65,6 @@ class Loader
 
     private $quickReturn;
 
-    private $lock;
 
     public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
@@ -137,30 +136,41 @@ class Loader
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
-        //get Lock ID
-        $lockId = $this->makeArchivingLock();
+        // only lock meet those conditions
+        if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
+            //get Lock ID
+            $lockId = $this->makeArchivingLock();
 
-        //ini lock
-        $this->lock = new LoaderLock($lockId);
+            //ini lock
+            $lock= new LoaderLock($lockId);
 
-        //set mysql lock the entire process if another process is running
-        $this->lock->setLock();
-        try {
-            //try load Archive Data
-            list($visits, $visitsConverted) = $this->loadArchiveData();
-            if ($this->quickReturn) {
-                return [$visits, $visitsConverted];
+            //set mysql lock the entire process if another process is running
+            $lock->setLock();
+            try {
+                //try load Archive Data
+                list($visits, $visitsConverted) = $this->loadArchiveData();
+                if ($this->quickReturn) {
+                    return [$visits, $visitsConverted];
+                }
+
+                //insert data
+                list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+                list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+                if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                    return [[$idArchive], $visits];
+                }
+            } finally {
+                $lock->unlock();
             }
-
+        } else {
             //insert data
             list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
             list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
             if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
                 return [[$idArchive], $visits];
             }
-        } finally {
-            $this->lock->unlock();
         }
+
     }
 
 
