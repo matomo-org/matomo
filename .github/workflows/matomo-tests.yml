@@ -353,7 +353,7 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c/2f
           ls -l /home/runner/work/matomo/matomo/
-          sudo usermod -a -G runner www-data
+          sudo usermod -a -G www-data runner
 
 
       - name: UI tests Group ${{ matrix.parts }}
