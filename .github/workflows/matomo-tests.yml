@@ -301,6 +301,7 @@ jobs:
 
       - name: Run PHP on 80
         run: |
+          sudo service php7.2-fpm start
           sudo systemctl disable apache2
           sudo systemctl stop apache2
           sudo systemctl enable nginx
