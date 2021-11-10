@@ -149,17 +149,12 @@ jobs:
         tests: [ 'JavascriptTests-js', 'AngularJSTests-js' ]
 
     steps:
-      #      - name: Setup Mysql
-      #        run: |
-      #          docker run --name mariadb -p 3306:3306 --tmpfs /var/lib/mysql:rw -e MYSQL_DATABASE=piwik_tests -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mariadb
-      #          docker ps -a
 
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           lfs: false
           submodules: recursive
-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -196,12 +191,6 @@ jobs:
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
           sudo chmod -R 755 ./tmp
-
-      #
-      #      - name: Setup Nginx
-      #        run: |
-      #          docker run --name nginxapp -v /home/runner/work/matomo/matomo:/var/www/ -v /home/runner/work/matomo/matomo/.github/scripts/piwiki_nginx.config:/etc/nginx/conf -p 80:80 -d nginx
-      #          docker ps
 
       - name: Install dependencies
         run: |
@@ -248,7 +237,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UITests' ]
-        parts: [ 0,1,2,3,4,5,6 ]
+        parts: [ 0,1,2,3,4,5,6,7 ]
 
     steps:
       - name: Checkout code
@@ -342,7 +331,7 @@ jobs:
           GITHUB: true
         run: |
           ls -l ./tmp/
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=7 --test-group=${{ matrix.parts }}"
+          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
 
       - name: failed UI details
         if: failure()
