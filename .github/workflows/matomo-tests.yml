@@ -292,6 +292,7 @@ jobs:
         run: |
           sudo apt install php7.2-fpm
           sudo systemctl enable nginx
+          sudo systemctl start nginx
           sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/sites-available/ui_nginx
           sudo unlink /etc/nginx/sites-enabled/default
           sudo ln -s /etc/nginx/sites-available/ui_nginx /etc/nginx/sites-enabled/
