@@ -280,7 +280,7 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         run: |
-          sudo cat /etc/php-fpm.d/www.conf
+          sudo cat /etc/php/8.0/fpm/pool.d/www.conf
           cp .github/scripts/config.ini.github.ui.php config/config.ini.php
           cp .github/scripts/config.dist.js ./tests/UI/config.js
           cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
