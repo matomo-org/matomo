@@ -170,26 +170,32 @@ return array(
             if (filter_var($ip, FILTER_VALIDATE_IP) || \Matomo\Network\IPUtils::getIPRangeBounds($ip) !== null) {
                 $ipsResolved[] = $ip;
             } else {
-                $ipFromHost = @gethostbyname($ip);
-                if (!empty($ipFromHost) && $ipFromHost !== $ip) {
-                    $ipsResolved[] = $ipFromHost;
-                } 
-                
-                if (function_exists('dns_get_record')) {
-                    $lazyCache = \Piwik\Cache::getLazyCache();
-                    $cacheKey = 'DNS.' . md5($ip);
-                    if ( !$lazyCache->contains($cacheKey) ) {
-                        $entry = @dns_get_record($ip, DNS_AAAA);
-                        $lazyCache->save($cacheKey, $entry, 30);
-                    } else {
-                        $entry = $lazyCache->fetch($cacheKey);
+                $lazyCache = \Piwik\Cache::getLazyCache();
+                $cacheKey = 'DNS.' . md5($ip);
+
+                $resolvedIps = $lazyCache->fetch($cacheKey);
+
+                if (!is_array($resolvedIps)) {
+                    $resolvedIps = [];
+
+                    $ipFromHost = @gethostbyname($ip);
+                    if (!empty($ipFromHost) && $ipFromHost !== $ip) {
+                        $resolvedIps[] = $ipFromHost;
                     }
 
-                    if (!empty($entry['0']['ipv6'])
-                        && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
-                        $ipsResolved[] = $entry['0']['ipv6'];
+                    if (function_exists('dns_get_record')) {
+                        $entry = @dns_get_record($ip, DNS_AAAA);
+
+                        if (!empty($entry['0']['ipv6'])
+                            && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
+                            $resolvedIps[] = $entry['0']['ipv6'];
+                        }
                     }
+
+                    $lazyCache->save($cacheKey, $resolvedIps, 30);
                 }
+
+                $ipsResolved = array_merge($ipsResolved, $resolvedIps);
             }
         }
 
