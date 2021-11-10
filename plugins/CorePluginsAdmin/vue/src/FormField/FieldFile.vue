@@ -1,0 +1,45 @@
+<template>
+  <div>
+    <div class="btn">
+      <span :for="name" v-html="$sanitize(title)"></span>
+      <input ref="fileInput" :name="name" type="file" :id="name" @change="onChange($event)" />
+    </div>
+
+    <div class="file-path-wrapper">
+      <input class="file-path validate" :value="value" type="text"/>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, watch, ref } from 'vue';
+
+export default defineComponent({
+  props: {
+    name: String,
+    title: String,
+    value: String,
+  },
+  emits: ['update:modelValue'],
+  setup(props) {
+    const fileInput = ref<HTMLInputElement>(null);
+
+    watch(() => props.value, (v) => {
+      if (v === '') {
+        const fileInputElement = fileInput.value;
+        fileInputElement.value = '';
+      }
+    });
+
+    return {
+      fileInput,
+    };
+  },
+  methods: {
+    onChange(event: Event) {
+      const file = (event.target as HTMLInputElement).files.item(0);
+      this.$emit('update:modelValue', file);
+    },
+  },
+});
+</script>

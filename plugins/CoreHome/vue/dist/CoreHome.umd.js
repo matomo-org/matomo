@@ -367,7 +367,7 @@ Matomo_piwik.postEvent = function postMatomoEvent(eventName) {
 
   Matomo_piwik.postEventNoEmit.apply(Matomo_piwik, [eventName].concat(args)); // required until angularjs is removed
 
-  angular.element(function () {
+  window.angular.element(function () {
     var $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
 
     return $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));

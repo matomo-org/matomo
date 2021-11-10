@@ -12,7 +12,6 @@
 
 import DOMPurify from 'dompurify';
 import * as tslib from 'tslib';
-window['tslib'] = tslib;
 
+window.tslib = tslib;
 window.vueSanitize = DOMPurify.sanitize.bind(DOMPurify);
-

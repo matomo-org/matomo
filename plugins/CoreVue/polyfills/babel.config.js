@@ -7,6 +7,7 @@ module.exports = {
         'es.object.assign',
         'es.promise.finally',
         'es.object.entries',
+        'es.string.trim',
 
         // TODO: what else do we want included?
       ],

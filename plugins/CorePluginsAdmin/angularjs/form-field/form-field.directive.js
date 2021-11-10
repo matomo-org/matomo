@@ -171,7 +171,7 @@
             }
 
             return 'plugins/CorePluginsAdmin/angularjs/form-field/' + file + '.html?cb=' + piwik.cacheBuster;
-        };
+        }
 
         return {
             restrict: 'A',
@@ -303,12 +303,12 @@
                             return null;
                         }
                     }
-                    
+
                     if (!angular.isArray(availableOptions)) {
                         if (angular.isArray(defaultValue)) {
                             return null;
                         }
-                        
+
                         return defaultValue;
                     }
 
