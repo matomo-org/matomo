@@ -291,6 +291,7 @@ jobs:
           mkdir -p ./tmp/sessions
           mkdir -p ./tmp/templates_c
           mkdir -p ./tmp/templates_c/d2
+          mkdir -p ./tmp/templates_c/2f
           mkdir -p ./tmp/nonexistant
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
@@ -312,6 +313,7 @@ jobs:
           sudo unlink /etc/nginx/sites-enabled/default
           sudo nginx -t
           sudo systemctl reload nginx
+          ps aux|grep nginx|grep -v grep
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #          tmux new-session -d -s "php-80" php -S localhost:80
 #          tmux new-session -d -s "php-3000" php -S localhost:3000
@@ -349,6 +351,8 @@ jobs:
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/assets
           sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c/2f
+
 
       - name: UI tests Group ${{ matrix.parts }}
         env:
