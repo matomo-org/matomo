@@ -304,12 +304,12 @@ jobs:
           sudo apt install php7.2-fpm
           sudo systemctl enable nginx
           sudo systemctl start nginx
-          sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/sites-available/ui_nginx
+          sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
           sudo unlink /etc/nginx/sites-enabled/default
-          sudo ln -s /etc/nginx/sites-available/ui_nginx /etc/nginx/sites-enabled/
           sudo nginx -t
           sudo systemctl reload nginx
           sudo systemctl status nginx
+          curl localhost
           cat /var/log/nginx/error.log
           cat /etc/nginx/nginx.conf
 #          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
