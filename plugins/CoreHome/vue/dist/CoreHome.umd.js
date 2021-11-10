@@ -2533,6 +2533,10 @@ function createAngularJsAdapter(options) {
                     value = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
                   }
 
+                  if (info.transform) {
+                    value = info.transform(value);
+                  }
+
                   initialData[info.vue] = value;
                 });
                 return initialData;
@@ -2578,11 +2582,17 @@ function createAngularJsAdapter(options) {
               }
 
               ngScope.$watch(scopeVarName, function (newValue) {
+                var newValueFinal = newValue;
+
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
-                  vm[scopeVarName] = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
-                } else {
-                  vm[scopeVarName] = newValue;
+                  newValueFinal = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
                 }
+
+                if (info.transform) {
+                  newValueFinal = info.transform(newValueFinal);
+                }
+
+                vm[scopeVarName] = newValueFinal;
               });
             });
 
@@ -5075,7 +5085,10 @@ Notificationvue_type_script_lang_ts.render = Notificationvue_type_template_id_e3
       angularJsBind: '@?'
     },
     noclear: {
-      angularJsBind: '@?'
+      angularJsBind: '@?',
+      transform: function transform(v) {
+        return !!v;
+      }
     },
     toastLength: {
       angularJsBind: '@?'

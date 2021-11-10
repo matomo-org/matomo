@@ -25,6 +25,7 @@ export default createAngularJsAdapter({
     },
     noclear: {
       angularJsBind: '@?',
+      transform: (v) => !!v,
     },
     toastLength: {
       angularJsBind: '@?',
