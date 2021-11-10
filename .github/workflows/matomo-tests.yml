@@ -252,32 +252,6 @@ jobs:
         parts: [ 0,1,2,3,4,5,6,7 ]
 
     steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.0
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
-          tools: composer:v2
-          coverage: none
-
-      - name: Run PHP on Nginx
-        run: |
-            sudo systemctl enable php8.0-fpm.service
-            sudo systemctl start php8.0-fpm.service
-            sudo cp -rf  ./.github/scripts/www.conf /etc/php/8.0/fpm/pool.d/
-            sudo systemctl reload php8.0-fpm.service
-            sudo systemctl restart php8.0-fpm.service
-            sudo systemctl status php8.0-fpm.service
-            sudo systemctl enable nginx
-            sudo systemctl start nginx
-            sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
-            sudo unlink /etc/nginx/sites-enabled/default
-            sudo nginx -t
-            sudo systemctl reload nginx
-            curl localhost
-            cat /var/log/nginx/error.log
-
       - name: Checkout code
         uses: actions/checkout@v2
         with:
