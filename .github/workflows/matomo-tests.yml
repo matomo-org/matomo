@@ -366,6 +366,7 @@ jobs:
         if: failure()
         shell: bash
         run: |
+          ls -l /home/runner/work/matomo/matomo/tmp/templates_c
           echo ""
           echo "View UI failures here:"
           echo ""
