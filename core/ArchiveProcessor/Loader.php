@@ -154,26 +154,31 @@ class Loader
                 }
 
                 //insert data
-                list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-                list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
-                if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-                    return [[$idArchive], $visits];
-                }
+                return $this->insertArchiveData($visits, $visitsConverted);
             } finally {
                 $lock->unlock();
             }
         } else {
-            //insert data
-            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
-            if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-                return [[$idArchive], $visits];
-            }
+            //normal insert data
+            return $this->insertArchiveData($visits, $visitsConverted);
         }
-
     }
 
 
+    /**
+     * @param $visits
+     * @param $visitsConverted
+     * @return array|false[]
+     */
+    protected function insertArchiveData($visits, $visitsConverted)
+    {
+        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+            return [[$idArchive], $visits];
+        }
+        return [false, false];
+    }
     /**
      * @return string
      * @throws \Exception
