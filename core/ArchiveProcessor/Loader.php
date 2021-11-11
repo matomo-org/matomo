@@ -131,10 +131,6 @@ class Loader
         }
         list($visits, $visitsConverted) = $cacheData;
 
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $this->logger->info("initiating archiving via core:archive for " . $this->params);
-        }
-
         // only lock meet those conditions
         if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
             //get Lock ID
@@ -160,6 +156,9 @@ class Loader
             }
         } else {
             //normal insert data
+            if (SettingsServer::isArchivePhpTriggered()) {
+                $this->logger->info("initiating archiving via core:archive for " . $this->params);
+            }
             return $this->insertArchiveData($visits, $visitsConverted);
         }
     }
