@@ -53,5 +53,8 @@ module.exports = {
       'tslib': 'tslib',
       ...pluginExternals,
     });
+
+    // disable asset size warnings
+    config.performance.hints(false);
   },
 };
