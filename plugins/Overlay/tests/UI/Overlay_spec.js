@@ -82,6 +82,7 @@ describe("Overlay", function () {
 
             it("should show stats for new links when dropdown opened" + descAppendix, async function () {
                 await page.reload();
+                await page.waitForTimeout(500);
                 const frame = page.frames().find(f => f.name() === 'overlayIframe');
                 await (await frame.$('.dropdown-toggle')).click();
 
