@@ -7,7 +7,7 @@
 <template>
   <div
     ref="root"
-    class="quick-access piwikSelector"
+    class="quick-access piwikSelector borderedControl"
     :class="{ active: searchActive, expanded: searchActive }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
@@ -19,7 +19,6 @@
     <input
       class="s"
       @keydown="onKeypress($event)"
-      @change="searchActive = true;searchMenu(searchTerm)"
       @focus="searchActive = true"
       v-model="searchTerm"
       type="text"
@@ -55,7 +54,7 @@
       <ul class="quickAccessMatomoSearch">
         <li
           class="quick-access-category websiteCategory"
-          v-show="hasSitesSelector && length(sites) || isLoading"
+          v-show="hasSitesSelector && sites.length || isLoading"
         >
           {{ translate('SitesManager_Sites') }}
         </li>
@@ -122,6 +121,7 @@ interface QuickAccessState {
   searchTerm: string;
   searchIndex: number;
 
+  menuIndexCounter: number;
   readonly topMenuItems: SubMenuItem[];
   readonly leftMenuItems: SubMenuItem[];
   readonly segmentItems: SubMenuItem[];
@@ -155,6 +155,12 @@ export default defineComponent({
     FocusIf,
   },
   mounted() {
+    // TODO: temporary, remove after angularjs is removed.
+    // this is currently needed since angularjs will render a div, then vue will render a div
+    // within it, but the top controls are expected to have certain CSS classes in the root
+    // element.
+    this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
+
     if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
       window.initTopControls();
     }
@@ -172,72 +178,7 @@ export default defineComponent({
     });
   },
   data(): QuickAccessState {
-    let menuIndex = -1;
-
     const hasSegmentSelector = !!document.querySelector('.segmentEditorPanel');
-
-    const getTopMenuItems = () => {
-      const category = translate('CoreHome_Menu');
-
-      const topMenuItems: SubMenuItem[] = [];
-      document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
-        let text = element.textContent.trim();
-
-        if (!text) {
-          text = element.getAttribute('title').trim(); // possibly a icon, use title instead
-        }
-
-        if (text) {
-          topMenuItems.push({ name: text, index: menuIndex += 1, category });
-          element.setAttribute('quick_access', `${menuIndex}`);
-        }
-      });
-
-      return topMenuItems;
-    };
-
-    const getLeftMenuItems = () => {
-      const leftMenuItems: SubMenuItem[] = [];
-
-      document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
-        let category = element.querySelector('> .item').textContent.trim();
-
-        if (category && category.lastIndexOf('\n') !== -1) {
-          // remove "\n\nMenu"
-          category = category.substr(0, category.lastIndexOf('\n')).trim();
-        }
-
-        element.querySelectorAll('li .item').forEach((subElement) => {
-          const text = subElement.textContent.trim();
-          if (text) {
-            leftMenuItems.push({ name: text, category, index: menuIndex += 1 });
-            subElement.setAttribute('quick_access', `${menuIndex}`);
-          }
-        });
-      });
-
-      return leftMenuItems;
-    };
-
-    const getSegmentItems = () => {
-      if (!this.hasSegmentSelector) {
-        return [];
-      }
-
-      const category = translate('CoreHome_Segments');
-
-      const segmentItems: SubMenuItem[] = [];
-      document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
-        const text = element.querySelector('.segname').textContent.trim();
-
-        if (text) {
-          segmentItems.push({ name: text, category, index: menuIndex += 1 });
-          element.setAttribute('quick_access', `${menuIndex}`);
-        }
-      });
-
-      return segmentItems;
-    };
 
     return {
       menuItems: [],
@@ -245,9 +186,10 @@ export default defineComponent({
       searchActive: false,
       searchTerm: '',
       searchIndex: 0,
-      topMenuItems: getTopMenuItems(),
-      leftMenuItems: getLeftMenuItems(),
-      segmentItems: getSegmentItems(),
+      menuIndexCounter: -1,
+      topMenuItems: null,
+      leftMenuItems: null,
+      segmentItems: null,
       hasSegmentSelector,
       sites: [],
       isLoading: false,
@@ -299,6 +241,11 @@ export default defineComponent({
         this.deactivateSearch();
       } else if (isEscKey && areSearchResultsDisplayed) {
         this.deactivateSearch();
+      } else {
+        setTimeout(() => {
+          this.searchActive = true;
+          this.searchMenu(this.searchTerm);
+        });
       }
     },
     highlightPreviousItem() {
@@ -382,8 +329,20 @@ export default defineComponent({
         });
       }
 
-      const menuItemMatches = (i) => i.name.indexOf(searchTerm) !== -1
-        || i.category.indexOf(searchTerm) !== -1;
+      const menuItemMatches = (i) => i.name.toLowerCase().indexOf(searchTerm) !== -1
+        || i.category.toLowerCase().indexOf(searchTerm) !== -1;
+
+      // get the menu items on first search since this component can be mounted
+      // before the menus are
+      if (this.topMenuItems === null) {
+        this.topMenuItems = this.getTopMenuItems();
+      }
+      if (this.leftMenuItems === null) {
+        this.leftMenuItems = this.getLeftMenuItems();
+      }
+      if (this.segmentItems === null) {
+        this.segmentItems = this.getSegmentItems();
+      }
 
       const topMenuItems = this.topMenuItems.filter(menuItemMatches);
       const leftMenuItems = this.leftMenuItems.filter(menuItemMatches);
@@ -426,6 +385,66 @@ export default defineComponent({
     },
     activateSearch() {
       this.searchActive = true;
+    },
+    getTopMenuItems() {
+      const category = translate('CoreHome_Menu');
+
+      const topMenuItems: SubMenuItem[] = [];
+      document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
+        let text = element.textContent.trim();
+
+        if (!text) {
+          text = element.getAttribute('title').trim(); // possibly a icon, use title instead
+        }
+
+        if (text) {
+          topMenuItems.push({ name: text, index: this.menuIndexCounter += 1, category });
+          element.setAttribute('quick_access', `${this.menuIndexCounter}`);
+        }
+      });
+
+      return topMenuItems;
+    },
+    getLeftMenuItems() {
+      const leftMenuItems: SubMenuItem[] = [];
+
+      document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
+        let category = window.$(element).find('> .item').text().trim();
+
+        if (category && category.lastIndexOf('\n') !== -1) {
+          // remove "\n\nMenu"
+          category = category.substr(0, category.lastIndexOf('\n')).trim();
+        }
+
+        window.$(element).find('li .item').each((i, subElement) => {
+          const text = subElement.textContent.trim();
+          if (text) {
+            leftMenuItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
+            subElement.setAttribute('quick_access', `${this.menuIndexCounter}`);
+          }
+        });
+      });
+
+      return leftMenuItems;
+    },
+    getSegmentItems() {
+      if (!this.hasSegmentSelector) {
+        return [];
+      }
+
+      const category = translate('CoreHome_Segments');
+
+      const segmentItems: SubMenuItem[] = [];
+      document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
+        const text = element.querySelector('.segname').textContent.trim();
+
+        if (text) {
+          segmentItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
+          element.setAttribute('quick_access', `${this.menuIndexCounter}`);
+        }
+      });
+
+      return segmentItems;
     },
   },
 });

@@ -16,11 +16,13 @@ export interface SiteRef {
 
 interface SitesStoreState {
   initialSites: SiteRef[]|null;
+  isInitialized: boolean;
 }
 
 class SitesStore {
   private state = reactive<SitesStoreState>({
-    initialSites: null,
+    initialSites: [],
+    isInitialized: false,
   });
 
   private currentRequest: AbortablePromise;
@@ -30,12 +32,14 @@ class SitesStore {
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
   loadInitialSites(): Promise<SiteRef[]> {
-    if (this.state.initialSites) {
+    if (this.state.isInitialized) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
     return this.searchSite('%').then((sites) => {
+      this.state.isInitialized = true;
       this.state.initialSites = sites;
+      return readonly(sites);
     });
   }
 

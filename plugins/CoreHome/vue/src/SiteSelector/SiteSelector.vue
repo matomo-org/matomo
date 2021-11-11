@@ -326,7 +326,7 @@ export default defineComponent({
     },
     loadInitialSites() {
       return SitesStore.loadInitialSites().then((sites) => {
-        this.sites = sites;
+        this.sites = sites || [];
       });
     },
     searchSite(term: string) {
