@@ -6,8 +6,9 @@
  */
 
 function _pk_translate(translationStringId, values) {
-
-    if( typeof(piwik_translations[translationStringId]) != 'undefined' ){
+    if (typeof(piwik_translations) !== 'undefined'
+        && typeof(piwik_translations[translationStringId]) != 'undefined'
+    ) {
         var translation = piwik_translations[translationStringId];
         if (typeof values != 'undefined' && values && values.length) {
             values.unshift(translation);

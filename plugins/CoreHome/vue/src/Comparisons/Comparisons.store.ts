@@ -299,6 +299,10 @@ export default class ComparisonsStore {
 
   private getAllSeriesColors() {
     const { ColorManager } = Matomo;
+    if (!ColorManager) {
+      return [];
+    }
+
     const seriesColorNames = [];
 
     for (let i = 0; i < SERIES_COLOR_COUNT; i += 1) {
@@ -312,6 +316,14 @@ export default class ComparisonsStore {
   }
 
   private loadComparisonsDisabledFor() {
+    const matomoModule: string = MatomoUrl.parsed.value.module as string;
+    if (matomoModule === 'CoreUpdater'
+      || matomoModule === 'Installation'
+    ) {
+      this.privateState.comparisonsDisabledFor = [];
+      return;
+    }
+
     AjaxHelper.fetch({
       module: 'API',
       method: 'API.getPagesComparisonsDisabledFor',
