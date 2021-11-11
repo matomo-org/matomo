@@ -14,10 +14,10 @@
       <a class="close-btn" @click="disableReminder">
         <i class="icon-close white-text"></i></a>
     </div>
-    <div class="ratefeature" >
+    <div class="ratefeature">
       <MatomoDialog
         v-model="showFeedbackForm"
-        @validation = "sendFeedback()"
+        @validation="sendFeedback()"
       >
         <div
           class="ui-confirm ratefeatureDialog"
@@ -66,12 +66,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {defineComponent} from 'vue';
 import {
   MatomoDialog, AjaxHelper, setCookie, getCookie, translate,
 } from 'CoreHome';
 
-const { $ } = window;
+const {$} = window;
 
 const cookieName = 'feedback-question';
 export default defineComponent({
@@ -115,13 +115,7 @@ export default defineComponent({
   },
   created() {
     if (this.showQuestionBanner !== '0') {
-      // eslint-disable-next-line no-restricted-globals
-      if (location.href.includes('forceFeedbackTest')) {
-        this.question = 0;
-        setCookie(cookieName, 0, 7);
-      } else {
-        this.initQuestion();
-      }
+      this.initQuestion();
     }
   },
   methods: {
