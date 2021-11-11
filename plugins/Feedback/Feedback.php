@@ -121,7 +121,7 @@ class Feedback extends \Piwik\Plugin
         }
 
         // if is new user or old user field not exist
-        if ($nextReminderDate === false) {
+        if ($nextReminderDate === false || $nextReminderDate <= 0) {
 
             // if user is created more than 6 month ago, set reminder to today and show banner
             $userCreatedDate = Piwik::getCurrentUserCreationData();
