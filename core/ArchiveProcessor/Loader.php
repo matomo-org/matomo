@@ -63,8 +63,6 @@ class Loader
      */
     private $dataAccessModel;
 
-    private $quickReturn;
-
 
     public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {
@@ -127,10 +125,11 @@ class Loader
             $this->invalidatedReportsIfNeeded();
         }
         // load existing data from archive
-        list($visits, $visitsConverted) = $this->loadArchiveData();
-        if ($this->quickReturn) {
-            return [$visits, $visitsConverted];
+        $cacheData = $this->loadExistingArchiveIdFromDb();
+        if (!empty($checkArray = $this->checkIfArchiveNeeded($cacheData))) {
+            return $checkArray;
         }
+        list($visits, $visitsConverted) = $cacheData;
 
         if (SettingsServer::isArchivePhpTriggered()) {
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
@@ -148,11 +147,12 @@ class Loader
             $lock->setLock();
             try {
                 //try load Archive Data
-                list($visits, $visitsConverted) = $this->loadArchiveData();
-                if ($this->quickReturn) {
-                    return [$visits, $visitsConverted];
+                $cacheData = $this->loadExistingArchiveIdFromDb();
+                if (!empty($checkArray = $this->checkIfArchiveNeeded($cacheData))) {
+                    return $checkArray;
                 }
-
+                list($visits, $visitsConverted) = $cacheData;
+                list($visits, $visitsConverted) = $cacheData;
                 //insert data
                 return $this->insertArchiveData($visits, $visitsConverted);
             } finally {
@@ -193,20 +193,18 @@ class Loader
     }
 
     /**
-     * @return array|false[]
+     * @return array
      */
-    protected function loadArchiveData()
+    protected function checkIfArchiveNeeded($data)
     {
         // this hack was used to check the main function goes to return or continue
-        $this->quickReturn = false;
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
+        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $data;
         if (!empty($idArchives) && !Rules::isActuallyForceArchivingSinglePlugin() && !$this->shouldForceInvalidatedArchive($value,
             $tsArchived)) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
-            $this->quickReturn = true;
             return [$idArchives, $visits];
         }
 
@@ -218,14 +216,12 @@ class Loader
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
             if (!empty($idArchives)) {
-                $this->quickReturn = true;
                 return [$idArchives, $visits];
             } else {
-                $this->quickReturn = true;
                 return [false, 0];
             }
         }
-        return [$visits, $visitsConverted];
+        return [];
     }
 
     /**

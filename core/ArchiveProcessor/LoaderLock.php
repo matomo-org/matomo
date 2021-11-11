@@ -20,7 +20,10 @@ class LoaderLock
     public function __construct($id)
     {
         // for multi tenant database solution
-        $id = md5(SettingsPiwik::getPiwikInstanceId() . $id);
+        $id = SettingsPiwik::getPiwikInstanceId() . $id;
+
+        //convert ot prefix and md5 full length
+        $id = substr($id, 0, 32) . md5($id);
         $this->id = $id;
     }
 
@@ -40,6 +43,18 @@ class LoaderLock
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @description check if the lock is available to user
+     * @param string $key
+     * @return bool
+     * @throws \Exception
+     */
+    public static function isLockAvailable($key)
+    {
+        return (bool)Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$key]);
+
     }
 
 }

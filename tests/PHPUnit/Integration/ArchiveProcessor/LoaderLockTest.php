@@ -16,17 +16,27 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class LoaderLockTest extends IntegrationTestCase
 {
 
+
+    public function test_lockerIdMaxLength()
+    {
+        $lockId = $this->generateRandomString(128);
+        $this->assertEquals(strlen($lockId),128);
+
+        $lock = new LoaderLock($lockId);
+        $this->assertSame(64, strlen($lock->getId()));
+    }
+
     public function test_singleLocking()
     {
         $lockId = "lock1";
         $lockOne = new LoaderLock($lockId);
         $lockOne->setLock();
         $formatLockKey = $lockOne->getId();
-        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$formatLockKey]);
-        $this->assertFalse((bool)$isLocked);
+        $isLocked = LoaderLock::isLockAvailable($formatLockKey);
+        $this->assertFalse($isLocked);
         $lockOne->unLock();
-        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$formatLockKey]);
-        $this->assertTrue((bool)$isLocked);
+        $isLocked = LoaderLock::isLockAvailable($formatLockKey);
+        $this->assertTrue($isLocked);
     }
 
     public function test_multipleLocking()
@@ -35,22 +45,22 @@ class LoaderLockTest extends IntegrationTestCase
         $lockOne = new LoaderLock($lockId);
         $lockOne->setLock();
         $formatLockKey =$lockOne->getId();
-        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$formatLockKey]);
-        $this->assertFalse((bool)$isLocked);
+        $isLocked = LoaderLock::isLockAvailable($formatLockKey);
+        $this->assertFalse($isLocked);
 
         $lockId = "lock2";
         $lockTwo = new LoaderLock($lockId);
         $lockTwo->setLock();
         $formatLockKey =$lockTwo->getId();
-        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$formatLockKey]);
-        $this->assertFalse((bool)$isLocked);
+        $isLocked = LoaderLock::isLockAvailable($formatLockKey);
+        $this->assertFalse($isLocked);
 
         //unlock lock 1
         $lockOne->unLock();
-        $lockOneStatus = Db::fetchOne('SELECT IS_FREE_LOCK(?)', array($lockOne->getId()));
-        $this->assertTrue((bool)$lockOneStatus);
-        $lockTwoStatus = Db::fetchOne('SELECT IS_FREE_LOCK(?)', array($lockTwo->getId()));
-        $this->assertFalse((bool)$lockTwoStatus);
+        $lockOneStatus = LoaderLock::isLockAvailable($lockOne->getId());
+        $this->assertTrue($lockOneStatus);
+        $lockTwoStatus =  LoaderLock::isLockAvailable($lockTwo->getId());
+        $this->assertFalse($lockTwoStatus);
 
         $lockTwo->unLock();
 
@@ -58,19 +68,11 @@ class LoaderLockTest extends IntegrationTestCase
 
     public function test_callUnlockWhenThereIsNoLock()
     {
-        $result = Db::fetchOne('DO RELEASE_LOCK(?)', array("no lock"));
-        $this->assertFalse((bool)$result);
+        $result = LoaderLock::isLockAvailable("no lock");
+        $this->assertTrue($result);
     }
 
-    public function test_lockerIdMaxLength()
-    {
-        $lockId = $this->generateRandomString(128);
-        $this->assertEquals(strlen($lockId),128);
 
-        $lock = new LoaderLock($lockId);
-        $check = strlen($lock->getId())<64;
-        $this->assertEquals($check,1);
-    }
 
     private function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
