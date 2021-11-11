@@ -93,6 +93,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'Feedback_WontShowAgain';
         $translationKeys[] = 'Feedback_AppreciateFeedback';
+        $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }

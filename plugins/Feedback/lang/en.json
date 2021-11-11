@@ -70,7 +70,8 @@
         "ReferBannerEmailShareBody": "I choose Matomo, an ethical alternative to Google Analytics that gives me 100%% data ownership and protects the data of my website visitors.\r\nI’m sharing this message in the hope that you too will take back the power from Google and get complete ownership of your own data.\r\n\r\nCheck out Matomo at https://matomo.org",
         "ReferBannerSocialShareText": "If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!",
         "WontShowAgain": "We won't show this message again.",
-        "FormEmptyBody": "The message body can not be blank.",
-        "AppreciateFeedback": "We really appreciate your feedback"
+        "FormNotEnoughFeedbackText": "Please don't forget to share your feedback below.",
+        "AppreciateFeedback": "We really appreciate your feedback",
+        "Policy": "Your message and your email address will be sent to us by submitting this form. The information will be only used to improve our products and services. Your data will be processed by us, our hosting provider, and our support ticket provider. For more information have a look at %1$sMatomo's Privacy Policy%2$s."
     }
 }

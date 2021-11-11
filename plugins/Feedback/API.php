@@ -38,8 +38,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
-        if (strlen($message) < 4) {
-            return Piwik::translate("Feedback_FormEmptyBody");
+        if (empty($message) || $message == 'undefined' ||  strlen($message) < 4) {
+            return Piwik::translate("Feedback_FormNotEnoughFeedbackText");
         }
 
         $featureName = $this->getEnglishTranslationForFeatureName($featureName);
@@ -55,16 +55,11 @@ class API extends \Piwik\Plugin\API
             $body .= "Choice: ".$choice."\n";
         }
 
-        $feedbackMessage = "";
-        if (!empty($message) && $message != 'undefined') {
-            $feedbackMessage = sprintf("Feedback:\n%s\n", trim($message));
-        }
-        $body .= $feedbackMessage ? $feedbackMessage : " \n";
+        $body .= sprintf("Feedback:\n%s\n", trim($message));
 
-        $subject = sprintf("%s for %s %s",
+        $subject = sprintf("%s for %s",
             empty($like) ? "-1" : "+1",
-            $featureName,
-            empty($feedbackMessage) ? "" : "(w/ feedback)"
+            $featureName
         );
 
         // Determine where Matomo is running and add as source

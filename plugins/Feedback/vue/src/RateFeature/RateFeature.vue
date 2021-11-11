@@ -147,6 +147,10 @@
           <textarea ref="feedbackText" class="materialize-textarea" id="feedbacktext"
                     :class="{'has-error':errorMessage}"
                     v-model="feedbackMessage"/>
+          <p v-if="likeReason || dislikeReason"
+            v-html="translate('Feedback_Policy',`
+            <a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>`,'</a>')">
+          </p>
         </div>
 
         <input
