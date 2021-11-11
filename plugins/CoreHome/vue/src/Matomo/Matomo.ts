@@ -5,7 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IAngularEvent } from 'angular';
 import Periods from '../Periods/Periods';
 
 let originalTitle: string;
