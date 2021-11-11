@@ -252,6 +252,8 @@ jobs:
         parts: [ 0,1,2,3,4,5,6,7 ]
 
     steps:
+      - name: chrome check
+        run: whereis google-chrome
       - name: Checkout code
         uses: actions/checkout@v2
         with:
