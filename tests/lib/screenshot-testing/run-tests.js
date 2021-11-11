@@ -20,7 +20,8 @@ require('./support/fs-extras');
 main();
 
 async function main() {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--ignore-certificate-errors'], executablePath:'/usr/bin/google-chrome' });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--ignore-certificate-errors'] });
+          browser.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36');
     const webpage = await browser.newPage();
     await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
