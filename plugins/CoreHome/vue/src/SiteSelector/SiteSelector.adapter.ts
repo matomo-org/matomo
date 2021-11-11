@@ -13,6 +13,7 @@ import Matomo from '../Matomo/Matomo';
 // TODO: ngModel tests
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: SiteSelector,
+  require: '?ngModel',
   scope: {
     showSelectedSite: {
       angularJsBind: '=',
@@ -38,17 +39,18 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     placeholder: {
       angularJsBind: '@',
     },
+    modelValue: {},
   },
   $inject: ['$timeout'],
   directiveName: 'piwikSiteselector',
   events: {
     'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
-      if ((newValue && !vm.selectedSite)
-        || (!newValue && vm.selectedSite)
-        || newValue.id !== vm.selectedSite.id
+      if ((newValue && !vm.modelValue)
+        || (!newValue && vm.modelValue)
+        || newValue.id !== vm.modelValue.id
       ) {
         element.attr('siteid', newValue.id);
-        element.trigger('change', vm.selectedSite);
+        element.trigger('change', newValue);
 
         if (ngModel) {
           ngModel.$setViewValue(newValue);
@@ -61,20 +63,20 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     // setup ng-model mapping
     if (ngModel) {
-      ngModel.$setViewValue(vm.selectedSite);
+      ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {
         if (angular.isString(ngModel.$viewValue)) {
-          vm.selectedSite = JSON.parse(ngModel.$viewValue);
+          vm.modelValue = JSON.parse(ngModel.$viewValue);
         } else {
-          vm.selectedSite = ngModel.$viewValue;
+          vm.modelValue = ngModel.$viewValue;
         }
       };
     }
 
     $timeout(() => {
       if (attrs.siteid && attrs.sitename) {
-        vm.selectedSite = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
+        vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
       }
     });
   },

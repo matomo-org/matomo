@@ -66,6 +66,7 @@ function toAngularJsCamelCase(arg: string): string {
 
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
+  require?: string,
   scope?: ScopeMapping,
   directiveName: string,
   events?: EventMapping<InjectTypes>,
@@ -78,6 +79,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 }): ng.IDirectiveFactory {
   const {
     component,
+    require,
     scope = {},
     events = {},
     $inject,
@@ -107,6 +109,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   function angularJsAdapter(...injectedServices: InjectTypes) {
     const adapter: ng.IDirective = {
       restrict,
+      require,
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {

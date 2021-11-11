@@ -148,7 +148,6 @@ interface SiteSelectorState {
   autocompleteMinSites: null|number;
 }
 
-// TODO: ng-model => v-model test
 export default defineComponent({
   props: {
     modelValue: {
@@ -195,6 +194,14 @@ export default defineComponent({
   directives: {
     FocusAnywhereButHere,
     FocusIf,
+  },
+  watch: {
+    modelValue: {
+      handler(newValue) {
+        this.selectedSite = { ...newValue };
+      },
+      deep: true,
+    },
   },
   data(): SiteSelectorState {
     return {
@@ -298,7 +305,6 @@ export default defineComponent({
           period: MatomoUrl.parsed.value.period,
         });
       } else {
-        // TODO: showAjaxLoading = false removed. seems ok to do so. note in PR.
         MatomoUrl.updateUrl({
           ...MatomoUrl.parsed.value,
           segment: '',
@@ -313,7 +319,7 @@ export default defineComponent({
       if (this.hasMultipleSites) {
         this.showSitesList = !this.showSitesList;
 
-        if (!this.isLoading) {
+        if (!this.isLoading && !this.searchTerm) {
           this.loadInitialSites();
         }
       }
@@ -335,14 +341,16 @@ export default defineComponent({
         this.searchSite(this.searchTerm);
       });
     },
-    getMatchedSiteName(siteName: string) { // TODO: xss test + search name
-      const index = siteName.indexOf(this.searchTerm);
+    getMatchedSiteName(siteName: string) {
+      const index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
       if (index === -1) {
         return siteName;
       }
 
-      const previousPart = siteName.substring(0, index);
-      const lastPart = siteName.substring(index + this.searchTerm.length);
+      const previousPart = Matomo.helper.htmlEntities(siteName.substring(0, index));
+      const lastPart = Matomo.helper.htmlEntities(
+        siteName.substring(index + this.searchTerm.length),
+      );
 
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
@@ -414,19 +422,18 @@ export default defineComponent({
         name: s.group ? `[${s.group}] ${s.name}` : s.name,
       }));
 
-      // TODO: test sort diredction + site grouping if specified
       transformedSites.sort((lhs, rhs) => {
-        if (lhs.name < rhs.name) {
+        if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {
           return -1;
         }
-        return lhs.name > rhs.name ? 1 : 0;
+        return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;
       });
 
       this.sites = transformedSites;
 
       return this.sites;
     },
-    getUrlForSiteId(idSite: string|number) { // TODO: test what happens when the URL changes
+    getUrlForSiteId(idSite: string|number) {
       const newQuery = MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         segment: '',
