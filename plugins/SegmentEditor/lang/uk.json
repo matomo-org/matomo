@@ -2,6 +2,7 @@
     "SegmentEditor": {
         "AddANDorORCondition": "Добавить условие %s",
         "AddNewSegment": "Додати новий сегмент",
+        "AddingSegmentForAllWebsitesDisabled": "Додавання сегментів для всіх вебсайтів було відключено.",
         "AreYouSureDeleteSegment": "Ви впевнені, що хочете видалити цей сегмент?",
         "AutoArchivePreProcessed": "сегментовані звіти проходять попередню обробку (швидше, вимагає cron)",
         "AutoArchiveRealTime": "сегментовані звіти обробляються в режимі реального часу",
@@ -9,6 +10,7 @@
         "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Ви збираєтеся змінити визначення сегмента. Аналітичні звіти для цього, нового сегменту будуть перероблені на першу вимогу в наступний раз, коли ви запитаєте їх. Ваші повідомлення можуть зайняти кілька хвилин, для відобрежаення. Продовжити?",
         "ChooseASegment": "Виберіть сегмент",
         "CurrentlySelectedSegment": "В даний час обрано сегмент: %s",
+        "CustomSegment": "Користувальницький Сегмент",
         "DataAvailableAtLaterDate": "Ваш сегментовані звіти аналітики будуть доступні пізніше. Ми приносимо свої вибачення за доставлені незручності.",
         "DefaultAllVisits": "Всі візити",
         "DragDropCondition": "Drag & Drop переміщення",
@@ -21,20 +23,18 @@
         "SegmentDisplayedThisWebsiteOnly": "цей сайт тільки",
         "SegmentIsDisplayedForWebsite": "і обробляються для",
         "SegmentNotApplied": "Сегмент '%s' не застосовується",
+        "SegmentOperatorIsNotNullNorEmpty": "не нульовий або порожній",
+        "SegmentOperatorIsNullOrEmpty": "є нульовим або порожнім",
+        "SegmentXIsAUnionOf": "%s є об'єднанням цих сегментів:",
         "SelectSegmentOfVisits": "Виберіть сегмент візитів:",
+        "SharedWithYou": "Поділився з вами",
+        "Test": "Тест",
         "ThisSegmentIsVisibleTo": "Цей сегмент стає видимим для:",
         "VisibleToAllUsers": "усіх користувачів",
         "VisibleToMe": "мене",
-        "YouMayChangeSetting": "Ви також можете змінити налаштування у файлі конфігурації (%1$s), або редагувати цей сегмент і вибрати '%2$s'.",
         "VisibleToSuperUser": "Видиме вам, тому що у вас є доступ суперкористувача",
-        "SharedWithYou": "Поділився з вами",
-        "YouMustBeLoggedInToCreateSegments": "Ви повинні увійти, щоб створювати і редагувати користувальницькі сегменти відвідувачів.",
         "YouDontHaveAccessToCreateSegments": "Ви не маєте необхідного рівня доступу для створення і редагування сегментів.",
-        "AddingSegmentForAllWebsitesDisabled": "Додавання сегментів для всіх веб-сайтів було відключено.",
-        "SegmentXIsAUnionOf": "%s є об'єднанням цих сегментів:",
-        "CustomSegment": "Користувальницький Сегмент",
-        "SegmentOperatorIsNullOrEmpty": "є нульовим або порожнім",
-        "SegmentOperatorIsNotNullNorEmpty": "не нульовий або порожній",
-        "Test": "Тест"
+        "YouMayChangeSetting": "Ви також можете змінити налаштування у файлі конфігурації (%1$s), або редагувати цей сегмент і вибрати '%2$s'.",
+        "YouMustBeLoggedInToCreateSegments": "Ви повинні увійти, щоб створювати і редагувати користувальницькі сегменти відвідувачів."
     }
 }
