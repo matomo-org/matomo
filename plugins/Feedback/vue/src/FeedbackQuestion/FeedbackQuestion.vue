@@ -132,7 +132,7 @@ export default defineComponent({
         // eslint-disable-next-line radix
         this.question = parseInt(getCookie(cookieName));
       }
-      
+
       const nextQuestion = (this.question + 1) % 4;
       setCookie(cookieName, nextQuestion, 7);
     },

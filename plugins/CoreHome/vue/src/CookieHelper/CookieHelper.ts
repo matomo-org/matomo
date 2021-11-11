@@ -1,10 +1,16 @@
 /*
  * General utils for managing cookies in Typescript.
  */
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function setCookie(name: string, val: string, day: number) {
   const date = new Date();
 
+  // set default day to 3 days
+  if (!day) {
+    // eslint-disable-next-line no-param-reassign
+    day = 3;
+  }
   // Set it expire in n days
   date.setTime(date.getTime() + (day * 24 * 60 * 60 * 1000));
 
@@ -17,12 +23,17 @@ export function getCookie(name: string) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
 
+  // if cookie not exist return null
   // eslint-disable-next-line eqeqeq
   if (parts.length == 2) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return parts.pop().split(';').shift();
+    const data = parts.pop().split(';').shift();
+    if (typeof data !== 'undefined') {
+      return data;
+    }
   }
+  return null;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

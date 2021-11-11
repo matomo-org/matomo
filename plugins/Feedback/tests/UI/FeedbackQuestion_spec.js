@@ -40,7 +40,7 @@ describe('FeedbackQuestion', function () {
   });
 
   it('should show success when banner is submit', async function () {
-    await page.type('#message', 'test');
+    await page.type('#message', 'test content, do not send emails');
     await page.click('.modal .modal-footer a:nth-child(1)');
     await page.waitForNetworkIdle();
     var popup = await page.waitForSelector('.modal.open', { visible: true });

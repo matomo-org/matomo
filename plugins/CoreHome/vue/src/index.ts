@@ -24,7 +24,6 @@ import './Comparisons/Comparisons.adapter';
 import './DatePicker/DatePicker.adapter';
 import './DateRangePicker/DateRangePicker.adapter';
 import './PeriodDatePicker/PeriodDatePicker.adapter';
-import './CookieHelper/CookieHelper.adapter';
 
 export { default as createAngularJsAdapter } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
