@@ -32,6 +32,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
         testEnvironment.save();
+        await page.jQuery('.dataTableScroller').css('overflow-x', 'scroll');
 
         await testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []});
     });
