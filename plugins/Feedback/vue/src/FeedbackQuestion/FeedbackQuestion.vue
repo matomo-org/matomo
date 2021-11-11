@@ -126,14 +126,15 @@ export default defineComponent({
   },
   methods: {
     initQuestion() {
-      if (getCookie(cookieName)) {
+      if (!getCookie(cookieName)) {
+        this.question = this.getRandomIntBetween(0, 4);
+      } else {
         // eslint-disable-next-line radix
         this.question = parseInt(getCookie(cookieName));
-        const nextQuestion = (this.question + 1 > 4) ? 0 : this.question + 1;
-        setCookie(cookieName, nextQuestion, 7);
-      } else {
-        setCookie(cookieName, this.getRandomIntBetween(0, 4), 7);
       }
+      
+      const nextQuestion = (this.question + 1) % 4;
+      setCookie(cookieName, nextQuestion, 7);
     },
     getRandomIntBetween(min, max) {
       // eslint-disable-next-line no-param-reassign
