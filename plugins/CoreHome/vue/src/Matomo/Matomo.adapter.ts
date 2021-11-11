@@ -18,7 +18,9 @@ function initPiwikService(piwik: PiwikGlobal, $rootScope: IRootScopeService) {
   // overwrite $rootScope so all events also go through Matomo.postEvent(...) too.
   ($rootScope as any).$oldEmit = $rootScope.$emit; // eslint-disable-line
   $rootScope.$emit = function emitWrapper(name: string, ...args: any[]): IAngularEvent { // eslint-disable-line
-    return Matomo.postEvent(name, ...args);
+    Matomo.postEvent(name, ...args);
+    // can't always get the result. it's not really used in angularjs though, so it should be ok.
+    return null as unknown as IAngularEvent;
   };
 
   ($rootScope as any).$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line

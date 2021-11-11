@@ -372,7 +372,11 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       });
     }) as AbortablePromise<T>;
 
-    result.abort = () => this.requestHandle.abort();
+    result.abort = () => {
+      if (this.requestHandle) {
+        this.requestHandle.abort();
+      }
+    };
 
     return result;
   }

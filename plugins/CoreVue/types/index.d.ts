@@ -6,8 +6,8 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularEvent, IAngularStatic } from 'angular';
-import {ExtendedKeyboardEvent} from 'mousetrap';
+import { IAngularStatic } from 'angular';
+import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
   type ParameterValue = string | number | null | undefined | ParameterValue[];
@@ -72,7 +72,6 @@ declare global {
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
-    propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -83,7 +82,7 @@ declare global {
     getValueFromHash(paramName: string, url?: string): string;
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
-    propagateNewPage(str: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[]);
+    propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
   }
 
   let broadcast: BroadcastGlobal;
@@ -125,7 +124,7 @@ declare global {
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
-    postEvent(eventName: string, ...args: any[]): IAngularEvent;
+    postEvent(eventName: string, ...args: any[]): void;
     postEventNoEmit(eventName: string, ...args: any[]): void;
   }
 
