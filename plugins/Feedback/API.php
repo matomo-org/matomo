@@ -87,16 +87,14 @@ class API extends \Piwik\Plugin\API
             return Piwik::translate("Feedback_MessageBodyValidationError");
         }
 
-
         $featureName = $this->getEnglishTranslationForFeatureName($question);
-
-
         $body = sprintf("Question: %s\n", $featureName);
-
         $feedbackMessage = "";
-        if (!empty($message) && $message != 'undefined') {
+        
+        if (!empty($message) && $message !== 'undefined') {
             $feedbackMessage = sprintf("Answer:\n%s\n", trim($message));
         }
+
         $body .= $feedbackMessage ? $feedbackMessage : " \n";
 
         $subject = sprintf("%s for %s %s",
