@@ -318,19 +318,6 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $archives);
     }
 
-    public function test_mutithread()
-    {
-        $lockId = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        $lockOne = new LoaderLock($lockId);
-        $lockOne->setLock();
-        $formatLockKey = md5(SettingsPiwik::getPiwikInstanceId() . $lockId);
-        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)',[$formatLockKey]);
-        $this->assertFalse((bool)$isLocked);
-        $lockOne->unLock();
-        $isLocked = Db::fetchOne('SELECT IS_FREE_LOCK(?)',[$formatLockKey]);
-        $this->assertTrue((bool)$isLocked);
-
-    }
 
     protected static function configureFixture($fixture)
     {
