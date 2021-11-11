@@ -24,4 +24,4 @@ function piwikPeriods() {
   };
 }
 
-angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
+window.angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);

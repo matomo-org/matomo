@@ -25,7 +25,7 @@
                 </piwik-date-range-picker>
                 <div
                     class="period-date"
-                    ng-show="periodSelector.selectedPeriod !== 'range'"
+                    ng-if="periodSelector.selectedPeriod !== 'range'"
                 >
                     <piwik-period-date-picker
                         id="datepicker"

@@ -833,7 +833,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/maxmind/web-service-common/dev-bin/',
             'vendor/maxmind/web-service-common/CHANGELOG.md',
             'vendor/php-di/invoker/doc/',
-            'vendor/szymach/c-pchart/doc',
+            'vendor/szymach/c-pchart/resources/doc',
             'vendor/leafo/lessphp/docs',
             'vendor/container-interop/container-interop/docs',
             'vendor/pear/archive_tar/docs',

@@ -673,7 +673,13 @@ class ArchiveProcessor
 
         $idSites = [$params->getSite()->getId()];
 
-        $newSegment = Segment::combine($params->getSegment()->getString(), SegmentExpression::AND_DELIMITER, $segment);
+        // important to use the original segment string when combining. As the API itself would combine the original string.
+        // this prevents a bug where the API would use the segment
+        // userId!@%2540matomo.org;userId!=hello%2540matomo.org;visitorType==new
+        // vs here we would use
+        // userId!@%40matomo.org;userId!=hello%40matomo.org;visitorType==new
+        // thus these would result in different segment hashes and therefore the reports would either show 0 or archive the data twice
+        $newSegment = Segment::combine($params->getSegment()->getOriginalString(), SegmentExpression::AND_DELIMITER, $segment);
         if ($newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
             return;
         }
