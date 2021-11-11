@@ -212,7 +212,7 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if (!this.selectedSite && !this.hasMultipleSites && this.sites[0]) {
+      if ((!this.selectedSite || !this.selectedSite.idsite) && this.sites[0]) {
         this.selectedSite = { id: this.sites[0].idsite, name: this.sites[0].name };
         this.$emit('update:modelValue', { ...this.selectedSite });
       }
