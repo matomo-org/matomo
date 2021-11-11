@@ -10,7 +10,6 @@ import createAngularJsAdapter from '../createAngularJsAdapter';
 import SiteSelector from './SiteSelector.vue';
 import Matomo from '../Matomo/Matomo';
 
-// TODO: ngModel tests
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: SiteSelector,
   require: '?ngModel',
