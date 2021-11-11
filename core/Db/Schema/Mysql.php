@@ -52,7 +52,7 @@ class Mysql implements SchemaInterface
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
-                          ts_changes_viewed TIMESTAMP NULL,
+                          idchange_last_viewed TIMESTAMP NULL,
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
@@ -359,6 +359,19 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY (`key`)
                                   ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
+            'changes'             => "CREATE TABLE `{$prefixTables}changes` (
+                                      `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `created_time` DATETIME NOT NULL,
+                                      `plugin_name` VARCHAR(255) NOT NULL,
+                                      `version` VARCHAR(20) NOT NULL, 
+                                      `title` VARCHAR(255) NOT NULL,                                      
+                                      `description` TEXT NULL,
+                                      `link_name` VARCHAR(255) NULL,
+                                      `link` VARCHAR(255) NULL,       
+                                      PRIMARY KEY(`idchange`),
+                                      UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`)                            
+                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+            ",
         );
 
         return $tables;
@@ -576,8 +589,8 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
-                    `ts_changes_viewed`)
-                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , 0);");
+                    `idchange_last_viewed`)
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);

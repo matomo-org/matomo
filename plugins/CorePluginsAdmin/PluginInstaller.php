@@ -78,6 +78,29 @@ class PluginInstaller
                 }
             }
 
+            /**
+             * Triggered after a plugin is installed or updated
+             *
+             * **Example**
+             *
+             * In the plugin main file:
+             * public function registerEvents()
+             * {
+             *     return array(
+             *         'Marketplace.pluginUpdated' => 'pluginUpdated',
+             *     );
+             * }
+             *
+             * public function pluginUpdated(string $pluginName)
+             * {
+             *    ...
+             * }
+             *
+             */
+            if ($pluginName) {
+                Piwik::postEvent('Marketplace.pluginUpdated', [$pluginName]);
+            }
+
         } catch (\Exception $e) {
 
             if (!empty($tmpPluginZip)) {

@@ -53,14 +53,10 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
 
-        $changes = ChangesHelper::getChanges();
-        if (!Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess() && count($changes['changes']) > 0) {
+        $newChangesStatus = ChangesHelper::getNewChangesStatus();
+        if (!Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess() && $newChangesStatus !== ChangesHelper::NO_CHANGES_EXIST) {
 
-            $model = new UsersModel();
-            $user = $model->getUser(Piwik::getCurrentUserLogin());
-
-            $icon = (isset($user['ts_changes_viewed']) && $user['ts_changes_viewed'] > $changes['latestDate'].' 00:00:00'
-                     ? 'icon-reporting-actions' : 'icon-notifications_on');
+            $icon = ($newChangesStatus === ChangesHelper::NEW_CHANGES_EXIST ? 'icon-notifications_on' : 'icon-reporting-actions');
 
             $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', $icon);
             $menu->addItem('CoreAdminHome_WhatIsNew', null, '', 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),

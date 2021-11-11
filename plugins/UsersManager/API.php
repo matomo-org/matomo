@@ -878,7 +878,7 @@ class API extends \Piwik\Plugin\API
         unset($user['token_auth']);
         unset($user['password']);
         unset($user['ts_password_modified']);
-        unset($user['ts_changes_viewed']);
+        unset($user['idchange_last_viewed']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
