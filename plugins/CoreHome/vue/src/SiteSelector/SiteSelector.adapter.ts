@@ -56,6 +56,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         }
       }
     },
+    blur(event, vm, scope) {
+      setTimeout(() => scope.$apply());
+    },
   },
   postCreate(vm, scope, element, attrs, controller, $timeout: ITimeoutService) {
     const ngModel = controller as INgModelController;

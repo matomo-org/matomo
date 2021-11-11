@@ -223,7 +223,7 @@ export default defineComponent({
       return translate('CoreHome_QuickAccessTitle', searchAreasTitle);
     },
   },
-  emits: ['itemSelected'],
+  emits: ['itemSelected', 'blur'],
   methods: {
     onKeypress(event) {
       const areSearchResultsDisplayed = this.searchTerm && this.searchActive;
@@ -384,6 +384,7 @@ export default defineComponent({
     },
     onBlur() {
       this.searchActive = false;
+      this.$emit('blur');
     },
     activateSearch() {
       this.searchActive = true;

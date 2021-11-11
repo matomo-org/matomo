@@ -178,7 +178,7 @@ export default defineComponent({
     },
     placeholder: String,
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'blur'],
   components: {
     AllSitesLink,
   },
@@ -284,6 +284,7 @@ export default defineComponent({
     },
     onBlur() {
       this.showSitesList = false;
+      this.$emit('blur');
     },
     onClickSelector() {
       if (this.hasMultipleSites) {

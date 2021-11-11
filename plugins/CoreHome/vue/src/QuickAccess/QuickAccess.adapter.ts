@@ -16,5 +16,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     itemSelected(event, vm, scope, elem, attrs, controller, $timeout: ITimeoutService) {
       $timeout();
     },
+    blur(event, vm, scope) {
+      setTimeout(() => scope.$apply());
+    },
   },
 });
