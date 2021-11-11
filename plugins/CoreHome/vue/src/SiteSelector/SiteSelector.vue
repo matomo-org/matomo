@@ -126,23 +126,14 @@ import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import AllSitesLink from './AllSitesLink.vue';
 import Matomo from '../Matomo/Matomo';
-import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
-
-interface SiteRef {
-  idsite: string;
-  name: string;
-}
+import SitesStore, { SiteRef } from './SitesStore';
 
 interface SiteSelectorState {
   searchTerm: string;
-  limitRequest: AjaxHelper|null;
-  currentRequest: AjaxHelper|null;
   showSitesList: boolean;
-  isInitialized: boolean;
   isLoading: boolean;
-  initialSites: null|SiteRef[];
   sites: SiteRef[];
   selectedSite: SiteRef;
   autocompleteMinSites: null|number;
@@ -207,12 +198,8 @@ export default defineComponent({
     return {
       searchTerm: '',
       activeSiteId: Matomo.idSite,
-      limitRequest: null,
-      currentRequest: null,
-      isInitialized: false,
       showSitesList: false,
       isLoading: false,
-      initialSites: null,
       sites: Array<SiteRef>(),
       selectedSite: {
         idsite: Matomo.idSite,
@@ -256,7 +243,7 @@ export default defineComponent({
         : '';
     },
     hasMultipleSites() {
-      return this.initialSites && this.initialSites.length > 1;
+      return SitesStore.initialSites.value && SitesStore.initialSites.value.length > 1;
     },
     firstSiteName() {
       return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
@@ -293,24 +280,7 @@ export default defineComponent({
         return;
       }
 
-      this.loadSite(site.idsite);
-    },
-    loadSite(idSite: number|string) {
-      if (idSite === 'all') {
-        MatomoUrl.updateUrl({
-          ...MatomoUrl.urlParsed.value,
-          module: 'MultiSites',
-          action: 'index',
-          date: MatomoUrl.parsed.value.date,
-          period: MatomoUrl.parsed.value.period,
-        });
-      } else {
-        MatomoUrl.updateUrl({
-          ...MatomoUrl.parsed.value,
-          segment: '',
-          idSite,
-        });
-      }
+      SitesStore.loadSite(site.idsite);
     },
     onBlur() {
       this.showSitesList = false;
@@ -355,83 +325,20 @@ export default defineComponent({
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
     loadInitialSites() {
-      if (this.initialSites) {
-        this.sites = this.initialSites;
-        return Promise.resolve();
-      }
-
-      return this.searchSite('%').then(() => {
-        this.initialSites = this.sites;
-        this.isInitialized = true;
+      return SitesStore.loadInitialSites().then((sites) => {
+        this.sites = sites;
       });
     },
     searchSite(term: string) {
-      if (!term) {
-        return this.loadInitialSites();
-      }
-
-      if (this.isLoading) {
-        if (this.currentRequest) {
-          this.currentRequest.abort();
-        } else if (this.limitRequest) {
-          this.limitRequest.abort();
-          this.limitRequest = null;
-        }
-      }
-
       this.isLoading = true;
 
-      if (!this.limitRequest) {
-        this.limitRequest = AjaxHelper.fetch({ method: 'SitesManager.getNumWebsitesToDisplayPerPage' });
-      }
-
-      return this.limitRequest.then((response) => {
-        const limit = response.value;
-
-        let methodToCall = 'SitesManager.getPatternMatchSites';
-        if (this.onlySitesWithAdminAccess) {
-          methodToCall = 'SitesManager.getSitesWithAdminAccess';
+      SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
+        if (sites) {
+          this.sites = sites;
         }
-
-        this.currentRequest = AjaxHelper.fetch({
-          method: methodToCall,
-          limit,
-          pattern: term,
-        });
-
-        return this.currentRequest;
-      }).then((response) => {
-        if (response) {
-          return this.updateWebsitesList(response);
-        }
-
-        return null;
       }).finally(() => {
         this.isLoading = false;
-        this.currentRequest = null;
       });
-    },
-    updateWebsitesList(sites) {
-      if (!sites || !sites.length) {
-        this.sites = [];
-        return [];
-      }
-
-      const transformedSites = sites.map((s) => ({
-        ...s,
-        name: s.group ? `[${s.group}] ${s.name}` : s.name,
-      }));
-
-      transformedSites.sort((lhs, rhs) => {
-        if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {
-          return -1;
-        }
-        return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;
-      });
-
-      this.sites = transformedSites;
-
-      return this.sites;
     },
     getUrlForSiteId(idSite: string|number) {
       const newQuery = MatomoUrl.stringify({

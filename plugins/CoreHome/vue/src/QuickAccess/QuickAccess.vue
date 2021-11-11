@@ -1,0 +1,432 @@
+<!--
+  Matomo - free/libre analytics platform
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div
+    ref="root"
+    class="quick-access piwikSelector"
+    :class="{ active: searchActive, expanded: searchActive }"
+    v-focus-anywhere-but-here="{ blur: onBlur }"
+  >
+    <span
+      class="icon-search"
+      @mouseenter="searchActive = true"
+      v-show="!(searchTerm || searchActive)"
+    />
+    <input
+      class="s"
+      @keydown="onKeypress($event)"
+      @change="searchActive = true;searchMenu(searchTerm)"
+      @focus="searchActive = true"
+      v-model="searchTerm"
+      type="text"
+      tabindex="2"
+      v-focus-if="{ focusIf: searchActive }"
+      :title="quickAccessTitle"
+    />
+    <div
+      class="dropdown"
+      v-show="searchTerm && searchActive"
+    >
+      <ul v-show="!(numMenuItems > 0 || sites.length)">
+        <li class="no-result">{{ translate('General_SearchNoResults') }}</li>
+      </ul>
+      <ul v-for="subcategory in menuItems" :key="subcategory.title">
+        <li
+          class="quick-access-category"
+          @click="searchTerm = subcategory.title;searchMenu(searchTerm)"
+        >
+          {{ subcategory.title }}
+        </li>
+        <li
+          class="result"
+          :class="{ selected: submenuEntry.menuIndex === searchIndex }"
+          @mouseenter="searchIndex = submenuEntry.menuIndex"
+          @click="selectMenuItem(submenuEntry.index)"
+          v-for="submenuEntry in subcategory.items"
+          :key="submenuEntry.index"
+        >
+          <a>{{ submenuEntry.name.trim() }}</a>
+        </li>
+      </ul>
+      <ul class="quickAccessMatomoSearch">
+        <li
+          class="quick-access-category websiteCategory"
+          v-show="hasSitesSelector && length(sites) || isLoading"
+        >
+          {{ translate('SitesManager_Sites') }}
+        </li>
+        <li
+          class="no-result"
+          v-show="hasSitesSelector && isLoading"
+        >
+          {{ translate('MultiSites_LoadingWebsites') }}
+        </li>
+        <li
+          class="result"
+          v-for="(site, index) in sites"
+          v-show="hasSitesSelector && !isLoading"
+          @mouseenter="searchIndex = numMenuItems + index"
+          :class="{ selected: numMenuItems + index === searchIndex }"
+          @click="selectSite(site.idsite)"
+          :key="site.idsite"
+        >
+          <a v-text="site.name" />
+        </li>
+      </ul>
+      <ul>
+        <li class="quick-access-category helpCategory">{{ translate('General_HelpResources') }}</li>
+        <li
+          :class="{ selected: searchIndex === 'help' }"
+          class="quick-access-help"
+          @mouseenter="searchIndex = 'help'"
+        >
+          <a
+            :href="`https://matomo.org?s=${encodeURIComponent(searchTerm)}`"
+            target="_blank"
+          >
+            {{ translate('CoreHome_SearchOnMatomo', searchTerm) }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
+import FocusIf from '../FocusIf/FocusIf';
+import translate from '../translate';
+import SitesStore, { SiteRef } from '../SiteSelector/SitesStore';
+import Matomo from '../Matomo/Matomo';
+
+interface SubMenuItem {
+  name: string;
+  index: number;
+  category: string;
+}
+
+interface MenuItem {
+  title: string;
+  items: SubMenuItem[];
+}
+
+interface QuickAccessState {
+  menuItems: Array<unknown>;
+  numMenuItems: number;
+  searchActive: boolean;
+  searchTerm: string;
+  searchIndex: number;
+
+  readonly topMenuItems: SubMenuItem[];
+  readonly leftMenuItems: SubMenuItem[];
+  readonly segmentItems: SubMenuItem[];
+  readonly hasSegmentSelector: boolean;
+
+  sites: SiteRef[];
+  isLoading: boolean;
+}
+
+function isElementInViewport(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+
+  return rect.top >= 0
+    && rect.left >= 0
+    && rect.bottom <= window.$(window).height()
+    && rect.right <= window.$(window).width();
+}
+
+function scrollFirstElementIntoView(element: HTMLElement) {
+  if (element && element.scrollIntoView) {
+    // make sure search is visible
+    element.scrollIntoView();
+  }
+}
+
+export default defineComponent({
+  props: {
+  },
+  directives: {
+    FocusAnywhereButHere,
+    FocusIf,
+  },
+  mounted() {
+    if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
+      window.initTopControls();
+    }
+
+    Matomo.helper.registerShortcut('f', translate('CoreHome_ShortcutSearch'), (event) => {
+      if (event.altKey) {
+        return;
+      }
+
+      event.preventDefault();
+
+      scrollFirstElementIntoView(this.$refs.root);
+
+      this.activateSearch();
+    });
+  },
+  data(): QuickAccessState {
+    let menuIndex = -1;
+
+    const hasSegmentSelector = !!document.querySelector('.segmentEditorPanel');
+
+    const getTopMenuItems = () => {
+      const category = translate('CoreHome_Menu');
+
+      const topMenuItems: SubMenuItem[] = [];
+      document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
+        let text = element.textContent.trim();
+
+        if (!text) {
+          text = element.getAttribute('title').trim(); // possibly a icon, use title instead
+        }
+
+        if (text) {
+          topMenuItems.push({ name: text, index: menuIndex += 1, category });
+          element.setAttribute('quick_access', `${menuIndex}`);
+        }
+      });
+
+      return topMenuItems;
+    };
+
+    const getLeftMenuItems = () => {
+      const leftMenuItems: SubMenuItem[] = [];
+
+      document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
+        let category = element.querySelector('> .item').textContent.trim();
+
+        if (category && category.lastIndexOf('\n') !== -1) {
+          // remove "\n\nMenu"
+          category = category.substr(0, category.lastIndexOf('\n')).trim();
+        }
+
+        element.querySelectorAll('li .item').forEach((subElement) => {
+          const text = subElement.textContent.trim();
+          if (text) {
+            leftMenuItems.push({ name: text, category, index: menuIndex += 1 });
+            subElement.setAttribute('quick_access', `${menuIndex}`);
+          }
+        });
+      });
+
+      return leftMenuItems;
+    };
+
+    const getSegmentItems = () => {
+      if (!this.hasSegmentSelector) {
+        return [];
+      }
+
+      const category = translate('CoreHome_Segments');
+
+      const segmentItems: SubMenuItem[] = [];
+      document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
+        const text = element.querySelector('.segname').textContent.trim();
+
+        if (text) {
+          segmentItems.push({ name: text, category, index: menuIndex += 1 });
+          element.setAttribute('quick_access', `${menuIndex}`);
+        }
+      });
+
+      return segmentItems;
+    };
+
+    return {
+      menuItems: [],
+      numMenuItems: 0,
+      searchActive: false,
+      searchTerm: '',
+      searchIndex: 0,
+      topMenuItems: getTopMenuItems(),
+      leftMenuItems: getLeftMenuItems(),
+      segmentItems: getSegmentItems(),
+      hasSegmentSelector,
+      sites: [],
+      isLoading: false,
+    };
+  },
+  computed: {
+    hasSitesSelector() {
+      return !!document.querySelector('.top_controls [piwik-siteselector]');
+    },
+    quickAccessTitle() {
+      let searchAreasTitle = '';
+      const searchAreas = [translate('CoreHome_MenuEntries')];
+
+      if (this.hasSegmentSelector) {
+        searchAreas.push(translate('CoreHome_Segments'));
+      }
+
+      if (this.hasSitesSelector) {
+        searchAreas.push(translate('SitesManager_Sites'));
+      }
+
+      while (searchAreas.length) {
+        searchAreasTitle += searchAreas.shift();
+        if (searchAreas.length >= 2) {
+          searchAreasTitle += ', ';
+        } else if (searchAreas.length === 1) {
+          searchAreasTitle += ` ${translate('General_And')} `;
+        }
+      }
+
+      return translate('CoreHome_QuickAccessTitle', searchAreasTitle);
+    },
+  },
+  methods: {
+    onKeypress(event) {
+      const areSearchResultsDisplayed = this.searchTerm && this.searchActive;
+      const isTabKey = event.which === 9;
+      const isEscKey = event.which === 27;
+
+      if (event.which === 38) {
+        this.highlightPreviousItem();
+        event.preventDefault();
+      } else if (event.which === 40) {
+        this.highlightNextItem();
+        event.preventDefault();
+      } else if (event.which === 13) {
+        this.clickQuickAccessMenuItem();
+      } else if (isTabKey && areSearchResultsDisplayed) {
+        this.deactivateSearch();
+      } else if (isEscKey && areSearchResultsDisplayed) {
+        this.deactivateSearch();
+      }
+    },
+    highlightPreviousItem() {
+      if ((this.searchIndex - 1) < 0) {
+        this.searchIndex = 0;
+      } else {
+        this.searchIndex -= 1;
+      }
+      this.makeSureSelectedItemIsInViewport();
+    },
+    highlightNextItem() {
+      const numTotal = (this.$refs.root as HTMLElement).querySelectorAll('li.result').length;
+
+      if (numTotal <= (this.searchIndex + 1)) {
+        this.searchIndex = numTotal - 1;
+      } else {
+        this.searchIndex += 1;
+      }
+
+      this.makeSureSelectedItemIsInViewport();
+    },
+    clickQuickAccessMenuItem() {
+      const selectedMenuElement = this.getCurrentlySelectedElement();
+      if (selectedMenuElement) {
+        setTimeout(() => { // TODO: removed $timeout
+          selectedMenuElement.click();
+        }, 20);
+      }
+    },
+    deactivateSearch() {
+      this.searchTerm = '';
+      this.searchActive = false;
+      (this.$refs.root).querySelector('input').blur();
+    },
+    makeSureSelectedItemIsInViewport() {
+      const element = this.getCurrentlySelectedElement();
+
+      if (element && !isElementInViewport(element)) {
+        scrollFirstElementIntoView(element);
+      }
+    },
+    getCurrentlySelectedElement() {
+      const results = (this.$refs.root as HTMLElement).querySelectorAll('li.result');
+      if (results && results.length && results.item(this.searchIndex)) {
+        return results.item(this.searchIndex);
+      }
+      return null;
+    },
+    searchMenu(unprocessedSearchTerm: string) {
+      const searchTerm = unprocessedSearchTerm.toLowerCase();
+
+      let index = -1;
+      const menuItemsIndex: Record<string, number> = {};
+      const menuItems: MenuItem[] = [];
+
+      const moveToCategory = (theSubmenuItem) => {
+        // force rerender of element to prevent weird side effects
+        const submenuItem = { ...theSubmenuItem };
+        // needed for proper highlighting with arrow keys
+        index += 1;
+        submenuItem.menuIndex = index;
+
+        const { category } = submenuItem;
+        if (!(category in menuItemsIndex)) {
+          menuItems.push({ title: category, items: [] });
+          menuItemsIndex[category] = menuItems.length - 1;
+        }
+
+        const indexOfCategory = menuItemsIndex[category];
+        menuItems[indexOfCategory].items.push(submenuItem);
+      };
+
+      this.resetSearchIndex();
+
+      if (this.hasSitesSelector) {
+        this.isLoading = true;
+        SitesStore.searchSite(searchTerm).then((sites) => {
+          this.sites = sites;
+        }).finally(() => {
+          this.isLoading = false;
+        });
+      }
+
+      const menuItemMatches = (i) => i.name.indexOf(searchTerm) !== -1
+        || i.category.indexOf(searchTerm) !== -1;
+
+      const topMenuItems = this.topMenuItems.filter(menuItemMatches);
+      const leftMenuItems = this.leftMenuItems.filter(menuItemMatches);
+      const segmentItems = this.segmentItems.filter(menuItemMatches);
+
+      topMenuItems.forEach(moveToCategory);
+      leftMenuItems.forEach(moveToCategory);
+      segmentItems.forEach(moveToCategory);
+
+      this.numMenuItems = topMenuItems.length + leftMenuItems.length + segmentItems.length;
+      this.menuItems = menuItems;
+    },
+    resetSearchIndex() {
+      this.searchIndex = 0;
+      this.makeSureSelectedItemIsInViewport();
+    },
+    selectSite(idSite: string|number) {
+      SitesStore.loadSite(idSite);
+    },
+    selectMenuItem(index: number) {
+      const target: HTMLElement = document.querySelector(`[quick_access='${index}']`);
+      if (target) {
+        this.deactivateSearch();
+
+        const href = target.getAttribute('href');
+        if (href && href.length > 10 && target && target.click) {
+          try {
+            target.click();
+          } catch (e) {
+            window.$(target).click();
+          }
+        } else {
+          // not sure why jquery is used here and above, but only sometimes. keeping for BC.
+          window.$(target).click();
+        }
+      }
+    },
+    onBlur() {
+      this.searchActive = false;
+    },
+    activateSearch() {
+      this.searchActive = true;
+    },
+  },
+});
+</script>

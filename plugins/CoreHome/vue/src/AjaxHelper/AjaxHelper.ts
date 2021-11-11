@@ -71,10 +71,6 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   }
 }
 
-interface AbortablePromise<T> extends Promise<T> {
-  abort(): void;
-}
-
 /**
  * Global ajax helper to handle requests within Matomo
  */
