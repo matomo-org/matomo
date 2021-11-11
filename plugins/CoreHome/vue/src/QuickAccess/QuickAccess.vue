@@ -223,6 +223,7 @@ export default defineComponent({
       return translate('CoreHome_QuickAccessTitle', searchAreasTitle);
     },
   },
+  emits: ['itemSelected'],
   methods: {
     onKeypress(event) {
       const areSearchResultsDisplayed = this.searchTerm && this.searchActive;
@@ -270,8 +271,9 @@ export default defineComponent({
     clickQuickAccessMenuItem() {
       const selectedMenuElement = this.getCurrentlySelectedElement();
       if (selectedMenuElement) {
-        setTimeout(() => { // TODO: removed $timeout
+        setTimeout(() => {
           selectedMenuElement.click();
+          this.$emit('itemSelected', selectedMenuElement);
         }, 20);
       }
     },
