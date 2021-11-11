@@ -13,7 +13,7 @@
     <input
       v-if="name"
       type="hidden"
-      :value="selectedSite.id"
+      :value="selectedSite?.id"
       :name="name"
     />
     <a
@@ -32,11 +32,11 @@
       />
       <span>
         <span
-          v-text="selectedSite.name || firstSiteName || '?'"
-          v-if="selectedSite.name || !placeholder"
+          v-text="selectedSite?.name || firstSiteName"
+          v-if="selectedSite?.name || !placeholder"
         />
         <span
-          v-if="!selectedSite.name && placeholder"
+          v-if="!selectedSite?.name && placeholder"
           class="placeholder"
         >{{ placeholder }}</span>
       </span>
@@ -56,7 +56,7 @@
           @keydown="onSearchInputKeydown()"
           tabindex="4"
           class="websiteSearch inp browser-default"
-          v-focus-if="showSitesList && autocompleteMinSites <= sites.length || searchTerm"
+          v-focus-if="{ focusIf: shouldFocusOnSearch }"
           :placeholder="translate('General_Search')"
         />
         <img
@@ -136,6 +136,7 @@ interface SiteRef {
 }
 
 interface SiteSelectorState {
+  searchTerm: string;
   limitRequest: AjaxHelper|null;
   currentRequest: AjaxHelper|null;
   showSitesList: boolean;
@@ -197,6 +198,7 @@ export default defineComponent({
   },
   data(): SiteSelectorState {
     return {
+      searchTerm: '',
       activeSiteId: Matomo.idSite,
       limitRequest: null,
       currentRequest: null,
@@ -205,7 +207,10 @@ export default defineComponent({
       isLoading: false,
       initialSites: null,
       sites: Array<SiteRef>(),
-      selectedSite: null,
+      selectedSite: {
+        idsite: Matomo.idSite,
+        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
   },
@@ -234,9 +239,13 @@ export default defineComponent({
     });
   },
   computed: {
+    shouldFocusOnSearch() {
+      return (this.showSitesList && this.autocompleteMinSites <= this.sites.length)
+        || this.searchTerm;
+    },
     selectorLinkTitle() {
       return this.hasMultipleSites
-        ? translate('CoreHome_ChangeCurrentWebsite', this.selectedSite.name || this.firstSiteName)
+        ? translate('CoreHome_ChangeCurrentWebsite', this.selectedSite?.name || this.firstSiteName)
         : '';
     },
     hasMultipleSites() {
@@ -246,13 +255,14 @@ export default defineComponent({
       return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
     },
     urlAllSites() {
-      return MatomoUrl.stringify({
+      const newQuery = MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         module: 'MultiSites',
         action: 'index',
         date: MatomoUrl.parsed.value.date,
         period: MatomoUrl.parsed.value.period,
       });
+      return `?${newQuery}`;
     },
   },
   methods: {
@@ -260,7 +270,7 @@ export default defineComponent({
       this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
       this.showSitesList = false;
     },
-    switchSite(site: SiteRef, event: MouseEvent) {
+    switchSite(site: SiteRef, event: KeyboardEvent|MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
       const controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
 
@@ -288,11 +298,12 @@ export default defineComponent({
           period: MatomoUrl.parsed.value.period,
         });
       } else {
-        MatomoUrl.updateHash({
+        // TODO: showAjaxLoading = false removed. seems ok to do so. note in PR.
+        MatomoUrl.updateUrl({
           ...MatomoUrl.parsed.value,
           segment: '',
           idSite,
-        }); // TODO: showAjaxLoading = false... do we need that?
+        });
       }
     },
     onBlur() {
@@ -410,6 +421,8 @@ export default defineComponent({
         }
         return lhs.name > rhs.name ? 1 : 0;
       });
+
+      this.sites = transformedSites;
 
       return this.sites;
     },

@@ -72,6 +72,7 @@ declare global {
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
+    propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
   }
 
   let piwikHelper: PiwikHelperGlobal;

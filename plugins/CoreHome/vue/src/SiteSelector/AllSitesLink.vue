@@ -28,8 +28,8 @@ export default defineComponent({
   },
   emits: ['click'],
   methods: {
-    onClick() {
-      this.$emit('click');
+    onClick(event: MouseEvent) {
+      this.$emit('click', event);
     },
   },
 });

@@ -68,9 +68,16 @@ class MatomoUrl {
     $location.search(serializedParams);
   }
 
-  updateUrl(params: QueryParameters|string) {
+  updateUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {
     const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
-    window.location.href = `${window.location.pathname}?${serializedParams}`;
+    const serializedHashParams: string = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;
+
+    let url = `?${serializedParams}`;
+    if (serializedHashParams.length) {
+      url = `${url}#?${serializedHashParams}`;
+    }
+
+    window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
   }
 
   getSearchParam(paramName: string): string {

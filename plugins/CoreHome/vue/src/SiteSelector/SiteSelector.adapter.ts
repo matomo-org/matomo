@@ -43,7 +43,10 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   directiveName: 'piwikSiteselector',
   events: {
     'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
-      if (newValue.id !== vm.selectedSite.id) {
+      if ((newValue && !vm.selectedSite)
+        || (!newValue && vm.selectedSite)
+        || newValue.id !== vm.selectedSite.id
+      ) {
         element.attr('siteid', newValue.id);
         element.trigger('change', vm.selectedSite);
 

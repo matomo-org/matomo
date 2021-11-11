@@ -254,6 +254,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.directive.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
 
