@@ -364,10 +364,10 @@ Matomo_piwik.postEvent = function postMatomoEvent(eventName) {
 
   Matomo_piwik.postEventNoEmit.apply(Matomo_piwik, [eventName].concat(args)); // required until angularjs is removed
 
-  angular.element(function () {
+  window.angular.element(function () {
     var $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
 
-    return $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));
+    $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));
   });
 };
 
@@ -1206,7 +1206,9 @@ function initPiwikService(piwik, $rootScope) {
       args[_key - 1] = arguments[_key];
     }
 
-    return Matomo_Matomo.postEvent.apply(Matomo_Matomo, [name].concat(args));
+    Matomo_Matomo.postEvent.apply(Matomo_Matomo, [name].concat(args)); // can't always get the result. it's not really used in angularjs though, so it should be ok.
+
+    return null;
   };
 
   $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
