@@ -38,6 +38,10 @@ class SupportedBrowser
 
     public static function checkIfBrowserSupported()
     {
+        if (getenv('GITHUB')) {
+            return;
+        }
+
         $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
         if ($userAgent === '') {
             return;
