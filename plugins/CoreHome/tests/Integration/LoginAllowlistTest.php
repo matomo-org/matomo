@@ -138,7 +138,13 @@ class LoginAllowlistTest extends IntegrationTestCase
     public function test_getAllowlistedLoginIps_shouldResolveIpv6Only()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'integration-test.matomo.org', '127.0.0.1']);
-        $this->assertSame(['192.168.33.1', 'integration-test.matomo.org', '::1', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
+        $this->assertSame(['192.168.33.1', '::1', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
+    }
+
+    public function test_getAllowlistedLoginIps_shouldReturnRanges()
+    {
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', '204.93.177.0/25', '2001:db9::/48', '127.0.0.1']);
+        $this->assertSame(['192.168.33.1', '204.93.177.0/25', '2001:db9::/48', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
     public function test_getAllowlistedLoginIps_shouldNotBeCheckedIfOnlyEmptyEntries()
