@@ -7,7 +7,7 @@
 <template>
   <div
     ref="root"
-    class="quick-access piwikSelector borderedControl"
+    class="quickAccessInside"
     :class="{ active: searchActive, expanded: searchActive }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
@@ -159,7 +159,9 @@ export default defineComponent({
     // this is currently needed since angularjs will render a div, then vue will render a div
     // within it, but the top controls are expected to have certain CSS classes in the root
     // element.
-    this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
+    if ((this.$refs.root as HTMLElement).closest('.top_controls')) {
+      this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
+    }
 
     if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
       window.initTopControls();
