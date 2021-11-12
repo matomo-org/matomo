@@ -16,17 +16,6 @@
 
     function piwikFormField(piwik, $timeout){
 
-        function initMaterialSelect($select, placeholder, uiControlOptions) {
-            uiControlOptions = uiControlOptions || {};
-            $select.material_select(uiControlOptions);
-
-            // add placeholder to input
-            if (placeholder) {
-                var $materialInput = $select.closest('.select-wrapper').find('input');
-                $materialInput.attr('placeholder', placeholder);
-            }
-        }
-
         function syncMultiCheckboxKeysWithFieldValue(field)
         {
             angular.forEach(field.availableOptions, function (option, index) {
@@ -43,36 +32,11 @@
             return field.uiControl === uiControlType;
         }
 
-        function isSelectControl(field)
-        {
-            return hasUiControl(field, 'select') || hasUiControl(field, 'multiselect');
-        }
-
         function isArrayCheckboxControl(field)
         {
             return field.type === 'array' && hasUiControl(field, 'checkbox');
         }
 
-        function hasGroupedValues(availableValues)
-        {
-            if (!angular.isObject(availableValues)
-                || angular.isArray(availableValues)) {
-                return false;
-            }
-
-            var key;
-            for (key in availableValues) {
-                if (Object.prototype.hasOwnProperty.call(availableValues, key)) {
-                    if (angular.isObject(availableValues[key])) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-
-            return false;
-        }
 
         function whenRendered(scope, element, inlineHelpNode) {
             return function () {
@@ -82,27 +46,7 @@
                     angular.element(inlineHelpNode).appendTo(element.find('.inline-help'));
                 }
 
-                if (isSelectControl(field)) {
-                    var $select = element.find('select');
-                    initMaterialSelect($select, field.uiControlAttributes.placeholder, field.uiControlOptions);
-
-                    scope.$watch('formField.value', function (val, oldVal) {
-                        if (val !== oldVal) {
-                            $timeout(function () {
-                                initMaterialSelect($select, field.uiControlAttributes.placeholder, field.uiControlOptions);
-                            });
-                        }
-                    });
-
-                    scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
-                        if (val !== oldVal) {
-                            $timeout(function () {
-                                initMaterialSelect($select, field.uiControlAttributes.placeholder, field.uiControlOptions);
-                            });
-                        }
-                    });
-
-                } else if (hasUiControl(field, 'textarea')) {
+                if (hasUiControl(field, 'textarea')) {
                     Materialize.textareaAutoResize(element.find('textarea'));
                     scope.$watch('formField.value', function (val, oldVal) {
                         if (val !== oldVal) {
@@ -259,33 +203,6 @@
                         return flatValues;
                     }
 
-                    if (isSelectControl(field)) {
-                        var availableValues = field.availableValues;
-
-                        if (!hasGroupedValues(availableValues)) {
-                            availableValues = {'': availableValues};
-                        }
-
-                        var flatValues = [];
-                        angular.forEach(availableValues, function (values, group) {
-                            angular.forEach(values, function (value, key) {
-
-                                if (angular.isObject(value) && typeof value.key !== 'undefined'){
-                                    flatValues.push(value);
-                                    return;
-                                }
-
-                                if (field.type === 'integer' && angular.isString(key)) {
-                                    key = parseInt(key, 10);
-                                }
-
-                                flatValues.push({group: group, key: key, value: value});
-                            });
-                        });
-
-                        return flatValues;
-                    }
-
                     return field.availableValues;
                 }
 
@@ -411,12 +328,6 @@
                     scope.$watch('formField.availableValues', function (val, oldVal) {
                         if (val !== oldVal) {
                             scope.formField.availableOptions = formatAvailableValues(scope.formField);
-
-                            if (isSelectControl(scope.formField)) {
-                                $timeout(function () {
-                                    initMaterialSelect(element.find('select'), field.uiControlAttributes.placeholder, field.uiControlOptions);
-                                });
-                            }
                         }
                     });
                     scope.templateLoaded = function () {

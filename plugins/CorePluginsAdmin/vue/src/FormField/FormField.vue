@@ -12,21 +12,26 @@
     <h3
       v-if="formField.introduction"
       class="col s12"
-    >{{ formField.introduction }}</h3>
-    <div
+    >
+      {{ formField.introduction }}
+    </h3>
+    <component
+      :is="childComponent"
       class="col s12"
       :class="{
         'input-field': formField.uiControl !== 'checkbox' && formField.uiControl !== 'radio',
         'file-field': formField.uiControl === 'file',
         'm6': !formField.fullWidth
       }"
-      ng-include="formField.templateFile"
       onload="templateLoaded()"
+      v-bind="{ ...formField, ...extraChildComponentParams }"
+      :value="modelValue"
+      @update:modelValue="onChange($event)"
     >
-    </div>
+    </component>
     <div
       class="col s12"
-      :class="{'m6': !formField.fullWidth}"
+      :class="{ 'm6': !formField.fullWidth }"
     >
       <div
         v-if="showFormHelp"
@@ -35,7 +40,9 @@
         <div
           v-show="formField.description"
           class="form-description"
-        >{{ formField.description }}</div>
+        >
+          {{ formField.description }}
+        </div>
         <span
           class="inline-help"
           v-html="$sanitize(formField.inlineHelp)"
@@ -52,13 +59,85 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import FieldCheckbox from './FieldCheckbox.vue';
+import FieldCheckboxArray from './FieldCheckboxArray.vue';
+import FieldExpandableSelect from './FieldExpandableSelect.vue';
+import FieldFieldArray from './FieldFieldArray.vue';
+import FieldFile from './FieldFile.vue';
+import FieldHidden from './FieldHidden.vue';
+import FieldMultituple from './FieldMultituple.vue';
+import FieldNumber from './FieldNumber.vue';
+import FieldRadio from './FieldRadio.vue';
+import FieldSelect from './FieldSelect.vue';
+import FieldSite from './FieldSite.vue';
+import FieldText from './FieldText.vue';
+import FieldTextarea from './FieldTextarea.vue';
+import FieldTextareaArray from './FieldTextareaArray.vue';
+
+/*
+4. go through directive JS/controller JS and distribute code
+*/
+
+const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
+const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
+const CONTROL_TO_COMPONENT_MAP = {
+  checkbox: FieldCheckbox,
+  'expandable-select': FieldExpandableSelect,
+  'field-array': FieldFieldArray,
+  file: FieldFile,
+  hidden: FieldHidden,
+  multiselect: FieldSelect,
+  multituple: FieldMultituple,
+  number: FieldNumber,
+  radio: FieldRadio,
+  select: FieldSelect,
+  site: FieldSite,
+  text: FieldText,
+  textarea: FieldTextarea,
+};
 
 export default defineComponent({
   props: {
+    modelValue: null,
     formField: Object,
     allSettings: String,
   },
+  emits: ['update:modelValue'],
+  components: {
+    FieldCheckbox,
+    FieldCheckboxArray,
+    FieldExpandableSelect,
+    FieldFieldArray,
+    FieldFile,
+    FieldHidden,
+    FieldMultituple,
+    FieldNumber,
+    FieldRadio,
+    FieldSelect,
+    FieldSite,
+    FieldText,
+    FieldTextarea,
+    FieldTextareaArray,
+  },
   computed: {
+    childComponent() {
+      let control = CONTROL_TO_COMPONENT_MAP[this.formField.uiControl];
+      if (TEXT_CONTROLS.indexOf(control) !== -1) {
+        control = 'FieldText'; // we use same template for text and password both
+      }
+
+      if (this.formField.type === 'array' && CONTROLS_SUPPORTING_ARRAY.indexOf(control) !== -1) {
+        control = `${control}Array`;
+      }
+
+      return control;
+    },
+    extraChildComponentParams() {
+      if (this.formField.uiControl === 'multiselect') {
+        return { multiple: true };
+      }
+      return {};
+    },
     showFormHelp() {
       return this.formField.description
         || this.formField.inlineHelp
@@ -70,6 +149,9 @@ export default defineComponent({
       return this.formField.defaultValuePretty
         && this.formField.uiControl != 'checkbox'
         && this.formField.uiControl != 'radio';
+    },
+    onChange(newValue: unknown) {
+      this.$emit('update:modelValue', newValue);
     },
   },
 });

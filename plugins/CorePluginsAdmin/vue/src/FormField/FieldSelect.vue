@@ -1,5 +1,6 @@
 <template>
   <select
+    ref="select"
     :multiple="multiple"
     :name="name"
     @change="onChange($event)"
@@ -39,25 +40,77 @@ interface OptionGroup {
   value: unknown;
 }
 
+function initMaterialSelect(select: HTMLElement, placeholder: string, uiControlOptions = {}) {
+  const $select = window.$(select);
+
+  $select.formSelect(uiControlOptions);
+
+  // add placeholder to input
+  if (placeholder) {
+    const $materialInput = $select.closest('.select-wrapper').find('input');
+    $materialInput.attr('placeholder', placeholder);
+  }
+}
+
+function hasGroupedValues(availableValues) {
+  if (availableValues instanceof Array
+    || !(typeof availableValues === 'object')
+  ) {
+    return false;
+  }
+
+  return Object.values(availableValues).some((v) => typeof v === 'object');
+}
+
 export default defineComponent({
   props: {
     value: null,
     multiple: Boolean,
     name: String,
     title: String,
-    availableOptions: Object,
+    availableValues: Object,
     uiControlAttributes: Object,
+    uiControlOptions: Object,
   },
   emits: ['update:modelValue'],
   computed: {
+    availableOptions(): OptionGroup[] {
+      if (!this.availableValues) {
+        return [];
+      }
+
+      let availableValues: Record<string, unknown> = this.availableValues;
+
+      if (!hasGroupedValues(availableValues)) {
+        availableValues = { '': availableValues };
+      }
+
+      const flatValues = [];
+      Object.entries(availableValues).forEach(([values, group]) => {
+        Object.entries(values).forEach(([value, valueObjKey]) => {
+          if (typeof value === 'object' && typeof value.key !== 'undefined') {
+            flatValues.push(value);
+            return;
+          }
+
+          let key = valueObjKey;
+          if (this.type === 'integer' && typeof key === 'string') {
+            key = parseInt(key, 10);
+          }
+
+          flatValues.push({ group, key, value });
+        });
+      });
+      return flatValues;
+    },
     groupedOptions() {
-      const availableOptions = this.availableOptions as Record<string, OptionGroup>;
+      const availableOptions = this.availableOptions;
       if (!availableOptions[0] || !availableOptions[0].group) {
         return;
       }
 
       const groups = {};
-      Object.values(availableOptions).forEach((entry) => {
+      availableOptions.forEach((entry) => {
         groups[entry.group] = groups[entry.group] || [];
         groups[entry.group].push(entry);
       });
@@ -79,6 +132,32 @@ export default defineComponent({
     onChange(event: Event) {
       this.$emit('update:modelValue', (event.target as HTMLSelectElement).value);
     },
+  },
+  watch: {
+    modelValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        // TODO: $timeout here
+        initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+      }
+    },
+    // TODO: Test this
+    'uiControlAttributes.disabled': {
+      handler(newVal, oldVal) {
+        // TODO: $timeout here
+        if (newVal !== oldVal) {
+          initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+        }
+      },
+    },
+    availableOptions(newVal, oldVal) {
+      // TODO: $timeout here
+      if (newVal !== oldVal) {
+        initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+      }
+    },
+  },
+  mounted() {
+    initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
   },
 });
 </script>
