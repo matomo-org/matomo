@@ -125,11 +125,12 @@ class Loader
             $this->invalidatedReportsIfNeeded();
         }
         // load existing data from archive
-        $cacheData = $this->loadExistingArchiveIdFromDb();
-        if (!empty($checkArray = $this->checkIfArchiveNeeded($cacheData))) {
-            return $checkArray;
+        $data = $this->loadArchiveData();
+        if (sizeof($data) == 2) {
+            return $data;
         }
-        list($visits, $visitsConverted) = $cacheData;
+        list($idArchives, $visits, $visitsConverted) = $data;
+
 
         // only lock meet those conditions
         if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
@@ -143,12 +144,11 @@ class Loader
             $lock->setLock();
             try {
                 //try load Archive Data
-                $cacheData = $this->loadExistingArchiveIdFromDb();
-                if (!empty($checkArray = $this->checkIfArchiveNeeded($cacheData))) {
-                    return $checkArray;
+                $data = $this->loadArchiveData();
+                if (sizeof($data) == 2) {
+                    return $data;
                 }
-                list($visits, $visitsConverted) = $cacheData;
-                list($visits, $visitsConverted) = $cacheData;
+                list($idArchives, $visits, $visitsConverted) = $data;
                 //insert data
                 return $this->insertArchiveData($visits, $visitsConverted);
             } finally {
@@ -192,14 +192,14 @@ class Loader
     }
 
     /**
-     * @return array
+     * @return array|false[]
      */
-    protected function checkIfArchiveNeeded($data)
+    protected function loadArchiveData()
     {
         // this hack was used to check the main function goes to return or continue
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $data;
+        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchives) && !Rules::isActuallyForceArchivingSinglePlugin() && !$this->shouldForceInvalidatedArchive($value,
             $tsArchived)) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
@@ -220,7 +220,7 @@ class Loader
                 return [false, 0];
             }
         }
-        return [];
+        return [$idArchives, $visits, $visitsConverted];
     }
 
     /**
