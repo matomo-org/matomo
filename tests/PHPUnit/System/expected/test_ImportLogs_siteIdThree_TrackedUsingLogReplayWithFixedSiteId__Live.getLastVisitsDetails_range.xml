@@ -92,7 +92,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
-
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -251,7 +250,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
-
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -368,7 +366,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -539,7 +536,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
-
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -677,7 +673,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -815,7 +810,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
-
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -961,7 +955,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
-
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -1097,7 +1090,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FM.png</browserIcon>
 		<browserCode>FM</browserCode>
 		<browserVersion>27.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1225,7 +1217,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1421,7 +1412,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1553,7 +1543,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1693,7 +1682,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
-
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1836,7 +1824,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
-
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -1966,7 +1953,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>11.0</browserVersion>
-
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -2162,7 +2148,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>5.0</browserVersion>
-
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>

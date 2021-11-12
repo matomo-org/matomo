@@ -36,6 +36,7 @@
 	<row>HasCodingOS</row>
 	<row>IRIX</row>
 	<row>Inferno</row>
+	<row>Java ME</row>
 	<row>KaiOS</row>
 	<row>Knoppix</row>
 	<row>Kubuntu</row>
@@ -60,14 +61,17 @@
 	<row>OS/2</row>
 	<row>OSF1</row>
 	<row>OpenBSD</row>
+	<row>OpenWrt</row>
 	<row>Ordissimo</row>
 	<row>PCLinuxOS</row>
 	<row>PlayStation Portable</row>
 	<row>PlayStation</row>
 	<row>Red Hat</row>
 	<row>RISC OS</row>
+	<row>Roku OS</row>
 	<row>Rosa</row>
 	<row>Remix OS</row>
+	<row>REX</row>
 	<row>RazoDroiD</row>
 	<row>Sabayon</row>
 	<row>SUSE</row>
