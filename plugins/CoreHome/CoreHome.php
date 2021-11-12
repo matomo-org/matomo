@@ -146,7 +146,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
@@ -260,8 +260,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
 
 
 
