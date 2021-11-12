@@ -15,7 +15,7 @@ describe('FeedbackQuestion', function () {
 
   it('should display question banner', async function () {
     await page.goto(url);
-    await page.setCookie({ name: 'feedback-question', value: 0 });
+    await page.setCookie({ name: 'feedback-question', value: '0' });
     await page.waitForNetworkIdle();
 
     var banner = await page.waitForSelector('.bannerHeader', { visible: true });
