@@ -9,6 +9,7 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\Development;
 use Piwik\Piwik;
 
 class StylesheetUIAssetFetcher extends UIAssetFetcher
@@ -68,6 +69,8 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
          */
         Piwik::postEvent('AssetManager.getStylesheetFiles', array(&$this->fileLocations));
 
+        $this->addUmdCssFilesIfDetected($this->plugins);
+
         $this->addThemeFiles();
 
         $this->mapBowerComponentFilesForBC($this->fileLocations);
@@ -83,6 +86,17 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 
         if ($themeStylesheet) {
             $this->fileLocations[] = $themeStylesheet;
+        }
+    }
+
+    private function addUmdCssFilesIfDetected(array $plugins)
+    {
+        foreach ($plugins as $plugin) {
+            $css = "plugins/$plugin/vue/dist/$plugin.css";
+
+            if (is_file(PIWIK_INCLUDE_PATH . '/' . $css)) {
+                $this->fileLocations[] = $css;
+            }
         }
     }
 }
