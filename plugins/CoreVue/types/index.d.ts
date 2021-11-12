@@ -6,7 +6,7 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularEvent, IAngularStatic } from 'angular';
+import { IAngularStatic } from 'angular';
 
 declare global {
   type ParameterValue = string | number | null | undefined | ParameterValue[];
@@ -120,7 +120,7 @@ declare global {
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
-    postEvent(eventName: string, ...args: any[]): IAngularEvent;
+    postEvent(eventName: string, ...args: any[]): void;
     postEventNoEmit(eventName: string, ...args: any[]): void;
   }
 
