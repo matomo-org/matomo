@@ -38,7 +38,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
-        if (empty($message) || $message == 'undefined' ||  strlen($message) < 4) {
+        if (empty($message) || $message === 'undefined' ||  strlen($message) < 4) {
             return Piwik::translate("Feedback_FormNotEnoughFeedbackText");
         }
 
