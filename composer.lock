@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d3172d5f6ea1e5b7c6bbeb9309c065e",
+    "content-hash": "1c7602a3ed59f0bcb79fdad737aaf88e",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -397,16 +397,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "4.3.1",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "88e5419ee1448ccb9537e287dd09836ff9d2de3b"
+                "reference": "f7f0509f284bda14890909de53da9bb0f7494532"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/88e5419ee1448ccb9537e287dd09836ff9d2de3b",
-                "reference": "88e5419ee1448ccb9537e287dd09836ff9d2de3b",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/f7f0509f284bda14890909de53da9bb0f7494532",
+                "reference": "f7f0509f284bda14890909de53da9bb0f7494532",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2021-09-20T12:34:12+00:00"
+            "time": "2021-11-12T08:08:31+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
