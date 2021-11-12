@@ -4884,16 +4884,16 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  * General utils for managing cookies in Typescript.
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function setCookie(name, val, day) {
+function setCookie(name, val, seconds) {
   var date = new Date(); // set default day to 3 days
 
-  if (!day) {
+  if (!seconds) {
     // eslint-disable-next-line no-param-reassign
-    day = 3;
+    seconds = 3 * 24 * 60 * 1000;
   } // Set it expire in n days
 
 
-  date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000); // Set it
+  date.setTime(date.getTime() + seconds); // Set it
 
   document.cookie = "".concat(name, "=").concat(val, "; expires=").concat(date.toUTCString(), "; path=/");
 } // eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
