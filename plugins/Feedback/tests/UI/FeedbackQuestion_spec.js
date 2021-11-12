@@ -14,7 +14,12 @@ describe('FeedbackQuestion', function () {
   var url = '?module=CoreHome&action=index&idSite=1&period=day&date=2019-07-11&forceFeedbackTest=1';
 
   it('should display question banner', async function () {
-    await page.setCookie({ name: 'feedback-question', value: '0', expire: '3600', 'url': url });
+    await page.setCookie({
+      name: 'feedback-question',
+      value: '0',
+      expire: '3600',
+      'url': 'http://localhost/tests/PHPUnit/proxy/' + url,
+    });
     await page.goto(url);
     await page.waitForNetworkIdle();
 
