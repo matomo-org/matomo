@@ -14,9 +14,8 @@ describe('FeedbackQuestion', function () {
   var url = '?module=CoreHome&action=index&idSite=1&period=day&date=2019-07-11&forceFeedbackTest=1';
 
   it('should display question banner', async function () {
-    await page.setCookie({ name: 'feedback-question', value: '0', 'expires': 3600 });
-
     await page.goto(url);
+    await page.setCookie({ name: 'feedback-question', value: 0 });
     await page.waitForNetworkIdle();
 
     var banner = await page.waitForSelector('.bannerHeader', { visible: true });
