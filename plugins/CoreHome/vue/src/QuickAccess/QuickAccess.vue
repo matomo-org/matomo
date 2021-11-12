@@ -100,7 +100,7 @@ import { defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
-import SitesStore from '../SiteSelector/SitesStore';
+import SitesStore, { Site } from '../SiteSelector/SitesStore';
 import Matomo from '../Matomo/Matomo';
 
 interface SubMenuItem {
@@ -127,7 +127,7 @@ interface QuickAccessState {
   readonly segmentItems: SubMenuItem[];
   readonly hasSegmentSelector: boolean;
 
-  sites: SiteRef[];
+  sites: Site[];
   isLoading: boolean;
 }
 
