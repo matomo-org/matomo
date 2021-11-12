@@ -5,11 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { createAngularJsAdapter } from 'CoreHome';
+import createAngularJsAdapter from '../createAngularJsAdapter';
 import MultiPairField from './MultiPairField.vue';
+import {INgModelController} from 'angular';
 
 export default createAngularJsAdapter({
   component: MultiPairField,
+  require: "?ngModel",
   scope: {
     name: {
       angularJsBind: '=',
@@ -28,4 +30,32 @@ export default createAngularJsAdapter({
     },
   },
   directiveName: 'matomoMultiPairField',
+  events: {
+    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
+      if (newValue !== vm.modelValue) {
+        element.trigger('change', newValue);
+      }
+
+      if (ngModel) {
+        ngModel.$setViewValue(newValue);
+      }
+    },
+  },
+  postCreate(vm, scope, element, attrs, controller) {
+    // TODO: can move to siteselector (this + above probably)
+    const ngModel = controller as INgModelController;
+
+    // setup ng-model mapping
+    if (ngModel) {
+      ngModel.$setViewValue(vm.modelValue);
+
+      ngModel.$render = () => {
+        if (angular.isString(ngModel.$viewValue)) {
+          vm.modelValue = JSON.parse(ngModel.$viewValue);
+        } else {
+          vm.modelValue = ngModel.$viewValue;
+        }
+      };
+    }
+  },
 });

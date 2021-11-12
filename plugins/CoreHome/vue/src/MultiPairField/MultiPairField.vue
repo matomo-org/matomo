@@ -83,7 +83,6 @@ const Field = defineAsyncComponent(() => {
   });
 });
 
-// TODO: fieldCount is computed of field
 export default defineComponent({
   props: {
     modelValue: Array,
@@ -117,28 +116,7 @@ export default defineComponent({
       // make sure there is always an empty new value
       if (!newValue.length || this.isEmptyValue(newValue.pop())) {
         this.$emit('update:modelValue', [...newValue, this.makeEmptyValue()]);
-        // TODO
       }
-      // TODO
-      /*
-                  if (angular.isArray($scope.formValue)) {
-                var obj = {};
-                if ($scope.field1 && $scope.field1.key) {
-                    obj[$scope.field1.key] = '';
-                }
-                if ($scope.field2 && $scope.field2.key) {
-                    obj[$scope.field2.key] = '';
-                }
-                if ($scope.field3 && $scope.field3.key) {
-                    obj[$scope.field3.key] = '';
-                }
-                if ($scope.field4 && $scope.field4.key) {
-                    obj[$scope.field4.key] = '';
-                }
-                $scope.formValue.push(obj);
-            }
-
-       */
     },
   },
   methods: {
@@ -155,10 +133,43 @@ export default defineComponent({
       }
     },
     isEmptyValue(value: Record<string, unknown>) {
-      // TODO
+      const fieldCount = this.fieldCount;
+
+      if (fieldCount === 4) {
+        if (!value[this.field1.key] && !value[this.field2.key] && !value[this.field3.key] && !value[this.field4.key]) {
+          return false;
+        }
+      } else if (fieldCount === 3) {
+        if (!value[this.field1.key] && !value[this.field2.key] && !value[this.field3.key]) {
+          return false;
+        }
+      } else if (fieldCount === 2) {
+        if (!value[this.field1.key] && !value[this.field2.key]) {
+          return false;
+        }
+      } else if (fieldCount === 1) {
+        if (!value[this.field1.key]) {
+          return false;
+        }
+      }
+
+      return true;
     },
     makeEmptyValue(): Record<string, unknown> {
-      // TODO
+      const result: Record<string, unknown> = {};
+      if (this.field1 && this.field1.key) {
+        result[this.field1.key] = '';
+      }
+      if (this.field2 && this.field2.key) {
+        result[this.field2.key] = '';
+      }
+      if (this.field3 && this.field3.key) {
+        result[this.field3.key] = '';
+      }
+      if (this.field4 && this.field4.key) {
+        result[this.field4.key] = '';
+      }
+      return result;
     },
   },
 });

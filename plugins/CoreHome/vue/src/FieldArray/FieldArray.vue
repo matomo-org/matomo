@@ -57,6 +57,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   watch: {
     modelValue(newValue) {
+      // TODO: does this get called initially?
       // make sure there is always an empty new value
       if (!newValue.length || newValue.pop() !== '') {
         this.$emit('update:modelValue', [...newValue, '']);
