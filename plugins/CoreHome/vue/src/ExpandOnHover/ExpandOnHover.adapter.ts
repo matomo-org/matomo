@@ -21,9 +21,8 @@ function piwikExpandOnHover() {
         dir: {},
       };
 
-      const wrapped = ExpandOnHover;
-      wrapped.mounted(element[0], binding);
-      element.on('$destroy', () => wrapped.unmounted(element[0], binding));
+      ExpandOnHover.mounted(element[0], binding);
+      element.on('$destroy', () => ExpandOnHover.unmounted(element[0], binding));
     },
   };
 }
