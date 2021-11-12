@@ -63,7 +63,7 @@ class API extends \Piwik\Plugin\API
         );
 
         // Determine where Matomo is running and add as source
-        if (Config::getHostname() == 'demo.matomo.cloud') {
+        if (Config::getHostname() === 'demo.matomo.cloud') {
             $source = 'Demo';
         } else if (SettingsServer::isMatomoForWordPress()) {
             $source = 'Wordpress';
