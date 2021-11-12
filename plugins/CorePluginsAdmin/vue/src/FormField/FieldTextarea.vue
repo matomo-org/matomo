@@ -3,9 +3,10 @@
     :name="name"
     v-bind="uiControlAttributes"
     :id="name"
-    :value="value"
+    :value="modelValue"
     @change="onChange($event)"
     class="materialize-textarea"
+    ref="textarea"
   ></textarea>
   <label :for="name" v-html="$sanitize(title)"></label>
 </template>
@@ -17,7 +18,7 @@ export default defineComponent({
   props: {
     name: String,
     uiControlAttributes: Object,
-    value: String,
+    modelValue: String,
     title: String,
   },
   emits: ['update:modelValue'],
@@ -25,6 +26,22 @@ export default defineComponent({
     onChange(event: Event) {
       this.$emit('update:modelValue', (event as HTMLTextAreaElement).value);
     },
+  },
+  watch: {
+    modelValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        // TODO: removed a $timeout
+        // TODO: does this happen multiple times initially
+        setTimeout(() => {
+          window.Materialize.textareaAutoResize(this.$refs.textarea);
+          window.Materialize.updateTextFields();
+        });
+      }
+    },
+  },
+  mounted() {
+    window.Materialize.textareaAutoResize(this.$refs.textarea);
+    window.Materialize.updateTextFields();
   },
 });
 </script>

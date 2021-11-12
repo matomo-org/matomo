@@ -31,16 +31,22 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { processCheckboxAndRadioAvailableValues } from './utilities';
 
 export default defineComponent({
   props: {
     title: String,
-    availableOptions: Object,
+    availableValues: Array,
     name: String,
     disabled: Boolean,
     uiControlAttributes: Object,
   },
   emits: ['update:modelValue'],
+  computed: {
+    availableOptions() {
+      return processCheckboxAndRadioAvailableValues(this.availableValues, this.type);
+    },
+  },
   methods: {
     onChange(event: Event) {
       this.$emit('update:modelValue', (event.target as HTMLInputElement).value);

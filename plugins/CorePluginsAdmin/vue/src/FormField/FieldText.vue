@@ -26,10 +26,24 @@ export default defineComponent({
     uiControl: String,
   },
   emits: ['update:modelValue'],
+  mounted() {
+    window.Materialize.updateTextFields();
+  },
+  watch: {
+    modelValue(newVal, oldVal) { // TODO: double check if newVal !== oldVal is needed
+      if (newVal !== oldVal) {
+        // TODO: removed $timeout
+        setTimeout(() => {
+          window.Materialize.updateTextFields();
+        });
+      }
+    },
+  },
   methods: {
     onChange(event: Event) {
       this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
     },
   },
 });
+
 </script>

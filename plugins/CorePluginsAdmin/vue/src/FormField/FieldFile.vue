@@ -12,7 +12,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from 'vue';
+import {
+  defineComponent,
+  watch,
+  ref,
+  onMounted,
+} from 'vue';
 
 export default defineComponent({
   props: {

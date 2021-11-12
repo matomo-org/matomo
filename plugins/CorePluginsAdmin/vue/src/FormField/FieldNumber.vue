@@ -29,5 +29,18 @@ export default defineComponent({
       this.$emit('update:modelValue', value);
     },
   },
+  mounted() {
+    window.Materialize.updateTextFields();
+  },
+  watch: {
+    modelValue(newVal, oldVal) { // TODO: double check if newVal !== oldVal is needed
+      if (newVal !== oldVal) {
+        // TODO: removed $timeout
+        setTimeout(() => {
+          window.Materialize.updateTextFields();
+        });
+      }
+    },
+  },
 });
 </script>

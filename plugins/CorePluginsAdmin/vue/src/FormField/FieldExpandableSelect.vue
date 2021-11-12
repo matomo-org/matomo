@@ -70,12 +70,15 @@ interface SelectValueInfo {
 
 interface AvailableOptions {
   group: string;
+  key: unknown;
+  value: unknown;
+  tooltip?: string;
 }
 
 export default defineComponent({
   props: {
     title: String,
-    availableOptions: Array,
+    availableValues: Array,
   },
   directives: {
     FocusAnywhereButHere,
@@ -83,6 +86,38 @@ export default defineComponent({
   },
   // emits modelValue update, but doesn't sync to input value. same as angularjs directive.
   emits: ['update:modelValue'],
+  computed: {
+    availableOptions() {
+      const availableValues = this.availableValues;
+      const flatValues = [];
+
+      const groups = {};
+      Object.values(availableValues).forEach((uncastedValue) => {
+        const value = uncastedValue as AvailableOptions;
+        const group = value.group || '';
+
+        if (!(group in groups) || !groups[group]) {
+          groups[group] = { values: [], group };
+        }
+
+        const formatted: Record<string, unknown> = { key: value.key, value: value.value };
+
+        if ('tooltip' in value && value.tooltip) {
+          formatted.tooltip = value.tooltip;
+        }
+
+        groups[group].values.push(formatted);
+      });
+
+      Object.values(groups).forEach((group) => {
+        if (group.values.length) {
+          flatValues.push(group);
+        }
+      });
+
+      return flatValues;
+    },
+  },
   data() {
     return {
       showSelect: false,

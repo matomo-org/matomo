@@ -7,7 +7,7 @@
 <template>
   <div
     class="form-group row"
-    v-show="formField.showField"
+    v-show="showField"
   >
     <h3
       v-if="formField.introduction"
@@ -25,7 +25,7 @@
       }"
       onload="templateLoaded()"
       v-bind="{ ...formField, ...extraChildComponentParams }"
-      :value="modelValue"
+      :value="processedModelValue"
       @update:modelValue="onChange($event)"
     >
     </component>
@@ -50,7 +50,7 @@
         <span v-show="showDefaultValue">
           <br />
           {{ translate('General_Default') }}:
-          <span>{{ formField.defaultValuePretty.substring(0, 50) }}</span>
+          <span>{{ defaultValuePretty.substring(0, 50) }}</span>
         </span>
       </div>
     </div>
@@ -76,6 +76,8 @@ import FieldTextareaArray from './FieldTextareaArray.vue';
 
 /*
 4. go through directive JS/controller JS and distribute code
+5. template here
+6. other code here
 */
 
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
@@ -96,11 +98,16 @@ const CONTROL_TO_COMPONENT_MAP = {
   textarea: FieldTextarea,
 };
 
+interface Setting {
+  name: string;
+  value: unknown;
+}
+
 export default defineComponent({
   props: {
     modelValue: null,
     formField: Object,
-    allSettings: String,
+    allSettings: [Object, Array],
   },
   emits: ['update:modelValue'],
   components: {
@@ -134,7 +141,7 @@ export default defineComponent({
     },
     extraChildComponentParams() {
       if (this.formField.uiControl === 'multiselect') {
-        return { multiple: true };
+        return {multiple: true};
       }
       return {};
     },
@@ -150,6 +157,95 @@ export default defineComponent({
         && this.formField.uiControl != 'checkbox'
         && this.formField.uiControl != 'radio';
     },
+    showField() {
+      if (!this.formField.condition
+        || !this.allSettings
+        || !Object.values(this.allSettings).length
+      ) { // TODO: condition is now a function, must be mapped properly
+        return true;
+      }
+
+      const values = {};
+      Object.values(this.allSettings as Record<string, Setting>).forEach((setting) => {
+        if (setting.value === '0') {
+          values[setting.name] = 0;
+        } else {
+          values[setting.name] = setting.value;
+        }
+      });
+
+      return this.formField.condition(values); // TODO: condition shouldn't be on formField, but...
+    },
+    processedModelValue() {
+      const field = this.formField;
+
+      // convert boolean values since angular 1.6 uses strict equals when determining if a model value
+      // matches the ng-value of an input.
+      if (field.type === 'boolean') {
+        const valueIsTruthy = this.modelValue && this.modelValue > 0 && this.modelValue !== '0';
+
+        // for checkboxes, the value MUST be either true or faluse
+        if (field.uiControl === 'checkbox') {
+          return valueIsTruthy;
+        } else if (field.uiControl === 'radio') {
+          return valueIsTruthy ? '1' : '0';
+        }
+      }
+
+      return this.modelValue;
+    },
+    defaultValue() {
+      let defaultValue = this.formField.defaultValue;
+      if (Array.isArray(defaultValue)) {
+        defaultValue = defaultValue.join(',');
+      }
+      return defaultValue;
+    },
+    defaultValuePretty() {
+      let defaultValue = this.defaultValue;
+      const availableOptions = this.formField.availableOptions;
+
+      // TODO
+      if (typeof defaultValue === 'string' && defaultValue) {
+        // eg default value for multi tuple
+        let defaultParsed = null;
+        try {
+          defaultParsed = JSON.parse(defaultValue);
+        } catch (e) {
+          // invalid JSON
+        }
+
+        // TODO: additional check for null + typeof !== object'
+        if (defaultParsed !== null && typeof defaultParsed === 'object') {
+          return null;
+        }
+      }
+
+      // TODO: change all instanceof Array to Array.isArray
+      if (!Array.isArray(availableOptions)) {
+        if (Array.isArray(defaultValue)) {
+          return null;
+        }
+
+        return defaultValue;
+      }
+
+      const prettyValues = [];
+
+      if (!Array.isArray(defaultValue)) {
+        defaultValue = [defaultValue];
+      }
+
+      Object.values(availableOptions).forEach((value) => {
+        if (defaultValue.indexOf(value.key) !== -1 && typeof value.value !== 'undefined') {
+          prettyValues.push(value.value);
+        }
+      });
+
+      return prettyValues.join(', ');
+    },
+  },
+  methods: {
     onChange(newValue: unknown) {
       this.$emit('update:modelValue', newValue);
     },

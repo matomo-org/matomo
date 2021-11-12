@@ -24,12 +24,12 @@ export default defineComponent({
     name: String,
     title: String,
     uiControlAttributes: Object,
-    value: Array,
+    modelValue: Array,
   },
   emits: ['update:modelValue'],
   computed: {
     concattedValue() {
-      return this.value.join(SEPARATOR);
+      return this.modelValue.join(SEPARATOR);
     },
   },
   methods: {
@@ -37,6 +37,22 @@ export default defineComponent({
       const value = ($event as HTMLTextAreaElement).value.split(SEPARATOR).map(v => v.trim());
       this.$emit('update:modelValue', value);
     },
+  },
+  watch: {
+    modelValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        // TODO: removed a $timeout
+        // TODO: does this happen multiple times initially
+        setTimeout(() => {
+          window.Materialize.textareaAutoResize(this.$refs.textarea);
+          window.Materialize.updateTextFields();
+        });
+      }
+    },
+  },
+  mounted() {
+    window.Materialize.textareaAutoResize(this.$refs.textarea);
+    window.Materialize.updateTextFields();
   },
 });
 </script>

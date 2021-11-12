@@ -142,6 +142,7 @@ declare global {
     broadcast: BroadcastGlobal;
     hasBlockedContent: boolean;
     piwik_translations: {[key: string]: string};
+    Materialize: M;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
