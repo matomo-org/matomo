@@ -10,7 +10,6 @@
 const urlModule = require('url');
 const util = require('util');
 const { EventEmitter } = require('events');
-const { setCookie } = require('../../../../plugins/CoreHome/vue/src');
 
 const parseUrl = urlModule.parse,
     formatUrl = urlModule.format;
@@ -52,6 +51,7 @@ const PAGE_METHODS_TO_PROXY = [
     'setContent',
     'setExtraHTTPHeaders',
     'setUserAgent',
+    'setCookie',
     'tap',
     'target',
     'title',
@@ -516,7 +516,6 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
     return this.webpage.evaluate(() => window.location.href);
 };
 
-PageRenderer.prototype.setCookie = setCookie;
 
 
 exports.PageRenderer = PageRenderer;

@@ -3,16 +3,16 @@
  */
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function setCookie(name: string, val: string, day: number) {
+export function setCookie(name: string, val: string, seconds: number) {
   const date = new Date();
 
   // set default day to 3 days
-  if (!day) {
+  if (!seconds) {
     // eslint-disable-next-line no-param-reassign
-    day = 3;
+    seconds = 3 * 24 * 60 * 1000;
   }
   // Set it expire in n days
-  date.setTime(date.getTime() + (day * 24 * 60 * 60 * 1000));
+  date.setTime(date.getTime() + (seconds));
 
   // Set it
   document.cookie = `${name}=${val}; expires=${date.toUTCString()}; path=/`;

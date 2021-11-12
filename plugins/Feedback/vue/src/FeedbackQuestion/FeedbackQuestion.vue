@@ -128,7 +128,8 @@ export default defineComponent({
       }
 
       const nextQuestion = (this.question + 1) % 4;
-      setCookie(cookieName, nextQuestion, 7);
+      const sevenDays = 7 * 60 * 60 * 24 * 1000;
+      setCookie(cookieName, nextQuestion, sevenDays);
     },
     getRandomIntBetween(min, max) {
       // eslint-disable-next-line no-param-reassign
