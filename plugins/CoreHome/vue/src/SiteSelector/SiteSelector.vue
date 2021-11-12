@@ -128,13 +128,18 @@ import AllSitesLink from './AllSitesLink.vue';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
-import SitesStore, { SiteRef } from './SitesStore';
+import SitesStore, { Site } from './SitesStore';
+
+interface SiteRef {
+  id: string|number;
+  name: string;
+}
 
 interface SiteSelectorState {
   searchTerm: string;
   showSitesList: boolean;
   isLoading: boolean;
-  sites: SiteRef[];
+  sites: Site[];
   selectedSite: SiteRef;
   autocompleteMinSites: null|number;
 }
@@ -144,7 +149,7 @@ export default defineComponent({
     modelValue: {
       Object,
       default: {
-        idsite: Matomo.idSite,
+        id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
       },
     },
@@ -200,9 +205,9 @@ export default defineComponent({
       activeSiteId: Matomo.idSite,
       showSitesList: false,
       isLoading: false,
-      sites: Array<SiteRef>(),
+      sites: Array<Site>(),
       selectedSite: {
-        idsite: Matomo.idSite,
+        id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
       },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
@@ -212,7 +217,7 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.selectedSite || !this.selectedSite.idsite) && this.sites[0]) {
+      if ((!this.selectedSite || !this.selectedSite.id) && this.sites[0]) {
         this.selectedSite = { id: this.sites[0].idsite, name: this.sites[0].name };
         this.$emit('update:modelValue', { ...this.selectedSite });
       }

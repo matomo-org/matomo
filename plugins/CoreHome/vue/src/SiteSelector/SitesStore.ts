@@ -9,13 +9,13 @@ import { reactive, computed, readonly } from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
-export interface SiteRef {
+export interface Site {
   idsite: string;
   name: string;
 }
 
 interface SitesStoreState {
-  initialSites: SiteRef[]|null;
+  initialSites: Site[]|null;
   isInitialized: boolean;
 }
 
@@ -31,7 +31,7 @@ class SitesStore {
 
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
-  loadInitialSites(): Promise<SiteRef[]> {
+  loadInitialSites(): Promise<Site[]> {
     if (this.state.isInitialized) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
@@ -61,7 +61,7 @@ class SitesStore {
     }
   }
 
-  searchSite(term, onlySitesWithAdminAccess = false): Promise<SiteRef[]> {
+  searchSite(term, onlySitesWithAdminAccess = false): Promise<Site[]> {
     if (!term) {
       return this.loadInitialSites();
     }
