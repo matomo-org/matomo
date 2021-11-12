@@ -24,7 +24,7 @@
         'm6': !formField.fullWidth
       }"
       onload="templateLoaded()"
-      v-bind="{ ...formField, ...extraChildComponentParams }"
+      v-bind="{ ...formField, availableOptions, ...extraChildComponentParams }"
       :value="processedModelValue"
       @update:modelValue="onChange($event)"
     >
@@ -45,7 +45,7 @@
         </div>
         <span
           class="inline-help"
-          v-html="$sanitize(formField.inlineHelp)"
+          ref="inlineHelp"
         />
         <span v-show="showDefaultValue">
           <br />
@@ -78,6 +78,9 @@ import FieldTextareaArray from './FieldTextareaArray.vue';
 4. go through directive JS/controller JS and distribute code
 5. template here
 6. other code here
+7. all in source TODO that is for code
+8. get to build
+9. test the shit out of it.
 */
 
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
@@ -125,6 +128,24 @@ export default defineComponent({
     FieldText,
     FieldTextarea,
     FieldTextareaArray,
+  },
+  watch: {
+    'formField.inlineHelp': {
+      handler(newValue) {
+        const field = this.formField;
+
+        let toAppend: HTMLElement|string;
+
+        if (typeof newValue === 'string' && field.inlineHelp && field.inlineHelp.indexOf('#') === 0) {
+          toAppend = window.$(field.inlineHelp);
+        } else {
+          toAppend = window.vueSanitize(field.inlineHelp);
+        }
+
+        window.$(this.$refs.inlineHelp).html('').append(toAppend);
+        // TODO: used to have $timeout here
+      },
+    },
   },
   computed: {
     childComponent() {
@@ -201,9 +222,27 @@ export default defineComponent({
       }
       return defaultValue;
     },
+    availableOptions() {
+      // TODO: availableOptions is assumed to be an array here? make the change everywhere.
+      const field = this.formField;
+
+      function hasOption(key) {
+        return field.availableOptions.some((f) => f.key === key);
+      }
+
+      // for selects w/ a placeholder, add an option to unset the select
+      if (field.uiControl === 'select'
+        && field.uiControlAttributes.placeholder
+        && !hasOption('')
+      ) {
+        return [{ key: '', value: '' }, ...field.availableOptions];
+      }
+
+      return field.availableOptions;
+    },
     defaultValuePretty() {
       let defaultValue = this.defaultValue;
-      const availableOptions = this.formField.availableOptions;
+      const availableOptions = this.availableOptions;
 
       // TODO
       if (typeof defaultValue === 'string' && defaultValue) {
