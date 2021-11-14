@@ -39,7 +39,7 @@
         "JSTracking_DisableCookies": "Відключити всі відстеження cookies",
         "JSTracking_DisableCookiesDesc": "відключення всіх first party cookies. існуючі cookies Matomo для цього вебсайту будуть видалені при наступному перегляді сторінки.",
         "JSTracking_EnableCrossDomainLinking": "Активує міждоменне зв'язування",
-        "JSTracking_EnableDoNotTrack": "Активувати виявлення DoNotTrack на стороні користувача.",
+        "JSTracking_EnableDoNotTrack": "Задіяти виявлення DoNotTrack на стороні користувача.",
         "JSTracking_EnableDoNotTrackDesc": "Користувач не буде відслідковуватися, якщо він цього не хоче.",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Примітка: на стороні сервера підтримка DoNotTrack була увімкнена, так що ця опція не матиме ніякого ефекту.",
         "JSTracking_EndNote": "Примітка. Ви можете створити індивідуальний код відстеження в %1$s Коді відстеження%2$sадміністратору розділ.",

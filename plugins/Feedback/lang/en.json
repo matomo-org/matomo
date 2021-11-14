@@ -69,9 +69,18 @@
         "ReferBannerEmailShareSubject": "Refer them to Matomo Analytics now to take back control!",
         "ReferBannerEmailShareBody": "I choose Matomo, an ethical alternative to Google Analytics that gives me 100%% data ownership and protects the data of my website visitors.\r\nI’m sharing this message in the hope that you too will take back the power from Google and get complete ownership of your own data.\r\n\r\nCheck out Matomo at https://matomo.org",
         "ReferBannerSocialShareText": "If you’re using Google Analytics, stay in control by switching to an ethical alternative like Matomo now!",
-        "WontShowAgain": "We won't show this message again.",
         "FormNotEnoughFeedbackText": "Please don't forget to share your feedback below.",
         "AppreciateFeedback": "We really appreciate your feedback",
-        "Policy": "Your message and your email address will be sent to us by submitting this form. The information will be only used to improve our products and services. Your data will be processed by us, our hosting provider, and our support ticket provider. For more information have a look at %1$sMatomo's Privacy Policy%2$s."
+        "WontShowAgain": "We won't show this message again.",
+        "Question0": "What are your biggest problems or pain points with Matomo and why?",
+        "Question1": "What is the one thing you’d like to see improved in Matomo and why?",
+        "Question2": "What is the feature you are missing the most in Matomo and why?",
+        "Question3": "What is your main goal for using Matomo?",
+        "Question4": "What is your main concern about Matomo?",
+        "FeedbackTitle": "Please help us improve Matomo",
+        "FeedbackSubtitle": "Here's your chance to ask for it! Please describe in as much details as you can. <br/> Your feedback will help us improve Matomo. %1$s",
+        "ThankYourForFeedback": "We really appreciate your feedback! %1$s We will be in touch in case we require more information about your feedback.",
+        "Policy": "Your message and your email address will be sent to us by submitting this form. The information will be only used to improve our products and services. Your data will be processed by us, our hosting provider, and our support ticket provider. For more information have a look at %1$sMatomo's Privacy Policy%2$s.",
+        "MessageBodyValidationError": "The message body is too short (minimum is 10 characters)."
     }
 }

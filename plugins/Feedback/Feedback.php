@@ -9,6 +9,9 @@
 namespace Piwik\Plugins\Feedback;
 
 use Piwik\Date;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Site;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -39,21 +42,15 @@ class Feedback extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'Feedback_ThankYou';
         $translationKeys[] = 'Feedback_ThankYouHeart';
         $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
@@ -85,99 +82,43 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
-        $translationKeys[] = 'Feedback_ReferMatomo';
-        $translationKeys[] = 'Feedback_ReferBannerTitle';
-        $translationKeys[] = 'Feedback_ReferBannerLonger';
-        $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
-        $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
-        $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'Feedback_WontShowAgain';
         $translationKeys[] = 'Feedback_AppreciateFeedback';
         $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'Feedback_Question0';
+        $translationKeys[] = 'Feedback_Question1';
+        $translationKeys[] = 'Feedback_Question2';
+        $translationKeys[] = 'Feedback_Question3';
+        $translationKeys[] = 'Feedback_Question4';
+        $translationKeys[] = 'Feedback_FeedbackTitle';
+        $translationKeys[] = 'Feedback_FeedbackSubtitle';
+        $translationKeys[] = 'Feedback_Policy';
+        $translationKeys[] = 'Feedback_ThankYourForFeedback';
+        $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_MessageBodyValidationError';
     }
 
     public function renderViewsAndAddToPage(&$pageHtml)
     {
-        $feedbackPopopView = $this->renderFeedbackPopup();
-        $referBannerView = $this->renderReferBanner();
-
-        $views = [$feedbackPopopView, $referBannerView];
-        $implodedViews = implode('', $views);
-
-        $endOfBody = strpos($pageHtml, '</body>');
-        $pageHtml = substr_replace($pageHtml, $implodedViews, $endOfBody, 0);
-    }
-
-    public function renderFeedbackPopup()
-    {
-        $popupView = new View('@Feedback/feedbackPopup');
-        $popupView->promptForFeedback = (int)$this->getShouldPromptForFeedback();
-
-        return $popupView->render();
-    }
-
-    public function renderReferBanner()
-    {
-        $referBannerView = new View('@Feedback/referBanner');
-        $referBannerView->showReferBanner = (int) $this->showReferBanner();
-
-        return $referBannerView->render();
-    }
-
-    public function showReferBanner()
-    {
-        if ($this->getShouldPromptForFeedback()) {
-            return false;
-        }
-
-        if (Piwik::isUserIsAnonymous()) {
-            return false;
-        }
-
+        //only show on superuser
         if (!Piwik::hasUserSuperUserAccess()) {
-            return false;
+            return $pageHtml;
         }
+        $feedbackQuestionBanner = $this->renderFeedbackQuestion();
 
-        if ($this->isDisabledInTestMode()) {
-            return false;
-        }
+        $matches = preg_split('/(<body.*?>)/i', $pageHtml, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $pageHtml = $matches[0] . $matches[1] . $feedbackQuestionBanner . $matches[2];
+    }
 
-        $shouldShowReferBanner = true;
 
-        /**
-         * @internal
-         */
-        Piwik::postEvent('Feedback.showReferBanner', [&$shouldShowReferBanner]);
+    public function renderFeedbackQuestion()
+    {
+        $feedbackQuestionBanner = new View('@Feedback/feedbackQuestionBanner');
+        $feedbackQuestionBanner->showQuestionBanner = (int)$this->getShouldPromptForFeedback();
 
-        if (!$shouldShowReferBanner) {
-            return false;
-        }
-
-        $referReminder = new ReferReminder();
-        $nextReminderDate = $referReminder->getUserOption();
-
-        if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(135)->toString('Y-m-d');
-            $referReminder->setUserOption($nextReminder);
-
-            return false;
-        }
-
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        $pluginManager = PluginManager::getInstance();
-        if ($pluginManager->hasPremiumFeatures()) {
-            return false;
-        }
-
-        $now = Date::now()->getTimestamp();
-        $nextReminderDate = Date::factory($nextReminderDate);
-
-        return $nextReminderDate->getTimestamp() <= $now;
+        return $feedbackQuestionBanner->render();
     }
 
     public function getShouldPromptForFeedback()
@@ -193,22 +134,35 @@ class Feedback extends \Piwik\Plugin
 
         $feedbackReminder = new FeedbackReminder();
         $nextReminderDate = $feedbackReminder->getUserOption();
+        $now = Date::now()->getTimestamp();
 
+        //user answered question
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
             return false;
         }
 
-        if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(90)->toString('Y-m-d');
-            $feedbackReminder->setUserOption($nextReminder);
+        // if is new user or old user field not exist
+        if ($nextReminderDate === false || $nextReminderDate <= 0) {
 
+            // if user is created more than 6 month ago, set reminder to today and show banner
+            $userCreatedDate = Piwik::getCurrentUserCreationData();
+            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
+                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
+                $feedbackReminder->setUserOption($nextReminder);
+                return true;
+            }
+            //new user extend to 6 month, don't show banner
+            $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+            $feedbackReminder->setUserOption($nextReminder);
             return false;
         }
 
-        $now = Date::now()->getTimestamp();
         $nextReminderDate = Date::factory($nextReminderDate);
+        if ($nextReminderDate->getTimestamp() > $now) {
+            return false;
+        }
+        return true;
 
-        return $nextReminderDate->getTimestamp() <= $now;
     }
 
     // needs to be protected not private for testing purpose

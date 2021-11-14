@@ -179,7 +179,6 @@
         <div
           v-if="like"
         >
-          <ReviewLinks />
         </div>
         <p v-if="!like">{{ translate('Feedback_AppreciateFeedback') }}</p>
         <input
@@ -195,7 +194,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoDialog, AjaxHelper } from 'CoreHome';
-import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
 
 const { $ } = window;
 
@@ -205,7 +203,6 @@ export default defineComponent({
   },
   components: {
     MatomoDialog,
-    ReviewLinks,
   },
   data() {
     return {

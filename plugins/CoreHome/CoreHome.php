@@ -417,6 +417,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Error';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_ErrorRequestFaqLink';
+        $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'General_ChooseDate';
@@ -475,5 +476,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousPeriod';
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
+        $translationKeys[] = 'CoreHome_TechDeprecationWarning';
     }
 }

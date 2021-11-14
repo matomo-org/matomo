@@ -7,7 +7,7 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Tests\Fixtures\UITestFixture;
 
-class FeedbackPopupFixture extends UITestFixture
+class FeedbackQuestionBannerFixture extends UITestFixture
 {
     public function setUp(): void
     {

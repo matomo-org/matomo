@@ -10,6 +10,8 @@ namespace Piwik\Plugins\Feedback;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Renderer\Json;
+use Piwik\Date;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
@@ -77,6 +79,64 @@ class API extends \Piwik\Plugin\API
         }
 
         return 'success';
+    }
+
+    /**
+     * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
+     * config: "feedback_email_address".
+     *
+     * @param $question
+     * @param string|bool $message A message containing the actual feedback
+     * @throws \Piwik\NoAccessException
+     * @throws \Exception
+     */
+    public function sendFeedbackForSurvey($question,  $message = false)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        if ($message == '' || strlen($message) < 10) {
+            return Piwik::translate("Feedback_MessageBodyValidationError");
+        }
+
+        $featureName = $this->getEnglishTranslationForFeatureName($question);
+        $body = sprintf("Question: %s\n", $featureName);
+        $feedbackMessage = "";
+        
+        if (!empty($message) && $message !== 'undefined') {
+            $feedbackMessage = sprintf("Answer:\n%s\n", trim($message));
+        }
+
+        $body .= $feedbackMessage ? $feedbackMessage : " \n";
+
+        $subject = sprintf("%s for %s %s",
+          empty($like) ? "-1" : "+1",
+          $featureName,
+          empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
+        );
+
+        $this->sendMail($subject, $body);
+
+        //if feedback is sent set next one to 6 month.
+        $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+        $feedbackReminder = new FeedbackReminder();
+        $feedbackReminder->setUserOption($nextReminder);
+
+        return 'success';
+
+    }
+
+    public function updateFeedbackReminderDate()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        //push reminder for 6 month
+        $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+        $feedbackReminder = new FeedbackReminder();
+        $feedbackReminder->setUserOption($nextReminder);
+
+        Json::sendHeaderJSON();
+        return json_encode(['Next reminder date: ' . $nextReminder]);
     }
 
     private function sendMail($subject, $body)
