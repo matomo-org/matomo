@@ -143,7 +143,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=10cf2a3c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=28a9b355
 
 var _hoisted_1 = ["title"];
 var _hoisted_2 = {
@@ -153,23 +153,137 @@ var _hoisted_3 = {
   key: 0
 };
 var _hoisted_4 = {
+  key: 0
+};
+var _hoisted_5 = {
   key: 1
 };
 
-var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var _hoisted_6 = {
-  class: "messageContainer"
+var _hoisted_7 = {
+  class: "row"
 };
-var _hoisted_7 = ["title", "value"];
-var _hoisted_8 = ["value"];
+var _hoisted_8 = {
+  style: {
+    "text-align": "left",
+    "margin-top": "16px"
+  }
+};
 var _hoisted_9 = {
-  class: "ui-confirm ratefeatureDialog"
+  for: "useful",
+  class: "ratelabel"
 };
-var _hoisted_10 = {
+
+var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_11 = {
+  for: "easy",
+  class: "ratelabel"
+};
+
+var _hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_13 = {
+  for: "configurable",
+  class: "ratelabel"
+};
+
+var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_15 = {
+  for: "likeother",
+  class: "ratelabel"
+};
+var _hoisted_16 = {
+  key: 1
+};
+var _hoisted_17 = {
   key: 0
 };
-var _hoisted_11 = ["value"];
+var _hoisted_18 = {
+  key: 1
+};
+
+var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_20 = {
+  class: "row"
+};
+var _hoisted_21 = {
+  style: {
+    "text-align": "left"
+  }
+};
+var _hoisted_22 = {
+  for: "missingfeatures",
+  class: "ratelabel"
+};
+
+var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_24 = {
+  for: "makeeasier",
+  class: "ratelabel"
+};
+
+var _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_26 = {
+  for: "speedup",
+  class: "ratelabel"
+};
+
+var _hoisted_27 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_28 = {
+  for: "fixbugs",
+  class: "ratelabel"
+};
+
+var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_30 = {
+  for: "dislikeother",
+  class: "ratelabel"
+};
+
+var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_32 = {
+  key: 2,
+  class: "messageContainer",
+  style: {
+    "text-align": "left"
+  }
+};
+var _hoisted_33 = ["innerHTML"];
+var _hoisted_34 = ["innerHTML"];
+var _hoisted_35 = ["innerHTML"];
+var _hoisted_36 = ["innerHTML"];
+var _hoisted_37 = ["innerHTML"];
+var _hoisted_38 = ["innerHTML"];
+var _hoisted_39 = ["innerHTML"];
+var _hoisted_40 = ["innerHTML"];
+var _hoisted_41 = ["innerHTML"];
+var _hoisted_42 = {
+  key: 9,
+  class: "error-text"
+};
+var _hoisted_43 = ["innerHTML"];
+var _hoisted_44 = ["title", "value"];
+var _hoisted_45 = ["value"];
+var _hoisted_46 = {
+  class: "ui-confirm ratefeatureDialog"
+};
+var _hoisted_47 = ["innerHTML"];
+var _hoisted_48 = {
+  key: 0
+};
+var _hoisted_49 = {
+  key: 1
+};
+var _hoisted_50 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
 
@@ -187,66 +301,177 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       _ctx.likeFeature();
-
-      _ctx.showFeedbackForm = true;
     }),
     class: "like-icon",
     src: "plugins/Feedback/vue/src/RateFeature/thumbs-up.png"
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       _ctx.dislikeFeature();
-
-      _ctx.showFeedbackForm = true;
     }),
     class: "dislike-icon",
     src: "plugins/Feedback/vue/src/RateFeature/thumbs-down.png"
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.expanded]])], 32), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
+  })], 32), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
     modelValue: _ctx.showFeedbackForm,
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
       return _ctx.showFeedbackForm = $event;
     }),
-    onYes: _cache[6] || (_cache[6] = function ($event) {
+    onYes: _cache[15] || (_cache[15] = function ($event) {
+      return _ctx.sendFeedback();
+    }),
+    onValidation: _cache[16] || (_cache[16] = function ($event) {
       return _ctx.sendFeedback();
     })
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureThankYouTitle', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageLike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageDislike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [_ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_3, [_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageLikeNamedFeature', _ctx.title)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageLike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "useful",
+        value: "useful",
         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return _ctx.likeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.likeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureUsefulInfo')), 1)]), _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "easy",
+        value: "easy",
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+          return _ctx.likeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.likeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureEasyToUse')), 1)]), _hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "configurable",
+        value: "configurable",
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+          return _ctx.likeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.likeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureConfigurable')), 1)]), _hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "likeother",
+        value: "likeother",
+        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+          return _ctx.likeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.likeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureOtherReason')), 1)])])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_16, [_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageDislikeNamedFeature', _ctx.title)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", _hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureLeaveMessageDislike')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_22, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "missingfeatures",
+        value: "missingfeatures",
+        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+          return _ctx.dislikeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.dislikeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureDislikeAddMissingFeatures')), 1)]), _hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "makeeasier",
+        value: "makeeasier",
+        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+          return _ctx.dislikeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.dislikeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureDislikeMakeEasier')), 1)]), _hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "speedup",
+        value: "speedup",
+        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+          return _ctx.dislikeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.dislikeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureDislikeSpeedUp')), 1)]), _hoisted_27, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_28, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "fixbugs",
+        value: "fixbugs",
+        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+          return _ctx.dislikeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.dislikeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureDislikeFixBugs')), 1)]), _hoisted_29, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_30, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        id: "dislikeother",
+        value: "dislikeother",
+        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+          return _ctx.dislikeReason = $event;
+        }),
+        class: "rateradio"
+      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.dislikeReason]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_RateFeatureOtherReason')), 1)]), _hoisted_31])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.likeReason || _ctx.dislikeReason ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_32, [_ctx.likeReason && _ctx.likeReason == 'useful' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 0,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageLikeExtraUseful')
+      }, null, 8, _hoisted_33)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.likeReason && _ctx.likeReason == 'easy' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 1,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageLikeExtraEasy')
+      }, null, 8, _hoisted_34)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.likeReason && _ctx.likeReason == 'configurable' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 2,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageLikeExtraConfigurable')
+      }, null, 8, _hoisted_35)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.likeReason && _ctx.likeReason == 'likeother' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 3,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageLikeExtra')
+      }, null, 8, _hoisted_36)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.dislikeReason && _ctx.dislikeReason == 'missingfeatures' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 4,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageDislikeExtraMissing')
+      }, null, 8, _hoisted_37)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.dislikeReason && _ctx.dislikeReason == 'makeeasier' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 5,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageDislikeExtraEasier')
+      }, null, 8, _hoisted_38)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.dislikeReason && _ctx.dislikeReason == 'fixbugs' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 6,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageDislikeExtraBugs')
+      }, null, 8, _hoisted_39)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.dislikeReason && _ctx.dislikeReason == 'speedup' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 7,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageDislikeExtraSpeed')
+      }, null, 8, _hoisted_40)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.dislikeReason && _ctx.dislikeReason == 'dislikeother' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 8,
+        innerHTML: _ctx.translate('Feedback_RateFeatureLeaveMessageDislikeExtra')
+      }, null, 8, _hoisted_41)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.errorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_42, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.errorMessage), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+        ref: "feedbackText",
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["materialize-textarea", {
+          'has-error': _ctx.errorMessage
+        }]),
+        id: "feedbacktext",
+        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
           return _ctx.feedbackMessage = $event;
         })
-      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]]), _ctx.likeReason || _ctx.dislikeReason ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: 10,
+        innerHTML: _ctx.translate('Feedback_Policy', "\n            <a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>", '</a>')
+      }, null, 8, _hoisted_43)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        class: "btn",
         type: "button",
+        role: "validation",
         title: _ctx.translate('Feedback_RateFeatureSendFeedbackInformation'),
-        value: _ctx.translate('Feedback_SendFeedback'),
-        role: "yes"
-      }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        value: _ctx.translate('Feedback_SendFeedback')
+      }, null, 8, _hoisted_44), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "button",
         role: "cancel",
         value: _ctx.translate('General_Cancel')
-      }, null, 8, _hoisted_8)])];
+      }, null, 8, _hoisted_45)])];
     }),
     _: 1
   }, 8, ["modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
     modelValue: _ctx.ratingDone,
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
       return _ctx.ratingDone = $event;
     })
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ThankYou', _ctx.title)), 1), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_10)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_46, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
+        innerHTML: _ctx.translate('Feedback_ThankYouHeart', "<i class='icon-heart red-text'></i>")
+      }, null, 8, _hoisted_47), _ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_48)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.like ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_49, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_AppreciateFeedback')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "button",
-        value: _ctx.translate('General_Ok'),
+        value: _ctx.translate('General_Close'),
         role: "yes"
-      }, null, 8, _hoisted_11)])];
+      }, null, 8, _hoisted_50)])];
     }),
     _: 1
   }, 8, ["modelValue"])], 8, _hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=10cf2a3c
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=28a9b355
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=script&lang=ts
 
 
+var _window = window,
+    $ = _window.$;
 /* harmony default export */ var RateFeaturevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     title: String
@@ -257,27 +482,65 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   data: function data() {
     return {
       like: false,
+      likeReason: null,
+      dislikeReason: null,
       ratingDone: false,
       expanded: false,
       showFeedbackForm: false,
-      feedbackMessage: ''
+      feedbackMessage: '',
+      errorMessage: null
     };
+  },
+  watch: {
+    likeReason: 'doFocusInput',
+    dislikeReason: 'doFocusInput'
   },
   methods: {
     dislikeFeature: function dislikeFeature() {
+      this.ratingDone = false;
       this.like = false;
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+      this.likeReason = null;
+      this.dislikeReason = null;
+      this.feedbackMessage = '';
     },
     likeFeature: function likeFeature() {
+      this.ratingDone = false;
       this.like = true;
+      this.showFeedbackForm = true;
+      this.errorMessage = null;
+      this.likeReason = null;
+      this.dislikeReason = null;
+      this.feedbackMessage = '';
     },
-    sendFeedback: function sendFeedback() {
-      external_CoreHome_["AjaxHelper"].fetch({
+    doFocusInput: function doFocusInput() {
+      var _this = this;
+
+      this.$nextTick(function () {
+        _this.focusInput();
+      });
+    },
+    focusInput: function focusInput() {
+      this.$refs.feedbackText.focus();
+    },
+    sendFeedback: async function sendFeedback() {
+      this.errorMessage = null;
+      var res = await external_CoreHome_["AjaxHelper"].fetch({
         method: 'Feedback.sendFeedbackForFeature',
         featureName: this.title,
         like: this.like ? '1' : '0',
+        choice: this.like ? this.likeReason : this.dislikeReason,
         message: this.feedbackMessage
       });
-      this.ratingDone = true;
+
+      if (res.value === 'success') {
+        $('.modal').modal('close');
+        this.ratingDone = true;
+        this.feedbackMessage = '';
+      } else {
+        this.errorMessage = res.value;
+      }
     }
   }
 }));
@@ -344,14 +607,14 @@ var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_10 = {
 
 var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var _hoisted_12 = ["innerHTML"];
-var _hoisted_13 = ["value"];
-var _hoisted_14 = ["value"];
-var _hoisted_15 = {
+var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_12 = ["innerHTML"];
+var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_13 = ["value"];
+var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_14 = ["value"];
+var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_15 = {
   class: "ui-confirm ratefeatureDialog"
 };
-var _hoisted_16 = ["innerHTML"];
-var _hoisted_17 = ["value"];
+var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_16 = ["innerHTML"];
+var FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_17 = ["value"];
 function FeedbackQuestionvue_type_template_id_2d5e9885_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
 
@@ -387,15 +650,15 @@ function FeedbackQuestionvue_type_template_id_2d5e9885_render(_ctx, _cache, $pro
         })
       }, null, 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.feedbackMessage]])]), FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
         innerHTML: _ctx.translate('Feedback_Policy', "<a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>", '</a>')
-      }, null, 8, _hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 8, FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "button",
         role: "validation",
         value: _ctx.translate('Feedback_SendFeedback')
-      }, null, 8, _hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 8, FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "button",
         role: "cancel",
         value: _ctx.translate('General_Cancel')
-      }, null, 8, _hoisted_14)])];
+      }, null, 8, FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_14)])];
     }),
     _: 1
   }, 8, ["modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
@@ -405,13 +668,13 @@ function FeedbackQuestionvue_type_template_id_2d5e9885_render(_ctx, _cache, $pro
     })
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_ThankYou")), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_ThankYou")), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
         innerHTML: _ctx.translate('Feedback_ThankYourForFeedback', "<i class='icon-heart red-text'></i>")
-      }, null, 8, _hoisted_16), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 8, FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_16), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "button",
         role: "cancel",
         value: _ctx.translate('General_Close')
-      }, null, 8, _hoisted_17)])];
+      }, null, 8, FeedbackQuestionvue_type_template_id_2d5e9885_hoisted_17)])];
     }),
     _: 1
   }, 8, ["modelValue"])])]);
@@ -421,8 +684,8 @@ function FeedbackQuestionvue_type_template_id_2d5e9885_render(_ctx, _cache, $pro
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=script&lang=ts
 
 
-var _window = window,
-    $ = _window.$;
+var FeedbackQuestionvue_type_script_lang_ts_window = window,
+    FeedbackQuestionvue_type_script_lang_ts_$ = FeedbackQuestionvue_type_script_lang_ts_window.$;
 var cookieName = 'feedback-question';
 /* harmony default export */ var FeedbackQuestionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -459,7 +722,7 @@ var cookieName = 'feedback-question';
 
       if (val) {
         setInterval(function () {
-          $('#message').focus();
+          FeedbackQuestionvue_type_script_lang_ts_$('#message').focus();
         }, 500);
       }
     }
@@ -508,7 +771,7 @@ var cookieName = 'feedback-question';
       });
 
       if (res.value === 'success') {
-        $('.modal').modal('close');
+        FeedbackQuestionvue_type_script_lang_ts_$('.modal').modal('close');
         this.feedbackDone = true;
         this.hide = true;
       } else {
