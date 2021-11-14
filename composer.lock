@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d3172d5f6ea1e5b7c6bbeb9309c065e",
+    "content-hash": "cce76b18de3f8ff9ff556d849c896f2c",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1197,6 +1197,124 @@
                 "source": "https://github.com/pear/Console_Getopt"
             },
             "time": "2019-11-20T18:27:48+00:00"
+        },
+        {
+            "name": "pear/html_common2",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sgiehl/HTML_Common2",
+                "reference": "trunk"
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTML_Common2": ""
+                }
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "tests/"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "email": "avb@php.net",
+                    "name": "Alexey Borzov",
+                    "role": "Lead"
+                },
+                {
+                    "email": "thesaur@php.net",
+                    "name": "Klaus Guenther",
+                    "role": "Lead"
+                }
+            ],
+            "description": "Abstract base class for HTML classes (PHP5 port of HTML_Common package).",
+            "homepage": "https://pear.php.net/package/HTML_Common2",
+            "keywords": [
+                "attribute",
+                "element",
+                "html",
+                "pear"
+            ],
+            "support": {
+                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTML_Common2",
+                "source": "https://github.com/pear/HTML_Common2"
+            }
+        },
+        {
+            "name": "pear/html_quickform2",
+            "version": "v2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sgiehl/HTML_QuickForm2",
+                "reference": "trunk"
+            },
+            "require": {
+                "pear/html_common2": "^2.2",
+                "pear/pear_exception": "^1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTML_QuickForm2": ""
+                },
+                "exclude-from-classmap": [
+                    "docs/"
+                ]
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "tests/"
+                ],
+                "exclude-from-classmap": [
+                    "tests/MockObjectGenerator.original.php",
+                    "tests/MockObjectGenerator.patched.php"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "email": "avb@php.net",
+                    "name": "Alexey Borzov",
+                    "role": "Lead"
+                },
+                {
+                    "email": "golgote@mamasam.com",
+                    "name": "Bertrand Mansion",
+                    "role": "Lead"
+                }
+            ],
+            "description": "Provides methods to create, validate and render HTML forms in PHP.",
+            "homepage": "https://pear.php.net/sgiehl/HTML_QuickForm2/",
+            "keywords": [
+                "forms",
+                "javascript",
+                "pear",
+                "quickform",
+                "validation",
+                "wizard"
+            ],
+            "support": {
+                "issues": "https://github.com/pear/HTML_QuickForm2/issues",
+                "source": "https://github.com/pear/HTML_QuickForm2",
+                "docs": "https://pear.php.net/manual/en/package.html.html-quickform2.php"
+            }
         },
         {
             "name": "pear/pear-core-minimal",

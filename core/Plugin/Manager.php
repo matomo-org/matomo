@@ -74,6 +74,7 @@ class Manager
 
     // These are always activated and cannot be deactivated
     protected $pluginToAlwaysActivate = array(
+        'Monolog',
         'BulkTracking',
         'CoreVue',
         'CoreHome',

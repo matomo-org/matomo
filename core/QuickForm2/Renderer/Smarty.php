@@ -1,4 +1,6 @@
 <?php
+namespace Piwik\QuickForm2\Renderer;
+
 /**
  * A renderer for HTML_QuickForm2 suitable for using with the Smarty template engine.
  * See: http://www.smarty.net/
@@ -145,7 +147,7 @@
  * @author     Alain D D Williams <addw@phcomp.co.uk>
  * @version    Release: SCCS: %W% %G% %U%
  */
-class HTML_QuickForm2_Renderer_Smarty extends HTML_QuickForm2_Renderer_Array
+class Smarty extends \HTML_QuickForm2_Renderer_Array
 {
    /**
     * Constructor, adds new options
@@ -162,11 +164,11 @@ class HTML_QuickForm2_Renderer_Smarty extends HTML_QuickForm2_Renderer_Array
    /**
     * Creates an array with fields that are common to all elements
     *
-    * @param    HTML_QuickForm2_Node    Element being rendered
+    * @param    \HTML_QuickForm2_Node    Element being rendered
     *
     * @return   array
     */
-    public function buildCommonFields(HTML_QuickForm2_Node $element)
+    public function buildCommonFields(\HTML_QuickForm2_Node $element)
     {
         $keyn = $this->options['key_id'] ? 'id' : 'name';
 
@@ -206,7 +208,7 @@ class HTML_QuickForm2_Renderer_Smarty extends HTML_QuickForm2_Renderer_Array
         if (isset($this->styles[$key_val])) {
             $ary['style'] = $this->styles[$key_val];
         }
-        if (!$element instanceof HTML_QuickForm2_Container) {
+        if (!$element instanceof \HTML_QuickForm2_Container) {
             $ary['html']       = $element->__toString();
         } else {
             $ary['elements']   = array();
@@ -215,7 +217,7 @@ class HTML_QuickForm2_Renderer_Smarty extends HTML_QuickForm2_Renderer_Array
         return $ary;
     }
 
-    public function startForm(HTML_QuickForm2_Node $form)
+    public function startForm(\HTML_QuickForm2_Node $form)
     {
         if($this->options['old_compat'])
             $this->options['group_hiddens'] = true;
@@ -223,7 +225,7 @@ class HTML_QuickForm2_Renderer_Smarty extends HTML_QuickForm2_Renderer_Array
         parent::startForm($form);
     }
 
-    public function finishForm(HTML_QuickForm2_Node $form)
+    public function finishForm(\HTML_QuickForm2_Node $form)
     {
         parent::finishForm($form);
 
@@ -264,7 +266,7 @@ class HTML_QuickForm2_Renderer_Smarty extends HTML_QuickForm2_Renderer_Array
             // Don't do if key_id as the value is a straight id.
             if( !$this->options['key_id'] && $inGroup && $top_key != '') {
                 if(!(preg_match("/\[?([\w_]+)\]?$/i", $top_key, $match)))
-                    throw new HTML_QuickForm2_InvalidArgumentException(
+                    throw new \HTML_QuickForm2_InvalidArgumentException(
                         "linkToLevelAbove can't obtain the name from '$top_key'");
                 $top_key = $match[1];
             }

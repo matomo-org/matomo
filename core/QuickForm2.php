@@ -14,6 +14,7 @@ use HTML_QuickForm2_InvalidArgumentException;
 use HTML_QuickForm2_Node;
 use HTML_QuickForm2_NotFoundException;
 use HTML_QuickForm2_Renderer;
+use Piwik\QuickForm2\Renderer\Smarty;
 
 /**
  * Manages forms displayed in Twig
@@ -129,7 +130,7 @@ abstract class QuickForm2 extends HTML_QuickForm2
     public function getFormData($groupErrors = true)
     {
         if (!self::$registered) {
-            HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
+            HTML_QuickForm2_Renderer::register('smarty', Smarty::class);
             self::$registered = true;
         }
 
