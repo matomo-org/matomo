@@ -48,6 +48,34 @@
  */
 // require_once 'HTML/QuickForm2/Node.php';
 
+
+/**
+ * Implements a recursive iterator for the container elements
+ *
+ * @category   HTML
+ * @package    HTML_QuickForm2
+ * @author     Alexey Borzov <avb@php.net>
+ * @author     Bertrand Mansion <golgote@mamasam.com>
+ * @version    Release: @package_version@
+ */
+class HTML_QuickForm2_ContainerIterator extends RecursiveArrayIterator implements RecursiveIterator
+{
+    public function __construct(HTML_QuickForm2_Container $container)
+    {
+        parent::__construct($container->getElements());
+    }
+
+    public function hasChildren()
+    {
+        return $this->current() instanceof HTML_QuickForm2_Container;
+    }
+
+    public function getChildren()
+    {
+        return new HTML_QuickForm2_ContainerIterator($this->current());
+    }
+}
+
 /**
  * Abstract base class for simple QuickForm2 containers
  *
@@ -454,33 +482,6 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
             }
         }
         return 'qf.form.getContainerValue(' . implode(', ', $args) . ')';
-    }
-}
-
-/**
- * Implements a recursive iterator for the container elements
- *
- * @category   HTML
- * @package    HTML_QuickForm2
- * @author     Alexey Borzov <avb@php.net>
- * @author     Bertrand Mansion <golgote@mamasam.com>
- * @version    Release: @package_version@
- */
-class HTML_QuickForm2_ContainerIterator extends RecursiveArrayIterator implements RecursiveIterator
-{
-    public function __construct(HTML_QuickForm2_Container $container)
-    {
-        parent::__construct($container->getElements());
-    }
-
-    public function hasChildren()
-    {
-        return $this->current() instanceof HTML_QuickForm2_Container;
-    }
-
-    public function getChildren()
-    {
-        return new HTML_QuickForm2_ContainerIterator($this->current());
     }
 }
 
