@@ -187,7 +187,7 @@ class HTML_QuickForm2_Element_Select_OptionContainer extends HTML_Common2
     *
     * @return   HTML_QuickForm2_Element_Select_OptionIterator
     */
-    public function getIterator()
+    public function getIterator(): HTML_QuickForm2_Element_Select_OptionIterator
     {
         return new HTML_QuickForm2_Element_Select_OptionIterator($this->options);
     }
@@ -197,7 +197,7 @@ class HTML_QuickForm2_Element_Select_OptionContainer extends HTML_Common2
     *
     * @return   RecursiveIteratorIterator
     */
-    public function getRecursiveIterator()
+    public function getRecursiveIterator(): RecursiveIteratorIterator
     {
         return new RecursiveIteratorIterator(
             new HTML_QuickForm2_Element_Select_OptionIterator($this->options),
@@ -210,7 +210,7 @@ class HTML_QuickForm2_Element_Select_OptionContainer extends HTML_Common2
     *
     * @return   int
     */
-    public function count()
+    public function count(): int
     {
         return count($this->options);
     }
