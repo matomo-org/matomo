@@ -20,7 +20,8 @@
       "webpack-env",
       "angular",
       "jquery",
-      "jqueryui"
+      "jqueryui",
+      "materialize-css"
     ],
     "paths": {
       "@/*": [

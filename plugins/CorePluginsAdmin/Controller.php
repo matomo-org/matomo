@@ -297,7 +297,7 @@ class Controller extends Plugin\ControllerAdmin
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
                 list($pluginNameRenamed, $methodName) = Request::getRenamedModuleAndAction($pluginName, 'index');
                 if ($pluginName != $pluginNameRenamed) {
-                    $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
+                    $suffix = "You may uninstall the plugin or manually delete the files in /path/to/matomo/plugins/$pluginName/";
                 }
 
                 if ($this->pluginManager->isPluginInFilesystem($pluginName)) {
