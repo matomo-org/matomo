@@ -10,20 +10,28 @@
 namespace Piwik\Tests\Integration\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor\LoaderLock;
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class LoaderLockTest extends IntegrationTestCase
 {
 
+    public function test_lockerIdShort()
+    {
+        $lockId = Common::getRandomString(60);
+
+        $lock = new LoaderLock($lockId);
+        $this->assertSame($lockId, $lock->getId());
+    }
 
     public function test_lockerIdMaxLength()
     {
-        $lockId = $this->generateRandomString(128);
+        $lockId = str_pad('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 128, '5');
         $this->assertEquals(strlen($lockId),128);
 
         $lock = new LoaderLock($lockId);
-        $this->assertSame(64, strlen($lock->getId()));
+        $this->assertSame('0123456789abcdefghijklmnopqrstuvbafb96951317fae753ab8ec1b2dad6e6', $lock->getId());
     }
 
     public function test_singleLocking()
@@ -44,14 +52,14 @@ class LoaderLockTest extends IntegrationTestCase
         $lockId = "lock1";
         $lockOne = new LoaderLock($lockId);
         $lockOne->setLock();
-        $formatLockKey =$lockOne->getId();
+        $formatLockKey = $lockOne->getId();
         $isLocked = LoaderLock::isLockAvailable($formatLockKey);
         $this->assertFalse($isLocked);
 
         $lockId = "lock2";
         $lockTwo = new LoaderLock($lockId);
         $lockTwo->setLock();
-        $formatLockKey =$lockTwo->getId();
+        $formatLockKey = $lockTwo->getId();
         $isLocked = LoaderLock::isLockAvailable($formatLockKey);
         $this->assertFalse($isLocked);
 
@@ -59,7 +67,7 @@ class LoaderLockTest extends IntegrationTestCase
         $lockOne->unLock();
         $lockOneStatus = LoaderLock::isLockAvailable($lockOne->getId());
         $this->assertTrue($lockOneStatus);
-        $lockTwoStatus =  LoaderLock::isLockAvailable($lockTwo->getId());
+        $lockTwoStatus = LoaderLock::isLockAvailable($lockTwo->getId());
         $this->assertFalse($lockTwoStatus);
 
         $lockTwo->unLock();
@@ -71,17 +79,4 @@ class LoaderLockTest extends IntegrationTestCase
         $result = LoaderLock::isLockAvailable("no lock");
         $this->assertTrue($result);
     }
-
-
-
-    private function generateRandomString($length = 10) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
-
 }

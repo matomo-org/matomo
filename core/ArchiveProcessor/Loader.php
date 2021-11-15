@@ -131,34 +131,31 @@ class Loader
         }
         list($idArchives, $visits, $visitsConverted) = $data;
 
-
         // only lock meet those conditions
         if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
-            //get Lock ID
-            $lockId = $this->makeArchivingLock();
+            $lockId = $this->makeArchivingLockId();
 
             //ini lock
-            $lock= new LoaderLock($lockId);
+            $lock = new LoaderLock($lockId);
 
             //set mysql lock the entire process if another process is running
             $lock->setLock();
+
             try {
-                //try load Archive Data
                 $data = $this->loadArchiveData();
+
                 if (sizeof($data) == 2) {
                     return $data;
                 }
+
                 list($idArchives, $visits, $visitsConverted) = $data;
-                //insert data
+
                 return $this->insertArchiveData($visits, $visitsConverted);
             } finally {
                 $lock->unlock();
             }
         } else {
-            //normal insert data
-            if (SettingsServer::isArchivePhpTriggered()) {
-                $this->logger->info("initiating archiving via core:archive for " . $this->params);
-            }
+
             return $this->insertArchiveData($visits, $visitsConverted);
         }
     }
@@ -171,18 +168,25 @@ class Loader
      */
     protected function insertArchiveData($visits, $visitsConverted)
     {
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $this->logger->info("initiating archiving via core:archive for " . $this->params);
+        }
+
         list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
         list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
             return [[$idArchive], $visits];
         }
+
         return [false, false];
     }
+
     /**
      * @return string
      * @throws \Exception
      */
-    private function makeArchivingLock()
+    private function makeArchivingLockId()
     {
         $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
           $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
@@ -200,8 +204,10 @@ class Loader
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
         list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchives) && !Rules::isActuallyForceArchivingSinglePlugin() && !$this->shouldForceInvalidatedArchive($value,
-            $tsArchived)) {
+
+        if (!empty($idArchives)
+            && !Rules::isActuallyForceArchivingSinglePlugin()
+            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
             return [$idArchives, $visits];
@@ -220,6 +226,7 @@ class Loader
                 return [false, 0];
             }
         }
+
         return [$idArchives, $visits, $visitsConverted];
     }
 

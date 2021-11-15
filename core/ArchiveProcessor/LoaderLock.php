@@ -14,16 +14,20 @@ use Piwik\SettingsPiwik;
 class LoaderLock
 {
 
+    const MAX_LEN_LOCK_NAME = 64;
     const MAX_LOCK_TIME = 60; //in seconds
     protected $id;
 
     public function __construct($id)
     {
-        // for multi tenant database solution
+        // instanceId is needed for multi tenant database solution
         $id = SettingsPiwik::getPiwikInstanceId() . $id;
 
-        //convert ot prefix and md5 full length
-        $id = substr($id, 0, 32) . md5($id);
+        if (mb_strlen($id) >= self::MAX_LEN_LOCK_NAME) {
+            //convert ot prefix and md5 full length
+            $id = mb_substr($id, 0, 32) . md5($id);
+        }
+
         $this->id = $id;
     }
 
