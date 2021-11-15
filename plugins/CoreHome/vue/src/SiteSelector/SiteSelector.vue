@@ -56,7 +56,7 @@
           @keydown="onSearchInputKeydown()"
           tabindex="4"
           class="websiteSearch inp browser-default"
-          v-focus-if="{ focusIf: shouldFocusOnSearch }"
+          v-focus-if[shouldFocusOnSearch]="{}"
           :placeholder="translate('General_Search')"
         />
         <img
