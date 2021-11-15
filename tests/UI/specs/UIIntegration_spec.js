@@ -120,6 +120,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     describe("misc", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
+        afterEach(async () => {
+            await page.setUserAgent(page.originalUserAgent);
+        });
+
         it("should load the page of a plugin located in a custom directory", async function () {
             await page.goto("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
 
@@ -129,7 +133,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         // shortcuts help
         it("should show shortcut help", async function () {
-            await page.setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+            await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
             await page.waitForNetworkIdle();
             await page.keyboard.press('?');

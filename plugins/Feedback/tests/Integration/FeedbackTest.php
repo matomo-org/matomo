@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\Feedback\tests\Unit;
 
 
+use CpChart\Chart\Data;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\Feedback\Feedback;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -40,9 +42,16 @@ class FeedbackTest extends IntegrationTestCase
             'user1@example.com',
             '2019-03-03'
         );
+
+        $this->userModel->addUser(
+          'user2',
+          'a98732d98732',
+          'user2@example.com',
+          Date('Y-m-d')
+        );
         FakeAccess::$identity = 'user1';
         FakeAccess::$superUser = false;
-
+        FakeAccess::$idSitesView = [1];
         $this->now = Date::$now;
     }
 
@@ -51,8 +60,12 @@ class FeedbackTest extends IntegrationTestCase
         FakeAccess::$identity = 'user1';
         Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');
-        Date::$now = $this->now;
 
+        FakeAccess::$identity = 'user2';
+        Option::deleteLike('Feedback.nextFeedbackReminder.%');
+        $this->userModel->deleteUserOnly('user2');
+
+        Date::$now = $this->now;
         parent::tearDown();
     }
 
@@ -71,12 +84,6 @@ class FeedbackTest extends IntegrationTestCase
         $this->assertFalse($this->feedback->getShouldPromptForFeedback());
     }
 
-    public function test_shouldPromptForFeedback_noFeedbackReminderOptionForUser()
-    {
-        Date::$now = Date::factory('2019-05-31')->getTimestamp();   // 89 days
-
-        $this->assertFalse($this->feedback->getShouldPromptForFeedback());
-    }
 
     public function test_shouldPromptForFeedback_dontRemindUserAgain()
     {
@@ -87,25 +94,27 @@ class FeedbackTest extends IntegrationTestCase
 
     public function test_shouldPromptForFeedback_nextReminderDateInPast()
     {
+        FakeAccess::$identity = 'user1';
         Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
-        Date::$now = Date::factory('2019-06-01')->getTimestamp();
-
         $this->assertTrue($this->feedback->getShouldPromptForFeedback());
     }
 
     public function test_shouldPromptForFeedack_nextReminderDateToday()
     {
-        Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
-        Date::$now = Date::factory('2019-05-31')->getTimestamp();
-
+        Option::set('Feedback.nextFeedbackReminder.user1', '2018-10-31');
         $this->assertTrue($this->feedback->getShouldPromptForFeedback());
     }
 
-    public function test_shouldPromptForFeedack_nextReminderDateInFuture()
+    public function test_shouldPromptForFeedback_user_oldThanHalfYear()
     {
-        Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
-        Date::$now = Date::factory('2019-05-30')->getTimestamp();
+        FakeAccess::$identity = 'user1';
+        Option::deleteLike('Feedback.nextFeedbackReminder.user1');
+        $this->assertFalse($this->feedback->getShouldPromptForFeedback());
+    }
 
+    public function test_shouldNotPromptForFeedback_user_LessThanHalfYear()
+    {
+        FakeAccess::$identity = 'user2';
         $this->assertFalse($this->feedback->getShouldPromptForFeedback());
     }
 }

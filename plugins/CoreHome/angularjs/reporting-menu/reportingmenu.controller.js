@@ -137,6 +137,9 @@
         };
 
         $scope.loadCategory = function (category) {
+            var UI = require('piwik/UI');
+            UI.Notification.prototype.remove('reportingmenu-help');
+			
             if (category.active) {
                 category.active = false;
             } else {

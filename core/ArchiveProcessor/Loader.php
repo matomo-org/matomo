@@ -511,7 +511,7 @@ class Loader
             if ($minDatetimeArchiveProcessedUTC
                 && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
             ) {
-                return false;
+                return true;
             }
         }
 

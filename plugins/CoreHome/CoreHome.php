@@ -139,16 +139,15 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
@@ -212,10 +211,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/show-sensitive-data.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focusif.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
@@ -235,7 +232,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
 
@@ -266,12 +262,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/date-picker/date-picker.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
@@ -279,13 +271,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.js";
-
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
 
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/iecheck.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
