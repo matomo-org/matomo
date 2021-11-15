@@ -38,6 +38,7 @@
 	<row>Bunjalloo</row>
 	<row>B-Line</row>
 	<row>Blue Browser</row>
+	<row>Bonsai</row>
 	<row>Borealis Navigator</row>
 	<row>Brave</row>
 	<row>BriskBard</row>
@@ -78,6 +79,7 @@
 	<row>Cunaguaro</row>
 	<row>Chrome Webview</row>
 	<row>dbrowser</row>
+	<row>Peeps dBrowser</row>
 	<row>Deepnet Explorer</row>
 	<row>deg-degan</row>
 	<row>Deledao</row>
@@ -114,6 +116,7 @@
 	<row>Firefox Mobile</row>
 	<row>Fireweb</row>
 	<row>Fireweb Navigator</row>
+	<row>Flash Browser</row>
 	<row>Flast</row>
 	<row>FreeU</row>
 	<row>Galeon</row>
@@ -122,6 +125,8 @@
 	<row>Glass Browser</row>
 	<row>Google Earth</row>
 	<row>GOG Galaxy</row>
+	<row>GoBrowser</row>
+	<row>Harman Browser</row>
 	<row>HasBrowser</row>
 	<row>Hawk Turbo Browser</row>
 	<row>Helio</row>
@@ -157,12 +162,14 @@
 	<row>Kylo</row>
 	<row>Kazehakase</row>
 	<row>Cheetah Browser</row>
+	<row>Lagatos Browser</row>
 	<row>LieBaoFast</row>
 	<row>LG Browser</row>
 	<row>Light</row>
 	<row>Links</row>
 	<row>Lolifox</row>
 	<row>Lovense Browser</row>
+	<row>LT Browser</row>
 	<row>LuaKit</row>
 	<row>Lulumi</row>
 	<row>Lunascape</row>
@@ -242,6 +249,7 @@
 	<row>Polarity</row>
 	<row>PolyBrowser</row>
 	<row>PrivacyWall</row>
+	<row>PSI Secure Browser</row>
 	<row>Microsoft Edge</row>
 	<row>Qazweb</row>
 	<row>QQ Browser Lite</row>
@@ -279,11 +287,13 @@
 	<row>Smooz</row>
 	<row>Snowshoe</row>
 	<row>Sogou Mobile Browser</row>
+	<row>Spectre Browser</row>
 	<row>Splash</row>
 	<row>Sputnik Browser</row>
 	<row>Sunrise</row>
 	<row>SuperBird</row>
 	<row>Super Fast Browser</row>
+	<row>Sushi Browser</row>
 	<row>surf</row>
 	<row>Stargon</row>
 	<row>START Internet Browser</row>
