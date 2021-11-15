@@ -514,6 +514,19 @@ class Map implements DataTableInterface
     }
 
     /**
+     * Delete row metadata by name in every row.
+     *
+     * @param       $name
+     * @param bool $deleteRecursiveInSubtables
+     */
+    public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false)
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->deleteRowsMetadata($name, $deleteRecursiveInSubtables);
+        }
+    }
+
+    /**
      * See {@link DataTable::getColumns()}.
      *
      * @return array

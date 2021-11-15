@@ -69,6 +69,7 @@ declare global {
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
+    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -136,5 +137,6 @@ declare global {
     piwik_translations: {[key: string]: string};
 
     _pk_translate(translationStringId: string, values: string[]): string;
+    require(p: string): any;
   }
 }

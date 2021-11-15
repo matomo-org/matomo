@@ -95,12 +95,12 @@ class Feedback extends \Piwik\Plugin
     public function renderFeedbackQuestion()
     {
         $feedbackQuestionBanner = new View('@Feedback/feedbackQuestionBanner');
-        $feedbackQuestionBanner->showQuestionBanner = (int)$this->getShouldPromptForFeedback();
+        $feedbackQuestionBanner->showQuestionBanner = (int)$this->showQuestionBanner();
 
         return $feedbackQuestionBanner->render();
     }
 
-    public function getShouldPromptForFeedback()
+    public function showQuestionBanner()
     {
         if (Piwik::isUserIsAnonymous()) {
             return false;
@@ -111,27 +111,31 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
+        $shouldShowQuestionBanner = true;
+
+        Piwik::postEvent('Feedback.showQuestionBanner', [&$shouldShowQuestionBanner]);
+
+        if (!$shouldShowQuestionBanner) {
+            return false;
+        }
+
         $feedbackReminder = new FeedbackReminder();
         $nextReminderDate = $feedbackReminder->getUserOption();
         $now = Date::now()->getTimestamp();
 
-        //user answered question
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        // if is new user or old user field not exist
+        // If there isn't any reminder date set, or never remind me was selected previously (-1) we determine a new date
         if ($nextReminderDate === false || $nextReminderDate <= 0) {
 
-            // if user is created more than 6 month ago, set reminder to today and show banner
-            $userCreatedDate = Piwik::getCurrentUserCreationData();
-            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
-                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
+            // if user was created within the last 6 months, we set the date to 6 months after his creation date
+            $userCreatedDate = Piwik::getCurrentUserCreationDate();
+            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {
+                $nextReminder = Date::factory($userCreatedDate)->addMonth(6)->toString('Y-m-d');
                 $feedbackReminder->setUserOption($nextReminder);
-                return true;
+                return false;
             }
-            //new user extend to 6 month, don't show banner
-            $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+
+            // Otherwise we set the date to somewhen within the next 6 months
+            $nextReminder = Date::now()->getStartOfDay()->addDay(Common::getRandomInt(1, 6*30))->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
             return false;
         }
