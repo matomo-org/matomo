@@ -31,9 +31,6 @@ class LoaderLock
         $this->id = $id;
     }
 
-    /*
-     * this is only support by MySQL 5.6 or above.
-     */
     public function setLock()
     {
         Db::fetchOne('SELECT GET_LOCK(?,?)', array($this->id, self::MAX_LOCK_TIME));
