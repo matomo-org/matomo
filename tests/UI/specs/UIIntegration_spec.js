@@ -477,6 +477,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             elem = await page.jQuery('.dataTable .subDataTable .value:contains(ImageAd)');
             await elem.click();
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500);
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
@@ -499,6 +500,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             elem = await page.jQuery('.dataTable .subDataTable .value:contains(Click NOW)');
             await elem.click();
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500);
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
