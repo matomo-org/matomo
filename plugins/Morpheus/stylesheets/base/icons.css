@@ -391,3 +391,6 @@
 .icon-clock:before {
   content: "\e901";
 }
+.icon-heart:before{
+  content: "\e9da";
+}

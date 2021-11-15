@@ -35,6 +35,7 @@ export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndica
 export { default as translate } from './translate';
 export { default as alertAdapter } from './Alert/Alert.adapter';
 export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
+export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { default as Matomo } from './Matomo/Matomo';
 export * from './Periods';

@@ -1,7 +1,7 @@
 {
     "MobileAppMeasurable": {
-        "MobileApp": "Мобільний Додаток",
-        "MobileApps": "Мобільні Додатки",
-        "MobileAppDescription": "Власний мобільний додаток для IOS, Android або будь-який іншої мобільної операційної системи."
+        "MobileApp": "Мобільний Застосунок",
+        "MobileAppDescription": "Власний мобільний застосунок для IOS, Android або будь-який іншої мобільної операційної системи.",
+        "MobileApps": "Мобільні Додатки"
     }
 }
