@@ -385,6 +385,14 @@ archiving_custom_ranges[] =
 ; This feature will not work with the MYSQLI extension.
 archiving_query_max_execution_time = 7200
 
+
+; Allow you to disable archiving segment on selected plugins
+; When this is on, it won't archive any data for selected plugin if segment is not empty
+; This field accept split by comma eg: disable_archiving_segment_for_plugin="Plugin1,Plugin2,Plugin3"
+; This field also accept array format eg: disable_archiving_segment_for_plugin[]="Plugin1", disable_archiving_segment_for_plugin[]="Plugin2"
+; if you like to disable on specify site, please append the siteId to the [general_siteId]. eg siteId=2 [general_2]
+disable_archiving_segment_for_plugins = ""
+
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
@@ -1026,13 +1034,6 @@ exclude_requests = ""
 ; This should either be the full path to the image file or a base64 encoded image string wrapped in quotes
 ; For both image files and base64 encoded strings supported image types are gif, jpg and png
 custom_image =
-
-; Allow you to disable archiving segment on selected plugins
-; When this is on, it won't archive any data for selected plugin if segment is not empty
-; This field accept split by comma eg: disable_archiving_segment_for_plugin="Plugin1,Plugin2,Plugin3"
-; This field also accept array format eg: disable_archiving_segment_for_plugin[]="Plugin1", disable_archiving_segment_for_plugin[]="Plugin2"
-; if you like to disable on specify site, please append the siteId to the [general_siteId]. eg siteId=2 [general_2]
-disable_archiving_segment_for_plugins = ""
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
