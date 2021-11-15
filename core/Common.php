@@ -743,11 +743,11 @@ class Common
 
     public static function stringEndsWith($haystack, $needle)
     {
-        if (empty($needle)) {
+        if (strlen(strval($needle)) === 0) {
             return true;
         }
 
-        if (empty($haystack)) {
+        if (strlen(strval($haystack)) === 0) {
             return false;
         }
 

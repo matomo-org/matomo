@@ -668,7 +668,7 @@ class Url
      */
     public static function getHostFromUrl($url)
     {
-        if (empty($url)) {
+        if (!is_string($url)) {
             return null;
         }
 
