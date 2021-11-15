@@ -116,6 +116,16 @@ class EvolutionMetric extends ProcessedMetric
         return Piwik::translate('CoreHome_EvolutionMetricName', [$metricName]);
     }
 
+    public function getTrendValue($computedValue = 0)
+    {
+        $isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
+        if ($isLowerBetter) {
+            return ($computedValue < 0 ? 1 : ($computedValue > 0 ? -1 : 0));
+        }
+
+        return ($computedValue < 0 ? -1 : ($computedValue > 0 ? 1 : 0));
+    }
+
     public function compute(Row $row)
     {
         $columnName = $this->getWrappedName();

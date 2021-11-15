@@ -17,7 +17,6 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
@@ -458,13 +457,7 @@ class DataTablePostProcessor
 
                     // Add a trend column for evolution metrics
                     if ($processedMetric instanceof EvolutionMetric) {
-                        $isLowerBetter = Metrics::isLowerValueBetter($name);
-                        if ($isLowerBetter) {
-                            $trend = ($computedValue < 0 ? 1 : ($computedValue > 0 ? -1 : 0));
-                        } else {
-                            $trend = ($computedValue < 0 ? -1 : ($computedValue > 0 ? 1 : 0));
-                        }
-                        $row->addColumn($processedMetric->getTrendName(), $trend);
+                        $row->addColumn($processedMetric->getTrendName(), $processedMetric->getTrendValue($computedValue));
                     }
                 }
             }
