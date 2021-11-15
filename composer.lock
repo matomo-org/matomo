@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21bbe6eaffe95524a3cc128e05470994",
+    "content-hash": "1c7602a3ed59f0bcb79fdad737aaf88e",
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "679333688725c7dd043ff35c547100ccf512f051"
+                "reference": "4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/679333688725c7dd043ff35c547100ccf512f051",
-                "reference": "679333688725c7dd043ff35c547100ccf512f051",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b",
+                "reference": "4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.0"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.1"
             },
             "funding": [
                 {
@@ -80,7 +80,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-27T07:42:23+00:00"
+            "time": "2021-10-28T20:44:15+00:00"
         },
         {
             "name": "composer/semver",
@@ -397,16 +397,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "4.3.1",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "88e5419ee1448ccb9537e287dd09836ff9d2de3b"
+                "reference": "f7f0509f284bda14890909de53da9bb0f7494532"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/88e5419ee1448ccb9537e287dd09836ff9d2de3b",
-                "reference": "88e5419ee1448ccb9537e287dd09836ff9d2de3b",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/f7f0509f284bda14890909de53da9bb0f7494532",
+                "reference": "f7f0509f284bda14890909de53da9bb0f7494532",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2021-09-20T12:34:12+00:00"
+            "time": "2021-11-12T08:08:31+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -602,16 +602,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.0.1",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "320756c1a85ea9092387ab51032da6db2f9ffec2"
+                "reference": "37ad506a9e5b73dd5c8664708086fd4b888547fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/320756c1a85ea9092387ab51032da6db2f9ffec2",
-                "reference": "320756c1a85ea9092387ab51032da6db2f9ffec2",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/37ad506a9e5b73dd5c8664708086fd4b888547fd",
+                "reference": "37ad506a9e5b73dd5c8664708086fd4b888547fd",
                 "shasum": ""
             },
             "require": {
@@ -654,7 +654,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2021-05-19T11:44:04+00:00"
+            "time": "2021-11-15T00:05:09+00:00"
         },
         {
             "name": "matomo/network",
@@ -2072,31 +2072,34 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v2.0.12",
+            "version": "v3.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "f5fad68b303f65225db1a3d3f4bb58aea7a418b4"
+                "reference": "daf0912e0bd9069508a87a4419e4735a34e09698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/f5fad68b303f65225db1a3d3f4bb58aea7a418b4",
-                "reference": "f5fad68b303f65225db1a3d3f4bb58aea7a418b4",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/daf0912e0bd9069508a87a4419e4735a34e09698",
+                "reference": "daf0912e0bd9069508a87a4419e4735a34e09698",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": ">=5.4"
+                "php": "^5.4|^7.0|^8.0"
             },
             "require-dev": {
-                "codeception/codeception": "^2.3",
-                "phpunit/phpunit": "^4.8|6.1",
-                "squizlabs/php_codesniffer": "^2.8|3.0"
+                "codeception/codeception": "^4.1.22",
+                "codeception/module-asserts": "^1.3",
+                "codeception/module-filesystem": "^1.0",
+                "phpunit/phpunit": "^5.7|^9.5",
+                "squizlabs/php_codesniffer": "^3.4"
             },
-            "type": "project",
+            "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "3.0.x-dev",
+                    "2.0": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -2104,7 +2107,7 @@
                     "CpChart\\": "src/"
                 },
                 "files": [
-                    "src/Resources/data/constants.php"
+                    "constants.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2123,7 +2126,7 @@
                     "role": "Developer of the CpChart wrapper package"
                 }
             ],
-            "description": "Port of \"pChart\" library into PHP 5",
+            "description": "Port of \"pChart\" library into PHP 5+",
             "homepage": "https://github.com/szymach/c-pchart",
             "keywords": [
                 "CpChart",
@@ -2134,9 +2137,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/2.0"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.0.10"
             },
-            "time": "2019-07-26T22:48:01+00:00"
+            "time": "2021-09-25T16:34:55+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -3766,16 +3769,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "3.1.3",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e"
+                "reference": "0c32ea2e40dbf59de29f3b49bf375176ce7dd8db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/6b853149eab67d4da22291d36f5b0631c0fd856e",
-                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/0c32ea2e40dbf59de29f3b49bf375176ce7dd8db",
+                "reference": "0c32ea2e40dbf59de29f3b49bf375176ce7dd8db",
                 "shasum": ""
             },
             "require": {
@@ -3784,7 +3787,7 @@
             },
             "require-dev": {
                 "ext-mbstring": "*",
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^8.5"
             },
             "type": "library",
             "extra": {
@@ -3831,7 +3834,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.3"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.4"
             },
             "funding": [
                 {
@@ -3839,7 +3842,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-30T07:47:53+00:00"
+            "time": "2021-11-11T13:51:24+00:00"
         },
         {
             "name": "sebastian/global-state",

@@ -239,8 +239,8 @@ class Php extends GeoIp2
     protected function setCountryResults($lookupResult, &$result)
     {
         $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
-        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
+        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code ?? '');
+        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode ?? '');
         $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
     }
 

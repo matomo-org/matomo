@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 
 let adminContent: HTMLElement|null = null;
@@ -51,15 +51,6 @@ export default defineComponent({
     return {
       actualFeature: this.feature,
       actualHelpText: this.helpText,
-    };
-  },
-  setup() {
-    const root = ref<HTMLElement>(null);
-    const content = ref<HTMLElement>(null);
-
-    return {
-      root,
-      content,
     };
   },
   watch: {

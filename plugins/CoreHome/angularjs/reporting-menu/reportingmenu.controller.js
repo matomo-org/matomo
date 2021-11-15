@@ -93,7 +93,7 @@
 
             var prefix = '<strong>' + _pk_translate('CoreHome_ReportingCategoryHelpPrefix', [category.name, subcategory.name]) + '</strong><br/>';
 
-            var options = { context: 'info', id: 'reportingmenu-help', type: 'persistent', noclear: true };
+            var options = { context: 'info', id: 'reportingmenu-help', type: 'transient', noclear: true };
             options['class'] = 'help-notification';
 
             notification.show(prefix + subcategory.help, options);
@@ -129,10 +129,17 @@
                 params.compareSegments = compareSegments;
             }
 
-            return $.param(params);
+            return $.param(params)
+              // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+              // entries to show up in the browser history. this has a compounding effect w/ angular.js,
+              // which when the back button is pressed to effectively abort the back navigation.
+              .replace(/%2C/g, ',');
         };
 
         $scope.loadCategory = function (category) {
+            var UI = require('piwik/UI');
+            UI.Notification.prototype.remove('reportingmenu-help');
+			
             if (category.active) {
                 category.active = false;
             } else {
