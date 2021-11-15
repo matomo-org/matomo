@@ -173,7 +173,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('#header').hide();
             });
 
-            pageWrap = await page.$('.pageWrap');
+            const pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('notifications');
         });
 

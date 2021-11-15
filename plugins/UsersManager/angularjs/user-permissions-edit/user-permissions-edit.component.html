@@ -1,6 +1,6 @@
 <div class="userPermissionsEdit" ng-class="{ loading: $ctrl.isLoadingAccess }">
     <div class="row" ng-if="!$ctrl.hasAccessToAtLeastOneSite">
-        <div piwik-notification context="warning" type="persistent" noclear="true">
+        <div piwik-notification context="warning" type="transient" noclear="true">
             <strong>{{:: 'General_Warning'|translate }}:</strong>
 
             {{:: 'UsersManager_NoAccessWarning'|translate }}
