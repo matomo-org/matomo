@@ -180,7 +180,7 @@ class Piwik
     }
 
 
-    public static function getCurrentUserCreationData()
+    public static function getCurrentUserCreationDate()
     {
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
         return $user['date_registered'] ?? '';
