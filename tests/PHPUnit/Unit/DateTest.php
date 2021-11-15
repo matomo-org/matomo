@@ -294,6 +294,20 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dayExpected, $date->getDatetime());
     }
 
+    public function testAddMonth()
+    {
+        $dayStart = '2010-03-28 00:00:00';
+        $dayExpected = '2010-04-28 00:00:00';
+        $date = Date::factory($dayStart)->addMonth(1);
+        $this->assertEquals($dayExpected, $date->getDatetime());
+
+
+        $dayStart = '2010-03-28 00:00:00';
+        $dayExpected = '2010-09-28 00:00:00';
+        $date = Date::factory($dayStart)->addMonth(6);
+        $this->assertEquals($dayExpected, $date->getDatetime());
+    }
+
     public function testAddHourLongHours()
     {
         $dateTime = '2010-01-03 11:22:33';

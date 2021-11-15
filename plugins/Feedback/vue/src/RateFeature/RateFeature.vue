@@ -63,7 +63,6 @@
         <div
           v-if="like"
         >
-          <ReviewLinks />
         </div>
         <input
           type="button"
@@ -78,7 +77,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoDialog, AjaxHelper } from 'CoreHome';
-import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
 
 export default defineComponent({
   props: {
@@ -86,7 +84,6 @@ export default defineComponent({
   },
   components: {
     MatomoDialog,
-    ReviewLinks,
   },
   data() {
     return {
