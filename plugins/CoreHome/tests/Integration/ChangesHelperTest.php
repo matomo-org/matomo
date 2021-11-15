@@ -27,7 +27,7 @@ class ChangesHelperTest extends IntegrationTestCase
 
     public function test_CoreHomeChanges_ShouldSortChangeListMostRecentFirst()
     {
-        $json = '{"idchange":"3","plugin_name":"CoreHome","version":"4.6.0b5","title":"New feature x added","description":"Now you can do a with b like this","link_name":"For more information go here","link":"https:\/\/www.matomo.org"}';
+        $json = '{"idchange":3,"plugin_name":"CoreHome","version":"4.6.0b5","title":"New feature x added","description":"Now you can do a with b like this","link_name":"For more information go here","link":"https:\/\/www.matomo.org"}';
         $changes = ChangesHelper::getChanges();
         $r = reset($changes);
         unset($r['created_time']);
