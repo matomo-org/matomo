@@ -248,7 +248,9 @@ export default defineComponent({
       });
     },
     focusInput() {
-      this.$refs.feedbackText.focus();
+      if (this.$refs.feedbackText != null) {
+        this.$refs.feedbackText.focus();
+      }
     },
     async sendFeedback() {
       this.errorMessage = null;
