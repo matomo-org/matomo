@@ -74,9 +74,7 @@ class API extends \Piwik\Plugin\API
         }
         $body .= "Source: ".$source."\n";
 
-        if ($message != 'test') {
-            $this->sendMail($subject, $body);
-        }
+        $this->sendMail($subject, $body);
 
         return 'success';
     }
