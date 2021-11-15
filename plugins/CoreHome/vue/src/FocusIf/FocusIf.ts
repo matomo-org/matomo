@@ -8,20 +8,26 @@
 import { DirectiveBinding } from 'vue';
 
 interface FocusIfArgs {
-  focusIf: boolean;
   afterFocus?: () => void;
 }
 
-export default {
-  updated(el: HTMLElement, binding: DirectiveBinding<FocusIfArgs>): void {
-    if (binding.value.focusIf) {
-      setTimeout(() => {
-        el.focus();
+function doFocusIf(el: HTMLElement, binding: DirectiveBinding<FocusIfArgs>): void {
+  if (binding.arg) {
+    setTimeout(() => {
+      el.focus();
 
-        if (binding.value.afterFocus) {
-          binding.value.afterFocus();
-        }
-      }, 5);
-    }
+      if (binding.value.afterFocus) {
+        binding.value.afterFocus();
+      }
+    }, 5);
+  }
+}
+
+export default {
+  mounted(el: HTMLElement, binding: DirectiveBinding<FocusIfArgs>): void {
+    doFocusIf(el, binding);
+  },
+  updated(el: HTMLElement, binding: DirectiveBinding<FocusIfArgs>): void {
+    doFocusIf(el, binding);
   },
 };
