@@ -63,9 +63,57 @@
 
             var allSites = report.sites;
             angular.forEach(allSites, function (site, index) {
-                site.visits_evolution    = parseInt(site.visits_evolution, 10);
-                site.pageviews_evolution = parseInt(site.pageviews_evolution, 10);
-                site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
+
+                if (site.hasOwnProperty('ratio') && site.ratio != 1) {
+                    var percent = NumberFormatter.formatPercent(Math.round((site.ratio * 100)));
+                    var metricName = null;
+                    var previousTotal = 0;
+                    var currentTotal = 0;
+                    var evolution = 0;
+                    var previousTotalAdjusted = 0;
+                    if (model.sortColumn == 'nb_visits' || model.sortColumn == 'visits_evolution') {
+                        previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
+                        currentTotal = NumberFormatter.formatNumber(site.nb_visits);
+                        evolution = NumberFormatter.formatPercent(site.visits_evolution);
+                        metricName = _pk_translate("General_ColumnNbVisits");
+                        previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_nb_visits * site.ratio));
+                    }
+                    if (model.sortColumn == 'pageviews_evolution') {
+                        previousTotal = site.previous_Actions_nb_pageviews;
+                        currentTotal = site.nb_pageviews;
+                        evolution = NumberFormatter.formatPercent(site.pageviews_evolution);
+                        metricName = _pk_translate("General_ColumnPageviews");
+                        previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(site.previous_Actions_nb_pageviews * site.ratio));
+                    }
+                    if (model.sortColumn == 'revenue_evolution') {
+                        previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
+                        currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
+                        evolution = NumberFormatter.formatPercent(site.revenue_evolution);
+                        metricName = _pk_translate("General_ColumnRevenue");
+                        previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(site.previous_Goal_revenue * site.ratio), site.currencySymbol);
+                    }
+
+                    if (metricName) {
+                        site.tooltip = _pk_translate("MultiSites_EvolutionComparisonIncomplete", [percent]) + "\n";
+                        site.tooltip += _pk_translate("MultiSites_EvolutionComparisonProportional", [percent, previousTotalAdjusted, metricName, previousTotal]) + "\n";
+
+                        switch (site.periodName) {
+                            case 'day':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonDay", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                            case 'week':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonWeek", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                            case 'month':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonMonth", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                            case 'year':
+                                site.tooltip += _pk_translate("MultiSites_EvolutionComparisonYear", [currentTotal, metricName, previousTotalAdjusted, site.previousRange, evolution]);
+                                break;
+                        }
+                    }
+
+                }
             });
 
             model.totalVisits   = report.totals.nb_visits;
@@ -110,7 +158,7 @@
 
             model.sortColumn = metric;
             fetchAllSites();
-        };
+        }
 
         function previousPage() {
             model.currentPage = model.currentPage - 1;
@@ -145,7 +193,7 @@
                 filter_sort_order: 'asc',
                 filter_limit: model.pageSize,
                 filter_offset: getCurrentPagingOffset(),
-                showColumns: 'label,nb_visits,nb_pageviews,visits_evolution,pageviews_evolution,revenue_evolution,nb_actions,revenue'
+                showColumns: 'label,nb_visits,nb_pageviews,visits_evolution,visits_evolution_trend,pageviews_evolution,pageviews_evolution_trend,revenue_evolution,revenue_evolution_trend,nb_actions,revenue'
             };
 
             if (model.searchTerm) {
