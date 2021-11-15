@@ -205,7 +205,7 @@ export default defineComponent({
       activeSiteId: Matomo.idSite,
       showSitesList: false,
       isLoading: false,
-      sites: Array<Site>(),
+      sites: [],
       selectedSite: {
         id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
