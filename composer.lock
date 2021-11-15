@@ -602,16 +602,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.0.1",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "320756c1a85ea9092387ab51032da6db2f9ffec2"
+                "reference": "37ad506a9e5b73dd5c8664708086fd4b888547fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/320756c1a85ea9092387ab51032da6db2f9ffec2",
-                "reference": "320756c1a85ea9092387ab51032da6db2f9ffec2",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/37ad506a9e5b73dd5c8664708086fd4b888547fd",
+                "reference": "37ad506a9e5b73dd5c8664708086fd4b888547fd",
                 "shasum": ""
             },
             "require": {
@@ -654,7 +654,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2021-05-19T11:44:04+00:00"
+            "time": "2021-11-15T00:05:09+00:00"
         },
         {
             "name": "matomo/network",
