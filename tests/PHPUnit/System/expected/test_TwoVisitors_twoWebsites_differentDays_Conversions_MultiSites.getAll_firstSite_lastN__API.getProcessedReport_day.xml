@@ -210,11 +210,12 @@
 			<row>
 				<idsite>1</idsite>
 				<ratio>1</ratio>
-        		<previous_nb_visits>0</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-02 - 2010-01-02</previousRange>
-        		<previous_nb_actions>0</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>0</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Sat, Jan 2</previousRange>
+				<previous_nb_actions>0</previous_nb_actions>
+				<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
 				<previous_Goal_revenue>0</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -224,24 +225,26 @@
 			<row>
 				<idsite>1</idsite>
 				<ratio>1</ratio>
-        		<previous_nb_visits>2</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-03 - 2010-01-03</previousRange>
-        		<previous_nb_actions>2</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>2</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>10</previous_Goal_revenue>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>2</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Sun, Jan 3</previousRange>
+				<previous_nb_actions>2</previous_nb_actions>
+				<previous_Actions_nb_pageviews>2</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>10</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
 			<row>
 				<idsite>2</idsite>
 				<ratio>1</ratio>
-        		<previous_nb_visits>0</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-03 - 2010-01-03</previousRange>
-        		<previous_nb_actions>0</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>0</previous_Goal_revenue>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>0</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Sun, Jan 3</previousRange>
+				<previous_nb_actions>0</previous_nb_actions>
+				<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>0</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -250,12 +253,13 @@
 			<row>
 				<idsite>1</idsite>
 				<ratio>1</ratio>
-        		<previous_nb_visits>1</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-04 - 2010-01-04</previousRange>
-        		<previous_nb_actions>1</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>1</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>0</previous_Goal_revenue>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>1</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Mon, Jan 4</previousRange>
+				<previous_nb_actions>1</previous_nb_actions>
+				<previous_Actions_nb_pageviews>1</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>0</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -263,13 +267,14 @@
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				<idsite>1</idsite>
- 				<ratio>1</ratio>
-        		<previous_nb_visits>1</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-05 - 2010-01-05</previousRange>
-        		<previous_nb_actions>5</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>5</previous_Goal_revenue>
+				<ratio>1</ratio>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>1</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Tue, Jan 5</previousRange>
+				<previous_nb_actions>5</previous_nb_actions>
+				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -278,12 +283,13 @@
 			<row>
 				<idsite>1</idsite>
 				<ratio>1</ratio>
-        		<previous_nb_visits>1</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-06 - 2010-01-06</previousRange>
-        		<previous_nb_actions>5</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>5</previous_Goal_revenue>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>1</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Wed, Jan 6</previousRange>
+				<previous_nb_actions>5</previous_nb_actions>
+				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -291,13 +297,14 @@
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				<idsite>1</idsite>
- 				<ratio>1</ratio>
-        		<previous_nb_visits>1</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-07 - 2010-01-07</previousRange>
-        		<previous_nb_actions>5</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>5</previous_Goal_revenue>
+				<ratio>1</ratio>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>1</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Thu, Jan 7</previousRange>
+				<previous_nb_actions>5</previous_nb_actions>
+				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -306,21 +313,18 @@
 			<row>
 				<idsite>1</idsite>
 				<ratio>1</ratio>
-        		<previous_nb_visits>1</previous_nb_visits>
-        		<periodName>day</periodName>
-        		<previousRange>2010-01-08 - 2010-01-08</previousRange>
-        		<previous_nb_actions>5</previous_nb_actions>
-        		<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-        		<previous_Goal_revenue>5</previous_Goal_revenue>
+				<currencySymbol>$</currencySymbol>
+				<previous_nb_visits>1</previous_nb_visits>
+				<periodName>day</periodName>
+				<previousRange>Fri, Jan 8</previousRange>
+				<previous_nb_actions>5</previous_nb_actions>
+				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+				<previous_Goal_revenue>5</previous_Goal_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
 		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>9</nb_visits>
-		<nb_actions>31</nb_actions>
-		<nb_pageviews>31</nb_pageviews>
-		<revenue>35</revenue>
 	</reportTotal>
 </result>

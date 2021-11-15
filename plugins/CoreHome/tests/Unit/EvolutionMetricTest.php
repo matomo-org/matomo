@@ -42,7 +42,7 @@ class EvolutionMetricTest extends TestCase
 
         $ratio = EvolutionMetric::getRatio($currentData, $pastData, $row);
 
-        $this->assertEquals(0.5, $ratio);
+        $this->assertEquals(0.429, $ratio);
     }
 
     public function test_shouldNotDoProportionalComparision_ifCurrentPeriodComplete()
