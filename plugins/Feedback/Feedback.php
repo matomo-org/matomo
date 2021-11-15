@@ -42,6 +42,7 @@ class Feedback extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.less";
         $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
