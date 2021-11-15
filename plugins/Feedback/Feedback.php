@@ -117,12 +117,12 @@ class Feedback extends \Piwik\Plugin
     public function renderFeedbackQuestion()
     {
         $feedbackQuestionBanner = new View('@Feedback/feedbackQuestionBanner');
-        $feedbackQuestionBanner->showQuestionBanner = (int)$this->getShouldPromptForFeedback();
+        $feedbackQuestionBanner->showQuestionBanner = (int)$this->showQuestionBanner();
 
         return $feedbackQuestionBanner->render();
     }
 
-    public function getShouldPromptForFeedback()
+    public function showQuestionBanner()
     {
         if (Piwik::isUserIsAnonymous()) {
             return false;
@@ -130,6 +130,14 @@ class Feedback extends \Piwik\Plugin
 
         // Hide Feedback popup in all tests except if forced
         if ($this->isDisabledInTestMode()) {
+            return false;
+        }
+
+        $shouldShowQuestionBanner = true;
+
+        Piwik::postEvent('Feedback.showQuestionBanner', [&$shouldShowQuestionBanner]);
+
+        if (!$shouldShowQuestionBanner) {
             return false;
         }
 
@@ -143,15 +151,7 @@ class Feedback extends \Piwik\Plugin
         }
 
         // if is new user or old user field not exist
-        if ($nextReminderDate === false || $nextReminderDate <= 0) {
-
-            // if user is created more than 6 month ago, set reminder to today and show banner
-            $userCreatedDate = Piwik::getCurrentUserCreationData();
-            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
-                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
-                $feedbackReminder->setUserOption($nextReminder);
-                return true;
-            }
+        if ($nextReminderDate === false) {
             //new user extend to 6 month, don't show banner
             $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);

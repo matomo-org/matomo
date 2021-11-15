@@ -16,6 +16,7 @@ import translate from './translate';
 interface SingleScopeVarInfo {
   vue?: string;
   default?: any; // eslint-disable-line
+  transform?: (v: unknown) => unknown;
   angularJsBind?: string;
 }
 
@@ -147,6 +148,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                       ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices)
                       : info.default;
                   }
+                  if (info.transform) {
+                    value = info.transform(value);
+                  }
                   initialData[info.vue] = value;
                 });
                 return initialData;
@@ -191,13 +195,16 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               }
 
               ngScope.$watch(scopeVarName, (newValue: any) => { // eslint-disable-line
+                let newValueFinal = newValue;
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
-                  vm[scopeVarName] = info.default instanceof Function
+                  newValueFinal = info.default instanceof Function
                     ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices)
                     : info.default;
-                } else {
-                  vm[scopeVarName] = newValue;
                 }
+                if (info.transform) {
+                  newValueFinal = info.transform(newValueFinal);
+                }
+                vm[scopeVarName] = newValueFinal;
               });
             });
 

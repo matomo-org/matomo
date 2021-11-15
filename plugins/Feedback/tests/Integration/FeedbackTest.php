@@ -81,7 +81,7 @@ class FeedbackTest extends IntegrationTestCase
     {
         FakeAccess::$identity = '';
 
-        $this->assertFalse($this->feedback->getShouldPromptForFeedback());
+        $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
 
@@ -89,32 +89,32 @@ class FeedbackTest extends IntegrationTestCase
     {
         Option::set('Feedback.nextFeedbackReminder.user1', '-1');
 
-        $this->assertFalse($this->feedback->getShouldPromptForFeedback());
+        $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
     public function test_shouldPromptForFeedback_nextReminderDateInPast()
     {
         FakeAccess::$identity = 'user1';
         Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
-        $this->assertTrue($this->feedback->getShouldPromptForFeedback());
+        $this->assertTrue($this->feedback->showQuestionBanner());
     }
 
     public function test_shouldPromptForFeedack_nextReminderDateToday()
     {
         Option::set('Feedback.nextFeedbackReminder.user1', '2018-10-31');
-        $this->assertTrue($this->feedback->getShouldPromptForFeedback());
+        $this->assertTrue($this->feedback->showQuestionBanner());
     }
 
     public function test_shouldPromptForFeedback_user_oldThanHalfYear()
     {
         FakeAccess::$identity = 'user1';
         Option::deleteLike('Feedback.nextFeedbackReminder.user1');
-        $this->assertFalse($this->feedback->getShouldPromptForFeedback());
+        $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
     public function test_shouldNotPromptForFeedback_user_LessThanHalfYear()
     {
         FakeAccess::$identity = 'user2';
-        $this->assertFalse($this->feedback->getShouldPromptForFeedback());
+        $this->assertFalse($this->feedback->showQuestionBanner());
     }
 }
