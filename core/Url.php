@@ -668,13 +668,17 @@ class Url
      */
     public static function getHostFromUrl($url)
     {
-        $parsedUrl = parse_url($url);
-
-        if (empty($parsedUrl['host'])) {
-            return;
+        if (empty($url)) {
+            return null;
         }
 
-        return mb_strtolower($parsedUrl['host']);
+        $urlHost = parse_url($url, PHP_URL_HOST);
+
+        if (empty($urlHost)) {
+            return null;
+        }
+
+        return mb_strtolower($urlHost);
     }
 
     /**

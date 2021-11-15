@@ -621,15 +621,15 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
-        $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $coreProperties, $settingValues);
-        $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $coreProperties, $settingValues);
-        $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
-        $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
-        $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents ?? ''), $coreProperties, $settingValues);
 
-        $timezone = trim($timezone);
+        $timezone = trim($timezone ?? '');
         if (empty($timezone)) {
             $timezone = $this->getDefaultTimezone();
         }
