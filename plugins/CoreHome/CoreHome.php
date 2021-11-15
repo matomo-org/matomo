@@ -137,7 +137,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
@@ -151,6 +151,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -235,9 +236,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
