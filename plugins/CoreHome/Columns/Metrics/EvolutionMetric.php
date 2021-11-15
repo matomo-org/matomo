@@ -40,6 +40,11 @@ class EvolutionMetric extends ProcessedMetric
     private $evolutionMetricName;
 
     /**
+     * @var string
+     */
+    private $evolutionMetricTrendName;
+
+    /**
      * @var int
      */
     private $quotientPrecision;
@@ -85,6 +90,7 @@ class EvolutionMetric extends ProcessedMetric
             $evolutionMetricName = $wrappedName . '_evolution';
         }
 
+        $this->evolutionMetricTrendName = $evolutionMetricName . '_trend';
         $this->evolutionMetricName = $evolutionMetricName;
         $this->quotientPrecision = $quotientPrecision;
     }
@@ -92,6 +98,11 @@ class EvolutionMetric extends ProcessedMetric
     public function getName()
     {
         return $this->evolutionMetricName;
+    }
+
+    public function getTrendName()
+    {
+        return $this->evolutionMetricTrendName;
     }
 
     public function getTranslatedName()

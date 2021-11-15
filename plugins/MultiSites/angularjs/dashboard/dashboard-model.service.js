@@ -192,9 +192,8 @@
                 hideMetricsDoc: '1',
                 filter_sort_order: 'asc',
                 filter_limit: model.pageSize,
-                format_metrics_add_raw_copy: 'visits_evolution,pageviews_evolution,revenue_evolution',
                 filter_offset: getCurrentPagingOffset(),
-                showColumns: 'label,nb_visits,nb_pageviews,visits_evolution,pageviews_evolution,revenue_evolution,nb_actions,revenue'
+                showColumns: 'label,nb_visits,nb_pageviews,visits_evolution,visits_evolution_trend,pageviews_evolution,pageviews_evolution_trend,revenue_evolution,revenue_evolution_trend,nb_actions,revenue'
             };
 
             if (model.searchTerm) {
