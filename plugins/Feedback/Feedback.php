@@ -123,15 +123,19 @@ class Feedback extends \Piwik\Plugin
         $nextReminderDate = $feedbackReminder->getUserOption();
         $now = Date::now()->getTimestamp();
 
-        //user answered question
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
+        // If there isn't any reminder date set, or never remind me was selected previously (-1) we determine a new date
+        if ($nextReminderDate === false || $nextReminderDate <= 0) {
 
-        // if is new user or old user field not exist
-        if ($nextReminderDate === false) {
-            //new user extend to 6 month, don't show banner
-            $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+            // if user was created within the last 6 months, we set the date to 6 months after his creation date
+            $userCreatedDate = Piwik::getCurrentUserCreationData();
+            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {
+                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
+                $feedbackReminder->setUserOption($nextReminder);
+                return false;
+            }
+
+            // Otherwise we set the date to somewhen within the next 6 months
+            $nextReminder = Date::now()->getStartOfDay()->addDay(Common::getRandomInt(1, 6*30))->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
             return false;
         }
