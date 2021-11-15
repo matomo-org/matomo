@@ -129,7 +129,7 @@ class Feedback extends \Piwik\Plugin
             // if user was created within the last 6 months, we set the date to 6 months after his creation date
             $userCreatedDate = Piwik::getCurrentUserCreationDate();
             if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {
-                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
+                $nextReminder = Date::factory($userCreatedDate)->addMonth(6)->toString('Y-m-d');
                 $feedbackReminder->setUserOption($nextReminder);
                 return false;
             }
