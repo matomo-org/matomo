@@ -157,6 +157,28 @@ class ArchiveInvalidationTest extends SystemTestCase
 
     }
 
+    public function testDisablePluginArchiveBySiteId()
+    {
+        //test siteId 1 by string
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        //test siteId 1 by array
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins',['testPlugin', 'testPlugin2'] );
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        //test siteId 1 by string with comma
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','testPlugin,testPlugin2' );
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','' );
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        Config::setSetting('General_2', 'disable_archiving_segment_for_plugins','testPlugin' );
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+    }
+
+
 
     /**
      * This is called after getApiToTest()

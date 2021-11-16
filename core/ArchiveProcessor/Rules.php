@@ -384,9 +384,8 @@ class Rules
         if (!$siteId) {
             return false;
         }
-        //per site setting
-        $siteConfig = $config->getFromLocalConfig('General_' . $siteId);
-        if (!$siteConfig) {
+        $siteConfig = $config->{'General_' . $siteId};
+        if (empty($siteConfig)) {
             return false;
         }
 
