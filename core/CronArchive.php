@@ -162,6 +162,13 @@ class CronArchive
      */
     public $maxConcurrentArchivers = false;
 
+    /**
+     * Maximum number of sites to process during a single execution of the archiver.
+     *
+     * @var int|null
+     */
+    public $maxSitesToProcess = null;
+
     private $archivingStartingTime;
 
     private $formatter;
@@ -359,6 +366,8 @@ class CronArchive
 
         $queueConsumer = new QueueConsumer($this->logger, $this->websiteIdArchiveList, $countOfProcesses, $pid,
             $this->model, $this->segmentArchiving, $this, $this->cliMultiRequestParser, $this->archiveFilter);
+
+        $queueConsumer->setMaxSitesToProcess($this->maxSitesToProcess);
 
         while (true) {
             if ($this->isMaintenanceModeEnabled()) {
@@ -1113,6 +1122,10 @@ class CronArchive
                 $this->logger->info("- Reports for the current $period will be processed at most every " . $ttl
                     . " seconds. You can change this value in config/config.ini.php by editing 'time_before_" . $period . "_archive_considered_outdated' in the '[General]' section.");
             }
+        }
+
+        if ($this->maxSitesToProcess) {
+            $this->logger->info("- Maximum {$this->maxSitesToProcess} websites will be processed");
         }
 
         // Try and not request older data we know is already archived

@@ -108,11 +108,16 @@ class QueueConsumer
      */
     private $currentSiteArchivingStartTime;
 
+    /**
+     * @var int|null
+     */
+    private $maxSitesToProcess = null;
+
     private $processedSiteCount = 0;
 
-    public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid, Model $model,
-                                SegmentArchiving $segmentArchiving, CronArchive $cronArchive, RequestParser $cliMultiRequestParser,
-                                ArchiveFilter $archiveFilter = null)
+    public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid,
+                                Model $model, SegmentArchiving $segmentArchiving, CronArchive $cronArchive,
+                                RequestParser $cliMultiRequestParser, ArchiveFilter $archiveFilter = null)
     {
         $this->logger = $logger;
         $this->websiteIdArchiveList = $websiteIdArchiveList;
@@ -134,6 +139,10 @@ class QueueConsumer
     public function getNextArchivesToProcess()
     {
         if (empty($this->idSite)) {
+            if ($this->maxSitesToProcess && $this->processedSiteCount >= $this->maxSitesToProcess) {
+                $this->logger->info("Maximum number of sites to process per execution has been reached.");
+                return null;
+            }
             $this->idSite = $this->getNextIdSiteToArchive();
             if (empty($this->idSite)) { // no sites left to archive, stop
                 $this->logger->debug("No more sites left to archive, stopping.");
@@ -616,5 +625,20 @@ class QueueConsumer
     public function getIdSite()
     {
         return $this->idSite;
+    }
+
+    /**
+     * Set or get the maximum number of sites to process
+     *
+     * @param int|null $newValue New value or null to just return current value
+     *
+     * @return int|null New or existing value
+     */
+    public function setMaxSitesToProcess($newValue = null)
+    {
+        if (null !== $newValue) {
+            $this->maxSitesToProcess = $newValue;
+        }
+        return $this->maxSitesToProcess;
     }
 }
