@@ -129,6 +129,7 @@ import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 import SitesStore, { Site } from './SitesStore';
+import debounce from '../debounce';
 
 interface SiteRef {
   id: string|number;
@@ -236,6 +237,9 @@ export default defineComponent({
       this.$refs.selectorLink.click();
       this.$refs.selectorLink.focus();
     });
+  },
+  created() {
+    this.onSearchInputKeydown = debounce(this.onSearchInputKeydown.bind(this));
   },
   computed: {
     shouldFocusOnSearch() {

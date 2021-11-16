@@ -101,6 +101,7 @@ import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
 import SitesStore, { Site } from '../SiteSelector/SitesStore';
 import Matomo from '../Matomo/Matomo';
+import debounce from '../debounce';
 
 interface SubMenuItem {
   name: string;
@@ -201,6 +202,9 @@ export default defineComponent({
       sites: [],
       isLoading: false,
     };
+  },
+  created() {
+    this.searchMenu = debounce(this.searchMenu.bind(this));
   },
   computed: {
     hasSitesSelector() {
