@@ -71,30 +71,42 @@ class ArchiveInvalidationTest extends SystemTestCase
         // Build tests for the 2 websites
         return array(
 
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
-                                    'periods'                => 'day',
-                                    'segment'                => self::TEST_SEGMENT,
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
-            ),
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite1,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite1 . $this->suffix,
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
-                                    'periods'                => 'month',
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
-            ),
-
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
-                                    'periods'                => 'month',
-                                    'segment'                => self::TEST_SEGMENT,
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
+          array(
+            $apiToCall,
+            array(
+              'idSite'                 => self::$fixture->idSite2,
+              'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
+              'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+              'periods'                => 'day',
+              'segment'                => self::TEST_SEGMENT,
+              'setDateLastN'           => 4, // 4months ahead
+              'otherRequestParameters' => array('expanded' => 1)
             )
+          ),
+          array(
+            $apiToCall,
+            array(
+              'idSite'                 => self::$fixture->idSite1,
+              'testSuffix'             => 'Website' . self::$fixture->idSite1 . $this->suffix,
+              'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
+              'periods'                => 'month',
+              'setDateLastN'           => 4, // 4months ahead
+              'otherRequestParameters' => array('expanded' => 1)
+            )
+          ),
+
+          array(
+            $apiToCall,
+            array(
+              'idSite'                 => self::$fixture->idSite2,
+              'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
+              'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+              'periods'                => 'month',
+              'segment'                => self::TEST_SEGMENT,
+              'setDateLastN'           => 4, // 4months ahead
+              'otherRequestParameters' => array('expanded' => 1)
+            )
+          )
         );
     }
 
@@ -127,6 +139,21 @@ class ArchiveInvalidationTest extends SystemTestCase
             $this->runApiTests($api, $params);
         }
     }
+
+    public function testDisablePluginArchive()
+    {
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = 'testPlugin';
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+
+        $config->General['disable_archiving_segment_for_plugins'] = ['testPlugin', 'testPlugin2'];
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+
+        $config->General['disable_archiving_segment_for_plugins'] = '';
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+
+    }
+
 
     /**
      * This is called after getApiToTest()

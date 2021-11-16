@@ -58,7 +58,7 @@ class Rules
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
         if (!empty($plugin)
-            && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
+          && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
         ) {
             return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
@@ -101,7 +101,7 @@ class Rules
 
     public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin)
     {
-        return 'done' . $segment->getHash() . '.' . $plugin ;
+        return 'done' . $segment->getHash() . '.' . $plugin;
     }
 
     public static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
@@ -131,8 +131,11 @@ class Rules
     }
 
     public static function getMinTimeProcessedForInProgressArchive(
-        Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
-    {
+      Date $dateStart,
+      \Piwik\Period $period,
+      Segment $segment,
+      Site $site
+    ) {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
 
         $now = time();
@@ -142,7 +145,7 @@ class Rules
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
         if ($isArchivingDisabled) {
             if ($period->getNumberOfSubperiods() == 0
-                && $dateStart->getTimestamp() <= $now
+              && $dateStart->getTimestamp() <= $now
             ) {
                 // Today: accept any recent enough archive
                 $minimumArchiveTime = false;
@@ -150,7 +153,8 @@ class Rules
                 // This week, this month, this year:
                 // accept any archive that was processed today after 00:00:01 this morning
                 $timezone = $site->getTimezone();
-                $minimumArchiveTime = Date::factory(Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+                $minimumArchiveTime = Date::factory(Date::factory('now',
+                  $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
             }
         }
         return $minimumArchiveTime;
@@ -214,7 +218,7 @@ class Rules
 
         if ($periodLabel === 'range') {
             if (isset($generalConfig['archiving_range_force_on_browser_request'])
-                && $generalConfig['archiving_range_force_on_browser_request'] == false
+              && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
                 Log::debug("Not forcing archiving for range period.");
                 return $isArchivingEnabled;
@@ -229,8 +233,8 @@ class Rules
         }
 
         if (!$isArchivingEnabled
-            && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
-            && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
+          && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
+          && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
         ) {
             Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1 or because the segment is selected to be pre-processed.");
             return false;
@@ -315,7 +319,7 @@ class Rules
         $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
 
         return in_array($segment, $segmentsToProcess)
-            || in_array($segment, $segmentsToProcessUrlDecoded);
+          || in_array($segment, $segmentsToProcessUrlDecoded);
     }
 
     /**
@@ -323,8 +327,11 @@ class Rules
      *
      * @return string[]
      */
-    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null, $checkAuthorizedToArchive = true)
-    {
+    public static function getSelectableDoneFlagValues(
+      $includeInvalidated = true,
+      Parameters $params = null,
+      $checkAuthorizedToArchive = true
+    ) {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
         if ($includeInvalidated) {
@@ -357,17 +364,34 @@ class Rules
         return Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] != 1;
     }
 
-    public static function isSegmentPluginArchivingDisabled($pluginName, $siteId)
+    public static function isSegmentPluginArchivingDisabled($pluginName, $siteId = null)
     {
-        $pluginArchivingSetting = Config::getInstance()->General['disable_archiving_segment_for_plugins'];
-        $siteConfig = isset(Config::getInstance()->${'General_' . $siteId}) ? Config::getInstance()->${'General_' . $siteId} : null;
 
-        if (!empty($siteConfig) && isset($siteConfig['disable_archiving_segment_for_plugins'])) {
-            $pluginArchivingSetting = $siteConfig['disable_archiving_segment_for_plugins'];
+        $config = Config::getInstance();
+
+        //general setting
+        $pluginArchivingSetting = $config->General['disable_archiving_segment_for_plugins'];
+
+        if (!empty($pluginArchivingSetting)) {
+            if (is_string($pluginArchivingSetting)) {
+                $pluginArchivingSetting = explode(",", "$pluginArchivingSetting");
+            }
+            if (in_array($pluginName, $pluginArchivingSetting)) {
+                return true;
+            }
         }
 
-        if (empty($pluginArchivingSetting)) {
+        if (!$siteId) {
             return false;
+        }
+        //per site setting
+        try {
+            $siteConfig = $config->${'General_' . $siteId};
+        } catch (\Exception $e) {
+            return false;
+        }
+        if (!empty($siteConfig) && isset($siteConfig['disable_archiving_segment_for_plugins'])) {
+            $pluginArchivingSetting = $siteConfig['disable_archiving_segment_for_plugins'];
         }
 
         if (is_string($pluginArchivingSetting)) {
