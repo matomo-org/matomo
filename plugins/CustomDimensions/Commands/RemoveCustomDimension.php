@@ -91,6 +91,8 @@ class RemoveCustomDimension extends ConsoleCommand
         $this->writeSuccessMessage($output, array(
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
         ));
+
+        return 0;
     }
 
     private function getScope(InputInterface $input)

@@ -42,6 +42,8 @@ class DevelopmentManageTestFiles extends ConsoleCommand
         } else {
             throw new \Exception("Invalid operation '$operation'.");
         }
+
+        return 0;
     }
 
     private function copy($input, $output)

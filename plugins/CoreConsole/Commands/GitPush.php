@@ -35,6 +35,8 @@ class GitPush extends ConsoleCommand
         $cmd = sprintf('cd %s && git push --recurse-submodules=on-demand', PIWIK_DOCUMENT_ROOT);
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
+
+        return 0;
     }
 
     private function hasUnpushedCommits()

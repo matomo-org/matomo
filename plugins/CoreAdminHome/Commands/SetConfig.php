@@ -82,6 +82,7 @@ array setting to empty in INI config.
 
         $config->forceSave();
 
+        return 0;
     }
 
     /**

@@ -63,6 +63,8 @@ class GenerateTest extends GeneratePluginBase
         $messages[] = 'Enjoy!';
 
         $this->writeSuccessMessage($output, $messages);
+
+        return 0;
     }
 
     /**

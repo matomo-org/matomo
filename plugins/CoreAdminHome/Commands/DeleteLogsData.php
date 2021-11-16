@@ -79,7 +79,7 @@ class DeleteLogsData extends ConsoleCommand
 
         $confirm = $this->askForDeleteConfirmation($input, $output);
         if (!$confirm) {
-            return;
+            return 1;
         }
 
         $timer = new Timer();
@@ -100,6 +100,8 @@ class DeleteLogsData extends ConsoleCommand
         if ($input->getOption('optimize-tables')) {
             $this->optimizeTables($output);
         }
+
+        return 0;
     }
 
     /**

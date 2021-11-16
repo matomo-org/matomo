@@ -121,6 +121,8 @@ NOTES:
                 $output->writeln($this->wrapInTag('info', self::MSG_SUCCESS));
             }
         }
+
+        return 0;
     }
 
     /**

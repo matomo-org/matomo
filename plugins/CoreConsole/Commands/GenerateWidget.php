@@ -60,6 +60,8 @@ class GenerateWidget extends GeneratePluginBase
              'You can now start implementing the <comment>render()</comment> method.',
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     private function getWidgetMethodName($methodName)

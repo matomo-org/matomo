@@ -41,6 +41,8 @@ class GenerateScheduledTask extends GeneratePluginBase
              'You can now start specifying your scheduled tasks',
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

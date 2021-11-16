@@ -102,5 +102,7 @@ class GetSegmentSql extends ConsoleCommand
         foreach ($query['bind'] as $key => $value) {
             $output->writeln('  BIND #' . $key . ': ' . $value);
         }
+
+        return 0;
     }
 }

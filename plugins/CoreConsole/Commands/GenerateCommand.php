@@ -50,6 +50,8 @@ class GenerateCommand extends GeneratePluginBase
         $this->writeSuccessMessage($output, array(
             sprintf('Command %s for plugin %s generated', $commandName, $pluginName)
         ));
+
+        return 0;
     }
 
     /**

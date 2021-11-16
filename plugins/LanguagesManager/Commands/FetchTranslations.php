@@ -53,7 +53,7 @@ class FetchTranslations extends TranslationBase
 
         if (!$weblateApi->resourceExists($resource)) {
             $output->writeln("Skipping resource $resource as it doesn't exist on Weblate");
-            return;
+            return 0;
         }
 
         $output->writeln("Fetching translations from Weblate for resource $resource");
@@ -104,6 +104,8 @@ class FetchTranslations extends TranslationBase
 
         $progress->finish();
         $output->writeln('');
+
+        return 0;
     }
 
     public static function getDownloadPath()

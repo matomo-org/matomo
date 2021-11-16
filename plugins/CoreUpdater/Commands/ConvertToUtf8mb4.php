@@ -55,14 +55,14 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
         if ($show) {
             $this->showCommands($queries, $keepTracking, $output);
-            return;
+            return 0;
         }
 
         $output->writeln("This command will convert all Matomo database tables to utf8mb4.\n");
 
         if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
             $this->writeSuccessMessage($output, array('Your database does not support utf8mb4'));
-            return;
+            return 0;
         }
 
         if (!$keepTracking) {
@@ -109,6 +109,8 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         } else {
             $this->writeSuccessMessage($output, array('Database conversion skipped.'));
         }
+
+        return 0;
     }
 
     protected function showCommands($queries, $keepTracking, OutputInterface $output)

@@ -50,6 +50,8 @@ class BuildPolyfill extends ConsoleCommand
         }
 
         $this->deleteExtraFiles();
+
+        return 0;
     }
 
     private function createDummyPackageJson()

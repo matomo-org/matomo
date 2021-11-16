@@ -41,6 +41,8 @@ class GenerateController extends GeneratePluginBase
              'You can now start adding Controller actions',
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

@@ -28,5 +28,7 @@ class UnblockBlockedIps extends ConsoleCommand
         $message = sprintf('<info>%s</info>', Piwik::translate('General_Done'));
 
         $output->writeln($message);
+
+        return 0;
     }
 }

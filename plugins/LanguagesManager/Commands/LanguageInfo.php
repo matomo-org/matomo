@@ -32,5 +32,7 @@ class LanguageInfo extends TranslationBase
         foreach ($languages as $languageInfo) {
             $output->writeln($languageInfo['code'].'|' . $languageInfo['english_name'] . '|' . $languageInfo['percentage_complete']);
         }
+
+        return 0;
     }
 }

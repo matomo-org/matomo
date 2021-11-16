@@ -41,6 +41,8 @@ class GenerateArchiver extends GeneratePluginBase
              'You can now start implementing Archiver methods',
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

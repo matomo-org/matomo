@@ -45,5 +45,7 @@ class TestEmail extends ConsoleCommand
         $mail->setWrappedHtmlBody($body);
         $mail->send();
         $output->writeln('Message sent to ' . $email);
+
+        return 0;
     }
 }

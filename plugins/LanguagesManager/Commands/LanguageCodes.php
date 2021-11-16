@@ -38,5 +38,7 @@ class LanguageCodes extends TranslationBase
 
         $output->writeln("Currently available languages:");
         $output->writeln(implode("\n", $languageCodes));
+
+        return 0;
     }
 }

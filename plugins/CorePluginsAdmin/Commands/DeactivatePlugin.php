@@ -42,5 +42,7 @@ class DeactivatePlugin extends ConsoleCommand
 
             $output->writeln("Deactivated plugin <info>$plugin</info>");
         }
+
+        return 0;
     }
 }

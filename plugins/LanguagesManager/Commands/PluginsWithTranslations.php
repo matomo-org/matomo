@@ -38,5 +38,7 @@ class PluginsWithTranslations extends TranslationBase
         }, $pluginFiles);
 
         $output->writeln(join("\n", $pluginFiles));
+
+        return 0;
     }
 }

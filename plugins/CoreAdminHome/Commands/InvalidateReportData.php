@@ -143,6 +143,8 @@ class InvalidateReportData extends ConsoleCommand
                 }
             }
         }
+
+        return 0;
     }
 
     private function getSitesToInvalidateFor(InputInterface $input)

@@ -34,5 +34,7 @@ class ClearCaches extends ConsoleCommand
         Filesystem::deleteAllCacheOnUpdate();
 
         $this->writeSuccessMessage($output, array('Caches cleared'));
+
+        return 0;
     }
 }

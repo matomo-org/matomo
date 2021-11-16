@@ -73,6 +73,8 @@ class GenerateReport extends GeneratePluginBase
            // 'Read more about this here: link to developer guide',
             'Enjoy!'
         ));
+
+        return 0;
     }
 
     private function getOrder($category)

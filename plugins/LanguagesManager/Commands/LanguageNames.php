@@ -38,5 +38,7 @@ class LanguageNames extends TranslationBase
 
         $output->writeln("Currently available languages:");
         $output->writeln(implode("\n", $languageNames));
+
+        return 0;
     }
 }

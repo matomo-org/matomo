@@ -102,7 +102,7 @@ class Build extends ConsoleCommand
     {
         if ($watch) {
             $this->watch($plugins, $printBuildCommand, $output);
-            return;
+            return 0;
         }
 
         $failed = 0;

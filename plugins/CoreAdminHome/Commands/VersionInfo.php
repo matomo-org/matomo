@@ -26,5 +26,7 @@ class VersionInfo extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(Version::VERSION);
+
+        return 0;
     }
 }

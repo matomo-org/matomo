@@ -45,6 +45,8 @@ class GenerateSettings extends GeneratePluginBase
              'You can now start defining your ' . $settingsType,
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     private function getSettingTypes()

@@ -38,5 +38,7 @@ class SetLicenseKey extends ConsoleCommand
 
         API::getInstance()->saveLicenseKey($licenseKey);
         $output->writeln("License key set.");
+
+        return 0;
     }
 }

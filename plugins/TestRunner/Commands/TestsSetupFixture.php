@@ -159,6 +159,8 @@ class TestsSetupFixture extends ConsoleCommand
         if (!empty($configDomainToSave)) {
             Config::getInstance()->forceSave();
         }
+
+        return 0;
     }
 
     private function createSymbolicLinksForUITests()

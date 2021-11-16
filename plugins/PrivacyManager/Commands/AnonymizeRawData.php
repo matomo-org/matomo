@@ -97,6 +97,8 @@ class AnonymizeRawData extends ConsoleCommand
         $logDataAnonymizations->executeScheduledEntry($idLogData);
 
         $output->writeln('Done');
+
+        return 0;
     }
 
     private function confirmAnonymize(InputInterface $input, OutputInterface $output, $startDate, $endDate, $action)

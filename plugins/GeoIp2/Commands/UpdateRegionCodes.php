@@ -127,8 +127,8 @@ CONTENT;
         file_put_contents($regionsFile, $content);
 
         $output->writeln('File successfully updated <fg=green>✓</>');
-        return 0;
 
+        return 0;
     }
 
 

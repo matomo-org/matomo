@@ -41,6 +41,8 @@ class GenerateApi extends GeneratePluginBase
              'You can now start adding API methods',
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

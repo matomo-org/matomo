@@ -51,5 +51,7 @@ class HelloWorld extends ConsoleCommand
         $message = sprintf('<info>HelloWorld: %s</info>', $name);
 
         $output->writeln($message);
+
+        return 0;
     }
 }

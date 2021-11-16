@@ -41,6 +41,8 @@ class UpdateTracker extends ConsoleCommand
         $this->updateTracker($sourceFile, $targetFile, $ignoreMinified);
 
         $output->writeln('<info>The Javascript Tracker has been updated</info>');
+
+        return 0;
     }
 
     public function updateTracker($sourceFile, $targetFile, $ignoreMinified)

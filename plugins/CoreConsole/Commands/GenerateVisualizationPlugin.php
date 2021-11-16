@@ -55,6 +55,8 @@ class GenerateVisualizationPlugin extends GeneratePlugin
              sprintf('Visualization plugin %s %s generated.', $pluginName, $version),
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

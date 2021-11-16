@@ -60,5 +60,7 @@ class ListPlugins extends ConsoleCommand
             ->setRows($plugins)
         ;
         $table->render();
+
+        return 0;
     }
 }

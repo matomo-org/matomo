@@ -30,6 +30,8 @@ class CoreArchiver extends ConsoleCommand
 
         $archiver = self::makeArchiver($input->getOption('url'), $input);
         $archiver->main();
+
+        return 0;
     }
 
     // also used by another console command

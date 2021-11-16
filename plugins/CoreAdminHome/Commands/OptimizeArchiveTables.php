@@ -49,6 +49,8 @@ class OptimizeArchiveTables extends ConsoleCommand
             $this->optimizeTable($output, $dryRun, 'archive_numeric_' . $month);
             $this->optimizeTable($output, $dryRun, 'archive_blob_' . $month);
         }
+
+        return 0;
     }
 
     private function optimizeTable(OutputInterface $output, $dryRun, $table)

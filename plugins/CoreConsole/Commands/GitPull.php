@@ -41,7 +41,7 @@ class GitPull extends ConsoleCommand
     {
         if ('master' != $this->getBranchName()) {
             $output->writeln('<info>Doing nothing because you are not on the master branch in super repo.</info>');
-            return;
+            return 0;
         }
 
         $cmd = sprintf('cd %s && git checkout master && git pull && git submodule update --init --recursive --remote', PIWIK_DOCUMENT_ROOT);
@@ -49,6 +49,8 @@ class GitPull extends ConsoleCommand
 
         $cmd = 'git submodule foreach "(git checkout master; git pull)&"';
         $this->passthru($cmd, $output);
+
+        return 0;
     }
 
     private function passthru($cmd, OutputInterface $output)

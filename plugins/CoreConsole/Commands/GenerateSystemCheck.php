@@ -53,6 +53,8 @@ class GenerateSystemCheck extends GeneratePluginBase
             'Read more about this here: https://developer.matomo.org/guides/system-check',
             'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

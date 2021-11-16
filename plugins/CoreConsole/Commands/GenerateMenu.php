@@ -41,6 +41,8 @@ class GenerateMenu extends GeneratePluginBase
              'You can now start defining your plugin menu',
              'Enjoy!'
         ));
+
+        return 0;
     }
 
     /**

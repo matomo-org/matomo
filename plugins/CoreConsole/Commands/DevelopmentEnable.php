@@ -56,6 +56,8 @@ class DevelopmentEnable extends ConsoleCommand
             $comment = 'Development mode should be only enabled when installed through git. Not every development feature will be available.';
             $this->writeComment($output, [$comment]);
         }
+
+        return 0;
     }
 
 }

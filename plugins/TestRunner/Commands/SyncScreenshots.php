@@ -115,6 +115,8 @@ class SyncScreenshots extends ConsoleCommand
         }
 
         $this->displayGitInstructions($output, $repository);
+
+        return 0;
     }
 
     private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null)

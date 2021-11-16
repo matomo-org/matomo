@@ -47,6 +47,8 @@ class GenerateUpdate extends GeneratePluginBase
             'You should have a look at the method update() or getSql() now.',
             'Enjoy!'
         ));
+
+        return 0;
     }
 
     private function getUpdateClassName($component, $version)

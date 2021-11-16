@@ -86,5 +86,7 @@ class AnalyzeArchiveTable extends ConsoleCommand
         $output->writeln("Total # Segment Archives: <comment>$totalSegment</comment>");
         $output->writeln("Total Size of Blobs: <comment>" . $formatter->getPrettySizeFromBytes($totalBlobLength) . "</comment>");
         $output->writeln("");
+
+        return 0;
     }
 }
