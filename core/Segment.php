@@ -9,14 +9,16 @@
 namespace Piwik;
 
 use Exception;
+use Matomo\Cache\Lazy;
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\LoaderLock;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache as PiwikCache;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
-use Piwik\Cache;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -180,17 +182,43 @@ class Segment
         return $this->segmentExpression;
     }
 
+    /**
+     * @throws Exception
+     */
     private function getAvailableSegments()
     {
+        // start lazy cache
+        $cache = PiwikCache::getLazyCache();
+
+        //covert lazy cache to lock ID
+        $lockId = implode(",", $this->idSites);
+
+       //fetch cache lockId
+        $this->availableSegments = $cache->fetch(SettingsPiwik::getPiwikInstanceId().$lockId);
+
         // segment metadata
+        // restart cache if load is empty
         if (empty($this->availableSegments)) {
-            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
-                'idSites' => $this->idSites,
-                '_hideImplementationData' => 0,
-                'filter_limit' => -1,
-                'filter_offset' => 0,
-                '_showAllSegments' => 1,
-            ), []);
+            //init lock
+            $lock = new LoaderLock($lockId);
+            $lock->setLock();
+            try {
+                // after other process unlock load cache again
+                $cacheData = $cache->fetch(SettingsPiwik::getPiwikInstanceId().$lockId);
+                if (!empty($cacheData)) {
+                    return $cacheData;
+                }
+                $data =  Request::processRequest('API.getSegmentsMetadata', array(
+                  'idSites'                 => $this->idSites,
+                  '_hideImplementationData' => 0,
+                  'filter_limit'            => -1,
+                  'filter_offset'           => 0,
+                  '_showAllSegments'        => 1,
+                ), []);
+                $this->availableSegments = $cache->save(SettingsPiwik::getPiwikInstanceId().$lockId, $data);
+            } finally {
+                $lock->unLock();
+            }
         }
 
         return $this->availableSegments;
