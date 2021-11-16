@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Log;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -52,6 +53,23 @@ class ConsoleCommand extends SymfonyCommand
             if ($option->isValueRequired() && empty($value)) {
                 throw new \InvalidArgumentException(sprintf('The required option --%s is not set', $name));
             }
+        }
+    }
+
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        // This method used to return `0` if a non numeric value was returned from execute()
+        // To have our commands still compatible till the next major release we imitate that behaviour but output
+        // an info message so old commands will get updated
+        // @todo remove in Matomo 5
+        try {
+            return parent::run($input, $output);
+        } catch (\TypeError $e) {
+            if (strpos($e->getMessage(), 'Return value of "') === 0) {
+                Log::info('Deprecation warning: ' . $e->getMessage() . "\nPlease update the command implementation, as this won't be supported by Matomo 5 anymore");
+                return 0;
+            }
+            throw $e;
         }
     }
 }
