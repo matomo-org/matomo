@@ -468,8 +468,8 @@ class Loader
             return false;
         }
 
-        if (Rules::isSegmentPluginArchivingDisabled($params->getRequestedPlugin(), $params->getSite()->getId())) {
-            return false;
+        if (!empty($params->getRequestedPlugin()) && Rules::isSegmentPluginArchivingDisabled($params->getRequestedPlugin(), $params->getSite()->getId())) {
+            return true;
         }
 
         /** @var SegmentArchiving */

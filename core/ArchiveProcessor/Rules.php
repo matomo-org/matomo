@@ -385,11 +385,11 @@ class Rules
             return false;
         }
         //per site setting
-        try {
-            $siteConfig = $config->${'General_' . $siteId};
-        } catch (\Exception $e) {
+        $siteConfig = $config->getFromLocalConfig('General_' . $siteId);
+        if (!$siteConfig) {
             return false;
         }
+
         if (!empty($siteConfig) && isset($siteConfig['disable_archiving_segment_for_plugins'])) {
             $pluginArchivingSetting = $siteConfig['disable_archiving_segment_for_plugins'];
         }
