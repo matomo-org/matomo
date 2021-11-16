@@ -193,8 +193,10 @@ class Segment
         //covert lazy cache to lock ID
         $lockId = implode(",", $this->idSites);
 
+        $cacheId = SettingsPiwik::getPiwikInstanceId().$lockId;
+
        //fetch cache lockId
-        $this->availableSegments = $cache->fetch(SettingsPiwik::getPiwikInstanceId().$lockId);
+        $this->availableSegments = $cache->fetch($lockId);
 
         // segment metadata
         // restart cache if load is empty
@@ -204,7 +206,7 @@ class Segment
             $lock->setLock();
             try {
                 // after other process unlock load cache again
-                $cacheData = $cache->fetch(SettingsPiwik::getPiwikInstanceId().$lockId);
+                $cacheData = $cache->fetch($cacheId);
                 if (!empty($cacheData)) {
                     return $cacheData;
                 }
@@ -215,7 +217,7 @@ class Segment
                   'filter_offset'           => 0,
                   '_showAllSegments'        => 1,
                 ), []);
-                $this->availableSegments = $cache->save(SettingsPiwik::getPiwikInstanceId().$lockId, $data);
+                $this->availableSegments = $cache->save($cacheId, $data);
             } finally {
                 $lock->unLock();
             }
