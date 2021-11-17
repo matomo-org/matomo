@@ -5,13 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { INgModelController } from 'angular';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import MultiPairField from './MultiPairField.vue';
-import {INgModelController} from 'angular';
 
 export default createAngularJsAdapter({
   component: MultiPairField,
-  require: "?ngModel",
+  require: '?ngModel',
   scope: {
     name: {
       angularJsBind: '=',

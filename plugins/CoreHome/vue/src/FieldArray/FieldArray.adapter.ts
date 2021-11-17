@@ -5,13 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { INgModelController } from 'angular';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import FieldArray from './FieldArray.vue';
-import {INgModelController, ITimeoutService} from 'angular';
 
 export default createAngularJsAdapter({
   component: FieldArray,
-  require: "?ngModel",
+  require: '?ngModel',
   scope: {
     name: {
       angularJsBind: '=',

@@ -1,5 +1,6 @@
 <template>
   <select
+    v-if="groupedOptions"
     ref="select"
     :multiple="multiple"
     :name="name"
@@ -7,18 +8,29 @@
     v-bind="uiControlAttributes"
   >
     <optgroup
-      v-if="groupedOptions"
       v-for="[group, options] in groupedOptions"
       :key="group"
       :label="group"
     >
-      <option v-for="option in options" :key="option.key" :value="option.key" :selected="value === option.key">
+      <option
+        v-for="option in options"
+        :key="option.key"
+        :value="option.key"
+        :selected="value === option.key"
+      >
         {{ option.value }}
       </option>
     </optgroup>
-
+  </select>
+  <select
+    v-if="!groupedOptions"
+    ref="select"
+    :multiple="multiple"
+    :name="name"
+    @change="onChange($event)"
+    v-bind="uiControlAttributes"
+  >
     <option
-      v-if="!groupedOptions"
       v-for="option in availableOptions"
       :key="option.key"
       :value="option.key"
@@ -36,7 +48,7 @@ import { defineComponent } from 'vue';
 // TODO: check that the value for multiselect is the key and not the value
 interface OptionGroup {
   group?: string;
-  key: String;
+  key: string;
   value: unknown;
 }
 
@@ -79,7 +91,7 @@ export default defineComponent({
         return [];
       }
 
-      let availableValues: Record<string, unknown> = this.availableValues;
+      let { availableValues }: { availableValues: Record<string, unknown> } = this;
 
       if (!hasGroupedValues(availableValues)) {
         availableValues = { '': availableValues };
@@ -104,9 +116,9 @@ export default defineComponent({
       return flatValues;
     },
     groupedOptions() {
-      const availableOptions = this.availableOptions;
+      const { availableOptions } = this;
       if (!availableOptions[0] || !availableOptions[0].group) {
-        return;
+        return null;
       }
 
       const groups = {};
@@ -119,11 +131,13 @@ export default defineComponent({
       result.sort((lhs, rhs) => {
         if (lhs[0] < rhs[0]) {
           return -1;
-        } else if (lhs[0] > rhs[0]) {
-          return 1;
-        } else {
-          return 0;
         }
+
+        if (lhs[0] > rhs[0]) {
+          return 1;
+        }
+
+        return 0;
       });
       return result;
     },
@@ -137,7 +151,11 @@ export default defineComponent({
     modelValue(newVal, oldVal) {
       if (newVal !== oldVal) {
         // TODO: $timeout here
-        initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+        initMaterialSelect(
+          this.$refs.select,
+          this.uiControlAttributes.placeholder,
+          this.uiControlOptions,
+        );
       }
     },
     // TODO: Test this
@@ -145,19 +163,31 @@ export default defineComponent({
       handler(newVal, oldVal) {
         // TODO: $timeout here
         if (newVal !== oldVal) {
-          initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+          initMaterialSelect(
+            this.$refs.select,
+            this.uiControlAttributes.placeholder,
+            this.uiControlOptions,
+          );
         }
       },
     },
     availableOptions(newVal, oldVal) {
       // TODO: $timeout here
       if (newVal !== oldVal) {
-        initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+        initMaterialSelect(
+          this.$refs.select,
+          this.uiControlAttributes.placeholder,
+          this.uiControlOptions,
+        );
       }
     },
   },
   mounted() {
-    initMaterialSelect(this.$refs.select, this.uiControlAttributes.placeholder, this.uiControlOptions);
+    initMaterialSelect(
+      this.$refs.select,
+      this.uiControlAttributes.placeholder,
+      this.uiControlOptions,
+    );
   },
 });
 </script>

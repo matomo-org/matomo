@@ -39,11 +39,9 @@
 import { defineComponent, defineAsyncComponent } from 'vue';
 
 // async since this is a a recursive component
-const Field = defineAsyncComponent(() => {
-  return new Promise((resolve) => {
-    window.$(document).ready(() => resolve(window.CorePluginsAdmin.Field));
-  });
-});
+const Field = defineAsyncComponent(() => new Promise((resolve) => {
+  window.$(document).ready(() => resolve(window.CorePluginsAdmin.Field));
+}));
 
 export default defineComponent({
   props: {
@@ -66,7 +64,7 @@ export default defineComponent({
   },
   methods: {
     onEntryChange(newValue: unknown, index: number) {
-      const newArrayValue = [ ...this.modelValue ];
+      const newArrayValue = [...this.modelValue];
       newArrayValue[index] = newArrayValue;
 
       this.$emit('update:modelValue', newArrayValue);

@@ -162,7 +162,7 @@ export default defineComponent({
     },
     extraChildComponentParams() {
       if (this.formField.uiControl === 'multiselect') {
-        return {multiple: true};
+        return { multiple: true };
       }
       return {};
     },
@@ -170,13 +170,13 @@ export default defineComponent({
       return this.formField.description
         || this.formField.inlineHelp
         || (this.formField.defaultValue
-          && this.formField.uiControl != 'checkbox'
-          && this.formField.uiControl != 'radio');
+          && this.formField.uiControl !== 'checkbox'
+          && this.formField.uiControl !== 'radio');
     },
     showDefaultValue() {
       return this.formField.defaultValuePretty
-        && this.formField.uiControl != 'checkbox'
-        && this.formField.uiControl != 'radio';
+        && this.formField.uiControl !== 'checkbox'
+        && this.formField.uiControl !== 'radio';
     },
     showField() {
       if (!this.formField.condition
@@ -200,15 +200,17 @@ export default defineComponent({
     processedModelValue() {
       const field = this.formField;
 
-      // convert boolean values since angular 1.6 uses strict equals when determining if a model value
-      // matches the ng-value of an input.
+      // convert boolean values since angular 1.6 uses strict equals when determining if a model
+      // value matches the ng-value of an input.
       if (field.type === 'boolean') {
         const valueIsTruthy = this.modelValue && this.modelValue > 0 && this.modelValue !== '0';
 
         // for checkboxes, the value MUST be either true or faluse
         if (field.uiControl === 'checkbox') {
           return valueIsTruthy;
-        } else if (field.uiControl === 'radio') {
+        }
+
+        if (field.uiControl === 'radio') {
           return valueIsTruthy ? '1' : '0';
         }
       }
@@ -216,7 +218,7 @@ export default defineComponent({
       return this.modelValue;
     },
     defaultValue() {
-      let defaultValue = this.formField.defaultValue;
+      let { defaultValue } = this.formField;
       if (Array.isArray(defaultValue)) {
         defaultValue = defaultValue.join(',');
       }
@@ -241,10 +243,9 @@ export default defineComponent({
       return field.availableOptions;
     },
     defaultValuePretty() {
-      let defaultValue = this.defaultValue;
-      const availableOptions = this.availableOptions;
+      let { defaultValue } = this;
+      const { availableOptions } = this;
 
-      // TODO
       if (typeof defaultValue === 'string' && defaultValue) {
         // eg default value for multi tuple
         let defaultParsed = null;

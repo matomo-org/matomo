@@ -34,7 +34,7 @@ export default defineComponent({
   },
   methods: {
     onChange($event) {
-      const value = ($event as HTMLTextAreaElement).value.split(SEPARATOR).map(v => v.trim());
+      const value = ($event as HTMLTextAreaElement).value.split(SEPARATOR).map((v) => v.trim());
       this.$emit('update:modelValue', value);
     },
   },

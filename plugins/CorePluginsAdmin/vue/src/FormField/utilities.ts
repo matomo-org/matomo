@@ -8,7 +8,7 @@
 export function processCheckboxAndRadioAvailableValues(
   availableValues: Record<string, unknown>,
   type: string,
-) {
+): { key: string, value: unknown }[] {
   if (!availableValues) {
     return [];
   }
@@ -16,7 +16,6 @@ export function processCheckboxAndRadioAvailableValues(
   // TODO: check Object.entries([...]) on old browsers
   const flatValues = [];
   Object.entries(availableValues).forEach(([valueObjKey, value]) => {
-
     if (typeof value === 'object' && typeof value.key !== 'undefined') {
       flatValues.push(value);
       return;
@@ -29,6 +28,6 @@ export function processCheckboxAndRadioAvailableValues(
 
     flatValues.push({ key, value });
   });
+
   return flatValues;
 }
-

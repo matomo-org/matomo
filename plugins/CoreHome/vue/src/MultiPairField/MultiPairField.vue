@@ -77,11 +77,9 @@
 import { defineAsyncComponent, defineComponent } from 'vue';
 
 // async since this is a a recursive component
-const Field = defineAsyncComponent(() => {
-  return new Promise((resolve) => {
-    window.$(document).ready(() => resolve(window.CorePluginsAdmin.Field));
-  });
-});
+const Field = defineAsyncComponent(() => new Promise((resolve) => {
+  window.$(document).ready(() => resolve(window.CorePluginsAdmin.Field));
+}));
 
 export default defineComponent({
   props: {
@@ -99,15 +97,21 @@ export default defineComponent({
     fieldCount() {
       if (this.field1 && this.field2 && this.field3 && this.field4) {
         return 4;
-      } else if (this.field1 && this.field2 && this.field3) {
-        return 3;
-      } else if (this.field1 && this.field2) {
-        return 2;
-      } else if (this.field1) {
-        return 1;
-      } else {
-        return 0;
       }
+
+      if (this.field1 && this.field2 && this.field3) {
+        return 3;
+      }
+
+      if (this.field1 && this.field2) {
+        return 2;
+      }
+
+      if (this.field1) {
+        return 1;
+      }
+
+      return 0;
     },
   },
   emits: ['update:modelValue'],
@@ -133,10 +137,14 @@ export default defineComponent({
       }
     },
     isEmptyValue(value: Record<string, unknown>) {
-      const fieldCount = this.fieldCount;
+      const { fieldCount } = this;
 
       if (fieldCount === 4) {
-        if (!value[this.field1.key] && !value[this.field2.key] && !value[this.field3.key] && !value[this.field4.key]) {
+        if (!value[this.field1.key]
+          && !value[this.field2.key]
+          && !value[this.field3.key]
+          && !value[this.field4.key]
+        ) {
           return false;
         }
       } else if (fieldCount === 3) {

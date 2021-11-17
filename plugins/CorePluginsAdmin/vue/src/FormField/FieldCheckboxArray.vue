@@ -32,7 +32,7 @@ import { processCheckboxAndRadioAvailableValues } from './utilities';
 
 // TODO: how often is this called
 function getCheckboxStates(availableOptions, modelValue) {
-  return Object.values(availableOptions).map(o => modelValue.indexOf(o.key) !== -1);
+  return Object.values(availableOptions).map((o) => modelValue.indexOf(o.key) !== -1);
 }
 
 export default defineComponent({
@@ -55,8 +55,6 @@ export default defineComponent({
   },
   mounted() {
     window.Materialize.updateTextFields();
-
-    syncMultiCheckboxKeysWithFieldValue(field);
   },
   methods: {
     onChange(changedIndex: number) {
@@ -64,7 +62,7 @@ export default defineComponent({
       checkboxStates[changedIndex] = !checkboxStates[changedIndex];
 
       const newValue = [];
-      Object.values(availableOptions).forEach((option, index) => {
+      Object.values(this.availableOptions).forEach((option, index) => {
         if (checkboxStates[index]) {
           newValue.push(option.key);
         }

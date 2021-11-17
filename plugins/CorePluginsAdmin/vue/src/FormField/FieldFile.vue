@@ -16,7 +16,6 @@ import {
   defineComponent,
   watch,
   ref,
-  onMounted,
 } from 'vue';
 
 export default defineComponent({

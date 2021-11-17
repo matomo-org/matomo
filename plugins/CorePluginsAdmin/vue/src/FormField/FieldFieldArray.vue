@@ -30,6 +30,6 @@ export default defineComponent({
     onValueUpdate(newValue: unknown) {
       this.$emit('update:modelValue', newValue);
     },
-  }
+  },
 });
 </script>

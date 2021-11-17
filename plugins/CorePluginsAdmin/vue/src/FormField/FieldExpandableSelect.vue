@@ -88,7 +88,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   computed: {
     availableOptions() {
-      const availableValues = this.availableValues;
+      const { availableValues } = this;
       const flatValues = [];
 
       const groups = {};

@@ -4,6 +4,7 @@
 
     <p
       v-for="radioModel in availableOptions"
+      :key="radioModel.key"
       class="radio"
     >
       <label>

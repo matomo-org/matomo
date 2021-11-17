@@ -34,7 +34,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {
-      const values = (event.target as HTMLInputElement).value.split(',').map(v => v.trim());
+      const values = (event.target as HTMLInputElement).value.split(',').map((v) => v.trim());
       this.$emit('update:modelValue', values);
     },
   },
