@@ -9,9 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Matomo\Cache\Lazy;
 use Piwik\API\Request;
-use Piwik\ArchiveProcessor\LoaderLock;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
 use Piwik\Container\StaticContainer;
