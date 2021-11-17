@@ -298,7 +298,7 @@ class Common
     {
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
@@ -743,8 +743,12 @@ class Common
 
     public static function stringEndsWith($haystack, $needle)
     {
-        if ('' === $needle) {
+        if (strlen(strval($needle)) === 0) {
             return true;
+        }
+
+        if (strlen(strval($haystack)) === 0) {
+            return false;
         }
 
         $lastCharacters = substr($haystack, -strlen($needle));

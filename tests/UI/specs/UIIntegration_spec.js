@@ -85,7 +85,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
-
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
         });
@@ -236,7 +238,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             // use columns query param to make sure columns works when supplied in URL fragment
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
             await page.waitForNetworkIdle();
-
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_columns');
         });
@@ -473,6 +477,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             elem = await page.jQuery('.dataTable .subDataTable .value:contains(ImageAd)');
             await elem.click();
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500);
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             await page.mouse.move(-10, -10);
 
             pageWrap = await page.$('.pageWrap');
@@ -492,6 +500,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             elem = await page.jQuery('.dataTable .subDataTable .value:contains(Click NOW)');
             await elem.click();
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500);
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             await page.mouse.move(-10, -10);
 
             pageWrap = await page.$('.pageWrap');

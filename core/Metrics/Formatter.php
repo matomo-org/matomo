@@ -71,7 +71,7 @@ class Formatter
             } else {    
                 $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
             }
-            $centiSeconds = ($numberOfSeconds * 100) % 100;
+            $centiSeconds = intval($numberOfSeconds * 100) % 100;
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);
             }

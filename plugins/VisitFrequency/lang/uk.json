@@ -1,9 +1,13 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Дії нових відвідувань",
         "ColumnActionsByReturningVisits": "Дії повторних відвідувань",
+        "ColumnAverageVisitDurationForNewVisitors": "Сер. тривалість нового відвідування (сек.)",
         "ColumnAverageVisitDurationForReturningVisitors": "Середня тривалість візиту повторних відвідувань (в сек.)",
+        "ColumnAvgActionsPerNewVisit": "Сер. дії за нове відвідування",
         "ColumnAvgActionsPerReturningVisit": "Середня кількість дій для повторних відвідувань",
         "ColumnBounceCountForReturningVisits": "Показник відмов для відвідувачів що повернулись",
+        "ColumnBounceRateForNewVisits": "Показник відмов для нових відвідувань",
         "ColumnBounceRateForReturningVisits": "Показник відмов для повторних відвідувань",
         "ColumnMaxActionsInReturningVisit": "Максимум дій за одне повторне відвідування",
         "ColumnNbReturningVisitsConverted": "Число конверсії відвідувачів, що повернулися",

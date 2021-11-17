@@ -29,7 +29,7 @@
         <input
           type="text"
           v-model="searchTerm"
-          v-focus-if="{ focusIf: showItems }"
+          v-focus-if:[showItems]="{}"
           @keydown="onSearchTermKeydown($event)"
           :placeholder="translate('General_Search')"
         />

@@ -51,6 +51,7 @@ const PAGE_METHODS_TO_PROXY = [
     'setContent',
     'setExtraHTTPHeaders',
     'setUserAgent',
+    'setCookie',
     'tap',
     'target',
     'title',
@@ -514,6 +515,7 @@ PageRenderer.prototype.getPageLogsString = function(indent) {
 PageRenderer.prototype.getWholeCurrentUrl = function () {
     return this.webpage.evaluate(() => window.location.href);
 };
+
 
 
 exports.PageRenderer = PageRenderer;

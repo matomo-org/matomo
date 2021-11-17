@@ -40,6 +40,12 @@ export default createAngularJsAdapter<[IParseService]>({
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
+    validation: ($event, vm, scope, element, attrs) => {
+      if (attrs.no) {
+        scope.$eval(attrs.no);
+        setTimeout(() => { scope.$apply(); }, 0);
+      }
+    },
     'update:modelValue': (newValue, vm, scope, element, attrs, controller, $parse: IParseService) => {
       setTimeout(() => {
         scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));
