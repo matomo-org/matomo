@@ -6,10 +6,10 @@
  */
 
 import { createAngularJsAdapter } from 'CoreHome';
-import RateFeature from './FeedbackQuestion.vue';
+import FeedbackQuestion from './FeedbackQuestion.vue';
 
 export default createAngularJsAdapter({
-  component: RateFeature,
+  component: FeedbackQuestion,
   scope: {
     showQuestionBanner: {
       angularJsBind: '@',
