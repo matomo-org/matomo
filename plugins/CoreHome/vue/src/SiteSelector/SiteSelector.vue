@@ -51,7 +51,7 @@
       >
         <input
           type="text"
-          @click="searchTerm = ''"
+          @click="searchTerm = '';loadInitialSites()"
           v-model="searchTerm"
           @keydown="onSearchInputKeydown()"
           tabindex="4"
