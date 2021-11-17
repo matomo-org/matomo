@@ -148,21 +148,21 @@ export default defineComponent({
       });
       this.hide = true;
     },
-    async sendFeedback() {
+    sendFeedback() {
       this.errorMessage = null;
-      const res = await AjaxHelper.fetch({
+      AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForSurvey',
         question: this.questionText,
         message: this.feedbackMessage,
+      }).then((res) => {
+        if (res.value === 'success') {
+          $('.modal').modal('close');
+          this.feedbackDone = true;
+          this.hide = true;
+        } else {
+          this.errorMessage = res.value;
+        }
       });
-
-      if (res.value === 'success') {
-        $('.modal').modal('close');
-        this.feedbackDone = true;
-        this.hide = true;
-      } else {
-        this.errorMessage = res.value;
-      }
     },
   },
 });
