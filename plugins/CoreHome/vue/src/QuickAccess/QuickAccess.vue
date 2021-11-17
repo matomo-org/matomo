@@ -22,7 +22,7 @@
       v-model="searchTerm"
       type="text"
       tabindex="2"
-      v-focus-if="{ focusIf: searchActive }"
+      v-focus-if:[searchActive]="{}"
       :title="quickAccessTitle"
     />
     <div
