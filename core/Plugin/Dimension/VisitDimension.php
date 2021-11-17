@@ -365,7 +365,7 @@ abstract class VisitDimension extends Dimension
             $array[$k] = ['count' => 0, 'name' => $v];
         }
         foreach ($table->getRows() as $row) {
-            if (isset($row[$keyColumn])) {
+            if (isset($row[$keyColumn]) && $row[$keyColumn] !== 'xx') {
                 $array[$row[$keyColumn]]['count']++;
             }
         }
