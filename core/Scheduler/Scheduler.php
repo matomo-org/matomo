@@ -275,7 +275,9 @@ class Scheduler
             $callable = array($task->getObjectInstance(), $task->getMethodName());
             call_user_func($callable, $task->getMethodParameter());
             $message = $timer->__toString();
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
+            $this->logger->error("Scheduler: Error {errorMessage} for task '{task}'",
+                ['errorMessage' => $e->getMessage(), 'task' => $task->getName()]);
             $message = 'ERROR: ' . $e->getMessage();
         }
 
