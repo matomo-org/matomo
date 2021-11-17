@@ -187,40 +187,26 @@ class Segment
      */
     private function getAvailableSegments()
     {
-        // start lazy cache
-        $cache = PiwikCache::getLazyCache();
+        // start cache
+        $cache = PiwikCache::getTransientCache();
 
-        //covert lazy cache to lock ID
-        $lockId = implode(",", $this->idSites);
+        //covert cache id
+        $cacheId = SettingsPiwik::getPiwikInstanceId() . implode(",", $this->idSites);
 
-        $cacheId = SettingsPiwik::getPiwikInstanceId().$lockId;
-
-       //fetch cache lockId
-        $this->availableSegments = $cache->fetch($lockId);
-
+        //fetch cache lockId
+        $this->availableSegments = $cache->fetch($cacheId);
         // segment metadata
         // restart cache if load is empty
         if (empty($this->availableSegments)) {
-            //init lock
-            $lock = new LoaderLock($lockId);
-            $lock->setLock();
-            try {
-                // after other process unlock load cache again
-                $cacheData = $cache->fetch($cacheId);
-                if (!empty($cacheData)) {
-                    return $cacheData;
-                }
-                $data =  Request::processRequest('API.getSegmentsMetadata', array(
-                  'idSites'                 => $this->idSites,
-                  '_hideImplementationData' => 0,
-                  'filter_limit'            => -1,
-                  'filter_offset'           => 0,
-                  '_showAllSegments'        => 1,
-                ), []);
-                $this->availableSegments = $cache->save($cacheId, $data);
-            } finally {
-                $lock->unLock();
-            }
+
+            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
+              'idSites'                 => $this->idSites,
+              '_hideImplementationData' => 0,
+              'filter_limit'            => -1,
+              'filter_offset'           => 0,
+              '_showAllSegments'        => 1,
+            ), []);
+            $cache->save($cacheId, $this->availableSegments);
         }
 
         return $this->availableSegments;
