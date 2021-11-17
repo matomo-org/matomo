@@ -489,7 +489,7 @@ class Csv extends Renderer
     protected function removeFirstPercentSign($value)
     {
         $needle = '%';
-        $posPercent = strpos($value, $needle);
+        $posPercent = strpos($value ?? '', $needle);
         if ($posPercent !== false) {
             return substr_replace($value, '', $posPercent, strlen($needle));
         }

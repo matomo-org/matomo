@@ -42,6 +42,7 @@ class Feedback extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.less";
         $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
@@ -51,18 +52,40 @@ class Feedback extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_ThankYouHeart';
+        $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraEasy';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraUseful';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraBugs';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraMissing';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraSpeed';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraEasier';
+        $translationKeys[] = 'Feedback_RateFeatureOtherReason';
         $translationKeys[] = 'Feedback_SendFeedback';
         $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
+        $translationKeys[] = 'Feedback_RateFeatureUsefulInfo';
+        $translationKeys[] = 'Feedback_RateFeatureEasyToUse';
+        $translationKeys[] = 'Feedback_RateFeatureConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeAddMissingFeatures';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeMakeEasier';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeSpeedUp';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeFixBugs';
         $translationKeys[] = 'Feedback_ReviewMatomoTitle';
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
         $translationKeys[] = 'Feedback_WontShowAgain';
+        $translationKeys[] = 'Feedback_AppreciateFeedback';
+        $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
         $translationKeys[] = 'Feedback_Question0';
@@ -72,7 +95,6 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_Question4';
         $translationKeys[] = 'Feedback_FeedbackTitle';
         $translationKeys[] = 'Feedback_FeedbackSubtitle';
-        $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_ThankYou';
@@ -95,12 +117,12 @@ class Feedback extends \Piwik\Plugin
     public function renderFeedbackQuestion()
     {
         $feedbackQuestionBanner = new View('@Feedback/feedbackQuestionBanner');
-        $feedbackQuestionBanner->showQuestionBanner = (int)$this->getShouldPromptForFeedback();
+        $feedbackQuestionBanner->showQuestionBanner = (int)$this->showQuestionBanner();
 
         return $feedbackQuestionBanner->render();
     }
 
-    public function getShouldPromptForFeedback()
+    public function showQuestionBanner()
     {
         if (Piwik::isUserIsAnonymous()) {
             return false;
@@ -111,27 +133,31 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
+        $shouldShowQuestionBanner = true;
+
+        Piwik::postEvent('Feedback.showQuestionBanner', [&$shouldShowQuestionBanner]);
+
+        if (!$shouldShowQuestionBanner) {
+            return false;
+        }
+
         $feedbackReminder = new FeedbackReminder();
         $nextReminderDate = $feedbackReminder->getUserOption();
         $now = Date::now()->getTimestamp();
 
-        //user answered question
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        // if is new user or old user field not exist
+        // If there isn't any reminder date set, or never remind me was selected previously (-1) we determine a new date
         if ($nextReminderDate === false || $nextReminderDate <= 0) {
 
-            // if user is created more than 6 month ago, set reminder to today and show banner
-            $userCreatedDate = Piwik::getCurrentUserCreationData();
-            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() < $now) {
-                $nextReminder = Date::now()->getStartOfDay()->subDay(1)->toString('Y-m-d');
+            // if user was created within the last 6 months, we set the date to 6 months after his creation date
+            $userCreatedDate = Piwik::getCurrentUserCreationDate();
+            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {
+                $nextReminder = Date::factory($userCreatedDate)->addMonth(6)->toString('Y-m-d');
                 $feedbackReminder->setUserOption($nextReminder);
-                return true;
+                return false;
             }
-            //new user extend to 6 month, don't show banner
-            $nextReminder = Date::now()->getStartOfDay()->addMonth(6)->toString('Y-m-d');
+
+            // Otherwise we set the date to somewhen within the next 6 months
+            $nextReminder = Date::now()->getStartOfDay()->addDay(Common::getRandomInt(1, 6*30))->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
             return false;
         }

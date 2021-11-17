@@ -72,6 +72,12 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_Faq';
         $translations[] = 'Feedback_CommunityHelp';
         $translations[] = 'Feedback_ProfessionalHelp';
+        $translations[] = 'MultiSites_EvolutionComparisonIncomplete';
+        $translations[] = 'MultiSites_EvolutionComparisonProportional';
+        $translations[] = 'MultiSites_EvolutionComparisonDay';
+        $translations[] = 'MultiSites_EvolutionComparisonWeek';
+        $translations[] = 'MultiSites_EvolutionComparisonMonth';
+        $translations[] = 'MultiSites_EvolutionComparisonYear';
     }
 
     public function getJsFiles(&$jsFiles)

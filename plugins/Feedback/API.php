@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -29,14 +30,19 @@ class API extends \Piwik\Plugin\API
      * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
-     * @param string      $featureName  The name of a feature you want to give feedback to.
-     * @param bool|int    $like         Whether you like the feature or not
-     * @param string|bool $message      A message containing the actual feedback
+     * @param string|null $featureName  The name of a feature you want to give feedback to.
+     * @param int         $like         Whether you like the feature or not
+     * @param string|null $choice       Multiple choice option chosen
+     * @param string|null $message      A message containing the actual feedback
      */
-    public function sendFeedbackForFeature($featureName, $like, $message = false)
+    public function sendFeedbackForFeature(?string $featureName, int $like, ?string $choice, ?string $message = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
+
+        if (empty($message) || $message === 'undefined' ||  strlen($message) < 4) {
+            return Piwik::translate("Feedback_FormNotEnoughFeedbackText");
+        }
 
         $featureName = $this->getEnglishTranslationForFeatureName($featureName);
 
@@ -47,19 +53,30 @@ class API extends \Piwik\Plugin\API
 
         $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText);
 
-        $feedbackMessage = "";
-        if (!empty($message) && $message != 'undefined') {
-            $feedbackMessage = sprintf("Feedback:\n%s\n", trim($message));
+        if (!empty($choice) && $choice !== 'undefined') {
+            $body .= "Choice: ".$choice."\n";
         }
-        $body .= $feedbackMessage ? $feedbackMessage : " \n";
 
-        $subject = sprintf("%s for %s %s",
+        $body .= sprintf("Feedback:\n%s\n", trim($message));
+
+        $subject = sprintf("%s for %s",
             empty($like) ? "-1" : "+1",
-            $featureName,
-            empty($feedbackMessage) ? "" : "(w/ feedback)"
+            $featureName
         );
 
+        // Determine where Matomo is running and add as source
+        if (Config::getHostname() === 'demo.matomo.cloud') {
+            $source = 'Demo';
+        } else if (SettingsServer::isMatomoForWordPress()) {
+            $source = 'Wordpress';
+        } else {
+            $source = 'On-Premise';
+        }
+        $body .= "Source: ".$source."\n";
+
         $this->sendMail($subject, $body);
+
+        return 'success';
     }
 
     /**
