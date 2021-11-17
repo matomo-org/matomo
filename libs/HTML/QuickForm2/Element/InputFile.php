@@ -224,7 +224,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
     */
     protected function validate()
     {
-        if (strlen($this->error)) {
+        if (strlen($this->error ?? '')) {
             return false;
         }
         if (isset($this->value['error']) &&

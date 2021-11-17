@@ -42,6 +42,7 @@ class Feedback extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.less";
         $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
@@ -51,18 +52,40 @@ class Feedback extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_ThankYouHeart';
+        $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraEasy';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraUseful';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraBugs';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraMissing';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraSpeed';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraEasier';
+        $translationKeys[] = 'Feedback_RateFeatureOtherReason';
         $translationKeys[] = 'Feedback_SendFeedback';
         $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
+        $translationKeys[] = 'Feedback_RateFeatureUsefulInfo';
+        $translationKeys[] = 'Feedback_RateFeatureEasyToUse';
+        $translationKeys[] = 'Feedback_RateFeatureConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeAddMissingFeatures';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeMakeEasier';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeSpeedUp';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeFixBugs';
         $translationKeys[] = 'Feedback_ReviewMatomoTitle';
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
         $translationKeys[] = 'Feedback_WontShowAgain';
+        $translationKeys[] = 'Feedback_AppreciateFeedback';
+        $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
         $translationKeys[] = 'Feedback_Question0';
@@ -72,7 +95,6 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_Question4';
         $translationKeys[] = 'Feedback_FeedbackTitle';
         $translationKeys[] = 'Feedback_FeedbackSubtitle';
-        $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_ThankYou';

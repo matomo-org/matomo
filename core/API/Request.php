@@ -127,7 +127,7 @@ class Request
 
         foreach ($requestArray as &$element) {
             if (!is_array($element)) {
-                $element = trim($element);
+                $element = trim((string) $element);
             }
         }
         return $requestArray;
