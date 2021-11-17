@@ -2197,8 +2197,10 @@ var ExpandOnClick_doc = document.documentElement;
     binding.value.onEscapeHandler = ExpandOnClick_onEscapeHandler.bind(null, el, binding);
     binding.value.onMouseDown = ExpandOnClick_onMouseDown.bind(null, binding);
     binding.value.onClickOutsideElement = ExpandOnClick_onClickOutsideElement.bind(null, el, binding);
-    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
-    binding.value.expander.addEventListener('click', binding.value.onExpand);
+    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding); // have to use jquery here since existing code will do $(...).click(). which apparently
+    // doesn't work when using addEventListener.
+
+    window.$(binding.value.expander).click(binding.value.onExpand);
     ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
     ExpandOnClick_doc.addEventListener('mousedown', binding.value.onMouseDown);
     ExpandOnClick_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
