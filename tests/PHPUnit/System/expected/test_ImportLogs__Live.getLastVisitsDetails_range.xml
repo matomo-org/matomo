@@ -590,7 +590,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -1039,7 +1039,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -2472,7 +2472,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -3552,7 +3552,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 11.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -4185,7 +4185,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -4316,7 +4316,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -4472,7 +4472,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -4638,7 +4638,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -5147,7 +5147,7 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>2.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
@@ -5278,7 +5278,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -5409,7 +5409,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 20.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -5536,7 +5536,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>GNOME Web 2.30</browser>
 		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
@@ -5663,7 +5663,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 20.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -5790,7 +5790,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>GNOME Web 2.30</browser>
 		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
@@ -6044,7 +6044,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>GNOME Web 2.30</browser>
 		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
@@ -6425,7 +6425,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -6552,7 +6552,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -6679,7 +6679,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.8</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -6933,7 +6933,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -7060,7 +7060,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>GNOME Web 2.30</browser>
 		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
@@ -7441,7 +7441,7 @@
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>GNOME Web 2.30</browser>
 		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
@@ -7568,7 +7568,7 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>2.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
@@ -7695,7 +7695,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -7822,7 +7822,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
@@ -7949,7 +7949,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
