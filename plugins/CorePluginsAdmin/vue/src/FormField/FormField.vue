@@ -15,20 +15,23 @@
     >
       {{ formField.introduction }}
     </h3>
-    <component
-      :is="childComponent"
+    <div
       class="col s12"
       :class="{
         'input-field': formField.uiControl !== 'checkbox' && formField.uiControl !== 'radio',
         'file-field': formField.uiControl === 'file',
-        'm6': !formField.fullWidth
+        'm6': !formField.fullWidth,
       }"
-      onload="templateLoaded()"
-      v-bind="{ ...formField, availableOptions, ...extraChildComponentParams }"
-      :value="processedModelValue"
-      @update:modelValue="onChange($event)"
     >
-    </component>
+      <component
+        :is="childComponent"
+        onload="templateLoaded()"
+        v-bind="{ ...formField, availableOptions, ...extraChildComponentParams }"
+        :value="processedModelValue"
+        @update:modelValue="onChange($event)"
+      >
+      </component>
+    </div>
     <div
       class="col s12"
       :class="{ 'm6': !formField.fullWidth }"
