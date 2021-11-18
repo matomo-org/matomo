@@ -97,15 +97,57 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
 
     private function addUmdFilesIfDetected($plugins)
     {
+        $plugins = $this->orderPluginsByPluginDependencies($plugins);
+
         foreach ($plugins as $plugin) {
             $devUmd = "plugins/$plugin/vue/dist/$plugin.development.umd.js";
             $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
 
             if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
-                $this->fileLocations[] = $devUmd;
+                $this->fileLocations[$plugin] = $devUmd;
             } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
-                $this->fileLocations[] = $minifiedUmd;
+                $this->fileLocations[$plugin] = $minifiedUmd;
             }
         }
+    }
+
+    private function orderPluginsByPluginDependencies($plugins)
+    {
+        $result = [];
+
+        while (!empty($plugins)) {
+            $this->visitPlugin(reset($plugins), $plugins, $result);
+        }
+
+        return $result;
+    }
+
+    private function visitPlugin($plugin, &$plugins, &$result)
+    {
+        // remove the plugin from the array of plugins to visit
+        $index = array_search($plugin, $plugins);
+        if ($index !== false) {
+            unset($plugins[$index]);
+        } else {
+            return; // already visited
+        }
+
+        // read the plugin dependencies, if any
+        $umdMetadata = "plugins/$plugin/vue/dist/umd.metadata.json";
+
+        $pluginDependencies = [];
+        if (is_file($umdMetadata)) {
+            $pluginDependencies = json_decode(file_get_contents($umdMetadata), true);
+        }
+
+        if (!empty($pluginDependencies['dependsOn'])) {
+            // visit each plugin this one depends on first, so it is loaded first
+            foreach ($pluginDependencies['dependsOn'] as $pluginDependency) {
+                $this->visitPlugin($pluginDependency, $plugins, $result);
+            }
+        }
+
+        // add the plugin to the load order after visiting its dependencies
+        $result[] = $plugin;
     }
 }
