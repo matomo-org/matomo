@@ -16,7 +16,7 @@
         v-for="option in options"
         :key="option.key"
         :value="option.key"
-        :selected="value === option.key"
+        :selected="multiple ? value.indexOf(option.key) !== -1 : value === option.key"
       >
         {{ option.value }}
       </option>
@@ -34,6 +34,7 @@
       v-for="option in availableOptions"
       :key="option.key"
       :value="option.key"
+      :selected="multiple ? value.indexOf(option.key) !== -1 : value === option.key"
     >
       {{ option.value }}
     </option>
@@ -83,22 +84,22 @@ export function getAvailableOptions(
     return [];
   }
 
-  let availableValues = givenAvailableValues;
+  let availableValues = givenAvailableValues as Record<string, Record<string|number, unknown>>;
   if (!hasGroupedValues(availableValues)) {
-    availableValues = { '': availableValues };
+    availableValues = { '': givenAvailableValues };
   }
 
   const flatValues = [];
-  Object.entries(availableValues).forEach(([values, group]) => {
-    Object.entries(values).forEach(([value, valueObjKey]) => {
+  Object.entries(availableValues).forEach(([group, values]) => {
+    Object.entries(values).forEach(([valueObjKey, value]) => {
       if (typeof value === 'object' && typeof value.key !== 'undefined') {
         flatValues.push(value);
         return;
       }
 
-      let key = valueObjKey;
-      if (type === 'integer' && typeof key === 'string') {
-        key = parseInt(key, 10);
+      let key: number = valueObjKey as number;
+      if (type === 'integer' && typeof valueObjKey === 'string') {
+        key = parseInt(valueObjKey, 10);
       }
 
       flatValues.push({ group, key, value });
@@ -161,7 +162,17 @@ export default defineComponent({
   },
   methods: {
     onChange(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLSelectElement).value);
+      const element = event.target as HTMLSelectElement;
+
+      let newValue: string|number|(string|number)[];
+      if (this.multiple) {
+        // TODO: check Array.from compatibility
+        newValue = Array.from(element.options).filter((e) => e.selected).map((e) => e.value);
+      } else {
+        newValue = element.value;
+      }
+
+      this.$emit('update:modelValue', newValue);
     },
   },
   watch: {

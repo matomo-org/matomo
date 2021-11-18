@@ -17,9 +17,9 @@
         v-if="field1"
         class="fieldUiControl fieldUiControl1"
         :class="{ hasMultiFields: field1.templateFile && field2.templateFile }"
-        v-model="item.field1.key"
+        v-model="item[field1.key]"
         :options="field1.availableValues"
-        @change="onEntryChange()"
+        @change="onEntryChange(index, field4.key, $event)"
         :placeholder="' '"
         :uicontrol="field1.uiControl"
         :name="`${name}-p1-${index}`"
@@ -31,8 +31,8 @@
         v-if="field2"
         class="fieldUiControl fieldUiControl2"
         :options="field2.availableValues"
-        @change="onEntryChange()"
-        v-model="item.field2.key"
+        @change="onEntryChange(index, field4.key, $event)"
+        v-model="item[field2.key]"
         :placeholder="' '"
         :uicontrol="field2.uiControl"
         :name="`${name}-p2-${index}`"
@@ -44,8 +44,8 @@
         v-if="field3"
         class="fieldUiControl fieldUiControl3"
         :options="field3.availableValues"
-        @change="onEntryChange()"
-        v-model="item.field3.key"
+        @change="onEntryChange(index, field4.key, $event)"
+        v-model="item[field3.key]"
         :placeholder="' '"
         :uicontrol="field3.uiControl"
         :data-title="field3.title"
@@ -56,8 +56,8 @@
         v-if="field4"
         class="fieldUiControl fieldUiControl4"
         :options="field4.availableValues"
-        @change="onEntryChange()"
-        v-model="item.field4.key"
+        @change="onEntryChange(index, field4.key, $event)"
+        v-model="item[field4.key]"
         :placeholder="' '"
         :uicontrol="field4.uiControl"
         :data-title="field4.title"
@@ -124,11 +124,10 @@ export default defineComponent({
     },
   },
   methods: {
-    onEntryChange() {
-      // TODO
-    },
-    addEntry() {
-      // TODO
+    onEntryChange(index: number, key: string, newValue: unknown) {
+      const newWholeValue = [...this.modelValue];
+      newWholeValue[index] = { ...newWholeValue[index], [key]: newValue };
+      this.$emit('update:modelValue', newWholeValue);
     },
     removeEntry(index: number) {
       if (index > -1) {

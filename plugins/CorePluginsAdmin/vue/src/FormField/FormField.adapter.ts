@@ -11,6 +11,22 @@ import FormField from './FormField.vue';
 export default createAngularJsAdapter({
   component: FormField,
   scope: {
+    modelValue: {
+      default(scope) {
+        const field = scope.piwikFormField;
+
+        // vue components expect object data as input, so we parse JSON data
+        // for angularjs directives that use JSON.
+        if ((field.type === 'array' && typeof field.value === 'string' && field.value)
+          || field.uiControl === 'multituple'
+          || field.uiControl === 'field-array'
+        ) {
+          field.value = JSON.parse(field.value);
+        }
+
+        return field.value;
+      },
+    },
     piwikFormField: {
       vue: 'formField',
       angularJsBind: '=',
@@ -23,7 +39,6 @@ export default createAngularJsAdapter({
           };
         }
         return transformed;
-        // TODO
       },
     },
     allSettings: {
@@ -31,4 +46,19 @@ export default createAngularJsAdapter({
     },
   },
   directiveName: 'piwikFormField',
+  events: {
+    'update:modelValue': (newValue, vm, scope) => {
+      if (newValue !== scope.piwikFormField.value) {
+        scope.piwikFormField.value = newValue;
+        scope.$apply();
+      }
+    },
+  },
+  postCreate(vm, scope) {
+    scope.$watch('piwikFormField.value', (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        vm.modelValue = newVal;
+      }
+    });
+  },
 });

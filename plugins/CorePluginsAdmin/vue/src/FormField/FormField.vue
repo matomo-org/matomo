@@ -26,7 +26,7 @@
       <component
         :is="childComponent"
         onload="templateLoaded()"
-        v-bind="{ ...formField, availableOptions, ...extraChildComponentParams }"
+        v-bind="{ ...formField, modelValue, availableOptions, ...extraChildComponentParams }"
         :value="processedModelValue"
         @update:modelValue="onChange($event)"
       >

@@ -4,7 +4,7 @@
       <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
       </svg>
-      <input type="text" class="select-dropdown" readonly="readonly" :value="title"/>
+      <input type="text" class="select-dropdown" readonly="readonly" :value="modelValueText"/>
     </div>
 
     <div v-show="showSelect" class="expandableList z-depth-2">
@@ -44,7 +44,7 @@
               class="expandableListItem collection-item valign-wrapper"
               v-for="children in options.values.filter(x => x.value.indexOf(searchTerm) !== -1)"
               :key="children.key"
-              @click="onValueClicked($event, children)"
+              @click="onValueClicked(children)"
             >
               <span class="primary-content">{{ children.value }}</span>
               <span
@@ -109,7 +109,7 @@ export function getAvailableOptions(
 
 export default defineComponent({
   props: {
-    title: String,
+    modelValue: [Number, String],
     availableOptions: Array,
   },
   directives: {
@@ -125,6 +125,22 @@ export default defineComponent({
       searchTerm: '',
       showCategory: '',
     };
+  },
+  computed: {
+    modelValueText() {
+      const key = this.modelValue;
+
+      let keyItem: { key: string|number, value: unknown };
+      this.availableOptions.some((option) => {
+        keyItem = option.values.find((item) => item.key === key);
+        return keyItem; // stop iterating if found
+      });
+
+      if (keyItem) {
+        return keyItem.value.toString();
+      }
+      return key;
+    },
   },
   methods: {
     onBlur() {
