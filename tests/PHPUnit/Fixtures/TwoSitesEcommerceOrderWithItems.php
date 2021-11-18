@@ -42,7 +42,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         }
 
         if (!self::siteCreated($this->idSite2)) {
-            $this->idSite2 = self::createWebsite($this->dateTime);
+            $this->idSite2 = self::createWebsite($this->dateTime, 1);
         }
 
         if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
