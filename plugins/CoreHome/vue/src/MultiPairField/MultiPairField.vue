@@ -85,10 +85,10 @@ export default defineComponent({
   props: {
     modelValue: Array,
     name: String,
-    field1: String,
-    field2: String,
-    field3: String,
-    field4: String,
+    field1: Object,
+    field2: Object,
+    field3: Object,
+    field4: Object,
   },
   components: {
     Field,

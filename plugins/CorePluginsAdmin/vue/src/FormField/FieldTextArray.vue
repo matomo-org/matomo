@@ -26,6 +26,7 @@ export default defineComponent({
     value: Array,
     uiControlAttributes: Object,
   },
+  inheritAttrs: false,
   computed: {
     concattedValues() {
       return this.value.join(', ');

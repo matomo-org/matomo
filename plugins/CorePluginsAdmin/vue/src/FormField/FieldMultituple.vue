@@ -25,6 +25,7 @@ export default defineComponent({
     value: null,
     uiControlAttributes: Object,
   },
+  inheritAttrs: false,
   components: {
     MultiPairField,
   },

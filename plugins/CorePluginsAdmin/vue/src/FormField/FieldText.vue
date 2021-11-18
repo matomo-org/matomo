@@ -25,6 +25,7 @@ export default defineComponent({
     value: String,
     uiControl: String,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   mounted() {
     window.Materialize.updateTextFields();

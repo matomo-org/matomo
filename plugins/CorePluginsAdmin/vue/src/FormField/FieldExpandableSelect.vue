@@ -22,7 +22,7 @@
         <li
           v-for="(options, index) in availableOptions"
           class="collection-item"
-          v-show="options.values.filter(x => x.indexOf(searchTerm) !== -1).length"
+          v-show="options.values.filter(x => x.value.indexOf(searchTerm) !== -1).length"
           :key="index"
         >
           <h4
@@ -42,7 +42,7 @@
           <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
             <li
               class="expandableListItem collection-item valign-wrapper"
-              v-for="children in options.values.filter(x => x.indexOf(searchTerm) !== -1)"
+              v-for="children in options.values.filter(x => x.value.indexOf(searchTerm) !== -1)"
               :key="children.key"
               @click="onValueClicked($event, children)"
             >
@@ -75,49 +75,50 @@ interface AvailableOptions {
   tooltip?: string;
 }
 
+export function getAvailableOptions(
+  availableValues: Record<string, unknown>,
+): { key: string, value: unknown }[] {
+  const flatValues = [];
+
+  const groups = {};
+  Object.values(availableValues).forEach((uncastedValue) => {
+    const value = uncastedValue as AvailableOptions;
+    const group = value.group || '';
+
+    if (!(group in groups) || !groups[group]) {
+      groups[group] = { values: [], group };
+    }
+
+    const formatted: Record<string, unknown> = { key: value.key, value: value.value };
+
+    if ('tooltip' in value && value.tooltip) {
+      formatted.tooltip = value.tooltip;
+    }
+
+    groups[group].values.push(formatted);
+  });
+
+  Object.values(groups).forEach((group) => {
+    if (group.values.length) {
+      flatValues.push(group);
+    }
+  });
+
+  return flatValues;
+}
+
 export default defineComponent({
   props: {
     title: String,
-    availableValues: Array,
+    availableOptions: Array,
   },
   directives: {
     FocusAnywhereButHere,
     FocusIf,
   },
+  inheritAttrs: false,
   // emits modelValue update, but doesn't sync to input value. same as angularjs directive.
   emits: ['update:modelValue'],
-  computed: {
-    availableOptions() {
-      const { availableValues } = this;
-      const flatValues = [];
-
-      const groups = {};
-      Object.values(availableValues).forEach((uncastedValue) => {
-        const value = uncastedValue as AvailableOptions;
-        const group = value.group || '';
-
-        if (!(group in groups) || !groups[group]) {
-          groups[group] = { values: [], group };
-        }
-
-        const formatted: Record<string, unknown> = { key: value.key, value: value.value };
-
-        if ('tooltip' in value && value.tooltip) {
-          formatted.tooltip = value.tooltip;
-        }
-
-        groups[group].values.push(formatted);
-      });
-
-      Object.values(groups).forEach((group) => {
-        if (group.values.length) {
-          flatValues.push(group);
-        }
-      });
-
-      return flatValues;
-    },
-  },
   data() {
     return {
       showSelect: false,

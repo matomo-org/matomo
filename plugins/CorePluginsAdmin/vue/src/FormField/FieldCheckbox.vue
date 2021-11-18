@@ -27,6 +27,7 @@ export default defineComponent({
     name: String,
     title: String,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {

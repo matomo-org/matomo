@@ -24,6 +24,7 @@ export default defineComponent({
     title: String,
     value: String,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   setup(props) {
     const fileInput = ref<HTMLInputElement>(null);

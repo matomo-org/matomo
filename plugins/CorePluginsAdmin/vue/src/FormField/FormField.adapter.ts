@@ -12,7 +12,19 @@ export default createAngularJsAdapter({
   component: FormField,
   scope: {
     piwikFormField: {
+      vue: 'formField',
       angularJsBind: '=',
+      transform(value, vm, scope) {
+        let transformed = value;
+        if (value.condition) {
+          transformed = {
+            ...value,
+            condition: (values: unknown[]) => scope.$eval(value.condition, values),
+          };
+        }
+        return transformed;
+        // TODO
+      },
     },
     allSettings: {
       angularJsBind: '=',

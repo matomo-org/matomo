@@ -18,6 +18,7 @@ export default defineComponent({
     uiControl: String,
     name: String,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {

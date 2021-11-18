@@ -22,6 +22,7 @@ export default defineComponent({
     value: [Number, String],
     uiControlAttributes: Object,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {

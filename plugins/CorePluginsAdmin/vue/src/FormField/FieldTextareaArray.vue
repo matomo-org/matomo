@@ -26,6 +26,7 @@ export default defineComponent({
     uiControlAttributes: Object,
     modelValue: Array,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   computed: {
     concattedValue() {

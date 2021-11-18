@@ -50,7 +50,7 @@
         <span v-show="showDefaultValue">
           <br />
           {{ translate('General_Default') }}:
-          <span>{{ defaultValuePretty.substring(0, 50) }}</span>
+          <span>{{ defaultValuePrettyTruncated }}</span>
         </span>
       </div>
     </div>
@@ -61,18 +61,23 @@
 import { defineComponent } from 'vue';
 import FieldCheckbox from './FieldCheckbox.vue';
 import FieldCheckboxArray from './FieldCheckboxArray.vue';
-import FieldExpandableSelect from './FieldExpandableSelect.vue';
+import FieldExpandableSelect, {
+  getAvailableOptions as getExpandableSelectAvailableOptions,
+} from './FieldExpandableSelect.vue';
 import FieldFieldArray from './FieldFieldArray.vue';
 import FieldFile from './FieldFile.vue';
 import FieldHidden from './FieldHidden.vue';
 import FieldMultituple from './FieldMultituple.vue';
 import FieldNumber from './FieldNumber.vue';
 import FieldRadio from './FieldRadio.vue';
-import FieldSelect from './FieldSelect.vue';
+import FieldSelect, {
+  getAvailableOptions as getSelectAvailableOptions,
+} from './FieldSelect.vue';
 import FieldSite from './FieldSite.vue';
 import FieldText from './FieldText.vue';
 import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
+import { processCheckboxAndRadioAvailableValues } from './utilities';
 
 /*
 4. go through directive JS/controller JS and distribute code
@@ -86,19 +91,26 @@ import FieldTextareaArray from './FieldTextareaArray.vue';
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
 const CONTROL_TO_COMPONENT_MAP = {
-  checkbox: FieldCheckbox,
-  'expandable-select': FieldExpandableSelect,
-  'field-array': FieldFieldArray,
-  file: FieldFile,
-  hidden: FieldHidden,
-  multiselect: FieldSelect,
-  multituple: FieldMultituple,
-  number: FieldNumber,
-  radio: FieldRadio,
-  select: FieldSelect,
-  site: FieldSite,
-  text: FieldText,
-  textarea: FieldTextarea,
+  checkbox: 'FieldCheckbox',
+  'expandable-select': 'FieldExpandableSelect',
+  'field-array': 'FieldFieldArray',
+  file: 'FieldFile',
+  hidden: 'FieldHidden',
+  multiselect: 'FieldSelect',
+  multituple: 'FieldMultituple',
+  number: 'FieldNumber',
+  radio: 'FieldRadio',
+  select: 'FieldSelect',
+  site: 'FieldSite',
+  text: 'FieldText',
+  textarea: 'FieldTextarea',
+};
+
+const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
+  FieldSelect: getSelectAvailableOptions,
+  FieldCheckboxArray: processCheckboxAndRadioAvailableValues,
+  FieldRadio: processCheckboxAndRadioAvailableValues,
+  FieldExpandableSelect: getExpandableSelectAvailableOptions,
 };
 
 interface Setting {
@@ -109,7 +121,10 @@ interface Setting {
 export default defineComponent({
   props: {
     modelValue: null,
-    formField: Object,
+    formField: {
+      type: Object,
+      required: true,
+    },
     allSettings: [Object, Array],
   },
   emits: ['update:modelValue'],
@@ -182,7 +197,7 @@ export default defineComponent({
       if (!this.formField.condition
         || !this.allSettings
         || !Object.values(this.allSettings).length
-      ) { // TODO: condition is now a function, must be mapped properly
+      ) {
         return true;
       }
 
@@ -224,23 +239,21 @@ export default defineComponent({
       }
       return defaultValue;
     },
+    // TODO: availableOptions is assumed to be an array here? make the change everywhere.
     availableOptions() {
-      // TODO: availableOptions is assumed to be an array here? make the change everywhere.
-      const field = this.formField;
+      const { childComponent, formField } = this;
 
-      function hasOption(key) {
-        return field.availableOptions.some((f) => f.key === key);
-      }
-
-      // for selects w/ a placeholder, add an option to unset the select
-      if (field.uiControl === 'select'
-        && field.uiControlAttributes.placeholder
-        && !hasOption('')
+      if (!formField.availableValues
+        || !CONTROL_TO_AVAILABLE_OPTION_PROCESSOR[childComponent]
       ) {
-        return [{ key: '', value: '' }, ...field.availableOptions];
+        return null;
       }
 
-      return field.availableOptions;
+      return CONTROL_TO_AVAILABLE_OPTION_PROCESSOR[childComponent](
+        formField.availableValues,
+        formField.type,
+        formField.uiControlAttributes,
+      );
     },
     defaultValuePretty() {
       let { defaultValue } = this;
@@ -257,17 +270,17 @@ export default defineComponent({
 
         // TODO: additional check for null + typeof !== object'
         if (defaultParsed !== null && typeof defaultParsed === 'object') {
-          return null;
+          return '';
         }
       }
 
       // TODO: change all instanceof Array to Array.isArray
       if (!Array.isArray(availableOptions)) {
         if (Array.isArray(defaultValue)) {
-          return null;
+          return '';
         }
 
-        return defaultValue;
+        return defaultValue ? defaultValue.toString() : '';
       }
 
       const prettyValues = [];
@@ -283,6 +296,9 @@ export default defineComponent({
       });
 
       return prettyValues.join(', ');
+    },
+    defaultValuePrettyTruncated() {
+      return this.defaultValuePretty.substring(0, 50);
     },
   },
   methods: {

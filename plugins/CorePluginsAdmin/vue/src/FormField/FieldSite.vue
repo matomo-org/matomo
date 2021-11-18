@@ -5,8 +5,8 @@
       class="sites_autocomplete"
       :model-value="value"
       @update:modelValue="onChange($event)"
-      :siteid="value.id"
-      :sitename="value.name"
+      :siteid="value?.id"
+      :sitename="value?.name"
       :id="name"
       :show-all-sites-item="uiControlAttributes.showAllSitesItem || false"
       :switch-site-on-select="false"
@@ -28,6 +28,7 @@ export default defineComponent({
     value: null,
     uiControlAttributes: Object,
   },
+  inheritAttrs: false,
   components: {
     SiteSelector,
   },

@@ -13,14 +13,22 @@ import {
 } from 'vue';
 import translate from './translate';
 
-interface SingleScopeVarInfo {
+interface SingleScopeVarInfo<InjectTypes> {
   vue?: string;
   default?: any; // eslint-disable-line
-  transform?: (v: unknown) => unknown;
+  transform?: (
+    v: unknown,
+    vm: ComponentPublicInstance,
+    scope: ng.IScope,
+    element: ng.IAugmentedJQuery,
+    attrs: ng.IAttributes,
+    otherController: ng.IControllerService,
+    ...injected: InjectTypes,
+  ) => unknown;
   angularJsBind?: string;
 }
 
-type ScopeMapping = { [scopeVarName: string]: SingleScopeVarInfo };
+type ScopeMapping<InjectTypes> = { [scopeVarName: string]: SingleScopeVarInfo<InjectTypes> };
 
 type AdapterFunction<InjectTypes, R = void> = (
   scope: ng.IScope,
@@ -67,7 +75,7 @@ function toAngularJsCamelCase(arg: string): string {
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
   require?: string,
-  scope?: ScopeMapping,
+  scope?: ScopeMapping<InjectTypes>,
   directiveName: string,
   events?: EventMapping<InjectTypes>,
   $inject?: string[],
@@ -156,7 +164,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                       : info.default;
                   }
                   if (info.transform) {
-                    value = info.transform(value);
+                    value = info.transform(
+                      value,
+                      this,
+                      ngScope,
+                      ngElement,
+                      ngAttrs,
+                      ngController,
+                      ...injectedServices,
+                    );
                   }
                   initialData[info.vue] = value;
                 });
@@ -217,7 +233,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                     : info.default;
                 }
                 if (info.transform) {
-                  newValueFinal = info.transform(newValueFinal);
+                  newValueFinal = info.transform(
+                    newValueFinal,
+                    vm,
+                    ngScope,
+                    ngElement,
+                    ngAttrs,
+                    ngController,
+                    ...injectedServices,
+                  );
                 }
                 vm[scopeVarName] = newValueFinal;
               });

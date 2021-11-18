@@ -74,47 +74,64 @@ function hasGroupedValues(availableValues) {
   return Object.values(availableValues).some((v) => typeof v === 'object');
 }
 
+export function getAvailableOptions(
+  givenAvailableValues?: Record<string, unknown>|null,
+  type: string,
+  uiControlAttributes: Record<string, unknown>,
+): OptionGroup[] {
+  if (!givenAvailableValues) {
+    return [];
+  }
+
+  let availableValues = givenAvailableValues;
+  if (!hasGroupedValues(availableValues)) {
+    availableValues = { '': availableValues };
+  }
+
+  const flatValues = [];
+  Object.entries(availableValues).forEach(([values, group]) => {
+    Object.entries(values).forEach(([value, valueObjKey]) => {
+      if (typeof value === 'object' && typeof value.key !== 'undefined') {
+        flatValues.push(value);
+        return;
+      }
+
+      let key = valueObjKey;
+      if (type === 'integer' && typeof key === 'string') {
+        key = parseInt(key, 10);
+      }
+
+      flatValues.push({ group, key, value });
+    });
+  });
+
+  function hasOption(key) {
+    return flatValues.some((f) => f.key === key);
+  }
+
+  // for selects w/ a placeholder, add an option to unset the select
+  if (uiControlAttributes.placeholder
+    && !hasOption('')
+  ) {
+    return [{ key: '', value: '' }, ...flatValues];
+  }
+
+  return flatValues;
+}
+
 export default defineComponent({
   props: {
     value: null,
     multiple: Boolean,
     name: String,
     title: String,
-    availableValues: Object,
+    availableOptions: Object,
     uiControlAttributes: Object,
     uiControlOptions: Object,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   computed: {
-    availableOptions(): OptionGroup[] {
-      if (!this.availableValues) {
-        return [];
-      }
-
-      let { availableValues }: { availableValues: Record<string, unknown> } = this;
-
-      if (!hasGroupedValues(availableValues)) {
-        availableValues = { '': availableValues };
-      }
-
-      const flatValues = [];
-      Object.entries(availableValues).forEach(([values, group]) => {
-        Object.entries(values).forEach(([value, valueObjKey]) => {
-          if (typeof value === 'object' && typeof value.key !== 'undefined') {
-            flatValues.push(value);
-            return;
-          }
-
-          let key = valueObjKey;
-          if (this.type === 'integer' && typeof key === 'string') {
-            key = parseInt(key, 10);
-          }
-
-          flatValues.push({ group, key, value });
-        });
-      });
-      return flatValues;
-    },
     groupedOptions() {
       const { availableOptions } = this;
       if (!availableOptions[0] || !availableOptions[0].group) {

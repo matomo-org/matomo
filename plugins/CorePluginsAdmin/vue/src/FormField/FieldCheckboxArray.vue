@@ -28,7 +28,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { processCheckboxAndRadioAvailableValues } from './utilities';
 
 // TODO: how often is this called
 function getCheckboxStates(availableOptions, modelValue) {
@@ -40,17 +39,15 @@ export default defineComponent({
     modelValue: Object,
     name: String,
     title: String,
-    availableValues: Array,
+    availableOptions: Array,
     uiControlAttributes: Object,
     type: String,
   },
+  inheritAttrs: false,
   emits: ['update:modelValue'],
   computed: {
     checkboxStates() {
       return getCheckboxStates(this.availableOptions, this.modelValue);
-    },
-    availableOptions() {
-      return processCheckboxAndRadioAvailableValues(this.availableValues, this.type);
     },
   },
   mounted() {
