@@ -8,7 +8,6 @@
   <div
     ref="root"
     class="quickAccessInside"
-    :class="{ active: searchActive, expanded: searchActive }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
     <span
@@ -23,7 +22,7 @@
       v-model="searchTerm"
       type="text"
       tabindex="2"
-      v-focus-if="{ focusIf: searchActive }"
+      v-focus-if:[searchActive]="{}"
       :title="quickAccessTitle"
     />
     <div
@@ -102,6 +101,7 @@ import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
 import SitesStore, { Site } from '../SiteSelector/SitesStore';
 import Matomo from '../Matomo/Matomo';
+import debounce from '../debounce';
 
 interface SubMenuItem {
   name: string;
@@ -154,14 +154,20 @@ export default defineComponent({
     FocusAnywhereButHere,
     FocusIf,
   },
+  watch: {
+    searchActive(newValue) {
+      const classes = this.$refs.root.parentElement.classList;
+      classes.toggle('active', newValue);
+      classes.toggle('expanded', newValue);
+    },
+  },
   mounted() {
     // TODO: temporary, remove after angularjs is removed.
     // this is currently needed since angularjs will render a div, then vue will render a div
-    // within it, but the top controls are expected to have certain CSS classes in the root
+    // within it, but the top controls and CSS expect to have certain CSS classes in the root
     // element.
-    if ((this.$refs.root as HTMLElement).closest('.top_controls')) {
-      this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
-    }
+    // same applies to above watch for searchActive()
+    this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
 
     if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
       window.initTopControls();
@@ -196,6 +202,9 @@ export default defineComponent({
       sites: [],
       isLoading: false,
     };
+  },
+  created() {
+    this.searchMenu = debounce(this.searchMenu.bind(this));
   },
   computed: {
     hasSitesSelector() {

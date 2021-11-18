@@ -51,12 +51,12 @@
       >
         <input
           type="text"
-          @click="searchTerm = ''"
+          @click="searchTerm = '';loadInitialSites()"
           v-model="searchTerm"
           @keydown="onSearchInputKeydown()"
           tabindex="4"
           class="websiteSearch inp browser-default"
-          v-focus-if="{ focusIf: shouldFocusOnSearch }"
+          v-focus-if:[shouldFocusOnSearch]="{}"
           :placeholder="translate('General_Search')"
         />
         <img
@@ -129,6 +129,7 @@ import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 import SitesStore, { Site } from './SitesStore';
+import debounce from '../debounce';
 
 interface SiteRef {
   id: string|number;
@@ -205,7 +206,7 @@ export default defineComponent({
       activeSiteId: Matomo.idSite,
       showSitesList: false,
       isLoading: false,
-      sites: Array<Site>(),
+      sites: [],
       selectedSite: {
         id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
@@ -236,6 +237,9 @@ export default defineComponent({
       this.$refs.selectorLink.click();
       this.$refs.selectorLink.focus();
     });
+  },
+  created() {
+    this.onSearchInputKeydown = debounce(this.onSearchInputKeydown.bind(this));
   },
   computed: {
     shouldFocusOnSearch() {
