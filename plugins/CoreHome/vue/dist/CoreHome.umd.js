@@ -6208,22 +6208,22 @@ FieldArrayvue_type_script_lang_ts.render = FieldArrayvue_type_template_id_e5b268
     }
   }
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=919decf6
-function MultiPairFieldvue_type_template_id_919decf6_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=05a47728
+function MultiPairFieldvue_type_template_id_05a47728_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var MultiPairFieldvue_type_template_id_919decf6_hoisted_1 = {
+var MultiPairFieldvue_type_template_id_05a47728_hoisted_1 = {
   class: "multiPairField form-group"
 };
-var MultiPairFieldvue_type_template_id_919decf6_hoisted_2 = ["onClick", "title"];
-function MultiPairFieldvue_type_template_id_919decf6_render(_ctx, _cache, $props, $setup, $data, $options) {
+var MultiPairFieldvue_type_template_id_05a47728_hoisted_2 = ["onClick", "title"];
+function MultiPairFieldvue_type_template_id_05a47728_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultiPairFieldvue_type_template_id_919decf6_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.modelValue, function (index, item) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultiPairFieldvue_type_template_id_05a47728_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.modelValue, function (index, item) {
     var _ref;
 
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multiPairFieldTable multiple valign-wrapper", (_ref = {}, MultiPairFieldvue_type_template_id_919decf6_defineProperty(_ref, "multiPairFieldTable".concat(index), true), MultiPairFieldvue_type_template_id_919decf6_defineProperty(_ref, "has".concat(_ctx.fieldCount, "Fields"), true), _ref)]),
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multiPairFieldTable multiple valign-wrapper", (_ref = {}, MultiPairFieldvue_type_template_id_05a47728_defineProperty(_ref, "multiPairFieldTable".concat(index), true), MultiPairFieldvue_type_template_id_05a47728_defineProperty(_ref, "has".concat(_ctx.fieldCount, "Fields"), true), _ref)]),
       key: index
     }, [_ctx.field1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
       key: 0,
@@ -6231,76 +6231,82 @@ function MultiPairFieldvue_type_template_id_919decf6_render(_ctx, _cache, $props
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["fieldUiControl fieldUiControl1", {
         hasMultiFields: _ctx.field1.templateFile && _ctx.field2.templateFile
       }]),
-      modelValue: item.field1.key,
+      modelValue: item[_ctx.field1.key],
       "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return item.field1.key = $event;
+        return item[_ctx.field1.key] = $event;
       },
       options: _ctx.field1.availableValues,
-      onChange: _cache[0] || (_cache[0] = function ($event) {
-        return _ctx.onEntryChange();
-      }),
+      onChange: function onChange($event) {
+        return _ctx.onEntryChange(index, _ctx.field4.key, $event);
+      },
       placeholder: ' ',
       uicontrol: _ctx.field1.uiControl,
       name: "".concat(_ctx.name, "-p1-").concat(index),
       "data-title": _ctx.field1.title
-    }, null, 8, ["class", "modelValue", "onUpdate:modelValue", "options", "uicontrol", "name", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.field2 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+    }, null, 8, ["class", "modelValue", "onUpdate:modelValue", "options", "onChange", "uicontrol", "name", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.field2 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
       key: 1,
       "full-width": true,
       class: "fieldUiControl fieldUiControl2",
       options: _ctx.field2.availableValues,
-      onChange: _cache[1] || (_cache[1] = function ($event) {
-        return _ctx.onEntryChange();
-      }),
-      modelValue: item.field2.key,
+      onChange: function onChange($event) {
+        return _ctx.onEntryChange(index, _ctx.field4.key, $event);
+      },
+      modelValue: item[_ctx.field2.key],
       "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return item.field2.key = $event;
+        return item[_ctx.field2.key] = $event;
       },
       placeholder: ' ',
       uicontrol: _ctx.field2.uiControl,
       name: "".concat(_ctx.name, "-p2-").concat(index),
       "data-title": _ctx.field2.title
-    }, null, 8, ["options", "modelValue", "onUpdate:modelValue", "uicontrol", "name", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.field3 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+    }, null, 8, ["options", "onChange", "modelValue", "onUpdate:modelValue", "uicontrol", "name", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.field3 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
       key: 2,
       "full-width": true,
       class: "fieldUiControl fieldUiControl3",
       options: _ctx.field3.availableValues,
-      onChange: _cache[2] || (_cache[2] = function ($event) {
-        return _ctx.onEntryChange();
-      }),
-      modelValue: item.field3.key,
+      onChange: function onChange($event) {
+        return _ctx.onEntryChange(index, _ctx.field4.key, $event);
+      },
+      modelValue: item[_ctx.field3.key],
       "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return item.field3.key = $event;
+        return item[_ctx.field3.key] = $event;
       },
       placeholder: ' ',
       uicontrol: _ctx.field3.uiControl,
       "data-title": _ctx.field3.title
-    }, null, 8, ["options", "modelValue", "onUpdate:modelValue", "uicontrol", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.field4 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+    }, null, 8, ["options", "onChange", "modelValue", "onUpdate:modelValue", "uicontrol", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.field4 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
       key: 3,
       "full-width": true,
       class: "fieldUiControl fieldUiControl4",
       options: _ctx.field4.availableValues,
-      onChange: _cache[3] || (_cache[3] = function ($event) {
-        return _ctx.onEntryChange();
-      }),
-      modelValue: item.field4.key,
+      onChange: function onChange($event) {
+        return _ctx.onEntryChange(index, _ctx.field4.key, $event);
+      },
+      modelValue: item[_ctx.field4.key],
       "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return item.field4.key = $event;
+        return item[_ctx.field4.key] = $event;
       },
       placeholder: ' ',
       uicontrol: _ctx.field4.uiControl,
       "data-title": _ctx.field4.title
-    }, null, 8, ["options", "modelValue", "onUpdate:modelValue", "uicontrol", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    }, null, 8, ["options", "onChange", "modelValue", "onUpdate:modelValue", "uicontrol", "data-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       onClick: function onClick($event) {
         return _ctx.removeEntry(index);
       },
       class: "icon-minus valign",
       title: _ctx.translate('General_Remove')
-    }, null, 8, MultiPairFieldvue_type_template_id_919decf6_hoisted_2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], index + 1 !== _ctx.modelValue.length]])], 2);
+    }, null, 8, MultiPairFieldvue_type_template_id_05a47728_hoisted_2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], index + 1 !== _ctx.modelValue.length]])], 2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=919decf6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=05a47728
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=script&lang=ts
+function MultiPairFieldvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function MultiPairFieldvue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { MultiPairFieldvue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { MultiPairFieldvue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { MultiPairFieldvue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function MultiPairFieldvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function MultiPairFieldvue_type_script_lang_ts_toConsumableArray(arr) { return MultiPairFieldvue_type_script_lang_ts_arrayWithoutHoles(arr) || MultiPairFieldvue_type_script_lang_ts_iterableToArray(arr) || MultiPairFieldvue_type_script_lang_ts_unsupportedIterableToArray(arr) || MultiPairFieldvue_type_script_lang_ts_nonIterableSpread(); }
 
 function MultiPairFieldvue_type_script_lang_ts_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -6365,9 +6371,11 @@ var MultiPairFieldvue_type_script_lang_ts_Field = Object(external_commonjs_vue_c
     }
   },
   methods: {
-    onEntryChange: function onEntryChange() {// TODO
-    },
-    addEntry: function addEntry() {// TODO
+    onEntryChange: function onEntryChange(index, key, newValue) {
+      var newWholeValue = MultiPairFieldvue_type_script_lang_ts_toConsumableArray(this.modelValue);
+
+      newWholeValue[index] = MultiPairFieldvue_type_script_lang_ts_objectSpread(MultiPairFieldvue_type_script_lang_ts_objectSpread({}, newWholeValue[index]), {}, MultiPairFieldvue_type_script_lang_ts_defineProperty({}, key, newValue));
+      this.$emit('update:modelValue', newWholeValue);
     },
     removeEntry: function removeEntry(index) {
       if (index > -1) {
@@ -6429,7 +6437,7 @@ var MultiPairFieldvue_type_script_lang_ts_Field = Object(external_commonjs_vue_c
 
 
 
-MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_id_919decf6_render
+MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_id_05a47728_render
 
 /* harmony default export */ var MultiPairField = (MultiPairFieldvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.adapter.ts
