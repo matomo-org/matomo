@@ -324,7 +324,7 @@ export default defineComponent({
     getMatchedSiteName(siteName: string) {
       const index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
       if (index === -1) {
-        return siteName;
+        return Matomo.helper.htmlEntities(siteName);
       }
 
       const previousPart = Matomo.helper.htmlEntities(siteName.substring(0, index));
