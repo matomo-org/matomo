@@ -1,8 +1,8 @@
 <div
-    piwik-content-block
-    content-title="{{ $ctrl.getFormTitle() }} {{ !$ctrl.isAdd ? ('\'' + $ctrl.user.login + '\'') : '' }}"
-    class="userEditForm"
-    ng-class="{ loading: $ctrl.isSavingUserInfo }"
+        piwik-content-block
+        content-title="{{ $ctrl.getFormTitle() }} {{ !$ctrl.isAdd ? ('\'' + $ctrl.user.login + '\'') : '' }}"
+        class="userEditForm"
+        ng-class="{ loading: $ctrl.isSavingUserInfo }"
 >
 
     <div class="row" piwik-form>
@@ -50,6 +50,7 @@
                 </div>
 
                 <div
+                        ng-if="!$ctrl.isAdd"
                         piwik-field
                         uicontrol="password"
                         name="user_password"
@@ -100,12 +101,12 @@
 
             <div ng-if="!$ctrl.isAdd" ng-show="$ctrl.activeTab === 'permissions'" class="user-permissions">
                 <piwik-user-permissions-edit
-                    ng-if="!$ctrl.user.superuser_access"
-                    user-login="$ctrl.user.login"
-                    on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
-                    on-access-change="$ctrl.isUserModified = true"
-                    access-levels="$ctrl.accessLevels"
-                    filter-access-levels="$ctrl.filterAccessLevels"
+                        ng-if="!$ctrl.user.superuser_access"
+                        user-login="$ctrl.user.login"
+                        on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
+                        on-access-change="$ctrl.isUserModified = true"
+                        access-levels="$ctrl.accessLevels"
+                        filter-access-levels="$ctrl.filterAccessLevels"
                 >
                 </piwik-user-permissions-edit>
                 <div ng-if="$ctrl.user.superuser_access" class="alert alert-info">
@@ -119,13 +120,13 @@
                 <p><strong>{{:: 'UsersManager_SuperUserIntro2'|translate }}</strong></p>
 
                 <div
-                    piwik-field
-                    uicontrol="checkbox"
-                    name="superuser_access"
-                    ng-model="$ctrl.superUserAccessChecked"
-                    ng-attr-title="{{:: 'UsersManager_HasSuperUserAccess'|translate }}"
-                    ng-click="$ctrl.confirmSuperUserChange()"
-                    data-disabled="$ctrl.isSavingUserInfo"
+                        piwik-field
+                        uicontrol="checkbox"
+                        name="superuser_access"
+                        ng-model="$ctrl.superUserAccessChecked"
+                        ng-attr-title="{{:: 'UsersManager_HasSuperUserAccess'|translate }}"
+                        ng-click="$ctrl.confirmSuperUserChange()"
+                        data-disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
 

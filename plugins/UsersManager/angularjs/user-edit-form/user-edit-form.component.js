@@ -76,7 +76,7 @@
         }
 
         function getSaveButtonLabel() {
-            return vm.isAdd ? _pk_translate('UsersManager_CreateUser') : _pk_translate('UsersManager_SaveBasicInfo');
+            return vm.isAdd ? _pk_translate('UsersManager_SendInvite') : _pk_translate('UsersManager_SaveBasicInfo');
         }
 
         function confirmSuperUserChange() {
@@ -164,10 +164,9 @@
         function createUser() {
             vm.isSavingUserInfo = true;
             return piwikApi.post({
-                method: 'UsersManager.addUser'
+                method: 'UsersManager.inviteUser'
             }, {
                 userLogin: vm.user.login,
-                password: vm.user.password,
                 email: vm.user.email,
                 initialIdSite: vm.firstSiteAccess ? vm.firstSiteAccess.id : undefined
             }).catch(function (e) {

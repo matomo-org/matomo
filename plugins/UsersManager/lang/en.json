@@ -5,10 +5,11 @@
         "TwoFactorAuthentication": "Two-factor authentication",
         "ResetTwoFactorAuthentication": "Reset two-factor authentication",
         "ResetTwoFactorAuthenticationInfo": "If the user can no longer log in due to lost recovery codes or a lost authentication device, you can reset two-factor authentication for the user, so they can log in again.",
-        "AddUser": "Add a new user",
+        "AddUser": "Invite a new user",
         "AddExistingUser": "Add an existing user",
-        "AddNewUser": "Add new user",
+        "AddNewUser": "Invite new user",
         "EditUser": "Edit user",
+        "SendInvite": "Send Invite",
         "CreateUser": "Create user",
         "SaveBasicInfo": "Save Basic Info",
         "AllWebsites": "All websites",
@@ -152,6 +153,7 @@
         "DeleteUsers": "Delete Users",
         "UserSearch": "User search",
         "FilterByAccess": "Filter by access",
+        "FilterByStatus": "Filter by status",
         "FilterByWebsite": "Filter by website",
         "ShowAll": "Show all",
         "Username": "Username",
@@ -187,6 +189,9 @@
         "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on %1$sMatomo's Privacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
-        "FirstWebsitePermission": "First website permission"
+        "FirstWebsitePermission": "First website permission",
+        "Status": "Status",
+        "StatusActive": "Active",
+        "StatusPending": "Pending"
     }
 }

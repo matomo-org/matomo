@@ -298,6 +298,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_UserSearch';
         $translationKeys[] = 'UsersManager_DeleteUsers';
         $translationKeys[] = 'UsersManager_FilterByAccess';
+        $translationKeys[] = 'UsersManager_FilterByStatus';
         $translationKeys[] = 'UsersManager_Username';
         $translationKeys[] = 'UsersManager_RoleFor';
         $translationKeys[] = 'UsersManager_TheDisplayedUsersAreSelected';
@@ -336,5 +337,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
         $translationKeys[] = 'UsersManager_FirstWebsitePermission';
+        $translationKeys[] = 'UsersManager_SendInvite';
+        $translationKeys[] = 'UsersManager_Status';
+        $translationKeys[] = 'UsersManager_StatusActive';
+        $translationKeys[] = 'UsersManager_StatusPending';
     }
 }

@@ -70,6 +70,20 @@
                 ></div>
             </div>
         </div>
+            <div class="col s12 m12 l6">
+            <div class="input-field col s12 m4 l4">
+                <div
+                        piwik-field
+                        name="access-level-filter"
+                        uicontrol="select"
+                        ng-model="$ctrl.userStatusFilter"
+                        placeholder="{{:: 'UsersManager_FilterByStatus'|translate }}"
+                        options="$ctrl.filterUserStatus"
+                        full-width="true"
+                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter, offset: 0 })"
+                ></div>
+            </div>
+        </div>
         <div class="input-field col s12 m12 l6 users-list-pagination-container" ng-if="$ctrl.totalEntries > $ctrl.searchParams.limit">
             <div class="usersListPagination">
                 <a class="btn prev" ng-class="{ disabled: $ctrl.searchParams.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
@@ -125,6 +139,7 @@
                 <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_Email'|translate }}</th>
                 <th ng-if="$ctrl.currentUserRole == 'superuser'" title="{{'UsersManager_UsesTwoFactorAuthentication'|translate}}">{{:: 'UsersManager_2FA'|translate }}</th>
                 <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_LastSeen'|translate }}</th>
+                <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_Status'|translate }}</th>
                 <th class="actions-cell-header"><div>{{:: 'General_Actions'|translate }}</div></th>
             </tr>
             </thead>
@@ -172,7 +187,14 @@
                     <td id="last_seen" ng-if="$ctrl.currentUserRole == 'superuser'">
                         {{ user.last_seen ? (user.last_seen + ' ago') : '-' }}
                     </td>
-                    <td class="center actions-cell">
+                    <td id="status" ng-if="$ctrl.currentUserRole == 'superuser'"
+                        ng-class="user.status === ('UsersManager_StatusActive'|translate)?'active':'pending'">
+                        {{ user.status }}
+                    </td>
+                    <td class="end actions-cell">
+                        <button ng-if="user.status === ('UsersManager_StatusPending'|translate)" class="resenduser table-action" title="Resend" ng-click="$ctrl.onEditUser({ user: user })" ng-if="user.login != 'anonymous'">
+                            <span class="icon-email"></span>
+                        </button>
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })" ng-if="user.login != 'anonymous'">
                             <span class="icon-edit"></span>
                         </button>

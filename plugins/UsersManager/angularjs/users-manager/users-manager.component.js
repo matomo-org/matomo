@@ -17,7 +17,8 @@
             initialSiteName: '@',
             initialSiteId: '@',
             accessLevels: '<',
-            filterAccessLevels: '<'
+            filterAccessLevels: '<',
+            filterUserStatus: '<'
         },
         controller: UsersManagerController
     });

@@ -447,7 +447,7 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered, $isInvite = false)
     {
         $user = array(
             'login'            => $userLogin,
@@ -457,6 +457,12 @@ class Model
             'superuser_access' => 0,
             'ts_password_modified' => Date::now()->getDatetime(),
         );
+
+        if ($isInvite) {
+            $token = $this->generateRandomTokenAuth();
+            $user['invite_token'] = $this->hashTokenAuth($token);
+            $user['invite_expired'] = Date::now()->addDay(3)->getDatetime();
+        }
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);

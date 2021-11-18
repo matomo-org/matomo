@@ -43,6 +43,8 @@ piwik-paged-users-list {
 
   table.entityTable th.actions-cell-header > div {
     text-align: center;
+
+
   }
 
   table#manageUsersTable {
@@ -85,6 +87,16 @@ piwik-paged-users-list {
         }
       }
     }
+
+    .table-action {
+      padding: 10px;
+    }
+
+    .end {
+      text-align: end;
+      padding-right: 20px;
+    }
+
   }
 
   tbody span.checkbox-container {
@@ -196,6 +208,16 @@ piwik-paged-users-list {
 
   .roles-help-notification {
     margin-top: 1rem;
+  }
+
+  #status {
+    &.active {
+      color: #43a047;
+    }
+
+    &.pending {
+      color: orange;
+    }
   }
 }
 

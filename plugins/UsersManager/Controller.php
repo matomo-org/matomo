@@ -119,6 +119,12 @@ class Controller extends ControllerAdmin
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
 
+        $view->filterUserStatus = [
+          ['key' => '', 'value' => Piwik::translate('UsersManager_ShowAll')],
+          ['key' => 'active', 'value' => Piwik::translate('UsersManager_StatusActive')],
+          ['key' => 'pending', 'value' => Piwik::translate('UsersManager_StatusPending')],
+        ];
+
         $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
         foreach ($capabilities as $capability) {
             $capabilityEntry = [
@@ -126,6 +132,7 @@ class Controller extends ControllerAdmin
             ];
             $view->accessLevels[] = $capabilityEntry;
             $view->filterAccessLevels[] = $capabilityEntry;
+            $view->filterUserStatus[] = $capabilityEntry;
         }
 
         $this->setBasicVariablesView($view);
