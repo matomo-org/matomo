@@ -6208,22 +6208,22 @@ FieldArrayvue_type_script_lang_ts.render = FieldArrayvue_type_template_id_e5b268
     }
   }
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=05a47728
-function MultiPairFieldvue_type_template_id_05a47728_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=1ae195e6
+function MultiPairFieldvue_type_template_id_1ae195e6_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var MultiPairFieldvue_type_template_id_05a47728_hoisted_1 = {
+var MultiPairFieldvue_type_template_id_1ae195e6_hoisted_1 = {
   class: "multiPairField form-group"
 };
-var MultiPairFieldvue_type_template_id_05a47728_hoisted_2 = ["onClick", "title"];
-function MultiPairFieldvue_type_template_id_05a47728_render(_ctx, _cache, $props, $setup, $data, $options) {
+var MultiPairFieldvue_type_template_id_1ae195e6_hoisted_2 = ["onClick", "title"];
+function MultiPairFieldvue_type_template_id_1ae195e6_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultiPairFieldvue_type_template_id_05a47728_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.modelValue, function (index, item) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultiPairFieldvue_type_template_id_1ae195e6_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.modelValue, function (index, item) {
     var _ref;
 
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multiPairFieldTable multiple valign-wrapper", (_ref = {}, MultiPairFieldvue_type_template_id_05a47728_defineProperty(_ref, "multiPairFieldTable".concat(index), true), MultiPairFieldvue_type_template_id_05a47728_defineProperty(_ref, "has".concat(_ctx.fieldCount, "Fields"), true), _ref)]),
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multiPairFieldTable multiple valign-wrapper", (_ref = {}, MultiPairFieldvue_type_template_id_1ae195e6_defineProperty(_ref, "multiPairFieldTable".concat(index), true), MultiPairFieldvue_type_template_id_1ae195e6_defineProperty(_ref, "has".concat(_ctx.fieldCount, "Fields"), true), _ref)]),
       key: index
     }, [_ctx.field1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
       key: 0,
@@ -6295,10 +6295,10 @@ function MultiPairFieldvue_type_template_id_05a47728_render(_ctx, _cache, $props
       },
       class: "icon-minus valign",
       title: _ctx.translate('General_Remove')
-    }, null, 8, MultiPairFieldvue_type_template_id_05a47728_hoisted_2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], index + 1 !== _ctx.modelValue.length]])], 2);
+    }, null, 8, MultiPairFieldvue_type_template_id_1ae195e6_hoisted_2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], index + 1 !== _ctx.modelValue.length]])], 2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=05a47728
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=1ae195e6
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=script&lang=ts
 function MultiPairFieldvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -6364,13 +6364,19 @@ var MultiPairFieldvue_type_script_lang_ts_Field = Object(external_commonjs_vue_c
   emits: ['update:modelValue'],
   watch: {
     modelValue: function modelValue(newValue) {
-      // make sure there is always an empty new value
-      if (!newValue.length || this.isEmptyValue(newValue.pop())) {
-        this.$emit('update:modelValue', [].concat(MultiPairFieldvue_type_script_lang_ts_toConsumableArray(newValue), [this.makeEmptyValue()]));
-      }
+      this.checkEmptyModelValue(newValue);
     }
   },
+  mounted: function mounted() {
+    this.checkEmptyModelValue(this.modelValue);
+  },
   methods: {
+    checkEmptyModelValue: function checkEmptyModelValue(newValue) {
+      // make sure there is always an empty new value
+      if (!newValue.length || this.isEmptyValue(newValue.slice(-1)[0])) {
+        this.$emit('update:modelValue', [].concat(MultiPairFieldvue_type_script_lang_ts_toConsumableArray(newValue), [this.makeEmptyValue()]));
+      }
+    },
     onEntryChange: function onEntryChange(index, key, newValue) {
       var newWholeValue = MultiPairFieldvue_type_script_lang_ts_toConsumableArray(this.modelValue);
 
@@ -6437,7 +6443,7 @@ var MultiPairFieldvue_type_script_lang_ts_Field = Object(external_commonjs_vue_c
 
 
 
-MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_id_05a47728_render
+MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_id_1ae195e6_render
 
 /* harmony default export */ var MultiPairField = (MultiPairFieldvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.adapter.ts

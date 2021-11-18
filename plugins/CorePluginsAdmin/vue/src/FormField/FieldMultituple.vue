@@ -3,7 +3,7 @@
     <label :for="name" v-html="$sanitize(title)"></label>
     <MultiPairField
       :name="name"
-      :model-value="value"
+      :model-value="modelValue"
       @update:modelValue="onUpdateValue"
       :field1="uiControlAttributes.field1"
       :field2="uiControlAttributes.field2"
@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
-    value: null,
+    modelValue: null,
     uiControlAttributes: Object,
   },
   inheritAttrs: false,

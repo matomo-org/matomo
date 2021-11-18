@@ -5,10 +5,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { ITimeoutService } from 'angular';
 import { createAngularJsAdapter } from 'CoreHome';
 import FormField from './FormField.vue';
 
-export default createAngularJsAdapter({
+export default createAngularJsAdapter<[ITimeoutService]>({
   component: FormField,
   scope: {
     modelValue: {
@@ -47,13 +48,15 @@ export default createAngularJsAdapter({
   },
   directiveName: 'piwikFormField',
   events: {
-    'update:modelValue': (newValue, vm, scope) => {
+    'update:modelValue': (newValue, vm, scope, element, attrs, controller, $timeout) => {
       if (newValue !== scope.piwikFormField.value) {
-        scope.piwikFormField.value = newValue;
-        scope.$apply();
+        $timeout(() => {
+          scope.piwikFormField.value = newValue;
+        });
       }
     },
   },
+  $inject: ['$timeout'],
   postCreate(vm, scope) {
     scope.$watch('piwikFormField.value', (newVal, oldVal) => {
       if (newVal !== oldVal) {

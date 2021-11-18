@@ -117,13 +117,19 @@ export default defineComponent({
   emits: ['update:modelValue'],
   watch: {
     modelValue(newValue) {
+      this.checkEmptyModelValue(newValue);
+    },
+  },
+  mounted() {
+    this.checkEmptyModelValue(this.modelValue);
+  },
+  methods: {
+    checkEmptyModelValue(newValue) {
       // make sure there is always an empty new value
-      if (!newValue.length || this.isEmptyValue(newValue.pop())) {
+      if (!newValue.length || this.isEmptyValue(newValue.slice(-1)[0])) {
         this.$emit('update:modelValue', [...newValue, this.makeEmptyValue()]);
       }
     },
-  },
-  methods: {
     onEntryChange(index: number, key: string, newValue: unknown) {
       const newWholeValue = [...this.modelValue];
       newWholeValue[index] = { ...newWholeValue[index], [key]: newValue };

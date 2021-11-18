@@ -25,9 +25,12 @@
     >
       <component
         :is="childComponent"
-        onload="templateLoaded()"
-        v-bind="{ ...formField, modelValue, availableOptions, ...extraChildComponentParams }"
-        :value="processedModelValue"
+        v-bind="{
+          ...formField,
+          modelValue: processedModelValue,
+          availableOptions,
+          ...extraChildComponentParams,
+        }"
         @update:modelValue="onChange($event)"
       >
       </component>
@@ -126,6 +129,7 @@ interface Setting {
   value: unknown;
 }
 
+// TODO: check form submit is still the same
 export default defineComponent({
   props: {
     modelValue: null,
