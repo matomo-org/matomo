@@ -115,9 +115,9 @@ class QueueConsumer
 
     private $processedSiteCount = 0;
 
-    public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid,
-                                Model $model, SegmentArchiving $segmentArchiving, CronArchive $cronArchive,
-                                RequestParser $cliMultiRequestParser, ArchiveFilter $archiveFilter = null)
+    public function __construct(LoggerInterface $logger, $websiteIdArchiveList, $countOfProcesses, $pid, Model $model,
+                                SegmentArchiving $segmentArchiving, CronArchive $cronArchive, RequestParser $cliMultiRequestParser,
+                                ArchiveFilter $archiveFilter = null)
     {
         $this->logger = $logger;
         $this->websiteIdArchiveList = $websiteIdArchiveList;
