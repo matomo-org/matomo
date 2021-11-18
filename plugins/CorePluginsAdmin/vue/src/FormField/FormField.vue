@@ -61,7 +61,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  watch,
+} from 'vue';
 import FieldCheckbox from './FieldCheckbox.vue';
 import FieldCheckboxArray from './FieldCheckboxArray.vue';
 import FieldExpandableSelect, {
@@ -147,32 +152,41 @@ export default defineComponent({
     FieldTextarea,
     FieldTextareaArray,
   },
-  watch: {
-    'formField.inlineHelp': {
-      handler(newValue) {
-        const field = this.formField;
+  setup(props) {
+    const inlineHelpNode = ref(null);
 
-        let toAppend: HTMLElement|string;
+    const setInlineHelp = (newVal) => {
+      let toAppend: HTMLElement|string;
 
-        if (typeof newValue === 'string' && field.inlineHelp && field.inlineHelp.indexOf('#') === 0) {
-          toAppend = window.$(field.inlineHelp);
-        } else {
-          toAppend = window.vueSanitize(field.inlineHelp);
-        }
+      if (typeof newVal === 'string' && newVal && newVal.indexOf('#') === 0) {
+        toAppend = window.$(newVal);
+      } else {
+        toAppend = window.vueSanitize(newVal);
+      }
 
-        window.$(this.$refs.inlineHelp).html('').append(toAppend);
-        // TODO: used to have $timeout here
-      },
-    },
+      window.$(inlineHelpNode.value).html('').append(toAppend);
+      // TODO: used to have $timeout here
+    };
+
+    // TODO: test the watch changes
+    watch(() => props.formField.inlineHelp, setInlineHelp);
+
+    onMounted(() => setInlineHelp(props.formField.inlineHelp));
+
+    return {
+      inlineHelp: inlineHelpNode,
+    };
   },
   computed: {
     childComponent() {
-      let control = CONTROL_TO_COMPONENT_MAP[this.formField.uiControl];
-      if (TEXT_CONTROLS.indexOf(control) !== -1) {
+      const { uiControl } = this.formField;
+
+      let control = CONTROL_TO_COMPONENT_MAP[uiControl];
+      if (TEXT_CONTROLS.indexOf(uiControl) !== -1) {
         control = 'FieldText'; // we use same template for text and password both
       }
 
-      if (this.formField.type === 'array' && CONTROLS_SUPPORTING_ARRAY.indexOf(control) !== -1) {
+      if (this.formField.type === 'array' && CONTROLS_SUPPORTING_ARRAY.indexOf(uiControl) !== -1) {
         control = `${control}Array`;
       }
 
