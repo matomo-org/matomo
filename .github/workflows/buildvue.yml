@@ -127,7 +127,7 @@ jobs:
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Push changes
         run: |
-          if [[ $( git diff --numstat plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json ) ]]
+          if [[ $( git diff --numstat plugins/*/vue/dist/*.js ) ]]
           then
             cd $GITHUB_WORKSPACE
             git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
