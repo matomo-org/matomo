@@ -364,9 +364,15 @@ abstract class VisitDimension extends Dimension
         foreach ($array as $k => $v) {
             $array[$k] = ['count' => 0, 'name' => $v];
         }
+        $array['xx'] = ['count' => 0, 'name' => 'Unknown'];
+
         foreach ($table->getRows() as $row) {
-            if (isset($row[$keyColumn]) && $row[$keyColumn] !== 'xx') {
-                $array[$row[$keyColumn]]['count']++;
+            if (isset($row[$keyColumn])) {
+                if (isset($array[$row[$keyColumn]])) {
+                    $array[$row[$keyColumn]]['count']++;
+                } else {
+                    $array['xx']['count']++;
+                }
             }
         }
         // Sort by most visits descending
@@ -381,11 +387,11 @@ abstract class VisitDimension extends Dimension
         foreach ($array as $k => $v) {
             $flat[$k] = $v['name'];
             $i++;
-            if ($i == ($maxValuesToReturn - 1)) {
+            if ($i == ($maxValuesToReturn)) {
                 break;
             }
         }
-        $flat[] = 'Unknown';
+
         return array_values($flat);
     }
 }
