@@ -136,6 +136,15 @@ class QueueConsumer
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
     }
 
+    /**
+     * Get next archives to process.
+     *
+     * Returns either an array of archives to process for the current site (may be
+     * empty if there are no more archives to process for it) or null when there are
+     * no more sites to process.
+     *
+     * @return null|array
+     */
     public function getNextArchivesToProcess()
     {
         if (empty($this->idSite)) {
