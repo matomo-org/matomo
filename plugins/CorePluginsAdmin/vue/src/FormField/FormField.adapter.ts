@@ -18,10 +18,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
         // vue components expect object data as input, so we parse JSON data
         // for angularjs directives that use JSON.
-        if ((field.type === 'array' && typeof field.value === 'string' && field.value)
-          || field.uiControl === 'multituple'
-          || field.uiControl === 'field-array'
+        if (typeof field.value === 'string'
+          && field.value
+          && (field.type === 'array'
+            || field.uiControl === 'multituple'
+            || field.uiControl === 'field-array')
         ) {
+          console.log(field.value, field.uiControl);
           field.value = JSON.parse(field.value);
         }
 

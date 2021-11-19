@@ -5,6 +5,7 @@
       v-html="$sanitize(title)"
     ></label>
     <textarea
+      ref="textarea"
       :name="name"
       v-bind="uiControlAttributes"
       :value="concattedValue"
