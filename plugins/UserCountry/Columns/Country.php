@@ -50,6 +50,7 @@ class Country extends Base
         $segment->setSegment('countryName');
         $segment->setName('UserCountry_Country');
         $segment->setAcceptedValues('Germany, France, Spain, ...');
+        $segment->setNeedsMostFrequentValues(false);
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
         $countryList = $regionDataProvider->getCountryList();
         array_walk($countryList, function(&$item, $key) {
@@ -63,8 +64,8 @@ class Country extends Base
             }
             return $result;
         });
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) use ($countryList) {
-            return array_values($countryList + ['Unknown']);
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) use ($countryList) {
+            return $this->sortStaticListByUsage($countryList, $table, 'countryCode', $maxValuesToReturn);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
