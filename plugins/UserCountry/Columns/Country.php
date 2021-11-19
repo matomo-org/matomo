@@ -50,6 +50,7 @@ class Country extends Base
         $segment->setSegment('countryName');
         $segment->setName('UserCountry_Country');
         $segment->setAcceptedValues('Germany, France, Spain, ...');
+        $segment->setNeedsMostFrequentValues(false);
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
         $countryList = $regionDataProvider->getCountryList();
         array_walk($countryList, function(&$item, $key) {

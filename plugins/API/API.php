@@ -614,7 +614,7 @@ class API extends \Piwik\Plugin\API
             $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
         }
 
-        if ($this->doesSegmentNeedMostFrequentValues($segmentName)) {
+        if ($segment['needsMostFrequentValues']) {
             $values = $this->getMostFrequentValues($values);
         }
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
@@ -757,22 +757,6 @@ class API extends \Piwik\Plugin\API
         $isContentSegment = stripos($segmentName, 'content') !== false;
         $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage || $isEventSegment || $isContentSegment;
         return $doesSegmentNeedActionsInfo;
-    }
-
-    /**
-     * Check if a segment needs sorting for most frequent values
-     *
-     * @param string $segmentName
-     *
-     * @return bool
-     */
-    protected function doesSegmentNeedMostFrequentValues(string $segmentName) : bool
-    {
-        $staticListSegments = ['countryName', 'browserName', 'operatingSystemName'];
-        if (in_array($segmentName, $staticListSegments)) {
-            return false;
-        }
-        return true;
     }
 
     /**

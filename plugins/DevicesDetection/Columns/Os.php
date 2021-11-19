@@ -40,6 +40,7 @@ class Os extends Base
         $segment->setSegment('operatingSystemName');
         $segment->setName('DevicesDetection_ColumnOperatingSystem');
         $segment->setAcceptedValues('Windows, Linux, Mac, Android, iOS etc.');
+        $segment->setNeedsMostFrequentValues(false);
         $segment->setSqlFilterValue(function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
             $oss = array_map(function($val) {
