@@ -251,7 +251,7 @@ export default defineComponent({
       }
       return defaultValue;
     },
-    // TODO: availableOptions is assumed to be an array here? make the change everywhere.
+    // TODO: availableOptions can be Arry/Object anywhere
     availableOptions() {
       const { childComponent, formField } = this;
 

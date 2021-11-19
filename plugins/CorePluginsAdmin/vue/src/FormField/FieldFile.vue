@@ -6,7 +6,7 @@
     </div>
 
     <div class="file-path-wrapper">
-      <input class="file-path validate" :value="value" type="text"/>
+      <input class="file-path validate" :value="modelValue" type="text"/>
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
-    value: String,
+    modelValue: String,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],

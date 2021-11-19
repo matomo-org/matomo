@@ -243,7 +243,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                     ...injectedServices,
                   );
                 }
-                vm[scopeVarName] = newValueFinal;
+                vm[info.vue] = newValueFinal;
               });
             });
 

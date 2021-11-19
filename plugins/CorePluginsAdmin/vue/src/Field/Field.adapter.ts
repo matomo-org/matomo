@@ -152,6 +152,10 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     });
 
     if (ngModel) {
+      if (typeof scope.value !== 'undefined') {
+        vm.modelValue = JSON.parse(JSON.stringify(scope.value));
+      }
+
       ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {

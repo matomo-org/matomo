@@ -23,13 +23,13 @@ export default defineComponent({
     name: String,
     title: String,
     uiControl: String,
-    value: Array,
+    modelValue: Array,
     uiControlAttributes: Object,
   },
   inheritAttrs: false,
   computed: {
     concattedValues() {
-      return this.value.join(', ');
+      return (this.modelValue || []).join(', ');
     },
   },
   emits: ['update:modelValue'],

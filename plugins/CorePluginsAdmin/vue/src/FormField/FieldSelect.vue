@@ -130,7 +130,7 @@ export default defineComponent({
     multiple: Boolean,
     name: String,
     title: String,
-    availableOptions: Object,
+    availableOptions: [Array, Object],
     uiControlAttributes: Object,
     uiControlOptions: Object,
   },
@@ -183,44 +183,48 @@ export default defineComponent({
     modelValue(newVal, oldVal) {
       if (newVal !== oldVal) {
         window.$(this.$refs.select).val(newVal);
-        // TODO: $timeout here
-        initMaterialSelect(
-          this.$refs.select,
-          this.uiControlAttributes.placeholder,
-          this.uiControlOptions,
-        );
-      }
-    },
-    // TODO: Test this
-    'uiControlAttributes.disabled': {
-      handler(newVal, oldVal) {
-        // TODO: $timeout here
-        if (newVal !== oldVal) {
+        setTimeout(() => {
           initMaterialSelect(
             this.$refs.select,
             this.uiControlAttributes.placeholder,
             this.uiControlOptions,
           );
-        }
+        });
+      }
+    },
+    'uiControlAttributes.disabled': {
+      handler(newVal, oldVal) {
+        setTimeout(() => {
+          if (newVal !== oldVal) {
+            initMaterialSelect(
+              this.$refs.select,
+              this.uiControlAttributes.placeholder,
+              this.uiControlOptions,
+            );
+          }
+        });
       },
     },
     availableOptions(newVal, oldVal) {
-      // TODO: $timeout here
       if (newVal !== oldVal) {
-        initMaterialSelect(
-          this.$refs.select,
-          this.uiControlAttributes.placeholder,
-          this.uiControlOptions,
-        );
+        setTimeout(() => {
+          initMaterialSelect(
+            this.$refs.select,
+            this.uiControlAttributes.placeholder,
+            this.uiControlOptions,
+          );
+        });
       }
     },
   },
   mounted() {
-    initMaterialSelect(
-      this.$refs.select,
-      this.uiControlAttributes.placeholder,
-      this.uiControlOptions,
-    );
+    setTimeout(() => {
+      initMaterialSelect(
+        this.$refs.select,
+        this.uiControlAttributes.placeholder,
+        this.uiControlOptions,
+      );
+    });
   },
 });
 </script>

@@ -3,7 +3,7 @@
     <input
       :type="uiControl"
       :name="name"
-      :value="value"
+      :value="modelValue"
       @change="onChange($event)"
     />
   </div>
@@ -14,7 +14,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    value: null,
+    modelValue: null,
     uiControl: String,
     name: String,
   },

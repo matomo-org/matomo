@@ -31,7 +31,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   computed: {
     concattedValue() {
-      return this.modelValue.join(SEPARATOR);
+      return (this.modelValue || []).join(SEPARATOR);
     },
   },
   methods: {
@@ -43,8 +43,6 @@ export default defineComponent({
   watch: {
     modelValue(newVal, oldVal) {
       if (newVal !== oldVal) {
-        // TODO: removed a $timeout
-        // TODO: does this happen multiple times initially
         setTimeout(() => {
           window.Materialize.textareaAutoResize(this.$refs.textarea);
           window.Materialize.updateTextFields();
@@ -53,8 +51,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    window.Materialize.textareaAutoResize(this.$refs.textarea);
-    window.Materialize.updateTextFields();
+    setTimeout(() => {
+      window.Materialize.textareaAutoResize(this.$refs.textarea);
+      window.Materialize.updateTextFields();
+    });
   },
 });
 </script>

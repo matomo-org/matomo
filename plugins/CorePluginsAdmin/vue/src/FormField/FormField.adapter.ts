@@ -24,7 +24,6 @@ export default createAngularJsAdapter<[ITimeoutService]>({
             || field.uiControl === 'multituple'
             || field.uiControl === 'field-array')
         ) {
-          console.log(field.value, field.uiControl);
           field.value = JSON.parse(field.value);
         }
 

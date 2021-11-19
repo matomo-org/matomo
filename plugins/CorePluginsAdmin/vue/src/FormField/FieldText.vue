@@ -28,7 +28,9 @@ export default defineComponent({
   inheritAttrs: false,
   emits: ['update:modelValue'],
   mounted() {
-    window.Materialize.updateTextFields();
+    setTimeout(() => {
+      window.Materialize.updateTextFields();
+    });
   },
   watch: {
     modelValue(newVal, oldVal) { // TODO: double check if newVal !== oldVal is needed

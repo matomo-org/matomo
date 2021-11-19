@@ -4,10 +4,10 @@
     <div>
       <SiteSelector
         class="sites_autocomplete"
-        :model-value="value"
+        :model-value="modelValue"
         @update:modelValue="onChange($event)"
-        :siteid="value?.id"
-        :sitename="value?.name"
+        :siteid="modelValue?.id"
+        :sitename="modelValue?.name"
         :id="name"
         :show-all-sites-item="uiControlAttributes.showAllSitesItem || false"
         :switch-site-on-select="false"
@@ -27,7 +27,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
-    value: null,
+    modelValue: null,
     uiControlAttributes: Object,
   },
   inheritAttrs: false,
