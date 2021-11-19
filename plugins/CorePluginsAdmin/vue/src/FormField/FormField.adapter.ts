@@ -22,7 +22,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           && field.value
           && (field.type === 'array'
             || field.uiControl === 'multituple'
-            || field.uiControl === 'field-array')
+            || field.uiControl === 'field-array'
+            || field.uiControl === 'multiselect'
+            || field.uiControl === 'site')
         ) {
           field.value = JSON.parse(field.value);
         }

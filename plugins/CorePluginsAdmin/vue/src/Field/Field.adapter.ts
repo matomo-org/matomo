@@ -13,6 +13,21 @@ import {
 } from 'CoreHome';
 import Field from './Field.vue';
 
+function handleJsonValue(value: unknown, varType: string, uiControl: string) {
+  if (typeof value === 'string'
+    && value
+    && (varType === 'array'
+      || uiControl === 'multituple'
+      || uiControl === 'field-array'
+      || uiControl === 'multiselect'
+      || uiControl === 'site')
+  ) {
+    return JSON.parse(value);
+  }
+
+  return value;
+}
+
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: Field,
   require: '?ngModel',
@@ -29,16 +44,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       transform(value, vm, scope) {
         // vue components expect object data as input, so we parse JSON data
         // for angularjs directives that use JSON.
-        if (typeof value === 'string' && value
-          && (scope.varType === 'array'
-            || scope.uicontrol === 'multituple'
-            || scope.uicontrol === 'field-array'
-            || scope.uicontrol === 'multiselect')
-        ) {
-          return JSON.parse(value);
-        }
-
-        return value;
+        return handleJsonValue(value, scope.varType, scope.uicontrol);
       },
     },
     default: {
@@ -143,7 +149,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     scope.$watch('value', (newVal, oldVal) => {
       if (newVal !== oldVal) {
-        vm.modelValue = JSON.parse(JSON.stringify(newVal));
+        const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+        vm.modelValue = JSON.parse(JSON.stringify(transformed));
 
         if (ngModel) {
           ngModel.$setViewValue(vm.modelValue);
@@ -153,7 +160,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     if (ngModel) {
       if (typeof scope.value !== 'undefined') {
-        vm.modelValue = JSON.parse(JSON.stringify(scope.value));
+        const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+        vm.modelValue = JSON.parse(JSON.stringify(transformed));
       }
 
       ngModel.$setViewValue(vm.modelValue);
