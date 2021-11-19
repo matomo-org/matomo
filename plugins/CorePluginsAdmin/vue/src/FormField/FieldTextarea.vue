@@ -26,7 +26,7 @@ export default defineComponent({
   methods: {
     onKeydown(event: Event) {
       setTimeout(() => {
-        this.$emit('update:modelValue', (event as HTMLTextAreaElement).value);
+        this.$emit('update:modelValue', (event.target as HTMLTextAreaElement).value);
       });
     },
   },
