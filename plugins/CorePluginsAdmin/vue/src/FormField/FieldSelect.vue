@@ -33,7 +33,7 @@
     v-bind="uiControlAttributes"
   >
     <option
-      v-for="option in availableOptions"
+      v-for="option in options"
       :key="option.key"
       :value="option.key"
       :selected="multiple
@@ -79,6 +79,10 @@ function hasGroupedValues(availableValues) {
   return Object.values(availableValues).some((v) => typeof v === 'object');
 }
 
+function hasOption(flatValues: OptionGroup[], key: string) {
+  return flatValues.some((f) => f.key === key);
+}
+
 export function getAvailableOptions(
   givenAvailableValues?: Record<string, unknown>|null,
   type: string,
@@ -110,13 +114,9 @@ export function getAvailableOptions(
     });
   });
 
-  function hasOption(key) {
-    return flatValues.some((f) => f.key === key);
-  }
-
   // for selects w/ a placeholder, add an option to unset the select
   if (uiControlAttributes.placeholder
-    && !hasOption('')
+    && !hasOption(flatValues, '')
   ) {
     return [{ key: '', value: '' }, ...flatValues];
   }
@@ -130,21 +130,33 @@ export default defineComponent({
     multiple: Boolean,
     name: String,
     title: String,
-    availableOptions: [Array, Object],
+    availableOptions: Array,
     uiControlAttributes: Object,
     uiControlOptions: Object,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
   computed: {
+    options() {
+      // if modelValue is empty, but there is no empty value allowed in availableOptions,
+      // add one temporarily until something is set
+      if (!hasOption(this.availableOptions, '')
+        && (typeof this.modelValue === 'undefined'
+          || this.modelValue === null
+          || this.modelValue === '')
+      ) {
+        return [{ key: '', value: this.modelValue, group: '' }, ...this.availableOptions];
+      }
+      return this.availableOptions;
+    },
     groupedOptions() {
-      const { availableOptions } = this;
-      if (!availableOptions[0] || !availableOptions[0].group) {
+      const { options } = this;
+      if (!options[0] || !options[0].group) {
         return null;
       }
 
       const groups = {};
-      availableOptions.forEach((entry) => {
+      options.forEach((entry) => {
         groups[entry.group] = groups[entry.group] || [];
         groups[entry.group].push(entry);
       });
