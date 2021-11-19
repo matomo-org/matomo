@@ -280,7 +280,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.controller.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form/form.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/field/field.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/save-button/save-button.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-filter.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";

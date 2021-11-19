@@ -16,7 +16,7 @@
         v-for="option in options"
         :key="option.key"
         :value="option.key"
-        :selected="multiple ? value.indexOf(option.key) !== -1 : value === option.key"
+        :selected="multiple ? value && value.indexOf(option.key) !== -1 : value === option.key"
       >
         {{ option.value }}
       </option>
@@ -34,7 +34,7 @@
       v-for="option in availableOptions"
       :key="option.key"
       :value="option.key"
-      :selected="multiple ? value.indexOf(option.key) !== -1 : value === option.key"
+      :selected="multiple ? value && value.indexOf(option.key) !== -1 : value === option.key"
     >
       {{ option.value }}
     </option>

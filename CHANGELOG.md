@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## 4.7.0
+
+### Breaking Changes
+
+* The `piwik-field` and related directives have been converted to Vue and no longer support the `template-file` attribute.
+
 ## Matomo 4.6.0
 
 ### New Framework

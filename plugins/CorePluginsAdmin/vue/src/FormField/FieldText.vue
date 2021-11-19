@@ -4,7 +4,7 @@
     :type="uiControl"
     :id="name"
     :name="name"
-    :value="value"
+    :value="modelValue"
     @change="onChange($event)"
     v-bind="uiControlAttributes"
   />
@@ -22,7 +22,7 @@ export default defineComponent({
     title: String,
     name: String,
     uiControlAttributes: Object,
-    value: String,
+    modelValue: String,
     uiControl: String,
   },
   inheritAttrs: false,

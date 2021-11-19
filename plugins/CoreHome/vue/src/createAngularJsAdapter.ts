@@ -277,3 +277,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
   return angularJsAdapter;
 }
+
+export function transformAngularJsBoolAttr(v: unknown): boolean {
+  return !!v && v !== 'false' && v !== '0';
+}
+
+export function transformAngularJsIntAttr(v: string): number {
+  if (typeof v === 'undefined') {
+    return undefined;
+  }
+
+  return parseInt(v, 10);
+}
