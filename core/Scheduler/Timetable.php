@@ -19,12 +19,15 @@ use Piwik\Date;
 class Timetable
 {
     const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
+    const RETRY_OPTION_STRING = "TaskScheduler.retryList";
 
     private $timetable;
+    private $retryList;
 
     public function __construct()
     {
         $this->readFromOption();
+        $this->readRetryList();
     }
 
     public function getTimetable()
@@ -124,6 +127,17 @@ class Timetable
         return $tomorrow;
     }
 
+    public function rescheduleTaskAndRunInOneHour(Task $task)
+    {
+        $oneHourFromNow = Date::factory('now')->addHour(1);
+
+        // update the scheduled time
+        $this->timetable[$task->getName()] = $oneHourFromNow->getTimestamp();
+        $this->save();
+
+        return $oneHourFromNow;
+    }
+
     public function save()
     {
         Option::set(self::TIMETABLE_OPTION_STRING, serialize($this->timetable));
@@ -149,4 +163,70 @@ class Timetable
 
         $this->timetable = $unserializedTimetable === false ? array() : $unserializedTimetable;
     }
+
+    /**
+     * Read the retry list option from the database
+     *
+     * @throws \Throwable
+     */
+    private function readRetryList()
+    {
+        Option::clearCachedOption(self::RETRY_OPTION_STRING);
+        $retryData = Option::get(self::RETRY_OPTION_STRING);
+        $unserializedRetryList = Common::safe_unserialize($retryData);
+
+        $this->retryList = $unserializedRetryList === false ? array() : $unserializedRetryList;
+    }
+
+    /**
+     * Save the retry list option to the database
+     */
+    public function saveRetryList()
+    {
+        Option::set(self::RETRY_OPTION_STRING, serialize($this->retryList));
+    }
+
+    /**
+     * Remove a task from the retry list
+     *
+     * @param string $taskName
+     */
+    public function clearRetryCount(string $taskName)
+    {
+        if (isset($this->retryList[$taskName])) {
+            unset($this->retryList[$taskName]);
+            $this->saveRetryList();
+        }
+    }
+
+    /**
+     * Increment the retry counter for a task
+     *
+     * @param string $taskName
+     */
+    public function incrementRetryCount(string $taskName)
+    {
+        if (!isset($this->retryList[$taskName])) {
+            $this->retryList[$taskName] = 0;
+        }
+        $this->retryList[$taskName]++;
+        $this->saveRetryList();
+    }
+
+    /**
+     * Return the current number of retries for a task
+     *
+     * @param string $taskName
+     *
+     * @return int
+     */
+    public function getRetryCount(string $taskName) : int
+    {
+        if (!isset($this->retryList[$taskName])) {
+            return 0;
+        }
+
+        return $this->retryList[$taskName];
+    }
+
 }

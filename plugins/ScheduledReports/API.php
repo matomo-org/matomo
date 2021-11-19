@@ -608,9 +608,9 @@ class API extends \Piwik\Plugin\API
                         $report['period_param']
                     );
 
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 $this->enableSaveReportOnDisk = false;
-                throw $e;
+                throw new Exception($e->getMessage(), 1);
             }
 
             $this->enableSaveReportOnDisk = false;

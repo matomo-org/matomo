@@ -55,6 +55,12 @@ class Scheduler
     private $isRunningTask = false;
 
     /**
+     * Should the last run task be scheduled for a retry
+     * @var bool
+     */
+    private $scheduleRetry = false;
+
+    /**
      * @var Timetable
      */
     private $timetable;
@@ -146,6 +152,31 @@ class Scheduler
                 if ($shouldExecuteTask) {
                     $readFromOption = true;
                     $message = $this->executeTask($task);
+
+                    // Tasks has thrown an exception and should be scheduled for a retry
+                    if ($this->scheduleRetry) {
+
+                        if($this->timetable->getRetryCount($task->getName()) == 3) {
+
+                            // Task has already been retried three times, give up
+                            $this->timetable->clearRetryCount($task->getName());
+
+                            $this->logger->info("Scheduler: '{task}' has already been retried three times, giving up",
+                                ['task' => $task->getName()]);
+
+                        } else {
+
+                            $readFromOption = true;
+                            $rescheduledDate = $this->timetable->rescheduleTaskAndRunInOneHour($task);
+                            $this->timetable->incrementRetryCount($task->getName());
+
+                            $this->logger->info("Scheduler: '{task}' retry scheduled for {date}",
+                                ['task' => $task->getName(), 'date' => $rescheduledDate]);
+                        }
+                        $this->scheduleRetry = false;
+                    } else {
+                        $this->timetable->clearRetryCount($task->getName());
+                    }
 
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
                 }
@@ -279,6 +310,11 @@ class Scheduler
             $this->logger->error("Scheduler: Error {errorMessage} for task '{task}'",
                 ['errorMessage' => $e->getMessage(), 'task' => $task->getName()]);
             $message = 'ERROR: ' . $e->getMessage();
+
+            // If the task has indicated that retrying on exception is safe then flag for rescheduling
+            if ($e->getCode() == 1) {
+                $this->scheduleRetry = true;
+            }
         }
 
         $this->isRunningTask = false;
