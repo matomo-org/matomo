@@ -4,7 +4,7 @@
     :type="uiControl"
     :id="name"
     :name="name"
-    :value="modelValue.toString()"
+    :value="(modelValue || '').toString()"
     @keydown="onKeydown($event)"
     v-bind="uiControlAttributes"
   />
