@@ -5163,8 +5163,7 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
 var DEFAULT_DEBOUNCE_DELAY = 300;
 function debounce(fn) {
   var delayInMs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_DEBOUNCE_DELAY;
-  var timeout; // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+  var timeout;
   return function () {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
