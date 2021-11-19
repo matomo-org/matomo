@@ -52,6 +52,7 @@
         <span
           class="inline-help"
           ref="inlineHelp"
+          v-if="formField.inlineHelp"
         />
         <span v-show="showDefaultValue">
           <br />
@@ -153,6 +154,10 @@ export default defineComponent({
     const setInlineHelp = (newVal) => {
       let toAppend: HTMLElement|string;
 
+      if (!newVal) {
+        return;
+      }
+
       if (typeof newVal === 'string' && newVal && newVal.indexOf('#') === 0) {
         toAppend = window.$(newVal);
       } else {
@@ -166,7 +171,11 @@ export default defineComponent({
     // TODO: test the watch changes
     watch(() => props.formField.inlineHelp, setInlineHelp);
 
-    onMounted(() => setInlineHelp(props.formField.inlineHelp));
+    onMounted(() => {
+      if (props.formField.inlineHelp) {
+        setInlineHelp(props.formField.inlineHelp);
+      }
+    });
 
     return {
       inlineHelp: inlineHelpNode,
@@ -194,6 +203,9 @@ export default defineComponent({
       return {};
     },
     showFormHelp() {
+      if (!this.formField.inlineHelp && !this.formField.description) {
+        console.log(this.formField);
+      }
       return this.formField.description
         || this.formField.inlineHelp
         || (this.formField.defaultValue
