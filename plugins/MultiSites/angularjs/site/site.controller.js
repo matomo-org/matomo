@@ -27,7 +27,7 @@
         }
 
         function dashboardUrl(website){
-            return piwik.piwik_url + 'index.php?module=CoreHome&action=index&date=' + $scope.date + '&period=' + $scope.period + '&idSite=' + website.idsite + tokenParam();
+            return 'index.php?module=CoreHome&action=index&date=' + $scope.date + '&period=' + $scope.period + '&idSite=' + website.idsite + tokenParam();
         }
 
         function sparklineImage(website){
@@ -45,7 +45,7 @@
                     break;
             }
 
-            return piwik.piwik_url + 'index.php?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' + metric + '&columns=' + metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + tokenParam() + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
+            return 'index.php?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' + metric + '&columns=' + metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + tokenParam() + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
         }
     }
 })();
