@@ -63,24 +63,15 @@ class VisitorDetails extends VisitorDetailsAbstract
             $action['timeSpent'] = 0;
 
             // search for next action with timeSpentRef
-            $nextActionId = $idx + 1;
+            $nextActionId = $idx;
             $nextAction   = null;
 
-            while (isset($actionDetails[$nextActionId])) {
-
-                if (!$this->shouldHandleAction($actionDetails[$nextActionId]) ||
-                    !array_key_exists('timeSpentRef', $actionDetails[$nextActionId])) {
-                    $nextActionId++;
-                    continue;
-                }
+            do {
+                $nextActionId++;
 
                 $nextAction = isset($actionDetails[$nextActionId]) ? $actionDetails[$nextActionId] : null;
 
-                // Set the time spent for this action (which is the timeSpentRef of the next action)
-                if ($nextAction) {
-                    $action['timeSpent'] += $nextAction['timeSpentRef'] ?? 0;
-                } else {
-
+                if (is_null($nextAction)) {
                     // Last action of a visit.
                     // By default, Matomo does not know how long the user stayed on the page
                     // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
@@ -97,13 +88,21 @@ class VisitorDetails extends VisitorDetailsAbstract
                     break;
                 }
 
+                if (!array_key_exists('timeSpentRef', $nextAction)) {
+                    continue;
+                }
+
+                // Set the time spent for this action (which is the timeSpentRef of the next action)
+                if ($nextAction) {
+                    $action['timeSpent'] += $nextAction['timeSpentRef'] ?? 0;
+                }
+
                 // sum spent time until next page view
                 if ($this->isPageView($nextAction)) {
                     break;
                 }
 
-                $nextActionId++;
-            }
+            } while (isset($actionDetails[$nextActionId]));
 
             if (isset($action['timeSpent'])) {
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
