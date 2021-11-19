@@ -5,7 +5,7 @@
     :id="name"
     :name="name"
     :value="modelValue"
-    @change="onChange($event)"
+    @keydown="onKeydown($event)"
     v-bind="uiControlAttributes"
   />
   <label
@@ -41,8 +41,10 @@ export default defineComponent({
     },
   },
   methods: {
-    onChange(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
+    onKeydown(event: Event) {
+      setTimeout(() => {
+        this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
+      });
     },
   },
 });

@@ -13,7 +13,7 @@
       :key="index"
     >
       <Field
-        v-if="field.templateFile"
+        v-if="field.uiControl"
         class="fieldUiControl"
         :full-width="true"
         :model-value="item"
@@ -45,9 +45,9 @@ const Field = defineAsyncComponent(() => new Promise((resolve) => {
 
 export default defineComponent({
   props: {
+    modelValue: Array,
     name: String,
     field: Object,
-    modelValue: Array,
   },
   components: {
     Field,
@@ -55,17 +55,22 @@ export default defineComponent({
   emits: ['update:modelValue'],
   watch: {
     modelValue(newValue) {
-      // TODO: does this get called initially?
+      this.checkEmptyModelValue(newValue);
+    },
+  },
+  mounted() {
+    this.checkEmptyModelValue(this.modelValue);
+  },
+  methods: {
+    checkEmptyModelValue(newValue) {
       // make sure there is always an empty new value
-      if (!newValue.length || newValue.pop() !== '') {
+      if (!newValue.length || newValue.slice(-1)[0] !== '') {
         this.$emit('update:modelValue', [...newValue, '']);
       }
     },
-  },
-  methods: {
     onEntryChange(newValue: unknown, index: number) {
       const newArrayValue = [...this.modelValue];
-      newArrayValue[index] = newArrayValue;
+      newArrayValue[index] = newValue;
 
       this.$emit('update:modelValue', newArrayValue);
     },

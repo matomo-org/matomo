@@ -4,7 +4,7 @@
     v-bind="uiControlAttributes"
     :id="name"
     :value="modelValue"
-    @change="onChange($event)"
+    @keydown="onKeydown($event)"
     class="materialize-textarea"
     ref="textarea"
   ></textarea>
@@ -24,8 +24,10 @@ export default defineComponent({
   inheritAttrs: false,
   emits: ['update:modelValue'],
   methods: {
-    onChange(event: Event) {
-      this.$emit('update:modelValue', (event as HTMLTextAreaElement).value);
+    onKeydown(event: Event) {
+      setTimeout(() => {
+        this.$emit('update:modelValue', (event as HTMLTextAreaElement).value);
+      });
     },
   },
   watch: {

@@ -4,7 +4,7 @@
 
     <FieldArray
       :name="name"
-      :model-value="value"
+      :model-value="modelValue"
       @update:modelValue="onValueUpdate($event)"
       :field="uiControlAttributes.field"
     />
@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
-    value: null,
+    modelValue: null,
     uiControlAttributes: Object,
   },
   inheritAttrs: false,

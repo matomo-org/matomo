@@ -90,15 +90,6 @@ import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
 import { processCheckboxAndRadioAvailableValues } from './utilities';
 
-/*
-4. go through directive JS/controller JS and distribute code
-5. template here
-6. other code here
-7. all in source TODO that is for code
-8. get to build
-9. test the shit out of it.
-*/
-
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
 const CONTROL_TO_COMPONENT_MAP = {

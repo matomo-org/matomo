@@ -2,7 +2,7 @@
   <div class="checkbox">
     <label>
       <input
-        @change="onChange()"
+        @change="onChange($event)"
         v-bind="uiControlAttributes"
         :value="1"
         :checked="!!modelValue"
@@ -23,7 +23,6 @@ export default defineComponent({
   props: {
     modelValue: null,
     uiControlAttributes: Object,
-    value: null,
     name: String,
     title: String,
   },

@@ -10,7 +10,7 @@
         <input
           :value="checkboxModel.key"
           :checked="!!checkboxStates[$index]"
-          @change="onChangeState($index)"
+          @change="onChange($index)"
           v-bind="uiControlAttributes"
           type="checkbox"
           :id="`${name}${checkboxModel.key}`"

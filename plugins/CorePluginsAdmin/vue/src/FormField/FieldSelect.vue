@@ -16,7 +16,9 @@
         v-for="option in options"
         :key="option.key"
         :value="option.key"
-        :selected="multiple ? value && value.indexOf(option.key) !== -1 : value === option.key"
+        :selected="multiple
+          ? modelValue && modelValue.indexOf(option.key) !== -1
+          : modelValue === option.key"
       >
         {{ option.value }}
       </option>
@@ -34,7 +36,9 @@
       v-for="option in availableOptions"
       :key="option.key"
       :value="option.key"
-      :selected="multiple ? value && value.indexOf(option.key) !== -1 : value === option.key"
+      :selected="multiple
+        ? modelValue && modelValue.indexOf(option.key) !== -1
+        : modelValue === option.key"
     >
       {{ option.value }}
     </option>
@@ -122,7 +126,7 @@ export function getAvailableOptions(
 
 export default defineComponent({
   props: {
-    value: null,
+    modelValue: null,
     multiple: Boolean,
     name: String,
     title: String,
@@ -178,6 +182,7 @@ export default defineComponent({
   watch: {
     modelValue(newVal, oldVal) {
       if (newVal !== oldVal) {
+        window.$(this.$refs.select).val(newVal);
         // TODO: $timeout here
         initMaterialSelect(
           this.$refs.select,
