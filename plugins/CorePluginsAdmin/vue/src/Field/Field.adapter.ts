@@ -129,10 +129,10 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     'update:modelValue': (newValue, vm, scope, element, attrs, ngModel, $timeout) => {
       if (newValue !== scope.value) {
         $timeout(() => {
-          scope.value = newValue;
+          scope.value = JSON.parse(JSON.stringify(newValue));
 
           if (ngModel) {
-            (ngModel as INgModelController).$setViewValue(newValue);
+            (ngModel as INgModelController).$setViewValue(scope.value);
           }
         });
       }
@@ -143,7 +143,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     scope.$watch('value', (newVal, oldVal) => {
       if (newVal !== oldVal) {
-        vm.modelValue = newVal;
+        vm.modelValue = JSON.parse(JSON.stringify(newVal));
 
         if (ngModel) {
           ngModel.$setViewValue(vm.modelValue);
