@@ -1242,11 +1242,11 @@ function FieldTextvue_type_template_id_5b440ffe_render(_ctx, _cache, $props, $se
 FieldTextvue_type_script_lang_ts.render = FieldTextvue_type_template_id_5b440ffe_render
 
 /* harmony default export */ var FieldText = (FieldTextvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextarea.vue?vue&type=template&id=7bbb9915
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextarea.vue?vue&type=template&id=c26b0ac8
 
-var FieldTextareavue_type_template_id_7bbb9915_hoisted_1 = ["name", "id", "value"];
-var FieldTextareavue_type_template_id_7bbb9915_hoisted_2 = ["for", "innerHTML"];
-function FieldTextareavue_type_template_id_7bbb9915_render(_ctx, _cache, $props, $setup, $data, $options) {
+var FieldTextareavue_type_template_id_c26b0ac8_hoisted_1 = ["name", "id", "value"];
+var FieldTextareavue_type_template_id_c26b0ac8_hoisted_2 = ["for", "innerHTML"];
+function FieldTextareavue_type_template_id_c26b0ac8_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
     name: _ctx.name
   }, _ctx.uiControlAttributes, {
@@ -1257,12 +1257,12 @@ function FieldTextareavue_type_template_id_7bbb9915_render(_ctx, _cache, $props,
     }),
     class: "materialize-textarea",
     ref: "textarea"
-  }), null, 16, FieldTextareavue_type_template_id_7bbb9915_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
+  }), null, 16, FieldTextareavue_type_template_id_c26b0ac8_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
     for: _ctx.name,
     innerHTML: _ctx.$sanitize(_ctx.title)
-  }, null, 8, FieldTextareavue_type_template_id_7bbb9915_hoisted_2)], 64);
+  }, null, 8, FieldTextareavue_type_template_id_c26b0ac8_hoisted_2)], 64);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextarea.vue?vue&type=template&id=7bbb9915
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextarea.vue?vue&type=template&id=c26b0ac8
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextarea.vue?vue&type=script&lang=ts
 
@@ -1280,7 +1280,7 @@ function FieldTextareavue_type_template_id_7bbb9915_render(_ctx, _cache, $props,
       var _this = this;
 
       setTimeout(function () {
-        _this.$emit('update:modelValue', event.value);
+        _this.$emit('update:modelValue', event.target.value);
       });
     }
   },
@@ -1309,7 +1309,7 @@ function FieldTextareavue_type_template_id_7bbb9915_render(_ctx, _cache, $props,
 
 
 
-FieldTextareavue_type_script_lang_ts.render = FieldTextareavue_type_template_id_7bbb9915_render
+FieldTextareavue_type_script_lang_ts.render = FieldTextareavue_type_template_id_c26b0ac8_render
 
 /* harmony default export */ var FieldTextarea = (FieldTextareavue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextareaArray.vue?vue&type=template&id=b57f06ce
@@ -1994,10 +1994,10 @@ Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_3d71025b_render
     'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel, $timeout) {
       if (newValue !== scope.value) {
         $timeout(function () {
-          scope.value = newValue;
+          scope.value = JSON.parse(JSON.stringify(newValue));
 
           if (ngModel) {
-            ngModel.$setViewValue(newValue);
+            ngModel.$setViewValue(scope.value);
           }
         });
       }
@@ -2007,7 +2007,7 @@ Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_3d71025b_render
     var ngModel = controller;
     scope.$watch('value', function (newVal, oldVal) {
       if (newVal !== oldVal) {
-        vm.modelValue = newVal;
+        vm.modelValue = JSON.parse(JSON.stringify(newVal));
 
         if (ngModel) {
           ngModel.$setViewValue(vm.modelValue);
@@ -2019,11 +2019,7 @@ Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_3d71025b_render
       ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = function () {
-        if (angular.isString(ngModel.$viewValue)) {
-          vm.modelValue = JSON.parse(ngModel.$viewValue);
-        } else {
-          vm.modelValue = ngModel.$viewValue;
-        }
+        vm.modelValue = ngModel.$viewValue;
       };
     }
   }

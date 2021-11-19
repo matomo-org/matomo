@@ -155,11 +155,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {
-        if (angular.isString(ngModel.$viewValue)) {
-          vm.modelValue = JSON.parse(ngModel.$viewValue);
-        } else {
-          vm.modelValue = ngModel.$viewValue;
-        }
+        vm.modelValue = ngModel.$viewValue;
       };
     }
   },
