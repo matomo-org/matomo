@@ -1503,6 +1503,42 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
+    /**
+     * resend the invite email to user
+     * @param $userLogin
+     * @throws NoAccessException
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function resendInvite($userLogin)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkUserIsNotAnonymous($userLogin);
+
+        $this->checkIfUserIsPending($userLogin);
+
+        $container = StaticContainer::getContainer();
+        $email = $container->make(UserDeletedEmail::class, array(
+          'login' => Piwik::getCurrentUserLogin(),
+          'emailAddress' => Piwik::getCurrentUserEmail(),
+          'userLogin' => $userLogin
+        ));
+        $email->safeSend();
+
+        Cache::deleteTrackerCache();
+
+    }
+
+    private function checkIfUserIsPending($userLogin)
+    {
+      $userPending = $this->model->userStatus($userLogin);
+        if (!$userPending) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
+        }
+    }
+
     private function isUserHasAdminAccessTo($idSite)
     {
         try {

@@ -192,6 +192,8 @@
         "FirstWebsitePermission": "First website permission",
         "Status": "Status",
         "StatusActive": "Active",
-        "StatusPending": "Pending"
+        "StatusPending": "Pending",
+        "ResendUserConfirmSingle": "Are you sure you want to resend invite to %1$s?"
+
     }
 }

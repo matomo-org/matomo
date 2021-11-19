@@ -188,11 +188,12 @@
                         {{ user.last_seen ? (user.last_seen + ' ago') : '-' }}
                     </td>
                     <td id="status" ng-if="$ctrl.currentUserRole == 'superuser'"
-                        ng-class="user.status === ('UsersManager_StatusActive'|translate)?'active':'pending'">
+                        ng-class="user.status === ('UsersManager_StatusActive'|translate)? 'active' : 'pending'">
                         {{ user.status }}
                     </td>
                     <td class="end actions-cell">
-                        <button ng-if="user.status === ('UsersManager_StatusPending'|translate)" class="resenduser table-action" title="Resend" ng-click="$ctrl.onEditUser({ user: user })" ng-if="user.login != 'anonymous'">
+                        <button ng-if="user.login != 'anonymous' && user.status === ('UsersManager_StatusPending'|translate)" class="resenduser table-action"
+                                title="Resend" ng-click="$ctrl.userToChange = user; $ctrl.showResendConfirm()" >
                             <span class="icon-email"></span>
                         </button>
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })" ng-if="user.login != 'anonymous'">
@@ -208,6 +209,7 @@
         </table>
     </div>
 
+    <!-- delete modal confirmation dialog -->
     <div class="delete-user-confirm-modal modal">
         <div class="modal-content">
             <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong></h3>
@@ -215,6 +217,17 @@
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">{{:: 'General_No'|translate }}</a>
+        </div>
+    </div>
+
+    <!-- resend modal confirmation dialog -->
+    <div class="resend-user-confirm-modal modal">
+        <div class="modal-content">
+            <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_ResendUserConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong></h3>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.resendInvite()">{{:: 'General_Yes'|translate }}</a>
             <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">{{:: 'General_No'|translate }}</a>
         </div>
     </div>

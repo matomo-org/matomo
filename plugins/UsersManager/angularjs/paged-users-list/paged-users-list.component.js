@@ -31,9 +31,9 @@
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = ['$element', '$timeout'];
+    PagedUsersListController.$inject = ['$element', '$timeout', 'piwikApi'];
 
-    function PagedUsersListController($element, $timeout) {
+    function PagedUsersListController($element, $timeout, piwikApi) {
         var vm = this;
 
         // options for selects
@@ -64,12 +64,14 @@
         vm.getPaginationLowerBound = getPaginationLowerBound;
         vm.getPaginationUpperBound = getPaginationUpperBound;
         vm.showDeleteConfirm = showDeleteConfirm;
+        vm.showResendConfirm = showResendConfirm;
         vm.getAffectedUsersCount = getAffectedUsersCount;
         vm.showAccessChangeConfirm = showAccessChangeConfirm;
         vm.getRoleDisplay = getRoleDisplay;
         vm.changeSearch = changeSearch;
         vm.gotoPreviousPage = gotoPreviousPage;
         vm.gotoNextPage = gotoNextPage;
+        vm.resendInvite = resendInvite;
 
         function changeSearch(changes) {
             var newParams = $.extend({}, vm.searchParams, changes);
@@ -131,6 +133,17 @@
             vm.onDeleteUser({
                 users: getUserOperationSubject(),
             });
+        }
+
+        function resendInvite()
+        {
+          console.log(vm.userToChange);
+          piwikApi.post({module:'API', method: 'UsersManager.resendInvite' },{
+              userLogin: vm.userToChange,
+          } ).then(r=>{
+             console.log(r);
+          });
+
         }
 
         function getUserOperationSubject() {
@@ -196,6 +209,10 @@
 
         function showDeleteConfirm() {
             $element.find('.delete-user-confirm-modal').modal({ dismissible: false }).modal('open');
+        }
+
+        function showResendConfirm() {
+            $element.find('.resend-user-confirm-modal').modal({ dismissible: false }).modal('open');
         }
 
         function getRoleDisplay(role) {

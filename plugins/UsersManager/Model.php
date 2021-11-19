@@ -539,6 +539,13 @@ class Model
         return $count != 0;
     }
 
+    public function userStatus($userLogin)
+    {
+        $db = $this->getDb();
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_token is not null", $userLogin);
+        return $count != 0;
+    }
+
     public function removeUserAccess($userLogin, $access, $idSites)
     {
         $db = $this->getDb();
