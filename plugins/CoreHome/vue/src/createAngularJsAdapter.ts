@@ -298,5 +298,9 @@ export function transformAngularJsIntAttr(v: string): number {
     return undefined;
   }
 
+  if (v === null) {
+    return null;
+  }
+
   return parseInt(v, 10);
 }
