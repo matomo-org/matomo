@@ -72,6 +72,14 @@ function toAngularJsCamelCase(arg: string): string {
     .replace(/-([a-z])/g, (s, p) => p.toUpperCase());
 }
 
+function processScopeProperty<T>(newValue: T) {
+  if (typeof newValue === 'object' && newValue !== null) {
+    return Object.fromEntries(Object.entries(newValue).filter((pair) => !/^\$/.test(pair[0])));
+  }
+
+  return newValue;
+}
+
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
   require?: string,
@@ -157,7 +165,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               data() {
                 const initialData = {};
                 Object.entries(scope).forEach(([scopeVarName, info]) => {
-                  let value = ngScope[scopeVarName];
+                  let value = processScopeProperty(ngScope[scopeVarName]);
                   if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
                     value = info.default instanceof Function
                       ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices)
@@ -226,7 +234,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               }
 
               ngScope.$watch(scopeVarName, (newValue: any) => { // eslint-disable-line
-                let newValueFinal = newValue;
+                let newValueFinal = processScopeProperty(newValue);
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
                   newValueFinal = info.default instanceof Function
                     ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices)

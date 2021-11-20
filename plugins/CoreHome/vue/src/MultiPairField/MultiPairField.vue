@@ -16,7 +16,7 @@
         :full-width="true"
         v-if="field1"
         class="fieldUiControl fieldUiControl1"
-        :class="{ hasMultiFields: field1.templateFile && field2.templateFile }"
+        :class="{ hasMultiFields: field1.type && field2.type }"
         v-model="item[field1.key]"
         :options="field1.availableValues"
         @update:modelValue="onEntryChange(index, field1.key, $event)"

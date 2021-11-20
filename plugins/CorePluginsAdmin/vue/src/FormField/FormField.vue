@@ -121,7 +121,6 @@ interface Setting {
   value: unknown;
 }
 
-// TODO: check form submit is still the same
 export default defineComponent({
   props: {
     modelValue: null,
@@ -203,9 +202,6 @@ export default defineComponent({
       return {};
     },
     showFormHelp() {
-      if (!this.formField.inlineHelp && !this.formField.description) {
-        console.log(this.formField);
-      }
       return this.formField.description
         || this.formField.inlineHelp
         || (this.formField.defaultValue
@@ -213,7 +209,7 @@ export default defineComponent({
           && this.formField.uiControl !== 'radio');
     },
     showDefaultValue() {
-      return this.formField.defaultValuePretty
+      return this.defaultValuePretty
         && this.formField.uiControl !== 'checkbox'
         && this.formField.uiControl !== 'radio';
     },
@@ -234,7 +230,7 @@ export default defineComponent({
         }
       });
 
-      return this.formField.condition(values); // TODO: condition shouldn't be on formField, but...
+      return this.formField.condition(values);
     },
     processedModelValue() {
       const field = this.formField;
