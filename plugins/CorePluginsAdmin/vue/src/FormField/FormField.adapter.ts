@@ -6,7 +6,11 @@
  */
 
 import { ITimeoutService } from 'angular';
-import { createAngularJsAdapter } from 'CoreHome';
+import {
+  createAngularJsAdapter,
+  transformAngularJsBoolAttr,
+  transformAngularJsIntAttr,
+} from 'CoreHome';
 import FormField from './FormField.vue';
 
 export default createAngularJsAdapter<[ITimeoutService]>({
@@ -36,14 +40,22 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       vue: 'formField',
       angularJsBind: '=',
       transform(value, vm, scope) {
-        let transformed = value;
-        if (value.condition) {
-          transformed = {
-            ...value,
-            condition: (values: unknown[]) => scope.$eval(value.condition, values),
-          };
-        }
-        return transformed;
+        return {
+          ...value,
+          condition: value.condition
+            ? (values: unknown[]) => scope.$eval(value.condition, values)
+            : value.condition,
+          disabled: transformAngularJsBoolAttr(value.disabled),
+          autocomplete: transformAngularJsBoolAttr(value.autocomplete),
+          autofocus: transformAngularJsBoolAttr(value.autofocus),
+          tabindex: transformAngularJsIntAttr(value.tabindex),
+          fullWidth: transformAngularJsBoolAttr(value.fullWidth),
+          maxlength: transformAngularJsIntAttr(value.maxlength),
+          required: transformAngularJsBoolAttr(value.required),
+          rows: transformAngularJsIntAttr(value.rows),
+          min: transformAngularJsIntAttr(value.min),
+          max: transformAngularJsIntAttr(value.max),
+        };
       },
     },
     allSettings: {

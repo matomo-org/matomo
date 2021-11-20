@@ -204,7 +204,7 @@ export default defineComponent({
     showFormHelp() {
       return this.formField.description
         || this.formField.inlineHelp
-        || this.formField.showDefaultValue;
+        || this.showDefaultValue;
     },
     showDefaultValue() {
       return this.defaultValuePretty

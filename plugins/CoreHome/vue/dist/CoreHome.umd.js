@@ -2694,6 +2694,10 @@ function transformAngularJsIntAttr(v) {
     return undefined;
   }
 
+  if (v === null) {
+    return null;
+  }
+
   return parseInt(v, 10);
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
