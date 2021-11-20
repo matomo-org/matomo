@@ -11,6 +11,7 @@ import {
   createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
+  processScopeProperty,
 } from 'CoreHome';
 import Field from './Field.vue';
 
@@ -169,7 +170,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
       ngModel.$render = () => {
         nextTick(() => {
-          vm.modelValue = ngModel.$viewValue;
+          vm.modelValue = processScopeProperty(ngModel.$viewValue);
         });
       };
     }

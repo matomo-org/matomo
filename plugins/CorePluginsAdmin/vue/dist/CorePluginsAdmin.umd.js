@@ -2076,7 +2076,7 @@ function handleJsonValue(value, varType, uiControl) {
 
       ngModel.$render = function () {
         Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-          vm.modelValue = ngModel.$viewValue;
+          vm.modelValue = Object(external_CoreHome_["processScopeProperty"])(ngModel.$viewValue);
         });
       };
     }

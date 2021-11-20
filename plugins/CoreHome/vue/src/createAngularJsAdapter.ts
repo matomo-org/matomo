@@ -72,9 +72,12 @@ function toAngularJsCamelCase(arg: string): string {
     .replace(/-([a-z])/g, (s, p) => p.toUpperCase());
 }
 
-function processScopeProperty<T>(newValue: T) {
-  if (typeof newValue === 'object' && newValue !== null && !Object.getPrototypeOf(newValue)) {
-    return Object.fromEntries(Object.entries(newValue).filter((pair) => !/^\$/.test(pair[0])));
+export function processScopeProperty<T>(newValue: T): T {
+  if (typeof newValue === 'object'
+    && newValue !== null
+    && Object.getPrototypeOf(newValue) === Object.prototype
+  ) {
+    return Object.fromEntries(Object.entries(newValue).filter((pair) => !/^\$/.test(pair[0]))) as T;
   }
 
   return newValue;

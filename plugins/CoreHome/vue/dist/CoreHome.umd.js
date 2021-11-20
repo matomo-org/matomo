@@ -132,6 +132,7 @@ __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsBoolAttr", function() { return /* reexport */ transformAngularJsBoolAttr; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsIntAttr", function() { return /* reexport */ transformAngularJsIntAttr; });
+__webpack_require__.d(__webpack_exports__, "processScopeProperty", function() { return /* reexport */ processScopeProperty; });
 __webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
@@ -2488,7 +2489,7 @@ function toAngularJsCamelCase(arg) {
 }
 
 function processScopeProperty(newValue) {
-  if (_typeof(newValue) === 'object' && newValue !== null && !Object.getPrototypeOf(newValue)) {
+  if (_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
     return Object.fromEntries(Object.entries(newValue).filter(function (pair) {
       return !/^\$/.test(pair[0]);
     }));
@@ -2496,7 +2497,6 @@ function processScopeProperty(newValue) {
 
   return newValue;
 }
-
 function createAngularJsAdapter(options) {
   var component = options.component,
       require = options.require,

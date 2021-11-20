@@ -202,6 +202,7 @@ export default defineComponent({
       return {};
     },
     showFormHelp() {
+      console.log(this.formField);
       return this.formField.description
         || this.formField.inlineHelp
         || (this.formField.defaultValue
