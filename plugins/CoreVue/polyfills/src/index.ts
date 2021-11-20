@@ -15,3 +15,5 @@ import * as tslib from 'tslib';
 
 window.tslib = tslib;
 window.vueSanitize = DOMPurify.sanitize.bind(DOMPurify);
+
+import './jqueryNativeEventTrigger';

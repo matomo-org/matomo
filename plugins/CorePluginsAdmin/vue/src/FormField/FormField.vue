@@ -202,12 +202,9 @@ export default defineComponent({
       return {};
     },
     showFormHelp() {
-      console.log(this.formField);
       return this.formField.description
         || this.formField.inlineHelp
-        || (this.formField.defaultValue
-          && this.formField.uiControl !== 'checkbox'
-          && this.formField.uiControl !== 'radio');
+        || this.formField.showDefaultValue;
     },
     showDefaultValue() {
       return this.defaultValuePretty
