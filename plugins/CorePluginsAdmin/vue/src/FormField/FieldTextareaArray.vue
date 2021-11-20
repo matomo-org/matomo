@@ -18,7 +18,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-const SEPARATOR = '&#10;';
+const SEPARATOR = '\n';
 
 export default defineComponent({
   props: {

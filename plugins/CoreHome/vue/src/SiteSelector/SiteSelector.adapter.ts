@@ -6,6 +6,7 @@
  */
 
 import { INgModelController, ITimeoutService } from 'angular';
+import { nextTick } from 'vue';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import SiteSelector from './SiteSelector.vue';
 import Matomo from '../Matomo/Matomo';
@@ -68,11 +69,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {
-        if (angular.isString(ngModel.$viewValue)) {
-          vm.modelValue = JSON.parse(ngModel.$viewValue);
-        } else {
-          vm.modelValue = ngModel.$viewValue;
-        }
+        nextTick(() => {
+          if (angular.isString(ngModel.$viewValue)) {
+            vm.modelValue = JSON.parse(ngModel.$viewValue);
+          } else {
+            vm.modelValue = ngModel.$viewValue;
+          }
+        });
       };
     }
 

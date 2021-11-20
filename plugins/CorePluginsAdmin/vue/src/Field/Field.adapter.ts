@@ -6,6 +6,7 @@
  */
 
 import { INgModelController, ITimeoutService } from 'angular';
+import { nextTick } from 'vue';
 import {
   createAngularJsAdapter,
   transformAngularJsBoolAttr,
@@ -167,7 +168,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {
-        vm.modelValue = ngModel.$viewValue;
+        nextTick(() => {
+          vm.modelValue = ngModel.$viewValue;
+        });
       };
     }
   },

@@ -73,7 +73,7 @@ function toAngularJsCamelCase(arg: string): string {
 }
 
 function processScopeProperty<T>(newValue: T) {
-  if (typeof newValue === 'object' && newValue !== null) {
+  if (typeof newValue === 'object' && newValue !== null && !Object.getPrototypeOf(newValue)) {
     return Object.fromEntries(Object.entries(newValue).filter((pair) => !/^\$/.test(pair[0])));
   }
 
@@ -141,7 +141,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             let rootVueTemplate = '<root-component';
             Object.entries(events).forEach((info) => {
               const [eventName] = info;
-              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
+              rootVueTemplate += ` @${toKebabCase(eventName)}="onEventHandler('${eventName}', $event)"`;
             });
             Object.entries(scope).forEach(([key, info]) => {
               if (info.angularJsBind === '&') {
@@ -150,7 +150,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                   rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
                 }
               } else {
-                rootVueTemplate += ` :${info.vue}="${info.vue}"`;
+                rootVueTemplate += ` :${toKebabCase(info.vue)}="${info.vue}"`;
               }
             });
             rootVueTemplate += '>';
