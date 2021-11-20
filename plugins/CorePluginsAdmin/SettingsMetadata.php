@@ -125,7 +125,7 @@ class SettingsMetadata
             'description' => $config->description,
             'inlineHelp' => $config->inlineHelp,
             // deprecated but kept here for API output BC
-            'customUiControlTemplateFile' => $config->customUiControlTemplateFile,
+            'templateFile' => $config->customUiControlTemplateFile,
             'introduction' => $config->introduction,
             'condition' => $config->condition,
         );

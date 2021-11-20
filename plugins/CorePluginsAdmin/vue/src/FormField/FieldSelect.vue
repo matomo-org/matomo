@@ -15,7 +15,7 @@
       <option
         v-for="option in options"
         :key="option.key"
-        :value="option.key"
+        :value="`string:${option.key}`"
         :selected="multiple
           ? modelValue && modelValue.indexOf(option.key) !== -1
           : modelValue === option.key"
@@ -35,7 +35,7 @@
     <option
       v-for="option in options"
       :key="option.key"
-      :value="option.key"
+      :value="`string:${option.key}`"
       :selected="multiple
         ? modelValue && modelValue.indexOf(option.key) !== -1
         : modelValue === option.key"
@@ -124,6 +124,13 @@ export function getAvailableOptions(
   return flatValues;
 }
 
+function handleOldAngularJsValues(value: unknown) {
+  if (typeof value === 'string') {
+    return value.replace(/^string:/, '');
+  }
+  return value;
+}
+
 export default defineComponent({
   props: {
     modelValue: null,
@@ -184,8 +191,10 @@ export default defineComponent({
       if (this.multiple) {
         // TODO: check Array.from compatibility
         newValue = Array.from(element.options).filter((e) => e.selected).map((e) => e.value);
+        newValue = newValue.map(handleOldAngularJsValues);
       } else {
         newValue = element.value;
+        newValue = handleOldAngularJsValues(newValue);
       }
 
       this.$emit('update:modelValue', newValue);
