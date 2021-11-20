@@ -21,6 +21,12 @@ function triggerWithNativeEventDispatch(jqEventOrType, data) {
       return;
     }
 
+    // eslint-disable-next-line
+    if (((window.$._data(element, 'events') || {}) as any)[type] && window.$._data(element, 'handle')) {
+      // there is an event handler in jquery private data, assume this was handled.
+      return;
+    }
+
     if (element.dispatchEvent) {
       const event = new Event(type, {
         // do not rely on browser bubbling so we can keep checking for the on... attribute
@@ -36,11 +42,12 @@ function triggerWithNativeEventDispatch(jqEventOrType, data) {
     }
   }
 
-  oldTrigger.call(this, jqEventOrType, data);
-
+  const result = oldTrigger.call(this, jqEventOrType, data);
   this.each(function onEach() {
     nativeDispatch(this);
   });
+
+  return result;
 }
 
 window.$.fn.trigger = triggerWithNativeEventDispatch;
