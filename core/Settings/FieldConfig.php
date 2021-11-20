@@ -123,6 +123,7 @@ class FieldConfig
      * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
      *
      * @var string
+     * @deprecated set $type to your custom Vue field type instead
      */
     public $customUiControlTemplateFile = '';
 
