@@ -746,11 +746,11 @@ function FieldMultituplevue_type_template_id_2770b1bc_render(_ctx, _cache, $prop
 FieldMultituplevue_type_script_lang_ts.render = FieldMultituplevue_type_template_id_2770b1bc_render
 
 /* harmony default export */ var FieldMultituple = (FieldMultituplevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldNumber.vue?vue&type=template&id=1f5fba10
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldNumber.vue?vue&type=template&id=104c8fa0
 
-var FieldNumbervue_type_template_id_1f5fba10_hoisted_1 = ["type", "id", "name", "value"];
-var FieldNumbervue_type_template_id_1f5fba10_hoisted_2 = ["for", "innerHTML"];
-function FieldNumbervue_type_template_id_1f5fba10_render(_ctx, _cache, $props, $setup, $data, $options) {
+var FieldNumbervue_type_template_id_104c8fa0_hoisted_1 = ["type", "id", "name", "value"];
+var FieldNumbervue_type_template_id_104c8fa0_hoisted_2 = ["for", "innerHTML"];
+function FieldNumbervue_type_template_id_104c8fa0_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
     class: "control_".concat(_ctx.uiControl),
     type: _ctx.uiControl,
@@ -760,12 +760,12 @@ function FieldNumbervue_type_template_id_1f5fba10_render(_ctx, _cache, $props, $
     onChange: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.onChange($event);
     })
-  }, _ctx.uiControlAttributes), null, 16, FieldNumbervue_type_template_id_1f5fba10_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
+  }, _ctx.uiControlAttributes), null, 16, FieldNumbervue_type_template_id_104c8fa0_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
     for: _ctx.name,
     innerHTML: _ctx.$sanitize(_ctx.title)
-  }, null, 8, FieldNumbervue_type_template_id_1f5fba10_hoisted_2)], 64);
+  }, null, 8, FieldNumbervue_type_template_id_104c8fa0_hoisted_2)], 64);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldNumber.vue?vue&type=template&id=1f5fba10
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldNumber.vue?vue&type=template&id=104c8fa0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldNumber.vue?vue&type=script&lang=ts
 
@@ -781,6 +781,7 @@ function FieldNumbervue_type_template_id_1f5fba10_render(_ctx, _cache, $props, $
   emits: ['update:modelValue'],
   methods: {
     onChange: function onChange(event) {
+      console.log('changing');
       var value = parseFloat(event.target.value);
       this.$emit('update:modelValue', value);
     }
@@ -805,7 +806,7 @@ function FieldNumbervue_type_template_id_1f5fba10_render(_ctx, _cache, $props, $
 
 
 
-FieldNumbervue_type_script_lang_ts.render = FieldNumbervue_type_template_id_1f5fba10_render
+FieldNumbervue_type_script_lang_ts.render = FieldNumbervue_type_template_id_104c8fa0_render
 
 /* harmony default export */ var FieldNumber = (FieldNumbervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldRadio.vue?vue&type=template&id=cfccf0ac
@@ -2054,6 +2055,7 @@ function handleJsonValue(value, varType, uiControl) {
   events: {
     'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel, $timeout) {
       if (newValue !== scope.value) {
+        console.log('setting to', newValue);
         $timeout(function () {
           scope.value = JSON.parse(JSON.stringify(newValue));
 

@@ -41,21 +41,24 @@
                  full-width="false"
                  options="limitAllOptions">
             </div>
+
             <div piwik-field uicontrol="number" name="filter_limit"
                  min="1"
-                 ng-model="$parent.reportLimit"
+                 ng-model="limitContainer.reportLimit"
+                 value="{{ $parent.reportLimit }}"
                  full-width="false"
-                 ng-show="$parent.reportLimitAll == 'no' && maxFilterLimit <= 0">
+                 ng-if="$parent.reportLimitAll == 'no' && maxFilterLimit <= 0">
             </div>
 
             <div piwik-field uicontrol="number" name="filter_limit"
                  min="1"
                  max="{{ scope.reportLimit }}"
-                 ng-model="$parent.reportLimit"
+                 ng-model="limitContainer.reportLimit"
+                 value="{{ $parent.reportLimit }}"
                  ng-keypress="scope.checkNumberForLimit"
                  full-width="false"
                  data-title="{{ 'CoreHome_RowLimit'|translate }} ({{ 'General_ComputedMetricMax'|translate:maxFilterLimit }})"
-                 ng-show="$parent.reportLimitAll == 'no' && maxFilterLimit > 0">
+                 ng-if="$parent.reportLimitAll == 'no' && maxFilterLimit > 0">
             </div>
         </div>
     </div>
