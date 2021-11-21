@@ -10,8 +10,8 @@ const oldTrigger = window.$.fn.trigger;
 function triggerWithNativeEventDispatch(jqEventOrType, data) {
   function nativeDispatch(element: HTMLElement) {
     const type = jqEventOrType.type || jqEventOrType;
-
     const onEventAttributeName = `on${type}`;
+
     if (element[onEventAttributeName]
       || element[type] instanceof Function
     ) {
