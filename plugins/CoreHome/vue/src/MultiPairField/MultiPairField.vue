@@ -12,57 +12,69 @@
       :class="{ [`multiPairFieldTable${index}`]: true, [`has${fieldCount}Fields`]: true }"
       :key="index"
     >
-      <Field
-        :full-width="true"
-        v-if="field1"
+      <div
         class="fieldUiControl fieldUiControl1"
+        v-if="field1"
         :class="{ hasMultiFields: field1.type && field2.type }"
-        v-model="item[field1.key]"
-        :options="field1.availableValues"
-        @update:modelValue="onEntryChange(index, field1.key, $event)"
-        :placeholder="' '"
-        :uicontrol="field1.uiControl"
-        :name="`${name}-p1-${index}`"
-        :title="field1.title"
       >
-      </Field>
-      <Field
-        :full-width="true"
-        v-if="field2"
+        <Field
+          :full-width="true"
+          v-model="item[field1.key]"
+          :options="field1.availableValues"
+          @update:modelValue="onEntryChange(index, field1.key, $event)"
+          :placeholder="' '"
+          :uicontrol="field1.uiControl"
+          :name="`${name}-p1-${index}`"
+          :title="field1.title"
+        >
+        </Field>
+      </div>
+      <div
         class="fieldUiControl fieldUiControl2"
-        :options="field2.availableValues"
-        @update:modelValue="onEntryChange(index, field2.key, $event)"
-        v-model="item[field2.key]"
-        :placeholder="' '"
-        :uicontrol="field2.uiControl"
-        :name="`${name}-p2-${index}`"
-        :title="field2.title"
+        v-if="field2"
       >
-      </Field>
-      <Field
-        :full-width="true"
-        v-if="field3"
+        <Field
+          :full-width="true"
+          :options="field2.availableValues"
+          @update:modelValue="onEntryChange(index, field2.key, $event)"
+          v-model="item[field2.key]"
+          :placeholder="' '"
+          :uicontrol="field2.uiControl"
+          :name="`${name}-p2-${index}`"
+          :title="field2.title"
+        >
+        </Field>
+      </div>
+      <div
         class="fieldUiControl fieldUiControl3"
-        :options="field3.availableValues"
-        @update:modelValue="onEntryChange(index, field3.key, $event)"
-        v-model="item[field3.key]"
-        :placeholder="' '"
-        :uicontrol="field3.uiControl"
-        :title="field3.title"
+        v-if="field3"
       >
-      </Field>
-      <Field
-        :full-width="true"
-        v-if="field4"
+        <Field
+          :full-width="true"
+          :options="field3.availableValues"
+          @update:modelValue="onEntryChange(index, field3.key, $event)"
+          v-model="item[field3.key]"
+          :placeholder="' '"
+          :uicontrol="field3.uiControl"
+          :title="field3.title"
+        >
+        </Field>
+      </div>
+      <div
         class="fieldUiControl fieldUiControl4"
-        :options="field4.availableValues"
-        @update:modelValue="onEntryChange(index, field4.key, $event)"
-        v-model="item[field4.key]"
-        :placeholder="' '"
-        :uicontrol="field4.uiControl"
-        :title="field4.title"
+        v-if="field4"
       >
-      </Field>
+        <Field
+          :full-width="true"
+          :options="field4.availableValues"
+          @update:modelValue="onEntryChange(index, field4.key, $event)"
+          v-model="item[field4.key]"
+          :placeholder="' '"
+          :uicontrol="field4.uiControl"
+          :title="field4.title"
+        >
+        </Field>
+      </div>
       <span
         @click="removeEntry(index)"
         class="icon-minus valign"

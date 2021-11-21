@@ -146,33 +146,35 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       }
     },
   },
-  postCreate(vm, scope, element, attrs, controller) {
+  postCreate(vm, scope, element, attrs, controller, $timeout) {
     const ngModel = controller as INgModelController;
 
-    scope.$watch('value', (newVal, oldVal) => {
-      if (newVal !== oldVal) {
-        const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-        vm.modelValue = JSON.parse(JSON.stringify(transformed));
+    $timeout(() => {
+      scope.$watch('value', (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+          const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+          vm.modelValue = JSON.parse(JSON.stringify(transformed));
 
-        if (ngModel) {
-          ngModel.$setViewValue(vm.modelValue);
+          if (ngModel) {
+            ngModel.$setViewValue(vm.modelValue);
+          }
         }
-      }
-    });
+      });
 
-    if (ngModel) {
       if (typeof scope.value !== 'undefined') {
         const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
         vm.modelValue = JSON.parse(JSON.stringify(transformed));
       }
 
-      ngModel.$setViewValue(vm.modelValue);
+      if (ngModel) {
+        ngModel.$render = () => {
+          nextTick(() => {
+            vm.modelValue = processScopeProperty(ngModel.$viewValue);
+          });
+        };
 
-      ngModel.$render = () => {
-        nextTick(() => {
-          vm.modelValue = processScopeProperty(ngModel.$viewValue);
-        });
-      };
-    }
+        ngModel.$setViewValue(vm.modelValue);
+      }
+    });
   },
 });

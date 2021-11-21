@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { debounce } from 'CoreHome';
 
 const SEPARATOR = '\n';
 
@@ -34,13 +35,14 @@ export default defineComponent({
       return (this.modelValue || []).join(SEPARATOR);
     },
   },
+  created() {
+    this.onKeydown = debounce(this.onKeydown.bind(this), 50);
+  },
   methods: {
     onKeydown(event) {
-      setTimeout(() => {
-        const value = (event.target as HTMLTextAreaElement).value
-          .split(SEPARATOR).map((v) => v.trim());
-        this.$emit('update:modelValue', value);
-      });
+      const value = (event.target as HTMLTextAreaElement).value
+        .split(SEPARATOR).map((v) => v.trim());
+      this.$emit('update:modelValue', value);
     },
   },
   watch: {

@@ -1369,15 +1369,15 @@ function FieldTextareavue_type_template_id_5951fa2a_render(_ctx, _cache, $props,
 FieldTextareavue_type_script_lang_ts.render = FieldTextareavue_type_template_id_5951fa2a_render
 
 /* harmony default export */ var FieldTextarea = (FieldTextareavue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextareaArray.vue?vue&type=template&id=4b0d300a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextareaArray.vue?vue&type=template&id=36165a41
 
-var FieldTextareaArrayvue_type_template_id_4b0d300a_hoisted_1 = ["for", "innerHTML"];
-var FieldTextareaArrayvue_type_template_id_4b0d300a_hoisted_2 = ["name", "value"];
-function FieldTextareaArrayvue_type_template_id_4b0d300a_render(_ctx, _cache, $props, $setup, $data, $options) {
+var FieldTextareaArrayvue_type_template_id_36165a41_hoisted_1 = ["for", "innerHTML"];
+var FieldTextareaArrayvue_type_template_id_36165a41_hoisted_2 = ["name", "value"];
+function FieldTextareaArrayvue_type_template_id_36165a41_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
     for: _ctx.name,
     innerHTML: _ctx.$sanitize(_ctx.title)
-  }, null, 8, FieldTextareaArrayvue_type_template_id_4b0d300a_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
+  }, null, 8, FieldTextareaArrayvue_type_template_id_36165a41_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
     ref: "textarea",
     name: _ctx.name
   }, _ctx.uiControlAttributes, {
@@ -1386,11 +1386,12 @@ function FieldTextareaArrayvue_type_template_id_4b0d300a_render(_ctx, _cache, $p
       return _ctx.onKeydown($event);
     }),
     class: "materialize-textarea"
-  }), null, 16, FieldTextareaArrayvue_type_template_id_4b0d300a_hoisted_2)]);
+  }), null, 16, FieldTextareaArrayvue_type_template_id_36165a41_hoisted_2)]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextareaArray.vue?vue&type=template&id=4b0d300a
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextareaArray.vue?vue&type=template&id=36165a41
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldTextareaArray.vue?vue&type=script&lang=ts
+
 
 var SEPARATOR = '\n';
 /* harmony default export */ var FieldTextareaArrayvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -1407,36 +1408,34 @@ var SEPARATOR = '\n';
       return (this.modelValue || []).join(SEPARATOR);
     }
   },
+  created: function created() {
+    this.onKeydown = Object(external_CoreHome_["debounce"])(this.onKeydown.bind(this), 50);
+  },
   methods: {
     onKeydown: function onKeydown(event) {
-      var _this = this;
-
-      setTimeout(function () {
-        var value = event.target.value.split(SEPARATOR).map(function (v) {
-          return v.trim();
-        });
-
-        _this.$emit('update:modelValue', value);
+      var value = event.target.value.split(SEPARATOR).map(function (v) {
+        return v.trim();
       });
+      this.$emit('update:modelValue', value);
     }
   },
   watch: {
     modelValue: function modelValue(newVal, oldVal) {
-      var _this2 = this;
+      var _this = this;
 
       if (newVal !== oldVal) {
         setTimeout(function () {
-          window.Materialize.textareaAutoResize(_this2.$refs.textarea);
+          window.Materialize.textareaAutoResize(_this.$refs.textarea);
           window.Materialize.updateTextFields();
         });
       }
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
 
     setTimeout(function () {
-      window.Materialize.textareaAutoResize(_this3.$refs.textarea);
+      window.Materialize.textareaAutoResize(_this2.$refs.textarea);
       window.Materialize.updateTextFields();
     });
   }
@@ -1447,7 +1446,7 @@ var SEPARATOR = '\n';
 
 
 
-FieldTextareaArrayvue_type_script_lang_ts.render = FieldTextareaArrayvue_type_template_id_4b0d300a_render
+FieldTextareaArrayvue_type_script_lang_ts.render = FieldTextareaArrayvue_type_template_id_36165a41_render
 
 /* harmony default export */ var FieldTextareaArray = (FieldTextareaArrayvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/utilities.ts
@@ -2083,33 +2082,35 @@ function handleJsonValue(value, varType, uiControl) {
       }
     }
   },
-  postCreate: function postCreate(vm, scope, element, attrs, controller) {
+  postCreate: function postCreate(vm, scope, element, attrs, controller, $timeout) {
     var ngModel = controller;
-    scope.$watch('value', function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        var transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-        vm.modelValue = JSON.parse(JSON.stringify(transformed));
+    $timeout(function () {
+      scope.$watch('value', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          var transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+          vm.modelValue = JSON.parse(JSON.stringify(transformed));
 
-        if (ngModel) {
-          ngModel.$setViewValue(vm.modelValue);
+          if (ngModel) {
+            ngModel.$setViewValue(vm.modelValue);
+          }
         }
-      }
-    });
+      });
 
-    if (ngModel) {
       if (typeof scope.value !== 'undefined') {
         var transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
         vm.modelValue = JSON.parse(JSON.stringify(transformed));
       }
 
-      ngModel.$setViewValue(vm.modelValue);
+      if (ngModel) {
+        ngModel.$render = function () {
+          Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+            vm.modelValue = Object(external_CoreHome_["processScopeProperty"])(ngModel.$viewValue);
+          });
+        };
 
-      ngModel.$render = function () {
-        Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-          vm.modelValue = Object(external_CoreHome_["processScopeProperty"])(ngModel.$viewValue);
-        });
-      };
-    }
+        ngModel.$setViewValue(vm.modelValue);
+      }
+    });
   }
 }));
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
