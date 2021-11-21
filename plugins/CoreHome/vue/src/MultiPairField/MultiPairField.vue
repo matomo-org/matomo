@@ -23,7 +23,7 @@
         :placeholder="' '"
         :uicontrol="field1.uiControl"
         :name="`${name}-p1-${index}`"
-        :data-title="field1.title"
+        :title="field1.title"
       >
       </Field>
       <Field
@@ -36,7 +36,7 @@
         :placeholder="' '"
         :uicontrol="field2.uiControl"
         :name="`${name}-p2-${index}`"
-        :data-title="field2.title"
+        :title="field2.title"
       >
       </Field>
       <Field
@@ -48,7 +48,7 @@
         v-model="item[field3.key]"
         :placeholder="' '"
         :uicontrol="field3.uiControl"
-        :data-title="field3.title"
+        :title="field3.title"
       >
       </Field>
       <Field
@@ -60,7 +60,7 @@
         v-model="item[field4.key]"
         :placeholder="' '"
         :uicontrol="field4.uiControl"
-        :data-title="field4.title"
+        :title="field4.title"
       >
       </Field>
       <span
