@@ -1,9 +1,8 @@
 <template>
   <div>
     <label :for="name" class="siteSelectorLabel" v-html="$sanitize(title)"></label>
-    <div>
+    <div class="sites_autocomplete">
       <SiteSelector
-        class="sites_autocomplete"
         :model-value="modelValue"
         @update:modelValue="onChange($event)"
         :id="name"
