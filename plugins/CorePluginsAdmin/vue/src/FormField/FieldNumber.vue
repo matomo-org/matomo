@@ -5,6 +5,7 @@
     :id="name"
     :name="name"
     :value="(modelValue || '').toString()"
+    @keydown="onChange($event)"
     @change="onChange($event)"
     v-bind="uiControlAttributes"
   />
@@ -13,6 +14,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { debounce } from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -24,6 +26,9 @@ export default defineComponent({
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
+  created() {
+    this.onChange = debounce(this.onChange.bind(this), 50);
+  },
   methods: {
     onChange(event: Event) {
       const value = parseFloat((event.target as HTMLInputElement).value);

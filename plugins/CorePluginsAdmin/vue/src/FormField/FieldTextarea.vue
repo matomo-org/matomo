@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { debounce } from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -23,11 +24,12 @@ export default defineComponent({
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
+  created() {
+    this.onKeydown = debounce(this.onKeydown.bind(this), 50);
+  },
   methods: {
     onKeydown(event: Event) {
-      setTimeout(() => {
-        this.$emit('update:modelValue', (event.target as HTMLTextAreaElement).value);
-      });
+      this.$emit('update:modelValue', (event.target as HTMLTextAreaElement).value);
     },
   },
   watch: {

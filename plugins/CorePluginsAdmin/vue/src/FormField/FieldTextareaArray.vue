@@ -9,7 +9,7 @@
       :name="name"
       v-bind="uiControlAttributes"
       :value="concattedValue"
-      @change="onChange($event)"
+      @keydown="onKeydown($event)"
       class="materialize-textarea"
     ></textarea>
   </div>
@@ -35,9 +35,12 @@ export default defineComponent({
     },
   },
   methods: {
-    onChange($event) {
-      const value = ($event as HTMLTextAreaElement).value.split(SEPARATOR).map((v) => v.trim());
-      this.$emit('update:modelValue', value);
+    onKeydown(event) {
+      setTimeout(() => {
+        const value = (event.target as HTMLTextAreaElement).value
+          .split(SEPARATOR).map((v) => v.trim());
+        this.$emit('update:modelValue', value);
+      });
     },
   },
   watch: {

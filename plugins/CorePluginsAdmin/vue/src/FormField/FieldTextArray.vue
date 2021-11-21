@@ -8,7 +8,7 @@
       :class="`control_${ uiControl }`"
       :type="uiControl"
       :name="name"
-      @change="onChange($event)"
+      @keydown="onKeydown($event)"
       :value="concattedValues"
       v-bind="uiControlAttributes"
     />
@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { debounce } from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -33,8 +34,12 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  created() {
+    // debounce because puppeteer types reeaally fast
+    this.onKeydown = debounce(this.onKeydown.bind(this), 50);
+  },
   methods: {
-    onChange(event: Event) {
+    onKeydown(event: Event) {
       const values = (event.target as HTMLInputElement).value.split(',').map((v) => v.trim());
       this.$emit('update:modelValue', values);
     },
