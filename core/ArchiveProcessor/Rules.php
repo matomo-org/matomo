@@ -11,6 +11,7 @@ namespace Piwik\ArchiveProcessor;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -384,13 +385,10 @@ class Rules
         if (!$siteId) {
             return false;
         }
-        $siteConfig = $config->{'General_' . $siteId};
-        if (empty($siteConfig)) {
-            return false;
-        }
+        $pluginArchivingSetting = GeneralConfig::getConfigValue('disable_archiving_segment_for_plugins', $siteId);
 
-        if (!empty($siteConfig) && isset($siteConfig['disable_archiving_segment_for_plugins'])) {
-            $pluginArchivingSetting = $siteConfig['disable_archiving_segment_for_plugins'];
+        if (empty($pluginArchivingSetting)) {
+            return false;
         }
 
         if (is_string($pluginArchivingSetting)) {
