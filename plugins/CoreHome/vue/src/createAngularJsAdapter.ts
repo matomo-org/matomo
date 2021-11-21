@@ -31,9 +31,11 @@ type AdapterFunction<InjectTypes, R = void> = (
 
 type EventAdapterFunction<InjectTypes, R = void> = (
   $event: any, // eslint-disable-line
+  vm: ComponentPublicInstance,
   scope: ng.IScope,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
+  otherController: ng.IControllerService,
   ...injected: InjectTypes,
 ) => R;
 
@@ -42,6 +44,7 @@ type PostCreateFunction<InjectTypes, R = void> = (
   scope: ng.IScope,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
+  otherController: ng.IControllerService,
   ...injected: InjectTypes,
 ) => R;
 
@@ -63,6 +66,7 @@ function toAngularJsCamelCase(arg: string): string {
 
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
+  require?: string,
   scope?: ScopeMapping,
   directiveName: string,
   events?: EventMapping<InjectTypes>,
@@ -75,6 +79,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 }): ng.IDirectiveFactory {
   const {
     component,
+    require,
     scope = {},
     events = {},
     $inject,
@@ -104,6 +109,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   function angularJsAdapter(...injectedServices: InjectTypes) {
     const adapter: ng.IDirective = {
       restrict,
+      require,
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
@@ -111,6 +117,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngScope: ng.IScope,
             ngElement: ng.IAugmentedJQuery,
             ngAttrs: ng.IAttributes,
+            ngController: ng.IControllerService,
           ) {
             const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
 
@@ -173,7 +180,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                   }
 
                   if (events[name]) {
-                    events[name]($event, ngScope, ngElement, ngAttrs, ...injectedServices);
+                    events[name](
+                      $event,
+                      this,
+                      ngScope,
+                      ngElement,
+                      ngAttrs,
+                      ngController,
+                      ...injectedServices,
+                    );
                   }
                 },
               },
@@ -213,7 +228,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             }
 
             if (postCreate) {
-              postCreate(vm, ngScope, ngElement, ngAttrs, ...injectedServices);
+              postCreate(vm, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
             }
 
             ngElement.on('$destroy', () => {

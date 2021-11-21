@@ -206,16 +206,16 @@
         },
         {
             "name": "geoip2/geoip2",
-            "version": "v2.11.0",
+            "version": "v2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/GeoIP2-php.git",
-                "reference": "d01be5894a5c1a3381c58c9b1795cd07f96c30f7"
+                "reference": "a320c2c3b7498c83bf9b2a670af6888c73e29f50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/d01be5894a5c1a3381c58c9b1795cd07f96c30f7",
-                "reference": "d01be5894a5c1a3381c58c9b1795cd07f96c30f7",
+                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/a320c2c3b7498c83bf9b2a670af6888c73e29f50",
+                "reference": "a320c2c3b7498c83bf9b2a670af6888c73e29f50",
                 "shasum": ""
             },
             "require": {
@@ -225,7 +225,8 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "2.*",
+                "friendsofphp/php-cs-fixer": "3.*",
+                "phpstan/phpstan": "*",
                 "phpunit/phpunit": "^8.0 || ^9.0",
                 "squizlabs/php_codesniffer": "3.*"
             },
@@ -257,9 +258,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/GeoIP2-php/issues",
-                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.11.0"
+                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.12.0"
             },
-            "time": "2020-10-01T18:48:34+00:00"
+            "time": "2021-11-17T20:54:16+00:00"
         },
         {
             "name": "lox/xhprof",
