@@ -134,47 +134,43 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   directiveName: 'piwikField',
   $inject: ['$timeout'],
   events: {
-    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel, $timeout) => {
+    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
       if (newValue !== scope.value) {
-        $timeout(() => {
-          scope.value = JSON.parse(JSON.stringify(newValue));
+        scope.value = newValue;
 
-          if (ngModel) {
-            (ngModel as INgModelController).$setViewValue(scope.value);
-          }
-        });
+        if (ngModel) {
+          (ngModel as INgModelController).$setViewValue(scope.value);
+        }
       }
     },
   },
-  postCreate(vm, scope, element, attrs, controller, $timeout) {
+  postCreate(vm, scope, element, attrs, controller) {
     const ngModel = controller as INgModelController;
 
-    $timeout(() => {
-      scope.$watch('value', (newVal, oldVal) => {
-        if (newVal !== oldVal) {
-          const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-          vm.modelValue = JSON.parse(JSON.stringify(transformed));
-
-          if (ngModel) {
-            ngModel.$setViewValue(vm.modelValue);
-          }
-        }
-      });
-
-      if (typeof scope.value !== 'undefined') {
+    scope.$watch('value', (newVal, oldVal) => {
+      if (newVal !== vm.modelValue) {
         const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-        vm.modelValue = JSON.parse(JSON.stringify(transformed));
-      }
+        vm.modelValue = transformed;
 
-      if (ngModel) {
-        ngModel.$render = () => {
-          nextTick(() => {
-            vm.modelValue = processScopeProperty(ngModel.$viewValue);
-          });
-        };
-
-        ngModel.$setViewValue(vm.modelValue);
+        if (newVal === oldVal && ngModel) { // first update
+          (ngModel as INgModelController).$setViewValue(transformed);
+        }
       }
     });
+
+    if (typeof scope.value !== 'undefined') {
+      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+      vm.modelValue = JSON.parse(JSON.stringify(transformed));
+    }
+
+    if (ngModel) {
+      ngModel.$render = () => {
+        nextTick(() => {
+          vm.modelValue = processScopeProperty(ngModel.$viewValue);
+        });
+      };
+
+      ngModel.$setViewValue(vm.modelValue);
+    }
   },
 });

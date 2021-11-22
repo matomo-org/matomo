@@ -2,6 +2,7 @@
   <select
     v-if="groupedOptions"
     ref="select"
+    class="grouped"
     :multiple="multiple"
     :name="name"
     @change="onChange($event)"
@@ -25,7 +26,8 @@
     </optgroup>
   </select>
   <select
-    v-if="!groupedOptions"
+    class="ungrouped"
+    v-if="!groupedOptions && options"
     ref="select"
     :multiple="multiple"
     :name="name"
@@ -147,7 +149,8 @@ export default defineComponent({
     options() {
       // if modelValue is empty, but there is no empty value allowed in availableOptions,
       // add one temporarily until something is set
-      if (!hasOption(this.availableOptions, '')
+      if (this.availableOptions
+        && !hasOption(this.availableOptions, '')
         && (typeof this.modelValue === 'undefined'
           || this.modelValue === null
           || this.modelValue === '')
@@ -158,7 +161,7 @@ export default defineComponent({
     },
     groupedOptions() {
       const { options } = this;
-      if (!options[0] || !options[0].group) {
+      if (!options || !options[0] || typeof options[0].group === 'undefined') {
         return null;
       }
 
