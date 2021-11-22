@@ -403,15 +403,15 @@ class CronArchive
             }
 
             if (empty($archivesToProcess)) {
-                if ($this->maxArchivesToProcess && $numArchivesFinished >= $this->maxArchivesToProcess) {
-                    $this->logger->info("Maximum number of archives to process per execution has been reached.");
-                    break;
-                }
                 continue;
             }
 
             $successCount = $this->launchArchivingFor($archivesToProcess, $queueConsumer);
             $numArchivesFinished += $successCount;
+            if ($this->maxArchivesToProcess && $numArchivesFinished >= $this->maxArchivesToProcess) {
+                $this->logger->info("Maximum number of archives to process per execution has been reached.");
+                break;
+            }
         }
 
         $this->disconnectDb();

@@ -116,7 +116,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('max-websites-to-process', null, InputOption::VALUE_REQUIRED,
             "Maximum number of websites to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage.");
         $command->addOption('max-archives-to-process', null, InputOption::VALUE_REQUIRED,
-            "Preferred number of archives to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage. Note that execution will only stop after all archives for a website have been processed, so the limit may be exceeded.");
+            "Maximum number of archives to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage.");
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE,
             "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE,
