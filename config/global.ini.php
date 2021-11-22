@@ -386,11 +386,7 @@ archiving_custom_ranges[] =
 archiving_query_max_execution_time = 7200
 
 
-; Allow you to disable archiving segment on selected plugins
-; When this is on, it won't archive any data for selected plugin if segment is not empty
-; This field accepts more than one plugin separated by comma eg: disable_archiving_segment_for_plugin="Plugin1,Plugin2,Plugin3"
-; This field also accepts array format eg: disable_archiving_segment_for_plugin[]="Plugin1", disable_archiving_segment_for_plugin[]="Plugin2"
-; if you'd like to disable on a specify site, please append the siteId to the [General_siteId]. eg siteId=2 [General_2]
+; Allow you to disable archiving segment on selected plugins for more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
 disable_archiving_segment_for_plugins = ""
 
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
