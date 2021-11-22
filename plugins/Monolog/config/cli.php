@@ -20,7 +20,7 @@ return array(
                 $writers[] = $c->get('Piwik\Plugins\Monolog\Handler\FileHandler');
             }
         }
-        return array_values($writers);
+        return $writers;
     }),
 
     'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (ContainerInterface $c) {
