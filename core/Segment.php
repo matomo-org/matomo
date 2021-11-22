@@ -189,7 +189,7 @@ class Segment
         $cache = PiwikCache::getTransientCache();
 
         //covert cache id
-        $cacheId = 'API.getSegmentsMetadata'.SettingsPiwik::getPiwikInstanceId() . implode(",", $this->idSites);
+        $cacheId = 'API.getSegmentsMetadata.'.SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
 
         //fetch cache lockId
         $this->availableSegments = $cache->fetch($cacheId);
