@@ -233,6 +233,7 @@ describe("Marketplace", function () {
 
         await page.goto(pluginsUrl);
         await page.type('#license_key', 'valid');
+        await page.waitForTimeout(200);
 
         setEnvironment(mode, validLicense);
         await page.click('#submit_license_key input');
