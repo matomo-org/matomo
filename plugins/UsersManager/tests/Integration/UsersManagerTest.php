@@ -1083,15 +1083,18 @@ class UsersManagerTest extends IntegrationTestCase
             )
         ), $this->api->getAvailableCapabilities());
     }
-//
-//    public function testInviteUser()
-//    {
-//        $this->addSites(1);
-//        $user = array('login'    => "login",
-//                      'email'    => "test@test.com");
-//
-//        $this->api->inviteUser($user['login'],$user['email'],1);
-//    }
+
+    public function testInviteUser()
+    {
+        $this->addSites(1);
+        $user = array('login'    => "login",
+                      'email'    => "test@test.com");
+
+        $this->api->inviteUser($user['login'],$user['email'],1);
+        $user = $this->api->getUser($user['login']);
+
+        $this->assertEquals($user['invite_status'], 'sent');
+    }
 
     private function addSites($numberOfSites)
     {

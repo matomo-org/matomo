@@ -973,7 +973,6 @@ class API extends \Piwik\Plugin\API
             $newUser['last_seen'] = $user['last_seen'];
         }
 
-        unset($user['invite_token']);
         return $newUser;
     }
 

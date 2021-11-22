@@ -45,7 +45,7 @@ class Updates_4_7_0_b1 extends PiwikUpdates
     {
         $migrations = [];
         $migrations[] = $this->migration->db->addColumns('user', [
-          'invite_status'=>'varchar(100) default NULL',
+          'invite_status'=>'varchar(40) default NULL',
           'invite_at'=>'datetime NULL']);
 
         return $migrations;
