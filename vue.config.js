@@ -80,5 +80,8 @@ module.exports = {
 
       callback();
     });
+
+    // disable asset size warnings
+    config.performance.hints(false);
   },
 };
