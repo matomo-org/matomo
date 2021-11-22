@@ -1,5 +1,5 @@
 <template>
-  <div v-if="groupedOptions">
+  <div v-if="groupedOptions" class="matomo-field-select">
     <select
       ref="select"
       class="grouped"
@@ -27,7 +27,7 @@
     </select>
     <label :for="name" v-html="title"></label>
   </div>
-  <div v-if="!groupedOptions && options">
+  <div v-if="!groupedOptions && options" class="matomo-field-select">
     <select
       class="ungrouped"
       ref="select"

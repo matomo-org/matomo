@@ -51,6 +51,7 @@ class CorePluginsAdmin extends Plugin
         $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldExpandableSelect.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldMultituple.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldSelect.less";
     }
 
     public static function isPluginsAdminEnabled()

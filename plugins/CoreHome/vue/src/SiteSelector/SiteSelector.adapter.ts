@@ -48,6 +48,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         || (!newValue && vm.modelValue)
         || newValue.id !== vm.modelValue.id
       ) {
+        scope.value = newValue;
+
         element.attr('siteid', newValue.id);
         element.trigger('change', newValue);
 
@@ -62,6 +64,12 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   },
   postCreate(vm, scope, element, attrs, controller, $timeout: ITimeoutService) {
     const ngModel = controller as INgModelController;
+
+    scope.$watch('value', (newVal) => {
+      if (newVal !== vm.newValue) {
+        vm.modelValue = newVal;
+      }
+    });
 
     // setup ng-model mapping
     if (ngModel) {
