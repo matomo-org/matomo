@@ -265,7 +265,7 @@ export default defineComponent({
       return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
     },
     firstSiteNameDecoded() {
-      return Matomo.helper.htmlDecode(this.selectedSite.name);
+      return Matomo.helper.htmlDecode(this.firstSiteName);
     },
     urlAllSites() {
       const newQuery = MatomoUrl.stringify({
