@@ -12,19 +12,22 @@
       :class="{[`fieldArrayTable${index}`]: true}"
       :key="index"
     >
-      <Field
+      <div
         v-if="field.uiControl"
         class="fieldUiControl"
-        :full-width="true"
-        :model-value="item"
-        :options="field.availableValues"
-        @update:modelValue="onEntryChange($event, index)"
-        :placeholder="' '"
-        :uicontrol="field.uiControl"
-        :data-title="field.title"
-        :name="`${name}-${index}`"
       >
-      </Field>
+        <Field
+          :full-width="true"
+          :model-value="item"
+          :options="field.availableValues"
+          @update:modelValue="onEntryChange($event, index)"
+          :placeholder="' '"
+          :uicontrol="field.uiControl"
+          :data-title="field.title"
+          :name="`${name}-${index}`"
+        >
+        </Field>
+      </div>
       <span
         @click="removeEntry(index)"
         class="icon-minus valign"

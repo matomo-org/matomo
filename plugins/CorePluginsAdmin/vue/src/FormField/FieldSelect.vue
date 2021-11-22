@@ -1,17 +1,40 @@
 <template>
-  <select
-    v-if="groupedOptions"
-    ref="select"
-    class="grouped"
-    :multiple="multiple"
-    :name="name"
-    @change="onChange($event)"
-    v-bind="uiControlAttributes"
-  >
-    <optgroup
-      v-for="[group, options] in groupedOptions"
-      :key="group"
-      :label="group"
+  <div v-if="groupedOptions">
+    <select
+      ref="select"
+      class="grouped"
+      :multiple="multiple"
+      :name="name"
+      @change="onChange($event)"
+      v-bind="uiControlAttributes"
+    >
+      <optgroup
+        v-for="[group, options] in groupedOptions"
+        :key="group"
+        :label="group"
+      >
+        <option
+          v-for="option in options"
+          :key="option.key"
+          :value="`string:${option.key}`"
+          :selected="multiple
+            ? modelValue && modelValue.indexOf(option.key) !== -1
+            : modelValue === option.key"
+        >
+          {{ option.value }}
+        </option>
+      </optgroup>
+    </select>
+    <label :for="name" v-html="title"></label>
+  </div>
+  <div v-if="!groupedOptions && options">
+    <select
+      class="ungrouped"
+      ref="select"
+      :multiple="multiple"
+      :name="name"
+      @change="onChange($event)"
+      v-bind="uiControlAttributes"
     >
       <option
         v-for="option in options"
@@ -23,29 +46,9 @@
       >
         {{ option.value }}
       </option>
-    </optgroup>
-  </select>
-  <select
-    class="ungrouped"
-    v-if="!groupedOptions && options"
-    ref="select"
-    :multiple="multiple"
-    :name="name"
-    @change="onChange($event)"
-    v-bind="uiControlAttributes"
-  >
-    <option
-      v-for="option in options"
-      :key="option.key"
-      :value="`string:${option.key}`"
-      :selected="multiple
-        ? modelValue && modelValue.indexOf(option.key) !== -1
-        : modelValue === option.key"
-    >
-      {{ option.value }}
-    </option>
-  </select>
-  <label :for="name" v-html="title"></label>
+    </select>
+    <label :for="name" v-html="title"></label>
+  </div>
 </template>
 
 <script lang="ts">
