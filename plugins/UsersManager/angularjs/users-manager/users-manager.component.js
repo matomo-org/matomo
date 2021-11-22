@@ -179,10 +179,19 @@
         }
 
         function onDoneEditing(isUserModified) {
+
+          var url = window.location.href;
+
+          if(url.includes('&showadduser=1'))
+          {
+            url = url.replace('&showadduser=1', '');
+            window.location.href = url;
+          }else{
             vm.isEditing = false;
             if (isUserModified) { // if a user was modified, we must reload the users list
-                fetchUsers();
+              fetchUsers();
             }
+          }
         }
 
         function showAddExistingUserModal() {

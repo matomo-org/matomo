@@ -459,9 +459,8 @@ class Model
         );
 
         if ($isInvite) {
-            $token = $this->generateRandomTokenAuth();
-            $user['invite_token'] = $this->hashTokenAuth($token);
-            $user['invite_expired'] = Date::now()->addDay(3)->getDatetime();
+            $user['invite_status'] = 'sent';
+            $user['invited_at'] = Date::now();
         }
 
         $db = $this->getDb();
@@ -542,9 +541,17 @@ class Model
     public function userStatus($userLogin)
     {
         $db = $this->getDb();
-        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_token is not null", $userLogin);
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_status is not null", $userLogin);
         return $count != 0;
     }
+
+    public function getUserFirstSiteId($userLogin)
+    {
+        $db = $this->getDb();
+        $result = $db->fetchOne("SELECT idsite FROM " . Common::prefixTable("access") . " WHERE login = ? ", $userLogin);
+        return $result;
+    }
+
 
     public function removeUserAccess($userLogin, $access, $idSites)
     {

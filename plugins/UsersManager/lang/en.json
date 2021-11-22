@@ -193,7 +193,7 @@
         "Status": "Status",
         "StatusActive": "Active",
         "StatusPending": "Pending",
-        "ResendUserConfirmSingle": "Are you sure you want to resend invite to %1$s?"
+        "ResendUserConfirmSingle": "Are you sure you want to resend invitation to %1$s?"
 
     }
 }

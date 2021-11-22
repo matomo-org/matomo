@@ -48,9 +48,8 @@
                         data-disabled="$ctrl.isSavingUserInfo || !$ctrl.isAdd"
                 >
                 </div>
-
                 <div
-                        ng-if="!$ctrl.isAdd"
+                        ng-if="!$ctrl.isAdd && $ctrl.user.status !==('UsersManager_StatusPending'|translate)"
                         piwik-field
                         uicontrol="password"
                         name="user_password"
@@ -95,7 +94,7 @@
                 ></div>
 
                 <div class='entityCancel' ng-if="$ctrl.isAdd">
-                    <a href="" class="entityCancelLink" ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })">{{:: 'General_Cancel'|translate }}</a>
+                    <a href="" class="entityCancelLink btn-flat" ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })">{{:: 'General_Cancel'|translate }}</a>
                 </div>
             </div>
 

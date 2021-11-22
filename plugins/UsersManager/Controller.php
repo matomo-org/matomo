@@ -443,6 +443,26 @@ class Controller extends ControllerAdmin
         Piwik::redirectToModule('UsersManager', 'userSettings', array('token_auth' => false));
     }
 
+    public function activeInviteUser()
+    {
+        $userLogin = Common::getRequestVar('login');
+        $token = Common::getRequestVar('token');
+
+        $user = $this->userModel->getUser($userLogin);
+
+        $sessionInitializer = new SessionInitializer();
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setTokenAuth(null); // ensure authenticated through password
+        $auth->setLogin($user['login']);
+        $auth->setTokenAuth($token);
+        $sessionInitializer->initSession($auth);
+
+        //set pending to active
+        $this->userModel->updateUserFields($userLogin, ['invite_status' => null]);
+
+        $this->redirectToIndex('UsersManager',  'userSecurity');
+    }
+
     /**
      * The Super User can modify Anonymous user settings
      * @param View $view

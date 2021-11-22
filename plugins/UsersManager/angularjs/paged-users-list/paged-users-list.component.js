@@ -137,11 +137,10 @@
 
         function resendInvite()
         {
-          console.log(vm.userToChange);
-          piwikApi.post({module:'API', method: 'UsersManager.resendInvite' },{
-              userLogin: vm.userToChange,
-          } ).then(r=>{
-             console.log(r);
+          piwikApi.post({ module: 'API', method: 'UsersManager.resendInvite' }, {
+            userLogin: vm.userToChange.login,
+          }).then((r) => {
+            console.log(r);
           });
 
         }

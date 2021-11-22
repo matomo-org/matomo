@@ -26,12 +26,13 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\View;
-use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\UserInviteEmail;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -806,6 +807,7 @@ class API extends \Piwik\Plugin\API
         ));
         $mail->safeSend();
 
+
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
         Cache::deleteTrackerCache();
@@ -820,6 +822,9 @@ class API extends \Piwik\Plugin\API
         if ($initialIdSite) {
             $this->setUserAccess($userLogin, 'view', $initialIdSite);
         }
+
+        //send invite
+        $this->sendInvite($userLogin);
     }
 
     /**
@@ -940,9 +945,8 @@ class API extends \Piwik\Plugin\API
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
-            $user['status'] = empty($user['invite_token']) ? Piwik::translate('UsersManager_StatusActive')
+            $user['status'] = empty($user['invite_status']) ? Piwik::translate('UsersManager_StatusActive')
               : Piwik::translate('UsersManager_StatusPending');
-            unset($user['invite_token']);
             return $user;
         }
 
@@ -1519,16 +1523,32 @@ class API extends \Piwik\Plugin\API
 
         $this->checkIfUserIsPending($userLogin);
 
-        $container = StaticContainer::getContainer();
-        $email = $container->make(UserDeletedEmail::class, array(
-          'login' => Piwik::getCurrentUserLogin(),
-          'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin' => $userLogin
-        ));
-        $email->safeSend();
+        $this->sendInvite($userLogin);
 
         Cache::deleteTrackerCache();
 
+    }
+
+    private function sendInvite($userLogin)
+    {
+        //add token
+        $this->model->deleteAllTokensForUser($userLogin);
+        $generatedToken = $this->model->generateRandomTokenAuth();
+        $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),  Date::now()->addDay(7)->getDatetime());
+
+
+        $inviteUser = $this->getUser($userLogin);
+
+        $idSite = $this->model->getUserFirstSiteId($userLogin);
+
+        $container = StaticContainer::getContainer();
+        $email = $container->make(UserInviteEmail::class, array(
+          'currentUser'  => Piwik::getCurrentUserLogin(),
+          'inviteUser' => $inviteUser,
+          'idSite' => $idSite,
+          'token'=>$generatedToken
+        ));
+        $email->safeSend();
     }
 
     private function checkIfUserIsPending($userLogin)
