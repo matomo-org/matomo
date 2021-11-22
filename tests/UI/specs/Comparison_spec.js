@@ -80,6 +80,7 @@ describe("Comparison", function () {
         await (await page.jQuery('li.menuTab:contains(Visitors) a.item:contains(Overview)')).click();
         await page.waitForNetworkIdle();
         await page.waitForSelector('.piwik-graph');
+        await page.waitForSelector('.matomo-comparisons');
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');

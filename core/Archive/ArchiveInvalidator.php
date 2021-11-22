@@ -222,7 +222,6 @@ class ArchiveInvalidator
         // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
         //  So this must be a deleteLike call to get all the entries, where there used to only be one.
         $this->deleteOptionLike($id);
-        Cache::clearCacheGeneral();
     }
 
     private function deleteOptionLike($id)

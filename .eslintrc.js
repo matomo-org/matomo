@@ -25,5 +25,8 @@ module.exports = {
         "allowedNames": ["self"],
       }
     ],
+    'no-param-reassign': ["error", { "props": false }],
+    'camelcase': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 };

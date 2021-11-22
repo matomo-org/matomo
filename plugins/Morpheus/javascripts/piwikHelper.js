@@ -6,8 +6,9 @@
  */
 
 function _pk_translate(translationStringId, values) {
-
-    if( typeof(piwik_translations[translationStringId]) != 'undefined' ){
+    if (typeof(piwik_translations) !== 'undefined'
+        && typeof(piwik_translations[translationStringId]) != 'undefined'
+    ) {
         var translation = piwik_translations[translationStringId];
         if (typeof values != 'undefined' && values && values.length) {
             values.unshift(translation);
@@ -20,7 +21,7 @@ function _pk_translate(translationStringId, values) {
     return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";
 }
 
-var piwikHelper = {
+window.piwikHelper = {
 
     htmlDecode: function(value)
     {
@@ -275,6 +276,11 @@ var piwikHelper = {
             $button.hide();
 
             var button = $('<a href="javascript:;" class="modal-action modal-close waves-effect waves-light btn-flat "></a>');
+
+            if(role === 'validation'){
+                button = $('<a href="javascript:;" class="modal-action waves-effect waves-light btn"></a>');
+            }
+
             button.text(text);
             if (title) {
                 button.attr('title', title);
@@ -290,7 +296,7 @@ var piwikHelper = {
                     window.location.href = $button.data('href');
                 })
             }
-            
+
 
             $footer.append(button);
         });

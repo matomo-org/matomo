@@ -17,6 +17,7 @@ export default function exampleVueComponentAdapter(): ng.IDirective {
     template: '',
     link: function exampleVueComponentAdapterLink(scope: ng.IScope, element: ng.IAugmentedJQuery) {
       const vueApp = createApp(AsyncExampleComponent);
+      vueApp.config.globalProperties.$sanitize = window.vueSanitize;
       vueApp.mount(element[0]);
     },
   };

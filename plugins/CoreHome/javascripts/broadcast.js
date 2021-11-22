@@ -314,7 +314,7 @@ var broadcast = {
      * @param {array} paramsToRemove Optional parameters to remove from the URL.
      * @return {void}
      */
-    propagateNewPage: function (str, showAjaxLoading, strHash, paramsToRemove) {
+    propagateNewPage: function (str, showAjaxLoading, strHash, paramsToRemove, wholeNewUrl) {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
 
@@ -337,61 +337,66 @@ var broadcast = {
         }
 
         var oldUrl = currentSearchStr + currentHashStr;
+        var newUrl;
 
-        // remove all array query params that are currently set. if we don't do this the array parameters we add
-        // just get added to the existing parameters.
-        params_vals.forEach(function (param) {
+        if (!wholeNewUrl) {
+          // remove all array query params that are currently set. if we don't do this the array parameters we add
+          // just get added to the existing parameters.
+          params_vals.forEach(function (param) {
             if (/\[]=/.test(decodeURIComponent(param))) {
-                var paramName = decodeURIComponent(param).split('[]=')[0];
-                removeParam(paramName);
+              var paramName = decodeURIComponent(param).split('[]=')[0];
+              removeParam(paramName);
             }
-        });
+          });
 
-        // remove parameters if needed
-        paramsToRemove.forEach(function (paramName) {
+          // remove parameters if needed
+          paramsToRemove.forEach(function (paramName) {
             removeParam(paramName);
-        });
+          });
 
-        // update/add parameters based on whether the parameter is an array param or not
-        params_vals.forEach(function (param) {
-            if(!param.length) {
-                return; // updating with empty string would destroy some values
+          // update/add parameters based on whether the parameter is an array param or not
+          params_vals.forEach(function (param) {
+            if (!param.length) {
+              return; // updating with empty string would destroy some values
             }
 
             if (/\[]=/.test(decodeURIComponent(param))) { // array param value
-                currentSearchStr = broadcast.addArrayParamValue(param, currentSearchStr);
+              currentSearchStr = broadcast.addArrayParamValue(param, currentSearchStr);
 
-                if (currentHashStr.length !== 0) {
-                    currentHashStr = broadcast.addArrayParamValue(param, currentHashStr);
-                }
+              if (currentHashStr.length !== 0) {
+                currentHashStr = broadcast.addArrayParamValue(param, currentHashStr);
+              }
             } else {
-                // update both the current search query and hash string
-                currentSearchStr = broadcast.updateParamValue(param, currentSearchStr);
+              // update both the current search query and hash string
+              currentSearchStr = broadcast.updateParamValue(param, currentSearchStr);
 
-                if (currentHashStr.length !== 0) {
-                    currentHashStr = broadcast.updateParamValue(param, currentHashStr);
-                }
+              if (currentHashStr.length !== 0) {
+                currentHashStr = broadcast.updateParamValue(param, currentHashStr);
+              }
             }
-        });
+          });
 
-        var updatedUrl = new RegExp('&updated=([0-9]+)');
-        var updatedCounter = updatedUrl.exec(currentSearchStr);
-        if (!updatedCounter) {
+          var updatedUrl = new RegExp('&updated=([0-9]+)');
+          var updatedCounter = updatedUrl.exec(currentSearchStr);
+          if (!updatedCounter) {
             currentSearchStr += '&updated=1';
-        } else {
+          } else {
             updatedCounter = 1 + parseInt(updatedCounter[1]);
             currentSearchStr = currentSearchStr.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
-        }
+          }
 
-        if (strHash && currentHashStr.length != 0) {
+          if (strHash && currentHashStr.length != 0) {
             var params_hash_vals = strHash.split("&");
             for (var i = 0; i < params_hash_vals.length; i++) {
-                currentHashStr = broadcast.updateParamValue(params_hash_vals[i], currentHashStr);
+              currentHashStr = broadcast.updateParamValue(params_hash_vals[i], currentHashStr);
             }
-        }
+          }
 
-        // Now load the new page.
-        var newUrl = currentSearchStr + currentHashStr;
+          // Now load the new page.
+          newUrl = currentSearchStr + currentHashStr;
+        } else {
+          newUrl = wholeNewUrl;
+        }
 
         var $rootScope = piwikHelper.getAngularDependency('$rootScope');
         if ($rootScope) {
@@ -711,15 +716,29 @@ var broadcast = {
      * @param queryString
      * @returns {object}
      */
-    extractKeyValuePairsFromQueryString: function (queryString) {
-        var pairs = queryString.split('&');
+    extractKeyValuePairsFromQueryString: function (queryString, decode) {
+        var pairs = queryString.replace(/%5B%5D/g, '[]').split('&');
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
+            if (pairs[i] === '') {
+              continue;
+            }
+
             // attn: split with regex has bugs in several browsers such as IE 8
             // so we need to split, use the first part as key and rejoin the rest
             var pair = pairs[i].split('=');
             var key = pair.shift();
-            result[key] = pair.join('=');
+            var value = pair.join('=');
+            if (decode) {
+              value = decodeURIComponent(value);
+            }
+            if (/\[.*?]$/.test(key)) {
+              key = key.replace(/\[.*?]$/, '');
+              result[key] = result[key] || [];
+              result[key].push(value);
+            } else {
+              result[key] = value;
+            }
         }
         return result;
     },
@@ -728,11 +747,13 @@ var broadcast = {
      * Returns all key-value pairs in query string of url.
      *
      * @param {string} url url to check. if undefined, null or empty, current url is used.
+     * @param {boolean} decodeValues if true, also applies decodeURIComponent to values. (Not
+     *                               true by default for BC.)
      * @return {object} key value pair describing query string parameters
      */
-    getValuesFromUrl: function (url) {
+    getValuesFromUrl: function (url, decode) {
         var searchString = this._removeHashFromUrl(url).split('?')[1] || '';
-        return this.extractKeyValuePairsFromQueryString(searchString);
+        return this.extractKeyValuePairsFromQueryString(searchString, decode);
     },
 
     /**

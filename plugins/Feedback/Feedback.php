@@ -9,6 +9,9 @@
 namespace Piwik\Plugins\Feedback;
 
 use Piwik\Date;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Site;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -38,130 +41,88 @@ class Feedback extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
-        $stylesheets[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/RateFeature/RateFeature.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.less";
+        $stylesheets[] = "plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-model.service.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.controller.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.directive.js";
-        $jsFiles[] = "plugins/Feedback/angularjs/refer-banner/refer-banner.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_ThankYouHeart';
         $translationKeys[] = 'Feedback_ThankYouForSpreading';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraEasy';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLikeExtraUseful';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislike';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeNamedFeature';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtra';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraBugs';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraMissing';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraSpeed';
+        $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislikeExtraEasier';
+        $translationKeys[] = 'Feedback_RateFeatureOtherReason';
         $translationKeys[] = 'Feedback_SendFeedback';
         $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
+        $translationKeys[] = 'Feedback_RateFeatureUsefulInfo';
+        $translationKeys[] = 'Feedback_RateFeatureEasyToUse';
+        $translationKeys[] = 'Feedback_RateFeatureConfigurable';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeAddMissingFeatures';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeMakeEasier';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeSpeedUp';
+        $translationKeys[] = 'Feedback_RateFeatureDislikeFixBugs';
         $translationKeys[] = 'Feedback_ReviewMatomoTitle';
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
-        $translationKeys[] = 'Feedback_ReferMatomo';
-        $translationKeys[] = 'Feedback_ReferBannerTitle';
-        $translationKeys[] = 'Feedback_ReferBannerLonger';
-        $translationKeys[] = 'Feedback_ReferBannerSocialShareText';
-        $translationKeys[] = 'Feedback_ReferBannerEmailShareSubject';
-        $translationKeys[] = 'Feedback_ReferBannerEmailShareBody';
         $translationKeys[] = 'Feedback_WontShowAgain';
+        $translationKeys[] = 'Feedback_AppreciateFeedback';
+        $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'Feedback_Question0';
+        $translationKeys[] = 'Feedback_Question1';
+        $translationKeys[] = 'Feedback_Question2';
+        $translationKeys[] = 'Feedback_Question3';
+        $translationKeys[] = 'Feedback_Question4';
+        $translationKeys[] = 'Feedback_FeedbackTitle';
+        $translationKeys[] = 'Feedback_FeedbackSubtitle';
+        $translationKeys[] = 'Feedback_Policy';
+        $translationKeys[] = 'Feedback_ThankYourForFeedback';
+        $translationKeys[] = 'Feedback_ThankYou';
+        $translationKeys[] = 'Feedback_MessageBodyValidationError';
     }
 
     public function renderViewsAndAddToPage(&$pageHtml)
     {
-        $feedbackPopopView = $this->renderFeedbackPopup();
-        $referBannerView = $this->renderReferBanner();
-
-        $views = [$feedbackPopopView, $referBannerView];
-        $implodedViews = implode('', $views);
-
-        $endOfBody = strpos($pageHtml, '</body>');
-        $pageHtml = substr_replace($pageHtml, $implodedViews, $endOfBody, 0);
-    }
-
-    public function renderFeedbackPopup()
-    {
-        $popupView = new View('@Feedback/feedbackPopup');
-        $popupView->promptForFeedback = (int)$this->getShouldPromptForFeedback();
-
-        return $popupView->render();
-    }
-
-    public function renderReferBanner()
-    {
-        $referBannerView = new View('@Feedback/referBanner');
-        $referBannerView->showReferBanner = (int) $this->showReferBanner();
-
-        return $referBannerView->render();
-    }
-
-    public function showReferBanner()
-    {
-        if ($this->getShouldPromptForFeedback()) {
-            return false;
-        }
-
-        if (Piwik::isUserIsAnonymous()) {
-            return false;
-        }
-
+        //only show on superuser
         if (!Piwik::hasUserSuperUserAccess()) {
-            return false;
+            return $pageHtml;
         }
+        $feedbackQuestionBanner = $this->renderFeedbackQuestion();
 
-        if ($this->isDisabledInTestMode()) {
-            return false;
-        }
-
-        $shouldShowReferBanner = true;
-
-        /**
-         * @internal
-         */
-        Piwik::postEvent('Feedback.showReferBanner', [&$shouldShowReferBanner]);
-
-        if (!$shouldShowReferBanner) {
-            return false;
-        }
-
-        $referReminder = new ReferReminder();
-        $nextReminderDate = $referReminder->getUserOption();
-
-        if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(135)->toString('Y-m-d');
-            $referReminder->setUserOption($nextReminder);
-
-            return false;
-        }
-
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        $pluginManager = PluginManager::getInstance();
-        if ($pluginManager->hasPremiumFeatures()) {
-            return false;
-        }
-
-        $now = Date::now()->getTimestamp();
-        $nextReminderDate = Date::factory($nextReminderDate);
-
-        return $nextReminderDate->getTimestamp() <= $now;
+        $matches = preg_split('/(<body.*?>)/i', $pageHtml, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $pageHtml = $matches[0] . $matches[1] . $feedbackQuestionBanner . $matches[2];
     }
 
-    public function getShouldPromptForFeedback()
+
+    public function renderFeedbackQuestion()
+    {
+        $feedbackQuestionBanner = new View('@Feedback/feedbackQuestionBanner');
+        $feedbackQuestionBanner->showQuestionBanner = (int)$this->showQuestionBanner();
+
+        return $feedbackQuestionBanner->render();
+    }
+
+    public function showQuestionBanner()
     {
         if (Piwik::isUserIsAnonymous()) {
             return false;
@@ -172,24 +133,41 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
+        $shouldShowQuestionBanner = true;
+
+        Piwik::postEvent('Feedback.showQuestionBanner', [&$shouldShowQuestionBanner]);
+
+        if (!$shouldShowQuestionBanner) {
+            return false;
+        }
+
         $feedbackReminder = new FeedbackReminder();
         $nextReminderDate = $feedbackReminder->getUserOption();
-
-        if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
-            return false;
-        }
-
-        if ($nextReminderDate === false) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay(90)->toString('Y-m-d');
-            $feedbackReminder->setUserOption($nextReminder);
-
-            return false;
-        }
-
         $now = Date::now()->getTimestamp();
-        $nextReminderDate = Date::factory($nextReminderDate);
 
-        return $nextReminderDate->getTimestamp() <= $now;
+        // If there isn't any reminder date set, or never remind me was selected previously (-1) we determine a new date
+        if ($nextReminderDate === false || $nextReminderDate <= 0) {
+
+            // if user was created within the last 6 months, we set the date to 6 months after his creation date
+            $userCreatedDate = Piwik::getCurrentUserCreationDate();
+            if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {
+                $nextReminder = Date::factory($userCreatedDate)->addMonth(6)->toString('Y-m-d');
+                $feedbackReminder->setUserOption($nextReminder);
+                return false;
+            }
+
+            // Otherwise we set the date to somewhen within the next 6 months
+            $nextReminder = Date::now()->getStartOfDay()->addDay(Common::getRandomInt(1, 6*30))->toString('Y-m-d');
+            $feedbackReminder->setUserOption($nextReminder);
+            return false;
+        }
+
+        $nextReminderDate = Date::factory($nextReminderDate);
+        if ($nextReminderDate->getTimestamp() > $now) {
+            return false;
+        }
+        return true;
+
     }
 
     // needs to be protected not private for testing purpose

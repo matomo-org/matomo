@@ -530,7 +530,7 @@ class Plugin
      */
     public static function getPluginNameFromNamespace($namespaceOrClassName)
     {
-        if (preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $namespaceOrClassName, $matches)) {
+        if ($namespaceOrClassName && preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $namespaceOrClassName, $matches)) {
             return $matches[1];
         } else {
             return false;

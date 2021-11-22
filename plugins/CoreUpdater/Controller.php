@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
+use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
@@ -22,6 +23,7 @@ use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CoreVue\CoreVue;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
@@ -98,6 +100,7 @@ class Controller extends \Piwik\Plugin\Controller
             'node_modules/materialize-css/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
+            "plugins/CoreHome/javascripts/broadcast.js",
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'node_modules/angular/angular.min.js',
             'node_modules/angular-sanitize/angular-sanitize.min.js',
@@ -108,11 +111,15 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
             'plugins/CoreHome/angularjs/common/directives/directive.module.js',
-            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
             'plugins/CoreHome/angularjs/piwikApp.config.js',
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
         );
+
+        CoreVue::addJsFilesTo($files);
+
+        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
+        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
         return AssetManager::compileCustomJs($files);
     }

@@ -12,3 +12,4 @@ export { default as Week } from './Week';
 export { default as Month } from './Month';
 export { default as Year } from './Year';
 export { default as Range } from './Range';
+export * from './utilities';

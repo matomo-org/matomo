@@ -5,14 +5,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import PiwikUrl from '../PiwikUrl/PiwikUrl';
+import jqXHR = JQuery.jqXHR;
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import Matomo from '../Matomo/Matomo';
 
-window.globalAjaxQueue = [] as GlobalAjaxQueue;
+interface AjaxOptions {
+  withTokenInUrl?: boolean;
+  postParams?: QueryParameters;
+}
+
+window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
 
 window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
   for (let i = this.length; i >= 0; i -= 1) {
-    if (!this[i] || this[i].readyState === 4) {
+    if (!this[i] || this[i]!.readyState === 4) {
       this.splice(i, 1);
     }
   }
@@ -38,8 +45,6 @@ window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
   this.active = 0;
 };
 
-type ParameterValue = string | number | null | undefined | ParameterValue[];
-type Parameters = {[name: string]: ParameterValue | Parameters};
 type AnyFunction = (...params:any[]) => any; // eslint-disable-line
 
 /**
@@ -48,6 +53,11 @@ type AnyFunction = (...params:any[]) => any; // eslint-disable-line
 function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   // do not display error message if request was aborted
   if (status === 'abort') {
+    return;
+  }
+
+  if (typeof Piwik_Popover === 'undefined') {
+    console.log(`Request failed: ${deferred.responseText}`); // mostly for tests
     return;
   }
 
@@ -62,9 +72,9 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
 }
 
 /**
- * Global ajax helper to handle requests within piwik
+ * Global ajax helper to handle requests within Matomo
  */
-export default class AjaxHelper {
+export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Format of response
    */
@@ -73,12 +83,12 @@ export default class AjaxHelper {
   /**
    * A timeout for the request which will override any global timeout
    */
-  timeout = null;
+  timeout: number|null = null;
 
   /**
    * Callback function to be executed on success
    */
-  callback: AnyFunction = null;
+  callback: AnyFunction|null = null;
 
   /**
    * Use this.callback if an error is returned
@@ -87,6 +97,8 @@ export default class AjaxHelper {
 
   /**
    * Callback function to be executed on error
+   *
+   * @deprecated use the jquery promise API
    */
   errorCallback: AnyFunction;
 
@@ -94,14 +106,16 @@ export default class AjaxHelper {
 
   /**
    * Callback function to be executed on complete (after error or success)
+   *
+   * @deprecated use the jquery promise API
    */
-  completeCallback: AnyFunction;
+  completeCallback?: AnyFunction;
 
   /**
    * Params to be passed as GET params
    * @see ajaxHelper.mixinDefaultGetParams
    */
-  getParams: Parameters = {};
+  getParams: QueryParameters = {};
 
   /**
    * Base URL used in the AJAX request. Can be set by setUrl.
@@ -119,7 +133,7 @@ export default class AjaxHelper {
    * Params to be passed as GET params
    * @see ajaxHelper.mixinDefaultPostParams
    */
-  postParams: Parameters = {};
+  postParams: QueryParameters = {};
 
   /**
    * Element to be displayed while loading
@@ -134,9 +148,23 @@ export default class AjaxHelper {
   /**
    * Handle for current request
    */
-  requestHandle: XMLHttpRequest|JQuery.jqXHR|null = null;
+  requestHandle: JQuery.jqXHR|null = null;
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
+
+  // helper method entry point
+  static fetch<R = any>(params: QueryParameters, options: AjaxOptions = {}): Promise<R> { // eslint-disable-line
+    const helper = new AjaxHelper<R>();
+    if (options.withTokenInUrl) {
+      helper.withTokenInUrl();
+    }
+    helper.setFormat('json');
+    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
+    if (options.postParams) {
+      helper.addParams(options.postParams, 'post');
+    }
+    return helper.send();
+  }
 
   constructor() {
     this.errorCallback = defaultErrorCallback;
@@ -146,15 +174,13 @@ export default class AjaxHelper {
    * Adds params to the request.
    * If params are given more then once, the latest given value is used for the request
    *
-   * @param  params
+   * @param  initialParams
    * @param  type  type of given parameters (POST or GET)
    * @return {void}
    */
-  addParams(params: Parameters|string, type: string): void {
-    if (typeof params === 'string') {
-      // TODO: add global types for broadcast (multiple uses below)
-      params = window['broadcast'].getValuesFromUrl(params); // eslint-disable-line
-    }
+  addParams(initialParams: QueryParameters|string, type: string): void {
+    const params: QueryParameters = typeof initialParams === 'string'
+      ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach((key) => {
@@ -188,8 +214,8 @@ export default class AjaxHelper {
    * Gets this helper instance ready to send a bulk request. Each argument to this
    * function is a single request to use.
    */
-  setBulkRequests(...urls: string[]): void {
-    const urlsProcessed = urls.map((u) => $.param(u));
+  setBulkRequests(...urls: Array<string|QueryParameters>): void {
+    const urlsProcessed = urls.map((u) => (typeof u === 'string' ? u : $.param(u)));
 
     this.addParams({
       module: 'API',
@@ -212,6 +238,7 @@ export default class AjaxHelper {
    * Sets the callback called after the request finishes
    *
    * @param callback  Callback function
+   * @deprecated use the jquery promise API
    */
   setCallback(callback: AnyFunction): void {
     this.callback = callback;
@@ -232,7 +259,7 @@ export default class AjaxHelper {
    * @param [params] to modify in redirect url
    * @return {void}
    */
-  redirectOnSuccess(params: Parameters): void {
+  redirectOnSuccess(params: QueryParameters): void {
     this.setCallback(() => {
       piwikHelper.redirect(params);
     });
@@ -240,6 +267,8 @@ export default class AjaxHelper {
 
   /**
    * Sets the callback called in case of an error within the request
+   *
+   * @deprecated use the jquery promise API
    */
   setErrorCallback(callback: AnyFunction): void {
     this.errorCallback = callback;
@@ -247,6 +276,8 @@ export default class AjaxHelper {
 
   /**
    * Sets the complete callback which is called after an error or success callback.
+   *
+   * @deprecated use the jquery promise API
    */
   setCompleteCallback(callback: AnyFunction): void {
     this.completeCallback = callback;
@@ -315,7 +346,7 @@ export default class AjaxHelper {
   /**
    * Send the request
    */
-  send(): void {
+  send(): AbortablePromise<T> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -325,7 +356,25 @@ export default class AjaxHelper {
     }
 
     this.requestHandle = this.buildAjaxCall();
-    globalAjaxQueue.push(this.requestHandle);
+    window.globalAjaxQueue.push(this.requestHandle);
+
+    const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
+      this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
+        if (xhr.statusText !== 'abort') {
+          console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+
+          reject(xhr);
+        }
+      });
+    }) as AbortablePromise<T>;
+
+    result.abort = () => {
+      if (this.requestHandle) {
+        this.requestHandle.abort();
+      }
+    };
+
+    return result;
   }
 
   /**
@@ -367,21 +416,21 @@ export default class AjaxHelper {
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
-      error: function errorCallback() {
-        globalAjaxQueue.active -= 1;
+      error: function errorCallback(...args: any[]) { // eslint-disable-line
+        window.globalAjaxQueue.active -= 1;
 
         if (self.errorCallback) {
-          self.errorCallback.apply(this, arguments); // eslint-disable-line
+          self.errorCallback.apply(this, args);
         }
       },
-      success: (response, status, request) => {
+      success: (response: any, status: string, request: jqXHR) => { // eslint-disable-line
         if (this.loadingElement) {
           $(this.loadingElement).hide();
         }
 
         if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {
           let placeAt = null;
-          let type = 'toast';
+          let type: string|null = 'toast';
           if ($(this.errorElement).length && response.message) {
             $(this.errorElement).show();
             placeAt = this.errorElement;
@@ -403,12 +452,9 @@ export default class AjaxHelper {
           this.callback(response, status, request);
         }
 
-        globalAjaxQueue.active -= 1;
-        const { piwik } = window;
-        if (piwik
-          && piwik.ajaxRequestFinished
-        ) {
-          piwik.ajaxRequestFinished();
+        window.globalAjaxQueue.active -= 1;
+        if (Matomo.ajaxRequestFinished) {
+          Matomo.ajaxRequestFinished();
         }
       },
       data: this.mixinDefaultPostParams(this.postParams),
@@ -428,9 +474,9 @@ export default class AjaxHelper {
   }
 
   private getDefaultPostParams() {
-    if (this.withToken || this.isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
+    if (this.withToken || this.isRequestToApiMethod() || Matomo.shouldPropagateTokenAuth) {
       return {
-        token_auth: piwik.token_auth,
+        token_auth: Matomo.token_auth,
         // When viewing a widgetized report there won't be any session that can be used, so don't
         // force session usage
         force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1,
@@ -445,7 +491,7 @@ export default class AjaxHelper {
    *
    * @param params   parameter object
    */
-  private mixinDefaultPostParams(params): Parameters {
+  private mixinDefaultPostParams(params: QueryParameters): QueryParameters {
     const defaultParams = this.getDefaultPostParams();
 
     const mergedParams = {
@@ -461,12 +507,12 @@ export default class AjaxHelper {
    *
    * @param   params   parameter object
    */
-  private mixinDefaultGetParams(originalParams): Parameters {
-    const segment = PiwikUrl.getSearchParam('segment');
+  private mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
+    const segment = MatomoUrl.getSearchParam('segment');
 
-    const defaultParams = {
-      idSite: piwik.idSite || broadcast.getValueFromUrl('idSite'),
-      period: piwik.period || broadcast.getValueFromUrl('period'),
+    const defaultParams: Record<string, string> = {
+      idSite: Matomo.idSite ? Matomo.idSite.toString() : broadcast.getValueFromUrl('idSite'),
+      period: Matomo.period || broadcast.getValueFromUrl('period'),
       segment,
     };
 
@@ -490,7 +536,7 @@ export default class AjaxHelper {
 
     // handle default date & period if not already set
     if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-      params.date = piwik.currentDateString;
+      params.date = Matomo.currentDateString;
     }
 
     return params;

@@ -20,6 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Build extends ConsoleCommand
 {
+    const RECOMMENDED_NODE_VERSION = '16.0.0';
+    const RECOMMENDED_NPM_VERSION = '7.0.0';
+
     protected function configure()
     {
         $this->setName('vue:build');
@@ -38,6 +41,7 @@ class Build extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         self::checkVueCliServiceAvailable();
+        $this->checkNodeJsVersion($output);
 
         $clearWebpackCache = $input->getOption('clear-webpack-cache');
         if ($clearWebpackCache) {
@@ -52,6 +56,10 @@ class Build extends ConsoleCommand
             $plugins = $this->getAllPluginsWithVueLibrary();
         } else {
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
+            if (empty($plugins)) {
+                $output->writeln("<error>No plugins to build!</error>");
+                return 1;
+            }
         }
 
         // remove webpack cache since it can result in strange builds if present
@@ -63,23 +71,30 @@ class Build extends ConsoleCommand
 
     private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)
     {
+        if ($watch) {
+            $this->watch($plugins, $printBuildCommand, $output);
+            return;
+        }
+
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            if ($watch) {
-                $this->watch($plugin, $printBuildCommand, $output);
-            } else {
-                $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
-            }
+            $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
         }
 
         return $failed;
     }
 
-    private function watch($plugin, $printBuildCommand, OutputInterface $output)
+    private function watch($plugins, $printBuildCommand, OutputInterface $output)
     {
-        $command = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
-            . $plugin . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist --watch &";
+        $commandSingle = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
+            . "%1\$s --filename=%1\$s.development --no-clean ./plugins/%1\$s/vue/src/index.ts --dest ./plugins/%1\$s/vue/dist --watch &";
+
+        $command = '';
+        foreach ($plugins as $plugin) {
+            $command .= sprintf($commandSingle, $plugin) . ' ';
+        }
+
         if ($printBuildCommand) {
             $output->writeln("<comment>$command</comment>");
             return;
@@ -89,7 +104,7 @@ class Build extends ConsoleCommand
 
     private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
     {
-        $command = "FORCE_COLOR=1 " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
+        $command = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
             . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
 
         if ($printBuildCommand) {
@@ -126,25 +141,29 @@ class Build extends ConsoleCommand
         $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
 
         $plugins = scandir($pluginsDir);
-        return $this->filterPluginsWithoutVueLibrary($plugins);
+        return $this->filterPluginsWithoutVueLibrary($plugins, $isAll = true);
     }
 
-    private function filterPluginsWithoutVueLibrary($plugins)
+    private function filterPluginsWithoutVueLibrary($plugins, $isAll = false)
     {
         $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
 
         $pluginsWithVue = [];
 
+        $logger = StaticContainer::get(LoggerInterface::class);
+
         foreach ($plugins as $plugin) {
             $pluginDirPath = $pluginsDir . '/' . $plugin;
             $vueDir = $pluginDirPath . '/vue';
             if (!is_dir($vueDir)) {
+                if (!$isAll) {
+                    $logger->error("Cannot find vue library for plugin {plugin}, nothing to build.", ['plugin' => $plugin]);
+                }
                 continue;
             }
 
             $vueIndexFile = $vueDir . '/src/index.ts';
             if (!is_file($vueIndexFile)) {
-                $logger = StaticContainer::get(LoggerInterface::class);
                 $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }
@@ -172,5 +191,26 @@ class Build extends ConsoleCommand
     {
         $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
         Filesystem::unlinkRecursive($path, true);
+    }
+
+    private function checkNodeJsVersion(OutputInterface $output)
+    {
+        $nodeVersion = ltrim(trim(`node -v`), 'v');
+        $npmVersion = ltrim(trim(`npm -v`), 'v');
+
+        if (version_compare($nodeVersion, self::RECOMMENDED_NODE_VERSION, '<')) {
+            $output->writeln(sprintf("<comment>The recommended node version for working with Vue is version %s or "
+                . "greater and it looks like you're using %s. Building Vue files may not work with an older version, so "
+                . "we recommend upgrading. nvm can be used to easily install new node versions.</comment>",
+                self::RECOMMENDED_NODE_VERSION, $nodeVersion));
+        }
+
+        if (version_compare($npmVersion, self::RECOMMENDED_NPM_VERSION, '<')) {
+            $output->writeln(sprintf("<comment>The recommended npm version for working with Vue is version %s "
+                . "or greater and it looks like you're using %s. Using an older version may result in improper "
+                . "dependencies being used, so we recommend upgrading. You can upgrade to the latest version with the "
+                . "command %s</comment>",
+                self::RECOMMENDED_NPM_VERSION, $npmVersion, 'npm install -g npm@latest'));
+        }
     }
 }

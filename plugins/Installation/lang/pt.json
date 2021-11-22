@@ -56,6 +56,8 @@
         "PercentDone": "%s %% concluído",
         "PerformanceSettingsDesc1": "Uma nota final relativamente ao desempenho: o seu Matomo está configurado e pronto a acompanhar e analisar o tráfego do seu site, mas se achar que o Matomo está lento, poderá querer executar alguns passos adicionais para configurar o %1$sarquivo via CLI%2$s. Isto irá gerar periodicamente os seus relatórios em segundo plano em vez de o fazer a pedido.",
         "PerformanceSettingsDesc2": "Isto requer que um comando do Matomo seja adicionado ao cron, algo que não pode ser feito automaticamente pelo instalador, mas que pode %1$saprender na nossa FAQ como o pode fazer autonomamente.%2$s",
+        "PhpBinaryCheck": "Binário de 64 bits do PHP",
+        "PhpBinaryCheckHelp": "32 bits <p> Recomendamos atualizar para um binário PHP de 64 bits o mais tardar até janeiro de 2026 para evitar erros no futuro.</p>",
         "PiwikOrgNewsletter": "enviem-me e-mails com atualizações importantes da comunidade Matomo",
         "PleaseFixTheFollowingErrors": "Por favor corrija os seguintes erros",
         "ProfessionalServicesAdTitle": "Análise e serviços avançados",

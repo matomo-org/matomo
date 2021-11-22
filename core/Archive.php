@@ -342,7 +342,7 @@ class Archive implements ArchiveQuery
      */
     public function getDataTableFromNumericAndMergeChildren($names)
     {
-        $data  = $this->get($names, 'numeric');
+        $data = $this->get($names, 'numeric');
         $resultIndexes = $this->getResultIndices();
         return $data->getMergedDataTable($resultIndexes);
     }
@@ -539,7 +539,7 @@ class Archive implements ArchiveQuery
                 $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
             }
 
-            $result->set($row['idsite'], $periodStr, $row['name'], $row['value']);
+            $result->set($row['idsite'], $periodStr, $row['name'], $row['value'], [DataTable::ARCHIVED_DATE_METADATA_NAME => $row['ts_archived']]);
         }
 
         return $result;

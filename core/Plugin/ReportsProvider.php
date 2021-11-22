@@ -272,4 +272,10 @@ class ReportsProvider
     {
         return Plugin\Manager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
     }
+
+    //Added this to trigger reset of category list as the list never gets rest after setting up due to isset check and affects testcases
+    public function unsetCategoryList()
+    {
+        unset($this->categoryList);
+    }
 }

@@ -381,7 +381,7 @@ class Xml extends Renderer
 
                     list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($name, $columnsHaveInvalidChars);
 
-                    if (strlen($value) == 0) {
+                    if (strlen((string) $value) == 0) {
                         $out .= $prefixLine . "\t\t<$tagStart />\n";
                     } else {
                         $out .= $prefixLine . "\t\t<$tagStart>" . $value . "</$tagEnd>\n";

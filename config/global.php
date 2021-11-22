@@ -29,7 +29,11 @@ return array(
         return $root . $tmp . $instanceId;
     },
 
+    'path.tmp.templates' => DI\string('{path.tmp}/templates_c'),
+
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
+
+    'view.clearcompiledtemplates.enable' => true,
 
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Matomo\Cache\Backend');
@@ -163,24 +167,35 @@ return array(
 
         foreach ($ips as $ip) {
             $ip = trim($ip);
-            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            if (filter_var($ip, FILTER_VALIDATE_IP) || \Matomo\Network\IPUtils::getIPRangeBounds($ip) !== null) {
                 $ipsResolved[] = $ip;
             } else {
-                $ipFromHost = @gethostbyname($ip);
-                if (!empty($ipFromHost)) {
-                    // we don't check using filter_var if it's an IP as "gethostbyname" will return the $ip if it's not a hostname
-                    // and we then assume it is an IP range. Otherwise IP ranges would not be added. Ideally would above check if it is an
-                    // IP range before trying to get host by name.
-                    $ipsResolved[] = $ipFromHost;
-                } 
-                
-                if (function_exists('dns_get_record')) {
-                    $entry = @dns_get_record($ip, DNS_AAAA);
-                    if (!empty($entry['0']['ipv6'])
-                        && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
-                        $ipsResolved[] = $entry['0']['ipv6'];
+                $lazyCache = \Piwik\Cache::getLazyCache();
+                $cacheKey = 'DNS.' . md5($ip);
+
+                $resolvedIps = $lazyCache->fetch($cacheKey);
+
+                if (!is_array($resolvedIps)) {
+                    $resolvedIps = [];
+
+                    $ipFromHost = @gethostbyname($ip);
+                    if (!empty($ipFromHost) && $ipFromHost !== $ip) {
+                        $resolvedIps[] = $ipFromHost;
                     }
+
+                    if (function_exists('dns_get_record')) {
+                        $entry = @dns_get_record($ip, DNS_AAAA);
+
+                        if (!empty($entry['0']['ipv6'])
+                            && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
+                            $resolvedIps[] = $entry['0']['ipv6'];
+                        }
+                    }
+
+                    $lazyCache->save($cacheKey, $resolvedIps, 30);
                 }
+
+                $ipsResolved = array_merge($ipsResolved, $resolvedIps);
             }
         }
 

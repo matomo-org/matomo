@@ -16,6 +16,7 @@
         "Apply": "بکارگیری",
         "ArchivingInlineHelp": "توصیه می‌شود برای وبسایت‌های با ترافیک متوسط یا بالا گزینه آرشیو Matomo از مرورگر غیر فعال شود. بجای آن توصیه می‌کنیم تا یک cron job برای پردازش گزارش‌ها هر یک ساعت راه‌اندازی شود.",
         "ArchivingTriggerDescription": "شما به %1$sراه‌اندازی یک cron job%2$s برای پردازش خودکار گزارش‌ها نیاز دارید. برای نصب‌های بزرگتر Matomo پیشنهاد می‌شود.",
+        "ArchivingTriggerSegment": "سفارشی",
         "AuthenticationMethodSmtp": "روش تایید هویت برای SMTP",
         "AverageOrderValue": "مقدار متوسط ترتیب",
         "AveragePrice": "متوسط قیمت",

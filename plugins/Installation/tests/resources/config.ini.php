@@ -9,6 +9,7 @@ tables_prefix = "piwik_"
 charset = "utf8"
 
 [database_tests]
+host = "127.0.0.1"
 username = "abc"
 password = "xyz"
 tables_prefix = ""
