@@ -5520,6 +5520,7 @@ function SiteSelector_adapter_defineProperty(obj, key, value) { if (key in obj) 
   events: {
     'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel) {
       if (newValue && !vm.modelValue || !newValue && vm.modelValue || newValue.id !== vm.modelValue.id) {
+        scope.value = newValue;
         element.attr('siteid', newValue.id);
         element.trigger('change', newValue);
 
@@ -5535,7 +5536,12 @@ function SiteSelector_adapter_defineProperty(obj, key, value) { if (key in obj) 
     }
   },
   postCreate: function postCreate(vm, scope, element, attrs, controller, $timeout) {
-    var ngModel = controller; // setup ng-model mapping
+    var ngModel = controller;
+    scope.$watch('value', function (newVal) {
+      if (newVal !== vm.newValue) {
+        vm.modelValue = newVal;
+      }
+    }); // setup ng-model mapping
 
     if (ngModel) {
       ngModel.$setViewValue(vm.modelValue);
