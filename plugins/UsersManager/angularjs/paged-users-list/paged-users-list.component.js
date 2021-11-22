@@ -23,7 +23,6 @@
             isLoadingUsers: '<',
             accessLevels: '<',
             filterAccessLevels: '<',
-            filterUserStatus: '<',
             totalEntries: '<',
             users: '<',
             searchParams: '<'
@@ -50,7 +49,6 @@
         vm.roleToChangeTo = null;
         vm.previousRole = null;
         vm.accessLevelFilter = null;
-        vm.userStatusFilter = null;
 
         // other state
         vm.isRoleHelpToggled = false;

@@ -70,20 +70,6 @@
                 ></div>
             </div>
         </div>
-            <div class="col s12 m12 l6">
-            <div class="input-field col s12 m4 l4">
-                <div
-                        piwik-field
-                        name="access-level-filter"
-                        uicontrol="select"
-                        ng-model="$ctrl.userStatusFilter"
-                        placeholder="{{:: 'UsersManager_FilterByStatus'|translate }}"
-                        options="$ctrl.filterUserStatus"
-                        full-width="true"
-                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter, offset: 0 })"
-                ></div>
-            </div>
-        </div>
         <div class="input-field col s12 m12 l6 users-list-pagination-container" ng-if="$ctrl.totalEntries > $ctrl.searchParams.limit">
             <div class="usersListPagination">
                 <a class="btn prev" ng-class="{ disabled: $ctrl.searchParams.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">

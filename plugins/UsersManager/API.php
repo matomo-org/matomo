@@ -333,7 +333,7 @@ class API extends \Piwik\Plugin\API
      *                                   Filtering by 'superuser' is only allowed for other superusers.
      * @return array
      */
-    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null, $filter_status = null)
     {
         if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
@@ -369,7 +369,8 @@ class API extends \Piwik\Plugin\API
             } else {
                 [$users, $totalResults] = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access, $loginsToLimit);
 
-                foreach ($users as &$user) {
+                foreach ($users as $key=> &$user) {
+
                     $user['superuser_access'] = $user['superuser_access'] == 1;
                     if ($user['superuser_access']) {
                         $user['role'] = 'superuser';
@@ -380,6 +381,7 @@ class API extends \Piwik\Plugin\API
                     }
                     unset($user['access']);
                 }
+
             }
         }
 

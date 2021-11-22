@@ -650,7 +650,7 @@ class Model
      * @param string[]|null $logins the logins to limit the search to (if any)
      * @return array
      */
-    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null, $logins = null)
+    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null, $logins = null )
     {
         $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
 
