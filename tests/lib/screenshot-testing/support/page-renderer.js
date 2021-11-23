@@ -55,7 +55,6 @@ const PAGE_METHODS_TO_PROXY = [
     'tap',
     'target',
     'title',
-    'type',
     'url',
     'viewport',
     'waitForFunction',
@@ -128,6 +127,11 @@ PageRenderer.prototype.waitFor = function (selectorOrTimeoutOrFunction) {
         return this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
     }
 }
+
+PageRenderer.prototype.type = async function (...args) {
+  await this.webpage.type(...args);
+  await this.waitForTimeout(100); // puppeteer types faster than vue can update the model state
+};
 
 PageRenderer.prototype.isVisible = function (selector) {
     return this.webpage.evaluate(() => {

@@ -87,6 +87,7 @@ import FieldSelect, {
 } from './FieldSelect.vue';
 import FieldSite from './FieldSite.vue';
 import FieldText from './FieldText.vue';
+import FieldTextArray from './FieldTextArray.vue';
 import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
 import { processCheckboxAndRadioAvailableValues } from './utilities';
@@ -144,6 +145,7 @@ export default defineComponent({
     FieldSelect,
     FieldSite,
     FieldText,
+    FieldTextArray,
     FieldTextarea,
     FieldTextareaArray,
   },

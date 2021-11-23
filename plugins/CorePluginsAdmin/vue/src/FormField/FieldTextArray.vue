@@ -30,6 +30,10 @@ export default defineComponent({
   inheritAttrs: false,
   computed: {
     concattedValues() {
+      if (typeof this.modelValue === 'string') {
+        return this.modelValue;
+      }
+
       return (this.modelValue || []).join(', ');
     },
   },
