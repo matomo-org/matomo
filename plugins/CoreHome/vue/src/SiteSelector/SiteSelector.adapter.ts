@@ -67,7 +67,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     const ngModel = controller as INgModelController;
 
     scope.$watch('value', (newVal) => {
-      if (newVal !== vm.newValue) {
+      if (newVal !== vm.modelValue) {
         vm.modelValue = newVal;
       }
     });

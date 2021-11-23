@@ -32,8 +32,8 @@
       />
       <span>
         <span
-          v-text="selectedSite?.name || firstSiteName"
-          v-if="selectedSite?.name || !placeholder"
+          v-text="modelValue?.name || firstSiteName"
+          v-if="modelValue?.name || !placeholder"
         />
         <span
           v-if="!modelValue?.name && placeholder"
@@ -82,8 +82,8 @@
           <li
             @click="switchSite(site, $event)"
             v-show="!(!showSelectedSite && activeSiteId === site.idsite)"
-            v-for="site in sites"
-            :key="site.idsite"
+            v-for="(site, index) in sites"
+            :key="index"
           >
             <a
               @click="$event.preventDefault()"
