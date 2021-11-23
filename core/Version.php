@@ -22,6 +22,7 @@ final class Version
      */
     const VERSION = '4.7.0-b1';
 
+
     const MAJOR_VERSION = 4;
 
     public function isStableVersion($version)
