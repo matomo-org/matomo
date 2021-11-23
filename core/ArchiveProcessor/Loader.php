@@ -8,6 +8,7 @@
  */
 namespace Piwik\ArchiveProcessor;
 
+use Matomo\Cache\Lazy;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
@@ -124,8 +125,11 @@ class Loader
         ) {
             $this->invalidatedReportsIfNeeded();
         }
+
+        $jobId = $this->makeArchivingLockId();
+        $lazyCache = \Piwik\Cache::getLazyCache();
         // load existing data from archive
-        $data = $this->loadArchiveData();
+        $data = $this->loadArchiveData($jobId,$lazyCache);
         if (sizeof($data) == 2) {
             return $data;
         }
@@ -133,16 +137,14 @@ class Loader
 
         // only lock meet those conditions
         if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
-            $lockId = $this->makeArchivingLockId();
-
             //ini lock
-            $lock = new LoaderLock($lockId);
+            $lock = new LoaderLock($jobId);
 
             //set mysql lock the entire process if another process is running
             $lock->setLock();
 
             try {
-                $data = $this->loadArchiveData();
+                $data = $this->loadArchiveData($jobId,$lazyCache);
 
                 if (sizeof($data) == 2) {
                     return $data;
@@ -150,13 +152,13 @@ class Loader
 
                 list($idArchives, $visits, $visitsConverted) = $data;
 
-                return $this->insertArchiveData($visits, $visitsConverted);
+                return $test = $this->insertArchiveData($visits, $visitsConverted, $lazyCache,$jobId);
             } finally {
                 $lock->unlock();
             }
         } else {
 
-            return $this->insertArchiveData($visits, $visitsConverted);
+            return $this->insertArchiveData($visits, $visitsConverted, $lazyCache,$jobId);
         }
     }
 
@@ -164,10 +166,16 @@ class Loader
     /**
      * @param $visits
      * @param $visitsConverted
-     * @return array|false[]
+     * @param Lazy $lazyCache
+     * @param $jobId
+     * @return array|false[]|mixed
      */
-    protected function insertArchiveData($visits, $visitsConverted)
+    protected function insertArchiveData($visits, $visitsConverted, Lazy $lazyCache, $jobId)
     {
+        if ($lazyCache->contains($jobId)) {
+            return $lazyCache->fetch($jobId);
+        }
+
         if (SettingsServer::isArchivePhpTriggered()) {
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
@@ -176,6 +184,7 @@ class Loader
         list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+            $lazyCache->save($jobId,[[$idArchive], $visits]);
             return [[$idArchive], $visits];
         }
 
@@ -195,11 +204,19 @@ class Loader
 
     }
 
+
     /**
-     * @return array|false[]
+     * @param $jobId
+     * @param Lazy $lazyCache
+     * @return array|false[]|mixed
      */
-    protected function loadArchiveData()
+    protected function loadArchiveData($jobId, $lazyCache)
     {
+
+        if ($lazyCache->contains($jobId)) {
+            return $lazyCache->fetch($jobId);
+        }
+
         // this hack was used to check the main function goes to return or continue
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
@@ -210,6 +227,7 @@ class Loader
             && !$this->shouldForceInvalidatedArchive($value, $tsArchived)) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
+            $lazyCache->save($jobId, [$idArchives, $visits, $visitsConverted]);
             return [$idArchives, $visits];
         }
 
@@ -221,12 +239,15 @@ class Loader
         // visits archive can be inaccurate in the long run.
         if ($this->canSkipThisArchive()) {
             if (!empty($idArchives)) {
+                $lazyCache->save($jobId, [$idArchives, $visits, $visitsConverted]);
                 return [$idArchives, $visits];
             } else {
+                $lazyCache->save($jobId, [$idArchives, $visits, $visitsConverted]);
                 return [false, 0];
             }
         }
 
+        $lazyCache->delete($jobId);
         return [$idArchives, $visits, $visitsConverted];
     }
 
