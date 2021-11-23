@@ -289,7 +289,11 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   return angularJsAdapter;
 }
 
-export function transformAngularJsBoolAttr(v: unknown): boolean {
+export function transformAngularJsBoolAttr(v: unknown): boolean|undefined {
+  if (typeof v === 'undefined') {
+    return undefined;
+  }
+
   return !!v && v !== 'false' && v !== '0';
 }
 
