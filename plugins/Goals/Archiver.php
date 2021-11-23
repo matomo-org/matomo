@@ -121,7 +121,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->aggregateEcommerceItems();
         }
 
-        if (self::$ARCHIVE_DEPENDENT) {
+        if (self::$ARCHIVE_DEPENDENT && $this->hasAnyGoalOrEcommerce($this->getSiteId())) {
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
         }
