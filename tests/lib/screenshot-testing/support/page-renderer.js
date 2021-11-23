@@ -121,11 +121,11 @@ PageRenderer.prototype._reset = function () {
 PageRenderer.prototype.waitFor = function (selectorOrTimeoutOrFunction) {
     console.log('Using page.waitFor is deprecated, please use one of this instead: waitForSelector, waitForFunction, waitForTimeout');
     if (typeof selectorOrTimeoutOrFunction === 'function') {
-        this.webpage.waitForFunction(selectorOrTimeoutOrFunction)
+        return this.webpage.waitForFunction(selectorOrTimeoutOrFunction)
     } else if (typeof selectorOrTimeoutOrFunction === 'number') {
-        this.webpage.waitForTimeout(selectorOrTimeoutOrFunction)
+        return this.webpage.waitForTimeout(selectorOrTimeoutOrFunction)
     } else if (typeof selectorOrTimeoutOrFunction === 'string') {
-        this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
+        return this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
     }
 }
 

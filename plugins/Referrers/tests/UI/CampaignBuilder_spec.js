@@ -32,6 +32,7 @@ describe("CampaignBuilder", function () {
 
     async function generateUrl()
     {
+        await page.waitForTimeout(200);
         await page.click('.generateCampaignUrl');
         await ensureHighlightEffectIsGone();
     }

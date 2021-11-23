@@ -4,7 +4,7 @@
     :type="uiControl"
     :id="name"
     :name="name"
-    :value="(modelValue || '').toString()"
+    :value="modelValueText"
     @keydown="onKeydown($event)"
     v-bind="uiControlAttributes"
   />
@@ -28,6 +28,15 @@ export default defineComponent({
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
+  computed: {
+    modelValueText() {
+      if (typeof this.modelValue === 'undefined' || this.modelValue === null) {
+        return '';
+      }
+
+      return this.modelValue.toString();
+    },
+  },
   created() {
     // debounce because puppeteer types reeaally fast
     this.onKeydown = debounce(this.onKeydown.bind(this), 50);
