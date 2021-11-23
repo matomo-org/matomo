@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Controller;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -1094,6 +1095,21 @@ class UsersManagerTest extends IntegrationTestCase
         $user = $this->api->getUser($user['login']);
 
         $this->assertEquals($user['invite_status'], 'sent');
+    }
+
+    public function testActiveUser()
+    {
+        $this->addSites(1);
+        $user = array('login'    => "login",
+                      'email'    => "test@test.com");
+
+        $this->api->inviteUser($user['login'],$user['email'],1);
+
+        $this->model->deleteAllTokensForUser($user['login']);
+        $generatedToken = $this->model->generateRandomTokenAuth();
+        $this->model->addTokenAuth($user['login'], $generatedToken, "Invite Token", Date::now()->getDatetime(),  Date::now()->addDay(7)->getDatetime());
+
+
     }
 
     private function addSites($numberOfSites)
