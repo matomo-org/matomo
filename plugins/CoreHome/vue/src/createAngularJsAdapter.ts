@@ -294,7 +294,11 @@ export function transformAngularJsBoolAttr(v: unknown): boolean|undefined {
     return undefined;
   }
 
-  return !!v && v !== 'false' && v !== '0';
+  if (v === 'true') {
+    return true;
+  }
+
+  return !!v && v > 0 && v !== '0';
 }
 
 export function transformAngularJsIntAttr(v: string): number {
