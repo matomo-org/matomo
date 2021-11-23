@@ -26,12 +26,16 @@ export default defineComponent({
     name: String,
     title: String,
     uiControlAttributes: Object,
-    modelValue: String,
+    modelValue: [Array, String],
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
   computed: {
     concattedValue() {
+      if (typeof this.modelValue === 'string') {
+        return this.modelValue;
+      }
+
       return (this.modelValue || []).join(SEPARATOR);
     },
   },
