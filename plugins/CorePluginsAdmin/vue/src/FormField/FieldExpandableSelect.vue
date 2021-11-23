@@ -111,6 +111,7 @@ export default defineComponent({
   props: {
     modelValue: [Number, String],
     availableOptions: Array,
+    title: String,
   },
   directives: {
     FocusAnywhereButHere,
@@ -128,6 +129,10 @@ export default defineComponent({
   },
   computed: {
     modelValueText() {
+      if (this.title) {
+        return this.title;
+      }
+
       const key = this.modelValue;
 
       let keyItem: { key: string|number, value: unknown };

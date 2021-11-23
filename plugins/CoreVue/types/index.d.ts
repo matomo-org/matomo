@@ -70,7 +70,7 @@ declare global {
     escape(text: string): string;
     redirect(params: any);
     htmlDecode(encoded: string): string;
-    modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks: ModalConfirmCallbacks, options: ModalConfirmOptions);
+    modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
