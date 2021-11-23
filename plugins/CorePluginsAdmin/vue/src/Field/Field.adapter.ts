@@ -27,6 +27,10 @@ function handleJsonValue(value: unknown, varType: string, uiControl: string) {
     return JSON.parse(value);
   }
 
+  if (uiControl === 'checkbox') {
+    return transformAngularJsBoolAttr(value);
+  }
+
   return value;
 }
 

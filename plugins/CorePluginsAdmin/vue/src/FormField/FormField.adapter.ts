@@ -33,6 +33,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           field.value = JSON.parse(field.value);
         }
 
+        if (field.uiControl === 'checkbox') {
+          return transformAngularJsBoolAttr(field.value);
+        }
         return field.value;
       },
     },
