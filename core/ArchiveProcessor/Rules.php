@@ -378,10 +378,7 @@ class Rules
             $pluginArchivingSetting = explode(",", "$pluginArchivingSetting");
         }
 
-        if (in_array($pluginName, $pluginArchivingSetting)) {
-            return true;
-        }
-        return false;
+        return in_array($pluginName, $pluginArchivingSetting);
 
     }
 }
