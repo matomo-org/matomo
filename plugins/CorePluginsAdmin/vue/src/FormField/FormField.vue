@@ -274,7 +274,7 @@ export default defineComponent({
       );
     },
     defaultValuePretty() {
-      let { defaultValue } = this;
+      let { defaultValue } = this.formField;
       const { availableOptions } = this;
 
       if (typeof defaultValue === 'string' && defaultValue) {

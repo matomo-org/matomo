@@ -26,7 +26,7 @@ export default defineComponent({
     name: String,
     title: String,
     uiControlAttributes: Object,
-    modelValue: Array,
+    modelValue: String,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
@@ -40,8 +40,7 @@ export default defineComponent({
   },
   methods: {
     onKeydown(event) {
-      const value = (event.target as HTMLTextAreaElement).value
-        .split(SEPARATOR).map((v) => v.trim());
+      const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
       this.$emit('update:modelValue', value);
     },
   },
