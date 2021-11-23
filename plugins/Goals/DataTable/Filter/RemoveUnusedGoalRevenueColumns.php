@@ -14,15 +14,6 @@ use Piwik\DataTable;
 
 class RemoveUnusedGoalRevenueColumns extends BaseFilter
 {
-    /**
-     * Constructor.
-     *
-     * @param DataTable $table The table to eventually filter.
-     */
-    public function __construct($table)
-    {
-        parent::__construct($table);
-    }
 
     /**
      * @param DataTable $table
