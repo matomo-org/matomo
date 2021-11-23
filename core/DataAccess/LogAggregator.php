@@ -1114,13 +1114,13 @@ class LogAggregator
         $dbSettings = new \Piwik\Db\Settings();
         $tablePrefix = $dbSettings->getTablePrefix();
         $subQuery = sprintf("
-            (SELECT COUNT(am.idaction)
+            MAX((SELECT COUNT(am.idaction)
              FROM %slog_conversion cam
              LEFT JOIN %slog_link_visit_action vam ON vam.idvisit = cam.idvisit AND vam.server_time <= log_conversion.server_time
              LEFT JOIN %slog_action am ON am.idaction = vam.idaction_url
              WHERE cam.idgoal = log_conversion.idgoal AND vam.idvisit = log_link_visit_action.idvisit
              AND vam.idaction_url IS NOT NULL AND am.type = 1
-             GROUP BY cam.idgoal, cam.idvisit) AS `9`
+             GROUP BY cam.idgoal, cam.idvisit)) AS `9`
         ", $tablePrefix, $tablePrefix, $tablePrefix);
 
         // Get unique pages visited before the goal conversion, one row per goal / visit / page combination
