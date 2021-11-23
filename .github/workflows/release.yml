@@ -44,8 +44,6 @@ jobs:
         lfs: false
     - name: Import GPG key
       id: import_gpg
-      permissions:
-        contents: none
       uses: crazy-max/ghaction-import-gpg@b0793c0060c97f4ef0efbac949d476c6499b7775
       with:
         gpg-private-key: ${{ secrets.GPG_CERTIFICATE }}
