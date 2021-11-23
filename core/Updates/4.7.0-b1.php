@@ -23,7 +23,7 @@ use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
- * Update for version 4.1.0-b1.
+ * Update for version 4.7.0-b1.
  */
 class Updates_4_7_0_b1 extends PiwikUpdates
 {
@@ -46,7 +46,7 @@ class Updates_4_7_0_b1 extends PiwikUpdates
         $migrations = [];
         $migrations[] = $this->migration->db->addColumns('user', [
           'invite_status'=>'varchar(40) default NULL',
-          'invite_at'=>'datetime NULL']);
+          'invited_at'=>'datetime NULL']);
 
         return $migrations;
 

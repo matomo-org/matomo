@@ -53,7 +53,7 @@ class Mysql implements SchemaInterface
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                           invite_status varchar(40) DEFAULT NULL,
-                          invite_at timestamp NULL DEFAULT NULL,
+                          invited_at timestamp NULL DEFAULT NULL,
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
