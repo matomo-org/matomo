@@ -1586,8 +1586,8 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
 
                 if (typeof Piwik_Transitions_Translations == 'undefined') {
                     self.callApi('Transitions.getTranslations', {}, function (response) {
-                        if (typeof response[0] == 'object') {
-                            Piwik_Transitions_Translations = response[0];
+                        if (typeof response == 'object') {
+                            Piwik_Transitions_Translations = response;
                         } else {
                             Piwik_Transitions_Translations = {};
                         }

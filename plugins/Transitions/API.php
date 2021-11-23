@@ -66,6 +66,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        if (!$this->getPeriodAllowed($period, $idSite, $date)) {
+            throw new Exception('PeriodNotAllowed');
+        }
+
         // get idaction of the requested action
         $idaction = $this->deriveIdAction($actionName, $actionType);
         if ($idaction < 0) {
@@ -655,5 +659,64 @@ class API extends \Piwik\Plugin\API
         if(in_array($type, $actionTypesNotExitActions)) {
             $this->totalTransitionsToFollowingPages += $actions;
         }
+    }
+
+    /**
+     * Check if a period is allowed by config settings
+     *
+     * @param $period
+     * @param $idSite
+     * @param $date
+     *
+     * @return bool
+     */
+    private function getPeriodAllowed($period, $idSite, $date) : bool
+    {
+        $generalMaxPeriodAllowed = Config::getInstance()->Transitions['max_period_allowed'];
+        $sectionName = 'Transitions_' . $idSite;
+        $section = Config::getInstance()->$sectionName;
+        $siteMaxPeriodAllowed = $section['max_period_allowed'];
+
+        if (!$generalMaxPeriodAllowed && !$siteMaxPeriodAllowed) {
+            return true; // No config setting, so all periods are valid
+        }
+
+        // Site setting overrides general, if it exists
+        $maxPeriodAllowed = ($siteMaxPeriodAllowed ? $siteMaxPeriodAllowed : $generalMaxPeriodAllowed);
+
+        if ($maxPeriodAllowed === 'all') {
+            return true;
+        }
+
+        // If the period is a range then the number of days in the range must be less or equal to the max period allowed
+        if ($period === 'range') {
+
+            $range = new Period\Range($period, $date);
+            $rangeDays = $range->getDayCount();
+
+             switch ($maxPeriodAllowed) {
+                case 'day':
+                    return $rangeDays == 1;
+                case 'week':
+                    return $rangeDays <= 7;
+                case 'month':
+                    return $rangeDays <= 31;
+                case 'year':
+                    return $rangeDays <= 365;
+            }
+        }
+
+        switch ($maxPeriodAllowed) {
+            case 'day':
+                return $period === 'day';
+            case 'week':
+                return in_array($period, ['day', 'week']);
+            case 'month':
+                return in_array($period, ['day', 'week', 'month']);
+            case 'year':
+                return in_array($period, ['day', 'week', 'month', 'year']);
+        }
+
+        return false;
     }
 }
