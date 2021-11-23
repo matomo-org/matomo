@@ -124,7 +124,7 @@ class ArchivingDbAdapter
                 $this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
             )
             {
-                $this->logger->info('Archiver query exceeded maximum execution time: {details}',
+                $this->logger->warning('Archiver query exceeded maximum execution time: {details}',
                     ['details' => json_encode($args, true)]);
 
             }
