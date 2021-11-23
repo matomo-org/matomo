@@ -41,12 +41,7 @@ jobs:
             exit 0;
           fi
 
-          if [[ $BASE != $GITHUB_REPOSITORY ]]
-          then
-            echo "It's only possible to update local branches"
-            exit 1;
-          fi
-
+          echo ::set-output name=islocalbranch::$BASE == $GITHUB_REPOSITORY
           echo ::set-output name=branch::$REF
           echo ::set-output name=base::$BASE_SHA
       - uses: actions/checkout@v2
@@ -64,7 +59,7 @@ jobs:
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
             echo "No vue files modified"
-            exit;
+            exit 0;
           fi
 
           echo ::set-output name=vue_modified::1
@@ -126,12 +121,32 @@ jobs:
         run: php ./console vue:build
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Push changes
+        id: push
         run: |
           if [[ $( git diff --numstat plugins/*/vue/dist/*.js ) ]]
           then
-            cd $GITHUB_WORKSPACE
-            git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
-            git commit -m "built vue files"
-            git push
+            if [[ ! ${{ steps.vars.outputs.islocalbranch }} ]]
+            then
+              echo "It's only possible to update local branches automatically. Adding a comment instead."
+              echo ::set-output name=failure::1
+            else
+              cd $GITHUB_WORKSPACE
+              git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
+              git commit -m "built vue files"
+              git push
+            fi
           fi
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Vue files are not up to date. Please build the files using `./console vue:build` locally and push them to your branch.'
+            })
+        if: steps.push.outputs.failure == '1'
+      - name: Fail if not up to date
+        run: exit 1
+        if: steps.push.outputs.failure == '1'
