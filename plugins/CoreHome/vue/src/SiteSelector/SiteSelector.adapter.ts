@@ -9,6 +9,7 @@ import { INgModelController, ITimeoutService } from 'angular';
 import { nextTick } from 'vue';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import SiteSelector from './SiteSelector.vue';
+import Matomo from '../Matomo/Matomo';
 
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: SiteSelector,
@@ -88,7 +89,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     $timeout(() => {
       if (attrs.siteid && attrs.sitename) {
-        vm.modelValue = { id: attrs.siteid, name: attrs.sitename };
+        vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
         ngModel.$setViewValue({ ...vm.modelValue });
       }
     });

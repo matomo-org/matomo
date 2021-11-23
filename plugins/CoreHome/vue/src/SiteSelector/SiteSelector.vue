@@ -32,8 +32,8 @@
       />
       <span>
         <span
-          v-text="decodedName || firstSiteNameDecoded"
-          v-if="modelValue?.name || !placeholder"
+          v-text="selectedSite?.name || firstSiteName"
+          v-if="selectedSite?.name || !placeholder"
         />
         <span
           v-if="!modelValue?.name && placeholder"
@@ -150,7 +150,7 @@ export default defineComponent({
       Object,
       default: {
         id: Matomo.idSite,
-        name: Matomo.siteName,
+        name: Matomo.helper.htmlDecode(Matomo.siteName),
       },
     },
     showSelectedSite: {
@@ -198,6 +198,10 @@ export default defineComponent({
       showSitesList: false,
       isLoading: false,
       sites: [],
+      selectedSite: {
+        id: Matomo.idSite,
+        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
   },
@@ -249,9 +253,6 @@ export default defineComponent({
     },
     firstSiteName() {
       return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
-    },
-    firstSiteNameDecoded() {
-      return Matomo.helper.htmlDecode(this.firstSiteName);
     },
     urlAllSites() {
       const newQuery = MatomoUrl.stringify({
