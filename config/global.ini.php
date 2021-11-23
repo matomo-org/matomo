@@ -386,7 +386,7 @@ archiving_custom_ranges[] =
 archiving_query_max_execution_time = 7200
 
 
-; Allow you to disable archiving segment on selected plugins for more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
+; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
 disable_archiving_segment_for_plugins = ""
 
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
