@@ -53,7 +53,6 @@
           type="text"
           @click="searchTerm = '';loadInitialSites()"
           v-model="searchTerm"
-          @keydown="onSearchInputKeydown()"
           tabindex="4"
           class="websiteSearch inp browser-default"
           v-focus-if:[shouldFocusOnSearch]="{}"
@@ -193,6 +192,9 @@ export default defineComponent({
     FocusIf,
   },
   watch: {
+    searchTerm() {
+      this.onSearchTermChanged();
+    },
     modelValue: {
       handler(newValue) {
         this.selectedSite = { ...newValue };
@@ -238,9 +240,6 @@ export default defineComponent({
       this.$refs.selectorLink.focus();
     });
   },
-  created() {
-    this.onSearchInputKeydown = debounce(this.onSearchInputKeydown.bind(this));
-  },
   computed: {
     decodedName() {
       if (!this.selectedSite) {
@@ -278,7 +277,17 @@ export default defineComponent({
       return `?${newQuery}`;
     },
   },
+  created() {
+    this.onSearchTermChanged = debounce(this.onSearchTermChanged.bind(this));
+  },
   methods: {
+    onSearchTermChanged() {
+      if (!this.searchTerm) {
+        this.loadInitialSites();
+      } else {
+        this.searchSite(this.searchTerm);
+      }
+    },
     onAllSitesClick(event: MouseEvent) {
       this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
       this.showSitesList = false;
@@ -325,11 +334,6 @@ export default defineComponent({
       if (this.showSitesList && !this.isLoading) {
         this.loadInitialSites();
       }
-    },
-    onSearchInputKeydown() {
-      setTimeout(() => {
-        this.searchSite(this.searchTerm);
-      });
     },
     getMatchedSiteName(siteName: string) {
       const index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
