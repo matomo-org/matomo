@@ -185,6 +185,9 @@ class Twig
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
         $this->twig->addFilter(new TwigFilter('ucfirst', 'ucfirst'));
+        $this->twig->addFilter(new TwigFilter('preg_replace', function ($subject, $pattern, $replacement) {
+            return preg_replace($pattern, $replacement, $subject);
+        }));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
