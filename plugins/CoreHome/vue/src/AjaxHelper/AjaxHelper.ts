@@ -346,7 +346,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Send the request
    */
-  send(): Promise<T> {
+  send(): AbortablePromise<T> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -358,7 +358,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
-    return new Promise<T>((resolve, reject) => {
+    const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
       this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
@@ -366,7 +366,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           reject(xhr);
         }
       });
-    });
+    }) as AbortablePromise<T>;
+
+    result.abort = () => {
+      if (this.requestHandle) {
+        this.requestHandle.abort();
+      }
+    };
+
+    return result;
   }
 
   /**

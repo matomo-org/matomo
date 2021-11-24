@@ -62,6 +62,7 @@ class SegmentMetadata
                 unset($segment['sqlFilter']);
                 unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
+                unset($segment['needsMostFrequentValues']);
 
                 if (isset($segment['suggestedValuesCallback'])
                     && !is_string($segment['suggestedValuesCallback'])

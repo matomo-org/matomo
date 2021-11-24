@@ -89,7 +89,7 @@
             <td colspan="8" class="paging" ng-hide="model.numberOfPages() <= 1">
                 <div class="row">
                     <div class="col s3 add_new_site">
-                        <a ng-if="hasSuperUserAccess" href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}&idSite={{ idSite }}">
+                        <a ng-if="hasSuperUserAccess" href="index.php?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}&idSite={{ idSite }}">
                             <span class="icon-add"></span> {{ 'SitesManager_AddSite'|translate }}
                         </a>
                     </div>
