@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Transitions;
 
+use Piwik\Common;
+use Piwik\Plugins\Transitions\API;
+
 /**
  */
 class Transitions extends \Piwik\Plugin
@@ -22,7 +25,8 @@ class Transitions extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'API.getPagesComparisonsDisabledFor' => 'getPagesComparisonsDisabledFor',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
+            'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
         );
     }
 
@@ -54,5 +58,25 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_Transitions';
         $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
         $translationKeys[] = 'General_Others';
+    }
+
+    public function addJsGlobalVariables(&$out)
+    {
+
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
+
+        $api = API::getInstance();
+        if($api->getPeriodAllowed($period, $idSite, $date)) {
+            $allowed = 'true';
+        } else {
+            $allowed = 'false';
+        }
+
+        $out .= "      
+        piwik.transitionsPeriodAllowed = $allowed;\n
+        ";
+
     }
 }

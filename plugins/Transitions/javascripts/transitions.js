@@ -124,6 +124,11 @@ DataTable_RowActions_Registry.register({
 
     isAvailableOnReport: function (dataTableParams) {
         var i = 0;
+
+        if (!piwik.transitionsPeriodAllowed) {
+          return false;
+        }
+
         for (i; i < DataTable_RowActions_Transitions.registeredReports.length; i++) {
             var report = DataTable_RowActions_Transitions.registeredReports[i];
             if (report
