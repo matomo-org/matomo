@@ -127,9 +127,8 @@ jobs:
           echo ::set-output name=version::$version
           echo ::set-output name=body::$body
 
-          git clone https://github.com/matomo-org/matomo-package.git matomo-package
-          cd matomo-package
-          ./scripts/build-package.sh $version
+          cd $GITHUB_WORKSPACE
+          ./.github/scripts/build-package.sh $version
       shell: bash 
     - uses: ncipollo/release-action@880be3d0a71bc0fa98db60201d2cbdc27324f547
       with:
