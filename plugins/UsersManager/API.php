@@ -27,7 +27,6 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\View;
@@ -1409,6 +1408,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**

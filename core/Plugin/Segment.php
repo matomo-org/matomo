@@ -56,6 +56,7 @@ class Segment
     private $unionOfSegments;
     private $isInternalSegment = false;
     private $suggestedValuesApi = '';
+    private $needsMostFrequentValues = true;
 
     /**
      * If true, this segment will only be visible to a registered user (see API.getSegmentsMetadata).
@@ -324,6 +325,14 @@ class Segment
     }
 
     /**
+     * @param bool $value
+     */
+    public function setNeedsMostFrequentValues(bool $value)
+    {
+        $this->needsMostFrequentValues = $value;
+    }
+
+    /**
      * You can restrict the access to this segment by passing a boolean `false`. For instance if you want to make
      * a certain segment only available to users having super user access you could do the following:
      * `$segment->setPermission(Piwik::hasUserSuperUserAccess());`
@@ -342,11 +351,12 @@ class Segment
     public function toArray()
     {
         $segment = array(
-            'type'       => $this->type,
-            'category'   => $this->category,
-            'name'       => $this->name,
-            'segment'    => $this->segment,
-            'sqlSegment' => $this->sqlSegment,
+            'type'                      => $this->type,
+            'category'                  => $this->category,
+            'name'                      => $this->name,
+            'segment'                   => $this->segment,
+            'sqlSegment'                => $this->sqlSegment,
+            'needsMostFrequentValues'   => $this->needsMostFrequentValues,
         );
 
         if (!empty($this->unionOfSegments)) {

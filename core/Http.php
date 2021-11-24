@@ -226,7 +226,7 @@ class Http
             $isBlocked = false;
 
             foreach ($disallowedHosts as $host) {
-                if (preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
+                if (!empty($parsedUrl['host']) && preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
                     $isBlocked = true;
                     break;
                 }
