@@ -157,6 +157,21 @@ class ArchiveInvalidationTest extends SystemTestCase
 
     }
 
+    public function testDisablePluginArchiveCaseInsensitive()
+    {
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = 'testplugin,testplugin2';
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+    }
+
+    public function testDisablePluginArchiveSpecialCharacters()
+    {
+        //special characters will not work
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = '!@##$%^^&&**(()_+';
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('!@##$%^^&&**(()_+'));
+    }
+
     public function testDisablePluginArchiveBySiteId()
     {
         //test siteId 1 by string
@@ -171,11 +186,20 @@ class ArchiveInvalidationTest extends SystemTestCase
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','testPlugin,testPlugin2' );
         $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
 
+        //test empty
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','' );
         $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
 
+        //test siteId 2 not affect siteId1
         Config::setSetting('General_2', 'disable_archiving_segment_for_plugins','testPlugin' );
         $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+
+        //test general setting not affect siteId1
+        Config::setSetting('General', 'disable_archiving_segment_for_plugins','myPlugin' );
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','testPlugin' );
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('myPlugin',1));
+
     }
 
 

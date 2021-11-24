@@ -373,12 +373,16 @@ class Rules
         if (empty($pluginArchivingSetting)) {
             return false;
         }
+        if (preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬-]/', $pluginArchivingSetting)) {
+            return false;
+        }
 
         if (is_string($pluginArchivingSetting)) {
             $pluginArchivingSetting = explode(",", "$pluginArchivingSetting");
         }
 
-        return in_array($pluginName, $pluginArchivingSetting);
+        //case-insensitive search
+        return (bool)preg_grep('/'.$pluginName.'/i',$pluginArchivingSetting);
 
     }
 }
