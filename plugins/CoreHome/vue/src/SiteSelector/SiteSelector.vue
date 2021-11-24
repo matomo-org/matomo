@@ -53,7 +53,6 @@
           type="text"
           @click="searchTerm = '';loadInitialSites()"
           v-model="searchTerm"
-          @keydown="onSearchInputKeydown()"
           tabindex="4"
           class="websiteSearch inp browser-default"
           v-focus-if:[shouldFocusOnSearch]="{}"
@@ -193,6 +192,9 @@ export default defineComponent({
     FocusIf,
   },
   watch: {
+    searchTerm() {
+      this.onSearchTermChanged();
+    },
     modelValue: {
       handler(newValue) {
         this.selectedSite = { ...newValue };
@@ -238,9 +240,6 @@ export default defineComponent({
       this.$refs.selectorLink.focus();
     });
   },
-  created() {
-    this.onSearchInputKeydown = debounce(this.onSearchInputKeydown.bind(this));
-  },
   computed: {
     shouldFocusOnSearch() {
       return (this.showSitesList && this.autocompleteMinSites <= this.sites.length)
@@ -268,7 +267,19 @@ export default defineComponent({
       return `?${newQuery}`;
     },
   },
+  created() {
+    this.searchSite = debounce(this.searchSite.bind(this));
+  },
   methods: {
+    onSearchTermChanged() {
+      if (!this.searchTerm) {
+        this.isLoading = false;
+        this.loadInitialSites();
+      } else {
+        this.isLoading = true;
+        this.searchSite(this.searchTerm);
+      }
+    },
     onAllSitesClick(event: MouseEvent) {
       this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
       this.showSitesList = false;
@@ -316,14 +327,11 @@ export default defineComponent({
         this.loadInitialSites();
       }
     },
-    onSearchInputKeydown() {
-      setTimeout(() => {
-        this.searchSite(this.searchTerm);
-      });
-    },
     getMatchedSiteName(siteName: string) {
       const index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
-      if (index === -1) {
+      if (index === -1
+        || this.isLoading // only highlight when we know the displayed results are for a search
+      ) {
         return Matomo.helper.htmlEntities(siteName);
       }
 
@@ -343,6 +351,10 @@ export default defineComponent({
       this.isLoading = true;
 
       SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
+        if (term !== this.searchTerm) {
+          return; // search term changed in the meantime
+        }
+
         if (sites) {
           this.sites = sites;
         }
