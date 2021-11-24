@@ -260,7 +260,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
 
-        // TODO: used by RollUpReporting? make an adapter if possible.
+        // TODO: [Vue] used by RollUpReporting, has to be kept for now.
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,

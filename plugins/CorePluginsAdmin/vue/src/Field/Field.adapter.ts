@@ -6,13 +6,14 @@
  */
 
 import { INgModelController, ITimeoutService } from 'angular';
-import { defineAsyncComponent, nextTick, shallowRef } from 'vue';
+import { nextTick, shallowRef } from 'vue';
 import {
   createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   processScopeProperty,
   Matomo,
+  useExternalPluginComponent,
 } from 'CoreHome';
 import Field from './Field.vue';
 import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
@@ -161,10 +162,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           throw new Error("Invalid component property given to piwik-field directive, must be {plugin: '...',component: '...'}");
         }
 
-        // TODO: make this a common function, it's going to be reused a fair amount
-        return shallowRef(defineAsyncComponent(() => (new Promise((resolve) => {
-          window.$(document).ready(() => resolve(window[plugin][component]));
-        }))));
+        return shallowRef(useExternalPluginComponent(plugin, component));
       },
     },
   },

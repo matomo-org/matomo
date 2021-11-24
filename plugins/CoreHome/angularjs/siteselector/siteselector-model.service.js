@@ -9,6 +9,9 @@
 
     siteSelectorModel.$inject = ['piwikApi', '$filter', 'piwik', '$q'];
 
+    /**
+     * @deprecated kept for angularjs code that uses it.
+     */
     function siteSelectorModel(piwikApi, $filter, piwik, $q) {
 
         var initialSites = null;

@@ -86,12 +86,11 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
+import useExternalPluginComponent from '../useExternalPluginComponent';
 
 // async since this is a a recursive component
-const Field = defineAsyncComponent(() => new Promise((resolve) => {
-  window.$(document).ready(() => resolve(window.CorePluginsAdmin.Field));
-}));
+const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 export default defineComponent({
   props: {

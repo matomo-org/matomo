@@ -11,13 +11,12 @@ import {
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
 } from 'CoreHome';
-import { defineAsyncComponent, shallowRef } from 'vue';
+import { shallowRef } from 'vue';
 import FormField from './FormField.vue';
 import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
+import useExternalPluginComponent from '../../../../CoreHome/vue/src/useExternalPluginComponent';
 
-function transformVueComponentRef(
-  value?: Record<string, string>,
-): undefined|typeof defineAsyncComponent {
+function transformVueComponentRef(value?: Record<string, string>) {
   if (!value) {
     return undefined;
   }
@@ -28,10 +27,7 @@ function transformVueComponentRef(
       + '{plugin: \'...\',component: \'...\'}');
   }
 
-  // TODO: make this a common function, it's going to be reused a fair amount
-  return defineAsyncComponent(() => (new Promise((resolve) => {
-    window.$(document).ready(() => resolve(window[plugin][component]));
-  })));
+  return useExternalPluginComponent(plugin, component);
 }
 
 export default createAngularJsAdapter<[ITimeoutService]>({

@@ -34,15 +34,14 @@ export default createAngularJsAdapter({
     'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
       if (newValue !== vm.modelValue) {
         element.trigger('change', newValue);
-      }
 
-      if (ngModel) {
-        ngModel.$setViewValue(newValue);
+        if (ngModel) {
+          ngModel.$setViewValue(newValue);
+        }
       }
     },
   },
   postCreate(vm, scope, element, attrs, controller) {
-    // TODO: can move to siteselector (this + above probably)
     const ngModel = controller as INgModelController;
 
     // setup ng-model mapping

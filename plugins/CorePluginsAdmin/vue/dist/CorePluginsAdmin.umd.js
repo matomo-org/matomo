@@ -1947,6 +1947,27 @@ function clone(obj) {
 FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_4a515fda_render
 
 /* harmony default export */ var FieldAngularJsTemplate = (FieldAngularJsTemplatevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/useExternalPluginComponent.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function useExternalPluginComponent(plugin, component) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
+    return new Promise(function (resolve) {
+      window.$(document).ready(function () {
+        if (window[plugin]) {
+          resolve(window[plugin][component]);
+        } else {
+          resolve(null); // plugin not loaded
+        }
+      });
+    });
+  });
+}
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.adapter.ts
 function FormField_adapter_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -1965,6 +1986,7 @@ function FormField_adapter_defineProperty(obj, key, value) { if (key in obj) { O
 
 
 
+
 function transformVueComponentRef(value) {
   if (!value) {
     return undefined;
@@ -1975,16 +1997,9 @@ function transformVueComponentRef(value) {
 
   if (!plugin || !component) {
     throw new Error('Invalid component property given to piwik-field directive, must be ' + '{plugin: \'...\',component: \'...\'}');
-  } // TODO: make this a common function, it's going to be reused a fair amount
+  }
 
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
-    return new Promise(function (resolve) {
-      window.$(document).ready(function () {
-        return resolve(window[plugin][component]);
-      });
-    });
-  });
+  return useExternalPluginComponent(plugin, component);
 }
 
 /* harmony default export */ var FormField_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
@@ -2331,16 +2346,9 @@ function handleJsonValue(value, varType, uiControl) {
 
         if (!plugin || !component) {
           throw new Error("Invalid component property given to piwik-field directive, must be {plugin: '...',component: '...'}");
-        } // TODO: make this a common function, it's going to be reused a fair amount
+        }
 
-
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
-          return new Promise(function (resolve) {
-            window.$(document).ready(function () {
-              return resolve(window[plugin][component]);
-            });
-          });
-        }));
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(Object(external_CoreHome_["useExternalPluginComponent"])(plugin, component));
       }
     }
   },
