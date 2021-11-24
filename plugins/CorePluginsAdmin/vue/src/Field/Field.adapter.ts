@@ -15,6 +15,7 @@ import {
   Matomo,
 } from 'CoreHome';
 import Field from './Field.vue';
+import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 
 function handleJsonValue(value: unknown, varType: string, uiControl: string) {
   if (typeof value === 'string'
@@ -146,9 +147,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     component: {
       angularJsBind: '<',
-      transform(value) {
+      transform(value, vm, scope) {
         if (!value) {
           return value;
+        }
+
+        if (scope.templateFile) {
+          return shallowRef(FieldAngularJsTemplate);
         }
 
         const { plugin, component } = value;

@@ -26,6 +26,7 @@
       <component
         :is="childComponent"
         v-bind="{
+          formField,
           ...formField,
           modelValue: processedModelValue,
           availableOptions,

@@ -74,7 +74,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     // setup ng-model mapping
     if (ngModel) {
-      ngModel.$setViewValue(vm.modelValue);
+      if (vm.modelValue) {
+        ngModel.$setViewValue(vm.modelValue);
+      }
 
       ngModel.$render = () => {
         nextTick(() => {

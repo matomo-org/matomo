@@ -13,6 +13,7 @@ import {
 } from 'CoreHome';
 import { defineAsyncComponent, shallowRef } from 'vue';
 import FormField from './FormField.vue';
+import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
 
 function transformVueComponentRef(
   value?: Record<string, string>,
@@ -78,7 +79,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           rows: transformAngularJsIntAttr(value.rows),
           min: transformAngularJsIntAttr(value.min),
           max: transformAngularJsIntAttr(value.max),
-          component: shallowRef(transformVueComponentRef(value.component)),
+          component: shallowRef(
+            value.templateFile ? FieldAngularJsTemplate : transformVueComponentRef(value.component),
+          ),
         };
       },
     },
