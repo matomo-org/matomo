@@ -64,8 +64,8 @@ class Transitions extends \Piwik\Plugin
     {
 
         $idSite = Common::getRequestVar('idSite', 1, 'int');
-        $period = Common::getRequestVar('period');
-        $date = Common::getRequestVar('date');
+        $period = Common::getRequestVar('period', 'day', 'string');
+        $date = Common::getRequestVar('date', 'yesterday', 'string');
 
         $api = API::getInstance();
         if($api->getPeriodAllowed($period, $idSite, $date)) {
