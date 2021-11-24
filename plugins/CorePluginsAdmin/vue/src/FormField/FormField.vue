@@ -184,6 +184,10 @@ export default defineComponent({
   },
   computed: {
     childComponent() {
+      if (this.formField.component) {
+        return this.formField.component;
+      }
+
       const { uiControl } = this.formField;
 
       let control = CONTROL_TO_COMPONENT_MAP[uiControl];

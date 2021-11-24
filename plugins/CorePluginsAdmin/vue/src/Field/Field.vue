@@ -9,6 +9,7 @@
     :form-field="field"
     :model-value="modelValue"
     @update:model-value="onChange($event)"
+    :component="component"
   />
 </template>
 

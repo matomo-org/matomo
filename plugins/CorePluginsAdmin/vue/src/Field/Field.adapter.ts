@@ -6,7 +6,7 @@
  */
 
 import { INgModelController, ITimeoutService } from 'angular';
-import { defineAsyncComponent, nextTick } from 'vue';
+import { defineAsyncComponent, nextTick, shallowRef } from 'vue';
 import {
   createAngularJsAdapter,
   transformAngularJsBoolAttr,
@@ -147,15 +147,19 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     component: {
       angularJsBind: '<',
       transform(value) {
+        if (!value) {
+          return value;
+        }
+
         const { plugin, component } = value;
         if (!plugin || !component) {
           throw new Error("Invalid component property given to piwik-field directive, must be {plugin: '...',component: '...'}");
         }
 
         // TODO: make this a common function, it's going to be reused a fair amount
-        return defineAsyncComponent(() => (new Promise((resolve) => {
+        return shallowRef(defineAsyncComponent(() => (new Promise((resolve) => {
           window.$(document).ready(() => resolve(window[plugin][component]));
-        })));
+        }))));
       },
     },
   },
