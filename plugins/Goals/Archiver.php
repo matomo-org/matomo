@@ -471,19 +471,21 @@ class Archiver extends \Piwik\Plugin\Archiver
         /*
          * Archive Ecommerce Items
          */
-        $dataTableToSum = $this->dimensionRecord;
-        foreach ($this->dimensionRecord as $recordName) {
-            $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
-        }
-        $columnsAggregationOperation = null;
+        if (Manager::getInstance()->isPluginActivated('Ecommerce')) {
+            $dataTableToSum = $this->dimensionRecord;
+            foreach ($this->dimensionRecord as $recordName) {
+                $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
+            }
+            $columnsAggregationOperation = null;
 
-        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
-            $maximumRowsInDataTableLevelZero = $this->productReportsMaximumRows,
-            $maximumRowsInSubDataTable = $this->productReportsMaximumRows,
-            $columnToSortByBeforeTruncation = Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
-            $columnsAggregationOperation,
-            $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = array());
+            $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
+                $maximumRowsInDataTableLevelZero = $this->productReportsMaximumRows,
+                $maximumRowsInSubDataTable = $this->productReportsMaximumRows,
+                $columnToSortByBeforeTruncation = Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
+                $columnsAggregationOperation,
+                $columnsToRenameAfterAggregation = null,
+                $countRowsRecursive = []);
+        }
 
         /*
          *  Archive General Goal metrics
@@ -491,8 +493,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         $goalIdsToSum = GoalManager::getGoalIds($this->getProcessor()->getParams()->getSite()->getId());
 
         //Ecommerce
-        $goalIdsToSum[] = GoalManager::IDGOAL_ORDER;
-        $goalIdsToSum[] = GoalManager::IDGOAL_CART; //bug here if idgoal=1
+        $goalIdsToSum = array_merge($goalIdsToSum, $this->getEcommerceIdGoals());
+
         // Overall goal metrics
         $goalIdsToSum[] = false;
 
