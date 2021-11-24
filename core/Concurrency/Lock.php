@@ -108,6 +108,11 @@ class Lock
         return $this->lockValue === $this->backend->get($this->lockKey);
     }
 
+    public function isLockedByAnyProcess()
+    {
+        return (bool) $this->backend->get($this->lockKey);
+    }
+
     public function unlock()
     {
         if ($this->lockValue) {
