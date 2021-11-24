@@ -1,4 +1,5 @@
 <template>
+  <!-- note: @change is used in case the change event is programmatically triggered -->
   <div>
     <label
       :for="name"
@@ -10,6 +11,7 @@
       v-bind="uiControlAttributes"
       :value="concattedValue"
       @keydown="onKeydown($event)"
+      @change="onKeydown($event)"
       class="materialize-textarea"
     ></textarea>
   </div>

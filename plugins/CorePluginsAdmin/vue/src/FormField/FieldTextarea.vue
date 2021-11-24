@@ -1,10 +1,12 @@
 <template>
+  <!-- note: @change is used in case the change event is programmatically triggered -->
   <textarea
     :name="name"
     v-bind="uiControlAttributes"
     :id="name"
     :value="modelValue"
     @keydown="onKeydown($event)"
+    @change="onKeydown($event)"
     class="materialize-textarea"
     ref="textarea"
   ></textarea>

@@ -1,4 +1,5 @@
 <template>
+  <!-- note: @change is used in case the change event is programmatically triggered -->
   <input
     :class="`control_${uiControl}`"
     :type="uiControl"
@@ -6,6 +7,7 @@
     :name="name"
     :value="modelValueText"
     @keydown="onKeydown($event)"
+    @change="onKeydown($event)"
     v-bind="uiControlAttributes"
   />
   <label

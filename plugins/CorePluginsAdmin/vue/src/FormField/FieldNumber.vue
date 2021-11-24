@@ -1,4 +1,5 @@
 <template>
+  <!-- note: @change is used in case the change event is programmatically triggered -->
   <input
     :class="`control_${uiControl}`"
     :type="uiControl"

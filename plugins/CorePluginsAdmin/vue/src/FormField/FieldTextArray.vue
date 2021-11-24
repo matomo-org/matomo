@@ -1,4 +1,5 @@
 <template>
+  <!-- note: @change is used in case the change event is programmatically triggered -->
   <div>
     <label
       :for="name"
@@ -9,6 +10,7 @@
       :type="uiControl"
       :name="name"
       @keydown="onKeydown($event)"
+      @change="onKeydown($event)"
       :value="concattedValues"
       v-bind="uiControlAttributes"
     />
