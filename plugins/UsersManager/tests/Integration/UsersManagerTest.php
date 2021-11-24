@@ -106,12 +106,15 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['date_registered']);
         unset($userAfter['ts_password_modified']);
         unset($userAfter['password']);
-
+        unset($userAfter['invite_status']);
+        unset($userAfter['invited_at']);
         // implicitly checks password!
         $user['email']            = $newEmail;
         $user['superuser_access'] = 0;
         $user['twofactor_secret'] = '';
 
+        unset($user['invite_status']);
+        unset($user['invited_at']);
         unset($user['password']);
 
         $this->assertEquals($user, $userAfter);
@@ -1094,7 +1097,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->inviteUser($user['login'],$user['email'],1);
         $user = $this->api->getUser($user['login']);
 
-        $this->assertEquals($user['invite_status'], 'sent');
+        $this->assertEquals($user['status'], 'UsersManager_StatusPending');
     }
 
     public function testActiveUser()
