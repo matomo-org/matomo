@@ -949,6 +949,8 @@ class API extends \Piwik\Plugin\API
             unset($user['twofactor_secret']);
             $user['status'] = empty($user['invite_status']) ? Piwik::translate('UsersManager_StatusActive')
               : Piwik::translate('UsersManager_StatusPending');
+            unset($user['invite_status']);
+            unset($user['invited_at']);
             return $user;
         }
 
@@ -973,6 +975,8 @@ class API extends \Piwik\Plugin\API
             $newUser['last_seen'] = $user['last_seen'];
         }
 
+        unset($user['invite_status']);
+        unset($user['invited_at']);
         return $newUser;
     }
 

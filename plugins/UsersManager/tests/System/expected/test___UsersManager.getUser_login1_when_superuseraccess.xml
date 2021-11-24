@@ -6,5 +6,6 @@
 		<superuser_access>1</superuser_access>
 		
 		<uses_2fa>0</uses_2fa>
+		<status>Active</status>
 	</row>
 </result>
