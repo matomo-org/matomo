@@ -1,3 +1,9 @@
+<!--
+  Matomo - free/libre analytics platform
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
 <template>
   <div class="expandableSelector" v-focus-anywhere-but-here="{ blur: onBlur }">
     <div @click="showSelect = !showSelect" class="select-wrapper">

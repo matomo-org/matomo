@@ -55,6 +55,7 @@ export default defineComponent({
     rows: Number,
     min: Number,
     max: Number,
+    component: null,
   },
   emits: ['update:modelValue'],
   components: {
