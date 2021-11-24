@@ -153,7 +153,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         // Reconstruct url from prefix
         if (array_key_exists('url', $action) && array_key_exists('url_prefix', $action)) {
-            if (stripos($action['url'], 'http://') !== 0 && stripos($action['url'], 'https://') !== 0) {
+            if ($action['url'] && stripos($action['url'], 'http://') !== 0 && stripos($action['url'], 'https://') !== 0) {
                 $url = PageUrl::reconstructNormalizedUrl($action['url'], $action['url_prefix']);
                 $url = Common::unsanitizeInputValue($url);
                 $action['url'] = $url;
@@ -162,7 +162,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['url_prefix']);
         }
 
-        if (array_key_exists('url', $action) && strpos($action['url'], 'http://') === 0) {
+        if (!empty($action['url']) && strpos($action['url'], 'http://') === 0) {
             $host = parse_url($action['url'], PHP_URL_HOST);
 
             if ($host && PageUrl::shouldUseHttpsHost($visitorDetails['idSite'], $host)) {
