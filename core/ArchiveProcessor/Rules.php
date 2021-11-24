@@ -373,11 +373,15 @@ class Rules
         if (empty($pluginArchivingSetting)) {
             return false;
         }
-        if (preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬-]/', $pluginArchivingSetting)) {
-            return false;
-        }
+
 
         if (is_string($pluginArchivingSetting)) {
+
+            //special case return false
+            if (preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬-]/', $pluginArchivingSetting)) {
+                return false;
+            }
+
             $pluginArchivingSetting = explode(",", "$pluginArchivingSetting");
         }
 
