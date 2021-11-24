@@ -5534,9 +5534,13 @@ function SiteSelector_adapter_defineProperty(obj, key, value) { if (key in obj) 
         element.attr('siteid', newValue.id);
         element.trigger('change', newValue);
 
-        if (ngModel) {
+        if (ngModel // the original site selector did not initiate an ngModel change when initializing its
+        // internal selectedSite state. mimicking that behavior here for BC.
+        && scope.isNotFirstModelChange) {
           ngModel.$setViewValue(newValue);
         }
+
+        scope.isNotFirstModelChange = true;
       }
     },
     blur: function blur(event, vm, scope) {
@@ -5554,7 +5558,9 @@ function SiteSelector_adapter_defineProperty(obj, key, value) { if (key in obj) 
     }); // setup ng-model mapping
 
     if (ngModel) {
-      ngModel.$setViewValue(vm.modelValue);
+      if (vm.modelValue) {
+        ngModel.$setViewValue(vm.modelValue);
+      }
 
       ngModel.$render = function () {
         Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {

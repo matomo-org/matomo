@@ -54,9 +54,15 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         element.attr('siteid', newValue.id);
         element.trigger('change', newValue);
 
-        if (ngModel) {
+        if (ngModel
+          // the original site selector did not initiate an ngModel change when initializing its
+          // internal selectedSite state. mimicking that behavior here for BC.
+          && scope.isNotFirstModelChange
+        ) {
           ngModel.$setViewValue(newValue);
         }
+
+        scope.isNotFirstModelChange = true;
       }
     },
     blur(event, vm, scope) {

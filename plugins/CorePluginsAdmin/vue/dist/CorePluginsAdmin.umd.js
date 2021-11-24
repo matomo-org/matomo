@@ -1855,6 +1855,16 @@ var CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
 FormFieldvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FormField = (FormFieldvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=4a515fda
+
+var FieldAngularJsTemplatevue_type_template_id_4a515fda_hoisted_1 = {
+  ref: "root"
+};
+function FieldAngularJsTemplatevue_type_template_id_4a515fda_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldAngularJsTemplatevue_type_template_id_4a515fda_hoisted_1, null, 512);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=4a515fda
+
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=script&lang=ts
 function FieldAngularJsTemplatevue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -1862,7 +1872,17 @@ function FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread(target) { fo
 
 function FieldAngularJsTemplatevue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
- // used as a last resort
+
+
+
+function clone(obj) {
+  if (typeof obj === 'undefined') {
+    return undefined;
+  }
+
+  return JSON.parse(JSON.stringify(obj));
+} // used as a last resort
+
 
 /* harmony default export */ var FieldAngularJsTemplatevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -1870,22 +1890,51 @@ function FieldAngularJsTemplatevue_type_script_lang_ts_defineProperty(obj, key, 
     templateFile: String
   },
   emits: ['update:modelValue'],
-  inheritAttrs: true,
-  setup: function setup(props) {
-    var _this = this;
-
-    var allPropsAsState = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread(FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread({}, props), {}, {
-      formField: FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread(FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread({}, props.formField), {}, {
-        value: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(JSON.parse(JSON.stringify(props.modelValue)))
-      })
-    }));
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return allPropsAsState.formField.value;
-    }, function (newValue) {
-      _this.$emit('update:modelValue', JSON.parse(JSON.stringify(newValue)));
+  inheritAttrs: false,
+  setup: function setup(props, context) {
+    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var $element = window.$("<div ng-include=\"'".concat(props.templateFile, "?cb=").concat(external_CoreHome_["Matomo"].cacheBuster, "'\"></div>"));
+    var $timeout = external_CoreHome_["Matomo"].helper.getAngularDependency('$timeout');
+    var $rootScope = external_CoreHome_["Matomo"].helper.getAngularDependency('$rootScope');
+    var scope = $rootScope.$new();
+    scope.$watch('formField.value', function (newValue, oldValue) {
+      if (newValue !== oldValue && newValue !== props.modelValue) {
+        context.emit('update:modelValue', clone(newValue));
+      }
     });
-    return function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["h"])('div', allPropsAsState);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+      return props.modelValue;
+    }, function (newValue) {
+      $timeout(function () {
+        scope.formField.value = clone(newValue);
+      });
+    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+      return props.formField;
+    }, function (newValue) {
+      $timeout(function () {
+        var currentValue = scope.formField.value;
+        scope.formField = FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread(FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread({}, clone(newValue)), {}, {
+          value: currentValue
+        });
+      });
+    }, {
+      deep: true
+    }); // append on mount
+
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
+      window.$(root.value).append($element);
+      external_CoreHome_["Matomo"].helper.compileAngularComponents($element, {
+        scope: scope,
+        params: {
+          formField: FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread(FieldAngularJsTemplatevue_type_script_lang_ts_objectSpread({}, clone(props.formField)), {}, {
+            value: props.modelValue
+          })
+        }
+      });
+    });
+    return {
+      root: root
     };
   }
 }));
@@ -1894,6 +1943,8 @@ function FieldAngularJsTemplatevue_type_script_lang_ts_defineProperty(obj, key, 
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue
 
 
+
+FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_4a515fda_render
 
 /* harmony default export */ var FieldAngularJsTemplate = (FieldAngularJsTemplatevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.adapter.ts
@@ -1973,7 +2024,7 @@ function transformVueComponentRef(value) {
           rows: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.rows),
           min: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.min),
           max: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.max),
-          component: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(scope.templateFile ? FieldAngularJsTemplate : transformVueComponentRef(value.component))
+          component: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(value.templateFile ? FieldAngularJsTemplate : transformVueComponentRef(value.component))
         });
       }
     },

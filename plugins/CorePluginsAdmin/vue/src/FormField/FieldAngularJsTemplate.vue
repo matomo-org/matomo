@@ -44,7 +44,6 @@ export default defineComponent({
     const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
 
     const scope = $rootScope.$new();
-    console.log(props.modelValue);
 
     scope.$watch('formField.value', (newValue, oldValue) => {
       if (newValue !== oldValue
@@ -55,7 +54,6 @@ export default defineComponent({
     });
 
     watch(() => props.modelValue, (newValue) => {
-      console.log('changed', props.modelValue);
       $timeout(() => {
         scope.formField.value = clone(newValue);
       });
