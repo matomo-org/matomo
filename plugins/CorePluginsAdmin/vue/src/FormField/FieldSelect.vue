@@ -164,16 +164,23 @@ export default defineComponent({
           || this.modelValue === null
           || this.modelValue === '')
       ) {
-        return [{ key: '', value: this.modelValue, group: '' }, ...this.availableOptions];
+        return [
+          { key: '', value: this.modelValue, group: this.hasGroups ? '' : undefined },
+          ...this.availableOptions,
+        ];
       }
       return this.availableOptions;
     },
-    groupedOptions() {
+    hasGroups() {
       const { options } = this;
-      if (!options || !options[0] || typeof options[0].group === 'undefined') {
+      return options && options[0] && typeof options[0].group !== 'undefined';
+    },
+    groupedOptions() {
+      if (!this.hasGroups) {
         return null;
       }
 
+      const { options } = this;
       const groups = {};
       options.forEach((entry) => {
         groups[entry.group] = groups[entry.group] || [];

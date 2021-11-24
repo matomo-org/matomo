@@ -29,6 +29,7 @@ function clone(obj) {
 export default defineComponent({
   props: {
     modelValue: null,
+    formField: null,
     templateFile: String,
   },
   emits: ['update:modelValue'],
@@ -44,6 +45,10 @@ export default defineComponent({
     const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
 
     const scope = $rootScope.$new();
+    scope.formField = {
+      ...clone(props.formField),
+      value: clone(props.modelValue),
+    };
 
     scope.$watch('formField.value', (newValue, oldValue) => {
       if (newValue !== oldValue
