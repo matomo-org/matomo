@@ -117,6 +117,7 @@ jobs:
           git config --global user.name "$GITHUB_ACTOR"
           if [[ ${{ steps.vars.outputs.islocalbranch }} ]]
           then
+            cd $GITHUB_WORKSPACE
             git checkout ${{ steps.vars.outputs.branch }}
           fi
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
