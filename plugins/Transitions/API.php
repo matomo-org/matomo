@@ -672,10 +672,13 @@ class API extends \Piwik\Plugin\API
      */
     private function getPeriodAllowed($period, $idSite, $date) : bool
     {
-        $generalMaxPeriodAllowed = Config::getInstance()->Transitions['max_period_allowed'];
+
+        $transitionsGeneralConfig = Config::getInstance()->Transitions;
+        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed']: null);
+
         $sectionName = 'Transitions_' . $idSite;
-        $section = Config::getInstance()->$sectionName;
-        $siteMaxPeriodAllowed = $section['max_period_allowed'];
+        $transitionsSiteConfig = Config::getInstance()->$sectionName;
+        $siteMaxPeriodAllowed = ($transitionsSiteConfig && !empty($section['max_period_allowed']) ? $section['max_period_allowed'] : null);
 
         if (!$generalMaxPeriodAllowed && !$siteMaxPeriodAllowed) {
             return true; // No config setting, so all periods are valid

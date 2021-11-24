@@ -1086,6 +1086,10 @@ port = ; Proxy port: the port that the proxy server listens to. There is no stan
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 
+[Transitions]
+; Disable transition reporting for periods larger than max_period_allowed, possible values: day, week, month, year, all
+max_period_allowed = 'all'
+
 [Languages]
 Languages[] = am
 Languages[] = ar
