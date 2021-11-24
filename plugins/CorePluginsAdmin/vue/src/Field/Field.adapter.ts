@@ -12,6 +12,7 @@ import {
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   processScopeProperty,
+  Matomo,
 } from 'CoreHome';
 import Field from './Field.vue';
 
@@ -24,7 +25,16 @@ function handleJsonValue(value: unknown, varType: string, uiControl: string) {
       || uiControl === 'multiselect'
       || uiControl === 'site')
   ) {
-    return JSON.parse(value);
+    const result = JSON.parse(value);
+
+    // the angularjs site field supplied siteid/sitename properties which initializes the
+    // siteselector value. the sitename is assumed to be encoded, and is decoded once.
+    // so the value for 'site' Field's in angularjs is assumed to be encoded.
+    if (uiControl === 'site') {
+      result.name = Matomo.helper.htmlDecode(result.name);
+    }
+
+    return result;
   }
 
   if (uiControl === 'checkbox') {

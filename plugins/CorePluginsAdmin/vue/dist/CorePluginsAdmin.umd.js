@@ -2066,7 +2066,15 @@ Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_3d71025b_render
 
 function handleJsonValue(value, varType, uiControl) {
   if (typeof value === 'string' && value && (varType === 'array' || uiControl === 'multituple' || uiControl === 'field-array' || uiControl === 'multiselect' || uiControl === 'site')) {
-    return JSON.parse(value);
+    var result = JSON.parse(value); // the angularjs site field supplied siteid/sitename properties which initializes the
+    // siteselector value. the sitename is assumed to be encoded, and is decoded once.
+    // so the value for 'site' Field's in angularjs is assumed to be encoded.
+
+    if (uiControl === 'site') {
+      result.name = external_CoreHome_["Matomo"].helper.htmlDecode(result.name);
+    }
+
+    return result;
   }
 
   if (uiControl === 'checkbox') {
