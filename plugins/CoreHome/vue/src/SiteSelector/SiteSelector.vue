@@ -278,13 +278,15 @@ export default defineComponent({
     },
   },
   created() {
-    this.onSearchTermChanged = debounce(this.onSearchTermChanged.bind(this));
+    this.searchSite = debounce(this.searchSite.bind(this));
   },
   methods: {
     onSearchTermChanged() {
       if (!this.searchTerm) {
+        this.isLoading = false;
         this.loadInitialSites();
       } else {
+        this.isLoading = true;
         this.searchSite(this.searchTerm);
       }
     },
@@ -337,7 +339,9 @@ export default defineComponent({
     },
     getMatchedSiteName(siteName: string) {
       const index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
-      if (index === -1) {
+      if (index === -1
+        || this.isLoading // only highlight when we know the displayed results are for a search
+      ) {
         return Matomo.helper.htmlEntities(siteName);
       }
 
@@ -357,6 +361,10 @@ export default defineComponent({
       this.isLoading = true;
 
       SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
+        if (term !== this.searchTerm) {
+          return; // search term changed in the meantime
+        }
+
         if (sites) {
           this.sites = sites;
         }
