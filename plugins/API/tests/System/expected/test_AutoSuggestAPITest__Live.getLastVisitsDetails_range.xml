@@ -93,7 +93,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -4034,7 +4034,7 @@
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
@@ -4782,7 +4782,7 @@
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
@@ -6164,7 +6164,7 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
@@ -6772,7 +6772,7 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
