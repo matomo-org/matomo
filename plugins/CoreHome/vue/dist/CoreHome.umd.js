@@ -401,7 +401,7 @@ function translate(translationStringId) {
 
   var pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
 
-  if (values.length === 1 && values[0] && values[0] instanceof Array) {
+  if (values.length === 1 && values[0] && Array.isArray(values[0])) {
     pkArgs = values[0];
   }
 
@@ -3299,7 +3299,7 @@ function wrapArray(values) {
     return [];
   }
 
-  return values instanceof Array ? values : [values];
+  return Array.isArray(values) ? values : [values];
 }
 
 var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
