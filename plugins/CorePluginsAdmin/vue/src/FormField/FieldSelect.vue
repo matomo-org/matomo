@@ -39,6 +39,8 @@
       ref="select"
       :multiple="multiple"
       :name="name"
+      @change="onChange($event)"
+      v-bind="uiControlAttributes"
     >
       <option
         v-for="option in options"
