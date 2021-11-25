@@ -11,7 +11,7 @@ import {
   createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
-  processScopeProperty,
+  removeAngularJsSpecificProperties,
   Matomo,
   useExternalPluginComponent,
 } from 'CoreHome';
@@ -177,7 +177,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           }
 
           // ngModel being used
-          (ngModel as INgModelController).$setViewValue(scope.value);
+          (ngModel as INgModelController).$setViewValue(newValue);
         });
       }
     },
@@ -205,7 +205,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     ngModel.$render = () => {
       nextTick(() => {
-        vm.modelValue = processScopeProperty(ngModel.$viewValue);
+        vm.modelValue = removeAngularJsSpecificProperties(ngModel.$viewValue);
       });
     };
 

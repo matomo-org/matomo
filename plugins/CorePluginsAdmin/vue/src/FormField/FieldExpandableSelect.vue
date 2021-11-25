@@ -124,7 +124,6 @@ export default defineComponent({
     FocusIf,
   },
   inheritAttrs: false,
-  // emits modelValue update, but doesn't sync to input value. same as angularjs directive.
   emits: ['update:modelValue'],
   data() {
     return {
