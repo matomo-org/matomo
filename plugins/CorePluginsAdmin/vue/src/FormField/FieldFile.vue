@@ -35,7 +35,7 @@ export default defineComponent({
   setup(props) {
     const fileInput = ref<HTMLInputElement>(null);
 
-    watch(() => props.value, (v) => {
+    watch(() => props.modelValue, (v) => {
       if (v === '') {
         const fileInputElement = fileInput.value;
         fileInputElement.value = '';
