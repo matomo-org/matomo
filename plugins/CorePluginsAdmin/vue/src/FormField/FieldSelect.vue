@@ -58,7 +58,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-// TODO: check that the value for multiselect is the key and not the value
 interface OptionGroup {
   group?: string;
   key: string;
@@ -219,7 +218,6 @@ export default defineComponent({
 
       let newValue: string|number|(string|number)[];
       if (this.multiple) {
-        // TODO: check Array.from compatibility
         newValue = Array.from(element.options).filter((e) => e.selected).map((e) => e.value);
         newValue = newValue.map(handleOldAngularJsValues);
       } else {
