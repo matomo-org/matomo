@@ -170,7 +170,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   $inject: ['$timeout'],
   events: {
     'update:modelValue': (newValue, vm, scope, element, attrs, ngModel, $timeout) => {
-      if (newValue !== scope.value) {
+      const currentValue = ngModel ? ngModel.$viewValue : scope.value;
+      if (newValue !== currentValue) {
         $timeout(() => {
           if (!ngModel) {
             scope.value = newValue;
