@@ -70,11 +70,6 @@ class SitesStore {
       this.currentRequest.abort();
     }
 
-    if (this.limitRequest) {
-      this.limitRequest.abort();
-      this.limitRequest = null;
-    }
-
     if (!this.limitRequest) {
       this.limitRequest = AjaxHelper.fetch({ method: 'SitesManager.getNumWebsitesToDisplayPerPage' });
     }
