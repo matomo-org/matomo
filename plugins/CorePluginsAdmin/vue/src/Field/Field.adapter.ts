@@ -39,7 +39,7 @@ function handleJsonValue(value: unknown, varType: string, uiControl: string) {
     return result;
   }
 
-  if (uiControl === 'checkbox') {
+  if (uiControl === 'checkbox' && varType !== 'array') {
     return transformAngularJsBoolAttr(value);
   }
 
@@ -157,55 +157,58 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           return shallowRef(FieldAngularJsTemplate);
         }
 
-        const { plugin, component } = value;
-        if (!plugin || !component) {
-          throw new Error("Invalid component property given to piwik-field directive, must be {plugin: '...',component: '...'}");
+        const { plugin, name } = value;
+        if (!plugin || !name) {
+          throw new Error("Invalid component property given to piwik-field directive, must be {plugin: '...',name: '...'}");
         }
 
-        return shallowRef(useExternalPluginComponent(plugin, component));
+        return shallowRef(useExternalPluginComponent(plugin, name));
       },
     },
   },
   directiveName: 'piwikField',
   $inject: ['$timeout'],
   events: {
-    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
+    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel, $timeout) => {
       if (newValue !== scope.value) {
-        scope.value = newValue;
+        $timeout(() => {
+          if (!ngModel) {
+            scope.value = newValue;
+          }
 
-        if (ngModel) {
+          // ngModel being used
           (ngModel as INgModelController).$setViewValue(scope.value);
-        }
+        });
       }
     },
   },
   postCreate(vm, scope, element, attrs, controller) {
     const ngModel = controller as INgModelController;
 
-    scope.$watch('value', (newVal, oldVal) => {
-      if (newVal !== vm.modelValue) {
-        const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-        vm.modelValue = transformed;
+    if (!ngModel) {
+      scope.$watch('value', (newVal) => {
+        if (newVal !== vm.modelValue) {
+          const transformed = handleJsonValue(newVal, scope.varType, scope.uicontrol);
 
-        if (newVal === oldVal && ngModel) { // first update
-          (ngModel as INgModelController).$setViewValue(transformed);
+          nextTick(() => {
+            vm.modelValue = transformed;
+          });
         }
-      }
-    });
+      });
+    }
 
+    // ngModel being used
     if (typeof scope.value !== 'undefined') {
       const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-      vm.modelValue = JSON.parse(JSON.stringify(transformed));
+      (ngModel as INgModelController).$setViewValue(transformed);
     }
 
-    if (ngModel) {
-      ngModel.$render = () => {
-        nextTick(() => {
-          vm.modelValue = processScopeProperty(ngModel.$viewValue);
-        });
-      };
+    ngModel.$render = () => {
+      nextTick(() => {
+        vm.modelValue = processScopeProperty(ngModel.$viewValue);
+      });
+    };
 
-      ngModel.$setViewValue(vm.modelValue);
-    }
+    ngModel.$setViewValue(vm.modelValue);
   },
 });

@@ -21,13 +21,13 @@ function transformVueComponentRef(value?: Record<string, string>) {
     return undefined;
   }
 
-  const { plugin, component } = value;
-  if (!plugin || !component) {
+  const { plugin, name } = value;
+  if (!plugin || !name) {
     throw new Error('Invalid component property given to piwik-field directive, must be '
-      + '{plugin: \'...\',component: \'...\'}');
+      + '{plugin: \'...\',name: \'...\'}');
   }
 
-  return useExternalPluginComponent(plugin, component);
+  return useExternalPluginComponent(plugin, name);
 }
 
 export default createAngularJsAdapter<[ITimeoutService]>({

@@ -89,9 +89,7 @@ export default {
     binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
     binding.value.onScroll = onScroll.bind(null, binding);
 
-    // have to use jquery here since existing code will do $(...).click(). which apparently
-    // doesn't work when using addEventListener.
-    window.$(binding.value.expander).click(binding.value.onExpand);
+    binding.value.expander.addEventListener('click', binding.value.onExpand);
     doc.addEventListener('keyup', binding.value.onEscapeHandler);
     doc.addEventListener('mousedown', binding.value.onMouseDown);
     doc.addEventListener('mouseup', binding.value.onClickOutsideElement);

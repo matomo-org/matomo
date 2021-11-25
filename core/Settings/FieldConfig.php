@@ -132,7 +132,7 @@ class FieldConfig
      * keys:
      *
      * - plugin: the name of the plugin that the UI control exists in.
-     * - component: the name of the export for the component in the plugin's Vue UMD module.
+     * - name: the name of the export for the component in the plugin's Vue UMD module.
      *
      * @var string[]
      */

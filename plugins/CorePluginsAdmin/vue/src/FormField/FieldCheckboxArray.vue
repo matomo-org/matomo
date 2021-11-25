@@ -35,7 +35,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-// TODO: how often is this called
 function getCheckboxStates(availableOptions, modelValue) {
   return Object.values(availableOptions).map((o) => modelValue && modelValue.indexOf(o.key) !== -1);
 }

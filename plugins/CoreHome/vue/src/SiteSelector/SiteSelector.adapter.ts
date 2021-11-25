@@ -58,6 +58,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           // the original site selector did not initiate an ngModel change when initializing its
           // internal selectedSite state. mimicking that behavior here for BC.
           && scope.isNotFirstModelChange
+          && !vm.modelValue
         ) {
           ngModel.$setViewValue(newValue);
         }

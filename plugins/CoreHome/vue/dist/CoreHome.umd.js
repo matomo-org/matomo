@@ -132,7 +132,7 @@ __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsBoolAttr", function() { return /* reexport */ transformAngularJsBoolAttr; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsIntAttr", function() { return /* reexport */ transformAngularJsIntAttr; });
-__webpack_require__.d(__webpack_exports__, "processScopeProperty", function() { return /* reexport */ processScopeProperty; });
+__webpack_require__.d(__webpack_exports__, "removeAngularJsSpecificProperties", function() { return /* reexport */ removeAngularJsSpecificProperties; });
 __webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
@@ -2227,10 +2227,8 @@ var ExpandOnClick_doc = document.documentElement;
     binding.value.onEscapeHandler = ExpandOnClick_onEscapeHandler.bind(null, el, binding);
     binding.value.onMouseDown = ExpandOnClick_onMouseDown.bind(null, binding);
     binding.value.onClickOutsideElement = ExpandOnClick_onClickOutsideElement.bind(null, el, binding);
-    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding); // have to use jquery here since existing code will do $(...).click(). which apparently
-    // doesn't work when using addEventListener.
-
-    window.$(binding.value.expander).click(binding.value.onExpand);
+    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
+    binding.value.expander.addEventListener('click', binding.value.onExpand);
     ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
     ExpandOnClick_doc.addEventListener('mousedown', binding.value.onMouseDown);
     ExpandOnClick_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
@@ -2488,7 +2486,7 @@ function toAngularJsCamelCase(arg) {
   });
 }
 
-function processScopeProperty(newValue) {
+function removeAngularJsSpecificProperties(newValue) {
   if (_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
     return Object.fromEntries(Object.entries(newValue).filter(function (pair) {
       return !/^\$/.test(pair[0]);
@@ -2589,7 +2587,7 @@ function createAngularJsAdapter(options) {
                       scopeVarName = _ref6[0],
                       info = _ref6[1];
 
-                  var value = processScopeProperty(ngScope[scopeVarName]);
+                  var value = removeAngularJsSpecificProperties(ngScope[scopeVarName]);
 
                   if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
                     value = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
@@ -2644,7 +2642,7 @@ function createAngularJsAdapter(options) {
               }
 
               ngScope.$watch(scopeVarName, function (newValue) {
-                var newValueFinal = processScopeProperty(newValue);
+                var newValueFinal = removeAngularJsSpecificProperties(newValue);
 
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
                   newValueFinal = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
@@ -2747,14 +2745,17 @@ function transformAngularJsIntAttr(v) {
         }, 0);
       }
     },
-    close: function close($event, vm, scope, element, attrs) {
-      if (attrs.close) {
-        scope.$eval(attrs.close);
-      }
-    },
     validation: function validation($event, vm, scope, element, attrs) {
       if (attrs.no) {
         scope.$eval(attrs.no);
+        setTimeout(function () {
+          scope.$apply();
+        }, 0);
+      }
+    },
+    close: function close($event, vm, scope, element, attrs) {
+      if (attrs.close) {
+        scope.$eval(attrs.close);
         setTimeout(function () {
           scope.$apply();
         }, 0);
@@ -5541,7 +5542,7 @@ function SiteSelector_adapter_defineProperty(obj, key, value) { if (key in obj) 
 
         if (ngModel // the original site selector did not initiate an ngModel change when initializing its
         // internal selectedSite state. mimicking that behavior here for BC.
-        && scope.isNotFirstModelChange) {
+        && scope.isNotFirstModelChange && !vm.modelValue) {
           ngModel.$setViewValue(newValue);
         }
 

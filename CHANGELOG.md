@@ -6,9 +6,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## 4.7.0
 
-### Breaking Changes
+### Deprecated APIs
 
-* The `piwik-field` and related directives have been converted to Vue and no longer support the `template-file` attribute.
+* The `piwik-field` and related directives have been converted to Vue and the `template-file` attribute is now considered deprecated and will be removed in Matomo 5. Instead,
+  the `component` property should be used to add a new form field, it should be an object with two properties that reference a Vue component, `plugin` and `name`, where `plugin`
+  is the plugin the Vue component is located in and `name` is the Vue name of the component's export. 
 
 ## Matomo 4.6.0
 

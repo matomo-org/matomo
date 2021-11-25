@@ -25,7 +25,6 @@ function clone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-// used as a last resort
 export default defineComponent({
   props: {
     modelValue: null,
