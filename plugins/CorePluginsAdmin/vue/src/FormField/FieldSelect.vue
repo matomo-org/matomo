@@ -39,16 +39,14 @@
       ref="select"
       :multiple="multiple"
       :name="name"
-      @change="onChange($event)"
-      v-bind="uiControlAttributes"
     >
       <option
         v-for="option in options"
         :key="option.key"
         :value="`string:${option.key}`"
         :selected="multiple
-          ? modelValue && modelValue.indexOf(option.key) !== -1
-          : modelValue === option.key"
+            ? modelValue && modelValue.indexOf(option.key) !== -1
+            : modelValue === option.key"
       >
         {{ option.value }}
       </option>
@@ -60,7 +58,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-// TODO: test both use cases, grouped and ungrouped for multiselect (put in UI demo)
 // TODO: check that the value for multiselect is the key and not the value
 interface OptionGroup {
   group?: string;
@@ -68,8 +65,19 @@ interface OptionGroup {
   value: unknown;
 }
 
-function initMaterialSelect(select: HTMLElement, placeholder: string, uiControlOptions = {}) {
+function initMaterialSelect(
+  select: HTMLSelectElement,
+  modelValue: unknown[],
+  placeholder: string,
+  uiControlOptions = {},
+) {
   const $select = window.$(select);
+
+  // reset selected since materialize removes them
+  Array.from(select.options).forEach((opt) => {
+    opt.selected = modelValue
+      && modelValue.indexOf(opt.value.replace(/^string:/, '')) !== -1;
+  });
 
   $select.formSelect(uiControlOptions);
 
@@ -103,9 +111,12 @@ export function getAvailableOptions(
     return [];
   }
 
+  let hasGroups = true;
+
   let availableValues = givenAvailableValues as Record<string, Record<string|number, unknown>>;
   if (!hasGroupedValues(availableValues)) {
     availableValues = { '': givenAvailableValues };
+    hasGroups = false;
   }
 
   const flatValues = [];
@@ -121,7 +132,7 @@ export function getAvailableOptions(
         key = parseInt(valueObjKey, 10);
       }
 
-      flatValues.push({ group, key, value });
+      flatValues.push({ group: hasGroups ? group : undefined, key, value });
     });
   });
 
@@ -172,8 +183,8 @@ export default defineComponent({
       return this.availableOptions;
     },
     hasGroups() {
-      const { options } = this;
-      return options && options[0] && typeof options[0].group !== 'undefined';
+      const { availableOptions } = this;
+      return availableOptions && availableOptions[0] && typeof availableOptions[0].group !== 'undefined';
     },
     groupedOptions() {
       if (!this.hasGroups) {
@@ -220,17 +231,16 @@ export default defineComponent({
     },
   },
   watch: {
-    modelValue(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        window.$(this.$refs.select).val(newVal);
-        setTimeout(() => {
-          initMaterialSelect(
-            this.$refs.select,
-            this.uiControlAttributes.placeholder,
-            this.uiControlOptions,
-          );
-        });
-      }
+    modelValue(newVal) {
+      window.$(this.$refs.select).val(newVal);
+      setTimeout(() => {
+        initMaterialSelect(
+          this.$refs.select,
+          this.modelValue,
+          this.uiControlAttributes.placeholder,
+          this.uiControlOptions,
+        );
+      });
     },
     'uiControlAttributes.disabled': {
       handler(newVal, oldVal) {
@@ -238,6 +248,7 @@ export default defineComponent({
           if (newVal !== oldVal) {
             initMaterialSelect(
               this.$refs.select,
+              this.modelValue,
               this.uiControlAttributes.placeholder,
               this.uiControlOptions,
             );
@@ -250,6 +261,7 @@ export default defineComponent({
         setTimeout(() => {
           initMaterialSelect(
             this.$refs.select,
+            this.modelValue,
             this.uiControlAttributes.placeholder,
             this.uiControlOptions,
           );
@@ -261,6 +273,7 @@ export default defineComponent({
     setTimeout(() => {
       initMaterialSelect(
         this.$refs.select,
+        this.modelValue,
         this.uiControlAttributes.placeholder,
         this.uiControlOptions,
       );

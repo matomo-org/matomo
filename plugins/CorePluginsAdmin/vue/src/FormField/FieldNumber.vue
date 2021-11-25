@@ -46,13 +46,10 @@ export default defineComponent({
     window.Materialize.updateTextFields();
   },
   watch: {
-    modelValue(newVal, oldVal) { // TODO: double check if newVal !== oldVal is needed
-      if (newVal !== oldVal) {
-        // TODO: removed $timeout
-        setTimeout(() => {
-          window.Materialize.updateTextFields();
-        });
-      }
+    modelValue() {
+      setTimeout(() => {
+        window.Materialize.updateTextFields();
+      });
     },
   },
 });

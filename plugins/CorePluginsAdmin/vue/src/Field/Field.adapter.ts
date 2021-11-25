@@ -174,10 +174,12 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         $timeout(() => {
           if (!ngModel) {
             scope.value = newValue;
+            return;
           }
 
           // ngModel being used
           (ngModel as INgModelController).$setViewValue(newValue);
+          (ngModel as INgModelController).$render(); // not detected by the watch for some reason
         });
       }
     },
@@ -195,6 +197,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           });
         }
       });
+      return;
     }
 
     // ngModel being used
