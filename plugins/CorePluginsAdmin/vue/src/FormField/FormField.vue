@@ -167,16 +167,12 @@ export default defineComponent({
       }
 
       window.$(inlineHelpNode.value).html('').append(toAppend);
-      // TODO: used to have $timeout here
     };
 
-    // TODO: test the watch changes
     watch(() => props.formField.inlineHelp, setInlineHelp);
 
     onMounted(() => {
-      if (props.formField.inlineHelp) {
-        setInlineHelp(props.formField.inlineHelp);
-      }
+      setInlineHelp(props.formField.inlineHelp);
     });
 
     return {
@@ -264,7 +260,6 @@ export default defineComponent({
       }
       return defaultValue;
     },
-    // TODO: availableOptions can be Arry/Object anywhere
     availableOptions() {
       const { childComponent, formField } = this;
 
@@ -293,7 +288,6 @@ export default defineComponent({
           // invalid JSON
         }
 
-        // TODO: additional check for null + typeof !== object'
         if (defaultParsed !== null && typeof defaultParsed === 'object') {
           return '';
         }

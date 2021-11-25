@@ -130,7 +130,7 @@ PageRenderer.prototype.waitFor = function (selectorOrTimeoutOrFunction) {
 
 PageRenderer.prototype.type = async function (...args) {
   await this.webpage.type(...args);
-  await this.waitForTimeout(100); // puppeteer types faster than vue can update the model state
+  await this.waitForTimeout(50); // puppeteer types faster than vue can update the model state
 };
 
 PageRenderer.prototype.isVisible = function (selector) {

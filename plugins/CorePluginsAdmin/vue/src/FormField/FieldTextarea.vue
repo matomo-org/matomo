@@ -41,13 +41,11 @@ export default defineComponent({
     },
   },
   watch: {
-    modelValue(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        setTimeout(() => {
-          window.Materialize.textareaAutoResize(this.$refs.textarea);
-          window.Materialize.updateTextFields();
-        });
-      }
+    modelValue() {
+      setTimeout(() => {
+        window.Materialize.textareaAutoResize(this.$refs.textarea);
+        window.Materialize.updateTextFields();
+      });
     },
   },
   mounted() {

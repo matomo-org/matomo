@@ -13,7 +13,6 @@ export function processCheckboxAndRadioAvailableValues(
     return [];
   }
 
-  // TODO: check Object.entries([...]) on old browsers
   const flatValues = [];
   Object.entries(availableValues).forEach(([valueObjKey, value]) => {
     if (typeof value === 'object' && typeof value.key !== 'undefined') {

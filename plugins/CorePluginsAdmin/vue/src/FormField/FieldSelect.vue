@@ -88,7 +88,7 @@ function initMaterialSelect(
 }
 
 function hasGroupedValues(availableValues) {
-  if (availableValues instanceof Array
+  if (Array.isArray(availableValues)
     || !(typeof availableValues === 'object')
   ) {
     return false;
