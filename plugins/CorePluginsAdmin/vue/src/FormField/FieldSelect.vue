@@ -69,13 +69,18 @@ function initMaterialSelect(
   modelValue: unknown[],
   placeholder: string,
   uiControlOptions = {},
+  multiple: boolean,
 ) {
   const $select = window.$(select);
 
   // reset selected since materialize removes them
   Array.from(select.options).forEach((opt) => {
-    opt.selected = modelValue
-      && modelValue.indexOf(opt.value.replace(/^string:/, '')) !== -1;
+    if (multiple) {
+      opt.selected = modelValue
+        && modelValue.indexOf(opt.value.replace(/^string:/, '')) !== -1;
+    } else {
+      opt.selected = `string:${modelValue}` === opt.value;
+    }
   });
 
   $select.formSelect(uiControlOptions);
@@ -234,9 +239,10 @@ export default defineComponent({
       setTimeout(() => {
         initMaterialSelect(
           this.$refs.select,
-          this.modelValue,
+          newVal,
           this.uiControlAttributes.placeholder,
           this.uiControlOptions,
+          this.multiple,
         );
       });
     },
@@ -249,6 +255,7 @@ export default defineComponent({
               this.modelValue,
               this.uiControlAttributes.placeholder,
               this.uiControlOptions,
+              this.multiple,
             );
           }
         });
@@ -262,6 +269,7 @@ export default defineComponent({
             this.modelValue,
             this.uiControlAttributes.placeholder,
             this.uiControlOptions,
+            this.multiple,
           );
         });
       }
@@ -274,6 +282,7 @@ export default defineComponent({
         this.modelValue,
         this.uiControlAttributes.placeholder,
         this.uiControlOptions,
+        this.multiple,
       );
     });
   },
