@@ -546,6 +546,11 @@ var Range_RangePeriod = /*#__PURE__*/function () {
     value: function containsToday() {
       return todayIsInRange(this.getDateRange());
     }
+  }, {
+    key: "getDayCount",
+    value: function getDayCount() {
+      return Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24));
+    }
   }], [{
     key: "getLastNRange",
     value: function getLastNRange(childPeriodType, strAmount, strEndDate) {
