@@ -123,12 +123,46 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnReport: function (dataTableParams) {
-        var i = 0;
 
-        if (!piwik.transitionsPeriodAllowed) {
-          return false;
+        if (piwik.transitionsMaxPeriodAllowed && dataTableParams['period']) {
+
+            if (dataTableParams['period'] === 'range') {
+
+                var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                if (piwikPeriods) {
+                    var range = piwikPeriods.parse(dataTableParams['period'], dataTableParams['date']);
+                    if (range) {
+                        var rangeDays = range.getDayCount();
+                        if ((piwik.transitionsMaxPeriodAllowed === 'day' && rangeDays > 1) ||
+                            (piwik.transitionsMaxPeriodAllowed === 'week' && rangeDays > 7) ||
+                            (piwik.transitionsMaxPeriodAllowed === 'month' && rangeDays > 31) ||
+                            (piwik.transitionsMaxPeriodAllowed === 'year' && rangeDays > 365))
+                        {
+                          return false;
+                        }
+                    }
+                }
+            } else {
+                if (piwik.transitionsMaxPeriodAllowed === 'day' && dataTableParams['period'] !== 'day') {
+                    return false;
+                }
+                if (piwik.transitionsMaxPeriodAllowed === 'week' && dataTableParams['period'] !== 'day'
+                    && dataTableParams['period'] !== 'week') {
+                    return false;
+                }
+                if (piwik.transitionsMaxPeriodAllowed === 'month' && dataTableParams['period'] !== 'day'
+                    && dataTableParams['period'] !== 'week' && dataTableParams['period'] !== 'month') {
+                    return false;
+                }
+                if (piwik.transitionsMaxPeriodAllowed === 'year' && dataTableParams['period'] !== 'day'
+                    && dataTableParams['period'] !== 'week' && dataTableParams['period'] !== 'month'
+                    && dataTableParams['period'] !== 'year'
+                ) {
+                    return false;
+                }
+            }
         }
-
+        var i = 0;
         for (i; i < DataTable_RowActions_Transitions.registeredReports.length; i++) {
             var report = DataTable_RowActions_Transitions.registeredReports[i];
             if (report

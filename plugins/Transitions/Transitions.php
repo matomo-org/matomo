@@ -62,21 +62,11 @@ class Transitions extends \Piwik\Plugin
 
     public function addJsGlobalVariables(&$out)
     {
-
         $idSite = Common::getRequestVar('idSite', 1, 'int');
-        $period = Common::getRequestVar('period', 'day', 'string');
-        $date = Common::getRequestVar('date', 'yesterday', 'string');
 
         $api = API::getInstance();
-        if($api->getPeriodAllowed($period, $idSite, $date)) {
-            $allowed = 'true';
-        } else {
-            $allowed = 'false';
-        }
+        $maxPeriodAllowed = $api->getPeriodAllowedConfig($idSite);
 
-        $out .= "      
-        piwik.transitionsPeriodAllowed = $allowed;\n
-        ";
-
+        $out .= '    piwik.transitionsMaxPeriodAllowed = "'.($maxPeriodAllowed ? $maxPeriodAllowed : 'all').'"'."\n";
     }
 }

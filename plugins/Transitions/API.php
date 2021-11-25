@@ -662,6 +662,33 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Retrieve the period allowed config setting for a site or all sites if null
+     *
+     * @param $idSite
+     *
+     * @return string|null
+     */
+    public function getPeriodAllowedConfig($idSite) : ?string
+    {
+        $transitionsGeneralConfig = Config::getInstance()->Transitions;
+        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed']: null);
+
+        $siteMaxPeriodAllowed = null;
+        if ($idSite) {
+            $sectionName = 'Transitions_'.$idSite;
+            $transitionsSiteConfig = Config::getInstance()->$sectionName;
+            $siteMaxPeriodAllowed = ($transitionsSiteConfig && !empty($transitionsSiteConfig['max_period_allowed']) ? $transitionsSiteConfig['max_period_allowed'] : null);
+        }
+
+        if (!$generalMaxPeriodAllowed && !$siteMaxPeriodAllowed) {
+            return 'all'; // No config setting, so all periods are valid
+        }
+
+        // Site setting overrides general, if it exists
+        return ($siteMaxPeriodAllowed ? $siteMaxPeriodAllowed : $generalMaxPeriodAllowed);
+    }
+
+    /**
      * Check if a period is allowed by config settings
      *
      * @param $period
@@ -672,20 +699,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getPeriodAllowed($period, $idSite, $date) : bool
     {
-
-        $transitionsGeneralConfig = Config::getInstance()->Transitions;
-        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed']: null);
-
-        $sectionName = 'Transitions_' . $idSite;
-        $transitionsSiteConfig = Config::getInstance()->$sectionName;
-        $siteMaxPeriodAllowed = ($transitionsSiteConfig && !empty($transitionsSiteConfig['max_period_allowed']) ? $transitionsSiteConfig['max_period_allowed'] : null);
-
-        if (!$generalMaxPeriodAllowed && !$siteMaxPeriodAllowed) {
-            return true; // No config setting, so all periods are valid
-        }
-
-        // Site setting overrides general, if it exists
-        $maxPeriodAllowed = ($siteMaxPeriodAllowed ? $siteMaxPeriodAllowed : $generalMaxPeriodAllowed);
+        $maxPeriodAllowed = $this->getPeriodAllowedConfig($idSite);
 
         if ($maxPeriodAllowed === 'all') {
             return true;
