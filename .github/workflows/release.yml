@@ -92,6 +92,12 @@ jobs:
               exit 1
             fi
 
+            if [[ ${GITHUB_REF#refs/heads/} != "4.x-dev" && ${GITHUB_REF#refs/heads/} != "next_release" ]]
+            then
+              echo "A tag can only be created from branches '4.x-dev' and 'next_release'. Please create the tag manually if a release needs to be built from another branch."
+              exit 1
+            fi
+
             echo "Creating a tag for $version"
 
             git tag $version
