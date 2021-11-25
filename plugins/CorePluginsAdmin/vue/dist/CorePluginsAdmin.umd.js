@@ -2347,7 +2347,9 @@ function handleJsonValue(value, varType, uiControl) {
   $inject: ['$timeout'],
   events: {
     'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel, $timeout) {
-      if (newValue !== scope.value) {
+      var currentValue = ngModel ? ngModel.$viewValue : scope.value;
+
+      if (newValue !== currentValue) {
         $timeout(function () {
           if (!ngModel) {
             scope.value = newValue;
