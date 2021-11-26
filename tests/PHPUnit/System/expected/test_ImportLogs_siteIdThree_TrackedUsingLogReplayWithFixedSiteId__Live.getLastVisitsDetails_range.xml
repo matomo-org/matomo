@@ -538,7 +538,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -961,7 +961,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -1971,7 +1971,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 11.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -2168,7 +2168,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 5.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>

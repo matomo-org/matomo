@@ -162,6 +162,23 @@ class CronArchive
      */
     public $maxConcurrentArchivers = false;
 
+    /**
+     * Maximum number of sites to process during a single execution of the archiver.
+     *
+     * @var int|null
+     */
+    public $maxSitesToProcess = null;
+
+    /**
+     * Maximum number of archives to process during a single execution of the archiver.
+     *
+     * Note that this is not a hard limit as the limit is only checked after all
+     * archives for a site have been processed.
+     *
+     * @var int|null
+     */
+    public $maxArchivesToProcess = null;
+
     private $archivingStartingTime;
 
     private $formatter;
@@ -360,6 +377,8 @@ class CronArchive
         $queueConsumer = new QueueConsumer($this->logger, $this->websiteIdArchiveList, $countOfProcesses, $pid,
             $this->model, $this->segmentArchiving, $this, $this->cliMultiRequestParser, $this->archiveFilter);
 
+        $queueConsumer->setMaxSitesToProcess($this->maxSitesToProcess);
+
         while (true) {
             if ($this->isMaintenanceModeEnabled()) {
                 $this->logger->info("Archiving will stop now because maintenance mode is enabled");
@@ -389,6 +408,10 @@ class CronArchive
 
             $successCount = $this->launchArchivingFor($archivesToProcess, $queueConsumer);
             $numArchivesFinished += $successCount;
+            if ($this->maxArchivesToProcess && $numArchivesFinished >= $this->maxArchivesToProcess) {
+                $this->logger->info("Maximum number of archives to process per execution has been reached.");
+                break;
+            }
         }
 
         $this->disconnectDb();
@@ -1115,11 +1138,18 @@ class CronArchive
             }
         }
 
+        if ($this->maxSitesToProcess) {
+            $this->logger->info("- Maximum {$this->maxSitesToProcess} websites will be processed.");
+        }
+        if ($this->maxArchivesToProcess) {
+            $this->logger->info("- Maximum {$this->maxArchivesToProcess} archives will be processed (soft limit).");
+        }
+
         // Try and not request older data we know is already archived
         if ($this->lastSuccessRunTimestamp !== false) {
             $dateLast = time() - $this->lastSuccessRunTimestamp;
             $this->logger->info("- Archiving was last executed without error "
-                . $this->formatter->getPrettyTimeFromSeconds($dateLast, true) . " ago");
+                . $this->formatter->getPrettyTimeFromSeconds($dateLast, true) . " ago.");
         }
     }
 

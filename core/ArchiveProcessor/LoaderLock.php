@@ -18,6 +18,10 @@ class LoaderLock
     const MAX_LOCK_TIME = 60; //in seconds
     protected $id;
 
+    /**
+     * @param string $id
+     * @throws \Exception
+     */
     public function __construct($id)
     {
         // instanceId is needed for multi tenant database solution
