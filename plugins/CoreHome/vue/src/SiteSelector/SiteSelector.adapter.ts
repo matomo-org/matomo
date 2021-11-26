@@ -44,26 +44,29 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   $inject: ['$timeout'],
   directiveName: 'piwikSiteselector',
   events: {
-    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
+    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel, $timeout) => {
       if ((newValue && !vm.modelValue)
         || (!newValue && vm.modelValue)
         || newValue.id !== vm.modelValue.id
       ) {
-        scope.value = newValue;
+        $timeout(() => {
+          scope.value = newValue;
 
-        element.attr('siteid', newValue.id);
-        element.trigger('change', newValue);
+          element.attr('siteid', newValue.id);
+          element.trigger('change', newValue);
 
-        if (ngModel
-          // the original site selector did not initiate an ngModel change when initializing its
-          // internal selectedSite state. mimicking that behavior here for BC.
-          && scope.isNotFirstModelChange
-          && !vm.modelValue
-        ) {
-          ngModel.$setViewValue(newValue);
-        }
+          if (ngModel
+            // the original site selector did not initiate an ngModel change when initializing its
+            // internal selectedSite state. mimicking that behavior here for BC.
+            && (scope.isNotFirstModelChange
+              || vm.modelValue)
+          ) {
+            ngModel.$setViewValue(newValue);
+            ngModel.$render(); // not called automatically by the digest
+          }
 
-        scope.isNotFirstModelChange = true;
+          scope.isNotFirstModelChange = true;
+        });
       }
     },
     blur(event, vm, scope) {
