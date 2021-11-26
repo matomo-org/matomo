@@ -128,6 +128,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
 __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
 __webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsBoolAttr", function() { return /* reexport */ transformAngularJsBoolAttr; });
@@ -2172,6 +2173,20 @@ function piwikFocusIf() {
 }
 
 angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/directiveUtilities.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function getRef(expander, binding) {
+  return expander instanceof HTMLElement ? expander : binding.instance.$refs[expander];
+}
+
+/* harmony default export */ var directiveUtilities = ({
+  getRef: getRef
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2179,6 +2194,7 @@ angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 function onExpand(element) {
@@ -2222,10 +2238,6 @@ function ExpandOnClick_onEscapeHandler(element, binding, event) {
 }
 
 var ExpandOnClick_doc = document.documentElement;
-
-function getRef(expander, binding) {
-  return binding.value.expander instanceof HTMLElement ? binding.value.expander : binding.instance.$refs[binding.value.expander];
-}
 /**
  * Usage (in a component):
  *
@@ -2234,7 +2246,6 @@ function getRef(expander, binding) {
  *                                   // in this directive
  * }
  */
-
 
 /* harmony default export */ var ExpandOnClick = ({
   mounted: function mounted(el, binding) {
@@ -2246,7 +2257,7 @@ function getRef(expander, binding) {
     binding.value.onClickOutsideElement = ExpandOnClick_onClickOutsideElement.bind(null, el, binding);
     binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
     setTimeout(function () {
-      var expander = getRef(binding.value.expander, binding);
+      var expander = directiveUtilities.getRef(binding.value.expander, binding);
       expander.addEventListener('click', binding.value.onExpand);
     });
     ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
@@ -2255,7 +2266,7 @@ function getRef(expander, binding) {
     ExpandOnClick_doc.addEventListener('scroll', binding.value.onScroll);
   },
   unmounted: function unmounted(el, binding) {
-    var expander = getRef(binding.value.expander, binding);
+    var expander = directiveUtilities.getRef(binding.value.expander, binding);
     expander.removeEventListener('click', binding.value.onExpand);
     ExpandOnClick_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
     ExpandOnClick_doc.removeEventListener('mousedown', binding.value.onMouseDown);
@@ -2302,9 +2313,6 @@ angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
  */
 
 
-function ExpandOnHover_getRef(expander, binding) {
-  return binding.value.expander instanceof HTMLElement ? binding.value.expander : binding.instance.$refs[binding.value.expander];
-}
 
 function onMouseEnter(element) {
   element.classList.add('expanded');
@@ -2348,7 +2356,7 @@ var ExpandOnHover_doc = document.documentElement;
     binding.value.onClickOutsideElement = ExpandOnHover_onClickOutsideElement.bind(null, el);
     binding.value.onEscapeHandler = ExpandOnHover_onEscapeHandler.bind(null, el);
     setTimeout(function () {
-      var expander = ExpandOnHover_getRef(binding.value.expander, binding);
+      var expander = directiveUtilities.getRef(binding.value.expander, binding);
       expander.addEventListener('mouseenter', binding.value.onMouseEnter);
     });
     el.addEventListener('mouseleave', binding.value.onMouseLeave);
@@ -2356,7 +2364,7 @@ var ExpandOnHover_doc = document.documentElement;
     ExpandOnHover_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
   },
   unmounted: function unmounted(el, binding) {
-    var expander = ExpandOnHover_getRef(binding.value.expander, binding);
+    var expander = directiveUtilities.getRef(binding.value.expander, binding);
     expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
     el.removeEventListener('mouseleave', binding.value.onMouseLeave);
     document.removeEventListener('keyup', binding.value.onEscapeHandler);
@@ -7832,6 +7840,7 @@ NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_temp
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

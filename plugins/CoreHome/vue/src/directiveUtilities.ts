@@ -7,10 +7,10 @@
 
 import { DirectiveBinding } from 'vue';
 
-function getRef<T>(expander: string | HTMLElement, binding: DirectiveBinding<T>) {
+function getRef<T>(expander: string | HTMLElement, binding: DirectiveBinding<T>): HTMLElement|null {
   return expander instanceof HTMLElement
     ? expander
-    : binding.instance.$refs[expander];
+    : binding.instance.$refs[expander] as HTMLElement;
 }
 
 export default {
