@@ -6,17 +6,11 @@
  */
 
 import { DirectiveBinding } from 'vue';
+import DirectiveUtilities from '../directiveUtilities';
 
 interface SideNavArgs {
   activator: HTMLElement | string;
   initialized?: boolean;
-}
-
-// TODO: make re-usable
-function getRef(expander: string | HTMLElement, binding: DirectiveBinding<SideNavArgs>) {
-  return expander instanceof HTMLElement
-    ? expander
-    : binding.instance.$refs[expander];
 }
 
 export default {
@@ -29,7 +23,10 @@ export default {
       if (!binding.value.initialized) {
         binding.value.initialized = true;
 
-        getRef()
+        const sideNavActivator = DirectiveUtilities.getRef(binding.value.activator, binding);
+        window.$(sideNavActivator).show();
+
+        sideNavActivator.getAttribute('')
       }
     });
     // TODO
