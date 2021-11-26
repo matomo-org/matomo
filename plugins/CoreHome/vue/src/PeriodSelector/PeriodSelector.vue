@@ -89,16 +89,17 @@
           />
           <span>{{ translate('General_CompareTo') }}</span>
         </label>
-        <Field
-          id="comparePeriodToDropdown"
-          v-model="comparePeriodType"
-          :style="{'visibility': isComparing ? 'visible' : 'hidden'}"
-          :name="'comparePeriodToDropdown'"
-          :uicontrol="'select'"
-          :options="comparePeriodDropdownOptions"
-          :full-width="true"
-          :disabled="!isComparing"
-        />
+        <div id="comparePeriodToDropdown">
+          <Field
+            v-model="comparePeriodType"
+            :style="{'visibility': isComparing ? 'visible' : 'hidden'}"
+            :name="'comparePeriodToDropdown'"
+            :uicontrol="'select'"
+            :options="comparePeriodDropdownOptions"
+            :full-width="true"
+            :disabled="!isComparing"
+          />
+        </div>
       </div>
       <div
         class="compare-date-range"
@@ -489,7 +490,7 @@ export default defineComponent({
       return true;
     },
     closePeriodSelector() {
-      this.$refs.root.querySelector('.periodSelector').classList.remove('expanded');
+      this.$refs.root.classList.remove('expanded');
     },
     isCompareRangeValid() {
       try {
