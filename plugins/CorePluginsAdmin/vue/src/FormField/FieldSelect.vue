@@ -73,6 +73,10 @@ function initMaterialSelect(
   uiControlOptions = {},
   multiple: boolean,
 ) {
+  if (!select) {
+    return;
+  }
+
   const $select = window.$(select);
 
   // reset selected since materialize removes them
