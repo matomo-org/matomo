@@ -240,16 +240,15 @@ export default defineComponent({
     watch(() => MatomoUrl.parsed.value, this.updateSelectedValuesFromHash);
 
     this.isComparing = ComparisonsStore.isComparing();
-    watch(() => ComparisonsStore.isComparing(), (newVal) => this.isComparing = newVal);
+    watch(() => ComparisonsStore.isComparing(), (newVal) => {
+      this.isComparing = newVal;
+    });
 
     window.initTopControls(); // must be called when a top control changes width
 
     this.handleZIndexPositionRelativeCompareDropdownIssue();
   },
   computed: {
-    expandOnClickProps() {
-      return { expander: () => this.$refs.title };
-    },
     currentlyViewingText() {
       let date;
       if (this.periodValue === 'range') {
