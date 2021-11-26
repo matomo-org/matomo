@@ -9,7 +9,7 @@ import { DirectiveBinding } from 'vue';
 import Matomo from '../Matomo/Matomo';
 
 interface ExpandOnClickArgs {
-  expander: HTMLElement,
+  expander: string | HTMLElement,
 
   isMouseDown?: boolean;
   hasScrolled?: boolean;
@@ -71,6 +71,12 @@ function onEscapeHandler(
 
 const doc = document.documentElement;
 
+function getRef(expander: string | HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>) {
+  return binding.value.expander instanceof HTMLElement
+    ? binding.value.expander
+    : binding.instance.$refs[binding.value.expander];
+}
+
 /**
  * Usage (in a component):
  *
@@ -89,14 +95,19 @@ export default {
     binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
     binding.value.onScroll = onScroll.bind(null, binding);
 
-    binding.value.expander.addEventListener('click', binding.value.onExpand);
+    setTimeout(() => {
+      const expander = getRef(binding.value.expander, binding);
+      expander.addEventListener('click', binding.value.onExpand);
+    });
+
     doc.addEventListener('keyup', binding.value.onEscapeHandler);
     doc.addEventListener('mousedown', binding.value.onMouseDown);
     doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
     doc.addEventListener('scroll', binding.value.onScroll);
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
-    binding.value.expander.removeEventListener('click', binding.value.onExpand);
+    const expander = getRef(binding.value.expander, binding);
+    expander.removeEventListener('click', binding.value.onExpand);
     doc.removeEventListener('keyup', binding.value.onEscapeHandler);
     doc.removeEventListener('mousedown', binding.value.onMouseDown);
     doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);

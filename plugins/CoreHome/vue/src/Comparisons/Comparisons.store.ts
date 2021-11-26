@@ -262,39 +262,11 @@ export default class ComparisonsStore {
     };
 
     // change the page w/ these new param values
-    if (Matomo.helper.isAngularRenderingThePage()) {
-      const search = MatomoUrl.hashParsed.value;
-
-      const newSearch: {[key: string]: string|string[]} = {
-        ...search,
-        ...compareParams,
-        ...extraParams,
-      };
-
-      delete newSearch['compareSegments[]'];
-      delete newSearch['comparePeriods[]'];
-      delete newSearch['compareDates[]'];
-
-      if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
-        MatomoUrl.updateHash(newSearch);
-      }
-
-      return;
-    }
-
-    const paramsToRemove: string[] = [];
-    ['compareSegments', 'comparePeriods', 'compareDates'].forEach((name) => {
-      if (!compareParams[name].length) {
-        paramsToRemove.push(name);
-      }
+    MatomoUrl.updateLocation({
+      ...Matomo.parsed.value,
+      ...compareParams,
+      ...extraParams,
     });
-
-    // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change
-    // the segment
-    const url = MatomoUrl.stringify(extraParams);
-    const strHash = MatomoUrl.stringify(compareParams);
-
-    window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
   }
 
   private getAllSeriesColors() {

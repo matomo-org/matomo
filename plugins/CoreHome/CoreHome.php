@@ -146,7 +146,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
@@ -257,8 +257,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
 
         // TODO: [Vue] used by RollUpReporting, has to be kept for now.
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
@@ -463,5 +461,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
+        $translationKeys[] = 'CoreHome_StartDate';
+        $translationKeys[] = 'CoreHome_EndDate';
     }
 }

@@ -32,6 +32,7 @@ import './SiteSelector/SiteSelector.adapter';
 import './QuickAccess/QuickAccess.adapter';
 import './FieldArray/FieldArray.adapter';
 import './MultiPairField/MultiPairField.adapter';
+import './PeriodSelector/PeriodSelector.adapter';
 
 export { default as debounce } from './debounce';
 export {
@@ -67,3 +68,4 @@ export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
+export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';

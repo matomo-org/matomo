@@ -5,57 +5,59 @@
 -->
 
 <template>
-  <div id="calendarRangeFrom">
-    <h6>
-      {{ translate('General_DateRangeFrom') }}
-      <input
-        type="text"
-        id="inputCalendarFrom"
-        name="inputCalendarFrom"
-        class="browser-default"
-        v-model="startDateText"
-        v-on:change="onRangeInputChanged('from', $event)"
-        v-on:keyup="handleEnterPress($event)"
-      />
-    </h6>
-    <DatePicker
-      id="calendarFrom"
-      :view-date="startDate"
-      :selected-date-start="fromPickerSelectedDates[0]"
-      :selected-date-end="fromPickerSelectedDates[1]"
-      :highlighted-date-start="fromPickerHighlightedDates[0]"
-      :highlighted-date-end="fromPickerHighlightedDates[1]"
-      @date-select="setStartRangeDate($event.date)"
-      @cell-hover="fromPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
-      @cell-hover-leave="fromPickerHighlightedDates = [null, null]"
-    >
-    </DatePicker>
-  </div>
-  <div id="calendarRangeTo">
-    <h6>
-      {{ translate('General_DateRangeTo') }}
-      <input
-        type="text"
-        id="inputCalendarTo"
-        name="inputCalendarTo"
-        class="browser-default"
-        v-model="endDateText"
-        v-on:change="onRangeInputChanged('to', $event)"
-        v-on:keyup="handleEnterPress($event)"
-      />
-    </h6>
-    <DatePicker
-      id="calendarTo"
-      :view-date="endDate"
-      :selected-date-start="toPickerSelectedDates[0]"
-      :selected-date-end="toPickerSelectedDates[1]"
-      :highlighted-date-start="toPickerHighlightedDates[0]"
-      :highlighted-date-end="toPickerHighlightedDates[1]"
-      @date-select="setEndRangeDate($event.date)"
-      @cell-hover="toPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
-      @cell-hover-leave="toPickerHighlightedDates = [null, null]"
-    >
-    </DatePicker>
+  <div>
+    <div id="calendarRangeFrom">
+      <h6>
+        {{ translate('General_DateRangeFrom') }}
+        <input
+          type="text"
+          id="inputCalendarFrom"
+          name="inputCalendarFrom"
+          class="browser-default"
+          v-model="startDateText"
+          v-on:change="onRangeInputChanged('from', $event)"
+          v-on:keyup="handleEnterPress($event)"
+        />
+      </h6>
+      <DatePicker
+        id="calendarFrom"
+        :view-date="startDate"
+        :selected-date-start="fromPickerSelectedDates[0]"
+        :selected-date-end="fromPickerSelectedDates[1]"
+        :highlighted-date-start="fromPickerHighlightedDates[0]"
+        :highlighted-date-end="fromPickerHighlightedDates[1]"
+        @date-select="setStartRangeDate($event.date)"
+        @cell-hover="fromPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
+        @cell-hover-leave="fromPickerHighlightedDates = [null, null]"
+      >
+      </DatePicker>
+    </div>
+    <div id="calendarRangeTo">
+      <h6>
+        {{ translate('General_DateRangeTo') }}
+        <input
+          type="text"
+          id="inputCalendarTo"
+          name="inputCalendarTo"
+          class="browser-default"
+          v-model="endDateText"
+          v-on:change="onRangeInputChanged('to', $event)"
+          v-on:keyup="handleEnterPress($event)"
+        />
+      </h6>
+      <DatePicker
+        id="calendarTo"
+        :view-date="endDate"
+        :selected-date-start="toPickerSelectedDates[0]"
+        :selected-date-end="toPickerSelectedDates[1]"
+        :highlighted-date-start="toPickerHighlightedDates[0]"
+        :highlighted-date-end="toPickerHighlightedDates[1]"
+        @date-select="setEndRangeDate($event.date)"
+        @cell-hover="toPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
+        @cell-hover-leave="toPickerHighlightedDates = [null, null]"
+      >
+      </DatePicker>
+    </div>
   </div>
 </template>
 
