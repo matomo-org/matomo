@@ -55,52 +55,67 @@ class VisitorDetails extends VisitorDetailsAbstract
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
 
-            if ($idx < $nextActionId || !$this->shouldHandleAction($action)) {
-                continue; // skip to next action having timeSpentRef
+            if ($idx < $nextActionId || !$this->isPageView($action)) {
+                unset($action['timeSpentRef']);
+                continue; // skip to next page view
             }
+
+            $action['timeSpent'] = 0;
 
             // search for next action with timeSpentRef
-            $nextActionId = $idx + 1;
+            $nextActionId = $idx;
             $nextAction   = null;
 
-            while (isset($actionDetails[$nextActionId]) &&
-                (!$this->shouldHandleAction($actionDetails[$nextActionId]) ||
-                    !array_key_exists('timeSpentRef', $actionDetails[$nextActionId]))) {
+            do {
                 $nextActionId++;
-            }
-            $nextAction = isset($actionDetails[$nextActionId]) ? $actionDetails[$nextActionId] : null;
 
-            // Set the time spent for this action (which is the timeSpentRef of the next action)
-            if ($nextAction) {
-                $action['timeSpent'] = $nextAction['timeSpentRef'];
-            } else {
+                $nextAction = isset($actionDetails[$nextActionId]) ? $actionDetails[$nextActionId] : null;
 
-                // Last action of a visit.
-                // By default, Piwik does not know how long the user stayed on the page
-                // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
-                $visitTotalTime   = $visitorDetails['visitDuration'];
-                $timeOfLastAction = Date::factory($action['serverTimePretty'])->getTimestamp();
+                if (is_null($nextAction)) {
+                    // Last action of a visit.
+                    // By default, Matomo does not know how long the user stayed on the page
+                    // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
+                    $visitTotalTime   = $visitorDetails['visitDuration'];
+                    $timeOfLastAction = Date::factory($action['serverTimePretty'])->getTimestamp();
 
-                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetails['firstActionTimestamp']);
-                $timeSpentOnPage                       = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
+                    $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetails['firstActionTimestamp']);
+                    $timeSpentOnPage                       = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
 
-                // Safe net, we assume the time is correct when it's more than 10 seconds
-                if ($timeSpentOnPage > 10) {
-                    $action['timeSpent'] = $timeSpentOnPage;
+                    // Safe net, we assume the time is correct when it's more than 10 seconds
+                    if ($timeSpentOnPage > 10) {
+                        $action['timeSpent'] = $timeSpentOnPage;
+                    }
+                    break;
                 }
-            }
+
+                if (!array_key_exists('timeSpentRef', $nextAction)) {
+                    continue;
+                }
+
+                // Set the time spent for this action (which is the timeSpentRef of the next action)
+                if ($nextAction) {
+                    $action['timeSpent'] += $nextAction['timeSpentRef'] ?? 0;
+                }
+
+                // sum spent time until next page view
+                if ($this->isPageView($nextAction)) {
+                    break;
+                }
+
+            } while (isset($actionDetails[$nextActionId]));
 
             if (isset($action['timeSpent'])) {
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
             }
 
-            unset($action['timeSpentRef']); // not needed after timeSpent is added
+            unset($action['timeSpentRef']);
         }
 
         $actions = $actionDetails;
     }
 
-    private function shouldHandleAction($action) {
+    private function shouldHandleAction($action)
+    {
         $actionTypesToHandle = array(
             Action::TYPE_PAGE_URL,
             Action::TYPE_PAGE_TITLE,
@@ -111,6 +126,16 @@ class VisitorDetails extends VisitorDetailsAbstract
         );
 
         return in_array($action['type'], $actionTypesToHandle) || !empty($action['eventType']);
+    }
+
+    private function isPageView($action)
+    {
+        $pageViewTypes = array(
+            Action::TYPE_PAGE_URL,
+            Action::TYPE_PAGE_TITLE,
+        );
+
+        return in_array($action['type'], $pageViewTypes);
     }
 
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
