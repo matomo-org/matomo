@@ -3538,7 +3538,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         compareDates: compareDates
       }; // change the page w/ these new param values
 
-      src_MatomoUrl_MatomoUrl.updateLocation(Comparisons_store_objectSpread(Comparisons_store_objectSpread(Comparisons_store_objectSpread({}, Matomo_Matomo.parsed.value), compareParams), extraParams));
+      src_MatomoUrl_MatomoUrl.updateLocation(Comparisons_store_objectSpread(Comparisons_store_objectSpread(Comparisons_store_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value), compareParams), extraParams));
     }
   }, {
     key: "getAllSeriesColors",
