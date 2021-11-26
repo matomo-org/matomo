@@ -7,6 +7,7 @@
 
 import { DirectiveBinding } from 'vue';
 import Matomo from '../Matomo/Matomo';
+import DirectiveUtilities from '../directiveUtilities';
 
 interface ExpandOnHoverArgs {
   expander: string | HTMLElement,
@@ -15,12 +16,6 @@ interface ExpandOnHoverArgs {
   onMouseLeave?: () => void;
   onClickOutsideElement?: (event: MouseEvent) => void;
   onEscapeHandler?: (event: KeyboardEvent) => void;
-}
-
-function getRef(expander: string | HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>) {
-  return binding.value.expander instanceof HTMLElement
-    ? binding.value.expander
-    : binding.instance.$refs[binding.value.expander];
 }
 
 function onMouseEnter(element: HTMLElement) {
@@ -66,7 +61,7 @@ export default {
     binding.value.onEscapeHandler = onEscapeHandler.bind(null, el);
 
     setTimeout(() => {
-      const expander = getRef(binding.value.expander, binding);
+      const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
       expander.addEventListener('mouseenter', binding.value.onMouseEnter);
     });
 
@@ -75,7 +70,7 @@ export default {
     doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnHoverArgs>): void {
-    const expander = getRef(binding.value.expander, binding);
+    const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
     expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
     el.removeEventListener('mouseleave', binding.value.onMouseLeave);
     document.removeEventListener('keyup', binding.value.onEscapeHandler);

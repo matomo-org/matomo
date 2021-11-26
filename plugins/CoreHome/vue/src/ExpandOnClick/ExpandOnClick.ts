@@ -7,6 +7,7 @@
 
 import { DirectiveBinding } from 'vue';
 import Matomo from '../Matomo/Matomo';
+import DirectiveUtilities from '../directiveUtilities';
 
 interface ExpandOnClickArgs {
   expander: string | HTMLElement,
@@ -71,12 +72,6 @@ function onEscapeHandler(
 
 const doc = document.documentElement;
 
-function getRef(expander: string | HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>) {
-  return binding.value.expander instanceof HTMLElement
-    ? binding.value.expander
-    : binding.instance.$refs[binding.value.expander];
-}
-
 /**
  * Usage (in a component):
  *
@@ -96,7 +91,7 @@ export default {
     binding.value.onScroll = onScroll.bind(null, binding);
 
     setTimeout(() => {
-      const expander = getRef(binding.value.expander, binding);
+      const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
       expander.addEventListener('click', binding.value.onExpand);
     });
 
@@ -106,7 +101,7 @@ export default {
     doc.addEventListener('scroll', binding.value.onScroll);
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
-    const expander = getRef(binding.value.expander, binding);
+    const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
     expander.removeEventListener('click', binding.value.onExpand);
     doc.removeEventListener('keyup', binding.value.onEscapeHandler);
     doc.removeEventListener('mousedown', binding.value.onMouseDown);

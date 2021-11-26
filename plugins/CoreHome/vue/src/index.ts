@@ -34,6 +34,7 @@ import './FieldArray/FieldArray.adapter';
 import './MultiPairField/MultiPairField.adapter';
 import './PeriodSelector/PeriodSelector.adapter';
 
+export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export {
   default as createAngularJsAdapter,
