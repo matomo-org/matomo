@@ -39,8 +39,9 @@ function DataTable(element) {
 
 DataTable._footerIconHandlers = {};
 
-DataTable.initNewDataTables = function () {
-    $('div.dataTable').each(function () {
+DataTable.initNewDataTables = function (reportId) {
+    var selector = reportId ? '[data-report="'+reportId+'"]' : 'div.dataTable';
+    $(selector).each(function () {
         if (!$(this).attr('id')) {
             var tableType = $(this).attr('data-table-type') || 'DataTable',
                 klass = require('piwik/UI')[tableType] || require(tableType);
@@ -376,7 +377,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleSearchBox(domElem);
         self.handleColumnDocumentation(domElem);
         self.handleRowActions(domElem);
-		self.handleCellTooltips(domElem);
+        self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
         self.handleColumnHighlighting(domElem);
