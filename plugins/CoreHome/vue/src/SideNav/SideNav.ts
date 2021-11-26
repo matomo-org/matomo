@@ -10,9 +10,19 @@ import DirectiveUtilities from '../directiveUtilities';
 
 interface SideNavArgs {
   activator: HTMLElement | string;
-  initialized?: boolean;
 }
 
+let initialized = false;
+
+/**
+ * Will activate the materialize side nav feature once rendered. We use this directive as
+ * it makes sure the actual left menu is rendered at the time we init the side nav.
+ *
+ * Has to be set on a collaapsible element
+ *
+ * Example:
+ * <div class="collapsible" v-side-nav="nav .activateLeftMenu">...</div>
+ */
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<SideNavArgs>): void {
     if (!binding.value.activator) {
@@ -20,35 +30,21 @@ export default {
     }
 
     setTimeout(() => {
-      if (!binding.value.initialized) {
-        binding.value.initialized = true;
+      if (!initialized) {
+        initialized = true;
 
         const sideNavActivator = DirectiveUtilities.getRef(binding.value.activator, binding);
         window.$(sideNavActivator).show();
 
-        sideNavActivator.getAttribute('')
+        const targetSelector = sideNavActivator.getAttribute('data-target');
+        window.$(`#${targetSelector}`).sidenav({
+          closeOnClick: true,
+        });
+      }
+
+      if (el.classList.contains('collapsible')) {
+        window.$(el).collapsible();
       }
     });
-    // TODO
-    /*
-                    if (attr.piwikSideNav) {
-                    $timeout(function () {
-                        if (!initialized) {
-                            initialized = true;
-
-                            var sideNavActivator = $(attr.piwikSideNav).show();
-
-                            $('#' + sideNavActivator.attr('data-target')).sidenav({
-                                closeOnClick: true
-                            });
-                        }
-
-                        if (element.hasClass('collapsible')) {
-                            element.collapsible();
-                        }
-                    });
-                }
-
-     */
   },
 };
