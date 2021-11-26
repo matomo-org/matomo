@@ -263,7 +263,7 @@ export default class ComparisonsStore {
 
     // change the page w/ these new param values
     MatomoUrl.updateLocation({
-      ...Matomo.parsed.value,
+      ...MatomoUrl.parsed.value,
       ...compareParams,
       ...extraParams,
     });
