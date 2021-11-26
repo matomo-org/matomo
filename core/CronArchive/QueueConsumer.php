@@ -546,6 +546,13 @@ class QueueConsumer
             return false;
         }
 
+        //if Segment deleted
+        if ($storedSegment['deleted']) {
+            $this->logger->debug("Segment is deleted: $flag");
+            $archive['segment'] = null;
+            return false;
+        }
+
         $archive['segment'] = $storedSegment['definition'];
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
@@ -649,5 +656,14 @@ class QueueConsumer
             $this->maxSitesToProcess = $newValue;
         }
         return $this->maxSitesToProcess;
+    }
+
+    /*
+     *Check if segment is deleted
+     *
+     */
+    public function isSegmentDeleted()
+    {
+
     }
 }

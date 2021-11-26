@@ -662,8 +662,4 @@ class Segment
         return $this->originalString;
     }
 
-    public function removeSegmentCondition($fullSegment, $segmentNameToRemove)
-    {
-
-    }
 }
