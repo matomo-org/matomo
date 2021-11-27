@@ -106,25 +106,27 @@
         v-if="isComparing && comparePeriodType === 'custom'"
       >
         <div>
-          <Field
-            id="comparePeriodStartDate"
-            v-model="compareStartDate"
-            :name="'comparePeriodStartDate'"
-            :uicontrol="'text'"
-            :full-width="true"
-            :title="translate('CoreHome_StartDate')"
-            :placeholder="'YYYY - MM - DD'"
-          />
+          <div id="comparePeriodStartDate">
+            <Field
+              v-model="compareStartDate"
+              :name="'comparePeriodStartDate'"
+              :uicontrol="'text'"
+              :full-width="true"
+              :title="translate('CoreHome_StartDate')"
+              :placeholder="'YYYY - MM - DD'"
+            />
+          </div>
           <span class="compare-dates-separator" />
-          <Field
-            id="comparePeriodEndDate"
-            v-model="compareEndDate"
-            :name="'comparePeriodEndDate'"
-            :uicontrol="'text'"
-            :full-width="true"
-            :title="translate('CoreHome_EndDate')"
-            :placeholder="'YYYY - MM - DD'"
-          />
+          <div id="comparePeriodEndDate">
+            <Field
+              v-model="compareEndDate"
+              :name="'comparePeriodEndDate'"
+              :uicontrol="'text'"
+              :full-width="true"
+              :title="translate('CoreHome_EndDate')"
+              :placeholder="'YYYY - MM - DD'"
+            />
+          </div>
         </div>
       </div>
       <div class="apply-button-container">
