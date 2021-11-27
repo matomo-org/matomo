@@ -6,5 +6,14 @@
  */
 
 import ReportMetadataStoreInstance from './ReportMetadata.store';
+import { cloneThenApply } from '../createAngularJsAdapter';
 
-angular.module('piwikApp.service').factory('reportMetadataModel', () => ReportMetadataStoreInstance);
+angular.module('piwikApp.service').factory('reportMetadataModel', () => ({
+  get reports() {
+    return ReportMetadataStoreInstance.reports.value;
+  },
+  findReport:
+    ReportMetadataStoreInstance.findReport.bind(ReportMetadataStoreInstance),
+  fetchReportMetadata: () => ReportMetadataStoreInstance.fetchReportMetadata()
+    .then((m) => cloneThenApply(m)),
+}));

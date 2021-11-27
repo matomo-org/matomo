@@ -12,6 +12,7 @@ import {
   ComponentPublicInstance,
 } from 'vue';
 import translate from './translate';
+import Matomo from './Matomo/Matomo';
 
 interface SingleScopeVarInfo<InjectTypes> {
   vue?: string;
@@ -311,4 +312,11 @@ export function transformAngularJsIntAttr(v: string): number {
   }
 
   return parseInt(v, 10);
+}
+
+// utility function for service adapters
+export function cloneThenApply<T>(p: T): T {
+  const result = JSON.parse(JSON.stringify(p)) as T;
+  Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
+  return result;
 }

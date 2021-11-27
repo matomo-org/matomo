@@ -2511,6 +2511,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  */
 
 
+
 var transcludeCounter = 0;
 
 function toKebabCase(arg) {
@@ -2744,6 +2745,12 @@ function transformAngularJsIntAttr(v) {
   }
 
   return parseInt(v, 10);
+} // utility function for service adapters
+
+function cloneThenApply(p) {
+  var result = JSON.parse(JSON.stringify(p));
+  Matomo_Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
+  return result;
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
 /*!
@@ -7253,9 +7260,30 @@ var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-angular.module('piwikApp.service').factory('reportingPagesModel', function () {
-  return ReportingPages_store;
-});
+
+
+function reportingPagesModelAdapter() {
+  return {
+    get pages() {
+      return ReportingPages_store.pages.value;
+    },
+
+    findPageInCategory: ReportingPages_store.findPageInCategory.bind(ReportingPages_store),
+    findPage: ReportingPages_store.findPage.bind(ReportingPages_store),
+    reloadAllPages: function reloadAllPages() {
+      return ReportingPages_store.reloadAllPages().then(function (p) {
+        return cloneThenApply(p);
+      });
+    },
+    getAllPages: function getAllPages() {
+      return ReportingPages_store.getAllPages().then(function (p) {
+        return cloneThenApply(p);
+      });
+    }
+  };
+}
+
+angular.module('piwikApp.service').factory('reportingPagesModel', reportingPagesModelAdapter);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportMetadata/ReportMetadata.store.ts
 function ReportMetadata_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -7335,8 +7363,20 @@ var ReportMetadata_store_ReportMetadataStore = /*#__PURE__*/function () {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
 angular.module('piwikApp.service').factory('reportMetadataModel', function () {
-  return ReportMetadata_store;
+  return {
+    get reports() {
+      return ReportMetadata_store.reports.value;
+    },
+
+    findReport: ReportMetadata_store.findReport.bind(ReportMetadata_store),
+    fetchReportMetadata: function fetchReportMetadata() {
+      return ReportMetadata_store.fetchReportMetadata().then(function (m) {
+        return cloneThenApply(m);
+      });
+    }
+  };
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
