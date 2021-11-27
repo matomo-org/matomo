@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Transitions;
 
 use Piwik\Common;
 use Piwik\Plugins\Transitions\API;
+use Piwik\Config;
 
 /**
  */
@@ -63,10 +64,35 @@ class Transitions extends \Piwik\Plugin
     public function addJsGlobalVariables(&$out)
     {
         $idSite = Common::getRequestVar('idSite', 1, 'int');
-
-        $api = API::getInstance();
-        $maxPeriodAllowed = $api->getPeriodAllowedConfig($idSite);
+        $maxPeriodAllowed = self::getPeriodAllowedConfig($idSite);
 
         $out .= '    piwik.transitionsMaxPeriodAllowed = "'.($maxPeriodAllowed ? $maxPeriodAllowed : 'all').'"'."\n";
+    }
+
+    /**
+     * Retrieve the period allowed config setting for a site or all sites if null
+     *
+     * @param $idSite
+     *
+     * @return string
+     */
+    public static function getPeriodAllowedConfig($idSite) : string
+    {
+        $transitionsGeneralConfig = Config::getInstance()->Transitions;
+        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed']: null);
+
+        $siteMaxPeriodAllowed = null;
+        if ($idSite) {
+            $sectionName = 'Transitions_'.$idSite;
+            $transitionsSiteConfig = Config::getInstance()->$sectionName;
+            $siteMaxPeriodAllowed = ($transitionsSiteConfig && !empty($transitionsSiteConfig['max_period_allowed']) ? $transitionsSiteConfig['max_period_allowed'] : null);
+        }
+
+        if (!$generalMaxPeriodAllowed && !$siteMaxPeriodAllowed) {
+            return 'all'; // No config setting, so all periods are valid
+        }
+
+        // Site setting overrides general, if it exists
+        return $siteMaxPeriodAllowed ?? $generalMaxPeriodAllowed;
     }
 }

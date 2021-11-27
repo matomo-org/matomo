@@ -66,7 +66,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (!$this->getPeriodAllowed($period, $idSite, $date)) {
+        if (!$this->isPeriodAllowed($idSite, $period, $date)) {
             throw new Exception('PeriodNotAllowed');
         }
 
@@ -661,46 +661,19 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    /**
-     * Retrieve the period allowed config setting for a site or all sites if null
-     *
-     * @param $idSite
-     *
-     * @return string|null
-     */
-    public function getPeriodAllowedConfig($idSite) : ?string
-    {
-        $transitionsGeneralConfig = Config::getInstance()->Transitions;
-        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed']: null);
-
-        $siteMaxPeriodAllowed = null;
-        if ($idSite) {
-            $sectionName = 'Transitions_'.$idSite;
-            $transitionsSiteConfig = Config::getInstance()->$sectionName;
-            $siteMaxPeriodAllowed = ($transitionsSiteConfig && !empty($transitionsSiteConfig['max_period_allowed']) ? $transitionsSiteConfig['max_period_allowed'] : null);
-        }
-
-        if (!$generalMaxPeriodAllowed && !$siteMaxPeriodAllowed) {
-            return 'all'; // No config setting, so all periods are valid
-        }
-
-        // Site setting overrides general, if it exists
-        return ($siteMaxPeriodAllowed ? $siteMaxPeriodAllowed : $generalMaxPeriodAllowed);
-    }
 
     /**
      * Check if a period is allowed by config settings
      *
-     * @param $period
      * @param $idSite
+     * @param $period
      * @param $date
      *
      * @return bool
      */
-    public function getPeriodAllowed($period, $idSite, $date) : bool
+    public function isPeriodAllowed($idSite, $period, $date) : bool
     {
-        $maxPeriodAllowed = $this->getPeriodAllowedConfig($idSite);
-
+        $maxPeriodAllowed = Transitions::getPeriodAllowedConfig($idSite);
         if ($maxPeriodAllowed === 'all') {
             return true;
         }

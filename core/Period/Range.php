@@ -506,7 +506,7 @@ class Range extends Period
      */
     public function getDayCount()
     {
-         return self::getNumDaysDifference($this->getDateStart(), $this->getDateEnd());
+         return (self::getNumDaysDifference($this->getDateStart(), $this->getDateEnd()) + 1);
     }
 
     private static function getNumDaysDifference(Date $date1, Date $date2)

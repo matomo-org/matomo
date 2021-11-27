@@ -178,7 +178,7 @@ export default class RangePeriod {
   }
 
   getDayCount(): number {
-    return Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24));
+    return (Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24)) + 1);
   }
 }
 
