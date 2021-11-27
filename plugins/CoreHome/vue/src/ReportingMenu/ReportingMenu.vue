@@ -14,8 +14,8 @@
       <li
         class="menuTab"
         role="menuitem"
-        v-for="category in menuModel.menu"
-        :class="{ 'active': category.active }"
+        v-for="category in menu"
+        :class="{ 'active': category.id === activeCategory }"
         :key="category.id"
       >
         <a
@@ -35,20 +35,19 @@
         <ul role="menu">
           <li
             role="menuitem"
-            :class="{'active': subcategory.active}"
+            :class="{'active': subcategory.id === activeSubcategory}"
             v-for="subcategory in category.subcategories"
             :key="subcategory.id"
           >
-            <div
+            <MenuDropdown
               v-if="subcategory.isGroup"
-              piwik-menudropdown=""
               :show-search="true"
               :menu-title="$sanitize(subcategory.name)"
             >
               <a
                 class="item"
                 tabindex="5"
-                :class="{active: subcat.active}"
+                :class="{active: subcat.id === activeSubsubcategory}"
                 :href="`#?${makeUrl(category, subcat)}`"
                 @click="loadSubcategory(category, subcat)"
                 v-for="subcat in subcategory.subcategories"
@@ -57,7 +56,7 @@
               >
                 {{ subcat.name }}
               </a>
-            </div>
+            </MenuDropdown>
             <a
               v-if="!subcategory.isGroup"
               :href="`#?${makeUrl(category, subcategory)}`"
@@ -72,7 +71,9 @@
               href="javascript:"
               v-if="subcategory.help"
               @click="showHelp(category, subcategory, $event)"
-              :class="{active: helpShownCategory === subcategory && subcategory.help}"
+              :class="{active: helpShownCategory.subcategory === subcategory.id
+                && helpShownCategory.category === category.id
+                && subcategory.help}"
             >
               <span class="icon-help" />
             </a>
@@ -86,34 +87,38 @@
     >
       <li
         class="no-padding"
-        v-for="category in menuModel.menu"
+        v-for="category in menu"
         :key="category.id"
       >
         <ul
           class="collapsible collapsible-accordion"
-          v-side-nav="{ activator: nav.activateLeftMenu }"
+          v-side-nav="{ activator: 'nav .activateLeftMenu' }"
         >
           <li>
-            <a class="collapsible-header"><i :class="category.icon ? category.icon : 'icon-arrow-bottom'" />{{ category.name }}</a>
+            <a class="collapsible-header">
+              <i :class="category.icon ? category.icon : 'icon-arrow-bottom'" />{{ category.name }}
+            </a>
             <div class="collapsible-body">
               <ul>
-                <li v-for="subcategory in category.subcategories">
-                  <a
-                    v-if="subcategory.isGroup"
-                    @click="loadSubcategory(category, subcat)"
-                    :href="`#?${makeUrl(category, subcat)}`"
-                    v-for="subcat in subcategory.subcategories"
-                    :key="subcat.id"
-                  >
-                    {{ subcat.name }}
-                  </a>
-                  <a
-                    v-if="!subcategory.isGroup"
-                    @click="loadSubcategory(category, subcategory)"
-                    :href="`#?${makeUrl(category, subcategory)}`"
-                  >
-                    {{ subcategory.name }}
-                  </a>
+                <li v-for="subcategory in category.subcategories" :key="subcategory.id">
+                  <span v-if="subcategory.isGroup">
+                    <a
+                      @click="loadSubcategory(category, subcat)"
+                      :href="`#?${makeUrl(category, subcat)}`"
+                      v-for="subcat in subcategory.subcategories"
+                      :key="subcat.id"
+                    >
+                      {{ subcat.name }}
+                    </a>
+                  </span>
+                  <span v-if="!subcategory.isGroup">
+                    <a
+                      @click="loadSubcategory(category, subcategory)"
+                      :href="`#?${makeUrl(category, subcategory)}`"
+                    >
+                      {{ subcategory.name }}
+                    </a>
+                  </span>
                 </li>
               </ul>
             </div>
@@ -125,32 +130,189 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import MenuDropdown from '../MenuDropdown/MenuDropdown.vue';
 import SideNav from '../SideNav/SideNav';
+import { NotificationsStore } from '../Notification';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import ReportingMenuStoreInstance, { Category, Subcategory } from './ReportingMenu.store';
+import Matomo from '../Matomo/Matomo';
+import translate from '../translate';
+
+const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
 
 export default defineComponent({
+  components: {
+    MenuDropdown,
+  },
+  directives: {
+    SideNav,
+  },
   props: {},
   data() {
     return {
       showSubcategoryHelpOnLoad: null,
       initialLoad: true,
       helpShownCategory: null,
-      // TODO
     };
   },
+  computed: {
+    menu() {
+      return ReportingMenuStoreInstance.menu.value;
+    },
+    activeCategory() {
+      return ReportingMenuStoreInstance.activeCategory.value;
+    },
+    activeSubcategory() {
+      return ReportingMenuStoreInstance.activeSubcategory.value;
+    },
+    activeSubsubcategory() {
+      return ReportingMenuStoreInstance.activeSubsubcategory.value;
+    },
+  },
+  created() {
+    ReportingMenuStoreInstance.fetchMenuItems().then((menu) => {
+      if (!MatomoUrl.parsed.value.subcategory) {
+        const categoryToLoad = menu[0];
+        const subcategoryToLoad = categoryToLoad.subcategories[0];
+
+        // load first, initial page if no subcategory is present
+        ReportingMenuStoreInstance.enterSubcategory(categoryToLoad, subcategoryToLoad);
+        this.propagateUrlChange(categoryToLoad, subcategoryToLoad);
+      }
+    });
+
+    // TODO: document method of watching for url changes
+    watch(() => MatomoUrl.parsed.value, (query) => {
+      const found = ReportingMenuStoreInstance.findSubcategory(query.category, query.subcategory);
+      ReportingMenuStoreInstance.enterSubcategory(found.category, found.subcategory, found.subsubcategory);
+    });
+
+    Matomo.on('piwikPageChange', () => {
+      if (!this.initialLoad) {
+        window.globalAjaxQueue.abort();
+      }
+
+      this.helpShownCategory = null;
+
+      if (this.showSubcategoryHelpOnLoad) {
+        this.showHelp(this.showSubcategoryHelpOnLoad.category, this.showSubcategoryHelpOnLoad.subcategory);
+        this.showSubcategoryHelpOnLoad = null;
+      }
+
+      window.$('#loadingError').hide();
+
+      this.initialLoad = false;
+    });
+
+    Matomo.on('updateReportingMenu', () => {
+      ReportingMenuStoreInstance.reloadMenuItems().then(() => {
+        const { category, subcategory } = MatomoUrl.parsed.value;
+
+        // we need to make sure to select same categories again
+        if (category && subcategory) {
+          const found = ReportingMenuStoreInstance.findSubcategory(category, subcategory);
+          if (found) {
+            ReportingMenuStoreInstance.enterSubcategory(
+              found.category, found.subcategory, found.subsubcategory);
+          }
+        }
+      });
+
+      if ('object' === typeof window.widgetsHelper && window.widgetsHelper.availableWidgets) {
+        // lets also update widgetslist so will be easier to update list of available widgets in
+        // dashboard selector immediately
+        delete window.widgetsHelper.availableWidgets;
+        window.widgetsHelper.getAvailableWidgets();
+      }
+    });
+  },
   methods: {
+    propagateUrlChange(category: Category, subcategory: Subcategory) {
+      const queryParams = MatomoUrl.parsed.value;
+      if (queryParams.category === category.id && queryParams.subcategory === subcategory.id) {
+        // we need to manually trigger change as URL would not change and therefore page would not be
+        // reloaded
+        this.loadSubcategory(category, subcategory);
+      } else {
+        MatomoUrl.updateHash({
+          ...MatomoUrl.hashParsed.value,
+          category: category.id,
+          subcategory: subcategory.id,
+        });
+      }
+    },
     loadCategory(category: Category) {
-      // TODO
+      NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
+
+      const isActive = ReportingMenuStoreInstance.toggleCategory(category);
+      if (isActive && category.subcategories && category.subcategories.length === 1) {
+        this.helpShownCategory = null;
+
+        const subcategory = category.subcategories[0];
+        this.propagateUrlChange(category, subcategory);
+      }
     },
     loadSubcategory(category: Category, subcategory: Subcategory) {
-      // TODO
+      NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
+
+      if (subcategory && subcategory.id === this.activeSubcategory) {
+        this.helpShownCategory = null;
+
+        // this menu item is already active, a location change success would not be triggered,
+        // instead trigger an event
+        Matomo.postEvent('loadPage', category.id, subcategory.id);
+      }
     },
     makeUrl(category: Category, subcategory: Subcategory) {
-      // TODO
+      return MatomoUrl.stringify({
+        ...MatomoUrl.hashParsed.value,
+        category: category.id,
+        subcategory: subcategory.id,
+      });
     },
     showHelp(category: Category, subcategory: Subcategory, event: Event) {
-      // TODO
+      const { currentCategory, currentSubcategory } = MatomoUrl.parsed.value;
+      if ((currentCategory !== category.id
+        || currentSubcategory !== subcategory.id)
+        && event
+      ) {
+        this.showSubcategoryHelpOnLoad = { category, subcategory };
+        MatomoUrl.updateHash({
+          ...MatomoUrl.hashParsed.value,
+          category: category.id,
+          subcategory: subcategory.id,
+        });
+        return;
+      }
+
+      if (category.id === this.helpShownCategory.category
+        && subcategory.id === this.helpShownCategory.subcategory
+      ) {
+        NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
+        this.helpShownCategory = null;
+        return;
+      }
+
+      const prefixText = translate('CoreHome_ReportingCategoryHelpPrefix',
+        category.name, subcategory.name);
+      const prefix = `<strong>${prefixText}</strong><br/>`
+
+      NotificationsStore.show({
+        context: 'info',
+        id: REPORTING_HELP_NOTIFICATION_ID,
+        type: 'transient',
+        noclear: true,
+        class: 'help-notification',
+        message: prefix + subcategory.help,
+        placeat: '#notificationContainer',
+        prepend: true,
+      });
+
+      this.helpShownCategory = {
+        category: category.id,
+        subcategory: subcategory.id,
+      };
     },
   },
 });

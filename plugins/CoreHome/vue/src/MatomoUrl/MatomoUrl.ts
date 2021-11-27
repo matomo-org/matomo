@@ -110,7 +110,11 @@ class MatomoUrl {
 
   stringify(search: QueryParameters): string {
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-    return $.param(search).replace(/%5B%5D/g, '[]');
+    return $.param(search).replace(/%5B%5D/g, '[]')
+      // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+      // entries to show up in the browser history. this has a compounding effect w/ angular.js,
+      // which when the back button is pressed to effectively abort the back navigation.
+      .replace(/%2C/g, ',');
   }
 
   updatePeriodParamsFromUrl(): void {

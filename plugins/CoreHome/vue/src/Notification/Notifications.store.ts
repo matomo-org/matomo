@@ -27,7 +27,7 @@ interface Notification {
    * Unique ID generated for the notification so it can be referenced specifically
    * to scroll to.
    */
-  notificationInstanceId: string;
+  notificationInstanceId?: string;
 
   /**
    * Determines which notification group a notification is meant to be displayed
@@ -85,6 +85,11 @@ interface Notification {
    * Where to place the notification. Required if showing a toast.
    */
   placeat?: string|HTMLElement|JQuery;
+
+  /**
+   * If true, the notification will be displayed before others currently displayed.
+   */
+  prepend?: boolean;
 }
 
 interface NotificationsData {
@@ -162,7 +167,7 @@ class NotificationsStore {
   show(notification: Notification): string {
     this.checkMessage(notification.message);
 
-    let addMethod = this.appendNotification;
+    let addMethod = notification.prepend ? this.prependNotification : this.appendNotification;
 
     let notificationPosition: typeof Notification['placeat'] = '#notificationContainer';
     if (notification.placeat) {

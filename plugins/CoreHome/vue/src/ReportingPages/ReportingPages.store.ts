@@ -19,7 +19,8 @@ interface SubcategoryRef {
 }
 
 interface WidgetRef {
-  // TODO
+  module: string;
+  action: string;
 }
 
 interface Page {

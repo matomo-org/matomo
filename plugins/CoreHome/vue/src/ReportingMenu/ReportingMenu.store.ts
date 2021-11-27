@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { computed } from 'vue';
+import { computed, reactive, readonly } from 'vue';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
@@ -14,25 +14,28 @@ interface Orderable {
   order: number;
 }
 
-interface Subcategory extends Orderable {
+export interface Subcategory extends Orderable {
   id: string;
   name: string;
-  active: boolean;
   isGroup: boolean;
+  icon?: string;
   tooltip?: string;
+  help?: string;
   subcategories: Subcategory[];
 }
 
-interface Category extends Orderable {
+export interface Category extends Orderable {
   id: string;
   name: string;
-  active: boolean;
-  subcategories: Subcategory[];
+  icon?: string;
   tooltip?: string;
+  subcategories: Subcategory[];
 }
 
 interface ReportingMenuStoreState {
-  menu: Category[];
+  activeCategoryId: string;
+  activeSubcategoryId: string;
+  activeSubsubcategoryId: string;
 }
 
 interface SubcategoryFindResult {
@@ -45,9 +48,22 @@ function isNumeric(text) {
   return !Number.isNaN(parseFloat(text)) && isFinite(text);
 }
 
-export default class ReportingMenuStore {
-  private category = computed(() => MatomoUrl.parsed.value.category);
-  private subcategory = computed(() => MatomoUrl.parsed.value.subcategory);
+export class ReportingMenuStore {
+  private privateState = reactive<ReportingMenuStoreState>({
+    activeCategoryId: null,
+    activeSubcategoryId: null,
+    activeSubsubcategoryId: null,
+  });
+
+  private state = computed(() => readonly(this.privateState));
+
+  readonly activeCategory = computed(() =>
+    this.state.value.activeCategoryId || MatomoUrl.parsed.value.category);
+
+  readonly activeSubcategory = computed(() =>
+    this.state.value.activeSubcategoryId || MatomoUrl.parsed.value.subcategory);
+
+  readonly activeSubsubcategory = computed(() => this.state.value.activeSubsubcategoryId);
 
   readonly menu = computed(() => this.buildMenuFromPages());
 
@@ -55,7 +71,7 @@ export default class ReportingMenuStore {
     return this.menu.value;
   }
 
-  reloadMenuItems(): typeof ReportingMenuStore['menu']['value'] {
+  reloadMenuItems(): Promise<typeof ReportingMenuStore['menu']['value']> {
     return ReportingPagesStoreInstance.reloadAllPages().then(() => this.menu.value);
   }
 
@@ -97,8 +113,8 @@ export default class ReportingMenuStore {
   private buildMenuFromPages() {
     const menu = [];
 
-    const activeCategory = this.category.value;
-    const activeSubcategory = this.subcategory.value;
+    const activeCategory = this.activeCategory.value;
+    const activeSubcategory = this.activeSubcategory.value;
 
     const pages = ReportingPagesStoreInstance.pages.value;
 
@@ -106,6 +122,7 @@ export default class ReportingMenuStore {
     pages.forEach((page) => {
       const category = { ...page.category } as Category;
       const categoryId = category.id;
+      const isCategoryActive = categoryId === activeCategory;
 
       if (categoriesHandled[categoryId]) {
         return;
@@ -113,22 +130,14 @@ export default class ReportingMenuStore {
 
       categoriesHandled[categoryId] = true;
 
-      if (activeCategory && category.id === activeCategory) {
-        // this doesn't really belong here but placed it here for convenience
-        category.active = true;
-      }
-
       category.subcategories = [];
 
       let categoryGroups: Subcategory = undefined;
 
       const pagesWithCategory = pages.filter((p) => p.category.id === categoryId);
       pagesWithCategory.forEach((p) => {
-        const subcategory = {...p.subcategory} as Subcategory;
-
-        if (subcategory.id === activeSubcategory && categoryId === activeCategory) {
-          subcategory.active = true;
-        }
+        const subcategory = { ...p.subcategory } as Subcategory;
+        const isSubcategoryActive = subcategory.id === activeSubcategory && isCategoryActive;
 
         if (p.widgets && p.widgets[0] && isNumeric(p.subcategory.id)) {
           // we handle a goal or something like it
@@ -140,9 +149,8 @@ export default class ReportingMenuStore {
             categoryGroups.order = 10;
           }
 
-          if (subcategory.active) {
+          if (isSubcategoryActive) {
             categoryGroups.name = subcategory.name;
-            categoryGroups.active = true;
           }
 
           const entityId = page.subcategory.id;
@@ -184,4 +192,33 @@ export default class ReportingMenuStore {
     });
     return result;
   }
+
+  toggleCategory(category: Category): boolean {
+    this.privateState.activeSubcategoryId = null;
+    this.privateState.activeSubsubcategoryId = null;
+
+    if (this.privateState.activeCategoryId === category.id) {
+      this.privateState.activeCategoryId = null;
+      return false;
+    } else {
+      this.privateState.activeCategoryId = category.id;
+      return true;
+    }
+  }
+
+  enterSubcategory(category?: Category, subcategory?: Subcategory, subsubcategory?: Subcategory) {
+    if (!category || !subcategory) {
+      return;
+    }
+
+    this.privateState.activeCategoryId = category.id;
+    this.privateState.activeSubcategoryId = subcategory.id;
+
+    if (subsubcategory) {
+      // subcategory.name = subsubcategory.name; TODO: removed this code, hopefully won'y be an issue
+      this.privateState.activeSubsubcategoryId = subsubcategory.id;
+    }
+  }
 }
+
+export default new ReportingMenuStore();
