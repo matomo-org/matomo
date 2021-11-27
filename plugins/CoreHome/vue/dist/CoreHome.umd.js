@@ -7254,7 +7254,16 @@ var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
  */
 
 angular.module('piwikApp.service').factory('reportingPagesModel', function () {
-  return ReportingPages_store;
+  return {
+    get pages() {
+      return ReportingPages_store.pages.value;
+    },
+
+    findPageInCategory: ReportingPages_store.findPageInCategory.bind(ReportingPages_store),
+    findPage: ReportingPages_store.findPage.bind(ReportingPages_store),
+    reloadAllPages: ReportingPages_store.reloadAllPages.bind(ReportingPages_store),
+    getAllPages: ReportingPages_store.getAllPages.bind(ReportingPages_store)
+  };
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportMetadata/ReportMetadata.store.ts
 function ReportMetadata_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7336,7 +7345,14 @@ var ReportMetadata_store_ReportMetadataStore = /*#__PURE__*/function () {
  */
 
 angular.module('piwikApp.service').factory('reportMetadataModel', function () {
-  return ReportMetadata_store;
+  return {
+    get reports() {
+      return ReportMetadata_store.reports.value;
+    },
+
+    findReport: ReportMetadata_store.findReport.bind(ReportMetadata_store),
+    fetchReportMetadata: ReportMetadata_store.fetchReportMetadata.bind(ReportMetadata_store)
+  };
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!

@@ -7,4 +7,13 @@
 
 import ReportingPagesStoreInstance from './ReportingPages.store';
 
-angular.module('piwikApp.service').factory('reportingPagesModel', () => ReportingPagesStoreInstance);
+angular.module('piwikApp.service').factory('reportingPagesModel', () => ({
+  get pages() {
+    return ReportingPagesStoreInstance.pages.value;
+  },
+  findPageInCategory:
+    ReportingPagesStoreInstance.findPageInCategory.bind(ReportingPagesStoreInstance),
+  findPage: ReportingPagesStoreInstance.findPage.bind(ReportingPagesStoreInstance),
+  reloadAllPages: ReportingPagesStoreInstance.reloadAllPages.bind(ReportingPagesStoreInstance),
+  getAllPages: ReportingPagesStoreInstance.getAllPages.bind(ReportingPagesStoreInstance),
+}));
