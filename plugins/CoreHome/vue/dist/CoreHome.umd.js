@@ -7,7 +7,7 @@
 		exports["CoreHome"] = factory(require("vue"));
 	else
 		root["CoreHome"] = factory(root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,6735 +91,1557 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "2342":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-// see https://github.com/matomo-org/matomo/issues/5094 used to detect an ad blocker
-
-window.hasBlockedContent = false;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
-__webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
-__webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
-__webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
-__webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
-__webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ Alert_adapter; });
-__webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
-__webpack_require__.d(__webpack_exports__, "setCookie", function() { return /* reexport */ setCookie; });
-__webpack_require__.d(__webpack_exports__, "getCookie", function() { return /* reexport */ getCookie; });
-__webpack_require__.d(__webpack_exports__, "deleteCookie", function() { return /* reexport */ deleteCookie; });
-__webpack_require__.d(__webpack_exports__, "MatomoUrl", function() { return /* reexport */ src_MatomoUrl_MatomoUrl; });
-__webpack_require__.d(__webpack_exports__, "Matomo", function() { return /* reexport */ Matomo_Matomo; });
-__webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
-__webpack_require__.d(__webpack_exports__, "Day", function() { return /* reexport */ Day_DayPeriod; });
-__webpack_require__.d(__webpack_exports__, "Week", function() { return /* reexport */ Week_WeekPeriod; });
-__webpack_require__.d(__webpack_exports__, "Month", function() { return /* reexport */ Month_MonthPeriod; });
-__webpack_require__.d(__webpack_exports__, "Year", function() { return /* reexport */ Year_YearPeriod; });
-__webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range_RangePeriod; });
-__webpack_require__.d(__webpack_exports__, "format", function() { return /* reexport */ format; });
-__webpack_require__.d(__webpack_exports__, "getToday", function() { return /* reexport */ getToday; });
-__webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
-__webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
-__webpack_require__.d(__webpack_exports__, "Dropdown", function() { return /* reexport */ DropdownMenu; });
-__webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
-__webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
-__webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
-__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
-__webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
-__webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
-__webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
-__webpack_require__.d(__webpack_exports__, "MenuDropdown", function() { return /* reexport */ MenuDropdown; });
-__webpack_require__.d(__webpack_exports__, "DatePicker", function() { return /* reexport */ DatePicker; });
-__webpack_require__.d(__webpack_exports__, "DateRangePicker", function() { return /* reexport */ DateRangePicker; });
-__webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { return /* reexport */ PeriodDatePicker; });
-__webpack_require__.d(__webpack_exports__, "Notification", function() { return /* reexport */ Notification; });
-__webpack_require__.d(__webpack_exports__, "NotificationGroup", function() { return /* reexport */ Notification_NotificationGroup; });
-__webpack_require__.d(__webpack_exports__, "NotificationsStore", function() { return /* reexport */ Notifications_store; });
-__webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return /* reexport */ SiteSelector; });
-__webpack_require__.d(__webpack_exports__, "QuickAccess", function() { return /* reexport */ QuickAccess; });
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
-var noAdblockFlag = __webpack_require__("2342");
-
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * Matomo period management service for the frontend.
- *
- * Usage:
- *
- *     var DayPeriod = matomoPeriods.get('day');
- *     var day = new DayPeriod(new Date());
- *
- * or
- *
- *     var day = matomoPeriods.parse('day', '2013-04-05');
- *
- * Adding custom periods:
- *
- * To add your own period to the frontend, create a period class for it
- * w/ the following methods:
- *
- * - **getPrettyString()**: returns a human readable display string for the period.
- * - **getDateRange()**: returns an array w/ two elements, the first being the start
- *                       Date of the period, the second being the end Date. The dates
- *                       must be Date objects, not strings, and are inclusive.
- * - **containsToday()**: returns true if the date period contains today. False if not.
- * - (_static_) **parse(strDate)**: creates a new instance of this period from the
- *                                  value of the 'date' query parameter.
- * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
- *                                  'week', etc.
- *
- * Then call Periods.addCustomPeriod w/ your period class:
- *
- *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);
- *
- * NOTE: currently only single date periods like day, week, month year can
- *       be extended. Other types of periods that require a special UI to
- *       view/edit aren't, since there is currently no way to use a
- *       custom UI for a custom period.
- */
-var Periods = /*#__PURE__*/function () {
-  function Periods() {
-    _classCallCheck(this, Periods);
-
-    _defineProperty(this, "periods", {});
-
-    _defineProperty(this, "periodOrder", []);
-  }
-
-  _createClass(Periods, [{
-    key: "addCustomPeriod",
-    value: function addCustomPeriod(name, periodClass) {
-      if (this.periods[name]) {
-        throw new Error("The \"".concat(name, "\" period already exists! It cannot be overridden."));
-      }
-
-      this.periods[name] = periodClass;
-      this.periodOrder.push(name);
-    }
-  }, {
-    key: "getAllLabels",
-    value: function getAllLabels() {
-      return Array().concat(this.periodOrder);
-    }
-  }, {
-    key: "get",
-    value: function get(strPeriod) {
-      var periodClass = this.periods[strPeriod];
-
-      if (!periodClass) {
-        throw new Error("Invalid period label: ".concat(strPeriod));
-      }
-
-      return periodClass;
-    }
-  }, {
-    key: "parse",
-    value: function parse(strPeriod, strDate) {
-      return this.get(strPeriod).parse(strDate);
-    }
-  }, {
-    key: "isRecognizedPeriod",
-    value: function isRecognizedPeriod(strPeriod) {
-      return !!this.periods[strPeriod];
-    }
-  }]);
-
-  return Periods;
-}();
-
-/* harmony default export */ var Periods_Periods = (new Periods());
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-var originalTitle;
-var _window = window,
-    Matomo_piwik = _window.piwik,
-    Matomo_broadcast = _window.broadcast,
-    Matomo_piwikHelper = _window.piwikHelper;
-Matomo_piwik.helper = Matomo_piwikHelper;
-Matomo_piwik.broadcast = Matomo_broadcast;
-
-Matomo_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  } // Cache server-rendered page title
-
-
-  originalTitle = originalTitle || document.title;
-
-  if (originalTitle.indexOf(Matomo_piwik.siteName) === 0) {
-    var dateString = " - ".concat(Periods_Periods.parse(period, date).getPrettyString(), " ");
-    document.title = "".concat(Matomo_piwik.siteName).concat(dateString).concat(originalTitle.substr(Matomo_piwik.siteName.length));
-  }
-};
-
-Matomo_piwik.hasUserCapability = function hasUserCapability(capability) {
-  return window.angular.isArray(Matomo_piwik.userCapabilities) && Matomo_piwik.userCapabilities.indexOf(capability) !== -1;
-};
-
-Matomo_piwik.on = function addMatomoEventListener(eventName, listener) {
-  function listenerWrapper(evt) {
-    listener.apply(void 0, _toConsumableArray(evt.detail)); // eslint-disable-line
-  }
-
-  listener.wrapper = listenerWrapper;
-  window.addEventListener(eventName, listenerWrapper);
-};
-
-Matomo_piwik.off = function removeMatomoEventListener(eventName, listener) {
-  if (listener.wrapper) {
-    window.removeEventListener(eventName, listener.wrapper);
-  }
-};
-
-Matomo_piwik.postEventNoEmit = function postEventNoEmit(eventName) {
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  var event = new CustomEvent(eventName, {
-    detail: args
-  });
-  window.dispatchEvent(event);
-};
-
-Matomo_piwik.postEvent = function postMatomoEvent(eventName) {
-  for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-    args[_key2 - 1] = arguments[_key2];
-  }
-
-  Matomo_piwik.postEventNoEmit.apply(Matomo_piwik, [eventName].concat(args)); // required until angularjs is removed
-
-  window.angular.element(function () {
-    var $rootScope = Matomo_piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line
-
-    $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));
-  });
-};
-
-var Matomo = Matomo_piwik;
-/* harmony default export */ var Matomo_Matomo = (Matomo);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function translate(translationStringId) {
-  for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    values[_key - 1] = arguments[_key];
-  }
-
-  var pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
-
-  if (values.length === 1 && values[0] && values[0] instanceof Array) {
-    pkArgs = values[0];
-  }
-
-  return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function format(date) {
-  return $.datepicker.formatDate('yy-mm-dd', date);
-}
-function getToday() {
-  var date = new Date(Date.now()); // undo browser timezone
-
-  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply Matomo site timezone (if it exists)
-
-  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
-
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  return date;
-}
-function parseDate(date) {
-  if (date instanceof Date) {
-    return date;
-  }
-
-  var strDate = decodeURIComponent(date).trim();
-
-  if (strDate === '') {
-    throw new Error('Invalid date, empty string.');
-  }
-
-  if (strDate === 'today' || strDate === 'now') {
-    return getToday();
-  }
-
-  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time
-  || strDate === 'yesterdaySameTime') {
-    var yesterday = getToday();
-    yesterday.setDate(yesterday.getDate() - 1);
-    return yesterday;
-  }
-
-  if (strDate.match(/last[ -]?week/i)) {
-    var lastWeek = getToday();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    return lastWeek;
-  }
-
-  if (strDate.match(/last[ -]?month/i)) {
-    var lastMonth = getToday();
-    lastMonth.setDate(1);
-    lastMonth.setMonth(lastMonth.getMonth() - 1);
-    return lastMonth;
-  }
-
-  if (strDate.match(/last[ -]?year/i)) {
-    var lastYear = getToday();
-    lastYear.setFullYear(lastYear.getFullYear() - 1);
-    return lastYear;
-  }
-
-  return $.datepicker.parseDate('yy-mm-dd', strDate);
-}
-function todayIsInRange(dateRange) {
-  if (dateRange.length !== 2) {
-    return false;
-  }
-
-  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
-    return true;
-  }
-
-  return false;
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || Range_unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function Range_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return Range_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Range_arrayLikeToArray(o, minLen); }
-
-function Range_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function Range_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Range_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Range_createClass(Constructor, protoProps, staticProps) { if (protoProps) Range_defineProperties(Constructor.prototype, protoProps); if (staticProps) Range_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-var Range_RangePeriod = /*#__PURE__*/function () {
-  function RangePeriod(startDate, endDate, childPeriodType) {
-    Range_classCallCheck(this, RangePeriod);
-
-    Range_defineProperty(this, "startDate", void 0);
-
-    Range_defineProperty(this, "endDate", void 0);
-
-    Range_defineProperty(this, "childPeriodType", void 0);
-
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.childPeriodType = childPeriodType;
-  }
-  /**
-   * Returns a range representing the last N childPeriodType periods, including the current one.
-   */
-
-
-  Range_createClass(RangePeriod, [{
-    key: "getPrettyString",
-    value: function getPrettyString() {
-      var start = format(this.startDate);
-      var end = format(this.endDate);
-      return translate('General_DateRangeFromTo', [start, end]);
-    }
-  }, {
-    key: "getDateRange",
-    value: function getDateRange() {
-      return [this.startDate, this.endDate];
-    }
-  }, {
-    key: "containsToday",
-    value: function containsToday() {
-      return todayIsInRange(this.getDateRange());
-    }
-  }, {
-    key: "getDayCount",
-    value: function getDayCount() {
-      return Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24));
-    }
-  }], [{
-    key: "getLastNRange",
-    value: function getLastNRange(childPeriodType, strAmount, strEndDate) {
-      var nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
-
-      if (Number.isNaN(nAmount)) {
-        throw new Error('Invalid range strAmount');
-      }
-
-      var endDate = strEndDate ? parseDate(strEndDate) : getToday();
-      var startDate = new Date(endDate.getTime());
-
-      if (childPeriodType === 'day') {
-        startDate.setDate(startDate.getDate() - nAmount);
-      } else if (childPeriodType === 'week') {
-        startDate.setDate(startDate.getDate() - nAmount * 7);
-      } else if (childPeriodType === 'month') {
-        startDate.setDate(1);
-        startDate.setMonth(startDate.getMonth() - nAmount);
-      } else if (childPeriodType === 'year') {
-        startDate.setFullYear(startDate.getFullYear() - nAmount);
-      } else {
-        throw new Error("Unknown period type '".concat(childPeriodType, "'."));
-      }
-
-      if (childPeriodType !== 'day') {
-        var startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
-        var endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-
-        var _startPeriod$getDateR = startPeriod.getDateRange();
-
-        var _startPeriod$getDateR2 = _slicedToArray(_startPeriod$getDateR, 1);
-
-        startDate = _startPeriod$getDateR2[0];
-
-        var _endPeriod$getDateRan = endPeriod.getDateRange();
-
-        var _endPeriod$getDateRan2 = _slicedToArray(_endPeriod$getDateRan, 2);
-
-        endDate = _endPeriod$getDateRan2[1];
-      }
-
-      var firstWebsiteDate = new Date(1991, 7, 6);
-
-      if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
-        switch (childPeriodType) {
-          case 'year':
-            startDate = new Date(1992, 0, 1);
-            break;
-
-          case 'month':
-            startDate = new Date(1991, 8, 1);
-            break;
-
-          case 'week':
-            startDate = new Date(1991, 8, 12);
-            break;
-
-          case 'day':
-          default:
-            startDate = firstWebsiteDate;
-            break;
-        }
-      }
-
-      return new RangePeriod(startDate, endDate, childPeriodType);
-    }
-    /**
-     * Returns a range representing a specific child date range counted back from the end date
-     *
-     * @param childPeriodType Type of the period, eg. day, week, year
-     * @param rangeEndDate
-     * @param countBack Return only the child date range for this specific period number
-     * @returns {RangePeriod}
-     */
-
-  }, {
-    key: "getLastNRangeChild",
-    value: function getLastNRangeChild(childPeriodType, rangeEndDate, countBack) {
-      var ed = rangeEndDate ? parseDate(rangeEndDate) : getToday();
-      var startDate = new Date(ed.getTime());
-      var endDate = new Date(ed.getTime());
-
-      if (childPeriodType === 'day') {
-        startDate.setDate(startDate.getDate() - countBack);
-        endDate.setDate(endDate.getDate() - countBack);
-      } else if (childPeriodType === 'week') {
-        startDate.setDate(startDate.getDate() - countBack * 7);
-        endDate.setDate(endDate.getDate() - countBack * 7);
-      } else if (childPeriodType === 'month') {
-        startDate.setDate(1);
-        startDate.setMonth(startDate.getMonth() - countBack);
-        endDate.setDate(1);
-        endDate.setMonth(endDate.getMonth() - countBack);
-      } else if (childPeriodType === 'year') {
-        startDate.setFullYear(startDate.getFullYear() - countBack);
-        endDate.setFullYear(endDate.getFullYear() - countBack);
-      } else {
-        throw new Error("Unknown period type '".concat(childPeriodType, "'."));
-      }
-
-      if (childPeriodType !== 'day') {
-        var startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
-        var endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-
-        var _startPeriod$getDateR3 = startPeriod.getDateRange();
-
-        var _startPeriod$getDateR4 = _slicedToArray(_startPeriod$getDateR3, 1);
-
-        startDate = _startPeriod$getDateR4[0];
-
-        var _endPeriod$getDateRan3 = endPeriod.getDateRange();
-
-        var _endPeriod$getDateRan4 = _slicedToArray(_endPeriod$getDateRan3, 2);
-
-        endDate = _endPeriod$getDateRan4[1];
-      }
-
-      var firstWebsiteDate = new Date(1991, 7, 6);
-
-      if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
-        switch (childPeriodType) {
-          case 'year':
-            startDate = new Date(1992, 0, 1);
-            break;
-
-          case 'month':
-            startDate = new Date(1991, 8, 1);
-            break;
-
-          case 'week':
-            startDate = new Date(1991, 8, 12);
-            break;
-
-          case 'day':
-          default:
-            startDate = firstWebsiteDate;
-            break;
-        }
-      }
-
-      return new RangePeriod(startDate, endDate, childPeriodType);
-    }
-  }, {
-    key: "parse",
-    value: function parse(strDate) {
-      var childPeriodType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
-
-      if (/^previous/.test(strDate)) {
-        var endDate = RangePeriod.getLastNRange(childPeriodType, '2').startDate;
-        return RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
-      }
-
-      if (/^last/.test(strDate)) {
-        return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
-      }
-
-      var parts = decodeURIComponent(strDate).split(',');
-      return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
-    }
-  }, {
-    key: "getDisplayText",
-    value: function getDisplayText() {
-      return translate('General_DateRangeInPeriodList');
-    }
-  }]);
-
-  return RangePeriod;
-}();
-
-
-Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-window.piwik.addCustomPeriod = Periods_Periods.addCustomPeriod.bind(Periods_Periods);
-
-function piwikPeriods() {
-  return {
-    getAllLabels: Periods_Periods.getAllLabels.bind(Periods_Periods),
-    isRecognizedPeriod: Periods_Periods.isRecognizedPeriod.bind(Periods_Periods),
-    get: Periods_Periods.get.bind(Periods_Periods),
-    parse: Periods_Periods.parse.bind(Periods_Periods),
-    parseDate: parseDate,
-    format: format,
-    RangePeriod: Range_RangePeriod,
-    todayIsInRange: todayIsInRange
-  };
-}
-
-window.angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
-function Day_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Day_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Day_createClass(Constructor, protoProps, staticProps) { if (protoProps) Day_defineProperties(Constructor.prototype, protoProps); if (staticProps) Day_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-var Day_DayPeriod = /*#__PURE__*/function () {
-  function DayPeriod(dateInPeriod) {
-    Day_classCallCheck(this, DayPeriod);
-
-    Day_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  Day_createClass(DayPeriod, [{
-    key: "getPrettyString",
-    value: function getPrettyString() {
-      return format(this.dateInPeriod);
-    }
-  }, {
-    key: "getDateRange",
-    value: function getDateRange() {
-      return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];
-    }
-  }, {
-    key: "containsToday",
-    value: function containsToday() {
-      return todayIsInRange(this.getDateRange());
-    }
-  }], [{
-    key: "parse",
-    value: function parse(strDate) {
-      return new DayPeriod(parseDate(strDate));
-    }
-  }, {
-    key: "getDisplayText",
-    value: function getDisplayText() {
-      return translate('Intl_PeriodDay');
-    }
-  }]);
-
-  return DayPeriod;
-}();
-
-
-Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
-function Week_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Week_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Week_createClass(Constructor, protoProps, staticProps) { if (protoProps) Week_defineProperties(Constructor.prototype, protoProps); if (staticProps) Week_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-var Week_WeekPeriod = /*#__PURE__*/function () {
-  function WeekPeriod(dateInPeriod) {
-    Week_classCallCheck(this, WeekPeriod);
-
-    Week_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  Week_createClass(WeekPeriod, [{
-    key: "getPrettyString",
-    value: function getPrettyString() {
-      var weekDates = this.getDateRange();
-      var startWeek = format(weekDates[0]);
-      var endWeek = format(weekDates[1]);
-      return translate('General_DateRangeFromTo', [startWeek, endWeek]);
-    }
-  }, {
-    key: "getDateRange",
-    value: function getDateRange() {
-      var daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;
-      var startWeek = new Date(this.dateInPeriod.getTime());
-      startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);
-      var endWeek = new Date(startWeek.getTime());
-      endWeek.setDate(startWeek.getDate() + 6);
-      return [startWeek, endWeek];
-    }
-  }, {
-    key: "containsToday",
-    value: function containsToday() {
-      return todayIsInRange(this.getDateRange());
-    }
-  }], [{
-    key: "parse",
-    value: function parse(strDate) {
-      return new WeekPeriod(parseDate(strDate));
-    }
-  }, {
-    key: "getDisplayText",
-    value: function getDisplayText() {
-      return translate('Intl_PeriodWeek');
-    }
-  }]);
-
-  return WeekPeriod;
-}();
-
-
-Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
-function Month_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Month_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Month_createClass(Constructor, protoProps, staticProps) { if (protoProps) Month_defineProperties(Constructor.prototype, protoProps); if (staticProps) Month_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-var Month_MonthPeriod = /*#__PURE__*/function () {
-  function MonthPeriod(dateInPeriod) {
-    Month_classCallCheck(this, MonthPeriod);
-
-    Month_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  Month_createClass(MonthPeriod, [{
-    key: "getPrettyString",
-    value: function getPrettyString() {
-      var month = translate("Intl_Month_Long_StandAlone_".concat(this.dateInPeriod.getMonth() + 1));
-      return "".concat(month, " ").concat(this.dateInPeriod.getFullYear());
-    }
-  }, {
-    key: "getDateRange",
-    value: function getDateRange() {
-      var startMonth = new Date(this.dateInPeriod.getTime());
-      startMonth.setDate(1);
-      var endMonth = new Date(this.dateInPeriod.getTime());
-      endMonth.setDate(1);
-      endMonth.setMonth(endMonth.getMonth() + 1);
-      endMonth.setDate(0);
-      return [startMonth, endMonth];
-    }
-  }, {
-    key: "containsToday",
-    value: function containsToday() {
-      return todayIsInRange(this.getDateRange());
-    }
-  }], [{
-    key: "parse",
-    value: function parse(strDate) {
-      return new MonthPeriod(parseDate(strDate));
-    }
-  }, {
-    key: "getDisplayText",
-    value: function getDisplayText() {
-      return translate('Intl_PeriodMonth');
-    }
-  }]);
-
-  return MonthPeriod;
-}();
-
-
-Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
-function Year_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Year_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Year_createClass(Constructor, protoProps, staticProps) { if (protoProps) Year_defineProperties(Constructor.prototype, protoProps); if (staticProps) Year_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-var Year_YearPeriod = /*#__PURE__*/function () {
-  function YearPeriod(dateInPeriod) {
-    Year_classCallCheck(this, YearPeriod);
-
-    Year_defineProperty(this, "dateInPeriod", void 0);
-
-    this.dateInPeriod = dateInPeriod;
-  }
-
-  Year_createClass(YearPeriod, [{
-    key: "getPrettyString",
-    value: function getPrettyString() {
-      return this.dateInPeriod.getFullYear().toString();
-    }
-  }, {
-    key: "getDateRange",
-    value: function getDateRange() {
-      var startYear = new Date(this.dateInPeriod.getTime());
-      startYear.setMonth(0);
-      startYear.setDate(1);
-      var endYear = new Date(this.dateInPeriod.getTime());
-      endYear.setMonth(12);
-      endYear.setDate(0);
-      return [startYear, endYear];
-    }
-  }, {
-    key: "containsToday",
-    value: function containsToday() {
-      return todayIsInRange(this.getDateRange());
-    }
-  }], [{
-    key: "parse",
-    value: function parse(strDate) {
-      return new YearPeriod(parseDate(strDate));
-    }
-  }, {
-    key: "getDisplayText",
-    value: function getDisplayText() {
-      return translate('Intl_PeriodYear');
-    }
-  }]);
-
-  return YearPeriod;
-}();
-
-
-Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { MatomoUrl_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function MatomoUrl_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function MatomoUrl_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function MatomoUrl_createClass(Constructor, protoProps, staticProps) { if (protoProps) MatomoUrl_defineProperties(Constructor.prototype, protoProps); if (staticProps) MatomoUrl_defineProperties(Constructor, staticProps); return Constructor; }
-
-function MatomoUrl_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
- // important to load all periods here
-
-var MatomoUrl_window = window,
-    MatomoUrl_piwik = MatomoUrl_window.piwik,
-    MatomoUrl_broadcast = MatomoUrl_window.broadcast;
-
-function isValidPeriod(periodStr, dateStr) {
-  try {
-    Periods_Periods.parse(periodStr, dateStr);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-/**
- * URL store and helper functions.
- */
-
-
-var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
-  function MatomoUrl() {
-    var _this = this;
-
-    MatomoUrl_classCallCheck(this, MatomoUrl);
-
-    MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
-
-    MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
-
-    MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl("?".concat(_this.urlQuery.value), true));
-    }));
-
-    MatomoUrl_defineProperty(this, "hashParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl("?".concat(_this.hashQuery.value), true));
-    }));
-
-    MatomoUrl_defineProperty(this, "parsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_objectSpread(_objectSpread({}, _this.urlParsed.value), _this.hashParsed.value));
-    }));
-
-    this.setUrlQuery(window.location.search);
-    this.setHashQuery(window.location.hash); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
-    // have to hook into this method if we want our event handlers to execute before other angularjs
-    // handlers (like the reporting page one)
-
-    Matomo_Matomo.on('$locationChangeSuccess', function (absUrl) {
-      var url = new URL(absUrl);
-
-      _this.setUrlQuery(url.search.replace(/^\?/, ''));
-
-      _this.setHashQuery(url.hash.replace(/^#/, ''));
-    });
-    this.updatePeriodParamsFromUrl();
-  }
-
-  MatomoUrl_createClass(MatomoUrl, [{
-    key: "updateHash",
-    value: function updateHash(params) {
-      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var $location = Matomo_Matomo.helper.getAngularDependency('$location');
-      $location.search(serializedParams);
-    }
-  }, {
-    key: "updateUrl",
-    value: function updateUrl(params) {
-      var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var serializedHashParams = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;
-      var url = "?".concat(serializedParams);
-
-      if (serializedHashParams.length) {
-        url = "".concat(url, "#?").concat(serializedHashParams);
-      }
-
-      window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
-    }
-  }, {
-    key: "getSearchParam",
-    value: function getSearchParam(paramName) {
-      var hash = window.location.href.split('#');
-      var regex = new RegExp("".concat(paramName, "(\\[]|=)"));
-
-      if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-        var valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
-
-        if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
-          return valueFromHash;
-        }
-      }
-
-      return window.broadcast.getValueFromUrl(paramName, window.location.search);
-    }
-  }, {
-    key: "stringify",
-    value: function stringify(search) {
-      // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-      return $.param(search).replace(/%5B%5D/g, '[]');
-    }
-  }, {
-    key: "updatePeriodParamsFromUrl",
-    value: function updatePeriodParamsFromUrl() {
-      var date = this.getSearchParam('date');
-      var period = this.getSearchParam('period');
-
-      if (!isValidPeriod(period, date)) {
-        // invalid data in URL
-        return;
-      }
-
-      if (MatomoUrl_piwik.period === period && MatomoUrl_piwik.currentDateString === date) {
-        // this period / date is already loaded
-        return;
-      }
-
-      MatomoUrl_piwik.period = period;
-      var dateRange = Periods_Periods.parse(period, date).getDateRange();
-      MatomoUrl_piwik.startDateString = format(dateRange[0]);
-      MatomoUrl_piwik.endDateString = format(dateRange[1]);
-      MatomoUrl_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
-      // to have the dates than previousN/lastN.
-
-      if (MatomoUrl_piwik.period === 'range') {
-        date = "".concat(MatomoUrl_piwik.startDateString, ",").concat(MatomoUrl_piwik.endDateString);
-      }
-
-      MatomoUrl_piwik.currentDateString = date;
-    }
-  }, {
-    key: "setUrlQuery",
-    value: function setUrlQuery(search) {
-      this.urlQuery.value = search.replace(/^\?/, '');
-    }
-  }, {
-    key: "setHashQuery",
-    value: function setHashQuery(hash) {
-      this.hashQuery.value = hash.replace(/^[#/?]+/, '');
-    }
-  }]);
-
-  return MatomoUrl;
-}();
-
-var instance = new MatomoUrl_MatomoUrl();
-/* harmony default export */ var src_MatomoUrl_MatomoUrl = (instance);
-MatomoUrl_piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikUrl() {
-  var model = {
-    getSearchParam: src_MatomoUrl_MatomoUrl.getSearchParam.bind(src_MatomoUrl_MatomoUrl)
-  };
-  return model;
-}
-
-piwikUrl.$inject = [];
-angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikService() {
-  return Matomo_Matomo;
-}
-
-window.angular.module('piwikApp.service').service('piwik', piwikService);
-
-function initPiwikService(piwik, $rootScope) {
-  // overwrite $rootScope so all events also go through Matomo.postEvent(...) too.
-  $rootScope.$oldEmit = $rootScope.$emit; // eslint-disable-line
-
-  $rootScope.$emit = function emitWrapper(name) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    Matomo_Matomo.postEvent.apply(Matomo_Matomo, [name].concat(args)); // can't always get the result. it's not really used in angularjs though, so it should be ok.
-
-    return null;
-  };
-
-  $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
-
-  $rootScope.$broadcast = function broadcastWrapper(name) {
-    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-      args[_key2 - 1] = arguments[_key2];
-    }
-
-    Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
-    return $rootScope.$oldBroadcast.apply($rootScope, [name].concat(args)); // eslint-disable-line
-  };
-
-  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
-}
-
-initPiwikService.$inject = ['piwik', '$rootScope'];
-window.angular.module('piwikApp.service').run(initPiwikService);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
-function AjaxHelper_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function AjaxHelper_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { AjaxHelper_ownKeys(Object(source), true).forEach(function (key) { AjaxHelper_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { AjaxHelper_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function AjaxHelper_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function AjaxHelper_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function AjaxHelper_createClass(Constructor, protoProps, staticProps) { if (protoProps) AjaxHelper_defineProperties(Constructor.prototype, protoProps); if (staticProps) AjaxHelper_defineProperties(Constructor, staticProps); return Constructor; }
-
-function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-window.globalAjaxQueue = [];
-window.globalAjaxQueue.active = 0;
-
-window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
-  for (var i = this.length; i >= 0; i -= 1) {
-    if (!this[i] || this[i].readyState === 4) {
-      this.splice(i, 1);
-    }
-  }
-};
-
-window.globalAjaxQueue.push = function globalAjaxQueuePush() {
-  var _Array$prototype$push;
-
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  this.active += args.length; // cleanup ajax queue
-
-  this.clean(); // call original array push
-
-  return (_Array$prototype$push = Array.prototype.push).call.apply(_Array$prototype$push, [this].concat(args));
-};
-
-window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
-  // abort all queued requests if possible
-  this.forEach(function (x) {
-    return x && x.abort && x.abort();
-  }); // remove all elements from array
-
-  this.splice(0, this.length);
-  this.active = 0;
-};
-/**
- * error callback to use by default
- */
-
-
-function defaultErrorCallback(deferred, status) {
-  // do not display error message if request was aborted
-  if (status === 'abort') {
-    return;
-  }
-
-  if (typeof Piwik_Popover === 'undefined') {
-    console.log("Request failed: ".concat(deferred.responseText)); // mostly for tests
-
-    return;
-  }
-
-  var loadingError = $('#loadingError');
-
-  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
-    if (deferred && deferred.status === 500) {
-      $(document.body).html(piwikHelper.escape(deferred.responseText));
-    }
-  } else {
-    loadingError.show();
-  }
-}
-/**
- * Global ajax helper to handle requests within Matomo
- */
-
-
-var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
-  function AjaxHelper() {
-    AjaxHelper_classCallCheck(this, AjaxHelper);
-
-    AjaxHelper_defineProperty(this, "format", 'json');
-
-    AjaxHelper_defineProperty(this, "timeout", null);
-
-    AjaxHelper_defineProperty(this, "callback", null);
-
-    AjaxHelper_defineProperty(this, "useRegularCallbackInCaseOfError", false);
-
-    AjaxHelper_defineProperty(this, "errorCallback", void 0);
-
-    AjaxHelper_defineProperty(this, "withToken", false);
-
-    AjaxHelper_defineProperty(this, "completeCallback", void 0);
-
-    AjaxHelper_defineProperty(this, "getParams", {});
-
-    AjaxHelper_defineProperty(this, "getUrl", '?');
-
-    AjaxHelper_defineProperty(this, "postParams", {});
-
-    AjaxHelper_defineProperty(this, "loadingElement", null);
-
-    AjaxHelper_defineProperty(this, "errorElement", '#ajaxError');
-
-    AjaxHelper_defineProperty(this, "requestHandle", null);
-
-    AjaxHelper_defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
-
-    this.errorCallback = defaultErrorCallback;
-  }
-  /**
-   * Adds params to the request.
-   * If params are given more then once, the latest given value is used for the request
-   *
-   * @param  initialParams
-   * @param  type  type of given parameters (POST or GET)
-   * @return {void}
-   */
-
-
-  AjaxHelper_createClass(AjaxHelper, [{
-    key: "addParams",
-    value: function addParams(initialParams, type) {
-      var _this = this;
-
-      var params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
-      var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
-      Object.keys(params).forEach(function (key) {
-        var value = params[key];
-
-        if (arrayParams.indexOf(key) !== -1 && !value) {
-          return;
-        }
-
-        if (type.toLowerCase() === 'get') {
-          _this.getParams[key] = value;
-        } else if (type.toLowerCase() === 'post') {
-          _this.postParams[key] = value;
-        }
-      });
-    }
-  }, {
-    key: "withTokenInUrl",
-    value: function withTokenInUrl() {
-      this.withToken = true;
-    }
-    /**
-     * Sets the base URL to use in the AJAX request.
-     */
-
-  }, {
-    key: "setUrl",
-    value: function setUrl(url) {
-      this.addParams(broadcast.getValuesFromUrl(url), 'GET');
-    }
-    /**
-     * Gets this helper instance ready to send a bulk request. Each argument to this
-     * function is a single request to use.
-     */
-
-  }, {
-    key: "setBulkRequests",
-    value: function setBulkRequests() {
-      for (var _len2 = arguments.length, urls = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        urls[_key2] = arguments[_key2];
-      }
-
-      var urlsProcessed = urls.map(function (u) {
-        return typeof u === 'string' ? u : $.param(u);
-      });
-      this.addParams({
-        module: 'API',
-        method: 'API.getBulkRequest',
-        urls: urlsProcessed,
-        format: 'json'
-      }, 'post');
-    }
-    /**
-     * Set a timeout (in milliseconds) for the request. This will override any global timeout.
-     *
-     * @param timeout  Timeout in milliseconds
-     */
-
-  }, {
-    key: "setTimeout",
-    value: function setTimeout(timeout) {
-      this.timeout = timeout;
-    }
-    /**
-     * Sets the callback called after the request finishes
-     *
-     * @param callback  Callback function
-     * @deprecated use the jquery promise API
-     */
-
-  }, {
-    key: "setCallback",
-    value: function setCallback(callback) {
-      this.callback = callback;
-    }
-    /**
-     * Set that the callback passed to setCallback() should be used if an application error (i.e. an
-     * Exception in PHP) is returned.
-     */
-
-  }, {
-    key: "useCallbackInCaseOfError",
-    value: function useCallbackInCaseOfError() {
-      this.useRegularCallbackInCaseOfError = true;
-    }
-    /**
-     * Set callback to redirect on success handler
-     * &update=1(+x) will be appended to the current url
-     *
-     * @param [params] to modify in redirect url
-     * @return {void}
-     */
-
-  }, {
-    key: "redirectOnSuccess",
-    value: function redirectOnSuccess(params) {
-      this.setCallback(function () {
-        piwikHelper.redirect(params);
-      });
-    }
-    /**
-     * Sets the callback called in case of an error within the request
-     *
-     * @deprecated use the jquery promise API
-     */
-
-  }, {
-    key: "setErrorCallback",
-    value: function setErrorCallback(callback) {
-      this.errorCallback = callback;
-    }
-    /**
-     * Sets the complete callback which is called after an error or success callback.
-     *
-     * @deprecated use the jquery promise API
-     */
-
-  }, {
-    key: "setCompleteCallback",
-    value: function setCompleteCallback(callback) {
-      this.completeCallback = callback;
-    }
-    /**
-     * Sets the response format for the request
-     *
-     * @param format  response format (e.g. json, html, ...)
-     */
-
-  }, {
-    key: "setFormat",
-    value: function setFormat(format) {
-      this.format = format;
-    }
-    /**
-     * Set the div element to show while request is loading
-     *
-     * @param [element]  selector for the loading element
-     */
-
-  }, {
-    key: "setLoadingElement",
-    value: function setLoadingElement(element) {
-      this.loadingElement = element || '#ajaxLoadingDiv';
-    }
-    /**
-     * Set the div element to show on error
-     *
-     * @param element  selector for the error element
-     */
-
-  }, {
-    key: "setErrorElement",
-    value: function setErrorElement(element) {
-      if (!element) {
-        return;
-      }
-
-      this.errorElement = element;
-    }
-    /**
-     * Detect whether are allowed to use the given default parameter or not
-     */
-
-  }, {
-    key: "useGETDefaultParameter",
-    value: function useGETDefaultParameter(parameter) {
-      if (parameter && this.defaultParams) {
-        for (var i = 0; i < this.defaultParams.length; i += 1) {
-          if (this.defaultParams[i] === parameter) {
-            return true;
-          }
-        }
-      }
-
-      return false;
-    }
-    /**
-     * Removes a default parameter that is usually send automatically along the request.
-     *
-     * @param parameter  A name such as "period", "date", "segment".
-     */
-
-  }, {
-    key: "removeDefaultParameter",
-    value: function removeDefaultParameter(parameter) {
-      if (parameter && this.defaultParams) {
-        for (var i = 0; i < this.defaultParams.length; i += 1) {
-          if (this.defaultParams[i] === parameter) {
-            this.defaultParams.splice(i, 1);
-          }
-        }
-      }
-    }
-    /**
-     * Send the request
-     */
-
-  }, {
-    key: "send",
-    value: function send() {
-      var _this2 = this;
-
-      if ($(this.errorElement).length) {
-        $(this.errorElement).hide();
-      }
-
-      if (this.loadingElement) {
-        $(this.loadingElement).fadeIn();
-      }
-
-      this.requestHandle = this.buildAjaxCall();
-      window.globalAjaxQueue.push(this.requestHandle);
-      var result = new Promise(function (resolve, reject) {
-        _this2.requestHandle.then(resolve).fail(function (xhr) {
-          if (xhr.statusText !== 'abort') {
-            console.log("Warning: the ".concat($.param(_this2.getParams), " request failed!"));
-            reject(xhr);
-          }
-        });
-      });
-
-      result.abort = function () {
-        if (_this2.requestHandle) {
-          _this2.requestHandle.abort();
-        }
-      };
-
-      return result;
-    }
-    /**
-     * Aborts the current request if it is (still) running
-     */
-
-  }, {
-    key: "abort",
-    value: function abort() {
-      if (this.requestHandle && typeof this.requestHandle.abort === 'function') {
-        this.requestHandle.abort();
-        this.requestHandle = null;
-      }
-    }
-    /**
-     * Builds and sends the ajax requests
-     */
-
-  }, {
-    key: "buildAjaxCall",
-    value: function buildAjaxCall() {
-      var _this3 = this;
-
-      var self = this;
-      var parameters = this.mixinDefaultGetParams(this.getParams);
-      var url = this.getUrl;
-
-      if (url[url.length - 1] !== '?') {
-        url += '&';
-      } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
-      // URL encodes the values)
-
-
-      if (parameters.segment) {
-        url = "".concat(url, "segment=").concat(parameters.segment, "&");
-        delete parameters.segment;
-      }
-
-      if (parameters.date) {
-        url = "".concat(url, "date=").concat(decodeURIComponent(parameters.date.toString()), "&");
-        delete parameters.date;
-      }
-
-      url += $.param(parameters);
-      var ajaxCall = {
-        type: 'POST',
-        async: true,
-        url: url,
-        dataType: this.format || 'json',
-        complete: this.completeCallback,
-        error: function errorCallback() {
-          window.globalAjaxQueue.active -= 1;
-
-          if (self.errorCallback) {
-            for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-              args[_key3] = arguments[_key3];
-            }
-
-            self.errorCallback.apply(this, args);
-          }
-        },
-        success: function success(response, status, request) {
-          if (_this3.loadingElement) {
-            $(_this3.loadingElement).hide();
-          }
-
-          if (response && response.result === 'error' && !_this3.useRegularCallbackInCaseOfError) {
-            var placeAt = null;
-            var type = 'toast';
-
-            if ($(_this3.errorElement).length && response.message) {
-              $(_this3.errorElement).show();
-              placeAt = _this3.errorElement;
-              type = null;
-            }
-
-            if (response.message) {
-              var UI = window['require']('piwik/UI'); // eslint-disable-line
-
-              var notification = new UI.Notification();
-              notification.show(response.message, {
-                placeat: placeAt,
-                context: 'error',
-                type: type,
-                id: 'ajaxHelper'
-              });
-              notification.scrollToNotification();
-            }
-          } else if (_this3.callback) {
-            _this3.callback(response, status, request);
-          }
-
-          window.globalAjaxQueue.active -= 1;
-
-          if (Matomo_Matomo.ajaxRequestFinished) {
-            Matomo_Matomo.ajaxRequestFinished();
-          }
-        },
-        data: this.mixinDefaultPostParams(this.postParams),
-        timeout: this.timeout !== null ? this.timeout : undefined
-      };
-      return $.ajax(ajaxCall);
-    }
-  }, {
-    key: "isRequestToApiMethod",
-    value: function isRequestToApiMethod() {
-      return this.getParams && this.getParams.module === 'API' && this.getParams.method || this.postParams && this.postParams.module === 'API' && this.postParams.method;
-    }
-  }, {
-    key: "isWidgetizedRequest",
-    value: function isWidgetizedRequest() {
-      return broadcast.getValueFromUrl('module') === 'Widgetize';
-    }
-  }, {
-    key: "getDefaultPostParams",
-    value: function getDefaultPostParams() {
-      if (this.withToken || this.isRequestToApiMethod() || Matomo_Matomo.shouldPropagateTokenAuth) {
-        return {
-          token_auth: Matomo_Matomo.token_auth,
-          // When viewing a widgetized report there won't be any session that can be used, so don't
-          // force session usage
-          force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
-        };
-      }
-
-      return {};
-    }
-    /**
-     * Mixin the default parameters to send as POST
-     *
-     * @param params   parameter object
-     */
-
-  }, {
-    key: "mixinDefaultPostParams",
-    value: function mixinDefaultPostParams(params) {
-      var defaultParams = this.getDefaultPostParams();
-
-      var mergedParams = AjaxHelper_objectSpread(AjaxHelper_objectSpread({}, defaultParams), params);
-
-      return mergedParams;
-    }
-    /**
-     * Mixin the default parameters to send as GET
-     *
-     * @param   params   parameter object
-     */
-
-  }, {
-    key: "mixinDefaultGetParams",
-    value: function mixinDefaultGetParams(originalParams) {
-      var _this4 = this;
-
-      var segment = src_MatomoUrl_MatomoUrl.getSearchParam('segment');
-      var defaultParams = {
-        idSite: Matomo_Matomo.idSite ? Matomo_Matomo.idSite.toString() : broadcast.getValueFromUrl('idSite'),
-        period: Matomo_Matomo.period || broadcast.getValueFromUrl('period'),
-        segment: segment
-      };
-      var params = originalParams; // never append token_auth to url
-
-      if (params.token_auth) {
-        params.token_auth = null;
-        delete params.token_auth;
-      }
-
-      Object.keys(defaultParams).forEach(function (key) {
-        if (_this4.useGETDefaultParameter(key) && !params[key] && !_this4.postParams[key] && defaultParams[key]) {
-          params[key] = defaultParams[key];
-        }
-      }); // handle default date & period if not already set
-
-      if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-        params.date = Matomo_Matomo.currentDateString;
-      }
-
-      return params;
-    }
-  }], [{
-    key: "fetch",
-    value:
-    /**
-     * Format of response
-     */
-
-    /**
-     * A timeout for the request which will override any global timeout
-     */
-
-    /**
-     * Callback function to be executed on success
-     */
-
-    /**
-     * Use this.callback if an error is returned
-     */
-
-    /**
-     * Callback function to be executed on error
-     *
-     * @deprecated use the jquery promise API
-     */
-
-    /**
-     * Callback function to be executed on complete (after error or success)
-     *
-     * @deprecated use the jquery promise API
-     */
-
-    /**
-     * Params to be passed as GET params
-     * @see ajaxHelper.mixinDefaultGetParams
-     */
-
-    /**
-     * Base URL used in the AJAX request. Can be set by setUrl.
-     *
-     * It is set to '?' rather than 'index.php?' to increase chances that it works
-     * including for users who have an automatic 301 redirection from index.php? to ?
-     * POST values are missing when there is such 301 redirection. So by by-passing
-     * this 301 redirection, we avoid this issue.
-     *
-     * @see ajaxHelper.setUrl
-     */
-
-    /**
-     * Params to be passed as GET params
-     * @see ajaxHelper.mixinDefaultPostParams
-     */
-
-    /**
-     * Element to be displayed while loading
-     */
-
-    /**
-     * Element to be displayed on error
-     */
-
-    /**
-     * Handle for current request
-     */
-    // helper method entry point
-    function fetch(params) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var helper = new AjaxHelper();
-
-      if (options.withTokenInUrl) {
-        helper.withTokenInUrl();
-      }
-
-      helper.setFormat('json');
-      helper.addParams(AjaxHelper_objectSpread({
-        module: 'API',
-        format: 'json'
-      }, params), 'get');
-
-      if (options.postParams) {
-        helper.addParams(options.postParams, 'post');
-      }
-
-      return helper.send();
-    }
-  }]);
-
-  return AjaxHelper;
-}();
-
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
-
-window.ajaxHelper = AjaxHelper_AjaxHelper;
-
-function ajaxQueue() {
-  return globalAjaxQueue;
-}
-
-angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * A materializecss dropdown menu that supports submenus.
- *
- * To use a submenu, just use this directive within another dropdown.
- *
- * Note: if submenus are used, then dropdowns will never scroll.
- *
- * Usage:
- * <a class='dropdown-trigger btn' href='' data-target='mymenu' v-dropdown-menu>Menu</a>
- * <ul id='mymenu' class='dropdown-content'>
- *     <li>
- *         <a class='dropdown-trigger' data-target="mysubmenu" v-dropdown-menu>Submenu</a>
- *         <ul id="mysubmenu" class="dropdown-content">
- *             <li>Submenu Item</li>
- *         </ul>
- *     </li>
- *     <li>
- *         <a href="">Another item</a>
- *     </li>
- * </ul>
- */
-/* harmony default export */ var DropdownMenu = ({
-  mounted: function mounted(element, binding) {
-    var options = {};
-    $(element).addClass('matomo-dropdown-menu');
-    var isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
-
-    if (isSubmenu) {
-      options = {
-        hover: true
-      };
-      $(element).addClass('submenu');
-      $(binding.value.activates).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
-
-      $(element).parents('.dropdown-content').addClass('submenu-container');
-    }
-
-    $(element).dropdown(options);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikDropdownMenu($timeout) {
-  return {
-    restrict: 'A',
-    link: function piwikDropdownMenuLink(scope, element, attrs) {
-      var binding = {
-        instance: null,
-        value: {
-          activates: $("#".concat(attrs.activates))[0]
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      $timeout(function () {
-        DropdownMenu.mounted(element[0], binding);
-      });
-    }
-  };
-}
-
-piwikDropdownMenu.$inject = ['$timeout'];
-angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function onClickOutsideElement(element, binding, event) {
-  var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
-  binding.value.isMouseDown = false;
-  binding.value.hasScrolled = false;
-
-  if (hadUsedScrollbar) {
-    return;
-  }
-
-  if (!element.contains(event.target)) {
-    if (binding.value) {
-      binding.value.blur();
-    }
-  }
-}
-
-function onScroll(element, binding) {
-  binding.value.hasScrolled = true;
-}
-
-function onMouseDown(element, binding) {
-  binding.value.isMouseDown = true;
-  binding.value.hasScrolled = false;
-}
-
-function onEscapeHandler(element, binding, event) {
-  if (event.which === 27) {
-    setTimeout(function () {
-      binding.value.isMouseDown = false;
-      binding.value.hasScrolled = false;
-
-      if (binding.value.blur) {
-        binding.value.blur();
-      }
-    }, 0);
-  }
-}
-
-var doc = document.documentElement;
-/**
- * Usage (in a component):
- *
- * directives: {
- *   // function call is important since we store state in this directive
- *   FocusAnywhereButHere: FocusAnywhereButHere(),
- * }
- *
- * Note: the binding data needs to be static, changes will not be handled.
- */
-
-/* harmony default export */ var FocusAnywhereButHere = ({
-  mounted: function mounted(el, binding) {
-    binding.value.isMouseDown = false;
-    binding.value.hasScrolled = false;
-    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
-    binding.value.onMouseDown = onMouseDown.bind(null, el, binding);
-    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
-    binding.value.onScroll = onScroll.bind(null, el, binding);
-    doc.addEventListener('keyup', binding.value.onEscapeHandler);
-    doc.addEventListener('mousedown', binding.value.onMouseDown);
-    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
-    doc.addEventListener('scroll', binding.value.onScroll);
-  },
-  unmounted: function unmounted(el, binding) {
-    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
-    doc.removeEventListener('mousedown', binding.value.onMouseDown);
-    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-    doc.removeEventListener('scroll', binding.value.onScroll);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * The given expression will be executed when the user presses either escape or presses something
- * outside of this element
- *
- * Example:
- * <div piwik-focus-anywhere-but-here="closeDialog()">my dialog</div>
- */
-
-function piwikFocusAnywhereButHere() {
-  return {
-    restrict: 'A',
-    link: function focusAnywhereButHereLink(scope, element, attr) {
-      var binding = {
-        instance: null,
-        value: {
-          blur: function blur() {
-            setTimeout(function () {
-              scope.$apply(attr.piwikFocusAnywhereButHere);
-            }, 0);
-          }
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      FocusAnywhereButHere.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        return FocusAnywhereButHere.unmounted(element[0], binding);
-      });
-    }
-  };
-}
-
-piwikFocusAnywhereButHere.$inject = [];
-angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwikFocusAnywhereButHere);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-function doFocusIf(el, binding) {
-  if (binding.arg) {
-    setTimeout(function () {
-      el.focus();
-
-      if (binding.value.afterFocus) {
-        binding.value.afterFocus();
-      }
-    }, 5);
-  }
-}
-
-/* harmony default export */ var FocusIf = ({
-  mounted: function mounted(el, binding) {
-    doFocusIf(el, binding);
-  },
-  updated: function updated(el, binding) {
-    doFocusIf(el, binding);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/FocusIf/FocusIf.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * If the given expression evaluates to true the element will be focused
- *
- * Example:
- * <input type="text" piwik-focus-if="view.editName">
- */
-
-function piwikFocusIf() {
-  return {
-    restrict: 'A',
-    link: function focusIfLink(scope, element, attrs) {
-      scope.$watch(attrs.piwikFocusIf, function (newValue) {
-        var binding = {
-          instance: null,
-          arg: newValue ? '1' : undefined,
-          value: {
-            afterFocus: function afterFocus() {
-              return scope.$apply();
-            }
-          },
-          oldValue: null,
-          modifiers: {},
-          dir: {}
-        };
-        FocusIf.updated(element[0], binding);
-      });
-    }
-  };
-}
-
-angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function onExpand(element) {
-  element.classList.toggle('expanded');
-  var positionElement = element.querySelector('.dropdown.positionInViewport');
-
-  if (positionElement) {
-    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-  }
-}
-
-function ExpandOnClick_onClickOutsideElement(element, binding, event) {
-  var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
-  binding.value.isMouseDown = false;
-  binding.value.hasScrolled = false;
-
-  if (hadUsedScrollbar) {
-    return;
-  }
-
-  if (!element.contains(event.target)) {
-    element.classList.remove('expanded');
-  }
-}
-
-function ExpandOnClick_onScroll(binding) {
-  binding.value.hasScrolled = true;
-}
-
-function ExpandOnClick_onMouseDown(binding) {
-  binding.value.isMouseDown = true;
-  binding.value.hasScrolled = false;
-}
-
-function ExpandOnClick_onEscapeHandler(element, binding, event) {
-  if (event.which === 27) {
-    binding.value.isMouseDown = false;
-    binding.value.hasScrolled = false;
-    element.classList.remove('expanded');
-  }
-}
-
-var ExpandOnClick_doc = document.documentElement;
-/**
- * Usage (in a component):
- *
- * directives: {
- *   ExpandOnClick: ExpandOnClick(), // function call is important since we store state
- *                                   // in this directive
- * }
- */
-
-/* harmony default export */ var ExpandOnClick = ({
-  mounted: function mounted(el, binding) {
-    binding.value.isMouseDown = false;
-    binding.value.hasScrolled = false;
-    binding.value.onExpand = onExpand.bind(null, el);
-    binding.value.onEscapeHandler = ExpandOnClick_onEscapeHandler.bind(null, el, binding);
-    binding.value.onMouseDown = ExpandOnClick_onMouseDown.bind(null, binding);
-    binding.value.onClickOutsideElement = ExpandOnClick_onClickOutsideElement.bind(null, el, binding);
-    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
-    binding.value.expander.addEventListener('click', binding.value.onExpand);
-    ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
-    ExpandOnClick_doc.addEventListener('mousedown', binding.value.onMouseDown);
-    ExpandOnClick_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
-    ExpandOnClick_doc.addEventListener('scroll', binding.value.onScroll);
-  },
-  unmounted: function unmounted(el, binding) {
-    binding.value.expander.removeEventListener('click', binding.value.onExpand);
-    ExpandOnClick_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
-    ExpandOnClick_doc.removeEventListener('mousedown', binding.value.onMouseDown);
-    ExpandOnClick_doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-    ExpandOnClick_doc.removeEventListener('scroll', binding.value.onScroll);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikExpandOnClick() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {
-          expander: element.find('.title').first()[0]
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      ExpandOnClick.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        return ExpandOnClick.unmounted(element[0], binding);
-      });
-    }
-  };
-}
-piwikExpandOnClick.$inject = [];
-angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function onMouseEnter(element) {
-  element.classList.add('expanded');
-  var positionElement = element.querySelector('.dropdown.positionInViewport');
-
-  if (positionElement) {
-    Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
-  }
-}
-
-function onMouseLeave(element) {
-  element.classList.remove('expanded');
-}
-
-function ExpandOnHover_onClickOutsideElement(element, event) {
-  if (!element.contains(event.target)) {
-    element.classList.remove('expanded');
-  }
-}
-
-function ExpandOnHover_onEscapeHandler(element, event) {
-  if (event.which === 27) {
-    element.classList.remove('expanded');
-  }
-}
-
-var ExpandOnHover_doc = document.documentElement;
-/**
- * Usage (in a component):
- *
- * directives: {
- *   ExpandOnHover: ExpandOnHover(), // function call is important since we store state
- *                                   // in this directive
- * }
- */
-
-/* harmony default export */ var ExpandOnHover = ({
-  mounted: function mounted(el, binding) {
-    binding.value.onMouseEnter = onMouseEnter.bind(null, el);
-    binding.value.onMouseLeave = onMouseLeave.bind(null, el);
-    binding.value.onClickOutsideElement = ExpandOnHover_onClickOutsideElement.bind(null, el);
-    binding.value.onEscapeHandler = ExpandOnHover_onEscapeHandler.bind(null, el);
-    binding.value.expander.addEventListener('mouseenter', binding.value.onMouseEnter);
-    el.addEventListener('mouseleave', binding.value.onMouseLeave);
-    ExpandOnHover_doc.addEventListener('keyup', binding.value.onEscapeHandler);
-    ExpandOnHover_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
-  },
-  unmounted: function unmounted(el, binding) {
-    binding.value.expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
-    el.removeEventListener('mouseleave', binding.value.onMouseLeave);
-    document.removeEventListener('keyup', binding.value.onEscapeHandler);
-    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-  }
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function piwikExpandOnHover() {
-  return {
-    restrict: 'A',
-    link: function expandOnHoverLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {
-          expander: element.find('.title').first()[0]
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      ExpandOnHover.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        return ExpandOnHover.unmounted(element[0], binding);
-      });
-    }
-  };
-}
-
-piwikExpandOnHover.$inject = [];
-angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=64e27324
-
-var _hoisted_1 = {
-  ref: "root"
-};
-function MatomoDialogvue_type_template_id_64e27324_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=64e27324
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var MatomoDialogvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    /**
-     * Whether the modal is displayed or not;
-     */
-    modelValue: {
-      type: Boolean,
-      required: true
-    },
-
-    /**
-     * Only here for backwards compatibility w/ AngularJS. If supplied, we use this
-     * element to launch the modal instead of the element in the slot. This should not
-     * be used for new Vue code.
-     *
-     * @deprecated
-     */
-    element: {
-      type: HTMLElement,
-      required: false
-    }
-  },
-  emits: ['yes', 'no', 'closeEnd', 'close', 'validation', 'update:modelValue'],
-  activated: function activated() {
-    this.$emit('update:modelValue', false);
-  },
-  watch: {
-    modelValue: function modelValue(newValue, oldValue) {
-      var _this = this;
-
-      if (newValue) {
-        var slotElement = this.element || this.$refs.root.firstElementChild;
-        Matomo_Matomo.helper.modalConfirm(slotElement, {
-          yes: function yes() {
-            _this.$emit('yes');
-          },
-          no: function no() {
-            _this.$emit('no');
-          },
-          validation: function validation() {
-            _this.$emit('validation');
-          }
-        }, {
-          onCloseEnd: function onCloseEnd() {
-            // materialize removes the child element, so we move it back to the slot
-            if (!_this.element) {
-              _this.$refs.root.appendChild(slotElement);
-            }
-
-            _this.$emit('update:modelValue', false);
-
-            _this.$emit('closeEnd');
-          }
-        });
-      } else if (newValue === false && oldValue === true) {
-        // the user closed the dialog, e.g. by pressing Esc or clicking away from it
-        this.$emit('close');
-      }
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue
-
-
-
-MatomoDialogvue_type_script_lang_ts.render = MatomoDialogvue_type_template_id_64e27324_render
-
-/* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
-function createAngularJsAdapter_slicedToArray(arr, i) { return createAngularJsAdapter_arrayWithHoles(arr) || createAngularJsAdapter_iterableToArrayLimit(arr, i) || createAngularJsAdapter_unsupportedIterableToArray(arr, i) || createAngularJsAdapter_nonIterableRest(); }
-
-function createAngularJsAdapter_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function createAngularJsAdapter_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return createAngularJsAdapter_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return createAngularJsAdapter_arrayLikeToArray(o, minLen); }
-
-function createAngularJsAdapter_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function createAngularJsAdapter_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function createAngularJsAdapter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-var transcludeCounter = 0;
-
-function toKebabCase(arg) {
-  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/[A-Z]/g, function (s) {
-    return "-".concat(s.toLowerCase());
-  });
-}
-
-function toAngularJsCamelCase(arg) {
-  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/-([a-z])/g, function (s, p) {
-    return p.toUpperCase();
-  });
-}
-
-function createAngularJsAdapter(options) {
-  var component = options.component,
-      require = options.require,
-      _options$scope = options.scope,
-      scope = _options$scope === void 0 ? {} : _options$scope,
-      _options$events = options.events,
-      events = _options$events === void 0 ? {} : _options$events,
-      $inject = options.$inject,
-      directiveName = options.directiveName,
-      transclude = options.transclude,
-      mountPointFactory = options.mountPointFactory,
-      postCreate = options.postCreate,
-      noScope = options.noScope,
-      _options$restrict = options.restrict,
-      restrict = _options$restrict === void 0 ? 'A' : _options$restrict;
-  var currentTranscludeCounter = transcludeCounter;
-
-  if (transclude) {
-    transcludeCounter += 1;
-  }
-
-  var angularJsScope = {};
-  Object.entries(scope).forEach(function (_ref) {
-    var _ref2 = createAngularJsAdapter_slicedToArray(_ref, 2),
-        scopeVarName = _ref2[0],
-        info = _ref2[1];
-
-    if (!info.vue) {
-      info.vue = scopeVarName;
-    }
-
-    if (info.angularJsBind) {
-      angularJsScope[scopeVarName] = info.angularJsBind;
-    }
-  });
-
-  function angularJsAdapter() {
-    for (var _len = arguments.length, injectedServices = new Array(_len), _key = 0; _key < _len; _key++) {
-      injectedServices[_key] = arguments[_key];
-    }
-
-    var adapter = {
-      restrict: restrict,
-      require: require,
-      scope: noScope ? undefined : angularJsScope,
-      compile: function angularJsAdapterCompile() {
-        return {
-          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs, ngController) {
-            var clone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
-
-            var rootVueTemplate = '<root-component';
-            Object.entries(events).forEach(function (info) {
-              var _info = createAngularJsAdapter_slicedToArray(info, 1),
-                  eventName = _info[0];
-
-              rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
-            });
-            Object.entries(scope).forEach(function (_ref3) {
-              var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
-                  key = _ref4[0],
-                  info = _ref4[1];
-
-              if (info.angularJsBind === '&') {
-                var eventName = toKebabCase(key);
-
-                if (!events[eventName]) {
-                  // pass through scope & w/o a custom event handler
-                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
-                }
-              } else {
-                rootVueTemplate += " :".concat(info.vue, "=\"").concat(info.vue, "\"");
-              }
-            });
-            rootVueTemplate += '>';
-
-            if (transclude) {
-              rootVueTemplate += '<div ref="transcludeTarget"/>';
-            }
-
-            rootVueTemplate += '</root-component>'; // build the vue app
-
-            var app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-              template: rootVueTemplate,
-              data: function data() {
-                var initialData = {};
-                Object.entries(scope).forEach(function (_ref5) {
-                  var _ref6 = createAngularJsAdapter_slicedToArray(_ref5, 2),
-                      scopeVarName = _ref6[0],
-                      info = _ref6[1];
-
-                  var value = ngScope[scopeVarName];
-
-                  if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
-                    value = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
-                  }
-
-                  if (info.transform) {
-                    value = info.transform(value);
-                  }
-
-                  initialData[info.vue] = value;
-                });
-                return initialData;
-              },
-              setup: function setup() {
-                if (transclude) {
-                  var transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-                  return {
-                    transcludeTarget: transcludeTarget
-                  };
-                }
-
-                return undefined;
-              },
-              methods: {
-                onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(name);
-
-                  if (ngScope[scopePropertyName]) {
-                    ngScope[scopePropertyName]($event);
-                  }
-
-                  if (events[name]) {
-                    events[name].apply(events, [$event, this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
-                  }
-                }
-              }
-            });
-            app.config.globalProperties.$sanitize = window.vueSanitize;
-            app.config.globalProperties.translate = translate;
-            app.component('root-component', component); // mount the app
-
-            var mountPoint = mountPointFactory ? mountPointFactory.apply(void 0, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : ngElement[0];
-            var vm = app.mount(mountPoint); // setup watches to bind between angularjs + vue
-
-            Object.entries(scope).forEach(function (_ref7) {
-              var _ref8 = createAngularJsAdapter_slicedToArray(_ref7, 2),
-                  scopeVarName = _ref8[0],
-                  info = _ref8[1];
-
-              if (!info.angularJsBind || info.angularJsBind === '&') {
-                return;
-              }
-
-              ngScope.$watch(scopeVarName, function (newValue) {
-                var newValueFinal = newValue;
-
-                if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
-                  newValueFinal = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
-                }
-
-                if (info.transform) {
-                  newValueFinal = info.transform(newValueFinal);
-                }
-
-                vm[scopeVarName] = newValueFinal;
-              });
-            });
-
-            if (transclude) {
-              $(vm.transcludeTarget).append(clone);
-            }
-
-            if (postCreate) {
-              postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
-            }
-
-            ngElement.on('$destroy', function () {
-              app.unmount();
-            });
-          }
-        };
-      }
-    };
-
-    if (transclude) {
-      adapter.transclude = true;
-      adapter.template = "<div ng-transclude counter=\"".concat(currentTranscludeCounter, "\"/>");
-    }
-
-    return adapter;
-  }
-
-  angularJsAdapter.$inject = $inject || [];
-  angular.module('piwikApp').directive(directiveName, angularJsAdapter);
-  return angularJsAdapter;
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var MatomoDialog_adapter = (createAngularJsAdapter({
-  component: MatomoDialog,
-  scope: {
-    show: {
-      vue: 'modelValue',
-      default: false
-    },
-    element: {
-      default: function _default(scope, element) {
-        return element[0];
-      }
-    }
-  },
-  events: {
-    yes: function yes($event, vm, scope, element, attrs) {
-      if (attrs.yes) {
-        scope.$eval(attrs.yes);
-        setTimeout(function () {
-          scope.$apply();
-        }, 0);
-      }
-    },
-    no: function no($event, vm, scope, element, attrs) {
-      if (attrs.no) {
-        scope.$eval(attrs.no);
-        setTimeout(function () {
-          scope.$apply();
-        }, 0);
-      }
-    },
-    validation: function validation($event, vm, scope, element, attrs) {
-      if (attrs.no) {
-        scope.$eval(attrs.no);
-        setTimeout(function () {
-          scope.$apply();
-        }, 0);
-      }
-    },
-    close: function close($event, scope, element, attrs) {
-      if (attrs.close) {
-        scope.$eval(attrs.close);
-        setTimeout(function () {
-          scope.$apply();
-        }, 0);
-      }
-    },
-    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, controller, $parse) {
-      setTimeout(function () {
-        scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));
-      }, 0);
-    }
-  },
-  $inject: ['$parse'],
-  directiveName: 'piwikDialog',
-  transclude: true,
-  mountPointFactory: function mountPointFactory(scope, element) {
-    var vueRootPlaceholder = $('<div class="vue-placeholder"/>');
-    vueRootPlaceholder.appendTo(element);
-    return vueRootPlaceholder[0];
-  },
-  postCreate: function postCreate(vm, scope, element, attrs) {
-    scope.$watch(attrs.piwikDialog, function (newValue, oldValue) {
-      if (oldValue !== newValue) {
-        vm.modelValue = newValue || false;
-      }
-    });
-  },
-  noScope: true
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=5653b0bd
-
-var EnrichedHeadlinevue_type_template_id_5653b0bd_hoisted_1 = {
-  key: 0,
-  class: "title",
-  tabindex: "6"
-};
-var _hoisted_2 = ["href", "title"];
-var _hoisted_3 = {
-  class: "iconsBar"
-};
-var _hoisted_4 = ["href", "title"];
-
-var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-help"
-}, null, -1);
-
-var _hoisted_6 = [_hoisted_5];
-var _hoisted_7 = ["title"];
-
-var _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-info"
-}, null, -1);
-
-var _hoisted_9 = [_hoisted_8];
-var _hoisted_10 = {
-  class: "ratingIcons"
-};
-var _hoisted_11 = {
-  class: "inlineHelp"
-};
-var _hoisted_12 = ["innerHTML"];
-var _hoisted_13 = ["href"];
-function EnrichedHeadlinevue_type_template_id_5653b0bd_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RateFeature");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: "enrichedHeadline",
-    onMouseenter: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.showIcons = true;
-    }),
-    onMouseleave: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.showIcons = false;
-    }),
-    ref: "root"
-  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_5653b0bd_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    key: 1,
-    class: "title",
-    href: _ctx.editUrl,
-    title: _ctx.translate('CoreHome_ClickToEditX', _ctx.$sanitize(_ctx.actualFeatureName))
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 8, _hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_3, [_ctx.helpUrl && !_ctx.actualInlineHelp ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    key: 0,
-    rel: "noreferrer noopener",
-    target: "_blank",
-    class: "helpIcon",
-    href: _ctx.helpUrl,
-    title: _ctx.translate('CoreHome_ExternalHelp')
-  }, _hoisted_6, 8, _hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualInlineHelp ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    key: 1,
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.showInlineHelp = !_ctx.showInlineHelp;
-    }),
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
-      'active': _ctx.showInlineHelp
-    }]),
-    title: _ctx.translate(_ctx.reportGenerated ? 'General_HelpReport' : 'General_Help')
-  }, _hoisted_9, 10, _hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_RateFeature, {
-    title: _ctx.actualFeatureName
-  }, null, 8, ["title"])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showIcons || _ctx.showInlineHelp]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp)
-  }, null, 8, _hoisted_12), _ctx.helpUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    key: 0,
-    rel: "noreferrer noopener",
-    target: "_blank",
-    class: "readMore",
-    href: _ctx.helpUrl
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MoreDetails')), 9, _hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showInlineHelp]])], 544);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=5653b0bd
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
-
-
- // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
-// CoreHome)
-// TODO: may need a generic solution at some point, but it's bad practice to have
-// cyclic dependencies like this. it worked before because it was individual files
-// dependening on each other, not whole plugins.
-
-var RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
-  return new Promise(function (resolve) {
-    window.$(document).ready(function () {
-      resolve(window.Feedback.RateFeature); // eslint-disable-line
-    });
-  });
-});
-/**
- * Usage:
- *
- * <h2 piwik-enriched-headline>All Websites Dashboard</h2>
- * -> uses "All Websites Dashboard" as featurename
- *
- * <h2 piwik-enriched-headline feature-name="All Websites Dashboard">All Websites Dashboard (Total:
- * 309 Visits)</h2>
- * -> custom featurename
- *
- * <h2 piwik-enriched-headline help-url="http://piwik.org/guide">All Websites Dashboard</h2>
- * -> shows help icon and links to external url
- *
- * <h2 piwik-enriched-headline edit-url="index.php?module=Foo&action=bar&id=4">All Websites
- * Dashboard</h2>
- * -> makes the headline clickable linking to the specified url
- *
- * <h2 piwik-enriched-headline inline-help="inlineHelp">Pages report</h2>
- * -> inlineHelp specified via a attribute shows help icon on headline hover
- *
- * <h2 piwik-enriched-headline>All Websites Dashboard
- *     <div class="inlineHelp">My <strong>inline help</strong></div>
- * </h2>
- * -> alternative definition for inline help
- * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
- *
- * * <h2 piwik-enriched-headline report-generated="generated time">Pages report</h2>
- * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
- * activated by hover
- * -> the tooltip shows the value of the attribute
- */
-
-/* harmony default export */ var EnrichedHeadlinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    helpUrl: {
-      type: String,
-      default: ''
-    },
-    editUrl: {
-      type: String,
-      default: ''
-    },
-    reportGenerated: String,
-    featureName: String,
-    inlineHelp: String
-  },
-  components: {
-    RateFeature: RateFeature
-  },
-  data: function data() {
-    return {
-      showIcons: false,
-      showInlineHelp: false,
-      actualFeatureName: this.featureName,
-      actualInlineHelp: this.inlineHelp
-    };
-  },
-  watch: {
-    inlineHelp: function inlineHelp(newValue) {
-      this.actualInlineHelp = newValue;
-    },
-    featureName: function featureName(newValue) {
-      this.actualFeatureName = newValue;
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    var root = this.$refs.root; // timeout used since angularjs does not fill out the transclude at this point
-
-    setTimeout(function () {
-      if (!_this.actualInlineHelp) {
-        var helpNode = root.querySelector('.title .inlineHelp');
-
-        if (!helpNode && root.parentElement.nextElementSibling) {
-          // hack for reports :(
-          helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');
-        }
-
-        if (helpNode) {
-          // hackish solution to get binded html of p tag within the help node
-          // at this point the ng-bind-html is not yet converted into html when report is not
-          // initially loaded. Using $compile doesn't work. So get and set it manually
-          var helpDocs = helpNode.getAttribute('data-content').trim();
-
-          if (helpDocs.length) {
-            _this.actualInlineHelp = "<p>".concat(helpDocs, "</p>");
-            setTimeout(function () {
-              return helpNode.remove();
-            }, 0);
-          }
-        }
-      }
-
-      if (!_this.actualFeatureName) {
-        _this.actualFeatureName = root.querySelector('.title').textContent;
-      }
-
-      if (_this.reportGenerated && Periods_Periods.parse(Matomo_Matomo.period, Matomo_Matomo.currentDateString).containsToday()) {
-        window.$(root.querySelector('.report-generated')).tooltip({
-          track: true,
-          content: _this.reportGenerated,
-          items: 'div',
-          show: false,
-          hide: false
-        });
-      }
-    });
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue
-
-
-
-EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_5653b0bd_render
-
-/* harmony default export */ var EnrichedHeadline = (EnrichedHeadlinevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var EnrichedHeadline_adapter = (createAngularJsAdapter({
-  component: EnrichedHeadline,
-  scope: {
-    helpUrl: {
-      angularJsBind: '@'
-    },
-    editUrl: {
-      angularJsBind: '@'
-    },
-    reportGenerated: {
-      angularJsBind: '@?'
-    },
-    featureName: {
-      angularJsBind: '@'
-    },
-    inlineHelp: {
-      angularJsBind: '@?'
-    }
-  },
-  directiveName: 'piwikEnrichedHeadline',
-  transclude: true
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=09ef9e02
-
-var ContentBlockvue_type_template_id_09ef9e02_hoisted_1 = {
-  class: "card",
-  ref: "root"
-};
-var ContentBlockvue_type_template_id_09ef9e02_hoisted_2 = {
-  class: "card-content"
-};
-var ContentBlockvue_type_template_id_09ef9e02_hoisted_3 = {
-  key: 0,
-  class: "card-title"
-};
-var ContentBlockvue_type_template_id_09ef9e02_hoisted_4 = {
-  key: 1,
-  class: "card-title"
-};
-var ContentBlockvue_type_template_id_09ef9e02_hoisted_5 = {
-  ref: "content"
-};
-function ContentBlockvue_type_template_id_09ef9e02_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ContentBlockvue_type_template_id_09ef9e02_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_09ef9e02_hoisted_2, [_ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_09ef9e02_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", ContentBlockvue_type_template_id_09ef9e02_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
-    "feature-name": _ctx.actualFeature,
-    "help-url": _ctx.helpUrl,
-    "inline-help": _ctx.actualHelpText
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.contentTitle), 1)];
-    }),
-    _: 1
-  }, 8, ["feature-name", "help-url", "inline-help"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ContentBlockvue_type_template_id_09ef9e02_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512)])], 512);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=09ef9e02
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
-
-
-var adminContent = null;
-/* harmony default export */ var ContentBlockvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    contentTitle: String,
-    feature: String,
-    helpUrl: String,
-    helpText: String,
-    anchor: String
-  },
-  components: {
-    EnrichedHeadline: EnrichedHeadline
-  },
-  data: function data() {
-    return {
-      actualFeature: this.feature,
-      actualHelpText: this.helpText
-    };
-  },
-  watch: {
-    feature: function feature(newValue) {
-      this.actualFeature = newValue;
-    },
-    helpText: function helpText(newValue) {
-      this.actualHelpText = newValue;
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    var _this$$refs = this.$refs,
-        root = _this$$refs.root,
-        content = _this$$refs.content;
-
-    if (this.anchor) {
-      var anchorElement = document.createElement('a');
-      anchorElement.id = this.anchor;
-      root.parentElement.prepend(anchorElement);
-    }
-
-    setTimeout(function () {
-      var inlineHelp = content.querySelector('.contentHelp');
-
-      if (inlineHelp) {
-        _this.actualHelpText = inlineHelp.innerHTML;
-        inlineHelp.remove();
-      }
-    }, 0);
-
-    if (this.actualFeature && (this.actualFeature === true || this.actualFeature === 'true')) {
-      this.actualFeature = this.contentTitle;
-    }
-
-    if (adminContent === null) {
-      // cache admin node for further content blocks
-      adminContent = document.querySelector('#content.admin');
-    }
-
-    var contentTopPosition;
-
-    if (adminContent) {
-      contentTopPosition = adminContent.offsetTop;
-    }
-
-    if (contentTopPosition || contentTopPosition === 0) {
-      var parents = root.closest('[piwik-widget-loader]'); // when shown within the widget loader, we need to get the offset of that element
-      // as the widget loader might be still shown. Would otherwise not position correctly
-      // the widgets on the admin home page
-
-      var topThis = parents ? parents.offsetTop : root.offsetTop;
-
-      if (topThis - contentTopPosition < 17) {
-        // we make sure to display the first card with no margin-top to have it on same as line as
-        // navigation
-        root.style.marginTop = 0;
-      }
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue
-
-
-
-ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_09ef9e02_render
-
-/* harmony default export */ var ContentBlock = (ContentBlockvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var ContentBlock_adapter = (createAngularJsAdapter({
-  component: ContentBlock,
-  scope: {
-    contentTitle: {
-      angularJsBind: '@'
-    },
-    feature: {
-      angularJsBind: '@'
-    },
-    helpUrl: {
-      angularJsBind: '@'
-    },
-    helpText: {
-      angularJsBind: '@'
-    },
-    anchor: {
-      angularJsBind: '@?'
-    }
-  },
-  directiveName: 'piwikContentBlock',
-  transclude: true
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts
-function Segments_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Segments_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Segments_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Segments_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Segments_store_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Segments_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-var Segments_store_SegmentsStore = /*#__PURE__*/function () {
-  function SegmentsStore() {
-    var _this = this;
-
-    Segments_store_classCallCheck(this, SegmentsStore);
-
-    Segments_store_defineProperty(this, "segmentState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      availableSegments: []
-    }));
-
-    Matomo_Matomo.on('piwikSegmentationInited', function () {
-      return _this.setSegmentState();
-    });
-  }
-
-  Segments_store_createClass(SegmentsStore, [{
-    key: "state",
-    get: function get() {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.segmentState);
-    }
-  }, {
-    key: "setSegmentState",
-    value: function setSegmentState() {
-      try {
-        var uiControlObject = $('.segmentEditorPanel').data('uiControlObject');
-        this.segmentState.availableSegments = uiControlObject.impl.availableSegments || [];
-      } catch (e) {// segment editor is not initialized yet
-      }
-    }
-  }]);
-
-  return SegmentsStore;
-}();
-
-/* harmony default export */ var Segments_store = (new Segments_store_SegmentsStore());
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts
-function Comparisons_store_toConsumableArray(arr) { return Comparisons_store_arrayWithoutHoles(arr) || Comparisons_store_iterableToArray(arr) || Comparisons_store_unsupportedIterableToArray(arr) || Comparisons_store_nonIterableSpread(); }
-
-function Comparisons_store_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function Comparisons_store_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return Comparisons_store_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Comparisons_store_arrayLikeToArray(o, minLen); }
-
-function Comparisons_store_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function Comparisons_store_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return Comparisons_store_arrayLikeToArray(arr); }
-
-function Comparisons_store_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function Comparisons_store_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function Comparisons_store_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Comparisons_store_ownKeys(Object(source), true).forEach(function (key) { Comparisons_store_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Comparisons_store_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function Comparisons_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Comparisons_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Comparisons_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Comparisons_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Comparisons_store_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Comparisons_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-
-var SERIES_COLOR_COUNT = 8;
-var SERIES_SHADE_COUNT = 3;
-
-function wrapArray(values) {
-  if (!values) {
-    return [];
-  }
-
-  return values instanceof Array ? values : [values];
-}
-
-var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
-  // for tests
-  function ComparisonsStore() {
-    var _this = this;
-
-    Comparisons_store_classCallCheck(this, ComparisonsStore);
-
-    Comparisons_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      comparisonsDisabledFor: []
-    }));
-
-    Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
-
-    Comparisons_store_defineProperty(this, "colors", {});
-
-    Comparisons_store_defineProperty(this, "segmentComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.parseSegmentComparisons();
-    }));
-
-    Comparisons_store_defineProperty(this, "periodComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.parsePeriodComparisons();
-    }));
-
-    Comparisons_store_defineProperty(this, "isEnabled", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.checkEnabledForCurrentPage();
-    }));
-
-    this.loadComparisonsDisabledFor();
-    $(function () {
-      _this.colors = _this.getAllSeriesColors();
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return _this.getComparisons();
-    }, function () {
-      return Matomo_Matomo.postEvent('piwikComparisonsChanged');
-    }, {
-      deep: true
-    });
-  }
-
-  Comparisons_store_createClass(ComparisonsStore, [{
-    key: "getComparisons",
-    value: function getComparisons() {
-      return this.getSegmentComparisons().concat(this.getPeriodComparisons());
-    }
-  }, {
-    key: "isComparing",
-    value: function isComparing() {
-      return this.isComparisonEnabled() // first two in each array are for the currently selected segment/period
-      && (this.segmentComparisons.value.length > 1 || this.periodComparisons.value.length > 1);
-    }
-  }, {
-    key: "isComparingPeriods",
-    value: function isComparingPeriods() {
-      return this.getPeriodComparisons().length > 1; // first is currently selected period
-    }
-  }, {
-    key: "getSegmentComparisons",
-    value: function getSegmentComparisons() {
-      if (!this.isComparisonEnabled()) {
-        return [];
-      }
-
-      return this.segmentComparisons.value;
-    }
-  }, {
-    key: "getPeriodComparisons",
-    value: function getPeriodComparisons() {
-      if (!this.isComparisonEnabled()) {
-        return [];
-      }
-
-      return this.periodComparisons.value;
-    }
-  }, {
-    key: "getSeriesColor",
-    value: function getSeriesColor(segmentComparison, periodComparison) {
-      var metricIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-      var seriesIndex = this.getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;
-
-      if (metricIndex === 0) {
-        return this.colors["series".concat(seriesIndex)];
-      }
-
-      var shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-      return this.colors["series".concat(seriesIndex, "-shade").concat(shadeIndex)];
-    }
-  }, {
-    key: "getSeriesColorName",
-    value: function getSeriesColorName(seriesIndex, metricIndex) {
-      var colorName = "series".concat(seriesIndex % SERIES_COLOR_COUNT);
-
-      if (metricIndex > 0) {
-        colorName += "-shade".concat(metricIndex % SERIES_SHADE_COUNT);
-      }
-
-      return colorName;
-    }
-  }, {
-    key: "isComparisonEnabled",
-    value: function isComparisonEnabled() {
-      return this.isEnabled.value;
-    }
-  }, {
-    key: "getIndividualComparisonRowIndices",
-    value: function getIndividualComparisonRowIndices(seriesIndex) {
-      var segmentCount = this.getSegmentComparisons().length;
-      var segmentIndex = seriesIndex % segmentCount;
-      var periodIndex = Math.floor(seriesIndex / segmentCount);
-      return {
-        segmentIndex: segmentIndex,
-        periodIndex: periodIndex
-      };
-    }
-  }, {
-    key: "getComparisonSeriesIndex",
-    value: function getComparisonSeriesIndex(periodIndex, segmentIndex) {
-      var segmentCount = this.getSegmentComparisons().length;
-      return periodIndex * segmentCount + segmentIndex;
-    }
-  }, {
-    key: "getAllComparisonSeries",
-    value: function getAllComparisonSeries() {
-      var _this2 = this;
-
-      var seriesInfo = [];
-      var seriesIndex = 0;
-      this.getPeriodComparisons().forEach(function (periodComp) {
-        _this2.getSegmentComparisons().forEach(function (segmentComp) {
-          seriesInfo.push({
-            index: seriesIndex,
-            params: Comparisons_store_objectSpread(Comparisons_store_objectSpread({}, segmentComp.params), periodComp.params),
-            color: _this2.colors["series".concat(seriesIndex)]
-          });
-          seriesIndex += 1;
-        });
-      });
-      return seriesInfo;
-    }
-  }, {
-    key: "removeSegmentComparison",
-    value: function removeSegmentComparison(index) {
-      if (!this.isComparisonEnabled()) {
-        throw new Error('Comparison disabled.');
-      }
-
-      var newComparisons = Comparisons_store_toConsumableArray(this.segmentComparisons.value);
-
-      newComparisons.splice(index, 1);
-      var extraParams = {};
-
-      if (index === 0) {
-        extraParams.segment = newComparisons[0].params.segment;
-      }
-
-      this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value, extraParams);
-    }
-  }, {
-    key: "addSegmentComparison",
-    value: function addSegmentComparison(params) {
-      if (!this.isComparisonEnabled()) {
-        throw new Error('Comparison disabled.');
-      }
-
-      var newComparisons = this.segmentComparisons.value.concat([{
-        params: params,
-        index: -1,
-        title: ''
-      }]);
-      this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);
-    }
-  }, {
-    key: "updateQueryParamsFromComparisons",
-    value: function updateQueryParamsFromComparisons(segmentComparisons, periodComparisons) {
-      var extraParams = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      // get unique segments/periods/dates from new Comparisons
-      var compareSegments = {};
-      var comparePeriodDatePairs = {};
-      var firstSegment = false;
-      var firstPeriod = false;
-      segmentComparisons.forEach(function (comparison) {
-        if (firstSegment) {
-          compareSegments[comparison.params.segment] = true;
-        } else {
-          firstSegment = true;
-        }
-      });
-      periodComparisons.forEach(function (comparison) {
-        if (firstPeriod) {
-          comparePeriodDatePairs["".concat(comparison.params.period, "|").concat(comparison.params.date)] = true;
-        } else {
-          firstPeriod = true;
-        }
-      });
-      var comparePeriods = [];
-      var compareDates = [];
-      Object.keys(comparePeriodDatePairs).forEach(function (pair) {
-        var parts = pair.split('|');
-        comparePeriods.push(parts[0]);
-        compareDates.push(parts[1]);
-      });
-      var compareParams = {
-        compareSegments: Object.keys(compareSegments),
-        comparePeriods: comparePeriods,
-        compareDates: compareDates
-      }; // change the page w/ these new param values
-
-      if (Matomo_Matomo.helper.isAngularRenderingThePage()) {
-        var search = src_MatomoUrl_MatomoUrl.hashParsed.value;
-
-        var newSearch = Comparisons_store_objectSpread(Comparisons_store_objectSpread(Comparisons_store_objectSpread({}, search), compareParams), extraParams);
-
-        delete newSearch['compareSegments[]'];
-        delete newSearch['comparePeriods[]'];
-        delete newSearch['compareDates[]'];
-
-        if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
-          src_MatomoUrl_MatomoUrl.updateHash(newSearch);
-        }
-
-        return;
-      }
-
-      var paramsToRemove = [];
-      ['compareSegments', 'comparePeriods', 'compareDates'].forEach(function (name) {
-        if (!compareParams[name].length) {
-          paramsToRemove.push(name);
-        }
-      }); // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change
-      // the segment
-
-      var url = src_MatomoUrl_MatomoUrl.stringify(extraParams);
-      var strHash = src_MatomoUrl_MatomoUrl.stringify(compareParams);
-      window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
-    }
-  }, {
-    key: "getAllSeriesColors",
-    value: function getAllSeriesColors() {
-      var ColorManager = Matomo_Matomo.ColorManager;
-
-      if (!ColorManager) {
-        return [];
-      }
-
-      var seriesColorNames = [];
-
-      for (var i = 0; i < SERIES_COLOR_COUNT; i += 1) {
-        seriesColorNames.push("series".concat(i));
-
-        for (var j = 0; j < SERIES_SHADE_COUNT; j += 1) {
-          seriesColorNames.push("series".concat(i, "-shade").concat(j));
-        }
-      }
-
-      return ColorManager.getColors('comparison-series-color', seriesColorNames);
-    }
-  }, {
-    key: "loadComparisonsDisabledFor",
-    value: function loadComparisonsDisabledFor() {
-      var _this3 = this;
-
-      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
-
-      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
-        this.privateState.comparisonsDisabledFor = [];
-        return;
-      }
-
-      AjaxHelper_AjaxHelper.fetch({
-        module: 'API',
-        method: 'API.getPagesComparisonsDisabledFor'
-      }).then(function (result) {
-        _this3.privateState.comparisonsDisabledFor = result;
-      });
-    }
-  }, {
-    key: "parseSegmentComparisons",
-    value: function parseSegmentComparisons() {
-      var availableSegments = Segments_store.state.availableSegments;
-
-      var compareSegments = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments)); // add base comparisons
-
-
-      compareSegments.unshift(src_MatomoUrl_MatomoUrl.parsed.value.segment || '');
-      var newSegmentComparisons = [];
-      compareSegments.forEach(function (segment, idx) {
-        var storedSegment;
-        availableSegments.forEach(function (s) {
-          if (s.definition === segment || s.definition === decodeURIComponent(segment) || decodeURIComponent(s.definition) === segment) {
-            storedSegment = s;
-          }
-        });
-        var segmentTitle = storedSegment ? storedSegment.name : translate('General_Unknown');
-
-        if (segment.trim() === '') {
-          segmentTitle = translate('SegmentEditor_DefaultAllVisits');
-        }
-
-        newSegmentComparisons.push({
-          params: {
-            segment: segment
-          },
-          title: Matomo_Matomo.helper.htmlDecode(segmentTitle),
-          index: idx
-        });
-      });
-      return newSegmentComparisons;
-    }
-  }, {
-    key: "parsePeriodComparisons",
-    value: function parsePeriodComparisons() {
-      var comparePeriods = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.comparePeriods));
-
-      var compareDates = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareDates));
-
-      comparePeriods.unshift(src_MatomoUrl_MatomoUrl.parsed.value.period);
-      compareDates.unshift(src_MatomoUrl_MatomoUrl.parsed.value.date);
-      var newPeriodComparisons = [];
-
-      for (var i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {
-        var title = void 0;
-
-        try {
-          title = Periods_Periods.parse(comparePeriods[i], compareDates[i]).getPrettyString();
-        } catch (e) {
-          title = translate('General_Error');
-        }
-
-        newPeriodComparisons.push({
-          params: {
-            date: compareDates[i],
-            period: comparePeriods[i]
-          },
-          title: title,
-          index: i
-        });
-      }
-
-      return newPeriodComparisons;
-    }
-  }, {
-    key: "checkEnabledForCurrentPage",
-    value: function checkEnabledForCurrentPage() {
-      // category/subcategory is not included on top bar pages, so in that case we use module/action
-      var category = src_MatomoUrl_MatomoUrl.parsed.value.category || src_MatomoUrl_MatomoUrl.parsed.value.module;
-      var subcategory = src_MatomoUrl_MatomoUrl.parsed.value.subcategory || src_MatomoUrl_MatomoUrl.parsed.value.action;
-      var id = "".concat(category, ".").concat(subcategory);
-      var isEnabled = this.privateState.comparisonsDisabledFor.indexOf(id) === -1 && this.privateState.comparisonsDisabledFor.indexOf("".concat(category, ".*")) === -1;
-      document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);
-      return isEnabled;
-    }
-  }]);
-
-  return ComparisonsStore;
-}();
-
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts
-
-/* harmony default export */ var Comparisons_store_instance = (new Comparisons_store_ComparisonsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=1b8ecdd2
-
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_1 = {
-  key: 0,
-  ref: "root",
-  class: "matomo-comparisons"
-};
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_2 = {
-  class: "comparison-type"
-};
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_3 = ["title"];
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_4 = ["href"];
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_5 = ["title"];
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_6 = {
-  class: "comparison-period-label"
-};
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_7 = ["onClick"];
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_8 = ["title"];
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_9 = {
-  class: "loadingPiwik",
-  style: {
-    "display": "none"
-  }
-};
-var Comparisonsvue_type_template_id_1b8ecdd2_hoisted_10 = ["alt"];
-function Comparisonsvue_type_template_id_1b8ecdd2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.isComparing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, function (comparison, $index) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: "comparison card",
-      key: comparison.index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-      class: "title",
-      title: comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-      target: "_blank",
-      href: _ctx.getUrlToSegment(comparison.params.segment)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_4)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, function (periodComparison) {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-        class: "comparison-period",
-        key: periodComparison.index,
-        title: _ctx.getComparisonTooltip(comparison, periodComparison)
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        class: "comparison-dot",
-        style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
-          'background-color': _ctx.getSeriesColor(comparison, periodComparison)
-        })
-      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_5);
-    }), 128)), _ctx.segmentComparisons.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-      key: 0,
-      class: "remove-button",
-      onClick: function onClick($event) {
-        return _ctx.removeSegmentComparison($index);
-      }
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      class: "icon icon-close",
-      title: _ctx.translate('General_ClickToRemoveComp')
-    }, null, 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_8)], 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_1b8ecdd2_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-    src: "plugins/Morpheus/images/loading-blue.gif",
-    alt: _ctx.translate('General_LoadingData')
-  }, null, 8, Comparisonsvue_type_template_id_1b8ecdd2_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=1b8ecdd2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
-function Comparisonsvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function Comparisonsvue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Comparisonsvue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { Comparisonsvue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Comparisonsvue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function Comparisonsvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-/* harmony default export */ var Comparisonsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {},
-  data: function data() {
-    return {
-      comparisonTooltips: null
-    };
-  },
-  setup: function setup() {
-    // accessing has to be done through a computed property so we can use the computed
-    // instance directly in the template. unfortunately, vue won't register to changes.
-    var isComparing = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Comparisons_store_instance.isComparing();
-    });
-    var segmentComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Comparisons_store_instance.getSegmentComparisons();
-    });
-    var periodComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Comparisons_store_instance.getPeriodComparisons();
-    });
-    var getSeriesColor = Comparisons_store_instance.getSeriesColor.bind(Comparisons_store_instance);
-    return {
-      isComparing: isComparing,
-      segmentComparisons: segmentComparisons,
-      periodComparisons: periodComparisons,
-      getSeriesColor: getSeriesColor
-    };
-  },
-  methods: {
-    comparisonHasSegment: function comparisonHasSegment(comparison) {
-      return typeof comparison.params.segment !== 'undefined';
-    },
-    removeSegmentComparison: function removeSegmentComparison(index) {
-      // otherwise the tooltip will be stuck on the screen
-      window.$(this.$refs.root).tooltip('destroy');
-      Comparisons_store_instance.removeSegmentComparison(index);
-    },
-    getComparisonPeriodType: function getComparisonPeriodType(comparison) {
-      var period = comparison.params.period;
-
-      if (period === 'range') {
-        return translate('CoreHome_PeriodRange');
-      }
-
-      var periodStr = translate("Intl_Period".concat(period.substring(0, 1).toUpperCase()).concat(period.substring(1)));
-      return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);
-    },
-    getComparisonTooltip: function getComparisonTooltip(segmentComparison, periodComparison) {
-      if (!this.comparisonTooltips || !Object.keys(this.comparisonTooltips).length) {
-        return undefined;
-      }
-
-      return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];
-    },
-    getUrlToSegment: function getUrlToSegment(segment) {
-      var hash = Comparisonsvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.hashParsed.value);
-
-      delete hash.comparePeriods;
-      delete hash.compareDates;
-      delete hash.compareSegments;
-      hash.segment = segment;
-      return "".concat(window.location.search, "#?").concat(src_MatomoUrl_MatomoUrl.stringify(hash));
-    },
-    setUpTooltips: function setUpTooltips() {
-      var _window = window,
-          $ = _window.$;
-      $(this.$refs.root).tooltip({
-        track: true,
-        content: function transformTooltipContent() {
-          var title = $(this).attr('title');
-          return window.vueSanitize(title.replace(/\n/g, '<br />'));
-        },
-        show: {
-          delay: 200,
-          duration: 200
-        },
-        hide: false
-      });
-    },
-    onComparisonsChanged: function onComparisonsChanged() {
-      var _this = this;
-
-      this.comparisonTooltips = null;
-
-      if (!Comparisons_store_instance.isComparing()) {
-        return;
-      }
-
-      var periodComparisons = Comparisons_store_instance.getPeriodComparisons();
-      var segmentComparisons = Comparisons_store_instance.getSegmentComparisons();
-      AjaxHelper_AjaxHelper.fetch({
-        method: 'API.getProcessedReport',
-        apiModule: 'VisitsSummary',
-        apiAction: 'get',
-        compare: '1',
-        compareSegments: src_MatomoUrl_MatomoUrl.getSearchParam('compareSegments'),
-        comparePeriods: src_MatomoUrl_MatomoUrl.getSearchParam('comparePeriods'),
-        compareDates: src_MatomoUrl_MatomoUrl.getSearchParam('compareDates'),
-        format_metrics: '1'
-      }).then(function (report) {
-        _this.comparisonTooltips = {};
-        periodComparisons.forEach(function (periodComp) {
-          _this.comparisonTooltips[periodComp.index] = {};
-          segmentComparisons.forEach(function (segmentComp) {
-            var tooltip = _this.generateComparisonTooltip(report, periodComp, segmentComp);
-
-            _this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
-          });
-        });
-      });
-    },
-    generateComparisonTooltip: function generateComparisonTooltip(visitsSummary, periodComp, segmentComp) {
-      if (!visitsSummary.reportData.comparisons) {
-        // sanity check
-        return '';
-      }
-
-      var firstRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, 0);
-      var firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
-      var comparisonRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
-      var comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];
-      var firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
-      var tooltip = '<div class="comparison-card-tooltip">';
-      var visitsPercent = (comparisonRow.nb_visits / firstRow.nb_visits * 100).toFixed(2);
-      visitsPercent = "".concat(visitsPercent, "%");
-      tooltip += translate('General_ComparisonCardTooltip1', ["'".concat(comparisonRow.compareSegmentPretty, "'"), comparisonRow.comparePeriodPretty, visitsPercent, comparisonRow.nb_visits.toString(), firstRow.nb_visits.toString()]);
-
-      if (periodComp.index > 0) {
-        tooltip += '<br/><br/>';
-        tooltip += translate('General_ComparisonCardTooltip2', [comparisonRow.nb_visits_change.toString(), firstPeriodRow.compareSegmentPretty, firstPeriodRow.comparePeriodPretty]);
-      }
-
-      tooltip += '</div>';
-      return tooltip;
-    }
-  },
-  updated: function updated() {
-    var _this2 = this;
-
-    setTimeout(function () {
-      return _this2.setUpTooltips();
-    });
-  },
-  mounted: function mounted() {
-    var _this3 = this;
-
-    Matomo_Matomo.on('piwikComparisonsChanged', function () {
-      _this3.onComparisonsChanged();
-    });
-    this.onComparisonsChanged();
-    setTimeout(function () {
-      return _this3.setUpTooltips();
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    try {
-      window.$(this.refs.root).tooltip('destroy');
-    } catch (e) {// ignore
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue
-
-
-
-Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_1b8ecdd2_render
-
-/* harmony default export */ var Comparisons = (Comparisonsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-function ComparisonFactory() {
-  return Comparisons_store_instance;
-}
-
-ComparisonFactory.$inject = [];
-angular.module('piwikApp.service').factory('piwikComparisonsService', ComparisonFactory);
-/* harmony default export */ var Comparisons_adapter = (createAngularJsAdapter({
-  component: Comparisons,
-  directiveName: 'piwikComparisons',
-  restrict: 'E'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=054f8a45
-
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_1 = {
-  ref: "root",
-  class: "menuDropdown"
-};
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_2 = ["title"];
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_3 = ["innerHTML"];
-
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-arrow-bottom"
-}, null, -1);
-
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_5 = {
-  class: "items"
-};
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_6 = {
-  key: 0,
-  class: "search"
-};
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_7 = ["placeholder"];
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_8 = ["title"];
-var MenuDropdownvue_type_template_id_054f8a45_hoisted_9 = ["title"];
-function MenuDropdownvue_type_template_id_054f8a45_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
-
-  var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MenuDropdownvue_type_template_id_054f8a45_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: "title",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.showItems = !_ctx.showItems;
-    }),
-    title: _ctx.tooltip
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    innerHTML: _ctx.$sanitize(this.actualMenuTitle)
-  }, null, 8, MenuDropdownvue_type_template_id_054f8a45_hoisted_3), MenuDropdownvue_type_template_id_054f8a45_hoisted_4], 8, MenuDropdownvue_type_template_id_054f8a45_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MenuDropdownvue_type_template_id_054f8a45_hoisted_5, [_ctx.showSearch && _ctx.showItems ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MenuDropdownvue_type_template_id_054f8a45_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "text",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.searchTerm = $event;
-    }),
-    onKeydown: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.onSearchTermKeydown($event);
-    }),
-    placeholder: _ctx.translate('General_Search')
-  }, null, 40, MenuDropdownvue_type_template_id_054f8a45_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, {}, _ctx.showItems]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-    class: "search_ico",
-    src: "plugins/Morpheus/images/search_ico.png",
-    title: _ctx.translate('General_Search')
-  }, null, 8, MenuDropdownvue_type_template_id_054f8a45_hoisted_8), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      _ctx.searchTerm = '';
-
-      _ctx.searchItems('');
-    }),
-    class: "reset",
-    src: "plugins/CoreHome/images/reset_search.png",
-    title: _ctx.translate('General_Clear')
-  }, null, 8, MenuDropdownvue_type_template_id_054f8a45_hoisted_9), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.selectItem($event);
-    })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showItems]])], 512)), [[_directive_focus_anywhere_but_here, {
-    blur: _ctx.lostFocus
-  }]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=054f8a45
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts
-
-
-
-var MenuDropdownvue_type_script_lang_ts_window = window,
-    MenuDropdownvue_type_script_lang_ts_$ = MenuDropdownvue_type_script_lang_ts_window.$;
-/* harmony default export */ var MenuDropdownvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    menuTitle: String,
-    tooltip: String,
-    showSearch: Boolean,
-    menuTitleChangeOnClick: String
-  },
-  directives: {
-    FocusAnywhereButHere: FocusAnywhereButHere,
-    FocusIf: FocusIf
-  },
-  emits: ['afterSelect'],
-  watch: {
-    menuTitle: function menuTitle() {
-      this.actualMenuTitle = this.menuTitle;
-    }
-  },
-  data: function data() {
-    return {
-      showItems: false,
-      searchTerm: '',
-      actualMenuTitle: this.menuTitle
-    };
-  },
-  methods: {
-    lostFocus: function lostFocus() {
-      this.showItems = false;
-    },
-    selectItem: function selectItem(event) {
-      var targetClasses = event.target.classList;
-
-      if (!targetClasses.contains('item') || targetClasses.contains('disabled') || targetClasses.contains('separator')) {
-        return;
-      }
-
-      if (this.menuTitleChangeOnClick !== false) {
-        this.actualMenuTitle = event.target.textContent.replace(/[\u0000-\u2666]/g, function (c) {
-          return "&#".concat(c.charCodeAt(0), ";");
-        }); // eslint-disable-line
-      }
-
-      this.showItems = false;
-      MenuDropdownvue_type_script_lang_ts_$(this.$slots.default()).find('.item').removeClass('active');
-      targetClasses.add('active');
-      this.$emit('afterSelect');
-    },
-    onSearchTermKeydown: function onSearchTermKeydown() {
-      var _this = this;
-
-      setTimeout(function () {
-        _this.searchItems(_this.searchTerm);
-      });
-    },
-    searchItems: function searchItems(unprocessedSearchTerm) {
-      var searchTerm = unprocessedSearchTerm.toLowerCase();
-      MenuDropdownvue_type_script_lang_ts_$(this.$refs.root).find('.item').each(function (index, node) {
-        var $node = MenuDropdownvue_type_script_lang_ts_$(node);
-
-        if ($node.text().toLowerCase().indexOf(searchTerm) === -1) {
-          $node.hide();
-        } else {
-          $node.show();
-        }
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue
-
-
-
-MenuDropdownvue_type_script_lang_ts.render = MenuDropdownvue_type_template_id_054f8a45_render
-
-/* harmony default export */ var MenuDropdown = (MenuDropdownvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var MenuDropdown_adapter = (createAngularJsAdapter({
-  component: MenuDropdown,
-  scope: {
-    menuTitle: {
-      angularJsBind: '@'
-    },
-    tooltip: {
-      angularJsBind: '@'
-    },
-    showSearch: {
-      angularJsBind: '='
-    },
-    menuTitleChangeOnClick: {
-      angularJsBind: '='
-    }
-  },
-  directiveName: 'piwikMenudropdown',
-  transclude: true,
-  events: {
-    'after-select': function afterSelect($event, scope) {
-      setTimeout(function () {
-        scope.$apply();
-      }, 0);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=c8c462d2
-
-var DatePickervue_type_template_id_c8c462d2_hoisted_1 = {
-  ref: "root"
-};
-function DatePickervue_type_template_id_c8c462d2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DatePickervue_type_template_id_c8c462d2_hoisted_1, null, 512);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=c8c462d2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts
-function DatePickervue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function DatePickervue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { DatePickervue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { DatePickervue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { DatePickervue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function DatePickervue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-var DEFAULT_STEP_MONTHS = 1;
-var DatePickervue_type_script_lang_ts_window = window,
-    DatePickervue_type_script_lang_ts_$ = DatePickervue_type_script_lang_ts_window.$;
-/* harmony default export */ var DatePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    selectedDateStart: Date,
-    selectedDateEnd: Date,
-    highlightedDateStart: Date,
-    highlightedDateEnd: Date,
-    viewDate: [String, Date],
-    stepMonths: Number,
-    disableMonthDropdown: Boolean,
-    options: Object
-  },
-  emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],
-  setup: function setup(props, context) {
-    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-
-    function setDateCellColor($dateCell, dateValue) {
-      var $dateCellLink = $dateCell.children('a');
-
-      if (props.selectedDateStart && props.selectedDateEnd && dateValue >= props.selectedDateStart && dateValue <= props.selectedDateEnd) {
-        $dateCell.addClass('ui-datepicker-current-period');
-      } else {
-        $dateCell.removeClass('ui-datepicker-current-period');
-      }
-
-      if (props.highlightedDateStart && props.highlightedDateEnd && dateValue >= props.highlightedDateStart && dateValue <= props.highlightedDateEnd) {
-        // other-month cells don't have links, so the <td> must have the ui-state-hover class
-        var elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;
-        elementToAddClassTo.addClass('ui-state-hover');
-      } else {
-        $dateCell.removeClass('ui-state-hover');
-        $dateCellLink.removeClass('ui-state-hover');
-      }
-    }
-
-    function getCellDate($dateCell, month, year) {
-      if ($dateCell.hasClass('ui-datepicker-other-month')) {
-        return getOtherMonthDate($dateCell, month, year); // eslint-disable-line
-      }
-
-      var day = parseInt($dateCell.children('a,span').text(), 10);
-      return new Date(year, month, day);
-    }
-
-    function getOtherMonthDate($dateCell, month, year) {
-      var date;
-      var $row = $dateCell.parent();
-      var $rowCells = $row.children('td'); // if in the first row, the date cell is before the current month
-
-      if ($row.is(':first-child')) {
-        var $firstDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').first();
-        date = getCellDate($firstDateInMonth, month, year);
-        date.setDate($rowCells.index($dateCell) - $rowCells.index($firstDateInMonth) + 1);
-        return date;
-      } // the date cell is after the current month
-
-
-      var $lastDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').last();
-      date = getCellDate($lastDateInMonth, month, year);
-      date.setDate(date.getDate() + $rowCells.index($dateCell) - $rowCells.index($lastDateInMonth));
-      return date;
-    }
-
-    function getMonthYearDisplayed() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var $firstCellWithMonth = element.find('td[data-month]');
-      var month = parseInt($firstCellWithMonth.attr('data-month'), 10);
-      var year = parseInt($firstCellWithMonth.attr('data-year'), 10);
-      return [month, year];
-    }
-
-    function setDatePickerCellColors() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var $calendarTable = element.find('.ui-datepicker-calendar');
-      var monthYear = getMonthYearDisplayed(); // highlight the rest of the cells by first getting the date for the first cell
-      // in the calendar, then just incrementing by one for the rest of the cells.
-
-      var $cells = $calendarTable.find('td');
-      var $firstDateCell = $cells.first();
-      var currentDate = getCellDate($firstDateCell, monthYear[0], monthYear[1]);
-      $cells.each(function setCellColor() {
-        setDateCellColor(DatePickervue_type_script_lang_ts_$(this), currentDate);
-        currentDate.setDate(currentDate.getDate() + 1);
-      });
-    }
-
-    function viewDateChanged() {
-      var date = props.viewDate;
-
-      if (!date) {
-        return false;
-      }
-
-      if (!(date instanceof Date)) {
-        try {
-          date = parseDate(date);
-        } catch (e) {
-          return false;
-        }
-      }
-
-      var element = DatePickervue_type_script_lang_ts_$(root.value); // only change the datepicker date if the date is outside of the current month/year.
-      // this avoids a re-render in other cases.
-
-      var monthYear = getMonthYearDisplayed();
-
-      if (monthYear[0] !== date.getMonth() || monthYear[1] !== date.getFullYear()) {
-        element.datepicker('setDate', date);
-        return true;
-      }
-
-      return false;
-    } // remove the ui-state-active class & click handlers for every cell. we bypass
-    // the datepicker's date selection logic for smoother browser rendering.
-
-
-    function onJqueryUiRenderedPicker() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      element.find('td[data-event]').off('click');
-      element.find('.ui-state-active').removeClass('ui-state-active');
-      element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day'); // add href to left/right nav in calendar so they can be accessed via keyboard
-
-      element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');
-    }
-
-    function stepMonthsChanged() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var stepMonths = props.stepMonths || DEFAULT_STEP_MONTHS;
-
-      if (element.datepicker('option', 'stepMonths') === stepMonths) {
-        return false;
-      } // setting stepMonths will change the month in view back to the selected date. to avoid
-      // we set the selected date to the month in view.
-
-
-      var currentMonth = DatePickervue_type_script_lang_ts_$('.ui-datepicker-month', element).val();
-      var currentYear = DatePickervue_type_script_lang_ts_$('.ui-datepicker-year', element).val();
-      element.datepicker('option', 'stepMonths', stepMonths).datepicker('setDate', new Date(currentYear, currentMonth));
-      onJqueryUiRenderedPicker();
-      return true;
-    }
-
-    function enableDisableMonthDropdown() {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      element.find('.ui-datepicker-month').attr('disabled', props.disableMonthDropdown);
-    }
-
-    function handleOtherMonthClick() {
-      if (!DatePickervue_type_script_lang_ts_$(this).hasClass('ui-state-hover')) {
-        return;
-      }
-
-      var $row = DatePickervue_type_script_lang_ts_$(this).parent();
-      var $tbody = $row.parent();
-
-      if ($row.is(':first-child')) {
-        // click on first of the month
-        $tbody.find('a').first().click();
-      } else {
-        // click on last of month
-        $tbody.find('a').last().click();
-      }
-    }
-
-    function onCalendarViewChange() {
-      // clicking left/right re-enables the month dropdown, so we disable it again
-      enableDisableMonthDropdown();
-      setDatePickerCellColors();
-    } // on a prop change (NOTE: we can't watch just `props`, since then newProps and oldProps will
-    // have the same values (since it is a proxy object). Using a copy doesn't quite work, the
-    // object it returns will always be different, BUT, since we check what changes it works
-    // for our purposes. The only downside is that it runs on every tick basically, but since
-    // that is within the context of the date picker component, it's bearable.
-
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return DatePickervue_type_script_lang_ts_objectSpread({}, props);
-    }, function (newProps, oldProps) {
-      var redraw = false;
-      ['selectedDateStart', 'selectedDateEnd', 'highlightedDateStart', 'highlightedDateEnd'].forEach(function (propName) {
-        if (redraw) {
-          return;
-        }
-
-        if (!newProps[propName] && oldProps[propName]) {
-          redraw = true;
-        }
-
-        if (newProps[propName] && !oldProps[propName]) {
-          redraw = true;
-        }
-
-        if (newProps[propName] && oldProps[propName] && newProps[propName].getTime() !== oldProps[propName].getTime()) {
-          redraw = true;
-        }
-      });
-
-      if (newProps.viewDate !== oldProps.viewDate && viewDateChanged()) {
-        redraw = true;
-      }
-
-      if (newProps.stepMonths !== oldProps.stepMonths) {
-        stepMonthsChanged();
-      }
-
-      if (newProps.enableDisableMonthDropdown !== oldProps.enableDisableMonthDropdown) {
-        enableDisableMonthDropdown();
-      } // redraw when selected/highlighted dates change
-
-
-      if (redraw) {
-        setDatePickerCellColors();
-      }
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
-      var element = DatePickervue_type_script_lang_ts_$(root.value);
-      var customOptions = props.options || {};
-
-      var datePickerOptions = DatePickervue_type_script_lang_ts_objectSpread(DatePickervue_type_script_lang_ts_objectSpread(DatePickervue_type_script_lang_ts_objectSpread({}, Matomo_Matomo.getBaseDatePickerOptions()), customOptions), {}, {
-        onChangeMonthYear: function onChangeMonthYear() {
-          // datepicker renders the HTML after this hook is called, so we use setTimeout
-          // to run some code after the render.
-          setTimeout(function () {
-            onJqueryUiRenderedPicker();
-          });
-        }
-      });
-
-      element.datepicker(datePickerOptions);
-      element.on('mouseover', 'tbody td a', function (event) {
-        // this event is triggered when a user clicks a date as well. in that case,
-        // the originalEvent is null. we don't need to redraw again for that, so
-        // we ignore events like that.
-        if (event.originalEvent) {
-          setDatePickerCellColors();
-        }
-      }); // on hover cell, execute scope.cellHover()
-
-      element.on('mouseenter', 'tbody td', function onMouseEnter() {
-        var monthYear = getMonthYearDisplayed();
-        var $dateCell = DatePickervue_type_script_lang_ts_$(this);
-        var dateValue = getCellDate($dateCell, monthYear[0], monthYear[1]);
-        context.emit('cellHover', {
-          date: dateValue,
-          $cell: $dateCell
-        });
-      }); // overrides jquery UI handler that unhighlights a cell when the mouse leaves it
-
-      element.on('mouseout', 'tbody td a', function () {
-        setDatePickerCellColors();
-      }); // call scope.cellHoverLeave() when mouse leaves table body (can't do event on tbody, for
-      // some reason that fails, so we do two events, one on the table & one on thead)
-
-      element.on('mouseleave', 'table', function () {
-        return context.emit('cellHoverLeave');
-      }).on('mouseenter', 'thead', function () {
-        return context.emit('cellHoverLeave');
-      }); // make sure whitespace is clickable when the period makes it appropriate
-
-      element.on('click', 'tbody td.ui-datepicker-other-month', function () {
-        return handleOtherMonthClick();
-      }); // NOTE: using a selector w/ .on() doesn't seem to work for some reason...
-
-      element.on('click', function (e) {
-        e.preventDefault();
-        var $target = DatePickervue_type_script_lang_ts_$(e.target).closest('a');
-
-        if (!$target.is('.ui-datepicker-next') && !$target.is('.ui-datepicker-prev')) {
-          return;
-        }
-
-        onCalendarViewChange();
-      }); // when a cell is clicked, invoke the onDateSelected function. this, in conjunction
-      // with onJqueryUiRenderedPicker(), overrides the date picker's click behavior.
-
-      element.on('click', 'td[data-month]', function (event) {
-        var $cell = DatePickervue_type_script_lang_ts_$(event.target).closest('td');
-        var month = parseInt($cell.attr('data-month'), 10);
-        var year = parseInt($cell.attr('data-year'), 10);
-        var day = parseInt($cell.children('a,span').text(), 10);
-        context.emit('dateSelect', {
-          date: new Date(year, month, day)
-        });
-      });
-      var renderPostProcessed = stepMonthsChanged();
-      viewDateChanged();
-      enableDisableMonthDropdown();
-
-      if (!renderPostProcessed) {
-        onJqueryUiRenderedPicker();
-      }
-
-      setDatePickerCellColors();
-    });
-    return {
-      root: root
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue
-
-
-
-DatePickervue_type_script_lang_ts.render = DatePickervue_type_template_id_c8c462d2_render
-
-/* harmony default export */ var DatePicker = (DatePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var DatePicker_adapter = (createAngularJsAdapter({
-  component: DatePicker,
-  scope: {
-    selectedDateStart: {
-      angularJsBind: '<'
-    },
-    selectedDateEnd: {
-      angularJsBind: '<'
-    },
-    highlightedDateStart: {
-      angularJsBind: '<'
-    },
-    highlightedDateEnd: {
-      angularJsBind: '<'
-    },
-    viewDate: {
-      angularJsBind: '<'
-    },
-    stepMonths: {
-      angularJsBind: '<'
-    },
-    disableMonthDropdown: {
-      angularJsBind: '<'
-    },
-    options: {
-      angularJsBind: '<'
-    },
-    cellHover: {
-      angularJsBind: '&'
-    },
-    cellHoverLeave: {
-      angularJsBind: '&'
-    },
-    dateSelect: {
-      angularJsBind: '&'
-    }
-  },
-  directiveName: 'piwikDatePicker',
-  events: {
-    'cell-hover': function cellHover(event, scope, element, attrs, $timeout) {
-      $timeout(); // trigger new digest
-    },
-    'cell-hover-leave': function cellHoverLeave(event, scope, element, attrs, $timeout) {
-      $timeout(); // trigger new digest
-    },
-    'date-select': function dateSelect(event, scope, element, attrs, $timeout) {
-      $timeout(); // trigger new digest
-    }
-  },
-  $inject: ['$timeout']
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=d9f4b538
-
-var DateRangePickervue_type_template_id_d9f4b538_hoisted_1 = {
-  id: "calendarRangeFrom"
-};
-var DateRangePickervue_type_template_id_d9f4b538_hoisted_2 = {
-  id: "calendarRangeTo"
-};
-function DateRangePickervue_type_template_id_d9f4b538_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_d9f4b538_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "text",
-    id: "inputCalendarFrom",
-    name: "inputCalendarFrom",
-    class: "browser-default",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.startDateText = $event;
-    }),
-    onChange: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onRangeInputChanged('from', $event);
-    }),
-    onKeyup: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.handleEnterPress($event);
-    })
-  }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.startDateText]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DatePicker, {
-    id: "calendarFrom",
-    "view-date": _ctx.startDate,
-    "selected-date-start": _ctx.fromPickerSelectedDates[0],
-    "selected-date-end": _ctx.fromPickerSelectedDates[1],
-    "highlighted-date-start": _ctx.fromPickerHighlightedDates[0],
-    "highlighted-date-end": _ctx.fromPickerHighlightedDates[1],
-    onDateSelect: _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.setStartRangeDate($event.date);
-    }),
-    onCellHover: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.fromPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell);
-    }),
-    onCellHoverLeave: _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.fromPickerHighlightedDates = [null, null];
-    })
-  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_d9f4b538_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeTo')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "text",
-    id: "inputCalendarTo",
-    name: "inputCalendarTo",
-    class: "browser-default",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-      return _ctx.endDateText = $event;
-    }),
-    onChange: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.onRangeInputChanged('to', $event);
-    }),
-    onKeyup: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.handleEnterPress($event);
-    })
-  }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.endDateText]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DatePicker, {
-    id: "calendarTo",
-    "view-date": _ctx.endDate,
-    "selected-date-start": _ctx.toPickerSelectedDates[0],
-    "selected-date-end": _ctx.toPickerSelectedDates[1],
-    "highlighted-date-start": _ctx.toPickerHighlightedDates[0],
-    "highlighted-date-end": _ctx.toPickerHighlightedDates[1],
-    onDateSelect: _cache[9] || (_cache[9] = function ($event) {
-      return _ctx.setEndRangeDate($event.date);
-    }),
-    onCellHover: _cache[10] || (_cache[10] = function ($event) {
-      return _ctx.toPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell);
-    }),
-    onCellHoverLeave: _cache[11] || (_cache[11] = function ($event) {
-      return _ctx.toPickerHighlightedDates = [null, null];
-    })
-  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])])], 64);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=d9f4b538
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var DateRangePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    startDate: String,
-    endDate: String
-  },
-  components: {
-    DatePicker: DatePicker
-  },
-  data: function data() {
-    var startDate = null;
-
-    try {
-      startDate = parseDate(this.startDate);
-    } catch (e) {// ignore
-    }
-
-    var endDate = null;
-
-    try {
-      endDate = parseDate(this.endDate);
-    } catch (e) {// ignore
-    }
-
-    return {
-      fromPickerSelectedDates: [startDate, startDate],
-      toPickerSelectedDates: [endDate, endDate],
-      fromPickerHighlightedDates: [null, null],
-      toPickerHighlightedDates: [null, null],
-      startDateText: this.startDate,
-      endDateText: this.endDate
-    };
-  },
-  emits: ['rangeChange', 'submit'],
-  watch: {
-    startDate: function startDate() {
-      this.startDateText = this.startDate;
-      this.setStartRangeDateFromStr(this.startDate);
-    },
-    endDate: function endDate() {
-      this.endDateText = this.endDate;
-      this.setEndRangeDateFromStr(this.endDate);
-    }
-  },
-  mounted: function mounted() {
-    this.rangeChanged(); // emit with initial range pair
-  },
-  methods: {
-    setStartRangeDate: function setStartRangeDate(date) {
-      this.fromPickerSelectedDates = [date, date];
-      this.rangeChanged();
-    },
-    setEndRangeDate: function setEndRangeDate(date) {
-      this.toPickerSelectedDates = [date, date];
-      this.rangeChanged();
-    },
-    onRangeInputChanged: function onRangeInputChanged(source, event) {
-      if (source === 'from') {
-        this.setStartRangeDateFromStr(event.target.value);
-      } else {
-        this.setEndRangeDateFromStr(event.target.value);
-      }
-    },
-    getNewHighlightedDates: function getNewHighlightedDates(date, $cell) {
-      if ($cell.hasClass('ui-datepicker-unselectable')) {
-        return null;
-      }
-
-      return [date, date];
-    },
-    handleEnterPress: function handleEnterPress($event) {
-      if ($event.keyCode !== 13) {
-        return;
-      }
-
-      this.$emit('submit', {
-        start: this.startDate,
-        end: this.endDate
-      });
-    },
-    setStartRangeDateFromStr: function setStartRangeDateFromStr(dateStr) {
-      var startDateParsed;
-
-      try {
-        startDateParsed = parseDate(dateStr);
-      } catch (e) {
-        this.startDateText = this.startDate;
-      }
-
-      if (startDateParsed) {
-        this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-      }
-
-      this.rangeChanged();
-    },
-    setEndRangeDateFromStr: function setEndRangeDateFromStr(dateStr) {
-      var endDateParsed;
-
-      try {
-        endDateParsed = parseDate(dateStr);
-      } catch (e) {
-        this.endDateText = this.endDate;
-      }
-
-      if (endDateParsed) {
-        this.toPickerSelectedDates = [endDateParsed, endDateParsed];
-      }
-
-      this.rangeChanged();
-    },
-    rangeChanged: function rangeChanged() {
-      this.$emit('rangeChange', {
-        start: format(this.fromPickerSelectedDates[0]),
-        end: format(this.toPickerSelectedDates[0])
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue
-
-
-
-DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template_id_d9f4b538_render
-
-/* harmony default export */ var DateRangePicker = (DateRangePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var DateRangePicker_adapter = (createAngularJsAdapter({
-  component: DateRangePicker,
-  scope: {
-    startDate: {
-      angularJsBind: '<'
-    },
-    endDate: {
-      angularJsBind: '<'
-    },
-    rangeChange: {
-      angularJsBind: '&'
-    },
-    submit: {
-      angularJsBind: '&'
-    }
-  },
-  directiveName: 'piwikDateRangePicker',
-  restrict: 'E'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=0fe3c4e7
-
-function PeriodDatePickervue_type_template_id_0fe3c4e7_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DatePicker, {
-    "selected-date-start": _ctx.selectedDates[0],
-    "selected-date-end": _ctx.selectedDates[1],
-    "highlighted-date-start": _ctx.highlightedDates[0],
-    "highlighted-date-end": _ctx.highlightedDates[1],
-    "view-date": _ctx.viewDate,
-    "step-months": _ctx.period === 'year' ? 12 : 1,
-    "disable-month-dropdown": _ctx.period === 'year',
-    onCellHover: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onHoverNormalCell($event.date, $event.$cell);
-    }),
-    onCellHoverLeave: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onHoverLeaveNormalCells();
-    }),
-    onDateSelect: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.onDateSelected($event.date);
-    })
-  }, null, 8, ["selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end", "view-date", "step-months", "disable-month-dropdown"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=0fe3c4e7
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts
-
-
-
-
-var piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
-var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMonth - 1, Matomo_Matomo.maxDateDay);
-/* harmony default export */ var PeriodDatePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    period: String,
-    date: [String, Date]
-  },
-  components: {
-    DatePicker: DatePicker
-  },
-  emits: ['select'],
-  setup: function setup(props, context) {
-    var viewDate = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.date);
-    var selectedDates = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([null, null]);
-    var highlightedDates = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([null, null]);
-
-    function getBoundedDateRange(date) {
-      var dates = Periods_Periods.get(props.period).parse(date).getDateRange(); // make sure highlighted date range is within min/max date range
-
-      dates[0] = piwikMinDate < dates[0] ? dates[0] : piwikMinDate;
-      dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;
-      return dates;
-    }
-
-    function onHoverNormalCell(cellDate, $cell) {
-      var isOutOfMinMaxDateRange = cellDate < piwikMinDate || cellDate > piwikMaxDate; // don't highlight anything if the period is month or day, and we're hovering over calendar
-      // whitespace. since there are no dates, it's doesn't make sense what you're selecting.
-
-      var shouldNotHighlightFromWhitespace = $cell.hasClass('ui-datepicker-other-month') && (props.period === 'month' || props.period === 'day');
-
-      if (isOutOfMinMaxDateRange || shouldNotHighlightFromWhitespace) {
-        highlightedDates.value = [null, null];
-        return;
-      }
-
-      highlightedDates.value = getBoundedDateRange(cellDate);
-    }
-
-    function onHoverLeaveNormalCells() {
-      highlightedDates.value = [null, null];
-    }
-
-    function onDateSelected(date) {
-      context.emit('select', {
-        date: date
-      });
-    }
-
-    function onChanges() {
-      if (!props.period || !props.date) {
-        selectedDates.value = [null, null];
-        return;
-      }
-
-      selectedDates.value = getBoundedDateRange(props.date);
-    }
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(props, onChanges);
-    onChanges();
-    return {
-      selectedDates: selectedDates,
-      highlightedDates: highlightedDates,
-      viewDate: viewDate,
-      onHoverNormalCell: onHoverNormalCell,
-      onHoverLeaveNormalCells: onHoverLeaveNormalCells,
-      onDateSelected: onDateSelected
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue
-
-
-
-PeriodDatePickervue_type_script_lang_ts.render = PeriodDatePickervue_type_template_id_0fe3c4e7_render
-
-/* harmony default export */ var PeriodDatePicker = (PeriodDatePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var PeriodDatePicker_adapter = (createAngularJsAdapter({
-  component: PeriodDatePicker,
-  scope: {
-    period: {
-      angularJsBind: '<'
-    },
-    date: {
-      angularJsBind: '<'
-    },
-    select: {
-      angularJsBind: '&'
-    }
-  },
-  directiveName: 'piwikPeriodDatePicker',
-  restrict: 'E'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=13a2e0c0
-
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_1 = ["value", "name"];
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_2 = ["title"];
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_3 = ["textContent"];
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_4 = {
-  key: 1,
-  class: "placeholder"
-};
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_5 = {
-  class: "dropdown"
-};
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_6 = {
-  class: "custom_select_search"
-};
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_7 = ["placeholder"];
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_8 = {
-  key: 0
-};
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_9 = {
-  class: "custom_select_container"
-};
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_10 = ["onClick"];
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_11 = ["innerHTML", "href", "title"];
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_12 = {
-  class: "ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all\n                 siteSelect"
-};
-var SiteSelectorvue_type_template_id_13a2e0c0_hoisted_13 = {
-  class: "ui-menu-item"
-};
-var _hoisted_14 = {
-  class: "ui-corner-all",
-  tabindex: "-1"
-};
-var _hoisted_15 = {
-  key: 1
-};
-function SiteSelectorvue_type_template_id_13a2e0c0_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _ctx$selectedSite, _ctx$selectedSite2, _ctx$selectedSite3, _ctx$selectedSite4;
-
-  var _component_AllSitesLink = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AllSitesLink");
-
-  var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
-
-  var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["siteSelector piwikSelector borderedControl", {
-      'expanded': _ctx.showSitesList,
-      'disabled': !_ctx.hasMultipleSites
-    }])
-  }, [_ctx.name ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
-    key: 0,
-    type: "hidden",
-    value: (_ctx$selectedSite = _ctx.selectedSite) === null || _ctx$selectedSite === void 0 ? void 0 : _ctx$selectedSite.id,
-    name: _ctx.name
-  }, null, 8, SiteSelectorvue_type_template_id_13a2e0c0_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    ref: "selectorLink",
-    onClick: _cache[0] || (_cache[0] = function () {
-      return _ctx.onClickSelector && _ctx.onClickSelector.apply(_ctx, arguments);
-    }),
-    onKeydown: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onPressEnter($event);
-    }),
-    href: "javascript:void(0)",
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
-      'loading': _ctx.isLoading
-    }, "title"]),
-    tabindex: "4",
-    title: _ctx.selectorLinkTitle
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["icon icon-arrow-bottom", {
-      'iconHidden': _ctx.isLoading,
-      'collapsed': !_ctx.showSitesList
-    }])
-  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [(_ctx$selectedSite2 = _ctx.selectedSite) !== null && _ctx$selectedSite2 !== void 0 && _ctx$selectedSite2.name || !_ctx.placeholder ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
-    key: 0,
-    textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(((_ctx$selectedSite3 = _ctx.selectedSite) === null || _ctx$selectedSite3 === void 0 ? void 0 : _ctx$selectedSite3.name) || _ctx.firstSiteName)
-  }, null, 8, SiteSelectorvue_type_template_id_13a2e0c0_hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !((_ctx$selectedSite4 = _ctx.selectedSite) !== null && _ctx$selectedSite4 !== void 0 && _ctx$selectedSite4.name) && _ctx.placeholder ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.placeholder), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 42, SiteSelectorvue_type_template_id_13a2e0c0_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "text",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      _ctx.searchTerm = '';
-
-      _ctx.loadInitialSites();
-    }),
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.searchTerm = $event;
-    }),
-    tabindex: "4",
-    class: "websiteSearch inp browser-default",
-    placeholder: _ctx.translate('General_Search')
-  }, null, 8, SiteSelectorvue_type_template_id_13a2e0c0_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, {}, _ctx.shouldFocusOnSearch]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-    title: "Clear",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      _ctx.searchTerm = '';
-
-      _ctx.loadInitialSites();
-    }),
-    class: "reset",
-    src: "plugins/CoreHome/images/reset_search.png"
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.autocompleteMinSites <= _ctx.sites.length || _ctx.searchTerm]]), _ctx.allSitesLocation === 'top' && _ctx.showAllSitesItem ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AllSitesLink, {
-    href: _ctx.urlAllSites,
-    "all-sites-text": _ctx.allSitesText,
-    onClick: _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.onAllSitesClick($event);
-    })
-  }, null, 8, ["href", "all-sites-text"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
-    class: "custom_select_ul_list",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.showSitesList = false;
-    })
-  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, function (site) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
-      onClick: function onClick($event) {
-        return _ctx.switchSite(site, $event);
-      },
-      key: site.idsite
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-      onClick: _cache[6] || (_cache[6] = function ($event) {
-        return $event.preventDefault();
-      }),
-      innerHTML: _ctx.$sanitize(_ctx.getMatchedSiteName(site.name)),
-      tabindex: "4",
-      href: _ctx.getUrlForSiteId(site.idsite),
-      title: site.name
-    }, null, 8, SiteSelectorvue_type_template_id_13a2e0c0_hoisted_11)], 8, SiteSelectorvue_type_template_id_13a2e0c0_hoisted_10)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(!_ctx.showSelectedSite && _ctx.activeSiteId === site.idsite)]]);
-  }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", SiteSelectorvue_type_template_id_13a2e0c0_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_NotFound') + ' ' + _ctx.searchTerm), 1)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.sites.length && _ctx.searchTerm]])]), _ctx.allSitesLocation === 'bottom' && _ctx.showAllSitesItem ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AllSitesLink, {
-    href: _ctx.urlAllSites,
-    "all-sites-text": _ctx.allSitesText,
-    onClick: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.onAllSitesClick($event);
-    })
-  }, null, 8, ["href", "all-sites-text"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showSitesList]])], 2)), [[_directive_focus_anywhere_but_here, {
-    blur: _ctx.onBlur
-  }]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=13a2e0c0
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=45607d28
-
-var AllSitesLinkvue_type_template_id_45607d28_hoisted_1 = ["innerHTML", "href"];
-function AllSitesLinkvue_type_template_id_45607d28_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _this = this;
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _this.onClick($event);
-    }),
-    class: "custom_select_all"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $event.preventDefault();
-    }),
-    innerHTML: _ctx.$sanitize(_ctx.allSitesText),
-    tabindex: "4",
-    href: _ctx.href
-  }, null, 8, AllSitesLinkvue_type_template_id_45607d28_hoisted_1)]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=45607d28
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var AllSitesLinkvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    href: String,
-    allSitesText: String
-  },
-  emits: ['click'],
-  methods: {
-    onClick: function onClick(event) {
-      this.$emit('click', event);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue
-
-
-
-AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45607d28_render
-
-/* harmony default export */ var AllSitesLink = (AllSitesLinkvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts
-function SitesStore_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function SitesStore_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { SitesStore_ownKeys(Object(source), true).forEach(function (key) { SitesStore_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { SitesStore_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function SitesStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function SitesStore_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function SitesStore_createClass(Constructor, protoProps, staticProps) { if (protoProps) SitesStore_defineProperties(Constructor.prototype, protoProps); if (staticProps) SitesStore_defineProperties(Constructor, staticProps); return Constructor; }
-
-function SitesStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-var SitesStore_SitesStore = /*#__PURE__*/function () {
-  function SitesStore() {
-    var _this = this;
-
-    SitesStore_classCallCheck(this, SitesStore);
-
-    SitesStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      initialSites: [],
-      isInitialized: false
-    }));
-
-    SitesStore_defineProperty(this, "currentRequest", void 0);
-
-    SitesStore_defineProperty(this, "limitRequest", void 0);
-
-    SitesStore_defineProperty(this, "initialSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.state.initialSites);
-    }));
-  }
-
-  SitesStore_createClass(SitesStore, [{
-    key: "loadInitialSites",
-    value: function loadInitialSites() {
-      var _this2 = this;
-
-      if (this.state.isInitialized) {
-        return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.state.initialSites));
-      }
-
-      return this.searchSite('%').then(function (sites) {
-        _this2.state.isInitialized = true;
-        _this2.state.initialSites = sites;
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(sites);
-      });
-    }
-  }, {
-    key: "loadSite",
-    value: function loadSite(idSite) {
-      if (idSite === 'all') {
-        src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
-          module: 'MultiSites',
-          action: 'index',
-          date: src_MatomoUrl_MatomoUrl.parsed.value.date,
-          period: src_MatomoUrl_MatomoUrl.parsed.value.period
-        }));
-      } else {
-        src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value), {}, {
-          segment: '',
-          idSite: idSite
-        }));
-      }
-    }
-  }, {
-    key: "searchSite",
-    value: function searchSite(term) {
-      var _this3 = this;
-
-      var onlySitesWithAdminAccess = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-      if (!term) {
-        return this.loadInitialSites();
-      }
-
-      if (this.currentRequest) {
-        this.currentRequest.abort();
-      }
-
-      if (!this.limitRequest) {
-        this.limitRequest = AjaxHelper_AjaxHelper.fetch({
-          method: 'SitesManager.getNumWebsitesToDisplayPerPage'
-        });
-      }
-
-      return this.limitRequest.then(function (response) {
-        var limit = response.value;
-        var methodToCall = 'SitesManager.getPatternMatchSites';
-
-        if (onlySitesWithAdminAccess) {
-          methodToCall = 'SitesManager.getSitesWithAdminAccess';
-        }
-
-        _this3.currentRequest = AjaxHelper_AjaxHelper.fetch({
-          method: methodToCall,
-          limit: limit,
-          pattern: term
-        });
-        return _this3.currentRequest;
-      }).then(function (response) {
-        if (response) {
-          return _this3.processWebsitesList(response);
-        }
-
-        return null;
-      }).finally(function () {
-        _this3.currentRequest = null;
-      });
-    }
-  }, {
-    key: "processWebsitesList",
-    value: function processWebsitesList(response) {
-      var sites = response;
-
-      if (!sites || !sites.length) {
-        return [];
-      }
-
-      sites = sites.map(function (s) {
-        return SitesStore_objectSpread(SitesStore_objectSpread({}, s), {}, {
-          name: s.group ? "[".concat(s.group, "] ").concat(s.name) : s.name
-        });
-      });
-      sites.sort(function (lhs, rhs) {
-        if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {
-          return -1;
-        }
-
-        return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;
-      });
-      return sites;
-    }
-  }]);
-
-  return SitesStore;
-}();
-
-/* harmony default export */ var SiteSelector_SitesStore = (new SitesStore_SitesStore());
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/debounce.ts
-var DEFAULT_DEBOUNCE_DELAY = 300;
-function debounce(fn) {
-  var delayInMs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_DEBOUNCE_DELAY;
-  var timeout;
-  return function () {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-
-    timeout = setTimeout(function () {
-      fn.apply(void 0, args);
-    }, delayInMs);
-  };
-}
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts
-function SiteSelectorvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function SiteSelectorvue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { SiteSelectorvue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { SiteSelectorvue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { SiteSelectorvue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function SiteSelectorvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-
-
-
-/* harmony default export */ var SiteSelectorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    modelValue: {
-      Object: Object,
-      default: {
-        id: Matomo_Matomo.idSite,
-        name: Matomo_Matomo.helper.htmlDecode(Matomo_Matomo.siteName)
-      }
-    },
-    showSelectedSite: {
-      type: Boolean,
-      default: false
-    },
-    showAllSitesItem: {
-      type: Boolean,
-      default: true
-    },
-    switchSiteOnSelect: {
-      type: Boolean,
-      default: true
-    },
-    onlySitesWithAdminAccess: {
-      type: Boolean,
-      default: false
-    },
-    name: {
-      type: String,
-      default: ''
-    },
-    allSitesText: {
-      type: String,
-      default: translate('General_MultiSitesSummary')
-    },
-    allSitesLocation: {
-      type: String,
-      default: 'bottom'
-    },
-    placeholder: String
-  },
-  emits: ['update:modelValue', 'blur'],
-  components: {
-    AllSitesLink: AllSitesLink
-  },
-  directives: {
-    FocusAnywhereButHere: FocusAnywhereButHere,
-    FocusIf: FocusIf
-  },
-  watch: {
-    searchTerm: function searchTerm() {
-      this.onSearchTermChanged();
-    },
-    modelValue: {
-      handler: function handler(newValue) {
-        this.selectedSite = SiteSelectorvue_type_script_lang_ts_objectSpread({}, newValue);
-      },
-      deep: true
-    }
-  },
-  data: function data() {
-    return {
-      searchTerm: '',
-      activeSiteId: Matomo_Matomo.idSite,
-      showSitesList: false,
-      isLoading: false,
-      sites: [],
-      selectedSite: {
-        id: Matomo_Matomo.idSite,
-        name: Matomo_Matomo.helper.htmlDecode(Matomo_Matomo.siteName)
-      },
-      autocompleteMinSites: parseInt(Matomo_Matomo.config.autocomplete_min_sites, 10)
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    window.initTopControls();
-    this.loadInitialSites().then(function () {
-      if ((!_this.selectedSite || !_this.selectedSite.id) && _this.sites[0]) {
-        _this.selectedSite = {
-          id: _this.sites[0].idsite,
-          name: _this.sites[0].name
-        };
-
-        _this.$emit('update:modelValue', SiteSelectorvue_type_script_lang_ts_objectSpread({}, _this.selectedSite));
-      }
-    });
-    var shortcutTitle = translate('CoreHome_ShortcutWebsiteSelector');
-    Matomo_Matomo.helper.registerShortcut('w', shortcutTitle, function (event) {
-      if (event.altKey) {
-        return;
-      }
-
-      if (event.preventDefault) {
-        event.preventDefault();
-      } else {
-        event.returnValue = false; // IE
-      }
-
-      _this.$refs.selectorLink.click();
-
-      _this.$refs.selectorLink.focus();
-    });
-  },
-  computed: {
-    shouldFocusOnSearch: function shouldFocusOnSearch() {
-      return this.showSitesList && this.autocompleteMinSites <= this.sites.length || this.searchTerm;
-    },
-    selectorLinkTitle: function selectorLinkTitle() {
-      var _this$selectedSite;
-
-      return this.hasMultipleSites ? translate('CoreHome_ChangeCurrentWebsite', ((_this$selectedSite = this.selectedSite) === null || _this$selectedSite === void 0 ? void 0 : _this$selectedSite.name) || this.firstSiteName) : '';
-    },
-    hasMultipleSites: function hasMultipleSites() {
-      return SiteSelector_SitesStore.initialSites.value && SiteSelector_SitesStore.initialSites.value.length > 1;
-    },
-    firstSiteName: function firstSiteName() {
-      return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
-    },
-    urlAllSites: function urlAllSites() {
-      var newQuery = src_MatomoUrl_MatomoUrl.stringify(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
-        module: 'MultiSites',
-        action: 'index',
-        date: src_MatomoUrl_MatomoUrl.parsed.value.date,
-        period: src_MatomoUrl_MatomoUrl.parsed.value.period
-      }));
-      return "?".concat(newQuery);
-    }
-  },
-  created: function created() {
-    this.searchSite = debounce(this.searchSite.bind(this));
-  },
-  methods: {
-    onSearchTermChanged: function onSearchTermChanged() {
-      if (!this.searchTerm) {
-        this.isLoading = false;
-        this.loadInitialSites();
-      } else {
-        this.isLoading = true;
-        this.searchSite(this.searchTerm);
-      }
-    },
-    onAllSitesClick: function onAllSitesClick(event) {
-      this.switchSite({
-        idsite: 'all',
-        name: this.allSitesText
-      }, event);
-      this.showSitesList = false;
-    },
-    switchSite: function switchSite(site, event) {
-      // for Mac OS cmd key needs to be pressed, ctrl key on other systems
-      var controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
-
-      if (event && controlKey && event.target && event.target.href) {
-        window.open(event.target.href, '_blank');
-        return;
-      }
-
-      this.selectedSite = {
-        id: site.idsite,
-        name: site.name
-      };
-      this.$emit('update:modelValue', SiteSelectorvue_type_script_lang_ts_objectSpread({}, this.selectedSite));
-
-      if (!this.switchSiteOnSelect || this.activeSiteId === site.idsite) {
-        return;
-      }
-
-      SiteSelector_SitesStore.loadSite(site.idsite);
-    },
-    onBlur: function onBlur() {
-      this.showSitesList = false;
-      this.$emit('blur');
-    },
-    onClickSelector: function onClickSelector() {
-      if (this.hasMultipleSites) {
-        this.showSitesList = !this.showSitesList;
-
-        if (!this.isLoading && !this.searchTerm) {
-          this.loadInitialSites();
-        }
-      }
-    },
-    onPressEnter: function onPressEnter(event) {
-      if (event.key !== 'Enter') {
-        return;
-      }
-
-      event.preventDefault();
-      this.showSitesList = !this.showSitesList;
-
-      if (this.showSitesList && !this.isLoading) {
-        this.loadInitialSites();
-      }
-    },
-    getMatchedSiteName: function getMatchedSiteName(siteName) {
-      var index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
-
-      if (index === -1 || this.isLoading // only highlight when we know the displayed results are for a search
-      ) {
-        return Matomo_Matomo.helper.htmlEntities(siteName);
-      }
-
-      var previousPart = Matomo_Matomo.helper.htmlEntities(siteName.substring(0, index));
-      var lastPart = Matomo_Matomo.helper.htmlEntities(siteName.substring(index + this.searchTerm.length));
-      return "".concat(previousPart, "<span class=\"autocompleteMatched\">").concat(this.searchTerm, "</span>").concat(lastPart);
-    },
-    loadInitialSites: function loadInitialSites() {
-      var _this2 = this;
-
-      return SiteSelector_SitesStore.loadInitialSites().then(function (sites) {
-        _this2.sites = sites || [];
-      });
-    },
-    searchSite: function searchSite(term) {
-      var _this3 = this;
-
-      this.isLoading = true;
-      SiteSelector_SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then(function (sites) {
-        if (term !== _this3.searchTerm) {
-          return; // search term changed in the meantime
-        }
-
-        if (sites) {
-          _this3.sites = sites;
-        }
-      }).finally(function () {
-        _this3.isLoading = false;
-      });
-    },
-    getUrlForSiteId: function getUrlForSiteId(idSite) {
-      var newQuery = src_MatomoUrl_MatomoUrl.stringify(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
-        segment: '',
-        idSite: idSite
-      }));
-      var newHash = src_MatomoUrl_MatomoUrl.stringify(SiteSelectorvue_type_script_lang_ts_objectSpread(SiteSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
-        segment: '',
-        idSite: idSite
-      }));
-      return "?".concat(newQuery, "#?").concat(newHash);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue
-
-
-
-SiteSelectorvue_type_script_lang_ts.render = SiteSelectorvue_type_template_id_13a2e0c0_render
-
-/* harmony default export */ var SiteSelector = (SiteSelectorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.adapter.ts
-function SiteSelector_adapter_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function SiteSelector_adapter_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { SiteSelector_adapter_ownKeys(Object(source), true).forEach(function (key) { SiteSelector_adapter_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { SiteSelector_adapter_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function SiteSelector_adapter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-/* harmony default export */ var SiteSelector_adapter = (createAngularJsAdapter({
-  component: SiteSelector,
-  require: '?ngModel',
-  scope: {
-    showSelectedSite: {
-      angularJsBind: '='
-    },
-    showAllSitesItem: {
-      angularJsBind: '='
-    },
-    switchSiteOnSelect: {
-      angularJsBind: '='
-    },
-    onlySitesWithAdminAccess: {
-      angularJsBind: '='
-    },
-    name: {
-      angularJsBind: '@'
-    },
-    allSitesText: {
-      angularJsBind: '@'
-    },
-    allSitesLocation: {
-      angularJsBind: '@'
-    },
-    placeholder: {
-      angularJsBind: '@'
-    },
-    modelValue: {}
-  },
-  $inject: ['$timeout'],
-  directiveName: 'piwikSiteselector',
-  events: {
-    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel) {
-      if (newValue && !vm.modelValue || !newValue && vm.modelValue || newValue.id !== vm.modelValue.id) {
-        element.attr('siteid', newValue.id);
-        element.trigger('change', newValue);
-
-        if (ngModel) {
-          ngModel.$setViewValue(newValue);
-        }
-      }
-    },
-    blur: function blur(event, vm, scope) {
-      setTimeout(function () {
-        return scope.$apply();
-      });
-    }
-  },
-  postCreate: function postCreate(vm, scope, element, attrs, controller, $timeout) {
-    var ngModel = controller; // setup ng-model mapping
-
-    if (ngModel) {
-      ngModel.$setViewValue(vm.modelValue);
-
-      ngModel.$render = function () {
-        if (angular.isString(ngModel.$viewValue)) {
-          vm.modelValue = JSON.parse(ngModel.$viewValue);
-        } else {
-          vm.modelValue = ngModel.$viewValue;
-        }
-      };
-    }
-
-    $timeout(function () {
-      if (attrs.siteid && attrs.sitename) {
-        vm.modelValue = {
-          id: attrs.siteid,
-          name: Matomo_Matomo.helper.htmlDecode(attrs.sitename)
-        };
-        ngModel.$setViewValue(SiteSelector_adapter_objectSpread({}, vm.modelValue));
-      }
-    });
-  }
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=d1e03d32
-
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_1 = {
-  ref: "root",
-  class: "quickAccessInside"
-};
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_2 = ["title"];
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_3 = {
-  class: "dropdown"
-};
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_4 = {
-  class: "no-result"
-};
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_5 = ["onClick"];
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_6 = ["onMouseenter", "onClick"];
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_7 = {
-  class: "quickAccessMatomoSearch"
-};
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_8 = ["onMouseenter", "onClick"];
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_9 = ["textContent"];
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_10 = {
-  class: "quick-access-category helpCategory"
-};
-var QuickAccessvue_type_template_id_d1e03d32_hoisted_11 = ["href"];
-function QuickAccessvue_type_template_id_d1e03d32_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
-
-  var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", QuickAccessvue_type_template_id_d1e03d32_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: "icon-search",
-    onMouseenter: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.searchActive = true;
-    })
-  }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(_ctx.searchTerm || _ctx.searchActive)]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    class: "s",
-    onKeydown: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onKeypress($event);
-    }),
-    onFocus: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.searchActive = true;
-    }),
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.searchTerm = $event;
-    }),
-    type: "text",
-    tabindex: "2",
-    title: _ctx.quickAccessTitle
-  }, null, 40, QuickAccessvue_type_template_id_d1e03d32_hoisted_2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm], [_directive_focus_if, {}, _ctx.searchActive]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", QuickAccessvue_type_template_id_d1e03d32_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", QuickAccessvue_type_template_id_d1e03d32_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_SearchNoResults')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(_ctx.numMenuItems > 0 || _ctx.sites.length)]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.menuItems, function (subcategory) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", {
-      key: subcategory.title
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-      class: "quick-access-category",
-      onClick: function onClick($event) {
-        _ctx.searchTerm = subcategory.title;
-
-        _ctx.searchMenu(_ctx.searchTerm);
-      }
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(subcategory.title), 9, QuickAccessvue_type_template_id_d1e03d32_hoisted_5), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(subcategory.items, function (submenuEntry) {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["result", {
-          selected: submenuEntry.menuIndex === _ctx.searchIndex
-        }]),
-        onMouseenter: function onMouseenter($event) {
-          return _ctx.searchIndex = submenuEntry.menuIndex;
-        },
-        onClick: function onClick($event) {
-          return _ctx.selectMenuItem(submenuEntry.index);
-        },
-        key: submenuEntry.index
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(submenuEntry.name.trim()), 1)], 42, QuickAccessvue_type_template_id_d1e03d32_hoisted_6);
-    }), 128))]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", QuickAccessvue_type_template_id_d1e03d32_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-    class: "quick-access-category websiteCategory"
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_Sites')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasSitesSelector && _ctx.sites.length || _ctx.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-    class: "no-result"
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MultiSites_LoadingWebsites')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasSitesSelector && _ctx.isLoading]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, function (site, index) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["result", {
-        selected: _ctx.numMenuItems + index === _ctx.searchIndex
-      }]),
-      onMouseenter: function onMouseenter($event) {
-        return _ctx.searchIndex = _ctx.numMenuItems + index;
-      },
-      onClick: function onClick($event) {
-        return _ctx.selectSite(site.idsite);
-      },
-      key: site.idsite
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-      textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(site.name)
-    }, null, 8, QuickAccessvue_type_template_id_d1e03d32_hoisted_9)], 42, QuickAccessvue_type_template_id_d1e03d32_hoisted_8)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasSitesSelector && !_ctx.isLoading]]);
-  }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", QuickAccessvue_type_template_id_d1e03d32_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_HelpResources')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
-      selected: _ctx.searchIndex === 'help'
-    }, "quick-access-help"]),
-    onMouseenter: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.searchIndex = 'help';
-    })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: "https://matomo.org?s=".concat(encodeURIComponent(_ctx.searchTerm)),
-    target: "_blank"
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_SearchOnMatomo', _ctx.searchTerm)), 9, QuickAccessvue_type_template_id_d1e03d32_hoisted_11)], 34)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm && _ctx.searchActive]])], 512)), [[_directive_focus_anywhere_but_here, {
-    blur: _ctx.onBlur
-  }]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=d1e03d32
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts
-function QuickAccessvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function QuickAccessvue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { QuickAccessvue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { QuickAccessvue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { QuickAccessvue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function QuickAccessvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-
-
-function isElementInViewport(element) {
-  var rect = element.getBoundingClientRect();
-  return rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.$(window).height() && rect.right <= window.$(window).width();
-}
-
-function scrollFirstElementIntoView(element) {
-  if (element && element.scrollIntoView) {
-    // make sure search is visible
-    element.scrollIntoView();
-  }
-}
-
-/* harmony default export */ var QuickAccessvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {},
-  directives: {
-    FocusAnywhereButHere: FocusAnywhereButHere,
-    FocusIf: FocusIf
-  },
-  watch: {
-    searchActive: function searchActive(newValue) {
-      var classes = this.$refs.root.parentElement.classList;
-      classes.toggle('active', newValue);
-      classes.toggle('expanded', newValue);
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    // TODO: temporary, remove after angularjs is removed.
-    // this is currently needed since angularjs will render a div, then vue will render a div
-    // within it, but the top controls and CSS expect to have certain CSS classes in the root
-    // element.
-    // same applies to above watch for searchActive()
-    this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
-
-    if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
-      window.initTopControls();
-    }
-
-    Matomo_Matomo.helper.registerShortcut('f', translate('CoreHome_ShortcutSearch'), function (event) {
-      if (event.altKey) {
-        return;
-      }
-
-      event.preventDefault();
-      scrollFirstElementIntoView(_this.$refs.root);
-
-      _this.activateSearch();
-    });
-  },
-  data: function data() {
-    var hasSegmentSelector = !!document.querySelector('.segmentEditorPanel');
-    return {
-      menuItems: [],
-      numMenuItems: 0,
-      searchActive: false,
-      searchTerm: '',
-      searchIndex: 0,
-      menuIndexCounter: -1,
-      topMenuItems: null,
-      leftMenuItems: null,
-      segmentItems: null,
-      hasSegmentSelector: hasSegmentSelector,
-      sites: [],
-      isLoading: false
-    };
-  },
-  created: function created() {
-    this.searchMenu = debounce(this.searchMenu.bind(this));
-  },
-  computed: {
-    hasSitesSelector: function hasSitesSelector() {
-      return !!document.querySelector('.top_controls [piwik-siteselector]');
-    },
-    quickAccessTitle: function quickAccessTitle() {
-      var searchAreasTitle = '';
-      var searchAreas = [translate('CoreHome_MenuEntries')];
-
-      if (this.hasSegmentSelector) {
-        searchAreas.push(translate('CoreHome_Segments'));
-      }
-
-      if (this.hasSitesSelector) {
-        searchAreas.push(translate('SitesManager_Sites'));
-      }
-
-      while (searchAreas.length) {
-        searchAreasTitle += searchAreas.shift();
-
-        if (searchAreas.length >= 2) {
-          searchAreasTitle += ', ';
-        } else if (searchAreas.length === 1) {
-          searchAreasTitle += " ".concat(translate('General_And'), " ");
-        }
-      }
-
-      return translate('CoreHome_QuickAccessTitle', searchAreasTitle);
-    }
-  },
-  emits: ['itemSelected', 'blur'],
-  methods: {
-    onKeypress: function onKeypress(event) {
-      var _this2 = this;
-
-      var areSearchResultsDisplayed = this.searchTerm && this.searchActive;
-      var isTabKey = event.which === 9;
-      var isEscKey = event.which === 27;
-
-      if (event.which === 38) {
-        this.highlightPreviousItem();
-        event.preventDefault();
-      } else if (event.which === 40) {
-        this.highlightNextItem();
-        event.preventDefault();
-      } else if (event.which === 13) {
-        this.clickQuickAccessMenuItem();
-      } else if (isTabKey && areSearchResultsDisplayed) {
-        this.deactivateSearch();
-      } else if (isEscKey && areSearchResultsDisplayed) {
-        this.deactivateSearch();
-      } else {
-        setTimeout(function () {
-          _this2.searchActive = true;
-
-          _this2.searchMenu(_this2.searchTerm);
-        });
-      }
-    },
-    highlightPreviousItem: function highlightPreviousItem() {
-      if (this.searchIndex - 1 < 0) {
-        this.searchIndex = 0;
-      } else {
-        this.searchIndex -= 1;
-      }
-
-      this.makeSureSelectedItemIsInViewport();
-    },
-    highlightNextItem: function highlightNextItem() {
-      var numTotal = this.$refs.root.querySelectorAll('li.result').length;
-
-      if (numTotal <= this.searchIndex + 1) {
-        this.searchIndex = numTotal - 1;
-      } else {
-        this.searchIndex += 1;
-      }
-
-      this.makeSureSelectedItemIsInViewport();
-    },
-    clickQuickAccessMenuItem: function clickQuickAccessMenuItem() {
-      var _this3 = this;
-
-      var selectedMenuElement = this.getCurrentlySelectedElement();
-
-      if (selectedMenuElement) {
-        setTimeout(function () {
-          selectedMenuElement.click();
-
-          _this3.$emit('itemSelected', selectedMenuElement);
-        }, 20);
-      }
-    },
-    deactivateSearch: function deactivateSearch() {
-      this.searchTerm = '';
-      this.searchActive = false;
-      this.$refs.root.querySelector('input').blur();
-    },
-    makeSureSelectedItemIsInViewport: function makeSureSelectedItemIsInViewport() {
-      var element = this.getCurrentlySelectedElement();
-
-      if (element && !isElementInViewport(element)) {
-        scrollFirstElementIntoView(element);
-      }
-    },
-    getCurrentlySelectedElement: function getCurrentlySelectedElement() {
-      var results = this.$refs.root.querySelectorAll('li.result');
-
-      if (results && results.length && results.item(this.searchIndex)) {
-        return results.item(this.searchIndex);
-      }
-
-      return null;
-    },
-    searchMenu: function searchMenu(unprocessedSearchTerm) {
-      var _this4 = this;
-
-      var searchTerm = unprocessedSearchTerm.toLowerCase();
-      var index = -1;
-      var menuItemsIndex = {};
-      var menuItems = [];
-
-      var moveToCategory = function moveToCategory(theSubmenuItem) {
-        // force rerender of element to prevent weird side effects
-        var submenuItem = QuickAccessvue_type_script_lang_ts_objectSpread({}, theSubmenuItem); // needed for proper highlighting with arrow keys
-
-
-        index += 1;
-        submenuItem.menuIndex = index;
-        var category = submenuItem.category;
-
-        if (!(category in menuItemsIndex)) {
-          menuItems.push({
-            title: category,
-            items: []
-          });
-          menuItemsIndex[category] = menuItems.length - 1;
-        }
-
-        var indexOfCategory = menuItemsIndex[category];
-        menuItems[indexOfCategory].items.push(submenuItem);
-      };
-
-      this.resetSearchIndex();
-
-      if (this.hasSitesSelector) {
-        this.isLoading = true;
-        SiteSelector_SitesStore.searchSite(searchTerm).then(function (sites) {
-          _this4.sites = sites;
-        }).finally(function () {
-          _this4.isLoading = false;
-        });
-      }
-
-      var menuItemMatches = function menuItemMatches(i) {
-        return i.name.toLowerCase().indexOf(searchTerm) !== -1 || i.category.toLowerCase().indexOf(searchTerm) !== -1;
-      }; // get the menu items on first search since this component can be mounted
-      // before the menus are
-
-
-      if (this.topMenuItems === null) {
-        this.topMenuItems = this.getTopMenuItems();
-      }
-
-      if (this.leftMenuItems === null) {
-        this.leftMenuItems = this.getLeftMenuItems();
-      }
-
-      if (this.segmentItems === null) {
-        this.segmentItems = this.getSegmentItems();
-      }
-
-      var topMenuItems = this.topMenuItems.filter(menuItemMatches);
-      var leftMenuItems = this.leftMenuItems.filter(menuItemMatches);
-      var segmentItems = this.segmentItems.filter(menuItemMatches);
-      topMenuItems.forEach(moveToCategory);
-      leftMenuItems.forEach(moveToCategory);
-      segmentItems.forEach(moveToCategory);
-      this.numMenuItems = topMenuItems.length + leftMenuItems.length + segmentItems.length;
-      this.menuItems = menuItems;
-    },
-    resetSearchIndex: function resetSearchIndex() {
-      this.searchIndex = 0;
-      this.makeSureSelectedItemIsInViewport();
-    },
-    selectSite: function selectSite(idSite) {
-      SiteSelector_SitesStore.loadSite(idSite);
-    },
-    selectMenuItem: function selectMenuItem(index) {
-      var target = document.querySelector("[quick_access='".concat(index, "']"));
-
-      if (target) {
-        this.deactivateSearch();
-        var href = target.getAttribute('href');
-
-        if (href && href.length > 10 && target && target.click) {
-          try {
-            target.click();
-          } catch (e) {
-            window.$(target).click();
-          }
-        } else {
-          // not sure why jquery is used here and above, but only sometimes. keeping for BC.
-          window.$(target).click();
-        }
-      }
-    },
-    onBlur: function onBlur() {
-      this.searchActive = false;
-      this.$emit('blur');
-    },
-    activateSearch: function activateSearch() {
-      this.searchActive = true;
-    },
-    getTopMenuItems: function getTopMenuItems() {
-      var _this5 = this;
-
-      var category = translate('CoreHome_Menu');
-      var topMenuItems = [];
-      document.querySelectorAll('nav .sidenav li > a').forEach(function (element) {
-        var text = element.textContent.trim();
-
-        if (!text) {
-          text = element.getAttribute('title').trim(); // possibly a icon, use title instead
-        }
-
-        if (text) {
-          topMenuItems.push({
-            name: text,
-            index: _this5.menuIndexCounter += 1,
-            category: category
-          });
-          element.setAttribute('quick_access', "".concat(_this5.menuIndexCounter));
-        }
-      });
-      return topMenuItems;
-    },
-    getLeftMenuItems: function getLeftMenuItems() {
-      var _this6 = this;
-
-      var leftMenuItems = [];
-      document.querySelectorAll('#secondNavBar .menuTab').forEach(function (element) {
-        var category = window.$(element).find('> .item').text().trim();
-
-        if (category && category.lastIndexOf('\n') !== -1) {
-          // remove "\n\nMenu"
-          category = category.substr(0, category.lastIndexOf('\n')).trim();
-        }
-
-        window.$(element).find('li .item').each(function (i, subElement) {
-          var text = subElement.textContent.trim();
-
-          if (text) {
-            leftMenuItems.push({
-              name: text,
-              category: category,
-              index: _this6.menuIndexCounter += 1
-            });
-            subElement.setAttribute('quick_access', "".concat(_this6.menuIndexCounter));
-          }
-        });
-      });
-      return leftMenuItems;
-    },
-    getSegmentItems: function getSegmentItems() {
-      var _this7 = this;
-
-      if (!this.hasSegmentSelector) {
-        return [];
-      }
-
-      var category = translate('CoreHome_Segments');
-      var segmentItems = [];
-      document.querySelectorAll('.segmentList [data-idsegment]').forEach(function (element) {
-        var text = element.querySelector('.segname').textContent.trim();
-
-        if (text) {
-          segmentItems.push({
-            name: text,
-            category: category,
-            index: _this7.menuIndexCounter += 1
-          });
-          element.setAttribute('quick_access', "".concat(_this7.menuIndexCounter));
-        }
-      });
-      return segmentItems;
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue
-
-
-
-QuickAccessvue_type_script_lang_ts.render = QuickAccessvue_type_template_id_d1e03d32_render
-
-/* harmony default export */ var QuickAccess = (QuickAccessvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var QuickAccess_adapter = (createAngularJsAdapter({
-  component: QuickAccess,
-  directiveName: 'piwikQuickAccess',
-  events: {
-    itemSelected: function itemSelected(event, vm, scope, elem, attrs, controller, $timeout) {
-      $timeout();
-    },
-    blur: function blur(event, vm, scope) {
-      setTimeout(function () {
-        return scope.$apply();
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
-
-var ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1 = {
-  class: "loadingPiwik"
-};
-
-var ActivityIndicatorvue_type_template_id_6af4d064_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-  src: "plugins/Morpheus/images/loading-blue.gif",
-  alt: ""
-}, null, -1);
-
-function ActivityIndicatorvue_type_template_id_6af4d064_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ActivityIndicatorvue_type_template_id_6af4d064_hoisted_1, [ActivityIndicatorvue_type_template_id_6af4d064_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var ActivityIndicatorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    loading: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    loadingMessage: {
-      type: String,
-      required: false,
-      default: translate('General_LoadingData')
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue
-
-
-
-ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_template_id_6af4d064_render
-
-/* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-/* harmony default export */ var ActivityIndicator_adapter = (createAngularJsAdapter({
-  component: ActivityIndicator,
-  scope: {
-    loading: {
-      vue: 'loading',
-      angularJsBind: '<'
-    },
-    loadingMessage: {
-      vue: 'loadingMessage',
-      angularJsBind: '<',
-      default: function _default() {
-        return translate('General_LoadingData');
-      }
-    }
-  },
-  $inject: [],
-  directiveName: 'piwikActivityIndicator'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-function Alertvue_type_template_id_c3863ae2_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", Alertvue_type_template_id_c3863ae2_defineProperty({}, "alert-".concat(_ctx.severity), true)])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    severity: {
-      type: String,
-      required: true
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
-
-
-
-Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
-
-/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Alert_adapter = (createAngularJsAdapter({
-  component: Alert,
-  scope: {
-    severity: {
-      vue: 'severity',
-      angularJsBind: '@piwikAlert'
-    }
-  },
-  directiveName: 'piwikAlert',
-  transclude: true
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
-/*
- * General utils for managing cookies in Typescript.
- */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function setCookie(name, val, seconds) {
-  var date = new Date(); // set default day to 3 days
-
-  if (!seconds) {
-    // eslint-disable-next-line no-param-reassign
-    seconds = 3 * 24 * 60 * 1000;
-  } // Set it expire in n days
-
-
-  date.setTime(date.getTime() + seconds); // Set it
-
-  document.cookie = "".concat(name, "=").concat(val, "; expires=").concat(date.toUTCString(), "; path=/");
-} // eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
-
-function getCookie(name) {
-  var value = "; ".concat(document.cookie);
-  var parts = value.split("; ".concat(name, "=")); // if cookie not exist return null
-  // eslint-disable-next-line eqeqeq
-
-  if (parts.length == 2) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    var data = parts.pop().split(';').shift();
-
-    if (typeof data !== 'undefined') {
-      return data;
-    }
-  }
-
-  return null;
-} // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-
-function deleteCookie(name) {
-  var date = new Date(); // Set it expire in -1 days
-
-  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000); // Set it
-
-  document.cookie = "".concat(name, "=; expires=").concat(date.toUTCString(), "; path=/");
-}
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=e3d12348
-
-var Notificationvue_type_template_id_e3d12348_hoisted_1 = {
-  key: 0
-};
-var Notificationvue_type_template_id_e3d12348_hoisted_2 = ["data-notification-instance-id"];
-var Notificationvue_type_template_id_e3d12348_hoisted_3 = {
-  key: 1
-};
-var Notificationvue_type_template_id_e3d12348_hoisted_4 = {
-  class: "notification-body"
-};
-var Notificationvue_type_template_id_e3d12348_hoisted_5 = ["innerHTML"];
-var Notificationvue_type_template_id_e3d12348_hoisted_6 = {
-  key: 1
-};
-function Notificationvue_type_template_id_e3d12348_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-    name: _ctx.type === 'toast' ? 'slow-fade-out' : undefined,
-    onAfterLeave: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.toastClosed();
-    })
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [!_ctx.deleted ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Notificationvue_type_template_id_e3d12348_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-        name: _ctx.type === 'toast' ? 'toast-slide-up' : undefined,
-        appear: ""
-      }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-            name: _ctx.animate ? 'fade-in' : undefined,
-            appear: ""
-          }, {
-            default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-              return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-                class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["notification system", _ctx.cssClasses]),
-                style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(_ctx.style),
-                ref: "root",
-                "data-notification-instance-id": _ctx.notificationInstanceId
-              }, [_ctx.canClose ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
-                key: 0,
-                type: "button",
-                class: "close",
-                "data-dismiss": "alert",
-                onClick: _cache[0] || (_cache[0] = function ($event) {
-                  return _ctx.closeNotification($event);
-                })
-              }, " × ")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("strong", Notificationvue_type_template_id_e3d12348_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Notificationvue_type_template_id_e3d12348_hoisted_4, [_ctx.message ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-                key: 0,
-                innerHTML: _ctx.$sanitize(_ctx.message)
-              }, null, 8, Notificationvue_type_template_id_e3d12348_hoisted_5)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.message ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Notificationvue_type_template_id_e3d12348_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 14, Notificationvue_type_template_id_e3d12348_hoisted_2)];
-            }),
-            _: 3
-          }, 8, ["name"])])];
-        }),
-        _: 3
-      }, 8, ["name"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-    }),
-    _: 3
-  }, 8, ["name"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=e3d12348
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts
-
-
-var Notificationvue_type_script_lang_ts_window = window,
-    Notificationvue_type_script_lang_ts_$ = Notificationvue_type_script_lang_ts_window.$;
-/* harmony default export */ var Notificationvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    notificationId: String,
-    // NOTE: notificationId refers to server side ID for notifications stored in the session.
-    // this ID is just so it can be selected outside of this component (just for scrolling).
-    notificationInstanceId: String,
-    title: String,
-    context: String,
-    type: String,
-    noclear: Boolean,
-    toastLength: {
-      type: Number,
-      default: 12 * 1000
-    },
-    style: [String, Object],
-    animate: Boolean,
-    message: String,
-    cssClass: String
-  },
-  computed: {
-    cssClasses: function cssClasses() {
-      var result = {};
-
-      if (this.context) {
-        result["notification-".concat(this.context)] = true;
-      }
-
-      if (this.cssClass) {
-        result[this.cssClass] = true;
-      }
-
-      return result;
-    },
-    canClose: function canClose() {
-      if (this.type === 'persistent') {
-        // otherwise it is never possible to dismiss the notification
-        return true;
-      }
-
-      return !this.noclear;
-    }
-  },
-  emits: ['closed'],
-  data: function data() {
-    return {
-      deleted: false
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    var addToastEvent = function addToastEvent() {
-      setTimeout(function () {
-        _this.deleted = true;
-      }, _this.toastLength);
-    };
-
-    if (this.type === 'toast') {
-      addToastEvent();
-    }
-
-    if (this.style) {
-      Notificationvue_type_script_lang_ts_$(this.$refs.root).css(this.style);
-    }
-  },
-  methods: {
-    toastClosed: function toastClosed() {
-      var _this2 = this;
-
-      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-        _this2.$emit('closed');
-      });
-    },
-    closeNotification: function closeNotification(event) {
-      var _this3 = this;
-
-      if (this.canClose && event && event.target) {
-        this.deleted = true;
-        Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-          _this3.$emit('closed');
-        });
-      }
-
-      this.markNotificationAsRead();
-    },
-    markNotificationAsRead: function markNotificationAsRead() {
-      if (!this.notificationId) {
-        return;
-      }
-
-      AjaxHelper_AjaxHelper.fetch({
-        module: 'CoreHome',
-        action: 'markNotificationAsRead'
-      }, {
-        postParams: {
-          notificationId: this.notificationId
-        }
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.vue
-
-
-
-Notificationvue_type_script_lang_ts.render = Notificationvue_type_template_id_e3d12348_render
-
-/* harmony default export */ var Notification = (Notificationvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Notification_adapter = (createAngularJsAdapter({
-  component: Notification,
-  scope: {
-    notificationId: {
-      angularJsBind: '@?'
-    },
-    title: {
-      angularJsBind: '@?notificationTitle'
-    },
-    context: {
-      angularJsBind: '@?'
-    },
-    type: {
-      angularJsBind: '@?'
-    },
-    noclear: {
-      angularJsBind: '@?',
-      transform: function transform(v) {
-        return !!v;
-      }
-    },
-    toastLength: {
-      angularJsBind: '@?'
-    }
-  },
-  directiveName: 'piwikNotification',
-  transclude: true
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notifications.store.ts
-function Notifications_store_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function Notifications_store_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Notifications_store_ownKeys(Object(source), true).forEach(function (key) { Notifications_store_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Notifications_store_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function Notifications_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Notifications_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Notifications_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Notifications_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Notifications_store_defineProperties(Constructor, staticProps); return Constructor; }
-
-function Notifications_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
-  function NotificationsStore() {
-    Notifications_store_classCallCheck(this, NotificationsStore);
-
-    Notifications_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      notifications: []
-    }));
-
-    Notifications_store_defineProperty(this, "nextNotificationId", 0);
-  }
-
-  Notifications_store_createClass(NotificationsStore, [{
-    key: "state",
-    get: function get() {
-      return this.privateState;
-    }
-  }, {
-    key: "appendNotification",
-    value: function appendNotification(notification) {
-      this.checkMessage(notification.message); // remove existing notification before adding
-
-      if (notification.id) {
-        this.remove(notification.id);
-      }
-
-      this.privateState.notifications.push(notification);
-    }
-  }, {
-    key: "prependNotification",
-    value: function prependNotification(notification) {
-      this.checkMessage(notification.message); // remove existing notification before adding
-
-      if (notification.id) {
-        this.remove(notification.id);
-      }
-
-      this.privateState.notifications.unshift(notification);
-    }
-    /**
-     * Removes a previously shown notification having the given notification id.
-     */
-
-  }, {
-    key: "remove",
-    value: function remove(id) {
-      this.privateState.notifications = this.privateState.notifications.filter(function (n) {
-        return n.id !== id;
-      });
-    }
-  }, {
-    key: "parseNotificationDivs",
-    value: function parseNotificationDivs() {
-      var _this = this;
-
-      var $notificationNodes = $('[data-role="notification"]');
-      var notificationsToShow = [];
-      $notificationNodes.each(function (index, notificationNode) {
-        var $notificationNode = $(notificationNode);
-        var attributes = $notificationNode.data();
-        var message = $notificationNode.html();
-
-        if (message) {
-          notificationsToShow.push(Notifications_store_objectSpread(Notifications_store_objectSpread({}, attributes), {}, {
-            message: message,
-            animate: false
-          }));
-        }
-
-        $notificationNodes.remove();
-      });
-      notificationsToShow.forEach(function (n) {
-        return _this.show(n);
-      });
-    }
-  }, {
-    key: "clearTransientNotifications",
-    value: function clearTransientNotifications() {
-      this.privateState.notifications = this.privateState.notifications.filter(function (n) {
-        return n.type !== 'transient';
-      });
-    }
-    /**
-     * Creates a notification and shows it to the user.
-     */
-
-  }, {
-    key: "show",
-    value: function show(notification) {
-      this.checkMessage(notification.message);
-      var addMethod = this.appendNotification;
-      var notificationPosition = '#notificationContainer';
-
-      if (notification.placeat) {
-        notificationPosition = notification.placeat;
-      } else {
-        // If a modal is open, we want to make sure the error message is visible and therefore
-        // show it within the opened modal
-        var modalSelector = '.modal.open .modal-content';
-
-        if (document.querySelector(modalSelector)) {
-          notificationPosition = modalSelector;
-          addMethod = this.prependNotification;
-        }
-      }
-
-      var group = notification.group || (notification.placeat ? notification.placeat.toString() : '');
-      this.initializeNotificationContainer(notificationPosition, group);
-      var notificationInstanceId = (this.nextNotificationId += 1).toString();
-      addMethod.call(this, Notifications_store_objectSpread(Notifications_store_objectSpread({}, notification), {}, {
-        noclear: !!notification.noclear,
-        group: group,
-        notificationId: notification.id,
-        notificationInstanceId: notificationInstanceId,
-        type: notification.type || 'transient'
-      }));
-      return notificationInstanceId;
-    }
-  }, {
-    key: "scrollToNotification",
-    value: function scrollToNotification(notificationInstanceId) {
-      setTimeout(function () {
-        var element = document.querySelector("[data-notification-instance-id='".concat(notificationInstanceId, "']"));
-
-        if (element) {
-          Matomo_Matomo.helper.lazyScrollTo(element, 250);
-        }
-      });
-    }
-    /**
-     * Shows a notification at a certain point with a quick upwards animation.
-     */
-
-  }, {
-    key: "toast",
-    value: function toast(notification) {
-      this.checkMessage(notification.message);
-      var $placeat = $(notification.placeat);
-
-      if (!$placeat.length) {
-        throw new Error('A valid selector is required for the placeat option when using Notification.toast().');
-      }
-
-      var toastElement = document.createElement('div');
-      toastElement.style.position = 'absolute';
-      toastElement.style.top = "".concat($placeat.offset().top, "px");
-      toastElement.style.left = "".concat($placeat.offset().left, "px");
-      toastElement.style.zIndex = '1000';
-      document.body.appendChild(toastElement);
-      var app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        render: function render() {
-          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Notification, Notifications_store_objectSpread(Notifications_store_objectSpread({}, notification), {}, {
-            notificationId: notification.id,
-            type: 'toast',
-            onClosed: function onClosed() {
-              app.unmount();
-            }
-          }));
-        }
-      });
-      app.config.globalProperties.$sanitize = window.vueSanitize;
-      app.config.globalProperties.translate = translate;
-      app.mount(toastElement);
-    }
-  }, {
-    key: "initializeNotificationContainer",
-    value: function initializeNotificationContainer(notificationPosition, group) {
-      var $container = window.$(notificationPosition);
-
-      if ($container.children('.notification-group').length) {
-        return;
-      } // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
-      // to be dynamically initialized.
-
-
-      var NotificationGroup = window.CoreHome.NotificationGroup; // eslint-disable-line
-
-      var app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])({
-        template: '<NotificationGroup :group="group"></NotificationGroup>',
-        data: function data() {
-          return {
-            group: group
-          };
-        }
-      });
-      app.config.globalProperties.$sanitize = window.vueSanitize;
-      app.config.globalProperties.translate = translate;
-      app.component('NotificationGroup', NotificationGroup);
-      app.mount($container[0]);
-    }
-  }, {
-    key: "checkMessage",
-    value: function checkMessage(message) {
-      if (!message) {
-        throw new Error('No message given, cannot display notification');
-      }
-    }
-  }]);
-
-  return NotificationsStore;
-}();
-
-var Notifications_store_instance = new Notifications_store_NotificationsStore();
-/* harmony default export */ var Notifications_store = (Notifications_store_instance); // parse notifications on dom load
-
-$(function () {
-  return Notifications_store_instance.parseNotificationDivs();
-});
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notifications.store.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-angular.module('piwikApp').factory('notifications', function () {
-  return Notifications_store;
-});
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=672051da
-
-var NotificationGroupvue_type_template_id_672051da_hoisted_1 = {
-  class: "notification-group"
-};
-var NotificationGroupvue_type_template_id_672051da_hoisted_2 = ["innerHTML"];
-function NotificationGroupvue_type_template_id_672051da_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NotificationGroupvue_type_template_id_672051da_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.notifications, function (notification, index) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
-      key: notification.id || "no-id-".concat(index),
-      "notification-id": notification.id,
-      title: notification.title,
-      context: notification.context,
-      type: notification.type,
-      noclear: notification.noclear,
-      "toast-length": notification.toastLength,
-      style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(notification.style),
-      animate: notification.animate,
-      message: notification.message,
-      "notification-instance-id": notification.notificationInstanceId,
-      "css-class": notification.class,
-      onClosed: function onClosed($event) {
-        return _ctx.removeNotification(notification.id);
-      }
-    }, {
-      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-        return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-          innerHTML: _ctx.$sanitize(notification.message)
-        }, null, 8, NotificationGroupvue_type_template_id_672051da_hoisted_2)];
-      }),
-      _: 2
-    }, 1032, ["notification-id", "title", "context", "type", "noclear", "toast-length", "style", "animate", "message", "notification-instance-id", "css-class", "onClosed"]);
-  }), 128))]);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=672051da
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var NotificationGroupvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    group: String
-  },
-  components: {
-    Notification: Notification
-  },
-  computed: {
-    notifications: function notifications() {
-      var _this = this;
-
-      return Notifications_store.state.notifications.filter(function (n) {
-        if (_this.group) {
-          return _this.group === n.group;
-        }
-
-        return !n.group;
-      });
-    }
-  },
-  methods: {
-    removeNotification: function removeNotification(id) {
-      Notifications_store.remove(id);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue
-
-
-
-NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_template_id_672051da_render
-
-/* harmony default export */ var Notification_NotificationGroup = (NotificationGroupvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"loadingPiwik\"\n};\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n  src: \"plugins/Morpheus/images/loading-blue.gif\",\n  alt: \"\"\n}, null, -1\n/* HOISTED */\n);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [_hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.loadingMessage), 1\n  /* TEXT */\n  )], 512\n  /* NEED_PATCH */\n  )), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.loading]]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"alert\", _defineProperty({}, \"alert-\".concat(_ctx.severity), true)])\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")], 2\n  /* CLASS */\n  );\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=7ad37cdd":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=7ad37cdd ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0,\n  ref: \"root\",\n  class: \"matomo-comparisons\"\n};\nvar _hoisted_2 = {\n  class: \"comparison-type\"\n};\nvar _hoisted_3 = [\"title\"];\nvar _hoisted_4 = [\"href\"];\nvar _hoisted_5 = [\"title\"];\nvar _hoisted_6 = {\n  class: \"comparison-period-label\"\n};\nvar _hoisted_7 = [\"onClick\"];\nvar _hoisted_8 = [\"title\"];\nvar _hoisted_9 = {\n  class: \"loadingPiwik\",\n  style: {\n    \"display\": \"none\"\n  }\n};\nvar _hoisted_10 = [\"alt\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return _ctx.isComparing ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Comparisons')), 1\n  /* TEXT */\n  ), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.segmentComparisons, function (comparison, $index) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n      class: \"comparison card\",\n      key: comparison.index\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Segment')), 1\n    /* TEXT */\n    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n      class: \"title\",\n      title: comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n      target: \"_blank\",\n      href: _ctx.getUrlToSegment(comparison.params.segment)\n    }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(comparison.title), 9\n    /* TEXT, PROPS */\n    , _hoisted_4)], 8\n    /* PROPS */\n    , _hoisted_3), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.periodComparisons, function (periodComparison) {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n        class: \"comparison-period\",\n        key: periodComparison.index,\n        title: _ctx.getComparisonTooltip(comparison, periodComparison)\n      }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        class: \"comparison-dot\",\n        style: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeStyle\"])({\n          'background-color': _ctx.getSeriesColor(comparison, periodComparison)\n        })\n      }, null, 4\n      /* STYLE */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(periodComparison.title) + \" (\" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.getComparisonPeriodType(periodComparison)) + \") \", 1\n      /* TEXT */\n      )], 8\n      /* PROPS */\n      , _hoisted_5);\n    }), 128\n    /* KEYED_FRAGMENT */\n    )), _ctx.segmentComparisons.length > 1 ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n      key: 0,\n      class: \"remove-button\",\n      onClick: function onClick($event) {\n        return _ctx.removeSegmentComparison($index);\n      }\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n      class: \"icon icon-close\",\n      title: _ctx.translate('General_ClickToRemoveComp')\n    }, null, 8\n    /* PROPS */\n    , _hoisted_8)], 8\n    /* PROPS */\n    , _hoisted_7)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n    src: \"plugins/Morpheus/images/loading-blue.gif\",\n    alt: _ctx.translate('General_LoadingData')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_10), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_LoadingData')), 1\n  /* TEXT */\n  )])], 512\n  /* NEED_PATCH */\n  )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=e0a0b472":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=e0a0b472 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"card\",\n  ref: \"root\"\n};\nvar _hoisted_2 = {\n  class: \"card-content\"\n};\nvar _hoisted_3 = {\n  key: 0,\n  class: \"card-title\"\n};\nvar _hoisted_4 = {\n  key: 1,\n  class: \"card-title\"\n};\nvar _hoisted_5 = {\n  ref: \"content\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_EnrichedHeadline = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"EnrichedHeadline\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [_ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"h2\", _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.contentTitle), 1\n  /* TEXT */\n  )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText) ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"h2\", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_EnrichedHeadline, {\n    \"feature-name\": _ctx.actualFeature,\n    \"help-url\": _ctx.helpUrl,\n    \"inline-help\": _ctx.actualHelpText\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.contentTitle), 1\n      /* TEXT */\n      )];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"feature-name\", \"help-url\", \"inline-help\"])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")], 512\n  /* NEED_PATCH */\n  )])], 512\n  /* NEED_PATCH */\n  );\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=b86ba8f2":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=b86ba8f2 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  ref: \"root\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, null, 512\n  /* NEED_PATCH */\n  );\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=ba0b4afa":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=ba0b4afa ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  id: \"calendarRangeFrom\"\n};\nvar _hoisted_2 = {\n  id: \"calendarRangeTo\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_DatePicker = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"DatePicker\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h6\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_DateRangeFrom')) + \" \", 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    type: \"text\",\n    id: \"inputCalendarFrom\",\n    name: \"inputCalendarFrom\",\n    class: \"browser-default\",\n    \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.startDateText = $event;\n    }),\n    onChange: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.onRangeInputChanged('from', $event);\n    }),\n    onKeyup: _cache[2] || (_cache[2] = function ($event) {\n      return _ctx.handleEnterPress($event);\n    })\n  }, null, 544\n  /* HYDRATE_EVENTS, NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelText\"], _ctx.startDateText]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_DatePicker, {\n    id: \"calendarFrom\",\n    \"view-date\": _ctx.startDate,\n    \"selected-date-start\": _ctx.fromPickerSelectedDates[0],\n    \"selected-date-end\": _ctx.fromPickerSelectedDates[1],\n    \"highlighted-date-start\": _ctx.fromPickerHighlightedDates[0],\n    \"highlighted-date-end\": _ctx.fromPickerHighlightedDates[1],\n    onDateSelect: _cache[3] || (_cache[3] = function ($event) {\n      return _ctx.setStartRangeDate($event.date);\n    }),\n    onCellHover: _cache[4] || (_cache[4] = function ($event) {\n      return _ctx.fromPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell);\n    }),\n    onCellHoverLeave: _cache[5] || (_cache[5] = function ($event) {\n      return _ctx.fromPickerHighlightedDates = [null, null];\n    })\n  }, null, 8\n  /* PROPS */\n  , [\"view-date\", \"selected-date-start\", \"selected-date-end\", \"highlighted-date-start\", \"highlighted-date-end\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h6\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_DateRangeTo')) + \" \", 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    type: \"text\",\n    id: \"inputCalendarTo\",\n    name: \"inputCalendarTo\",\n    class: \"browser-default\",\n    \"onUpdate:modelValue\": _cache[6] || (_cache[6] = function ($event) {\n      return _ctx.endDateText = $event;\n    }),\n    onChange: _cache[7] || (_cache[7] = function ($event) {\n      return _ctx.onRangeInputChanged('to', $event);\n    }),\n    onKeyup: _cache[8] || (_cache[8] = function ($event) {\n      return _ctx.handleEnterPress($event);\n    })\n  }, null, 544\n  /* HYDRATE_EVENTS, NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelText\"], _ctx.endDateText]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_DatePicker, {\n    id: \"calendarTo\",\n    \"view-date\": _ctx.endDate,\n    \"selected-date-start\": _ctx.toPickerSelectedDates[0],\n    \"selected-date-end\": _ctx.toPickerSelectedDates[1],\n    \"highlighted-date-start\": _ctx.toPickerHighlightedDates[0],\n    \"highlighted-date-end\": _ctx.toPickerHighlightedDates[1],\n    onDateSelect: _cache[9] || (_cache[9] = function ($event) {\n      return _ctx.setEndRangeDate($event.date);\n    }),\n    onCellHover: _cache[10] || (_cache[10] = function ($event) {\n      return _ctx.toPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell);\n    }),\n    onCellHoverLeave: _cache[11] || (_cache[11] = function ($event) {\n      return _ctx.toPickerHighlightedDates = [null, null];\n    })\n  }, null, 8\n  /* PROPS */\n  , [\"view-date\", \"selected-date-start\", \"selected-date-end\", \"highlighted-date-start\", \"highlighted-date-end\"])])], 64\n  /* STABLE_FRAGMENT */\n  );\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=1bcb50c7":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=1bcb50c7 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0,\n  class: \"title\",\n  tabindex: \"6\"\n};\nvar _hoisted_2 = [\"href\", \"title\"];\nvar _hoisted_3 = {\n  class: \"iconsBar\"\n};\nvar _hoisted_4 = [\"href\", \"title\"];\n\nvar _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-help\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_6 = [_hoisted_5];\nvar _hoisted_7 = [\"title\"];\n\nvar _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-info\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_9 = [_hoisted_8];\nvar _hoisted_10 = {\n  class: \"ratingIcons\"\n};\nvar _hoisted_11 = {\n  class: \"inlineHelp\"\n};\nvar _hoisted_12 = [\"innerHTML\"];\nvar _hoisted_13 = [\"href\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_RateFeature = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"RateFeature\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    class: \"enrichedHeadline\",\n    onMouseenter: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.showIcons = true;\n    }),\n    onMouseleave: _cache[2] || (_cache[2] = function ($event) {\n      return _ctx.showIcons = false;\n    }),\n    ref: \"root\"\n  }, [!_ctx.editUrl ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.editUrl ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n    key: 1,\n    class: \"title\",\n    href: _ctx.editUrl,\n    title: _ctx.translate('CoreHome_ClickToEditX', _ctx.$sanitize(_ctx.actualFeatureName))\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")], 8\n  /* PROPS */\n  , _hoisted_2)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_3, [_ctx.helpUrl && !_ctx.actualInlineHelp ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n    key: 0,\n    rel: \"noreferrer noopener\",\n    target: \"_blank\",\n    class: \"helpIcon\",\n    href: _ctx.helpUrl,\n    title: _ctx.translate('CoreHome_ExternalHelp')\n  }, _hoisted_6, 8\n  /* PROPS */\n  , _hoisted_4)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.actualInlineHelp ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n    key: 1,\n    onClick: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.showInlineHelp = !_ctx.showInlineHelp;\n    }),\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"helpIcon\", {\n      'active': _ctx.showInlineHelp\n    }]),\n    title: _ctx.translate(_ctx.reportGenerated ? 'General_HelpReport' : 'General_Help')\n  }, _hoisted_9, 10\n  /* CLASS, PROPS */\n  , _hoisted_7)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_RateFeature, {\n    title: _ctx.actualFeatureName\n  }, null, 8\n  /* PROPS */\n  , [\"title\"])])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showIcons || _ctx.showInlineHelp]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n    innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_12), _ctx.helpUrl ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n    key: 0,\n    rel: \"noreferrer noopener\",\n    target: \"_blank\",\n    class: \"readMore\",\n    href: _ctx.helpUrl\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_MoreDetails')), 9\n  /* TEXT, PROPS */\n  , _hoisted_13)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showInlineHelp]])], 544\n  /* HYDRATE_EVENTS, NEED_PATCH */\n  );\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=752dc5e7":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=752dc5e7 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  ref: \"root\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")], 512\n  /* NEED_PATCH */\n  )), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.modelValue]]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=99f4c172":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=99f4c172 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  ref: \"root\",\n  class: \"menuDropdown\"\n};\nvar _hoisted_2 = [\"title\"];\nvar _hoisted_3 = [\"innerHTML\"];\n\nvar _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-arrow-bottom\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_5 = {\n  class: \"items\"\n};\nvar _hoisted_6 = {\n  key: 0,\n  class: \"search\"\n};\nvar _hoisted_7 = [\"placeholder\"];\nvar _hoisted_8 = [\"title\"];\nvar _hoisted_9 = [\"title\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _directive_focus_if = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"focus-if\");\n\n  var _directive_focus_anywhere_but_here = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"focus-anywhere-but-here\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    class: \"title\",\n    onClick: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.showItems = !_ctx.showItems;\n    }),\n    title: _ctx.tooltip\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    innerHTML: _ctx.$sanitize(this.actualMenuTitle)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_3), _hoisted_4], 8\n  /* PROPS */\n  , _hoisted_2), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_5, [_ctx.showSearch && _ctx.showItems ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    type: \"text\",\n    \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.searchTerm = $event;\n    }),\n    onKeydown: _cache[2] || (_cache[2] = function ($event) {\n      return _ctx.onSearchTermKeydown($event);\n    }),\n    placeholder: _ctx.translate('General_Search')\n  }, null, 40\n  /* PROPS, HYDRATE_EVENTS */\n  , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelText\"], _ctx.searchTerm], [_directive_focus_if, {}, _ctx.showItems]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n    class: \"search_ico\",\n    src: \"plugins/Morpheus/images/search_ico.png\",\n    title: _ctx.translate('General_Search')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_8), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.searchTerm]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n    onClick: _cache[3] || (_cache[3] = function ($event) {\n      _ctx.searchTerm = '';\n\n      _ctx.searchItems('');\n    }),\n    class: \"reset\",\n    src: \"plugins/CoreHome/images/reset_search.png\",\n    title: _ctx.translate('General_Clear')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.searchTerm]])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n    onClick: _cache[4] || (_cache[4] = function ($event) {\n      return _ctx.selectItem($event);\n    })\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showItems]])], 512\n  /* NEED_PATCH */\n  )), [[_directive_focus_anywhere_but_here, {\n    blur: _ctx.lostFocus\n  }]]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=252d9b27":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=252d9b27 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0\n};\nvar _hoisted_2 = [\"data-notification-instance-id\"];\nvar _hoisted_3 = {\n  key: 1\n};\nvar _hoisted_4 = {\n  class: \"notification-body\"\n};\nvar _hoisted_5 = [\"innerHTML\"];\nvar _hoisted_6 = {\n  key: 1\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Transition\"], {\n    name: _ctx.type === 'toast' ? 'slow-fade-out' : undefined,\n    onAfterLeave: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.toastClosed();\n    })\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [!_ctx.deleted ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Transition\"], {\n        name: _ctx.type === 'toast' ? 'toast-slide-up' : undefined,\n        appear: \"\"\n      }, {\n        default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n          return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Transition\"], {\n            name: _ctx.animate ? 'fade-in' : undefined,\n            appear: \"\"\n          }, {\n            default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n              return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n                class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"notification system\", _ctx.cssClasses]),\n                style: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeStyle\"])(_ctx.style),\n                ref: \"root\",\n                \"data-notification-instance-id\": _ctx.notificationInstanceId\n              }, [_ctx.canClose ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"button\", {\n                key: 0,\n                type: \"button\",\n                class: \"close\",\n                \"data-dismiss\": \"alert\",\n                onClick: _cache[0] || (_cache[0] = function ($event) {\n                  return _ctx.closeNotification($event);\n                })\n              }, \" × \")) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.title ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"strong\", _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.title), 1\n              /* TEXT */\n              )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" ng-transclude causes directive child elements to be added here \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_4, [_ctx.message ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n                key: 0,\n                innerHTML: _ctx.$sanitize(_ctx.message)\n              }, null, 8\n              /* PROPS */\n              , _hoisted_5)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), !_ctx.message ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderSlot\"])(_ctx.$slots, \"default\")])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])], 14\n              /* CLASS, STYLE, PROPS */\n              , _hoisted_2)];\n            }),\n            _: 3\n            /* FORWARDED */\n\n          }, 8\n          /* PROPS */\n          , [\"name\"])])];\n        }),\n        _: 3\n        /* FORWARDED */\n\n      }, 8\n      /* PROPS */\n      , [\"name\"])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)];\n    }),\n    _: 3\n    /* FORWARDED */\n\n  }, 8\n  /* PROPS */\n  , [\"name\"]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notification.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e008eb70":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e008eb70 ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"notification-group\"\n};\nvar _hoisted_2 = [\"innerHTML\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Notification = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Notification\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.notifications, function (notification, index) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_Notification, {\n      key: notification.id || \"no-id-\".concat(index),\n      \"notification-id\": notification.id,\n      title: notification.title,\n      context: notification.context,\n      type: notification.type,\n      noclear: notification.noclear,\n      \"toast-length\": notification.toastLength,\n      style: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeStyle\"])(notification.style),\n      animate: notification.animate,\n      message: notification.message,\n      \"notification-instance-id\": notification.notificationInstanceId,\n      \"css-class\": notification.class,\n      onClosed: function onClosed($event) {\n        return _ctx.removeNotification(notification.id);\n      }\n    }, {\n      default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n        return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n          innerHTML: _ctx.$sanitize(notification.message)\n        }, null, 8\n        /* PROPS */\n        , _hoisted_2)];\n      }),\n      _: 2\n      /* DYNAMIC */\n\n    }, 1032\n    /* PROPS, DYNAMIC_SLOTS */\n    , [\"notification-id\", \"title\", \"context\", \"type\", \"noclear\", \"toast-length\", \"style\", \"animate\", \"message\", \"notification-instance-id\", \"css-class\", \"onClosed\"]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  ))]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=7d8baf67":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=7d8baf67 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_DatePicker = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"DatePicker\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_DatePicker, {\n    \"selected-date-start\": _ctx.selectedDates[0],\n    \"selected-date-end\": _ctx.selectedDates[1],\n    \"highlighted-date-start\": _ctx.highlightedDates[0],\n    \"highlighted-date-end\": _ctx.highlightedDates[1],\n    \"view-date\": _ctx.viewDate,\n    \"step-months\": _ctx.period === 'year' ? 12 : 1,\n    \"disable-month-dropdown\": _ctx.period === 'year',\n    onCellHover: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.onHoverNormalCell($event.date, $event.$cell);\n    }),\n    onCellHoverLeave: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.onHoverLeaveNormalCells();\n    }),\n    onDateSelect: _cache[2] || (_cache[2] = function ($event) {\n      return _ctx.onDateSelected($event.date);\n    })\n  }, null, 8\n  /* PROPS */\n  , [\"selected-date-start\", \"selected-date-end\", \"highlighted-date-start\", \"highlighted-date-end\", \"view-date\", \"step-months\", \"disable-month-dropdown\"]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=20387bab":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=20387bab ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  ref: \"root\",\n  class: \"quickAccessInside\"\n};\nvar _hoisted_2 = [\"title\"];\nvar _hoisted_3 = {\n  class: \"dropdown\"\n};\nvar _hoisted_4 = {\n  class: \"no-result\"\n};\nvar _hoisted_5 = [\"onClick\"];\nvar _hoisted_6 = [\"onMouseenter\", \"onClick\"];\nvar _hoisted_7 = {\n  class: \"quickAccessMatomoSearch\"\n};\nvar _hoisted_8 = [\"onMouseenter\", \"onClick\"];\nvar _hoisted_9 = [\"textContent\"];\nvar _hoisted_10 = {\n  class: \"quick-access-category helpCategory\"\n};\nvar _hoisted_11 = [\"href\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _directive_focus_if = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"focus-if\");\n\n  var _directive_focus_anywhere_but_here = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"focus-anywhere-but-here\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    class: \"icon-search\",\n    onMouseenter: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.searchActive = true;\n    })\n  }, null, 544\n  /* HYDRATE_EVENTS, NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !(_ctx.searchTerm || _ctx.searchActive)]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    class: \"s\",\n    onKeydown: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.onKeypress($event);\n    }),\n    onFocus: _cache[2] || (_cache[2] = function ($event) {\n      return _ctx.searchActive = true;\n    }),\n    \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n      return _ctx.searchTerm = $event;\n    }),\n    type: \"text\",\n    tabindex: \"2\",\n    title: _ctx.quickAccessTitle\n  }, null, 40\n  /* PROPS, HYDRATE_EVENTS */\n  , _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelText\"], _ctx.searchTerm], [_directive_focus_if, {}, _ctx.searchActive]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"ul\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_SearchNoResults')), 1\n  /* TEXT */\n  )], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !(_ctx.numMenuItems > 0 || _ctx.sites.length)]]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.menuItems, function (subcategory) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"ul\", {\n      key: subcategory.title\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", {\n      class: \"quick-access-category\",\n      onClick: function onClick($event) {\n        _ctx.searchTerm = subcategory.title;\n\n        _ctx.searchMenu(_ctx.searchTerm);\n      }\n    }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(subcategory.title), 9\n    /* TEXT, PROPS */\n    , _hoisted_5), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(subcategory.items, function (submenuEntry) {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"li\", {\n        class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"result\", {\n          selected: submenuEntry.menuIndex === _ctx.searchIndex\n        }]),\n        onMouseenter: function onMouseenter($event) {\n          return _ctx.searchIndex = submenuEntry.menuIndex;\n        },\n        onClick: function onClick($event) {\n          return _ctx.selectMenuItem(submenuEntry.index);\n        },\n        key: submenuEntry.index\n      }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(submenuEntry.name.trim()), 1\n      /* TEXT */\n      )], 42\n      /* CLASS, PROPS, HYDRATE_EVENTS */\n      , _hoisted_6);\n    }), 128\n    /* KEYED_FRAGMENT */\n    ))]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"ul\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", {\n    class: \"quick-access-category websiteCategory\"\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('SitesManager_Sites')), 513\n  /* TEXT, NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.hasSitesSelector && _ctx.sites.length || _ctx.isLoading]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", {\n    class: \"no-result\"\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('MultiSites_LoadingWebsites')), 513\n  /* TEXT, NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.hasSitesSelector && _ctx.isLoading]]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.sites, function (site, index) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"li\", {\n      class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"result\", {\n        selected: _ctx.numMenuItems + index === _ctx.searchIndex\n      }]),\n      onMouseenter: function onMouseenter($event) {\n        return _ctx.searchIndex = _ctx.numMenuItems + index;\n      },\n      onClick: function onClick($event) {\n        return _ctx.selectSite(site.idsite);\n      },\n      key: site.idsite\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n      textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(site.name)\n    }, null, 8\n    /* PROPS */\n    , _hoisted_9)], 42\n    /* CLASS, PROPS, HYDRATE_EVENTS */\n    , _hoisted_8)), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.hasSitesSelector && !_ctx.isLoading]]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  ))]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"ul\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_HelpResources')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([{\n      selected: _ctx.searchIndex === 'help'\n    }, \"quick-access-help\"]),\n    onMouseenter: _cache[4] || (_cache[4] = function ($event) {\n      return _ctx.searchIndex = 'help';\n    })\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: \"https://matomo.org?s=\".concat(encodeURIComponent(_ctx.searchTerm)),\n    target: \"_blank\"\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreHome_SearchOnMatomo', _ctx.searchTerm)), 9\n  /* TEXT, PROPS */\n  , _hoisted_11)], 34\n  /* CLASS, HYDRATE_EVENTS */\n  )])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.searchTerm && _ctx.searchActive]])], 512\n  /* NEED_PATCH */\n  )), [[_directive_focus_anywhere_but_here, {\n    blur: _ctx.onBlur\n  }]]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=1a5f9a74":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=1a5f9a74 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = [\"innerHTML\", \"href\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _this = this;\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    onClick: _cache[1] || (_cache[1] = function ($event) {\n      return _this.onClick($event);\n    }),\n    class: \"custom_select_all\"\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    onClick: _cache[0] || (_cache[0] = function ($event) {\n      return $event.preventDefault();\n    }),\n    innerHTML: _ctx.$sanitize(_ctx.allSitesText),\n    tabindex: \"4\",\n    href: _ctx.href\n  }, null, 8\n  /* PROPS */\n  , _hoisted_1)]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=6274b707":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=6274b707 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = [\"value\", \"name\"];\nvar _hoisted_2 = [\"title\"];\nvar _hoisted_3 = [\"textContent\"];\nvar _hoisted_4 = {\n  key: 1,\n  class: \"placeholder\"\n};\nvar _hoisted_5 = {\n  class: \"dropdown\"\n};\nvar _hoisted_6 = {\n  class: \"custom_select_search\"\n};\nvar _hoisted_7 = [\"placeholder\"];\nvar _hoisted_8 = {\n  key: 0\n};\nvar _hoisted_9 = {\n  class: \"custom_select_container\"\n};\nvar _hoisted_10 = [\"onClick\"];\nvar _hoisted_11 = [\"innerHTML\", \"href\", \"title\"];\nvar _hoisted_12 = {\n  class: \"ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all\\n                 siteSelect\"\n};\nvar _hoisted_13 = {\n  class: \"ui-menu-item\"\n};\nvar _hoisted_14 = {\n  class: \"ui-corner-all\",\n  tabindex: \"-1\"\n};\nvar _hoisted_15 = {\n  key: 1\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _ctx$selectedSite, _ctx$selectedSite2, _ctx$selectedSite3, _ctx$selectedSite4;\n\n  var _component_AllSitesLink = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"AllSitesLink\");\n\n  var _directive_focus_if = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"focus-if\");\n\n  var _directive_focus_anywhere_but_here = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"focus-anywhere-but-here\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"siteSelector piwikSelector borderedControl\", {\n      'expanded': _ctx.showSitesList,\n      'disabled': !_ctx.hasMultipleSites\n    }])\n  }, [_ctx.name ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"input\", {\n    key: 0,\n    type: \"hidden\",\n    value: (_ctx$selectedSite = _ctx.selectedSite) === null || _ctx$selectedSite === void 0 ? void 0 : _ctx$selectedSite.id,\n    name: _ctx.name\n  }, null, 8\n  /* PROPS */\n  , _hoisted_1)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    ref: \"selectorLink\",\n    onClick: _cache[0] || (_cache[0] = function () {\n      return _ctx.onClickSelector && _ctx.onClickSelector.apply(_ctx, arguments);\n    }),\n    onKeydown: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.onPressEnter($event);\n    }),\n    href: \"javascript:void(0)\",\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([{\n      'loading': _ctx.isLoading\n    }, \"title\"]),\n    tabindex: \"4\",\n    title: _ctx.selectorLinkTitle\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"icon icon-arrow-bottom\", {\n      'iconHidden': _ctx.isLoading,\n      'collapsed': !_ctx.showSitesList\n    }])\n  }, null, 2\n  /* CLASS */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [(_ctx$selectedSite2 = _ctx.selectedSite) !== null && _ctx$selectedSite2 !== void 0 && _ctx$selectedSite2.name || !_ctx.placeholder ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", {\n    key: 0,\n    textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(((_ctx$selectedSite3 = _ctx.selectedSite) === null || _ctx$selectedSite3 === void 0 ? void 0 : _ctx$selectedSite3.name) || _ctx.firstSiteName)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_3)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), !((_ctx$selectedSite4 = _ctx.selectedSite) !== null && _ctx$selectedSite4 !== void 0 && _ctx$selectedSite4.name) && _ctx.placeholder ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.placeholder), 1\n  /* TEXT */\n  )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])], 42\n  /* CLASS, PROPS, HYDRATE_EVENTS */\n  , _hoisted_2), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    type: \"text\",\n    onClick: _cache[2] || (_cache[2] = function ($event) {\n      _ctx.searchTerm = '';\n\n      _ctx.loadInitialSites();\n    }),\n    \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n      return _ctx.searchTerm = $event;\n    }),\n    tabindex: \"4\",\n    class: \"websiteSearch inp browser-default\",\n    placeholder: _ctx.translate('General_Search')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelText\"], _ctx.searchTerm], [_directive_focus_if, {}, _ctx.shouldFocusOnSearch]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n    title: \"Clear\",\n    onClick: _cache[4] || (_cache[4] = function ($event) {\n      _ctx.searchTerm = '';\n\n      _ctx.loadInitialSites();\n    }),\n    class: \"reset\",\n    src: \"plugins/CoreHome/images/reset_search.png\"\n  }, null, 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.searchTerm]])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.autocompleteMinSites <= _ctx.sites.length || _ctx.searchTerm]]), _ctx.allSitesLocation === 'top' && _ctx.showAllSitesItem ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_AllSitesLink, {\n    href: _ctx.urlAllSites,\n    \"all-sites-text\": _ctx.allSitesText,\n    onClick: _cache[5] || (_cache[5] = function ($event) {\n      return _ctx.onAllSitesClick($event);\n    })\n  }, null, 8\n  /* PROPS */\n  , [\"href\", \"all-sites-text\"])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"ul\", {\n    class: \"custom_select_ul_list\",\n    onClick: _cache[7] || (_cache[7] = function ($event) {\n      return _ctx.showSitesList = false;\n    })\n  }, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.sites, function (site) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"li\", {\n      onClick: function onClick($event) {\n        return _ctx.switchSite(site, $event);\n      },\n      key: site.idsite\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n      onClick: _cache[6] || (_cache[6] = function ($event) {\n        return $event.preventDefault();\n      }),\n      innerHTML: _ctx.$sanitize(_ctx.getMatchedSiteName(site.name)),\n      tabindex: \"4\",\n      href: _ctx.getUrlForSiteId(site.idsite),\n      title: site.name\n    }, null, 8\n    /* PROPS */\n    , _hoisted_11)], 8\n    /* PROPS */\n    , _hoisted_10)), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !(!_ctx.showSelectedSite && _ctx.activeSiteId === site.idsite)]]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  ))]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"ul\", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", _hoisted_13, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", _hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('SitesManager_NotFound') + ' ' + _ctx.searchTerm), 1\n  /* TEXT */\n  )])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.sites.length && _ctx.searchTerm]])]), _ctx.allSitesLocation === 'bottom' && _ctx.showAllSitesItem ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_AllSitesLink, {\n    href: _ctx.urlAllSites,\n    \"all-sites-text\": _ctx.allSitesText,\n    onClick: _cache[8] || (_cache[8] = function ($event) {\n      return _ctx.onAllSitesClick($event);\n    })\n  }, null, 8\n  /* PROPS */\n  , [\"href\", \"all-sites-text\"])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showSitesList]])], 2\n  /* CLASS */\n  )), [[_directive_focus_anywhere_but_here, {\n    blur: _ctx.onBlur\n  }]]);\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    loading: {\n      type: Boolean,\n      required: true,\n      default: false\n    },\n    loadingMessage: {\n      type: String,\n      required: false,\n      default: Object(_translate__WEBPACK_IMPORTED_MODULE_1__[\"default\"])('General_LoadingData')\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    severity: {\n      type: String,\n      required: true\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Comparisons.store.instance */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../MatomoUrl/MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\n/* harmony import */ var _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../AjaxHelper/AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\n\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {},\n  data: function data() {\n    return {\n      comparisonTooltips: null\n    };\n  },\n  setup: function setup() {\n    // accessing has to be done through a computed property so we can use the computed\n    // instance directly in the template. unfortunately, vue won't register to changes.\n    var isComparing = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].isComparing();\n    });\n    var segmentComparisons = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getSegmentComparisons();\n    });\n    var periodComparisons = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getPeriodComparisons();\n    });\n    var getSeriesColor = _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getSeriesColor.bind(_Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n    return {\n      isComparing: isComparing,\n      segmentComparisons: segmentComparisons,\n      periodComparisons: periodComparisons,\n      getSeriesColor: getSeriesColor\n    };\n  },\n  methods: {\n    comparisonHasSegment: function comparisonHasSegment(comparison) {\n      return typeof comparison.params.segment !== 'undefined';\n    },\n    removeSegmentComparison: function removeSegmentComparison(index) {\n      // otherwise the tooltip will be stuck on the screen\n      window.$(this.$refs.root).tooltip('destroy');\n      _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].removeSegmentComparison(index);\n    },\n    getComparisonPeriodType: function getComparisonPeriodType(comparison) {\n      var period = comparison.params.period;\n\n      if (period === 'range') {\n        return Object(_translate__WEBPACK_IMPORTED_MODULE_5__[\"default\"])('CoreHome_PeriodRange');\n      }\n\n      var periodStr = Object(_translate__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(\"Intl_Period\".concat(period.substring(0, 1).toUpperCase()).concat(period.substring(1)));\n      return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);\n    },\n    getComparisonTooltip: function getComparisonTooltip(segmentComparison, periodComparison) {\n      if (!this.comparisonTooltips || !Object.keys(this.comparisonTooltips).length) {\n        return undefined;\n      }\n\n      return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];\n    },\n    getUrlToSegment: function getUrlToSegment(segment) {\n      var hash = _objectSpread({}, _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_3__[\"default\"].hashParsed.value);\n\n      delete hash.comparePeriods;\n      delete hash.compareDates;\n      delete hash.compareSegments;\n      hash.segment = segment;\n      return \"\".concat(window.location.search, \"#?\").concat(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_3__[\"default\"].stringify(hash));\n    },\n    setUpTooltips: function setUpTooltips() {\n      var _window = window,\n          $ = _window.$;\n      $(this.$refs.root).tooltip({\n        track: true,\n        content: function transformTooltipContent() {\n          var title = $(this).attr('title');\n          return window.vueSanitize(title.replace(/\\n/g, '<br />'));\n        },\n        show: {\n          delay: 200,\n          duration: 200\n        },\n        hide: false\n      });\n    },\n    onComparisonsChanged: function onComparisonsChanged() {\n      var _this = this;\n\n      this.comparisonTooltips = null;\n\n      if (!_Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].isComparing()) {\n        return;\n      }\n\n      var periodComparisons = _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getPeriodComparisons();\n      var segmentComparisons = _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getSegmentComparisons();\n      _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_4__[\"default\"].fetch({\n        method: 'API.getProcessedReport',\n        apiModule: 'VisitsSummary',\n        apiAction: 'get',\n        compare: '1',\n        compareSegments: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_3__[\"default\"].getSearchParam('compareSegments'),\n        comparePeriods: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_3__[\"default\"].getSearchParam('comparePeriods'),\n        compareDates: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_3__[\"default\"].getSearchParam('compareDates'),\n        format_metrics: '1'\n      }).then(function (report) {\n        _this.comparisonTooltips = {};\n        periodComparisons.forEach(function (periodComp) {\n          _this.comparisonTooltips[periodComp.index] = {};\n          segmentComparisons.forEach(function (segmentComp) {\n            var tooltip = _this.generateComparisonTooltip(report, periodComp, segmentComp);\n\n            _this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;\n          });\n        });\n      });\n    },\n    generateComparisonTooltip: function generateComparisonTooltip(visitsSummary, periodComp, segmentComp) {\n      if (!visitsSummary.reportData.comparisons) {\n        // sanity check\n        return '';\n      }\n\n      var firstRowIndex = _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getComparisonSeriesIndex(periodComp.index, 0);\n      var firstRow = visitsSummary.reportData.comparisons[firstRowIndex];\n      var comparisonRowIndex = _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getComparisonSeriesIndex(periodComp.index, segmentComp.index);\n      var comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];\n      var firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];\n      var tooltip = '<div class=\"comparison-card-tooltip\">';\n      var visitsPercent = (comparisonRow.nb_visits / firstRow.nb_visits * 100).toFixed(2);\n      visitsPercent = \"\".concat(visitsPercent, \"%\");\n      tooltip += Object(_translate__WEBPACK_IMPORTED_MODULE_5__[\"default\"])('General_ComparisonCardTooltip1', [\"'\".concat(comparisonRow.compareSegmentPretty, \"'\"), comparisonRow.comparePeriodPretty, visitsPercent, comparisonRow.nb_visits.toString(), firstRow.nb_visits.toString()]);\n\n      if (periodComp.index > 0) {\n        tooltip += '<br/><br/>';\n        tooltip += Object(_translate__WEBPACK_IMPORTED_MODULE_5__[\"default\"])('General_ComparisonCardTooltip2', [comparisonRow.nb_visits_change.toString(), firstPeriodRow.compareSegmentPretty, firstPeriodRow.comparePeriodPretty]);\n      }\n\n      tooltip += '</div>';\n      return tooltip;\n    }\n  },\n  updated: function updated() {\n    var _this2 = this;\n\n    setTimeout(function () {\n      return _this2.setUpTooltips();\n    });\n  },\n  mounted: function mounted() {\n    var _this3 = this;\n\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].on('piwikComparisonsChanged', function () {\n      _this3.onComparisonsChanged();\n    });\n    this.onComparisonsChanged();\n    setTimeout(function () {\n      return _this3.setUpTooltips();\n    });\n  },\n  beforeUnmount: function beforeUnmount() {\n    try {\n      window.$(this.refs.root).tooltip('destroy');\n    } catch (e) {// ignore\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _EnrichedHeadline_EnrichedHeadline_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../EnrichedHeadline/EnrichedHeadline.vue */ \"./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue\");\n\n\nvar adminContent = null;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    contentTitle: String,\n    feature: String,\n    helpUrl: String,\n    helpText: String,\n    anchor: String\n  },\n  components: {\n    EnrichedHeadline: _EnrichedHeadline_EnrichedHeadline_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n  },\n  data: function data() {\n    return {\n      actualFeature: this.feature,\n      actualHelpText: this.helpText\n    };\n  },\n  watch: {\n    feature: function feature(newValue) {\n      this.actualFeature = newValue;\n    },\n    helpText: function helpText(newValue) {\n      this.actualHelpText = newValue;\n    }\n  },\n  mounted: function mounted() {\n    var _this = this;\n\n    var _this$$refs = this.$refs,\n        root = _this$$refs.root,\n        content = _this$$refs.content;\n\n    if (this.anchor) {\n      var anchorElement = document.createElement('a');\n      anchorElement.id = this.anchor;\n      root.parentElement.prepend(anchorElement);\n    }\n\n    setTimeout(function () {\n      var inlineHelp = content.querySelector('.contentHelp');\n\n      if (inlineHelp) {\n        _this.actualHelpText = inlineHelp.innerHTML;\n        inlineHelp.remove();\n      }\n    }, 0);\n\n    if (this.actualFeature && (this.actualFeature === true || this.actualFeature === 'true')) {\n      this.actualFeature = this.contentTitle;\n    }\n\n    if (adminContent === null) {\n      // cache admin node for further content blocks\n      adminContent = document.querySelector('#content.admin');\n    }\n\n    var contentTopPosition;\n\n    if (adminContent) {\n      contentTopPosition = adminContent.offsetTop;\n    }\n\n    if (contentTopPosition || contentTopPosition === 0) {\n      var parents = root.closest('[piwik-widget-loader]'); // when shown within the widget loader, we need to get the offset of that element\n      // as the widget loader might be still shown. Would otherwise not position correctly\n      // the widgets on the admin home page\n\n      var topThis = parents ? parents.offsetTop : root.offsetTop;\n\n      if (topThis - contentTopPosition < 17) {\n        // we make sure to display the first card with no margin-top to have it on same as line as\n        // navigation\n        root.style.marginTop = 0;\n      }\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Periods */ \"./plugins/CoreHome/vue/src/Periods/index.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\n\n\nvar DEFAULT_STEP_MONTHS = 1;\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    selectedDateStart: Date,\n    selectedDateEnd: Date,\n    highlightedDateStart: Date,\n    highlightedDateEnd: Date,\n    viewDate: [String, Date],\n    stepMonths: Number,\n    disableMonthDropdown: Boolean,\n    options: Object\n  },\n  emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],\n  setup: function setup(props, context) {\n    var root = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(null);\n\n    function setDateCellColor($dateCell, dateValue) {\n      var $dateCellLink = $dateCell.children('a');\n\n      if (props.selectedDateStart && props.selectedDateEnd && dateValue >= props.selectedDateStart && dateValue <= props.selectedDateEnd) {\n        $dateCell.addClass('ui-datepicker-current-period');\n      } else {\n        $dateCell.removeClass('ui-datepicker-current-period');\n      }\n\n      if (props.highlightedDateStart && props.highlightedDateEnd && dateValue >= props.highlightedDateStart && dateValue <= props.highlightedDateEnd) {\n        // other-month cells don't have links, so the <td> must have the ui-state-hover class\n        var elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;\n        elementToAddClassTo.addClass('ui-state-hover');\n      } else {\n        $dateCell.removeClass('ui-state-hover');\n        $dateCellLink.removeClass('ui-state-hover');\n      }\n    }\n\n    function getCellDate($dateCell, month, year) {\n      if ($dateCell.hasClass('ui-datepicker-other-month')) {\n        return getOtherMonthDate($dateCell, month, year); // eslint-disable-line\n      }\n\n      var day = parseInt($dateCell.children('a,span').text(), 10);\n      return new Date(year, month, day);\n    }\n\n    function getOtherMonthDate($dateCell, month, year) {\n      var date;\n      var $row = $dateCell.parent();\n      var $rowCells = $row.children('td'); // if in the first row, the date cell is before the current month\n\n      if ($row.is(':first-child')) {\n        var $firstDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').first();\n        date = getCellDate($firstDateInMonth, month, year);\n        date.setDate($rowCells.index($dateCell) - $rowCells.index($firstDateInMonth) + 1);\n        return date;\n      } // the date cell is after the current month\n\n\n      var $lastDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').last();\n      date = getCellDate($lastDateInMonth, month, year);\n      date.setDate(date.getDate() + $rowCells.index($dateCell) - $rowCells.index($lastDateInMonth));\n      return date;\n    }\n\n    function getMonthYearDisplayed() {\n      var element = $(root.value);\n      var $firstCellWithMonth = element.find('td[data-month]');\n      var month = parseInt($firstCellWithMonth.attr('data-month'), 10);\n      var year = parseInt($firstCellWithMonth.attr('data-year'), 10);\n      return [month, year];\n    }\n\n    function setDatePickerCellColors() {\n      var element = $(root.value);\n      var $calendarTable = element.find('.ui-datepicker-calendar');\n      var monthYear = getMonthYearDisplayed(); // highlight the rest of the cells by first getting the date for the first cell\n      // in the calendar, then just incrementing by one for the rest of the cells.\n\n      var $cells = $calendarTable.find('td');\n      var $firstDateCell = $cells.first();\n      var currentDate = getCellDate($firstDateCell, monthYear[0], monthYear[1]);\n      $cells.each(function setCellColor() {\n        setDateCellColor($(this), currentDate);\n        currentDate.setDate(currentDate.getDate() + 1);\n      });\n    }\n\n    function viewDateChanged() {\n      var date = props.viewDate;\n\n      if (!date) {\n        return false;\n      }\n\n      if (!(date instanceof Date)) {\n        try {\n          date = Object(_Periods__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(date);\n        } catch (e) {\n          return false;\n        }\n      }\n\n      var element = $(root.value); // only change the datepicker date if the date is outside of the current month/year.\n      // this avoids a re-render in other cases.\n\n      var monthYear = getMonthYearDisplayed();\n\n      if (monthYear[0] !== date.getMonth() || monthYear[1] !== date.getFullYear()) {\n        element.datepicker('setDate', date);\n        return true;\n      }\n\n      return false;\n    } // remove the ui-state-active class & click handlers for every cell. we bypass\n    // the datepicker's date selection logic for smoother browser rendering.\n\n\n    function onJqueryUiRenderedPicker() {\n      var element = $(root.value);\n      element.find('td[data-event]').off('click');\n      element.find('.ui-state-active').removeClass('ui-state-active');\n      element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day'); // add href to left/right nav in calendar so they can be accessed via keyboard\n\n      element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');\n    }\n\n    function stepMonthsChanged() {\n      var element = $(root.value);\n      var stepMonths = props.stepMonths || DEFAULT_STEP_MONTHS;\n\n      if (element.datepicker('option', 'stepMonths') === stepMonths) {\n        return false;\n      } // setting stepMonths will change the month in view back to the selected date. to avoid\n      // we set the selected date to the month in view.\n\n\n      var currentMonth = $('.ui-datepicker-month', element).val();\n      var currentYear = $('.ui-datepicker-year', element).val();\n      element.datepicker('option', 'stepMonths', stepMonths).datepicker('setDate', new Date(currentYear, currentMonth));\n      onJqueryUiRenderedPicker();\n      return true;\n    }\n\n    function enableDisableMonthDropdown() {\n      var element = $(root.value);\n      element.find('.ui-datepicker-month').attr('disabled', props.disableMonthDropdown);\n    }\n\n    function handleOtherMonthClick() {\n      if (!$(this).hasClass('ui-state-hover')) {\n        return;\n      }\n\n      var $row = $(this).parent();\n      var $tbody = $row.parent();\n\n      if ($row.is(':first-child')) {\n        // click on first of the month\n        $tbody.find('a').first().click();\n      } else {\n        // click on last of month\n        $tbody.find('a').last().click();\n      }\n    }\n\n    function onCalendarViewChange() {\n      // clicking left/right re-enables the month dropdown, so we disable it again\n      enableDisableMonthDropdown();\n      setDatePickerCellColors();\n    } // on a prop change (NOTE: we can't watch just `props`, since then newProps and oldProps will\n    // have the same values (since it is a proxy object). Using a copy doesn't quite work, the\n    // object it returns will always be different, BUT, since we check what changes it works\n    // for our purposes. The only downside is that it runs on every tick basically, but since\n    // that is within the context of the date picker component, it's bearable.\n\n\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"watch\"])(function () {\n      return _objectSpread({}, props);\n    }, function (newProps, oldProps) {\n      var redraw = false;\n      ['selectedDateStart', 'selectedDateEnd', 'highlightedDateStart', 'highlightedDateEnd'].forEach(function (propName) {\n        if (redraw) {\n          return;\n        }\n\n        if (!newProps[propName] && oldProps[propName]) {\n          redraw = true;\n        }\n\n        if (newProps[propName] && !oldProps[propName]) {\n          redraw = true;\n        }\n\n        if (newProps[propName] && oldProps[propName] && newProps[propName].getTime() !== oldProps[propName].getTime()) {\n          redraw = true;\n        }\n      });\n\n      if (newProps.viewDate !== oldProps.viewDate && viewDateChanged()) {\n        redraw = true;\n      }\n\n      if (newProps.stepMonths !== oldProps.stepMonths) {\n        stepMonthsChanged();\n      }\n\n      if (newProps.enableDisableMonthDropdown !== oldProps.enableDisableMonthDropdown) {\n        enableDisableMonthDropdown();\n      } // redraw when selected/highlighted dates change\n\n\n      if (redraw) {\n        setDatePickerCellColors();\n      }\n    });\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"onMounted\"])(function () {\n      var element = $(root.value);\n      var customOptions = props.options || {};\n\n      var datePickerOptions = _objectSpread(_objectSpread(_objectSpread({}, _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getBaseDatePickerOptions()), customOptions), {}, {\n        onChangeMonthYear: function onChangeMonthYear() {\n          // datepicker renders the HTML after this hook is called, so we use setTimeout\n          // to run some code after the render.\n          setTimeout(function () {\n            onJqueryUiRenderedPicker();\n          });\n        }\n      });\n\n      element.datepicker(datePickerOptions);\n      element.on('mouseover', 'tbody td a', function (event) {\n        // this event is triggered when a user clicks a date as well. in that case,\n        // the originalEvent is null. we don't need to redraw again for that, so\n        // we ignore events like that.\n        if (event.originalEvent) {\n          setDatePickerCellColors();\n        }\n      }); // on hover cell, execute scope.cellHover()\n\n      element.on('mouseenter', 'tbody td', function onMouseEnter() {\n        var monthYear = getMonthYearDisplayed();\n        var $dateCell = $(this);\n        var dateValue = getCellDate($dateCell, monthYear[0], monthYear[1]);\n        context.emit('cellHover', {\n          date: dateValue,\n          $cell: $dateCell\n        });\n      }); // overrides jquery UI handler that unhighlights a cell when the mouse leaves it\n\n      element.on('mouseout', 'tbody td a', function () {\n        setDatePickerCellColors();\n      }); // call scope.cellHoverLeave() when mouse leaves table body (can't do event on tbody, for\n      // some reason that fails, so we do two events, one on the table & one on thead)\n\n      element.on('mouseleave', 'table', function () {\n        return context.emit('cellHoverLeave');\n      }).on('mouseenter', 'thead', function () {\n        return context.emit('cellHoverLeave');\n      }); // make sure whitespace is clickable when the period makes it appropriate\n\n      element.on('click', 'tbody td.ui-datepicker-other-month', function () {\n        return handleOtherMonthClick();\n      }); // NOTE: using a selector w/ .on() doesn't seem to work for some reason...\n\n      element.on('click', function (e) {\n        e.preventDefault();\n        var $target = $(e.target).closest('a');\n\n        if (!$target.is('.ui-datepicker-next') && !$target.is('.ui-datepicker-prev')) {\n          return;\n        }\n\n        onCalendarViewChange();\n      }); // when a cell is clicked, invoke the onDateSelected function. this, in conjunction\n      // with onJqueryUiRenderedPicker(), overrides the date picker's click behavior.\n\n      element.on('click', 'td[data-month]', function (event) {\n        var $cell = $(event.target).closest('td');\n        var month = parseInt($cell.attr('data-month'), 10);\n        var year = parseInt($cell.attr('data-year'), 10);\n        var day = parseInt($cell.children('a,span').text(), 10);\n        context.emit('dateSelect', {\n          date: new Date(year, month, day)\n        });\n      });\n      var renderPostProcessed = stepMonthsChanged();\n      viewDateChanged();\n      enableDisableMonthDropdown();\n\n      if (!renderPostProcessed) {\n        onJqueryUiRenderedPicker();\n      }\n\n      setDatePickerCellColors();\n    });\n    return {\n      root: root\n    };\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _DatePicker_DatePicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../DatePicker/DatePicker.vue */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue\");\n/* harmony import */ var _Periods_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Periods/utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    startDate: String,\n    endDate: String\n  },\n  components: {\n    DatePicker: _DatePicker_DatePicker_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n  },\n  data: function data() {\n    var startDate = null;\n\n    try {\n      startDate = Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(this.startDate);\n    } catch (e) {// ignore\n    }\n\n    var endDate = null;\n\n    try {\n      endDate = Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(this.endDate);\n    } catch (e) {// ignore\n    }\n\n    return {\n      fromPickerSelectedDates: [startDate, startDate],\n      toPickerSelectedDates: [endDate, endDate],\n      fromPickerHighlightedDates: [null, null],\n      toPickerHighlightedDates: [null, null],\n      startDateText: this.startDate,\n      endDateText: this.endDate\n    };\n  },\n  emits: ['rangeChange', 'submit'],\n  watch: {\n    startDate: function startDate() {\n      this.startDateText = this.startDate;\n      this.setStartRangeDateFromStr(this.startDate);\n    },\n    endDate: function endDate() {\n      this.endDateText = this.endDate;\n      this.setEndRangeDateFromStr(this.endDate);\n    }\n  },\n  mounted: function mounted() {\n    this.rangeChanged(); // emit with initial range pair\n  },\n  methods: {\n    setStartRangeDate: function setStartRangeDate(date) {\n      this.fromPickerSelectedDates = [date, date];\n      this.rangeChanged();\n    },\n    setEndRangeDate: function setEndRangeDate(date) {\n      this.toPickerSelectedDates = [date, date];\n      this.rangeChanged();\n    },\n    onRangeInputChanged: function onRangeInputChanged(source, event) {\n      if (source === 'from') {\n        this.setStartRangeDateFromStr(event.target.value);\n      } else {\n        this.setEndRangeDateFromStr(event.target.value);\n      }\n    },\n    getNewHighlightedDates: function getNewHighlightedDates(date, $cell) {\n      if ($cell.hasClass('ui-datepicker-unselectable')) {\n        return null;\n      }\n\n      return [date, date];\n    },\n    handleEnterPress: function handleEnterPress($event) {\n      if ($event.keyCode !== 13) {\n        return;\n      }\n\n      this.$emit('submit', {\n        start: this.startDate,\n        end: this.endDate\n      });\n    },\n    setStartRangeDateFromStr: function setStartRangeDateFromStr(dateStr) {\n      var startDateParsed;\n\n      try {\n        startDateParsed = Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(dateStr);\n      } catch (e) {\n        this.startDateText = this.startDate;\n      }\n\n      if (startDateParsed) {\n        this.fromPickerSelectedDates = [startDateParsed, startDateParsed];\n      }\n\n      this.rangeChanged();\n    },\n    setEndRangeDateFromStr: function setEndRangeDateFromStr(dateStr) {\n      var endDateParsed;\n\n      try {\n        endDateParsed = Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(dateStr);\n      } catch (e) {\n        this.endDateText = this.endDate;\n      }\n\n      if (endDateParsed) {\n        this.toPickerSelectedDates = [endDateParsed, endDateParsed];\n      }\n\n      this.rangeChanged();\n    },\n    rangeChanged: function rangeChanged() {\n      this.$emit('rangeChange', {\n        start: Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.fromPickerSelectedDates[0]),\n        end: Object(_Periods_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.toPickerSelectedDates[0])\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _Periods_Periods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Periods/Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n\n\n // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on\n// CoreHome)\n// TODO: may need a generic solution at some point, but it's bad practice to have\n// cyclic dependencies like this. it worked before because it was individual files\n// dependening on each other, not whole plugins.\n\nvar RateFeature = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineAsyncComponent\"])(function () {\n  return new Promise(function (resolve) {\n    window.$(document).ready(function () {\n      resolve(window.Feedback.RateFeature); // eslint-disable-line\n    });\n  });\n});\n/**\n * Usage:\n *\n * <h2 piwik-enriched-headline>All Websites Dashboard</h2>\n * -> uses \"All Websites Dashboard\" as featurename\n *\n * <h2 piwik-enriched-headline feature-name=\"All Websites Dashboard\">All Websites Dashboard (Total:\n * 309 Visits)</h2>\n * -> custom featurename\n *\n * <h2 piwik-enriched-headline help-url=\"http://piwik.org/guide\">All Websites Dashboard</h2>\n * -> shows help icon and links to external url\n *\n * <h2 piwik-enriched-headline edit-url=\"index.php?module=Foo&action=bar&id=4\">All Websites\n * Dashboard</h2>\n * -> makes the headline clickable linking to the specified url\n *\n * <h2 piwik-enriched-headline inline-help=\"inlineHelp\">Pages report</h2>\n * -> inlineHelp specified via a attribute shows help icon on headline hover\n *\n * <h2 piwik-enriched-headline>All Websites Dashboard\n *     <div class=\"inlineHelp\">My <strong>inline help</strong></div>\n * </h2>\n * -> alternative definition for inline help\n * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url\n *\n * * <h2 piwik-enriched-headline report-generated=\"generated time\">Pages report</h2>\n * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which\n * activated by hover\n * -> the tooltip shows the value of the attribute\n */\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    helpUrl: {\n      type: String,\n      default: ''\n    },\n    editUrl: {\n      type: String,\n      default: ''\n    },\n    reportGenerated: String,\n    featureName: String,\n    inlineHelp: String\n  },\n  components: {\n    RateFeature: RateFeature\n  },\n  data: function data() {\n    return {\n      showIcons: false,\n      showInlineHelp: false,\n      actualFeatureName: this.featureName,\n      actualInlineHelp: this.inlineHelp\n    };\n  },\n  watch: {\n    inlineHelp: function inlineHelp(newValue) {\n      this.actualInlineHelp = newValue;\n    },\n    featureName: function featureName(newValue) {\n      this.actualFeatureName = newValue;\n    }\n  },\n  mounted: function mounted() {\n    var _this = this;\n\n    var root = this.$refs.root; // timeout used since angularjs does not fill out the transclude at this point\n\n    setTimeout(function () {\n      if (!_this.actualInlineHelp) {\n        var helpNode = root.querySelector('.title .inlineHelp');\n\n        if (!helpNode && root.parentElement.nextElementSibling) {\n          // hack for reports :(\n          helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');\n        }\n\n        if (helpNode) {\n          // hackish solution to get binded html of p tag within the help node\n          // at this point the ng-bind-html is not yet converted into html when report is not\n          // initially loaded. Using $compile doesn't work. So get and set it manually\n          var helpDocs = helpNode.getAttribute('data-content').trim();\n\n          if (helpDocs.length) {\n            _this.actualInlineHelp = \"<p>\".concat(helpDocs, \"</p>\");\n            setTimeout(function () {\n              return helpNode.remove();\n            }, 0);\n          }\n        }\n      }\n\n      if (!_this.actualFeatureName) {\n        _this.actualFeatureName = root.querySelector('.title').textContent;\n      }\n\n      if (_this.reportGenerated && _Periods_Periods__WEBPACK_IMPORTED_MODULE_2__[\"default\"].parse(_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].period, _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].currentDateString).containsToday()) {\n        window.$(root.querySelector('.report-generated')).tooltip({\n          track: true,\n          content: _this.reportGenerated,\n          items: 'div',\n          show: false,\n          hide: false\n        });\n      }\n    });\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    /**\n     * Whether the modal is displayed or not;\n     */\n    modelValue: {\n      type: Boolean,\n      required: true\n    },\n\n    /**\n     * Only here for backwards compatibility w/ AngularJS. If supplied, we use this\n     * element to launch the modal instead of the element in the slot. This should not\n     * be used for new Vue code.\n     *\n     * @deprecated\n     */\n    element: {\n      type: HTMLElement,\n      required: false\n    }\n  },\n  emits: ['yes', 'no', 'closeEnd', 'close', 'validation', 'update:modelValue'],\n  activated: function activated() {\n    this.$emit('update:modelValue', false);\n  },\n  watch: {\n    modelValue: function modelValue(newValue, oldValue) {\n      var _this = this;\n\n      if (newValue) {\n        var slotElement = this.element || this.$refs.root.firstElementChild;\n        _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].helper.modalConfirm(slotElement, {\n          yes: function yes() {\n            _this.$emit('yes');\n          },\n          no: function no() {\n            _this.$emit('no');\n          },\n          validation: function validation() {\n            _this.$emit('validation');\n          }\n        }, {\n          onCloseEnd: function onCloseEnd() {\n            // materialize removes the child element, so we move it back to the slot\n            if (!_this.element) {\n              _this.$refs.root.appendChild(slotElement);\n            }\n\n            _this.$emit('update:modelValue', false);\n\n            _this.$emit('closeEnd');\n          }\n        });\n      } else if (newValue === false && oldValue === true) {\n        // the user closed the dialog, e.g. by pressing Esc or clicking away from it\n        this.$emit('close');\n      }\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../FocusAnywhereButHere/FocusAnywhereButHere */ \"./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts\");\n/* harmony import */ var _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FocusIf/FocusIf */ \"./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts\");\n\n\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    menuTitle: String,\n    tooltip: String,\n    showSearch: Boolean,\n    menuTitleChangeOnClick: String\n  },\n  directives: {\n    FocusAnywhereButHere: _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    FocusIf: _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  emits: ['afterSelect'],\n  watch: {\n    menuTitle: function menuTitle() {\n      this.actualMenuTitle = this.menuTitle;\n    }\n  },\n  data: function data() {\n    return {\n      showItems: false,\n      searchTerm: '',\n      actualMenuTitle: this.menuTitle\n    };\n  },\n  methods: {\n    lostFocus: function lostFocus() {\n      this.showItems = false;\n    },\n    selectItem: function selectItem(event) {\n      var targetClasses = event.target.classList;\n\n      if (!targetClasses.contains('item') || targetClasses.contains('disabled') || targetClasses.contains('separator')) {\n        return;\n      }\n\n      if (this.menuTitleChangeOnClick !== false) {\n        this.actualMenuTitle = event.target.textContent.replace(/[\\u0000-\\u2666]/g, function (c) {\n          return \"&#\".concat(c.charCodeAt(0), \";\");\n        }); // eslint-disable-line\n      }\n\n      this.showItems = false;\n      $(this.$slots.default()).find('.item').removeClass('active');\n      targetClasses.add('active');\n      this.$emit('afterSelect');\n    },\n    onSearchTermKeydown: function onSearchTermKeydown() {\n      var _this = this;\n\n      setTimeout(function () {\n        _this.searchItems(_this.searchTerm);\n      });\n    },\n    searchItems: function searchItems(unprocessedSearchTerm) {\n      var searchTerm = unprocessedSearchTerm.toLowerCase();\n      $(this.$refs.root).find('.item').each(function (index, node) {\n        var $node = $(node);\n\n        if ($node.text().toLowerCase().indexOf(searchTerm) === -1) {\n          $node.hide();\n        } else {\n          $node.show();\n        }\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../AjaxHelper/AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    notificationId: String,\n    // NOTE: notificationId refers to server side ID for notifications stored in the session.\n    // this ID is just so it can be selected outside of this component (just for scrolling).\n    notificationInstanceId: String,\n    title: String,\n    context: String,\n    type: String,\n    noclear: Boolean,\n    toastLength: {\n      type: Number,\n      default: 12 * 1000\n    },\n    style: [String, Object],\n    animate: Boolean,\n    message: String,\n    cssClass: String\n  },\n  computed: {\n    cssClasses: function cssClasses() {\n      var result = {};\n\n      if (this.context) {\n        result[\"notification-\".concat(this.context)] = true;\n      }\n\n      if (this.cssClass) {\n        result[this.cssClass] = true;\n      }\n\n      return result;\n    },\n    canClose: function canClose() {\n      if (this.type === 'persistent') {\n        // otherwise it is never possible to dismiss the notification\n        return true;\n      }\n\n      return !this.noclear;\n    }\n  },\n  emits: ['closed'],\n  data: function data() {\n    return {\n      deleted: false\n    };\n  },\n  mounted: function mounted() {\n    var _this = this;\n\n    var addToastEvent = function addToastEvent() {\n      setTimeout(function () {\n        _this.deleted = true;\n      }, _this.toastLength);\n    };\n\n    if (this.type === 'toast') {\n      addToastEvent();\n    }\n\n    if (this.style) {\n      $(this.$refs.root).css(this.style);\n    }\n  },\n  methods: {\n    toastClosed: function toastClosed() {\n      var _this2 = this;\n\n      Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"nextTick\"])(function () {\n        _this2.$emit('closed');\n      });\n    },\n    closeNotification: function closeNotification(event) {\n      var _this3 = this;\n\n      if (this.canClose && event && event.target) {\n        this.deleted = true;\n        Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"nextTick\"])(function () {\n          _this3.$emit('closed');\n        });\n      }\n\n      this.markNotificationAsRead();\n    },\n    markNotificationAsRead: function markNotificationAsRead() {\n      if (!this.notificationId) {\n        return;\n      }\n\n      _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_1__[\"default\"].fetch({\n        module: 'CoreHome',\n        action: 'markNotificationAsRead'\n      }, {\n        postParams: {\n          notificationId: this.notificationId\n        }\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notification.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Notifications_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Notifications.store */ \"./plugins/CoreHome/vue/src/Notification/Notifications.store.ts\");\n/* harmony import */ var _Notification_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Notification.vue */ \"./plugins/CoreHome/vue/src/Notification/Notification.vue\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    group: String\n  },\n  components: {\n    Notification: _Notification_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  computed: {\n    notifications: function notifications() {\n      var _this = this;\n\n      return _Notifications_store__WEBPACK_IMPORTED_MODULE_1__[\"default\"].state.notifications.filter(function (n) {\n        if (_this.group) {\n          return _this.group === n.group;\n        }\n\n        return !n.group;\n      });\n    }\n  },\n  methods: {\n    removeNotification: function removeNotification(id) {\n      _Notifications_store__WEBPACK_IMPORTED_MODULE_1__[\"default\"].remove(id);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _DatePicker_DatePicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../DatePicker/DatePicker.vue */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _Periods_Periods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Periods/Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n\n\n\n\nvar piwikMinDate = new Date(_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].minDateYear, _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].minDateMonth - 1, _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].minDateDay);\nvar piwikMaxDate = new Date(_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].maxDateYear, _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].maxDateMonth - 1, _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].maxDateDay);\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    period: String,\n    date: [String, Date]\n  },\n  components: {\n    DatePicker: _DatePicker_DatePicker_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n  },\n  emits: ['select'],\n  setup: function setup(props, context) {\n    var viewDate = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(props.date);\n    var selectedDates = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])([null, null]);\n    var highlightedDates = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])([null, null]);\n\n    function getBoundedDateRange(date) {\n      var dates = _Periods_Periods__WEBPACK_IMPORTED_MODULE_3__[\"default\"].get(props.period).parse(date).getDateRange(); // make sure highlighted date range is within min/max date range\n\n      dates[0] = piwikMinDate < dates[0] ? dates[0] : piwikMinDate;\n      dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;\n      return dates;\n    }\n\n    function onHoverNormalCell(cellDate, $cell) {\n      var isOutOfMinMaxDateRange = cellDate < piwikMinDate || cellDate > piwikMaxDate; // don't highlight anything if the period is month or day, and we're hovering over calendar\n      // whitespace. since there are no dates, it's doesn't make sense what you're selecting.\n\n      var shouldNotHighlightFromWhitespace = $cell.hasClass('ui-datepicker-other-month') && (props.period === 'month' || props.period === 'day');\n\n      if (isOutOfMinMaxDateRange || shouldNotHighlightFromWhitespace) {\n        highlightedDates.value = [null, null];\n        return;\n      }\n\n      highlightedDates.value = getBoundedDateRange(cellDate);\n    }\n\n    function onHoverLeaveNormalCells() {\n      highlightedDates.value = [null, null];\n    }\n\n    function onDateSelected(date) {\n      context.emit('select', {\n        date: date\n      });\n    }\n\n    function onChanges() {\n      if (!props.period || !props.date) {\n        selectedDates.value = [null, null];\n        return;\n      }\n\n      selectedDates.value = getBoundedDateRange(props.date);\n    }\n\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"watch\"])(props, onChanges);\n    onChanges();\n    return {\n      selectedDates: selectedDates,\n      highlightedDates: highlightedDates,\n      viewDate: viewDate,\n      onHoverNormalCell: onHoverNormalCell,\n      onHoverLeaveNormalCells: onHoverLeaveNormalCells,\n      onDateSelected: onDateSelected\n    };\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../FocusAnywhereButHere/FocusAnywhereButHere */ \"./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts\");\n/* harmony import */ var _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FocusIf/FocusIf */ \"./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _SiteSelector_SitesStore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../SiteSelector/SitesStore */ \"./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _debounce__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../debounce */ \"./plugins/CoreHome/vue/src/debounce.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\n\n\n\n\n\n\n\nfunction isElementInViewport(element) {\n  var rect = element.getBoundingClientRect();\n  return rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.$(window).height() && rect.right <= window.$(window).width();\n}\n\nfunction scrollFirstElementIntoView(element) {\n  if (element && element.scrollIntoView) {\n    // make sure search is visible\n    element.scrollIntoView();\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {},\n  directives: {\n    FocusAnywhereButHere: _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    FocusIf: _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  watch: {\n    searchActive: function searchActive(newValue) {\n      var classes = this.$refs.root.parentElement.classList;\n      classes.toggle('active', newValue);\n      classes.toggle('expanded', newValue);\n    }\n  },\n  mounted: function mounted() {\n    var _this = this;\n\n    // TODO: temporary, remove after angularjs is removed.\n    // this is currently needed since angularjs will render a div, then vue will render a div\n    // within it, but the top controls and CSS expect to have certain CSS classes in the root\n    // element.\n    // same applies to above watch for searchActive()\n    this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');\n\n    if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {\n      window.initTopControls();\n    }\n\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_5__[\"default\"].helper.registerShortcut('f', Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('CoreHome_ShortcutSearch'), function (event) {\n      if (event.altKey) {\n        return;\n      }\n\n      event.preventDefault();\n      scrollFirstElementIntoView(_this.$refs.root);\n\n      _this.activateSearch();\n    });\n  },\n  data: function data() {\n    var hasSegmentSelector = !!document.querySelector('.segmentEditorPanel');\n    return {\n      menuItems: [],\n      numMenuItems: 0,\n      searchActive: false,\n      searchTerm: '',\n      searchIndex: 0,\n      menuIndexCounter: -1,\n      topMenuItems: null,\n      leftMenuItems: null,\n      segmentItems: null,\n      hasSegmentSelector: hasSegmentSelector,\n      sites: [],\n      isLoading: false\n    };\n  },\n  created: function created() {\n    this.searchMenu = Object(_debounce__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(this.searchMenu.bind(this));\n  },\n  computed: {\n    hasSitesSelector: function hasSitesSelector() {\n      return !!document.querySelector('.top_controls [piwik-siteselector]');\n    },\n    quickAccessTitle: function quickAccessTitle() {\n      var searchAreasTitle = '';\n      var searchAreas = [Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('CoreHome_MenuEntries')];\n\n      if (this.hasSegmentSelector) {\n        searchAreas.push(Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('CoreHome_Segments'));\n      }\n\n      if (this.hasSitesSelector) {\n        searchAreas.push(Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('SitesManager_Sites'));\n      }\n\n      while (searchAreas.length) {\n        searchAreasTitle += searchAreas.shift();\n\n        if (searchAreas.length >= 2) {\n          searchAreasTitle += ', ';\n        } else if (searchAreas.length === 1) {\n          searchAreasTitle += \" \".concat(Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('General_And'), \" \");\n        }\n      }\n\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('CoreHome_QuickAccessTitle', searchAreasTitle);\n    }\n  },\n  emits: ['itemSelected', 'blur'],\n  methods: {\n    onKeypress: function onKeypress(event) {\n      var _this2 = this;\n\n      var areSearchResultsDisplayed = this.searchTerm && this.searchActive;\n      var isTabKey = event.which === 9;\n      var isEscKey = event.which === 27;\n\n      if (event.which === 38) {\n        this.highlightPreviousItem();\n        event.preventDefault();\n      } else if (event.which === 40) {\n        this.highlightNextItem();\n        event.preventDefault();\n      } else if (event.which === 13) {\n        this.clickQuickAccessMenuItem();\n      } else if (isTabKey && areSearchResultsDisplayed) {\n        this.deactivateSearch();\n      } else if (isEscKey && areSearchResultsDisplayed) {\n        this.deactivateSearch();\n      } else {\n        setTimeout(function () {\n          _this2.searchActive = true;\n\n          _this2.searchMenu(_this2.searchTerm);\n        });\n      }\n    },\n    highlightPreviousItem: function highlightPreviousItem() {\n      if (this.searchIndex - 1 < 0) {\n        this.searchIndex = 0;\n      } else {\n        this.searchIndex -= 1;\n      }\n\n      this.makeSureSelectedItemIsInViewport();\n    },\n    highlightNextItem: function highlightNextItem() {\n      var numTotal = this.$refs.root.querySelectorAll('li.result').length;\n\n      if (numTotal <= this.searchIndex + 1) {\n        this.searchIndex = numTotal - 1;\n      } else {\n        this.searchIndex += 1;\n      }\n\n      this.makeSureSelectedItemIsInViewport();\n    },\n    clickQuickAccessMenuItem: function clickQuickAccessMenuItem() {\n      var _this3 = this;\n\n      var selectedMenuElement = this.getCurrentlySelectedElement();\n\n      if (selectedMenuElement) {\n        setTimeout(function () {\n          selectedMenuElement.click();\n\n          _this3.$emit('itemSelected', selectedMenuElement);\n        }, 20);\n      }\n    },\n    deactivateSearch: function deactivateSearch() {\n      this.searchTerm = '';\n      this.searchActive = false;\n      this.$refs.root.querySelector('input').blur();\n    },\n    makeSureSelectedItemIsInViewport: function makeSureSelectedItemIsInViewport() {\n      var element = this.getCurrentlySelectedElement();\n\n      if (element && !isElementInViewport(element)) {\n        scrollFirstElementIntoView(element);\n      }\n    },\n    getCurrentlySelectedElement: function getCurrentlySelectedElement() {\n      var results = this.$refs.root.querySelectorAll('li.result');\n\n      if (results && results.length && results.item(this.searchIndex)) {\n        return results.item(this.searchIndex);\n      }\n\n      return null;\n    },\n    searchMenu: function searchMenu(unprocessedSearchTerm) {\n      var _this4 = this;\n\n      var searchTerm = unprocessedSearchTerm.toLowerCase();\n      var index = -1;\n      var menuItemsIndex = {};\n      var menuItems = [];\n\n      var moveToCategory = function moveToCategory(theSubmenuItem) {\n        // force rerender of element to prevent weird side effects\n        var submenuItem = _objectSpread({}, theSubmenuItem); // needed for proper highlighting with arrow keys\n\n\n        index += 1;\n        submenuItem.menuIndex = index;\n        var category = submenuItem.category;\n\n        if (!(category in menuItemsIndex)) {\n          menuItems.push({\n            title: category,\n            items: []\n          });\n          menuItemsIndex[category] = menuItems.length - 1;\n        }\n\n        var indexOfCategory = menuItemsIndex[category];\n        menuItems[indexOfCategory].items.push(submenuItem);\n      };\n\n      this.resetSearchIndex();\n\n      if (this.hasSitesSelector) {\n        this.isLoading = true;\n        _SiteSelector_SitesStore__WEBPACK_IMPORTED_MODULE_4__[\"default\"].searchSite(searchTerm).then(function (sites) {\n          _this4.sites = sites;\n        }).finally(function () {\n          _this4.isLoading = false;\n        });\n      }\n\n      var menuItemMatches = function menuItemMatches(i) {\n        return i.name.toLowerCase().indexOf(searchTerm) !== -1 || i.category.toLowerCase().indexOf(searchTerm) !== -1;\n      }; // get the menu items on first search since this component can be mounted\n      // before the menus are\n\n\n      if (this.topMenuItems === null) {\n        this.topMenuItems = this.getTopMenuItems();\n      }\n\n      if (this.leftMenuItems === null) {\n        this.leftMenuItems = this.getLeftMenuItems();\n      }\n\n      if (this.segmentItems === null) {\n        this.segmentItems = this.getSegmentItems();\n      }\n\n      var topMenuItems = this.topMenuItems.filter(menuItemMatches);\n      var leftMenuItems = this.leftMenuItems.filter(menuItemMatches);\n      var segmentItems = this.segmentItems.filter(menuItemMatches);\n      topMenuItems.forEach(moveToCategory);\n      leftMenuItems.forEach(moveToCategory);\n      segmentItems.forEach(moveToCategory);\n      this.numMenuItems = topMenuItems.length + leftMenuItems.length + segmentItems.length;\n      this.menuItems = menuItems;\n    },\n    resetSearchIndex: function resetSearchIndex() {\n      this.searchIndex = 0;\n      this.makeSureSelectedItemIsInViewport();\n    },\n    selectSite: function selectSite(idSite) {\n      _SiteSelector_SitesStore__WEBPACK_IMPORTED_MODULE_4__[\"default\"].loadSite(idSite);\n    },\n    selectMenuItem: function selectMenuItem(index) {\n      var target = document.querySelector(\"[quick_access='\".concat(index, \"']\"));\n\n      if (target) {\n        this.deactivateSearch();\n        var href = target.getAttribute('href');\n\n        if (href && href.length > 10 && target && target.click) {\n          try {\n            target.click();\n          } catch (e) {\n            window.$(target).click();\n          }\n        } else {\n          // not sure why jquery is used here and above, but only sometimes. keeping for BC.\n          window.$(target).click();\n        }\n      }\n    },\n    onBlur: function onBlur() {\n      this.searchActive = false;\n      this.$emit('blur');\n    },\n    activateSearch: function activateSearch() {\n      this.searchActive = true;\n    },\n    getTopMenuItems: function getTopMenuItems() {\n      var _this5 = this;\n\n      var category = Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('CoreHome_Menu');\n      var topMenuItems = [];\n      document.querySelectorAll('nav .sidenav li > a').forEach(function (element) {\n        var text = element.textContent.trim();\n\n        if (!text) {\n          text = element.getAttribute('title').trim(); // possibly a icon, use title instead\n        }\n\n        if (text) {\n          topMenuItems.push({\n            name: text,\n            index: _this5.menuIndexCounter += 1,\n            category: category\n          });\n          element.setAttribute('quick_access', \"\".concat(_this5.menuIndexCounter));\n        }\n      });\n      return topMenuItems;\n    },\n    getLeftMenuItems: function getLeftMenuItems() {\n      var _this6 = this;\n\n      var leftMenuItems = [];\n      document.querySelectorAll('#secondNavBar .menuTab').forEach(function (element) {\n        var category = window.$(element).find('> .item').text().trim();\n\n        if (category && category.lastIndexOf('\\n') !== -1) {\n          // remove \"\\n\\nMenu\"\n          category = category.substr(0, category.lastIndexOf('\\n')).trim();\n        }\n\n        window.$(element).find('li .item').each(function (i, subElement) {\n          var text = subElement.textContent.trim();\n\n          if (text) {\n            leftMenuItems.push({\n              name: text,\n              category: category,\n              index: _this6.menuIndexCounter += 1\n            });\n            subElement.setAttribute('quick_access', \"\".concat(_this6.menuIndexCounter));\n          }\n        });\n      });\n      return leftMenuItems;\n    },\n    getSegmentItems: function getSegmentItems() {\n      var _this7 = this;\n\n      if (!this.hasSegmentSelector) {\n        return [];\n      }\n\n      var category = Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('CoreHome_Segments');\n      var segmentItems = [];\n      document.querySelectorAll('.segmentList [data-idsegment]').forEach(function (element) {\n        var text = element.querySelector('.segname').textContent.trim();\n\n        if (text) {\n          segmentItems.push({\n            name: text,\n            category: category,\n            index: _this7.menuIndexCounter += 1\n          });\n          element.setAttribute('quick_access', \"\".concat(_this7.menuIndexCounter));\n        }\n      });\n      return segmentItems;\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    href: String,\n    allSitesText: String\n  },\n  emits: ['click'],\n  methods: {\n    onClick: function onClick(event) {\n      this.$emit('click', event);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../FocusAnywhereButHere/FocusAnywhereButHere */ \"./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts\");\n/* harmony import */ var _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FocusIf/FocusIf */ \"./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts\");\n/* harmony import */ var _AllSitesLink_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AllSitesLink.vue */ \"./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../MatomoUrl/MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _SitesStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SitesStore */ \"./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts\");\n/* harmony import */ var _debounce__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../debounce */ \"./plugins/CoreHome/vue/src/debounce.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\n\n\n\n\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    modelValue: {\n      Object: Object,\n      default: {\n        id: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].idSite,\n        name: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].helper.htmlDecode(_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].siteName)\n      }\n    },\n    showSelectedSite: {\n      type: Boolean,\n      default: false\n    },\n    showAllSitesItem: {\n      type: Boolean,\n      default: true\n    },\n    switchSiteOnSelect: {\n      type: Boolean,\n      default: true\n    },\n    onlySitesWithAdminAccess: {\n      type: Boolean,\n      default: false\n    },\n    name: {\n      type: String,\n      default: ''\n    },\n    allSitesText: {\n      type: String,\n      default: Object(_translate__WEBPACK_IMPORTED_MODULE_6__[\"default\"])('General_MultiSitesSummary')\n    },\n    allSitesLocation: {\n      type: String,\n      default: 'bottom'\n    },\n    placeholder: String\n  },\n  emits: ['update:modelValue', 'blur'],\n  components: {\n    AllSitesLink: _AllSitesLink_vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"]\n  },\n  directives: {\n    FocusAnywhereButHere: _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    FocusIf: _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  watch: {\n    searchTerm: function searchTerm() {\n      this.onSearchTermChanged();\n    },\n    modelValue: {\n      handler: function handler(newValue) {\n        this.selectedSite = _objectSpread({}, newValue);\n      },\n      deep: true\n    }\n  },\n  data: function data() {\n    return {\n      searchTerm: '',\n      activeSiteId: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].idSite,\n      showSitesList: false,\n      isLoading: false,\n      sites: [],\n      selectedSite: {\n        id: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].idSite,\n        name: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].helper.htmlDecode(_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].siteName)\n      },\n      autocompleteMinSites: parseInt(_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].config.autocomplete_min_sites, 10)\n    };\n  },\n  mounted: function mounted() {\n    var _this = this;\n\n    window.initTopControls();\n    this.loadInitialSites().then(function () {\n      if ((!_this.selectedSite || !_this.selectedSite.id) && _this.sites[0]) {\n        _this.selectedSite = {\n          id: _this.sites[0].idsite,\n          name: _this.sites[0].name\n        };\n\n        _this.$emit('update:modelValue', _objectSpread({}, _this.selectedSite));\n      }\n    });\n    var shortcutTitle = Object(_translate__WEBPACK_IMPORTED_MODULE_6__[\"default\"])('CoreHome_ShortcutWebsiteSelector');\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].helper.registerShortcut('w', shortcutTitle, function (event) {\n      if (event.altKey) {\n        return;\n      }\n\n      if (event.preventDefault) {\n        event.preventDefault();\n      } else {\n        event.returnValue = false; // IE\n      }\n\n      _this.$refs.selectorLink.click();\n\n      _this.$refs.selectorLink.focus();\n    });\n  },\n  computed: {\n    shouldFocusOnSearch: function shouldFocusOnSearch() {\n      return this.showSitesList && this.autocompleteMinSites <= this.sites.length || this.searchTerm;\n    },\n    selectorLinkTitle: function selectorLinkTitle() {\n      var _this$selectedSite;\n\n      return this.hasMultipleSites ? Object(_translate__WEBPACK_IMPORTED_MODULE_6__[\"default\"])('CoreHome_ChangeCurrentWebsite', ((_this$selectedSite = this.selectedSite) === null || _this$selectedSite === void 0 ? void 0 : _this$selectedSite.name) || this.firstSiteName) : '';\n    },\n    hasMultipleSites: function hasMultipleSites() {\n      return _SitesStore__WEBPACK_IMPORTED_MODULE_7__[\"default\"].initialSites.value && _SitesStore__WEBPACK_IMPORTED_MODULE_7__[\"default\"].initialSites.value.length > 1;\n    },\n    firstSiteName: function firstSiteName() {\n      return this.sites && this.sites.length > 0 ? this.sites[0].name : '';\n    },\n    urlAllSites: function urlAllSites() {\n      var newQuery = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].stringify(_objectSpread(_objectSpread({}, _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].urlParsed.value), {}, {\n        module: 'MultiSites',\n        action: 'index',\n        date: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].parsed.value.date,\n        period: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].parsed.value.period\n      }));\n      return \"?\".concat(newQuery);\n    }\n  },\n  created: function created() {\n    this.searchSite = Object(_debounce__WEBPACK_IMPORTED_MODULE_8__[\"default\"])(this.searchSite.bind(this));\n  },\n  methods: {\n    onSearchTermChanged: function onSearchTermChanged() {\n      if (!this.searchTerm) {\n        this.isLoading = false;\n        this.loadInitialSites();\n      } else {\n        this.isLoading = true;\n        this.searchSite(this.searchTerm);\n      }\n    },\n    onAllSitesClick: function onAllSitesClick(event) {\n      this.switchSite({\n        idsite: 'all',\n        name: this.allSitesText\n      }, event);\n      this.showSitesList = false;\n    },\n    switchSite: function switchSite(site, event) {\n      // for Mac OS cmd key needs to be pressed, ctrl key on other systems\n      var controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;\n\n      if (event && controlKey && event.target && event.target.href) {\n        window.open(event.target.href, '_blank');\n        return;\n      }\n\n      this.selectedSite = {\n        id: site.idsite,\n        name: site.name\n      };\n      this.$emit('update:modelValue', _objectSpread({}, this.selectedSite));\n\n      if (!this.switchSiteOnSelect || this.activeSiteId === site.idsite) {\n        return;\n      }\n\n      _SitesStore__WEBPACK_IMPORTED_MODULE_7__[\"default\"].loadSite(site.idsite);\n    },\n    onBlur: function onBlur() {\n      this.showSitesList = false;\n      this.$emit('blur');\n    },\n    onClickSelector: function onClickSelector() {\n      if (this.hasMultipleSites) {\n        this.showSitesList = !this.showSitesList;\n\n        if (!this.isLoading && !this.searchTerm) {\n          this.loadInitialSites();\n        }\n      }\n    },\n    onPressEnter: function onPressEnter(event) {\n      if (event.key !== 'Enter') {\n        return;\n      }\n\n      event.preventDefault();\n      this.showSitesList = !this.showSitesList;\n\n      if (this.showSitesList && !this.isLoading) {\n        this.loadInitialSites();\n      }\n    },\n    getMatchedSiteName: function getMatchedSiteName(siteName) {\n      var index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());\n\n      if (index === -1 || this.isLoading // only highlight when we know the displayed results are for a search\n      ) {\n        return _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].helper.htmlEntities(siteName);\n      }\n\n      var previousPart = _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].helper.htmlEntities(siteName.substring(0, index));\n      var lastPart = _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_4__[\"default\"].helper.htmlEntities(siteName.substring(index + this.searchTerm.length));\n      return \"\".concat(previousPart, \"<span class=\\\"autocompleteMatched\\\">\").concat(this.searchTerm, \"</span>\").concat(lastPart);\n    },\n    loadInitialSites: function loadInitialSites() {\n      var _this2 = this;\n\n      return _SitesStore__WEBPACK_IMPORTED_MODULE_7__[\"default\"].loadInitialSites().then(function (sites) {\n        _this2.sites = sites || [];\n      });\n    },\n    searchSite: function searchSite(term) {\n      var _this3 = this;\n\n      this.isLoading = true;\n      _SitesStore__WEBPACK_IMPORTED_MODULE_7__[\"default\"].searchSite(term, this.onlySitesWithAdminAccess).then(function (sites) {\n        if (term !== _this3.searchTerm) {\n          return; // search term changed in the meantime\n        }\n\n        if (sites) {\n          _this3.sites = sites;\n        }\n      }).finally(function () {\n        _this3.isLoading = false;\n      });\n    },\n    getUrlForSiteId: function getUrlForSiteId(idSite) {\n      var newQuery = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].stringify(_objectSpread(_objectSpread({}, _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].urlParsed.value), {}, {\n        segment: '',\n        idSite: idSite\n      }));\n      var newHash = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].stringify(_objectSpread(_objectSpread({}, _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_5__[\"default\"].hashParsed.value), {}, {\n        segment: '',\n        idSite: idSite\n      }));\n      return \"?\".concat(newQuery, \"#?\").concat(newHash);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: debounce, createAngularJsAdapter, activityIndicatorAdapter, ActivityIndicator, translate, alertAdapter, AjaxHelper, setCookie, getCookie, deleteCookie, MatomoUrl, Matomo, Periods, Day, Week, Month, Year, Range, format, getToday, parseDate, todayIsInRange, Dropdown, FocusAnywhereButHere, FocusIf, MatomoDialog, ExpandOnClick, ExpandOnHover, EnrichedHeadline, ContentBlock, Comparisons, MenuDropdown, DatePicker, DateRangePicker, PeriodDatePicker, Notification, NotificationGroup, NotificationsStore, SiteSelector, QuickAccess */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/CoreHome/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"debounce\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"debounce\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"createAngularJsAdapter\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"createAngularJsAdapter\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"activityIndicatorAdapter\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"activityIndicatorAdapter\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ActivityIndicator\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ActivityIndicator\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"translate\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"translate\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"alertAdapter\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"alertAdapter\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"AjaxHelper\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"setCookie\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"setCookie\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getCookie\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"getCookie\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"deleteCookie\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"deleteCookie\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"MatomoUrl\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Matomo\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Periods\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Periods\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Day\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Day\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Week\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Week\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Month\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Month\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Year\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Year\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Range\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Range\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"format\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"format\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getToday\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"getToday\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"parseDate\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"parseDate\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"todayIsInRange\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"todayIsInRange\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Dropdown\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Dropdown\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"FocusAnywhereButHere\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"FocusAnywhereButHere\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"FocusIf\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"FocusIf\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"MatomoDialog\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"MatomoDialog\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ExpandOnClick\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ExpandOnClick\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ExpandOnHover\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ExpandOnHover\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"EnrichedHeadline\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"EnrichedHeadline\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ContentBlock\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Comparisons\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Comparisons\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"MenuDropdown\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"MenuDropdown\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"DatePicker\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"DatePicker\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"DateRangePicker\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"DateRangePicker\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"PeriodDatePicker\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"PeriodDatePicker\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Notification\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Notification\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"NotificationGroup\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"NotificationGroup\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"NotificationsStore\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SiteSelector\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SiteSelector\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"QuickAccess\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"QuickAccess\"]; });\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://CoreHome/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts":
+/*!*********************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActivityIndicator.vue */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_2__[\"default\"])({\n  component: _ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"],\n  scope: {\n    loading: {\n      vue: 'loading',\n      angularJsBind: '<'\n    },\n    loadingMessage: {\n      vue: 'loadingMessage',\n      angularJsBind: '<',\n      default: function _default() {\n        return Object(_translate__WEBPACK_IMPORTED_MODULE_1__[\"default\"])('General_LoadingData');\n      }\n    }\n  },\n  $inject: [],\n  directiveName: 'piwikActivityIndicator'\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue":
+/*!**************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActivityIndicator.vue?vue&type=template&id=44c7b189 */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189\");\n/* harmony import */ var _ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ActivityIndicator.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts":
+/*!**************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ActivityIndicator.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189":
+/*!********************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189 ***!
+  \********************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ActivityIndicator.vue?vue&type=template&id=44c7b189 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=44c7b189\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ActivityIndicator_vue_vue_type_template_id_44c7b189__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts":
+/*!*******************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts ***!
+  \*******************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _AjaxHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n\nwindow.ajaxHelper = _AjaxHelper__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n\nfunction ajaxQueue() {\n  return globalAjaxQueue;\n}\n\nangular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts":
+/*!***********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return AjaxHelper; });\n/* harmony import */ var _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../MatomoUrl/MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nwindow.globalAjaxQueue = [];\nwindow.globalAjaxQueue.active = 0;\n\nwindow.globalAjaxQueue.clean = function globalAjaxQueueClean() {\n  for (var i = this.length; i >= 0; i -= 1) {\n    if (!this[i] || this[i].readyState === 4) {\n      this.splice(i, 1);\n    }\n  }\n};\n\nwindow.globalAjaxQueue.push = function globalAjaxQueuePush() {\n  var _Array$prototype$push;\n\n  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n    args[_key] = arguments[_key];\n  }\n\n  this.active += args.length; // cleanup ajax queue\n\n  this.clean(); // call original array push\n\n  return (_Array$prototype$push = Array.prototype.push).call.apply(_Array$prototype$push, [this].concat(args));\n};\n\nwindow.globalAjaxQueue.abort = function globalAjaxQueueAbort() {\n  // abort all queued requests if possible\n  this.forEach(function (x) {\n    return x && x.abort && x.abort();\n  }); // remove all elements from array\n\n  this.splice(0, this.length);\n  this.active = 0;\n};\n/**\n * error callback to use by default\n */\n\n\nfunction defaultErrorCallback(deferred, status) {\n  // do not display error message if request was aborted\n  if (status === 'abort') {\n    return;\n  }\n\n  if (typeof Piwik_Popover === 'undefined') {\n    console.log(\"Request failed: \".concat(deferred.responseText)); // mostly for tests\n\n    return;\n  }\n\n  var loadingError = $('#loadingError');\n\n  if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {\n    if (deferred && deferred.status === 500) {\n      $(document.body).html(piwikHelper.escape(deferred.responseText));\n    }\n  } else {\n    loadingError.show();\n  }\n}\n/**\n * Global ajax helper to handle requests within Matomo\n */\n\n\nvar AjaxHelper = /*#__PURE__*/function () {\n  function AjaxHelper() {\n    _classCallCheck(this, AjaxHelper);\n\n    _defineProperty(this, \"format\", 'json');\n\n    _defineProperty(this, \"timeout\", null);\n\n    _defineProperty(this, \"callback\", null);\n\n    _defineProperty(this, \"useRegularCallbackInCaseOfError\", false);\n\n    _defineProperty(this, \"errorCallback\", void 0);\n\n    _defineProperty(this, \"withToken\", false);\n\n    _defineProperty(this, \"completeCallback\", void 0);\n\n    _defineProperty(this, \"getParams\", {});\n\n    _defineProperty(this, \"getUrl\", '?');\n\n    _defineProperty(this, \"postParams\", {});\n\n    _defineProperty(this, \"loadingElement\", null);\n\n    _defineProperty(this, \"errorElement\", '#ajaxError');\n\n    _defineProperty(this, \"requestHandle\", null);\n\n    _defineProperty(this, \"defaultParams\", ['idSite', 'period', 'date', 'segment']);\n\n    this.errorCallback = defaultErrorCallback;\n  }\n  /**\n   * Adds params to the request.\n   * If params are given more then once, the latest given value is used for the request\n   *\n   * @param  initialParams\n   * @param  type  type of given parameters (POST or GET)\n   * @return {void}\n   */\n\n\n  _createClass(AjaxHelper, [{\n    key: \"addParams\",\n    value: function addParams(initialParams, type) {\n      var _this = this;\n\n      var params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;\n      var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];\n      Object.keys(params).forEach(function (key) {\n        var value = params[key];\n\n        if (arrayParams.indexOf(key) !== -1 && !value) {\n          return;\n        }\n\n        if (type.toLowerCase() === 'get') {\n          _this.getParams[key] = value;\n        } else if (type.toLowerCase() === 'post') {\n          _this.postParams[key] = value;\n        }\n      });\n    }\n  }, {\n    key: \"withTokenInUrl\",\n    value: function withTokenInUrl() {\n      this.withToken = true;\n    }\n    /**\n     * Sets the base URL to use in the AJAX request.\n     */\n\n  }, {\n    key: \"setUrl\",\n    value: function setUrl(url) {\n      this.addParams(broadcast.getValuesFromUrl(url), 'GET');\n    }\n    /**\n     * Gets this helper instance ready to send a bulk request. Each argument to this\n     * function is a single request to use.\n     */\n\n  }, {\n    key: \"setBulkRequests\",\n    value: function setBulkRequests() {\n      for (var _len2 = arguments.length, urls = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {\n        urls[_key2] = arguments[_key2];\n      }\n\n      var urlsProcessed = urls.map(function (u) {\n        return typeof u === 'string' ? u : $.param(u);\n      });\n      this.addParams({\n        module: 'API',\n        method: 'API.getBulkRequest',\n        urls: urlsProcessed,\n        format: 'json'\n      }, 'post');\n    }\n    /**\n     * Set a timeout (in milliseconds) for the request. This will override any global timeout.\n     *\n     * @param timeout  Timeout in milliseconds\n     */\n\n  }, {\n    key: \"setTimeout\",\n    value: function setTimeout(timeout) {\n      this.timeout = timeout;\n    }\n    /**\n     * Sets the callback called after the request finishes\n     *\n     * @param callback  Callback function\n     * @deprecated use the jquery promise API\n     */\n\n  }, {\n    key: \"setCallback\",\n    value: function setCallback(callback) {\n      this.callback = callback;\n    }\n    /**\n     * Set that the callback passed to setCallback() should be used if an application error (i.e. an\n     * Exception in PHP) is returned.\n     */\n\n  }, {\n    key: \"useCallbackInCaseOfError\",\n    value: function useCallbackInCaseOfError() {\n      this.useRegularCallbackInCaseOfError = true;\n    }\n    /**\n     * Set callback to redirect on success handler\n     * &update=1(+x) will be appended to the current url\n     *\n     * @param [params] to modify in redirect url\n     * @return {void}\n     */\n\n  }, {\n    key: \"redirectOnSuccess\",\n    value: function redirectOnSuccess(params) {\n      this.setCallback(function () {\n        piwikHelper.redirect(params);\n      });\n    }\n    /**\n     * Sets the callback called in case of an error within the request\n     *\n     * @deprecated use the jquery promise API\n     */\n\n  }, {\n    key: \"setErrorCallback\",\n    value: function setErrorCallback(callback) {\n      this.errorCallback = callback;\n    }\n    /**\n     * Sets the complete callback which is called after an error or success callback.\n     *\n     * @deprecated use the jquery promise API\n     */\n\n  }, {\n    key: \"setCompleteCallback\",\n    value: function setCompleteCallback(callback) {\n      this.completeCallback = callback;\n    }\n    /**\n     * Sets the response format for the request\n     *\n     * @param format  response format (e.g. json, html, ...)\n     */\n\n  }, {\n    key: \"setFormat\",\n    value: function setFormat(format) {\n      this.format = format;\n    }\n    /**\n     * Set the div element to show while request is loading\n     *\n     * @param [element]  selector for the loading element\n     */\n\n  }, {\n    key: \"setLoadingElement\",\n    value: function setLoadingElement(element) {\n      this.loadingElement = element || '#ajaxLoadingDiv';\n    }\n    /**\n     * Set the div element to show on error\n     *\n     * @param element  selector for the error element\n     */\n\n  }, {\n    key: \"setErrorElement\",\n    value: function setErrorElement(element) {\n      if (!element) {\n        return;\n      }\n\n      this.errorElement = element;\n    }\n    /**\n     * Detect whether are allowed to use the given default parameter or not\n     */\n\n  }, {\n    key: \"useGETDefaultParameter\",\n    value: function useGETDefaultParameter(parameter) {\n      if (parameter && this.defaultParams) {\n        for (var i = 0; i < this.defaultParams.length; i += 1) {\n          if (this.defaultParams[i] === parameter) {\n            return true;\n          }\n        }\n      }\n\n      return false;\n    }\n    /**\n     * Removes a default parameter that is usually send automatically along the request.\n     *\n     * @param parameter  A name such as \"period\", \"date\", \"segment\".\n     */\n\n  }, {\n    key: \"removeDefaultParameter\",\n    value: function removeDefaultParameter(parameter) {\n      if (parameter && this.defaultParams) {\n        for (var i = 0; i < this.defaultParams.length; i += 1) {\n          if (this.defaultParams[i] === parameter) {\n            this.defaultParams.splice(i, 1);\n          }\n        }\n      }\n    }\n    /**\n     * Send the request\n     */\n\n  }, {\n    key: \"send\",\n    value: function send() {\n      var _this2 = this;\n\n      if ($(this.errorElement).length) {\n        $(this.errorElement).hide();\n      }\n\n      if (this.loadingElement) {\n        $(this.loadingElement).fadeIn();\n      }\n\n      this.requestHandle = this.buildAjaxCall();\n      window.globalAjaxQueue.push(this.requestHandle);\n      var result = new Promise(function (resolve, reject) {\n        _this2.requestHandle.then(resolve).fail(function (xhr) {\n          if (xhr.statusText !== 'abort') {\n            console.log(\"Warning: the \".concat($.param(_this2.getParams), \" request failed!\"));\n            reject(xhr);\n          }\n        });\n      });\n\n      result.abort = function () {\n        if (_this2.requestHandle) {\n          _this2.requestHandle.abort();\n        }\n      };\n\n      return result;\n    }\n    /**\n     * Aborts the current request if it is (still) running\n     */\n\n  }, {\n    key: \"abort\",\n    value: function abort() {\n      if (this.requestHandle && typeof this.requestHandle.abort === 'function') {\n        this.requestHandle.abort();\n        this.requestHandle = null;\n      }\n    }\n    /**\n     * Builds and sends the ajax requests\n     */\n\n  }, {\n    key: \"buildAjaxCall\",\n    value: function buildAjaxCall() {\n      var _this3 = this;\n\n      var self = this;\n      var parameters = this.mixinDefaultGetParams(this.getParams);\n      var url = this.getUrl;\n\n      if (url[url.length - 1] !== '?') {\n        url += '&';\n      } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param\n      // URL encodes the values)\n\n\n      if (parameters.segment) {\n        url = \"\".concat(url, \"segment=\").concat(parameters.segment, \"&\");\n        delete parameters.segment;\n      }\n\n      if (parameters.date) {\n        url = \"\".concat(url, \"date=\").concat(decodeURIComponent(parameters.date.toString()), \"&\");\n        delete parameters.date;\n      }\n\n      url += $.param(parameters);\n      var ajaxCall = {\n        type: 'POST',\n        async: true,\n        url: url,\n        dataType: this.format || 'json',\n        complete: this.completeCallback,\n        error: function errorCallback() {\n          window.globalAjaxQueue.active -= 1;\n\n          if (self.errorCallback) {\n            for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {\n              args[_key3] = arguments[_key3];\n            }\n\n            self.errorCallback.apply(this, args);\n          }\n        },\n        success: function success(response, status, request) {\n          if (_this3.loadingElement) {\n            $(_this3.loadingElement).hide();\n          }\n\n          if (response && response.result === 'error' && !_this3.useRegularCallbackInCaseOfError) {\n            var placeAt = null;\n            var type = 'toast';\n\n            if ($(_this3.errorElement).length && response.message) {\n              $(_this3.errorElement).show();\n              placeAt = _this3.errorElement;\n              type = null;\n            }\n\n            if (response.message) {\n              var UI = window['require']('piwik/UI'); // eslint-disable-line\n\n              var notification = new UI.Notification();\n              notification.show(response.message, {\n                placeat: placeAt,\n                context: 'error',\n                type: type,\n                id: 'ajaxHelper'\n              });\n              notification.scrollToNotification();\n            }\n          } else if (_this3.callback) {\n            _this3.callback(response, status, request);\n          }\n\n          window.globalAjaxQueue.active -= 1;\n\n          if (_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].ajaxRequestFinished) {\n            _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].ajaxRequestFinished();\n          }\n        },\n        data: this.mixinDefaultPostParams(this.postParams),\n        timeout: this.timeout !== null ? this.timeout : undefined\n      };\n      return $.ajax(ajaxCall);\n    }\n  }, {\n    key: \"isRequestToApiMethod\",\n    value: function isRequestToApiMethod() {\n      return this.getParams && this.getParams.module === 'API' && this.getParams.method || this.postParams && this.postParams.module === 'API' && this.postParams.method;\n    }\n  }, {\n    key: \"isWidgetizedRequest\",\n    value: function isWidgetizedRequest() {\n      return broadcast.getValueFromUrl('module') === 'Widgetize';\n    }\n  }, {\n    key: \"getDefaultPostParams\",\n    value: function getDefaultPostParams() {\n      if (this.withToken || this.isRequestToApiMethod() || _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].shouldPropagateTokenAuth) {\n        return {\n          token_auth: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].token_auth,\n          // When viewing a widgetized report there won't be any session that can be used, so don't\n          // force session usage\n          force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1\n        };\n      }\n\n      return {};\n    }\n    /**\n     * Mixin the default parameters to send as POST\n     *\n     * @param params   parameter object\n     */\n\n  }, {\n    key: \"mixinDefaultPostParams\",\n    value: function mixinDefaultPostParams(params) {\n      var defaultParams = this.getDefaultPostParams();\n\n      var mergedParams = _objectSpread(_objectSpread({}, defaultParams), params);\n\n      return mergedParams;\n    }\n    /**\n     * Mixin the default parameters to send as GET\n     *\n     * @param   params   parameter object\n     */\n\n  }, {\n    key: \"mixinDefaultGetParams\",\n    value: function mixinDefaultGetParams(originalParams) {\n      var _this4 = this;\n\n      var segment = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getSearchParam('segment');\n      var defaultParams = {\n        idSite: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].idSite ? _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].idSite.toString() : broadcast.getValueFromUrl('idSite'),\n        period: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].period || broadcast.getValueFromUrl('period'),\n        segment: segment\n      };\n      var params = originalParams; // never append token_auth to url\n\n      if (params.token_auth) {\n        params.token_auth = null;\n        delete params.token_auth;\n      }\n\n      Object.keys(defaultParams).forEach(function (key) {\n        if (_this4.useGETDefaultParameter(key) && !params[key] && !_this4.postParams[key] && defaultParams[key]) {\n          params[key] = defaultParams[key];\n        }\n      }); // handle default date & period if not already set\n\n      if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {\n        params.date = _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].currentDateString;\n      }\n\n      return params;\n    }\n  }], [{\n    key: \"fetch\",\n    value:\n    /**\n     * Format of response\n     */\n\n    /**\n     * A timeout for the request which will override any global timeout\n     */\n\n    /**\n     * Callback function to be executed on success\n     */\n\n    /**\n     * Use this.callback if an error is returned\n     */\n\n    /**\n     * Callback function to be executed on error\n     *\n     * @deprecated use the jquery promise API\n     */\n\n    /**\n     * Callback function to be executed on complete (after error or success)\n     *\n     * @deprecated use the jquery promise API\n     */\n\n    /**\n     * Params to be passed as GET params\n     * @see ajaxHelper.mixinDefaultGetParams\n     */\n\n    /**\n     * Base URL used in the AJAX request. Can be set by setUrl.\n     *\n     * It is set to '?' rather than 'index.php?' to increase chances that it works\n     * including for users who have an automatic 301 redirection from index.php? to ?\n     * POST values are missing when there is such 301 redirection. So by by-passing\n     * this 301 redirection, we avoid this issue.\n     *\n     * @see ajaxHelper.setUrl\n     */\n\n    /**\n     * Params to be passed as GET params\n     * @see ajaxHelper.mixinDefaultPostParams\n     */\n\n    /**\n     * Element to be displayed while loading\n     */\n\n    /**\n     * Element to be displayed on error\n     */\n\n    /**\n     * Handle for current request\n     */\n    // helper method entry point\n    function fetch(params) {\n      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n      var helper = new AjaxHelper();\n\n      if (options.withTokenInUrl) {\n        helper.withTokenInUrl();\n      }\n\n      helper.setFormat('json');\n      helper.addParams(_objectSpread({\n        module: 'API',\n        format: 'json'\n      }, params), 'get');\n\n      if (options.postParams) {\n        helper.addParams(options.postParams, 'post');\n      }\n\n      return helper.send();\n    }\n  }]);\n\n  return AjaxHelper;\n}();\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts":
+/*!*********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Alert_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Alert.vue */ \"./plugins/CoreHome/vue/src/Alert/Alert.vue\");\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_1__[\"default\"])({\n  component: _Alert_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"],\n  scope: {\n    severity: {\n      vue: 'severity',\n      angularJsBind: '@piwikAlert'\n    }\n  },\n  directiveName: 'piwikAlert',\n  transclude: true\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.vue":
+/*!**************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Alert.vue?vue&type=template&id=52d77d41 */ \"./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41\");\n/* harmony import */ var _Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Alert.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/Alert/Alert.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts":
+/*!**************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Alert.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41":
+/*!********************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41 ***!
+  \********************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Alert.vue?vue&type=template&id=52d77d41 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=52d77d41\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Alert_vue_vue_type_template_id_52d77d41__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Alert/Alert.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts":
+/*!*********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Comparisons.store.instance */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts\");\n/* harmony import */ var _Comparisons_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Comparisons.vue */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nfunction ComparisonFactory() {\n  return _Comparisons_store_instance__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\n}\n\nComparisonFactory.$inject = [];\nangular.module('piwikApp.service').factory('piwikComparisonsService', ComparisonFactory);\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _Comparisons_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\n  directiveName: 'piwikComparisons',\n  restrict: 'E'\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts":
+/*!****************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Comparisons_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Comparisons.store */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts\");\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new _Comparisons_store__WEBPACK_IMPORTED_MODULE_0__[\"default\"]());\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts":
+/*!*******************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return ComparisonsStore; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../MatomoUrl/MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods_Periods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Periods/Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../AjaxHelper/AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n/* harmony import */ var _Segmentation_Segments_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Segmentation/Segments.store */ \"./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts\");\nfunction _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }\n\nfunction _nonIterableSpread() { throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _iterableToArray(iter) { if (typeof Symbol !== \"undefined\" && iter[Symbol.iterator] != null || iter[\"@@iterator\"] != null) return Array.from(iter); }\n\nfunction _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n\nvar SERIES_COLOR_COUNT = 8;\nvar SERIES_SHADE_COUNT = 3;\n\nfunction wrapArray(values) {\n  if (!values) {\n    return [];\n  }\n\n  return values instanceof Array ? values : [values];\n}\n\nvar ComparisonsStore = /*#__PURE__*/function () {\n  // for tests\n  function ComparisonsStore() {\n    var _this = this;\n\n    _classCallCheck(this, ComparisonsStore);\n\n    _defineProperty(this, \"privateState\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({\n      comparisonsDisabledFor: []\n    }));\n\n    _defineProperty(this, \"state\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(this.privateState));\n\n    _defineProperty(this, \"colors\", {});\n\n    _defineProperty(this, \"segmentComparisons\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.parseSegmentComparisons();\n    }));\n\n    _defineProperty(this, \"periodComparisons\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.parsePeriodComparisons();\n    }));\n\n    _defineProperty(this, \"isEnabled\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.checkEnabledForCurrentPage();\n    }));\n\n    this.loadComparisonsDisabledFor();\n    $(function () {\n      _this.colors = _this.getAllSeriesColors();\n    });\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"watch\"])(function () {\n      return _this.getComparisons();\n    }, function () {\n      return _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].postEvent('piwikComparisonsChanged');\n    }, {\n      deep: true\n    });\n  }\n\n  _createClass(ComparisonsStore, [{\n    key: \"getComparisons\",\n    value: function getComparisons() {\n      return this.getSegmentComparisons().concat(this.getPeriodComparisons());\n    }\n  }, {\n    key: \"isComparing\",\n    value: function isComparing() {\n      return this.isComparisonEnabled() // first two in each array are for the currently selected segment/period\n      && (this.segmentComparisons.value.length > 1 || this.periodComparisons.value.length > 1);\n    }\n  }, {\n    key: \"isComparingPeriods\",\n    value: function isComparingPeriods() {\n      return this.getPeriodComparisons().length > 1; // first is currently selected period\n    }\n  }, {\n    key: \"getSegmentComparisons\",\n    value: function getSegmentComparisons() {\n      if (!this.isComparisonEnabled()) {\n        return [];\n      }\n\n      return this.segmentComparisons.value;\n    }\n  }, {\n    key: \"getPeriodComparisons\",\n    value: function getPeriodComparisons() {\n      if (!this.isComparisonEnabled()) {\n        return [];\n      }\n\n      return this.periodComparisons.value;\n    }\n  }, {\n    key: \"getSeriesColor\",\n    value: function getSeriesColor(segmentComparison, periodComparison) {\n      var metricIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;\n      var seriesIndex = this.getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;\n\n      if (metricIndex === 0) {\n        return this.colors[\"series\".concat(seriesIndex)];\n      }\n\n      var shadeIndex = metricIndex % SERIES_SHADE_COUNT;\n      return this.colors[\"series\".concat(seriesIndex, \"-shade\").concat(shadeIndex)];\n    }\n  }, {\n    key: \"getSeriesColorName\",\n    value: function getSeriesColorName(seriesIndex, metricIndex) {\n      var colorName = \"series\".concat(seriesIndex % SERIES_COLOR_COUNT);\n\n      if (metricIndex > 0) {\n        colorName += \"-shade\".concat(metricIndex % SERIES_SHADE_COUNT);\n      }\n\n      return colorName;\n    }\n  }, {\n    key: \"isComparisonEnabled\",\n    value: function isComparisonEnabled() {\n      return this.isEnabled.value;\n    }\n  }, {\n    key: \"getIndividualComparisonRowIndices\",\n    value: function getIndividualComparisonRowIndices(seriesIndex) {\n      var segmentCount = this.getSegmentComparisons().length;\n      var segmentIndex = seriesIndex % segmentCount;\n      var periodIndex = Math.floor(seriesIndex / segmentCount);\n      return {\n        segmentIndex: segmentIndex,\n        periodIndex: periodIndex\n      };\n    }\n  }, {\n    key: \"getComparisonSeriesIndex\",\n    value: function getComparisonSeriesIndex(periodIndex, segmentIndex) {\n      var segmentCount = this.getSegmentComparisons().length;\n      return periodIndex * segmentCount + segmentIndex;\n    }\n  }, {\n    key: \"getAllComparisonSeries\",\n    value: function getAllComparisonSeries() {\n      var _this2 = this;\n\n      var seriesInfo = [];\n      var seriesIndex = 0;\n      this.getPeriodComparisons().forEach(function (periodComp) {\n        _this2.getSegmentComparisons().forEach(function (segmentComp) {\n          seriesInfo.push({\n            index: seriesIndex,\n            params: _objectSpread(_objectSpread({}, segmentComp.params), periodComp.params),\n            color: _this2.colors[\"series\".concat(seriesIndex)]\n          });\n          seriesIndex += 1;\n        });\n      });\n      return seriesInfo;\n    }\n  }, {\n    key: \"removeSegmentComparison\",\n    value: function removeSegmentComparison(index) {\n      if (!this.isComparisonEnabled()) {\n        throw new Error('Comparison disabled.');\n      }\n\n      var newComparisons = _toConsumableArray(this.segmentComparisons.value);\n\n      newComparisons.splice(index, 1);\n      var extraParams = {};\n\n      if (index === 0) {\n        extraParams.segment = newComparisons[0].params.segment;\n      }\n\n      this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value, extraParams);\n    }\n  }, {\n    key: \"addSegmentComparison\",\n    value: function addSegmentComparison(params) {\n      if (!this.isComparisonEnabled()) {\n        throw new Error('Comparison disabled.');\n      }\n\n      var newComparisons = this.segmentComparisons.value.concat([{\n        params: params,\n        index: -1,\n        title: ''\n      }]);\n      this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);\n    }\n  }, {\n    key: \"updateQueryParamsFromComparisons\",\n    value: function updateQueryParamsFromComparisons(segmentComparisons, periodComparisons) {\n      var extraParams = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};\n      // get unique segments/periods/dates from new Comparisons\n      var compareSegments = {};\n      var comparePeriodDatePairs = {};\n      var firstSegment = false;\n      var firstPeriod = false;\n      segmentComparisons.forEach(function (comparison) {\n        if (firstSegment) {\n          compareSegments[comparison.params.segment] = true;\n        } else {\n          firstSegment = true;\n        }\n      });\n      periodComparisons.forEach(function (comparison) {\n        if (firstPeriod) {\n          comparePeriodDatePairs[\"\".concat(comparison.params.period, \"|\").concat(comparison.params.date)] = true;\n        } else {\n          firstPeriod = true;\n        }\n      });\n      var comparePeriods = [];\n      var compareDates = [];\n      Object.keys(comparePeriodDatePairs).forEach(function (pair) {\n        var parts = pair.split('|');\n        comparePeriods.push(parts[0]);\n        compareDates.push(parts[1]);\n      });\n      var compareParams = {\n        compareSegments: Object.keys(compareSegments),\n        comparePeriods: comparePeriods,\n        compareDates: compareDates\n      }; // change the page w/ these new param values\n\n      if (_Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].helper.isAngularRenderingThePage()) {\n        var search = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].hashParsed.value;\n\n        var newSearch = _objectSpread(_objectSpread(_objectSpread({}, search), compareParams), extraParams);\n\n        delete newSearch['compareSegments[]'];\n        delete newSearch['comparePeriods[]'];\n        delete newSearch['compareDates[]'];\n\n        if (JSON.stringify(newSearch) !== JSON.stringify(search)) {\n          _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].updateHash(newSearch);\n        }\n\n        return;\n      }\n\n      var paramsToRemove = [];\n      ['compareSegments', 'comparePeriods', 'compareDates'].forEach(function (name) {\n        if (!compareParams[name].length) {\n          paramsToRemove.push(name);\n        }\n      }); // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change\n      // the segment\n\n      var url = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].stringify(extraParams);\n      var strHash = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].stringify(compareParams);\n      window.broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);\n    }\n  }, {\n    key: \"getAllSeriesColors\",\n    value: function getAllSeriesColors() {\n      var ColorManager = _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].ColorManager;\n\n      if (!ColorManager) {\n        return [];\n      }\n\n      var seriesColorNames = [];\n\n      for (var i = 0; i < SERIES_COLOR_COUNT; i += 1) {\n        seriesColorNames.push(\"series\".concat(i));\n\n        for (var j = 0; j < SERIES_SHADE_COUNT; j += 1) {\n          seriesColorNames.push(\"series\".concat(i, \"-shade\").concat(j));\n        }\n      }\n\n      return ColorManager.getColors('comparison-series-color', seriesColorNames);\n    }\n  }, {\n    key: \"loadComparisonsDisabledFor\",\n    value: function loadComparisonsDisabledFor() {\n      var _this3 = this;\n\n      var matomoModule = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.module;\n\n      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {\n        this.privateState.comparisonsDisabledFor = [];\n        return;\n      }\n\n      _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_5__[\"default\"].fetch({\n        module: 'API',\n        method: 'API.getPagesComparisonsDisabledFor'\n      }).then(function (result) {\n        _this3.privateState.comparisonsDisabledFor = result;\n      });\n    }\n  }, {\n    key: \"parseSegmentComparisons\",\n    value: function parseSegmentComparisons() {\n      var availableSegments = _Segmentation_Segments_store__WEBPACK_IMPORTED_MODULE_6__[\"default\"].state.availableSegments;\n\n      var compareSegments = _toConsumableArray(wrapArray(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.compareSegments)); // add base comparisons\n\n\n      compareSegments.unshift(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.segment || '');\n      var newSegmentComparisons = [];\n      compareSegments.forEach(function (segment, idx) {\n        var storedSegment;\n        availableSegments.forEach(function (s) {\n          if (s.definition === segment || s.definition === decodeURIComponent(segment) || decodeURIComponent(s.definition) === segment) {\n            storedSegment = s;\n          }\n        });\n        var segmentTitle = storedSegment ? storedSegment.name : Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('General_Unknown');\n\n        if (segment.trim() === '') {\n          segmentTitle = Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('SegmentEditor_DefaultAllVisits');\n        }\n\n        newSegmentComparisons.push({\n          params: {\n            segment: segment\n          },\n          title: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].helper.htmlDecode(segmentTitle),\n          index: idx\n        });\n      });\n      return newSegmentComparisons;\n    }\n  }, {\n    key: \"parsePeriodComparisons\",\n    value: function parsePeriodComparisons() {\n      var comparePeriods = _toConsumableArray(wrapArray(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.comparePeriods));\n\n      var compareDates = _toConsumableArray(wrapArray(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.compareDates));\n\n      comparePeriods.unshift(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.period);\n      compareDates.unshift(_MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.date);\n      var newPeriodComparisons = [];\n\n      for (var i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {\n        var title = void 0;\n\n        try {\n          title = _Periods_Periods__WEBPACK_IMPORTED_MODULE_4__[\"default\"].parse(comparePeriods[i], compareDates[i]).getPrettyString();\n        } catch (e) {\n          title = Object(_translate__WEBPACK_IMPORTED_MODULE_3__[\"default\"])('General_Error');\n        }\n\n        newPeriodComparisons.push({\n          params: {\n            date: compareDates[i],\n            period: comparePeriods[i]\n          },\n          title: title,\n          index: i\n        });\n      }\n\n      return newPeriodComparisons;\n    }\n  }, {\n    key: \"checkEnabledForCurrentPage\",\n    value: function checkEnabledForCurrentPage() {\n      // category/subcategory is not included on top bar pages, so in that case we use module/action\n      var category = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.category || _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.module;\n      var subcategory = _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.subcategory || _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_1__[\"default\"].parsed.value.action;\n      var id = \"\".concat(category, \".\").concat(subcategory);\n      var isEnabled = this.privateState.comparisonsDisabledFor.indexOf(id) === -1 && this.privateState.comparisonsDisabledFor.indexOf(\"\".concat(category, \".*\")) === -1;\n      document.documentElement.classList.toggle('comparisonsDisabled', !isEnabled);\n      return isEnabled;\n    }\n  }]);\n\n  return ComparisonsStore;\n}();\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue":
+/*!**************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Comparisons_vue_vue_type_template_id_7ad37cdd__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Comparisons.vue?vue&type=template&id=7ad37cdd */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=7ad37cdd\");\n/* harmony import */ var _Comparisons_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Comparisons.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_Comparisons_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _Comparisons_vue_vue_type_template_id_7ad37cdd__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_Comparisons_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/Comparisons/Comparisons.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_Comparisons_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts":
+/*!**************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Comparisons_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Comparisons.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Comparisons_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=7ad37cdd":
+/*!********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=7ad37cdd ***!
+  \********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Comparisons_vue_vue_type_template_id_7ad37cdd__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Comparisons.vue?vue&type=template&id=7ad37cdd */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=7ad37cdd\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Comparisons_vue_vue_type_template_id_7ad37cdd__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _ContentBlock_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContentBlock.vue */ \"./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _ContentBlock_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    contentTitle: {\n      angularJsBind: '@'\n    },\n    feature: {\n      angularJsBind: '@'\n    },\n    helpUrl: {\n      angularJsBind: '@'\n    },\n    helpText: {\n      angularJsBind: '@'\n    },\n    anchor: {\n      angularJsBind: '@?'\n    }\n  },\n  directiveName: 'piwikContentBlock',\n  transclude: true\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ContentBlock_vue_vue_type_template_id_e0a0b472__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContentBlock.vue?vue&type=template&id=e0a0b472 */ \"./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=e0a0b472\");\n/* harmony import */ var _ContentBlock_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContentBlock.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ContentBlock_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ContentBlock_vue_vue_type_template_id_e0a0b472__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ContentBlock_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ContentBlock_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ContentBlock_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ContentBlock.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ContentBlock_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=e0a0b472":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=e0a0b472 ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ContentBlock_vue_vue_type_template_id_e0a0b472__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ContentBlock.vue?vue&type=template&id=e0a0b472 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?vue&type=template&id=e0a0b472\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ContentBlock_vue_vue_type_template_id_e0a0b472__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts":
+/*!***************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts ***!
+  \***************************************************************/
+/*! exports provided: setCookie, getCookie, deleteCookie */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"setCookie\", function() { return setCookie; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getCookie\", function() { return getCookie; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"deleteCookie\", function() { return deleteCookie; });\n/*\n * General utils for managing cookies in Typescript.\n */\n// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types\nfunction setCookie(name, val, seconds) {\n  var date = new Date(); // set default day to 3 days\n\n  if (!seconds) {\n    // eslint-disable-next-line no-param-reassign\n    seconds = 3 * 24 * 60 * 1000;\n  } // Set it expire in n days\n\n\n  date.setTime(date.getTime() + seconds); // Set it\n\n  document.cookie = \"\".concat(name, \"=\").concat(val, \"; expires=\").concat(date.toUTCString(), \"; path=/\");\n} // eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types\n\nfunction getCookie(name) {\n  var value = \"; \".concat(document.cookie);\n  var parts = value.split(\"; \".concat(name, \"=\")); // if cookie not exist return null\n  // eslint-disable-next-line eqeqeq\n\n  if (parts.length == 2) {\n    // eslint-disable-next-line @typescript-eslint/ban-ts-comment\n    // @ts-ignore\n    var data = parts.pop().split(';').shift();\n\n    if (typeof data !== 'undefined') {\n      return data;\n    }\n  }\n\n  return null;\n} // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types\n\nfunction deleteCookie(name) {\n  var date = new Date(); // Set it expire in -1 days\n\n  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000); // Set it\n\n  document.cookie = \"\".concat(name, \"=; expires=\").concat(date.toUTCString(), \"; path=/\");\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DatePicker/DatePicker.adapter.ts":
+/*!*******************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DatePicker/DatePicker.adapter.ts ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _DatePicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DatePicker.vue */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _DatePicker_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    selectedDateStart: {\n      angularJsBind: '<'\n    },\n    selectedDateEnd: {\n      angularJsBind: '<'\n    },\n    highlightedDateStart: {\n      angularJsBind: '<'\n    },\n    highlightedDateEnd: {\n      angularJsBind: '<'\n    },\n    viewDate: {\n      angularJsBind: '<'\n    },\n    stepMonths: {\n      angularJsBind: '<'\n    },\n    disableMonthDropdown: {\n      angularJsBind: '<'\n    },\n    options: {\n      angularJsBind: '<'\n    },\n    cellHover: {\n      angularJsBind: '&'\n    },\n    cellHoverLeave: {\n      angularJsBind: '&'\n    },\n    dateSelect: {\n      angularJsBind: '&'\n    }\n  },\n  directiveName: 'piwikDatePicker',\n  events: {\n    'cell-hover': function cellHover(event, scope, element, attrs, $timeout) {\n      $timeout(); // trigger new digest\n    },\n    'cell-hover-leave': function cellHoverLeave(event, scope, element, attrs, $timeout) {\n      $timeout(); // trigger new digest\n    },\n    'date-select': function dateSelect(event, scope, element, attrs, $timeout) {\n      $timeout(); // trigger new digest\n    }\n  },\n  $inject: ['$timeout']\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DatePicker/DatePicker.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue":
+/*!************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _DatePicker_vue_vue_type_template_id_b86ba8f2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DatePicker.vue?vue&type=template&id=b86ba8f2 */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=b86ba8f2\");\n/* harmony import */ var _DatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DatePicker.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_DatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _DatePicker_vue_vue_type_template_id_b86ba8f2__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_DatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/DatePicker/DatePicker.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_DatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts":
+/*!************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./DatePicker.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=b86ba8f2":
+/*!******************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=b86ba8f2 ***!
+  \******************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DatePicker_vue_vue_type_template_id_b86ba8f2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./DatePicker.vue?vue&type=template&id=b86ba8f2 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=b86ba8f2\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DatePicker_vue_vue_type_template_id_b86ba8f2__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts":
+/*!*****************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _DateRangePicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DateRangePicker.vue */ \"./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _DateRangePicker_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    startDate: {\n      angularJsBind: '<'\n    },\n    endDate: {\n      angularJsBind: '<'\n    },\n    rangeChange: {\n      angularJsBind: '&'\n    },\n    submit: {\n      angularJsBind: '&'\n    }\n  },\n  directiveName: 'piwikDateRangePicker',\n  restrict: 'E'\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue":
+/*!**********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _DateRangePicker_vue_vue_type_template_id_ba0b4afa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DateRangePicker.vue?vue&type=template&id=ba0b4afa */ \"./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=ba0b4afa\");\n/* harmony import */ var _DateRangePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DateRangePicker.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_DateRangePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _DateRangePicker_vue_vue_type_template_id_ba0b4afa__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_DateRangePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_DateRangePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DateRangePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./DateRangePicker.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DateRangePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=ba0b4afa":
+/*!****************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=ba0b4afa ***!
+  \****************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DateRangePicker_vue_vue_type_template_id_ba0b4afa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./DateRangePicker.vue?vue&type=template&id=ba0b4afa */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=ba0b4afa\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DateRangePicker_vue_vue_type_template_id_ba0b4afa__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.adapter.ts":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.adapter.ts ***!
+  \***********************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _DropdownMenu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DropdownMenu */ \"./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikDropdownMenu($timeout) {\n  return {\n    restrict: 'A',\n    link: function piwikDropdownMenuLink(scope, element, attrs) {\n      var binding = {\n        instance: null,\n        value: {\n          activates: $(\"#\".concat(attrs.activates))[0]\n        },\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      };\n      $timeout(function () {\n        _DropdownMenu__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mounted(element[0], binding);\n      });\n    }\n  };\n}\n\npiwikDropdownMenu.$inject = ['$timeout'];\nangular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts":
+/*!***************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n/**\n * A materializecss dropdown menu that supports submenus.\n *\n * To use a submenu, just use this directive within another dropdown.\n *\n * Note: if submenus are used, then dropdowns will never scroll.\n *\n * Usage:\n * <a class='dropdown-trigger btn' href='' data-target='mymenu' v-dropdown-menu>Menu</a>\n * <ul id='mymenu' class='dropdown-content'>\n *     <li>\n *         <a class='dropdown-trigger' data-target=\"mysubmenu\" v-dropdown-menu>Submenu</a>\n *         <ul id=\"mysubmenu\" class=\"dropdown-content\">\n *             <li>Submenu Item</li>\n *         </ul>\n *     </li>\n *     <li>\n *         <a href=\"\">Another item</a>\n *     </li>\n * </ul>\n */\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(element, binding) {\n    var options = {};\n    $(element).addClass('matomo-dropdown-menu');\n    var isSubmenu = !!$(element).parent().closest('.dropdown-content').length;\n\n    if (isSubmenu) {\n      options = {\n        hover: true\n      };\n      $(element).addClass('submenu');\n      $(binding.value.activates).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll\n\n      $(element).parents('.dropdown-content').addClass('submenu-container');\n    }\n\n    $(element).dropdown(options);\n  }\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts":
+/*!*******************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _EnrichedHeadline_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnrichedHeadline.vue */ \"./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _EnrichedHeadline_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    helpUrl: {\n      angularJsBind: '@'\n    },\n    editUrl: {\n      angularJsBind: '@'\n    },\n    reportGenerated: {\n      angularJsBind: '@?'\n    },\n    featureName: {\n      angularJsBind: '@'\n    },\n    inlineHelp: {\n      angularJsBind: '@?'\n    }\n  },\n  directiveName: 'piwikEnrichedHeadline',\n  transclude: true\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue":
+/*!************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _EnrichedHeadline_vue_vue_type_template_id_1bcb50c7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EnrichedHeadline.vue?vue&type=template&id=1bcb50c7 */ \"./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=1bcb50c7\");\n/* harmony import */ var _EnrichedHeadline_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnrichedHeadline.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_EnrichedHeadline_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _EnrichedHeadline_vue_vue_type_template_id_1bcb50c7__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_EnrichedHeadline_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_EnrichedHeadline_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts":
+/*!************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_EnrichedHeadline_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./EnrichedHeadline.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_EnrichedHeadline_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=1bcb50c7":
+/*!******************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=1bcb50c7 ***!
+  \******************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_EnrichedHeadline_vue_vue_type_template_id_1bcb50c7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./EnrichedHeadline.vue?vue&type=template&id=1bcb50c7 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=1bcb50c7\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_EnrichedHeadline_vue_vue_type_template_id_1bcb50c7__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts":
+/*!*************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return piwikExpandOnClick; });\n/* harmony import */ var _ExpandOnClick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExpandOnClick */ \"./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nfunction piwikExpandOnClick() {\n  return {\n    restrict: 'A',\n    link: function expandOnClickLink(scope, element) {\n      var binding = {\n        instance: null,\n        value: {\n          expander: element.find('.title').first()[0]\n        },\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      };\n      _ExpandOnClick__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mounted(element[0], binding);\n      element.on('$destroy', function () {\n        return _ExpandOnClick__WEBPACK_IMPORTED_MODULE_0__[\"default\"].unmounted(element[0], binding);\n      });\n    }\n  };\n}\npiwikExpandOnClick.$inject = [];\nangular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts":
+/*!*****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction onExpand(element) {\n  element.classList.toggle('expanded');\n  var positionElement = element.querySelector('.dropdown.positionInViewport');\n\n  if (positionElement) {\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"].helper.setMarginLeftToBeInViewport(positionElement);\n  }\n}\n\nfunction onClickOutsideElement(element, binding, event) {\n  var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;\n  binding.value.isMouseDown = false;\n  binding.value.hasScrolled = false;\n\n  if (hadUsedScrollbar) {\n    return;\n  }\n\n  if (!element.contains(event.target)) {\n    element.classList.remove('expanded');\n  }\n}\n\nfunction onScroll(binding) {\n  binding.value.hasScrolled = true;\n}\n\nfunction onMouseDown(binding) {\n  binding.value.isMouseDown = true;\n  binding.value.hasScrolled = false;\n}\n\nfunction onEscapeHandler(element, binding, event) {\n  if (event.which === 27) {\n    binding.value.isMouseDown = false;\n    binding.value.hasScrolled = false;\n    element.classList.remove('expanded');\n  }\n}\n\nvar doc = document.documentElement;\n/**\n * Usage (in a component):\n *\n * directives: {\n *   ExpandOnClick: ExpandOnClick(), // function call is important since we store state\n *                                   // in this directive\n * }\n */\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(el, binding) {\n    binding.value.isMouseDown = false;\n    binding.value.hasScrolled = false;\n    binding.value.onExpand = onExpand.bind(null, el);\n    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);\n    binding.value.onMouseDown = onMouseDown.bind(null, binding);\n    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);\n    binding.value.onScroll = onScroll.bind(null, binding);\n    binding.value.expander.addEventListener('click', binding.value.onExpand);\n    doc.addEventListener('keyup', binding.value.onEscapeHandler);\n    doc.addEventListener('mousedown', binding.value.onMouseDown);\n    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);\n    doc.addEventListener('scroll', binding.value.onScroll);\n  },\n  unmounted: function unmounted(el, binding) {\n    binding.value.expander.removeEventListener('click', binding.value.onExpand);\n    doc.removeEventListener('keyup', binding.value.onEscapeHandler);\n    doc.removeEventListener('mousedown', binding.value.onMouseDown);\n    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);\n    doc.removeEventListener('scroll', binding.value.onScroll);\n  }\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts":
+/*!*************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts ***!
+  \*************************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ExpandOnHover__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExpandOnHover */ \"./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikExpandOnHover() {\n  return {\n    restrict: 'A',\n    link: function expandOnHoverLink(scope, element) {\n      var binding = {\n        instance: null,\n        value: {\n          expander: element.find('.title').first()[0]\n        },\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      };\n      _ExpandOnHover__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mounted(element[0], binding);\n      element.on('$destroy', function () {\n        return _ExpandOnHover__WEBPACK_IMPORTED_MODULE_0__[\"default\"].unmounted(element[0], binding);\n      });\n    }\n  };\n}\n\npiwikExpandOnHover.$inject = [];\nangular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts":
+/*!*****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction onMouseEnter(element) {\n  element.classList.add('expanded');\n  var positionElement = element.querySelector('.dropdown.positionInViewport');\n\n  if (positionElement) {\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"].helper.setMarginLeftToBeInViewport(positionElement);\n  }\n}\n\nfunction onMouseLeave(element) {\n  element.classList.remove('expanded');\n}\n\nfunction onClickOutsideElement(element, event) {\n  if (!element.contains(event.target)) {\n    element.classList.remove('expanded');\n  }\n}\n\nfunction onEscapeHandler(element, event) {\n  if (event.which === 27) {\n    element.classList.remove('expanded');\n  }\n}\n\nvar doc = document.documentElement;\n/**\n * Usage (in a component):\n *\n * directives: {\n *   ExpandOnHover: ExpandOnHover(), // function call is important since we store state\n *                                   // in this directive\n * }\n */\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(el, binding) {\n    binding.value.onMouseEnter = onMouseEnter.bind(null, el);\n    binding.value.onMouseLeave = onMouseLeave.bind(null, el);\n    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el);\n    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el);\n    binding.value.expander.addEventListener('mouseenter', binding.value.onMouseEnter);\n    el.addEventListener('mouseleave', binding.value.onMouseLeave);\n    doc.addEventListener('keyup', binding.value.onEscapeHandler);\n    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);\n  },\n  unmounted: function unmounted(el, binding) {\n    binding.value.expander.removeEventListener('mouseenter', binding.value.onMouseEnter);\n    el.removeEventListener('mouseleave', binding.value.onMouseLeave);\n    document.removeEventListener('keyup', binding.value.onEscapeHandler);\n    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);\n  }\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts":
+/*!***************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts ***!
+  \***************************************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FocusAnywhereButHere */ \"./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n/**\n * The given expression will be executed when the user presses either escape or presses something\n * outside of this element\n *\n * Example:\n * <div piwik-focus-anywhere-but-here=\"closeDialog()\">my dialog</div>\n */\n\nfunction piwikFocusAnywhereButHere() {\n  return {\n    restrict: 'A',\n    link: function focusAnywhereButHereLink(scope, element, attr) {\n      var binding = {\n        instance: null,\n        value: {\n          blur: function blur() {\n            setTimeout(function () {\n              scope.$apply(attr.piwikFocusAnywhereButHere);\n            }, 0);\n          }\n        },\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      };\n      _FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mounted(element[0], binding);\n      element.on('$destroy', function () {\n        return _FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_0__[\"default\"].unmounted(element[0], binding);\n      });\n    }\n  };\n}\n\npiwikFocusAnywhereButHere.$inject = [];\nangular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwikFocusAnywhereButHere);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts":
+/*!*******************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction onClickOutsideElement(element, binding, event) {\n  var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;\n  binding.value.isMouseDown = false;\n  binding.value.hasScrolled = false;\n\n  if (hadUsedScrollbar) {\n    return;\n  }\n\n  if (!element.contains(event.target)) {\n    if (binding.value) {\n      binding.value.blur();\n    }\n  }\n}\n\nfunction onScroll(element, binding) {\n  binding.value.hasScrolled = true;\n}\n\nfunction onMouseDown(element, binding) {\n  binding.value.isMouseDown = true;\n  binding.value.hasScrolled = false;\n}\n\nfunction onEscapeHandler(element, binding, event) {\n  if (event.which === 27) {\n    setTimeout(function () {\n      binding.value.isMouseDown = false;\n      binding.value.hasScrolled = false;\n\n      if (binding.value.blur) {\n        binding.value.blur();\n      }\n    }, 0);\n  }\n}\n\nvar doc = document.documentElement;\n/**\n * Usage (in a component):\n *\n * directives: {\n *   // function call is important since we store state in this directive\n *   FocusAnywhereButHere: FocusAnywhereButHere(),\n * }\n *\n * Note: the binding data needs to be static, changes will not be handled.\n */\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(el, binding) {\n    binding.value.isMouseDown = false;\n    binding.value.hasScrolled = false;\n    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);\n    binding.value.onMouseDown = onMouseDown.bind(null, el, binding);\n    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);\n    binding.value.onScroll = onScroll.bind(null, el, binding);\n    doc.addEventListener('keyup', binding.value.onEscapeHandler);\n    doc.addEventListener('mousedown', binding.value.onMouseDown);\n    doc.addEventListener('mouseup', binding.value.onClickOutsideElement);\n    doc.addEventListener('scroll', binding.value.onScroll);\n  },\n  unmounted: function unmounted(el, binding) {\n    doc.removeEventListener('keyup', binding.value.onEscapeHandler);\n    doc.removeEventListener('mousedown', binding.value.onMouseDown);\n    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);\n    doc.removeEventListener('scroll', binding.value.onScroll);\n  }\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/FocusIf/FocusIf.adapter.ts":
+/*!*************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/FocusIf/FocusIf.adapter.ts ***!
+  \*************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _FocusIf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FocusIf */ \"./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n/**\n * If the given expression evaluates to true the element will be focused\n *\n * Example:\n * <input type=\"text\" piwik-focus-if=\"view.editName\">\n */\n\nfunction piwikFocusIf() {\n  return {\n    restrict: 'A',\n    link: function focusIfLink(scope, element, attrs) {\n      scope.$watch(attrs.piwikFocusIf, function (newValue) {\n        var binding = {\n          instance: null,\n          arg: newValue ? '1' : undefined,\n          value: {\n            afterFocus: function afterFocus() {\n              return scope.$apply();\n            }\n          },\n          oldValue: null,\n          modifiers: {},\n          dir: {}\n        };\n        _FocusIf__WEBPACK_IMPORTED_MODULE_0__[\"default\"].updated(element[0], binding);\n      });\n    }\n  };\n}\n\nangular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/FocusIf/FocusIf.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts":
+/*!*****************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction doFocusIf(el, binding) {\n  if (binding.arg) {\n    setTimeout(function () {\n      el.focus();\n\n      if (binding.value.afterFocus) {\n        binding.value.afterFocus();\n      }\n    }, 5);\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(el, binding) {\n    doFocusIf(el, binding);\n  },\n  updated: function updated(el, binding) {\n    doFocusIf(el, binding);\n  }\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts":
+/*!***********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts ***!
+  \***********************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Matomo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikService() {\n  return _Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n}\n\nwindow.angular.module('piwikApp.service').service('piwik', piwikService);\n\nfunction initPiwikService(piwik, $rootScope) {\n  // overwrite $rootScope so all events also go through Matomo.postEvent(...) too.\n  $rootScope.$oldEmit = $rootScope.$emit; // eslint-disable-line\n\n  $rootScope.$emit = function emitWrapper(name) {\n    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {\n      args[_key - 1] = arguments[_key];\n    }\n\n    _Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"].postEvent.apply(_Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"], [name].concat(args)); // can't always get the result. it's not really used in angularjs though, so it should be ok.\n\n    return null;\n  };\n\n  $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line\n\n  $rootScope.$broadcast = function broadcastWrapper(name) {\n    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {\n      args[_key2 - 1] = arguments[_key2];\n    }\n\n    _Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"].postEventNoEmit.apply(_Matomo__WEBPACK_IMPORTED_MODULE_0__[\"default\"], [name].concat(args));\n    return $rootScope.$oldBroadcast.apply($rootScope, [name].concat(args)); // eslint-disable-line\n  };\n\n  $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);\n}\n\ninitPiwikService.$inject = ['piwik', '$rootScope'];\nwindow.angular.module('piwikApp.service').run(initPiwikService);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Matomo/Matomo.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Matomo/Matomo.ts ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Periods_Periods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Periods/Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\nfunction _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }\n\nfunction _nonIterableSpread() { throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _iterableToArray(iter) { if (typeof Symbol !== \"undefined\" && iter[Symbol.iterator] != null || iter[\"@@iterator\"] != null) return Array.from(iter); }\n\nfunction _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nvar originalTitle;\nvar _window = window,\n    piwik = _window.piwik,\n    broadcast = _window.broadcast,\n    piwikHelper = _window.piwikHelper;\npiwik.helper = piwikHelper;\npiwik.broadcast = broadcast;\n\npiwik.updateDateInTitle = function updateDateInTitle(date, period) {\n  if (!$('.top_controls #periodString').length) {\n    return;\n  } // Cache server-rendered page title\n\n\n  originalTitle = originalTitle || document.title;\n\n  if (originalTitle.indexOf(piwik.siteName) === 0) {\n    var dateString = \" - \".concat(_Periods_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].parse(period, date).getPrettyString(), \" \");\n    document.title = \"\".concat(piwik.siteName).concat(dateString).concat(originalTitle.substr(piwik.siteName.length));\n  }\n};\n\npiwik.hasUserCapability = function hasUserCapability(capability) {\n  return window.angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;\n};\n\npiwik.on = function addMatomoEventListener(eventName, listener) {\n  function listenerWrapper(evt) {\n    listener.apply(void 0, _toConsumableArray(evt.detail)); // eslint-disable-line\n  }\n\n  listener.wrapper = listenerWrapper;\n  window.addEventListener(eventName, listenerWrapper);\n};\n\npiwik.off = function removeMatomoEventListener(eventName, listener) {\n  if (listener.wrapper) {\n    window.removeEventListener(eventName, listener.wrapper);\n  }\n};\n\npiwik.postEventNoEmit = function postEventNoEmit(eventName) {\n  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {\n    args[_key - 1] = arguments[_key];\n  }\n\n  var event = new CustomEvent(eventName, {\n    detail: args\n  });\n  window.dispatchEvent(event);\n};\n\npiwik.postEvent = function postMatomoEvent(eventName) {\n  for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {\n    args[_key2 - 1] = arguments[_key2];\n  }\n\n  piwik.postEventNoEmit.apply(piwik, [eventName].concat(args)); // required until angularjs is removed\n\n  window.angular.element(function () {\n    var $rootScope = piwik.helper.getAngularDependency('$rootScope'); // eslint-disable-line\n\n    $rootScope.$oldEmit.apply($rootScope, [eventName].concat(args));\n  });\n};\n\nvar Matomo = piwik;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Matomo);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Matomo/Matomo.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _MatomoDialog_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MatomoDialog.vue */ \"./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue\");\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_1__[\"default\"])({\n  component: _MatomoDialog_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"],\n  scope: {\n    show: {\n      vue: 'modelValue',\n      default: false\n    },\n    element: {\n      default: function _default(scope, element) {\n        return element[0];\n      }\n    }\n  },\n  events: {\n    yes: function yes($event, vm, scope, element, attrs) {\n      if (attrs.yes) {\n        scope.$eval(attrs.yes);\n        setTimeout(function () {\n          scope.$apply();\n        }, 0);\n      }\n    },\n    no: function no($event, vm, scope, element, attrs) {\n      if (attrs.no) {\n        scope.$eval(attrs.no);\n        setTimeout(function () {\n          scope.$apply();\n        }, 0);\n      }\n    },\n    validation: function validation($event, vm, scope, element, attrs) {\n      if (attrs.no) {\n        scope.$eval(attrs.no);\n        setTimeout(function () {\n          scope.$apply();\n        }, 0);\n      }\n    },\n    close: function close($event, scope, element, attrs) {\n      if (attrs.close) {\n        scope.$eval(attrs.close);\n        setTimeout(function () {\n          scope.$apply();\n        }, 0);\n      }\n    },\n    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, controller, $parse) {\n      setTimeout(function () {\n        scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));\n      }, 0);\n    }\n  },\n  $inject: ['$parse'],\n  directiveName: 'piwikDialog',\n  transclude: true,\n  mountPointFactory: function mountPointFactory(scope, element) {\n    var vueRootPlaceholder = $('<div class=\"vue-placeholder\"/>');\n    vueRootPlaceholder.appendTo(element);\n    return vueRootPlaceholder[0];\n  },\n  postCreate: function postCreate(vm, scope, element, attrs) {\n    scope.$watch(attrs.piwikDialog, function (newValue, oldValue) {\n      if (oldValue !== newValue) {\n        vm.modelValue = newValue || false;\n      }\n    });\n  },\n  noScope: true\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _MatomoDialog_vue_vue_type_template_id_752dc5e7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MatomoDialog.vue?vue&type=template&id=752dc5e7 */ \"./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=752dc5e7\");\n/* harmony import */ var _MatomoDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MatomoDialog.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_MatomoDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _MatomoDialog_vue_vue_type_template_id_752dc5e7__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_MatomoDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_MatomoDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MatomoDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./MatomoDialog.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MatomoDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=752dc5e7":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=752dc5e7 ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MatomoDialog_vue_vue_type_template_id_752dc5e7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./MatomoDialog.vue?vue&type=template&id=752dc5e7 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?vue&type=template&id=752dc5e7\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MatomoDialog_vue_vue_type_template_id_752dc5e7__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts":
+/*!*****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts ***!
+  \*****************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _MatomoUrl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikUrl() {\n  var model = {\n    getSearchParam: _MatomoUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getSearchParam.bind(_MatomoUrl__WEBPACK_IMPORTED_MODULE_0__[\"default\"])\n  };\n  return model;\n}\n\npiwikUrl.$inject = [];\nangular.module('piwikApp.service').service('piwikUrl', piwikUrl);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts":
+/*!*********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Periods */ \"./plugins/CoreHome/vue/src/Periods/index.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n // important to load all periods here\n\nvar _window = window,\n    piwik = _window.piwik,\n    broadcast = _window.broadcast;\n\nfunction isValidPeriod(periodStr, dateStr) {\n  try {\n    _Periods__WEBPACK_IMPORTED_MODULE_2__[\"Periods\"].parse(periodStr, dateStr);\n    return true;\n  } catch (e) {\n    return false;\n  }\n}\n/**\n * URL store and helper functions.\n */\n\n\nvar MatomoUrl = /*#__PURE__*/function () {\n  function MatomoUrl() {\n    var _this = this;\n\n    _classCallCheck(this, MatomoUrl);\n\n    _defineProperty(this, \"urlQuery\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(''));\n\n    _defineProperty(this, \"hashQuery\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(''));\n\n    _defineProperty(this, \"urlParsed\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(broadcast.getValuesFromUrl(\"?\".concat(_this.urlQuery.value), true));\n    }));\n\n    _defineProperty(this, \"hashParsed\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(broadcast.getValuesFromUrl(\"?\".concat(_this.hashQuery.value), true));\n    }));\n\n    _defineProperty(this, \"parsed\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(_objectSpread(_objectSpread({}, _this.urlParsed.value), _this.hashParsed.value));\n    }));\n\n    this.setUrlQuery(window.location.search);\n    this.setHashQuery(window.location.hash); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we\n    // have to hook into this method if we want our event handlers to execute before other angularjs\n    // handlers (like the reporting page one)\n\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].on('$locationChangeSuccess', function (absUrl) {\n      var url = new URL(absUrl);\n\n      _this.setUrlQuery(url.search.replace(/^\\?/, ''));\n\n      _this.setHashQuery(url.hash.replace(/^#/, ''));\n    });\n    this.updatePeriodParamsFromUrl();\n  }\n\n  _createClass(MatomoUrl, [{\n    key: \"updateHash\",\n    value: function updateHash(params) {\n      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;\n      var $location = _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].helper.getAngularDependency('$location');\n      $location.search(serializedParams);\n    }\n  }, {\n    key: \"updateUrl\",\n    value: function updateUrl(params) {\n      var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;\n      var serializedHashParams = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;\n      var url = \"?\".concat(serializedParams);\n\n      if (serializedHashParams.length) {\n        url = \"\".concat(url, \"#?\").concat(serializedHashParams);\n      }\n\n      window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);\n    }\n  }, {\n    key: \"getSearchParam\",\n    value: function getSearchParam(paramName) {\n      var hash = window.location.href.split('#');\n      var regex = new RegExp(\"\".concat(paramName, \"(\\\\[]|=)\"));\n\n      if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {\n        var valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided\n\n        if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {\n          return valueFromHash;\n        }\n      }\n\n      return window.broadcast.getValueFromUrl(paramName, window.location.search);\n    }\n  }, {\n    key: \"stringify\",\n    value: function stringify(search) {\n      // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them\n      return $.param(search).replace(/%5B%5D/g, '[]');\n    }\n  }, {\n    key: \"updatePeriodParamsFromUrl\",\n    value: function updatePeriodParamsFromUrl() {\n      var date = this.getSearchParam('date');\n      var period = this.getSearchParam('period');\n\n      if (!isValidPeriod(period, date)) {\n        // invalid data in URL\n        return;\n      }\n\n      if (piwik.period === period && piwik.currentDateString === date) {\n        // this period / date is already loaded\n        return;\n      }\n\n      piwik.period = period;\n      var dateRange = _Periods__WEBPACK_IMPORTED_MODULE_2__[\"Periods\"].parse(period, date).getDateRange();\n      piwik.startDateString = Object(_Periods__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(dateRange[0]);\n      piwik.endDateString = Object(_Periods__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(dateRange[1]);\n      piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins\n      // to have the dates than previousN/lastN.\n\n      if (piwik.period === 'range') {\n        date = \"\".concat(piwik.startDateString, \",\").concat(piwik.endDateString);\n      }\n\n      piwik.currentDateString = date;\n    }\n  }, {\n    key: \"setUrlQuery\",\n    value: function setUrlQuery(search) {\n      this.urlQuery.value = search.replace(/^\\?/, '');\n    }\n  }, {\n    key: \"setHashQuery\",\n    value: function setHashQuery(hash) {\n      this.hashQuery.value = hash.replace(/^[#/?]+/, '');\n    }\n  }]);\n\n  return MatomoUrl;\n}();\n\nvar instance = new MatomoUrl();\n/* harmony default export */ __webpack_exports__[\"default\"] = (instance);\npiwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.adapter.ts":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.adapter.ts ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _MenuDropdown_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuDropdown.vue */ \"./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _MenuDropdown_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    menuTitle: {\n      angularJsBind: '@'\n    },\n    tooltip: {\n      angularJsBind: '@'\n    },\n    showSearch: {\n      angularJsBind: '='\n    },\n    menuTitleChangeOnClick: {\n      angularJsBind: '='\n    }\n  },\n  directiveName: 'piwikMenudropdown',\n  transclude: true,\n  events: {\n    'after-select': function afterSelect($event, scope) {\n      setTimeout(function () {\n        scope.$apply();\n      }, 0);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _MenuDropdown_vue_vue_type_template_id_99f4c172__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MenuDropdown.vue?vue&type=template&id=99f4c172 */ \"./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=99f4c172\");\n/* harmony import */ var _MenuDropdown_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuDropdown.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_MenuDropdown_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _MenuDropdown_vue_vue_type_template_id_99f4c172__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_MenuDropdown_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_MenuDropdown_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MenuDropdown_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./MenuDropdown.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MenuDropdown_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=99f4c172":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=99f4c172 ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MenuDropdown_vue_vue_type_template_id_99f4c172__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./MenuDropdown.vue?vue&type=template&id=99f4c172 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?vue&type=template&id=99f4c172\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_MenuDropdown_vue_vue_type_template_id_99f4c172__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _Notification_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Notification.vue */ \"./plugins/CoreHome/vue/src/Notification/Notification.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _Notification_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    notificationId: {\n      angularJsBind: '@?'\n    },\n    title: {\n      angularJsBind: '@?notificationTitle'\n    },\n    context: {\n      angularJsBind: '@?'\n    },\n    type: {\n      angularJsBind: '@?'\n    },\n    noclear: {\n      angularJsBind: '@?',\n      transform: function transform(v) {\n        return !!v;\n      }\n    },\n    toastLength: {\n      angularJsBind: '@?'\n    }\n  },\n  directiveName: 'piwikNotification',\n  transclude: true\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/Notification.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/Notification.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Notification_vue_vue_type_template_id_252d9b27__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Notification.vue?vue&type=template&id=252d9b27 */ \"./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=252d9b27\");\n/* harmony import */ var _Notification_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Notification.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_Notification_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _Notification_vue_vue_type_template_id_252d9b27__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_Notification_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/Notification/Notification.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_Notification_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notification.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Notification_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Notification.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Notification_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notification.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=252d9b27":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=252d9b27 ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Notification_vue_vue_type_template_id_252d9b27__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Notification.vue?vue&type=template&id=252d9b27 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/Notification.vue?vue&type=template&id=252d9b27\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Notification_vue_vue_type_template_id_252d9b27__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notification.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue":
+/*!*********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _NotificationGroup_vue_vue_type_template_id_e008eb70__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NotificationGroup.vue?vue&type=template&id=e008eb70 */ \"./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e008eb70\");\n/* harmony import */ var _NotificationGroup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NotificationGroup.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_NotificationGroup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _NotificationGroup_vue_vue_type_template_id_e008eb70__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_NotificationGroup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/Notification/NotificationGroup.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_NotificationGroup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts":
+/*!*********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_NotificationGroup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./NotificationGroup.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_NotificationGroup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e008eb70":
+/*!***************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e008eb70 ***!
+  \***************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_NotificationGroup_vue_vue_type_template_id_e008eb70__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./NotificationGroup.vue?vue&type=template&id=e008eb70 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=template&id=e008eb70\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_NotificationGroup_vue_vue_type_template_id_e008eb70__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/Notifications.store.adapter.ts":
+/*!******************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/Notifications.store.adapter.ts ***!
+  \******************************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Notifications_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Notifications.store */ \"./plugins/CoreHome/vue/src/Notification/Notifications.store.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nangular.module('piwikApp').factory('notifications', function () {\n  return _Notifications_store__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notifications.store.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/Notifications.store.ts":
+/*!**********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/Notifications.store.ts ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Notification_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Notification.vue */ \"./plugins/CoreHome/vue/src/Notification/Notification.vue\");\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\nvar NotificationsStore = /*#__PURE__*/function () {\n  function NotificationsStore() {\n    _classCallCheck(this, NotificationsStore);\n\n    _defineProperty(this, \"privateState\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({\n      notifications: []\n    }));\n\n    _defineProperty(this, \"nextNotificationId\", 0);\n  }\n\n  _createClass(NotificationsStore, [{\n    key: \"state\",\n    get: function get() {\n      return this.privateState;\n    }\n  }, {\n    key: \"appendNotification\",\n    value: function appendNotification(notification) {\n      this.checkMessage(notification.message); // remove existing notification before adding\n\n      if (notification.id) {\n        this.remove(notification.id);\n      }\n\n      this.privateState.notifications.push(notification);\n    }\n  }, {\n    key: \"prependNotification\",\n    value: function prependNotification(notification) {\n      this.checkMessage(notification.message); // remove existing notification before adding\n\n      if (notification.id) {\n        this.remove(notification.id);\n      }\n\n      this.privateState.notifications.unshift(notification);\n    }\n    /**\n     * Removes a previously shown notification having the given notification id.\n     */\n\n  }, {\n    key: \"remove\",\n    value: function remove(id) {\n      this.privateState.notifications = this.privateState.notifications.filter(function (n) {\n        return n.id !== id;\n      });\n    }\n  }, {\n    key: \"parseNotificationDivs\",\n    value: function parseNotificationDivs() {\n      var _this = this;\n\n      var $notificationNodes = $('[data-role=\"notification\"]');\n      var notificationsToShow = [];\n      $notificationNodes.each(function (index, notificationNode) {\n        var $notificationNode = $(notificationNode);\n        var attributes = $notificationNode.data();\n        var message = $notificationNode.html();\n\n        if (message) {\n          notificationsToShow.push(_objectSpread(_objectSpread({}, attributes), {}, {\n            message: message,\n            animate: false\n          }));\n        }\n\n        $notificationNodes.remove();\n      });\n      notificationsToShow.forEach(function (n) {\n        return _this.show(n);\n      });\n    }\n  }, {\n    key: \"clearTransientNotifications\",\n    value: function clearTransientNotifications() {\n      this.privateState.notifications = this.privateState.notifications.filter(function (n) {\n        return n.type !== 'transient';\n      });\n    }\n    /**\n     * Creates a notification and shows it to the user.\n     */\n\n  }, {\n    key: \"show\",\n    value: function show(notification) {\n      this.checkMessage(notification.message);\n      var addMethod = this.appendNotification;\n      var notificationPosition = '#notificationContainer';\n\n      if (notification.placeat) {\n        notificationPosition = notification.placeat;\n      } else {\n        // If a modal is open, we want to make sure the error message is visible and therefore\n        // show it within the opened modal\n        var modalSelector = '.modal.open .modal-content';\n\n        if (document.querySelector(modalSelector)) {\n          notificationPosition = modalSelector;\n          addMethod = this.prependNotification;\n        }\n      }\n\n      var group = notification.group || (notification.placeat ? notification.placeat.toString() : '');\n      this.initializeNotificationContainer(notificationPosition, group);\n      var notificationInstanceId = (this.nextNotificationId += 1).toString();\n      addMethod.call(this, _objectSpread(_objectSpread({}, notification), {}, {\n        noclear: !!notification.noclear,\n        group: group,\n        notificationId: notification.id,\n        notificationInstanceId: notificationInstanceId,\n        type: notification.type || 'transient'\n      }));\n      return notificationInstanceId;\n    }\n  }, {\n    key: \"scrollToNotification\",\n    value: function scrollToNotification(notificationInstanceId) {\n      setTimeout(function () {\n        var element = document.querySelector(\"[data-notification-instance-id='\".concat(notificationInstanceId, \"']\"));\n\n        if (element) {\n          _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_3__[\"default\"].helper.lazyScrollTo(element, 250);\n        }\n      });\n    }\n    /**\n     * Shows a notification at a certain point with a quick upwards animation.\n     */\n\n  }, {\n    key: \"toast\",\n    value: function toast(notification) {\n      this.checkMessage(notification.message);\n      var $placeat = $(notification.placeat);\n\n      if (!$placeat.length) {\n        throw new Error('A valid selector is required for the placeat option when using Notification.toast().');\n      }\n\n      var toastElement = document.createElement('div');\n      toastElement.style.position = 'absolute';\n      toastElement.style.top = \"\".concat($placeat.offset().top, \"px\");\n      toastElement.style.left = \"\".concat($placeat.offset().left, \"px\");\n      toastElement.style.zIndex = '1000';\n      document.body.appendChild(toastElement);\n      var app = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createApp\"])({\n        render: function render() {\n          return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_Notification_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"], _objectSpread(_objectSpread({}, notification), {}, {\n            notificationId: notification.id,\n            type: 'toast',\n            onClosed: function onClosed() {\n              app.unmount();\n            }\n          }));\n        }\n      });\n      app.config.globalProperties.$sanitize = window.vueSanitize;\n      app.config.globalProperties.translate = _translate__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\n      app.mount(toastElement);\n    }\n  }, {\n    key: \"initializeNotificationContainer\",\n    value: function initializeNotificationContainer(notificationPosition, group) {\n      var $container = window.$(notificationPosition);\n\n      if ($container.children('.notification-group').length) {\n        return;\n      } // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need\n      // to be dynamically initialized.\n\n\n      var NotificationGroup = window.CoreHome.NotificationGroup; // eslint-disable-line\n\n      var app = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createApp\"])({\n        template: '<NotificationGroup :group=\"group\"></NotificationGroup>',\n        data: function data() {\n          return {\n            group: group\n          };\n        }\n      });\n      app.config.globalProperties.$sanitize = window.vueSanitize;\n      app.config.globalProperties.translate = _translate__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\n      app.component('NotificationGroup', NotificationGroup);\n      app.mount($container[0]);\n    }\n  }, {\n    key: \"checkMessage\",\n    value: function checkMessage(message) {\n      if (!message) {\n        throw new Error('No message given, cannot display notification');\n      }\n    }\n  }]);\n\n  return NotificationsStore;\n}();\n\nvar instance = new NotificationsStore();\n/* harmony default export */ __webpack_exports__[\"default\"] = (instance); // parse notifications on dom load\n\n$(function () {\n  return instance.parseNotificationDivs();\n});\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/Notifications.store.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Notification/index.ts":
+/*!********************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Notification/index.ts ***!
+  \********************************************************/
+/*! exports provided: Notification, NotificationGroup, NotificationsStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Notification_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Notification.adapter */ \"./plugins/CoreHome/vue/src/Notification/Notification.adapter.ts\");\n/* harmony import */ var _Notifications_store_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Notifications.store.adapter */ \"./plugins/CoreHome/vue/src/Notification/Notifications.store.adapter.ts\");\n/* harmony import */ var _Notification_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Notification.vue */ \"./plugins/CoreHome/vue/src/Notification/Notification.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Notification\", function() { return _Notification_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/* harmony import */ var _NotificationGroup_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NotificationGroup.vue */ \"./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"NotificationGroup\", function() { return _NotificationGroup_vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/* harmony import */ var _Notifications_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Notifications.store */ \"./plugins/CoreHome/vue/src/Notification/Notifications.store.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"NotificationsStore\", function() { return _Notifications_store__WEBPACK_IMPORTED_MODULE_4__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Notification/index.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts":
+/*!*******************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _PeriodDatePicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PeriodDatePicker.vue */ \"./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _PeriodDatePicker_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    period: {\n      angularJsBind: '<'\n    },\n    date: {\n      angularJsBind: '<'\n    },\n    select: {\n      angularJsBind: '&'\n    }\n  },\n  directiveName: 'piwikPeriodDatePicker',\n  restrict: 'E'\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue":
+/*!************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _PeriodDatePicker_vue_vue_type_template_id_7d8baf67__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PeriodDatePicker.vue?vue&type=template&id=7d8baf67 */ \"./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=7d8baf67\");\n/* harmony import */ var _PeriodDatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PeriodDatePicker.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_PeriodDatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _PeriodDatePicker_vue_vue_type_template_id_7d8baf67__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_PeriodDatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_PeriodDatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts":
+/*!************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_PeriodDatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./PeriodDatePicker.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_PeriodDatePicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=7d8baf67":
+/*!******************************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=7d8baf67 ***!
+  \******************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_PeriodDatePicker_vue_vue_type_template_id_7d8baf67__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./PeriodDatePicker.vue?vue&type=template&id=7d8baf67 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=7d8baf67\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_PeriodDatePicker_vue_vue_type_template_id_7d8baf67__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Day.ts":
+/*!*************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Day.ts ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return DayPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nvar DayPeriod = /*#__PURE__*/function () {\n  function DayPeriod(dateInPeriod) {\n    _classCallCheck(this, DayPeriod);\n\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  _createClass(DayPeriod, [{\n    key: \"getPrettyString\",\n    value: function getPrettyString() {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.dateInPeriod);\n    }\n  }, {\n    key: \"getDateRange\",\n    value: function getDateRange() {\n      return [new Date(this.dateInPeriod.getTime()), new Date(this.dateInPeriod.getTime())];\n    }\n  }, {\n    key: \"containsToday\",\n    value: function containsToday() {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n    }\n  }], [{\n    key: \"parse\",\n    value: function parse(strDate) {\n      return new DayPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n    }\n  }, {\n    key: \"getDisplayText\",\n    value: function getDisplayText() {\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodDay');\n    }\n  }]);\n\n  return DayPeriod;\n}();\n\n\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('day', DayPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Day.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Month.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Month.ts ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return MonthPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nvar MonthPeriod = /*#__PURE__*/function () {\n  function MonthPeriod(dateInPeriod) {\n    _classCallCheck(this, MonthPeriod);\n\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  _createClass(MonthPeriod, [{\n    key: \"getPrettyString\",\n    value: function getPrettyString() {\n      var month = Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"Intl_Month_Long_StandAlone_\".concat(this.dateInPeriod.getMonth() + 1));\n      return \"\".concat(month, \" \").concat(this.dateInPeriod.getFullYear());\n    }\n  }, {\n    key: \"getDateRange\",\n    value: function getDateRange() {\n      var startMonth = new Date(this.dateInPeriod.getTime());\n      startMonth.setDate(1);\n      var endMonth = new Date(this.dateInPeriod.getTime());\n      endMonth.setDate(1);\n      endMonth.setMonth(endMonth.getMonth() + 1);\n      endMonth.setDate(0);\n      return [startMonth, endMonth];\n    }\n  }, {\n    key: \"containsToday\",\n    value: function containsToday() {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n    }\n  }], [{\n    key: \"parse\",\n    value: function parse(strDate) {\n      return new MonthPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n    }\n  }, {\n    key: \"getDisplayText\",\n    value: function getDisplayText() {\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodMonth');\n    }\n  }]);\n\n  return MonthPeriod;\n}();\n\n\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('month', MonthPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Month.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts":
+/*!*************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts ***!
+  \*************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _Range__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Range */ \"./plugins/CoreHome/vue/src/Periods/Range.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nwindow.piwik.addCustomPeriod = _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addCustomPeriod.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n\nfunction piwikPeriods() {\n  return {\n    getAllLabels: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getAllLabels.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    isRecognizedPeriod: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].isRecognizedPeriod.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    get: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].get.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    parse: _Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"].parse.bind(_Periods__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n    parseDate: _utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"],\n    format: _utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"],\n    RangePeriod: _Range__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    todayIsInRange: _utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"]\n  };\n}\n\nwindow.angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Periods.ts":
+/*!*****************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Periods.ts ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n/**\n * Matomo period management service for the frontend.\n *\n * Usage:\n *\n *     var DayPeriod = matomoPeriods.get('day');\n *     var day = new DayPeriod(new Date());\n *\n * or\n *\n *     var day = matomoPeriods.parse('day', '2013-04-05');\n *\n * Adding custom periods:\n *\n * To add your own period to the frontend, create a period class for it\n * w/ the following methods:\n *\n * - **getPrettyString()**: returns a human readable display string for the period.\n * - **getDateRange()**: returns an array w/ two elements, the first being the start\n *                       Date of the period, the second being the end Date. The dates\n *                       must be Date objects, not strings, and are inclusive.\n * - **containsToday()**: returns true if the date period contains today. False if not.\n * - (_static_) **parse(strDate)**: creates a new instance of this period from the\n *                                  value of the 'date' query parameter.\n * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',\n *                                  'week', etc.\n *\n * Then call Periods.addCustomPeriod w/ your period class:\n *\n *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);\n *\n * NOTE: currently only single date periods like day, week, month year can\n *       be extended. Other types of periods that require a special UI to\n *       view/edit aren't, since there is currently no way to use a\n *       custom UI for a custom period.\n */\nvar Periods = /*#__PURE__*/function () {\n  function Periods() {\n    _classCallCheck(this, Periods);\n\n    _defineProperty(this, \"periods\", {});\n\n    _defineProperty(this, \"periodOrder\", []);\n  }\n\n  _createClass(Periods, [{\n    key: \"addCustomPeriod\",\n    value: function addCustomPeriod(name, periodClass) {\n      if (this.periods[name]) {\n        throw new Error(\"The \\\"\".concat(name, \"\\\" period already exists! It cannot be overridden.\"));\n      }\n\n      this.periods[name] = periodClass;\n      this.periodOrder.push(name);\n    }\n  }, {\n    key: \"getAllLabels\",\n    value: function getAllLabels() {\n      return Array().concat(this.periodOrder);\n    }\n  }, {\n    key: \"get\",\n    value: function get(strPeriod) {\n      var periodClass = this.periods[strPeriod];\n\n      if (!periodClass) {\n        throw new Error(\"Invalid period label: \".concat(strPeriod));\n      }\n\n      return periodClass;\n    }\n  }, {\n    key: \"parse\",\n    value: function parse(strPeriod, strDate) {\n      return this.get(strPeriod).parse(strDate);\n    }\n  }, {\n    key: \"isRecognizedPeriod\",\n    value: function isRecognizedPeriod(strPeriod) {\n      return !!this.periods[strPeriod];\n    }\n  }]);\n\n  return Periods;\n}();\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new Periods());\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Periods.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Range.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Range.ts ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return RangePeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nfunction _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== \"undefined\" && arr[Symbol.iterator] || arr[\"@@iterator\"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nvar RangePeriod = /*#__PURE__*/function () {\n  function RangePeriod(startDate, endDate, childPeriodType) {\n    _classCallCheck(this, RangePeriod);\n\n    _defineProperty(this, \"startDate\", void 0);\n\n    _defineProperty(this, \"endDate\", void 0);\n\n    _defineProperty(this, \"childPeriodType\", void 0);\n\n    this.startDate = startDate;\n    this.endDate = endDate;\n    this.childPeriodType = childPeriodType;\n  }\n  /**\n   * Returns a range representing the last N childPeriodType periods, including the current one.\n   */\n\n\n  _createClass(RangePeriod, [{\n    key: \"getPrettyString\",\n    value: function getPrettyString() {\n      var start = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.startDate);\n      var end = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(this.endDate);\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('General_DateRangeFromTo', [start, end]);\n    }\n  }, {\n    key: \"getDateRange\",\n    value: function getDateRange() {\n      return [this.startDate, this.endDate];\n    }\n  }, {\n    key: \"containsToday\",\n    value: function containsToday() {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n    }\n  }, {\n    key: \"getDayCount\",\n    value: function getDayCount() {\n      return Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24)) + 1;\n    }\n  }], [{\n    key: \"getLastNRange\",\n    value: function getLastNRange(childPeriodType, strAmount, strEndDate) {\n      var nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);\n\n      if (Number.isNaN(nAmount)) {\n        throw new Error('Invalid range strAmount');\n      }\n\n      var endDate = strEndDate ? Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strEndDate) : Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"getToday\"])();\n      var startDate = new Date(endDate.getTime());\n\n      if (childPeriodType === 'day') {\n        startDate.setDate(startDate.getDate() - nAmount);\n      } else if (childPeriodType === 'week') {\n        startDate.setDate(startDate.getDate() - nAmount * 7);\n      } else if (childPeriodType === 'month') {\n        startDate.setDate(1);\n        startDate.setMonth(startDate.getMonth() - nAmount);\n      } else if (childPeriodType === 'year') {\n        startDate.setFullYear(startDate.getFullYear() - nAmount);\n      } else {\n        throw new Error(\"Unknown period type '\".concat(childPeriodType, \"'.\"));\n      }\n\n      if (childPeriodType !== 'day') {\n        var startPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(startDate);\n        var endPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(endDate);\n\n        var _startPeriod$getDateR = startPeriod.getDateRange();\n\n        var _startPeriod$getDateR2 = _slicedToArray(_startPeriod$getDateR, 1);\n\n        startDate = _startPeriod$getDateR2[0];\n\n        var _endPeriod$getDateRan = endPeriod.getDateRange();\n\n        var _endPeriod$getDateRan2 = _slicedToArray(_endPeriod$getDateRan, 2);\n\n        endDate = _endPeriod$getDateRan2[1];\n      }\n\n      var firstWebsiteDate = new Date(1991, 7, 6);\n\n      if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {\n        switch (childPeriodType) {\n          case 'year':\n            startDate = new Date(1992, 0, 1);\n            break;\n\n          case 'month':\n            startDate = new Date(1991, 8, 1);\n            break;\n\n          case 'week':\n            startDate = new Date(1991, 8, 12);\n            break;\n\n          case 'day':\n          default:\n            startDate = firstWebsiteDate;\n            break;\n        }\n      }\n\n      return new RangePeriod(startDate, endDate, childPeriodType);\n    }\n    /**\n     * Returns a range representing a specific child date range counted back from the end date\n     *\n     * @param childPeriodType Type of the period, eg. day, week, year\n     * @param rangeEndDate\n     * @param countBack Return only the child date range for this specific period number\n     * @returns {RangePeriod}\n     */\n\n  }, {\n    key: \"getLastNRangeChild\",\n    value: function getLastNRangeChild(childPeriodType, rangeEndDate, countBack) {\n      var ed = rangeEndDate ? Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(rangeEndDate) : Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"getToday\"])();\n      var startDate = new Date(ed.getTime());\n      var endDate = new Date(ed.getTime());\n\n      if (childPeriodType === 'day') {\n        startDate.setDate(startDate.getDate() - countBack);\n        endDate.setDate(endDate.getDate() - countBack);\n      } else if (childPeriodType === 'week') {\n        startDate.setDate(startDate.getDate() - countBack * 7);\n        endDate.setDate(endDate.getDate() - countBack * 7);\n      } else if (childPeriodType === 'month') {\n        startDate.setDate(1);\n        startDate.setMonth(startDate.getMonth() - countBack);\n        endDate.setDate(1);\n        endDate.setMonth(endDate.getMonth() - countBack);\n      } else if (childPeriodType === 'year') {\n        startDate.setFullYear(startDate.getFullYear() - countBack);\n        endDate.setFullYear(endDate.getFullYear() - countBack);\n      } else {\n        throw new Error(\"Unknown period type '\".concat(childPeriodType, \"'.\"));\n      }\n\n      if (childPeriodType !== 'day') {\n        var startPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(startDate);\n        var endPeriod = _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].periods[childPeriodType].parse(endDate);\n\n        var _startPeriod$getDateR3 = startPeriod.getDateRange();\n\n        var _startPeriod$getDateR4 = _slicedToArray(_startPeriod$getDateR3, 1);\n\n        startDate = _startPeriod$getDateR4[0];\n\n        var _endPeriod$getDateRan3 = endPeriod.getDateRange();\n\n        var _endPeriod$getDateRan4 = _slicedToArray(_endPeriod$getDateRan3, 2);\n\n        endDate = _endPeriod$getDateRan4[1];\n      }\n\n      var firstWebsiteDate = new Date(1991, 7, 6);\n\n      if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {\n        switch (childPeriodType) {\n          case 'year':\n            startDate = new Date(1992, 0, 1);\n            break;\n\n          case 'month':\n            startDate = new Date(1991, 8, 1);\n            break;\n\n          case 'week':\n            startDate = new Date(1991, 8, 12);\n            break;\n\n          case 'day':\n          default:\n            startDate = firstWebsiteDate;\n            break;\n        }\n      }\n\n      return new RangePeriod(startDate, endDate, childPeriodType);\n    }\n  }, {\n    key: \"parse\",\n    value: function parse(strDate) {\n      var childPeriodType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';\n\n      if (/^previous/.test(strDate)) {\n        var endDate = RangePeriod.getLastNRange(childPeriodType, '2').startDate;\n        return RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);\n      }\n\n      if (/^last/.test(strDate)) {\n        return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));\n      }\n\n      var parts = decodeURIComponent(strDate).split(',');\n      return new RangePeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(parts[0]), Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(parts[1]), childPeriodType);\n    }\n  }, {\n    key: \"getDisplayText\",\n    value: function getDisplayText() {\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('General_DateRangeInPeriodList');\n    }\n  }]);\n\n  return RangePeriod;\n}();\n\n\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('range', RangePeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Range.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Week.ts":
+/*!**************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Week.ts ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return WeekPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nvar WeekPeriod = /*#__PURE__*/function () {\n  function WeekPeriod(dateInPeriod) {\n    _classCallCheck(this, WeekPeriod);\n\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  _createClass(WeekPeriod, [{\n    key: \"getPrettyString\",\n    value: function getPrettyString() {\n      var weekDates = this.getDateRange();\n      var startWeek = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(weekDates[0]);\n      var endWeek = Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"format\"])(weekDates[1]);\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('General_DateRangeFromTo', [startWeek, endWeek]);\n    }\n  }, {\n    key: \"getDateRange\",\n    value: function getDateRange() {\n      var daysToMonday = (this.dateInPeriod.getDay() + 6) % 7;\n      var startWeek = new Date(this.dateInPeriod.getTime());\n      startWeek.setDate(this.dateInPeriod.getDate() - daysToMonday);\n      var endWeek = new Date(startWeek.getTime());\n      endWeek.setDate(startWeek.getDate() + 6);\n      return [startWeek, endWeek];\n    }\n  }, {\n    key: \"containsToday\",\n    value: function containsToday() {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n    }\n  }], [{\n    key: \"parse\",\n    value: function parse(strDate) {\n      return new WeekPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n    }\n  }, {\n    key: \"getDisplayText\",\n    value: function getDisplayText() {\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodWeek');\n    }\n  }]);\n\n  return WeekPeriod;\n}();\n\n\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('week', WeekPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Week.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/Year.ts":
+/*!**************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/Year.ts ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return YearPeriod; });\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nvar YearPeriod = /*#__PURE__*/function () {\n  function YearPeriod(dateInPeriod) {\n    _classCallCheck(this, YearPeriod);\n\n    _defineProperty(this, \"dateInPeriod\", void 0);\n\n    this.dateInPeriod = dateInPeriod;\n  }\n\n  _createClass(YearPeriod, [{\n    key: \"getPrettyString\",\n    value: function getPrettyString() {\n      return this.dateInPeriod.getFullYear().toString();\n    }\n  }, {\n    key: \"getDateRange\",\n    value: function getDateRange() {\n      var startYear = new Date(this.dateInPeriod.getTime());\n      startYear.setMonth(0);\n      startYear.setDate(1);\n      var endYear = new Date(this.dateInPeriod.getTime());\n      endYear.setMonth(12);\n      endYear.setDate(0);\n      return [startYear, endYear];\n    }\n  }, {\n    key: \"containsToday\",\n    value: function containsToday() {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"todayIsInRange\"])(this.getDateRange());\n    }\n  }], [{\n    key: \"parse\",\n    value: function parse(strDate) {\n      return new YearPeriod(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"parseDate\"])(strDate));\n    }\n  }, {\n    key: \"getDisplayText\",\n    value: function getDisplayText() {\n      return Object(_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])('Intl_PeriodYear');\n    }\n  }]);\n\n  return YearPeriod;\n}();\n\n\n_Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"].addCustomPeriod('year', YearPeriod);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/Year.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/index.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/index.ts ***!
+  \***************************************************/
+/*! exports provided: Periods, Day, Week, Month, Year, Range, format, getToday, parseDate, todayIsInRange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Periods_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Periods.adapter */ \"./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts\");\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/Periods.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Periods\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/* harmony import */ var _Day__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day */ \"./plugins/CoreHome/vue/src/Periods/Day.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Day\", function() { return _Day__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/* harmony import */ var _Week__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Week */ \"./plugins/CoreHome/vue/src/Periods/Week.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Week\", function() { return _Week__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/* harmony import */ var _Month__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Month */ \"./plugins/CoreHome/vue/src/Periods/Month.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Month\", function() { return _Month__WEBPACK_IMPORTED_MODULE_4__[\"default\"]; });\n\n/* harmony import */ var _Year__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Year */ \"./plugins/CoreHome/vue/src/Periods/Year.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Year\", function() { return _Year__WEBPACK_IMPORTED_MODULE_5__[\"default\"]; });\n\n/* harmony import */ var _Range__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Range */ \"./plugins/CoreHome/vue/src/Periods/Range.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Range\", function() { return _Range__WEBPACK_IMPORTED_MODULE_6__[\"default\"]; });\n\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utilities */ \"./plugins/CoreHome/vue/src/Periods/utilities.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"format\", function() { return _utilities__WEBPACK_IMPORTED_MODULE_7__[\"format\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getToday\", function() { return _utilities__WEBPACK_IMPORTED_MODULE_7__[\"getToday\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"parseDate\", function() { return _utilities__WEBPACK_IMPORTED_MODULE_7__[\"parseDate\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"todayIsInRange\", function() { return _utilities__WEBPACK_IMPORTED_MODULE_7__[\"todayIsInRange\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/index.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Periods/utilities.ts":
+/*!*******************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Periods/utilities.ts ***!
+  \*******************************************************/
+/*! exports provided: format, getToday, parseDate, todayIsInRange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"format\", function() { return format; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getToday\", function() { return getToday; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseDate\", function() { return parseDate; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"todayIsInRange\", function() { return todayIsInRange; });\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction format(date) {\n  return $.datepicker.formatDate('yy-mm-dd', date);\n}\nfunction getToday() {\n  var date = new Date(Date.now()); // undo browser timezone\n\n  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply Matomo site timezone (if it exists)\n\n  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.\n\n  date.setHours(0);\n  date.setMinutes(0);\n  date.setSeconds(0);\n  date.setMilliseconds(0);\n  return date;\n}\nfunction parseDate(date) {\n  if (date instanceof Date) {\n    return date;\n  }\n\n  var strDate = decodeURIComponent(date).trim();\n\n  if (strDate === '') {\n    throw new Error('Invalid date, empty string.');\n  }\n\n  if (strDate === 'today' || strDate === 'now') {\n    return getToday();\n  }\n\n  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time\n  || strDate === 'yesterdaySameTime') {\n    var yesterday = getToday();\n    yesterday.setDate(yesterday.getDate() - 1);\n    return yesterday;\n  }\n\n  if (strDate.match(/last[ -]?week/i)) {\n    var lastWeek = getToday();\n    lastWeek.setDate(lastWeek.getDate() - 7);\n    return lastWeek;\n  }\n\n  if (strDate.match(/last[ -]?month/i)) {\n    var lastMonth = getToday();\n    lastMonth.setDate(1);\n    lastMonth.setMonth(lastMonth.getMonth() - 1);\n    return lastMonth;\n  }\n\n  if (strDate.match(/last[ -]?year/i)) {\n    var lastYear = getToday();\n    lastYear.setFullYear(lastYear.getFullYear() - 1);\n    return lastYear;\n  }\n\n  return $.datepicker.parseDate('yy-mm-dd', strDate);\n}\nfunction todayIsInRange(dateRange) {\n  if (dateRange.length !== 2) {\n    return false;\n  }\n\n  if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {\n    return true;\n  }\n\n  return false;\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Periods/utilities.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.adapter.ts":
+/*!*********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.adapter.ts ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _QuickAccess_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuickAccess.vue */ \"./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _QuickAccess_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  directiveName: 'piwikQuickAccess',\n  events: {\n    itemSelected: function itemSelected(event, vm, scope, elem, attrs, controller, $timeout) {\n      $timeout();\n    },\n    blur: function blur(event, vm, scope) {\n      setTimeout(function () {\n        return scope.$apply();\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue":
+/*!**************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _QuickAccess_vue_vue_type_template_id_20387bab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuickAccess.vue?vue&type=template&id=20387bab */ \"./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=20387bab\");\n/* harmony import */ var _QuickAccess_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuickAccess.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_QuickAccess_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _QuickAccess_vue_vue_type_template_id_20387bab__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_QuickAccess_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_QuickAccess_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts":
+/*!**************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_QuickAccess_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./QuickAccess.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_QuickAccess_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=20387bab":
+/*!********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=20387bab ***!
+  \********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_QuickAccess_vue_vue_type_template_id_20387bab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./QuickAccess.vue?vue&type=template&id=20387bab */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=20387bab\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_QuickAccess_vue_vue_type_template_id_20387bab__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts":
+/*!*****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nvar SegmentsStore = /*#__PURE__*/function () {\n  function SegmentsStore() {\n    var _this = this;\n\n    _classCallCheck(this, SegmentsStore);\n\n    _defineProperty(this, \"segmentState\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({\n      availableSegments: []\n    }));\n\n    _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_1__[\"default\"].on('piwikSegmentationInited', function () {\n      return _this.setSegmentState();\n    });\n  }\n\n  _createClass(SegmentsStore, [{\n    key: \"state\",\n    get: function get() {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(this.segmentState);\n    }\n  }, {\n    key: \"setSegmentState\",\n    value: function setSegmentState() {\n      try {\n        var uiControlObject = $('.segmentEditorPanel').data('uiControlObject');\n        this.segmentState.availableSegments = uiControlObject.impl.availableSegments || [];\n      } catch (e) {// segment editor is not initialized yet\n      }\n    }\n  }]);\n\n  return SegmentsStore;\n}();\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new SegmentsStore());\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _AllSitesLink_vue_vue_type_template_id_1a5f9a74__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllSitesLink.vue?vue&type=template&id=1a5f9a74 */ \"./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=1a5f9a74\");\n/* harmony import */ var _AllSitesLink_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AllSitesLink.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_AllSitesLink_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _AllSitesLink_vue_vue_type_template_id_1a5f9a74__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_AllSitesLink_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_AllSitesLink_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AllSitesLink_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./AllSitesLink.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AllSitesLink_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=1a5f9a74":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=1a5f9a74 ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AllSitesLink_vue_vue_type_template_id_1a5f9a74__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./AllSitesLink.vue?vue&type=template&id=1a5f9a74 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?vue&type=template&id=1a5f9a74\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AllSitesLink_vue_vue_type_template_id_1a5f9a74__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/AllSitesLink.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.adapter.ts":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.adapter.ts ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony import */ var _SiteSelector_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SiteSelector.vue */ \"./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue\");\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  component: _SiteSelector_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  require: '?ngModel',\n  scope: {\n    showSelectedSite: {\n      angularJsBind: '='\n    },\n    showAllSitesItem: {\n      angularJsBind: '='\n    },\n    switchSiteOnSelect: {\n      angularJsBind: '='\n    },\n    onlySitesWithAdminAccess: {\n      angularJsBind: '='\n    },\n    name: {\n      angularJsBind: '@'\n    },\n    allSitesText: {\n      angularJsBind: '@'\n    },\n    allSitesLocation: {\n      angularJsBind: '@'\n    },\n    placeholder: {\n      angularJsBind: '@'\n    },\n    modelValue: {}\n  },\n  $inject: ['$timeout'],\n  directiveName: 'piwikSiteselector',\n  events: {\n    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel) {\n      if (newValue && !vm.modelValue || !newValue && vm.modelValue || newValue.id !== vm.modelValue.id) {\n        element.attr('siteid', newValue.id);\n        element.trigger('change', newValue);\n\n        if (ngModel) {\n          ngModel.$setViewValue(newValue);\n        }\n      }\n    },\n    blur: function blur(event, vm, scope) {\n      setTimeout(function () {\n        return scope.$apply();\n      });\n    }\n  },\n  postCreate: function postCreate(vm, scope, element, attrs, controller, $timeout) {\n    var ngModel = controller; // setup ng-model mapping\n\n    if (ngModel) {\n      ngModel.$setViewValue(vm.modelValue);\n\n      ngModel.$render = function () {\n        if (angular.isString(ngModel.$viewValue)) {\n          vm.modelValue = JSON.parse(ngModel.$viewValue);\n        } else {\n          vm.modelValue = ngModel.$viewValue;\n        }\n      };\n    }\n\n    $timeout(function () {\n      if (attrs.siteid && attrs.sitename) {\n        vm.modelValue = {\n          id: attrs.siteid,\n          name: _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_2__[\"default\"].helper.htmlDecode(attrs.sitename)\n        };\n        ngModel.$setViewValue(_objectSpread({}, vm.modelValue));\n      }\n    });\n  }\n}));\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SiteSelector_vue_vue_type_template_id_6274b707__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SiteSelector.vue?vue&type=template&id=6274b707 */ \"./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=6274b707\");\n/* harmony import */ var _SiteSelector_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SiteSelector.vue?vue&type=script&lang=ts */ \"./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SiteSelector_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SiteSelector_vue_vue_type_template_id_6274b707__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SiteSelector_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SiteSelector_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SiteSelector_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SiteSelector.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SiteSelector_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=6274b707":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=6274b707 ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SiteSelector_vue_vue_type_template_id_6274b707__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SiteSelector.vue?vue&type=template&id=6274b707 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=6274b707\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SiteSelector_vue_vue_type_template_id_6274b707__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts":
+/*!*************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../AjaxHelper/AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n/* harmony import */ var _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../MatomoUrl/MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\nvar SitesStore = /*#__PURE__*/function () {\n  function SitesStore() {\n    var _this = this;\n\n    _classCallCheck(this, SitesStore);\n\n    _defineProperty(this, \"state\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({\n      initialSites: [],\n      isInitialized: false\n    }));\n\n    _defineProperty(this, \"currentRequest\", void 0);\n\n    _defineProperty(this, \"limitRequest\", void 0);\n\n    _defineProperty(this, \"initialSites\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(_this.state.initialSites);\n    }));\n  }\n\n  _createClass(SitesStore, [{\n    key: \"loadInitialSites\",\n    value: function loadInitialSites() {\n      var _this2 = this;\n\n      if (this.state.isInitialized) {\n        return Promise.resolve(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(this.state.initialSites));\n      }\n\n      return this.searchSite('%').then(function (sites) {\n        _this2.state.isInitialized = true;\n        _this2.state.initialSites = sites;\n        return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(sites);\n      });\n    }\n  }, {\n    key: \"loadSite\",\n    value: function loadSite(idSite) {\n      if (idSite === 'all') {\n        _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__[\"default\"].updateUrl(_objectSpread(_objectSpread({}, _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__[\"default\"].urlParsed.value), {}, {\n          module: 'MultiSites',\n          action: 'index',\n          date: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__[\"default\"].parsed.value.date,\n          period: _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__[\"default\"].parsed.value.period\n        }));\n      } else {\n        _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__[\"default\"].updateUrl(_objectSpread(_objectSpread({}, _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_2__[\"default\"].parsed.value), {}, {\n          segment: '',\n          idSite: idSite\n        }));\n      }\n    }\n  }, {\n    key: \"searchSite\",\n    value: function searchSite(term) {\n      var _this3 = this;\n\n      var onlySitesWithAdminAccess = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;\n\n      if (!term) {\n        return this.loadInitialSites();\n      }\n\n      if (this.currentRequest) {\n        this.currentRequest.abort();\n      }\n\n      if (!this.limitRequest) {\n        this.limitRequest = _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_1__[\"default\"].fetch({\n          method: 'SitesManager.getNumWebsitesToDisplayPerPage'\n        });\n      }\n\n      return this.limitRequest.then(function (response) {\n        var limit = response.value;\n        var methodToCall = 'SitesManager.getPatternMatchSites';\n\n        if (onlySitesWithAdminAccess) {\n          methodToCall = 'SitesManager.getSitesWithAdminAccess';\n        }\n\n        _this3.currentRequest = _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_1__[\"default\"].fetch({\n          method: methodToCall,\n          limit: limit,\n          pattern: term\n        });\n        return _this3.currentRequest;\n      }).then(function (response) {\n        if (response) {\n          return _this3.processWebsitesList(response);\n        }\n\n        return null;\n      }).finally(function () {\n        _this3.currentRequest = null;\n      });\n    }\n  }, {\n    key: \"processWebsitesList\",\n    value: function processWebsitesList(response) {\n      var sites = response;\n\n      if (!sites || !sites.length) {\n        return [];\n      }\n\n      sites = sites.map(function (s) {\n        return _objectSpread(_objectSpread({}, s), {}, {\n          name: s.group ? \"[\".concat(s.group, \"] \").concat(s.name) : s.name\n        });\n      });\n      sites.sort(function (lhs, rhs) {\n        if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {\n          return -1;\n        }\n\n        return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;\n      });\n      return sites;\n    }\n  }]);\n\n  return SitesStore;\n}();\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new SitesStore());\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/createAngularJsAdapter.ts":
+/*!************************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return createAngularJsAdapter; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nfunction _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== \"undefined\" && arr[Symbol.iterator] || arr[\"@@iterator\"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nvar transcludeCounter = 0;\n\nfunction toKebabCase(arg) {\n  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/[A-Z]/g, function (s) {\n    return \"-\".concat(s.toLowerCase());\n  });\n}\n\nfunction toAngularJsCamelCase(arg) {\n  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/-([a-z])/g, function (s, p) {\n    return p.toUpperCase();\n  });\n}\n\nfunction createAngularJsAdapter(options) {\n  var component = options.component,\n      require = options.require,\n      _options$scope = options.scope,\n      scope = _options$scope === void 0 ? {} : _options$scope,\n      _options$events = options.events,\n      events = _options$events === void 0 ? {} : _options$events,\n      $inject = options.$inject,\n      directiveName = options.directiveName,\n      transclude = options.transclude,\n      mountPointFactory = options.mountPointFactory,\n      postCreate = options.postCreate,\n      noScope = options.noScope,\n      _options$restrict = options.restrict,\n      restrict = _options$restrict === void 0 ? 'A' : _options$restrict;\n  var currentTranscludeCounter = transcludeCounter;\n\n  if (transclude) {\n    transcludeCounter += 1;\n  }\n\n  var angularJsScope = {};\n  Object.entries(scope).forEach(function (_ref) {\n    var _ref2 = _slicedToArray(_ref, 2),\n        scopeVarName = _ref2[0],\n        info = _ref2[1];\n\n    if (!info.vue) {\n      info.vue = scopeVarName;\n    }\n\n    if (info.angularJsBind) {\n      angularJsScope[scopeVarName] = info.angularJsBind;\n    }\n  });\n\n  function angularJsAdapter() {\n    for (var _len = arguments.length, injectedServices = new Array(_len), _key = 0; _key < _len; _key++) {\n      injectedServices[_key] = arguments[_key];\n    }\n\n    var adapter = {\n      restrict: restrict,\n      require: require,\n      scope: noScope ? undefined : angularJsScope,\n      compile: function angularJsAdapterCompile() {\n        return {\n          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs, ngController) {\n            var clone = transclude ? ngElement.find(\"[ng-transclude][counter=\".concat(currentTranscludeCounter, \"]\")) : null; // build the root vue template\n\n            var rootVueTemplate = '<root-component';\n            Object.entries(events).forEach(function (info) {\n              var _info = _slicedToArray(info, 1),\n                  eventName = _info[0];\n\n              rootVueTemplate += \" @\".concat(eventName, \"=\\\"onEventHandler('\").concat(eventName, \"', $event)\\\"\");\n            });\n            Object.entries(scope).forEach(function (_ref3) {\n              var _ref4 = _slicedToArray(_ref3, 2),\n                  key = _ref4[0],\n                  info = _ref4[1];\n\n              if (info.angularJsBind === '&') {\n                var eventName = toKebabCase(key);\n\n                if (!events[eventName]) {\n                  // pass through scope & w/o a custom event handler\n                  rootVueTemplate += \" @\".concat(eventName, \"=\\\"onEventHandler('\").concat(eventName, \"', $event)\\\"\");\n                }\n              } else {\n                rootVueTemplate += \" :\".concat(info.vue, \"=\\\"\").concat(info.vue, \"\\\"\");\n              }\n            });\n            rootVueTemplate += '>';\n\n            if (transclude) {\n              rootVueTemplate += '<div ref=\"transcludeTarget\"/>';\n            }\n\n            rootVueTemplate += '</root-component>'; // build the vue app\n\n            var app = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createApp\"])({\n              template: rootVueTemplate,\n              data: function data() {\n                var initialData = {};\n                Object.entries(scope).forEach(function (_ref5) {\n                  var _ref6 = _slicedToArray(_ref5, 2),\n                      scopeVarName = _ref6[0],\n                      info = _ref6[1];\n\n                  var value = ngScope[scopeVarName];\n\n                  if (typeof value === 'undefined' && typeof info.default !== 'undefined') {\n                    value = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;\n                  }\n\n                  if (info.transform) {\n                    value = info.transform(value);\n                  }\n\n                  initialData[info.vue] = value;\n                });\n                return initialData;\n              },\n              setup: function setup() {\n                if (transclude) {\n                  var transcludeTarget = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(null);\n                  return {\n                    transcludeTarget: transcludeTarget\n                  };\n                }\n\n                return undefined;\n              },\n              methods: {\n                onEventHandler: function onEventHandler(name, $event) {\n                  var scopePropertyName = toAngularJsCamelCase(name);\n\n                  if (ngScope[scopePropertyName]) {\n                    ngScope[scopePropertyName]($event);\n                  }\n\n                  if (events[name]) {\n                    events[name].apply(events, [$event, this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));\n                  }\n                }\n              }\n            });\n            app.config.globalProperties.$sanitize = window.vueSanitize;\n            app.config.globalProperties.translate = _translate__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\n            app.component('root-component', component); // mount the app\n\n            var mountPoint = mountPointFactory ? mountPointFactory.apply(void 0, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : ngElement[0];\n            var vm = app.mount(mountPoint); // setup watches to bind between angularjs + vue\n\n            Object.entries(scope).forEach(function (_ref7) {\n              var _ref8 = _slicedToArray(_ref7, 2),\n                  scopeVarName = _ref8[0],\n                  info = _ref8[1];\n\n              if (!info.angularJsBind || info.angularJsBind === '&') {\n                return;\n              }\n\n              ngScope.$watch(scopeVarName, function (newValue) {\n                var newValueFinal = newValue;\n\n                if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {\n                  newValueFinal = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;\n                }\n\n                if (info.transform) {\n                  newValueFinal = info.transform(newValueFinal);\n                }\n\n                vm[scopeVarName] = newValueFinal;\n              });\n            });\n\n            if (transclude) {\n              $(vm.transcludeTarget).append(clone);\n            }\n\n            if (postCreate) {\n              postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));\n            }\n\n            ngElement.on('$destroy', function () {\n              app.unmount();\n            });\n          }\n        };\n      }\n    };\n\n    if (transclude) {\n      adapter.transclude = true;\n      adapter.template = \"<div ng-transclude counter=\\\"\".concat(currentTranscludeCounter, \"\\\"/>\");\n    }\n\n    return adapter;\n  }\n\n  angularJsAdapter.$inject = $inject || [];\n  angular.module('piwikApp').directive(directiveName, angularJsAdapter);\n  return angularJsAdapter;\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/createAngularJsAdapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/debounce.ts":
+/*!**********************************************!*\
+  !*** ./plugins/CoreHome/vue/src/debounce.ts ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return debounce; });\nvar DEFAULT_DEBOUNCE_DELAY = 300;\nfunction debounce(fn) {\n  var delayInMs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_DEBOUNCE_DELAY;\n  var timeout;\n  return function () {\n    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n      args[_key] = arguments[_key];\n    }\n\n    if (timeout) {\n      clearTimeout(timeout);\n    }\n\n    timeout = setTimeout(function () {\n      fn.apply(void 0, args);\n    }, delayInMs);\n  };\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/debounce.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/index.ts":
+/*!*******************************************!*\
+  !*** ./plugins/CoreHome/vue/src/index.ts ***!
+  \*******************************************/
+/*! exports provided: debounce, createAngularJsAdapter, activityIndicatorAdapter, ActivityIndicator, translate, alertAdapter, AjaxHelper, setCookie, getCookie, deleteCookie, MatomoUrl, Matomo, Periods, Day, Week, Month, Year, Range, format, getToday, parseDate, todayIsInRange, Dropdown, FocusAnywhereButHere, FocusIf, MatomoDialog, ExpandOnClick, ExpandOnHover, EnrichedHeadline, ContentBlock, Comparisons, MenuDropdown, DatePicker, DateRangePicker, PeriodDatePicker, Notification, NotificationGroup, NotificationsStore, SiteSelector, QuickAccess */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _noAdblockFlag__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./noAdblockFlag */ \"./plugins/CoreHome/vue/src/noAdblockFlag.ts\");\n/* harmony import */ var _noAdblockFlag__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_noAdblockFlag__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _MatomoUrl_MatomoUrl_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MatomoUrl/MatomoUrl.adapter */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.adapter.ts\");\n/* harmony import */ var _Matomo_Matomo_adapter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Matomo/Matomo.adapter */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts\");\n/* harmony import */ var _Periods_Day__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Periods/Day */ \"./plugins/CoreHome/vue/src/Periods/Day.ts\");\n/* harmony import */ var _Periods_Week__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Periods/Week */ \"./plugins/CoreHome/vue/src/Periods/Week.ts\");\n/* harmony import */ var _Periods_Month__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Periods/Month */ \"./plugins/CoreHome/vue/src/Periods/Month.ts\");\n/* harmony import */ var _Periods_Year__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Periods/Year */ \"./plugins/CoreHome/vue/src/Periods/Year.ts\");\n/* harmony import */ var _Periods_Range__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Periods/Range */ \"./plugins/CoreHome/vue/src/Periods/Range.ts\");\n/* harmony import */ var _Periods_Periods_adapter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Periods/Periods.adapter */ \"./plugins/CoreHome/vue/src/Periods/Periods.adapter.ts\");\n/* harmony import */ var _AjaxHelper_AjaxHelper_adapter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./AjaxHelper/AjaxHelper.adapter */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts\");\n/* harmony import */ var _DropdownMenu_DropdownMenu_adapter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./DropdownMenu/DropdownMenu.adapter */ \"./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.adapter.ts\");\n/* harmony import */ var _FocusAnywhereButHere_FocusAnywhereButHere_adapter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./FocusAnywhereButHere/FocusAnywhereButHere.adapter */ \"./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.adapter.ts\");\n/* harmony import */ var _FocusIf_FocusIf_adapter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./FocusIf/FocusIf.adapter */ \"./plugins/CoreHome/vue/src/FocusIf/FocusIf.adapter.ts\");\n/* harmony import */ var _ExpandOnClick_ExpandOnClick_adapter__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ExpandOnClick/ExpandOnClick.adapter */ \"./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.adapter.ts\");\n/* harmony import */ var _ExpandOnHover_ExpandOnHover_adapter__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ExpandOnHover/ExpandOnHover.adapter */ \"./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.adapter.ts\");\n/* harmony import */ var _MatomoDialog_MatomoDialog_adapter__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./MatomoDialog/MatomoDialog.adapter */ \"./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts\");\n/* harmony import */ var _EnrichedHeadline_EnrichedHeadline_adapter__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./EnrichedHeadline/EnrichedHeadline.adapter */ \"./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts\");\n/* harmony import */ var _ContentBlock_ContentBlock_adapter__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./ContentBlock/ContentBlock.adapter */ \"./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.adapter.ts\");\n/* harmony import */ var _Comparisons_Comparisons_adapter__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Comparisons/Comparisons.adapter */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.adapter.ts\");\n/* harmony import */ var _MenuDropdown_MenuDropdown_adapter__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./MenuDropdown/MenuDropdown.adapter */ \"./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.adapter.ts\");\n/* harmony import */ var _DatePicker_DatePicker_adapter__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./DatePicker/DatePicker.adapter */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.adapter.ts\");\n/* harmony import */ var _DateRangePicker_DateRangePicker_adapter__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./DateRangePicker/DateRangePicker.adapter */ \"./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.adapter.ts\");\n/* harmony import */ var _PeriodDatePicker_PeriodDatePicker_adapter__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./PeriodDatePicker/PeriodDatePicker.adapter */ \"./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts\");\n/* harmony import */ var _SiteSelector_SiteSelector_adapter__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./SiteSelector/SiteSelector.adapter */ \"./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.adapter.ts\");\n/* harmony import */ var _QuickAccess_QuickAccess_adapter__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./QuickAccess/QuickAccess.adapter */ \"./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.adapter.ts\");\n/* harmony import */ var _debounce__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./debounce */ \"./plugins/CoreHome/vue/src/debounce.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"debounce\", function() { return _debounce__WEBPACK_IMPORTED_MODULE_25__[\"default\"]; });\n\n/* harmony import */ var _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./createAngularJsAdapter */ \"./plugins/CoreHome/vue/src/createAngularJsAdapter.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"createAngularJsAdapter\", function() { return _createAngularJsAdapter__WEBPACK_IMPORTED_MODULE_26__[\"default\"]; });\n\n/* harmony import */ var _ActivityIndicator_ActivityIndicator_adapter__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./ActivityIndicator/ActivityIndicator.adapter */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"activityIndicatorAdapter\", function() { return _ActivityIndicator_ActivityIndicator_adapter__WEBPACK_IMPORTED_MODULE_27__[\"default\"]; });\n\n/* harmony import */ var _ActivityIndicator_ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./ActivityIndicator/ActivityIndicator.vue */ \"./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ActivityIndicator\", function() { return _ActivityIndicator_ActivityIndicator_vue__WEBPACK_IMPORTED_MODULE_28__[\"default\"]; });\n\n/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./translate */ \"./plugins/CoreHome/vue/src/translate.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"translate\", function() { return _translate__WEBPACK_IMPORTED_MODULE_29__[\"default\"]; });\n\n/* harmony import */ var _Alert_Alert_adapter__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./Alert/Alert.adapter */ \"./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"alertAdapter\", function() { return _Alert_Alert_adapter__WEBPACK_IMPORTED_MODULE_30__[\"default\"]; });\n\n/* harmony import */ var _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./AjaxHelper/AjaxHelper */ \"./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"AjaxHelper\", function() { return _AjaxHelper_AjaxHelper__WEBPACK_IMPORTED_MODULE_31__[\"default\"]; });\n\n/* harmony import */ var _CookieHelper_CookieHelper__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./CookieHelper/CookieHelper */ \"./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"setCookie\", function() { return _CookieHelper_CookieHelper__WEBPACK_IMPORTED_MODULE_32__[\"setCookie\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getCookie\", function() { return _CookieHelper_CookieHelper__WEBPACK_IMPORTED_MODULE_32__[\"getCookie\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"deleteCookie\", function() { return _CookieHelper_CookieHelper__WEBPACK_IMPORTED_MODULE_32__[\"deleteCookie\"]; });\n\n/* harmony import */ var _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./MatomoUrl/MatomoUrl */ \"./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"MatomoUrl\", function() { return _MatomoUrl_MatomoUrl__WEBPACK_IMPORTED_MODULE_33__[\"default\"]; });\n\n/* harmony import */ var _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./Matomo/Matomo */ \"./plugins/CoreHome/vue/src/Matomo/Matomo.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Matomo\", function() { return _Matomo_Matomo__WEBPACK_IMPORTED_MODULE_34__[\"default\"]; });\n\n/* harmony import */ var _Periods__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./Periods */ \"./plugins/CoreHome/vue/src/Periods/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Periods\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"Periods\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Day\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"Day\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Week\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"Week\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Month\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"Month\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Year\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"Year\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Range\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"Range\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"format\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"format\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getToday\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"getToday\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"parseDate\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"parseDate\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"todayIsInRange\", function() { return _Periods__WEBPACK_IMPORTED_MODULE_35__[\"todayIsInRange\"]; });\n\n/* harmony import */ var _DropdownMenu_DropdownMenu__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./DropdownMenu/DropdownMenu */ \"./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Dropdown\", function() { return _DropdownMenu_DropdownMenu__WEBPACK_IMPORTED_MODULE_36__[\"default\"]; });\n\n/* harmony import */ var _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./FocusAnywhereButHere/FocusAnywhereButHere */ \"./plugins/CoreHome/vue/src/FocusAnywhereButHere/FocusAnywhereButHere.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"FocusAnywhereButHere\", function() { return _FocusAnywhereButHere_FocusAnywhereButHere__WEBPACK_IMPORTED_MODULE_37__[\"default\"]; });\n\n/* harmony import */ var _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./FocusIf/FocusIf */ \"./plugins/CoreHome/vue/src/FocusIf/FocusIf.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"FocusIf\", function() { return _FocusIf_FocusIf__WEBPACK_IMPORTED_MODULE_38__[\"default\"]; });\n\n/* harmony import */ var _MatomoDialog_MatomoDialog_vue__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./MatomoDialog/MatomoDialog.vue */ \"./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"MatomoDialog\", function() { return _MatomoDialog_MatomoDialog_vue__WEBPACK_IMPORTED_MODULE_39__[\"default\"]; });\n\n/* harmony import */ var _ExpandOnClick_ExpandOnClick__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./ExpandOnClick/ExpandOnClick */ \"./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ExpandOnClick\", function() { return _ExpandOnClick_ExpandOnClick__WEBPACK_IMPORTED_MODULE_40__[\"default\"]; });\n\n/* harmony import */ var _ExpandOnHover_ExpandOnHover__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./ExpandOnHover/ExpandOnHover */ \"./plugins/CoreHome/vue/src/ExpandOnHover/ExpandOnHover.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ExpandOnHover\", function() { return _ExpandOnHover_ExpandOnHover__WEBPACK_IMPORTED_MODULE_41__[\"default\"]; });\n\n/* harmony import */ var _EnrichedHeadline_EnrichedHeadline_vue__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./EnrichedHeadline/EnrichedHeadline.vue */ \"./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"EnrichedHeadline\", function() { return _EnrichedHeadline_EnrichedHeadline_vue__WEBPACK_IMPORTED_MODULE_42__[\"default\"]; });\n\n/* harmony import */ var _ContentBlock_ContentBlock_vue__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./ContentBlock/ContentBlock.vue */ \"./plugins/CoreHome/vue/src/ContentBlock/ContentBlock.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ContentBlock\", function() { return _ContentBlock_ContentBlock_vue__WEBPACK_IMPORTED_MODULE_43__[\"default\"]; });\n\n/* harmony import */ var _Comparisons_Comparisons_vue__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./Comparisons/Comparisons.vue */ \"./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Comparisons\", function() { return _Comparisons_Comparisons_vue__WEBPACK_IMPORTED_MODULE_44__[\"default\"]; });\n\n/* harmony import */ var _MenuDropdown_MenuDropdown_vue__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./MenuDropdown/MenuDropdown.vue */ \"./plugins/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"MenuDropdown\", function() { return _MenuDropdown_MenuDropdown_vue__WEBPACK_IMPORTED_MODULE_45__[\"default\"]; });\n\n/* harmony import */ var _DatePicker_DatePicker_vue__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./DatePicker/DatePicker.vue */ \"./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"DatePicker\", function() { return _DatePicker_DatePicker_vue__WEBPACK_IMPORTED_MODULE_46__[\"default\"]; });\n\n/* harmony import */ var _DateRangePicker_DateRangePicker_vue__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./DateRangePicker/DateRangePicker.vue */ \"./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"DateRangePicker\", function() { return _DateRangePicker_DateRangePicker_vue__WEBPACK_IMPORTED_MODULE_47__[\"default\"]; });\n\n/* harmony import */ var _PeriodDatePicker_PeriodDatePicker_vue__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./PeriodDatePicker/PeriodDatePicker.vue */ \"./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"PeriodDatePicker\", function() { return _PeriodDatePicker_PeriodDatePicker_vue__WEBPACK_IMPORTED_MODULE_48__[\"default\"]; });\n\n/* harmony import */ var _Notification__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./Notification */ \"./plugins/CoreHome/vue/src/Notification/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Notification\", function() { return _Notification__WEBPACK_IMPORTED_MODULE_49__[\"Notification\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"NotificationGroup\", function() { return _Notification__WEBPACK_IMPORTED_MODULE_49__[\"NotificationGroup\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"NotificationsStore\", function() { return _Notification__WEBPACK_IMPORTED_MODULE_49__[\"NotificationsStore\"]; });\n\n/* harmony import */ var _SiteSelector_SiteSelector_vue__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./SiteSelector/SiteSelector.vue */ \"./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SiteSelector\", function() { return _SiteSelector_SiteSelector_vue__WEBPACK_IMPORTED_MODULE_50__[\"default\"]; });\n\n/* harmony import */ var _QuickAccess_QuickAccess_vue__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./QuickAccess/QuickAccess.vue */ \"./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"QuickAccess\", function() { return _QuickAccess_QuickAccess_vue__WEBPACK_IMPORTED_MODULE_51__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/index.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/noAdblockFlag.ts":
+/*!***************************************************!*\
+  !*** ./plugins/CoreHome/vue/src/noAdblockFlag.ts ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n// see https://github.com/matomo-org/matomo/issues/5094 used to detect an ad blocker\n\nwindow.hasBlockedContent = false;\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/noAdblockFlag.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreHome/vue/src/translate.ts":
+/*!***********************************************!*\
+  !*** ./plugins/CoreHome/vue/src/translate.ts ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return translate; });\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction translate(translationStringId) {\n  for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {\n    values[_key - 1] = arguments[_key];\n  }\n\n  var pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)\n\n  if (values.length === 1 && values[0] && values[0] instanceof Array) {\n    pkArgs = values[0];\n  }\n\n  return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line\n}\n\n//# sourceURL=webpack://CoreHome/./plugins/CoreHome/vue/src/translate.ts?");
+
+/***/ }),
+
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://CoreHome/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=CoreHome.umd.js.map
