@@ -106,25 +106,5 @@
         function sortMenuItems(menu) {
             return $filter('orderBy')(menu, 'order');
         };
-
-        function reloadMenuItems()
-        {
-            var pagesPromise = reportingPagesModel.reloadAllPages();
-            return pagesPromise.then(function (pages) {
-                model.menu = buildMenuFromPages(pages);
-                return model.menu;
-            });
-        }
-
-        function fetchMenuItems()
-        {
-            var pagesPromise = reportingPagesModel.getAllPages();
-
-            return pagesPromise.then(function (pages) {
-                model.menu = buildMenuFromPages(pages);
-
-                return model.menu;
-            });
-        }
     }
 })();
