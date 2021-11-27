@@ -160,8 +160,8 @@ class Controller extends ControllerAdmin
             $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
             $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
 
-            if (!array_key_exists('mailPassword', $_POST)) {
-                // use old password if it wasn't set in request
+            if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['password'] !== $mail['host']) {
+                // use old password if it wasn't set in request (and the host wasn't changed)
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
 
