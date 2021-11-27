@@ -22,12 +22,12 @@
         var compareDates   = piwikUrl.getSearchParam('compareDates');
         var compareSegments = piwikUrl.getSearchParam('compareSegments');
 
+        $scope.currentCategory = piwikUrl.getSearchParam('category');
+        $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
+
         var showSubcategoryHelpOnLoad = null;
 
         var initialLoad = true;
-
-        $scope.currentCategory = piwikUrl.getSearchParam('category');
-        $scope.currentSubcategory = piwikUrl.getSearchParam('subcategory');
 
         function markAllCategoriesAsInactive()
         {
@@ -139,7 +139,7 @@
         $scope.loadCategory = function (category) {
             var UI = require('piwik/UI');
             UI.Notification.prototype.remove('reportingmenu-help');
-			
+
             if (category.active) {
                 category.active = false;
             } else {

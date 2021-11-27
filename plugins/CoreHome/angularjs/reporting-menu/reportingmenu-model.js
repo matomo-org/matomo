@@ -14,7 +14,6 @@
         // those sites are going to be displayed
         var model = {
             menu: [],
-            selected: [],
             fetchMenuItems: fetchMenuItems,
             reloadMenuItems: reloadMenuItems,
             findSubcategory: findSubcategory
@@ -22,40 +21,6 @@
 
         return model;
 
-        function isNumeric(text) {
-            return !isNaN(parseFloat(text)) && isFinite(text);
-        }
-
-        function findSubcategory(categoryId, subcategoryId)
-        {
-            var foundCategory = null;
-            var foundSubcategory = null;
-            var foundSubSubcategory = null;
-
-            angular.forEach(model.menu, function (category) {
-                if (category.id !== categoryId) {
-                    return;
-                }
-                angular.forEach(category.subcategories, function (subcategory) {
-                    if (subcategory.id === subcategoryId) {
-                        foundCategory = category;
-                        foundSubcategory = subcategory;
-                    }
-
-                    if (subcategory.isGroup) {
-                        angular.forEach(subcategory.subcategories, function (subcat) {
-                            if (subcat.id === subcategoryId) {
-                                foundCategory = category;
-                                foundSubcategory = subcategory;
-                                foundSubSubcategory = subcat;
-                            }
-                        });
-                    }
-                });
-            });
-
-            return {category: foundCategory, subcategory: foundSubcategory, subsubcategory: foundSubSubcategory};
-        }
 
         function buildMenuFromPages(pages)
         {
