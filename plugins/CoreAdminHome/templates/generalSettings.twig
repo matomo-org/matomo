@@ -96,6 +96,7 @@
 
                 <div piwik-field uicontrol="text" name="mailHost"
                      ng-model="mailSettings.mailHost"
+                     ng-change="mailSettings.passwordChanged || ((mailSettings.mailPassword = '') || (mailSettings.passwordChanged = true))"
                      data-title="{{ 'General_SmtpServerAddress'|translate|e('html_attr') }}"
                      value="{{ mail.host|e('html_attr') }}">
                 </div>
@@ -128,6 +129,7 @@
                 <div piwik-field uicontrol="password" name="mailPassword"
                      ng-model="mailSettings.mailPassword"
                      ng-change="mailSettings.passwordChanged = true"
+                     ng-click="!mailSettings.passwordChanged && $event.target.select();"
                      data-title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
                      value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}"
                      autocomplete="off">

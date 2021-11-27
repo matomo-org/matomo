@@ -720,6 +720,8 @@
 				<productViewName>PRODUCT name</productViewName>
 				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>4</pageviewPosition>
 				<title>Another Product page with multiple categories</title>
 				<subtitle>http://example.org/index.htm</subtitle>
