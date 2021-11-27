@@ -405,8 +405,14 @@ export default defineComponent({
         this.isLoadingNewPage = true;
       }
 
+      // get params without comparePeriods/compareSegments/compareDates
+      const paramsWithoutCompare = { ...MatomoUrl.parsed.value };
+      delete paramsWithoutCompare.comparePeriods;
+      delete paramsWithoutCompare.compareSegments;
+      delete paramsWithoutCompare.compareDates;
+
       MatomoUrl.updateLocation({
-        ...MatomoUrl.parsed.value,
+        ...paramsWithoutCompare,
         date,
         period,
         ...compareParams,

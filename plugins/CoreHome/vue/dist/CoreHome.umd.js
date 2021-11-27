@@ -6563,54 +6563,54 @@ MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_i
     }
   }
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=cd26b026
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=1d732b41
 
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_1 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_1 = {
   ref: "root",
   class: "periodSelector piwikSelector"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_2 = ["title"];
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_2 = ["title"];
 
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-calendar"
 }, null, -1);
 
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_4 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_4 = {
   id: "periodMore",
   class: "dropdown"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_5 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_5 = {
   class: "flex"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_6 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_6 = {
   key: 0,
   class: "period-date"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_7 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_7 = {
   class: "period-type"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_8 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_8 = {
   id: "otherPeriods"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_9 = ["onDblclick", "title"];
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_10 = ["id", "checked", "onChange", "onDblclick"];
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_11 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_9 = ["onDblclick", "title"];
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_10 = ["id", "checked", "onChange", "onDblclick"];
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_11 = {
   key: 0,
   class: "compare-checkbox"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_12 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_12 = {
   id: "comparePeriodToDropdown"
 };
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_13 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_13 = {
   key: 1,
   class: "compare-date-range"
 };
 
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "compare-dates-separator"
 }, null, -1);
 
-var PeriodSelectorvue_type_template_id_cd26b026_hoisted_15 = {
+var PeriodSelectorvue_type_template_id_1d732b41_hoisted_15 = {
   class: "apply-button-container"
 };
 var _hoisted_16 = ["disabled", "value"];
@@ -6621,7 +6621,7 @@ var _hoisted_17 = {
 var _hoisted_18 = {
   class: "loadingSegment"
 };
-function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PeriodSelectorvue_type_template_id_1d732b41_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DateRangePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateRangePicker");
 
   var _component_PeriodDatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodDatePicker");
@@ -6632,13 +6632,13 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
 
   var _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     ref: "title",
     id: "date",
     class: "title",
     tabindex: "-1",
     title: _ctx.translate('General_ChooseDate', _ctx.currentlyViewingText)
-  }, [PeriodSelectorvue_type_template_id_cd26b026_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.currentlyViewingText), 1)], 8, PeriodSelectorvue_type_template_id_cd26b026_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DateRangePicker, {
+  }, [PeriodSelectorvue_type_template_id_1d732b41_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.currentlyViewingText), 1)], 8, PeriodSelectorvue_type_template_id_1d732b41_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DateRangePicker, {
     class: "period-range",
     "start-date": _ctx.startRangeDate,
     "end-date": _ctx.endRangeDate,
@@ -6648,14 +6648,14 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
     onSubmit: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.onApplyClicked();
     })
-  }, null, 8, ["start-date", "end-date"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.selectedPeriod === 'range']]), _ctx.selectedPeriod !== 'range' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodDatePicker, {
+  }, null, 8, ["start-date", "end-date"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.selectedPeriod === 'range']]), _ctx.selectedPeriod !== 'range' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodDatePicker, {
     id: "datepicker",
     period: _ctx.selectedPeriod,
     date: _ctx.periodValue === _ctx.selectedPeriod ? _ctx.dateValue : null,
     onSelect: _cache[2] || (_cache[2] = function ($event) {
       return _ctx.setPiwikPeriodAndDate(_ctx.selectedPeriod, $event.date);
     })
-  }, null, 8, ["period", "date"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Period')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_8, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodsFiltered, function (period) {
+  }, null, 8, ["period", "date"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Period')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_8, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodsFiltered, function (period) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
       key: period
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
@@ -6680,14 +6680,14 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
       onDblclick: function onDblclick($event) {
         return _ctx.changeViewedPeriod(period);
       }
-    }, null, 40, PeriodSelectorvue_type_template_id_cd26b026_hoisted_10), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.selectedPeriod]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodSelectorvue_type_template_id_cd26b026_hoisted_9)]);
-  }), 128))])])]), _ctx.isComparisonEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    }, null, 40, PeriodSelectorvue_type_template_id_1d732b41_hoisted_10), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.selectedPeriod]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodSelectorvue_type_template_id_1d732b41_hoisted_9)]);
+  }), 128))])])]), _ctx.isComparisonEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     id: "comparePeriodTo",
     type: "checkbox",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return _ctx.isComparing = $event;
     })
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isComparing]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CompareTo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isComparing]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CompareTo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.comparePeriodType,
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return _ctx.comparePeriodType = $event;
@@ -6700,7 +6700,7 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
     options: _ctx.comparePeriodDropdownOptions,
     "full-width": true,
     disabled: !_ctx.isComparing
-  }, null, 8, ["modelValue", "style", "options", "disabled"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparing && _ctx.comparePeriodType === 'custom' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["modelValue", "style", "options", "disabled"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparing && _ctx.comparePeriodType === 'custom' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     id: "comparePeriodStartDate",
     modelValue: _ctx.compareStartDate,
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
@@ -6711,7 +6711,7 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
     "full-width": true,
     title: _ctx.translate('CoreHome_StartDate'),
     placeholder: 'YYYY - MM - DD'
-  }, null, 8, ["modelValue", "title"]), PeriodSelectorvue_type_template_id_cd26b026_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["modelValue", "title"]), PeriodSelectorvue_type_template_id_1d732b41_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     id: "comparePeriodEndDate",
     modelValue: _ctx.compareEndDate,
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
@@ -6722,7 +6722,7 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
     "full-width": true,
     title: _ctx.translate('CoreHome_EndDate'),
     placeholder: 'YYYY - MM - DD'
-  }, null, 8, ["modelValue", "title"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_cd26b026_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, ["modelValue", "title"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_1d732b41_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "submit",
     id: "calendarApply",
     class: "btn",
@@ -6737,7 +6737,7 @@ function PeriodSelectorvue_type_template_id_cd26b026_render(_ctx, _cache, $props
     expander: 'title'
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=cd26b026
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=1d732b41
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.vue?vue&type=template&id=6af4d064
 
@@ -7032,9 +7032,15 @@ function isValidDate(d) {
         this.closePeriodSelector();
       } else {
         this.isLoadingNewPage = true;
-      }
+      } // get params without comparePeriods/compareSegments/compareDates
 
-      src_MatomoUrl_MatomoUrl.updateLocation(PeriodSelectorvue_type_script_lang_ts_objectSpread(PeriodSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value), {}, {
+
+      var paramsWithoutCompare = PeriodSelectorvue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value);
+
+      delete paramsWithoutCompare.comparePeriods;
+      delete paramsWithoutCompare.compareSegments;
+      delete paramsWithoutCompare.compareDates;
+      src_MatomoUrl_MatomoUrl.updateLocation(PeriodSelectorvue_type_script_lang_ts_objectSpread(PeriodSelectorvue_type_script_lang_ts_objectSpread({}, paramsWithoutCompare), {}, {
         date: date,
         period: period
       }, compareParams));
@@ -7141,7 +7147,7 @@ function isValidDate(d) {
 
 
 
-PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_id_cd26b026_render
+PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_id_1d732b41_render
 
 /* harmony default export */ var PeriodSelector = (PeriodSelectorvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.adapter.ts
