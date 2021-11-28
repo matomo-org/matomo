@@ -45,7 +45,7 @@ interface SubcategoryFindResult {
 }
 
 function isNumeric(text) {
-  return !Number.isNaN(parseFloat(text)) && isFinite(text);
+  return !Number.isNaN(parseFloat(text)) && Number.isFinite(text);
 }
 
 export class ReportingMenuStore {
@@ -57,11 +57,11 @@ export class ReportingMenuStore {
 
   private state = computed(() => readonly(this.privateState));
 
-  readonly activeCategory = computed(() =>
-    this.state.value.activeCategoryId || MatomoUrl.parsed.value.category);
+  readonly activeCategory = computed(() => this.state.value.activeCategoryId
+    || MatomoUrl.parsed.value.category);
 
-  readonly activeSubcategory = computed(() =>
-    this.state.value.activeSubcategoryId || MatomoUrl.parsed.value.subcategory);
+  readonly activeSubcategory = computed(() => this.state.value.activeSubcategoryId
+    || MatomoUrl.parsed.value.subcategory);
 
   readonly activeSubsubcategory = computed(() => this.state.value.activeSubsubcategoryId);
 
@@ -132,7 +132,7 @@ export class ReportingMenuStore {
 
       category.subcategories = [];
 
-      let categoryGroups: Subcategory = undefined;
+      let categoryGroups: Subcategory;
 
       const pagesWithCategory = pages.filter((p) => p.category.id === categoryId);
       pagesWithCategory.forEach((p) => {
@@ -163,7 +163,10 @@ export class ReportingMenuStore {
         category.subcategories.push(subcategory);
       });
 
-      if (categoryGroups && categoryGroups.subcategories && categoryGroups.subcategories.length <= 5) {
+      if (categoryGroups
+        && categoryGroups.subcategories
+        && categoryGroups.subcategories.length <= 5
+      ) {
         categoryGroups.subcategories.forEach((sub) => category.subcategories.push(sub));
       } else if (categoryGroups) {
         category.subcategories.push(categoryGroups);
@@ -185,7 +188,7 @@ export class ReportingMenuStore {
       }
 
       if (rhs > lhs) {
-        return;
+        return 1;
       }
 
       return 0;
@@ -200,13 +203,17 @@ export class ReportingMenuStore {
     if (this.privateState.activeCategoryId === category.id) {
       this.privateState.activeCategoryId = null;
       return false;
-    } else {
-      this.privateState.activeCategoryId = category.id;
-      return true;
     }
+
+    this.privateState.activeCategoryId = category.id;
+    return true;
   }
 
-  enterSubcategory(category?: Category, subcategory?: Subcategory, subsubcategory?: Subcategory) {
+  enterSubcategory(
+    category?: Category,
+    subcategory?: Subcategory,
+    subsubcategory?: Subcategory,
+  ): void {
     if (!category || !subcategory) {
       return;
     }
@@ -215,7 +222,8 @@ export class ReportingMenuStore {
     this.privateState.activeSubcategoryId = subcategory.id;
 
     if (subsubcategory) {
-      // subcategory.name = subsubcategory.name; TODO: removed this code, hopefully won'y be an issue
+      // TODO: removed this code, hopefully won'y be an issue
+      // subcategory.name = subsubcategory.name
       this.privateState.activeSubsubcategoryId = subsubcategory.id;
     }
   }

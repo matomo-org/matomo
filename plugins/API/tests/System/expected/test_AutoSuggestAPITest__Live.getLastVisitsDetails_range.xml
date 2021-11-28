@@ -16,6 +16,8 @@
 				
 				<pageId>95</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -150,8 +152,8 @@
 				
 				<pageId>46</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -183,8 +185,6 @@
 				
 				<pageId>47</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>48</siteSearchCount>
@@ -220,8 +220,6 @@
 				
 				<pageId>48</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -239,8 +237,6 @@
 				
 				<pageId>49</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -388,6 +384,8 @@
 				
 				<pageId>45</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -540,8 +538,8 @@
 				
 				<pageId>41</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -589,8 +587,6 @@
 				
 				<pageId>42</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -608,8 +604,6 @@
 				
 				<pageId>43</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -760,6 +754,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -918,8 +914,8 @@
 				
 				<pageId>35</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -951,8 +947,6 @@
 				
 				<pageId>36</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>36</siteSearchCount>
@@ -988,8 +982,6 @@
 				
 				<pageId>37</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -1007,8 +999,6 @@
 				
 				<pageId>38</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -1185,6 +1175,8 @@
 				
 				<pageId>34</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -1337,8 +1329,8 @@
 				
 				<pageId>30</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -1386,8 +1378,6 @@
 				
 				<pageId>31</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -1405,8 +1395,6 @@
 				
 				<pageId>32</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -1554,6 +1542,8 @@
 				
 				<pageId>29</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -1706,8 +1696,8 @@
 				
 				<pageId>24</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -1739,8 +1729,6 @@
 				
 				<pageId>25</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>24</siteSearchCount>
@@ -1776,8 +1764,6 @@
 				
 				<pageId>26</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -1795,8 +1781,6 @@
 				
 				<pageId>27</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -1947,6 +1931,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -2105,8 +2091,8 @@
 				
 				<pageId>19</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -2154,8 +2140,6 @@
 				
 				<pageId>20</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -2173,8 +2157,6 @@
 				
 				<pageId>21</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -2351,8 +2333,8 @@
 				
 				<pageId>80</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -2400,8 +2382,6 @@
 				
 				<pageId>81</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -2419,8 +2399,6 @@
 				
 				<pageId>82</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -2589,6 +2567,8 @@
 				
 				<pageId>18</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -2741,6 +2721,8 @@
 				
 				<pageId>79</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -2893,8 +2875,8 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -2926,8 +2908,6 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>12</siteSearchCount>
@@ -2963,8 +2943,6 @@
 				
 				<pageId>15</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -2982,8 +2960,6 @@
 				
 				<pageId>16</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -3131,8 +3107,8 @@
 				
 				<pageId>74</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -3164,8 +3140,6 @@
 				
 				<pageId>75</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>12</siteSearchCount>
@@ -3201,8 +3175,6 @@
 				
 				<pageId>76</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -3220,8 +3192,6 @@
 				
 				<pageId>77</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -3361,6 +3331,8 @@
 				
 				<pageId>12</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -3513,6 +3485,8 @@
 				
 				<pageId>73</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -3665,8 +3639,8 @@
 				
 				<pageId>8</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -3714,8 +3688,6 @@
 				
 				<pageId>9</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -3733,8 +3705,6 @@
 				
 				<pageId>10</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -3882,8 +3852,8 @@
 				
 				<pageId>58</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -3931,8 +3901,6 @@
 				
 				<pageId>59</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -3950,8 +3918,6 @@
 				
 				<pageId>60</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -4099,8 +4065,8 @@
 				
 				<pageId>69</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -4148,8 +4114,6 @@
 				
 				<pageId>70</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -4167,8 +4131,6 @@
 				
 				<pageId>71</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -4308,8 +4270,8 @@
 				
 				<pageId>91</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -4357,8 +4319,6 @@
 				
 				<pageId>92</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -4376,8 +4336,6 @@
 				
 				<pageId>93</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -4528,6 +4486,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -4689,6 +4649,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -4850,6 +4812,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -5011,6 +4975,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -5169,8 +5135,8 @@
 				
 				<pageId>2</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5202,8 +5168,6 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -5239,8 +5203,6 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -5258,8 +5220,6 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -5436,8 +5396,8 @@
 				
 				<pageId>52</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5469,8 +5429,6 @@
 				
 				<pageId>53</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -5506,8 +5464,6 @@
 				
 				<pageId>54</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -5525,8 +5481,6 @@
 				
 				<pageId>55</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -5703,8 +5657,8 @@
 				
 				<pageId>63</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5736,8 +5690,6 @@
 				
 				<pageId>64</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -5773,8 +5725,6 @@
 				
 				<pageId>65</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -5792,8 +5742,6 @@
 				
 				<pageId>66</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -5962,8 +5910,8 @@
 				
 				<pageId>85</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5995,8 +5943,6 @@
 				
 				<pageId>86</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -6032,8 +5978,6 @@
 				
 				<pageId>87</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -6051,8 +5995,6 @@
 				
 				<pageId>88</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -6229,6 +6171,8 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6381,6 +6325,8 @@
 				
 				<pageId>51</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6533,6 +6479,8 @@
 				
 				<pageId>62</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6685,6 +6633,8 @@
 				
 				<pageId>84</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>

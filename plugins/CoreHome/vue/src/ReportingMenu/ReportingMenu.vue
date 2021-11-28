@@ -185,7 +185,11 @@ export default defineComponent({
     // TODO: document method of watching for url changes
     watch(() => MatomoUrl.parsed.value, (query) => {
       const found = ReportingMenuStoreInstance.findSubcategory(query.category, query.subcategory);
-      ReportingMenuStoreInstance.enterSubcategory(found.category, found.subcategory, found.subsubcategory);
+      ReportingMenuStoreInstance.enterSubcategory(
+        found.category,
+        found.subcategory,
+        found.subsubcategory,
+      );
     });
 
     Matomo.on('piwikPageChange', () => {
@@ -196,7 +200,10 @@ export default defineComponent({
       this.helpShownCategory = null;
 
       if (this.showSubcategoryHelpOnLoad) {
-        this.showHelp(this.showSubcategoryHelpOnLoad.category, this.showSubcategoryHelpOnLoad.subcategory);
+        this.showHelp(
+          this.showSubcategoryHelpOnLoad.category,
+          this.showSubcategoryHelpOnLoad.subcategory,
+        );
         this.showSubcategoryHelpOnLoad = null;
       }
 
@@ -214,12 +221,15 @@ export default defineComponent({
           const found = ReportingMenuStoreInstance.findSubcategory(category, subcategory);
           if (found) {
             ReportingMenuStoreInstance.enterSubcategory(
-              found.category, found.subcategory, found.subsubcategory);
+              found.category,
+              found.subcategory,
+              found.subsubcategory,
+            );
           }
         }
       });
 
-      if ('object' === typeof window.widgetsHelper && window.widgetsHelper.availableWidgets) {
+      if (typeof window.widgetsHelper === 'object' && window.widgetsHelper.availableWidgets) {
         // lets also update widgetslist so will be easier to update list of available widgets in
         // dashboard selector immediately
         delete window.widgetsHelper.availableWidgets;
@@ -231,8 +241,8 @@ export default defineComponent({
     propagateUrlChange(category: Category, subcategory: Subcategory) {
       const queryParams = MatomoUrl.parsed.value;
       if (queryParams.category === category.id && queryParams.subcategory === subcategory.id) {
-        // we need to manually trigger change as URL would not change and therefore page would not be
-        // reloaded
+        // we need to manually trigger change as URL would not change and therefore page would not
+        // be reloaded
         this.loadSubcategory(category, subcategory);
       } else {
         MatomoUrl.updateHash({
@@ -271,7 +281,7 @@ export default defineComponent({
         subcategory: subcategory.id,
       });
     },
-    showHelp(category: Category, subcategory: Subcategory, event: Event) {
+    showHelp(category: Category, subcategory: Subcategory, event?: Event) {
       const { currentCategory, currentSubcategory } = MatomoUrl.parsed.value;
       if ((currentCategory !== category.id
         || currentSubcategory !== subcategory.id)
@@ -296,7 +306,7 @@ export default defineComponent({
 
       const prefixText = translate('CoreHome_ReportingCategoryHelpPrefix',
         category.name, subcategory.name);
-      const prefix = `<strong>${prefixText}</strong><br/>`
+      const prefix = `<strong>${prefixText}</strong><br/>`;
 
       NotificationsStore.show({
         context: 'info',
