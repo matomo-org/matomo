@@ -6,18 +6,22 @@
  */
 
 import ReportingPagesStoreInstance from './ReportingPages.store';
-import { cloneThenApply } from '../createAngularJsAdapter';
+import { cloneThenApply, clone } from '../createAngularJsAdapter';
 
 function reportingPagesModelAdapter() {
   return {
     get pages() {
       return ReportingPagesStoreInstance.pages.value;
     },
-    findPageInCategory:
-      ReportingPagesStoreInstance.findPageInCategory.bind(ReportingPagesStoreInstance),
+    findPageInCategory: (
+      ...args: Parameters<typeof ReportingPagesStoreInstance['findPageInCategory']>
+    ) => {
+      const result = ReportingPagesStoreInstance.findPageInCategory(...args);
+      return clone(result);
+    },
     findPage: (...args: Parameters<typeof ReportingPagesStoreInstance['findPage']>) => {
       const page = ReportingPagesStoreInstance.findPage(...args);
-      return cloneThenApply(page);
+      return clone(page);
     },
     reloadAllPages: () => ReportingPagesStoreInstance.reloadAllPages()
       .then((p) => cloneThenApply(p)),

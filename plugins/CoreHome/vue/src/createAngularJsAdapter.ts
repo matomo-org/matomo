@@ -315,8 +315,12 @@ export function transformAngularJsIntAttr(v: string): number {
 }
 
 // utility function for service adapters
-export function cloneThenApply<T>(p: T): T {
-  const result = JSON.parse(JSON.stringify(p)) as T;
+export function clone<T>(o: T): T {
+  return JSON.parse(JSON.stringify(o)) as T;
+}
+
+export function cloneThenApply<T>(o: T): T {
+  const result = clone(o);
   Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
   return result;
 }
