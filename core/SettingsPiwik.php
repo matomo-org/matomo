@@ -248,7 +248,7 @@ class SettingsPiwik
     /**
      * Check if outgoing internet connections are enabled
      * This is often disable in an intranet environment
-     * 
+     *
      * @return bool
      */
     public static function isInternetEnabled(): bool
@@ -268,7 +268,7 @@ class SettingsPiwik
         if(self::isInternetEnabled() === true && $enableAutoUpdate === true){
             return true;
         }
-        
+
         return false;
     }
 
@@ -316,12 +316,15 @@ class SettingsPiwik
      * Unique visitor processing is controlled by the `[General] enable_processing_unique_visitors_...`
      * INI config options. By default, unique visitors are processed only for day/week/month periods.
      *
-     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     * @param string|array $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      * @return bool
      * @api
      */
-    public static function isUniqueVisitorsEnabled(string $periodLabel): bool
+    public static function isUniqueVisitorsEnabled($periodLabel): bool
     {
+        if (is_array($periodLabel)) {
+            $periodLabel = implode("",$periodLabel);
+        }
         $generalSettings = Config::getInstance()->General;
 
         $settingName = "enable_processing_unique_visitors_$periodLabel";
