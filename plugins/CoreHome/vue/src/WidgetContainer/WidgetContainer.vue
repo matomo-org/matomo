@@ -24,6 +24,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
+import WidgetData from '../Widget/WidgetData';
 
 // TODO: need to test dashboard removal/move/etc.
 // TODO: allow-recursion
@@ -31,10 +32,6 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 // since we're recursing, don't import the plugin directly
 const Widget = useExternalPluginComponent('CoreHome', 'Widget');
 
-interface WidgetData {
-  viewDataTable: string;
-  parameters: Record<string, unknown>;
-}
 
 export default defineComponent({
   props: {
