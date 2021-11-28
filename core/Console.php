@@ -137,7 +137,7 @@ class Console extends Application
         }
 
         $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
-        if (!$input->getOption('ignore-warn')
+        if (!$input->hasParameterOption('ignore-warn')
             && $exitCode === 0
             && $importantLogDetector->hasEncounteredImportantLog()
         ) {
