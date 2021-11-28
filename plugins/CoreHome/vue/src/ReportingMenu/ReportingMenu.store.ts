@@ -67,8 +67,8 @@ export class ReportingMenuStore {
 
   readonly menu = computed(() => this.buildMenuFromPages());
 
-  fetchMenuItems(): typeof ReportingPagesStoreInstance['menu']['value'] {
-    return this.menu.value;
+  fetchMenuItems(): Promise<typeof ReportingPagesStoreInstance['menu']['value']> {
+    return ReportingPagesStoreInstance.getAllPages().then(() => this.menu.value);
   }
 
   reloadMenuItems(): Promise<typeof ReportingMenuStore['menu']['value']> {

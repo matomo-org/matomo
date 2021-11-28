@@ -71,7 +71,8 @@
               href="javascript:"
               v-if="subcategory.help"
               @click="showHelp(category, subcategory, $event)"
-              :class="{active: helpShownCategory.subcategory === subcategory.id
+              :class="{active: helpShownCategory
+                && helpShownCategory.subcategory === subcategory.id
                 && helpShownCategory.category === category.id
                 && subcategory.help}"
             >
@@ -92,7 +93,7 @@
       >
         <ul
           class="collapsible collapsible-accordion"
-          v-side-nav="{ activator: 'nav .activateLeftMenu' }"
+          v-side-nav="{ activator: sideNavActivator }"
         >
           <li>
             <a class="collapsible-header">
@@ -157,6 +158,9 @@ export default defineComponent({
     };
   },
   computed: {
+    sideNavActivator() {
+      return document.querySelector('nav .activateLeftMenu');
+    },
     menu() {
       return ReportingMenuStoreInstance.menu.value;
     },
@@ -296,7 +300,8 @@ export default defineComponent({
         return;
       }
 
-      if (category.id === this.helpShownCategory.category
+      if (this.helpShownCategory
+        && category.id === this.helpShownCategory.category
         && subcategory.id === this.helpShownCategory.subcategory
       ) {
         NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
