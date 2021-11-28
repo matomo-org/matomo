@@ -37,6 +37,7 @@ import './PeriodSelector/PeriodSelector.adapter';
 import './ReportingMenu/ReportingMenu.adapter';
 import './ReportingPages/ReportingPages.store.adapter';
 import './ReportMetadata/ReportMetadata.store.adapter';
+import './WidgetLoader/WidgetLoader.adapter';
 
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
@@ -78,3 +79,4 @@ export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';
 export { default as ReportingMenu } from './ReportingMenu/ReportingMenu.vue';
 export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
+export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
