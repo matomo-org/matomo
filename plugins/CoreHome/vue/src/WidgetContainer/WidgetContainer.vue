@@ -14,7 +14,7 @@
         <Widget
           v-bind="widget"
           :parameters="getModifiedParameters(widget)"
-          :allow-recursion="false"
+          :prevent-recursion="true"
         />
       </div>
     </div>
@@ -24,14 +24,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
-import WidgetData from '../Widget/WidgetData';
+import { WidgetData } from '../Widget/Widgets.store';
 
 // TODO: need to test dashboard removal/move/etc.
-// TODO: allow-recursion
 
 // since we're recursing, don't import the plugin directly
 const Widget = useExternalPluginComponent('CoreHome', 'Widget');
-
 
 export default defineComponent({
   props: {

@@ -17,7 +17,7 @@
           <li
             class="reportDimension"
             v-for="widget in category.widgets"
-            :key="widget.id"
+            :key="widget.uniqueId"
             :class="{ activeDimension: selectedWidget.uniqueId === widget.uniqueId }"
             @click="selectWidget(widget)"
           >
@@ -41,7 +41,7 @@
 import { defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import { Orderable } from '../ReportingMenu/ReportingMenu.store';
-import WidgetData from '../Widget/WidgetData';
+import { WidgetData } from '../Widget/Widgets.store';
 
 // TODO: is there a widget category ID or widget ID
 
@@ -101,6 +101,6 @@ export default defineComponent({
       // we copy to force rerender if selecting same widget
       this.selectedWidget = { ...widget };
     },
-  }
+  },
 });
 </script>

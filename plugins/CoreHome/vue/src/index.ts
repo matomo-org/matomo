@@ -40,6 +40,7 @@ import './ReportMetadata/ReportMetadata.store.adapter';
 import './WidgetLoader/WidgetLoader.adapter';
 import './WidgetContainer/WidgetContainer.adapter';
 import './WidgetByDimensionContainer/WidgetByDimensionContainer.adapter';
+import './Widget/Widget.adapter';
 
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
@@ -81,6 +82,8 @@ export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';
 export { default as ReportingMenu } from './ReportingMenu/ReportingMenu.vue';
 export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
+export { default as WidgetsStore } from './Widget/Widgets.store';
 export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
 export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
+export { default as Widget } from './Widget/Widget.vue';
