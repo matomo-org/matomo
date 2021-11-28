@@ -114,7 +114,7 @@
                 :uicontrol="'text'"
                 :full-width="true"
                 :title="translate('CoreHome_StartDate')"
-                :placeholder="'YYYY - MM - DD'"
+                :placeholder="'YYYY-MM-DD'"
               />
             </div>
           </div>
@@ -127,7 +127,7 @@
                 :uicontrol="'text'"
                 :full-width="true"
                 :title="translate('CoreHome_EndDate')"
-                :placeholder="'YYYY - MM - DD'"
+                :placeholder="'YYYY-MM-DD'"
               />
             </div>
           </div>
