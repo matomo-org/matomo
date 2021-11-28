@@ -139,7 +139,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngAttrs: ng.IAttributes,
             ngController: ng.IControllerService,
           ) {
-            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
+            const cloneElement = transclude
+              ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`)
+              : null;
 
             // build the root vue template
             let rootVueTemplate = '<root-component';
@@ -260,7 +262,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
 
             if (transclude) {
-              $(vm.transcludeTarget).append(clone);
+              $(vm.transcludeTarget).append(cloneElement);
             }
 
             if (postCreate) {
