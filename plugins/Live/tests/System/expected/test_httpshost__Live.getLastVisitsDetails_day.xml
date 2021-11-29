@@ -16,6 +16,8 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title 0</title>
 				<subtitle>https://example.org/my/dir/page0</subtitle>
@@ -135,6 +137,8 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title -1</title>
 				<subtitle>https://example.org/my/dir/page-1</subtitle>
@@ -444,6 +448,8 @@
 				
 				<pageId>12</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>11</pageviewPosition>
 				<title>incredible title 1</title>
 				<subtitle>https://example.org/my/dir/page-2</subtitle>
