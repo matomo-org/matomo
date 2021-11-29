@@ -49,7 +49,7 @@
                 tabindex="5"
                 :class="{active: subcat.id === activeSubsubcategory}"
                 :href="`#?${makeUrl(category, subcat)}`"
-                @click="$event.preventDefault(); loadSubcategory(category, subcat)"
+                @click="loadSubcategory(category, subcat)"
                 v-for="subcat in subcategory.subcategories"
                 :title="subcat.tooltip"
                 :key="subcat.id"
@@ -61,7 +61,7 @@
               v-if="!subcategory.isGroup"
               :href="`#?${makeUrl(category, subcategory)}`"
               class="item"
-              @click="$event.preventDefault(); loadSubcategory(category, subcategory)"
+              @click="loadSubcategory(category, subcategory)"
             >
               {{ subcategory.name }}
             </a>
@@ -104,7 +104,7 @@
                 <li v-for="subcategory in category.subcategories" :key="subcategory.id">
                   <span v-if="subcategory.isGroup">
                     <a
-                      @click="$event.preventDefault(); loadSubcategory(category, subcat)"
+                      @click="loadSubcategory(category, subcat)"
                       :href="`#?${makeUrl(category, subcat)}`"
                       v-for="subcat in subcategory.subcategories"
                       :key="subcat.id"
@@ -114,7 +114,7 @@
                   </span>
                   <span v-if="!subcategory.isGroup">
                     <a
-                      @click="$event.preventDefault(); loadSubcategory(category, subcategory)"
+                      @click="loadSubcategory(category, subcategory)"
                       :href="`#?${makeUrl(category, subcategory)}`"
                     >
                       {{ subcategory.name }}
