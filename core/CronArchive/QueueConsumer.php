@@ -658,12 +658,4 @@ class QueueConsumer
         return $this->maxSitesToProcess;
     }
 
-    /*
-     *Check if segment is deleted
-     *
-     */
-    public function isSegmentDeleted()
-    {
-
-    }
 }
