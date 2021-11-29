@@ -71,7 +71,7 @@ describe("Comparison", function () {
         await page.waitForNetworkIdle();
 
         const pageWrap = await page.$('.pageWrap');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('transitions');
+        expect(await pageWrap.screenshot()).to.matchImage('transitions');
     });
 
     it('should show extra serieses when comparing in evolution graphs and sparklines', async () => {
