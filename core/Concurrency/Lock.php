@@ -116,6 +116,11 @@ class Lock
         }
     }
 
+    public function isLockedByAnyProcess()
+    {
+        return (bool) $this->backend->get($this->lockKey);
+    }
+
     public function expireLock($ttlInSeconds)
     {
         if ($ttlInSeconds > 0) {
