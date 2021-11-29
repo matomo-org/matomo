@@ -55,7 +55,7 @@ class Console extends Application
         $this->getDefinition()->addOption($option);
 
         $option = new InputOption('ignore-warn', null, InputOption::VALUE_NONE,
-            'Return 0 exit code even if there are warnings detected.');
+            'Return 0 exit code even if there are warning logs or error logs detected in the command output.');
 
         $this->getDefinition()->addOption($option);
     }
