@@ -74,28 +74,39 @@ jobs:
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         shell: bash
         run: ./github/scripts/bash/prepare.sh
-
-
-      - name: Install dependencies
-        run: |
-          composer install --ignore-platform-reqs
-
-      - name: Run PHP on 80 and 3000
-        run: |
-          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-          tmux new-session -d -s "php-80" php -S localhost:80
-          tmux new-session -d -s "php-3000" php -S localhost:3000
-          tmux ls
-
-      - name: set tmp and screenshot folder permission
-        run: |
-          sudo gpasswd -a "$USER" www-data
-          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
-          sudo chmod o+w /home/runner/work/matomo/matomo/
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-          sudo chmod -R 777 /tmp
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
-          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
+        env:
+           PHP_VERSION: 8.0
+#
+#
+#      - name: Install dependencies
+#        run: |
+#          composer install --ignore-platform-reqs
+#
+#      - name: Run PHP on Nginx
+#        run: |
+#          sudo systemctl enable php8.0-fpm.service
+#          sudo systemctl start php8.0-fpm.service
+#          sudo cp -rf  ./.github/scripts/www.conf /etc/php/8.0/fpm/pool.d/
+#          sudo systemctl reload php8.0-fpm.service
+#          sudo systemctl restart php8.0-fpm.service
+#          sudo systemctl status php8.0-fpm.service
+#          sudo systemctl enable nginx
+#          sudo systemctl start nginx
+#          sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
+#          sudo unlink /etc/nginx/sites-enabled/default
+#          sudo nginx -t
+#          sudo systemctl reload nginx
+#          sudo systemctl restart nginx
+#
+#      - name: set tmp and screenshot folder permission
+#        run: |
+#          sudo gpasswd -a "$USER" www-data
+#          sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
+#          sudo chmod o+w /home/runner/work/matomo/matomo/
+#          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+#          sudo chmod -R 777 /tmp
+#          sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+#          sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
 
       - name: Test runing
         if: matrix.tests == 'UnitTests'

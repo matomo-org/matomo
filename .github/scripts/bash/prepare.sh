@@ -40,22 +40,23 @@ fi
 
 
 if [ ${{ $matrix.tests }} = "UITests" ||  ];
+then
   echo "installing node/puppeteer"
   cd ./tests/lib/screenshot-testing
   git lfs pull --exclude=
   npm install
   node --version
-
+fi
 
 if [ ${{ $matrix.tests }} = "UITests" ];
 then
   echo "setup php-fpm"
-  sudo systemctl enable php7.2-fpm.service
-  sudo systemctl start php7.2-fpm.service
-  sudo cp -rf  ./.github/scripts/www.conf /etc/php/7.2/fpm/pool.d/
-  sudo systemctl reload php7.2-fpm.service
-  sudo systemctl restart php7.2-fpm.service
-  sudo systemctl status php7.2-fpm.service
+  sudo systemctl enable php{$PHP_VERSION}-fpm.service
+  sudo systemctl start php{$PHP_VERSION}-fpm.service
+  sudo cp -rf  ./.github/scripts/www.conf /etc/php/{$PHP_VERSION}/fpm/pool.d/
+  sudo systemctl reload php{$PHP_VERSION}-fpm.service
+  sudo systemctl restart php{$PHP_VERSION}-fpm.service
+  sudo systemctl status php{$PHP_VERSION}-fpm.service
   sudo systemctl enable nginx
   sudo systemctl start nginx
   sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
@@ -88,3 +89,20 @@ then
 
 fi
 
+echo "install composer"
+composer install --ignore-platform-reqs
+#if [ ${{ $matrix.tests }} !== "UITests" ];
+#  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+#  tmux new-session -d -s "php-80" php -S localhost:80
+#  tmux new-session -d -s "php-3000" php -S localhost:3000
+#  tmux ls
+#fi
+
+echo "set tmp and screenshot folder permission"
+sudo gpasswd -a "$USER" www-data
+sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
+sudo chmod o+w /home/runner/work/matomo/matomo/
+sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
+sudo chmod -R 777 /tmp
+sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
+sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
