@@ -63,7 +63,7 @@ class Get extends Base
     {
         $idSite  = Common::getRequestVar('idSite', 0, 'int');
 
-        $isMenu =  Common::getRequestVar('menu', 0, 'int');
+        $isMultiples =  Common::getRequestVar('multiples', 0, 'int');
 
         if (empty($idSite)) {
             return;
@@ -74,7 +74,7 @@ class Get extends Base
 
         $page = new Pages($factory, $reports);
 
-        $widgetsList->addWidgetConfigs($page->createGoalsOverviewPage($goals,$isMenu));
+        $widgetsList->addWidgetConfigs($page->createGoalsOverviewPage($goals, $isMultiples));
 
         if ($this->isEcommerceEnabled($idSite)) {
             $widgetsList->addWidgetConfigs($page->createEcommerceOverviewPage());

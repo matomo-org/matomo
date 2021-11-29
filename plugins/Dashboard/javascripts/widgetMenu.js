@@ -72,7 +72,6 @@ widgetsHelper.getAvailableWidgets = function (callback) {
             filter_limit: '-1',
             format: 'JSON',
             deep: '1',
-            menu: '1',
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite')
         }, 'get');
         ajaxRequest.setCallback(
