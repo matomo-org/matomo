@@ -183,11 +183,11 @@ export class ReportingMenuStore {
   private sortMenuItems<T extends Orderable>(menu: T[]): T[] {
     const result = [...menu];
     result.sort((lhs, rhs) => {
-      if (lhs < rhs) {
+      if (lhs.order < rhs.order) {
         return -1;
       }
 
-      if (rhs > lhs) {
+      if (rhs.order > lhs.order) {
         return 1;
       }
 

@@ -8251,11 +8251,11 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
       var result = ReportingMenu_store_toConsumableArray(menu);
 
       result.sort(function (lhs, rhs) {
-        if (lhs < rhs) {
+        if (lhs.order < rhs.order) {
           return -1;
         }
 
-        if (rhs > lhs) {
+        if (rhs.order > lhs.order) {
           return 1;
         }
 
