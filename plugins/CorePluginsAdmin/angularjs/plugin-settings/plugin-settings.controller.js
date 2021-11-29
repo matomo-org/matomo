@@ -28,8 +28,17 @@
         piwikApi.fetch({method: apiMethod}).then(function (settings) {
             self.isLoading = false;
             self.settingsPerPlugin = settings;
-
             window.anchorLinkFix.scrollToAnchorInUrl();
+
+            // Add plugin sections to page table of contents
+            for (var s in self.settingsPerPlugin) {
+                if (self.settingsPerPlugin[s].hasOwnProperty('title')) {
+                    var pn = self.settingsPerPlugin[s]['title'];
+                    if (pn !== 'CoreAdminHome') {
+                        $('#generalSettingsTOC').append('<a href="#/' + pn + '">' + pn + '</a>');
+                    }
+                }
+            }
         }, function () {
             self.isLoading = false;
         });
