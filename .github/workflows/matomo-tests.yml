@@ -73,7 +73,7 @@ jobs:
 
       - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
         shell: bash
-        run: ./github/scripts/bash/prepare.sh
+        run: ./.github/scripts/bash/prepare.sh
         env:
            PHP_VERSION: 8.0
 #
