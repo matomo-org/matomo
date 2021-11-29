@@ -58,6 +58,7 @@ class Pages
         $widgets[] = $config;
 
 
+        // if is not for dashboard menu, load as whole
         if(!$isMenu) {
             $config = $this->factory->createWidget();
             $config->setSubcategoryId($subcategory);
