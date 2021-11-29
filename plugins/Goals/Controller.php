@@ -16,6 +16,7 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Translation\Translator;
@@ -217,6 +218,23 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
         return $this->renderView($view);
+    }
+
+    public function getSparklines()
+    {
+        $data = [];
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+        $view = new View('@Goals/getSparklines');
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'],
+          $default = []);
+
+        foreach ($goals as $key => $goal) {
+            $data[$key] = $this->getMetricsForGoal($goal['idgoal']);
+            $data[$key]['name'] = $goal['name'];
+        }
+
+        $view->goals = $data;
+        return $view->render();
     }
 
     private function getColumnTranslation($nameToLabel, $columnName, $idGoal)

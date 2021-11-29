@@ -35,7 +35,7 @@ class Pages
      * @param array $goals
      * @return WidgetConfig[]
      */
-    public function createGoalsOverviewPage($goals)
+    public function createGoalsOverviewPage($goals, $isMenu = true)
     {
         $subcategory = 'General_Overview';
 
@@ -57,20 +57,35 @@ class Pages
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
-        foreach ($goals as $goal) {
-            $name = Common::sanitizeInputValue($goal['name']);
-            $goalTranslated = Piwik::translate('Goals_GoalX', array($name));
 
+        if(!$isMenu) {
             $config = $this->factory->createWidget();
-            $config->setName($goalTranslated);
             $config->setSubcategoryId($subcategory);
             $config->forceViewDataTable(Sparklines::ID);
-            $config->setParameters(array('idGoal' => $goal['idgoal']));
             $config->setOrder(25);
-            $config->setIsNotWidgetizable();
-            $config->addParameters(array('allow_multiple' => (int) $goal['allow_multiple'], 'only_summary' => '1'));
+            $config->setModule('Goals');
+            $config->setAction('getSparklines');
             $widgets[] = $config;
+        } else {
+            foreach ($goals as $goal) {
+                $name = Common::sanitizeInputValue($goal['name']);
+                $goalTranslated = Piwik::translate('Goals_GoalX', array($name));
+
+                $config = $this->factory->createWidget();
+                $config->setName($goalTranslated);
+                $config->setSubcategoryId($subcategory);
+                $config->forceViewDataTable(Sparklines::ID);
+                $config->setParameters(array('idGoal' => $goal['idgoal']));
+                $config->setOrder(25);
+                $config->setIsNotWidgetizable();
+                $config->addParameters(array('allow_multiple' => (int)$goal['allow_multiple'], 'only_summary' => '1'));
+                $widgets[] = $config;
+            }
         }
+
+
+
+
 
         $container = $this->createWidgetizableWidgetContainer('GoalsOverview', $subcategory, $widgets);
 
