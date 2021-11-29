@@ -1,4 +1,7 @@
 #!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+SET='\033[0m'
 
 if [${{ $matrix.tests }} = "UITests" ] ]
 then
@@ -41,7 +44,7 @@ fi
 
 if [ ${{ $matrix.tests }} = "UITests" ||  ];
 then
-  echo "installing node/puppeteer"
+  echo "${GREEN}installing node/puppeteer${SET}"
   cd ./tests/lib/screenshot-testing
   git lfs pull --exclude=
   npm install
@@ -50,13 +53,13 @@ fi
 
 if [ ${{ $matrix.tests }} = "UITests" ];
 then
-  echo "setup php-fpm"
-  sudo systemctl enable php{$PHP_VERSION}-fpm.service
-  sudo systemctl start php{$PHP_VERSION}-fpm.service
-  sudo cp -rf  ./.github/scripts/www.conf /etc/php/{$PHP_VERSION}/fpm/pool.d/
-  sudo systemctl reload php{$PHP_VERSION}-fpm.service
-  sudo systemctl restart php{$PHP_VERSION}-fpm.service
-  sudo systemctl status php{$PHP_VERSION}-fpm.service
+  echo "${GREEN}setup php-fpm${SET}"
+  sudo systemctl enable php$PHP_VERSION-fpm.service
+  sudo systemctl start php$PHP_VERSION-fpm.service
+  sudo cp -rf  ./.github/scripts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
+  sudo systemctl reload php$PHP_VERSION-fpm.service
+  sudo systemctl restart php$PHP_VERSION-fpm.service
+  sudo systemctl status php$PHP_VERSION-fpm.service
   sudo systemctl enable nginx
   sudo systemctl start nginx
   sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
@@ -65,7 +68,7 @@ then
   sudo systemctl reload nginx
   sudo systemctl restart nginx
 
-  echo "set folder Permission"
+  echo "${GREEN}set folder Permission${SET}"
   cp .github/scripts/config.ini.github.ui.php config/config.ini.php
   cp .github/scripts/config.dist.js ./tests/UI/config.js
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
@@ -89,7 +92,7 @@ then
 
 fi
 
-echo "install composer"
+echo "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 #if [ ${{ $matrix.tests }} !== "UITests" ];
 #  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
@@ -98,7 +101,7 @@ composer install --ignore-platform-reqs
 #  tmux ls
 #fi
 
-echo "set tmp and screenshot folder permission"
+echo "${GREEN}set tmp and screenshot folder permission${SET}"
 sudo gpasswd -a "$USER" www-data
 sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
 sudo chmod o+w /home/runner/work/matomo/matomo/

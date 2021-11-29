@@ -71,7 +71,7 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
+      - name: prepare setup
         shell: bash
         run: ./.github/scripts/bash/prepare.sh
         env:
