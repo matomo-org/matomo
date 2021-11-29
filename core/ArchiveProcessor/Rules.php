@@ -367,26 +367,21 @@ class Rules
 
     public static function isSegmentPluginArchivingDisabled($pluginName, $siteId = null)
     {
-
         $pluginArchivingSetting = GeneralConfig::getConfigValue('disable_archiving_segment_for_plugins', $siteId);
 
         if (empty($pluginArchivingSetting)) {
             return false;
         }
 
-
         if (is_string($pluginArchivingSetting)) {
-
-            //special case return false
-            if (preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬-]/', $pluginArchivingSetting)) {
-                return false;
-            }
-
-            $pluginArchivingSetting = explode(",", "$pluginArchivingSetting");
+            $pluginArchivingSetting = explode(",", $pluginArchivingSetting);
+            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function($plugin){
+                return Manager::getInstance()->isValidPluginName($plugin);
+            });
         }
 
-        //case-insensitive search
-        return (bool)preg_grep('/'.$pluginName.'/i',$pluginArchivingSetting);
+        $pluginArchivingSetting = array_map('strtolower', $pluginArchivingSetting);
 
+        return in_array(strtolower($pluginName), $pluginArchivingSetting);
     }
 }
