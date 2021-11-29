@@ -80,7 +80,7 @@ export class ReportingMenuStore {
     let foundSubcategory = null;
     let foundSubSubcategory = null;
 
-    this.privateState.menu.forEach((category) => {
+    this.menu.value.forEach((category) => {
       if (category.id !== categoryId) {
         return;
       }

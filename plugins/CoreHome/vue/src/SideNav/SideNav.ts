@@ -34,7 +34,7 @@ export default {
         initialized = true;
 
         const sideNavActivator = DirectiveUtilities.getRef(binding.value.activator, binding);
-        if (!sideNavActivator) {
+        if (sideNavActivator) {
           window.$(sideNavActivator).show();
         }
 

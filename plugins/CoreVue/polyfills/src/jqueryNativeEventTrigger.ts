@@ -13,7 +13,9 @@ function triggerWithNativeEventDispatch(jqEventOrType, data) {
     const onEventAttributeName = `on${type}`;
 
     if (element[onEventAttributeName]
-      || element[type] instanceof Function
+      || (element[type] instanceof Function
+        // jquery disables calling the native click() method for links
+        && !(type === 'click' && element.tagName.toUpperCase() === 'A'))
     ) {
       // if a on... (eg, onchange) handler is specified, it will be triggered by jquery.
       // it will also be triggered by addEventListener, and we don't want that so just

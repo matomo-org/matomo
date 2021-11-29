@@ -22,7 +22,7 @@
           class="item"
           tabindex="5"
           href=""
-          @click="loadCategory(category)"
+          @click="$event.preventDefault(); loadCategory(category)"
         >
           <span
             :class="`menu-icon ${category.icon ? category.icon : 'icon-arrow-right'}`"
