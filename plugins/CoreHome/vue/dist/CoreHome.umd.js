@@ -2440,7 +2440,7 @@ var initialized = false;
         initialized = true;
         var sideNavActivator = directiveUtilities.getRef(binding.value.activator, binding);
 
-        if (!sideNavActivator) {
+        if (sideNavActivator) {
           window.$(sideNavActivator).show();
         }
 

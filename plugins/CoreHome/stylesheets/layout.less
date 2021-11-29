@@ -115,7 +115,9 @@ nav {
   }
 
   #secondNavBar {
-    box-shadow: none !important;
+    &, & > .navbar {
+      box-shadow: none !important;
+    }
   }
 
   #secondNavBar + .pageWrap {
@@ -364,6 +366,9 @@ nav {
       }
       .item .icon-arrow-right:before {
         content: "\e63b";
+      }
+      .menu-icon {
+        padding-right: 13px;
       }
     }
 
