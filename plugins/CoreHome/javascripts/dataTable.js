@@ -40,7 +40,7 @@ function DataTable(element) {
 DataTable._footerIconHandlers = {};
 
 DataTable.initNewDataTables = function (reportId) {
-    var selector = reportId ? '[data-report="'+reportId+'"]' : 'div.dataTable';
+    var selector = typeof reportId === 'string' ? '[data-report='+JSON.stringify(reportId)+']' : 'div.dataTable';
     $(selector).each(function () {
         if (!$(this).attr('id')) {
             var tableType = $(this).attr('data-table-type') || 'DataTable',
