@@ -177,7 +177,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('#header').hide();
             });
 
-            pageWrap = await page.$('.pageWrap');
+            const pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('notifications');
         });
 
@@ -476,13 +476,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it("should show all corresponding content pieces when clicking on a content name", async function () {
-           await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-              $('.dataTableScroller').css('overflow-x', 'scroll');
-           });
             elem = await page.jQuery('.dataTable .subDataTable .value:contains(ImageAd)');
             await elem.click();
             await page.waitForNetworkIdle();
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(500);
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             await page.mouse.move(-10, -10);
 
             pageWrap = await page.$('.pageWrap');
@@ -499,14 +499,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it("should show all corresponding content names when clicking on a content piece", async function () {
-            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-              $('.dataTableScroller').css('overflow-x', 'scroll');
-            });
             elem = await page.jQuery('.dataTable .subDataTable .value:contains(Click NOW)');
             await elem.click();
             await page.waitForNetworkIdle();
-            await page.waitForTimeout(300);
-
+            await page.waitForTimeout(500);
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             await page.mouse.move(-10, -10);
 
             pageWrap = await page.$('.pageWrap');

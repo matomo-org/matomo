@@ -16,7 +16,7 @@
         "DetectingYourSite": "Siteniz algılanıyor",
         "DisableSiteSearch": "Site aramaları izlenmesin",
         "EcommerceHelp": "Bu seçenek etkinleştirildiğinde, \"Hedefler\" raporuna bir \"E-ticaret\" bölümü eklenir.",
-        "EmailInstructionsButton": "Bu yönergeleri e-posta ile gönder",
+        "EmailInstructionsButton": "Bilgi e-postası gönder",
         "EmailInstructionsDocsPlainText": "Sayfa görüntülemelerinden fazlasını izlemek istiyorsanız, %1$s üzerindeki Matomo belgelerine bakabilirsiniz.",
         "EmailInstructionsGenerateTrackingCode": "Ayrıca %1$s üzerinden özel bir izleme kodu oluşturabilirsiniz.",
         "EmailInstructionsSiteDetails": "Matomo ziyaretlerini izlerken API ya da SDK kullanabilmek için bu bilgilere gerek duyacaksınız.",

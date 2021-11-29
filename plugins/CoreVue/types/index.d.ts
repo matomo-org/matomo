@@ -6,7 +6,8 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularEvent, IAngularStatic } from 'angular';
+import { IAngularStatic } from 'angular';
+import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
   type ParameterValue = string | number | null | undefined | ParameterValue[];
@@ -14,6 +15,10 @@ declare global {
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
+  }
+
+  interface AbortablePromise<T = any> extends Promise<T> {
+    abort(): void;
   }
 
   /**
@@ -69,6 +74,8 @@ declare global {
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
+    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
+    registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -79,7 +86,7 @@ declare global {
     getValueFromHash(paramName: string, url?: string): string;
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
-    propagateNewPage(str: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[]);
+    propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
   }
 
   let broadcast: BroadcastGlobal;
@@ -112,6 +119,7 @@ declare global {
     maxDateYear: number;
     maxDateMonth: number;
     maxDateDay: number;
+    config: Record<string, string|number|string[]>;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -120,7 +128,7 @@ declare global {
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
-    postEvent(eventName: string, ...args: any[]): IAngularEvent;
+    postEvent(eventName: string, ...args: any[]): void;
     postEventNoEmit(eventName: string, ...args: any[]): void;
   }
 
@@ -136,5 +144,7 @@ declare global {
     piwik_translations: {[key: string]: string};
 
     _pk_translate(translationStringId: string, values: string[]): string;
+    require(p: string): any;
+    initTopControls(): void;
   }
 }

@@ -35,7 +35,7 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['yes', 'no', 'closeEnd', 'close', 'update:modelValue'],
+  emits: ['yes', 'no', 'closeEnd', 'close', 'validation', 'update:modelValue'],
   activated() {
     this.$emit('update:modelValue', false);
   },
@@ -46,6 +46,7 @@ export default defineComponent({
         Matomo.helper.modalConfirm(slotElement, {
           yes: () => { this.$emit('yes'); },
           no: () => { this.$emit('no'); },
+          validation: () => { this.$emit('validation'); },
         }, {
           onCloseEnd: () => {
             // materialize removes the child element, so we move it back to the slot

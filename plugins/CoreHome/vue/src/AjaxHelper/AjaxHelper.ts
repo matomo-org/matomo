@@ -9,6 +9,11 @@ import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 
+interface AjaxOptions {
+  withTokenInUrl?: boolean;
+  postParams?: QueryParameters;
+}
+
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
 
@@ -148,10 +153,16 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
-  static fetch<R = any>(params: QueryParameters): Promise<R> { // eslint-disable-line
+  static fetch<R = any>(params: QueryParameters, options: AjaxOptions = {}): Promise<R> { // eslint-disable-line
     const helper = new AjaxHelper<R>();
+    if (options.withTokenInUrl) {
+      helper.withTokenInUrl();
+    }
     helper.setFormat('json');
     helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
+    if (options.postParams) {
+      helper.addParams(options.postParams, 'post');
+    }
     return helper.send();
   }
 
@@ -335,7 +346,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Send the request
    */
-  send(): Promise<T> {
+  send(): AbortablePromise<T> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -347,7 +358,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
-    return new Promise<T>((resolve, reject) => {
+    const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
       this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
@@ -355,7 +366,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           reject(xhr);
         }
       });
-    });
+    }) as AbortablePromise<T>;
+
+    result.abort = () => {
+      if (this.requestHandle) {
+        this.requestHandle.abort();
+      }
+    };
+
+    return result;
   }
 
   /**

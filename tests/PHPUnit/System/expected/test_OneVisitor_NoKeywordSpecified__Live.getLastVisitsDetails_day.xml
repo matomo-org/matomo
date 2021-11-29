@@ -16,6 +16,8 @@
 				
 				<pageId>2</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</subtitle>

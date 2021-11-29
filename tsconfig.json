@@ -20,7 +20,9 @@
       "webpack-env",
       "angular",
       "jquery",
-      "jqueryui"
+      "jqueryui",
+      "materialize-css",
+      "mousetrap"
     ],
     "paths": {
       "@/*": [

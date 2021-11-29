@@ -6,8 +6,9 @@
  */
 
 function _pk_translate(translationStringId, values) {
-
-    if( typeof(piwik_translations[translationStringId]) != 'undefined' ){
+    if (typeof(piwik_translations) !== 'undefined'
+        && typeof(piwik_translations[translationStringId]) != 'undefined'
+    ) {
         var translation = piwik_translations[translationStringId];
         if (typeof values != 'undefined' && values && values.length) {
             values.unshift(translation);
@@ -275,6 +276,11 @@ window.piwikHelper = {
             $button.hide();
 
             var button = $('<a href="javascript:;" class="modal-action modal-close waves-effect waves-light btn-flat "></a>');
+
+            if(role === 'validation'){
+                button = $('<a href="javascript:;" class="modal-action waves-effect waves-light btn"></a>');
+            }
+
             button.text(text);
             if (title) {
                 button.attr('title', title);

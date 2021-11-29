@@ -185,12 +185,13 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
-        await page.waitForTimeout(1500); // animation
-
+        await page.waitForTimeout(250); // animation
+        await page.evaluate(() => $('.evolution-annotations').css('display','none'));
         expect(await page.screenshot({ fullPage: true })).to.matchImage('change_layout');
     });
 
     it("should rename dashboard when dashboard rename process completed", async function() {
+        await page.evaluate(() => $('.evolution-annotations').css('display','none'));
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="renameDashboard"]');
         await page.evaluate(() => $('#newDashboardName').val('newname'));
