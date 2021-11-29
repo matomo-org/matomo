@@ -91,6 +91,11 @@ export default defineComponent({
           || isPluginsAdminEnabled);
     },
   },
+  mounted() {
+    if (this.widgetParams) {
+      this.loadWidgetUrl(this.widgetParams, this.changeCounter += 1);
+    }
+  },
   unmounted() {
     this.cleanupLastWidgetContent();
   },
