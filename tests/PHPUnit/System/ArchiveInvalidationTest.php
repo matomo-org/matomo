@@ -200,6 +200,8 @@ class ArchiveInvalidationTest extends SystemTestCase
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','testPlugin' );
         $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('myPlugin',1));
 
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin2');
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin', 1));
     }
 
 
