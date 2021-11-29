@@ -75,7 +75,7 @@ jobs:
         shell: bash
         run: ./.github/scripts/bash/prepare.sh
         env:
-           PHP_VERSION: 8.0
+           PHP_VERSION: '8.0'
 #
 #
 #      - name: Install dependencies
