@@ -226,6 +226,10 @@ export default defineComponent({
       }
     });
 
+    if (this.selectedSite && this.selectedSite.id) {
+      this.$emit('update:modelValue', { ...this.selectedSite });
+    }
+
     const shortcutTitle = translate('CoreHome_ShortcutWebsiteSelector');
     Matomo.helper.registerShortcut('w', shortcutTitle, (event) => {
       if (event.altKey) {
