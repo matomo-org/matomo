@@ -40,8 +40,12 @@ class PhpInformational implements Diagnostic
 
         // Check for php fpm and warn about access rules
 
-        $rpd = new RequiredPrivateDirectories($this->translator);
-        $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+        $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
+
+        if (SettingsPiwik::isMatomoInstalled()) {
+            $rpd = new RequiredPrivateDirectories($this->translator);
+            $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+        }
 
         if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false && $isGlobalConfigIniAccessible) {
 

@@ -46,7 +46,7 @@ class RequiredPrivateDirectories extends AbstractPrivateDirectories
         if (!Common::stringEndsWith($baseUrl, '/')) {
             $baseUrl .= '/';
         }
-        return $this->isAccessible(new DiagnosticResult(''), $baseUrl . 'config/config.ini.php', ';', 'trusted_hosts[]');
+        return $this->isAccessible(new DiagnosticResult(''), $baseUrl . 'config/global.ini.php', ';', 'trusted_hosts[]');
     }
 
 }

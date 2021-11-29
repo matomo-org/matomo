@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Translation\Translator;
+use Piwik\SettingsPiwik;
 
 /**
  * Information about the server.
@@ -30,8 +31,12 @@ class ServerInformational implements Diagnostic
 
         if (!empty($_SERVER['SERVER_SOFTWARE'])) {
 
-            $rpd = new RequiredPrivateDirectories($this->translator);
-            $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+            $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
+
+            if (SettingsPiwik::isMatomoInstalled()) {
+                $rpd = new RequiredPrivateDirectories($this->translator);
+                $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+            }
 
             if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false && $isGlobalConfigIniAccessible) {
 
