@@ -546,10 +546,10 @@ class QueueConsumer
             return false;
         }
 
-        //if Segment deleted
-        if ($storedSegment['deleted']) {
-            $this->logger->debug("Segment is deleted: $flag");
-            $archive['segment'] = null;
+        try {
+            new Segment($archive['segment'], $archive['idsite']);
+        } catch (\Exception $e) {
+            $this->logger->debug("Segment is not valid anymore.");
             return false;
         }
 
