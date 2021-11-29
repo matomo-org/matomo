@@ -17,10 +17,12 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Translation\Translator;
 use Piwik\View;
+use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  *
@@ -225,8 +227,7 @@ class Controller extends \Piwik\Plugin\Controller
         $data = [];
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $view = new View('@Goals/getSparklines');
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'],
-          $default = []);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
 
         foreach ($goals as $key => $goal) {
             $data[$key] = $this->getMetricsForGoal($goal['idgoal']);
