@@ -16,6 +16,8 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title 0</title>
 				<subtitle>http://example.org/my/dir/page0</subtitle>
