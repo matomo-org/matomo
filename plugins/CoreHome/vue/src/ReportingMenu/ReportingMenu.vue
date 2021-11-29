@@ -22,7 +22,7 @@
           class="item"
           tabindex="5"
           href=""
-          @click="loadCategory(category)"
+          @click="$event.preventDefault(); loadCategory(category)"
         >
           <span
             :class="`menu-icon ${category.icon ? category.icon : 'icon-arrow-right'}`"
@@ -49,7 +49,7 @@
                 tabindex="5"
                 :class="{active: subcat.id === activeSubsubcategory}"
                 :href="`#?${makeUrl(category, subcat)}`"
-                @click="loadSubcategory(category, subcat)"
+                @click="$event.preventDefault(); loadSubcategory(category, subcat)"
                 v-for="subcat in subcategory.subcategories"
                 :title="subcat.tooltip"
                 :key="subcat.id"
@@ -61,7 +61,7 @@
               v-if="!subcategory.isGroup"
               :href="`#?${makeUrl(category, subcategory)}`"
               class="item"
-              @click="loadSubcategory(category, subcategory)"
+              @click="$event.preventDefault(); loadSubcategory(category, subcategory)"
             >
               {{ subcategory.name }}
             </a>
@@ -104,7 +104,7 @@
                 <li v-for="subcategory in category.subcategories" :key="subcategory.id">
                   <span v-if="subcategory.isGroup">
                     <a
-                      @click="loadSubcategory(category, subcat)"
+                      @click="$event.preventDefault(); loadSubcategory(category, subcat)"
                       :href="`#?${makeUrl(category, subcat)}`"
                       v-for="subcat in subcategory.subcategories"
                       :key="subcat.id"
@@ -114,7 +114,7 @@
                   </span>
                   <span v-if="!subcategory.isGroup">
                     <a
-                      @click="loadSubcategory(category, subcategory)"
+                      @click="$event.preventDefault(); loadSubcategory(category, subcategory)"
                       :href="`#?${makeUrl(category, subcategory)}`"
                     >
                       {{ subcategory.name }}
