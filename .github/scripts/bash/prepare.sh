@@ -3,15 +3,15 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 SET='\033[0m'
 
-if [${{ $matrix.tests }} = "UITests" ] ]
+if [$PIWIK_TEST_TARGET = "UI" ] ]
 then
+  echo -e "${GREEN}Setup fonts${SET}"
   git clone --recursive https://github.com/google/woff2.git ../travis_woff2
   cd ../travis_woff2
   make clean all
   mkdir $HOME/.fonts
   cp /home/runner/work/matomo/matomo/.github/scripts/fonts/* $HOME/.fonts
   fc-cache -f -v
-  echo "fonts:"
   ls $HOME/.fonts
   sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
   sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
@@ -20,7 +20,7 @@ then
   sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
 fi
 
-if [ ${{ $matrix.tests }} = "UITests" ] || [ ${{ $matrix.tests }} = "JavascriptTests" ];
+if [ $PIWIK_TEST_TARGET = "UI" ] || [ $PIWIK_TEST_TARGET = "Javascript" ];
 then
   mkdir -p ./tmp/assets
   mkdir -p ./tmp/cache
@@ -42,18 +42,18 @@ fi
 
 
 
-if [ ${{ $matrix.tests }} = "UITests" ||  ];
+if [ $PIWIK_TEST_TARGET = "UI" ];
 then
-  echo "${GREEN}installing node/puppeteer${SET}"
+  echo -e "${GREEN}installing node/puppeteer${SET}"
   cd ./tests/lib/screenshot-testing
   git lfs pull --exclude=
   npm install
   node --version
 fi
 
-if [ ${{ $matrix.tests }} = "UITests" ];
+if [ $PIWIK_TEST_TARGET = "UI" ];
 then
-  echo "${GREEN}setup php-fpm${SET}"
+  echo -e "${GREEN}setup php-fpm${SET}"
   sudo systemctl enable php$PHP_VERSION-fpm.service
   sudo systemctl start php$PHP_VERSION-fpm.service
   sudo cp -rf  ./.github/scripts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
@@ -68,7 +68,7 @@ then
   sudo systemctl reload nginx
   sudo systemctl restart nginx
 
-  echo "${GREEN}set folder Permission${SET}"
+  echo -e "${GREEN}set folder Permission${SET}"
   cp .github/scripts/config.ini.github.ui.php config/config.ini.php
   cp .github/scripts/config.dist.js ./tests/UI/config.js
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
@@ -92,16 +92,16 @@ then
 
 fi
 
-echo "${GREEN}install composer${SET}"
+echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
-#if [ ${{ $matrix.tests }} !== "UITests" ];
+#if [ $PIWIK_TEST_TARGET !== "UI" ];
 #  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
 #  tmux new-session -d -s "php-80" php -S localhost:80
 #  tmux new-session -d -s "php-3000" php -S localhost:3000
 #  tmux ls
 #fi
 
-echo "${GREEN}set tmp and screenshot folder permission${SET}"
+echo -e "${GREEN}set tmp and screenshot folder permission${SET}"
 sudo gpasswd -a "$USER" www-data
 sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
 sudo chmod o+w /home/runner/work/matomo/matomo/

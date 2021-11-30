@@ -76,6 +76,8 @@ jobs:
         run: ./.github/scripts/bash/prepare.sh
         env:
            PHP_VERSION: '8.0'
+           PIWIK_TEST_TARGET: 'PHP'
+
 #
 #
 #      - name: Install dependencies
