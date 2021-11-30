@@ -8,9 +8,26 @@
 import ReportingMenuStoreInstance from './ReportingMenu.store';
 import { cloneThenApply } from '../createAngularJsAdapter';
 
-// TODO: removed boolean active property from objects, angularjs version should have them
+// removed boolean active property from objects in vue so we can keep the store immutable, but,
+// angularjs version should still have them
 function addActiveMenuItems(menu: typeof ReportingMenuStoreInstance.menu.value) {
-  // TODO
+  menu.forEach((category) => {
+    if (category.id === ReportingMenuStoreInstance.activeCategory.value) {
+      category.active = true;
+
+      (category.subcategories || []).forEach((subcat) => {
+        if (subcat.id === ReportingMenuStoreInstance.activeSubcategory.value) {
+          subcat.active = true;
+
+          (subcat.subcategories || []).forEach((subsubcat) => {
+            if (subsubcat.id === ReportingMenuStoreInstance.activeSubsubcategory.value) {
+              subsubcat.active = true;
+            }
+          });
+        }
+      });
+    }
+  });
   return menu;
 }
 
@@ -21,7 +38,7 @@ function reportingMenuModelAdapter() {
     },
     findSubcategory:
       ReportingMenuStoreInstance.findSubcategory.bind(ReportingMenuStoreInstance),
-    reloadMenuItems: ReportingMenuStoreInstance.reloadMenuItems()
+    reloadMenuItems: () => ReportingMenuStoreInstance.reloadMenuItems()
       .then((p) => addActiveMenuItems(cloneThenApply(p))),
     fetchMenuItems: () => ReportingMenuStoreInstance.fetchMenuItems()
       .then((p) => addActiveMenuItems(cloneThenApply(p))),
