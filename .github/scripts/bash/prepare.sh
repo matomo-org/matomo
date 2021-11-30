@@ -4,7 +4,7 @@ GREEN='\033[0;32m'
 SET='\033[0m'
 
 # set up fonts
-if ["$PIWIK_TEST_TARGET" = "UI" ] ]
+if ["$PIWIK_TEST_TARGET" = "UI" ] 
 then
   echo -e "${GREEN}Setup fonts${SET}"
   git clone --recursive https://github.com/google/woff2.git ../travis_woff2
@@ -104,7 +104,7 @@ mkdir -p /tmp
 
 
 # remove 3000 for javascript tests
-if [ "$PIWIK_TEST_TARGET" = "Javascript"];
+if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
 then
 echo -e "${GREEN}remove port 3000${SET}"
 sed -i 's/3000/\//g' ./config/config.ini.php
