@@ -3,6 +3,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 SET='\033[0m'
 
+# set up fonts
 if [$PIWIK_TEST_TARGET = "UI" ] ]
 then
   echo -e "${GREEN}Setup fonts${SET}"
@@ -20,8 +21,18 @@ then
   sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
 fi
 
+# composer install
+echo -e "${GREEN}install composer${SET}"
+composer install --ignore-platform-reqs
+
 if [ $PIWIK_TEST_TARGET = "UI" ] || [ $PIWIK_TEST_TARGET = "Javascript" ];
 then
+  echo -e "${GREEN}installing node/puppeteer${SET}"
+  cd ./tests/lib/screenshot-testing
+  git lfs pull --exclude=
+  npm install
+  cd /home/runner/work/matomo/matomo/
+
   mkdir -p ./tmp/assets
   mkdir -p ./tmp/cache
   mkdir -p ./tmp/cache/tracker
@@ -38,12 +49,6 @@ then
   cp .github/artifacts/config.ini.github.php  config/config.ini.php
   php ./tests/PHPUnit/formatXML.php
   ls ./tests/PHPUnit/
-
-  echo -e "${GREEN}installing node/puppeteer${SET}"
-  cd ./tests/lib/screenshot-testing
-  git lfs pull --exclude=
-  npm install
-  cd /home/runner/work/matomo/matomo/
 fi
 
 #update chrome drive
@@ -90,10 +95,11 @@ mkdir -p ./tmp/climulti
 mkdir -p /tmp
 
 
+# remove 3000 for javascript tests
 if [$PIWIK_TEST_TARGET ="Javascript"]
 then
 echo -e "${GREEN}remove port 3000${SET}"
-sed -i 's/3000/\//g' ./config/config.ini.ph
+sed -i 's/3000/\//g' ./config/config.ini.php
 fi
 
 if [ $PIWIK_TEST_TARGET = "UI" ];
@@ -105,8 +111,6 @@ then
   chmod a+rw ./plugins/*/tests/Integration/processed || true
 fi
 
-echo -e "${GREEN}install composer${SET}"
-composer install --ignore-platform-reqs
 
 echo -e "${GREEN}set tmp and screenshot folder permission${SET}"
 sudo gpasswd -a "$USER" www-data
