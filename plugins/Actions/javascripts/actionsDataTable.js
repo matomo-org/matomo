@@ -59,7 +59,6 @@
                 }).length;
             }
             self.applyCosmetics(domElem, rows);
-            self.handleColumnHighlighting(domElem);
             self.handleRowActions(domElem, rows);
             self.handleLimit(domElem);
             self.handlePeriod(domElem);
@@ -92,7 +91,7 @@
 
             if (hasOnlyOneSubtable) {
                 var hasOnlyOneRow = domElem.find('tbody tr.level0').length === 1;
-                
+
                 if (hasOnlyOneRow) {
                     var $labels = $subtables.find('.label');
                     if ($labels.length) {
