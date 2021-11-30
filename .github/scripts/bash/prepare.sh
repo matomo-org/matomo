@@ -10,7 +10,7 @@ then
   cd ../travis_woff2
   make clean all
   mkdir $HOME/.fonts
-  cp /home/runner/work/matomo/matomo/.github/scripts/fonts/* $HOME/.fonts
+  cp /home/runner/work/matomo/matomo/.github/artifacts/fonts/* $HOME/.fonts
   fc-cache -f -v
   ls $HOME/.fonts
   sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
@@ -35,7 +35,7 @@ then
   mkdir -p /tmp
   chmod a+rw ./tests/lib/geoip-files || true
   chmod a+rw ./plugins/*/tests/System/processed || true
-  cp .github/scripts/config.ini.github.php  config/config.ini.php
+  cp .github/artifacts/config.ini.github.php  config/config.ini.php
   php ./tests/PHPUnit/formatXML.php
   ls ./tests/PHPUnit/
 
@@ -59,21 +59,21 @@ fi
 echo -e "${GREEN}setup php-fpm${SET}"
 sudo systemctl enable php$PHP_VERSION-fpm.service
 sudo systemctl start php$PHP_VERSION-fpm.service
-sudo cp -rf  ./.github/scripts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
+sudo cp -rf  ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
 sudo systemctl reload php$PHP_VERSION-fpm.service
 sudo systemctl restart php$PHP_VERSION-fpm.service
 sudo systemctl status php$PHP_VERSION-fpm.service
 sudo systemctl enable nginx
 sudo systemctl start nginx
-sudo cp ./.github/scripts/ui_nginx.conf /etc/nginx/conf.d/
+sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
 sudo unlink /etc/nginx/sites-enabled/default
 sudo nginx -t
 sudo systemctl reload nginx
 sudo systemctl restart nginx
 
 echo -e "${GREEN}set folder Permission${SET}"
-cp .github/scripts/config.ini.github.ui.php config/config.ini.php
-cp .github/scripts/config.dist.js ./tests/UI/config.js
+cp .github/artifacts/config.ini.github.ui.php config/config.ini.php
+cp .github/artifacts/config.dist.js ./tests/UI/config.js
 cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 mkdir -p ./tmp/assets
 mkdir -p ./tmp/cache
@@ -88,6 +88,13 @@ mkdir -p ./tmp/nonexistant
 mkdir -p ./tmp/tcpdf
 mkdir -p ./tmp/climulti
 mkdir -p /tmp
+
+
+if [$PIWIK_TEST_TARGET ="Javascript"]
+then
+echo -e "${GREEN}remove port 3000${SET}"
+sed -i 's/3000/\//g' ./config/config.ini.ph
+fi
 
 if [ $PIWIK_TEST_TARGET = "UI" ];
 then
