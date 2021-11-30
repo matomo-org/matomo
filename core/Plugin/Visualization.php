@@ -602,11 +602,17 @@ class Visualization extends ViewDataTable
         return PrivacyManager::hasReportBeenPurged($this->dataTable);
     }
 
+    /**
+     * Return true if the config for the plug is disabled
+     * @return bool
+     */
 
     private function hasReportSegmentDisabled()
     {
         $module = $this->requestConfig->getApiModuleToRequest();
-        if (Rules::isSegmentPluginArchivingDisabled($module)) {
+        $rawSegment = \Piwik\API\Request::getRawSegmentFromRequest();
+
+        if (!empty($rawSegment) && Rules::isSegmentPluginArchivingDisabled($module)) {
             return true;
         }
         return false;
