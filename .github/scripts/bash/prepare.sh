@@ -51,8 +51,6 @@ then
   node --version
 fi
 
-if [ $PIWIK_TEST_TARGET = "UI" ];
-then
   echo -e "${GREEN}setup php-fpm${SET}"
   sudo systemctl enable php$PHP_VERSION-fpm.service
   sudo systemctl start php$PHP_VERSION-fpm.service
@@ -85,6 +83,9 @@ then
   mkdir -p ./tmp/tcpdf
   mkdir -p ./tmp/climulti
   mkdir -p /tmp
+  
+if [ $PIWIK_TEST_TARGET = "UI" ];
+then
   mkdir -p ./tests/UI/processed-ui-screenshots
   chmod a+rw ./tests/lib/geoip-files || true
   chmod a+rw ./plugins/*/tests/System/processed || true
