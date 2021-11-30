@@ -606,7 +606,6 @@ class Visualization extends ViewDataTable
     private function hasReportSegmentDisabled()
     {
         $module = $this->requestConfig->getApiModuleToRequest();
-        var_dump($module);
         if (Rules::isSegmentPluginArchivingDisabled($module)) {
             return true;
         }
