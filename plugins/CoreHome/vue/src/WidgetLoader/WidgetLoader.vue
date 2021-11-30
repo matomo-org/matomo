@@ -184,6 +184,7 @@ export default defineComponent({
           }
 
           if ($title.length) {
+            // required to use htmlEntities since it also escapes '{{' format items
             $title.html(Matomo.helper.htmlEntities(this.widgetName));
           }
         }
