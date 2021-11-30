@@ -279,14 +279,33 @@ export default defineComponent({
       }
     },
     makeUrl(category: Category, subcategory: Subcategory) {
+      const {
+        idSite,
+        period,
+        date,
+        segment,
+        comparePeriods,
+        compareDates,
+        compareSegments,
+      } = MatomoUrl.parsed.value;
+
       return MatomoUrl.stringify({
-        ...MatomoUrl.hashParsed.value,
+        idSite,
+        period,
+        date,
+        segment,
+        comparePeriods,
+        compareDates,
+        compareSegments,
         category: category.id,
         subcategory: subcategory.id,
       });
     },
     showHelp(category: Category, subcategory: Subcategory, event?: Event) {
-      const { currentCategory, currentSubcategory } = MatomoUrl.parsed.value;
+      const parsedUrl = MatomoUrl.parsed.value;
+      const currentCategory = parsedUrl.category;
+      const currentSubcategory = parsedUrl.subcategory;
+
       if ((currentCategory !== category.id
         || currentSubcategory !== subcategory.id)
         && event
