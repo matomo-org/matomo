@@ -35,6 +35,7 @@ import './FieldArray/FieldArray.adapter';
 import './MultiPairField/MultiPairField.adapter';
 import './PeriodSelector/PeriodSelector.adapter';
 import './ReportingMenu/ReportingMenu.adapter';
+import './ReportingMenu/ReportingMenu.store.adapter';
 import './ReportingPages/ReportingPages.store.adapter';
 import './ReportMetadata/ReportMetadata.store.adapter';
 
