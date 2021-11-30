@@ -51,7 +51,7 @@ function initTopControls() {
     }
 }
 
-//Keyboard controls for Top Controls Calendar through tab and enter. 
+//Keyboard controls for Top Controls Calendar through tab and enter.
 $( document ).ready(function() {
     $('.periodSelector').keydown(function(e){
         toggleCalendar(e);
@@ -67,7 +67,7 @@ $( document ).ready(function() {
     })
 });
 
-//Keyboard controls for Top Controls Calendar through tab and enter. 
+//Keyboard controls for Top Controls Calendar through tab and enter.
 $( document ).ready(function() {
     $('.periodSelector').keydown(function(e){
         toggleCalendar(e);
@@ -85,7 +85,7 @@ $( document ).ready(function() {
 
 function toggleCalendar(e){
     var calendarOpen = $('.periodSelector').hasClass('expanded');
-    
+
     if(e.which==13){
         if(calendarOpen){
             $('.periodSelector').removeClass('expanded');

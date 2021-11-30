@@ -38,6 +38,7 @@ class BrowserName extends Base
         $segment->setSegment('browserName');
         $segment->setName('DevicesDetection_ColumnBrowser');
         $segment->setAcceptedValues('FireFox, Internet Explorer, Chrome, Safari, Opera etc.');
+        $segment->setNeedsMostFrequentValues(false);
         $segment->setSqlFilterValue(function ($val) {
             $browsers = Browser::getAvailableBrowsers();
             $browsers = array_map(function($val) {
@@ -51,8 +52,9 @@ class BrowserName extends Base
 
             return $result;
         });
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
-            return array_values(Browser::getAvailableBrowsers() + ['Unknown']);
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {
+            $browserList = Browser::getAvailableBrowsers();
+            return $this->sortStaticListByUsage($browserList, $table, 'browserCode', $maxValuesToReturn);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }

@@ -614,7 +614,9 @@ class API extends \Piwik\Plugin\API
             $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
         }
 
-        $values = $this->getMostFrequentValues($values);
+        if ($segment['needsMostFrequentValues']) {
+            $values = $this->getMostFrequentValues($values);
+        }
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
