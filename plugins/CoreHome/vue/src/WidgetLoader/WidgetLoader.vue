@@ -184,7 +184,7 @@ export default defineComponent({
           }
 
           if ($title.length) {
-            $title.text(this.widgetName);
+            $title.html(Matomo.helper.htmlEntities(this.widgetName));
           }
         }
 
