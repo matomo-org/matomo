@@ -25,7 +25,7 @@ import { defineComponent, watch, ref } from 'vue';
 import JQuery = JQuery;
 import DatePicker from '../DatePicker/DatePicker.vue';
 import Matomo from '../Matomo/Matomo';
-import Periods from '../Periods/Periods';
+import { Periods, parseDate } from '../Periods';
 
 const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
@@ -83,10 +83,12 @@ export default defineComponent({
     function onChanges() {
       if (!props.period || !props.date) {
         selectedDates.value = [null, null];
+        viewDate.value = null;
         return;
       }
 
       selectedDates.value = getBoundedDateRange(props.date);
+      viewDate.value = parseDate(props.date);
     }
 
     watch(props, onChanges);
