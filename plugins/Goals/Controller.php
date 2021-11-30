@@ -224,18 +224,19 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getSparklines()
     {
-        $data = [];
         $idSite = Common::getRequestVar('idSite', null, 'int');
-        $view = new View('@Goals/getSparklines');
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
 
-        foreach ($goals as $key => $goal) {
-            $data[$key] = $this->getMetricsForGoal($goal['idgoal']);
-            $data[$key]['name'] = $goal['name'];
+        $content = "";
+        foreach ($goals as $goal) {
+            //load Visualisations Sparkline
+            $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.get');
+            $view->config->show_goals = false;
+            $view->config->show_title = true;
+            $content .= $view->render();
         }
 
-        $view->goals = $data;
-        return $view->render();
+        return $content;
     }
 
     private function getColumnTranslation($nameToLabel, $columnName, $idGoal)
