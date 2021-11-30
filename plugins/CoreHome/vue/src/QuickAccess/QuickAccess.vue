@@ -424,9 +424,7 @@ export default defineComponent({
 
       document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
         let category = window.$(element).find('> .item');
-        console.log(category[0]);
         category = category[0] ? category[0].innerText.trim() : '';
-        console.log(category);
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"

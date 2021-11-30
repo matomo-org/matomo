@@ -5,6 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
@@ -358,12 +359,25 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
+    let $timeout: ITimeoutService|null = null;
+    try {
+      $timeout = Matomo.helper.getAngularDependency('$timeout');
+    } catch (e) {
+      // ignore
+    }
+
     const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
-      this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
+      this.requestHandle!.then((...args) => {
+        resolve(...args);
+      }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
           reject(xhr);
+        }
+      }).done(() => {
+        if ($timeout) {
+          $timeout(); // trigger digest
         }
       });
     }) as AbortablePromise<T>;
