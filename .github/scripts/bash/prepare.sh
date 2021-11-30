@@ -61,7 +61,7 @@ then
 fi
 
 #setup php fpm and nginx
-if [ "$PIWIK_TEST_TARGET" = "Javascript"];
+if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
 then
   echo -e "${GREEN}Setup php -S{SET}"
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
