@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -224,13 +225,23 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getSparklines()
     {
+        $module = "Goals";
+        $action = "get";
+        $content = "";
+
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
 
-        $content = "";
+        $apiProxy = Proxy::getInstance();
+
+        if (!$apiProxy->isExistingApiAction($module, $action)) {
+            throw new Exception("Invalid action name '$action' for '$module' plugin.");
+        }
+
+        $apiAction = $apiProxy->buildApiActionName($module, $action);
         foreach ($goals as $goal) {
             //load Visualisations Sparkline
-            $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.get');
+            $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction);
             $view->config->show_goals = false;
             $view->config->show_title = true;
             $content .= $view->render();
