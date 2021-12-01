@@ -2,8 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Browsersprache",
         "LanguageCode": "Sprach-Code",
-        "PluginDescription": "Stellt Berichte zur Verfügung, die die Sprachen anzeigen, die von den Browsern Ihrer Besucher verwendet werden.",
-        "getLanguageDocumentation": "Dieser Bericht zeigt welche Sprache die Browser der Besucher verwenden (z. B. \"Englisch\")",
-        "getLanguageCodeDocumentation": "Dieser Bericht zeigt auf welchen exakten Sprachcode die Browser der Besucher eingestellt sind (z. B. \"Deutsch - Österreich (de-at)\")"
+        "PluginDescription": "Zeigt die Sprache an, die von den Browsern Ihrer Besucher verwendet wird.",
+        "getLanguageCodeDocumentation": "Dieser Bericht zeigt auf welchen exakten Sprachcode die Browser der Besucher eingestellt sind (z. B. \"Deutsch - Österreich (de-at)\")",
+        "getLanguageDocumentation": "Dieser Bericht zeigt welche Sprache die Browser der Besucher verwenden (z. B. \"Englisch\")"
     }
 }

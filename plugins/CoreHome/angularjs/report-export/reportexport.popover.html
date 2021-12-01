@@ -52,7 +52,7 @@
 
             <div piwik-field uicontrol="number" name="filter_limit"
                  min="1"
-                 max="{{ scope.reportLimit }}"
+                 max="{{ scope.maxFilterLimit }}"
                  ng-model="limitContainer.reportLimit"
                  value="{{ $parent.reportLimit }}"
                  ng-keypress="scope.checkNumberForLimit"

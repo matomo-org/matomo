@@ -95,6 +95,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   postCreate?: PostCreateFunction<InjectTypes>,
   noScope?: boolean,
   restrict?: string,
+  priority?: number,
 }): ng.IDirectiveFactory {
   const {
     component,
@@ -108,6 +109,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     postCreate,
     noScope,
     restrict = 'A',
+    priority,
   } = options;
 
   const currentTranscludeCounter = transcludeCounter;
@@ -129,6 +131,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     const adapter: ng.IDirective = {
       restrict,
       require,
+      priority,
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
