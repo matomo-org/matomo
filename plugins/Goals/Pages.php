@@ -60,7 +60,6 @@ class Pages
         // load sparkline
         $config = $this->factory->createCustomWidget('getSparklines');
         $config->setSubcategoryId($subcategory);
-        $config->forceViewDataTable(Sparklines::ID);
         $config->setName('');
         $config->setOrder(25);
         $config->setIsNotWidgetizable();

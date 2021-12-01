@@ -233,7 +233,7 @@ class Controller extends \Piwik\Plugin\Controller
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
 
         $apiProxy = Proxy::getInstance();
-
+        $queryString = $_SERVER['QUERY_STRING'];
         if (!$apiProxy->isExistingApiAction($module, $action)) {
             throw new \Exception("Invalid action name '$action' for '$module' plugin.");
         }
@@ -243,8 +243,9 @@ class Controller extends \Piwik\Plugin\Controller
             //load Visualisations Sparkline
             $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
             $view->requestConfig->request_parameters_to_modify['idGoal'] = $goal['idgoal'];
-//            $view->config->show_goals = false;
             $view->config->show_title = true;
+            $_SERVER['QUERY_STRING'] .= $queryString . '&idGoal='. $goal['idgoal'];
+            $view->config->title = $goal['name'];
             $content .= $view->render();
         }
 
