@@ -60,6 +60,9 @@ class Controller extends \Piwik\Plugin\Controller
         'NoDataForAction'        => 'Transitions_NoDataForAction',
         'NoDataForActionDetails' => 'Transitions_NoDataForActionDetails',
         'NoDataForActionBack'    => 'Transitions_ErrorBack',
+        'PeriodNotAllowed'       => 'Transitions_PeriodNotAllowed',
+        'PeriodNotAllowedDetails'=> 'Transitions_PeriodNotAllowedDetails',
+        'PeriodNotAllowedBack'   => 'Transitions_ErrorBack',
         'ShareOfAllPageviews'    => 'Transitions_ShareOfAllPageviews',
         'DateRange'              => 'General_DateRange'
     );

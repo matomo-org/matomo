@@ -137,8 +137,8 @@ export default defineComponent({
   methods: {
     checkEmptyModelValue(newValue) {
       // make sure there is always an empty new value
-      if (!newValue.length || this.isEmptyValue(newValue.slice(-1)[0])) {
-        this.$emit('update:modelValue', [...newValue, this.makeEmptyValue()]);
+      if (!newValue || !newValue.length || this.isEmptyValue(newValue.slice(-1)[0])) {
+        this.$emit('update:modelValue', [...(newValue || []), this.makeEmptyValue()]);
       }
     },
     onEntryChange(index: number, key: string, newValue: unknown) {

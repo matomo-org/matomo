@@ -49,6 +49,7 @@ function handleJsonValue(value: unknown, varType: string, uiControl: string) {
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: Field,
   require: '?ngModel',
+  priority: 1,
   scope: {
     uicontrol: {
       angularJsBind: '@',
@@ -202,17 +203,17 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     }
 
     // ngModel being used
-    if (typeof scope.value !== 'undefined') {
-      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-      (ngModel as INgModelController).$setViewValue(transformed);
-    }
-
     ngModel.$render = () => {
       nextTick(() => {
         vm.modelValue = removeAngularJsSpecificProperties(ngModel.$viewValue);
       });
     };
 
-    ngModel.$setViewValue(vm.modelValue);
+    if (typeof scope.value !== 'undefined') {
+      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+      (ngModel as INgModelController).$setViewValue(transformed);
+    } else {
+      ngModel.$setViewValue(vm.modelValue);
+    }
   },
 });
