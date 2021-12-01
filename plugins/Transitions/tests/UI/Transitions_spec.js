@@ -84,4 +84,18 @@ describe("Transitions", function () {
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_type_title');
     });
 
+    it('should show period not allowed for disabled periods', async function () {
+
+        testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'day');
+        testEnvironment.save();
+
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_period_not_allowed');
+
+        testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'all');
+        testEnvironment.save();
+    });
+
+
 });
