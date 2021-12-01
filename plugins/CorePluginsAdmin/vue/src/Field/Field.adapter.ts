@@ -185,7 +185,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       }
     },
   },
-  postCreate(vm, scope, element, attrs, controller) {
+  postCreate(vm, scope, element, attrs, controller, $timeout) {
     const ngModel = controller as INgModelController;
 
     if (!ngModel) {
@@ -208,11 +208,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       });
     };
 
-    if (typeof scope.value !== 'undefined') {
-      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-      (ngModel as INgModelController).$setViewValue(transformed);
-    }
-
-    ngModel.$setViewValue(vm.modelValue);
+    $timeout(() => { // timeout so any ng-change directives will be applied first
+      if (typeof scope.value !== 'undefined') {
+        const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+        (ngModel as INgModelController).$setViewValue(transformed);
+      } else {
+        ngModel.$setViewValue(vm.modelValue);
+      }
+    });
   },
 });
