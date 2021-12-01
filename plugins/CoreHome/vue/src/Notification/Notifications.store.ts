@@ -171,14 +171,19 @@ class NotificationsStore {
       // If a modal is open, we want to make sure the error message is visible and therefore
       // show it within the opened modal
       const modalSelector = '.modal.open .modal-content';
-      if (document.querySelector(modalSelector)) {
-        notificationPosition = modalSelector;
+      const modal = document.querySelector(modalSelector);
+      if (modal) {
+        if (!modal.querySelector('#modalNotificationContainer')) {
+          window.$(modal).prepend('<div id="modalNotificationContainer"/>');
+        }
+
+        notificationPosition = `${modalSelector} #modalNotificationContainer`;
         addMethod = this.prependNotification;
       }
     }
 
     const group = notification.group
-      || (notification.placeat ? notification.placeat.toString() : '');
+      || (notificationPosition ? notificationPosition.toString() : '');
 
     this.initializeNotificationContainer(notificationPosition, group);
 

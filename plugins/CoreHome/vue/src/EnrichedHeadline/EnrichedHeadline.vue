@@ -82,7 +82,12 @@ import Periods from '../Periods/Periods';
 // dependening on each other, not whole plugins.
 const RateFeature = defineAsyncComponent(() => new Promise((resolve) => {
   window.$(document).ready(() => {
-    resolve((window as any).Feedback.RateFeature); // eslint-disable-line
+    const { Feedback } = window as any; // eslint-disable-line
+    if (Feedback) {
+      resolve(Feedback.RateFeature);
+    } else { // feedback plugin not loaded
+      resolve(null);
+    }
   });
 }));
 
