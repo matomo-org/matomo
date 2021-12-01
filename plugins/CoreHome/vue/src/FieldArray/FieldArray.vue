@@ -23,7 +23,7 @@
           @update:modelValue="onEntryChange($event, index)"
           :placeholder="' '"
           :uicontrol="field.uiControl"
-          :data-title="field.title"
+          :title="field.title"
           :name="`${name}-${index}`"
         >
         </Field>
