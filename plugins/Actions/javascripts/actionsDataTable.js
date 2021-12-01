@@ -80,7 +80,6 @@
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
-            self.setFixWidthToMakeEllipsisWork(domElem);
             self.handleSummaryRow(domElem);
             self.openSubtableFromLevel0IfOnlyOneSubtableGiven(domElem);
             self.postBindEventsAndApplyStyleHook(domElem, rows);
