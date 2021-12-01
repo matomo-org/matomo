@@ -22,7 +22,7 @@
           :name="name"
           :disabled="radioModel.disabled || disabled"
           v-bind="uiControlAttributes"
-          :checked="modelValue === radioModel.key"
+          :checked="modelValue === radioModel.key || `${modelValue}` === radioModel.key"
         />
 
         <span>
@@ -47,7 +47,7 @@ export default defineComponent({
     name: String,
     disabled: Boolean,
     uiControlAttributes: Object,
-    modelValue: null,
+    modelValue: [String, Number],
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],

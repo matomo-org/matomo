@@ -49,6 +49,7 @@ function handleJsonValue(value: unknown, varType: string, uiControl: string) {
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: Field,
   require: '?ngModel',
+  priority: 1,
   scope: {
     uicontrol: {
       angularJsBind: '@',
@@ -185,7 +186,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       }
     },
   },
-  postCreate(vm, scope, element, attrs, controller, $timeout) {
+  postCreate(vm, scope, element, attrs, controller) {
     const ngModel = controller as INgModelController;
 
     if (!ngModel) {
@@ -208,13 +209,11 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       });
     };
 
-    $timeout(() => { // timeout so any ng-change directives will be applied first
-      if (typeof scope.value !== 'undefined') {
-        const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-        (ngModel as INgModelController).$setViewValue(transformed);
-      } else {
-        ngModel.$setViewValue(vm.modelValue);
-      }
-    });
+    if (typeof scope.value !== 'undefined') {
+      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+      (ngModel as INgModelController).$setViewValue(transformed);
+    } else {
+      ngModel.$setViewValue(vm.modelValue);
+    }
   },
 });
