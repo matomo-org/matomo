@@ -2516,7 +2516,8 @@ function createAngularJsAdapter(options) {
       postCreate = options.postCreate,
       noScope = options.noScope,
       _options$restrict = options.restrict,
-      restrict = _options$restrict === void 0 ? 'A' : _options$restrict;
+      restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
+      priority = options.priority;
   var currentTranscludeCounter = transcludeCounter;
 
   if (transclude) {
@@ -2546,6 +2547,7 @@ function createAngularJsAdapter(options) {
     var adapter = {
       restrict: restrict,
       require: require,
+      priority: priority,
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
