@@ -165,7 +165,11 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";
-        $jsFiles[] = Development::isEnabled() ? 'node_modules/angular/angular.js' : 'node_modules/angular/angular.min.js';
+
+        $devAngularJs = 'node_modules/angular/angular.js';
+        $jsFiles[] = Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devAngularJs)
+            ? $devAngularJs : 'node_modules/angular/angular.min.js';
+
         $jsFiles[] = "node_modules/angular-sanitize/angular-sanitize.min.js";
         $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
         $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";

@@ -202,17 +202,25 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     }
 
     // ngModel being used
-    if (typeof scope.value !== 'undefined') {
-      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-      (ngModel as INgModelController).$setViewValue(transformed);
-    }
-
     ngModel.$render = () => {
       nextTick(() => {
         vm.modelValue = removeAngularJsSpecificProperties(ngModel.$viewValue);
       });
     };
 
-    ngModel.$setViewValue(vm.modelValue);
+    if (typeof scope.value !== 'undefined') {
+      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+      (ngModel as INgModelController).$setViewValue(transformed);
+    } else {
+      ngModel.$setViewValue(vm.modelValue);
+    }
+
+    // to provide same behavior in angularjs/<4.6.0, we trigger a model update to the same
+    // value, but only for 'site' uicontrols. this only happened for site selectors, no others.
+    if (scope.uicontrol === 'site') {
+      setTimeout(() => {
+        ngModel.$setViewValue({ ...ngModel.$viewValue });
+      });
+    }
   },
 });

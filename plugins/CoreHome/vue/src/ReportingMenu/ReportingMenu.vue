@@ -186,7 +186,6 @@ export default defineComponent({
       }
     });
 
-    // TODO: document method of watching for url changes
     watch(() => MatomoUrl.parsed.value, (query) => {
       const found = ReportingMenuStoreInstance.findSubcategory(query.category, query.subcategory);
       ReportingMenuStoreInstance.enterSubcategory(

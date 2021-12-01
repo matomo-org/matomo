@@ -222,8 +222,6 @@ export class ReportingMenuStore {
     this.privateState.activeSubcategoryId = subcategory.id;
 
     if (subsubcategory) {
-      // TODO: removed this code, hopefully won'y be an issue
-      // subcategory.name = subsubcategory.name
       this.privateState.activeSubsubcategoryId = subsubcategory.id;
     }
   }
