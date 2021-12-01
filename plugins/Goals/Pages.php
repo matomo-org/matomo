@@ -35,7 +35,7 @@ class Pages
      * @param array $goals
      * @return WidgetConfig[]
      */
-    public function createGoalsOverviewPage($goals, $isMultiple = false)
+    public function createGoalsOverviewPage($goals)
     {
         $subcategory = 'General_Overview';
 
