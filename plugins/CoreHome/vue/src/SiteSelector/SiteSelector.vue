@@ -13,7 +13,7 @@
     <input
       v-if="name"
       type="hidden"
-      :value="selectedSite?.id"
+      :value="modelValue?.id"
       :name="name"
     />
     <a
@@ -32,11 +32,11 @@
       />
       <span>
         <span
-          v-text="selectedSite?.name || firstSiteName"
-          v-if="selectedSite?.name || !placeholder"
+          v-text="modelValue?.name || firstSiteName"
+          v-if="modelValue?.name || !placeholder"
         />
         <span
-          v-if="!selectedSite?.name && placeholder"
+          v-if="!modelValue?.name && placeholder"
           class="placeholder"
         >{{ placeholder }}</span>
       </span>
@@ -53,7 +53,6 @@
           type="text"
           @click="searchTerm = '';loadInitialSites()"
           v-model="searchTerm"
-          @keydown="onSearchInputKeydown()"
           tabindex="4"
           class="websiteSearch inp browser-default"
           v-focus-if:[shouldFocusOnSearch]="{}"
@@ -82,8 +81,8 @@
           <li
             @click="switchSite(site, $event)"
             v-show="!(!showSelectedSite && activeSiteId === site.idsite)"
-            v-for="site in sites"
-            :key="site.idsite"
+            v-for="(site, index) in sites"
+            :key="index"
           >
             <a
               @click="$event.preventDefault()"
@@ -141,7 +140,6 @@ interface SiteSelectorState {
   showSitesList: boolean;
   isLoading: boolean;
   sites: Site[];
-  selectedSite: SiteRef;
   autocompleteMinSites: null|number;
 }
 
@@ -193,11 +191,8 @@ export default defineComponent({
     FocusIf,
   },
   watch: {
-    modelValue: {
-      handler(newValue) {
-        this.selectedSite = { ...newValue };
-      },
-      deep: true,
+    searchTerm() {
+      this.onSearchTermChanged();
     },
   },
   data(): SiteSelectorState {
@@ -207,7 +202,7 @@ export default defineComponent({
       showSitesList: false,
       isLoading: false,
       sites: [],
-      selectedSite: {
+      selectedSite: this.modelValue || {
         id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
       },
@@ -218,9 +213,8 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.selectedSite || !this.selectedSite.id) && this.sites[0]) {
-        this.selectedSite = { id: this.sites[0].idsite, name: this.sites[0].name };
-        this.$emit('update:modelValue', { ...this.selectedSite });
+      if ((!this.modelValue || !this.modelValue.id) && this.sites[0]) {
+        this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });
 
@@ -238,9 +232,6 @@ export default defineComponent({
       this.$refs.selectorLink.focus();
     });
   },
-  created() {
-    this.onSearchInputKeydown = debounce(this.onSearchInputKeydown.bind(this));
-  },
   computed: {
     shouldFocusOnSearch() {
       return (this.showSitesList && this.autocompleteMinSites <= this.sites.length)
@@ -248,7 +239,7 @@ export default defineComponent({
     },
     selectorLinkTitle() {
       return this.hasMultipleSites
-        ? translate('CoreHome_ChangeCurrentWebsite', this.selectedSite?.name || this.firstSiteName)
+        ? translate('CoreHome_ChangeCurrentWebsite', this.modelValue?.name || this.firstSiteName)
         : '';
     },
     hasMultipleSites() {
@@ -268,7 +259,19 @@ export default defineComponent({
       return `?${newQuery}`;
     },
   },
+  created() {
+    this.searchSite = debounce(this.searchSite.bind(this));
+  },
   methods: {
+    onSearchTermChanged() {
+      if (!this.searchTerm) {
+        this.isLoading = false;
+        this.loadInitialSites();
+      } else {
+        this.isLoading = true;
+        this.searchSite(this.searchTerm);
+      }
+    },
     onAllSitesClick(event: MouseEvent) {
       this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
       this.showSitesList = false;
@@ -282,8 +285,7 @@ export default defineComponent({
         return;
       }
 
-      this.selectedSite = { id: site.idsite, name: site.name };
-      this.$emit('update:modelValue', { ...this.selectedSite });
+      this.$emit('update:modelValue', { id: site.idsite, name: site.name });
 
       if (!this.switchSiteOnSelect || this.activeSiteId === site.idsite) {
         return;
@@ -316,14 +318,11 @@ export default defineComponent({
         this.loadInitialSites();
       }
     },
-    onSearchInputKeydown() {
-      setTimeout(() => {
-        this.searchSite(this.searchTerm);
-      });
-    },
     getMatchedSiteName(siteName: string) {
       const index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
-      if (index === -1) {
+      if (index === -1
+        || this.isLoading // only highlight when we know the displayed results are for a search
+      ) {
         return Matomo.helper.htmlEntities(siteName);
       }
 
@@ -343,6 +342,10 @@ export default defineComponent({
       this.isLoading = true;
 
       SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
+        if (term !== this.searchTerm) {
+          return; // search term changed in the meantime
+        }
+
         if (sites) {
           this.sites = sites;
         }

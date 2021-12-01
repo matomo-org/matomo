@@ -17,6 +17,8 @@
 				<pageId>69</pageId>
 				<pageLoadTime>1.45s</pageLoadTime>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1454</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
@@ -176,6 +178,8 @@
 				
 				<pageId>68</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Contact the Piwik team - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/contact/</subtitle>
@@ -292,6 +296,8 @@
 				
 				<pageId>67</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
 				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
@@ -462,6 +468,8 @@
 				
 				<pageId>66</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>What is Piwik? - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/what-is-piwisk/</subtitle>
@@ -530,7 +538,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -736,6 +744,8 @@
 				
 				<pageId>63</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
@@ -881,6 +891,8 @@
 				
 				<pageId>62</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Log Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
@@ -949,7 +961,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 7.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
@@ -1015,6 +1027,8 @@
 				<pageId>61</pageId>
 				<pageLoadTime>0.91s</pageLoadTime>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>905</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
@@ -1142,6 +1156,8 @@
 				<pageId>59</pageId>
 				<pageLoadTime>1.11s</pageLoadTime>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1105</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Log Analytics - Analytics - Piwik</title>
@@ -1468,6 +1484,8 @@
 				<pageId>56</pageId>
 				<pageLoadTime>0.81s</pageLoadTime>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>813</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello Installing Piwik - Analytics - Piwik</title>
@@ -1607,6 +1625,8 @@
 				<pageId>54</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>739</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
@@ -1747,6 +1767,8 @@
 				<productViewName>PRODUCT name</productViewName>
 				<productViewSku>SKU2</productViewSku>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -1879,6 +1901,8 @@
 				
 				<pageId>51</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Piwik Forums</title>
 				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
@@ -1947,7 +1971,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 11.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -2071,6 +2095,8 @@
 				
 				<pageId>53</pageId>
 				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -2142,7 +2168,7 @@
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari 5.0</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
