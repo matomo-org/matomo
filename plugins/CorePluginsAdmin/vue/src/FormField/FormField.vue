@@ -241,7 +241,7 @@ export default defineComponent({
       if (field.type === 'boolean') {
         const valueIsTruthy = this.modelValue && this.modelValue > 0 && this.modelValue !== '0';
 
-        // for checkboxes, the value MUST be either true or faluse
+        // for checkboxes, the value MUST be either true or false
         if (field.uiControl === 'checkbox') {
           return valueIsTruthy;
         }
@@ -293,7 +293,6 @@ export default defineComponent({
         }
       }
 
-      // TODO: change all instanceof Array to Array.isArray
       if (!Array.isArray(availableOptions)) {
         if (Array.isArray(defaultValue)) {
           return '';
