@@ -226,7 +226,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSparklines()
     {
         $module = "Goals";
-        $action = "get";
+        $action = "getMetrics";
         $content = "";
 
         $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -243,6 +243,8 @@ class Controller extends \Piwik\Plugin\Controller
             //load Visualisations Sparkline
             $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
             $view->requestConfig->request_parameters_to_modify['idGoal'] = $goal['idgoal'];
+            $view->requestConfig->request_parameters_to_modify['allow_multiple'] =(int)$goal['allow_multiple'];
+            $view->requestConfig->request_parameters_to_modify['only_summary'] =1;
             $view->config->show_title = true;
             $_SERVER['QUERY_STRING'] .= $queryString . '&idGoal='. $goal['idgoal'];
             $view->config->title = $goal['name'];

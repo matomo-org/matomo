@@ -54,6 +54,7 @@ class Pages
         $config->setSubcategoryId($subcategory);
         $config->setName('');
         $config->setOrder(15);
+        $config->setAction('getMetrics');
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
