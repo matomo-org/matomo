@@ -59,6 +59,7 @@
                 }).length;
             }
             self.applyCosmetics(domElem, rows);
+            self.handleColumnHighlighting(domElem);
             self.handleRowActions(domElem, rows);
             self.handleLimit(domElem);
             self.handlePeriod(domElem);

@@ -379,6 +379,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		    self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
+        self.handleColumnHighlighting(domElem);
         self.setFixWidthToMakeEllipsisWork(domElem);
         self.handleSummaryRow(domElem);
         self.postBindEventsAndApplyStyleHook(domElem);
@@ -1434,6 +1435,53 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     //Apply some miscelleaneous style to the DataTable
     applyCosmetics: function (domElem) {
         // empty
+    },
+
+    handleColumnHighlighting: function (domElem) {
+
+        var currentNthChild = null;
+        var self = this;
+
+        // highlight all columns on hover
+        $(domElem).on('mouseenter', 'td', function (e) {
+            e.stopPropagation();
+            var $this = $(e.target);
+            if ($this.hasClass('label')) {
+                return;
+            }
+
+            var table    = $this.closest('table');
+            var nthChild = $this.parent('tr').children().index($(e.target)) + 1;
+            var rows     = $('> tbody > tr', table);
+
+            if (currentNthChild === nthChild) {
+                return;
+            }
+
+            currentNthChild = nthChild;
+
+            rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
+            self.repositionRowActions($this.parent('tr'));
+        });
+
+        $(domElem).on('mouseleave', 'td', function(event) {
+            var $this = $(event.target);
+            var table    = $this.closest('table');
+            var $parentTr = $this.parent('tr');
+            var tr       = $parentTr.children();
+            var nthChild = $parentTr.children().index($this);
+            var targetTd = $(event.relatedTarget).closest('td');
+            var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
+
+            if (nthChild == nthChildTarget) {
+                return;
+            }
+
+            currentNthChild = null;
+
+            var rows = $('tr', table);
+            rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+        });
     },
 
     getComparisonIdSubtables: function ($row) {
