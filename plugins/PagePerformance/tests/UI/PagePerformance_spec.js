@@ -24,6 +24,8 @@ describe("PagePerformance", function () {
 
     it("should load page performance overview", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
+        await page.waitForTimeout(100);
+
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('load');
     });

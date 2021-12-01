@@ -101,6 +101,7 @@ class Http
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
+
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
         return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file,
             $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod,

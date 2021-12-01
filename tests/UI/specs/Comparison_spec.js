@@ -180,6 +180,10 @@ describe("Comparison", function () {
     });
 
     it('should advance to the next page when paginating the subtable', async () => {
+
+        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+          $('.dataTableScroller').css('overflow-x', 'scroll');
+        });
         await page.click('.cellSubDataTable .dataTableNext');
         await page.waitForNetworkIdle();
 
