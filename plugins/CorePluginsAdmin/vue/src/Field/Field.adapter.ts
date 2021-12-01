@@ -202,16 +202,16 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     }
 
     // ngModel being used
-    if (typeof scope.value !== 'undefined') {
-      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-      (ngModel as INgModelController).$setViewValue(transformed);
-    }
-
     ngModel.$render = () => {
       nextTick(() => {
         vm.modelValue = removeAngularJsSpecificProperties(ngModel.$viewValue);
       });
     };
+
+    if (typeof scope.value !== 'undefined') {
+      const transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
+      (ngModel as INgModelController).$setViewValue(transformed);
+    }
 
     ngModel.$setViewValue(vm.modelValue);
   },
