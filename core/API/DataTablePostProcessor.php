@@ -22,6 +22,7 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -453,6 +454,11 @@ class DataTablePostProcessor
                 $computedValue = $processedMetric->compute($row);
                 if ($computedValue !== false) {
                     $row->addColumn($name, $computedValue);
+
+                    // Add a trend column for evolution metrics
+                    if ($processedMetric instanceof EvolutionMetric) {
+                        $row->addColumn($processedMetric->getTrendName(), $processedMetric->getTrendValue($computedValue));
+                    }
                 }
             }
         }

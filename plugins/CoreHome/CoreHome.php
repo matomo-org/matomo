@@ -138,7 +138,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
@@ -229,9 +229,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
 
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
@@ -256,9 +253,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.directive.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 

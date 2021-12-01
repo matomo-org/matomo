@@ -114,6 +114,20 @@ class ApiTest extends SystemTestCase
         return $apiToTest;
     }
 
+    public function test_createAppSpecificTokenAuthWithCrypticPassword()
+    {
+        $password = 'p§$%"@&<~#\'\\/+ >*^!°p';
+        API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
+        $this->api->updateUser('login6', $password);
+        API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+        $this->model->deleteAllTokensForUser('login6');
+        $token = $this->api->createAppSpecificTokenAuth('login6', $password, 'test');
+        $this->assertMd5($token);
+
+        $user = $this->model->getUserByTokenAuth($token);
+        $this->assertSame('login6', $user['login']);
+    }
+
     public function test_createAppSpecificTokenAuth()
     {
         $this->model->deleteAllTokensForUser('login1');

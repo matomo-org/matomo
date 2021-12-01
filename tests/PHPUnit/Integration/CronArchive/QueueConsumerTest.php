@@ -715,6 +715,90 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
     }
 
+    public function test_max_websites_to_process()
+    {
+        Fixture::createWebsite('2021-11-16');
+        Fixture::createWebsite('2021-11-16');
+        Fixture::createWebsite('2021-11-16');
+
+        // force archiving so we don't skip those without visits
+        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+            $idSites[] = 2;
+            $idSites[] = 3;
+        });
+
+        $cronArchive = new MockCronArchive();
+        $cronArchive->init();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1, 2, 3]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving('beginning_of_time'),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+        $this->assertNull($queueConsumer->setMaxSitesToProcess());
+        $this->assertEquals(1, $queueConsumer->setMaxSitesToProcess(1));
+
+        $invalidations = [
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => 1, 'report' => null],
+            ['idarchive' => 2, 'name' => 'done', 'idsite' => 2, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => 2, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done', 'idsite' => 3, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => 3, 'report' => null],
+        ];
+
+        $this->insertInvalidations($invalidations);
+
+        Config::getInstance()->General['enabled_periods_API'] = 'day,week,range';
+
+        $iteratedInvalidations = [];
+        while (true) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                break;
+            }
+            if (empty($next)) {
+                continue;
+            }
+
+            foreach ($next as &$item) {
+                $this->simulateJobStart($item['idinvalidation']);
+
+                unset($item['periodObj']);
+                unset($item['idinvalidation']);
+                unset($item['ts_invalidated']);
+            }
+
+            $iteratedInvalidations[] = $next;
+        }
+
+        $expectedInvalidationsFound = [
+            [
+                [
+                    'idarchive' => '1',
+                    'name' => 'done',
+                    'idsite' => '1',
+                    'date1' => '2021-11-16',
+                    'date2' => '2021-11-16',
+                    'period' => '1',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                ],
+            ]
+        ];
+
+        $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
+    }
+
     private function makeTestArchiveFilter($restrictToDateRange = null, $restrictToPeriods = null, $segmentsToForce = null,
                                            $disableSegmentsArchiving = false, $skipSegmentsToday = false)
     {

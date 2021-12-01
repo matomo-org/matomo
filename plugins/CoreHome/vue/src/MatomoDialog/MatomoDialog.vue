@@ -35,7 +35,7 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['yes', 'no', 'closeEnd', 'close', 'update:modelValue'],
+  emits: ['yes', 'no', 'closeEnd', 'close', 'validation', 'update:modelValue'],
   activated() {
     this.$emit('update:modelValue', false);
   },

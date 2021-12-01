@@ -176,6 +176,11 @@ export default class RangePeriod {
   containsToday(): boolean {
     return todayIsInRange(this.getDateRange());
   }
+
+  getDayCount(): number {
+    return (Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24))
+            + 1);
+  }
 }
 
 Periods.addCustomPeriod('range', RangePeriod);

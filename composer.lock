@@ -206,16 +206,16 @@
         },
         {
             "name": "geoip2/geoip2",
-            "version": "v2.11.0",
+            "version": "v2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/GeoIP2-php.git",
-                "reference": "d01be5894a5c1a3381c58c9b1795cd07f96c30f7"
+                "reference": "d25660633755f3f064ca647cd916c5c65074e408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/d01be5894a5c1a3381c58c9b1795cd07f96c30f7",
-                "reference": "d01be5894a5c1a3381c58c9b1795cd07f96c30f7",
+                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/d25660633755f3f064ca647cd916c5c65074e408",
+                "reference": "d25660633755f3f064ca647cd916c5c65074e408",
                 "shasum": ""
             },
             "require": {
@@ -225,7 +225,8 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "2.*",
+                "friendsofphp/php-cs-fixer": "3.*",
+                "phpstan/phpstan": "*",
                 "phpunit/phpunit": "^8.0 || ^9.0",
                 "squizlabs/php_codesniffer": "3.*"
             },
@@ -257,9 +258,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/GeoIP2-php/issues",
-                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.11.0"
+                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.12.1"
             },
-            "time": "2020-10-01T18:48:34+00:00"
+            "time": "2021-11-23T17:01:41+00:00"
         },
         {
             "name": "lox/xhprof",
@@ -602,16 +603,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "37ad506a9e5b73dd5c8664708086fd4b888547fd"
+                "reference": "441d377411296e04558f88c27706545c9524ac2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/37ad506a9e5b73dd5c8664708086fd4b888547fd",
-                "reference": "37ad506a9e5b73dd5c8664708086fd4b888547fd",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/441d377411296e04558f88c27706545c9524ac2e",
+                "reference": "441d377411296e04558f88c27706545c9524ac2e",
                 "shasum": ""
             },
             "require": {
@@ -654,7 +655,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2021-11-15T00:05:09+00:00"
+            "time": "2021-11-15T18:55:52+00:00"
         },
         {
             "name": "matomo/network",
@@ -1472,16 +1473,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.5.1",
+            "version": "v6.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "dd803df5ad7492e1b40637f7ebd258fee5ca7355"
+                "reference": "baeb7cde6b60b1286912690ab0693c7789a31e71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/dd803df5ad7492e1b40637f7ebd258fee5ca7355",
-                "reference": "dd803df5ad7492e1b40637f7ebd258fee5ca7355",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/baeb7cde6b60b1286912690ab0693c7789a31e71",
+                "reference": "baeb7cde6b60b1286912690ab0693c7789a31e71",
                 "shasum": ""
             },
             "require": {
@@ -1538,7 +1539,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.3"
             },
             "funding": [
                 {
@@ -1546,7 +1547,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-18T09:14:16+00:00"
+            "time": "2021-11-25T16:34:11+00:00"
         },
         {
             "name": "psr/container",
@@ -2072,16 +2073,16 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.0.10",
+            "version": "v3.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "daf0912e0bd9069508a87a4419e4735a34e09698"
+                "reference": "7022fa093ca142bbe9705504420d30073a5ddf13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/daf0912e0bd9069508a87a4419e4735a34e09698",
-                "reference": "daf0912e0bd9069508a87a4419e4735a34e09698",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/7022fa093ca142bbe9705504420d30073a5ddf13",
+                "reference": "7022fa093ca142bbe9705504420d30073a5ddf13",
                 "shasum": ""
             },
             "require": {
@@ -2137,9 +2138,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/v3.0.10"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.0.11"
             },
-            "time": "2021-09-25T16:34:55+00:00"
+            "time": "2021-11-25T18:56:18+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -2271,16 +2272,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.3.3",
+            "version": "v3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569"
+                "reference": "65cb6f0b956485e1664f13d023c55298a4bb59ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a27fa056df8a6384316288ca8b0fa3a35fdeb569",
-                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/65cb6f0b956485e1664f13d023c55298a4bb59ca",
+                "reference": "65cb6f0b956485e1664f13d023c55298a4bb59ca",
                 "shasum": ""
             },
             "require": {
@@ -2331,7 +2332,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.3.3"
+                "source": "https://github.com/twigphp/Twig/tree/v3.3.4"
             },
             "funding": [
                 {
@@ -2343,7 +2344,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-17T08:44:23+00:00"
+            "time": "2021-11-25T13:46:55+00:00"
         },
         {
             "name": "wikimedia/less.php",
