@@ -259,7 +259,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
-
         // TODO: [Vue] used by RollUpReporting, has to be kept for now.
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
 
