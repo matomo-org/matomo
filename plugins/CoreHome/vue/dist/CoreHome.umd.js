@@ -1212,9 +1212,8 @@ function initPiwikService(piwik, $rootScope) {
       args[_key - 1] = arguments[_key];
     }
 
-    Matomo_Matomo.postEvent.apply(Matomo_Matomo, [name].concat(args)); // can't always get the result. it's not really used in angularjs though, so it should be ok.
-
-    return null;
+    Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
+    return this.$oldEmit.apply(this, [name].concat(args));
   };
 
   $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
@@ -1225,7 +1224,7 @@ function initPiwikService(piwik, $rootScope) {
     }
 
     Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
-    return $rootScope.$oldBroadcast.apply($rootScope, [name].concat(args)); // eslint-disable-line
+    return this.$oldBroadcast.apply(this, [name].concat(args)); // eslint-disable-line
   };
 
   $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
