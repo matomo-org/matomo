@@ -6,6 +6,7 @@
  */
 
 import { INgModelController, ITimeoutService } from 'angular';
+import { nextTick } from 'vue';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import SiteSelector from './SiteSelector.vue';
 import Matomo from '../Matomo/Matomo';
@@ -43,17 +44,29 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   $inject: ['$timeout'],
   directiveName: 'piwikSiteselector',
   events: {
-    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel) => {
+    'update:modelValue': (newValue, vm, scope, element, attrs, ngModel, $timeout) => {
       if ((newValue && !vm.modelValue)
         || (!newValue && vm.modelValue)
         || newValue.id !== vm.modelValue.id
       ) {
-        element.attr('siteid', newValue.id);
-        element.trigger('change', newValue);
+        $timeout(() => {
+          scope.value = newValue;
 
-        if (ngModel) {
-          ngModel.$setViewValue(newValue);
-        }
+          element.attr('siteid', newValue.id);
+          element.trigger('change', newValue);
+
+          if (ngModel
+            // the original site selector did not initiate an ngModel change when initializing its
+            // internal selectedSite state. mimicking that behavior here for BC.
+            && (scope.isNotFirstModelChange
+              || vm.modelValue)
+          ) {
+            ngModel.$setViewValue(newValue);
+            ngModel.$render(); // not called automatically by the digest
+          }
+
+          scope.isNotFirstModelChange = true;
+        });
       }
     },
     blur(event, vm, scope) {
@@ -63,16 +76,26 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   postCreate(vm, scope, element, attrs, controller, $timeout: ITimeoutService) {
     const ngModel = controller as INgModelController;
 
+    scope.$watch('value', (newVal) => {
+      if (newVal !== vm.modelValue) {
+        vm.modelValue = newVal;
+      }
+    });
+
     // setup ng-model mapping
     if (ngModel) {
-      ngModel.$setViewValue(vm.modelValue);
+      if (vm.modelValue) {
+        ngModel.$setViewValue(vm.modelValue);
+      }
 
       ngModel.$render = () => {
-        if (angular.isString(ngModel.$viewValue)) {
-          vm.modelValue = JSON.parse(ngModel.$viewValue);
-        } else {
-          vm.modelValue = ngModel.$viewValue;
-        }
+        nextTick(() => {
+          if (angular.isString(ngModel.$viewValue)) {
+            vm.modelValue = JSON.parse(ngModel.$viewValue);
+          } else {
+            vm.modelValue = ngModel.$viewValue;
+          }
+        });
       };
     }
 

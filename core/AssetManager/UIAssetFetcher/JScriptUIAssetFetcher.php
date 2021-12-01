@@ -102,11 +102,15 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         foreach ($plugins as $plugin) {
             $devUmd = "plugins/$plugin/vue/dist/$plugin.development.umd.js";
             $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
+            $umdSrcFolder = "plugins/$plugin/vue/src";
 
-            if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
-                $this->fileLocations[$plugin] = $devUmd;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
-                $this->fileLocations[$plugin] = $minifiedUmd;
+            // in case there are dist files but no src files, which can happen during development
+            if (is_dir($umdSrcFolder)) {
+                if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
+                    $this->fileLocations[$plugin] = $devUmd;
+                } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+                    $this->fileLocations[$plugin] = $minifiedUmd;
+                }
             }
         }
     }
