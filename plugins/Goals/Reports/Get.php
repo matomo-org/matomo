@@ -63,18 +63,16 @@ class Get extends Base
     {
         $idSite  = Common::getRequestVar('idSite', 0, 'int');
 
-        $isMultiples =  Common::getRequestVar('multiples', 0, 'int');
-
         if (empty($idSite)) {
             return;
         }
-
+        
         $goals   = $this->getGoals();
         $reports = Goals::getReportsWithGoalMetrics();
 
         $page = new Pages($factory, $reports);
 
-        $widgetsList->addWidgetConfigs($page->createGoalsOverviewPage($goals, $isMultiples));
+        $widgetsList->addWidgetConfigs($page->createGoalsOverviewPage($goals));
 
         if ($this->isEcommerceEnabled($idSite)) {
             $widgetsList->addWidgetConfigs($page->createEcommerceOverviewPage());
@@ -195,7 +193,7 @@ class Get extends Base
             } else {
                 $view->config->title = Piwik::translate('General_EvolutionOverPeriod');
             }
-
+            
             if (empty($view->config->columns_to_display)) {
                 $view->config->columns_to_display = array('nb_conversions');
             }

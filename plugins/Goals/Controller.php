@@ -235,14 +235,15 @@ class Controller extends \Piwik\Plugin\Controller
         $apiProxy = Proxy::getInstance();
 
         if (!$apiProxy->isExistingApiAction($module, $action)) {
-            throw new Exception("Invalid action name '$action' for '$module' plugin.");
+            throw new \Exception("Invalid action name '$action' for '$module' plugin.");
         }
 
         $apiAction = $apiProxy->buildApiActionName($module, $action);
         foreach ($goals as $goal) {
             //load Visualisations Sparkline
-            $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction);
-            $view->config->show_goals = false;
+            $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
+            $view->requestConfig->request_parameters_to_modify['idGoal'] = $goal['idgoal'];
+//            $view->config->show_goals = false;
             $view->config->show_title = true;
             $content .= $view->render();
         }
