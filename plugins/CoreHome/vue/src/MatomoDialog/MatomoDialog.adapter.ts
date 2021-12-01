@@ -40,7 +40,7 @@ export default createAngularJsAdapter<[IParseService]>({
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    close: ($event, scope, element, attrs) => {
+    close: ($event, vm, scope, element, attrs) => {
       if (attrs.close) {
         scope.$eval(attrs.close);
         setTimeout(() => { scope.$apply(); }, 0);

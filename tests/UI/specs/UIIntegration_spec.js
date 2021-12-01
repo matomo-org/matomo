@@ -815,7 +815,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should switch the SMS provider correctly', async function () {
             await page.evaluate(function () {
-                $('[name=smsProviders] ul li:nth-child(3)').click();
+                $('[name=smsProviders] ul li:nth-child(2)').click();
             });
 
             pageWrap = await page.$('.pageWrap');

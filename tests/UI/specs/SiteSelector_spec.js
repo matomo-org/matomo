@@ -60,6 +60,7 @@ describe("SiteSelector", function () {
         elem = await page.jQuery(".custom_select_ul_list>li:visible");
         elem.click();
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(200);
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('site_selected');
     });

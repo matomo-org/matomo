@@ -113,7 +113,7 @@ class SettingsMetadata
             $availableValues = (object) $availableValues;
         }
 
-        return array(
+        $result = array(
             'name' => $setting->getName(),
             'title' => $config->title,
             'value' => $setting->getValue(),
@@ -124,10 +124,17 @@ class SettingsMetadata
             'availableValues' => $availableValues,
             'description' => $config->description,
             'inlineHelp' => $config->inlineHelp,
+            // deprecated but kept here for API output BC
             'templateFile' => $config->customUiControlTemplateFile,
             'introduction' => $config->introduction,
             'condition' => $config->condition,
         );
+
+        if ($config->customFieldComponent) {
+            $result['component'] = $config->customFieldComponent;
+        }
+
+        return $result;
     }
 
 }

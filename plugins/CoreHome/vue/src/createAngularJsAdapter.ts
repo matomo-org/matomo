@@ -13,14 +13,22 @@ import {
 } from 'vue';
 import translate from './translate';
 
-interface SingleScopeVarInfo {
+interface SingleScopeVarInfo<InjectTypes> {
   vue?: string;
   default?: any; // eslint-disable-line
-  transform?: (v: unknown) => unknown;
+  transform?: (
+    v: unknown,
+    vm: ComponentPublicInstance,
+    scope: ng.IScope,
+    element: ng.IAugmentedJQuery,
+    attrs: ng.IAttributes,
+    otherController: ng.IControllerService,
+    ...injected: InjectTypes,
+  ) => unknown;
   angularJsBind?: string;
 }
 
-type ScopeMapping = { [scopeVarName: string]: SingleScopeVarInfo };
+type ScopeMapping<InjectTypes> = { [scopeVarName: string]: SingleScopeVarInfo<InjectTypes> };
 
 type AdapterFunction<InjectTypes, R = void> = (
   scope: ng.IScope,
@@ -64,10 +72,21 @@ function toAngularJsCamelCase(arg: string): string {
     .replace(/-([a-z])/g, (s, p) => p.toUpperCase());
 }
 
+export function removeAngularJsSpecificProperties<T>(newValue: T): T {
+  if (typeof newValue === 'object'
+    && newValue !== null
+    && Object.getPrototypeOf(newValue) === Object.prototype
+  ) {
+    return Object.fromEntries(Object.entries(newValue).filter((pair) => !/^\$/.test(pair[0]))) as T;
+  }
+
+  return newValue;
+}
+
 export default function createAngularJsAdapter<InjectTypes = []>(options: {
   component: ComponentType,
   require?: string,
-  scope?: ScopeMapping,
+  scope?: ScopeMapping<InjectTypes>,
   directiveName: string,
   events?: EventMapping<InjectTypes>,
   $inject?: string[],
@@ -76,6 +95,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   postCreate?: PostCreateFunction<InjectTypes>,
   noScope?: boolean,
   restrict?: string,
+  priority?: number,
 }): ng.IDirectiveFactory {
   const {
     component,
@@ -89,6 +109,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     postCreate,
     noScope,
     restrict = 'A',
+    priority,
   } = options;
 
   const currentTranscludeCounter = transcludeCounter;
@@ -110,6 +131,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     const adapter: ng.IDirective = {
       restrict,
       require,
+      priority,
       scope: noScope ? undefined : angularJsScope,
       compile: function angularJsAdapterCompile() {
         return {
@@ -125,7 +147,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             let rootVueTemplate = '<root-component';
             Object.entries(events).forEach((info) => {
               const [eventName] = info;
-              rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
+              rootVueTemplate += ` @${toKebabCase(eventName)}="onEventHandler('${eventName}', $event)"`;
             });
             Object.entries(scope).forEach(([key, info]) => {
               if (info.angularJsBind === '&') {
@@ -134,7 +156,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                   rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
                 }
               } else {
-                rootVueTemplate += ` :${info.vue}="${info.vue}"`;
+                rootVueTemplate += ` :${toKebabCase(info.vue)}="${info.vue}"`;
               }
             });
             rootVueTemplate += '>';
@@ -149,14 +171,22 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               data() {
                 const initialData = {};
                 Object.entries(scope).forEach(([scopeVarName, info]) => {
-                  let value = ngScope[scopeVarName];
+                  let value = removeAngularJsSpecificProperties(ngScope[scopeVarName]);
                   if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
                     value = info.default instanceof Function
                       ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices)
                       : info.default;
                   }
                   if (info.transform) {
-                    value = info.transform(value);
+                    value = info.transform(
+                      value,
+                      this,
+                      ngScope,
+                      ngElement,
+                      ngAttrs,
+                      ngController,
+                      ...injectedServices,
+                    );
                   }
                   initialData[info.vue] = value;
                 });
@@ -210,16 +240,24 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               }
 
               ngScope.$watch(scopeVarName, (newValue: any) => { // eslint-disable-line
-                let newValueFinal = newValue;
+                let newValueFinal = removeAngularJsSpecificProperties(newValue);
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
                   newValueFinal = info.default instanceof Function
                     ? info.default(ngScope, ngElement, ngAttrs, ...injectedServices)
                     : info.default;
                 }
                 if (info.transform) {
-                  newValueFinal = info.transform(newValueFinal);
+                  newValueFinal = info.transform(
+                    newValueFinal,
+                    vm,
+                    ngScope,
+                    ngElement,
+                    ngAttrs,
+                    ngController,
+                    ...injectedServices,
+                  );
                 }
-                vm[scopeVarName] = newValueFinal;
+                vm[info.vue] = newValueFinal;
               });
             });
 
@@ -252,4 +290,28 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   angular.module('piwikApp').directive(directiveName, angularJsAdapter);
 
   return angularJsAdapter;
+}
+
+export function transformAngularJsBoolAttr(v: unknown): boolean|undefined {
+  if (typeof v === 'undefined') {
+    return undefined;
+  }
+
+  if (v === 'true') {
+    return true;
+  }
+
+  return !!v && v > 0 && v !== '0';
+}
+
+export function transformAngularJsIntAttr(v: string): number {
+  if (typeof v === 'undefined') {
+    return undefined;
+  }
+
+  if (v === null) {
+    return null;
+  }
+
+  return parseInt(v, 10);
 }
