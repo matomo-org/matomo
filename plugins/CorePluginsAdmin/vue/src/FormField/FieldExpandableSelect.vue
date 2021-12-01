@@ -141,7 +141,7 @@ export default defineComponent({
       const key = this.modelValue;
 
       let keyItem: { key: string|number, value: unknown };
-      this.availableOptions.some((option) => {
+      (this.availableOptions || []).some((option) => {
         keyItem = option.values.find((item) => item.key === key);
         return keyItem; // stop iterating if found
       });

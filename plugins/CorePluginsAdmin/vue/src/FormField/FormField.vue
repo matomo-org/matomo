@@ -307,7 +307,7 @@ export default defineComponent({
         defaultValue = [defaultValue];
       }
 
-      Object.values(availableOptions).forEach((value) => {
+      (availableOptions || []).forEach((value) => {
         if (defaultValue.indexOf(value.key) !== -1 && typeof value.value !== 'undefined') {
           prettyValues.push(value.value);
         }

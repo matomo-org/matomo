@@ -9,7 +9,7 @@
     <label class="fieldRadioTitle" v-show="title">{{ title }}</label>
 
     <p
-      v-for="radioModel in availableOptions"
+      v-for="radioModel in (availableOptions || [])"
       :key="radioModel.key"
       class="radio"
     >
