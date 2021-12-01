@@ -11,8 +11,6 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
-use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
@@ -138,18 +136,10 @@ class Loader
             $lockId = $this->makeArchivingLockId();
 
             //ini lock
-            $lock = new Lock(StaticContainer::get(LockBackend::class), 'ArchiveLoader');
-            $locked = $lock->acquireLock($lockId);
-            if (!$locked) {
-                // it must be blocked by someone else
-                $timeStart = time();
-                do {
-                    if (time() - $timeStart > 60) {
-                        break;
-                    }
-                    usleep(250 * 1000);
-                } while ($lock->isLockedByAnyProcess());
-            }
+            $lock = new LoaderLock($lockId);
+
+            //set mysql lock the entire process if another process is running
+            $lock->setLock();
 
             try {
                 $data = $this->loadArchiveData();
@@ -165,6 +155,7 @@ class Loader
                 $lock->unlock();
             }
         } else {
+
             return $this->insertArchiveData($visits, $visitsConverted);
         }
     }
