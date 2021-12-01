@@ -249,8 +249,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
-				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -270,8 +268,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
-				<timeSpent>420</timeSpent>
-				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -291,8 +287,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
-				<timeSpent>900</timeSpent>
-				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -312,8 +306,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
-				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -333,8 +325,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
-				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -589,8 +579,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -616,8 +604,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -643,8 +629,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -670,8 +654,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
-				<timeSpent>30</timeSpent>
-				<timeSpentPretty>30s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -697,8 +679,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
-				<timeSpent>30</timeSpent>
-				<timeSpentPretty>30s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -724,8 +704,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
-				<timeSpent>1</timeSpent>
-				<timeSpentPretty>1s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -752,8 +730,6 @@
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
-				<timeSpent>1499</timeSpent>
-				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -780,8 +756,8 @@
 				<pageId>58</pageId>
 				<pageLoadTime>0.9s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<timeSpent>1801</timeSpent>
+				<timeSpentPretty>30 min 1s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>903</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Movie Theater</title>
@@ -801,8 +777,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
 				<bandwidth />
-				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -822,8 +796,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
 				<bandwidth />
-				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -843,8 +815,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
 				<bandwidth />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -864,8 +834,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>clickBuyNow</eventAction>
 				<bandwidth />
-				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -885,8 +853,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playStart</eventAction>
 				<bandwidth />
-				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1503,8 +1469,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
-				<timeSpent>1320</timeSpent>
-				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1524,8 +1488,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
-				<timeSpent>420</timeSpent>
-				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1545,8 +1507,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
-				<timeSpent>900</timeSpent>
-				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1566,8 +1526,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
-				<timeSpent>120</timeSpent>
-				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1587,8 +1545,6 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
-				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<pageviewPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>

@@ -183,6 +183,8 @@
 					
 					<pageId>4</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>Homepage</title>
 					<subtitle>http://example.org/homepage</subtitle>

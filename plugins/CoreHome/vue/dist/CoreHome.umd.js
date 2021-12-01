@@ -2227,8 +2227,10 @@ var ExpandOnClick_doc = document.documentElement;
     binding.value.onEscapeHandler = ExpandOnClick_onEscapeHandler.bind(null, el, binding);
     binding.value.onMouseDown = ExpandOnClick_onMouseDown.bind(null, binding);
     binding.value.onClickOutsideElement = ExpandOnClick_onClickOutsideElement.bind(null, el, binding);
-    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
-    binding.value.expander.addEventListener('click', binding.value.onExpand);
+    binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding); // have to use jquery here since existing code will do $(...).click(). which apparently
+    // doesn't work when using addEventListener.
+
+    window.$(binding.value.expander).click(binding.value.onExpand);
     ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
     ExpandOnClick_doc.addEventListener('mousedown', binding.value.onMouseDown);
     ExpandOnClick_doc.addEventListener('mouseup', binding.value.onClickOutsideElement);
@@ -4738,9 +4740,9 @@ DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template
   directiveName: 'piwikDateRangePicker',
   restrict: 'E'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=0fe3c4e7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=effd17b0
 
-function PeriodDatePickervue_type_template_id_0fe3c4e7_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PeriodDatePickervue_type_template_id_effd17b0_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DatePicker, {
@@ -4762,7 +4764,7 @@ function PeriodDatePickervue_type_template_id_0fe3c4e7_render(_ctx, _cache, $pro
     })
   }, null, 8, ["selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end", "view-date", "step-months", "disable-month-dropdown"]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=0fe3c4e7
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=effd17b0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=script&lang=ts
 
@@ -4820,10 +4822,12 @@ var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMont
     function onChanges() {
       if (!props.period || !props.date) {
         selectedDates.value = [null, null];
+        viewDate.value = null;
         return;
       }
 
       selectedDates.value = getBoundedDateRange(props.date);
+      viewDate.value = parseDate(props.date);
     }
 
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(props, onChanges);
@@ -4844,7 +4848,7 @@ var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMont
 
 
 
-PeriodDatePickervue_type_script_lang_ts.render = PeriodDatePickervue_type_template_id_0fe3c4e7_render
+PeriodDatePickervue_type_script_lang_ts.render = PeriodDatePickervue_type_template_id_effd17b0_render
 
 /* harmony default export */ var PeriodDatePicker = (PeriodDatePickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.adapter.ts
