@@ -23,7 +23,7 @@
           @update:modelValue="onEntryChange($event, index)"
           :placeholder="' '"
           :uicontrol="field.uiControl"
-          :data-title="field.title"
+          :title="field.title"
           :name="`${name}-${index}`"
         >
         </Field>
@@ -66,8 +66,8 @@ export default defineComponent({
   methods: {
     checkEmptyModelValue(newValue) {
       // make sure there is always an empty new value
-      if (!newValue.length || newValue.slice(-1)[0] !== '') {
-        this.$emit('update:modelValue', [...newValue, '']);
+      if (!newValue || !newValue.length || newValue.slice(-1)[0] !== '') {
+        this.$emit('update:modelValue', [...(newValue || []), '']);
       }
     },
     onEntryChange(newValue: unknown, index: number) {
