@@ -2198,6 +2198,12 @@ Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_64bae462_render
 
 /* harmony default export */ var Field = (Fieldvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Field/Field.adapter.ts
+function Field_adapter_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function Field_adapter_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Field_adapter_ownKeys(Object(source), true).forEach(function (key) { Field_adapter_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Field_adapter_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function Field_adapter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -2232,7 +2238,6 @@ function handleJsonValue(value, varType, uiControl) {
 /* harmony default export */ var Field_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
   component: Field,
   require: '?ngModel',
-  priority: 1,
   scope: {
     uicontrol: {
       angularJsBind: '@'
@@ -2403,6 +2408,14 @@ function handleJsonValue(value, varType, uiControl) {
       ngModel.$setViewValue(transformed);
     } else {
       ngModel.$setViewValue(vm.modelValue);
+    } // to provide same behavior in angularjs/<4.6.0, we trigger a model update to the same
+    // value, but only for 'site' uicontrols. this only happened for site selectors, no others.
+
+
+    if (scope.uicontrol === 'site') {
+      setTimeout(function () {
+        ngModel.$setViewValue(Field_adapter_objectSpread({}, ngModel.$viewValue));
+      });
     }
   }
 }));
