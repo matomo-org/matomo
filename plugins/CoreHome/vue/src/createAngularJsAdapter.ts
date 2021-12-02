@@ -118,6 +118,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     transcludeCounter += 1;
   }
 
+  const vueToAngular = {};
   const angularJsScope = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
@@ -126,6 +127,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
+    vueToAngular[info.vue] = scopeVarName;
   });
 
   function angularJsAdapter(...injectedServices: InjectTypes) {
@@ -152,9 +154,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               const [eventName] = info;
               rootVueTemplate += ` @${toKebabCase(eventName)}="onEventHandler('${eventName}', $event)"`;
             });
-            Object.entries(scope).forEach(([key, info]) => {
+            Object.entries(scope).forEach(([, info]) => {
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
-                const eventName = toKebabCase(key);
+                const eventName = toKebabCase(info.vue);
                 if (!events[eventName]) { // pass through scope & w/o a custom event handler
                   rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
                 }
@@ -207,7 +209,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               },
               methods: {
                 onEventHandler(name: string, $event: any) { // eslint-disable-line
-                  const scopePropertyName = toAngularJsCamelCase(name);
+                  const scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
                   }

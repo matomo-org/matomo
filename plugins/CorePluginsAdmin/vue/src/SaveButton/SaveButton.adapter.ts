@@ -22,6 +22,7 @@ export default createAngularJsAdapter({
     },
     onconfirm: {
       angularJsBind: '&?',
+      vue: 'confirm',
     },
   },
   directiveName: 'piwikSaveButton',
