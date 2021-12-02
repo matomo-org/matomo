@@ -15,8 +15,9 @@ function siteSelectorModelAdapter() {
     },
     loadSite: SitesStore.loadSite.bind(SitesStore),
     loadInitialSites: () => cloneThenApply(SitesStore.loadInitialSites()),
-    searchSite: (...args: Parameters<typeof SitesStore['searchSite']>) =>
-      cloneThenApply(SitesStore.searchSite(...args)),
+    searchSite: (...args: Parameters<typeof SitesStore['searchSite']>) => cloneThenApply(
+      SitesStore.searchSite(...args),
+    ),
   };
 }
 
