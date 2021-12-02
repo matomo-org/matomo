@@ -120,7 +120,7 @@ export default defineComponent({
   created() {
     const { actualWidget } = this;
 
-    if (!actualWidget.middlewareParameters) {
+    if (!actualWidget || !actualWidget.middlewareParameters) {
       this.showWidget = true;
     } else {
       AjaxHelper.fetch(actualWidget.middlewareParameters).then((response) => {
@@ -145,7 +145,7 @@ export default defineComponent({
           }
         }
 
-        return this.widget;
+        return widget;
       }
 
       if (this.containerid) {

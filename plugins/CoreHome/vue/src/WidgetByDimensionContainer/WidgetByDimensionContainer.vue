@@ -53,11 +53,12 @@ export default defineComponent({
     WidgetLoader,
   },
   data() {
-    const { widgetsSorted } = this;
-
     return {
-      selectedWidget: widgetsSorted[0],
+      selectedWidget: null,
     };
+  },
+  created() {
+    [this.selectedWidget] = this.widgetsSorted;
   },
   computed: {
     widgetsSorted(): Widget[] {
