@@ -264,7 +264,6 @@ class CoreHome extends \Piwik\Plugin
         // any angular JS file is loaded etc.
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form/form.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/save-button/save-button.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-filter.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-upload.directive.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";

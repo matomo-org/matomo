@@ -7,7 +7,9 @@
 import './FormField/FormField.adapter';
 import './Field/Field.adapter';
 import './PluginSettings/PluginSettings.adapter';
+import './Plugins/PluginFilter.adapter';
 
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
 export { default as PluginSettings } from './PluginSettings/PluginSettings.vue';
+export { default as PluginFilter } from './Plugins/PluginFilter';
