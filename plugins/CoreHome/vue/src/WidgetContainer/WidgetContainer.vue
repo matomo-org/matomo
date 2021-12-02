@@ -7,12 +7,12 @@
 <template>
   <div>
     <div
-      v-for="(widget, index) in container.widgets"
+      v-for="(widget, index) in container"
       :key="index"
     >
       <div>
         <Widget
-          v-bind="widget"
+          :widget="widget"
           :parameters="getModifiedParameters(widget)"
           :prevent-recursion="true"
         />
