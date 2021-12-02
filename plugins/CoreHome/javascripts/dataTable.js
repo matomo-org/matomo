@@ -426,14 +426,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $domElem.width('');
             parentDataTable.width('');
 
-            var $table = $('table.dataTable', domElem);
-            if ($table.closest('.reportsByDimensionView').length) {
-                var requiredTableWidth = $table.width() - 40; // 40 is padding on card content
-                if (domElem.width() > requiredTableWidth) {
-                    domElem.css('max-width', requiredTableWidth + 'px');
-                }
-            }
-
             var tableWidth = getTableWidth(domElem);
 
             if (tableWidth <= maxTableWidth) {
@@ -446,9 +438,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (dataTableInCard && dataTableInCard.length) {
                 // makes sure card has the same width
-                dataTableInCard.width(maxTableWidth);
+                dataTableInCard.css('max-width', maxTableWidth);
             } else {
-                $domElem.width(maxTableWidth);
+                $domElem.css('max-width', maxTableWidth);
             }
 
             if (parentDataTable && parentDataTable.length) {
@@ -456,9 +448,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // applied in getLabelWidth() since they will have the same size.
 
                 if (dataTableInCard.length) {
-                    dataTableInCard.width(maxTableWidth);
+                    dataTableInCard.css('max-width', maxTableWidth);
                 } else {
-                    parentDataTable.width(maxTableWidth);
+                    parentDataTable.css('max-width', maxTableWidth);
                 }
             }
         }
