@@ -10,14 +10,14 @@ namespace Piwik\Plugins\CoreHome\tests\Integration;
 
 use Piwik\Tests\Fixtures\CreateChanges;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Plugins\CoreHome\ChangesHelper;
+use Piwik\Changes\Model as ChangesModel;
 
 /**
  * @group CoreHome
  * @group CoreHomeTest
  * @group CoreHomeChanges
  */
-class ChangesHelperTest extends IntegrationTestCase
+class ChangesTest extends IntegrationTestCase
 {
 
     /**
@@ -27,8 +27,9 @@ class ChangesHelperTest extends IntegrationTestCase
 
     public function test_CoreHomeChanges_ShouldSortChangeListMostRecentFirst()
     {
-        $json = '{"idchange":3,"plugin_name":"CoreHome","version":"4.6.0b5","title":"New feature x added","description":"Now you can do a with b like this","link_name":"For more information go here","link":"https:\/\/www.matomo.org"}';
-        $changes = ChangesHelper::getChanges();
+        $json = '{"idchange":"3","plugin_name":"CoreHome","version":"4.6.0b5","title":"New feature x added","description":"Now you can do a with b like this","link_name":"For more information go here","link":"https:\/\/www.matomo.org"}';
+        $changesModel = new ChangesModel();
+        $changes = $changesModel->getChangeItems();
         $r = reset($changes);
         unset($r['created_time']);
         $this->assertEquals($json, json_encode($r, true));
@@ -36,4 +37,4 @@ class ChangesHelperTest extends IntegrationTestCase
 
 }
 
-ChangesHelperTest::$fixture = new CreateChanges();
+ChangesTest::$fixture = new CreateChanges();

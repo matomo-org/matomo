@@ -5,17 +5,19 @@
 
     {% for change in changes %}
 
-        {% embed '@CoreAdminHome/whatisnewblock.twig' with {'title': change.title} %}
-        {% block content %}
-            {{ change.description | raw }}
-            {% if not change.link is empty %}
-            <p>
-                <br>
-                <a href="{{ change.link }}" target="_blank">{{ change.link_name }}</a>
-            </p>
-            {% endif %}
-        {% endblock %}
-    {% endembed %}
+        <div class="card">
+            <div class="card-content">
+                <span style="float: left; font-size:32px; color:#3450A3; margin-right:10px" class="icon-new_releases"></span>
+                <h2 class="card-title">{{ change.title }}</h2>
+                {{ change.description | raw }}
+                {% if not change.link is empty %}
+                <p>
+                    <br>
+                    <a href="{{ change.link }}" target="_blank">{{ change.link_name }}</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
 
     {% endfor %}
 

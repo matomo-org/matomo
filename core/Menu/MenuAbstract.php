@@ -166,6 +166,9 @@ abstract class MenuAbstract extends Singleton
             } else {
                 $this->menu[$menuName]['_icon'] = '';
             }
+            if (!empty($onclick)) {
+                $this->menu[$menuName]['_onclick'] = $onclick;
+            }
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;

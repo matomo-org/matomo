@@ -10,10 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreHome\ChangesHelper;
 use Piwik\ProxyHttp;
-use Piwik\Plugin;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
@@ -35,7 +32,6 @@ class CoreAdminHome extends \Piwik\Plugin
             'Template.jsGlobalVariables' => 'addJsGlobalVariables',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'System.addSystemSummaryItems' => 'addSystemSummaryItems',
-            'Marketplace.pluginUpdated' => 'addPluginChanges',
         );
     }
 
@@ -50,34 +46,6 @@ class CoreAdminHome extends \Piwik\Plugin
             }
             $systemSummary[] = new SystemSummary\Item($key = 'trackingfailures', Piwik::translate('CoreAdminHome_NTrackingFailures', $numFailures), $value = null, array('module' => 'CoreAdminHome', 'action' => 'trackingFailures'), $icon, $order = 9);
         }
-    }
-
-    /**
-     * Add any changes from newly installed or updated plugins to the changes table
-     *
-     * @param string $pluginName The name of the plugin that was updated or installed
-     */
-    public function addPluginChanges(string $pluginName)
-    {
-        // Load the plugin
-        $pluginManager = PluginManager::getInstance();
-        if ($pluginManager->isPluginLoaded($pluginName)) {
-            $plugin = PluginManager::getInstance()->getLoadedPlugin($pluginName);
-            if (!empty($plugin)) {
-                $plugin->reloadPluginInformation();
-            }
-        } else {
-            $plugin = PluginManager::getInstance()->loadPlugin($pluginName);
-        }
-
-        if (!$plugin) {
-            return;
-        }
-
-        $version = $plugin->getVersion();
-
-        ChangesHelper::loadChangesForPlugin($pluginName, $version);
-
     }
 
     public function cleanupUser($userLogin)

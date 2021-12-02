@@ -18,21 +18,20 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
-use Piwik\Plugins\CoreHome\ChangesHelper;
-use Piwik\Plugins\CoreHome\CoreHome;
+use Piwik\Changes\UserChanges;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugin\Manager;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
 use Piwik\SettingsPiwik;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class Controller extends ControllerAdmin
 {
@@ -314,12 +313,18 @@ class Controller extends ControllerAdmin
         $view->mail = $mail;
     }
 
+    /**
+     * Show the what is new changes list
+     */
     public function whatIsNew() {
 
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();
 
-        $changes = ChangesHelper::getChanges();
+        $model = new UsersModel();
+        $userChanges = new UserChanges($model->getUser(Piwik::getCurrentUserLogin()));
+
+        $changes = $userChanges->getChanges();
 
         return $this->renderTemplate('whatisnew', ['changes' => $changes]);
 

@@ -8,14 +8,11 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
-use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Plugin;
-use Piwik\Plugins\CoreHome;
-use Piwik\Plugins\CoreHome\ChangesHelper;
-use Piwik\Plugins\UsersManager\Model AS UsersModel;
+use Piwik\Changes\UserChanges;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -53,14 +50,19 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
 
-        $newChangesStatus = ChangesHelper::getNewChangesStatus();
-        if (!Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess() && $newChangesStatus !== ChangesHelper::NO_CHANGES_EXIST) {
+        $model = new UsersModel();
+        $userChanges = new UserChanges($model->getUser(Piwik::getCurrentUserLogin()));
 
-            $icon = ($newChangesStatus === ChangesHelper::NEW_CHANGES_EXIST ? 'icon-notifications_on' : 'icon-reporting-actions');
+        $newChangesStatus = $userChanges->getNewChangesStatus();
+        if (!Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess() && $newChangesStatus !== UserChanges::NO_CHANGES_EXIST) {
+
+            $icon = ($newChangesStatus === UserChanges::NEW_CHANGES_EXIST ? 'icon-notifications_on' : 'icon-reporting-actions');
 
             $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', $icon);
-            $menu->addItem('CoreAdminHome_WhatIsNew', null, '', 990, Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
-                      $icon,false, 'matomo-what-is-new');
+            $menu->addItem('CoreAdminHome_WhatIsNew', null, null, 990,
+                Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
+                $icon,"Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', '".
+                addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'))."')",'matomo-what-is-new');
         }
     }
 

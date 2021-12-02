@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Plugins\CoreHome\ChangesHelper;
+use Piwik\Changes\Model as ChangesModel;
 use Piwik\Tests\Framework\Fixture;
 
 class CreateChanges extends Fixture
@@ -25,15 +25,12 @@ class CreateChanges extends Fixture
 
         $this->file = PIWIK_DOCUMENT_ROOT . '/plugins/CoreAdminHome/changes.json';
         $this->createChanges();
-
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-
         self::cleanup();
-
     }
 
     protected function cleanup(): void
@@ -42,7 +39,6 @@ class CreateChanges extends Fixture
             unlink($this->file);
         }
     }
-
 
     private function createChanges()
     {
@@ -72,8 +68,9 @@ class CreateChanges extends Fixture
         ];
 
         $changes = array_reverse($changes);
+        $changesModel = new ChangesModel();
         foreach ($changes as $change) {
-            ChangesHelper::addChange('CoreHome', $change);
+            $changesModel->addChange('CoreHome', $change);
         }
 
     }
