@@ -178,7 +178,7 @@ export default defineComponent({
         if (this.widgetName) {
           // we need to respect the widget title, which overwrites a possibly set report title
           const $content = window.$(widgetContent);
-          let $title = $content.find('> .card-content .card-title');
+          let $title = $content.find('> .card .card-content .card-title');
           if (!$title.length) {
             $title = $content.find('> h2');
           }
