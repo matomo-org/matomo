@@ -4,7 +4,7 @@ GREEN='\033[0;32m'
 SET='\033[0m'
 
 # set up fonts
-if ["$PIWIK_TEST_TARGET" = "UI" ]
+if [ "$PIWIK_TEST_TARGET" = "UI" ]
 then
   echo -e "${GREEN}Setup fonts${SET}"
   git clone --recursive https://github.com/google/woff2.git ../travis_woff2
