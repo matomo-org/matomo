@@ -80,7 +80,7 @@ export class ReportingMenuStore {
     let foundSubcategory = null;
     let foundSubSubcategory = null;
 
-    this.privateState.menu.forEach((category) => {
+    this.menu.value.forEach((category) => {
       if (category.id !== categoryId) {
         return;
       }
@@ -183,11 +183,11 @@ export class ReportingMenuStore {
   private sortMenuItems<T extends Orderable>(menu: T[]): T[] {
     const result = [...menu];
     result.sort((lhs, rhs) => {
-      if (lhs < rhs) {
+      if (lhs.order < rhs.order) {
         return -1;
       }
 
-      if (rhs > lhs) {
+      if (rhs.order > lhs.order) {
         return 1;
       }
 
@@ -222,8 +222,6 @@ export class ReportingMenuStore {
     this.privateState.activeSubcategoryId = subcategory.id;
 
     if (subsubcategory) {
-      // TODO: removed this code, hopefully won'y be an issue
-      // subcategory.name = subsubcategory.name
       this.privateState.activeSubsubcategoryId = subsubcategory.id;
     }
   }
