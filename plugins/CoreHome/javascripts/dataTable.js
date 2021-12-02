@@ -1956,17 +1956,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     // ensure the tooltips of parent elements are hidden when the action tooltip is shown
                     // otherwise it can happen that tooltips for subtable rows are shown as well.
                     open: function() {
-                        var tooltip = $(this).parents().filter(function() {
-                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
-                        }).tooltip('instance');
+                        var tooltip = $(this).parents('[piwik-widget]').tooltip('instance');
                         if (tooltip) {
                             tooltip.disable();
                         }
                     },
                     close: function() {
-                        var tooltip = $(this).parents().filter(function() {
-                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
-                        }).tooltip('instance');
+                        var tooltip = $(this).parents('[piwik-widget]').tooltip('instance');
                         if (tooltip) {
                             tooltip.enable();
                         }
