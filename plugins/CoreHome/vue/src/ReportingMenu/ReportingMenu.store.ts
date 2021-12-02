@@ -9,28 +9,9 @@ import { computed, reactive, readonly } from 'vue';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
-
-export interface Orderable {
-  order: number;
-}
-
-export interface Subcategory extends Orderable {
-  id: string;
-  name: string;
-  isGroup: boolean;
-  icon?: string;
-  tooltip?: string;
-  help?: string;
-  subcategories: Subcategory[];
-}
-
-export interface Category extends Orderable {
-  id: string;
-  name: string;
-  icon?: string;
-  tooltip?: string;
-  subcategories: Subcategory[];
-}
+import { sortOrderables } from '../Orderable';
+import Category from './Category';
+import Subcategory from './Subcategory';
 
 interface ReportingMenuStoreState {
   activeCategoryId: string;
@@ -172,28 +153,12 @@ export class ReportingMenuStore {
         category.subcategories.push(categoryGroups);
       }
 
-      category.subcategories = this.sortMenuItems(category.subcategories);
+      category.subcategories = sortOrderables(category.subcategories);
 
       menu.push(category);
     });
 
-    return this.sortMenuItems(menu);
-  }
-
-  private sortMenuItems<T extends Orderable>(menu: T[]): T[] {
-    const result = [...menu];
-    result.sort((lhs, rhs) => {
-      if (lhs.order < rhs.order) {
-        return -1;
-      }
-
-      if (rhs.order > lhs.order) {
-        return 1;
-      }
-
-      return 0;
-    });
-    return result;
+    return sortOrderables(menu);
   }
 
   toggleCategory(category: Category): boolean {

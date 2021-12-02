@@ -38,7 +38,7 @@ import { defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import WidgetContainer from '../WidgetContainer/WidgetContainer.vue';
 import WidgetByDimensionContainer from '../WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
-import WidgetsStoreInstance, { WidgetData, ContainerWidgetData } from './Widgets.store';
+import WidgetsStoreInstance, { Widget as WidgetData, ContainerWidget } from './Widgets.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import Tooltips from '../Tooltips/Tooltips';
@@ -46,8 +46,8 @@ import Tooltips from '../Tooltips/Tooltips';
 function findContainer(
   widgetsByCategory: typeof WidgetsStoreInstance.widgets.value,
   containerId: string,
-): ContainerWidgetData|undefined {
-  let widget: ContainerWidgetData;
+): ContainerWidget|undefined {
+  let widget: ContainerWidget;
   Object.values(widgetsByCategory).some((widgets) => {
     widget = widgets.find((w) => w && w.isContainer && w.parameters.containerId === containerId);
     return widget;

@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
-import { WidgetData } from '../Widget/Widgets.store';
+import { Widget as WidgetData } from '../Widget/Widgets.store';
 
 // TODO: need to test dashboard removal/move/etc.
 

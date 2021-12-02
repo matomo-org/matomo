@@ -7,6 +7,7 @@
 
 import { reactive, computed, readonly } from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import { Widget } from '../Widget/Widgets.store';
 
 interface CategoryRef {
   id: string;
@@ -18,15 +19,10 @@ interface SubcategoryRef {
   name: string;
 }
 
-interface WidgetRef {
-  module: string;
-  action: string;
-}
-
-interface Page {
+export interface Page {
   category: CategoryRef;
   subcategory: SubcategoryRef;
-  widgets: WidgetRef;
+  widgets: Widget[];
 }
 
 interface ReportingPagesStoreState {

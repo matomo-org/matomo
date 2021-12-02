@@ -141,7 +141,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/ReportingPage/ReportingPage.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/WidgetByDimensionContainer/WidgetByDimensionContainer.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
@@ -244,9 +244,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.js";
 
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
