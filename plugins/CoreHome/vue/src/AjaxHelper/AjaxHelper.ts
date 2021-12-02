@@ -181,6 +181,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     return helper.send();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static post<R = any>(
+    params: QueryParameters,
+    postParams: QueryParameters,
+    options: AjaxOptions = {},
+  ): Promise<R> {
+    return this.fetch<R>(params, { ...options, postParams });
+  }
+
   constructor() {
     this.errorCallback = defaultErrorCallback;
   }

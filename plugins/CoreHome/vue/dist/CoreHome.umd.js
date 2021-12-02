@@ -1935,6 +1935,15 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       return helper.send();
+    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  }, {
+    key: "post",
+    value: function post(params, postParams) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.fetch(params, AjaxHelper_objectSpread(AjaxHelper_objectSpread({}, options), {}, {
+        postParams: postParams
+      }));
     }
   }]);
 

@@ -150,6 +150,10 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
+  interface AnchorLinkFix {
+    scrollToAnchorInUrl(): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -160,6 +164,7 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
+    anchorLinkFix: AnchorLinkFix;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;

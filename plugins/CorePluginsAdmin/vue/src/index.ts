@@ -6,6 +6,8 @@
 */
 import './FormField/FormField.adapter';
 import './Field/Field.adapter';
+import './PluginSettings/PluginSettings.adapter';
 
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
+export { default as PluginSettings } from './PluginSettings/PluginSettings.vue';
