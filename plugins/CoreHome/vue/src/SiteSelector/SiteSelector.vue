@@ -202,10 +202,6 @@ export default defineComponent({
       showSitesList: false,
       isLoading: false,
       sites: [],
-      selectedSite: this.modelValue || {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
-      },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
   },
