@@ -2683,6 +2683,7 @@ function createAngularJsAdapter(options) {
     transcludeCounter += 1;
   }
 
+  var vueToAngular = {};
   var angularJsScope = {};
   Object.entries(scope).forEach(function (_ref) {
     var _ref2 = createAngularJsAdapter_slicedToArray(_ref, 2),
@@ -2696,6 +2697,8 @@ function createAngularJsAdapter(options) {
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
+
+    vueToAngular[info.vue] = scopeVarName;
   });
 
   function angularJsAdapter() {
@@ -2722,11 +2725,10 @@ function createAngularJsAdapter(options) {
             });
             Object.entries(scope).forEach(function (_ref3) {
               var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
-                  key = _ref4[0],
                   info = _ref4[1];
 
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
-                var eventName = toKebabCase(key);
+                var eventName = toKebabCase(info.vue);
 
                 if (!events[eventName]) {
                   // pass through scope & w/o a custom event handler
@@ -2781,7 +2783,7 @@ function createAngularJsAdapter(options) {
               },
               methods: {
                 onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(name);
+                  var scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
 
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
