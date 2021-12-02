@@ -9,6 +9,7 @@ import './Field/Field.adapter';
 import './PluginSettings/PluginSettings.adapter';
 import './Plugins/PluginManagement.adapter';
 import './Plugins/PluginUpload.adapter';
+import './SaveButton/SaveButton.adapter';
 
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
@@ -16,3 +17,4 @@ export { default as PluginSettings } from './PluginSettings/PluginSettings.vue';
 export { default as PluginFilter } from './Plugins/PluginFilter';
 export { default as PluginManagement } from './Plugins/PluginManagement';
 export { default as PluginUpload } from './Plugins/PluginUpload';
+export { default as SaveButton } from './SaveButton/SaveButton.vue';

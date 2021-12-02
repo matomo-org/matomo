@@ -19,11 +19,13 @@ function onSubmitPlugin(event: MouseEvent) {
 
   if (!fileName || fileName.slice(-4) !== '.zip') {
     event.preventDefault();
+    // eslint-disable-next-line no-alert
     alert(translate('CorePluginsAdmin_NoZipFileSelected'));
   } else if ($zipFile.data('maxSize') > 0
     && $zipFile[0].files[0].size > $zipFile.data('maxSize') * 1048576
   ) {
     event.preventDefault();
+    // eslint-disable-next-line no-alert
     alert(translate('CorePluginsAdmin_FileExceedsUploadLimit'));
   }
 }
@@ -35,4 +37,4 @@ export default {
       $('#uploadPluginForm').submit(onSubmitPlugin);
     });
   },
-}
+};

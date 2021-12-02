@@ -153,7 +153,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               rootVueTemplate += ` @${toKebabCase(eventName)}="onEventHandler('${eventName}', $event)"`;
             });
             Object.entries(scope).forEach(([key, info]) => {
-              if (info.angularJsBind === '&') {
+              if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 const eventName = toKebabCase(key);
                 if (!events[eventName]) { // pass through scope & w/o a custom event handler
                   rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
@@ -238,7 +238,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
             // setup watches to bind between angularjs + vue
             Object.entries(scope).forEach(([scopeVarName, info]) => {
-              if (!info.angularJsBind || info.angularJsBind === '&') {
+              if (!info.angularJsBind || info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 return;
               }
 

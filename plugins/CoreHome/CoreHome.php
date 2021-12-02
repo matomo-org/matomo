@@ -263,7 +263,6 @@ class CoreHome extends \Piwik\Plugin
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form/form.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/save-button/save-button.directive.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js";
     }

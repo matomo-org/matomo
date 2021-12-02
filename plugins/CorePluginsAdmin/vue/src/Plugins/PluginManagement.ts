@@ -28,8 +28,7 @@ function onClickUninstall(binding: DirectiveBinding<PluginManagementState>, even
     binding.value.uninstallConfirmMessage = $('#uninstallPluginConfirm').text();
   }
 
-  const messageToDisplay = binding.value.uninstallConfirmMessage.replace(
-    '%s', pluginName);
+  const messageToDisplay = binding.value.uninstallConfirmMessage.replace('%s', pluginName);
 
   $('#uninstallPluginConfirm').text(messageToDisplay);
 
@@ -44,7 +43,7 @@ function onDonateLinkClick(event: MouseEvent) {
   event.preventDefault();
 
   const overlayId = $(event.target).data('overlay-id');
-  Matomo.helper.modalConfirm('#'+overlayId, {});
+  Matomo.helper.modalConfirm(`#${overlayId}`, {});
 }
 
 export default {
@@ -56,4 +55,4 @@ export default {
       $(el).find('.plugin-donation-link').click(onDonateLinkClick);
     });
   },
-}
+};
