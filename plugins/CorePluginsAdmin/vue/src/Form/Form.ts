@@ -12,7 +12,7 @@ export default {
     setTimeout(() => {
       $(el).find('input[type=text]').keypress((e) => {
         const key = e.keyCode || e.which;
-        if (key == 13) {
+        if (key === 13) {
           $(el).find('[piwik-save-button] input').triggerHandler('click');
         }
       });

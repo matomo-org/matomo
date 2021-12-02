@@ -19,4 +19,4 @@ export { default as PluginFilter } from './Plugins/PluginFilter';
 export { default as PluginManagement } from './Plugins/PluginManagement';
 export { default as PluginUpload } from './Plugins/PluginUpload';
 export { default as SaveButton } from './SaveButton/SaveButton.vue';
-export { default as Form } from './Form/Form.vue';
+export { default as Form } from './Form/Form';
