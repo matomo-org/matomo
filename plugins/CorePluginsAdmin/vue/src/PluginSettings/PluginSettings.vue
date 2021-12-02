@@ -202,8 +202,6 @@ export default defineComponent({
         return undefined;
       }
 
-      // TODO: remove formfield all settings. no need to pass it in if the parent needs to
-      // keep track of it.
       return () => {
         if (!conditionScope) {
           const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
