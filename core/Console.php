@@ -53,6 +53,11 @@ class Console extends Application
         );
 
         $this->getDefinition()->addOption($option);
+
+        $option = new InputOption('ignore-warn', null, InputOption::VALUE_NONE,
+            'Return 0 exit code even if there are warning logs or error logs detected in the command output.');
+
+        $this->getDefinition()->addOption($option);
     }
 
     public function renderException($e, $output)
@@ -132,7 +137,10 @@ class Console extends Application
         }
 
         $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
-        if ($exitCode === 0 && $importantLogDetector->hasEncounteredImportantLog()) {
+        if (!$input->hasParameterOption('--ignore-warn')
+            && $exitCode === 0
+            && $importantLogDetector->hasEncounteredImportantLog()
+        ) {
             $output->writeln("Error: error or warning logs detected, exit 1");
             $exitCode = 1;
         }

@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Hvis du vil endre dette symbolet kan du gå til din %1$spersonlige innstillingsside%2$s.",
         "GenerateVisits": "Hvis du ikke har data for i dag kan du først generere noe data med utvidelsen %1$s. Du kan aktivere %2$s, så klikker du på «Besøksgenerator»-menyen i Matomo admin.",
         "Glossary": "Ordliste",
         "KeepTokenSecret": "Denne token_auth er like hemmelig som ditt brukernavn og passord. %1$s Ikke del den%2$s!",
