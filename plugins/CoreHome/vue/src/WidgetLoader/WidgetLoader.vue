@@ -179,11 +179,10 @@ export default defineComponent({
 
         const { widgetContent }: { widgetContent: HTMLElement } = this.$refs;
         window.$(widgetContent).html(response);
-        const contentElement = widgetContent.firstElementChild;
+        const $content = window.$(widgetContent).children();
 
         if (this.widgetName) {
           // we need to respect the widget title, which overwrites a possibly set report title
-          const $content = window.$(contentElement);
           let $title = $content.find('> .card-content .card-title');
           if (!$title.length) {
             $title = $content.find('> h2');
@@ -199,14 +198,14 @@ export default defineComponent({
         const scope = $rootScope.$new();
         this.currentScope = scope;
 
-        Matomo.helper.compileAngularComponents(contentElement, { scope });
+        Matomo.helper.compileAngularComponents($content, { scope });
 
         NotificationsStore.parseNotificationDivs();
 
         setTimeout(() => {
           Matomo.postEvent('widget:loaded', {
             parameters,
-            element: contentElement,
+            element: $content,
           });
         });
       }).catch((response) => {
