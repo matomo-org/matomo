@@ -22,6 +22,7 @@ then
 fi
 
 # composer install
+cd /home/runner/work/matomo/matomo/
 echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 
