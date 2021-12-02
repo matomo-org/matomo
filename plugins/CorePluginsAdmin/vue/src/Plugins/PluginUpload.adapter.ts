@@ -6,17 +6,17 @@
  */
 
 import { IDirective, IScope } from 'angular';
-import PluginFilter from './PluginFilter';
+import PluginUpload from './PluginUpload';
 
-export default function piwikPluginFilter(): IDirective {
+export default function piwikPluginUpload(): IDirective {
   return {
     restrict: 'A',
     link: function expandOnClickLink(scope: IScope, element: JQuery) {
-      PluginFilter.mounted(element[0]);
+      PluginUpload.mounted();
     },
   };
 }
 
-piwikPluginFilter.$inject = [];
+piwikPluginUpload.$inject = [];
 
-angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
