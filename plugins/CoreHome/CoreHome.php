@@ -227,22 +227,10 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
-
-
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
-
-
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
 
-
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
-
-
-
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before

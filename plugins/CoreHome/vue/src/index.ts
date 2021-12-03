@@ -48,6 +48,7 @@ import './ReportingPage/ReportingPage.adapter';
 import './ReportExport/ReportExport.adapter';
 import './Sparkline/Sparkline.adapter';
 import './Progressbar/Progressbar.adapter';
+import './ContentIntro/ContentIntro.adapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as DirectiveUtilities } from './directiveUtilities';
@@ -100,3 +101,4 @@ export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
 export { default as ReportExport } from './ReportExport/ReportExport';
 export { default as Sparkline } from './Sparkline/Sparkline.vue';
 export { default as Progressbar } from './Progressbar/Progressbar.vue';
+export { default as ContentIntro } from './ContentIntro/ContentIntro';
