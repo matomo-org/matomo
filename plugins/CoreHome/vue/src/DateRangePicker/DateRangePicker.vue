@@ -41,7 +41,7 @@
           name="inputCalendarTo"
           class="browser-default"
           v-model="endDateText"
-          @change="onRangeInputChanged('to', $event)"
+          @keydown="onRangeInputChanged('to', $event)"
           @keyup="handleEnterPress($event)"
         />
       </h6>
