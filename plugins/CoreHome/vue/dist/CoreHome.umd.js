@@ -188,6 +188,10 @@ __webpack_require__.d(__webpack_exports__, "WidgetByDimensionContainer", functio
 __webpack_require__.d(__webpack_exports__, "Widget", function() { return /* reexport */ Widget_Widget; });
 __webpack_require__.d(__webpack_exports__, "ReportingPage", function() { return /* reexport */ ReportingPage; });
 __webpack_require__.d(__webpack_exports__, "ReportExport", function() { return /* reexport */ ReportExport; });
+__webpack_require__.d(__webpack_exports__, "Sparkline", function() { return /* reexport */ Sparkline; });
+__webpack_require__.d(__webpack_exports__, "Progressbar", function() { return /* reexport */ Progressbar; });
+__webpack_require__.d(__webpack_exports__, "ContentIntro", function() { return /* reexport */ ContentIntro; });
+__webpack_require__.d(__webpack_exports__, "ContentTable", function() { return /* reexport */ ContentTable; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -5045,7 +5049,7 @@ function PeriodDatePickervue_type_template_id_effd17b0_render(_ctx, _cache, $pro
 
 
 
-var piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
+var PeriodDatePickervue_type_script_lang_ts_piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
 var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMonth - 1, Matomo_Matomo.maxDateDay);
 /* harmony default export */ var PeriodDatePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -5064,13 +5068,13 @@ var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMont
     function getBoundedDateRange(date) {
       var dates = Periods_Periods.get(props.period).parse(date).getDateRange(); // make sure highlighted date range is within min/max date range
 
-      dates[0] = piwikMinDate < dates[0] ? dates[0] : piwikMinDate;
+      dates[0] = PeriodDatePickervue_type_script_lang_ts_piwikMinDate < dates[0] ? dates[0] : PeriodDatePickervue_type_script_lang_ts_piwikMinDate;
       dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;
       return dates;
     }
 
     function onHoverNormalCell(cellDate, $cell) {
-      var isOutOfMinMaxDateRange = cellDate < piwikMinDate || cellDate > piwikMaxDate; // don't highlight anything if the period is month or day, and we're hovering over calendar
+      var isOutOfMinMaxDateRange = cellDate < PeriodDatePickervue_type_script_lang_ts_piwikMinDate || cellDate > piwikMaxDate; // don't highlight anything if the period is month or day, and we're hovering over calendar
       // whitespace. since there are no dates, it's doesn't make sense what you're selecting.
 
       var shouldNotHighlightFromWhitespace = $cell.hasClass('ui-datepicker-other-month') && (props.period === 'month' || props.period === 'day');
@@ -10677,6 +10681,257 @@ function piwikReportExport($timeout) {
 }
 piwikReportExport.$inject = ['$timeout'];
 angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=f61400fc
+
+var Sparklinevue_type_template_id_f61400fc_hoisted_1 = ["href"];
+function Sparklinevue_type_template_id_f61400fc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
+    href: _ctx.sparklineUrl,
+    ref: "root"
+  }, null, 8, Sparklinevue_type_template_id_f61400fc_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=f61400fc
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
+function Sparklinevue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function Sparklinevue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Sparklinevue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { Sparklinevue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Sparklinevue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function Sparklinevue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+/* harmony default export */ var Sparklinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    seriesIndices: String,
+    params: String
+  },
+  computed: {
+    sparklineUrl: function sparklineUrl() {
+      var seriesIndices = this.seriesIndices,
+          params = this.params;
+      var sparklineColors = Matomo_Matomo.getSparklineColors();
+
+      if (seriesIndices) {
+        sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
+          return seriesIndices.indexOf(index) !== -1;
+        });
+      }
+
+      var colors = JSON.stringify(sparklineColors);
+      var defaultParams = {
+        forceView: '1',
+        viewDataTable: 'sparkline',
+        widget: this.$refs.root.closest('[widgetId]') ? '1' : '0',
+        showtitle: '1',
+        colors: colors,
+        random: Date.now(),
+        date: this.defaultDate
+      };
+      var helper = new AjaxHelper_AjaxHelper();
+      var urlParams = helper.mixinDefaultGetParams(Sparklinevue_type_script_lang_ts_objectSpread(Sparklinevue_type_script_lang_ts_objectSpread({}, defaultParams), params)); // Append the token_auth to the URL if it was set (eg. embed dashboard)
+
+      var token_auth = src_MatomoUrl_MatomoUrl.parsed.value.token_auth;
+
+      if (token_auth && token_auth.length && Matomo_Matomo.shouldPropagateTokenAuth) {
+        urlParams.token_auth = token_auth;
+      }
+
+      return "?".concat(src_MatomoUrl_MatomoUrl.stringify(urlParams));
+    },
+    defaultDate: function defaultDate() {
+      if (Matomo_Matomo.period === 'range') {
+        return "".concat(Matomo_Matomo.startDateString, ",").concat(Matomo_Matomo.endDateString);
+      }
+
+      var dateRange = Range_RangePeriod.getLastNRange(Matomo_Matomo.period, 30, Matomo_Matomo.currentDateString).getDateRange();
+      var piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
+
+      if (dateRange[0] < piwikMinDate) {
+        dateRange[0] = piwikMinDate;
+      }
+
+      var startDateStr = format(dateRange[0]);
+      var endDateStr = format(dateRange[1]);
+      return "".concat(startDateStr, ",").concat(endDateStr);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue
+
+
+
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_f61400fc_render
+
+/* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Sparkline_adapter = (createAngularJsAdapter({
+  component: Sparkline,
+  scope: {
+    seriesIndices: {
+      angularJsBind: '<'
+    },
+    params: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'piwikSparkline',
+  restrict: 'E'
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=1ca5d622
+
+var Progressbarvue_type_template_id_1ca5d622_hoisted_1 = {
+  class: "progressbar"
+};
+var Progressbarvue_type_template_id_1ca5d622_hoisted_2 = {
+  class: "progress"
+};
+
+var Progressbarvue_type_template_id_1ca5d622_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  src: "plugins/Morpheus/images/loading-blue.gif"
+}, null, -1);
+
+var Progressbarvue_type_template_id_1ca5d622_hoisted_4 = ["innerHTML"];
+function Progressbarvue_type_template_id_1ca5d622_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Progressbarvue_type_template_id_1ca5d622_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Progressbarvue_type_template_id_1ca5d622_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: "determinate",
+    style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])([{
+      "width": "0"
+    }, {
+      width: "".concat(_ctx.actualProgress, "%")
+    }])
+  }, null, 4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Progressbarvue_type_template_id_1ca5d622_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    class: "label",
+    innerHTML: _ctx.$sanitize(_ctx.label)
+  }, null, 8, Progressbarvue_type_template_id_1ca5d622_hoisted_4)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !!_ctx.label]])]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=1ca5d622
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var Progressbarvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    progress: Number,
+    label: String
+  },
+  computed: {
+    actualProgress: function actualProgress() {
+      if (this.progress > 100) {
+        return 100;
+      }
+
+      if (this.progress < 0) {
+        return 0;
+      }
+
+      return this.progress;
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue
+
+
+
+Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_1ca5d622_render
+
+/* harmony default export */ var Progressbar = (Progressbarvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Progressbar_adapter = (createAngularJsAdapter({
+  component: Progressbar,
+  scope: {
+    progress: {
+      angularJsBind: '='
+    },
+    label: {
+      angularJsBind: '='
+    }
+  },
+  directiveName: 'piwikProgressbar'
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentIntro/ContentIntro.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/* harmony default export */ var ContentIntro = ({
+  mounted: function mounted(el) {
+    el.classList.add('piwik-content-intro');
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentIntro/ContentIntro.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikContentIntro() {
+  return {
+    restrict: 'A',
+    link: function piwikContentIntroLink(scope, element) {
+      ContentIntro.mounted(element[0]);
+    }
+  };
+}
+piwikContentIntro.$inject = [];
+angular.module('piwikApp').directive('piwikContentIntro', piwikContentIntro);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentTable/ContentTable.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/* harmony default export */ var ContentTable = ({
+  mounted: function mounted(el) {
+    el.classList.add('card', 'card-table', 'entityTable');
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentTable/ContentTable.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikContentTable() {
+  return {
+    restrict: 'A',
+    link: function piwikContentTableLink(scope, element) {
+      ContentTable.mounted(element[0]);
+    }
+  };
+}
+piwikContentTable.$inject = [];
+angular.module('piwikApp').directive('piwikContentTable', piwikContentTable);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -10806,6 +11061,14 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
+
+
+
+
 
 
 
