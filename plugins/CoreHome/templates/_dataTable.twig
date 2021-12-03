@@ -73,7 +73,7 @@
                 {% include "@CoreHome/_dataTableFooter.twig" %}
             {% endif %}
 
-            {% include "@CoreHome/_dataTableJS.twig" %}
+            {% include "@CoreHome/_dataTableJS.twig" with { reportId: properties.report_id } %}
         {% endif %}
     </div>
 </div>

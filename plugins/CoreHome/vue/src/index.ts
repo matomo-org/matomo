@@ -30,9 +30,16 @@ import './DateRangePicker/DateRangePicker.adapter';
 import './PeriodDatePicker/PeriodDatePicker.adapter';
 import './SiteSelector/SiteSelector.adapter';
 import './QuickAccess/QuickAccess.adapter';
+import './FieldArray/FieldArray.adapter';
+import './MultiPairField/MultiPairField.adapter';
 
 export { default as debounce } from './debounce';
-export { default as createAngularJsAdapter } from './createAngularJsAdapter';
+export {
+  default as createAngularJsAdapter,
+  transformAngularJsBoolAttr,
+  transformAngularJsIntAttr,
+  removeAngularJsSpecificProperties,
+} from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
@@ -58,3 +65,5 @@ export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker
 export * from './Notification';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
+export { default as FieldArray } from './FieldArray/FieldArray.vue';
+export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';

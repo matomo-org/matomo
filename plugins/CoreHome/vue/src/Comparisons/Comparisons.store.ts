@@ -58,7 +58,7 @@ function wrapArray<T>(values: T | T[]): T[] {
   if (!values) {
     return [];
   }
-  return values instanceof Array ? values : [values];
+  return Array.isArray(values) ? values : [values];
 }
 
 export default class ComparisonsStore {

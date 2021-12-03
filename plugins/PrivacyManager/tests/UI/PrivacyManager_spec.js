@@ -29,7 +29,7 @@ describe("PrivacyManager", function () {
             $('input.anonymizeEndDate').val('2018-03-02').change();
         });
     }
-    
+
     async function loadActionPage(action)
     {
         await page.goto(urlBase + action);
@@ -73,6 +73,7 @@ describe("PrivacyManager", function () {
                 $(this).val(theVal).change();
             });
         }, value);
+        await page.waitForTimeout(100);
     }
 
     async function selectVisitColumn(title)
@@ -92,9 +93,11 @@ describe("PrivacyManager", function () {
         await page.evaluate(function () {
             $('.selectedActionColumns:last input.select-dropdown').click();
         });
+        await page.waitForTimeout(100);
         await page.evaluate(theTitle => {
             $('.selectedActionColumns:last .dropdown-content li:contains(' + theTitle + ')').click();
         }, title);
+        await page.waitForTimeout(100);
     }
 
     async function capturePage(screenshotName) {
@@ -207,6 +210,7 @@ describe("PrivacyManager", function () {
             $('input.anonymizeStartDate').val('2017-01-01').change();
             $('input.anonymizeEndDate').val('2017-02-14').change();
         });
+        await page.waitForTimeout(100);
 
         await captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_prefilled');
     });
