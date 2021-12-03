@@ -161,6 +161,8 @@ __webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
+__webpack_require__.d(__webpack_exports__, "ShowSensitiveData", function() { return /* reexport */ ShowSensitiveData; });
+__webpack_require__.d(__webpack_exports__, "DropdownButton", function() { return /* reexport */ DropdownButton; });
 __webpack_require__.d(__webpack_exports__, "SelectOnFocus", function() { return /* reexport */ SelectOnFocus; });
 __webpack_require__.d(__webpack_exports__, "SideNav", function() { return /* reexport */ SideNav; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
@@ -1294,17 +1296,39 @@ function initPiwikService(piwik, $rootScope) {
 initPiwikService.$inject = ['piwik', '$rootScope'];
 window.angular.module('piwikApp.service').run(initPiwikService);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function AjaxHelper_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function AjaxHelper_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { AjaxHelper_ownKeys(Object(source), true).forEach(function (key) { AjaxHelper_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { AjaxHelper_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function AjaxHelper_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function AjaxHelper_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function AjaxHelper_createClass(Constructor, protoProps, staticProps) { if (protoProps) AjaxHelper_defineProperties(Constructor.prototype, protoProps); if (staticProps) AjaxHelper_defineProperties(Constructor, staticProps); return Constructor; }
 
 function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function AjaxHelper_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -1375,6 +1399,20 @@ function defaultErrorCallback(deferred, status) {
     loadingError.show();
   }
 }
+
+var ApiResponseError = /*#__PURE__*/function (_Error) {
+  _inherits(ApiResponseError, _Error);
+
+  var _super = _createSuper(ApiResponseError);
+
+  function ApiResponseError() {
+    AjaxHelper_classCallCheck(this, ApiResponseError);
+
+    return _super.apply(this, arguments);
+  }
+
+  return ApiResponseError;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -1942,17 +1980,14 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.headers = options.headers;
       }
 
-      var detectError = false;
-
-      if (typeof options.createErrorNotification === 'undefined' || options.createErrorNotification) {
+      if (typeof options.createErrorNotification !== 'undefined' && !options.createErrorNotification) {
         helper.useCallbackInCaseOfError();
-        detectError = true;
       }
 
       return helper.send().then(function (data) {
         // check for error if not using default notification behavior
-        if (detectError && data && data.result === 'error') {
-          throw new Error(data.message);
+        if (data.result === 'error') {
+          throw new ApiResponseError(data.message);
         }
 
         return data;
@@ -1982,6 +2017,99 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PopoverHandler/PopoverHandler.ts
+function PopoverHandler_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function PopoverHandler_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function PopoverHandler_createClass(Constructor, protoProps, staticProps) { if (protoProps) PopoverHandler_defineProperties(Constructor.prototype, protoProps); if (staticProps) PopoverHandler_defineProperties(Constructor, staticProps); return Constructor; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+var PopoverHandler_window = window,
+    PopoverHandler_$ = PopoverHandler_window.$;
+
+var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
+  function PopoverHandler() {
+    PopoverHandler_classCallCheck(this, PopoverHandler);
+
+    this.setup();
+  }
+
+  PopoverHandler_createClass(PopoverHandler, [{
+    key: "setup",
+    value: function setup() {
+      var _this = this;
+
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+        return src_MatomoUrl_MatomoUrl.parsed.value.popover;
+      }, function () {
+        return _this.onPopoverParamChanged();
+      }); // initial change
+
+      if (src_MatomoUrl_MatomoUrl.parsed.value.popover) {
+        this.onPopoverParamChanged();
+      }
+    }
+  }, {
+    key: "onPopoverParamChanged",
+    value: function onPopoverParamChanged() {
+      var _this2 = this;
+
+      // make sure all popover handles were registered
+      PopoverHandler_$(function () {
+        _this2.openOrClose();
+      });
+    }
+  }, {
+    key: "openOrClose",
+    value: function openOrClose() {
+      this.close(); // should be rather done by routing
+
+      var popoverParam = src_MatomoUrl_MatomoUrl.parsed.value.popover;
+
+      if (popoverParam) {
+        this.open(popoverParam);
+      } else {
+        // the URL should only be set to an empty popover if there are no popovers in the stack.
+        // to avoid avoid any strange inconsistent states, we reset the popover stack here.
+        window.broadcast.resetPopoverStack();
+      }
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      window.Piwik_Popover.close();
+    }
+  }, {
+    key: "open",
+    value: function open(thePopoverParam) {
+      // in case the $ was encoded (e.g. when using copy&paste on urls in some browsers)
+      var popoverParam = decodeURIComponent(thePopoverParam); // revert special encoding from broadcast.propagateNewPopoverParameter()
+
+      popoverParam = popoverParam.replace(/\$/g, '%');
+      popoverParam = decodeURIComponent(popoverParam);
+      var popoverParamParts = popoverParam.split(':');
+      var handlerName = popoverParamParts[0];
+      popoverParamParts.shift();
+      var param = popoverParamParts.join(':');
+
+      if (typeof window.broadcast.popoverHandlers[handlerName] !== 'undefined' && !window.broadcast.isLoginPage()) {
+        window.broadcast.popoverHandlers[handlerName](param);
+      }
+    }
+  }]);
+
+  return PopoverHandler;
+}();
+
+/* harmony default export */ var src_PopoverHandler_PopoverHandler = (new PopoverHandler_PopoverHandler());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2477,6 +2605,141 @@ function piwikExpandOnHover() {
 
 piwikExpandOnHover.$inject = [];
 angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowSensitiveData/ShowSensitiveData.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var ShowSensitiveData_window = window,
+    ShowSensitiveData_$ = ShowSensitiveData_window.$;
+/**
+ * Handles visibility of sensitive data. By default data will be shown replaced with stars (*)
+ * On click on the element the full data will be shown
+ *
+ * Configuration attributes:
+ * data-show-characters          number of characters to show in clear text (defaults to 6)
+ * data-click-element-selector   selector for element that will show the full data on click
+ *                               (defaults to element)
+ *
+ * Example:
+ * <div v-show-sensitive-date="some text"></div>
+ */
+
+/* harmony default export */ var ShowSensitiveData = ({
+  mounted: function mounted(el, binding) {
+    var element = ShowSensitiveData_$(el);
+    var sensitiveData = binding.value.sensitiveData;
+    var showCharacters = binding.value.showCharacters || 6;
+    var clickElement = binding.value.clickElementSelector || element;
+    var protectedData = '';
+
+    if (showCharacters > 0) {
+      protectedData += sensitiveData.substr(0, showCharacters);
+    }
+
+    protectedData += sensitiveData.substr(showCharacters).replace(/./g, '*');
+    element.html(protectedData);
+
+    function onClickHandler() {
+      element.html(sensitiveData);
+      ShowSensitiveData_$(clickElement).css({
+        cursor: ''
+      });
+      ShowSensitiveData_$(clickElement).tooltip('destroy');
+    }
+
+    ShowSensitiveData_$(clickElement).tooltip({
+      content: translate('CoreHome_ClickToSeeFullInformation'),
+      items: '*',
+      track: true
+    });
+    ShowSensitiveData_$(clickElement).one('click', onClickHandler);
+    ShowSensitiveData_$(clickElement).css({
+      cursor: 'pointer'
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowSensitiveData/ShowSensitiveData.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikShowSensitiveData() {
+  return {
+    restrict: 'A',
+    link: function piwikShowSensitiveDataLink(scope, element, attr) {
+      var binding = {
+        instance: null,
+        value: {
+          sensitiveData: attr.piwikShowSensitiveData || (attr.text ? attr.text() : ''),
+          showCharacters: attr.showCharacters ? parseInt(attr.showCharacters, 10) : undefined,
+          clickElementSelector: attr.clickElementSelector
+        },
+        oldValue: null,
+        modifiers: {},
+        dir: {}
+      };
+      ShowSensitiveData.mounted(element[0], binding);
+    }
+  };
+}
+piwikShowSensitiveData.$inject = [];
+angular.module('piwikApp').directive('piwikShowSensitiveData', piwikShowSensitiveData);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownButton/DropdownButton.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var DropdownButton_window = window,
+    DropdownButton_$ = DropdownButton_window.$;
+/* harmony default export */ var DropdownButton = ({
+  mounted: function mounted(el) {
+    var element = DropdownButton_$(el); // BC for materializecss 0.97 => 1.0
+
+    if (!element.attr('data-target') && element.attr('data-activates')) {
+      element.attr('data-target', element.attr('data-activates'));
+    }
+
+    var target = element.attr('data-target');
+
+    if (target && DropdownButton_$("#".concat(target)).length) {
+      DropdownButton_$(element).dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrainWidth: false,
+        //  hover: true, // Activate on hover
+        belowOrigin: true // Displays dropdown below the button
+
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownButton/DropdownButton.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikDropdownButton() {
+  return {
+    restrict: 'A',
+    link: function piwikDropdownButtonLink(scope, element) {
+      DropdownButton.mounted(element[0]);
+    }
+  };
+}
+piwikDropdownButton.$inject = [];
+angular.module('piwikApp').directive('piwikDropdownButton', piwikDropdownButton);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SelectOnFocus/SelectOnFocus.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2491,7 +2754,7 @@ function onFocusHandler(binding, event) {
   }
 }
 
-function onClickHandler(event) {
+function SelectOnFocus_onClickHandler(event) {
   // .select() + focus and blur seems to not work on pre elements
   var range = document.createRange();
   range.selectNode(event.target);
@@ -2521,7 +2784,7 @@ function onBlurHandler(binding) {
       el.addEventListener('focus', binding.value.onFocusHandler);
       el.addEventListener('blur', binding.value.onBlurHandler);
     } else {
-      binding.value.onClickHandler = onClickHandler;
+      binding.value.onClickHandler = SelectOnFocus_onClickHandler;
       el.addEventListener('click', binding.value.onClickHandler);
     }
   },
@@ -2749,7 +3012,7 @@ function createAngularJsAdapter_iterableToArrayLimit(arr, i) { var _i = arr == n
 
 function createAngularJsAdapter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function createAngularJsAdapter_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { createAngularJsAdapter_typeof = function _typeof(obj) { return typeof obj; }; } else { createAngularJsAdapter_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return createAngularJsAdapter_typeof(obj); }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -2775,7 +3038,7 @@ function toAngularJsCamelCase(arg) {
 }
 
 function removeAngularJsSpecificProperties(newValue) {
-  if (_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
+  if (createAngularJsAdapter_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
     return Object.fromEntries(Object.entries(newValue).filter(function (pair) {
       return !/^\$/.test(pair[0]);
     }));
@@ -11150,8 +11413,7 @@ function piwikAjaxForm($parse) {
         scope.ajaxForm.noErrorNotification = scope.noErrorNotification;
         scope.ajaxForm.noSuccessNotification = scope.noSuccessNotification;
         scope.ajaxForm.data = {};
-        scope.ajaxForm.formData = scope.ajaxForm.data;
-        scope.ajaxForm.transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null); // if a model is supplied, initiate form data w/ model value
+        scope.ajaxForm.formData = scope.ajaxForm.data; // if a model is supplied, initiate form data w/ model value
 
         if (ngModel) {
           // probably redundant, but I cannot find another way to get the ng model value here
@@ -11159,15 +11421,27 @@ function piwikAjaxForm($parse) {
           scope.ajaxForm.data = ngModelGetter(scope.$parent);
         }
 
-        var rootTemplate = "\n        <AjaxForm\n          :form-data=\"formData\"\n          :submit-api-method=\"submitApiMethod\"\n          :send-json-payload=\"sendJsonPayload\"\n          :no-error-notification=\"noErrorNotification\"\n          :no-success-notification=\"noSuccessNotification\"\n        >\n          <div ref=\"transcludeTarget\"/>\n        </AjaxForm>";
+        var specialBindDirective = {
+          mounted: function mounted(el, binding) {
+            scope.ajaxForm.submitForm = binding.value.submitForm;
+          }
+        };
+        var rootTemplate = "\n        <AjaxForm\n          :form-data=\"formData\"\n          :submit-api-method=\"submitApiMethod\"\n          :send-json-payload=\"sendJsonPayload\"\n          :no-error-notification=\"noErrorNotification\"\n          :no-success-notification=\"noSuccessNotification\"\n        >\n          <template v-slot:default=\"ajaxFormVue\">\n            <div\n              ref=\"transcludeTarget\"\n              v-special-bind-directive=\"{ submitForm: ajaxFormVue.submitForm }\"\n            />\n          </template>\n        </AjaxForm>";
         var app = createVueApp({
           template: rootTemplate,
           data: function data() {
             return scope.ajaxForm;
+          },
+          setup: function setup() {
+            var transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+            return {
+              transcludeTarget: transcludeTarget
+            };
           }
         });
         app.component('AjaxForm', AjaxForm);
-        app.mount(element[0]);
+        app.directive('SpecialBindDirective', specialBindDirective);
+        var vm = app.mount(element[0]);
         element.on('$destroy', function () {
           app.unmount();
         });
@@ -11209,7 +11483,7 @@ function piwikAjaxForm($parse) {
             });
           }
 
-          scope.ajaxForm.transcludeTarget.value.append(clone);
+          $(vm.transcludeTarget).append(clone);
         });
       };
     }
@@ -11347,6 +11621,11 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
+
 
 
 
