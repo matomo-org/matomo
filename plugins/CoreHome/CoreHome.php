@@ -144,7 +144,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportingPage/ReportingPage.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportExport/ReportExport.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/WidgetByDimensionContainer/WidgetByDimensionContainer.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/Progressbar/Progressbar.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
@@ -227,7 +227,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
 
 
 
