@@ -149,7 +149,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/Sparkline/Sparkline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
@@ -228,7 +228,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
 
 

@@ -46,6 +46,7 @@ import './WidgetByDimensionContainer/WidgetByDimensionContainer.adapter';
 import './Widget/Widget.adapter';
 import './ReportingPage/ReportingPage.adapter';
 import './ReportExport/ReportExport.adapter';
+import './Sparkline/Sparkline.adapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as DirectiveUtilities } from './directiveUtilities';
@@ -96,3 +97,4 @@ export { default as WidgetByDimensionContainer } from './WidgetByDimensionContai
 export { default as Widget } from './Widget/Widget.vue';
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
 export { default as ReportExport } from './ReportExport/ReportExport';
+export { default as Sparkline } from './Sparkline/Sparkline.vue';
