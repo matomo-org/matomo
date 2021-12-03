@@ -15,8 +15,8 @@
           name="inputCalendarFrom"
           class="browser-default"
           v-model="startDateText"
-          v-on:change="onRangeInputChanged('from', $event)"
-          v-on:keyup="handleEnterPress($event)"
+          @keydown="onRangeInputChanged('from', $event)"
+          @keyup="handleEnterPress($event)"
         />
       </h6>
       <DatePicker
@@ -41,8 +41,8 @@
           name="inputCalendarTo"
           class="browser-default"
           v-model="endDateText"
-          v-on:change="onRangeInputChanged('to', $event)"
-          v-on:keyup="handleEnterPress($event)"
+          @change="onRangeInputChanged('to', $event)"
+          @keyup="handleEnterPress($event)"
         />
       </h6>
       <DatePicker
@@ -67,6 +67,8 @@ import JQuery = JQuery;
 import DatePicker from '../DatePicker/DatePicker.vue';
 import { parseDate, format } from '../Periods/utilities';
 import ChangeEvent = JQuery.ChangeEvent;
+
+const DATE_FORMAT = 'YYYY-MM-DD';
 
 export default defineComponent({
   props: {
@@ -98,6 +100,8 @@ export default defineComponent({
       toPickerHighlightedDates: [null, null],
       startDateText: this.startDate,
       endDateText: this.endDate,
+      startDateInvalid: false,
+      endDateInvalid: false,
     };
   },
   emits: ['rangeChange', 'submit'],
@@ -126,11 +130,13 @@ export default defineComponent({
       this.rangeChanged();
     },
     onRangeInputChanged(source: string, event: ChangeEvent) {
-      if (source === 'from') {
-        this.setStartRangeDateFromStr(event.target.value);
-      } else {
-        this.setEndRangeDateFromStr(event.target.value);
-      }
+      setTimeout(() => {
+        if (source === 'from') {
+          this.setStartRangeDateFromStr(event.target.value);
+        } else {
+          this.setEndRangeDateFromStr(event.target.value);
+        }
+      });
     },
     getNewHighlightedDates(date: Date, $cell: JQuery) {
       if ($cell.hasClass('ui-datepicker-unselectable')) {
@@ -150,32 +156,42 @@ export default defineComponent({
       });
     },
     setStartRangeDateFromStr(dateStr: string) {
+      this.startDateInvalid = true;
+
       let startDateParsed: Date;
       try {
-        startDateParsed = parseDate(dateStr);
+        if (dateStr.length === DATE_FORMAT.length) {
+          startDateParsed = parseDate(dateStr);
+        }
       } catch (e) {
-        this.startDateText = this.startDate;
+        // ignore
       }
 
       if (startDateParsed) {
         this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-      }
+        this.startDateInvalid = false;
 
-      this.rangeChanged();
+        this.rangeChanged();
+      }
     },
     setEndRangeDateFromStr(dateStr: string) {
+      this.endDateInvalid = true;
+
       let endDateParsed: Date;
       try {
-        endDateParsed = parseDate(dateStr);
+        if (dateStr.length === DATE_FORMAT.length) {
+          endDateParsed = parseDate(dateStr);
+        }
       } catch (e) {
-        this.endDateText = this.endDate;
+        // ignore
       }
 
       if (endDateParsed) {
         this.toPickerSelectedDates = [endDateParsed, endDateParsed];
-      }
+        this.endDateInvalid = false;
 
-      this.rangeChanged();
+        this.rangeChanged();
+      }
     },
     rangeChanged() {
       this.$emit('rangeChange', {
