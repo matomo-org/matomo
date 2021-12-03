@@ -227,8 +227,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
-
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
