@@ -53,6 +53,9 @@ declare global {
 
   interface PiwikPopoverGlobal {
     isOpen();
+    setTitle(title: string): void;
+    setContent(html: string|HTMLElement|JQuery|JQLite): void;
+    showLoading(loadingName: string, popoverSubject: string, height: number, dialogClass: string): JQuery;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;

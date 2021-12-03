@@ -5,27 +5,46 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { createAngularJsAdapter } from 'CoreHome';
-import ReportExport from './ReportExport.vue';
+import { IDirective, IScope, ITimeoutService } from 'angular';
+import ReportExport from './ReportExport';
 
-export default createAngularJsAdapter({
-  component: ReportExport,
-  scope: {
-    reportTitle: {
-      angularJsBind: '@',
+export default function piwikReportExport($timeout: ITimeoutService): IDirective {
+  return {
+    restrict: 'A',
+    scope: {
+      reportTitle: '@',
+      requestParams: '@',
+      reportFormats: '@',
+      apiMethod: '@',
+      maxFilterLimit: '@',
     },
-    requestParams: {
-      angularJsBind: '@',
+    link: function piwikReportExportLink(scope: IScope, element: JQuery) {
+      const binding = {
+        instance: null,
+        value: {
+          reportTitle: scope.reportTitle,
+          requestParams: scope.requestParams,
+          reportFormats: typeof scope.reportFormats === 'string'
+            ? JSON.parse(scope.reportFormats)
+            : scope.reportFormats,
+          apiMethod: scope.apiMethod,
+          maxFilterLimit: parseInt(scope.maxFilterLimit, 10),
+          onClose: () => {
+            $timeout(() => {
+              angular.element(document).injector().get('$rootScope').$apply();
+            }, 10);
+          },
+        },
+        oldValue: null,
+        modifiers: {},
+        dir: {},
+      };
+
+      ReportExport.mounted(element[0], binding);
     },
-    reportFormats: {
-      angularJsBind: '@',
-    },
-    apiMethod: {
-      angularJsBind: '@',
-    },
-    maxFilterLimit: {
-      angularJsBind: '@',
-    },
-  },
-  directiveName: 'piwikReportExport',
-});
+  };
+}
+
+piwikReportExport.$inject = ['$timeout'];
+
+angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);

@@ -47,6 +47,7 @@ import './Widget/Widget.adapter';
 import './ReportingPage/ReportingPage.adapter';
 import './ReportExport/ReportExport.adapter';
 
+export { default as createVueApp } from './createVueApp';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export {
@@ -94,4 +95,4 @@ export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vu
 export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
-export { default as ReportExport } from './ReportExport/ReportExport.vue';
+export { default as ReportExport } from './ReportExport/ReportExport';
