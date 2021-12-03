@@ -7,14 +7,6 @@
 
 const { $ } = window;
 
-/**
- * Usage (in a component):
- *
- * directives: {
- *   ExpandOnClick: ExpandOnClick(), // function call is important since we store state
- *                                   // in this directive
- * }
- */
 export default {
   mounted(el: HTMLElement): void {
     const element = $(el);
