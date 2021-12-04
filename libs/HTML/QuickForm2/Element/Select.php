@@ -60,12 +60,12 @@
 class HTML_QuickForm2_Element_Select_OptionIterator extends RecursiveArrayIterator
     implements RecursiveIterator
 {
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return $this->current() instanceof HTML_QuickForm2_Element_Select_OptionContainer;
     }
 
-    public function getChildren()
+    public function getChildren(): HTML_QuickForm2_Element_Select_OptionIterator
     {
         return new HTML_QuickForm2_Element_Select_OptionIterator(
             $this->current()->getOptions()

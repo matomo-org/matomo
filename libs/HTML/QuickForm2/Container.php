@@ -65,12 +65,12 @@ class HTML_QuickForm2_ContainerIterator extends RecursiveArrayIterator implement
         parent::__construct($container->getElements());
     }
 
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return $this->current() instanceof HTML_QuickForm2_Container;
     }
 
-    public function getChildren()
+    public function getChildren(): HTML_QuickForm2_ContainerIterator
     {
         return new HTML_QuickForm2_ContainerIterator($this->current());
     }
