@@ -2849,6 +2849,10 @@ function transformAngularJsIntAttr(v) {
 } // utility function for service adapters
 
 function clone(p) {
+  if (typeof p === 'undefined') {
+    return p;
+  }
+
   return JSON.parse(JSON.stringify(p));
 }
 function cloneThenApply(p) {
