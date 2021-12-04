@@ -45,7 +45,8 @@ interface SubcategoryFindResult {
 }
 
 function isNumeric(text) {
-  return !Number.isNaN(parseFloat(text)) && Number.isFinite(text);
+  const n = parseFloat(text);
+  return !Number.isNaN(n) && Number.isFinite(n);
 }
 
 export class ReportingMenuStore {
