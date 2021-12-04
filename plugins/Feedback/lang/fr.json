@@ -16,7 +16,7 @@
         "ManuallySendEmailTo": "Merci d'envoyer manuellement votre message à",
         "MessageBodyValidationError": "Le corps du message est trop court (10 caractères minimum).",
         "NeverAskMeAgain": "Ne plus me demander",
-        "NotTrackingVisits": "Matomo ne suit aucune visite.",
+        "NotTrackingVisits": "Matomo ne suit aucune visite",
         "PleaseLeaveExternalReviewForMatomo": "Partagez votre avis sur un de ces sites web et veuillez encourager les autres à se joindre à notre révolution des données.",
         "PluginDescription": "Envoyez votre retour d'expérience à l'équipe Matomo. Partagez vos idées et suggestions pour aider à faire de Matomo la meilleure plateforme d'analyse web du monde !",
         "Policy": "Votre message et votre adresse électronique nous seront envoyés en soumettant ce formulaire. Ces informations ne seront utilisées que pour améliorer nos produits et services. Vos données seront traitées par nous, notre hébergeur et notre fournisseur de tickets d'assistance. Pour plus d'informations, consultez la politique de confidentialité de %1$sMatomo%2$s.",
@@ -42,7 +42,7 @@
         "RateFeatureDislikeMakeEasier": "Faciliter l'utilisation",
         "RateFeatureDislikeSpeedUp": "Améliorer la vitesse",
         "RateFeatureEasyToUse": "facile à utiliser",
-        "RateFeatureLeaveMessageDislike": "Nous sommes désolés de voir que vous n'aimez pas ça. N'hésitez pas à nous dire comment nous pouvons l'améliorer.",
+        "RateFeatureLeaveMessageDislike": "Nous sommes désolés de voir que vous n'aimez pas ça. Comment pouvons-nous améliorer cette fonctionnalité ?",
         "RateFeatureLeaveMessageDislikeExtra": "N'hésitez pas à nous en dire plus sur la façon dont nous pouvons faire mieux afin d'améliorer Matomo.",
         "RateFeatureLeaveMessageDislikeExtraBugs": "Nous sommes désolés que vous ayez rencontré des problèmes, veuillez nous en dire plus sur ce qui n'a pas fonctionné.",
         "RateFeatureLeaveMessageDislikeExtraEasier": "Y a-t-il une partie particulière de cette fonction que vous avez trouvé difficile à utiliser ?",
@@ -80,7 +80,7 @@
         "UserGuides": "Guides de l'utilisateur",
         "ViewAnswersToFAQ": "Voir les réponses aux %1$squestions fréquemment posées%2$s",
         "ViewUserGuides": "Apprenez comment configurer Matomo et comment analyser de manière efficaces vos données avec notre %1$sguide utilisateur%2$s",
-        "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Matomo.",
+        "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Matomo",
         "WontShowAgain": "Nous n'afficherons plus ce message."
     }
 }
