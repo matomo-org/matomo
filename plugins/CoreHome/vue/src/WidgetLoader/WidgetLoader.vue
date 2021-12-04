@@ -111,33 +111,44 @@ export default defineComponent({
       }
     },
     getWidgetUrl(parameters: Record<string, unknown>): Record<string, unknown> {
-      const urlParams: { urlParams: Record<string, unknown> } = { ...MatomoUrl.parsed.value };
-      delete urlParams.category;
-      delete urlParams.subcategory;
+      const urlParams = MatomoUrl.parsed.value;
 
-      const credentials: Record<string, unknown> = {};
+      const fullParameters: Record<string, unknown> = { ...parameters };
+
+      const paramsToForward = Object.keys({
+        ...MatomoUrl.hashParsed.value,
+        idSite: '',
+        period: '',
+        date: '',
+        segment: '',
+        widget: '',
+        comparePeriods: '',
+        compareSegments: '',
+        compareDates: '',
+      });
+
+      paramsToForward.forEach((key) => {
+        if (key === 'category' || key === 'subcategory') {
+          return;
+        }
+
+        fullParameters[key] = urlParams[key];
+      });
+
       if (Matomo.shouldPropagateTokenAuth
         && urlParams.token_auth
       ) {
         if (!Matomo.broadcast.isWidgetizeRequestWithoutSession()) {
-          credentials.force_api_session = '1';
+          fullParameters.force_api_session = '1';
         }
-        credentials.token_auth = urlParams.token_auth;
+        fullParameters.token_auth = urlParams.token_auth;
       }
 
-      const fullParameters = {
-        // defaults
-        ...urlParams,
-        showtitle: '1',
+      if (!fullParameters.showtitle) {
+        fullParameters.showtitle = '1';
+      }
 
-        // given parameters
-        ...parameters,
-
-        // overrides
-        ...(urlParams.segment && { segment: urlParams.segment }),
-        ...credentials,
-        random: Math.floor(Math.random() * 10000),
-      };
+      fullParameters.random = Math.floor(Math.random() * 10000);
 
       return fullParameters;
     },
