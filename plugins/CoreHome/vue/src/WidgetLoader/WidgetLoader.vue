@@ -37,6 +37,7 @@ import Matomo from '../Matomo/Matomo';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import ComparisonsStoreInstance from '../Comparisons/Comparisons.store.instance';
 
 /**
  * Loads any custom widget or URL based on the given parameters.
@@ -113,7 +114,7 @@ export default defineComponent({
     getWidgetUrl(parameters: Record<string, unknown>): Record<string, unknown> {
       const urlParams = MatomoUrl.parsed.value;
 
-      const fullParameters: Record<string, unknown> = { ...parameters };
+      let fullParameters: Record<string, unknown> = { ...parameters };
 
       const paramsToForward = Object.keys({
         ...MatomoUrl.hashParsed.value,
@@ -122,9 +123,6 @@ export default defineComponent({
         date: '',
         segment: '',
         widget: '',
-        comparePeriods: '',
-        compareSegments: '',
-        compareDates: '',
       });
 
       paramsToForward.forEach((key) => {
@@ -132,8 +130,23 @@ export default defineComponent({
           return;
         }
 
-        fullParameters[key] = urlParams[key];
+        if (!(key in fullParameters)) {
+          fullParameters[key] = urlParams[key];
+        }
       });
+
+      if (ComparisonsStoreInstance.isComparisonEnabled()) {
+        fullParameters = {
+          ...fullParameters,
+          comparePeriods: urlParams.comparePeriods,
+          compareDates: urlParams.compareDates,
+          compareSegments: urlParams.compareSegments,
+        };
+      }
+
+      if (!fullParameters.showtitle) {
+        fullParameters.showtitle = '1';
+      }
 
       if (Matomo.shouldPropagateTokenAuth
         && urlParams.token_auth
@@ -142,10 +155,6 @@ export default defineComponent({
           fullParameters.force_api_session = '1';
         }
         fullParameters.token_auth = urlParams.token_auth;
-      }
-
-      if (!fullParameters.showtitle) {
-        fullParameters.showtitle = '1';
       }
 
       fullParameters.random = Math.floor(Math.random() * 10000);
