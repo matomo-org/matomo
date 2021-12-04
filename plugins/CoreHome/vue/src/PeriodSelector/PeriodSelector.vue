@@ -405,20 +405,23 @@ export default defineComponent({
     propagateNewUrlParams(date: string, period: string) {
       const compareParams = this.selectedComparisonParams;
 
+      let baseParams: Record<string, unknown>;
       if (Matomo.helper.isAngularRenderingThePage()) {
         this.closePeriodSelector();
+        baseParams = MatomoUrl.hashParsed.value;
       } else {
         this.isLoadingNewPage = true;
+        baseParams = MatomoUrl.parsed.value;
       }
 
       // get params without comparePeriods/compareSegments/compareDates
-      const paramsWithoutCompare = { ...MatomoUrl.parsed.value };
+      const paramsWithoutCompare = { ...baseParams };
       delete paramsWithoutCompare.comparePeriods;
       delete paramsWithoutCompare.compareSegments;
       delete paramsWithoutCompare.compareDates;
 
       MatomoUrl.updateLocation({
-        ...paramsWithoutCompare,
+        ...baseParams,
         date,
         period,
         ...compareParams,
