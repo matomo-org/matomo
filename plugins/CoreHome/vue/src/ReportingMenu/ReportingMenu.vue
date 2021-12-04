@@ -22,7 +22,7 @@
           class="item"
           tabindex="5"
           href=""
-          @click="$event.preventDefault(); loadCategory(category)"
+          @click.prevent="loadCategory(category)"
         >
           <span
             :class="`menu-icon ${category.icon ? category.icon : 'icon-arrow-right'}`"
@@ -49,7 +49,7 @@
                 tabindex="5"
                 :class="{active: subcat.id === activeSubsubcategory}"
                 :href="`#?${makeUrl(category, subcat)}`"
-                @click="loadSubcategory(category, subcat)"
+                @click="loadSubcategory(category, subcat, $event)"
                 v-for="subcat in subcategory.subcategories"
                 :title="subcat.tooltip"
                 :key="subcat.id"
@@ -61,7 +61,7 @@
               v-if="!subcategory.isGroup"
               :href="`#?${makeUrl(category, subcategory)}`"
               class="item"
-              @click="loadSubcategory(category, subcategory)"
+              @click="loadSubcategory(category, subcategory, $event)"
             >
               {{ subcategory.name }}
             </a>
@@ -266,7 +266,11 @@ export default defineComponent({
         this.propagateUrlChange(category, subcategory);
       }
     },
-    loadSubcategory(category: Category, subcategory: Subcategory) {
+    loadSubcategory(category: Category, subcategory: Subcategory, event: MouseEvent) {
+      if (event.shiftKey || event.ctrlKey || event.metaKey) {
+        return;
+      }
+
       NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
 
       if (subcategory && subcategory.id === this.activeSubcategory) {
@@ -334,7 +338,7 @@ export default defineComponent({
       NotificationsStore.show({
         context: 'info',
         id: REPORTING_HELP_NOTIFICATION_ID,
-        type: 'transient',
+        type: 'help',
         noclear: true,
         class: 'help-notification',
         message: prefix + subcategory.help,
