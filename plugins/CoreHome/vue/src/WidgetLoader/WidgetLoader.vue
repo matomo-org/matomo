@@ -62,7 +62,7 @@ export default defineComponent({
     return {
       loading: false,
       loadingFailed: '',
-      changeCounter: 0, // TODO: check that there is no rerender here?
+      changeCounter: 0,
       lastWidgetRequest: null,
       currentScope: null,
     };
@@ -111,14 +111,6 @@ export default defineComponent({
       }
     },
     getWidgetUrl(parameters: Record<string, unknown>): Record<string, unknown> {
-      // TODO: test this
-      // happens eg in exported widget etc when URL does not have #?...
-      // if (!Object.keys(hashParams).length
-      //   || hashParams.idSite
-      // ) {
-      //   hashParams = { idSite: '', period: '', date: '' };
-      // }
-
       const urlParams: { urlParams: Record<string, unknown> } = { ...MatomoUrl.parsed.value };
       delete urlParams.category;
       delete urlParams.subcategory;
@@ -158,7 +150,7 @@ export default defineComponent({
       this.lastWidgetRequest = AjaxHelper.fetch(this.getWidgetUrl(parameters), {
         format: 'html',
         headers: {
-          'X-Requested-With': 'XMLHttpRequest', // TODO: test this
+          'X-Requested-With': 'XMLHttpRequest',
         },
       });
 
