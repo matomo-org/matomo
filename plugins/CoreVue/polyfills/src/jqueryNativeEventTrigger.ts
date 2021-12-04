@@ -10,10 +10,10 @@ const oldTrigger = window.$.fn.trigger;
 function triggerWithNativeEventDispatch(jqEventOrType, data) {
   let isFirstElementOnPath = true;
 
-  function nativeDispatchSingleElement(element: HTMLElement) {
-    const type = jqEventOrType.type || jqEventOrType;
-    const onEventAttributeName = `on${type}`;
+  const type = jqEventOrType.type || jqEventOrType;
+  const onEventAttributeName = `on${type}`;
 
+  function nativeDispatchSingleElement(element: HTMLElement) {
     if (isFirstElementOnPath) {
       isFirstElementOnPath = false;
 
@@ -57,6 +57,10 @@ function triggerWithNativeEventDispatch(jqEventOrType, data) {
   }
 
   const result = oldTrigger.call(this, jqEventOrType, data);
+  if (type === 'focus' || type === 'blur') { // jquery handles focus/blur fine
+    return;
+  }
+
   this.each(function onEach() {
     nativeDispatch(this);
   });
