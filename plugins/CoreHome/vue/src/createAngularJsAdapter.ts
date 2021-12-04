@@ -142,7 +142,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngAttrs: ng.IAttributes,
             ngController: ng.IControllerService,
           ) {
-            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
+            const transcludeClone = transclude
+              ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`)
+              : null;
 
             // build the root vue template
             let rootVueTemplate = '<root-component';
@@ -263,7 +265,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
 
             if (transclude) {
-              $(vm.transcludeTarget).append(clone);
+              $(vm.transcludeTarget).append(transcludeClone);
             }
 
             if (postCreate) {
@@ -318,8 +320,12 @@ export function transformAngularJsIntAttr(v: string): number {
 }
 
 // utility function for service adapters
+export function clone<T>(p: T): T {
+  return JSON.parse(JSON.stringify(p)) as T;
+}
+
 export function cloneThenApply<T>(p: T): T {
-  const result = JSON.parse(JSON.stringify(p)) as T;
+  const result = clone(p);
   Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
   return result;
 }
