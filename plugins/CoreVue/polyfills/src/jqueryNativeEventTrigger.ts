@@ -58,7 +58,7 @@ function triggerWithNativeEventDispatch(jqEventOrType, data) {
 
   const result = oldTrigger.call(this, jqEventOrType, data);
   if (type === 'focus' || type === 'blur') { // jquery handles focus/blur fine
-    return;
+    return result;
   }
 
   this.each(function onEach() {
