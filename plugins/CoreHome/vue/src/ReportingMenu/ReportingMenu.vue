@@ -334,7 +334,7 @@ export default defineComponent({
       NotificationsStore.show({
         context: 'info',
         id: REPORTING_HELP_NOTIFICATION_ID,
-        type: 'transient',
+        type: 'help',
         noclear: true,
         class: 'help-notification',
         message: prefix + subcategory.help,
