@@ -202,10 +202,6 @@ export default defineComponent({
       showSitesList: false,
       isLoading: false,
       sites: [],
-      selectedSite: this.modelValue || {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
-      },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
   },
@@ -213,7 +209,7 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.modelValue || !this.modelValue.id) && this.sites[0]) {
+      if ((!this.modelValue || !this.modelValue.id) && !this.hasMultipleSites && this.sites[0]) {
         this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });
