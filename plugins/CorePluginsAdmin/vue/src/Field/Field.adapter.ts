@@ -217,7 +217,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     // to provide same behavior in angularjs/<4.6.0, we trigger a model update to the same
     // value, but only for 'site' uicontrols. this only happened for site selectors, no others.
-    if (scope.uicontrol === 'site') {
+    if (scope.uicontrol === 'site' && ngModel.$viewValue) {
       setTimeout(() => {
         ngModel.$setViewValue({ ...ngModel.$viewValue });
       });
