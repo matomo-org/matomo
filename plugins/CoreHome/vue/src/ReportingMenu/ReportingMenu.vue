@@ -42,7 +42,7 @@
             <MenuDropdown
               v-if="subcategory.isGroup"
               :show-search="true"
-              :menu-title="$sanitize(subcategory.name)"
+              :menu-title="htmlEntities(subcategory.name)"
             >
               <a
                 class="item"
@@ -303,6 +303,9 @@ export default defineComponent({
         category: category.id,
         subcategory: subcategory.id,
       });
+    },
+    htmlEntities(v: string) {
+      return Matomo.helper.htmlEntities(v);
     },
     showHelp(category: Category, subcategory: Subcategory, event?: Event) {
       const parsedUrl = MatomoUrl.parsed.value;
