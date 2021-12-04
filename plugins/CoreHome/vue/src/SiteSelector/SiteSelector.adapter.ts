@@ -77,7 +77,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
     if (attrs.siteid && attrs.sitename) {
       vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
-    } else {
+    } else if (Matomo.idSite) {
       vm.modelValue = {
         id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
