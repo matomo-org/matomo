@@ -63,7 +63,7 @@
           href=""
           class="modal-action modal-close btn"
           :disabled="!passwordConfirmation ? 'disabled' : undefined"
-          @click="save(this.settingsToSave)"
+          @click="$event.preventDefault(); save(this.settingsToSave)"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
