@@ -26,8 +26,16 @@ window.Vue.toDisplayString = function matomoToDisplayString(val: unknown): strin
   return result;
 };
 
+function htmlDecode(value: string) {
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = value;
+  return textArea.value;
+}
+
+const invisibleCharEncoded = htmlDecode('&#8291;');
+
 window.vueSanitize = function vueSanitize(val: unknown): string {
   let result = DOMPurify.sanitize(val);
-  result = result.replace(/{{/g, '{&#8291;{');
+  result = result.replace(/{{/g, `{${invisibleCharEncoded}{`);
   return result;
 };
