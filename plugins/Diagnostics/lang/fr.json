@@ -16,6 +16,7 @@
         "DatabaseUtf8Requirement": "Ceci est nécessaire pour pouvoir stocker des caractères UTF8 de 4 octets. À moins que utf8mb4 ne soit disponible, les caractères spéciaux, tels que les emojis, les caractères moins courants des langues asiatiques, divers scripts historiques ou symboles mathématiques seront remplacés par %1$s. Vous pouvez lire plus de détails sur ce sujet dans %2$scette FAQ%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Votre base de données prend en charge le jeu de caractères utf8mb4, mais vos tables de base de données n'ont pas encore été converties. Vous pouvez le faire en exécutant la commande %1$s ou en activant la conversion automatique dans les paramètres généraux.",
         "DatabaseUtf8mb4CharsetRecommended": "Votre base de données ne prend pas encore en charge le jeu de caractères utf8mb4.",
+        "EnableRequiredDirectoriesDiagnostic": "Cette vérification a été ignorée car elle est désactivée dans la configuration. Pour activer cette vérification, définissez [General] enable_required_directories_diagnostic = 1 dans le fichier \"config/config.ini.php.",
         "HideUnchanged": "Si vous souhaitez afficher uniquement les valeurs modifiées, vous pouvez cliquer sur %1$smasquer toutes les valeurs inchangées%2$s.",
         "MysqlMaxPacketSize": "Taille maximale des paquets",
         "MysqlMaxPacketSizeWarning": "Il est important de configurer une taille 'max_allowed_packet' dans votre base de données MySQL d'au moins %1$s. %2$s configuré en ce moment.",
