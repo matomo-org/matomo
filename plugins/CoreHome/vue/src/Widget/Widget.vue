@@ -22,12 +22,12 @@
       && !this.preventRecursion"
     >
       <div>
-        <WidgetContainer :container="widget.widgets" />
+        <WidgetContainer :container="actualWidget.widgets" />
       </div>
     </div>
     <div v-if="actualWidget.isContainer && actualWidget.layout === 'ByDimension'">
       <div>
-        <WidgetByDimensionContainer :widgets="widget.widgets" />
+        <WidgetByDimensionContainer :widgets="actualWidget.widgets" />
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@ function findContainer(
   containerId: string,
 ): ContainerWidget|undefined {
   let widget: ContainerWidget;
-  Object.values(widgetsByCategory).some((widgets) => {
+  Object.values(widgetsByCategory || {}).some((widgets) => {
     widget = widgets.find((w) => w && w.isContainer && w.parameters.containerId === containerId);
     return widget;
   });
@@ -120,7 +120,7 @@ export default defineComponent({
   created() {
     const { actualWidget } = this;
 
-    if (!actualWidget.middlewareParameters) {
+    if (!actualWidget || !actualWidget.middlewareParameters) {
       this.showWidget = true;
     } else {
       AjaxHelper.fetch(actualWidget.middlewareParameters).then((response) => {
@@ -145,27 +145,31 @@ export default defineComponent({
           }
         }
 
-        return this.widget;
+        return widget;
       }
 
       if (this.containerid) {
-        const containerWidget = findContainer(this.allWidgets.value, this.containerid);
-        const result = { ...containerWidget };
+        const containerWidget = findContainer(this.allWidgets, this.containerid);
+        if (containerWidget) {
+          const result = { ...containerWidget };
 
-        if (this.widgetized) {
-          result.isFirstInPage = true;
-          result.parameters.widget = '1';
-          result.widgets = result.widgets.map((w) => ({
-            ...w,
-            parameters: {
-              ...w.parameters,
-              widget: '1',
-              containerId: this.containerid,
-            },
-          }));
+          if (this.widgetized) {
+            result.isFirstInPage = true;
+            result.parameters = { ...result.parameters, widget: '1' };
+            if (result.widgets) {
+              result.widgets = result.widgets.map((w) => ({
+                ...w,
+                parameters: {
+                  ...w.parameters,
+                  widget: '1',
+                  containerId: this.containerid,
+                },
+              }));
+            }
+          }
+
+          return result;
         }
-
-        return result;
       }
 
       return null;
