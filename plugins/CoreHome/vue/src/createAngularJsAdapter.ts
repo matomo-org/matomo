@@ -142,7 +142,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngAttrs: ng.IAttributes,
             ngController: ng.IControllerService,
           ) {
-            const cloneElement = transclude
+            const transcludeClone = transclude
               ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`)
               : null;
 
@@ -265,7 +265,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
 
             if (transclude) {
-              $(vm.transcludeTarget).append(cloneElement);
+              $(vm.transcludeTarget).append(transcludeClone);
             }
 
             if (postCreate) {
@@ -320,12 +320,16 @@ export function transformAngularJsIntAttr(v: string): number {
 }
 
 // utility function for service adapters
-export function clone<T>(o: T): T {
-  return JSON.parse(JSON.stringify(o)) as T;
+export function clone<T>(p: T): T {
+  if (typeof p === 'undefined') {
+    return p;
+  }
+
+  return JSON.parse(JSON.stringify(p)) as T;
 }
 
-export function cloneThenApply<T>(o: T): T {
-  const result = clone(o);
+export function cloneThenApply<T>(p: T): T {
+  const result = clone(p);
   Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
   return result;
 }

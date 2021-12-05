@@ -147,10 +147,10 @@ export default defineComponent({
   props: {
     modelValue: {
       Object,
-      default: {
+      default: () => (Matomo.idSite ? {
         id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
-      },
+      } : undefined),
     },
     showSelectedSite: {
       type: Boolean,
@@ -242,7 +242,8 @@ export default defineComponent({
       return SitesStore.initialSites.value && SitesStore.initialSites.value.length > 1;
     },
     firstSiteName() {
-      return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
+      const initialSites = SitesStore.initialSites.value;
+      return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
     urlAllSites() {
       const newQuery = MatomoUrl.stringify({
