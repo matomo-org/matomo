@@ -27,7 +27,7 @@ window.Vue.toDisplayString = function matomoToDisplayString(val: unknown): strin
 };
 
 window.vueSanitize = function vueSanitize(val: unknown): string {
-  let result = DOMPurify(val);
+  let result = DOMPurify.sanitize(val);
   result = result.replace(/{{/g, '{&#8291;{');
   return result;
 };
