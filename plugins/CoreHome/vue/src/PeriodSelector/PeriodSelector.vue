@@ -421,7 +421,7 @@ export default defineComponent({
       delete paramsWithoutCompare.compareDates;
 
       MatomoUrl.updateLocation({
-        ...baseParams,
+        ...paramsWithoutCompare,
         date,
         period,
         ...compareParams,
