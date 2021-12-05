@@ -9,8 +9,8 @@
     <div
       class="card"
       v-for="settings in settingsPerPlugin"
-      :id="settings.pluginNamePluginSettings"
-      :key="settings.pluginNamePluginSettings"
+      :id="`${settings.pluginName}PluginSettings`"
+      :key="`${settings.pluginName}PluginSettings`"
     >
       <div class="card-content">
         <h2
